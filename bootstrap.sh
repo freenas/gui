@@ -105,7 +105,7 @@ fi
 if [ ! -d ${HOME}/.nvm ]; then
 	echo "I see you don't have nvm installed.  Let's take care of that now."
 	if ! curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | ${_EXEC_SHELL}; then
-		echo "I could not install npm, the Node package manager.  I'm bailing out!"
+		echo "I could not install nvm, which apparently has something to do with Node.js.  I'm bailing out!"
 		exit 7
 	fi
 fi
