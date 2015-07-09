@@ -16,7 +16,8 @@ This will analyze your development environment and bootstrap the development
 toolchain onto it as necessary, also checking out a working copy of this
 git repository for you.
 
-Alternatively, if you have already cloned this repo then just do
+Alternatively, if you have already cloned this repo then just do:
+
     sh bootstrap.sh
 from the root of it to accomplish the same thing.
 
