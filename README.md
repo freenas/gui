@@ -19,6 +19,7 @@ git repository for you.
 Alternatively, if you have already cloned this repo then just do:
 
     sh bootstrap.sh
+
 from the root of it to accomplish the same thing.
 
 ## Using the FreeNAS 10 Development Environment
@@ -34,4 +35,10 @@ data.
 Once the app is running, it will monitor your source files and automatically
 rebuild and restart the GUI every time a file changes.
 
-### Note: This doesn't actually do anything yet.
+#### Note: 'freenas-dev' doesn't actually do anything yet.
+
+## Other resources
+
+For documentation of the FreeNAS 10 GUI architecture, recommended tools, and
+contribution guidelines, see
+[freenas.github.io/freenas10-gui](https://freenas.github.io/freenas10-gui).
