@@ -13,6 +13,7 @@ _SUDO=sudo
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/freenas10-gui"
 _NPM_THINGS="bower grunt grunt-cli forever jshint jscs esprima-fb"
+_NODE_VERSION=0.12
 
 whitcher()
 {
@@ -113,8 +114,8 @@ fi
 # This is gross as hell, but nvm was clearly written by misanthropes
 export NVM_DIR="${HOME}/.nvm"
 . ${NVM_DIR}/nvm.sh
-if ! nvm install 0.10; then
-	echo "Failed to install node 0.10.  This relationship isn't working out, I'm done!"
+if ! nvm install ${_NODE_VERSION}; then
+	echo "Failed to install node ${_NODE_VERSION}.  This relationship isn't working out, I'm done!"
 	exit 9
 fi
 
