@@ -1,0 +1,103 @@
+// BOOTSTRAP LESS
+
+@bootstrap-path: "../../../bower_components/bootstrap/less/";
+
+// Reset
+@import "@{bootstrap-path}normalize.less";
+@import "@{bootstrap-path}print.less";
+
+// Core variables and mixins
+@import "@{bootstrap-path}variables.less";
+@import "@{bootstrap-path}mixins.less";
+
+// Core CSS
+@import "@{bootstrap-path}scaffolding.less";
+@import "@{bootstrap-path}type.less";
+@import "@{bootstrap-path}code.less";
+@import "@{bootstrap-path}grid.less";
+@import "@{bootstrap-path}tables.less";
+@import "@{bootstrap-path}forms.less";
+@import "@{bootstrap-path}buttons.less";
+
+// Components
+@import "@{bootstrap-path}component-animations.less";
+@import "@{bootstrap-path}glyphicons.less";
+@import "@{bootstrap-path}dropdowns.less";
+@import "@{bootstrap-path}button-groups.less";
+@import "@{bootstrap-path}input-groups.less";
+@import "@{bootstrap-path}navs.less";
+@import "@{bootstrap-path}navbar.less";
+@import "@{bootstrap-path}breadcrumbs.less";
+@import "@{bootstrap-path}pagination.less";
+@import "@{bootstrap-path}pager.less";
+@import "@{bootstrap-path}labels.less";
+@import "@{bootstrap-path}badges.less";
+@import "@{bootstrap-path}jumbotron.less";
+@import "@{bootstrap-path}thumbnails.less";
+@import "@{bootstrap-path}alerts.less";
+@import "@{bootstrap-path}progress-bars.less";
+@import "@{bootstrap-path}media.less";
+@import "@{bootstrap-path}list-group.less";
+@import "@{bootstrap-path}panels.less";
+@import "@{bootstrap-path}wells.less";
+@import "@{bootstrap-path}close.less";
+
+// Components w/ JavaScript
+@import "@{bootstrap-path}modals.less";
+@import "@{bootstrap-path}tooltip.less";
+@import "@{bootstrap-path}popovers.less";
+@import "@{bootstrap-path}carousel.less";
+
+// Utility classes
+@import "@{bootstrap-path}utilities.less";
+@import "@{bootstrap-path}responsive-utilities.less";
+
+
+
+// FREENAS SPECIFIC
+// =============================================================================
+
+// Typefaces
+@import "open-sans.less";
+
+
+// Iconography
+
+// NOTE: FontAwesome is NOT A PERMANENT ADDITION. It's going to be removed.
+// Don't get used to it, don't decide you like it, don't convince others of its
+// merits. FreeNAS is going to roll its OWN icon font to match our own visual
+// style. This should be considered extremely temporary.
+@import "../../../bower_components/fontawesome/less/font-awesome.less";
+
+@fontsPath    : "../font";
+@fa-font-path : "@{fontsPath}";
+
+
+// nvd3
+@import "nv.d3.less";
+
+// Layout
+@import "utility.less";
+@import "structure.less";
+
+
+// Components
+@import "Icon.less";
+@import "ToggleSwitch.less";
+@import "Throbber.less";
+@import "NotificationBar.less";
+@import "PrimaryNavigation.less";
+@import "ContextBar.less";
+@import "DebugPanel.less";
+@import "Shell.less";
+@import "Viewer.less";
+@import "Widgets.less";
+@import "DiscTri.less";
+@import "TypeAhead.less";
+
+// Unique Views
+@import "Network.less";
+
+// Variables
+@import "variables.less";
+

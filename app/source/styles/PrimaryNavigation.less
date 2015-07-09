@@ -1,0 +1,66 @@
+
+// TODO: Revert changes made for #7908 once externally resolved.
+nav.primary-nav {
+  background-color : #3d3d3d;
+  overflow-x       : hidden;
+  overflow-y       : auto;
+  position         : relative;
+  .flex( 0 0 auto );
+
+  .fa {
+    font-size      : 1.3em;
+    width          : 2em;
+    text-align     : center;
+    position       : relative;
+    vertical-align : inherit;
+  }
+
+  li {
+    & > a {
+      padding        : 0.75em 0.5em;
+      white-space    : nowrap;
+      font-size      : 1.1em;
+      font-weight    : 400;
+      line-height    : 1.25;
+      vertical-align : middle;
+    }
+
+    &:not(.disabled) {
+      & > a {
+        color : @almost-white;
+        &:hover {
+          background-color : #d1d1d1;
+          text-shadow      : 0 0 7px rgba(0, 0, 0, 0.75);
+        }
+      }
+
+      & > a.active {
+        background-color : black;
+        color            : @brand-primary;
+      }
+    }
+  }
+
+  .nav-item-label {
+    padding-right  : 0.75em;
+    vertical-align : inherit;
+  }
+}
+
+.primary-nav-debug-button {
+  position : absolute;
+  bottom   : 0;
+  width    : 90%;
+  margin   : 5%;
+  z-index  : 2000;
+}
+
+.primary-nav-label-toggle {
+  width         : 100%;
+  color         : @almost-white;
+  font-size     : 125%;
+  font-weight   : 700;
+  padding-right : 5px;
+  text-align    : right;
+  cursor        : pointer;
+}

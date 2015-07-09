@@ -1,0 +1,123 @@
+.notification-bar {
+  background-color    : @freenas-dark-gray;
+
+  .user-info {
+    float        : right;
+    height       : @app-header-height;
+    margin-right : 10px;
+    color        : @almost-white;
+    line-height  : @app-header-height;
+
+    .fa {
+      font-size : 1.75em;
+      margin    : 0 8px;
+    }
+
+    .userName {
+      font-size: 100%;
+      padding: 0 5px;
+    }
+  }
+
+  .btn-group {
+    height         : 100%;
+    vertical-align : top;
+
+    &:hover {
+      background: darken( @freenas-dark-gray, 10% );
+    }
+  }
+
+  .btn {
+    color           : inherit;
+    background      : none;
+    border          : none;
+    height          : inherit;
+    text-decoration : none;
+  }
+
+  .user {
+    margin       : 0 10px 0 30px;
+    padding-left : 2em;
+
+    &:before {
+      content       : "";
+      position      : absolute;
+      top           : 50%;
+      left          : 1em;
+      display       : inline-block;
+      height        : 1em;
+      width         : 1em;
+      margin-top    : -0.5em;
+      border        : 1px solid rgba(0, 0, 0, 0.7);
+      border-radius : 50%;
+      .transition( ease-in-out 0.25s );
+    }
+
+    &.online:before {
+      background: @brand-success;
+    }
+
+    &.offline:before {
+      background: @brand-warning;
+    }
+  }
+}
+
+.notification-bar-icon {
+  position : relative;
+  display  : inline-block;
+  margin   : 0 4px;
+}
+
+
+.notification-box {
+  @notification-box-padding: 10px;
+  width            : 600px;
+  position         : absolute;
+  top              : 60px;
+  right            : -(@notification-box-padding/2);
+  color            : @gray-darker;
+  background-color : #f8f8f8;
+  box-shadow       : 0 0 7px rgba(0, 0, 0, 0.75);
+  z-index          : 100;
+
+  &:after {
+    content             : "";
+    position            : absolute;
+    top                 : -40px;
+    right               : 5px;
+    border              : solid transparent;
+    border-width        : 20px;
+    border-bottom-color : #e7e7e7;
+  }
+
+  .notification-box-header {
+    background: #eaedf2;
+    padding: 15px;
+    line-height: 130%;
+  }
+
+  &.notification-warning { background-color: lighten(@brand-warning,20%); }
+  &.notification-info    { background-color: lighten(@brand-info,35%); }
+  &.notification-default { background-color: @gray-lighter; }
+
+  .item {
+    background-color: #fefefe;
+    border-bottom: 4px solid #eaedf2;
+    padding: 5px 10px 5px 10px;
+
+    .details{
+        float: right;
+        color: #898888;
+        line-height: 120%;
+        display: block;
+      }
+      .info{
+        color: #66b7e6;
+        line-height: 120%;
+        display: block;
+        clear:right;
+      }
+  }
+}

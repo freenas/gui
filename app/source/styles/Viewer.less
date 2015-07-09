@@ -1,0 +1,449 @@
+.viewer-active-item {
+  background-color : @brand-info;
+  color            : white;
+}
+.viewer-active-item-hover {
+  background-color: darken( @brand-info, 5%);
+}
+
+// Main Viewer Rules
+.viewer {
+  .flex-display(flex);
+  .flex-flow(column wrap);
+  .flex( 0 0 auto );
+
+  overflow    : auto;
+
+  // Prototype Disclosure Triangle Classes
+  .disclosure-open,
+  .disclosure-closed {
+    .disclosure-toggle {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  @disclosure-triangle-base   : 0.4em;
+  @disclosure-triangle-height : ( @disclosure-triangle-base / 2 );
+
+  .disclosure-toggle {
+    position     : relative;
+    cursor       : default;
+    padding-left : 2em;
+
+    // The disclosure triangle is an isocoles right triangle with a base defined
+    // by @disclosure-triangle-base, and a height of half that value.
+    &:before {
+      content  : "";
+      width    : 0;
+      height   : 0;
+      position : absolute;
+      top      : 50%;
+      left     : 0.75em;
+    }
+  }
+  .disclosure-open {
+    .disclosure-toggle:before {
+      border-left  : @disclosure-triangle-base solid transparent;
+      border-right : @disclosure-triangle-base solid transparent;
+      border-top   : @disclosure-triangle-base solid;
+      margin-top   : ( -@disclosure-triangle-height );
+    }
+  }
+  .disclosure-closed {
+    .disclosure-toggle:before {
+      border-top    : @disclosure-triangle-base solid transparent;
+      border-bottom : @disclosure-triangle-base solid transparent;
+      border-left   : @disclosure-triangle-base solid;
+      margin-top    : ( -@disclosure-triangle-base );
+      margin-left   : ( @disclosure-triangle-height );
+    }
+    .disclosure-target { .hidden(); }
+  }
+
+  // Prototype Fixed Table Header code
+  @fixed-table-header-height: 30px;
+
+  .fixed-table-container {
+    height         : inherit;
+    overflow       : visible;
+    position       : relative;
+    padding-top    : @fixed-table-header-height;
+    padding-bottom : ( @fixed-table-header-height * 2 ) + ( @fixed-table-header-height / 3 );
+  }
+
+  .fixed-table-container-inner {
+    overflow-x : hidden;
+    overflow-y : auto;
+    height     : 100%;
+  }
+
+  .fixed-table {
+    table-layout  : fixed;
+    margin-bottom : 0;
+  }
+
+  .fixed-table-header-th {
+    padding     : 0;
+    line-height : 0;
+    border      : 0;
+  }
+
+  .th-spacing {
+    visibility : hidden;
+    padding    : 0 5px;
+  }
+
+  .th-content {
+    position    : absolute;
+    width       : inherit;
+    padding     : 0 5px;
+    top         : 0;
+    background  : @gray-dark;
+    line-height : @fixed-table-header-height;
+
+    .overflow-ellipsis();
+  }
+
+  // Sortable table prototype
+  .sortable-table-th {
+    font-weight      : normal;
+    color            : #f1f1f1;
+    background-color : @gray-dark;
+    cursor           : pointer;
+
+    &:hover {
+      color            : white;
+      background-color : lighten(@gray-dark, 10%);
+    }
+
+    @table-sort-triangle-base   : 0.4em;
+    @table-sort-triangle-height : ( @table-sort-triangle-base / 2 );
+
+    &.descending,
+    &.ascending {
+      padding-left     : 2em;
+      background-color : black;
+
+      &:before {
+        content  : "";
+        width    : 0;
+        height   : 0;
+        position : absolute;
+        top      : 50%;
+        left     : 0.75em;
+      }
+
+    }
+
+    &.descending:before {
+      border-left  : @table-sort-triangle-base solid transparent;
+      border-right : @table-sort-triangle-base solid transparent;
+      border-top   : @table-sort-triangle-base solid;
+    }
+
+    &.ascending:before {
+      border-left   : @table-sort-triangle-base solid transparent;
+      border-right  : @table-sort-triangle-base solid transparent;
+      border-bottom : @table-sort-triangle-base solid;
+      margin-top    : ( -@table-sort-triangle-height );
+    }
+  }
+}
+
+// Navigation
+.viewer-nav {
+  .flex(0 0 50px);
+}
+
+
+// Detail Viewer
+@icon-detail-width: 40px;
+
+.viewer-detail {
+  .flex-display(flex);
+  .flex(1);
+
+  mark {
+    background-color : @brand-primary;
+    padding          : 0;
+    border-radius    : 2px;
+    color            : white;
+  }
+
+  .viewer-detail-add-entity {
+    margin-bottom: 8px;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .viewer-detail-sidebar {
+    .flex(1 0 150px);
+    margin-left : 15px;
+    flex-flow: column;
+    display: flex;
+  }
+
+  .viewer-detail-nav-item-text {
+    width          : 100%;
+    display        : inline-block;
+    padding        : 0 10px 0 50px;
+    overflow       : hidden;
+    vertical-align : top;
+    white-space    : nowrap;
+    text-overflow  : ellipsis;
+  }
+
+  // Allow for disks view to get its own CSS someday, without conflicting with
+  // style for the IconViewer or default icons for other items.
+  .disks-viewer-icon-text {
+    width          : 100%;
+    display        : inline-block;
+    padding        : 0 10px 0 50px;
+    overflow       : hidden;
+    vertical-align : top;
+    white-space    : nowrap;
+    text-overflow  : ellipsis;
+  }
+
+  .viewer-detail-nav-group {
+    text-transform : uppercase;
+    color          : @gray-light;
+    margin         : 16px 0 8px;
+  }
+
+  .viewer-detail-nav {
+    overflow-y: auto;
+  }
+
+  .nav-pills {
+    .icon {
+      height        : @icon-detail-width;
+      width         : @icon-detail-width;
+      margin-right  : -@icon-detail-width;
+    }
+    .primary-text   { color : @gray-dark; }
+    .secondary-text { color : @gray-light; }
+      .primary-text
+    , .secondary-text {
+      display       : block;
+      overflow      : hidden;
+      white-space   : nowrap;
+      text-overflow : ellipsis;
+    }
+    .active {
+        .primary-text
+      , .secondary-text {
+        color : white;
+      }
+    }
+    &> li > a {
+      color         : @gray-dark;
+      border-radius : 0;
+      &.active {
+        .viewer-active-item();
+        &:hover {
+          .viewer-active-item-hover();
+        }
+      }
+    }
+  }
+  .well {
+    flex: 1 1 auto;
+    padding : 0;
+    margin  : 0;
+  }
+}
+
+
+// Icon Viewer
+.viewer-icon {
+  .flex(1);
+  position   : relative;
+  width      : 100%;
+  overflow-y : auto;
+
+  .viewer-icon-section {
+    .flex(1 1 100px);
+    .flex-display(flex);
+    .flex-flow(row wrap);
+    .align-content(flex-start);
+
+    margin: 0 20px 25px;
+
+    &> h4 {
+      .flex(0 0 100%);
+      text-transform: uppercase;
+    }
+    &> hr {
+      .flex(0 0 100%);
+      margin: 0 0 10px;
+    }
+  }
+
+  .viewer-icon-item {
+    .flex(0 1 100px);
+    text-align    : center;
+    padding       : 10px;
+    border-radius : 2px;
+
+    .icon {
+      height : 50px;
+      width  : 50px;
+    }
+
+
+    &.active {
+      .viewer-active-item();
+      &:hover {
+        .viewer-active-item-hover();
+      }
+
+        .viewer-icon-item-primary
+      , .viewer-icon-item-secondary {
+        color           : white;
+        text-decoration : none;
+      }
+    }
+    &:hover {
+      background-color: #f1f1f1;
+    }
+    &:hover,
+    &:active {
+      text-decoration: none;
+    }
+  }
+
+  .viewer-icon-item-primary {
+    font-weight: bold
+  }
+}
+
+
+// Table Viewer
+.viewer-table {
+  .flex(1);
+  position   : relative;
+  width      : 100%;
+  overflow-y : auto;
+  .table-hover > tbody > tr.active > td {
+    .viewer-active-item();
+  }
+  .table-hover > tbody > tr.active:hover > td {
+    .viewer-active-item-hover();
+  }
+}
+
+.icon {
+  height        : 100px;
+  width         : 100px;
+  display       : inline-block;
+  border-radius : 50%;
+  overflow      : hidden;
+
+  img {
+    height : 100%;
+    width  : 100%;
+  }
+
+  .initials-icon {
+    display        : table-cell;
+    height         : inherit;
+    width          : inherit;
+    vertical-align : middle;
+    color          : white;
+    font-size      : 3em;
+    text-align     : center;
+    font-weight    : 100;
+  }
+
+  .font-icon {
+    display        : table-cell;
+    height         : inherit;
+    width          : inherit;
+    vertical-align : middle;
+    color          : white;
+    font-size      : 3em;
+    text-align     : center;
+    font-weight    : 100;
+  }
+}
+
+// EDITOR
+
+
+.viewer-item-info {
+  .flex-display(flex);
+  .flex(10);
+  .align-content(flex-start);
+  position : relative;
+
+  .container-fluid {
+    .flex(1);
+    overflow-y : auto;
+    overflow-x : hidden;
+  }
+}
+
+.viewer-item-no-selection {
+  margin : 100px auto;
+  color  : #BABABA;
+}
+
+.editor-was-modified {
+  background: lighten( @brand-info, 33% );
+}
+
+.editor-edit-overlay {
+  .flex-display(flex);
+  .justify-content(center);
+  padding: 25px 0;
+
+  .editor-edit-wrapper {
+    .flex(0 1 800px);
+    .overlay-modal();
+    background : white;
+    height     : 100%;
+
+    & > .container-fluid {
+      padding: 25px;
+    }
+  }
+
+  .editor-close {
+    margin      : 8px;
+    font-size   : 1.15em;
+    color       : #C7C7C7;
+    float       : right;
+    height      : 1.25em;
+    width       : 1.25em;
+    line-height : 1.25em;
+    text-align  : center;
+    &:hover {
+      color         : white;
+      background    : @brand-danger;
+      border-radius : 50%;
+    }
+  }
+}
+
+.editor-update-overlay {
+  .flex-display( flex );
+  .justify-content( center );
+  .align-items( center );
+
+  .throbber {
+    margin: 25px 0 75px;
+
+    &:after {
+      height : 50px;
+      width  : 50px;
+    }
+  }
+}
+
+.built-in-warning {
+  margin-top: 4px;
+}

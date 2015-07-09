@@ -1,0 +1,18 @@
+{
+  "name": "freenas-10-gui",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "velocity": "~1.1.0",
+    "fontawesome": "~4.2.0",
+    "lessfonts-open-sans": "~1.0.2",
+    "d3": "~3.3.13"
+  },
+  "private": true
+}

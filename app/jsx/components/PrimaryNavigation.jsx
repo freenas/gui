@@ -1,0 +1,231 @@
+// PRIMARY NAVIGATION
+// ==================
+// Left sidebar with navigation links for the primary sections of the FreeNAS 10
+// user interface.
+
+"use strict";
+
+import React from "react";
+
+import { Link } from "react-router";
+
+import TWBS from "react-bootstrap";
+import Icon from "./Icon";
+
+import EventBus from "./EventBus";
+
+// Path definitions
+// TODO: Convert to Flux or other external file
+const paths =
+  [ { path     : "dashboard"
+    , icon     : "dashboard"
+    , label    : "Dashboard"
+    , status   : null
+    , disabled : false
+    }
+  , { path     : "storage"
+    , icon     : "magic"
+    , label    : "Storage"
+    , status   : null
+    , disabled : false
+    }
+  , { path     : "network"
+    , icon     : "moon-o"
+    , label    : "Network"
+    , status   : null
+    , disabled : false
+    }
+  , { path     : "services"
+    , icon     : "bitcoin"
+    , label    : "Services"
+    , status   : null
+    , disabled : false
+    }
+  , { path     : "accounts"
+    , icon     : "paper-plane"
+    , label    : "Accounts"
+    , status   : null
+    , disabled : false
+    }
+  , { path     : "tasks"
+    , icon     : "paw"
+    , label    : "Tasks"
+    , status   : null
+    , disabled : true
+    }
+  , { path     : "settings"
+    , icon     : "paragraph"
+    , label    : "Settings"
+    , status   : null
+    , disabled : true
+    }
+  , { path     : "system"
+    , icon     : "ambulance"
+    , label    : "System"
+    , status   : null
+    , disabled : false
+    }
+  ];
+
+const menuTiming = 600;
+
+const PrimaryNavigation = React.createClass(
+
+  { getInitialState: function () {
+      return { expanded    : true
+             , docLocation : "#"
+      };
+    }
+
+  , componentDidMount: function () {
+      // After the component has a real DOM representation, store the auto width
+      // value of the navbar
+      this.setState(
+        { fullNavWidth: this.refs.navRoot.getDOMNode().offsetWidth + "px"
+        , docLocation : document.location.protocol + "//" + document.domain
+                        + ":8180/apidoc"
+         }
+      );
+    }
+
+  , handleMenuToggle: function ( event ) {
+      event.stopPropagation();
+
+      if ( this.state.expanded ) {
+        this.collapseMenu();
+      } else {
+        this.expandMenu();
+      }
+    }
+
+  , expandMenu: function () {
+      const expandSequence =
+        [ { elements: this.refs.navRoot.getDOMNode()
+          , properties: { width: this.state.fullNavWidth }
+          , options: { duration: menuTiming
+                     , easing: "easeInOutBounce"
+                     }
+          }
+        , { elements: document.getElementsByClassName( "nav-item-label" )
+          , properties: "fadeIn"
+          , options: { duration: menuTiming
+                     , sequenceQueue: false
+                     , complete: this.setState({ expanded: true })
+                     }
+          }
+        ];
+
+      Velocity.RunSequence( expandSequence );
+    }
+
+  , collapseMenu: function () {
+      const collapseSequence =
+        [ { elements: this.refs.navRoot.getDOMNode()
+          , properties: { width: "60px" }
+          , options: { duration: menuTiming
+                     , easing: "easeInOutBounce"
+                     }
+          }
+        , { elements: document.getElementsByClassName( "nav-item-label" )
+          , properties: "fadeOut"
+          , options: { duration: menuTiming
+                     , sequenceQueue: false
+                     , complete: this.setState({ expanded: false })
+                     }
+          }
+        ];
+
+      Velocity.RunSequence( collapseSequence );
+    }
+
+  , apidoc ( ) {
+      return (
+        <li
+          role = "presentation"
+          className = "nav-item"
+          key = { 1010 } >
+          <a href = { this.state.docLocation } target="_blank" >
+            <Icon
+              glyph = { "crosshairs" }
+              badgeContent = { "" }
+              badgeStyle = { "warning" } />
+            <span className = "nav-item-label" >{ "API Docs" }</span>
+          </a>
+        </li>
+        );
+    }
+
+  , toggleDebugTools: function () {
+    EventBus.emit( "toggleDebugTools" );
+  }
+
+  , createNavItem ( rawItem, index ) {
+      if ( rawItem["disabled"] ) {
+        return (
+          <li
+            role = "presentation"
+            className = "nav-item disabled"
+            key = { index } >
+            <a href = "#">
+              <Icon
+                glyph = { rawItem["icon"] }
+                badgeContent = { rawItem["status"]
+                             ? "!"
+                             : "" /* TODO: Better content, from Flux store */
+                             }
+                badgeStyle = { rawItem["status"] } />
+              <span className = "nav-item-label" >{ rawItem["label"] }</span>
+            </a>
+          </li>
+        );
+      } else {
+        return (
+          <li
+            role = "presentation"
+            className = "nav-item"
+            key = { index } >
+            <Link to = { rawItem["path"] } >
+              <Icon
+                glyph = { rawItem["icon"] }
+                badgeContent = { rawItem["status"]
+                             ? "!"
+                             : "" /* TODO: Better content, from Flux store */
+                             }
+                badgeStyle = { rawItem["status"] } />
+              <span className = "nav-item-label" >{ rawItem["label"] }</span>
+            </Link>
+          </li>
+        );
+      }
+    }
+
+  , render: function () {
+      // TODO: Revert changes made for #7908 once externally resolved.
+      return (
+        <TWBS.Nav
+          stacked
+          ref = "navRoot"
+          className = "primary-nav" >
+          <div
+            className = "primary-nav-label-toggle"
+            onClick = { this.handleMenuToggle } >
+            {"…"}
+          </div>
+
+          { paths.map( this.createNavItem ) }
+
+          { this.apidoc() }
+
+          <button
+            className="btn btn-info primary-nav-debug-button"
+            onClick={ this.toggleDebugTools }>
+            Toggle Debug Tools
+          </button>
+
+        </TWBS.Nav>
+      );
+    }
+
+});
+
+module.exports = PrimaryNavigation;
