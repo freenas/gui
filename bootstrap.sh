@@ -102,20 +102,22 @@ else
 	_HAVE_GIT="yes"
 fi
 
-if whitcher npm; then
-	if [ ! -d ${HOME}/.nvm ]; then
-		echo "I see you don't have nvm / npm installed.  Let's take care of that now."
-		if ! curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | ${_EXEC_SHELL}; then
-			echo "I could not install npm, the Node package manager.  I'm bailing out!"
-			exit 7
-		fi
+if [ ! -d ${HOME}/.nvm ]; then
+	echo "I see you don't have nvm installed.  Let's take care of that now."
+	if ! curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | ${_EXEC_SHELL}; then
+		echo "I could not install npm, the Node package manager.  I'm bailing out!"
+		exit 7
 	fi
 fi
 
-#if npm install -g ${_NPM_THINGS}; then
-#	echo "Looks like some of the npm tools didn't install.  Whoops!"
-#	exit 9
-#fi
+# This is gross as hell, but nvm was clearly written by misanthropes
+export NVM_DIR="${HOME}/.nvm"
+. ${NVM_DIR}/nvm.sh
+nvm install 0.10
+if ! npm install -g ${_NPM_THINGS}; then
+	echo "Looks like some of the npm tools didn't install.  Whoops!"
+	exit 9
+fi
 
 if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 	echo "OK, the dev tools look good, now checking out the sources you will need"
