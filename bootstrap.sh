@@ -113,10 +113,15 @@ fi
 # This is gross as hell, but nvm was clearly written by misanthropes
 export NVM_DIR="${HOME}/.nvm"
 . ${NVM_DIR}/nvm.sh
-nvm install 0.10
+if ! nvm install 0.10; then
+	echo "Failed to install node 0.10.  This relationship isn't working out, I'm done!"
+	exit 9
+fi
+
+echo "Now installing all of the little fiddly things that node needs."
 if ! npm install -g ${_NPM_THINGS}; then
 	echo "Looks like some of the npm tools didn't install.  Whoops!"
-	exit 9
+	exit 10
 fi
 
 if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
