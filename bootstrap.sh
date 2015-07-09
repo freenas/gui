@@ -12,6 +12,7 @@ _EXEC_SHELL=bash
 _SUDO=sudo
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/freenas10-gui"
+_NPM_THINGS="bower grunt grunt-cli forever jshint jscs esprima-fb"
 
 whitcher()
 {
@@ -110,6 +111,11 @@ if whitcher npm; then
 		fi
 	fi
 fi
+
+#if npm install -g ${_NPM_THINGS}; then
+#	echo "Looks like some of the npm tools didn't install.  Whoops!"
+#	exit 9
+#fi
 
 if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 	echo "OK, the dev tools look good, now checking out the sources you will need"
