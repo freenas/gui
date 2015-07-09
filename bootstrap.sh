@@ -62,10 +62,10 @@ case "${_SYSTEM}" in
 		;;
 	Linux)
 		echo "I do not judge you for running Linux."
-		if whitcher apt-get; then
-			_PKG_INSTALL="yum install"
-		else
+		if ! whitcher apt-get; then
 			_PKG_INSTALL="apt-get install"
+		else
+			_PKG_INSTALL="yum install"
 		fi
 		;;
 	*)
