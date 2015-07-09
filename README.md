@@ -5,18 +5,20 @@ operating system. This repo is where development of the GUI happens.
 
 ## Getting Started
 
-FreeNAS 10 development is only supported on FreeBSD, Mac OS X, and Linux distros
-using apt or yum.
+FreeNAS 10 development is currently supported on FreeBSD, Mac OS X, and Linux
+distributions using apt or yum.
 
-To begin developing the FreeNAS 10 GUI, clone this repository and run
-'bootstrap.sh' from the root of the repository. This script will analyze your
-environment and install any missing prerequisites of the FreeNAS 10 development
-tools.
-
-You may also use cURL to obtain bootstrap.sh, in which case the script will set
-up the repo for you.
+To begin developing for the FreeNAS 10 GUI on one of these platforms, simply do:
 
     curl -o- https://raw.githubusercontent.com/freenas/freenas10-gui/master/bootstrap.sh | sh
+
+This will analyze your development environment and bootstrap the development
+toolchain onto it as necessary, also checking out a working copy of this
+git repository for you.
+
+Alternatively, if you have already cloned this repo then just do
+    sh bootstrap.sh
+from the root of it to accomplish the same thing.
 
 ## Using the FreeNAS 10 Development Environment
 
