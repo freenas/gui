@@ -19,6 +19,7 @@ gulp.task( "default"
            , "javascript"
            , "less"
            , "images"
+           , "favicons"
            ]
          );
 
