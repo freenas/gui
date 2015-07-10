@@ -41,6 +41,7 @@ gulp.task( "build"
            , "less"
            , "images"
            , "favicons"
+           , "fonts"
            ]
          );
 

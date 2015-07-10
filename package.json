@@ -47,6 +47,7 @@
     "grunt-ssh-multi-exec": "^4.2.2",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
+    "gulp-flatten": "^0.1.0",
     "gulp-install": "^0.4.0",
     "gulp-jscs": "^1.6.0",
     "gulp-less": "^3.0.3",
