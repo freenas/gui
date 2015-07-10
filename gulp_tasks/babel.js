@@ -23,7 +23,7 @@ gulp.task( "babel"
 
 var watcher = gulp.watch( paths, [ "babel" ] );
 watcher.on( "change", function ( event ) {
-  console.log( chalk.bgYellow( "Babel" ) + " " + event.path + " was "
-             + event.type
+  console.log( chalk.bgYellow.black( "  BABEL  " ) + " "
+             + event.path.split( "/" ).pop() + " was " + event.type
              );
 });

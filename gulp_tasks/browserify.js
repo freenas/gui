@@ -14,6 +14,7 @@ var source = require( "vinyl-source-stream" );
 var buffer = require( "vinyl-buffer" );
 
 var _          = require( "lodash" );
+var chalk      = require( "chalk" );
 var watchify   = require( "watchify" );
 var babelify   = require( "babelify" );
 var browserify = require( "browserify" );
@@ -31,7 +32,24 @@ b.on( "update", bundle );
 b.on( "log", gutil.log );
 b.transform( babelify );
 
-function bundle () {
+function bundle ( input ) {
+  var message;
+
+  if ( typeof input === "function" ) {
+    message = "Building initial bundle";
+  } else if ( _.isArray( input ) ) {
+    message = input.length + " "
+            + ( input.length === 1
+                               ? "file"
+                               : "files"
+              )
+            + " changed. Rebuilding bundle";
+  }
+
+  if ( message ) {
+    console.log( chalk.bgCyan.black( "  BROWSERIFY  " ) + " " + message );
+  }
+
   return b.bundle()
     .on( "error", gutil.log.bind( gutil, "Browserify Error" ) )
     .pipe( source( "app.js" ) )
