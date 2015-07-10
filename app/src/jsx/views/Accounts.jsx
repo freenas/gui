@@ -36,6 +36,7 @@ const Accounts = React.createClass({
   , render: function () {
       return (
         <main>
+          <h1>POOPIE</h1>
           <SectionNav views = { sections } />
           <RouteHandler />
         </main>
