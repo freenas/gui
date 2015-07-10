@@ -11,7 +11,7 @@ _PREFIX=/usr/local/bin
 _EXEC_SHELL=bash
 _SUDO=sudo
 _PKG_INSTALL="nopkg"
-_FREENAS_GUI_REPO="http://github.com/freenas/freenas10-gui"
+_FREENAS_GUI_REPO="http://github.com/freenas/gui"
 _NPM_THINGS="bower grunt grunt-cli forever jshint jscs esprima-fb"
 _NODE_VERSION=0.12
 
@@ -128,14 +128,14 @@ fi
 if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 	echo "OK, the dev tools look good, now checking out the sources you will need"
 	echo "to develop for the FreeNAS GUI."
-	if [ -d freenas10-gui ]; then
-		echo "Using existing freenas10-gui directory.  You might want to git pull"
+	if [ -d gui ]; then
+		echo "Using existing gui directory.  You might want to git pull"
 	elif ! git clone ${_FREENAS_GUI_REPO}; then
 		echo "Unable to clone the ${_FREENAS_GUI_REPO}. You will have to do this"
 		echo "before you can develop for the FreeNAS 10 GUI."
 		exit 8
 	else
-		echo "Sources are now checked out in the `pwd`/freenas-gui directory."
+		echo "Sources are now checked out in the `pwd`/gui directory."
 		echo "cd into that directory to begin developing with the freenas-dev command"
 	fi
 fi

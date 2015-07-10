@@ -41,4 +41,4 @@ rebuild and restart the GUI every time a file changes.
 
 For documentation of the FreeNAS 10 GUI architecture, recommended tools, and
 contribution guidelines, see
-[freenas.github.io/freenas10-gui](https://freenas.github.io/freenas10-gui).
+[freenas.github.io/gui](https://freenas.github.io/gui).
