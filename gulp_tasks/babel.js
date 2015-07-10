@@ -18,7 +18,7 @@ gulp.task( "babel"
              .pipe( sourcemaps.init() )
              .pipe( babel() )
              .pipe( sourcemaps.write() )
-             .pipe( gulp.dest( "app/build/js" ) );
+             .pipe( gulp.dest( "app/build/babel" ) );
 });
 
 var watcher = gulp.watch( paths, [ "babel" ] );

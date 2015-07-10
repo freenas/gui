@@ -11,7 +11,7 @@ var when = require( "when" );
 var React  = require( "react" );
 var Router = require( "react-router" );
 
-var routes = require( __dirname + "/build/js/routes" );
+var routes = require( __dirname + "/build/babel/routes" );
 
 // Content
 var jsBundle = fs.readFileSync( __dirname + "/build/app.js" );
