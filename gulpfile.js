@@ -18,6 +18,7 @@ gulp.task( "default"
            , "install-packages"
            , "javascript"
            , "less"
+           , "images"
            ]
          );
 
