@@ -12,14 +12,12 @@ var gutil = require( "gulp-util" );
 // those in subdirectories.
 require( "require-dir" )( "./gulp_tasks/", { recurse: true } );
 
-// var less       = require( "gulp-less" );
-// var minify     = require( "gulp-minify-css" );
-
 gulp.task( "default"
          , [ "clean"
            , "check-environment"
            , "install-packages"
            , "javascript"
+           , "less"
            ]
          );
 
