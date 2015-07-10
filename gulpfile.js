@@ -13,21 +13,15 @@ var gutil = require( "gulp-util" );
 require( "require-dir" )( "./gulp_tasks/", { recurse: true } );
 
 gulp.task( "default"
+           // SYNCHRONOUS TASKS
          , [ "clean"
            , "check-environment"
            , "install-packages"
-           , "javascript"
+           // ASYNCHRONOUS TASKS WITH WATCHERS
+           , "babel"
+           , "browserify"
            , "less"
            , "images"
            , "favicons"
-           ]
-         );
-
-gulp.task( "javascript"
-         , [ "clean"
-           , "check-environment"
-           , "install-packages"
-           , "babel"
-           , "browserify"
            ]
          );

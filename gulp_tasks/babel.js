@@ -6,18 +6,24 @@
 
 var gulp       = require( "gulp" );
 var babel      = require( "gulp-babel" );
-var plumber    = require( "gulp-plumber" );
 var sourcemaps = require( "gulp-sourcemaps" );
-var watch      = require( "gulp-watch" );
+
+var chalk      = require( "chalk" );
+
+var paths = [ "app/src/jsx/**/*.jsx", "app/src/jsx/**/*.js" ];
 
 gulp.task( "babel"
-         , [ "clean" ]
          , function () {
-  return gulp.src( [ "app/src/jsx/**/*.jsx", "app/src/jsx/**/*.js" ] )
-             .pipe( watch( [ "app/src/jsx/**/*.jsx", "app/src/jsx/**/*.js" ] ) )
-             .pipe( plumber() )
+  return gulp.src( paths )
              .pipe( sourcemaps.init() )
              .pipe( babel() )
              .pipe( sourcemaps.write() )
              .pipe( gulp.dest( "app/build/js" ) );
+});
+
+var watcher = gulp.watch( paths, [ "babel" ] );
+watcher.on( "change", function ( event ) {
+  console.log( chalk.bgYellow( "Babel" ) + " " + event.path + " was "
+             + event.type
+             );
 });

@@ -7,14 +7,12 @@
 var gulp       = require( "gulp" );
 var less       = require( "gulp-less" );
 var minify     = require( "gulp-minify-css" );
-var plumber    = require( "gulp-plumber" );
 var sourcemaps = require( "gulp-sourcemaps" );
 var rename     = require( "gulp-rename" );
 
 var chalk = require( "chalk" );
 
 gulp.task( "less"
-         , [ "install-packages" ]
          , function () {
   return gulp.src( "app/src/styles/core.less" )
              .pipe( sourcemaps.init() )

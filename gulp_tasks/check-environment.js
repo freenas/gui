@@ -7,6 +7,7 @@
 
 var gulp = require( "gulp" );
 
-gulp.task( "check-environment", function () {
+gulp.task( "check-environment", function ( callback ) {
   // TODO
+  callback();
 });

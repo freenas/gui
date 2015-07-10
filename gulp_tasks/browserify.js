@@ -41,4 +41,4 @@ function bundle () {
     .pipe( gulp.dest( "app/build/" ) );
 }
 
-gulp.task( "browserify", [ "clean" ], bundle );
+gulp.task( "browserify", bundle );
