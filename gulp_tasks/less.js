@@ -25,7 +25,7 @@ gulp.task( "less"
 
 var watcher = gulp.watch( "app/src/styles/**/*", [ "less" ] );
 watcher.on( "change", function ( event ) {
-  console.log( chalk.bgBlue.white( "  LESS  " ) + " " + event.path.split( "/" ).pop()
-             + " was " + event.type
+  console.log( chalk.bgBlue.white( "  LESS  " ) + " "
+             + event.path.split( "/" ).pop() + " was " + event.type
              );
 });
