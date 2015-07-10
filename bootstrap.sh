@@ -12,6 +12,7 @@ _EXEC_SHELL=bash
 _SUDO=sudo
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/gui"
+_FREENAS_DEV="gulp"
 _NPM_THINGS="bower grunt grunt-cli forever jshint jscs esprima-fb"
 _NODE_VERSION=0.12
 
@@ -136,10 +137,10 @@ if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 		exit 8
 	else
 		echo "Sources are now checked out in the `pwd`/gui directory."
-		echo "cd into that directory to begin developing with the freenas-dev command"
+		echo "cd into that directory to begin developing with the ${_FREENAS_DEV} command"
 	fi
 fi
 
 echo "Congratulations, you have everything you need to develop for the FreeNAS GUI!"
-echo "./freenas-dev --help will provide basic usage instructions"
+echo "./${_FREENAS_DEV} --help will provide basic usage instructions"
 exit 0
