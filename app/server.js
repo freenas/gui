@@ -14,7 +14,8 @@ var Router = require( "react-router" );
 var routes = require( __dirname + "/build/babel/routes" );
 
 // Content
-var jsBundle = fs.readFileSync( __dirname + "/build/app.js" );
+var appBundle  = fs.readFileSync( __dirname + "/build/app.js" );
+var libsBundle = fs.readFileSync( __dirname + "/build/libs.js" );
 
 var app = mach.stack();
 
@@ -44,7 +45,13 @@ app.use( mach.file, { root: path.join( __dirname, "build" ) } );
 // Routes
 app.get( "/js/app.js"
        , function ( request ) {
-           return jsBundle;
+           return appBundle;
+         }
+       );
+
+app.get( "/js/libs.js"
+       , function ( request ) {
+           return libsBundle;
          }
        );
 
