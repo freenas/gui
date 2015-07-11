@@ -50,8 +50,6 @@ bower_components
 
 # Exclude compiled webapp
 app/build/
-app/public/
-app/ssrjs/
 app-deploy/
 
 # Exclude config files
