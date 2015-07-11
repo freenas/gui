@@ -93,6 +93,15 @@ if whitcher "${_EXEC_SHELL}" ; then
 	fi
 fi
 
+if whitcher python; then
+	echo "Huh, no python on this system.  Let me try to install one."
+	if ! resolve python; then
+		echo "Can't install python interpreter on this system.  Unfortunately, all the webby"
+		echo "things require python these days!  I must exit."
+		exit 11
+	fi
+fi
+
 if whitcher git; then
 	if ! resolve git; then
 		echo "I could not install git on this platform.  Your development experience may"
