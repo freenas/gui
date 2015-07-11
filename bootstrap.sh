@@ -140,7 +140,10 @@ if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 		echo "Sources are now checked out in the `pwd`/gui directory."
 		echo "cd into that directory to begin developing with the ${_FREENAS_DEV} command"
 	fi
+	cd gui
 fi
+echo "Now resolving npm's installation dependencies.  This may take a moment."
+npm install
 
 echo "Congratulations, you have everything you need to develop for the FreeNAS GUI!"
 echo "./${_FREENAS_DEV} --help will provide basic usage instructions"
