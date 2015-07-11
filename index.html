@@ -1256,6 +1256,102 @@
         </ul>
       </section>
       <section>
+        <h3>FreeNAS 10 WebApp Architecture</h3>
+        <img src="images/freenas_webapp.png" />
+        <p>A stacked diagram representing the FreeNAS 10 UI’s “layers”</p>
+      </section>
+      <section>
+        <h4>Layers of the UI</h4>
+        <p>
+          The FreeNAS 10 UI is divided into layers, which map well to Middleware
+          channels. In simplest terms, the “wrapper” (persistent toolbars,
+          titlebar, footer) subscribes to general system information
+          (authentication status, events, alerts, uptime, hostname, etc), and
+          then each view will subscribe to a specific and more detailed stream
+          of information (users, network interfaces, volumes, etc.) for the
+          duration of its open state, and unsubscribe/garbage collect before
+          unmounting.
+        </p>
+        <p>
+          This creates a modular and highly composible UI, where individual
+          views and layers are only responsble for subscribing to the Flux
+          stores from which they want to receive data, and indicating to the
+          Middleware Client that it should alter a subscription state. It
+          enforces a rigid separation of concerns for data handling as well as
+          conceptually disparate areas of the system.
+        </p>
+      </section>
+      <section>
+        <h5>Main Mount</h5>
+        <p>
+          The entire FreeNAS webapp is rendered by JavaScript. Main Mount is
+          rendered directly into <code>&lt;body</code>, and all other components
+          are descended from it. It is represented by <code>routes.js</code>,
+          which handles the client-side routing, including the
+          <code>FreeNASWebApp</code> component. <code>FreeNASWebApp</code> is
+          the functional “shoebox” wrapper for the application, and subscribes
+          to the general system information channel. It handles authentication,
+          and subscribes to events, alerts, and other notifications.
+        </p>
+        <p>
+          Each nested route is rendered within its parent, enforcing a strict
+          visual and architectural heirarchy.
+        </p>
+      </section>
+      <section>
+        <h5>Modal Windows</h5>
+        <p>
+          Modal Windows aren’t heavily used in FreeNAS 10, but may be used for
+          things like login, unexpected disconnect, etc. In general, they can
+          receive data from the primary connections managed by the Main Mount.
+        </p>
+      </section>
+      <section>
+        <h5>Notification Bar</h5>
+        <p>
+          The persistent titlebar in the FreeNAS 10 UI also functions as a kind
+          of notification center, handling the events, alerts, and notifications
+          passed into it from the Main Mount’s system-general subscription.
+        </p>
+      </section>
+      <section>
+        <h5>Navigation</h5>
+        <p>
+          The Navigation is currently hard-coded, but in the future, may receive
+          its routes from a web permissions context that doesn’t exist yet. TBD.
+        </p>
+      </section>
+      <section>
+        <h5>The Primary View</h5>
+        <p>
+          The Primary View is generally a React Controller-View which maps to a
+          specific Middleware channel, like “Users” or “Network Interfaces”. This
+          is the primary area of the UI, and is not persistent. For more on how
+          this is handled, pleaes refer to the Flux Architecture documentation.
+        </p>
+      </section>
+      <section>
+        <h5>Contextual Sidebar (Widgets)</h5>
+        <p>
+          The right sidebar of the FreeNAS GUI is a contextual sidebar which
+          listens for the <code>showContextPanel</code> event, and then renders
+          whatever component is passed with the event. When it receives the
+          <code>hideContextPanel</code> event (typically when a component that
+          previously dispatched the <code>showContextPanel</code> unmounts, it
+          ceases rendering.</p>
+        <p>
+          This section is suitable for use with any view that needs to display
+          additional information side-by-side with a main view, or that only
+          otherwise needs to use the sidebar space. For example, the Storage
+          view uses the sidebar to render a drawer of unused disks. Another
+          possible use would be to provide extended tooltips.
+        </p>
+      </section>
+      <section>
+        <h5>Footer</h5>
+        <p>Nothing to see here at this time.</p>
+      </section>
+      <section>
         <h4>Visit our Websites:</h4>
         <ul>
           <li>
