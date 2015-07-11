@@ -13,7 +13,7 @@ _SUDO=sudo
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/gui"
 _FREENAS_DEV="gulp"
-_NPM_THINGS="bower grunt grunt-cli forever jshint jscs esprima-fb"
+_NPM_THINGS="bower grunt grunt-cli forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb"
 _NODE_VERSION=0.12
 
 whitcher()
