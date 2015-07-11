@@ -126,6 +126,12 @@ if ! npm install -g ${_NPM_THINGS}; then
 	exit 10
 fi
 
+echo "Now installing the gulp package, which requires sudo privilege."
+if ! sudo npm install -g gulp; then
+	echo "I can't install the gulp Node package.  Arghhhhh!"
+	exit 11
+fi
+
 if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 	echo "OK, the dev tools look good, now checking out the sources you will need"
 	echo "to develop for the FreeNAS GUI."

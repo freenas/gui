@@ -10,7 +10,7 @@ distributions using apt or yum.
 
 To begin developing for the FreeNAS 10 GUI on one of these platforms, simply do:
 
-    curl -o- https://raw.githubusercontent.com/freenas/freenas10-gui/master/bootstrap.sh | sh
+    curl -o- https://raw.githubusercontent.com/freenas/gui/master/bootstrap.sh | sh
 
 This will analyze your development environment and bootstrap the development
 toolchain onto it as necessary, also checking out a working copy of this
