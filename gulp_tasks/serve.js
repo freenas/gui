@@ -4,11 +4,26 @@
 
 "use strict";
 
+var _       = require( "lodash" );
 var gulp    = require( "gulp" );
+var watch   = require( "gulp-watch" );
 var Monitor = require( "forever-monitor" ).Monitor;
 var chalk   = require( "chalk" );
 
-var TAG = chalk.bgWhite.black( "  WEBSERVER  " );
+var TAG = chalk.bgWhite.black( "  WEBSERVER  " ) + " ";
+
+var localServer;
+var buildChangeHandler = function ( vinyl ) {
+  if ( localServer && localServer.restart ) {
+    console.log( TAG + chalk.blue( "[ WATCH ] " )
+               + "Issuing restart command"
+               );
+    localServer.restart();
+  }
+};
+
+watch( [ "app/build/babel/**/*", "app/build/app.js", "app/build/libs.js" ]
+     , _.debounce( buildChangeHandler, 3000 ) );
 
 gulp.task( "serve", [ "init", "build" ], function () {
   var mode = "local"; // FIXME: Hardcoded for now
@@ -20,13 +35,16 @@ gulp.task( "serve", [ "init", "build" ], function () {
 
       console.log( TAG + "Starting webserver in '" + mode + "' mode." );
 
-      var localServer =
+      localServer =
         new Monitor( "app/server.js"
-                   , { max    : 3
-                     , silent : true
-                     , args   : []
+                   , { max      : 3
+                     , silent   : true
+                     , args     : []
+                     , killtree : true
                      }
                    );
+
+      localServer.setMaxListeners( 0 );
 
       localServer.on( "error", function ( err ) {
         console.log( TAG + chalk.red( "[ ERROR ] " ) + err );
@@ -36,16 +54,6 @@ gulp.task( "serve", [ "init", "build" ], function () {
         console.log( TAG + chalk.green( "[ START ] " ) + "Webserver started" );
       });
 
-      localServer.on( "stop", function ( process ) {
-        console.log( TAG + chalk.red( "[ STOP ] " ) );
-      });
-
-      localServer.on( "watch:restart", function ( info ) {
-        console.log( TAG + chalk.blue( "[ WATCH ] " )
-                   + "Detected change to " + info.file
-                   );
-      });
-
       localServer.on( "restart", function ( forever ) {
         console.log( TAG + chalk.cyan( "[ RESTART ] " )
                    + "Webserver is restarting"
@@ -53,7 +61,9 @@ gulp.task( "serve", [ "init", "build" ], function () {
       });
 
       localServer.on( "exit:code", function ( code ) {
-        console.log( TAG + chalk.bgBlack( "[ EXIT ]" ) + " Code " + code );
+        console.log( TAG + chalk.bgBlack( "[ EXIT ]" )
+                   + ( code ? " Code " + code : "" )
+                   );
       });
 
       localServer.on( "stdout", function ( data ) {
@@ -65,7 +75,6 @@ gulp.task( "serve", [ "init", "build" ], function () {
       });
 
       localServer.start();
-
       break;
 
     case "remote":
