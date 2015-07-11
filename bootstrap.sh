@@ -112,6 +112,7 @@ if [ ! -d ${HOME}/.nvm ]; then
 	fi
 fi
 
+echo "Now I am going to install nvm for some reason.  Expect a silly progress bar."
 # This is gross as hell, but nvm was clearly written by misanthropes
 export NVM_DIR="${HOME}/.nvm"
 . ${NVM_DIR}/nvm.sh
