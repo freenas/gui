@@ -24,7 +24,7 @@ from the root of it to accomplish the same thing.
 
 ## Using the FreeNAS 10 Development Environment
 
-Once your development environment is initialized, run 'freenas-dev' to start the
+Once your development environment is initialized, run 'gulp' to start the
 FreeNAS 10 SDK app.
 
 You will need to choose whether to target a real FreeNAS instance in order to
