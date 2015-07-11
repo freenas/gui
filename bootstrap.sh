@@ -13,7 +13,7 @@ _SUDO=sudo
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/gui"
 _FREENAS_DEV="gulp"
-_NPM_THINGS="bower grunt grunt-cli forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb"
+_NPM_THINGS="bower gulp grunt grunt-cli forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb"
 _NODE_VERSION=0.12
 
 whitcher()
@@ -124,12 +124,6 @@ echo "Now installing all of the little fiddly things that node needs."
 if ! npm install -g ${_NPM_THINGS}; then
 	echo "Looks like some of the npm tools didn't install.  Whoops!"
 	exit 10
-fi
-
-echo "Now installing the gulp package, which requires sudo privilege."
-if ! sudo npm install -g gulp; then
-	echo "I can't install the gulp Node package.  Arghhhhh!"
-	exit 11
 fi
 
 if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
