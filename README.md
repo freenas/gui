@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/freenas/gui/master/Shark.jpg">
+
 # FreeNAS 10 GUI Development
 
 FreeNAS 10 is the next version of FreeNAS, a FreeBSD-based open source NAS
