@@ -17,7 +17,7 @@ gulp.task( "less"
   return gulp.src( "app/src/styles/core.less" )
              .pipe( sourcemaps.init() )
              .pipe( less() )
-             .pipe( minify() )
+             // .pipe( minify() ) // TODO: Conditionally enable this
              .pipe( sourcemaps.write() )
              .pipe( rename( "main.css" ) )
              .pipe( gulp.dest( "app/build/css" ) );
