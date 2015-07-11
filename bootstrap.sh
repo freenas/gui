@@ -113,6 +113,16 @@ else
 	_HAVE_GIT="yes"
 fi
 
+if [ "${_SYSTEM}" = "FreeBSD" ]; then
+	if whitcher gmake; then
+		if ! resolve gmake; then
+			echo "Sorry, can't install gmake and I need that for FreeBSD specifically."
+			echo "Please resolve this on your own and retry."
+			exit 12
+		fi
+	fi
+fi
+
 if [ ! -d ${HOME}/.nvm ]; then
 	echo "I see you don't have nvm installed.  Let's take care of that now."
 	if ! curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | ${_EXEC_SHELL}; then
