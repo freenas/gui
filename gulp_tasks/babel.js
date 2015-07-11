@@ -5,23 +5,26 @@
 "use strict";
 
 var gulp       = require( "gulp" );
+var changed    = require( "gulp-changed" );
 var babel      = require( "gulp-babel" );
 var sourcemaps = require( "gulp-sourcemaps" );
 
 var chalk      = require( "chalk" );
 
-var paths = [ "app/src/jsx/**/*.jsx", "app/src/jsx/**/*.js" ];
+var SRC  = [ "app/src/jsx/**/*.jsx", "app/src/jsx/**/*.js" ];
+var DEST = "app/build/babel";
 
 gulp.task( "babel"
          , function () {
-  return gulp.src( paths )
+  return gulp.src( SRC )
+             .pipe( changed( DEST ) )
              .pipe( sourcemaps.init() )
              .pipe( babel() )
              .pipe( sourcemaps.write() )
-             .pipe( gulp.dest( "app/build/babel" ) );
+             .pipe( gulp.dest( DEST ) );
 });
 
-var watcher = gulp.watch( paths, [ "babel" ] );
+var watcher = gulp.watch( SRC, [ "babel" ] );
 watcher.on( "change", function ( event ) {
   console.log( chalk.bgYellow.black( "  BABEL  " ) + " "
              + event.path.split( "/" ).pop() + " was " + event.type
