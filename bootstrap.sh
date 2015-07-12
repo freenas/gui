@@ -38,7 +38,11 @@ resolve()
 		_SUDO=""
 	fi
 	echo "I see you do not have $1.  I will now attempt to install it."
-	if ! ${_SUDO} ${_PKG_INSTALL} $1; then
+	if [ "${_PKG_INSTALL}" == "brew install" ]; then
+		if ! ${_PKG_INSTALL} $1; then
+			return 1
+		fi
+	elif ! ${_SUDO} ${_PKG_INSTALL} $1; then
 		return 1
 	fi
 	return 0
