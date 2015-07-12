@@ -123,21 +123,12 @@ if [ "${_SYSTEM}" = "FreeBSD" ]; then
 	fi
 fi
 
-if [ ! -d ${HOME}/.nvm ]; then
-	echo "I see you don't have nvm installed.  Let's take care of that now."
-	if ! curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | ${_EXEC_SHELL}; then
-		echo "I could not install nvm, which apparently has something to do with Node.js.  I'm bailing out!"
-		exit 7
+if whitcher npm; then
+	echo "You're going to need node.js and npm for this."
+	if ! resolve npm; then
+		echo "I wasn't able to install node and npm. Please do that yourself."
+		exit 13
 	fi
-fi
-
-echo "Now I am going to install nvm for some reason.  Expect a silly progress bar."
-# This is gross as hell, but nvm was clearly written by misanthropes
-export NVM_DIR="${HOME}/.nvm"
-. ${NVM_DIR}/nvm.sh
-if ! nvm install ${_NODE_VERSION}; then
-	echo "Failed to install node ${_NODE_VERSION}.  This relationship isn't working out, I'm done!"
-	exit 9
 fi
 
 echo "Now installing all of the little fiddly things that node needs."
