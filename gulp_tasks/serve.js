@@ -22,7 +22,11 @@ var buildChangeHandler = function ( vinyl ) {
   }
 };
 
-watch( [ "app/build/babel/**/*", "app/build/app.js", "app/build/libs.js" ]
+watch( [ "app/build/babel/**/*"
+       , "app/build/app.js"
+       , "app/build/libs.js"
+       , "app/server.js"
+       ]
      , _.debounce( buildChangeHandler, 3000 ) );
 
 gulp.task( "serve", [ "init", "build" ], function () {
