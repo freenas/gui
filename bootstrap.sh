@@ -166,5 +166,5 @@ echo "Now resolving npm's installation dependencies.  This may take a moment."
 npm install
 
 echo "Congratulations, you have everything you need to develop for the FreeNAS GUI!"
-echo "./${_FREENAS_DEV} --help will provide basic usage instructions"
+echo "${_FREENAS_DEV} --help will provide basic usage instructions"
 exit 0
