@@ -7,6 +7,7 @@ var fs   = require( "fs" );
 var path = require( "path" );
 var mach = require( "mach" );
 var when = require( "when" );
+var argv = require( "yargs" ).argv;
 
 var React  = require( "react" );
 var Router = require( "react-router" );
@@ -46,6 +47,18 @@ app.use( mach.file, { root: path.join( __dirname, "build" ) } );
 app.get( "/js/app.js"
        , function ( request ) {
            return appBundle;
+         }
+       );
+
+app.get( "/js/data-window-props.js"
+       , function ( request ) {
+           if ( argv["connect"] ) {
+             return ( "window.__TARGET_HOST__ = "
+                    + JSON.stringify( argv["connect"] )
+                    );
+           } else {
+             return "window.__TARGET_HOST__ = null";
+           }
          }
        );
 

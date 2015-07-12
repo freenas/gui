@@ -20,11 +20,16 @@ import SchemaStore from "./stores/SchemaStore";
 
 if ( typeof window !== "undefined" ) {
   window.onload = function () {
-    let wsProtocol = ( window.location.protocol === "https:" )
-                   ? "wss://"
-                   : "ws://";
+    if ( window["__TARGET_HOST__"] ) {
+      let wsProtocol = ( window.location.protocol === "https:" )
+                     ? "wss://"
+                     : "ws://";
 
-    MiddlewareClient.connect( wsProtocol + document.domain + ":5000/socket" );
+      MiddlewareClient.connect( wsProtocol
+                              + window["__TARGET_HOST__"]
+                              + ":5000/socket"
+                              );
+    }
 
     Router.run( Routes
               , HistoryLocation

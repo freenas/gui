@@ -9,6 +9,7 @@ var gulp    = require( "gulp" );
 var watch   = require( "gulp-watch" );
 var Monitor = require( "forever-monitor" ).Monitor;
 var chalk   = require( "chalk" );
+var argv    = require( "yargs" ).argv;
 
 var TAG = chalk.bgWhite.black( "  WEBSERVER  " ) + " ";
 
@@ -30,7 +31,15 @@ watch( [ "app/build/babel/**/*"
      , _.debounce( buildChangeHandler, 3000 ) );
 
 gulp.task( "serve", [ "init", "build" ], function () {
-  var mode = "local"; // FIXME: Hardcoded for now
+  var mode;
+  var host;
+
+  if ( argv["connect"] ) {
+    mode = "connect";
+    host = argv["connect"];
+  } else {
+    mode = "local"; // FIXME: Hardcoded for now
+  }
 
   switch ( mode ) {
     case "local":
@@ -42,8 +51,8 @@ gulp.task( "serve", [ "init", "build" ], function () {
       localServer =
         new Monitor( "app/server.js"
                    , { max      : 3
-                     , silent   : true
-                     , args     : []
+                     , silent   : false
+                     , args     : host ? [ "--connect", host ] : []
                      , killtree : true
                      }
                    );

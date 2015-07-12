@@ -56,6 +56,7 @@ const FreeNASWebApp = React.createClass(
 
         {/* Primary Styles */}
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <script type="text/javascript" src="/js/data-window-props.js"></script>
       </head>
       <body>
         {/* TODO: Add Modal mount div */}
