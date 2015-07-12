@@ -127,11 +127,17 @@ if [ "${_SYSTEM}" = "FreeBSD" ]; then
 	fi
 fi
 
-if whitcher npm; then
-	echo "You're going to need node.js and npm for this."
+if whitcher node; then
 	if ! resolve npm; then
-		echo "I wasn't able to install node and npm. Please do that yourself."
+		echo "I wasn't able to install nodejs. Please do that yourself."
 		exit 13
+	fi
+fi
+
+if whitcher npm; then
+	if ! resolve npm; then
+		echo "I wasn't able to install npm. Please do that yourself."
+		exit 14
 	fi
 fi
 
