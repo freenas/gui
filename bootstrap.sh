@@ -189,7 +189,7 @@ if [ -f /usr/local/bin/node ]; then
 fi
 
 if whitcher node; then
-	if ! resolve node; then
+	if ! resolve nodejs; then
 		if [ "${_SYSTEM}" == "Darwin" ]; then
 			echo "You don't have macports or homebrew installed."
 			echo "Now compiling nodejs from source. This will take a little while."
