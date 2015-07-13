@@ -8,7 +8,8 @@ operating system. This repo is where development of the GUI happens.
 ## Getting Started
 
 FreeNAS 10 development is currently supported on FreeBSD, Mac OS X, and some
-Linux distributions.
+Linux distributions. Windows users might be able to get it working, but it's not
+and will not be an officially supported platform for development.
 
 If you already have node.js installed and the repo checked out, great! Skip to
 "Using the FreeNAS 10 Development Environment" below.
@@ -21,8 +22,7 @@ simply do:
 This will analyze your development environment and bootstrap the development
 toolchain onto it as necessary, also checking out a working copy of this
 git repository for you. It will also install node and npm if they aren't already
-available. Installing missing software is only supported on FreeBSD and Linux
-distributions using apt or yum.
+available.
 
 Alternatively, if you have already cloned this repo then just do:
 
@@ -33,7 +33,12 @@ from the root of it to accomplish the same thing.
 ## Using the FreeNAS 10 Development Environment
 
 If you used the bootstrap script, you'll already be ready to run 'gulp'. If not,
-run 'npm install' from the root of the repo first.
+run
+
+  npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
+  npm install
+
+from the root of the repo first.
 
 Once your development environment is initialized, run 'gulp' to start the
 FreeNAS 10 SDK app.
