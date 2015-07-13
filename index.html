@@ -67,6 +67,10 @@
       <section>
         <h2>Using the FreeNAS 10 Development Environment</h2>
         <p>
+          If you used the bootstrap script, you'll already be ready to run
+          'gulp'. If not, run 'npm install' from the root of the repo first.
+        </p>
+        <p>
           Once your development environment is initialized, run 'gulp' to start
           the FreeNAS 10 SDK app.
         </p>
@@ -75,6 +79,10 @@
           order to interact with the middleware, or to operate in "dumb mode",
           in which case it will run a local copy of the GUI webapp that
           simulates interaction with real data.
+          'gulp --connect FreenasIPorHostname' will start you in live
+          development mode with a real connection. 'gulp' alone will start you
+          with a local webserver only, so you can work on UI elements for
+          as-yet-unavailable middleware functionality.
         </p>
         <p>
           Once the app is running, it will monitor your source files and
