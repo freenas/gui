@@ -209,8 +209,8 @@ fi
 if [ "${_HAVE_GIT}" = "yes" ]; then
 	echo "OK, the dev tools look good, now checking out the sources you will need"
 	echo "to develop for the FreeNAS GUI."
-	if test -d .git && [ "$(basename $(pwd))" = "gui" ]; then
-		echo "It seems this is a git repository named \"gui\"."
+	if test -d .git && [ "$(basename $(pwd))" = $(basename ${_FREENAS_GUI_REPO}) ]; then
+		echo "It seems this is a git repository named $(basename ${_FREENAS_GUI_REPO})."
 		echo "I'm going to assume this means you already have the source. Great!"
 	elif [ -d gui ]; then
 		echo "Using existing gui directory. You might want to git pull"
