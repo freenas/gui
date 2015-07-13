@@ -52,7 +52,7 @@ install_node_from_src()
 {
 	case "${_SYSTEM}" in
 		Darwin)
-			if ! git clone https://github.com/joyent/node.git; then
+			if ! test -d node && ! git clone https://github.com/joyent/node.git; then
 				echo "I can't checkout node."
 				echo "Please run bootstrap.sh from somewhere you have unprivileged"
 				echo "write access, or get rid of your 'node' directory."
@@ -62,7 +62,7 @@ install_node_from_src()
 			git checkout tags/v${_NODE_VERSION}
 			./configure
 			make
-			if ! make install; then
+			if ! sudo make install; then
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
@@ -177,7 +177,7 @@ echo "Blowing away your npm cache, just in case."
 npm cache clean
 
 echo "Now installing all of the little fiddly things that node needs."
-if ! npm install -g ${_NPM_THINGS}; then
+if ! sudo npm install -g ${_NPM_THINGS}; then
 	echo "Looks like some of the npm tools didn't install.  Whoops!"
 	exit 10
 fi
