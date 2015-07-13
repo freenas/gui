@@ -34,12 +34,15 @@ const Calendar = React.createClass(
 
       return (
         { activeMonth  : now.month()
-        , activeWeek   : now.day()
-        , activeDay    : now.day()
+        , selectedDay  : now.date()
         , monthContent : createMonth( now )
         , mode         : "month"
         }
       );
+    }
+
+  , selectDay: function ( day ) {
+      this.setState({ selectedDay: day });
     }
 
   , createBlankDays: function ( number ) {
@@ -66,11 +69,15 @@ const Calendar = React.createClass(
           dayClass.push( "today" );
         }
       }
+      if ( index + 1 === this.state.selectedDay ) {
+        dayClass.push( "selected" );
+      }
 
       return (
         <div
           key={ index }
           className= { dayClass.join( " " ) }
+          onClick = { this.selectDay.bind( null, index + 1 ) }
         >
           <span className="day-content">
             <span className="day-numeral">{ index + 1 }</span>

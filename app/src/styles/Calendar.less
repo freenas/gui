@@ -20,6 +20,13 @@
       .day-content.day-blank {
         background: #E3E3E3;
       }
+
+      &.selected {
+        background: rgb(197, 226, 245);
+        .day-content {
+          background: rgb(233, 244, 251);
+        }
+      }
     }
 
     .day-label {
@@ -45,12 +52,11 @@
 
   .day-content {
     position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
+    top: 0.5px; right: 0.5px; bottom: 1px; left: 0.5px;
     background: #F9F9F9;
     text-align: right;
     padding: 10px;
     color: #777;
-    margin: 0.5px;
   }
 
 }
