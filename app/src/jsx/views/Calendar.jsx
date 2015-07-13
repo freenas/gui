@@ -24,10 +24,6 @@ function createMonth ( time = moment() ) {
 const Calendar = React.createClass(
   { displayName: "Calendar"
 
-  , componentDidMount: function () {
-    window.MOMENT = moment();
-  }
-
   , getInitialState: function () {
       let now = moment();
 
