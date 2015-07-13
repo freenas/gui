@@ -35,8 +35,8 @@ from the root of it to accomplish the same thing.
 If you used the bootstrap script, you'll already be ready to run 'gulp'. If not,
 run
 
-  npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
-  npm install
+    npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
+    npm install
 
 from the root of the repo first.
 
