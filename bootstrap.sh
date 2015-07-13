@@ -30,7 +30,7 @@ resolve()
 	if [ "${_PKG_INSTALL}" == "nopkg" ]; then
 		echo "I lack the talent to install packages on ${_SYSTEM} systems.  You will have to"
 		echo "install the $1 package yourself.  I give up!"
-		exit 5
+		return 3
 	fi
 
 	if whitcher ${_SUDO}; then
