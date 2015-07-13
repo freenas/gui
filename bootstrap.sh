@@ -43,7 +43,7 @@ resolve()
 			return 1
 		fi
 	elif ! ${_SUDO} ${_PKG_INSTALL} $1; then
-		return 1
+		return 2
 	fi
 	return 0
 }
