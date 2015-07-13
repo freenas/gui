@@ -9,6 +9,8 @@ import _ from "lodash";
 import TWBS from "react-bootstrap";
 import moment from "moment";
 
+import Icon from "../components/Icon";
+
 function createMonth ( time = moment() ) {
   let today = moment();
   let date = new Date( time.year(), time.month(), 1 );
@@ -37,6 +39,34 @@ const Calendar = React.createClass(
         , selectedDay  : now.date()
         , monthContent : createMonth( now )
         , mode         : "month"
+        }
+      );
+    }
+
+  , handlePage: function ( direction ) {
+      let now = moment().month( this.state.activeMonth );
+
+      if ( direction === "prev" ) {
+        now.subtract( 1, "months" );
+      } else if ( direction === "next" ) {
+        now.add( 1, "months" );
+      }
+
+      this.setState(
+        { activeMonth  : now.month()
+        , selectedDay  : now.startOf( "month" ).date()
+        , monthContent : createMonth( now )
+        }
+      );
+    }
+
+  , handleToday: function ( direction ) {
+      let now = moment();
+
+      this.setState(
+        { activeMonth  : now.month()
+        , selectedDay  : now.date()
+        , monthContent : createMonth( now )
         }
       );
     }
@@ -96,7 +126,32 @@ const Calendar = React.createClass(
 
       return (
         <main className="calendar">
-          <h1><b>{ month }</b> { year }</h1>
+          <div
+            className = "clearfix"
+            style     = {{ margin: "25px" }}
+          >
+            <h1
+              className = "pull-left"
+              style     = {{ margin: 0 }}
+            ><b>{ month }</b> { year }</h1>
+
+            <TWBS.ButtonGroup
+              className = "pull-right"
+              style     = {{ margin: 0 }}
+            >
+              <TWBS.Button
+                onClick={ this.handlePage.bind( null, "prev" ) }
+              ><Icon glyph="chevron-left" /></TWBS.Button>
+              <TWBS.Button
+                onClick={ this.handleToday }
+              >Today</TWBS.Button>
+              <TWBS.Button
+                onClick={ this.handlePage.bind( null, "next" ) }
+              ><Icon glyph="chevron-right" /></TWBS.Button>
+
+            </TWBS.ButtonGroup>
+          </div>
+
           <div className="month">
             <span className="day-label">Sunday</span>
             <span className="day-label">Monday</span>
