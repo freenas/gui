@@ -8,7 +8,6 @@
 
 _SYSTEM=`uname -s`
 _PREFIX=/usr/local/bin
-_EXEC_SHELL=bash
 _SUDO=sudo
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/gui"
@@ -137,16 +136,6 @@ if ! echo "$PATH" | grep -q ${_PREFIX}; then
 	echo "I'm sorry, but ${_PREFIX} must be in your PATH. Please edit your"
 	echo "startup file(s) for ${SHELL} to include it and run me again!"
 	exit 2
-fi
-
-if whitcher "${_EXEC_SHELL}" ; then
-	_MSG="I cannot find the ${_EXEC_SHELL} shell"
-	if /bin/sh --version 2>&1 | grep -q ${_EXEC_SHELL}; then
-		echo "${_MSG} - however, your /bin/sh is ${_EXEC_SHELL} so OK"
-	else
-		echo "${_MSG} - you should install it and run me again."
-		exit 3
-	fi
 fi
 
 if whitcher python; then
