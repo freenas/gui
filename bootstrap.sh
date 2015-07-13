@@ -215,20 +215,24 @@ if ! try_without_root_permissions npm install -g ${_NPM_THINGS}; then
 	exit 10
 fi
 
-if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" == "yes" ]; then
+if [ "${_HAVE_GIT}" = "yes" ]; then
 	echo "OK, the dev tools look good, now checking out the sources you will need"
 	echo "to develop for the FreeNAS GUI."
-	if [ -d gui ]; then
-		echo "Using existing gui directory.  You might want to git pull"
-	elif ! git clone ${_FREENAS_GUI_REPO}; then
+	if test -d .git && [ "$(basename $(pwd))" = "gui" ]; then
+		echo "It seems this is a git repository named \"gui\"."
+		echo "I'm going to assume this means you already have the source. Great!"
+	elif [ -d gui ]; then
+		echo "Using existing gui directory. You might want to git pull"
+		cd gui
+	elif git clone ${_FREENAS_GUI_REPO}; then
+		echo "Sources are now checked out in the `pwd`/gui directory."
+		echo "cd into that directory to begin developing with the ${_FREENAS_DEV} command"
+		cd gui
+	else
 		echo "Unable to clone the ${_FREENAS_GUI_REPO}. You will have to do this"
 		echo "before you can develop for the FreeNAS 10 GUI."
 		exit 8
-	else
-		echo "Sources are now checked out in the `pwd`/gui directory."
-		echo "cd into that directory to begin developing with the ${_FREENAS_DEV} command"
 	fi
-	cd gui
 fi
 
 
