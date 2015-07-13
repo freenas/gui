@@ -107,7 +107,7 @@ const Calendar = React.createClass(
             <span className="day-label">Saturday</span>
             { this.createBlankDays( start ) }
             { this.state.monthContent.map( this.dayMonth ) }
-            { this.createBlankDays( end ) }
+            { end === 7 ? null : this.createBlankDays( end ) }
           </div>
         </main>
       );
