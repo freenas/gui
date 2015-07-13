@@ -21,7 +21,9 @@ var NotificationBar = React.createClass(
     return (
       { visibleLog: ""
 
-      , host        : MS.getHost() || "Awaiting connection..."
+      , host        : MS.getHost()
+      , protocol    : MS.getProtocol()
+      , connected   : MS.getSockState()[0]
       , currentUser : SS.getCurrentUser()
 
       // TODO: Replace dummy data with Middleware data in a Flux store
@@ -94,12 +96,17 @@ var NotificationBar = React.createClass(
   }
 
   , updateCurrentUser: function ( event ) {
-    this.setState({ currentUser: SS.getCurrentUser() });
-  }
+      this.setState({ currentUser: SS.getCurrentUser() });
+    }
 
   , updateHost: function ( event ) {
-    this.setState({ host: MS.getHost() });
-  }
+      this.setState(
+        { host      : MS.getHost()
+        , protocol  : MS.getProtocol()
+        , connected : MS.getSockState()[0]
+        }
+      );
+    }
 
   , makeAllInvisible: function ( event ) {
     this.setState({ visibleLog: "" });
@@ -117,16 +124,17 @@ var NotificationBar = React.createClass(
     this.setState({ visibleLog: "actions" });
   }
 
-
   , render: function () {
     return (
       <header className = "app-header notification-bar" >
 
-        <h1
-          className="pull-left"
-          style = {{ margin: 0, color: "white" }}
+        <h1 className={ "hostname " + ( this.state.connected
+                                      ? "connected"
+                                      : "disconnected"
+                                      )
+                      }
         >
-          { this.state.host }
+          { this.state.host ? this.state.host : "Disconnected" }
         </h1>
 
         <div className="user-info">

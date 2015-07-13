@@ -47,6 +47,10 @@ var MiddlewareStore = _.assign( {}, EventEmitter.prototype, (
       return _rpcMethods;
     }
 
+  , getProtocol: function () {
+    return protocol;
+  }
+
   , getHost: function () {
     return url;
   }

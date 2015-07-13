@@ -1,5 +1,6 @@
 .notification-bar {
-  background-color    : @freenas-dark-gray;
+  background-color : @freenas-dark-gray;
+  text-align       : center;
 
   .user-info {
     float        : right;
@@ -37,29 +38,37 @@
   }
 
   .user {
-    margin       : 0 10px 0 30px;
-    padding-left : 2em;
+    margin: 0 15px;
+  }
+
+  .hostname {
+    color       : white;
+    display     : inline-block;
+    margin      : 0 0 0 24px;
+    position    : relative;
+    line-height : @app-header-height;
+    font-size   : 2em;
 
     &:before {
       content       : "";
       position      : absolute;
       top           : 50%;
-      left          : 1em;
+      left          : -24px;
       display       : inline-block;
-      height        : 1em;
-      width         : 1em;
-      margin-top    : -0.5em;
+      height        : 12px;
+      width         : 12px;
+      margin-top    : -6px;
       border        : 1px solid rgba(0, 0, 0, 0.7);
       border-radius : 50%;
       .transition( ease-in-out 0.25s );
     }
 
-    &.online:before {
+    &.connected:before {
       background: @brand-success;
     }
 
-    &.offline:before {
-      background: @brand-warning;
+    &.disconnected:before {
+      background: @gray;
     }
   }
 }
