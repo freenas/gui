@@ -10,11 +10,16 @@ import TWBS from "react-bootstrap";
 import moment from "moment";
 
 function createMonth ( time = moment() ) {
+  let today = moment();
   let date = new Date( time.year(), time.month(), 1 );
   let result = [];
 
   while ( date.getMonth() === time.month() ) {
-    result.push( null );
+    if ( today.isSame( date, "day" ) ) {
+      result.push({ today: true });
+    } else {
+      result.push( null );
+    }
     date.setDate( date.getDate() + 1 );
   }
 
@@ -55,13 +60,20 @@ const Calendar = React.createClass(
     }
 
   , dayMonth: function ( contents, index ) {
+      let dayClass = [ "day" ];
+      if ( contents ) {
+        if ( contents["today"] ) {
+          dayClass.push( "today" );
+        }
+      }
+
       return (
         <div
           key={ index }
-          className="day"
+          className= { dayClass.join( " " ) }
         >
           <span className="day-content">
-            { index + 1 }
+            <span className="day-numeral">{ index + 1 }</span>
           </span>
         </div>
       );

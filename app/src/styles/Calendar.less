@@ -11,6 +11,7 @@
     .day {
       min-height: 100px;
       position: relative;
+      background: #EFEFEF;
       &:nth-child(7n) .day-content,
       &:nth-child(7n+1) .day-content {
         background: #EFEFEF;
@@ -26,6 +27,20 @@
       padding: 10px 0;
       border-bottom: 1px solid#C2C2C2;
     }
+
+    .day-numeral {
+      width: 1.75em;
+      height: 1.75em;
+      display: inline-block;
+      line-height: 1.75em;
+      text-align: center;
+    }
+
+    .today .day-numeral {
+      color: white;
+      border-radius: 50%;
+      background: rgb(240, 90, 90);
+    }
   }
 
   .day-content {
@@ -35,6 +50,7 @@
     text-align: right;
     padding: 10px;
     color: #777;
+    margin: 0.5px;
   }
 
 }
