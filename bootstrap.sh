@@ -173,6 +173,9 @@ if whitcher npm; then
 	fi
 fi
 
+echo "Blowing away your npm cache, just in case."
+npm cache clean
+
 echo "Now installing all of the little fiddly things that node needs."
 if ! npm install -g ${_NPM_THINGS}; then
 	echo "Looks like some of the npm tools didn't install.  Whoops!"
@@ -194,6 +197,15 @@ if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 	fi
 	cd gui
 fi
+
+echo "Deleting any possible leftover node or bower modules."
+rm -rf node_modules/
+rm -rf bower_components/
+rm -rf app/build/
+
+echo "Clearing your npm cache AGAIN, just in case."
+npm cache clean
+
 echo "Now resolving npm's installation dependencies.  This may take a moment."
 npm install
 
