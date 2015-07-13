@@ -94,6 +94,7 @@ install_node_from_src()
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
+		cd ..
 		return 0
 		;;
 	*)
