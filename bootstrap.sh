@@ -46,6 +46,19 @@ whitcher()
 	fi
 }
 
+try_without_root_permissions()
+{
+	if ! $@; then
+		echo "I need to run $@ with escalated permissions."
+		echo "Enter your password if needed:"
+		if ! ${_SUDO} $@; then
+			echo "I wasn't able to run $@ even with escalated permissions."
+			return 1
+		fi
+	fi
+	return 0
+}
+
 resolve()
 {
 	if [ "${_PKG_INSTALL}" == "nopkg" ]; then
@@ -59,12 +72,8 @@ resolve()
 		_SUDO=""
 	fi
 	echo "I see you do not have $1.  I will now attempt to install it."
-	if [ "${_PKG_INSTALL}" == "brew install" ]; then
-		if ! ${_PKG_INSTALL} $1; then
-			return 1
-		fi
-	elif ! ${_SUDO} ${_PKG_INSTALL} $1; then
-		return 2
+	if ! try_without_root_permissions ${_PKG_INSTALL} $1; then
+		return 1
 	fi
 	return 0
 }
@@ -182,7 +191,7 @@ if whitcher node; then
 		if [ "${_SYSTEM}" == "Darwin" ]; then
 			echo "You don't have macports or homebrew installed."
 			echo "Now compiling nodejs from source. This will take a little while."
-			if ! install_node_from_src; then
+			if ! try_without_root_permissions install_node_from_src; then
 				echo "I wasn't able to install nodejs. Please do that yourself."
 				exit 13
 			fi
@@ -198,10 +207,10 @@ if whitcher npm; then
 fi
 
 echo "Blowing away your npm cache, just in case."
-npm cache clean
+try_without_root_permissions npm cache clean
 
 echo "Now installing all of the little fiddly things that node needs."
-if ! sudo npm install -g ${_NPM_THINGS}; then
+if ! try_without_root_permissions npm install -g ${_NPM_THINGS}; then
 	echo "Looks like some of the npm tools didn't install.  Whoops!"
 	exit 10
 fi
@@ -225,7 +234,7 @@ fi
 
 echo "Clearing your npm cache AGAIN, just in case."
 nuke_node_from_orbit
-npm cache clean
+try_without_root_permissions npm cache clean
 
 echo "Now resolving npm's installation dependencies.  This may take a moment."
 npm install
