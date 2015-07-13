@@ -197,6 +197,7 @@ fi
 
 echo "Blowing away your npm cache, just in case."
 try_without_root_permissions npm cache clean
+npm rebuild
 
 echo "Now installing all of the little fiddly things that node needs."
 if ! try_without_root_permissions npm install -g ${_NPM_THINGS}; then
