@@ -30,7 +30,7 @@ watch( [ "app/build/babel/**/*"
        ]
      , _.debounce( buildChangeHandler, 3000 ) );
 
-gulp.task( "serve", [ "init", "build" ], function () {
+gulp.task( "serve", function () {
   var mode;
   var host;
 

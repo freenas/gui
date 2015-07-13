@@ -9,7 +9,6 @@ var gulp = require( "gulp" );
 var chalk = require( "chalk" );
 
 gulp.task( "images"
-         , [ "clean" ]
          , function () {
   return gulp.src( "app/src/images/**/*" )
              // TODO: Process images appropriately

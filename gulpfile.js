@@ -5,21 +5,24 @@
 
 "use strict";
 
-var gulp = require( "gulp" );
+var gulp        = require( "gulp" );
+var runSequence = require( "run-sequence" );
 
 // Load all independent tasks defined in the gulp_tasks directory, including
 // those in subdirectories.
 require( "require-dir" )( "./gulp_tasks/", { recurse: true } );
 
-gulp.task( "default", [ "init", "build", "serve" ] );
-
-// LDE INIT TASKS
-gulp.task( "init", [ "clean", "check-environment", "install-packages" ] );
+gulp.task( "default", function ( callback ) {
+  runSequence( [ "clean", "check-environment", "install-packages" ]
+             , "build"
+             , "serve"
+             , callback
+             );
+});
 
 // ASYNCHRONOUS BUILD TASKS
 gulp.task( "build"
-         , [ "init"
-           , "babel"
+         , [ "babel"
            , "browserify"
            , "libs"
            , "less"

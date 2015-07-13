@@ -51,6 +51,7 @@
     "jscs": "^1.13.1",
     "load-grunt-tasks": "^3.1.0",
     "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.3",

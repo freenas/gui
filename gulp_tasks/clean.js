@@ -4,15 +4,13 @@
 
 "use strict";
 
-var gulp  = require( "gulp" );
-var del   = require( "del" );
-var chalk = require( "chalk" );
+var gulp   = require( "gulp" );
+var del    = require( "del" );
+var chalk  = require( "chalk" );
 
 gulp.task( "clean", function ( callback ) {
 
-  console.log( chalk.bgRed.white( "  CLEAN  " ) + " Deleted "
-             + del.sync( [ "app/build/**/*" ] ).length
-             + " files and folders"
-             );
-  callback();
+  console.log( chalk.bgRed.white( "  CLEAN  " ) + " Cleaning previous builds" );
+
+  del( [ "app/build" ], callback );
 });
