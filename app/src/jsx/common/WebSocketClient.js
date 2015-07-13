@@ -109,14 +109,23 @@ class WebSocketClient {
     // Flag Variable for instant reconnect (like after logout)
     this.instantReconnet = false;
 
+
+
+    this.socketInfo =
+      { protocol : null
+      , url      : null
+      , path     : null
+    };
     this.socket = null;
 
     // Publically accessible reconectHandle
     if ( typeof WebSocket !== "undefined" ) {
       this.reconnectHandle = new ReconnectTimer ( function ( ) {
-        var protocol = ( window.location.protocol === "https:" ?
-                           "wss://" : "ws://" );
-        this.connect( protocol + document.domain + ":5000/socket" );
+        var protocol = ( window.location.protocol === "https:"
+                                                    ? "wss://"
+                                                    : "ws://"
+                       );
+        this.connect( protocol, this.url, ":5000/socket" );
       }.bind( this ) );
     }
   }
@@ -125,7 +134,7 @@ class WebSocketClient {
   // This method should only be called when there's no existing connection. If
   // for some reason, the existing connection should be ignored and overridden,
   // supply `true` as the `force` parameter.
-  connect ( url, force ) {
+  connect ( protocol = "ws://", url = "", path = "", force ) {
     if ( typeof WebSocket !== "undefined" ) {
       if ( !this.socket || force ) {
 
@@ -137,7 +146,13 @@ class WebSocketClient {
           DL.warn( "Forcing creation of new WebSocket instance" );
         }
 
-        this.socket = new WebSocket( url );
+        this.socketInfo =
+          { protocol : protocol
+          , url      : url
+          , path     : path
+        };
+
+        this.socket = new WebSocket( protocol + url + path );
 
         _.assign( this.socket
                 , { onopen: this.handleOpen.bind( this )

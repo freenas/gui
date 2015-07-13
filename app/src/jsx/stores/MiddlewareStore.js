@@ -17,6 +17,9 @@ var CHANGE_EVENT = "change";
 var _rpcServices    = [];
 var _rpcMethods     = {};
 var _events         = [];
+var protocol        = null;
+var url             = null;
+var path            = null;
 var socketConnected = false;
 var reconnectETA    = 0;
 
@@ -44,6 +47,10 @@ var MiddlewareStore = _.assign( {}, EventEmitter.prototype, (
       return _rpcMethods;
     }
 
+  , getHost: function () {
+    return url;
+  }
+
   // hook to get socket state and time to reconnect if not connected
   , getSockState: function () {
       return [ socketConnected, reconnectETA ];
@@ -65,8 +72,14 @@ MiddlewareStore.dispatchToken = FreeNASDispatcher.register(
       case ActionTypes.UPDATE_SOCKET_STATE:
         if ( action.sockState === "connected" ) {
           socketConnected = true;
+          protocol        = action.protocol;
+          url             = action.url;
+          path            = action.path;
         } else if ( action.sockState === "disconnected" ) {
           socketConnected = false;
+          protocol        = null;
+          url             = null;
+          path            = null;
         }
         MiddlewareStore.emitChange();
         break;

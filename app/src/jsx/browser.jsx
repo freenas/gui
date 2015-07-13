@@ -26,8 +26,8 @@ if ( typeof window !== "undefined" ) {
                      : "ws://";
 
       MiddlewareClient.connect( wsProtocol
-                              + window["__TARGET_HOST__"]
-                              + ":5000/socket"
+                              , window["__TARGET_HOST__"]
+                              , ":5000/socket"
                               );
     }
 

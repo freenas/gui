@@ -69,7 +69,11 @@ class MiddlewareClient extends WebSocketClient {
     super.handleOpen();
 
     // Dispatch message stating that we have just connected
-    MiddlewareActionCreators.updateSocketState( "connected" );
+    MiddlewareActionCreators.updateSocketState( "connected"
+                                              , this.socketInfo.protocol
+                                              , this.socketInfo.url
+                                              , this.socketInfo.path
+                                              );
 
     // Re-subscribe to any namespaces that may have been active during the
     // session. On the first login, this will do nothing.
