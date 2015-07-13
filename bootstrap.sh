@@ -16,6 +16,28 @@ _FREENAS_DEV="gulp"
 _NPM_THINGS="bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb"
 _NODE_VERSION=0.12.7
 
+# Its the only way to be sure.
+nuke_node_from_orbit()
+{
+	if [ "$1" == "-all" ]; then
+		# erase all possible install paths
+		echo "OK, I'm going all Ripley on your previous Node installation."
+		sudo rm -rf /usr/local/lib/node*
+		sudo rm -rf /usr/local/include/node*
+		sudo rm -rf ~/{local,lib,include,node*,npm,.npm*}
+		sudo rm -rf /usr/local/bin/{node*,npm}
+		sudo rm -rf /usr/local/bin/npm
+		sudo rm -rf /usr/local/share/man/man1/node.1
+		sudo rm -rf /usr/local/lib/dtrace/node.d
+		sudo rm -rf ~/.npm
+		sudo rm -rf ~/.nvm
+	fi
+	echo "Deleting any possible leftover node or bower modules."
+	rm -rf node_modules/
+	rm -rf bower_components/
+	rm -rf app/build/
+}
+
 whitcher()
 {
 	if ! which $1 >/dev/null 2>&1 ; then
@@ -82,12 +104,16 @@ echo
 echo "Checking out your system..."
 case "${_SYSTEM}" in
 	Darwin)
-		echo "Congratulations, you're on a Mac!"
 		if ! whitcher port; then
 			_PKG_INSTALL="port install"
+			_PKG_TYPE="macports"
 		elif ! whitcher brew; then
 			_PKG_INSTALL="brew install"
+			_PKG_TYPE="homebrew"
+		else
+			_PKG_TYPE="no package management system"
 		fi
+		echo "Congratulations, you're on a Mac with ${_PKG_TYPE} installed!"; echo
 		;;
 	FreeBSD)
 		echo "You seem to be running FreeBSD.  Excellent choice."
@@ -143,13 +169,22 @@ else
 	_HAVE_GIT="yes"
 fi
 
-if [ "${_SYSTEM}" = "FreeBSD" ]; then
+if [ "${_SYSTEM}" == "FreeBSD" ]; then
 	if whitcher gmake; then
 		if ! resolve gmake; then
 			echo "Sorry, can't install gmake and I need that for FreeBSD specifically."
 			echo "Please resolve this on your own and retry."
 			exit 12
 		fi
+	fi
+fi
+
+if [ -f /usr/local/bin/node ]; then
+	echo "Would you like me to nuke all of your previous Node.js stuff just in case"
+	echo "it conflicts with the current install?  Go on, you know you want me to."
+	read ans
+	if [ "${ans}" == "y" -o "${ans}" == "yes" ]; then
+		nuke_node_from_orbit -all
 	fi
 fi
 
@@ -182,7 +217,7 @@ if ! sudo npm install -g ${_NPM_THINGS}; then
 	exit 10
 fi
 
-if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
+if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" == "yes" ]; then
 	echo "OK, the dev tools look good, now checking out the sources you will need"
 	echo "to develop for the FreeNAS GUI."
 	if [ -d gui ]; then
@@ -198,12 +233,9 @@ if [ ! -f bootstrap.sh -a "${_HAVE_GIT}" = "yes" ]; then
 	cd gui
 fi
 
-echo "Deleting any possible leftover node or bower modules."
-rm -rf node_modules/
-rm -rf bower_components/
-rm -rf app/build/
 
 echo "Clearing your npm cache AGAIN, just in case."
+nuke_node_from_orbit
 npm cache clean
 
 echo "Now resolving npm's installation dependencies.  This may take a moment."
