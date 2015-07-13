@@ -14,13 +14,17 @@ var FA = "bower_components/fontawesome/fonts/**/*";
 
 gulp.task( "fonts", [ "openSans", "tempIconFont" ] );
 
-gulp.task( "openSans", function () {
+gulp.task( "openSans"
+         , [ "install-packages" ]
+         , function () {
   return gulp.src( OS )
              .pipe( flatten() )
              .pipe( gulp.dest( "app/build/font" ) );
 });
 
-gulp.task( "tempIconFont", function () {
+gulp.task( "tempIconFont"
+         , [ "install-packages" ]
+         , function () {
   return gulp.src( FA )
              .pipe( flatten() )
              .pipe( gulp.dest( "app/build/font" ) );
