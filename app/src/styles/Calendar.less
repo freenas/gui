@@ -1,0 +1,40 @@
+.calendar {
+  .month {
+    .flex-display( flex );
+    .flex-flow( row wrap );
+
+    .day,
+    .day-label {
+      min-width: (100% / 7);
+    }
+
+    .day {
+      min-height: 100px;
+      position: relative;
+      &:nth-child(7n) .day-content,
+      &:nth-child(7n+1) .day-content {
+        background: #EFEFEF;
+      }
+
+      .day-content.day-blank {
+        background: #E3E3E3;
+      }
+    }
+
+    .day-label {
+      text-align: center;
+      padding: 10px 0;
+      border-bottom: 1px solid#C2C2C2;
+    }
+  }
+
+  .day-content {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: #F9F9F9;
+    text-align: right;
+    padding: 10px;
+    color: #777;
+  }
+
+}
