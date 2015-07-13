@@ -47,11 +47,11 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "tasks"
+  , { path     : "calendar"
     , icon     : "paw"
-    , label    : "Tasks"
+    , label    : "Calendar"
     , status   : null
-    , disabled : true
+    , disabled : false
     }
   , { path     : "settings"
     , icon     : "paragraph"

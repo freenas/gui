@@ -27,7 +27,7 @@ import Groups from "./views/Accounts/Groups";
 import GroupItem from "./views/Accounts/Groups/GroupItem";
 import GroupAdd from "./views/Accounts/Groups/GroupAdd";
 
-import Tasks from "./views/Tasks";
+import Calendar from "./views/Calendar";
 
 import Network from "./views/Network";
 
@@ -92,11 +92,11 @@ module.exports = (
       </Route>
     </Route>
 
-    {/* TASKS */}
+    {/* CALENDAR */}
     <Route
-      name    = "tasks"
-      route   = "tasks"
-      handler = { Tasks } />
+      name    = "calendar"
+      route   = "calendar"
+      handler = { Calendar } />
 
 
     {/* NETWORK */}
