@@ -62,7 +62,6 @@
         <p>Alternatively, if you have already cloned this repo then just do</p>
         <p>
           <code>
-            npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
             sh bootstrap.sh
           </code>
         </p>
@@ -72,8 +71,12 @@
         <h2>Using the FreeNAS 10 Development Environment</h2>
         <p>
           If you used the bootstrap script, you'll already be ready to run
-          'gulp'. If not, run 'npm install' from the root of the repo first.
+          'gulp'. If not, run
         </p>
+        <p>
+          <code>npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb</code>
+        </p>
+        <p>and <code>npm install</code> from the root of the repo first.</p>
         <p>
           Once your development environment is initialized, run 'gulp' to start
           the FreeNAS 10 SDK app.
