@@ -113,6 +113,12 @@ const PrimaryNavigation = React.createClass(
                      , complete: this.setState({ expanded: true })
                      }
           }
+        , { elements: this.refs.logoMark.getDOMNode()
+          , properties: "fadeIn"
+          , options: { duration: menuTiming
+                     , sequenceQueue: false
+                     }
+          }
         ];
 
       Velocity.RunSequence( expandSequence );
@@ -131,6 +137,12 @@ const PrimaryNavigation = React.createClass(
           , options: { duration: menuTiming
                      , sequenceQueue: false
                      , complete: this.setState({ expanded: false })
+                     }
+          }
+        , { elements: this.refs.logoMark.getDOMNode()
+          , properties: "fadeOut"
+          , options: { duration: menuTiming
+                     , sequenceQueue: false
                      }
           }
         ];
@@ -206,6 +218,19 @@ const PrimaryNavigation = React.createClass(
           stacked
           ref = "navRoot"
           className = "primary-nav" >
+
+          <div style={{ whiteSpace: "nowrap", margin: "10px" }}>
+            <img
+              style = {{ height: "32px" }}
+              src   = "/img/freenas-icon.png"
+            />
+            <img
+              ref   = "logoMark"
+              style = {{ marginLeft: "10px", height: "20px" }}
+              src   = "/img/freenas-logotype.png"
+            />
+          </div>
+
           <div
             className = "primary-nav-label-toggle"
             onClick = { this.handleMenuToggle } >
