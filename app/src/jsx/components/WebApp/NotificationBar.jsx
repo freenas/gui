@@ -11,6 +11,7 @@ import TWBS from "react-bootstrap";
 
 import MiddlewareClient from "../../middleware/MiddlewareClient";
 import SS from "../../stores/SessionStore";
+import MS from "../../stores/MiddlewareStore";
 
 import LogQueue from "./NotificationBar/LogQueue";
 
@@ -20,7 +21,8 @@ var NotificationBar = React.createClass(
     return (
       { visibleLog: ""
 
-      , currentUser: SS.getCurrentUser()
+      , host        : MS.getHost() || "Awaiting connection..."
+      , currentUser : SS.getCurrentUser()
 
       // TODO: Replace dummy data with Middleware data in a Flux store
       , active:
@@ -81,16 +83,22 @@ var NotificationBar = React.createClass(
   // TODO: These should use EventBus
   , componentDidMount: function () {
     SS.addChangeListener( this.updateCurrentUser );
+    MS.addChangeListener( this.updateHost );
     window.addEventListener( "click", this.makeAllInvisible );
   }
 
   , componentWillUnmount: function () {
-    SS.addChangeListener( this.updateCurrentUser );
+    SS.removeChangeListener( this.updateCurrentUser );
+    MS.removeChangeListener( this.updateHost );
     window.removeEventListener( "click", this.makeAllInvisible );
   }
 
   , updateCurrentUser: function ( event ) {
     this.setState({ currentUser: SS.getCurrentUser() });
+  }
+
+  , updateHost: function ( event ) {
+    this.setState({ host: MS.getHost() });
   }
 
   , makeAllInvisible: function ( event ) {
@@ -113,6 +121,13 @@ var NotificationBar = React.createClass(
   , render: function () {
     return (
       <header className = "app-header notification-bar" >
+
+        <h1
+          className="pull-left"
+          style = {{ margin: 0, color: "white" }}
+        >
+          { this.state.host }
+        </h1>
 
         <div className="user-info">
 
