@@ -62,9 +62,7 @@ try_without_root_permissions()
 resolve()
 {
 	if [ "${_PKG_INSTALL}" == "nopkg" ]; then
-		echo "I lack the talent to install packages on ${_SYSTEM} systems.  You will have to"
-		echo "install the $1 package yourself.  I give up!"
-		return 3
+		return 1
 	fi
 
 	if whitcher ${_SUDO}; then
@@ -112,16 +110,7 @@ echo
 echo "Checking out your system..."
 case "${_SYSTEM}" in
 	Darwin)
-		if ! whitcher port; then
-			_PKG_INSTALL="port install"
-			_PKG_TYPE="macports"
-		elif ! whitcher brew; then
-			_PKG_INSTALL="brew install"
-			_PKG_TYPE="homebrew"
-		else
-			_PKG_TYPE="no package management system"
-		fi
-		echo "Congratulations, you're on a Mac with ${_PKG_TYPE} installed!"; echo
+		echo "Congratulations, you're on a Mac!"; echo
 		;;
 	FreeBSD)
 		echo "You seem to be running FreeBSD.  Excellent choice."
@@ -235,10 +224,6 @@ if [ "${_HAVE_GIT}" = "yes" ]; then
 	fi
 fi
 
-
-echo "Clearing your npm cache AGAIN, just in case."
-nuke_node_from_orbit
-try_without_root_permissions npm cache clean
 
 echo "Now resolving npm's installation dependencies.  This may take a moment."
 npm install
