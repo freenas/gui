@@ -48,6 +48,32 @@ resolve()
 	return 0
 }
 
+install_node_from_src()
+{
+	case "${_SYSTEM}" in
+		Darwin)
+			if ! git clone https://github.com/joyent/node.git; then
+				echo "I can't checkout node."
+				echo "Please run bootstrap.sh from somewhere you have unprivileged"
+				echo "write access, or get rid of your 'node' directory."
+				return 1
+			fi
+			cd node
+			git checkout tags/v${_NODE_VERSION}
+			./configure
+			make
+			if ! make install; then
+				echo "Well, that sure didn't work. Failed to install node from source."
+				return 2
+			fi
+		return 0
+		;;
+	*)
+		echo "How did you get here if you don't have a Mac?"
+		return 3
+	esac
+}
+
 echo "Hi, I am the FreeBSD GUI SDK bootstrapper!  I will now attempt to sniff your"
 echo "system in various locations to make sure everything is in order, installing"
 echo "software as necessary.  This may require sudo privileges, so be prepared for"
@@ -128,9 +154,15 @@ if [ "${_SYSTEM}" = "FreeBSD" ]; then
 fi
 
 if whitcher node; then
-	if ! resolve npm; then
-		echo "I wasn't able to install nodejs. Please do that yourself."
-		exit 13
+	if ! resolve node; then
+		if [ "${_SYSTEM}" == "Darwin" ]; then
+			echo "You don't have macports or homebrew installed."
+			echo "Now compiling nodejs from source. This will take a little while."
+			if ! install_node_from_src; then
+				echo "I wasn't able to install nodejs. Please do that yourself."
+				exit 13
+			fi
+		fi
 	fi
 fi
 
