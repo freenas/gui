@@ -67,7 +67,11 @@ to refine the mockup, and then implement it independently.
 Our preferred way to see a mockup is with
 [Balsamiq Mockups](https://balsamiq.com/). If you don't have commit access,
 simply open an issue with your proposed mockup attached (Balsamiq also exports
-to PNG, if needed).
+to PNG, if needed). A template project and any existing mockups may be found in
+the [mockups](https://github.com/freenas/gui/tree/master/mockups) directory in
+the source. Balsamiq offers a 30-day free trial. If you don't have access to
+Balsamiq, we also accept cellphone pictures of whiteboards and cocktail napkins.
+All we need is something clear enough to review.
 
 The FreeNAS team at iXsystems has regular meetings to assess and provide
 feedback on mockups. Once a mockup is approved (probably a pretty informal
