@@ -65,7 +65,7 @@ contributors who can provide a concrete mockup for a given feature, work with us
 to refine the mockup, and then implement it independently.
 
 Our preferred way to see a mockup is with
-[https://balsamiq.com/](Balsamiq Mockups). If you don't have commit access,
+[Balsamiq Mockups](https://balsamiq.com/). If you don't have commit access,
 simply open an issue with your proposed mockup attached (Balsamiq also exports
 to PNG, if needed).
 
