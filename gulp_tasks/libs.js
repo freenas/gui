@@ -15,7 +15,6 @@ gulp.task( "libs"
                    , "bower_components/velocity/velocity.ui.min.js"
                    , "bower_components/d3/d3.min.js"
                    , "node_modules/babel/browser-pollyfill.min.js"
-                   , "app/src/lib-ext/nv.d3.js"
                    ]
                  )
               .pipe( concat( "libs.js" ) )
