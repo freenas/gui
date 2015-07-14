@@ -46,6 +46,19 @@ nuke_node_from_orbit()
 	rm -rf app/build/
 }
 
+check_for_gmake()
+{
+	if [ "${_SYSTEM}" == "FreeBSD" ]; then
+		if whitcher gmake; then
+			if ! resolve gmake; then
+				echo "Sorry, can't install gmake and I need that for FreeBSD specifically."
+				echo "Please resolve this on your own and retry."
+				exit 12
+			fi
+		fi
+	fi
+}
+
 whitcher()
 {
 	if ! which $1 >/dev/null 2>&1 ; then
@@ -112,6 +125,7 @@ install_node_from_src()
 			return 0
 		;;
 		FreeBSD)
+			check_for_gmake
 			if ! whitcher libexecinfo; then
 				if !resolve libexecinfo; then
 					echo "You're going to need libexecinfo to compile node for FreeBSD."
@@ -127,8 +141,8 @@ install_node_from_src()
 			cd node
 			git checkout tags/v${_NODE_VERSION}
 			./configure
-			make
-			if ! ${_SUDO} make install; then
+			gmake
+			if ! ${_SUDO} gmake install; then
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
@@ -197,15 +211,6 @@ else
 	_HAVE_GIT="yes"
 fi
 
-if [ "${_SYSTEM}" == "FreeBSD" ]; then
-	if whitcher gmake; then
-		if ! resolve gmake; then
-			echo "Sorry, can't install gmake and I need that for FreeBSD specifically."
-			echo "Please resolve this on your own and retry."
-			exit 12
-		fi
-	fi
-fi
 
 if [ -f /usr/local/bin/node ]; then
 	echo "Alien node installation detected."
