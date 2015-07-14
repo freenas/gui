@@ -68,19 +68,17 @@ whitcher()
 	fi
 }
 
-try_without_root_permissions()
+try_with_root_permissions()
 {
-	if ! $@; then
-		echo "I need to run $@ with escalated permissions."
-		if whitcher ${_SUDO}; then
-			echo "Unfortunately, there is no sudo on this machine.  Please install it."
-			return 1
-		fi
-		echo "Enter your password if needed:"
-		if ! ${_SUDO} $@; then
-			echo "I wasn't able to run $@ even with escalated permissions."
-			return 1
-		fi
+	echo "I need to run $@ with escalated permissions."
+	if whitcher ${_SUDO}; then
+		echo "Unfortunately, there is no sudo on this machine.  Please install it."
+		return 1
+	fi
+	echo "Enter your password if needed:"
+	if ! ${_SUDO} $@; then
+		echo "I wasn't able to run $@ even with escalated permissions."
+		return 1
 	fi
 	return 0
 }
@@ -96,7 +94,7 @@ resolve()
 		_SUDO=""
 	fi
 	echo "I see you do not have $1.  I will now attempt to install it."
-	if ! try_without_root_permissions ${_PKG_INSTALL} $1; then
+	if ! try_with_root_permissions ${_PKG_INSTALL} $1; then
 		return 1
 	fi
 	return 0
@@ -257,11 +255,11 @@ if whitcher npm; then
 fi
 
 echo "Blowing away your npm cache, just in case."
-try_without_root_permissions npm cache clean
+try_with_root_permissions npm cache clean
 npm rebuild
 
 echo "Now installing all of the little fiddly things that node needs."
-if ! try_without_root_permissions npm install -g ${_NPM_THINGS}; then
+if ! try_with_root_permissions npm install -g ${_NPM_THINGS}; then
 	echo "Looks like some of the npm tools didn't install.  Whoops!"
 	exit 10
 fi
