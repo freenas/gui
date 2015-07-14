@@ -18,22 +18,27 @@ _NODE_VERSION=0.12.7
 # Its the only way to be sure.
 nuke_node_from_orbit()
 {
+	if whitcher ${_SUDO}; then
+		echo "Unfortunately, there is no sudo on this machine.  Please install it."
+		exit 20
+	fi
+
 	if [ "$1" == "-all" ]; then
 		# erase all possible install paths
 		echo "OK, I'm going all Ripley on your previous Node installation."
 		if [ ${_SYSTEM} == "FreeBSD" ]; then
-			sudo pkg remove node
-			sudo pkg remove npm
+			${_SUDO} pkg remove node
+			${_SUDO} pkg remove npm
 		fi
-		sudo rm -rf /usr/local/lib/node*
-		sudo rm -rf /usr/local/include/node*
-		sudo rm -rf ~/{local,lib,include,node*,npm,.npm*}
-		sudo rm -rf /usr/local/bin/{node*,npm}
-		sudo rm -rf /usr/local/bin/npm
-		sudo rm -rf /usr/local/share/man/man1/node.1
-		sudo rm -rf /usr/local/lib/dtrace/node.d
-		sudo rm -rf ~/.npm
-		sudo rm -rf ~/.nvm
+		${_SUDO} rm -rf /usr/local/lib/node*
+		${_SUDO} rm -rf /usr/local/include/node*
+		${_SUDO} rm -rf ~/{local,lib,include,node*,npm,.npm*}
+		${_SUDO} rm -rf /usr/local/bin/{node*,npm}
+		${_SUDO} rm -rf /usr/local/bin/npm
+		${_SUDO} rm -rf /usr/local/share/man/man1/node.1
+		${_SUDO} rm -rf /usr/local/lib/dtrace/node.d
+		${_SUDO} rm -rf ~/.npm
+		${_SUDO} rm -rf ~/.nvm
 	fi
 	echo "Deleting any possible leftover node or bower modules."
 	rm -rf node_modules/
@@ -54,6 +59,10 @@ try_without_root_permissions()
 {
 	if ! $@; then
 		echo "I need to run $@ with escalated permissions."
+		if whitcher ${_SUDO}; then
+			echo "Unfortunately, there is no sudo on this machine.  Please install it."
+			return 1
+		fi
 		echo "Enter your password if needed:"
 		if ! ${_SUDO} $@; then
 			echo "I wasn't able to run $@ even with escalated permissions."
@@ -133,7 +142,8 @@ install_node_from_src()
 	esac
 }
 
-echo "Hi, I am the FreeBSD GUI SDK bootstrapper!  I will now attempt to sniff your"
+echo
+echo "Hi, I am the FreeNAS GUI SDK bootstrapper!  I will now attempt to sniff your"
 echo "system in various locations to make sure everything is in order, installing"
 echo "software as necessary.  This may require sudo privileges, so be prepared for"
 echo "me to ask you for your password."
@@ -144,11 +154,11 @@ case "${_SYSTEM}" in
 		echo "Congratulations, you're on a Mac!"; echo
 		;;
 	FreeBSD)
-		echo "You seem to be running FreeBSD.  Excellent choice."
+		echo "You seem to be running FreeBSD.  Excellent choice."; echo
 		_PKG_INSTALL="pkg install"
 		;;
 	Linux)
-		echo "I do not judge you for running Linux."
+		echo "I do not judge you for running Linux."; echo
 		if ! whitcher apt-get; then
 			_PKG_INSTALL="apt-get install"
 		else
@@ -198,6 +208,7 @@ if [ "${_SYSTEM}" == "FreeBSD" ]; then
 fi
 
 if [ -f /usr/local/bin/node ]; then
+	echo "Alien node installation detected."
 	echo "Would you like me to nuke all of your previous Node.js stuff just in case"
 	echo "it conflicts with the current install?  Go on, you know you want me to."
 	read ans
