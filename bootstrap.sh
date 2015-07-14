@@ -21,6 +21,10 @@ nuke_node_from_orbit()
 	if [ "$1" == "-all" ]; then
 		# erase all possible install paths
 		echo "OK, I'm going all Ripley on your previous Node installation."
+		if [ ${_SYSTEM} == "FreeBSD" ]; then
+			sudo pkg remove node
+			sudo pkg remove npm
+		fi
 		sudo rm -rf /usr/local/lib/node*
 		sudo rm -rf /usr/local/include/node*
 		sudo rm -rf ~/{local,lib,include,node*,npm,.npm*}
