@@ -53,6 +53,12 @@ const paths =
     , status   : null
     , disabled : false
     }
+  , { path     : ""
+    , icon     : "futbol-o"
+    , label    : "AppCafe"
+    , status   : null
+    , disabled : true
+    }
   , { path     : "settings"
     , icon     : "paragraph"
     , label    : "Settings"
