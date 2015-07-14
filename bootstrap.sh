@@ -94,8 +94,9 @@ install_node_from_src()
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
-		cd ..
-		return 0
+			cd ..
+			rm -rf node/
+			return 0
 		;;
 	*)
 		echo "How did you get here if you don't have a Mac?"
