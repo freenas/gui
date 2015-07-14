@@ -221,7 +221,6 @@ if whitcher node; then
 			echo "I wasn't able to install nodejs from source."
 			exit 13
 		fi
-	elif ! resolve nodejs; then
 	fi
 fi
 
