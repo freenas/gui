@@ -82,7 +82,7 @@ install_node_from_src()
 		Darwin)
 			if ! test -d node && ! git clone https://github.com/joyent/node.git; then
 				echo "I can't checkout node."
-				echo "Please run bootstrap.sh from somewhere you have unprivileged"
+				echo "Please run bootstrap.sh from somewhere you have"
 				echo "write access, or get rid of your 'node' directory."
 				return 1
 			fi
