@@ -103,6 +103,49 @@
         </p>
       </section>
       <section>
+        <h3>A New View</h3>
+        <p>
+          The main sections of the FreeNAS UI are the views, reachable from the
+          primary navigation sidebar on the left side of the webapp. Accounts is
+          one of the primary views, providing access to all the users and groups
+          on the system.
+        </p>
+      </section>
+      <section>
+        <h4>The Directory Hierarchy</h4>
+        <p>
+          The main JSX file for a given view resides in the
+          <a href="https://github.com/freenas/gui/tree/master/app/src/scripts/react/views">
+            app/src/scripts/react/views
+          </a> directory. Any related sub-components are placed in a
+          corresponding sub-directory within app/src/scripts/react/views. This
+          same pattern holds all the way down. For example, Users.jsx and
+          Groups.jx can be within the app/src/scripts/react/views/Accounts
+          directory, and GroupItem.jsx, GroupEdit.jsx, GroupView.jsx, and
+          GroupAdd.jsx can be found within
+          app/src/scripts/react/views/Accounts/Groups. This mirrors the route
+          nesting in routes.js.
+        </p>
+      </section>
+      <section>
+        <h4>The Main View File</h4>
+        <p>
+          Accounts.jsx is primarily just a wrapper for its subsections, Users
+          and Groups. It provides the tabbed navigation structure at the top of
+          the view using the
+          <a href="https://github.com/freenas/gui/blob/master/app/src/scripts/react/components/SectionNav.jsx">
+            SectionNav
+          </a> component. Accounts just renders the SectionNav and then the
+          RouteHandler determined by the active route, which can be either
+          /accounts/users or /accouts/groups. For more on routing in the FreeNAS
+          10 GUI, see the <a href="architecture.html#routing">Routing</a> section of
+          the architecture docs.
+        </p>
+        <p>
+          Next we'll look at a nontrivial component, Groups.
+        </p>
+      </section>
+      <section>
         <h2>FreeNAS 10 GUI Style Guide</h2>
         <p>
           FreeNAS 10 GUI uses a strict style guide and a highly encouraged set
