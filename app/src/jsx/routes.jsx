@@ -29,8 +29,6 @@ import Calendar from "./views/Calendar";
 
 import Network from "./views/Network";
 
-import Storage from "./views/Storage";
-
 import Hardware from "./views/Hardware";
 import Update from "./views/Hardware/Update";
 import Power from "./views/Hardware/Power";
@@ -94,13 +92,6 @@ module.exports = (
       name    = "network"
       path    = "network"
       handler = { Network } />
-
-
-    {/* STORAGE */}
-    <Route
-      name    = "storage"
-      route   = "storage"
-      handler = { Storage } />
 
 
     {/* SYSTEM */}
