@@ -8,7 +8,8 @@
 
 _SYSTEM=`uname -s`
 _PREFIX=/usr/local/bin
-_SUDO="sudo -A"
+_SUDO="sudo"
+_SUDO_ARGS="-A"
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/gui"
 _FREENAS_DEV="gulp"
@@ -18,8 +19,7 @@ _NODE_VERSION=0.12.7
 # Its the only way to be sure.
 nuke_node_from_orbit()
 {
-	if whitcher ${_SUDO}; then
-		echo "Unfortunately, there is no sudo on this machine.  Please install it."
+	if check_for_sudo; then
 		exit 20
 	fi
 
@@ -27,23 +27,33 @@ nuke_node_from_orbit()
 		# erase all possible install paths
 		echo "OK, I'm going all Ripley on your previous Node installation."
 		if [ ${_SYSTEM} == "FreeBSD" ]; then
-			${_SUDO} pkg remove node
-			${_SUDO} pkg remove npm
+			${_SUDO} ${_SUDO_ARGS} pkg remove node
+			${_SUDO} ${_SUDO_ARGS} pkg remove npm
 		fi
-		${_SUDO} rm -rf /usr/local/lib/node*
-		${_SUDO} rm -rf /usr/local/include/node*
-		${_SUDO} rm -rf ~/{local,lib,include,node*,npm,.npm*}
-		${_SUDO} rm -rf /usr/local/bin/{node*,npm}
-		${_SUDO} rm -rf /usr/local/bin/npm
-		${_SUDO} rm -rf /usr/local/share/man/man1/node.1
-		${_SUDO} rm -rf /usr/local/lib/dtrace/node.d
-		${_SUDO} rm -rf ~/.npm
-		${_SUDO} rm -rf ~/.nvm
+		${_SUDO} ${_SUDO_ARGS} rm -rf /usr/local/lib/node*
+		${_SUDO} ${_SUDO_ARGS} rm -rf /usr/local/include/node*
+		${_SUDO} ${_SUDO_ARGS} rm -rf ~/{local,lib,include,node*,npm,.npm*}
+		${_SUDO} ${_SUDO_ARGS} rm -rf /usr/local/bin/{node*,npm}
+		${_SUDO} ${_SUDO_ARGS} rm -rf /usr/local/bin/npm
+		${_SUDO} ${_SUDO_ARGS} rm -rf /usr/local/share/man/man1/node.1
+		${_SUDO} ${_SUDO_ARGS} rm -rf /usr/local/lib/dtrace/node.d
+		${_SUDO} ${_SUDO_ARGS} rm -rf ~/.npm
+		${_SUDO} ${_SUDO_ARGS} rm -rf ~/.nvm
 	fi
 	echo "Deleting any possible leftover node or bower modules."
 	rm -rf node_modules/
 	rm -rf bower_components/
 	rm -rf app/build/
+}
+
+check_for_sudo()
+{
+	if whitcher ${_SUDO}; then
+		echo "Unfortunately, there is no sudo on this machine.  You should install it."
+		_SUDO=""
+		_SUDO_ARGS=""
+		return 1
+	fi
 }
 
 check_for_gmake()
@@ -71,12 +81,8 @@ whitcher()
 try_with_root_permissions()
 {
 	echo "I need to run $@ with escalated permissions."
-	if whitcher ${_SUDO}; then
-		echo "Unfortunately, there is no sudo on this machine.  Please install it."
-		return 1
-	fi
 	echo "Enter your password if needed:"
-	if ! ${_SUDO} $@; then
+	if ! ${_SUDO} ${_SUDO_ARGS} $@; then
 		echo "I wasn't able to run $@ even with escalated permissions."
 		return 1
 	fi
@@ -89,9 +95,8 @@ resolve()
 		return 1
 	fi
 
-	if whitcher ${_SUDO}; then
-		echo "I have no sudo command, so I am going to try installing packages non-privileged."
-		_SUDO=""
+	if check_for_sudo; then
+		echo "Since I have no sudo command, I am going to try installing packages non-privileged."
 	fi
 	echo "I see you do not have $1.  I will now attempt to install it."
 	if ! try_with_root_permissions ${_PKG_INSTALL} $1; then
@@ -114,7 +119,7 @@ install_node_from_src()
 			git checkout tags/v${_NODE_VERSION}
 			./configure
 			make
-			if ! ${_SUDO} make install; then
+			if ! ${_SUDO} ${_SUDO_ARGS} make install; then
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
@@ -140,7 +145,7 @@ install_node_from_src()
 			git checkout tags/v${_NODE_VERSION}
 			./configure
 			gmake
-			if ! ${_SUDO} gmake install; then
+			if ! ${_SUDO} ${_SUDO_ARGS} gmake install; then
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
