@@ -53,9 +53,9 @@ const paths =
     , status   : null
     , disabled : true
     }
-  , { path     : "system"
+  , { path     : "hardware"
     , icon     : "ambulance"
-    , label    : "System"
+    , label    : "Hardware"
     , status   : null
     , disabled : false
     }

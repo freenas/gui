@@ -33,9 +33,9 @@ import Network from "./views/Network";
 
 import Storage from "./views/Storage";
 
-import System from "./views/System";
-import Update from "./views/System/Update";
-import Power from "./views/System/Power";
+import Hardware from "./views/Hardware";
+import Update from "./views/Hardware/Update";
+import Power from "./views/Hardware/Power";
 
 import Settings from "./views/Settings";
 
@@ -112,9 +112,9 @@ module.exports = (
 
     {/* SYSTEM */}
     <Route
-      name    = "system"
-      route   = "system"
-      handler = { System }>
+      name    = "hardware"
+      route   = "hardware"
+      handler = { Hardware }>
       <DefaultRoute handler={ Update } />
       <Route
         name    = "update"

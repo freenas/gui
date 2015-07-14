@@ -1,6 +1,7 @@
-// System
-// =======
-//
+// Hardware
+// ========
+// Information and settings that pertain directly to the physical hardware of
+// the machine - UPS settings, firmware, enclosures, disks, etc.
 
 "use strict";
 
@@ -22,8 +23,8 @@ const sections = [ { route: "update"
                    }
                  ];
 
-const System = React.createClass({
-  displayName: "System"
+const Hardware = React.createClass({
+  displayName: "Hardware"
 
   , mixins: [ routerShim ]
 
@@ -37,4 +38,4 @@ const System = React.createClass({
   }
 });
 
-export default System;
+export default Hardware;
