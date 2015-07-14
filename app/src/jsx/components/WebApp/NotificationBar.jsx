@@ -13,7 +13,7 @@ import MiddlewareClient from "../../middleware/MiddlewareClient";
 import SS from "../../stores/SessionStore";
 import MS from "../../stores/MiddlewareStore";
 
-import LogQueue from "./NotificationBar/LogQueue";
+import Icon from "../Icon";
 
 
 var NotificationBar = React.createClass(
@@ -26,58 +26,6 @@ var NotificationBar = React.createClass(
       , connected   : MS.getSockState()[0]
       , currentUser : SS.getCurrentUser()
 
-      // TODO: Replace dummy data with Middleware data in a Flux store
-      , active:
-        { alerts:
-          [ { description : <span>Reading Error at position 456 in pool <strong>HONK1</strong></span>
-            , status      : "warning"
-            , details     : "Error code #1234 Details about this error"
-            }
-          , { description : <span>Reading Error at position 123 in pool <strong>HONK1</strong></span>
-            , status      : "warning"
-            , details     : "Error code #1234 Details about this error"
-            }
-          , { description : <span>Reading Error at position 123 in pool <strong>HONK1</strong></span>
-            , status      : "warning"
-            , details     : "Error code #1234 Details about this error"
-            }
-          , { description : <span>Reading Error at position 123 in pool <strong>HONK1</strong></span>
-            , status      : "warning"
-            , details     : "Error code #1234 Details about this error"
-            }
-          ]
-        , events:
-          [ { description : <span>User <strong>Jakub Klama</strong> logged in as <strong>administrator</strong></span>
-            , status      : "info"
-            , details     : "Nov 14 11:20am"
-            }
-          ]
-        , actions:
-          [ { description : <span>Running <strong>SCRUB</strong> on pool <strong>HONK1</strong></span>
-            , status      : "in-progress"
-            , progress    : 60
-            , details     : "Run by Jakub Klama 11 minutes ago"
-            }
-          , { description : <span>Waiting to run <strong>SCRUB</strong> on pool <strong>KEVIN</strong></span>
-            , status      : "pending"
-            , progress    : 0
-            , details     : "Run by Jakub Klama 3 minutes ago"
-            , info        : "Waiting for previous task (Scrub on pool HONK1)"
-            }
-          ]
-        }
-
-      // TODO: Replace dummy data with Middleware data in a Flux store
-      , log:
-        { alerts : []
-        , events :
-          [ { description : <span>User <strong>Kevin Bacon</strong> created dataset <strong>KEVIN</strong></span>
-            , status      : "info"
-            , details     : "Nov 14 11:10am"
-            }
-          ]
-        , actions : []
-        }
       }
     );
   }
@@ -108,22 +56,6 @@ var NotificationBar = React.createClass(
       );
     }
 
-  , makeAllInvisible: function ( event ) {
-    this.setState({ visibleLog: "" });
-  }
-
-  , makeEventsVisible: function ( event ) {
-    this.setState({ visibleLog: "events" });
-  }
-
-  , makeAlertsVisible: function ( event ) {
-    this.setState({ visibleLog: "alerts" });
-  }
-
-  , makeActionsVisible: function ( event ) {
-    this.setState({ visibleLog: "actions" });
-  }
-
   , render: function () {
     return (
       <header className = "app-header notification-bar" >
@@ -139,29 +71,8 @@ var NotificationBar = React.createClass(
 
         <div className="user-info">
 
-          {/* System Events */}
-          <LogQueue glyph             = "flag"
-                    className         = "notification-info"
-                    requestVisibility = { this.makeEventsVisible }
-                    visible           = { this.state.visibleLog === "events" }
-                    active            = { this.state.active.events }
-                    log               = { this.state.log.events } />
-
-          {/* Alert Messages */}
-          <LogQueue glyph             = "warning"
-                    className         = "notification-warning"
-                    requestVisibility = { this.makeAlertsVisible }
-                    visible           = { this.state.visibleLog === "alerts" }
-                    active            = { this.state.active.alerts }
-                    log               = { this.state.log.alerts } />
-
-          {/* System Tasks/Actions */}
-          <LogQueue glyph             = "list-alt"
-                    className         = "notification-default"
-                    requestVisibility = { this.makeActionsVisible }
-                    visible           = { this.state.visibleLog === "actions" }
-                    active            = { this.state.active.actions }
-                    log               = { this.state.log.actions } />
+          <Icon glyph="flag" style={{ color: "#121212" }} />
+          <Icon glyph="list-alt" style={{ color: "#121212" }} />
 
           <TWBS.DropdownButton
             pullRight
