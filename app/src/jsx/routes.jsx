@@ -33,8 +33,6 @@ import Hardware from "./views/Hardware";
 import Update from "./views/Hardware/Update";
 import Power from "./views/Hardware/Power";
 
-import Settings from "./views/Settings";
-
 module.exports = (
   <Route
     path    = "/"
@@ -109,12 +107,6 @@ module.exports = (
         path   = "power"
         handler = { Power } />
     </Route>
-
-    {/* SETTINGS */}
-    <Route
-      name    = "settings"
-      route   = "settings"
-      handler = { Settings } />
 
     <NotFoundRoute handler={ Users } />
 

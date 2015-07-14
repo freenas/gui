@@ -59,7 +59,7 @@ const paths =
     , status   : null
     , disabled : true
     }
-  , { path     : "settings"
+  , { path     : ""
     , icon     : "paragraph"
     , label    : "Settings"
     , status   : null
