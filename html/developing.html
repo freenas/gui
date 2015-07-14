@@ -1,0 +1,476 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Developing the FreeNAS 10 GUI</title>
+
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Developing the FreeNAS 10 GUI</h1>
+      </header>
+      <section>
+        <h2>Setting up your Development Environment</h2>
+        <p>
+          FreeNAS 10 development is currently supported on FreeBSD, Mac OS X,
+          and some Linux distributions. Windows users might be able to get it
+          working, but it's not and will not be an officially supported platform
+          for development.
+        </p>
+        <p>
+          If you already have node.js installed and the repo checked out,
+          great! Skip to "Using the FreeNAS 10 Development Environment" below.
+        </p>
+        <p>
+          Otherwise, to begin developing for the FreeNAS 10 GUI on one of these
+          platforms, simply do:
+        </p>
+        <p>
+          <code>
+            curl -o- https://raw.githubusercontent.com/freenas/gui/master/bootstrap.sh | sh
+          </code>
+        </p>
+        <p>
+          This will analyze your development environment and bootstrap the
+          development toolchain onto it as necessary, also checking out a
+          working copy of this git repository for you. It will also install node
+          and npm if they aren't already available.
+        </p>
+        <p>Alternatively, if you have already cloned this repo then just do</p>
+        <p>
+          <code>
+            sh bootstrap.sh
+          </code>
+        </p>
+        <p>from the root of it to accomplish the same thing. </p>
+      </section>
+      <section>
+        <h2>Using the FreeNAS 10 Development Environment</h2>
+        <p>
+          If you used the bootstrap script, you'll already be ready to run
+          'gulp'. If not, run
+        </p>
+        <p>
+          <code>npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb</code>
+        </p>
+        <p>and <code>npm install</code> from the root of the repo first.</p>
+        <p>
+          Once your development environment is initialized, run 'gulp' to start
+          the FreeNAS 10 SDK app.
+        </p>
+        <p>
+          You will need to choose whether to target a real FreeNAS instance in
+          order to interact with the middleware, or to operate in "dumb mode",
+          in which case it will run a local copy of the GUI webapp that
+          simulates interaction with real data.
+          'gulp --connect FreenasIPorHostname' will start you in live
+          development mode with a real connection. 'gulp' alone will start you
+          with a local webserver only, so you can work on UI elements for
+          as-yet-unavailable middleware functionality.
+        </p>
+        <p>
+          Once the app is running, it will monitor your source files and
+          automatically rebuild and restart the GUI every time a file changes.
+        </p>
+      </section>
+      <section>
+        <h2>Coming Soon: Section on the actual file hierarchy and where to do work.</h2>
+      </section>
+      <section>
+        <h2>FreeNAS 10 GUI Style Guide</h2>
+        <p>
+          FreeNAS 10 GUI uses a strict style guide and a highly encouraged set
+          of other best practices for all JavaScript and JSX code. The goal of
+          these rules is to make contibuting to FreeNAS 10 easier, by reducing
+          the need to grasp and duplicate multiple code styles in different
+          parts of the codebase. Additionally, several of the rules are aimed
+          toward increasing readability and making simple errors immediately
+          obvious.
+        </p>
+        <p>
+          The tool used for testing for and displaying style guide deviations is
+          JSCS. For the exact JSCS rules used in FreeNAS 10, look at the
+          <code>.jscsrc</code> file in the root of the FreeNAS 10 source code.
+        </p>
+        <p>
+          The FreeNAS 10 Frontend Development Environment includes a tool for
+          automatically checking compliance with all style guide rules. When a
+          GUI rebuild is triggered, it will scan the entire codebase and print
+          all the style guide violations it detects. Eventually the tool will
+          bail out and refuse to update the GUI if it detects any style guide
+          violations at all. There are also JSCS Plugins for popular editors
+          that show JavaScript errors, warnings, and style guide deviations live
+          as you develop.
+        </p>
+      </section>
+      <section>
+      <h3>JavaScript Code Rules</h3>
+      <p>
+        Our style rules are based largely on the rules from the
+        <a href="https://github.com/felixge/node-style-guide">
+          node style guide
+        </a>, with selected rules added from the
+        <a href="https://docs.npmjs.com/misc/coding-style">
+          npm style guide
+        </a>. This guide is largely adapted from those two sources. Accordingly,
+        this style guide is licenced under CC-BY-SA.
+      </p>
+      <img src="../images/cc-by-sa-88x31.png" />
+      </section>
+      <section>
+        <h4>80-column Lines</h4>
+        <p>
+          This is typically for consideration to those using terminal editors
+          with limited space. However, the real reason we’re requiring this is
+          to force you to keep your code relatively concise. If you find
+          yourself in need of 120 characters to express a single statement,
+          consider rewriting it. A number of other rules in this guide will help
+          with keeping your lines short.
+        </p>
+      </section>
+      <section>
+        <h4>Opening Braces on the Same Line</h4>
+        <p>
+          When you use a keyword that requires a bracket to contain the
+          subsequent statement, put the opening brace of that statement on the
+          same line as the keyword.
+        </p>
+        <code>
+          <pre>
+            let goodTimes = true;
+            if ( goodTimes ) { // Good
+              console.log( "That's the way uh huh uh huh we like it." );
+            } else if ( "pls no" ) // Bad
+            {
+              console.log( "KNF has its place, but it is not here." );
+            }
+          </pre>
+        </code>
+      </section>
+      <section>
+        <h4>Method Chaining</h4>
+        <p>
+          If you must chain method after method, put one on each line, leading
+          with the dot. This is your way around the 80-character limit when you
+          really need that long statement.
+        </p>
+        <code>
+          <pre>
+            User
+              .findOne({ name: 'foo' })
+              .populate( "bar" )
+              .exec( function( err, user ) {
+                return true;
+            });
+          </pre>
+        </code>
+      </section>
+      <section>
+        <h4>One Variable per Statement</h4>
+        <p>
+          Declaring a bunch of variables on one line may be appealing, but it
+          makes finding where a variable is declared annoying and can easily
+          lead to simple mistakes (like missing commas). Type var, const, or let
+          once per variable.
+        </p>
+        <code>
+          <pre>
+            // Good:
+            let foo;
+            let bar;
+            let baz;
+
+            //Bad:
+            let
+              foo
+              , bar
+              , baz;
+
+            // Very Bad:
+            let foo, bar. baz; //oops!
+          </pre>
+        </code>
+      </section>
+      <section>
+        <h4>Use === </h4>
+        <p>
+          Fuzzy comparisons result in fuzzy bugs. Use ===, or lodash
+          <code>isEqual</code>, rather than ==. != is right out.
+        </p>
+      </section>
+      <section>
+        <h4>Comma First in Multi-Line Lists</h4>
+        <p>
+          This is a bit different. Basically, when you’re listing a bunch of
+          things on multiple lines, each line should start with a comma except
+          the first one. This lets you line up all the commas under the opening
+          brace or bracket, as a bonus.
+        </p>
+        <p>
+          The chief benefit of this is that it’s immediately obvious when you’ve
+          forgotten to put a comma between two items. It also makes those long
+          arrays and objects much easier to read.
+        </p>
+        <col>
+          <pre>
+            // Good:
+            let bestArray = [ foo
+                            , bar
+                            , baz
+                            ];
+
+            // Bad:
+            let badArray = [ foo,
+                             bar,
+                             baz ];
+
+            // Very Bad:
+            let uncoolObject { foo: "Don't", bar: "do" baz: "this" };
+            // Broke it again!
+          </pre>
+        </col>
+      </section>
+      <section>
+        <h4>Two Space Intentation</h4>
+        <p>
+          All GUI code must use two-space indentation. Not two-space tabs - two
+          spaces. On the bright side, that will give you some extra space to
+          work with compared to 4-space or 8-space tabs, because we also use
+          80-column lines.
+        </p>
+      </section>
+      <section>
+        <h4>No Trailing Whitespace</h4>
+        <p>
+          Whitespace at the end of a line has no reason to exist. This also
+          means that when a line is just a newline, there shouldn’t be any
+          spaces or tabs in it.
+        </p>
+      </section>
+      <section>
+        <h4>Space Before Parentheses</h4>
+        <p>
+          For just about any keyword that is followed by a parenthesized
+          statement, put a single space before the opening parenthesis. Function
+          calls are once case where you should not use a space before a
+          parenthesis.
+        </p>
+        <code>
+          <pre>
+            let youDoTheGoodThing = true;
+            let youDoTheBadThing = { please: "don't" };
+
+            if ( youDoTheGoodThing ) {
+              console.log( "Everyone will be happy!" );
+            } else if( youDoTheBadThing ){
+              console.log( "Everyone, especially you, will be sad when your "
+                         + "code is full of warnings." );
+            }
+          </pre>
+        </code>
+      </section>
+      <section>
+        <h4>Spaces Inside Brackets and Braces</h4>
+        <p>
+          Don’t press your braces, brackets, and parentheses up against their
+          contents. The only exception is when it’s an array or object and the
+          very next character is another brace or bracket. This is mostly for
+          readability.
+        </p>
+        <code>
+          <pre>
+            // Good:
+            let floor = { room: "for activities" };
+
+            let hardwareStore = [ "look"
+                                , "at"
+                                , "all"
+                                , "this"
+                                , "stuff" ];
+
+            // Bad:
+            let iStealPets = [{ I: "have"
+                              , so: "many" }
+                             , { friends: null }];
+
+            let musicalChairs = ["the" // eww, it doesn't line up
+                                , "music"
+                                , "stops"];
+          </pre>
+        </code>
+      </section>
+      <section>
+        <h4>Spaces Inside Parentheses</h4>
+        <p>
+          Whenever you have parentheses around something, put spaces between
+          each parenthesis and what it contains.
+        </p>
+        <code>
+          <pre>
+            let youWantToDoItRight = true;
+            let youDontWantToDoItRight = "WHY?";
+
+            if ( youWantToDoItRight ) {
+              console.log( "You'll do it like this:"
+                         , { haha: I'm printing an object" }
+                         );
+              console.log( [ "check"
+                           , "out"
+                           , "this"
+                           , "array"
+                           ]
+                         );
+            } else if (youDontWantToDoItRight) {
+              console.log("Oh Man I Am Not Good With Computer"
+                         , [ "pls"
+                           , "to"
+                           , "help" ]);
+            }
+          </pre>
+        </code>
+      </section>
+      <section>
+        <h3>JSX Code Rules</h3>
+        <p>
+          These rules apply to JSX-specific syntax. These rules are NOT
+          automatically enforced by JSCS, and are not yet implemented throughout
+          the UI. However, they will still help with readability and reasonable
+          line lengths, so they may be considered strongly recommended best
+          practices.
+        </p>
+      </section>
+      <section>
+        <h4>One Prop per Line</h4>
+        <p>
+          When rendering a Component with more than one prop, put each prop on a
+          new line. The props should be indented two spaces, measuring from the
+          “<” that starts the Component.
+        </p>
+        <code>
+          <pre>
+            render: function () {
+              // ...
+              return (
+                &lt;TWBS.Grid fluid> // One prop, one line.
+                  // ...
+                  &lt;TWBS.Row>
+                    TWBS.Col // Many props, many lines.
+                      xs={3}
+                      className="text-center">
+                      &lt;viewerUtil.ItemIcon
+                        primaryString = { this.props.item["name"] }
+                        fallbackString = { this.props.item["id"] }
+                        seedNumber = { this.props.item["id"] } />
+                    &lt;/TWBS.Col>
+                  &lt;/TWBS.Row>
+                &lt;/TWBS.Grid>
+              );
+            }
+          </pre>
+        </code>
+      </section>
+      <section>
+        <h3>JSCS Plugins</h3>
+        <p>
+          There are JSCS plugins for a number of popular editors. This guide
+          will cover only editors known to be in popular use among FreeNAS 10
+          developers.
+        </p>
+        <p>
+          For a list of other plugins and tools, see the
+          <a href="http://jscs.info/overview.html#friendly-packages">
+            JSCS website
+          </a>.
+        </p>
+      </section>
+      <section>
+        <h4>SublimeText</h4>
+        <p><strong>TODO</strong></p>
+      </section>
+      <section>
+        <h4>vim</h4>
+        <p>
+          This was done on PC-BSD 10.1. The process for installing and
+          configuring Syntastic may differ on your OS or distribution of choice.
+          It assumes you have node and npm installed already.
+        </p>
+        <ol>
+          <li><code>sudo npm install -g jscs</code></li>
+          <li><code>sudo npm install -g esprima-fb</code></li>
+          <li><code>cd ~/.vim</code></li>
+          <li><code>mkdir bundle</code></li>
+          <li><code>mkdir plugin</code></li>
+          <li><code>mkdir autoload</code></li>
+          <li>
+            <code>
+              curl -LSso ~/.vim/autoload/pathogen.vim
+              https://tpo.pe/pathogen.vim
+            </code>
+          </li>
+          <li><code>cd ~/.vim/bundle</code></li>
+          <li>
+            <code>
+              git clone https://github.com/scrooloose/syntastic.git
+            </code>
+          </li>
+          <li>
+            Edit <code>~/.vimrc</code> and add these lines to the end of it
+            (copy the default one over from
+            <code>/usr/local/share/vim/vim74/vimrc_example.vim</code> if you
+            don't already have one):
+          </li>
+        </ol>
+        <code>
+          <pre>
+            call pathogen#infect()
+
+            set statusline+=%#warningmsg#
+            set statusline+=%{SyntasticStatuslineFlag()}
+            set statusline+=%*
+
+            let g:syntastic_always_populate_loc_list = 1
+            let g:syntastic_auto_loc_list = 1
+            let g:syntastic_check_on_open = 1
+            let g:syntastic_check_on_wq = 0
+            autocmd FileType javascript let b:syntastic_checkers = findfil('.jscsrc', '.;') != '' ? ['jscs'] : ['jshint']
+          </pre>
+        </code>
+        <p>
+          This configuration will make JSCS work so long as you open files from
+          within a terminal in the FreeNAS build directory. If you want it to
+          work a little more universally (i.e. opening files in gVim from a file
+          manager) you can create a symbolic link from your home directory to
+          the .jscsrc in your FreeNAS source directory.
+        </p>
+        <p>
+          For more information on the Syntastic vim plugin please visit their
+          GitHub page:
+          <a href="https://github.com/scrooloose/syntastic">Syntastic GitHub</a>
+        </p>
+      </section>
+      <section>
+        <h4>emacs</h4>
+        <p><strong>Not yet written. Feel free to take this!</strong></p>
+      </section>
+      <section>
+        <h4>atom</h4>
+        <p><strong>Not yet written. Feel free to take this!</strong></p>
+      </section>
+    </div>
+    <footer>
+      <p><a href="https://www.freenas.org">FreeNAS</a> is pretty awesome.</p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+  </body>
+</html>
