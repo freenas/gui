@@ -35,12 +35,6 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "services"
-    , icon     : "bitcoin"
-    , label    : "Services"
-    , status   : null
-    , disabled : false
-    }
   , { path     : "accounts"
     , icon     : "paper-plane"
     , label    : "Accounts"

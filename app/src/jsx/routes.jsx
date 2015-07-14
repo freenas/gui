@@ -33,9 +33,6 @@ import Network from "./views/Network";
 
 import Storage from "./views/Storage";
 
-import Services from "./views/Services";
-import ServiceItem from "./views/Services/ServiceItem";
-
 import System from "./views/System";
 import Update from "./views/System/Update";
 import Power from "./views/System/Power";
@@ -111,18 +108,6 @@ module.exports = (
       name    = "storage"
       route   = "storage"
       handler = { Storage } />
-
-
-    {/* SERVICES */}
-    <Route
-      name    = "services"
-      route   = "services"
-      handler = { Services }>
-      <Route
-        name    = "services-editor"
-        path    = ":serviceID"
-        handler = { ServiceItem } />
-    </Route>
 
 
     {/* SYSTEM */}

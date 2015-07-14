@@ -10,9 +10,6 @@ import React from "react";
 
 import freeNASUtil from "../common/freeNASUtil";
 
-import ServicesMiddleware from "../middleware/ServicesMiddleware";
-import ServicesStore from "../stores/ServicesStore";
-
 import MemoryUtil from "../components/Widgets/MemoryUtil";
 import CpuUtil from "../components/Widgets/CpuUtil";
 import SystemInfo from "../components/Widgets/SystemInfo";
@@ -460,8 +457,7 @@ const Dashboard = React.createClass({
 
   getInitialState: function () {
       return {
-        servicesList: ServicesStore.services
-        , sizeArr      : [ "s", "m", "l" ]
+          sizeArr      : [ "s", "m", "l" ]
         , widgets      : {
           SystemInfo   : {
             id           : freeNASUtil.generateUUID()
@@ -503,21 +499,6 @@ const Dashboard = React.createClass({
       };
     }
 
-  , componentDidMount: function () {
-      ServicesMiddleware.requestServicesList();
-      ServicesStore.addChangeListener( this.handleServicesChange );
-    }
-
-  , componentWillUnmount: function () {
-      ServicesStore.removeChangeListener( this.handleServicesChange );
-    }
-
-  , handleServicesChange: function () {
-      this.setState({
-        servicesList: ServicesStore.services
-      });
-    }
-
   , changeSize: function ( widgtName ) {
     var newWidgetsState = this.state.widgets;
     var i = ( this.state.widgets[ widgtName ].count
@@ -546,7 +527,8 @@ const Dashboard = React.createClass({
     }
 
   , render: function () {
-      if ( this.isServiceRunning( "collectd" ) === true ) {
+      // if ( this.isServiceRunning( "collectd" ) === true ) {
+      if ( true ) {
         return (
               <DragDropGrid className = "widget-wrapper" >
 
