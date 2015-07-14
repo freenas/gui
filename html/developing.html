@@ -308,6 +308,74 @@
         </code>
       </section>
       <section>
+        <h4>The Action Creator</h4>
+        <p>
+          As described in the
+          <a href="architecture.html#actioncreator">Action Creators</a> section of
+          the architecture documentation, the action creator packages
+          responses from the middleware using pre-defined event types, and then
+          calls <code>FreeNASDispatcher.handleMiddlewareAction()</code>. This
+          helps Flux Stores to identify relevant middleware events and respond
+          appropriately, without overloading the Dispatcher to both tag and
+          dispatch events.
+        </p>
+        <p>
+          All action creators reside in
+          <a href="https://github.com/freenas/gui/tree/master/app/src/scripts/flux/actions">
+            app/src/scripts/flux/actions
+          </a>.
+        </p>
+        <p>
+          Most action creators will be very short - they simply have a function
+          for each type of event they anticipate receiving from the middleware
+          and tag each event accordingly.
+        </p>
+        <code>
+          <pre>
+            static receiveGroupsList ( groupsList, timestamp ) {
+              FreeNASDispatcher.handleMiddlewareAction(
+                { type: ActionTypes.RECEIVE_GROUPS_LIST
+                , timestamp
+                , groupsList
+                }
+              );
+            }
+
+            static receiveGroupUpdateTask ( groupID, taskID, timestamp ) {
+              FreeNASDispatcher.handleMiddlewareAction(
+                { type: ActionTypes.RECEIVE_GROUP_UPDATE_TASK
+                , timestamp
+                , taskID
+                , groupID
+                }
+              );
+            }
+          </pre>
+        </code>
+        <p>
+          Action creator functions should only be passed as callbacks by
+          middleware utility classes anticipating responses of that type. Once
+          an event is received and tagged, it is passed to the Dispatcher, which
+          in turn broadcasts it to all Flux stores.
+        </p>
+      </section>
+      <section>
+        <h5>FreeNAS Constants</h5>
+        <p>
+          Action types for ActionCreators are defined in
+          <a href="https://github.com/freenas/gui/blob/master/app/src/scripts/flux/constants/FreeNASConstants.js">
+            FreeNASConstants
+          </a>. A quick side trip there produces the following:
+        </p>
+        <code>
+          <pre>
+              // Groups
+            , RECEIVE_GROUPS_LIST: null
+            , RECEIVE_GROUP_UPDATE_TASK: null
+          </pre>
+        </code>
+      </section>
+      <section>
         <h2>FreeNAS 10 GUI Style Guide</h2>
         <p>
           FreeNAS 10 GUI uses a strict style guide and a highly encouraged set
