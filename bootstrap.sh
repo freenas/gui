@@ -103,7 +103,7 @@ install_node_from_src()
 			git checkout tags/v${_NODE_VERSION}
 			./configure
 			make
-			if ! sudo make install; then
+			if ! ${_SUDO} make install; then
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
@@ -128,7 +128,7 @@ install_node_from_src()
 			git checkout tags/v${_NODE_VERSION}
 			./configure
 			make
-			if ! sudo make install; then
+			if ! ${_SUDO} make install; then
 				echo "Well, that sure didn't work. Failed to install node from source."
 				return 2
 			fi
@@ -221,13 +221,13 @@ if whitcher node; then
 	if [ "${_SYSTEM}" == "Darwin" ]; then
 		echo "You don't have macports or homebrew installed."
 		echo "Now compiling nodejs from source. This will take a little while."
-		if ! try_without_root_permissions install_node_from_src; then
+		if ! install_node_from_src; then
 			echo "I wasn't able to install nodejs. Please do that yourself."
 			exit 13
 		fi
 	elif [ "${_SYSTEM}" == "FreeBSD" ]; then
 		echo "Now compiling nodejs from source. This will take a little while."
-		if ! try_without_root_permissions install_node_from_src; then
+		if ! install_node_from_src; then
 			echo "I wasn't able to install nodejs from source."
 			exit 13
 		fi
