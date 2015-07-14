@@ -11,7 +11,7 @@ var sourcemaps = require( "gulp-sourcemaps" );
 
 var chalk      = require( "chalk" );
 
-var SRC  = [ "app/src/jsx/**/*.jsx", "app/src/jsx/**/*.js" ];
+var SRC  = [ "app/src/scripts/**/*.jsx", "app/src/scripts/**/*.js" ];
 var DEST = "app/build/babel";
 
 gulp.task( "babel"

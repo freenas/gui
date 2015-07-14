@@ -15,7 +15,7 @@ var handleJscsError = function ( err ) {
 
 // TODO: Hard fail if code doesn't match style guide.
 gulp.task( "jscs", function ( callback ) {
-  return gulp.src( [ "app/src/jsx/**/*.jsx", "app/src/jsx/**/*.js" ] )
+  return gulp.src( [ "app/src/scripts/**/*.jsx", "app/src/scripts/**/*.js" ] )
              .pipe( jscs( ".jscsrc" ) )
              .on( "error", handleJscsError );
 });

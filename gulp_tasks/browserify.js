@@ -20,7 +20,7 @@ var babelify   = require( "babelify" );
 var browserify = require( "browserify" );
 
 var customOptions =
-  { entries    : [ "./app/src/jsx/browser.jsx" ]
+  { entries    : [ "./app/src/scripts/browser.jsx" ]
   , extensions : [ ".js", ".jsx" ]
   , debug      : true
   };
