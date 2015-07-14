@@ -102,9 +102,34 @@ install_node_from_src()
 			rm -rf node/
 			return 0
 		;;
-	*)
-		echo "How did you get here if you don't have a Mac?"
-		return 3
+		FreeBSD)
+			if ! whitcher libexecinfo; then
+				if !resolve libexecinfo; then
+					echo "You're going to need libexecinfo to compile node for FreeBSD."
+					echo "I'm gonna try anyway, but if it fails, go back and install it yourself."
+				fi
+			fi
+			if ! test -d node && ! git clone https://github.com/joyent/node.git; then
+				echo "I can't checkout node."
+				echo "Please run bootstrap.sh from somewhere you have"
+				echo "write access, or get rid of your 'node' directory."
+				return 1
+			fi
+			cd node
+			git checkout tags/v${_NODE_VERSION}
+			./configure
+			make
+			if ! sudo make install; then
+				echo "Well, that sure didn't work. Failed to install node from source."
+				return 2
+			fi
+			cd ..
+			rm -rf node/
+			return 0
+		;;
+		*)
+			echo "How did you get here?"
+			return 3
 	esac
 }
 
@@ -182,15 +207,23 @@ if [ -f /usr/local/bin/node ]; then
 fi
 
 if whitcher node; then
-	if ! resolve nodejs; then
-		if [ "${_SYSTEM}" == "Darwin" ]; then
-			echo "You don't have macports or homebrew installed."
-			echo "Now compiling nodejs from source. This will take a little while."
-			if ! try_without_root_permissions install_node_from_src; then
-				echo "I wasn't able to install nodejs. Please do that yourself."
-				exit 13
-			fi
+	if [ "${_SYSTEM}" == "Darwin" ]; then
+		echo "You don't have macports or homebrew installed."
+		echo "Now compiling nodejs from source. This will take a little while."
+		if ! try_without_root_permissions install_node_from_src; then
+			echo "I wasn't able to install nodejs. Please do that yourself."
+			exit 13
 		fi
+	elif [ "${_SYSTEM}" == "FreeBSD" ]; then
+		echo "You don't have macports or homebrew installed."
+		echo "Now compiling nodejs from source. This will take a little while."
+		if ! try_without_root_permissions install_node_from_src; then
+			echo "I wasn't able to install nodejs from source."
+			echo "Now trying ${_PKG_INSTALL}."
+			if ! resolve nodejs
+			exit 13
+		fi
+	elif ! resolve nodejs; then
 	fi
 fi
 
