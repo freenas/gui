@@ -224,6 +224,90 @@
         </p>
       </section>
       <section>
+        <h4>The Middleware Utility Class</h4>
+        <p>
+          As described in the
+          <a href="architecture.html#middelwareutility">Middleware Utility Class</a>
+          section of the architecture documentation, a middleware utility
+          class provides an abstraction for all calls to the middleware client.
+          Middleware utility classes should generally be focused on a particular
+          namespace in the middleware. In this case, it's groups. All middleware
+          utility classes should live in the <strong>TBD3</strong> directory and
+          be named according to the namespace the cover.
+        </p>
+        <p>
+          As FreeNAS GUI development proceeds against features without
+          corresponding middleware functionality, middleware utility classes
+          will also need to be adapted to <strong>TBD HOW WE HANDLE THE NEW LIFECYCLE</strong>
+        </p>
+        <p>
+          All middleware utility classes reside in
+          <a href="https://github.com/freenas/gui/tree/master/app/src/scripts/flux/middleware">
+            app/src/scripts/flux/middleware
+          </a>.
+        </p>
+        <p>The basic functions nearly any middleware utility class will need are
+        <code>subscribe</code>, <code>unsubscribe</code>, and at least one
+        <code>request</code> function. These functions simply wrap common
+        middleware calls. <code>subscribe</code> and <code>unsubscribe</code>
+        also take a string as the name of the function to subscribe. This is
+        used only for recordkeeping and debugging - it does not change the
+        behavior of any responses. GroupsMiddleware implements these functions
+        as follows:
+        </p>
+        <code>
+          <pre>
+            static subscribe ( componentID ) {
+              MC.subscribe( [ "groups.changed" ], componentID );
+              MC.subscribe( [ "task.*" ], componentID );
+            }
+
+            static unsubscribe ( componentID ) {
+              MC.unsubscribe( [ "groups.changed" ], componentID );
+              MC.unsubscribe( [ "task.*" ], componentID );
+            }
+
+            static requestGroupsList () {
+              MC.request( "groups.query"
+                        , []
+                        , GAC.receiveGroupsList
+                        );
+            }
+          </pre>
+        </code>
+        <p>
+          The rest of the functions in a middleware utility class wrap other
+          middleware calls as necessary. Functions that anticipate a response
+          from the server (including the <code>request</code> function above)
+          should pass an appropriate action creator function as a callback. See
+          the next section for an example of an action creator.
+        </p>
+        <code>
+          <pre>
+            static createGroup ( newGroupProps ) {
+              MC.request( "task.submit"
+                        , [ "groups.create" , [ newGroupProps ] ]
+                        , GAC.receiveGroupUpdateTask
+                        );
+            }
+
+            static updateGroup ( groupID, props ) {
+              MC.request( "task.submit"
+                        , [ "groups.update", [ groupID, props ] ]
+                        , GAC.receiveGroupUpdateTask.bind( GAC, groupID )
+                        );
+            }
+
+            static deleteGroup ( groupID ) {
+              MC.request( "task.submit"
+                        , [ "groups.delete", [ groupID ] ]
+                        , GAC.receiveGroupUpdateTask.bind( GAC, groupID )
+                        );
+            }
+          </pre>
+        </code>
+      </section>
+      <section>
         <h2>FreeNAS 10 GUI Style Guide</h2>
         <p>
           FreeNAS 10 GUI uses a strict style guide and a highly encouraged set
