@@ -16,8 +16,6 @@ const NotFoundRoute = Router.NotFoundRoute;
 import Root from "./views/FreeNASWebApp";
 import PageNotFound from "./views/PageNotFound";
 
-import Dashboard from "./views/Dashboard";
-
 import Accounts from "./views/Accounts";
 import Users from "./views/Accounts/Users";
 import UserItem from "./views/Accounts/Users/UserItem";
@@ -44,12 +42,7 @@ module.exports = (
     path    = "/"
     handler = { Root } >
 
-    <DefaultRoute handler={ Dashboard } />
-
-    <Route
-      name    = "dashboard"
-      route   = "dashboard"
-      handler = { Dashboard } />
+    <DefaultRoute handler={ Storage } />
 
     {/* ACCOUNTS */}
     <Route
@@ -132,7 +125,7 @@ module.exports = (
       route   = "settings"
       handler = { Settings } />
 
-    <NotFoundRoute handler={ Dashboard } />
+    <NotFoundRoute handler={ Storage } />
 
   </Route>
 );
