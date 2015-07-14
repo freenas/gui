@@ -47,17 +47,17 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "settings"
-    , icon     : "paragraph"
-    , label    : "Settings"
-    , status   : null
-    , disabled : true
-    }
   , { path     : "hardware"
     , icon     : "ambulance"
     , label    : "Hardware"
     , status   : null
     , disabled : false
+    }
+  , { path     : "settings"
+    , icon     : "paragraph"
+    , label    : "Settings"
+    , status   : null
+    , disabled : true
     }
   ];
 
