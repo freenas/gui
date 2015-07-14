@@ -9,8 +9,8 @@ import TWBS from "react-bootstrap";
 import moment from "moment";
 
 // Middleware
-import MiddlewareClient from "../../middleware/MiddlewareClient";
-import MiddlewareStore from "../../stores/MiddlewareStore";
+import MiddlewareClient from "../../../websocket/MiddlewareClient";
+import MiddlewareStore from "../../../flux/stores/MiddlewareStore";
 
 const defaultPredicate =
   { Object : "{ \"args\": { \"args\": { \"percentage\": 100 } } }"

@@ -10,19 +10,18 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import routerShim from "../../../components/mixins/routerShim";
-import clientStatus from "../../../components/mixins/clientStatus";
+import routerShim from "../../../mixins/routerShim";
+import clientStatus from "../../../mixins/clientStatus";
 
 import editorUtil from "../../../components/Viewer/Editor/editorUtil";
 
-import GroupsMiddleware from "../../../middleware/GroupsMiddleware";
-import GroupsStore from "../../../stores/GroupsStore";
+import GroupsMiddleware from "../../../../flux/middleware/GroupsMiddleware";
+import GroupsStore from "../../../../flux/stores/GroupsStore";
 
-import UsersStore from "../../../stores/UsersStore";
+import UsersStore from "../../../../flux/stores/UsersStore";
 
-import groupMixins from "../../../components/mixins/groupMixins";
-import inputHelpers from "../../../components/mixins/inputHelpers";
-import viewerCommon from "../../../components/mixins/viewerCommon";
+import groupMixins from "../../../mixins/groupMixins";
+import inputHelpers from "../../../mixins/inputHelpers";
 
 import GroupView from "./GroupView";
 import GroupEdit from "./GroupEdit";
@@ -30,7 +29,7 @@ import GroupEdit from "./GroupEdit";
 // CONTROLLER-VIEW
 const GroupItem = React.createClass({
 
-  mixins: [ routerShim, clientStatus, viewerCommon ]
+  mixins: [ routerShim, clientStatus ]
 
   , getInitialState: function () {
     return { targetGroup : this.getGroupFromStore()

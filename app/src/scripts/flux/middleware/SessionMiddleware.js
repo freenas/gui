@@ -5,10 +5,10 @@
 
 import _ from "lodash";
 
-import MC from "./MiddlewareClient";
-import AbstractBase from "./MiddlewareAbstract";
+import MC from "../../websocket/MiddlewareClient";
+import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 
-import SAC from "../actions/SessionActionCreators";
+import SAC from "..//actions/SessionActionCreators";
 
 class SessionsMiddleware extends AbstractBase {
 

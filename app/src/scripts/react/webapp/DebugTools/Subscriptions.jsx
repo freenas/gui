@@ -8,11 +8,11 @@ import React from "react";
 import TWBS from "react-bootstrap";
 
 // Disclosure Triangles
-import DiscTri from "../common/DiscTri";
+import DiscTri from "../../components/DiscTri";
 
 // Middleware
-import SubscriptionsStore from "../../stores/SubscriptionsStore";
-import MiddlewareClient from "../../middleware/MiddlewareClient";
+import SubscriptionsStore from "../../../flux/stores/SubscriptionsStore";
+import MiddlewareClient from "../../../websocket/MiddlewareClient";
 
 
 var Subscriptions = React.createClass(

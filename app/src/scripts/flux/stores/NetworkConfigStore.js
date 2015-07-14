@@ -9,7 +9,7 @@ import { EventEmitter } from "events";
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 
-import NetworkConfigMiddleware from "../middleware/GroupsMiddleware";
+import NetworkConfigMiddleware from "..//middleware/GroupsMiddleware";
 
 const CHANGE_EVENT = "change";
 const UPDATE_MASK = "network.changed";

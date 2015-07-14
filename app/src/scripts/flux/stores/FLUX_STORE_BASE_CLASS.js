@@ -6,7 +6,7 @@
 "use strict";
 
 import _ from "lodash";
-import DL from "../common/DebugLogger";
+import DL from "../../utility/DebugLogger";
 
 import { EventEmitter } from "events";
 

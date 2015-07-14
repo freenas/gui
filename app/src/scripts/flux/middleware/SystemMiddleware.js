@@ -3,9 +3,9 @@
 
 "use strict";
 
-import MC from "./MiddlewareClient";
-import AbstractBase from "./MiddlewareAbstract";
-import SAC from "../actions/SystemActionCreators";
+import MC from "../../websocket/MiddlewareClient";
+import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
+import SAC from "..//actions/SystemActionCreators";
 
 class SystemMiddleware extends AbstractBase {
 

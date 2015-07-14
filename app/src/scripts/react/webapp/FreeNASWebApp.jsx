@@ -8,14 +8,14 @@ import React from "react";
 
 import { RouteHandler } from "react-router";
 
-import routerShim from "../components/mixins/routerShim";
+import routerShim from "../mixins/routerShim";
 
 // WebApp Components
 import BusyBox from "../components/BusyBox";
-import NotificationBar from "../components/WebApp/NotificationBar";
-import ContextBar from "../components/WebApp/ContextBar";
-import PrimaryNavigation from "../components/PrimaryNavigation";
-import DebugTools from "../components/DebugTools";
+import NotificationBar from "./NotificationBar";
+import ContextBar from "./ContextBar";
+import PrimaryNavigation from "./PrimaryNavigation";
+import DebugTools from "./DebugTools";
 
 
 const FreeNASWebApp = React.createClass(

@@ -10,7 +10,7 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import EventBus from "../EventBus";
+import EventBus from "../../utility/EventBus";
 
 const ContextBar = React.createClass(
 

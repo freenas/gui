@@ -13,20 +13,20 @@ const DefaultRoute  = Router.DefaultRoute;
 const NotFoundRoute = Router.NotFoundRoute;
 
 // STATIC ROUTES
-import Root from "./views/FreeNASWebApp";
+import Root from "./react/webapp/FreeNASWebApp";
 
-import Accounts from "./views/Accounts";
-import Users from "./views/Accounts/Users";
-import UserItem from "./views/Accounts/Users/UserItem";
-import UserAdd from "./views/Accounts/Users/UserAdd";
+import Accounts from "./react/views/Accounts";
+import Users from "./react/views/Accounts/Users";
+import UserItem from "./react/views/Accounts/Users/UserItem";
+import UserAdd from "./react/views/Accounts/Users/UserAdd";
 
-import Groups from "./views/Accounts/Groups";
-import GroupItem from "./views/Accounts/Groups/GroupItem";
-import GroupAdd from "./views/Accounts/Groups/GroupAdd";
+import Groups from "./react/views/Accounts/Groups";
+import GroupItem from "./react/views/Accounts/Groups/GroupItem";
+import GroupAdd from "./react/views/Accounts/Groups/GroupAdd";
 
-import Calendar from "./views/Calendar";
+import Calendar from "./react/views/Calendar";
 
-import Network from "./views/Network";
+import Network from "./react/views/Network";
 
 module.exports = (
   <Route

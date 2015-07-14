@@ -11,30 +11,30 @@
 import _ from "lodash";
 
 import WebSocketClient
-  from "../common/WebSocketClient";
+  from "./WebSocketClient";
 import freeNASUtil
-  from "../common/freeNASUtil";
+  from "../utility/freeNASUtil";
 import MCD
   from "./MiddlewareClientDebug";
 
 import SubscriptionsStore
-  from "../stores/SubscriptionsStore";
+  from "../flux/stores/SubscriptionsStore";
 import SubscriptionsActionCreators
-  from "../actions/SubscriptionsActionCreators";
+  from "../flux/actions/SubscriptionsActionCreators";
 
 import MiddlewareStore
-  from "../stores/MiddlewareStore";
+  from "../flux/stores/MiddlewareStore";
 import MiddlewareActionCreators
-  from "../actions/MiddlewareActionCreators";
+  from "../flux/actions/MiddlewareActionCreators";
 
 import SessionStore
-  from "../stores/SessionStore";
+  from "../flux/stores/SessionStore";
 
 import sessionCookies
-  from "./cookies";
+  from "../utility/cookies";
 
 import SAC
-  from "../actions/SessionActionCreators";
+  from "../flux/actions/SessionActionCreators";
 
 const defaultTimeoutDelay = 10000;
 

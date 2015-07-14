@@ -9,17 +9,16 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import inputHelpers from "../../../components/mixins/inputHelpers";
-import userMixins from "../../../components/mixins/userMixins";
-import viewerCommon from "../../../components/mixins/viewerCommon";
+import inputHelpers from "../../../mixins/inputHelpers";
+import userMixins from "../../../mixins/userMixins";
 
-import UM from "../../../middleware/UsersMiddleware";
-import US from "../../../stores/UsersStore";
+import UM from "../../../../flux/middleware/UsersMiddleware";
+import US from "../../../../flux/stores/UsersStore";
 
-import GS from "../../../stores/GroupsStore";
+import GS from "../../../../flux/stores/GroupsStore";
 
 const UserEdit = React.createClass(
-  { mixins: [ inputHelpers, userMixins, viewerCommon ]
+  { mixins: [ inputHelpers, userMixins ]
 
   , propTypes: { item: React.PropTypes.object.isRequired
                , itemSchema: React.PropTypes.object.isRequired
@@ -45,7 +44,7 @@ const UserEdit = React.createClass(
       // TODO: using refs is bad, try to find a better way to get the
       // input out of a multi select if it exists
       switch ( this.props.itemSchema.properties[ field ].type ) {
-        case "array": 
+        case "array":
           newModifiedValues[ field ] = this.refs[ field ].getValue();
           break;
         case "integer":

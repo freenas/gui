@@ -8,7 +8,7 @@
 import React from "react";
 
 // Icons
-import Icon from "../Icon";
+import Icon from "./Icon";
 
 var DiscTri = React.createClass(
 

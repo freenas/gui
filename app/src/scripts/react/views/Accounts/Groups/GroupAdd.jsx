@@ -8,8 +8,8 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import GS from "../../../stores/GroupsStore";
-import GM from "../../../middleware/GroupsMiddleware";
+import GS from "../../../../flux/stores/GroupsStore";
+import GM from "../../../../flux/middleware/GroupsMiddleware";
 
 
 const AddGroup = React.createClass({

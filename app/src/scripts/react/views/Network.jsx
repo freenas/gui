@@ -9,14 +9,14 @@ import _ from "lodash";
 
 import Router from "react-router";
 
-import NM from "../middleware/NetworkConfigMiddleware";
-import NS from "../stores/NetworkConfigStore";
+import NM from "../../flux/middleware/NetworkConfigMiddleware";
+import NS from "../../flux/stores/NetworkConfigStore";
 
-import IM from "../middleware/InterfacesMiddleware";
-import IS from "../stores/InterfacesStore";
+import IM from "../../flux/middleware/InterfacesMiddleware";
+import IS from "../../flux/stores/InterfacesStore";
 
-import SM from "../middleware/SystemMiddleware";
-import SS from "../stores/SystemStore";
+import SM from "../../flux/middleware/SystemMiddleware";
+import SS from "../../flux/stores/SystemStore";
 
 import Icon from "../components/Icon";
 

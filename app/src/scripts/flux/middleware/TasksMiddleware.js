@@ -4,8 +4,8 @@
 
 "use strict";
 
-import MC from "./MiddlewareClient";
-import AbstractBase from "./MiddlewareAbstract";
+import MC from "../../websocket/MiddlewareClient";
+import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 
 // There are no subscribe or unsubscribe functions here, because task
 // subscription can be handled directly through the Middleware Client.

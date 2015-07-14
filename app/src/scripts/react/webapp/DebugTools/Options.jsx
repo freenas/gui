@@ -6,7 +6,7 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import ToggleSwitch from "../common/ToggleSwitch";
+import ToggleSwitch from "../../components/ToggleSwitch";
 
 var Options = React.createClass({
 

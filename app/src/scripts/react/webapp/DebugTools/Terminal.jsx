@@ -6,9 +6,9 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import ShellMiddleware from "../../middleware/ShellMiddleware";
+import ShellMiddleware from "../../../flux/middleware/ShellMiddleware";
 
-import Shell from "../common/Shell";
+import Shell from "../../components/Shell";
 
 var Terminal = React.createClass(
   { getInitialState: function () {

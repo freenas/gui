@@ -7,7 +7,7 @@
 
 import _ from "lodash";
 
-import DebugLogger from "./DebugLogger";
+import DebugLogger from "../utility/DebugLogger";
 
 const DL = new DebugLogger( "MIDDLEWARE_CLIENT_DEBUG" );
 

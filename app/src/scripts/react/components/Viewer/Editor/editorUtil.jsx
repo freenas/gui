@@ -9,7 +9,7 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import Throbber from "../../common/Throbber";
+import Throbber from "../../Throbber";
 
 var editorUtil = exports;
 

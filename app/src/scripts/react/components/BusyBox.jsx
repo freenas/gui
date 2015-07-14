@@ -7,22 +7,22 @@
 import React from "react";
 
 // Middleware
-import MiddlewareClient from "../middleware/MiddlewareClient";
+import MiddlewareClient from "../../websocket/MiddlewareClient";
 
 // Middleware Store (this is needed for reconnection interval)
-import MiddlewareStore from "../stores/MiddlewareStore"
+import MiddlewareStore from "../../flux/stores/MiddlewareStore"
 
 // SessionStore stores the logged in user and the fact that login happened.
-import SessionStore from "../stores/SessionStore";
+import SessionStore from "../../flux/stores/SessionStore";
 
 // PowerStore
-import PowerStore from "../stores/PowerStore";
+import PowerStore from "../../flux/stores/PowerStore";
 
 // Power Middleware
-import PowerMiddleware from "../middleware/PowerMiddleware";
+import PowerMiddleware from "../../flux/middleware/PowerMiddleware";
 
 // Throbber
-import Throbber from "./common/Throbber";
+import Throbber from "./Throbber";
 
 // Twitter Bootstrap React components
 import TWBS from "react-bootstrap";

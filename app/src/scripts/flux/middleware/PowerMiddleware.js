@@ -5,11 +5,11 @@
 
 "use strict";
 
-import MC from "./MiddlewareClient";
-import AbstractBase from "./MiddlewareAbstract";
+import MC from "../../websocket/MiddlewareClient";
+import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 
 // Cookies!
-import myCookies from "./cookies";
+import myCookies from "../../utility/cookies";
 
 class PowerMiddleware extends AbstractBase {
 

@@ -8,18 +8,18 @@ import TWBS from "react-bootstrap";
 import _ from "lodash";
 
 // Middleware
-import MiddlewareClient from "../../middleware/MiddlewareClient";
-import MiddlewareStore from "../../stores/MiddlewareStore";
+import MiddlewareClient from "../../../websocket/MiddlewareClient";
+import MiddlewareStore from "../../../flux/stores/MiddlewareStore";
 
 // freeNASUtil
 import freeNASUtil
-  from "../../common/freeNASUtil";
+  from "../../../utility/freeNASUtil";
 
 // Disclosure Triangles
-import DiscTri from "../common/DiscTri";
+import DiscTri from "../../components/DiscTri";
 
 // Fuzzy TypeAhead
-import FuzzyTypeAhead from "../common/FuzzyTypeAhead";
+import FuzzyTypeAhead from "../../components/FuzzyTypeAhead";
 
 
 var RPC = React.createClass(

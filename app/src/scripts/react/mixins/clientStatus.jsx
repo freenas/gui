@@ -6,7 +6,7 @@
 
 "use strict";
 
-import SessionStore from "../../stores/SessionStore";
+import SessionStore from "../../flux/stores/SessionStore";
 
 module.exports = {
 

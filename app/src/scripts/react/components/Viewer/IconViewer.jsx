@@ -8,12 +8,12 @@ import { Link, RouteHandler } from "react-router";
 
 import Icon from "../Icon";
 
-import viewerMode from "../mixins/viewerMode";
-import viewerCommon from "../mixins/viewerCommon";
-import viewerOverlay from "../mixins/viewerOverlay";
+import viewerMode from "./mixins/viewerMode";
+import viewerCommon from "./mixins/viewerCommon";
+import viewerOverlay from "./mixins/viewerOverlay";
 import viewerUtil from "./viewerUtil";
 
-import ToggleSwitch from "../common/ToggleSwitch";
+import ToggleSwitch from "..//ToggleSwitch";
 
 // Icon Viewer
 var IconViewer = React.createClass(

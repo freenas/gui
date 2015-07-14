@@ -8,7 +8,7 @@ import React from "react";
 
 import { RouteHandler } from "react-router";
 
-import routerShim from "../components/mixins/routerShim";
+import routerShim from "../mixins/routerShim";
 
 import SectionNav from "../components/SectionNav";
 

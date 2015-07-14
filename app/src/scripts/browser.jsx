@@ -13,10 +13,10 @@ import React from "react";
 import Router, { HistoryLocation } from "react-router";
 import Routes from "./routes";
 
-import MiddlewareClient from "./middleware/MiddlewareClient";
+import MiddlewareClient from "./websocket/MiddlewareClient";
 
 // Initialize Global Stores
-import SchemaStore from "./stores/SchemaStore";
+import SchemaStore from "./flux/stores/SchemaStore";
 
 if ( typeof window !== "undefined" ) {
   window.onload = function () {

@@ -8,7 +8,7 @@
 
 import _ from "lodash";
 
-import DebugLogger from "../common/DebugLogger";
+import DebugLogger from "../utility/DebugLogger";
 
 class MiddlewareClientDebug extends DebugLogger {
 

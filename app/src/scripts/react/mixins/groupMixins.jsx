@@ -8,8 +8,8 @@
 
 import _ from "lodash";
 
-import GroupsStore from "../../stores/GroupsStore";
-import GroupsMiddleware from "../../middleware/GroupsMiddleware";
+import GroupsStore from "../../flux/stores/GroupsStore";
+import GroupsMiddleware from "../../flux/middleware/GroupsMiddleware";
 
 module.exports = {
 

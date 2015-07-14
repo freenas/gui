@@ -9,20 +9,19 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import US from "../../../stores/UsersStore";
-import UM from "../../../middleware/UsersMiddleware";
+import US from "../../../../flux/stores/UsersStore";
+import UM from "../../../../flux/middleware/UsersMiddleware";
 
-import GS from "../../../stores/GroupsStore";
-import GM from "../../../middleware/GroupsMiddleware";
+import GS from "../../../../flux/stores/GroupsStore";
+import GM from "../../../../flux/middleware/GroupsMiddleware";
 
-import inputHelpers from "../../../components/mixins/inputHelpers";
-import userMixins from "../../../components/mixins/userMixins";
-import groupMixins from "../../../components/mixins/groupMixins";
-import viewerCommon from "../../../components/mixins/viewerCommon";
+import inputHelpers from "../../../mixins/inputHelpers";
+import userMixins from "../../../mixins/userMixins";
+import groupMixins from "../../../mixins/groupMixins";
 
 
 const UserAdd = React.createClass(
-  { mixins: [ inputHelpers, userMixins, viewerCommon ]
+  { mixins: [ inputHelpers, userMixins ]
 
   , contextTypes: {
     router: React.PropTypes.func
@@ -48,7 +47,7 @@ const UserAdd = React.createClass(
       // TODO: using refs is bad, try to find a better way to get the
       // input out of a multi select if it exists
       switch ( this.props.itemSchema.properties[ field ].type ) {
-        case "array": 
+        case "array":
           newUser[ field ] = this.refs[ field ].getValue();
           break;
         case "integer":
@@ -308,7 +307,7 @@ const UserAdd = React.createClass(
         { userFullNameField }
         { userEmailField }
         { userShellField }
-        { userPrimaryGroupField } 
+        { userPrimaryGroupField }
         { userSshPubKeyField }
         { userGroupsField }
       </div>;

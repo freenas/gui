@@ -7,10 +7,10 @@
 
 import _ from "lodash";
 
-import ShellMiddleware from "../../middleware/ShellMiddleware";
+import ShellMiddleware from "../../flux/middleware/ShellMiddleware";
 
-import UsersStore from "../../stores/UsersStore";
-import UsersMiddleware from "../../middleware/UsersMiddleware";
+import UsersStore from "../../flux/stores/UsersStore";
+import UsersMiddleware from "../../flux/middleware/UsersMiddleware";
 
 module.exports = (
   { componentDidMount: function () {

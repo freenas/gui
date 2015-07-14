@@ -11,9 +11,9 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
-import viewerCommon from "./mixins/viewerCommon";
+import viewerCommon from "./Viewer/mixins/viewerCommon";
 
-import DL from "../common/DebugLogger";
+import DL from "../../utility/DebugLogger";
 import Icon from "./Icon";
 import DetailViewer from "./Viewer/DetailViewer";
 import IconViewer from "./Viewer/IconViewer";

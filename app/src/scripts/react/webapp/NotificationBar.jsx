@@ -9,11 +9,11 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import MiddlewareClient from "../../middleware/MiddlewareClient";
-import SS from "../../stores/SessionStore";
-import MS from "../../stores/MiddlewareStore";
+import MiddlewareClient from "../../websocket/MiddlewareClient";
+import SS from "../../flux/stores/SessionStore";
+import MS from "../../flux/stores/MiddlewareStore";
 
-import Icon from "../Icon";
+import Icon from "../components/Icon";
 
 
 var NotificationBar = React.createClass(

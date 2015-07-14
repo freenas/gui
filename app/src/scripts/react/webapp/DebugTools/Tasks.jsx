@@ -10,12 +10,12 @@ import moment from "moment";
 
 // freeNASUtil
 import freeNASUtil
-  from "../../common/freeNASUtil";
+  from "../../../utility/freeNASUtil";
 
 // Middleware
-import MiddlewareClient from "../../middleware/MiddlewareClient";
-import TasksStore from "../../stores/TasksStore";
-import TasksMiddleware from "../../middleware/TasksMiddleware";
+import MiddlewareClient from "../../../websocket/MiddlewareClient";
+import TasksStore from "../../../flux/stores/TasksStore";
+import TasksMiddleware from "../../../flux/middleware/TasksMiddleware";
 
 
 var TasksSection = React.createClass(

@@ -10,9 +10,9 @@ import { Link, RouteHandler } from "react-router";
 
 import Icon from "../Icon";
 
-import viewerCommon from "../mixins/viewerCommon";
-import viewerMode from "../mixins/viewerMode";
-import viewerOverlay from "../mixins/viewerOverlay";
+import viewerCommon from "./mixins/viewerCommon";
+import viewerMode from "./mixins/viewerMode";
+import viewerOverlay from "./mixins/viewerOverlay";
 import viewerUtil from "./viewerUtil";
 
 // Table Viewer

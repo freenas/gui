@@ -8,15 +8,14 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import userMixins from "../../../components/mixins/userMixins";
-import viewerCommon from "../../../components/mixins/viewerCommon";
+import userMixins from "../../../mixins/userMixins";
 
 import viewerUtil from "../../../components/Viewer/viewerUtil";
 
-import GroupsStore from "../../../stores/GroupsStore";
+import GroupsStore from "../../../../flux/stores/GroupsStore";
 
 const UserView = React.createClass(
-  { mixins: [ userMixins, viewerCommon ]
+  { mixins: [ userMixins ]
 
   , propTypes: { item: React.PropTypes.object.isRequired }
 

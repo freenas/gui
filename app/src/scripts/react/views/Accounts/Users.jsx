@@ -8,13 +8,13 @@ import React from "react";
 
 import Viewer from "../../components/Viewer";
 
-import UM from "../../middleware/UsersMiddleware";
-import US from "../../stores/UsersStore";
+import UM from "../../../flux/middleware/UsersMiddleware";
+import US from "../../../flux/stores/UsersStore";
 
-import GM from "../../middleware/GroupsMiddleware";
-import GS from "../../stores/GroupsStore";
+import GM from "../../../flux/middleware/GroupsMiddleware";
+import GS from "../../../flux/stores/GroupsStore";
 
-import SS from "../../stores/SessionStore";
+import SS from "../../../flux/stores/SessionStore";
 
 function testCurrentUser ( user ) {
   return user.username === SS.getCurrentUser();

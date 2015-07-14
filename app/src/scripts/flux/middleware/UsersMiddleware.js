@@ -4,10 +4,10 @@
 
 "use strict";
 
-import MC from "./MiddlewareClient";
-import AbstractBase from "./MiddlewareAbstract";
+import MC from "../../websocket/MiddlewareClient";
+import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 
-import UAC from "../actions/UsersActionCreators";
+import UAC from "..//actions/UsersActionCreators";
 
 class UsersMiddleware extends AbstractBase {
 

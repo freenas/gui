@@ -8,11 +8,11 @@ import TWBS from "react-bootstrap";
 
 import { Link, RouteHandler } from "react-router";
 
-import viewerMode from "../mixins/viewerMode";
-import viewerCommon from "../mixins/viewerCommon";
+import viewerMode from "./mixins/viewerMode";
+import viewerCommon from "./mixins/viewerCommon";
 import viewerUtil from "./viewerUtil";
 
-import ToggleSwitch from "../common/ToggleSwitch";
+import ToggleSwitch from "..//ToggleSwitch";
 
 
 const DetailNavSection = React.createClass(

@@ -10,7 +10,7 @@
 import React from "react";
 import Terminal from "term.js";
 
-import ShellMiddleware from "../../middleware/ShellMiddleware";
+import ShellMiddleware from "../../flux/middleware/ShellMiddleware";
 
 var Shell = React.createClass(
   {  ws             : null

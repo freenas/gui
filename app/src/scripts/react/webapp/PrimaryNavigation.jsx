@@ -10,9 +10,9 @@ import React from "react";
 import { Link } from "react-router";
 
 import TWBS from "react-bootstrap";
-import Icon from "./Icon";
+import Icon from "../components/Icon";
 
-import EventBus from "./EventBus";
+import EventBus from "../../utility/EventBus";
 
 // Path definitions
 // TODO: Convert to Flux or other external file

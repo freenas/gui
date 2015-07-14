@@ -8,12 +8,12 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import GM from "../../../middleware/GroupsMiddleware";
-import GS from "../../../stores/GroupsStore";
+import GM from "../../../../flux/middleware/GroupsMiddleware";
+import GS from "../../../../flux/stores/GroupsStore";
 
-import US from "../../../stores/UsersStore";
+import US from "../../../../flux/stores/UsersStore";
 
-import groupMixins from "../../../components/mixins/groupMixins";
+import groupMixins from "../../../mixins/groupMixins";
 
 const GroupEdit = React.createClass(
 

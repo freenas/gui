@@ -10,21 +10,20 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import routerShim from "../../../components/mixins/routerShim";
-import clientStatus from "../../../components/mixins/clientStatus";
-import viewerCommon from "../../../components/mixins/viewerCommon";
+import routerShim from "../../../mixins/routerShim";
+import clientStatus from "../../../mixins/clientStatus";
 
 import editorUtil from "../../../components/Viewer/Editor/editorUtil";
 
-import UsersStore from "../../../stores/UsersStore";
-import GroupsStore from "../../../stores/GroupsStore";
+import UsersStore from "../../../../flux/stores/UsersStore";
+import GroupsStore from "../../../../flux/stores/GroupsStore";
 
 import UserView from "./UserView";
 import UserEdit from "./UserEdit";
 
 // CONTROLLER-VIEW
 const UserItem = React.createClass(
-  { mixins: [ routerShim, clientStatus, viewerCommon ]
+  { mixins: [ routerShim, clientStatus ]
 
   , getInitialState: function () {
       return (
