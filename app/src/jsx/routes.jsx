@@ -42,7 +42,7 @@ module.exports = (
     path    = "/"
     handler = { Root } >
 
-    <DefaultRoute handler={ Storage } />
+    <DefaultRoute handler={ Users } />
 
     {/* ACCOUNTS */}
     <Route
@@ -125,7 +125,7 @@ module.exports = (
       route   = "settings"
       handler = { Settings } />
 
-    <NotFoundRoute handler={ Storage } />
+    <NotFoundRoute handler={ Users } />
 
   </Route>
 );
