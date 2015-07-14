@@ -14,7 +14,6 @@ const NotFoundRoute = Router.NotFoundRoute;
 
 // STATIC ROUTES
 import Root from "./views/FreeNASWebApp";
-import PageNotFound from "./views/PageNotFound";
 
 import Accounts from "./views/Accounts";
 import Users from "./views/Accounts/Users";
