@@ -219,8 +219,6 @@ if whitcher node; then
 		echo "Now compiling nodejs from source. This will take a little while."
 		if ! try_without_root_permissions install_node_from_src; then
 			echo "I wasn't able to install nodejs from source."
-			echo "Now trying ${_PKG_INSTALL}."
-			if ! resolve nodejs
 			exit 13
 		fi
 	elif ! resolve nodejs; then
