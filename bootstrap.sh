@@ -231,10 +231,20 @@ if whitcher node; then
 			exit 13
 		fi
 	elif [ "${_SYSTEM}" == "FreeBSD" ]; then
-		echo "Now compiling nodejs from source. This will take a little while."
-		if ! install_node_from_src; then
-			echo "I wasn't able to install nodejs from source."
-			exit 13
+		if [ `uname -U` -gt 903000 ]; then
+			echo "Node.JS won't compile on FreeBSD > 9.3; trying the packages instead."
+			if resolve node && resolve npm; then
+				echo "Yay, they installed from packages!"
+			else
+				echo "Couldn't install node and npm from packages.  I am now sad."
+				exit 14
+			fi
+		else
+			echo "Now compiling nodejs from source. This will take a little while."
+			if ! install_node_from_src; then
+				echo "I wasn't able to install nodejs from source."
+				exit 13
+			fi
 		fi
 	fi
 fi
