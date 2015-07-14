@@ -9,7 +9,7 @@
 _SYSTEM=`uname -s`
 _PREFIX=/usr/local/bin
 _SUDO="sudo"
-_SUDO_ARGS="-A"
+_SUDO_ARGS="-S"
 _PKG_INSTALL="nopkg"
 _FREENAS_GUI_REPO="http://github.com/freenas/gui"
 _FREENAS_DEV="gulp"
