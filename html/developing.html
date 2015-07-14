@@ -146,6 +146,84 @@
         </p>
       </section>
       <section>
+        <h3>The Middleware Cycle</h3>
+        <p>
+          Groups is a component that manages the display of system- and user-
+          created groups. It uses the Viewer component to construct various
+          different modes of displaying the data, but its main role is managing
+          the live data for display to the end user. This places it at the
+          <a href="architecture.html#view">React View</a> position in the Flux data
+          lifecycle. We will use Groups as an example to demonstrate the Flux
+          data lifecycle in FreeNAS 10 in detail.
+        </p>
+      </section>
+      <section>
+        <h4>The React View</h4>
+        <p>
+          Any component that wants to acquire data from the middleware must use
+          a number of standard lifecycle functions. During componentDidMount,
+          it must:</p>
+        <ol>
+          <li>
+            Set a change listener to each store that will hold data it needs.
+          </li>
+          <li>
+            Request initial population of those stores, in case it is the
+            first componenent mounted to require that data.
+          </li>
+          <li>
+            Subscribe with the middleware to future changes to that data.
+          </li>
+        </ol>
+        <p>
+          Correspondingly, during componentWillUnmount, it must:
+        </p>
+        <ol>
+          <li>
+            Remove all change listeners it set.
+          </li>
+          <li>
+            Unsubscribe from all data sources.
+          </li>
+        </ol>
+        <p>
+          In Groups, this looks like:
+        </p>
+        <code>
+          <pre>
+            , componentDidMount: function () {
+              GS.addChangeListener( this.handleGroupsChange );
+              GM.requestGroupsList();
+              GM.subscribe( this.constructor.displayName );
+
+              US.addChangeListener( this.handleUsersChange );
+              UM.requestUsersList();
+              UM.subscribe( tthis.constructor.displayName );
+            }
+
+            , componentWillUnmount: function () {
+              GS.removeChangeListener( this.handleGroupsChange );
+              GM.unsubscribe( this.constructor.displayName );
+
+              US.removeChangeListener( this.handleUsersChange );
+              UM.unsubscribe( this.constructor.displayName );
+            }
+          </pre>
+        </code>
+        <p>
+          This is straightforward, but any missing parts of this process will
+          result in either missing steps in the data lifecycle or broken app
+          behavior. Groups also defines some simple functions to use for
+          populating state and as changeListeners.
+        </p>
+        <p>
+          The functions being called in the lifecycle functions above come from
+          two main groups: The Middleware Utility Classes and the Flux Stores.
+          We'll look at a middleware utility class next, as that's the next step
+          in the flux data lifecycle.
+        </p>
+      </section>
+      <section>
         <h2>FreeNAS 10 GUI Style Guide</h2>
         <p>
           FreeNAS 10 GUI uses a strict style guide and a highly encouraged set
