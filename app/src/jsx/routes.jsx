@@ -28,10 +28,6 @@ import Calendar from "./views/Calendar";
 
 import Network from "./views/Network";
 
-import Hardware from "./views/Hardware";
-import Update from "./views/Hardware/Update";
-import Power from "./views/Hardware/Power";
-
 module.exports = (
   <Route
     path    = "/"
@@ -89,23 +85,6 @@ module.exports = (
       name    = "network"
       path    = "network"
       handler = { Network } />
-
-
-    {/* SYSTEM */}
-    <Route
-      name    = "hardware"
-      route   = "hardware"
-      handler = { Hardware }>
-      <DefaultRoute handler={ Update } />
-      <Route
-        name    = "update"
-        path   = "update"
-        handler = { Update } />
-      <Route
-        name    = "power"
-        path   = "power"
-        handler = { Power } />
-    </Route>
 
     <NotFoundRoute handler={ Users } />
 

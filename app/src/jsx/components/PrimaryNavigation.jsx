@@ -47,11 +47,11 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "hardware"
+  , { path     : ""
     , icon     : "ambulance"
     , label    : "Hardware"
     , status   : null
-    , disabled : false
+    , disabled : true
     }
   , { path     : ""
     , icon     : "futbol-o"
