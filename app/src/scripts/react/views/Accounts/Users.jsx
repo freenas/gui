@@ -100,9 +100,9 @@ function getGroupsList () {
   // to swap it for the upcoming new method (where this is handled by the
   // virtual middleware).
   if ( MS.getMode() === "DISCONNECTED" ) {
-    groupslist = GS.groups;
-  } else if ( MS.getMode() === "DISCONNECTED" ) {
-    groupslist = this.dummyGroups;
+    groupsList = GS.groups;
+  } else if ( MS.getMode() !== "DISCONNECTED" ) {
+    groupsList = this.dummyGroups;
   }
   return { groupsList: groupsList };
 
