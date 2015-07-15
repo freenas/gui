@@ -58,6 +58,13 @@ class MiddlewareClient extends WebSocketClient {
     SessionStore.addChangeListener( this.dequeueActions.bind( this ) );
   }
 
+  connect ( protocol, url, path, mode ) {
+    if ( mode !== "SIMULATION_MODE" ) {
+      super.connect( protocol, url, path );
+    }
+    this.socketInfo["mode"] = mode;
+  }
+
 
   // WEBSOCKET DATA HANDLERS
   // Instance methods for handling data from the WebSocket connection. These are
@@ -73,6 +80,7 @@ class MiddlewareClient extends WebSocketClient {
                                               , this.socketInfo.protocol
                                               , this.socketInfo.url
                                               , this.socketInfo.path
+                                              , this.socketInfo.mode
                                               );
 
     // Re-subscribe to any namespaces that may have been active during the

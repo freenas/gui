@@ -134,16 +134,12 @@ class WebSocketClient {
   // This method should only be called when there's no existing connection. If
   // for some reason, the existing connection should be ignored and overridden,
   // supply `true` as the `force` parameter.
-  connect ( protocol = "ws://", url = "", path = "", force ) {
+  connect ( protocol = "ws://", url = "", path = "" ) {
     if ( typeof WebSocket !== "undefined" ) {
       if ( !this.socket || force ) {
 
         if ( DL.reports( "connection" ) ) {
           DL.info( "Creating WebSocket instance" );
-        }
-
-        if ( force ) {
-          DL.warn( "Forcing creation of new WebSocket instance" );
         }
 
         this.socketInfo =

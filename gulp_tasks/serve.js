@@ -10,6 +10,7 @@ var watch   = require( "gulp-watch" );
 var Monitor = require( "forever-monitor" ).Monitor;
 var chalk   = require( "chalk" );
 var argv    = require( "yargs" ).argv;
+var bs = require("browser-sync");
 
 var TAG = chalk.bgWhite.black( "  WEBSERVER  " ) + " ";
 
@@ -23,7 +24,8 @@ var buildChangeHandler = function ( vinyl ) {
   }
 };
 
-gulp.task( "serve", function () {
+gulp.task( "serve",
+           [ "browser-sync" ], function () {
   var mode;
   var host;
 
@@ -38,60 +40,61 @@ gulp.task( "serve", function () {
     mode = "connect";
     host = argv["connect"];
   } else {
-    mode = "local"; // FIXME: Hardcoded for now
+    mode = "simulation";
   }
 
-  switch ( mode ) {
-    case "local":
-    case "connect":
-      // TODO: Enable the passing of an IP/hostname to server.
+  if ( mode === "remote" ) {
+    // TODO: True remote mode.
+  } else {
+    var monitorArgs = [];
+    if ( host ) {
+      monitorArgs.push( "--connect", host );
+    }
+    if ( mode === "simulation" ) {
+      monitorArgs.push( "--simulation" );
+    }
+    console.log( TAG + "Starting webserver in '" + mode + "' mode." );
 
-      console.log( TAG + "Starting webserver in '" + mode + "' mode." );
+    localServer =
+      new Monitor( "app/server.js"
+                 , { max      : 3
+                   , silent   : false
+                   , args     : monitorArgs
+                   , killtree : true
+                   }
+                 );
 
-      localServer =
-        new Monitor( "app/server.js"
-                   , { max      : 3
-                     , silent   : false
-                     , args     : host ? [ "--connect", host ] : []
-                     , killtree : true
-                     }
-                   );
+    localServer.setMaxListeners( 0 );
 
-      localServer.setMaxListeners( 0 );
+    localServer.on( "error", function ( err ) {
+      console.log( TAG + chalk.red( "[ ERROR ] " ) + err );
+    });
 
-      localServer.on( "error", function ( err ) {
-        console.log( TAG + chalk.red( "[ ERROR ] " ) + err );
-      });
+    localServer.on( "start", function ( process, data ) {
+      console.log( TAG + chalk.green( "[ START ] " ) + "Webserver started" );
+    });
 
-      localServer.on( "start", function ( process, data ) {
-        console.log( TAG + chalk.green( "[ START ] " ) + "Webserver started" );
-      });
+    localServer.on( "restart", function ( forever ) {
+      console.log( TAG + chalk.cyan( "[ RESTART ] " )
+                 + "Webserver is restarting"
+                 );
+      localServer.once( "stdout", bs.reload );
+    });
 
-      localServer.on( "restart", function ( forever ) {
-        console.log( TAG + chalk.cyan( "[ RESTART ] " )
-                   + "Webserver is restarting"
-                   );
-      });
+    localServer.on( "exit:code", function ( code ) {
+      console.log( TAG + chalk.bgBlack( "[ EXIT ]" )
+                 + ( code ? " Code " + code : "" )
+                 );
+    });
 
-      localServer.on( "exit:code", function ( code ) {
-        console.log( TAG + chalk.bgBlack( "[ EXIT ]" )
-                   + ( code ? " Code " + code : "" )
-                   );
-      });
+    localServer.on( "stdout", function ( data ) {
+      console.log( TAG + chalk.gray( "[ STDOUT ] \n" ) + data + "\n" );
+    });
 
-      localServer.on( "stdout", function ( data ) {
-        console.log( TAG + chalk.gray( "[ STDOUT ] \n" ) + data + "\n" );
-      });
+    localServer.on( "stderr", function ( data ) {
+      console.log( TAG + chalk.red( "[ STDERR ] \n" ) + data + "\n" );
+    });
 
-      localServer.on( "stderr", function ( data ) {
-        console.log( TAG + chalk.red( "[ STDERR ] \n" ) + data + "\n" );
-      });
-
-      localServer.start();
-      break;
-
-    case "remote":
-      // TODO: Reenable true remote development
-      break;
+    localServer.start();
   }
 });
