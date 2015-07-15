@@ -30,7 +30,6 @@
     "del": "^1.2.0",
     "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "forever-monitor": "^1.5.2",
-    "glob": "^5.0.10",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-cached": "^1.1.0",
