@@ -10,6 +10,7 @@ var watch   = require( "gulp-watch" );
 var Monitor = require( "forever-monitor" ).Monitor;
 var chalk   = require( "chalk" );
 var argv    = require( "yargs" ).argv;
+var bs = require("browser-sync");
 
 var TAG = chalk.bgWhite.black( "  WEBSERVER  " ) + " ";
 
@@ -30,7 +31,8 @@ watch( [ "app/build/babel/**/*"
        ]
      , _.debounce( buildChangeHandler, 3000 ) );
 
-gulp.task( "serve", function () {
+gulp.task( "serve",
+           [ "browser-sync" ], function () {
   var mode;
   var host;
 
@@ -76,6 +78,7 @@ gulp.task( "serve", function () {
       console.log( TAG + chalk.cyan( "[ RESTART ] " )
                  + "Webserver is restarting"
                  );
+      localServer.once( "stdout", bs.reload );
     });
 
     localServer.on( "exit:code", function ( code ) {
