@@ -20,6 +20,7 @@ var _events         = [];
 var protocol        = null;
 var url             = null;
 var path            = null;
+var mode            = "DISCONNECTED";
 var socketConnected = false;
 var reconnectETA    = 0;
 
@@ -46,6 +47,10 @@ var MiddlewareStore = _.assign( {}, EventEmitter.prototype, (
   , getAvailableRPCMethods: function () {
       return _rpcMethods;
     }
+
+  , getMode: function () {
+    return mode;
+  }
 
   , getProtocol: function () {
     return protocol;
@@ -79,11 +84,13 @@ MiddlewareStore.dispatchToken = FreeNASDispatcher.register(
           protocol        = action.protocol;
           url             = action.url;
           path            = action.path;
+          mode            = action.mode;
         } else if ( action.sockState === "disconnected" ) {
           socketConnected = false;
           protocol        = null;
           url             = null;
           path            = null;
+          mode            = "DISCONNECTED";
         }
         MiddlewareStore.emitChange();
         break;

@@ -55,11 +55,11 @@ app.get( "/js/app.js"
 app.get( "/js/data-window-props.js"
        , function ( request ) {
            if ( argv["connect"] ) {
-             return ( "window.__TARGET_HOST__ = "
+             return ( "window.__DEVELOPMENT_CONNECTION__ = "
                     + JSON.stringify( argv["connect"] )
                     );
-           } else {
-             return "window.__TARGET_HOST__ = null";
+           } else if ( argv["simulation"] ) {
+             return "window.__DEVELOPMENT_CONNECTION__ = \"SIMULATION_MODE\"";
            }
          }
        );
