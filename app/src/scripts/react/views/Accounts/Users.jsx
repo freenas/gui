@@ -14,7 +14,12 @@ import US from "../../../flux/stores/UsersStore";
 import GM from "../../../flux/middleware/GroupsMiddleware";
 import GS from "../../../flux/stores/GroupsStore";
 
+import MS from "../../../flux/stores/MiddlewareStore";
+
 import SS from "../../../flux/stores/SessionStore";
+
+import dummyUsers from "./Users/default-users";
+import dummyGroups from "./Groups/default-groups";
 
 function testCurrentUser ( user ) {
   return user.username === SS.getCurrentUser();
@@ -59,9 +64,9 @@ const VIEWER_DATA =
 
   , groupBy:
     { current:
-       { name: "current user account"
-       , testProp: testCurrentUser
-       }
+     {/*{ name: "current user account"
+     , testProp: testCurrentUser
+     }*/}
     , userCreated:
        { name: "local user accounts"
        , testProp: { builtin: false }
@@ -73,12 +78,36 @@ const VIEWER_DATA =
     }
   };
 
-function getUsersStoreData () {
-  return { usersList: US.users };
+function getUsersList () {
+  let usersList = [];
+  // KILLME: This is just for a demo. Don't do this unless you know you're about
+  // to swap it for the upcoming new method (where this is handled by the
+  // virtual middleware).
+  if ( MS.getMode() === "DISCONNECTED" ) {
+    usersList = US.users;
+  } else if ( MS.getMode() === "DISCONNECTED" ) {
+    usersList = this.dummyUsers;
+  }
+  return { usersList: usersList };
+
+  // Old code. Worth keeping until permanent method is established.
+  // return { usersList: US.users };
 }
 
-function getGroupsFromStore () {
-  return { groupsList: GS.groups };
+function getGroupsList () {
+  let groupsList = [];
+  // KILLME: This is just for a demo. Don't do this unless you know you're about
+  // to swap it for the upcoming new method (where this is handled by the
+  // virtual middleware).
+  if ( MS.getMode() === "DISCONNECTED" ) {
+    groupslist = GS.groups;
+  } else if ( MS.getMode() === "DISCONNECTED" ) {
+    groupslist = this.dummyGroups;
+  }
+  return { groupsList: usersList };
+
+  // Old code. Worth keeping until permanent method is established.
+  // return { groupsList: GS.groups };
 }
 
 const Users = React.createClass(
@@ -86,34 +115,43 @@ const Users = React.createClass(
   { displayName: "Users Viewer"
 
   , getInitialState: function () {
-      return getUsersStoreData();
-    }
+    return getUsersList();
+  }
 
   , componentDidMount: function () {
-      US.addChangeListener( this.handleUsersChange );
-      UM.requestUsersList();
-      UM.subscribe( this.constructor.displayName );
+    US.addChangeListener( this.handleUsersChange );
+    // UM.requestUsersList();
+    // UM.subscribe( this.constructor.displayName );
 
-      GS.addChangeListener( this.handleGroupsChange );
-      GM.requestGroupsList();
-      GM.subscribe( this.constructor.displayName );
-    }
+    GS.addChangeListener( this.handleGroupsChange );
+    // GM.requestGroupsList();
+    // GM.subscribe( this.constructor.displayName );
+
+    MS.addChangeListener( this.handleModeSwap );
+  }
 
   , componentWillUnmount: function () {
-      US.removeChangeListener( this.handleUsersChange );
-      UM.unsubscribe( this.constructor.displayName );
+    US.removeChangeListener( this.handleUsersChange );
+    // UM.unsubscribe( this.constructor.displayName );
 
-      GS.removeChangeListener( this.handleGroupsChange );
-      GM.unsubscribe( this.constructor.displayName );
-    }
+    GS.removeChangeListener( this.handleGroupsChange );
+    // GM.unsubscribe( this.constructor.displayName );
+
+    MS.removeChangeListener( this.handleModeSwap );
+  }
 
   , handleGroupsChange: function () {
-      this.setState( getGroupsFromStore() );
-    }
+    this.setState( getGroupsList() );
+  }
 
   , handleUsersChange: function () {
-      this.setState( getUsersStoreData() );
-    }
+    this.setState( getUsersList() );
+  }
+
+  , handleModeSwap: function () {
+    this.handleUsersChange();
+    this.handleGroupsChange();
+  }
 
   , render: function () {
       return <Viewer
