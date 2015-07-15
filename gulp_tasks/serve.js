@@ -23,16 +23,16 @@ var buildChangeHandler = function ( vinyl ) {
   }
 };
 
-watch( [ "app/build/babel/**/*"
-       , "app/build/app.js"
-       , "app/build/libs.js"
-       , "app/server.js"
-       ]
-     , _.debounce( buildChangeHandler, 3000 ) );
-
 gulp.task( "serve", function () {
   var mode;
   var host;
+
+  watch( [ "app/build/babel/**/*"
+         , "app/build/app.js"
+         , "app/build/libs.js"
+         , "app/server.js"
+         ]
+       , _.debounce( buildChangeHandler, 3000 ) );
 
   if ( argv["connect"] ) {
     mode = "connect";
