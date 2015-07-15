@@ -5,7 +5,8 @@
 "use strict";
 
 var gulp       = require( "gulp" );
-var changed    = require( "gulp-changed" );
+var cache      = require( "gulp-cached" );
+var remember   = require( "gulp-remember" );
 var babel      = require( "gulp-babel" );
 var sourcemaps = require( "gulp-sourcemaps" );
 
@@ -17,10 +18,11 @@ var DEST = "app/build/babel";
 gulp.task( "babel"
          , function () {
   return gulp.src( SRC )
-             .pipe( changed( DEST ) )
+             .pipe( cache( "scripts" ) )
              .pipe( sourcemaps.init() )
              .pipe( babel() )
              .pipe( sourcemaps.write() )
+             .pipe( remember( "scripts" ) )
              .pipe( gulp.dest( DEST ) );
 });
 
