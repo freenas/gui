@@ -104,7 +104,7 @@ function getGroupsList () {
   } else if ( MS.getMode() === "DISCONNECTED" ) {
     groupslist = this.dummyGroups;
   }
-  return { groupsList: usersList };
+  return { groupsList: groupsList };
 
   // Old code. Worth keeping until permanent method is established.
   // return { groupsList: GS.groups };
