@@ -48,19 +48,19 @@ const VIEWER_DATA =
   , filtersAllowed : new Set( [ "builtIn" ] )
 
   , columnsInitial : new Set(
-                      [ "id"
-                      , "builtIn"
-                      , "username"
-                      , "fullname"
-                      ]
-                    )
+                       [ "id"
+                       , "builtIn"
+                       , "username"
+                       , "fullname"
+                       ]
+                     )
   , columnsAllowed : new Set(
-                      [ "id"
-                      , "builtIn"
-                      , "username"
-                      , "fullname"
-                      ]
-                    )
+                     [ "id"
+                     , "builtIn"
+                     , "username"
+                     , "fullname"
+                     ]
+                     )
 
   , groupBy:
     { current:
@@ -68,15 +68,15 @@ const VIEWER_DATA =
      , testProp: testCurrentUser
      }*/}
     , userCreated:
-       { name: "local user accounts"
-       , testProp: { builtin: false }
-       }
+     { name: "local user accounts"
+     , testProp: { builtin: false }
+     }
     , builtIn:
-       { name: "built-in system accounts"
-       , testProp: { builtin: true }
-       }
-    }
-  };
+     { name: "built-in system accounts"
+     , testProp: { builtin: true }
+     }
+  }
+};
 
 function getUsersList () {
   let usersList = [];
@@ -154,11 +154,11 @@ const Users = React.createClass(
   }
 
   , render: function () {
-      return <Viewer
-                header   = { "Users" }
-                itemData = { this.state.usersList }
-                { ...VIEWER_DATA } />;
-    }
+    return <Viewer
+             header   = { "Users" }
+             itemData = { this.state.usersList }
+             { ...VIEWER_DATA } />;
+  }
 
 });
 
