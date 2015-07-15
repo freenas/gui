@@ -75,8 +75,8 @@ const VIEWER_DATA =
      { name: "built-in system accounts"
      , testProp: { builtin: true }
      }
-  }
-};
+   }
+  };
 
 function getUsersList () {
   let usersList = [];
