@@ -22,11 +22,11 @@ const FreeNASWebApp = React.createClass(
   { mixins: [ routerShim ]
 
   , componentDidMount: function () {
-    this.calculateDefaultRoute( "/", "dashboard", "is" );
+    this.calculateDefaultRoute( "/", "accounts", "is" );
   }
 
   , componentDidUpdate: function ( prevProps, prevState ) {
-    this.calculateDefaultRoute( "/", "dashboard", "is" );
+    this.calculateDefaultRoute( "/", "accounts", "is" );
   }
 
   , render: function () {
