@@ -86,7 +86,7 @@ function getUsersList () {
   if ( MS.getMode() === "DISCONNECTED" ) {
     usersList = US.users;
   } else if ( MS.getMode() === "DISCONNECTED" ) {
-    usersList = this.dummyUsers;
+    usersList = dummyUsers;
   }
   return { usersList: usersList };
 
@@ -102,7 +102,7 @@ function getGroupsList () {
   if ( MS.getMode() === "DISCONNECTED" ) {
     groupsList = GS.groups;
   } else if ( MS.getMode() !== "DISCONNECTED" ) {
-    groupsList = this.dummyGroups;
+    groupsList = dummyGroups;
   }
   return { groupsList: groupsList };
 
