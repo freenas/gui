@@ -13,21 +13,16 @@ var runSequence = require( "run-sequence" );
 require( "require-dir" )( "./gulp_tasks/", { recurse: true } );
 
 gulp.task( "default", function ( callback ) {
-  runSequence( [ "clean", "check-environment", "install-packages" ]
-             , "build"
+  runSequence( [ "clean", "install-packages" ]
+             , [ "babel"
+               , "browserify"
+               , "libs"
+               , "less"
+               , "images"
+               , "favicons"
+               , "fonts"
+               ]
              , "serve"
              , callback
              );
 });
-
-// ASYNCHRONOUS BUILD TASKS
-gulp.task( "build"
-         , [ "babel"
-           , "browserify"
-           , "libs"
-           , "less"
-           , "images"
-           , "favicons"
-           , "fonts"
-           ]
-         );
