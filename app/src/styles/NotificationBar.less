@@ -1,3 +1,7 @@
+@import (reference) "./variables.less";
+@import (reference) "../../../bower_components/bootstrap/less/mixins.less";
+@import (reference) "./utility.less";
+
 .notification-bar {
   background-color : @freenas-dark-gray;
   text-align       : center;
@@ -6,7 +10,7 @@
     float        : right;
     height       : @app-header-height;
     margin-right : 10px;
-    color        : @almost-white;
+    color        : #f3f3f3;
     line-height  : @app-header-height;
 
     .fa {

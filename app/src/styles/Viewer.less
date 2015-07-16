@@ -1,3 +1,7 @@
+@import (reference) "./variables.less";
+@import (reference) "../../../bower_components/bootstrap/less/mixins.less";
+@import (reference) "./utility.less";
+
 .viewer-active-item {
   background-color : @brand-info;
   color            : white;
@@ -60,7 +64,8 @@
       margin-top    : ( -@disclosure-triangle-base );
       margin-left   : ( @disclosure-triangle-height );
     }
-    .disclosure-target { .hidden(); }
+    // FIXME: Nonexistent mixin
+    // .disclosure-target { .hidden(); }
   }
 
   // Prototype Fixed Table Header code

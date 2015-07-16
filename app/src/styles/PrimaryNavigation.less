@@ -1,3 +1,6 @@
+@import (reference) "./variables.less";
+@import (reference) "../../../bower_components/bootstrap/less/mixins.less";
+@import (reference) "./utility.less";
 
 // TODO: Revert changes made for #7908 once externally resolved.
 nav.primary-nav {
@@ -27,7 +30,7 @@ nav.primary-nav {
 
     &:not(.disabled) {
       & > a {
-        color : @almost-white;
+        color : #f3f3f3;
         &:hover {
           background-color : #d1d1d1;
           text-shadow      : 0 0 7px rgba(0, 0, 0, 0.75);
@@ -57,7 +60,7 @@ nav.primary-nav {
 
 .primary-nav-label-toggle {
   width         : 100%;
-  color         : @almost-white;
+  color         : #f3f3f3;
   font-size     : 125%;
   font-weight   : 700;
   padding-right : 5px;

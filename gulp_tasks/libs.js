@@ -9,7 +9,6 @@ var gulp   = require( "gulp" );
 var concat = require( "gulp-concat" );
 
 gulp.task( "libs"
-         , [ "install-packages" ]
          , function () {
   return gulp.src( [ "bower_components/velocity/velocity.min.js"
                    , "bower_components/velocity/velocity.ui.min.js"

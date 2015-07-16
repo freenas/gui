@@ -10,7 +10,7 @@ var watch   = require( "gulp-watch" );
 var Monitor = require( "forever-monitor" ).Monitor;
 var chalk   = require( "chalk" );
 var argv    = require( "yargs" ).argv;
-var bs      = require("browser-sync");
+var bs      = require( "browser-sync" );
 
 var TAG = chalk.bgWhite.black( "  WEBSERVER  " ) + " ";
 
@@ -24,8 +24,9 @@ var buildChangeHandler = function ( vinyl ) {
   }
 };
 
-gulp.task( "serve",
-           [ "browser-sync" ], function () {
+gulp.task( "serve"
+         , [ "browser-sync" ]
+         , function () {
   var mode;
   var host;
 

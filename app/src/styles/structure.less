@@ -1,6 +1,6 @@
-
-@almost-white      : #f3f3f3;
-@freenas-dark-gray : #1f1f1f;
+@import (reference) "./variables.less";
+@import (reference) "../../../bower_components/bootstrap/less/mixins.less";
+@import (reference) "./utility.less";
 
 // Single-page setup
 html, body {
@@ -31,8 +31,6 @@ html, body {
   overflow-x : hidden;
   overflow-y : auto;
 }
-
-@app-header-height: 50px;
 
 .app-header {
   .flex( 0 0 @app-header-height );
