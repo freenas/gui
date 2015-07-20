@@ -125,7 +125,10 @@ class WebSocketClient {
                                                     ? "wss://"
                                                     : "ws://"
                        );
-        this.connect( protocol, this.url, ":5000/socket" );
+        this.connect( this.socketInfo.protocol
+                    , this.socketInfo.url
+                    , this.socketInfo.path
+                    );
       }.bind( this ) );
     }
   }

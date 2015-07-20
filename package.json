@@ -52,6 +52,7 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.3",
+    "ws": "^0.7.2",
     "yargs": "^3.15.0"
   },
   "private": true

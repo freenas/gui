@@ -59,9 +59,7 @@ class MiddlewareClient extends WebSocketClient {
   }
 
   connect ( protocol, url, path, mode ) {
-    if ( mode !== "SIMULATION_MODE" ) {
-      super.connect( protocol, url, path );
-    }
+    super.connect( protocol, url, path );
     this.socketInfo["mode"] = mode;
   }
 
