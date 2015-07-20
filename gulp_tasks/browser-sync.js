@@ -10,7 +10,8 @@ gulp.task( "browser-sync", function () {
   bs.init(
     { proxy: "localhost:8888"
     , reloadDelay: 1500
-    , files: [ "app/build/img/**/*"
+    , files: [ "app/build/css/**/*.css"
+             , "app/build/img/**/*"
              , "app/build/font/**/*"
              ]
     }

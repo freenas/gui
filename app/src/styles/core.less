@@ -1,57 +1,56 @@
 // BOOTSTRAP LESS
 
+@bootstrap-path: "../../../bower_components/bootstrap/less/";
+
 // Reset
-@import "../../../bower_components/bootstrap/less/normalize.less";
-@import "../../../bower_components/bootstrap/less/print.less";
+@import "@{bootstrap-path}normalize.less";
+@import "@{bootstrap-path}print.less";
 
-// Core variables
-@import "../../../bower_components/bootstrap/less/variables.less";
-// FreeNAS Overwrite
-@import "variables.less";
-
-@import "../../../bower_components/bootstrap/less/mixins.less";
+// Core variables and mixins
+@import "@{bootstrap-path}variables.less";
+@import "@{bootstrap-path}mixins.less";
 
 // Core CSS
-@import "../../../bower_components/bootstrap/less/scaffolding.less";
-@import "../../../bower_components/bootstrap/less/type.less";
-@import "../../../bower_components/bootstrap/less/code.less";
-@import "../../../bower_components/bootstrap/less/grid.less";
-@import "../../../bower_components/bootstrap/less/tables.less";
-@import "../../../bower_components/bootstrap/less/forms.less";
-@import "../../../bower_components/bootstrap/less/buttons.less";
+@import "@{bootstrap-path}scaffolding.less";
+@import "@{bootstrap-path}type.less";
+@import "@{bootstrap-path}code.less";
+@import "@{bootstrap-path}grid.less";
+@import "@{bootstrap-path}tables.less";
+@import "@{bootstrap-path}forms.less";
+@import "@{bootstrap-path}buttons.less";
 
 // Components
-@import "../../../bower_components/bootstrap/less/component-animations.less";
-@import "../../../bower_components/bootstrap/less/glyphicons.less";
-@import "../../../bower_components/bootstrap/less/dropdowns.less";
-@import "../../../bower_components/bootstrap/less/button-groups.less";
-@import "../../../bower_components/bootstrap/less/input-groups.less";
-@import "../../../bower_components/bootstrap/less/navs.less";
-@import "../../../bower_components/bootstrap/less/navbar.less";
-@import "../../../bower_components/bootstrap/less/breadcrumbs.less";
-@import "../../../bower_components/bootstrap/less/pagination.less";
-@import "../../../bower_components/bootstrap/less/pager.less";
-@import "../../../bower_components/bootstrap/less/labels.less";
-@import "../../../bower_components/bootstrap/less/badges.less";
-@import "../../../bower_components/bootstrap/less/jumbotron.less";
-@import "../../../bower_components/bootstrap/less/thumbnails.less";
-@import "../../../bower_components/bootstrap/less/alerts.less";
-@import "../../../bower_components/bootstrap/less/progress-bars.less";
-@import "../../../bower_components/bootstrap/less/media.less";
-@import "../../../bower_components/bootstrap/less/list-group.less";
-@import "../../../bower_components/bootstrap/less/panels.less";
-@import "../../../bower_components/bootstrap/less/wells.less";
-@import "../../../bower_components/bootstrap/less/close.less";
+@import "@{bootstrap-path}component-animations.less";
+@import "@{bootstrap-path}glyphicons.less";
+@import "@{bootstrap-path}dropdowns.less";
+@import "@{bootstrap-path}button-groups.less";
+@import "@{bootstrap-path}input-groups.less";
+@import "@{bootstrap-path}navs.less";
+@import "@{bootstrap-path}navbar.less";
+@import "@{bootstrap-path}breadcrumbs.less";
+@import "@{bootstrap-path}pagination.less";
+@import "@{bootstrap-path}pager.less";
+@import "@{bootstrap-path}labels.less";
+@import "@{bootstrap-path}badges.less";
+@import "@{bootstrap-path}jumbotron.less";
+@import "@{bootstrap-path}thumbnails.less";
+@import "@{bootstrap-path}alerts.less";
+@import "@{bootstrap-path}progress-bars.less";
+@import "@{bootstrap-path}media.less";
+@import "@{bootstrap-path}list-group.less";
+@import "@{bootstrap-path}panels.less";
+@import "@{bootstrap-path}wells.less";
+@import "@{bootstrap-path}close.less";
 
 // Components w/ JavaScript
-@import "../../../bower_components/bootstrap/less/modals.less";
-@import "../../../bower_components/bootstrap/less/tooltip.less";
-@import "../../../bower_components/bootstrap/less/popovers.less";
-@import "../../../bower_components/bootstrap/less/carousel.less";
+@import "@{bootstrap-path}modals.less";
+@import "@{bootstrap-path}tooltip.less";
+@import "@{bootstrap-path}popovers.less";
+@import "@{bootstrap-path}carousel.less";
 
 // Utility classes
-@import "../../../bower_components/bootstrap/less/utilities.less";
-@import "../../../bower_components/bootstrap/less/responsive-utilities.less";
+@import "@{bootstrap-path}utilities.less";
+@import "@{bootstrap-path}responsive-utilities.less";
 
 
 
@@ -59,16 +58,7 @@
 // =============================================================================
 
 // Typefaces
-@import "open-sans/300";
-@import "open-sans/300italic";
-@import "open-sans/400";
-@import "open-sans/400italic";
-@import "open-sans/600";
-@import "open-sans/600italic";
-@import "open-sans/700";
-@import "open-sans/700italic";
-@import "open-sans/800";
-@import "open-sans/800italic";
+@import "open-sans.less";
 
 
 // Iconography
@@ -79,26 +69,33 @@
 // style. This should be considered extremely temporary.
 @import "../../../bower_components/fontawesome/less/font-awesome.less";
 
+@fontsPath    : "../font";
+@fa-font-path : "@{fontsPath}";
+
+
 // Layout
-@import "./utility.less";
-@import "./structure.less";
+@import "utility.less";
+@import "structure.less";
 
 
 // Components
-@import "./Icon.less";
-@import "./ToggleSwitch.less";
-@import "./Throbber.less";
-@import "./NotificationBar.less";
-@import "./PrimaryNavigation.less";
-@import "./ContextBar.less";
-@import "./DebugPanel.less";
-@import "./Shell.less";
-@import "./Viewer.less";
-@import "./Widgets.less";
-@import "./DiscTri.less";
-@import "./TypeAhead.less";
+@import "Icon.less";
+@import "ToggleSwitch.less";
+@import "Throbber.less";
+@import "NotificationBar.less";
+@import "PrimaryNavigation.less";
+@import "ContextBar.less";
+@import "DebugPanel.less";
+@import "Shell.less";
+@import "Viewer.less";
+@import "Widgets.less";
+@import "DiscTri.less";
+@import "TypeAhead.less";
 
 // Unique Views
-@import "./Network.less";
-@import "./Calendar.less";
+@import "Network.less";
+@import "Calendar.less";
+
+// Variables
+@import "variables.less";
 
