@@ -28,6 +28,9 @@ import Calendar from "./react/views/Calendar";
 
 import Network from "./react/views/Network";
 
+import Storage from "./react/views/Storage";
+
+
 module.exports = (
   <Route
     path    = "/"
@@ -85,6 +88,14 @@ module.exports = (
       name    = "network"
       path    = "network"
       handler = { Network } />
+
+
+    {/* STORAGE */}
+    <Route
+      name    = "storage"
+      route   = "storage"
+      handler = { Storage } />
+
 
     <NotFoundRoute handler={ Users } />
 

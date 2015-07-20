@@ -10,13 +10,13 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
-import SS from "../stores/SchemaStore"
-import DS from "../stores/DisksStore";
-import DM from "../middleware/DisksMiddleware";
-import VS from "../stores/VolumeStore";
-import ZM from "../middleware/ZfsMiddleware";
+import SS from "../../../flux/stores/SchemaStore"
+import DS from "../../../flux/stores/DisksStore";
+import DM from "../../../flux/middleware/DisksMiddleware";
+import VS from "../../../flux/stores/VolumeStore";
+import ZM from "../../../flux/middleware/ZfsMiddleware";
 
-import DiskItemIcon from "../views/Storage/Disks/DiskItemIcon";
+import DiskItemIcon from "./Disks/DiskItemIcon";
 
 const ContextDisks = React.createClass(
 

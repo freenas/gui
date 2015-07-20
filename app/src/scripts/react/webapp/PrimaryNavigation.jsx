@@ -23,11 +23,11 @@ const paths =
     , status   : null
     , disabled : true
     }
-  , { path     : ""
+  , { path     : "storage"
     , icon     : "magic"
     , label    : "Storage"
     , status   : null
-    , disabled : true
+    , disabled : false
     }
   , { path     : "network"
     , icon     : "moon-o"
