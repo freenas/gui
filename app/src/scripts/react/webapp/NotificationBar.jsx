@@ -19,13 +19,11 @@ import Icon from "../components/Icon";
 var NotificationBar = React.createClass(
   { getInitialState: function () {
     return (
-      { visibleLog: ""
-
-      , host        : MS.getHost()
+      { host        : MS.getHost()
       , protocol    : MS.getProtocol()
+      , mode        : MS.getMode()
       , connected   : MS.getSockState()[0]
       , currentUser : SS.getCurrentUser()
-
       }
     );
   }
@@ -51,22 +49,40 @@ var NotificationBar = React.createClass(
       this.setState(
         { host      : MS.getHost()
         , protocol  : MS.getProtocol()
+        , mode      : MS.getMode()
         , connected : MS.getSockState()[0]
         }
       );
     }
 
   , render: function () {
+    let hostDisplay;
+
+    if ( this.state.host ) {
+      if ( this.state.mode === "SIMULATION_MODE" ) {
+        hostDisplay = "Simulation Mode";
+      } else {
+        hostDisplay = this.state.host;
+      }
+    } else {
+      hostDisplay = "Disconnected";
+    }
+
     return (
       <header className = "app-header notification-bar" >
 
-        <h1 className={ "hostname " + ( this.state.connected
-                                      ? "connected"
-                                      : "disconnected"
-                                      )
+        <h1 className={ "hostname "
+                      + ( this.state.connected
+                        ? "connected"
+                        : "disconnected"
+                        )
+                      + ( this.state.mode === "SIMULATION_MODE"
+                        ? " simulation"
+                        : ""
+                        )
                       }
         >
-          { this.state.host ? this.state.host : "Disconnected" }
+          { hostDisplay }
         </h1>
 
         <div className="user-info">
