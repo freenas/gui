@@ -3,7 +3,7 @@
 
 "use strict";
 
-require("babel/polyfill");
+require( "babel/polyfill" );
 
 var fs   = require( "fs" );
 var path = require( "path" );
@@ -77,4 +77,4 @@ app.get( "*"
        );
 
 // Start Mach server
-mach.serve( app, ( 8888 ) );
+mach.serve( app, 8888 );
