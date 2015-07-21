@@ -179,8 +179,9 @@ const Storage = React.createClass(
         break;
 
       case "disk" :
-        newVdev.type = null;
+        newVdev.children = [];
         newVdev.path = null;
+        newVdev.type = null;
         break;
 
       default:
