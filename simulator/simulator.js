@@ -8,6 +8,14 @@ var WebSocketServer = require( "ws" ).Server;
 
 var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 
+var authTokens = {};
+
+function generateToken () {
+  Array( 32 ).join(
+    ( Math.random().toString( 36 ) + "00000000000000000" ).slice( 2, 18 )
+  ).slice( 0, 32 );
+}
+
 function handleOpen () {
   // TODO
 };
@@ -94,13 +102,58 @@ function handleError ( error ) {
   console.error( error );
 };
 
-function handleMessage ( data, flags ) {
-  console.log( data );
+function handleMessage ( message, flags ) {
+  var data;
+  var args;
+
+  try {
+    data = JSON.parse( message );
+  } catch ( error ) {
+    console.error( "Could not parse JSON from message:", message );
+    return false;
+  }
+
+  switch ( data.namespace ) {
+    case "rpc":
+      switch ( data.name ) {
+        case "auth_token":
+          if ( authTokens[ data["auth_token"] ] ) {
+            var token = generateToken();
+            authTokens[ token ] = authTokens[ data["auth_token"] ];
+            args = [ token, 600, authTokens[ data["auth_token"] ] ];
+            delete authTokens[ data["auth_token"] ];
+            this.send( pack( "rpc", "response", args, data.id ) );
+          } else {
+            // FIXME
+            return false;
+          }
+          break;
+
+        case "auth":
+          var token = generateToken();
+          authTokens[ token ] = data.args["username"];
+          args = [ token, 600, data.args["username"] ];
+          this.send( pack( "rpc", "response", args, data.id ) );
+          break;
+      }
+      break;
+  }
 };
 
+function pack ( namespace, name, args, id ) {
+  return JSON.stringify(
+    { namespace : namespace
+    , name      : name
+    , id        : id
+    , args      : args
+    , timestamp : Math.floor( ( new Date ).getTime() / 1000 )
+    }
+  );
+}
+
 middleware.on( "connection", function ( socket ) {
-  socket.on( "open", handleOpen );
-  socket.on( "close", handleClose );
-  socket.on( "error", handleError );
-  socket.on( "message", handleMessage );
+  socket.on( "open", handleOpen.bind( socket ) );
+  socket.on( "close", handleClose.bind( socket ) );
+  socket.on( "error", handleError.bind( socket ) );
+  socket.on( "message", handleMessage.bind( socket ) );
 });
