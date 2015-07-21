@@ -142,29 +142,29 @@ const Storage = React.createClass(
 
       case "raidz3" :
         if ( newVdev.children.length === 5 ) {
-          _.pull( newVdev.children, diskPath );
+          newVdev.children = _.without( newVdev.children, diskPath );
           newVdev.type = "raidz2";
         } else {
-          _.pull( newVdev.children, diskPath );
+          newVdev.children = _.without( newVdev.children, diskPath );
         }
         break;
 
       case "raidz2" :
         if ( newVdev.children.length === 4 ) {
-          _.pull( newVdev.children, diskPath );
+          newVdev.children = _.without( newVdev.children, diskPath );
           newVdev.type = "raidz1";
         } else {
-          _.pull( newVdev.children, diskPath );
+          newVdev.children = _.without( newVdev.children, diskPath );
         }
         break;
 
       case "raidz1" :
 
         if ( newVdev.children.length === 3 ) {
-          _.pull( newVdev.children, diskPath );
+          newVdev.children = _.without( newVdev.children, diskPath );
           newVdev.type = "mirror";
         } else {
-          _.pull( newVdev.children, diskPath );
+          newVdev.children = _.without( newVdev.children, diskPath );
         }
         break;
 
@@ -174,7 +174,7 @@ const Storage = React.createClass(
           newVdev.path = diskPath;
           newVdev.type = "disk";
         } else {
-          _.pull( newVdev.children, diskPath );
+          newVdev.children = _.without( newVdev.children, diskPath );
         }
         break;
 
