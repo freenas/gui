@@ -190,10 +190,11 @@ const PoolItem = React.createClass(
     let volumeSubmitButton = null;
     let topology = null;
 
+    let freeSize      = ByteCalc.convertString( this.props.free );
+    let allocatedSize = ByteCalc.convertString( this.props.allocated );
+    let totalSize     = ByteCalc.convertString( this.props.size );
+
     if ( this.props.existsOnServer || this.state.editing ) {
-      let freeSize      = ByteCalc.convertString( this.props.free );
-      let allocatedSize = ByteCalc.convertString( this.props.allocated );
-      let totalSize     = ByteCalc.convertString( this.props.size );
 
       // TODO: Conditional logic based on presence of datasets
       datasets = <PoolDatasets ref="Storage" />;
@@ -205,14 +206,6 @@ const PoolItem = React.createClass(
           </TWBS.Col>
           <TWBS.Col xs={ 3 }>
             <h3>{ ByteCalc.humanize( totalSize ) }</h3>
-          </TWBS.Col>
-          <TWBS.Col xs={ 4 }>
-            <BreakdownChart
-              free   = { freeSize }
-              used   = { allocatedSize }
-              parity = { totalSize / 4 /* FIXME */ }
-              total  = { totalSize }
-            />
           </TWBS.Col>
           <TWBS.Col xs={ 2 }>
             <TWBS.Button
@@ -282,15 +275,24 @@ const PoolItem = React.createClass(
     }
 
     return (
-      <TWBS.Panel>
-
-        { datasets }
-
-        { infoBar }
+      <TWBS.Panel
+        className = "volume"
+      >
 
         { volumeNameField }
 
+        { infoBar }
+
+        <BreakdownChart
+          free   = { freeSize }
+          used   = { allocatedSize }
+          parity = { totalSize / 4 /* FIXME */ }
+          total  = { totalSize }
+        />
+
         { volumeSubmitButton }
+
+        { datasets }
 
         { topology }
 
