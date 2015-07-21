@@ -29,7 +29,7 @@ const Storage = React.createClass(
   , getInitialState () {
 
     return ( { volumes         : VS.listVolumes()
-             , selectedDisks   : new Set()
+             , selectedDisks   : []
              }
            );
   }
@@ -73,7 +73,7 @@ const Storage = React.createClass(
     // Different numbers of disks.
   , handleDiskAdd ( volumeKey, vdevPurpose, vdevKey, event ) {
 
-    let newSelectedDisks = null;
+    let newSelectedDisks = this.state.selectedDisks;
     let newVolumes = this.state[ "volumes" ];
     let newVdev = this.state[ "volumes" ]
                             [ volumeKey ]
@@ -116,7 +116,8 @@ const Storage = React.createClass(
               )
        ) {
 
-      newSelectedDisks = this.state.selectedDisks.add( event.target.value );
+      newSelectedDisks.push( event.target.value );
+      newSelectedDisks = newSelectedDisks.sort();
 
       this.setState( { volumes: newVolumes
                      , selectedDisks: newSelectedDisks
@@ -127,6 +128,8 @@ const Storage = React.createClass(
   }
 
   , handleDiskRemove ( volumeKey, vdevPurpose, vdevKey, diskPath ) {
+
+    let newSelectedDisks = [];
 
     let newVolumes = this.state[ "volumes" ];
     let newVdev = this.state[ "volumes" ]
@@ -185,10 +188,9 @@ const Storage = React.createClass(
     }
 
     newVolumes[ volumeKey ][ "topology" ][ vdevPurpose ][ vdevKey ] = newVdev;
+    newSelectedDisks = _.without( this.state.selectedDisks, diskPath );
 
-    let newSelectedDisks = this.state.selectedDisks;
 
-    newSelectedDisks.delete( diskPath );
 
     this.setState( { volumes: newVolumes
                    , selectedDisks: newSelectedDisks
@@ -290,7 +292,7 @@ const Storage = React.createClass(
       , handleVolumeNameChange : this.handleVolumeNameChange
       , submitVolume           : this.submitVolume
       , availableDisks: _.without( VS.availableDisks
-                                 , ...Array.from( this.state.selectedDisks )
+                                 , ...this.state.selectedDisks
                                  )
       , availableSSDs: [] // FIXME
       // This must be submitted in full because it is also necessary to know
