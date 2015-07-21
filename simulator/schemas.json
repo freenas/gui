@@ -1,0 +1,1573 @@
+{
+  "definitions": {
+    "network-interface-alias": {
+      "type": "object",
+      "properties": {
+        "prefixlen": {
+          "type": "integer"
+        },
+        "broadcast": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "enum": [
+            "INET",
+            "INET6"
+          ],
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "share": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object"
+        },
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      }
+    },
+    "network-config": {
+      "type": "object",
+      "properties": {
+        "dhcp": {
+          "type": "object",
+          "properties": {
+            "assign_gateway": {
+              "type": "boolean"
+            },
+            "assign_dns": {
+              "type": "boolean"
+            }
+          }
+        },
+        "gateway": {
+          "type": "object",
+          "properties": {
+            "ipv4": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ipv6": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "dns": {
+          "type": "object",
+          "properties": {
+            "search": {
+              "type": "array"
+            },
+            "servers": {
+              "type": "array"
+            }
+          }
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "tty": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "resource": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ended-at": {
+          "type": "integer"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "started-at": {
+          "type": "integer"
+        }
+      }
+    },
+    "nfs-share-properties": {
+      "type": "object",
+      "properties": {
+        "maproot-group": {
+          "type": "string"
+        },
+        "maproot-user": {
+          "type": "string"
+        },
+        "alldirs": {
+          "type": "boolean"
+        },
+        "mapall-user": {
+          "type": "string"
+        },
+        "hosts": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "mapall-group": {
+          "type": "string"
+        },
+        "read-only": {
+          "type": "boolean"
+        }
+      }
+    },
+    "disk": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "acoustic-level": {
+          "type": "string"
+        },
+        "is-ssd": {
+          "type": "boolean"
+        },
+        "apm-mode": {
+          "type": "string"
+        },
+        "smart-enabled": {
+          "type": "boolean"
+        },
+        "standby-mode": {
+          "type": "string"
+        },
+        "mediasize": {
+          "type": "integer"
+        },
+        "max-rotation": {
+          "type": "integer"
+        },
+        "smart-status": {
+          "type": "string"
+        },
+        "interface": {
+          "type": "string"
+        },
+        "smart-capable": {
+          "type": "boolean"
+        },
+        "serial": {
+          "type": "string"
+        },
+        "smart-options": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "smart": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "update.in_progress": {
+      "type": "object",
+      "properties": {
+        "num_files_total": {
+          "type": "number"
+        },
+        "indeterminate": {
+          "type": "boolean"
+        },
+        "filesize": {
+          "type": "number"
+        },
+        "percent": {
+          "type": "number"
+        },
+        "reboot": {
+          "type": "boolean"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "finished": {
+          "type": "boolean"
+        },
+        "pkg_name": {
+          "type": "string"
+        },
+        "num_files_done": {
+          "type": "number"
+        },
+        "error": {
+          "type": "boolean"
+        },
+        "pkg_version": {
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "Downloading",
+            "Installing"
+          ],
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "update.ops": {
+      "type": "object",
+      "properties": {
+        "new_name": {
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "upgrade",
+            "install"
+          ],
+          "type": "string"
+        },
+        "new_version": {
+          "type": "string"
+        },
+        "previous_name": {
+          "type": "string"
+        },
+        "previous_version": {
+          "type": "string"
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "properties": {
+        "builtin": {
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "RUNNING",
+            "STOPPED",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "pid": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "share-client": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string"
+        },
+        "share": {
+          "type": "string"
+        },
+        "user": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "zfs-properties": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "freeing": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "listsnapshots": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "leaked": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "delegation": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "dedupditto": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "dedupratio": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "autoexpand": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "allocated": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "guid": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "size": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "capacity": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "cachefile": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "bootfs": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "autoreplace": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "readonly": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "version": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "health": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "expandsize": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "free": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "maxblocksize": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "failmode": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "altroot": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "fragmentation": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        }
+      }
+    },
+    "system-ui": {
+      "type": "object",
+      "properties": {
+        "webui_https_port": {
+          "type": "integer"
+        },
+        "webui_protocol": {
+          "items": {
+            "enum": [
+              "HTTP",
+              "HTTPS"
+            ],
+            "type": "string"
+          },
+          "type": [
+            "array"
+          ]
+        },
+        "webui-http_port": {
+          "type": "integer"
+        },
+        "webui_listen": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array"
+          ]
+        }
+      }
+    },
+    "network-host": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "zfs-dataset": {
+      "type": "object",
+      "properties": {
+        "children": {
+          "items": {
+            "$ref": "zfs-dataset"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "properties": {
+          "$ref": "zfs-datasetproperties"
+        }
+      }
+    },
+    "zfs-scan": {
+      "type": "object",
+      "properties": {
+        "bytes_to_process": {
+          "type": "long"
+        },
+        "state": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "integer"
+        },
+        "end_time": {
+          "type": "string"
+        },
+        "func": {
+          "type": "integer"
+        },
+        "bytes_processed": {
+          "type": "long"
+        },
+        "start_time": {
+          "type": "string"
+        },
+        "percentage": {
+          "type": "float"
+        }
+      }
+    },
+    "zfs-pool": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "ONLINE",
+            "OFFLINE",
+            "DEGRADED",
+            "FAULTED",
+            "REMOVED",
+            "UNAVAIL"
+          ],
+          "type": "string"
+        },
+        "guid": {
+          "type": "long"
+        },
+        "name": {
+          "type": "string"
+        },
+        "groups": {
+          "type": "object",
+          "properties": {
+            "cache": {
+              "type": "array"
+            },
+            "data": {
+              "$ref": "zfs-vdev"
+            },
+            "log": {
+              "type": "array"
+            }
+          }
+        },
+        "scan": {
+          "$ref": "zfs-scan"
+        },
+        "hostname": {
+          "type": "string"
+        },
+        "root_dataset": {
+          "$ref": "zfs-dataset"
+        },
+        "properties": {
+          "$ref": "zfs-properties"
+        }
+      }
+    },
+    "update": {
+      "type": "object",
+      "properties": {
+        "check_auto": {
+          "type": "boolean"
+        },
+        "train": {
+          "type": "string"
+        }
+      }
+    },
+    "zfs-topology": {
+      "type": "object",
+      "properties": {
+        "spare": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        },
+        "cache": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        },
+        "data": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        },
+        "logs": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "volume": {
+      "type": "object",
+      "properties": {
+        "params": {
+          "type": "object"
+        },
+        "topology": {
+          "$ref": "zfs-topology"
+        },
+        "type": {
+          "enum": [
+            "zfs"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "volume"
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "sshpubkey": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "shell": {
+          "type": "string"
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "groups": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "sessions": {
+          "items": {
+            "$ref": "session"
+          },
+          "readOnly": true,
+          "type": "array"
+        },
+        "unixhash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sudo": {
+          "type": "boolean"
+        },
+        "smbhash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "builtin": {
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "logged-in": {
+          "readOnly": true,
+          "type": "boolean"
+        },
+        "full_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "home": {
+          "type": "string"
+        },
+        "group": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "number"
+        },
+        "password_disabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "system-general": {
+      "type": "object",
+      "properties": {
+        "timezone": {
+          "type": "string"
+        },
+        "hostname": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "console_keymap": {
+          "type": "string"
+        }
+      }
+    },
+    "network-route": {
+      "type": "object",
+      "properties": {
+        "netmask": {
+          "type": "integer"
+        },
+        "gateway": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "INET",
+            "INET6"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        }
+      }
+    },
+    "swap-mirror": {
+      "type": "object",
+      "properties": {
+        "disks": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": "string"
+      }
+    },
+    "disk-device": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "mediasize": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "zfs-vdev": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "disk",
+            "file",
+            "mirror",
+            "raidz1",
+            "raidz2",
+            "raidz3"
+          ],
+          "type": "string"
+        },
+        "children": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "cpu-device": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "afp-share": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string"
+        },
+        "rw-list": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "hosts-allow": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "time-machine": {
+          "type": "boolean"
+        },
+        "hosts-deny": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "users-deny": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "users-allow": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "read-only": {
+          "type": "boolean"
+        },
+        "ro-list": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "zfs-datasetproperties": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "setuid": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "referenced": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "volmode": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "logicalused": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "numclones": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "primarycache": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "logbias": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "creation": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "sync": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "copies": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "sharenfs": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "clones": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "usedbyrefreservation": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "inconsistent": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "createtxg": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "reservation": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "mountpoint": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "casesensitivity": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "guid": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "usedbysnapshots": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "stmf_sbd_lu": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "atime": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "compression": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "snapdir": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "xattr": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "aclmode": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "userrefs": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "dedup": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "snapshot_limit": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "aclinherit": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "compressratio": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "readonly": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "version": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "recordsize": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "filesystem_limit": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "mounted": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "mlslabel": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "jailed": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "secondarycache": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "prevsnap": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "available": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "used": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "written": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "refquota": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "refcompressratio": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "quota": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "utf8only": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "snapshot_count": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "volsize": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "vscan": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "canmount": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "unique": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "normalization": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "usedbychildren": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "usedbydataset": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "objsetid": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "defer_destroy": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "volblocksize": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "type": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "redundant_metadata": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "filesystem_count": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "devices": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "useraccounting": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "refreservation": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "iscsioptions": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "logicalreferenced": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "exec": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "checksum": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "nbmand": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        },
+        "sharesmb": {
+          "type": "object",
+          "properties": {
+            "source": "string",
+            "value": "string"
+          }
+        }
+      }
+    },
+    "ui-transaction": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "sessions": {
+          "items": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "string"
+              },
+              "started-at": {
+                "type": "number"
+              },
+              "timeout": {
+                "type": "number"
+              },
+              "sid": {
+                "type": "number"
+              }
+            }
+          },
+          "type": "array"
+        }
+      }
+    },
+    "network-device": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "network-interface": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "object",
+          "properties": {
+            "link-state": {
+              "type": "string"
+            },
+            "link-address": {
+              "type": "string"
+            },
+            "flags": {
+              "enum": [
+                "DRV_RUNNING",
+                "UP",
+                "BROADCAST",
+                "SIMPLEX",
+                "MULTICAST"
+              ],
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "aliases": {
+              "items": {
+                "$ref": "network-interface-alias"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "dhcp": {
+          "type": "boolean"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "aliases": {
+          "items": {
+            "$ref": "network-interface-alias"
+          },
+          "type": "array"
+        },
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "mtu": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "id": "http://freenas.org/schema/v10#"
+}
