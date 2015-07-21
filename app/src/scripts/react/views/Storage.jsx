@@ -170,8 +170,8 @@ const Storage = React.createClass(
 
       case "mirror" :
         if ( newVdev.children.length === 2 ) {
+          newVdev.path = _.without( newVdev.children, diskPath )[0][ "path" ];
           newVdev.children = [];
-          newVdev.path = diskPath;
           newVdev.type = "disk";
         } else {
           newVdev.children = _.without( newVdev.children, diskPath );
