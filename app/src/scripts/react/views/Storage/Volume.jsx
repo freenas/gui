@@ -15,9 +15,10 @@ import PoolDatasets from "./Volumes/PoolDatasets";
 import PoolTopology from "./Volumes/PoolTopology";
 
 const SLIDE_DURATION = 500;
+const NAV_STATES = new Set( [ "disks", "filesystem", "snapshots", "files" ] );
 
-const PoolItem = React.createClass(
-  { displayName: "PoolItem"
+const Volume = React.createClass(
+  { displayName: "Volume"
 
   , propTypes:
     { handleDiskAdd          : React.PropTypes.func.isRequired
@@ -68,8 +69,9 @@ const PoolItem = React.createClass(
   }
 
   , returnInitialStateValues: function () {
-    return { storageVisible  : this.props.existsOnServer
-           , topologyVisible : !this.props.existsOnServer
+    return { activeSection   : this.props.existsOnServer
+                             ? null
+                             : "disks"
            , editing         : !this.props.existsOnServer
            , data            : this.props.data
            , logs            : this.props.logs
@@ -81,7 +83,7 @@ const PoolItem = React.createClass(
            };
   }
 
-  // The editing reconciliation model for PoolItem relies on the difference
+  // The editing reconciliation model for Volume relies on the difference
   // between state and props. As with a simple form, the intial values are set
   // by props. Subsequent modifications to these occur in state, until an
   // update task is performed, at which time the new props will be assigned, and
@@ -106,7 +108,7 @@ const PoolItem = React.createClass(
   , componentDidMount: function () {
     // When the volume doesn't exist on the server, topology should start open.
     if ( !this.props.existsOnServer ) {
-      Velocity( React.findDOMNode( this.refs.Topology )
+      Velocity( React.findDOMNode( this.refs.sectionContent )
                 , "slideDown"
                 , SLIDE_DURATION
                 );
@@ -114,31 +116,20 @@ const PoolItem = React.createClass(
   }
 
   , componentDidUpdate: function ( prevProps, prevState ) {
+    let sectionIsVisible       = Boolean( prevState["activeSection"] );
+    let sectionShouldBeVisible = Boolean( this.state["activeSection"] );
 
-    // Toggle the display of the Storage drawer
-    if ( prevState["storageVisible"] !== this.state["storageVisible"] ) {
-      if ( this.state["storageVisible"] ) {
-        Velocity( React.findDOMNode( this.refs.Storage )
+    console.log( sectionIsVisible, sectionShouldBeVisible );
+
+    // Toggle the display of the content drawer
+    if ( sectionIsVisible !== sectionShouldBeVisible ) {
+      if ( sectionShouldBeVisible ) {
+        Velocity( React.findDOMNode( this.refs.sectionContent )
                 , "slideDown"
                 , SLIDE_DURATION
                 );
       } else {
-        Velocity( React.findDOMNode( this.refs.Storage )
-                , "slideUp"
-                , SLIDE_DURATION
-                );
-      }
-    }
-
-    // Toggle the display of the Topology drawer
-    if ( prevState["topologyVisible"] !== this.state["topologyVisible"] ) {
-      if ( this.state["topologyVisible"] ) {
-        Velocity( React.findDOMNode( this.refs.Topology )
-                , "slideDown"
-                , SLIDE_DURATION
-                );
-      } else {
-        Velocity( React.findDOMNode( this.refs.Topology )
+        Velocity( React.findDOMNode( this.refs.sectionContent )
                 , "slideUp"
                 , SLIDE_DURATION
                 );
@@ -147,43 +138,20 @@ const PoolItem = React.createClass(
   }
 
   , enterEditMode: function () {
-    this.setState(
-      { editing         : true
-      , topologyVisible : true
-      }
-    );
+    this.setState({ editing: true });
   }
 
-  , toggleStorage: function () {
-    let newState = { storageVisible: !this.state.storageVisible };
-
-    if ( newState["storageVisible"] ) {
-      newState["topologyVisible"] = false;
+  , handleNavSelect: function ( keyName ) {
+    console.log( arguments );
+    if ( NAV_STATES.has( keyName ) ) {
+      this.setState({ activeSection: keyName });
+    } else {
+      this.setState({ activeSection: null });
     }
-
-    this.setState( newState );
-  }
-
-  , toggleTopology: function () {
-    let newState = { topologyVisible: !this.state.topologyVisible };
-
-    if ( newState["topologyVisible"] ) {
-      newState["storageVisible"] = false;
-    }
-
-    this.setState( newState );
-  }
-
-  , hideBoth: function () {
-    this.setState(
-      { storageVisible  : false
-      , topologyVisible : false
-      }
-    );
   }
 
   , render: function () {
-    let datasets  = null;
+    let drawerContent = null;
     let infoBar = null;
     let volumeNameField = null;
     let volumeSubmitLabel = "";
@@ -195,35 +163,36 @@ const PoolItem = React.createClass(
     let totalSize     = ByteCalc.convertString( this.props.size );
 
     if ( this.props.existsOnServer || this.state.editing ) {
-
-      // TODO: Conditional logic based on presence of datasets
-      datasets = <PoolDatasets ref="Storage" />;
+      switch ( this.state.activeSection ) {
+        case "disks":
+          drawerContent = (
+            <PoolTopology
+              availableDisks       = { this.props.availableDisks }
+              availableSSDs        = { this.props.availableSSDs }
+              handleDiskAdd        = { this.props.handleDiskAdd }
+              handleDiskRemove     = { this.props.handleDiskRemove }
+              handleVdevAdd        = { this.props.handleVdevAdd }
+              handleVdevRemove     = { this.props.handleVdevRemove }
+              handleVdevTypeChange = { this.props.handleVdevTypeChange }
+              data                 = { this.state.data }
+              logs                 = { this.state.logs }
+              cache                = { this.state.cache }
+              spares               = { this.state.spares }
+              volumeKey            = { this.props.volumeKey }
+              volumesOnServer      = { this.props.volumesOnServer }
+            />
+          );
+          break;
+        case "filesystem":
+          drawerContent = <PoolDatasets ref="Storage" />;
+          break;
+      }
 
       infoBar = (
-        <TWBS.Row>
-          <TWBS.Col xs={ 3 }>
-            <h3>{ this.props.name }</h3>
-          </TWBS.Col>
-          <TWBS.Col xs={ 3 }>
-            <h3>{ ByteCalc.humanize( totalSize ) }</h3>
-          </TWBS.Col>
-          <TWBS.Col xs={ 2 }>
-            <TWBS.Button
-              block
-              bsStyle = "default"
-              onClick = { this.toggleStorage }
-            >
-              {"Show Volume"}
-            </TWBS.Button>
-            <TWBS.Button
-              block
-              bsStyle = "default"
-              onClick = { this.toggleTopology }
-            >
-              {"Show Pool Topology"}
-            </TWBS.Button>
-          </TWBS.Col>
-        </TWBS.Row>
+        <div className="clearfix">
+            <h3 className="pull-left">{ this.props.name }</h3>
+            <h3 className="pull-right">{ ByteCalc.humanize( totalSize ) }</h3>
+        </div>
       );
 
       volumeNameField = (
@@ -253,25 +222,6 @@ const PoolItem = React.createClass(
           { volumeSubmitLabel }
         </TWBS.Button>
       );
-
-      topology = (
-        <PoolTopology
-          ref                  = "Topology"
-          availableDisks       = { this.props.availableDisks }
-          availableSSDs        = { this.props.availableSSDs }
-          handleDiskAdd        = { this.props.handleDiskAdd }
-          handleDiskRemove     = { this.props.handleDiskRemove }
-          handleVdevAdd        = { this.props.handleVdevAdd }
-          handleVdevRemove     = { this.props.handleVdevRemove }
-          handleVdevTypeChange = { this.props.handleVdevTypeChange }
-          data                 = { this.state.data }
-          logs                 = { this.state.logs }
-          cache                = { this.state.cache }
-          spares               = { this.state.spares }
-          volumeKey            = { this.props.volumeKey }
-          volumesOnServer      = { this.props.volumesOnServer }
-        />
-      );
     }
 
     return (
@@ -290,11 +240,29 @@ const PoolItem = React.createClass(
           total  = { totalSize }
         />
 
-        { volumeSubmitButton }
+        <TWBS.Nav
+          className = "volume-nav"
+          bsStyle   = "pills"
+          activeKey = { this.state.activeSection }
+          onSelect  = { this.handleNavSelect }
+        >
+          <TWBS.NavItem
+            eventKey = "disks"
+          >
+            {"Disks"}
+          </TWBS.NavItem>
+          <TWBS.NavItem
+            eventKey = "filesystem"
+          >
+            {"Filesystem"}
+          </TWBS.NavItem>
+          {/* <TWBS.NavItem>Snapshots</TWBS.NavItem> */}
+          {/* <TWBS.NavItem>Files</TWBS.NavItem> */}
+        </TWBS.Nav>
 
-        { datasets }
-
-        { topology }
+        <div ref="sectionContent">
+          { drawerContent }
+        </div>
 
       </TWBS.Panel>
     );
@@ -303,4 +271,4 @@ const PoolItem = React.createClass(
   }
 );
 
-export default PoolItem;
+export default Volume;

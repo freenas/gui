@@ -13,7 +13,7 @@ var PoolDatasets = React.createClass({
   render: function () {
     return (
       <TWBS.Well
-        style = {{ display: "none" }}
+        style = { this.props.style }
       >
         <h1>Storage goes here, when you have it</h1>
       </TWBS.Well>

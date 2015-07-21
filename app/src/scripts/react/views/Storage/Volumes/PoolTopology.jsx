@@ -141,7 +141,7 @@ var TopologyDrawer = React.createClass(
 
     return (
       <TWBS.Well
-        style = {{ display: "none" }}
+        style = { this.props.style }
       >
 
         <TWBS.Row>
