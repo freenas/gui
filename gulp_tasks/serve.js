@@ -31,9 +31,18 @@ var simulator;
 function buildChangeHandler ( vinyl ) {
   if ( localServer && localServer.restart ) {
     console.log( APP_TAG + chalk.blue( "[ WATCH ] " )
-               + "Issuing restart command"
+               + "Issuing app restart command"
                );
     localServer.restart();
+  }
+};
+
+function simChangeHandler ( vinyl ) {
+  if ( simulator && simulator.restart ) {
+    console.log( SIM_TAG + chalk.blue( "[ WATCH ] " )
+               + "Issuing simulator restart command"
+               );
+    simulator.restart();
   }
 };
 
@@ -42,7 +51,7 @@ function startFreeNASApp ( mode ) {
 
   localServer =
     new Monitor( "app/server.js"
-               , { silent   : false
+               , { silent   : true
                  , args     : appMonitorArgs
                  , killtree : true
                  }
@@ -87,7 +96,7 @@ function startSimulator () {
   console.log( SIM_TAG + "Starting simulator instance" );
   simulator =
     new Monitor( "simulator/simulator.js"
-               , { silent   : false
+               , { silent   : true
                  , args     : simMonitorArgs
                  , killtree : true
                  }
@@ -140,6 +149,9 @@ gulp.task( "serve"
          , "app/server.js"
          ]
        , _.debounce( buildChangeHandler, 3000 ) );
+
+  watch( [ "simulator/simulator.js" ]
+       , _.debounce( simChangeHandler, 3000 ) );
 
   if ( argv["connect"] ) {
     mode = "connect";
