@@ -145,7 +145,7 @@ var TopologyDrawer = React.createClass(
       >
 
         <TWBS.Row>
-          {/* LOG AND CACHE DEVCES */}
+          {/* LOG AND CACHE DEVICES */}
           <TWBS.Col
             xs={ 6 }
             className = "pool-topology-section"
@@ -170,7 +170,7 @@ var TopologyDrawer = React.createClass(
             { this.createVdevs( "data" ) }
           </TWBS.Col>
 
-          {/* SPARE VDEVS */}
+          {/* SPARE DISKS */}
           <TWBS.Col
             xs={ 12 }
             className = "pool-topology-section"

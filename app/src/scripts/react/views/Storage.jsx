@@ -346,7 +346,13 @@ const Storage = React.createClass(
 
     if ( VS.isInitialized ) {
       if ( this.state.volumes.length === 0 ) {
-        statusMessage = <h3>Bro, you could use a pool</h3>;
+        statusMessage = (
+          <div className="clearfix storage-first-pool">
+            <img src="img/hdd.png" />
+            <h3>ZFS Pools</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+          </div>
+        );
         newPoolMessage = "Create your first ZFS pool";
       } else {
         newPoolMessage = "Create a new ZFS pool";
@@ -362,7 +368,6 @@ const Storage = React.createClass(
     );
     } else {
       loading = true;
-      statusMessage = <h3>Looking for ZFS pools...</h3>;
     }
 
     return (
