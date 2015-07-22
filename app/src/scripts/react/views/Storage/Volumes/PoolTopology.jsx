@@ -41,7 +41,6 @@ var TopologyDrawer = React.createClass(
     let availableDevices;
     let cols;
     let newVdevAllowed = false;
-    let newVdev = null;
     let vdevs = [];
 
     switch ( purpose ) {
@@ -56,6 +55,12 @@ var TopologyDrawer = React.createClass(
         break;
 
       case "spares":
+        availableDevices = this.props.availableDisks;
+        cols             = 12;
+        if ( this.props[ purpose ].length < 1 ) {
+          newVdevAllowed = true;
+        }
+        break;
       case "data":
       default:
         availableDevices = this.props.availableDisks;
@@ -99,40 +104,34 @@ var TopologyDrawer = React.createClass(
       }.bind( this )
     );
 
-    // This condition is used only for policy limiting the number of vdevs of
-    // some purpose, for example limiting log and cache vdevs to one.
-    if ( !newVdevAllowed ) {
-      newVdev =
-        <TWBS.Col xs = { cols } >
-          <h4 className="text-center text-muted">
-            { "No more " + purpose + " may be added." }
-          </h4>
-        </TWBS.Col>;
-    } else if ( availableDevices.length ) {
-      newVdev = (
-        <TWBS.Col xs = { cols } >
-          <span
+    if ( newVdevAllowed ) {
+      if ( availableDevices.length ) {
+        vdevs.push(
+          <TWBS.Col xs = { cols } >
+            <span
+              className = "text-center"
+              onClick   = { this.props.handleVdevAdd.bind( null
+                                                         , this.props.volumeKey
+                                                         , purpose
+                                                         ) } >
+              <h3><Icon glyph = "plus" /></h3>
+              <h3>{ `Add ${ purpose } VDEV` }</h3>
+            </span>
+          </TWBS.Col>
+        );
+      } else {
+        vdevs.push(
+          <TWBS.Col
+            xs        = { cols }
             className = "text-center"
-            onClick   = { this.props.handleVdevAdd.bind( null
-                                                       , this.props.volumeKey
-                                                       , purpose
-                                                       ) } >
-            <h3><Icon glyph = "plus" /></h3>
-            <h3>{ "Add " + purpose }</h3>
-          </span>
-        </TWBS.Col>
-      );
-    } else {
-      newVdev = (
-        <TWBS.Col xs = { cols } >
-          <h4 className="text-center text-muted">
-            { "No available " + purpose + " devices." }
-          </h4>
-        </TWBS.Col>
-      );
+          >
+            <TWBS.Well className="pool-vdev-message">
+              { `No available ${ purpose } devices.` }
+            </TWBS.Well>
+          </TWBS.Col>
+        );
+      }
     }
-
-    vdevs.push( newVdev );
 
     return vdevs;
   }
@@ -140,35 +139,48 @@ var TopologyDrawer = React.createClass(
   , render: function () {
 
     return (
-      <TWBS.Well
-        style = { this.props.style }
+      <div
+        style     = { this.props.style }
+        className = "pool-topology"
       >
 
         <TWBS.Row>
           {/* LOG AND CACHE DEVCES */}
-          <TWBS.Col xs={ 6 }>
-            <h4>Cache</h4>
+          <TWBS.Col
+            xs={ 6 }
+            className = "pool-topology-section"
+          >
+            <h4 className="pool-topology-header">Cache</h4>
             { this.createVdevs( "cache" ) }
           </TWBS.Col>
-          <TWBS.Col xs={ 6 }>
-            <h4>Log</h4>
+          <TWBS.Col
+            xs={ 6 }
+            className = "pool-topology-section"
+          >
+            <h4 className="pool-topology-header">Log</h4>
             { this.createVdevs( "logs" ) }
           </TWBS.Col>
 
           {/* STORAGE VDEVS */}
-          <TWBS.Col xs={ 12 }>
-            <h4>Storage</h4>
+          <TWBS.Col
+            xs={ 12 }
+            className = "pool-topology-section"
+          >
+            <h4 className="pool-topology-header">Storage</h4>
             { this.createVdevs( "data" ) }
           </TWBS.Col>
 
           {/* SPARE VDEVS */}
-          <TWBS.Col xs={ 12 }>
-            <h4>Spares</h4>
+          <TWBS.Col
+            xs={ 12 }
+            className = "pool-topology-section"
+          >
+            <h4 className="pool-topology-header">Spares</h4>
             { this.createVdevs( "spares" ) }
           </TWBS.Col>
         </TWBS.Row>
 
-      </TWBS.Well>
+      </div>
     );
   }
 
