@@ -9,14 +9,62 @@
   }
 
   .progress {
-    margin        : 20px -15px;
+    margin        : 0 -15px;
     border-radius : 0;
     height        : 10px;
   }
 }
 
-.volume-nav {
+nav.volume-nav {
   text-align: center;
+  height: 50px;
+  border-bottom: 1px solid @gray-lighter;
+  padding: 10px 0;
+  margin-bottom: 15px;
 
-  .nav { display: inline-block; }
+  .nav {
+    display: inline-block;
+    & > li > a {
+      padding: 4px 16px;
+    }
+  }
+}
+
+.volume-name-input {
+  .pull-left();
+  width: 20%;
+}
+
+.volume-info {
+  margin-bottom: 15px;
+}
+
+.volume-name,
+.volume-name-input,
+.volume-capacity {
+  margin: 0;
+  line-height: 40px;
+}
+
+.volume-name {
+  font-size: 25px;
+}
+
+.volume-name-input {
+  min-width: 260px;
+  width: 30%;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+  .form-control {
+    font-size: 25px;
+    height: 40px;
+    margin: 0;
+  }
+}
+
+.volume-capacity {
+  font-size: 30px;
+  font-weight: 100;
 }

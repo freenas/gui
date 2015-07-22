@@ -188,23 +188,29 @@ const Volume = React.createClass(
           break;
       }
 
-      infoBar = (
-        <div className="clearfix">
-            <h3 className="pull-left">{ this.props.name }</h3>
-            <h3 className="pull-right">{ ByteCalc.humanize( totalSize ) }</h3>
+      volumeNameField = (
+        <div
+          className = "volume-name-input"
+        >
+          <TWBS.Input
+            type = "text"
+            onChange = { this.props.handleVolumeNameChange
+                             .bind( null, this.props.volumeKey )
+                       }
+            placeholder = "Volume Name"
+            value = { this.props.name }
+          />
         </div>
       );
 
-      volumeNameField = (
-        <TWBS.Input
-          type = "text"
-          onChange = { this.props.handleVolumeNameChange.bind( null
-                                                             , this.props.volumeKey
-                                                             )
-                     }
-          placeholder = "Volume Name"
-          value = { this.props.name }
-        />
+      infoBar = (
+        <div className="volume-info clearfix">
+            { this.state.editing
+            ? volumeNameField
+            : <h3 className="pull-left volume-name">{ this.props.name }</h3>
+            }
+            <h3 className="pull-right volume-capacity">{ ByteCalc.humanize( totalSize ) }</h3>
+        </div>
       );
 
       volumeSubmitLabel = this.props.existsOnServer
@@ -228,9 +234,6 @@ const Volume = React.createClass(
       <TWBS.Panel
         className = "volume"
       >
-
-        { volumeNameField }
-
         { infoBar }
 
         <BreakdownChart
