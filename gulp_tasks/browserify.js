@@ -54,8 +54,8 @@ function bundle ( input ) {
     .on( "error", gutil.log.bind( gutil, "Browserify Error" ) )
     .pipe( source( "app.js" ) )
     .pipe( buffer() )
-    .pipe( sourcemaps.init() )
-    .pipe( sourcemaps.write( "./" ) )
+    .pipe( sourcemaps.init({ loadMaps: true }) )
+    .pipe( sourcemaps.write() )
     .pipe( gulp.dest( "app/build/" ) );
 }
 
