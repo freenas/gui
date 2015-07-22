@@ -8,6 +8,8 @@ var WebSocketServer = require( "ws" ).Server;
 
 var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 
+var systemGenerator = require( "./templates/system.js" );
+
 var authTokens = {};
 
 function handleRPC ( data, flags ) {
