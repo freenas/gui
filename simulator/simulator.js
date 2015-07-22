@@ -10,6 +10,32 @@ var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 
 var authTokens = {};
 
+function handleRPC ( data, flags ) {
+  var args;
+  switch ( data.name ) {
+    case "auth_token":
+      if ( authTokens[ data["auth_token"] ] ) {
+        var token = generateToken();
+        authTokens[ token ] = authTokens[ data["auth_token"] ];
+        args = [ token, 600, authTokens[ data["auth_token"] ] ];
+        delete authTokens[ data["auth_token"] ];
+        this.send( pack( "rpc", "response", args, data.id ) );
+      } else {
+        // FIXME
+        return false;
+      }
+      break;
+
+    case "auth":
+      var token = generateToken();
+      authTokens[ token ] = data.args["username"];
+      args = [ token, 600, data.args["username"] ];
+      this.send( pack( "rpc", "response", args, data.id ) );
+      break;
+  }
+  return true;
+}
+
 function generateToken () {
   Array( 32 ).join(
     ( Math.random().toString( 36 ) + "00000000000000000" ).slice( 2, 18 )
@@ -115,27 +141,7 @@ function handleMessage ( message, flags ) {
 
   switch ( data.namespace ) {
     case "rpc":
-      switch ( data.name ) {
-        case "auth_token":
-          if ( authTokens[ data["auth_token"] ] ) {
-            var token = generateToken();
-            authTokens[ token ] = authTokens[ data["auth_token"] ];
-            args = [ token, 600, authTokens[ data["auth_token"] ] ];
-            delete authTokens[ data["auth_token"] ];
-            this.send( pack( "rpc", "response", args, data.id ) );
-          } else {
-            // FIXME
-            return false;
-          }
-          break;
-
-        case "auth":
-          var token = generateToken();
-          authTokens[ token ] = data.args["username"];
-          args = [ token, 600, data.args["username"] ];
-          this.send( pack( "rpc", "response", args, data.id ) );
-          break;
-      }
+      handleRPC.call( this, data, flags );
       break;
   }
 };
