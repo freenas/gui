@@ -2358,7 +2358,7 @@ function createSystem ( diskCount, diskTypes ) {
 
   newSystem = _.merge( newSystem, systemConstants, shares );
 
-  disks = createDisks( diskCount, diskTypes );
+  var disks = createDisks( diskCount, diskTypes );
 
   newSystem = _.merge( newSystem, disks );
 
