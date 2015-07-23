@@ -7,8 +7,6 @@
 
 var _ = require( "lodash" );
 
-var diskSchema = require( "../schemas.json" )[ "definitions" ][ "disk" ];
-
 var time = new Date().now;
 
 var ssdDefaults =
