@@ -7,8 +7,6 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import Icon from "../../../components/Icon";
-
 import VDEVDisk from "./VDEVDisk";
 
 const VDEV = React.createClass(
@@ -68,6 +66,7 @@ const VDEV = React.createClass(
   , render: function () {
     let addNewDisks = null;
     let memberDisks = null;
+    let message     = null;
 
     switch ( this.props.type ) {
 
@@ -113,30 +112,51 @@ const VDEV = React.createClass(
 
     // Only make a list of new disks to add if there are any available devices
     // and the vdev is modifiable (doesn't exist on the server already)
-    if ( this.props.availableDevices.length && !this.props.existsOnServer ) {
-      addNewDisks =
-        <select
-          // Reset the field to nothing selected every time so that it doesn't
-          // move to a valid option and make it impossible to select that one
-          // next.
-          value = "-- SELECT --"
-          onChange= { this.props.handleDiskAdd.bind( null
-                                                   , this.props.vdevKey
-                                                   , this.props.purpose
-                                                   )
-                    } >
-          <option>{ "-- SELECT --" }</option>
-          { this.props.availableDevices.map( this.createNewDeviceOptions ) }
-        </select>;
+    if ( this.props.availableDevices.length ) {
+      if ( !this.props.existsOnServer ) {
+        addNewDisks = (
+          <select
+            // Reset the field to nothing selected every time so that it doesn't
+            // move to a valid option and make it impossible to select that one
+            // next.
+            value = "-- SELECT --"
+            onChange= { this.props.handleDiskAdd.bind( null
+                                                     , this.props.vdevKey
+                                                     , this.props.purpose
+                                                     )
+                      } >
+            <option>{ "-- SELECT --" }</option>
+            { this.props.availableDevices.map( this.createNewDeviceOptions ) }
+          </select>
+        );
+      } else {
+        message = (
+          <span
+            className = "text-center"
+            onClick   = { this.props.handleVdevAdd.bind( null, this.props.purpose ) }
+          >
+            <h3><Icon glyph = "plus" /></h3>
+            <h3>{ `Add ${ this.props.purpose } VDEV` }</h3>
+          </span>
+        );
+      }
     } else {
-      addNewDisks = <h5>{ "There are no more devices available." }</h5>;
+      message = (
+        <div
+          className = "text-center"
+        >
+          { `No available ${ this.props.purpose } devices.` }
+        </div>
+      );
     }
-
 
     return (
       <TWBS.Col xs={ this.props.cols }>
-        { memberDisks }
-        { addNewDisks }
+        <TWBS.Well className="pool-vdev-message">
+          { memberDisks }
+          { addNewDisks }
+          { message }
+        </TWBS.Well>
       </TWBS.Col>
     );
   }

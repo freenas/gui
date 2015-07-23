@@ -8,8 +8,6 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import Icon from "../../../components/Icon";
-
 import VDEV from "./VDEV";
 
 var TopologyDrawer = React.createClass(
@@ -28,102 +26,91 @@ var TopologyDrawer = React.createClass(
     , spares               : React.PropTypes.array.isRequired
     }
 
-  , createVdevs: function ( purpose ) {
-    const commonProps =
+  , createVdevs ( purpose ) {
+    const sharedHandlers =
       { handleDiskAdd        : this.props.handleDiskAdd
       , handleDiskRemove     : this.props.handleDiskRemove
+      , handleVdevAdd        : this.props.handleVdevAdd
       , handleVdevRemove     : this.props.handleVdevRemove
       , handleVdevTypeChange : this.props.handleVdevTypeChange
       };
-    let availableDevices;
-    let cols;
-    let newVdevAllowed = false;
-    let vdevs = [];
+    let sharedProps =
+      { purpose          : purpose
+      , availableDevices : null
+      , cols             : null
+      , newVdevAllowed   : false
+      };
 
     switch ( purpose ) {
       case "logs":
       case "cache":
-        availableDevices = this.props.availableSSDs;
-        cols           = 12;
+        sharedProps.availableDevices = this.props.availableSSDs;
+        sharedProps.cols             = 12;
         // Log and Cache currently only allow a single VDEV.
         if ( this.props[ purpose ].length < 1 ) {
-          newVdevAllowed = true;
+          sharedProps.newVdevAllowed = true;
         }
         break;
 
       case "spares":
-        availableDevices = this.props.availableDisks;
-        cols             = 12;
+        sharedProps.availableDevices = this.props.availableDisks;
+        sharedProps.cols             = 12;
         if ( this.props[ purpose ].length < 1 ) {
-          newVdevAllowed = true;
+          sharedProps.newVdevAllowed = true;
         }
         break;
       case "data":
       default:
-        availableDevices = this.props.availableDisks;
-        cols           = 4;    // TODO: More intricate logic for this
-        newVdevAllowed = true; // TODO: There should be cases where we don't
+        sharedProps.availableDevices = this.props.availableDisks;
+        sharedProps.cols             = 4;
+        sharedProps.newVdevAllowed   = true;
         break;
     }
 
-    vdevs = this.props[ purpose ].map(
-      function ( vdev, index ) {
+    let vdevs = this.props[ purpose ].map(
+      ( vdev, index ) => {
         // Destructure vdev to avoid passing in props which will not be used.
         let { children, status, type, path } = vdev;
 
-        // A vdev exists on the server if the volume it's in does and the
-        // volume has a vdev of that purpose and index. This only applies to
-        // "data" vdevs.
-        let existsOnServer = false;
-
         return (
-          <VDEV { ...commonProps }
-            children          = { children }
-            status            = { status }
-            type              = { type }
-            path              = { path }
-            purpose           = { purpose }
-            cols              = { cols }
-            availableDevices  = { availableDevices }
-            vdevKey           = { index }
-            key               = { index }
-            existsOnServer    = { existsOnServer }
+          <VDEV
+            { ...sharedHandlers }
+            { ...sharedProps }
+            children = { children }
+            status   = { status }
+            type     = { type }
+            path     = { path }
+            vdevKey  = { index }
+            key      = { index }
           />
         );
-      }.bind( this )
+      }
     );
 
-    if ( newVdevAllowed ) {
-      if ( availableDevices.length ) {
-        vdevs.push(
-          <TWBS.Col xs = { cols } >
-            <span
-              className = "text-center"
-              onClick   = { this.props.handleVdevAdd.bind( null, purpose ) }
-            >
-              <h3><Icon glyph = "plus" /></h3>
-              <h3>{ `Add ${ purpose } VDEV` }</h3>
-            </span>
-          </TWBS.Col>
-        );
-      } else {
-        vdevs.push(
-          <TWBS.Col
-            xs        = { cols }
-            className = "text-center"
-          >
-            <TWBS.Well className="pool-vdev-message">
-              { `No available ${ purpose } devices.` }
-            </TWBS.Well>
-          </TWBS.Col>
-        );
-      }
+    if ( ( sharedProps.availableDevices.length && sharedProps.newVdevAllowed )
+         || vdevs.length === 0
+       ) {
+      // If there are available devices, and the category in question allows the
+      // creation of more than one VDEV, the user may create as many as they
+      // desire. Eventually, through the act of assigning disks, they'll be left
+      // with only populated VDEVs. The OR side of this check covers the case in
+      // which there are no devices available and no VDEVs of that type in
+      // props. There must always be a VDEV in Winterfell, however, even if it's
+      // just going to render a message about "you can't do anything with me".
+      vdevs.push(
+        <VDEV
+          { ...sharedHandlers }
+          { ...sharedProps }
+          vdevKey = { vdevs.length }
+          key     = { vdevs.length }
+        />
+      );
     }
 
     return vdevs;
   }
 
-  , render: function () {
+  , render () {
 
     return (
       <div
