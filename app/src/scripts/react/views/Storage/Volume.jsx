@@ -31,7 +31,7 @@ const Volume = React.createClass(
     , submitVolume           : React.PropTypes.func.isRequired
     , availableDisks         : React.PropTypes.array.isRequired
     , availableSSDs          : React.PropTypes.array.isRequired
-    , existsOnServer         : React.PropTypes.bool
+    , existsOnRemote         : React.PropTypes.bool
     , data                   : React.PropTypes.array
     , logs                   : React.PropTypes.array
     , cache                  : React.PropTypes.array
@@ -54,11 +54,11 @@ const Volume = React.createClass(
     , datasets        : React.PropTypes.array
     , name            : React.PropTypes.string
     , volumeKey       : React.PropTypes.number.isRequired
-    , volumesOnServer : React.PropTypes.array.isRequired
     }
 
   , getDefaultProps: function () {
-    return { data           : []
+    return { existsOnRemote : false
+           , data           : []
            , logs           : []
            , cache          : []
            , spares         : []
@@ -69,10 +69,8 @@ const Volume = React.createClass(
   }
 
   , returnInitialStateValues: function () {
-    return { activeSection   : this.props.existsOnServer
-                             ? null
-                             : "disks"
-           , editing         : !this.props.existsOnServer
+    return { activeSection   : null
+           , editing         : false
            , data            : this.props.data
            , logs            : this.props.logs
            , cache           : this.props.cache
@@ -105,31 +103,19 @@ const Volume = React.createClass(
     this.setState( this.returnInitialStateValues() );
   }
 
-  , componentDidMount: function () {
-    // When the volume doesn't exist on the server, topology should start open.
-    if ( !this.props.existsOnServer ) {
-      Velocity( React.findDOMNode( this.refs.sectionContent )
-                , "slideDown"
-                , SLIDE_DURATION
-                );
-    }
-  }
-
   , componentDidUpdate: function ( prevProps, prevState ) {
     let sectionIsVisible       = Boolean( prevState["activeSection"] );
     let sectionShouldBeVisible = Boolean( this.state["activeSection"] );
 
-    console.log( sectionIsVisible, sectionShouldBeVisible );
-
     // Toggle the display of the content drawer
     if ( sectionIsVisible !== sectionShouldBeVisible ) {
       if ( sectionShouldBeVisible ) {
-        Velocity( React.findDOMNode( this.refs.sectionContent )
+        Velocity( React.findDOMNode( this.refs.drawer )
                 , "slideDown"
                 , SLIDE_DURATION
                 );
       } else {
-        Velocity( React.findDOMNode( this.refs.sectionContent )
+        Velocity( React.findDOMNode( this.refs.drawer )
                 , "slideUp"
                 , SLIDE_DURATION
                 );
@@ -138,11 +124,14 @@ const Volume = React.createClass(
   }
 
   , enterEditMode: function () {
-    this.setState({ editing: true });
+      this.setState({ editing: true });
+    }
+
+  , handlePanelOpen: function () {
+    this.setState({ activeSection: "disks" });
   }
 
   , handleNavSelect: function ( keyName ) {
-    console.log( arguments );
     if ( NAV_STATES.has( keyName ) ) {
       this.setState({ activeSection: keyName });
     } else {
@@ -150,22 +139,31 @@ const Volume = React.createClass(
     }
   }
 
-  , render: function () {
-    let drawerContent = null;
-    let infoBar = null;
-    let volumeNameField = null;
-    let volumeSubmitLabel = "";
-    let volumeSubmitButton = null;
-    let topology = null;
+  , createVolumeName: function () {
+      if ( this.state.editing ) {
+        return (
+          <div className="volume-name-input">
+            <TWBS.Input
+              type = "text"
+              onChange = { this.props.handleVolumeNameChange
+                               .bind( null, this.props.volumeKey )
+                         }
+              placeholder = "Volume Name"
+              value       = { this.props.name }
+            />
+          </div>
+        );
+      } else {
+        return (
+          <h3 className="pull-left volume-name">{ this.props.name }</h3>
+        );
+      }
+    }
 
-    let freeSize      = ByteCalc.convertString( this.props.free );
-    let allocatedSize = ByteCalc.convertString( this.props.allocated );
-    let totalSize     = ByteCalc.convertString( this.props.size );
-
-    if ( this.props.existsOnServer || this.state.editing ) {
+  , createDrawerContent: function () {
       switch ( this.state.activeSection ) {
         case "disks":
-          drawerContent = (
+          return (
             <PoolTopology
               availableDisks       = { this.props.availableDisks }
               availableSSDs        = { this.props.availableSSDs }
@@ -184,92 +182,97 @@ const Volume = React.createClass(
           );
           break;
         case "filesystem":
-          drawerContent = <PoolDatasets ref="Storage" />;
+          return (
+            <PoolDatasets ref="Storage" />
+          );
           break;
       }
-
-      volumeNameField = (
-        <div
-          className = "volume-name-input"
-        >
-          <TWBS.Input
-            type = "text"
-            onChange = { this.props.handleVolumeNameChange
-                             .bind( null, this.props.volumeKey )
-                       }
-            placeholder = "Volume Name"
-            value = { this.props.name }
-          />
-        </div>
-      );
-
-      infoBar = (
-        <div className="volume-info clearfix">
-            { this.state.editing
-            ? volumeNameField
-            : <h3 className="pull-left volume-name">{ this.props.name }</h3>
-            }
-            <h3 className="pull-right volume-capacity">{ ByteCalc.humanize( totalSize ) }</h3>
-        </div>
-      );
-
-      volumeSubmitLabel = this.props.existsOnServer
-                        ? "Submit Volume Changes"
-                        : "Submit New Volume";
-
-      volumeSubmitButton = (
-        <TWBS.Button
-          bsStyle = "default"
-          onClick = { this.props.submitVolume.bind( null
-                                                  , this.props.volumeKey
-                                                  )
-                    }
-        >
-          { volumeSubmitLabel }
-        </TWBS.Button>
-      );
     }
 
-    return (
-      <TWBS.Panel
-        className = "volume"
-      >
-        { infoBar }
+  , render: function () {
+      let isInitialized = !this.props.existsOnRemote && !this.state.editing;
 
-        <BreakdownChart
-          free   = { freeSize }
-          used   = { allocatedSize }
-          parity = { totalSize / 4 /* FIXME */ }
-          total  = { totalSize }
-        />
+      let initMessage = null;
+      let volumeInfo  = null;
+      let breakdown   = null;
+      let drawer      = null;
 
-        <TWBS.Nav
-          className = "volume-nav"
-          bsStyle   = "pills"
-          activeKey = { this.state.activeSection }
-          onSelect  = { this.handleNavSelect }
+      if ( isInitialized ) {
+        // We can deduce that this Volume is the "blank" one, and that it has
+        // not yet been interacted with. We use this state information to
+        // display an initialization message.
+
+        initMessage = (
+          <div className="text-center">
+            <TWBS.Button
+              bsStyle = "primary"
+              onClick = { this.enterEditMode }
+            >
+            { "Create new ZFS volume" }
+            </TWBS.Button>
+          </div>
+        );
+      } else {
+        let freeSize      = ByteCalc.convertString( this.props.free );
+        let allocatedSize = ByteCalc.convertString( this.props.allocated );
+        let totalSize     = ByteCalc.convertString( this.props.size );
+
+        volumeInfo = (
+          <div className="volume-info clearfix">
+            { this.createVolumeName() }
+            <h3 className="pull-right volume-capacity">
+              { ByteCalc.humanize( totalSize ) }
+            </h3>
+          </div>
+        );
+
+        breakdown = (
+          <BreakdownChart
+            free   = { freeSize }
+            used   = { allocatedSize }
+            parity = { totalSize / 4 /* FIXME */ }
+            total  = { totalSize }
+          />
+        );
+
+        drawer = (
+          <div
+            ref     = "drawer"
+            style   = {{ display: "none" }}
+            onClick = { function ( event ) { event.stopPropagation(); } }
+          >
+            <TWBS.Nav
+              className = "volume-nav"
+              bsStyle   = "pills"
+              activeKey = { this.state.activeSection }
+              onSelect  = { this.handleNavSelect }
+            >
+              <TWBS.NavItem eventKey="disks">
+                {"Disks"}
+              </TWBS.NavItem>
+              <TWBS.NavItem eventKey="filesystem">
+                {"Filesystem"}
+              </TWBS.NavItem>
+              {/* <TWBS.NavItem>Snapshots</TWBS.NavItem> */}
+              {/* <TWBS.NavItem>Files</TWBS.NavItem> */}
+            </TWBS.Nav>
+            { this.createDrawerContent() }
+          </div>
+        );
+      }
+
+      return (
+        <TWBS.Panel
+          className = { "volume" + ( isInitialized ? " awaiting-init" : "" ) }
+          onClick   = { this.handlePanelOpen }
         >
-          <TWBS.NavItem
-            eventKey = "disks"
-          >
-            {"Disks"}
-          </TWBS.NavItem>
-          <TWBS.NavItem
-            eventKey = "filesystem"
-          >
-            {"Filesystem"}
-          </TWBS.NavItem>
-          {/* <TWBS.NavItem>Snapshots</TWBS.NavItem> */}
-          {/* <TWBS.NavItem>Files</TWBS.NavItem> */}
-        </TWBS.Nav>
-
-        <div ref="sectionContent">
-          { drawerContent }
-        </div>
-
-      </TWBS.Panel>
-    );
-  }
+          { initMessage }
+          { volumeInfo }
+          { breakdown }
+          { drawer }
+        </TWBS.Panel>
+      );
+    }
 
   }
 );

@@ -13,6 +13,7 @@
   margin        : 25px;
   border-radius : 0;
   box-shadow    : 0 2px 16px -2px rgba(0, 0, 0, 0.15);
+  .transition( all 0.25S );
 
   .panel-body {
     padding : 15px;
@@ -22,6 +23,12 @@
     margin        : 0 -15px;
     border-radius : 0;
     height        : 10px;
+  }
+
+  &.awaiting-init {
+    background-color : #fbfbfb;
+    margin           : 0 25px;
+    box-shadow       : none;
   }
 }
 

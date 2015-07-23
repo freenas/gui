@@ -27,14 +27,17 @@ const Storage = React.createClass(
   { displayName: "Storage"
 
   , getInitialState () {
-      return ( { volumes         : VS.listVolumes()
-               , selectedDisks   : []
-               }
-             );
+      return (
+        { volumes        : VS.listVolumes()
+        , selectedDisks  : []
+        , selectedSSDs   : []
+        , availableDisks : VS.availableDisks
+        }
+      );
     }
 
   , componentDidMount () {
-      VS.addChangeListener( this.handleVolumesChange );
+      VS.addChangeListener( this.handleUpdatedVS );
 
       ZM.requestVolumes();
       ZM.requestAvailableDisks();
@@ -44,17 +47,32 @@ const Storage = React.createClass(
     }
 
   , componentWillUnmount () {
-      VS.removeChangeListener( this.handleVolumesChange );
+      VS.removeChangeListener( this.handleUpdatedVS );
 
       ZM.unsubscribe( this.constructor.displayName );
 
       EventBus.emit( "hideContextPanel", ContextDisks );
     }
 
-  , handleVolumesChange ( eventMask ) {
-      this.setState(
-        { volumes: VS.listVolumes() }
-      );
+  , handleUpdatedVS ( eventMask ) {
+      let newState = {};
+
+      switch ( eventMask ) {
+        case "volumes":
+          newState["volumes"] = VS.listVolumes();
+          break;
+
+        case "availableDisks":
+          newState["availableDisks"] = VS.availableDisks;
+          break;
+
+        default:
+          newState["volumes"] = VS.listVolumes();
+          newState["availableDisks"] = VS.availableDisks;
+          break;
+      }
+
+      this.setState( newState );
     }
 
   , createNewDisk ( path ) {
@@ -276,7 +294,7 @@ const Storage = React.createClass(
              );
     }
 
-  , createVolumes ( loading ) {
+  , createVolumes () {
       const volumeCommon =
         { handleDiskAdd          : this.handleDiskAdd
         , handleDiskRemove       : this.handleDiskRemove
@@ -286,34 +304,29 @@ const Storage = React.createClass(
         , handleVolumeReset      : this.handleVolumeReset
         , handleVolumeNameChange : this.handleVolumeNameChange
         , submitVolume           : this.submitVolume
-        , availableDisks: _.without( VS.availableDisks
-                                   , ...this.state.selectedDisks
-                                   )
-        , availableSSDs: [] // FIXME
+        , availableDisks:
+          _.without( VS.availableDisks, ...this.state.selectedDisks )
+        , availableSSDs: [] // FIXME: Implement SSDs
         // This must be submitted in full because it is also necessary to know
         // which vdevs of an existing volume were added in editing and which
         // already existed and thus may not be deleted.
-        , volumesOnServer: VS.listVolumes()
+        , volumesOnServer        : VS.listVolumes()
         };
 
       let pools =
         this.state.volumes.map( function ( volume, index ) {
           let { data, logs, cache } = volume.topology;
-          let { free, allocated, size }    = volume.properties;
+          let { free, allocated, size } = volume.properties;
 
           let spares = volume.topology[ "spares" ] || [];
 
-          // existsOnServer: a new volume will have an equal or higher index
-          // than the number of volumes known to the server.
-          // volumeKey: Used to note which volume in the array is being
-          // modified, so it is simply the index of that volume in the array.
           return (
             <Volume
               { ...volumeCommon }
-              existsOnServer = { index < VS.listVolumes().length }
-              data      = { data }
-              logs      = { logs }
+              existsOnRemote
               cache     = { cache }
+              logs      = { logs }
+              data      = { data }
               spares    = { spares }
               free      = { free.value }
               allocated = { allocated.value }
@@ -326,51 +339,65 @@ const Storage = React.createClass(
           );
         }.bind( this ) );
 
+      if ( this.state.selectedDisks ) {
+        // If there are disks available, a new pool may be created. The Volume
+        // component is responsible for displaying the correct "blank start"
+        // behavior, depending on its knowledge of other pools.
+        pools.push(
+          <Volume
+            { ...volumeCommon }
+            blankVolume
+            key       = { pools.length }
+            volumeKey = { pools.length }
+          />
+        );
+      } else if ( pools.length === 0 ) {
+        // There were no resources, AND no volumes exist on the server. This
+        // most likely indicates that the user's system has no disks, the disks
+        // are not connected, etc.
+
+        pools.push(
+          <TWBS.Alert
+            bsStyle   = "warning"
+            className = "volume"
+          >
+            { "No volumes were found on the server, and no disks are "
+            + "avaialable for inclusion in a new storage pool.\n\n Please shut "
+            + "down the system, check your hardware, and try again."
+            }
+          </TWBS.Alert>
+        );
+      }
+
       return pools;
     }
 
   , render () {
-      let loading = false;
-
-      let statusMessage = null;
-
-      let newPool = null;
-
-      let newPoolMessage = "";
+      let loading = null;
+      let message = null;
+      let content = null;
 
       if ( VS.isInitialized ) {
         if ( this.state.volumes.length === 0 ) {
-          statusMessage = (
+          message = (
             <div className="clearfix storage-first-pool">
               <img src="img/hdd.png" />
               <h3>ZFS Pools</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
             </div>
           );
-          newPoolMessage = "Create your first ZFS pool";
-        } else {
-          newPoolMessage = "Create a new ZFS pool";
+          content = this.createVolumes();
         }
-        newPool = (
-        <TWBS.Panel>
-          <TWBS.Row
-            className = "text-center text-muted"
-            onClick   = { this.handleVolumeAdd } >
-            <h3><Icon glyph="plus" />{ "  " + newPoolMessage }</h3>
-          </TWBS.Row>
-        </TWBS.Panel>
-      );
       } else {
-        loading = true;
+        // TODO: Make this pretty
+        loading = <h1 className="text-center">LOADING</h1>;
       }
 
       return (
         <main>
-          { statusMessage }
-
-          { this.createVolumes( loading ) }
-
-          { newPool }
+          { loading }
+          { message }
+          { content }
         </main>
       );
     }
