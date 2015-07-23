@@ -1,0 +1,17 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "dot-notation": 1,
+    "global-strict": 0,
+    "key-spacing": 0,
+    "new-cap": 1,
+    "no-multi-spaces": 0,
+    "strict": 0,
+  },
+  "plugins": [
+    "react"
+  ],
+  "ecmaFeatures": {
+    "jsx": true
+  }
+}
