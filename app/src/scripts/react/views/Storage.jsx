@@ -27,8 +27,8 @@ const Storage = React.createClass(
   , getInitialState () {
       return (
         { volumes       : VS.listVolumes()
-        , selectedDisks : []
-        , selectedSSDs  : []
+        , selectedDisks : new Set()
+        , selectedSSDs  : new Set()
         , editingVolume : false
         }
       );
@@ -97,24 +97,24 @@ const Storage = React.createClass(
       }
     }
 
+  , handleDiskSelection ( path ) {
+      this.setState({ selectedDisks: this.state.selectedDisks.add( path ) });
+    }
+
+  , handleDiskRemoval ( path ) {
+      this.setState({ selectedDisks: this.state.selectedDisks.delete( path ) });
+    }
+
   , createVolumes () {
       const volumeCommon =
-        { handleDiskAdd          : this.handleDiskAdd
-        , handleDiskRemove       : this.handleDiskRemove
-        , handleVdevAdd          : this.handleVdevAdd
-        , handleVdevRemove       : this.handleDiskRemove
-        , handleVdevTypeChange   : this.handleVdevTypeChange
-        , handleVolumeReset      : this.handleVolumeReset
-        , handleVolumeNameChange : this.handleVolumeNameChange
-        , submitVolume           : this.submitVolume
-        , handleEditModeChange   : this.handleEditModeChange
+        { handleEditModeChange : this.handleEditModeChange
+        , handleDiskSelection  : this.handleDiskSelection
+        , handleDiskRemoval    : this.handleDiskRemoval
         , availableDisks:
           _.without( VS.availableDisks, ...this.state.selectedDisks )
-        , availableSSDs: [] // FIXME: Implement SSDs
-        // This must be submitted in full because it is also necessary to know
-        // which vdevs of an existing volume were added in editing and which
-        // already existed and thus may not be deleted.
-        , volumesOnServer        : VS.listVolumes()
+        , availableSSDs:
+          // FIXME: Implement SSDs
+          _.without( [], ...this.state.selectedSSDs )
         };
 
       let pools =

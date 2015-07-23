@@ -15,7 +15,6 @@ var TopologyDrawer = React.createClass(
   { propTypes:
     { handleDiskAdd        : React.PropTypes.func.isRequired
     , handleDiskRemove     : React.PropTypes.func.isRequired
-    , handleVdevAdd        : React.PropTypes.func.isRequired
     , handleVdevRemove     : React.PropTypes.func.isRequired
     , handleVdevTypeChange : React.PropTypes.func.isRequired
     , availableDisks       : React.PropTypes.array.isRequired

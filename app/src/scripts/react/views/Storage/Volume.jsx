@@ -38,15 +38,18 @@ const Volume = React.createClass(
   { displayName: "Volume"
 
   , propTypes:
-    { availableDisks  : React.PropTypes.array.isRequired
-    , availableSSDs   : React.PropTypes.array.isRequired
-    , existsOnRemote  : React.PropTypes.bool
-    , data            : React.PropTypes.array
-    , logs            : React.PropTypes.array
-    , cache           : React.PropTypes.array
-    , spares          : React.PropTypes.array
-    , datasets        : React.PropTypes.array
-    , name            : React.PropTypes.string
+    { handleEditModeChange : React.PropTypes.func.isRequired
+    , handleDiskSelection  : React.PropTypes.func.isRequired
+    , handleDiskRemoval    : React.PropTypes.func.isRequired
+    , availableDisks       : React.PropTypes.array.isRequired
+    , availableSSDs        : React.PropTypes.array.isRequired
+    , existsOnRemote       : React.PropTypes.bool
+    , data                 : React.PropTypes.array
+    , logs                 : React.PropTypes.array
+    , cache                : React.PropTypes.array
+    , spares               : React.PropTypes.array
+    , datasets             : React.PropTypes.array
+    , name                 : React.PropTypes.string
     , free: React.PropTypes.oneOfType(
         [ React.PropTypes.string
         , React.PropTypes.number
@@ -143,39 +146,39 @@ const Volume = React.createClass(
     }
 
   , handleDiskAdd ( vdevKey, purpose, event ) {
-      let vdevCollection = this.state[ purpose ];
-      let targetVdev = vdevCollection[ vdevKey ];
+      let collection = this.state[ purpose ];
+      let vdev;
 
-      switch ( targetVdev.type ) {
-        // All non-disk vdevs will just need the new disk added to their children.
-        case "raidz3" :
-        case "raidz2" :
-        case "raidz1" :
-        case "mirror" :
-          targetVdev.children.push( this.createNewDisk( event.target.value ) );
-          break;
+      if ( collection[ vdevKey ] ) {
+        vdev = collection[ vdevKey ];
 
-        case "disk" :
-          targetVdev.type = "mirror";
-          targetVdev.children = [ this.createNewDisk( targetVdev.path )
-                                , this.createNewDisk( event.target.value )
-                                ];
-          targetVdev.path = null;
-          break;
+        switch ( vdev.type ) {
+          // All non-disk vdevs will just need the new disk added to
+          // their children.
+          case "raidz3" :
+          case "raidz2" :
+          case "raidz1" :
+          case "mirror" :
+            vdev.children.push( this.createNewDisk( event.target.value ) );
+            break;
 
-        // Fresh Vdev with no type becomes a disk and obtains the target as its
-        // path.
-        default:
-          targetVdev = this.createNewDisk( event.target.value );
-          break;
+          case "disk" :
+            vdev.type = "mirror";
+            vdev.children = [ this.createNewDisk( vdev.path )
+                                  , this.createNewDisk( event.target.value )
+                                  ];
+            vdev.path = null;
+            break;
+        }
+      } else {
+        vdev = this.createNewDisk( event.target.value );
       }
 
-      vdevCollection[ vdevKey ] = targetVdev;
+      collection[ vdevKey ] = vdev;
 
-      // newSelectedDisks.push( event.target.value );
-      // newSelectedDisks = newSelectedDisks.sort();
+      this.props.handleDiskSelection( event.target.value );
 
-      this.setState( { [ purpose ] : vdevCollection } );
+      this.setState( { [ purpose ] : collection } );
     }
 
   , handleDiskRemove ( volumeKey, vdevPurpose, vdevKey, diskPath ) {
@@ -288,9 +291,9 @@ const Volume = React.createClass(
         return (
           <div className="volume-name-input">
             <TWBS.Input
-              type = "text"
-              onChange = { this.handleVolumeNameChange }
+              type        = "text"
               placeholder = "Volume Name"
+              onChange    = { this.handleVolumeNameChange }
               value       = { this.state.name }
             />
           </div>
@@ -315,7 +318,6 @@ const Volume = React.createClass(
               spares               = { this.state.spares }
               handleDiskAdd        = { this.handleDiskAdd }
               handleDiskRemove     = { this.handleDiskRemove }
-              handleVdevAdd        = { this.handleVdevAdd }
               handleVdevRemove     = { this.handleVdevRemove }
               handleVdevTypeChange = { this.handleVdevTypeChange }
             />
