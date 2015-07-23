@@ -1,0 +1,1731 @@
+{ "system.info":
+  [ { "result-schema":
+      [
+        { "type": "object"
+        , "properties":
+            { "memory_size":
+            { "type": "number"
+            }
+          , "cpu_model":
+              { "type": "string"
+            }
+          , "cpu_cores":
+              { "type": "number"
+            }
+          }
+        }
+      ]
+    , "params-schema":
+      { "items": []
+      , "type": "array"
+      }
+    , "name": "hardware"
+    , "private": false
+    }
+  , { "result-schema":
+    [
+        { "type": "object"
+        , "properties":
+            { "timezone":
+            { "type": "string"
+            }
+          , "system_time":
+              { "type": "string"
+            }
+          , "boot_time":
+              { "type": "string"
+            }
+          }
+        }
+      ]
+    , "params-schema":
+      { "items": []
+      , "type": "array"
+      }
+    , "name": "time"
+    , "private": false
+    }
+  , { "result-schema":
+    [
+        { "type": "string"
+        }
+      ]
+    , "params-schema":
+      { "items": []
+      , "type": "array"
+      }
+    , "name": "uname_full"
+    , "private": false
+    }
+  , { "result-schema":
+    [
+        { "type": "string"
+        }
+      ]
+    , "params-schema":
+      { "items": []
+      , "type": "array"
+      }
+    , "name": "version"
+    , "private": false
+    }
+  ]
+, "system.ui":
+  [ { "result-schema":
+      [ { "$ref": "system-ui" } ]
+    , "params-schema":
+      { "items": []
+      , "type": "array"
+      }
+    , "name": "get_config"
+    , "private": false
+    }
+  ]
+, "ui.transactions":
+  [ { "result-schema":
+      [ { "type": "boolean" } ]
+      , "params-schema":
+        { "items":
+          [ { "type": "string" }
+          , { "type": "number" }
+          ]
+        , "type": "array"
+      }
+      , "name": "acquire"
+      , "private": false
+    }
+  , { "name": "dump"
+    , "private": true
+    }
+  , { "params-schema":
+      { "items":
+        [ { "type": "string" } ]
+      , "type": "array"
+      }
+    , "name": "query"
+    , "private": false
+    }
+  , { "params-schema":
+      { "items":
+        [ { "type": "string" } ]
+      , "type": "array"
+      }
+    , "name": "release"
+    , "private": false
+    }
+  ]
+, "shares":
+  [ { "name": "get_connected_clients"
+    , "private": false
+    , "description": "Returns list of clients connected to particular share"
+    }
+  , { "result-schema":
+      { "anyOf":
+        [ { "items":
+            { "$ref": "share" }
+            , "type": "array"
+            }
+        , { "type": "integer" }
+        , { "$ref": "share" }
+        ]
+      }
+    , "params-schema":
+        { "items":
+          [
+          { "items":
+              { "minItems": 2
+            , "type": "array"
+            , "maxItems": 4
+            }
+          , "type": "array"
+          , "title": "filter"
+          }
+        , { "type": "object"
+          , "properties":
+              { "count":
+              { "type": "boolean"
+              }
+            , "single":
+                { "type": "boolean"
+              }
+            , "limit":
+                { "type": "integer"
+              }
+            , "sort-field":
+                { "type": "string"
+              }
+            , "offset":
+                { "type": "integer"
+              }
+            , "sort-order":
+                { "enum":
+                  [
+                  "asc"
+                , "desc"
+                ]
+              , "type": "string"
+              }
+            }
+          , "title": "options"
+          }
+        ]
+      , "type": "array"
+      }
+    , "name": "query"
+    , "private": false
+    }
+  , { "result-schema":
+    [
+        { "items":
+            { "type": "string"
+          }
+        , "type": "array"
+        }
+      ]
+    , "name": "supported_types"
+    , "private": false
+    , "description": "Returns list of supported sharing providers"
+    }
+  ]
+, "shares.afp":
+  [ { "name": "get_connected_clients"
+    , "private": true
+    }
+  ]
+, "event":
+  [ { "name": "query"
+    , "private": false
+    }
+  ]
+, "shares.nfs":
+  [ { "params-schema":
+      { "items":
+        [ { "type": "string" } ]
+      , "type": "array"
+      }
+    , "name": "get_connected_clients"
+    , "private": true
+    }
+  ]
+, "management":
+  [ { "name": "die_you_gravy_sucking_pig_dog"
+    , "private": false
+    }
+  , { "name": "get_connected_clients"
+    , "private": false
+    }
+  , { "name": "get_event_sources"
+    , "private": false
+    }
+  , { "name": "kick_session"
+    , "private": false
+    }
+  , { "name": "ping"
+    , "private": false
+    }
+  , { "name": "reload_plugins"
+    , "private": false
+    }
+  , { "name": "restart"
+    , "private": false
+    }
+  , { "name": "status"
+    , "private": false
+    }
+  , { "name": "wait_ready"
+    , "private": false
+    }
+  ]
+, "network.hosts":
+  [ { "result-schema":
+        { "anyOf":
+          [
+          { "items":
+              { "$ref": "network-host"
+            }
+          , "type": "array"
+          }
+        , { "type": "integer"
+          }
+        , { "$ref": "network-host"
+          }
+        ]
+      }
+    , "params-schema":
+      { "items":
+        [ { "items":
+            { "minItems": 2
+            , "type": "array"
+            , "maxItems": 4
+            }
+          , "type": "array"
+          , "title": "filter"
+        , }
+        , { "type": "object"
+          , "properties":
+            { "count":
+              { "type": "boolean" }
+            , "single": { "type": "boolean" }
+            , "limit":
+              { "type": "integer" }
+            , "sort-field":
+              { "type": "string" }
+            , "offset":
+              { "type": "integer" }
+            , "sort-order":
+              { "enum":
+                [ "asc"
+                , "desc"
+                ]
+              , "type": "string"
+              }
+            }
+          , "title": "options"
+          }
+        ]
+      , "type": "array"
+      }
+    , "name": "query"
+    , "private": false
+    }
+  ]
+, "etcd.management":
+  [ { "name": "die"
+    , "private": false
+    }
+  , { "name": "rescan_plugins"
+    , "private": false
+    }
+  ]
+, "swap":
+  [
+    {
+      "result-schema": [
+        {
+          "items": {
+            "$ref": "swap-mirror"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "info",
+      "private": false,
+      "description": "Returns information about swap mirrors present in the system"
+    }
+  ]
+, "network.routes":
+  [
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "network-route"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "network-route"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false
+    }
+  ]
+, "config":
+  [
+    {
+      "result-schema": [
+        {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get",
+      "private": true
+    },
+    {
+      "name": "list",
+      "private": true
+    }
+  ]
+, "discovery":
+  [
+    {
+      "name": "get_event_types",
+      "private": false
+    },
+    {
+      "name": "get_methods",
+      "private": false
+    },
+    {
+      "name": "get_schema",
+      "private": false
+    },
+    {
+      "name": "get_services",
+      "private": false
+    },
+    {
+      "name": "get_tasks",
+      "private": false
+    }
+  ]
+, "shell":
+  [
+    {
+      "name": "execute",
+      "private": false
+    },
+    {
+      "name": "get_shells",
+      "private": false
+    },
+    {
+      "name": "spawn",
+      "private": false
+    }
+  ]
+, "system.device":
+  [
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "name": "get_classes",
+      "private": false,
+      "description": "Returns list of available device classes"
+    },
+    {
+      "result-schema": [
+        {
+          "anyOf": [
+            {
+              "$ref": "disk-device"
+            },
+            {
+              "$ref": "network-device"
+            },
+            {
+              "$ref": "cpu-device"
+            }
+          ]
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_devices",
+      "private": false,
+      "description": "Returns list of devices from given class"
+    }
+  ]
+, "users":
+  [
+    {
+      "name": "get_profile_picture",
+      "private": false
+    },
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "user"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "user"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false,
+      "description": "Lists users present in the system"
+    }
+  ]
+, "sessions":
+  [
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "session"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "session"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "name": "whoami",
+      "private": false,
+      "description": "Returns the loggedin user for the current session"
+    }
+  ]
+, "update":
+  [
+    {
+      "result-schema": [
+        {
+          "$ref": "update"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "get_config",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "get_current_train",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "$ref": "update.ops"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "get_update_ops",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "is_update_available",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "obtain_changelog",
+      "private": false
+    }
+  ]
+, "system.general":
+  [
+    {
+      "result-schema": [
+        {
+          "$ref": "system-general"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "get_config",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "keymaps",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "timezones",
+      "private": false
+    }
+  ]
+, "zfs.pool":
+  [
+    {
+      "result-schema": [
+        {
+          "items": {
+            "$ref": "zfs-pool"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "find",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "$ref": "zfs-pool"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "get_boot_pool",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "type": "object"
+        }
+      ],
+      "name": "get_capabilities",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_disks",
+      "private": false
+    },
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "zfs-pool"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "zfs-pool"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false,
+      "description": "Lists ZFS pools"
+    }
+  ]
+, "etcd.generation":
+  [
+    {
+      "name": "generate_all",
+      "private": false
+    },
+    {
+      "name": "generate_file",
+      "private": false
+    },
+    {
+      "name": "generate_group",
+      "private": false
+    },
+    {
+      "name": "generate_plugin",
+      "private": false
+    },
+    {
+      "name": "get_groups",
+      "private": false
+    },
+    {
+      "name": "get_managed_files",
+      "private": false
+    }
+  ]
+, "groups":
+  [
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "group"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "group"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false,
+      "description": "Lists groups present in the system"
+    }
+  ]
+, "services":
+  [
+    {
+      "result-schema": [],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "ensure_started",
+      "private": true
+    },
+    {
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "ensure_stopped",
+      "private": true
+    },
+    {
+      "result-schema": [
+        {
+          "type": "object"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_service_config",
+      "private": false
+    },
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "service"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "service"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false,
+      "description": "Lists available services"
+    },
+    {
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "reload",
+      "private": true
+    }
+  ]
+, "statd.output":
+  [
+    {
+      "name": "disable",
+      "private": false
+    },
+    {
+      "name": "enable",
+      "private": false
+    },
+    {
+      "name": "get_data_sources",
+      "private": false
+    },
+    {
+      "name": "query",
+      "private": false
+    }
+  ]
+, "task":
+  [
+    {
+      "name": "abort",
+      "private": false
+    },
+    {
+      "name": "list_resources",
+      "private": false
+    },
+    {
+      "name": "query",
+      "private": false
+    },
+    {
+      "name": "status",
+      "private": false
+    },
+    {
+      "name": "submit",
+      "private": false
+    }
+  ]
+, "plugin":
+  [
+    {
+      "name": "register_event_type",
+      "private": false
+    },
+    {
+      "name": "register_service",
+      "private": false
+    },
+    {
+      "name": "unregister_event_type",
+      "private": false
+    },
+    {
+      "name": "unregister_service",
+      "private": false
+    },
+    {
+      "name": "wait_for_service",
+      "private": false
+    }
+  ]
+, "network.config":
+  [
+    {
+      "result-schema": [
+        {
+          "$ref": "network-config"
+        }
+      ],
+      "name": "get_global_config",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "name": "get_my_ips",
+      "private": false
+    }
+  ]
+, "disks":
+  [
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "disk_to_data_partition",
+      "private": false
+    },
+    {
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_disk_config",
+      "private": false
+    },
+    {
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_partition_config",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "type": "boolean"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "is_online",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "partition_to_disk",
+      "private": false
+    },
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "disk"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "disk"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false
+    }
+  ]
+, "system-dataset":
+  [
+    {
+      "result-schema": [],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "init",
+      "private": true,
+      "description": "Initializes the .system dataset"
+    },
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "request_directory",
+      "private": true,
+      "description": "Creates directory in .system dataset and returns reference to it"
+    },
+    {
+      "result-schema": [
+        {
+          "type": "object"
+        }
+      ],
+      "name": "status",
+      "private": false,
+      "description": "Returns current .system dataset parameters"
+    }
+  ]
+, "volumes":
+  [
+    {
+      "result-schema": [
+        {
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "decode_path",
+      "private": false,
+      "description": "Extracts volume name, dataset name and relative path from full path"
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "topology": {
+                "$ref": "volume-topology"
+              }
+            }
+          },
+          "type": "array"
+        }
+      ],
+      "name": "find",
+      "private": false,
+      "description": "Finds volumes available for import"
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "name": "get_available_disks",
+      "private": false
+    },
+    {
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_capabilities",
+      "private": false
+    },
+    {
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_config",
+      "private": false
+    },
+    {
+      "name": "get_disk_disposition",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "get_volume_disks",
+      "private": false
+    },
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "volume"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "volume"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "resolve_path",
+      "private": false
+    }
+  ]
+, "filesystem":
+  [
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "download",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "$ref": "directory"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "list_dir",
+      "private": false,
+      "description": "Lists contents of given directory"
+    },
+    {
+      "result-schema": [
+        {
+          "type": "string"
+        }
+      ],
+      "params-schema": {
+        "items": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "upload",
+      "private": false
+    }
+  ]
+, "networkd.configuration":
+  [
+    {
+      "name": "configure_interface",
+      "private": false
+    },
+    {
+      "name": "configure_network",
+      "private": false
+    },
+    {
+      "name": "configure_routes",
+      "private": false
+    },
+    {
+      "name": "down_interface",
+      "private": false
+    },
+    {
+      "name": "query_interfaces",
+      "private": false
+    },
+    {
+      "name": "query_routes",
+      "private": false
+    },
+    {
+      "name": "up_interface",
+      "private": false
+    }
+  ]
+, "network.interfaces":
+  [
+    {
+      "result-schema": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "network-interface"
+            },
+            "type": "array"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "$ref": "network-interface"
+          }
+        ]
+      },
+      "params-schema": {
+        "items": [
+          {
+            "items": {
+              "minItems": 2,
+              "type": "array",
+              "maxItems": 4
+            },
+            "type": "array",
+            "title": "filter"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "count": {
+                "type": "boolean"
+              },
+              "single": {
+                "type": "boolean"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "sort-field": {
+                "type": "string"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "sort-order": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string"
+              }
+            },
+            "title": "options"
+          }
+        ],
+        "type": "array"
+      },
+      "name": "query",
+      "private": false
+    }
+  ]
+}
