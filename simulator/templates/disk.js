@@ -120,8 +120,10 @@ function createDisks ( number, types ) {
     } else {
       newDisk = _.merge( newDisk, hddDefaults, defaults );
     }
-
+    disks.push( newDisk );
   }
+
+  return disks;
 }
 
 module.exports = createDisks;
