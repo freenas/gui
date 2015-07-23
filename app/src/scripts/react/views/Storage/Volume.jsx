@@ -57,29 +57,29 @@ const Volume = React.createClass(
     }
 
   , getDefaultProps: function () {
-    return { existsOnRemote : false
-           , data           : []
-           , logs           : []
-           , cache          : []
-           , spares         : []
-           , free           : 0
-           , allocated      : 0
-           , size           : 0
-           };
-  }
+      return { existsOnRemote : false
+             , data           : []
+             , logs           : []
+             , cache          : []
+             , spares         : []
+             , free           : 0
+             , allocated      : 0
+             , size           : 0
+             };
+    }
 
   , returnInitialStateValues: function () {
-    return { activeSection   : null
-           , editing         : false
-           , data            : this.props.data
-           , logs            : this.props.logs
-           , cache           : this.props.cache
-           , spares          : this.props.spares
-           , free            : this.props.free
-           , allocated       : this.props.allocated
-           , size            : this.props.size
-           };
-  }
+      return { activeSection   : null
+             , editing         : false
+             , data            : this.props.data
+             , logs            : this.props.logs
+             , cache           : this.props.cache
+             , spares          : this.props.spares
+             , free            : this.props.free
+             , allocated       : this.props.allocated
+             , size            : this.props.size
+             };
+    }
 
   // The editing reconciliation model for Volume relies on the difference
   // between state and props. As with a simple form, the intial values are set
@@ -93,51 +93,51 @@ const Volume = React.createClass(
   // unequal, we can choose instead to display a warning, indicate that another
   // user has modified that field, etc. As always, the last change "wins".
   , getInitialState: function () {
-    return this.returnInitialStateValues();
-  }
+      return this.returnInitialStateValues();
+    }
 
   // A shorthand method used to "cancel" creation or editing of a volume.
   // TODO: This should probably be gated so that it isn't triggered without a
   // warning to the user.
   , resetToInitialState: function () {
-    this.setState( this.returnInitialStateValues() );
-  }
+      this.setState( this.returnInitialStateValues() );
+    }
 
   , componentDidUpdate: function ( prevProps, prevState ) {
-    let sectionIsVisible       = Boolean( prevState["activeSection"] );
-    let sectionShouldBeVisible = Boolean( this.state["activeSection"] );
+      let sectionIsVisible       = Boolean( prevState["activeSection"] );
+      let sectionShouldBeVisible = Boolean( this.state["activeSection"] );
 
-    // Toggle the display of the content drawer
-    if ( sectionIsVisible !== sectionShouldBeVisible ) {
-      if ( sectionShouldBeVisible ) {
-        Velocity( React.findDOMNode( this.refs.drawer )
-                , "slideDown"
-                , SLIDE_DURATION
-                );
-      } else {
-        Velocity( React.findDOMNode( this.refs.drawer )
-                , "slideUp"
-                , SLIDE_DURATION
-                );
+      // Toggle the display of the content drawer
+      if ( sectionIsVisible !== sectionShouldBeVisible ) {
+        if ( sectionShouldBeVisible ) {
+          Velocity( React.findDOMNode( this.refs.drawer )
+                  , "slideDown"
+                  , SLIDE_DURATION
+                  );
+        } else {
+          Velocity( React.findDOMNode( this.refs.drawer )
+                  , "slideUp"
+                  , SLIDE_DURATION
+                  );
+        }
       }
     }
-  }
 
   , enterEditMode: function () {
       this.setState({ editing: true });
     }
 
   , handlePanelOpen: function () {
-    this.setState({ activeSection: "disks" });
-  }
+      this.setState({ activeSection: "disks" });
+    }
 
   , handleNavSelect: function ( keyName ) {
-    if ( NAV_STATES.has( keyName ) ) {
-      this.setState({ activeSection: keyName });
-    } else {
-      this.setState({ activeSection: null });
+      if ( NAV_STATES.has( keyName ) ) {
+        this.setState({ activeSection: keyName });
+      } else {
+        this.setState({ activeSection: null });
+      }
     }
-  }
 
   , createVolumeName: function () {
       if ( this.state.editing ) {
