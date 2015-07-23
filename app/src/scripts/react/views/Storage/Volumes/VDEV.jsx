@@ -140,7 +140,9 @@ const VDEV = React.createClass(
           </span>
         );
       }
-    } else {
+    } else if ( !memberDisks ) {
+      // There are no available devices, and nothing has been added to the VDEV
+      // already - it's empty and nothing can be added.
       message = (
         <div
           className = "text-center"
