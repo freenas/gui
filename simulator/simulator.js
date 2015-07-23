@@ -10,6 +10,10 @@ var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 
 var systemGenerator = require( "./templates/system.js" );
 
+var schemas = require( "./discovery/schemas.json" );
+var services = require( "./discovery/services.json" );
+var methods = require( "./discovery/methods.json" );
+
 // Temporary hard-coded inputs for the system generator.
 var diskCount = 8;
 var diskTypes = "both";
