@@ -123,7 +123,8 @@ const Volume = React.createClass(
       }
     }
 
-  , enterEditMode: function () {
+  , enterEditMode: function ( event ) {
+      this.props.handleEditModeChange( true, event );
       this.setState({ editing: true });
     }
 

@@ -32,6 +32,7 @@ const Storage = React.createClass(
         , selectedDisks  : []
         , selectedSSDs   : []
         , availableDisks : VS.availableDisks
+        , editingVolume  : false
         }
       );
     }
@@ -52,6 +53,22 @@ const Storage = React.createClass(
       ZM.unsubscribe( this.constructor.displayName );
 
       EventBus.emit( "hideContextPanel", ContextDisks );
+    }
+
+  , componentDidUpdate ( prevProps, prevState ) {
+      if ( ( this.state.volumes.length === 0 )
+           && ( this.state.editingVolume !== prevState.editingVolume )
+         ) {
+        Velocity( React.findDOMNode( this.refs.newPoolMessage )
+          , { opacity       : 0
+            , height        : 0
+            , paddingTop    : 0
+            , paddingBottom : 0
+            }
+          , { display: "none" }
+          , 500
+          );
+      }
     }
 
   , handleUpdatedVS ( eventMask ) {
@@ -278,6 +295,10 @@ const Storage = React.createClass(
       ZM.submitVolume( this.state.volumes[ volumeKey ] );
     }
 
+  , handleEditModeChange ( editState, event ) {
+      this.setState({ editingVolume: editState });
+    }
+
   , generateFreshVolume () {
       return ( { topology   : { data  : []
                               , logs  : []
@@ -304,6 +325,7 @@ const Storage = React.createClass(
         , handleVolumeReset      : this.handleVolumeReset
         , handleVolumeNameChange : this.handleVolumeNameChange
         , submitVolume           : this.submitVolume
+        , handleEditModeChange   : this.handleEditModeChange
         , availableDisks:
           _.without( VS.availableDisks, ...this.state.selectedDisks )
         , availableSSDs: [] // FIXME: Implement SSDs
@@ -380,14 +402,17 @@ const Storage = React.createClass(
       if ( VS.isInitialized ) {
         if ( this.state.volumes.length === 0 ) {
           message = (
-            <div className="clearfix storage-first-pool">
+            <div
+              ref       = "newPoolMessage"
+              className = "clearfix storage-first-pool"
+            >
               <img src="img/hdd.png" />
               <h3>ZFS Pools</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
             </div>
           );
-          content = this.createVolumes();
         }
+        content = this.createVolumes();
       } else {
         // TODO: Make this pretty
         loading = <h1 className="text-center">LOADING</h1>;
