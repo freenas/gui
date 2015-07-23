@@ -2360,7 +2360,7 @@ function createSystem ( diskCount, diskTypes ) {
 
   var disks = createDisks( diskCount, diskTypes );
 
-  newSystem = _.merge( newSystem, disks );
+  newSystem [ "disks" ] = disks;
 
   return newSystem;
 }
