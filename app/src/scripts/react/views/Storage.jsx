@@ -43,8 +43,6 @@ const Storage = React.createClass(
       ZM.requestVolumes();
       ZM.requestAvailableDisks();
       ZM.subscribe( this.constructor.displayName );
-
-      EventBus.emit( "showContextPanel", ContextDisks );
     }
 
   , componentWillUnmount () {
@@ -295,8 +293,14 @@ const Storage = React.createClass(
       ZM.submitVolume( this.state.volumes[ volumeKey ] );
     }
 
-  , handleEditModeChange ( editState, event ) {
-      this.setState({ editingVolume: editState });
+  , handleEditModeChange ( isEditing, event ) {
+      this.setState({ editingVolume: isEditing });
+
+      if ( isEditing ) {
+        EventBus.emit( "showContextPanel", ContextDisks );
+      } else {
+        EventBus.emit( "hideContextPanel", ContextDisks );
+      }
     }
 
   , generateFreshVolume () {
