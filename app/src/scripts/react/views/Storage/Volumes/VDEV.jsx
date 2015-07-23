@@ -121,9 +121,8 @@ const VDEV = React.createClass(
           // next.
           value = "-- SELECT --"
           onChange= { this.props.handleDiskAdd.bind( null
-                                                   , this.props.volumeKey
-                                                   , this.props.purpose
                                                    , this.props.vdevKey
+                                                   , this.props.purpose
                                                    )
                     } >
           <option>{ "-- SELECT --" }</option>

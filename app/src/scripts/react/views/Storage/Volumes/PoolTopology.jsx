@@ -26,8 +26,6 @@ var TopologyDrawer = React.createClass(
     , logs                 : React.PropTypes.array.isRequired
     , cache                : React.PropTypes.array.isRequired
     , spares               : React.PropTypes.array.isRequired
-    , volumeKey            : React.PropTypes.number.isRequired
-    , volumesOnServer      : React.PropTypes.array.isRequired
     }
 
   , createVdevs: function ( purpose ) {
@@ -36,7 +34,6 @@ var TopologyDrawer = React.createClass(
       , handleDiskRemove     : this.props.handleDiskRemove
       , handleVdevRemove     : this.props.handleVdevRemove
       , handleVdevTypeChange : this.props.handleVdevTypeChange
-      , volumeKey            : this.props.volumeKey
       };
     let availableDevices;
     let cols;
@@ -77,14 +74,7 @@ var TopologyDrawer = React.createClass(
         // A vdev exists on the server if the volume it's in does and the
         // volume has a vdev of that purpose and index. This only applies to
         // "data" vdevs.
-        let existsOnServer = this.props.volumesOnServer.length
-                           < this.props.volumeKey
-                          && this.props.volumesOnServer[ this.props.volumeKey ]
-                                                       [ "topology" ]
-                                                       [ purpose ]
-                                                       .length
-                           < this.props.vdevKey
-                          && this.props.purpose === "data";
+        let existsOnServer = false;
 
         return (
           <VDEV { ...commonProps }
@@ -95,7 +85,6 @@ var TopologyDrawer = React.createClass(
             purpose           = { purpose }
             cols              = { cols }
             availableDevices  = { availableDevices }
-            volumeKey         = { this.props.volumeKey }
             vdevKey           = { index }
             key               = { index }
             existsOnServer    = { existsOnServer }
@@ -110,10 +99,8 @@ var TopologyDrawer = React.createClass(
           <TWBS.Col xs = { cols } >
             <span
               className = "text-center"
-              onClick   = { this.props.handleVdevAdd.bind( null
-                                                         , this.props.volumeKey
-                                                         , purpose
-                                                         ) } >
+              onClick   = { this.props.handleVdevAdd.bind( null, purpose ) }
+            >
               <h3><Icon glyph = "plus" /></h3>
               <h3>{ `Add ${ purpose } VDEV` }</h3>
             </span>
