@@ -22,6 +22,45 @@ var virtualSystem = systemGenerator( diskCount, diskTypes );
 
 var authTokens = {};
 
+function handleCall ( data ) {
+
+  var responseArgs;
+
+  switch ( data[ "args" ][ "method" ] ) {
+    case "discovery.get_schema":
+      responseArgs = schemas;
+      break;
+
+    case "discovery.get_services":
+      responseArgs = services;
+      break;
+
+    case "discovery.get_methods":
+      var method = data.args.args[0];
+      responseArgs = methods[ method ];
+      break;
+
+    case "system.info.hardware":
+      responseArgs =
+        { memory_size: virtualSystem[ "memory_size" ]
+        , cpu_model: virtualSystem[ "cpu_model" ]
+        , cpu_cores: virtualSystem[ "cpu_cores" ]
+        };
+      break;
+
+    case "users.query":
+      responseArgs = virtualSystem[ "users" ];
+      break;
+  }
+
+  if ( responseArgs ) {
+    this.send( pack( "rpc", "response", responseArgs, data.id ) );
+  } else {
+    // TODO: failure response
+    console.warn( "simulator.js; handleCall; Call failed." );
+  }
+
+}
 function handleRPC ( data, flags ) {
   var args;
   switch ( data.name ) {
@@ -43,6 +82,10 @@ function handleRPC ( data, flags ) {
       authTokens[ token ] = data.args["username"];
       args = [ token, 600, data.args["username"] ];
       this.send( pack( "rpc", "response", args, data.id ) );
+      break;
+
+    case "call":
+      handleCall.call( this, data );
       break;
   }
   return true;
