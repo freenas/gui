@@ -150,7 +150,6 @@ const Storage = React.createClass(
         pools.push(
           <Volume
             { ...volumeCommon }
-            blankVolume
             key       = { pools.length }
             volumeKey = { pools.length }
           />
