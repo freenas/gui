@@ -10,6 +10,12 @@ var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 
 var systemGenerator = require( "./templates/system.js" );
 
+// Temporary hard-coded inputs for the system generator.
+var diskCount = 8;
+var diskTypes = "both";
+
+var virtualSystem = systemGenerator( diskCount, diskTypes );
+
 var authTokens = {};
 
 function handleRPC ( data, flags ) {
