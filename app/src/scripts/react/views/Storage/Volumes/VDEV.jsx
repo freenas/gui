@@ -18,7 +18,6 @@ const VDEV = React.createClass(
     , availableDevices     : React.PropTypes.array.isRequired
     , cols                 : React.PropTypes.number
     , children             : React.PropTypes.array
-    , status               : React.PropTypes.string
     , path                 : React.PropTypes.string
     , purpose: React.PropTypes.oneOf(
         [ "data"

@@ -69,14 +69,13 @@ var TopologyDrawer = React.createClass(
     let vdevs = this.props[ purpose ].map(
       ( vdev, index ) => {
         // Destructure vdev to avoid passing in props which will not be used.
-        let { children, status, type, path } = vdev;
+        let { children, type, path } = vdev;
 
         return (
           <VDEV
             { ...sharedHandlers }
             { ...sharedProps }
             children = { children }
-            status   = { status }
             type     = { type }
             path     = { path }
             vdevKey  = { index }
