@@ -5,7 +5,6 @@
 // VDEV type where the disk is a child of a VDEV, NOT of a pool topology.
 
 import React from "react";
-import TWBS from "react-bootstrap";
 
 import DS from "../../../../flux/stores/DisksStore";
 import Icon from "../../../components/Icon";
