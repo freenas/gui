@@ -182,73 +182,72 @@ const Volume = React.createClass(
     }
 
   , handleDiskRemove ( vdevKey, vdevPurpose, diskPath ) {
-      let newSelectedDisks = [];
-      let newVdev = this.state[ "volumes" ]
-                              [ volumeKey ]
-                              [ "topology" ]
-                              [ vdevPurpose ]
-                              [ vdevKey ];
+      let vdev = this.state[ vdevPurpose ][ vdevKey ];
 
-      switch ( newVdev.type ) {
+      console.log( vdev );
+
+      switch ( vdev.type ) {
 
         case "raidz3" :
-          if ( newVdev.children.length === 5 ) {
-            newVdev.children = _.without( newVdev.children, diskPath );
-            newVdev.type = "raidz2";
+          if ( vdev.children.length === 5 ) {
+            vdev.children = _.without( vdev.children, diskPath );
+            vdev.type = "raidz2";
           } else {
-            newVdev.children = _.without( newVdev.children, diskPath );
+            vdev.children = _.without( vdev.children, diskPath );
           }
           break;
 
         case "raidz2" :
-          if ( newVdev.children.length === 4 ) {
-            newVdev.children = _.without( newVdev.children, diskPath );
-            newVdev.type = "raidz1";
+          if ( vdev.children.length === 4 ) {
+            vdev.children = _.without( vdev.children, diskPath );
+            vdev.type = "raidz1";
           } else {
-            newVdev.children = _.without( newVdev.children, diskPath );
+            vdev.children = _.without( vdev.children, diskPath );
           }
           break;
 
         case "raidz1" :
 
-          if ( newVdev.children.length === 3 ) {
-            newVdev.children = _.without( newVdev.children, diskPath );
-            newVdev.type = "mirror";
+          if ( vdev.children.length === 3 ) {
+            vdev.children = _.without( vdev.children, diskPath );
+            vdev.type = "mirror";
           } else {
-            newVdev.children = _.without( newVdev.children, diskPath );
+            vdev.children = _.without( vdev.children, diskPath );
           }
           break;
 
         case "mirror" :
-          if ( newVdev.children.length === 2 ) {
-            newVdev.path = _.without( newVdev.children, diskPath )[0][ "path" ];
-            newVdev.children = [];
-            newVdev.type = "disk";
+          if ( vdev.children.length === 2 ) {
+            vdev.path = _.without( vdev.children, diskPath )[0][ "path" ];
+            vdev.children = [];
+            vdev.type = "disk";
           } else {
-            newVdev.children = _.without( newVdev.children, diskPath );
+            vdev.children = _.without( vdev.children, diskPath );
           }
           break;
 
         case "disk" :
-          newVdev.children = [];
-          newVdev.path = null;
-          newVdev.type = null;
+          vdev.children = [];
+          vdev.path = null;
+          vdev.type = null;
           break;
 
         default:
           break;
       }
 
-      newVolumes[ volumeKey ][ "topology" ][ vdevPurpose ][ vdevKey ] = newVdev;
-      newSelectedDisks = _.without( this.state.selectedDisks, diskPath );
+      this.props.handleDiskRemoval( diskPath );
 
-      this.setState( { volumes: newVolumes
-                     , selectedDisks: newSelectedDisks
-                     }
-                   );
+      this.setState(
+        { [ vdevPurpose ]:
+            update( this.state[ vdevPurpose ]
+                  , { [ vdevKey ]: { $set: vdev } }
+          )
+        }
+      );
     }
 
-  , handleVdevAdd ( purpose ) {
+  , handleVdevAdd ( vdevPurpose ) {
       // This will be more sophisticated in the future.
       let vdev = [
           { children : []
@@ -258,7 +257,7 @@ const Volume = React.createClass(
         ];
 
       this.setState(
-        { [purpose] : update( this.state[ purpose ]
+        { [ vdevPurpose ] : update( this.state[ vdevPurpose ]
                             , { $push: vdev }
                             )
         }
