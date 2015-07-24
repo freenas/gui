@@ -98,11 +98,19 @@ const Storage = React.createClass(
     }
 
   , handleDiskSelection ( path ) {
-      this.setState({ selectedDisks: this.state.selectedDisks.add( path ) });
+      let diskUpdate = this.state.selectedDisks;
+
+      diskUpdate.add( path );
+
+      this.setState({ selectedDisks: diskUpdate });
     }
 
   , handleDiskRemoval ( path ) {
-      this.setState({ selectedDisks: this.state.selectedDisks.delete( path ) });
+      let diskUpdate = this.state.selectedDisks;
+
+      diskUpdate.delete( path );
+
+      this.setState({ selectedDisks: diskUpdate });
     }
 
   , createVolumes () {
