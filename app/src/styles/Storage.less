@@ -104,3 +104,38 @@ nav.volume-nav {
   font-size: 14px;
   font-weight: 100;
 }
+
+.disk-icon {
+  position: relative;
+  float: left;
+  width: 5em;
+  text-align: center;
+  margin: 0.25em;
+
+  & > img {
+    width: 3.5em;
+  }
+
+  .primary-text {
+    display: block;
+  }
+  .secondary-text {
+    display: block;
+    font-size: 0.8em
+  }
+}
+.disk-remove {
+  height        : 15px;
+  width         : 15px;
+  display       : block;
+  position      : absolute;
+  right         : 0;
+  top           : 0;
+  color         : @brand-danger;
+  border        : 1px solid;
+  border-radius : 50%;
+  text-align    : center;
+  line-height   : 10.75px;
+  font-style    : normal;
+  font-weight   : 100;
+}

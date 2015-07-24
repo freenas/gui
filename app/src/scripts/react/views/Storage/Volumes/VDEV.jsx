@@ -132,7 +132,7 @@ const VDEV = React.createClass(
       } else {
         message = (
           <span
-            className = "text-center"
+            className = "text-center pool-vdev-message"
             onClick   = { this.props.handleVdevAdd.bind( null, this.props.purpose ) }
           >
             <h3><Icon glyph = "plus" /></h3>
@@ -145,7 +145,7 @@ const VDEV = React.createClass(
       // already - it's empty and nothing can be added.
       message = (
         <div
-          className = "text-center"
+          className = "text-center pool-vdev-message"
         >
           { `No available ${ this.props.purpose } devices.` }
         </div>
@@ -154,7 +154,7 @@ const VDEV = React.createClass(
 
     return (
       <TWBS.Col xs={ this.props.cols }>
-        <TWBS.Well className="pool-vdev-message">
+        <TWBS.Well className="clearfix">
           { memberDisks }
           { addNewDisks }
           { message }

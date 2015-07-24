@@ -7,61 +7,49 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import DS from "../../../../flux/stores/DisksStore";
+import Icon from "../../../components/Icon";
+
 const VDEVDisk = React.createClass(
-{ propTypes: { serial: React.PropTypes.string
-             , byteSize: React.PropTypes.number
-             , humanSize: React.PropTypes.string
-             , online: React.PropTypes.bool
-             , path: React.PropTypes.string.isRequired
-             , size: React.PropTypes.number
-             , fontSize: React.PropTypes.number
-             , badgeFontSize: React.PropTypes.number
-             , diskType: React.PropTypes.string
-             , volumeKey: React.PropTypes.number
-             , vdevKey: React.PropTypes.number
-             , vdevPurpose: React.PropTypes.oneOf(
-                [ "data"
-                , "logs"
-                , "cache"
-                , "spares"
-                ]
-              )
-             , handleDiskRemove : React.PropTypes.func
-             , existsOnServer   : React.PropTypes.bool
-             }
+  { propTypes:
+    { path: React.PropTypes.string.isRequired
+    , vdevPurpose: React.PropTypes.oneOf(
+        [ "data"
+        , "logs"
+        , "cache"
+        , "spares"
+        ]
+      )
+    , handleDiskRemove : React.PropTypes.func.isRequired
+    , existsOnServer   : React.PropTypes.bool
+    }
 
   , render: function () {
-
     let deleteButton = null;
+    let disk = DS.getByPath( this.props.path );
 
-    if ( this.props.handleDiskRemove
-      && this.props.volumeKey > -1
-      && this.props.vdevKey > -1
-      && !this.props.existsOnServer
-       ) {
-      deleteButton =
-        <TWBS.Button
-          bsStyle = "warning"
+    if ( !this.props.existsOnServer ) {
+      deleteButton = (
+        <span
+          className = "disk-remove"
           onClick = { this.props.handleDiskRemove.bind( null
-                                                      , this.props.volumeKey
-                                                      , this.props.vdevPurpose
                                                       , this.props.vdevKey
+                                                      , this.props.vdevPurpose
                                                       , this.props.path
                                                       )
                     }
         >
-          { "Remove Disk "}
-        </TWBS.Button>;
+          {"x"}
+        </span>
+      );
     }
 
     return (
-      <div>
-        <TWBS.Label
-          bsStyle = "default"
-        >
-          { this.props.path }
-        </TWBS.Label>
+      <div className="disk-icon">
         { deleteButton }
+        <img src="img/hdd.png" />
+        <strong className="primary-text">{ disk.humanSize }</strong>
+        <span className="secondary-text">{ this.props.path }</span>
       </div>
     );
   }

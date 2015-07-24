@@ -61,7 +61,7 @@ var TopologyDrawer = React.createClass(
       case "data":
       default:
         sharedProps.availableDevices = this.props.availableDisks;
-        sharedProps.cols             = 4;
+        sharedProps.cols             = 6;
         sharedProps.newVdevAllowed   = true;
         break;
     }

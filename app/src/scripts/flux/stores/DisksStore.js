@@ -91,6 +91,10 @@ class DisksStore extends FluxBase {
     );
   }
 
+  getByPath ( path ) {
+    return _.findWhere( _disks, { path: path } );
+  }
+
 };
 
 function getCalculatedDiskProps ( disk ) {
