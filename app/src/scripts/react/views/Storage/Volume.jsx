@@ -145,8 +145,8 @@ const Volume = React.createClass(
       );
     }
 
-  , handleDiskAdd ( vdevKey, purpose, event ) {
-      let collection = this.state[ purpose ];
+  , handleDiskAdd ( vdevKey, vdevPurpose, event ) {
+      let collection = this.state[ vdevPurpose ];
       let vdev;
 
       if ( collection[ vdevKey ] ) {
@@ -178,10 +178,10 @@ const Volume = React.createClass(
 
       this.props.handleDiskSelection( event.target.value );
 
-      this.setState( { [ purpose ] : collection } );
+      this.setState( { [ vdevPurpose ] : collection } );
     }
 
-  , handleDiskRemove ( volumeKey, vdevPurpose, vdevKey, diskPath ) {
+  , handleDiskRemove ( vdevKey, vdevPurpose, diskPath ) {
       let newSelectedDisks = [];
       let newVdev = this.state[ "volumes" ]
                               [ volumeKey ]
