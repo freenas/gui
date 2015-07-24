@@ -113,7 +113,7 @@ nav.volume-nav {
 .disk-icon {
   position: relative;
   float: left;
-  width: 5em;
+  width: 6em;
   text-align: center;
   margin: 0.25em;
 
@@ -136,11 +136,19 @@ nav.volume-nav {
   position      : absolute;
   right         : 0;
   top           : 0;
-  color         : @brand-danger;
+  color         : @gray-light;
   border        : 1px solid;
+  border-color  : @gray-light;
   border-radius : 50%;
+  font-size     : 10px;
   text-align    : center;
-  line-height   : 10.75px;
   font-style    : normal;
   font-weight   : 100;
+  .transition( all 0.25s );
+
+  &:hover {
+    color: white;
+    background-color: @brand-danger;
+    border-color: @brand-danger;
+  }
 }

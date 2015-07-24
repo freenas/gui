@@ -39,7 +39,7 @@ const VDEVDisk = React.createClass(
                                                       )
                     }
         >
-          {"x"}
+          <Icon glyph="times" />
         </span>
       );
     }
