@@ -5,7 +5,7 @@
 
 import MC from "../../websocket/MiddlewareClient";
 import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
-import SAC from "..//actions/SystemActionCreators";
+import SAC from "../actions/SystemActionCreators";
 
 class SystemMiddleware extends AbstractBase {
 

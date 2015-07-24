@@ -28,6 +28,8 @@ import Calendar from "./react/views/Calendar";
 
 import Network from "./react/views/Network";
 
+import Hardware from "./react/views/Hardware";
+
 module.exports = (
   <Route
     path    = "/"
@@ -85,6 +87,12 @@ module.exports = (
       name    = "network"
       path    = "network"
       handler = { Network } />
+
+    {/* HARDWARE */}
+    <Route
+      name    = "hardware"
+      path    = "hardware"
+      handler = { Hardware } />
 
     <NotFoundRoute handler={ Users } />
 
