@@ -154,7 +154,7 @@ const VDEV = React.createClass(
 
     return (
       <TWBS.Col xs={ this.props.cols }>
-        <TWBS.Well className="clearfix">
+        <TWBS.Well className="clearfix vdev-bucket">
           { memberDisks }
           { addNewDisks }
           { message }
