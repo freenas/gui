@@ -7,6 +7,7 @@
 
 var _ = require( "lodash" );
 var createDisks = require( "./disk.js" );
+var createVolumes = require( "./volumes.js" );
 
 // These are taken from a real FreeNAS Mini, but they're arbitrary. Want to say
 // your virtual system has a Pentium? Go for it!
@@ -2349,6 +2350,10 @@ var startingPools =
   }
   ];
 
+// Starting defaults for volume creation.
+var volumeCount = 1;
+var volumeDisks = 6;
+
 function createSystem ( diskCount, diskTypes ) {
   var newSystem =
     { users: builtinUsers
@@ -2361,6 +2366,8 @@ function createSystem ( diskCount, diskTypes ) {
   var disks = createDisks( diskCount, diskTypes );
 
   newSystem [ "disks" ] = disks;
+
+  newSystem[ "volumes" ] = createVolumes( volumeCount, volumeDisks, disks );
 
   return newSystem;
 }

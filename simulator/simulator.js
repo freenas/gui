@@ -55,6 +55,9 @@ function handleCall ( data ) {
     case "disks.query":
       responseArgs = virtualSystem[ "disks" ];
       break;
+
+    case "volumes.query":
+      responseArgs = virtualSystem[ "volumes" ];
   }
 
   if ( responseArgs ) {
