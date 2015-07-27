@@ -413,13 +413,22 @@ var datasetGUIDStarter = 5133185099967636567;
 
 var volumeIDStarter = 2950145407967379177;
 
-// Feel free to mess with these numbers to change how many
+// Feel free to mess with these numbers to change what number of disks the
+// volume maker will use to decide what kind of vdev to make.
 var vdevDiskCounts =
-  { raidz3 : 5
-  , raidz2 : 4
-  , raidz1 : 3
-  , mirror : 2
-  , disk   : 1
+  { raidz3 : 5 // Keep five or greater
+  , raidz2 : 4 // Keep four or greater
+  , raidz1 : 3 // Keep three or greater
+  , mirror : 2 // Keep two or greater
+  , disk   : 1 // Do not change
+  };
+
+var vdevRedundancy =
+  { raidz3 : 3
+  , raidz2 : 2
+  , raidz1 : 1
+  // Do not include mirror; it's variable.
+  , disk   : 0
   };
 
 
