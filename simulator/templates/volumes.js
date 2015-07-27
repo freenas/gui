@@ -454,7 +454,7 @@ function createVdevs ( type, disks ) {
           , path: disks[j][ "name" ]
           , type: "disk"
           , guid: vDevGUIDStarter + i
-          , children: null
+          , children: []
           };
       } else {
         children.push(
@@ -462,7 +462,7 @@ function createVdevs ( type, disks ) {
           , path: disks[j][ "name" ]
           , type: "disk"
           , guid: vDevGUIDStarter + j + disks.length
-          , children: null
+          , children: []
           }
         );
       }
