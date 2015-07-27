@@ -34,6 +34,8 @@ const { update } = React.addons;
 // unequal, we can choose instead to display a warning, indicate that another
 // user has modified that field, etc. As always, the last change "wins".
 
+const VDEV_TYPES = [ "disk", "mirror", "raidz1", "raidz2", "raidz3" ];
+
 const Volume = React.createClass(
   { displayName: "Volume"
 
@@ -145,103 +147,106 @@ const Volume = React.createClass(
       );
     }
 
-  , handleDiskAdd ( vdevKey, vdevPurpose, event ) {
-      let collection = this.state[ vdevPurpose ];
-      let vdev;
-
-      if ( collection[ vdevKey ] ) {
-        vdev = collection[ vdevKey ];
-
-        switch ( vdev.type ) {
-          // All non-disk vdevs will just need the new disk added to
-          // their children.
-          case "raidz3" :
-          case "raidz2" :
-          case "raidz1" :
-          case "mirror" :
-            vdev.children.push( this.createNewDisk( event.target.value ) );
-            break;
-
-          case "disk" :
-            vdev.type = "mirror";
-            vdev.children = [ this.createNewDisk( vdev.path )
-                                  , this.createNewDisk( event.target.value )
-                                  ];
-            vdev.path = null;
-            break;
-        }
+  , calcVdevType( allowedTypes, currentType ) {
+      if ( _.has( allowedTypes, currentType ) ) {
+        return currentType;
       } else {
-        vdev = this.createNewDisk( event.target.value );
+        return _.last( allowedTypes );
       }
-
-      collection[ vdevKey ] = vdev;
-
-      this.props.handleDiskSelection( event.target.value );
-
-      this.setState( { [ vdevPurpose ] : collection } );
     }
 
-  , handleDiskRemove ( vdevKey, vdevPurpose, diskPath ) {
-      let vdev = this.state[ vdevPurpose ][ vdevKey ];
+  , getMemberDiskPaths( collection ) {
+      let paths = [];
 
-      console.log( vdev );
-
-      switch ( vdev.type ) {
-
-        case "raidz3" :
-          if ( vdev.children.length === 5 ) {
-            vdev.children = _.without( vdev.children, diskPath );
-            vdev.type = "raidz2";
-          } else {
-            vdev.children = _.without( vdev.children, diskPath );
-          }
-          break;
-
-        case "raidz2" :
-          if ( vdev.children.length === 4 ) {
-            vdev.children = _.without( vdev.children, diskPath );
-            vdev.type = "raidz1";
-          } else {
-            vdev.children = _.without( vdev.children, diskPath );
-          }
-          break;
-
-        case "raidz1" :
-
-          if ( vdev.children.length === 3 ) {
-            vdev.children = _.without( vdev.children, diskPath );
-            vdev.type = "mirror";
-          } else {
-            vdev.children = _.without( vdev.children, diskPath );
-          }
-          break;
-
-        case "mirror" :
-          if ( vdev.children.length === 2 ) {
-            vdev.path = _.without( vdev.children, diskPath )[0][ "path" ];
-            vdev.children = [];
-            vdev.type = "disk";
-          } else {
-            vdev.children = _.without( vdev.children, diskPath );
-          }
-          break;
-
-        case "disk" :
-          vdev.children = [];
-          vdev.path = null;
-          vdev.type = null;
-          break;
-
-        default:
-          break;
+      if ( collection ) {
+        if ( collection.type === "disk" ) {
+          paths.push( collection.path );
+        } else {
+          paths = _.pluck( collection.children, "path" );
+        }
       }
 
-      this.props.handleDiskRemoval( diskPath );
+      return paths;
+    }
 
+  , formatVdev ( purpose = null, disks = [], currentType = null ) {
+      let allowedTypes = [];
+      let newVdev;
+
+      if ( disks.length === 1 ) {
+        allowedTypes.push( VDEV_TYPES[0] );
+        newVdev = this.createNewDisk( disks[0] );
+      } else if ( disks.length > 1 ) {
+        // This might look "too clever" at first, but it's very simple. The
+        // VDEV_TYPES array contains 5 entries, from "disks" to "raidz3". To
+        // have three parity drives for a VDEV, you need to have two data disks.
+        // If you only have one, then what you actually have is a four-way
+        // mirror. This holds true for Z2 and Z1, all the way down to the case
+        // where you have two disks, and your only option is to mirror or stripe
+        // them (but striping is bad and we might want to not allow it in
+        // certain "purposes", like data ).
+        allowedTypes.push(
+          ...VDEV_TYPES.slice( 1, disks.length )
+        );
+        newVdev =
+          { path     : null
+          , type     : this.calcVdevType( allowedTypes, currentType )
+          , children : _.sortBy( disks ).map( this.createNewDisk )
+          };
+      } else {
+        newVdev =
+          { path     : null
+          , type     : null
+          , children : []
+          };
+      }
+
+      return { vdev         : newVdev
+             , allowedTypes : allowedTypes
+             };
+    }
+
+  , handleDiskAdd ( vdevKey, vdevPurpose, event ) {
+      let collection  = this.state[ vdevPurpose ][ vdevKey ];
+      let currentType = null;
+      let vdevDisks   = [ event.target.value ];
+
+      if ( collection ) {
+        currentType = collection.type;
+        vdevDisks.push( ...this.getMemberDiskPaths( collection ) );
+      }
+
+      let formatted = this.formatVdev( vdevPurpose, vdevDisks, currentType );
+
+      this.props.handleDiskSelection( event.target.value );
       this.setState(
         { [ vdevPurpose ]:
             update( this.state[ vdevPurpose ]
-                  , { [ vdevKey ]: { $set: vdev } }
+                  , { [ vdevKey ]: { $set: formatted.vdev } }
+          )
+        }
+      );
+    }
+
+  , handleDiskRemove ( vdevKey, vdevPurpose, diskPath ) {
+      let collection  = this.state[ vdevPurpose ][ vdevKey ];
+      let currentType = null;
+      let vdevDisks   = [];
+
+      if ( collection ) {
+        currentType = collection.type;
+        vdevDisks.push(
+          ..._.without( this.getMemberDiskPaths( collection ), diskPath )
+        );
+      }
+
+      let formatted = this.formatVdev( vdevPurpose, vdevDisks, currentType );
+
+      this.props.handleDiskRemoval( diskPath );
+      this.setState(
+        { [ vdevPurpose ]:
+            update( this.state[ vdevPurpose ]
+                  , { [ vdevKey ]: { $set: formatted.vdev } }
           )
         }
       );

@@ -26,18 +26,16 @@ var TopologyDrawer = React.createClass(
     }
 
   , createVdevs ( purpose ) {
-    const sharedHandlers =
+    let sharedProps =
       { handleDiskAdd        : this.props.handleDiskAdd
       , handleDiskRemove     : this.props.handleDiskRemove
       , handleVdevAdd        : this.props.handleVdevAdd
       , handleVdevRemove     : this.props.handleVdevRemove
       , handleVdevTypeChange : this.props.handleVdevTypeChange
-      };
-    let sharedProps =
-      { purpose          : purpose
-      , availableDevices : null
-      , cols             : null
-      , newVdevAllowed   : false
+      , purpose              : purpose
+      , availableDevices     : null
+      , cols                 : null
+      , newVdevAllowed       : false
       };
 
     switch ( purpose ) {
@@ -72,9 +70,7 @@ var TopologyDrawer = React.createClass(
         let { children, type, path } = vdev;
 
         return (
-          <VDEV
-            { ...sharedHandlers }
-            { ...sharedProps }
+          <VDEV { ...sharedProps }
             children = { children }
             type     = { type }
             path     = { path }
@@ -96,9 +92,8 @@ var TopologyDrawer = React.createClass(
       // props. There must always be a VDEV in Winterfell, however, even if it's
       // just going to render a message about "you can't do anything with me".
       vdevs.push(
-        <VDEV
-          { ...sharedHandlers }
-          { ...sharedProps }
+        <VDEV { ...sharedProps }
+          type    = { null }
           vdevKey = { vdevs.length }
           key     = { vdevs.length }
         />
