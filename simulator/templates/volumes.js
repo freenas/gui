@@ -496,13 +496,13 @@ function createVolume ( name, disks, id ) {
   var ssds = [];
   var hdds = [];
 
-  var i;
-  var j;
-
   var cache = [];
   var log = [];
   var data = [];
   var spares = [];
+
+  var i;
+  var j;
 
   // We will represent volume size in bytes.
   var size = 0;
