@@ -2352,7 +2352,7 @@ var startingPools =
 
 // Starting defaults for volume creation.
 var volumeCount = 1;
-var volumeDisks = 6;
+var volumeDiskCount = 6;
 
 function createSystem ( diskCount, diskTypes ) {
   var newSystem =
@@ -2367,7 +2367,7 @@ function createSystem ( diskCount, diskTypes ) {
 
   newSystem [ "disks" ] = disks;
 
-  newSystem[ "volumes" ] = createVolumes( volumeCount, volumeDisks, disks );
+  newSystem[ "volumes" ] = createVolumes( volumeCount, volumeDiskCount, disks );
 
   return newSystem;
 }
