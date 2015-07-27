@@ -482,6 +482,65 @@ function createVdevs ( type, disks ) {
   return newVdevs;
 }
 
+// Split out simply because it's used more than once.
+function getDiskSize ( disks, path ) {
+  return _.find( disks, { name: path } )[ "mediasize" ];
+}
+
+function calculateVolumeSize ( dataVdevs, disks ) {
+
+  var volumeSize = 0;
+
+  var smallestDiskSize = Infinity;
+  var vdevSize = 0;
+
+  var i;
+  var j;
+
+  _.forEach( dataVdevs
+           , function calculateVdevSize ( vdev ) {
+             vdevSize = 0;
+             // Disk vdevs have only one disk and no children to iterate over.
+             if ( vdev.type === "disk" ) {
+               vdevSize = getDiskSize( disks, vdev[ "path" ] );
+             } else {
+               // Search for the smallest disk
+               for ( i = 0; i < vdev[ "children" ].length; i++ ) {
+                 if ( getDiskSize( disks
+                                 , vdev[ "children" ][ i ][ "path" ]
+                                 )
+                    < smallestDiskSize
+                    ) {
+                   smallestDiskSize =
+                     getDiskSize( disks
+                                , vdev[ "children" ][ i ][ "path" ]
+                                );
+                 }
+               }
+               // The size of a mirror vdev is always the size of its smallest
+               // component disk.
+               if ( vdev[ "type" ] === "mirror" ) {
+                 vdevSize = smallestDiskSize;
+               } else {
+                 // Add the smallest disk size to the vdev size for each disk
+                 // over the vdev redundancy level.
+                 for ( j = 0
+                     ; j < vdev[ "children" ].length
+                         - vdevRedundancy[ vdev[ "type" ] ]
+                     ; j ++
+                     ) {
+                   vdevSize += smallestDiskSize;
+                 }
+               }
+               volumeSize += vdevSize;
+             }
+           }
+           );
+
+  return volumeSize;
+
+}
+
 // Creates a volume called 'name' from the given 'disks'.
 // If any of the disks are ssds, they'll be put in log or cache vdevs.
 // Where possible, it will try to even out the number of disks to make
@@ -491,7 +550,10 @@ function createVolume ( name, disks, id ) {
   var newVolume = {};
   var topology;
   var newVdev;
+  var datasets = [];
   var startingDataset = {};
+  var startingDatasetSize = 0;
+  var volumeSize;
 
   var ssds = [];
   var hdds = [];
@@ -555,6 +617,11 @@ function createVolume ( name, disks, id ) {
   , spares: spares
   };
 
+  volumeSize = calculateVolumeSize( topology[ "data" ], disks );
+
+  // Change this to remove the default stuff ZFS creates.
+  startingDatasetSize = volumeSize;
+
   startingDataset =
     { name:
       { source: "NONE"
@@ -564,12 +631,19 @@ function createVolume ( name, disks, id ) {
       { source: "LOCAL"
       , value: "/volumes/" + name
       }
-    , available:
-      { source: "NONE"
-      , value: name
+    , properties:
+      { available:
+        { source: "NONE"
+        , value: startingDatasetSize
+        }
       }
     };
 
+  startingDataset = _.merge( startingDataset, datasetDefaults );
+
+  datasets.push( startingDataset );
+
+  newVolume[ "datasets " ] = datasets;
   newVolume[ "mountpoint" ] = "/volumes/" + name;
   newVolume[ "topology" ] = topology;
   newVolume[ "id" ] = id;
@@ -579,10 +653,7 @@ function createVolume ( name, disks, id ) {
   newVolume[ "properties" ] =
   { free:
     { source: "NONE"
-    // The little bits that get reserved during volume creation are in the
-    // kilobyte range. With reasonable disk sizes, there will never be a
-    // difference within the three orders of magnitude necessary to change this
-    , value: size
+    , value: volumeSize
     }
   };
 
