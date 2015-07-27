@@ -115,6 +115,7 @@ function createDisks ( number, types ) {
 
     if ( types === "SSD" ) {
       newDisk = _.merge( newDisk, ssdDefaults, defaults );
+    // Every third disk will be an SSD is "both" is selected.
     } else if ( types === "both" && i % 3 === 1 ) {
       newDisk = _.merge( newDisk, ssdDefaults, defaults );
     } else {
