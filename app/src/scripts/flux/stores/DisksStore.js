@@ -92,10 +92,37 @@ class DisksStore extends FluxBase {
   }
 
   getByPath ( path ) {
-    return _.findWhere( _disks, { path: path } );
+    if ( _.isArray( path ) ) {
+      let collection = [];
+
+      for ( let i = 0; i < path.length; i++ ) {
+        let workingDisk = _.findWhere( _disks, { path: path[i] } );
+        if ( workingDisk ) {
+          collection.push( workingDisk );
+        }
+      }
+
+      return collection;
+    } else {
+      return _.findWhere( _disks, { path: path } );
+    }
   }
 
-};
+  getBiggestDisk ( path ) {
+    return _.chain( this.getByPath( path ) )
+            .sortBy( "mediasize" )
+            .first()
+            .value();
+  }
+
+  getSmallestDisk ( path ) {
+    return _.chain( this.getByPath( path ) )
+            .sortBy( "mediasize" )
+            .last()
+            .value();
+  }
+
+}
 
 function getCalculatedDiskProps ( disk ) {
   let calculatedProps = {};
