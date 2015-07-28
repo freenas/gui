@@ -62,9 +62,10 @@ const VDEV = React.createClass(
   }
 
   , render () {
-    let addNewDisks = null;
-    let memberDisks = null;
-    let message     = null;
+    let toolbar   = null;
+    let vdevDisks = null;
+    let addDisks  = null;
+    let message   = null;
 
     let diskProps =
       { volumeKey        : this.props.volumeKey
@@ -74,39 +75,50 @@ const VDEV = React.createClass(
       , existsOnServer   : this.props.existsOnServer
       };
 
-    switch ( this.props.type ) {
+    if ( this.props.type === "disk" ) {
       // "Disk" is an unusual case in the sense that it will have no children
       // and "path" will be defined at the top level. Much of the complexity
       // in this component has to do with transitioning back and forth from
       // "disk" to other layouts.
-      case "disk":
-        memberDisks = (
+      vdevDisks = (
+        <VDEVDisk { ...diskProps }
+          path = { this.props.path }
+          key  = { 0 }
+        />
+      );
+    } else if ( this.props.type ) {
+      vdevDisks = this.props.children.map( ( diskVdev, index ) => {
+        return (
           <VDEVDisk { ...diskProps }
-            path = { this.props.path }
-            key  = { 0 }
+            path = { diskVdev.path }
+            key  = { index }
           />
         );
-        break;
-
-      case "mirror":
-      case "raidz1":
-      case "raidz2":
-      case "raidz3":
-        memberDisks = this.props.children.map( ( diskVdev, index ) => {
-          return (
-            <VDEVDisk { ...diskProps }
-              path = { diskVdev.path }
-              key  = { index }
-            />
-          );
-        });
-        break;
+      });
     }
 
+    // DISPLAY LOGIC
+    // Rather than trying to split this up into a verbose logic tree, each
+    // potential display component in VDEV has its own condition for display.
+
+    // TOOLBAR
+    // We want to see the toolbar anytime the VDEV is capable of displaying
+    // disks. This means that we should see if when there are disks available or
+    // disks have already been added (this.props.type will have a string value)
+    if ( this.props.availableDevices.length || this.props.type ) {
+      toolbar = (
+        <VDEVInfo
+          type         = { this.props.type }
+          allowedTypes = { this.props.allowedTypes }
+        />
+      );
+    }
+
+    // ADD DISKS
+    // FIXME: Right now, you can add disks if they're available.
+    // TODO: Make this not a dropdown
     if ( this.props.availableDevices.length ) {
-      // Only make a list of new disks to add if there are any available devices
-      // and the vdev is modifiable (doesn't exist on the server already)
-      addNewDisks = (
+      addDisks = (
         <select
           // Reset the field to nothing selected every time so that it doesn't
           // move to a valid option and make it impossible to select that one
@@ -121,13 +133,14 @@ const VDEV = React.createClass(
           { this.props.availableDevices.map( this.createNewDeviceOptions ) }
         </select>
       );
-    } else if ( !memberDisks ) {
-      // There are no available devices, and nothing has been added to the VDEV
-      // already - it's empty and nothing can be added.
+    }
+
+    // NO AVAILABLE DEVICES MESSAGE
+    // There are no available devices, and nothing has been added to the VDEV
+    // already - it's empty and nothing can be added.
+    if ( !this.props.availableDevices.length && !vdevDisks ) {
       message = (
-        <div
-          className = "text-center pool-vdev-message"
-        >
+        <div className="text-center pool-vdev-message">
           { `No available ${ this.props.purpose } devices.` }
         </div>
       );
@@ -136,12 +149,9 @@ const VDEV = React.createClass(
     return (
       <TWBS.Col xs={ this.props.cols }>
         <TWBS.Well className="clearfix vdev-bucket">
-          <VDEVInfo
-            type         = { this.props.type }
-            allowedTypes = { this.props.allowedTypes }
-          />
-          { memberDisks }
-          { addNewDisks }
+          { toolbar }
+          { vdevDisks }
+          { addDisks }
           { message }
         </TWBS.Well>
       </TWBS.Col>
