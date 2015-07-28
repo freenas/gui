@@ -165,38 +165,40 @@ const Volume = React.createClass(
         };
 
       this.state.data.forEach( vdev => {
-        let baseSize = DS.getSmallestDisk(
-          this.getMemberDiskPaths( vdev )
-        )["byteSize"];
+        if ( vdev.type ) {
+          let baseSize = DS.getSmallestDisk(
+            this.getMemberDiskPaths( vdev )
+          )["byteSize"];
 
-        switch ( vdev.type ) {
-          case "disk":
-            breakdown.parity += 0;
-            breakdown.avail  += baseSize;
-            break;
+          switch ( vdev.type ) {
+            case "disk":
+              breakdown.parity += 0;
+              breakdown.avail  += baseSize;
+              break;
 
-          case "mirror":
-            breakdown.parity += baseSize * ( vdev.children.length - 1 );
-            breakdown.avail  += baseSize;
-            break;
+            case "mirror":
+              breakdown.parity += baseSize * ( vdev.children.length - 1 );
+              breakdown.avail  += baseSize;
+              break;
 
-          case "raidz1":
-            breakdown.parity += baseSize * 1;
-            breakdown.avail  += ( baseSize * vdev.children.length )
-                              - breakdown.parity;
-            break;
+            case "raidz1":
+              breakdown.parity += baseSize * 1;
+              breakdown.avail  += ( baseSize * vdev.children.length )
+                                - breakdown.parity;
+              break;
 
-          case "raidz2":
-            breakdown.parity += baseSize * 2;
-            breakdown.avail  += ( baseSize * vdev.children.length )
-                              - breakdown.parity;
-            break;
+            case "raidz2":
+              breakdown.parity += baseSize * 2;
+              breakdown.avail  += ( baseSize * vdev.children.length )
+                                - breakdown.parity;
+              break;
 
-          case "raidz3":
-            breakdown.parity += baseSize * 3;
-            breakdown.avail  += ( baseSize * vdev.children.length )
-                              - breakdown.parity;
-            break;
+            case "raidz3":
+              breakdown.parity += baseSize * 3;
+              breakdown.avail  += ( baseSize * vdev.children.length )
+                                - breakdown.parity;
+              break;
+          }
         }
       });
 
