@@ -23,8 +23,14 @@ const VDEVInfo = React.createClass(
     , allowedTypes: React.PropTypes.array.isRequired
     }
 
-  , createMenuItems ( type ) {
-      return <TWBS.MenuItem>{ type }</TWBS.MenuItem>;
+  , createMenuItems ( type, index ) {
+      return (
+        <TWBS.MenuItem
+          key = { index }
+        >
+          { type }
+        </TWBS.MenuItem>
+      );
     }
 
   , render () {
