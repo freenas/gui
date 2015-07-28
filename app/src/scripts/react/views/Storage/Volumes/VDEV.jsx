@@ -8,6 +8,7 @@ import React from "react";
 import TWBS from "react-bootstrap";
 
 import VDEVDisk from "./VDEVDisk";
+import VDEVInfo from "./VDEV/VDEVInfo";
 
 const VDEV = React.createClass(
   { propTypes:
@@ -27,18 +28,17 @@ const VDEV = React.createClass(
         ]
       ).isRequired
     , type: React.PropTypes.oneOf(
-        [ null // Used for new vdevs. Such a vdev should have a falsy path, no
-               // children, and a falsy existsOnServer.
+        // null is used for new vdevs. Such a vdev should have a falsy path, no
+        // children, and a falsy existsOnServer.
+        [ null
         , "disk"
-        // , "file" // FIXME: This will probably never be used.
         , "mirror"
         , "raidz1"
         , "raidz2"
         , "raidz3"
         ]
-      ).isRequired
-    // index of the volume of which this vdev is a member
-    , volumeKey: React.PropTypes.number.isRequired
+      )
+    , allowedTypes: React.PropTypes.array.isRequired
     // index of this vdev in the array of vdevs of the same purpose
     , vdevKey: React.PropTypes.number.isRequired
     // used to check if this vdev is already known to the server and thus make
@@ -63,6 +63,7 @@ const VDEV = React.createClass(
   }
 
   , render: function () {
+    let toolbar     = null;
     let addNewDisks = null;
     let memberDisks = null;
     let message     = null;
@@ -112,6 +113,13 @@ const VDEV = React.createClass(
     // Only make a list of new disks to add if there are any available devices
     // and the vdev is modifiable (doesn't exist on the server already)
     if ( this.props.availableDevices.length ) {
+      console.log( this.props );
+      toolbar = (
+        <VDEVInfo
+          type         = { this.props.type }
+          allowedTypes = { this.props.allowedTypes }
+        />
+      );
       if ( !this.props.existsOnServer ) {
         addNewDisks = (
           <select
@@ -154,6 +162,7 @@ const VDEV = React.createClass(
     return (
       <TWBS.Col xs={ this.props.cols }>
         <TWBS.Well className="clearfix vdev-bucket">
+          { toolbar }
           { memberDisks }
           { addNewDisks }
           { message }
