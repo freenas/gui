@@ -322,28 +322,6 @@ const Volume = React.createClass(
       );
     }
 
-  , handleVdevAdd ( vdevPurpose ) {
-      // This will be more sophisticated in the future.
-      let vdev = [
-          { children : []
-          , path     : null
-          , type     : null
-          }
-        ];
-
-      this.setState(
-        { [ vdevPurpose ] : update( this.state[ vdevPurpose ]
-                            , { $push: vdev }
-                            )
-        }
-      );
-
-    }
-
-  , handleVdevRemove () {
-      // TODO
-    }
-
   , handleVdevTypeChange () {
       // TODO
     }

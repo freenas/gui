@@ -14,7 +14,6 @@ const VDEV = React.createClass(
   { propTypes:
     { handleDiskAdd        : React.PropTypes.func.isRequired
     , handleDiskRemove     : React.PropTypes.func.isRequired
-    , handleVdevRemove     : React.PropTypes.func.isRequired
     , handleVdevTypeChange : React.PropTypes.func.isRequired
     , availableDevices     : React.PropTypes.array.isRequired
     , cols                 : React.PropTypes.number
