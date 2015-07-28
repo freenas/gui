@@ -92,21 +92,19 @@ const VDEV = React.createClass(
       case "raidz1":
       case "raidz2":
       case "raidz3":
-        memberDisks = this.props.children.map(
-          function ( diskVdev, index ) {
-            return (
-              <VDEVDisk
-                path             = { diskVdev.path }
-                volumeKey        = { this.props.volumeKey }
-                vdevKey          = { this.props.vdevKey }
-                vdevPurpose      = { this.props.purpose }
-                handleDiskRemove = { this.props.handleDiskRemove }
-                existsOnServer   = { this.props.existsOnServer }
-                key              = { index }
-              />
-            );
-          }.bind( this )
-        );
+        memberDisks = this.props.children.map( ( diskVdev, index ) => {
+          return (
+            <VDEVDisk
+              path             = { diskVdev.path }
+              volumeKey        = { this.props.volumeKey }
+              vdevKey          = { this.props.vdevKey }
+              vdevPurpose      = { this.props.purpose }
+              handleDiskRemove = { this.props.handleDiskRemove }
+              existsOnServer   = { this.props.existsOnServer }
+              key              = { index }
+            />
+          );
+        });
         break;
     }
 
