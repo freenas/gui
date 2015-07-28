@@ -10,7 +10,10 @@ import _ from "lodash";
 import React from "react/addons";
 import TWBS from "react-bootstrap";
 
+import DS from "../../../flux/stores/DisksStore";
+
 import ByteCalc from "../../../utility/ByteCalc";
+
 import BreakdownChart from "./Volumes/BreakdownChart";
 import PoolDatasets from "./Volumes/PoolDatasets";
 import PoolTopology from "./Volumes/PoolTopology";
@@ -153,6 +156,51 @@ const Volume = React.createClass(
       } else {
         return _.last( allowedTypes );
       }
+    }
+
+  , caluclateBreakdown() {
+      let breakdown =
+        { parity : 0
+        , avail  : 0
+        };
+
+      this.state.data.forEach( vdev => {
+        let baseSize = DS.getSmallestDisk(
+          this.getMemberDiskPaths( vdev )
+        )["byteSize"];
+
+        switch ( vdev.type ) {
+          case "disk":
+            breakdown.parity += 0;
+            breakdown.avail  += baseSize;
+            break;
+
+          case "mirror":
+            breakdown.parity += baseSize * ( vdev.children.length - 1 );
+            breakdown.avail  += baseSize;
+            break;
+
+          case "raidz1":
+            breakdown.parity += baseSize * 1;
+            breakdown.avail  += ( baseSize * vdev.children.length )
+                              - breakdown.parity;
+            break;
+
+          case "raidz2":
+            breakdown.parity += baseSize * 2;
+            breakdown.avail  += ( baseSize * vdev.children.length )
+                              - breakdown.parity;
+            break;
+
+          case "raidz3":
+            breakdown.parity += baseSize * 3;
+            breakdown.avail  += ( baseSize * vdev.children.length )
+                              - breakdown.parity;
+            break;
+        }
+      });
+
+      return breakdown;
     }
 
   , getMemberDiskPaths( collection ) {
@@ -338,7 +386,7 @@ const Volume = React.createClass(
 
       let initMessage = null;
       let volumeInfo  = null;
-      let breakdown   = null;
+      let chart       = null;
       let drawer      = null;
 
       if ( isInitialized ) {
@@ -357,25 +405,42 @@ const Volume = React.createClass(
           </div>
         );
       } else {
-        let freeSize      = ByteCalc.convertString( this.props.free );
-        let allocatedSize = ByteCalc.convertString( this.props.allocated );
-        let totalSize     = ByteCalc.convertString( this.props.size );
+        let breakdown = this.caluclateBreakdown();
+        let totalSize;
+        let usable;
+        let parity;
+        let allocated;
+        let freeSize;
+
+        if ( this.state.editing ) {
+          totalSize = breakdown.avail + breakdown.parity;
+          usable    = breakdown.avail
+          parity    = breakdown.parity;
+          allocated = 0; // FIXME
+          freeSize  = breakdown.avail;
+        } else {
+          totalSize = 0; // FIXME
+          usable    = ByteCalc.convertString( this.props.size );
+          parity    = 0; // FIXME
+          allocated = ByteCalc.convertString( this.props.allocated );
+          freeSize  = ByteCalc.convertString( this.props.free );
+        }
 
         volumeInfo = (
           <div className="volume-info clearfix">
             { this.createVolumeName() }
             <h3 className="pull-right volume-capacity">
-              { ByteCalc.humanize( totalSize ) }
+              { ByteCalc.humanize( usable ) }
             </h3>
           </div>
         );
 
-        breakdown = (
+        chart = (
           <BreakdownChart
-            free   = { freeSize }
-            used   = { allocatedSize }
-            parity = { totalSize / 4 /* FIXME */ }
             total  = { totalSize }
+            parity = { breakdown.parity }
+            used   = { allocated }
+            free   = { freeSize }
           />
         );
 
@@ -412,7 +477,7 @@ const Volume = React.createClass(
         >
           { initMessage }
           { volumeInfo }
-          { breakdown }
+          { chart }
           { drawer }
         </TWBS.Panel>
       );
