@@ -94,6 +94,17 @@ const Volume = React.createClass(
              , free          : this.props.free
              , allocated     : this.props.allocated
              , size          : this.props.size
+             // To keep state pure and mimic the schema used by the middleware,
+             // allowed types is a parallel data structure that stores
+             // information about which VDEV types are allowed. It is created /
+             // modified by formatVdev(), and passed to PoolTopology for
+             // eventual use in VDEV.
+             , allowedTypes:
+               { data   : []
+               , logs   : []
+               , cache  : []
+               , spares : []
+               }
              };
     }
 
@@ -268,12 +279,16 @@ const Volume = React.createClass(
 
       let formatted = this.formatVdev( vdevPurpose, vdevDisks, currentType );
 
+      let newAllowedTypes = this.state.allowedTypes;
+      newAllowedTypes[ vdevPurpose ][ vdevKey ] = formatted.allowedTypes;
+
       this.props.handleDiskSelection( event.target.value );
       this.setState(
         { [ vdevPurpose ]:
             update( this.state[ vdevPurpose ]
                   , { [ vdevKey ]: { $set: formatted.vdev } }
           )
+        , allowedTypes: newAllowedTypes
         }
       );
     }
@@ -292,12 +307,16 @@ const Volume = React.createClass(
 
       let formatted = this.formatVdev( vdevPurpose, vdevDisks, currentType );
 
+      let newAllowedTypes = this.state.allowedTypes;
+      newAllowedTypes[ vdevPurpose ][ vdevKey ] = formatted.allowedTypes;
+
       this.props.handleDiskRemoval( diskPath );
       this.setState(
         { [ vdevPurpose ]:
             update( this.state[ vdevPurpose ]
                   , { [ vdevKey ]: { $set: formatted.vdev } }
           )
+        , allowedTypes: newAllowedTypes
         }
       );
     }
@@ -370,6 +389,7 @@ const Volume = React.createClass(
               logs                 = { this.state.logs }
               cache                = { this.state.cache }
               spares               = { this.state.spares }
+              allowedTypes         = { this.state.allowedTypes }
               handleDiskAdd        = { this.handleDiskAdd }
               handleDiskRemove     = { this.handleDiskRemove }
               handleVdevRemove     = { this.handleVdevRemove }

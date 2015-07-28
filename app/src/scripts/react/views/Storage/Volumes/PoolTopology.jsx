@@ -23,6 +23,13 @@ var TopologyDrawer = React.createClass(
     , logs                 : React.PropTypes.array.isRequired
     , cache                : React.PropTypes.array.isRequired
     , spares               : React.PropTypes.array.isRequired
+    , allowedTypes: React.PropTypes.shape(
+        { data   : React.PropTypes.array
+        , logs   : React.PropTypes.array
+        , cache  : React.PropTypes.array
+        , spares : React.PropTypes.array
+        }
+      ).isRequired
     }
 
   , createVdevs ( purpose ) {
@@ -71,11 +78,12 @@ var TopologyDrawer = React.createClass(
 
         return (
           <VDEV { ...sharedProps }
-            children = { children }
-            type     = { type }
-            path     = { path }
-            vdevKey  = { index }
-            key      = { index }
+            allowedTypes = { this.props.allowedTypes[ purpose ][ index ] }
+            children     = { children }
+            type         = { type }
+            path         = { path }
+            vdevKey      = { index }
+            key          = { index }
           />
         );
       }
@@ -93,9 +101,10 @@ var TopologyDrawer = React.createClass(
       // just going to render a message about "you can't do anything with me".
       vdevs.push(
         <VDEV { ...sharedProps }
-          type    = { null }
-          vdevKey = { vdevs.length }
-          key     = { vdevs.length }
+          allowedTypes = { [] }
+          type         = { null }
+          vdevKey      = { vdevs.length }
+          key          = { vdevs.length }
         />
       );
     }
@@ -104,7 +113,6 @@ var TopologyDrawer = React.createClass(
   }
 
   , render () {
-
     return (
       <div
         style     = { this.props.style }
