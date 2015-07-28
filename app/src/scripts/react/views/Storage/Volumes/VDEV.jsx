@@ -45,14 +45,14 @@ const VDEV = React.createClass(
     , existsOnServer: React.PropTypes.bool
     }
 
-  , getDefaultProps: function () {
+  , getDefaultProps () {
     return { purpose : "data"
            , cols    : 4
            };
   }
 
   // FIXME: This function is temporary, and should be removed
-  , createNewDeviceOptions: function ( device, index ) {
+  , createNewDeviceOptions ( device, index ) {
     return (
       <option
         key   = { index }
@@ -61,7 +61,7 @@ const VDEV = React.createClass(
     );
   }
 
-  , render: function () {
+  , render () {
     let toolbar     = null;
     let addNewDisks = null;
     let memberDisks = null;
