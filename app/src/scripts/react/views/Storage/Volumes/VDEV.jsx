@@ -66,22 +66,24 @@ const VDEV = React.createClass(
     let memberDisks = null;
     let message     = null;
 
-    switch ( this.props.type ) {
+    let diskProps =
+      { volumeKey        : this.props.volumeKey
+      , vdevKey          : this.props.vdevKey
+      , vdevPurpose      : this.props.purpose
+      , handleDiskRemove : this.props.handleDiskRemove
+      , existsOnServer   : this.props.existsOnServer
+      };
 
+    switch ( this.props.type ) {
       // "Disk" is an unusual case in the sense that it will have no children
       // and "path" will be defined at the top level. Much of the complexity
       // in this component has to do with transitioning back and forth from
       // "disk" to other layouts.
       case "disk":
         memberDisks = (
-          <VDEVDisk
-            path             = { this.props.path }
-            volumeKey        = { this.props.volumeKey }
-            vdevKey          = { this.props.vdevKey }
-            vdevPurpose      = { this.props.purpose }
-            handleDiskRemove = { this.props.handleDiskRemove }
-            existsOnServer   = { this.props.existsOnServer }
-            key              = { 0 }
+          <VDEVDisk { ...diskProps }
+            path = { this.props.path }
+            key  = { 0 }
           />
         );
         break;
@@ -92,14 +94,9 @@ const VDEV = React.createClass(
       case "raidz3":
         memberDisks = this.props.children.map( ( diskVdev, index ) => {
           return (
-            <VDEVDisk
-              path             = { diskVdev.path }
-              volumeKey        = { this.props.volumeKey }
-              vdevKey          = { this.props.vdevKey }
-              vdevPurpose      = { this.props.purpose }
-              handleDiskRemove = { this.props.handleDiskRemove }
-              existsOnServer   = { this.props.existsOnServer }
-              key              = { index }
+            <VDEVDisk { ...diskProps }
+              path = { diskVdev.path }
+              key  = { index }
             />
           );
         });
