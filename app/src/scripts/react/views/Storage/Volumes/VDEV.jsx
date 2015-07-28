@@ -62,7 +62,6 @@ const VDEV = React.createClass(
   }
 
   , render () {
-    let toolbar     = null;
     let addNewDisks = null;
     let memberDisks = null;
     let message     = null;
@@ -107,43 +106,24 @@ const VDEV = React.createClass(
         break;
     }
 
-    // Only make a list of new disks to add if there are any available devices
-    // and the vdev is modifiable (doesn't exist on the server already)
     if ( this.props.availableDevices.length ) {
-      console.log( this.props );
-      toolbar = (
-        <VDEVInfo
-          type         = { this.props.type }
-          allowedTypes = { this.props.allowedTypes }
-        />
+      // Only make a list of new disks to add if there are any available devices
+      // and the vdev is modifiable (doesn't exist on the server already)
+      addNewDisks = (
+        <select
+          // Reset the field to nothing selected every time so that it doesn't
+          // move to a valid option and make it impossible to select that one
+          // next.
+          value = "-- SELECT --"
+          onChange= { this.props.handleDiskAdd.bind( null
+                                                   , this.props.vdevKey
+                                                   , this.props.purpose
+                                                   )
+                    } >
+          <option>{ "-- SELECT --" }</option>
+          { this.props.availableDevices.map( this.createNewDeviceOptions ) }
+        </select>
       );
-      if ( !this.props.existsOnServer ) {
-        addNewDisks = (
-          <select
-            // Reset the field to nothing selected every time so that it doesn't
-            // move to a valid option and make it impossible to select that one
-            // next.
-            value = "-- SELECT --"
-            onChange= { this.props.handleDiskAdd.bind( null
-                                                     , this.props.vdevKey
-                                                     , this.props.purpose
-                                                     )
-                      } >
-            <option>{ "-- SELECT --" }</option>
-            { this.props.availableDevices.map( this.createNewDeviceOptions ) }
-          </select>
-        );
-      } else {
-        message = (
-          <span
-            className = "text-center pool-vdev-message"
-            onClick   = { this.props.handleVdevAdd.bind( null, this.props.purpose ) }
-          >
-            <h3><Icon glyph = "plus" /></h3>
-            <h3>{ `Add ${ this.props.purpose } VDEV` }</h3>
-          </span>
-        );
-      }
     } else if ( !memberDisks ) {
       // There are no available devices, and nothing has been added to the VDEV
       // already - it's empty and nothing can be added.
@@ -159,7 +139,10 @@ const VDEV = React.createClass(
     return (
       <TWBS.Col xs={ this.props.cols }>
         <TWBS.Well className="clearfix vdev-bucket">
-          { toolbar }
+          <VDEVInfo
+            type         = { this.props.type }
+            allowedTypes = { this.props.allowedTypes }
+          />
           { memberDisks }
           { addNewDisks }
           { message }
