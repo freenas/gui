@@ -162,7 +162,7 @@ const Volume = React.createClass(
     }
 
   , calcVdevType( allowedTypes, currentType ) {
-      if ( _.has( allowedTypes, currentType ) ) {
+      if ( allowedTypes.indexOf( currentType ) > -1 ) {
         return currentType;
       } else {
         return _.last( allowedTypes );
@@ -249,6 +249,7 @@ const Volume = React.createClass(
         allowedTypes.push(
           ...VDEV_TYPES.slice( 1, disks.length )
         );
+
         newVdev =
           { path     : null
           , type     : this.calcVdevType( allowedTypes, currentType )
