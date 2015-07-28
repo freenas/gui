@@ -416,7 +416,7 @@ const Volume = React.createClass(
 
         if ( this.state.editing ) {
           totalSize = breakdown.avail + breakdown.parity;
-          usable    = breakdown.avail
+          usable    = breakdown.avail;
           parity    = breakdown.parity;
           allocated = 0; // FIXME
           freeSize  = breakdown.avail;
@@ -440,7 +440,7 @@ const Volume = React.createClass(
         chart = (
           <BreakdownChart
             total  = { totalSize }
-            parity = { breakdown.parity }
+            parity = { parity }
             used   = { allocated }
             free   = { freeSize }
           />
