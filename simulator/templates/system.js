@@ -2365,7 +2365,7 @@ function createSystem ( diskCount, diskTypes ) {
 
   var disks = createDisks( diskCount, diskTypes );
 
-  newSystem [ "disks" ] = disks;
+  newSystem[ "disks" ] = _.cloneDeep( disks );
 
   newSystem[ "volumes" ] = createVolumes( volumeCount, volumeDiskCount, disks );
 
