@@ -17,6 +17,8 @@ import ContextDisks from "./Storage/ContextDisks";
 
 import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
+import DM from "../../flux/middleware/DisksMiddleware";
+import DS from "../../flux/stores/DisksStore"
 
 import Volume from "./Storage/Volume";
 
@@ -40,12 +42,17 @@ const Storage = React.createClass(
       ZM.requestVolumes();
       ZM.requestAvailableDisks();
       ZM.subscribe( this.constructor.displayName );
+
+      DM.requestDisksOverview();
+      DM.subscribe( this.constructor.displayName );
     }
 
   , componentWillUnmount () {
       VS.removeChangeListener( this.handleUpdatedVS );
 
       ZM.unsubscribe( this.constructor.displayName );
+
+      DM.unsubscribe( this.constructor.displayName );
 
       EventBus.emit( "hideContextPanel", ContextDisks );
     }
