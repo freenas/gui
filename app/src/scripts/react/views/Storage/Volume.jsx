@@ -97,7 +97,7 @@ const Volume = React.createClass(
              // To keep state pure and mimic the schema used by the middleware,
              // allowed types is a parallel data structure that stores
              // information about which VDEV types are allowed. It is created /
-             // modified by formatVdev(), and passed to PoolTopology for
+             // modified by reconstructVdev(), and passed to PoolTopology for
              // eventual use in VDEV.
              , allowedTypes:
                { data   : []
@@ -230,12 +230,13 @@ const Volume = React.createClass(
       return paths;
     }
 
-  , formatVdev ( purpose = null, disks = [], currentType = null ) {
-      let allowedTypes = [];
+  , reconstructVdev ( key, purpose = null, disks = [], currentType = null ) {
+      let allAllowedTypes = this.state.allowedTypes;
+      let vdevAllowedTypes = [];
       let newVdev;
 
       if ( disks.length === 1 ) {
-        allowedTypes.push( VDEV_TYPES[0] );
+        vdevAllowedTypes.push( VDEV_TYPES[0] );
         newVdev = this.createNewDisk( disks[0] );
       } else if ( disks.length > 1 ) {
         // This might look "too clever" at first, but it's very simple. The
@@ -246,13 +247,13 @@ const Volume = React.createClass(
         // where you have two disks, and your only option is to mirror or stripe
         // them (but striping is bad and we might want to not allow it in
         // certain "purposes", like data ).
-        allowedTypes.push(
+        vdevAllowedTypes.push(
           ...VDEV_TYPES.slice( 1, disks.length )
         );
 
         newVdev =
           { path     : null
-          , type     : this.calcVdevType( allowedTypes, currentType )
+          , type     : this.calcVdevType( vdevAllowedTypes, currentType )
           , children : _.sortBy( disks ).map( this.createNewDisk )
           };
       } else {
@@ -263,67 +264,78 @@ const Volume = React.createClass(
           };
       }
 
-      return { vdev         : newVdev
-             , allowedTypes : allowedTypes
-             };
+      allAllowedTypes[ purpose ][ key ] = vdevAllowedTypes;
+
+      this.setState(
+        { [ purpose ]:
+            update( this.state[ purpose ]
+                  , { [ key ]: { $set: newVdev } }
+          )
+        , allowedTypes: allAllowedTypes
+        }
+      );
+    }
+
+  , vdevOperation( opType, key, purpose, options = {} ) {
+      let collection  = this.state[ purpose ][ key ];
+      let currentType = null;
+      let disks       = opType === "add" && options.path
+                      ? [ options.path ]
+                      : [];
+
+      if ( collection ) {
+
+        switch ( opType ) {
+          case "add":
+            currentType = collection.type;
+            disks.push( ...this.getMemberDiskPaths( collection ) );
+            break;
+
+          case "remove":
+            currentType = collection.type;
+            disks.push(
+              ..._.without( this.getMemberDiskPaths( collection )
+                          , options.path
+                          )
+            );
+            break;
+
+          case "changeType":
+            currentType = options.type;
+            disks.push( ...this.getMemberDiskPaths( collection ) );
+            break;
+        }
+      }
+
+      this.reconstructVdev( key, purpose, disks, currentType );
     }
 
   , handleDiskAdd ( vdevKey, vdevPurpose, event ) {
-      let collection  = this.state[ vdevPurpose ][ vdevKey ];
-      let currentType = null;
-      let vdevDisks   = [ event.target.value ];
+      let path = event.target.value; // FIXME: Should come in as a string
 
-      if ( collection ) {
-        currentType = collection.type;
-        vdevDisks.push( ...this.getMemberDiskPaths( collection ) );
-      }
-
-      let formatted = this.formatVdev( vdevPurpose, vdevDisks, currentType );
-
-      let newAllowedTypes = this.state.allowedTypes;
-      newAllowedTypes[ vdevPurpose ][ vdevKey ] = formatted.allowedTypes;
-
-      this.props.handleDiskSelection( event.target.value );
-      this.setState(
-        { [ vdevPurpose ]:
-            update( this.state[ vdevPurpose ]
-                  , { [ vdevKey ]: { $set: formatted.vdev } }
-          )
-        , allowedTypes: newAllowedTypes
-        }
-      );
+      this.props.handleDiskSelection( path );
+      this.vdevOperation( "add"
+                        , vdevKey
+                        , vdevPurpose
+                        , { path: path }
+                        );
     }
 
-  , handleDiskRemove ( vdevKey, vdevPurpose, diskPath ) {
-      let collection  = this.state[ vdevPurpose ][ vdevKey ];
-      let currentType = null;
-      let vdevDisks   = [];
-
-      if ( collection ) {
-        currentType = collection.type;
-        vdevDisks.push(
-          ..._.without( this.getMemberDiskPaths( collection ), diskPath )
-        );
-      }
-
-      let formatted = this.formatVdev( vdevPurpose, vdevDisks, currentType );
-
-      let newAllowedTypes = this.state.allowedTypes;
-      newAllowedTypes[ vdevPurpose ][ vdevKey ] = formatted.allowedTypes;
-
-      this.props.handleDiskRemoval( diskPath );
-      this.setState(
-        { [ vdevPurpose ]:
-            update( this.state[ vdevPurpose ]
-                  , { [ vdevKey ]: { $set: formatted.vdev } }
-          )
-        , allowedTypes: newAllowedTypes
-        }
-      );
+  , handleDiskRemove ( vdevKey, vdevPurpose, path, event ) {
+      this.props.handleDiskRemoval( path );
+      this.vdevOperation( "remove"
+                        , vdevKey
+                        , vdevPurpose
+                        , { path: path }
+                        );
     }
 
-  , handleVdevTypeChange () {
-      // TODO
+  , handleVdevTypeChange ( vdevKey, vdevPurpose, vdevType, event ) {
+      this.vdevOperation( "changeType"
+                        , vdevKey
+                        , vdevPurpose
+                        , { type: vdevType }
+                        );
     }
 
   , handleVolumeNameChange () {
