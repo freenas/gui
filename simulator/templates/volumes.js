@@ -293,6 +293,7 @@ var datasetDefaults =
 
 var volumeDefaults =
   { status: "ONLINE"
+  , type: "zfs"
   , scan:
     { errors: null
     , start_time: null
@@ -547,7 +548,7 @@ function calculateVolumeSize ( dataVdevs, disks ) {
 // symmetrical vdevs. Extra disks may become spares.
 function createVolume ( name, disks, id ) {
 
-  var newVolume = {};
+  var newVolume = volumeDefaults;
   var topology;
   var newVdev;
   var datasets = [];
@@ -643,19 +644,20 @@ function createVolume ( name, disks, id ) {
 
   datasets.push( startingDataset );
 
-  newVolume[ "datasets " ] = datasets;
-  newVolume[ "mountpoint" ] = "/volumes/" + name;
-  newVolume[ "topology" ] = topology;
-  newVolume[ "id" ] = id;
-  newVolume[ "name" ] = name;
-  newVolume[ "type" ] = "zfs";
-  newVolume[ "status" ] = "ONLINE";
-  newVolume[ "properties" ] =
-  { free:
-    { source: "NONE"
-    , value: volumeSize
-    }
-  };
+  _.merge( newVolume
+         , { datasets: datasets
+           , mountpoint: "/volumes/" + name
+           , topology: topology
+           , id: id
+           , name: name
+           , properties:
+             { free:
+               { source: "NONE"
+               , value: volumeSize
+               }
+             }
+           }
+         );
 
   return newVolume;
 }
