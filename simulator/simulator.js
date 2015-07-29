@@ -64,11 +64,16 @@ function getAvailableDisks ( system ) {
                // Iterate over all the vdevs of a particular type
                _.forEach( vdevType
                         , function removeUsedDisksByVdev ( vdev ) {
-                          // Remove all the disks in a vdev from the list of
-                          // available disks.
-                          _.pull( availableDisks
-                                , getUsedDiskPaths( vdev )
-                                );
+                          // Man I wish I could use spread attributes here.
+                          // This puts the available disks aray as the first
+                          // element of an array, followed by all the used disk
+                          // paths, so that the whole thing can be used as
+                          // arguments to apply to lodash pull and remove leave
+                          // only the unused disk paths. If there's a better
+                          // way, please do it.
+                          var availableDiskArgs = getUsedDiskPaths( vdev );
+                          availableDiskArgs.unshift( availableDisks );
+                          _.pull.apply( null , availableDiskArgs );
                         }
                         );
              }
