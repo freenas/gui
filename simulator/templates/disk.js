@@ -29,10 +29,6 @@ var hddDefaults =
     , mediasize: 4000787030016
     , model: "WDC WD40EFRX-68WT0N0"
     }
-  , controller:
-    { serial: "WD-WCC4EFFXUTXT"
-
-    }
   , mediasize: 4000787030016
   };
 
