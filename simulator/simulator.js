@@ -3,6 +3,8 @@
 
 "use strict";
 
+require( "babel/register" );
+
 var _ = require( "lodash" );
 var chalk = require( "chalk" );
 var WebSocketServer = require( "ws" ).Server;
