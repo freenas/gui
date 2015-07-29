@@ -177,9 +177,13 @@ const Volume = React.createClass(
 
       this.state.data.forEach( vdev => {
         if ( vdev.type ) {
-          let baseSize = DS.getSmallestDisk(
+          let smallestDisk = DS.getSmallestDisk(
             this.getMemberDiskPaths( vdev )
-          )["byteSize"];
+          );
+
+          let baseSize = _.has( smallestDisk, "byteSize" )
+                       ? smallestDisk.byteSize
+                       : 0;
 
           switch ( vdev.type ) {
             case "disk":
