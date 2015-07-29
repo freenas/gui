@@ -7,7 +7,7 @@
 "use strict";
 
 import _ from "lodash";
-import React from "react/addons";
+import React from "react";
 import TWBS from "react-bootstrap";
 
 import DS from "../../../flux/stores/DisksStore";
@@ -20,8 +20,6 @@ import PoolTopology from "./Volumes/PoolTopology";
 
 const SLIDE_DURATION = 500;
 const NAV_STATES = new Set( [ "disks", "filesystem", "snapshots", "files" ] );
-
-const { update } = React.addons;
 
 // VOLUME EDITING
 // ==============
@@ -235,6 +233,7 @@ const Volume = React.createClass(
     }
 
   , reconstructVdev ( key, purpose = null, disks = [], currentType = null ) {
+      let purposeVdevs = this.state[ purpose ];
       let allAllowedTypes = this.state.allowedTypes;
       let vdevAllowedTypes = [];
       let newVdev;
@@ -251,16 +250,18 @@ const Volume = React.createClass(
         // where you have two disks, and your only option is to mirror or stripe
         // them (but striping is bad and we might want to not allow it in
         // certain "purposes", like data ).
-        vdevAllowedTypes.push(
-          ...VDEV_TYPES.slice( 1, disks.length )
-        );
+        vdevAllowedTypes.push( ...VDEV_TYPES.slice( 1, disks.length ) );
 
         newVdev =
           { path     : null
           , type     : this.calcVdevType( vdevAllowedTypes, currentType )
           , children : _.sortBy( disks ).map( this.createNewDisk )
           };
-      } else {
+      } else if ( key > 0 && key === this.state[ purpose ].length - 1 ) {
+        // The VDEV is the last VDEV, and if so, is not the only VDEV. We
+        // perform this check to avoid a case where trying to zero out all VDEVs
+        // results in the first (empty) VDEV with the untracked "empty" VDEV
+        // being added anyways.
         newVdev =
           { path     : null
           , type     : null
@@ -268,13 +269,21 @@ const Volume = React.createClass(
           };
       }
 
-      allAllowedTypes[ purpose ][ key ] = vdevAllowedTypes;
+      if ( newVdev ) {
+        // One of the above conditions resulted in the creation of a VDEV,
+        // potentially including the "empty" VDEV that lives at the end of each
+        // bucket.
+        purposeVdevs[ key ] = newVdev;
+        allAllowedTypes[ purpose ][ key ] = vdevAllowedTypes;
+      } else {
+        // The alternate outcome is that we have an empty VDEV somewhere in the
+        // middle of the bucket - probably because the user removed its disks
+        purposeVdevs.splice( key, 1 );
+        allAllowedTypes[ purpose ].splice( key, 1 );
+      }
 
       this.setState(
-        { [ purpose ]:
-            update( this.state[ purpose ]
-                  , { [ key ]: { $set: newVdev } }
-          )
+        { [ purpose ]: purposeVdevs
         , allowedTypes: allAllowedTypes
         }
       );
