@@ -6,9 +6,9 @@
 "use strict";
 
 var _ = require( "lodash" );
+var moment = require( "moment" );
 
-var time = Date().now;
-
+var time = moment().unix();
 
 var datasetDefaults =
   { properties:
@@ -154,7 +154,7 @@ var datasetDefaults =
       }
     , creation:
       { source: "NONE"
-      , value: Date.toString( time )
+      , value: time
       }
     , sync:
       { source: "DEFAULT"
@@ -300,8 +300,8 @@ var volumeDefaults =
     , bytes_processed: null
     , percentage: null
     }
-  , "updated-at": Date.toString( time )
-  , "created-at": Date.toString( time )
+  , "updated-at": time
+  , "created-at": time
   , properties:
     { comment:
       { source: "DEFAULT"
