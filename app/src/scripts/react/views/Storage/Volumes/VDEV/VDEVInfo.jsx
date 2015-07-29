@@ -35,6 +35,7 @@ const VDEVInfo = React.createClass(
       return (
         <TWBS.MenuItem
           key = { index }
+          onClick = { this.props.handleTypeChange.bind( null, type ) }
         >
           { HUMAN_TYPES[ type ] }
         </TWBS.MenuItem>

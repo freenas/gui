@@ -11,14 +11,7 @@ import Icon from "../../../components/Icon";
 
 const VDEVDisk = React.createClass(
   { propTypes:
-    { path: React.PropTypes.string.isRequired
-    , vdevPurpose: React.PropTypes.oneOf(
-        [ "data"
-        , "logs"
-        , "cache"
-        , "spares"
-        ]
-      )
+    { path             : React.PropTypes.string.isRequired
     , handleDiskRemove : React.PropTypes.func.isRequired
     , existsOnServer   : React.PropTypes.bool
     }
@@ -31,11 +24,8 @@ const VDEVDisk = React.createClass(
       deleteButton = (
         <span
           className = "disk-remove"
-          onClick = { this.props.handleDiskRemove.bind( null
-                                                      , this.props.vdevKey
-                                                      , this.props.vdevPurpose
-                                                      , this.props.path
-                                                      )
+          onClick = { this.props.handleDiskRemove
+                          .bind( null, this.props.path )
                     }
         >
           <Icon glyph="times" />

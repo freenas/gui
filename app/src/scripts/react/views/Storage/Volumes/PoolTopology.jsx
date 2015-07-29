@@ -33,10 +33,7 @@ var TopologyDrawer = React.createClass(
 
   , createVdevs ( purpose ) {
     let sharedProps =
-      { handleDiskAdd        : this.props.handleDiskAdd
-      , handleDiskRemove     : this.props.handleDiskRemove
-      , handleVdevTypeChange : this.props.handleVdevTypeChange
-      , purpose              : purpose
+      { purpose              : purpose
       , availableDevices     : null
       , cols                 : null
       , newVdevAllowed       : false
@@ -81,6 +78,15 @@ var TopologyDrawer = React.createClass(
             path         = { path }
             vdevKey      = { index }
             key          = { index }
+            handleDiskAdd = { this.props.handleDiskAdd
+                                  .bind( null, index, purpose )
+                            }
+            handleDiskRemove = { this.props.handleDiskRemove
+                                     .bind( null, index, purpose )
+                               }
+            handleTypeChange = { this.props.handleVdevTypeChange
+                                     .bind( null, index, purpose )
+                               }
           />
         );
       }
@@ -102,6 +108,15 @@ var TopologyDrawer = React.createClass(
           type         = { null }
           vdevKey      = { vdevs.length }
           key          = { vdevs.length }
+          handleDiskAdd = { this.props.handleDiskAdd
+                                .bind( null, vdevs.length, purpose )
+                          }
+          handleDiskRemove = { this.props.handleDiskRemove
+                                   .bind( null, vdevs.length, purpose )
+                             }
+          handleTypeChange = { this.props.handleVdevTypeChange
+                                   .bind( null, vdevs.length, purpose )
+                             }
         />
       );
     }

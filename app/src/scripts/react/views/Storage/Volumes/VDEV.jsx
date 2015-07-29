@@ -12,13 +12,13 @@ import VDEVInfo from "./VDEV/VDEVInfo";
 
 const VDEV = React.createClass(
   { propTypes:
-    { handleDiskAdd        : React.PropTypes.func.isRequired
-    , handleDiskRemove     : React.PropTypes.func.isRequired
-    , handleVdevTypeChange : React.PropTypes.func.isRequired
-    , availableDevices     : React.PropTypes.array.isRequired
-    , cols                 : React.PropTypes.number
-    , children             : React.PropTypes.array
-    , path                 : React.PropTypes.string
+    { handleDiskAdd    : React.PropTypes.func.isRequired
+    , handleDiskRemove : React.PropTypes.func.isRequired
+    , handleTypeChange : React.PropTypes.func.isRequired
+    , availableDevices : React.PropTypes.array.isRequired
+    , cols             : React.PropTypes.number
+    , children         : React.PropTypes.array
+    , path             : React.PropTypes.string
     , purpose: React.PropTypes.oneOf(
         [ "data"
         , "logs"
@@ -38,10 +38,6 @@ const VDEV = React.createClass(
         ]
       )
     , allowedTypes: React.PropTypes.array.isRequired
-    // index of this vdev in the array of vdevs of the same purpose
-    , vdevKey: React.PropTypes.number.isRequired
-    // used to check if this vdev is already known to the server and thus make
-    // it immutable.
     , existsOnServer: React.PropTypes.bool
     }
 
@@ -68,10 +64,7 @@ const VDEV = React.createClass(
     let message   = null;
 
     let diskProps =
-      { volumeKey        : this.props.volumeKey
-      , vdevKey          : this.props.vdevKey
-      , vdevPurpose      : this.props.purpose
-      , handleDiskRemove : this.props.handleDiskRemove
+      { handleDiskRemove : this.props.handleDiskRemove
       , existsOnServer   : this.props.existsOnServer
       };
 
@@ -108,8 +101,9 @@ const VDEV = React.createClass(
     if ( this.props.availableDevices.length || this.props.type ) {
       toolbar = (
         <VDEVInfo
-          type         = { this.props.type }
-          allowedTypes = { this.props.allowedTypes }
+          type             = { this.props.type }
+          allowedTypes     = { this.props.allowedTypes }
+          handleTypeChange = { this.props.handleTypeChange }
         />
       );
     }
@@ -124,11 +118,8 @@ const VDEV = React.createClass(
           // move to a valid option and make it impossible to select that one
           // next.
           value = "-- SELECT --"
-          onChange= { this.props.handleDiskAdd.bind( null
-                                                   , this.props.vdevKey
-                                                   , this.props.purpose
-                                                   )
-                    } >
+          onChange= { this.props.handleDiskAdd }
+        >
           <option>{ "-- SELECT --" }</option>
           { this.props.availableDevices.map( this.createNewDeviceOptions ) }
         </select>
