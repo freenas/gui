@@ -24,7 +24,38 @@
     margin        : 0 -15px;
     border-radius : 0;
     height        : 10px;
+    .transition( all 0.6s );
   }
+
+  .progress-bar {
+    min-width   : 0;
+    line-height : 10px;
+    color       : transparent;
+    overflow: hidden;
+    text-align: left;
+    font-weight: bold;
+    & > span {
+      margin: 0 15px;
+    }
+    .transition( all 0.6s );
+  }
+
+  .panel-body:hover,
+  &.editing {
+    .progress {
+      height: 25px;
+    }
+
+    .progress-bar {
+      line-height : 25px;
+      color       : #121212;
+    }
+    .free-space {
+      background: none;
+      box-shadow: none;
+    }
+  }
+
 
   &.awaiting-init {
     background-color : #fbfbfb;

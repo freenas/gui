@@ -7,6 +7,8 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import ByteCalc from "../../../../utility/ByteCalc";
+
 const BreakdownChart = React.createClass(
 
   { getDefaultProps: function () {
@@ -26,29 +28,34 @@ const BreakdownChart = React.createClass(
   }
 
   , render: function () {
-    let stackedBar = null;
-
-    if ( this.props.total > 0 ) {
-      stackedBar = (
-        <TWBS.ProgressBar>
+      return (
+        <TWBS.ProgressBar
+          style = { this.props.total > 0
+                  ? {}
+                  : { opacity: 0, height: 0 }
+                  }
+        >
           <TWBS.ProgressBar
+            label   = "Parity"
             bsStyle = "warning"
-            now     = { this.calcPercent( "parity" ) }
-            key     = { 3 }
+            now     = { this.calcPercent( "parity" ) || 0 }
+            key     = { 0 }
           />
           <TWBS.ProgressBar
+            label   = "Used"
             bsStyle = "primary"
-            now     = { this.calcPercent( "used" ) }
+            now     = { this.calcPercent( "used" ) || 0 }
             key     = { 1 }
+          />
+          <TWBS.ProgressBar
+            label     = { ByteCalc.humanize( this.props.free ) + " Free" }
+            className = "free-space"
+            now       = { this.calcPercent( "free" ) || 0 }
+            key       = { 2 }
           />
         </TWBS.ProgressBar>
       );
-    } else {
-      stackedBar = <TWBS.ProgressBar bsStyle="primary" active />;
     }
-
-    return stackedBar;
-  }
 
   }
 );

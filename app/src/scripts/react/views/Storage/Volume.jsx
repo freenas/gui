@@ -489,7 +489,16 @@ const Volume = React.createClass(
 
       return (
         <TWBS.Panel
-          className = { "volume" + ( isInitialized ? " awaiting-init" : "" ) }
+          className = { "volume"
+                      + ( isInitialized
+                        ? " awaiting-init"
+                        : ""
+                        )
+                      + ( this.state.editing
+                        ? " editing"
+                        : ""
+                        )
+                      }
           onClick   = { this.handlePanelOpen }
         >
           { initMessage }
