@@ -9,10 +9,6 @@ var _ = require( "lodash" );
 
 var time = Date().now;
 
-var volumeDefaults =
-  { type: "zfs"
-
-  };
 
 var datasetDefaults =
   { properties:
