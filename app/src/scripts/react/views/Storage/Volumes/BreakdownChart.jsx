@@ -37,7 +37,7 @@ const BreakdownChart = React.createClass(
         >
           <TWBS.ProgressBar
             label   = "Parity"
-            bsStyle = "warning"
+            bsStyle = "info"
             now     = { this.calcPercent( "parity" ) || 0 }
             key     = { 0 }
           />
