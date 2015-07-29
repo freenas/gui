@@ -126,7 +126,7 @@ const Storage = React.createClass(
         , handleDiskSelection  : this.handleDiskSelection
         , handleDiskRemoval    : this.handleDiskRemoval
         , availableDisks:
-          _.without( VS.availableDisks, ...this.state.selectedDisks )
+          _.without( this.state.availableDisks, ...this.state.selectedDisks )
         , availableSSDs:
           // FIXME: Implement SSDs
           _.without( [], ...this.state.selectedSSDs )
