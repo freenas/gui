@@ -8,12 +8,14 @@
 
 import _ from "lodash";
 
-import DL from "../../utility/DebugLogger";
+import DebugLogger from "../../utility/DebugLogger";
 import ByteCalc from "../../utility/ByteCalc";
 
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
+
+const DL = new DebugLogger( "DISKS_STORE_DEBUG" );
 
 const DISK_SCHEMA =
   // Available from disks.query
@@ -109,17 +111,31 @@ class DisksStore extends FluxBase {
   }
 
   getBiggestDisk ( path ) {
-    return _.chain( this.getByPath( path ) )
-            .sortBy( "mediasize" )
-            .first()
-            .value();
+    if ( this.isInitialized ) {
+      return _.chain( this.getByPath( path ) )
+              .sortBy( "mediasize" )
+              .first()
+              .value();
+    } else {
+      DL.warn( "Cannot call method 'getBiggestDisk': DisksStore not "
+             + "initialized"
+             );
+      return null;
+    }
   }
 
   getSmallestDisk ( path ) {
-    return _.chain( this.getByPath( path ) )
-            .sortBy( "mediasize" )
-            .last()
-            .value();
+    if ( this.isInitialized ) {
+      return _.chain( this.getByPath( path ) )
+              .sortBy( "mediasize" )
+              .last()
+              .value();
+    } else {
+      DL.warn( "Cannot call method 'getSmallestDisk': DisksStore not "
+             + "initialized"
+             );
+      return null;
+    }
   }
 
 }
@@ -154,6 +170,7 @@ function handlePayload ( payload ) {
       );
 
       _.merge( _disks, newDisks );
+      this.fullUpdateAt = ACTION.timestamp;
       this.emitChange();
       break;
 
