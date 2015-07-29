@@ -108,6 +108,32 @@ nav.volume-nav {
 
 .vdev-bucket {
   padding: 9px;
+
+  .toolbar {
+    margin: -9px -9px 5px -9px;
+    padding: 5px 10px;
+    border-bottom: inherit;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .vdev-type {
+    color: #555;
+
+    &.btn {
+      padding: 2px 4px;
+      border: none;
+      background: none;
+
+      &:active {
+        background-color: rgba(0, 0, 0, 0.075);
+      }
+    }
+  }
+
+  .open .vdev-type {
+    color: @brand-primary;
+  box-shadow: none;
+  }
 }
 
 .disk-icon {

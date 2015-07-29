@@ -8,6 +8,14 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+const HUMAN_TYPES =
+  { disk   : "Disk"
+  , mirror : "Mirror"
+  , raidz1 : "RAID-Z1"
+  , raidz2 : "RAID-Z2"
+  , raidz3 : "RAID-Z3"
+  };
+
 const VDEVInfo = React.createClass(
   { propTypes:
     { handleTypeChange: React.PropTypes.func.isRequired
@@ -28,32 +36,37 @@ const VDEVInfo = React.createClass(
         <TWBS.MenuItem
           key = { index }
         >
-          { type }
+          { HUMAN_TYPES[ type ] }
         </TWBS.MenuItem>
       );
     }
 
   , render () {
       let typeButton;
+      let typeName = HUMAN_TYPES[ this.props.type ] || "Empty";
 
       if ( this.props.allowedTypes.length > 1 ) {
         typeButton = (
           <TWBS.DropdownButton
-            title = { this.props.type || "Empty" }
+            buttonClassName = "vdev-type"
+            title = { typeName }
           >
             { this.props.allowedTypes.map( this.createMenuItems ) }
           </TWBS.DropdownButton>
         );
       } else {
         typeButton = (
-          <span>
-            { this.props.type || "Empty" }
-          </span>
+          <TWBS.Button
+            disabled
+            className = "vdev-type"
+          >
+            { typeName }
+          </TWBS.Button>
         );
 
       }
       return (
-        <div>
+        <div className="toolbar">
           { typeButton }
         </div>
       );
