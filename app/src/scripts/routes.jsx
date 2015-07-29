@@ -30,6 +30,8 @@ import Network from "./react/views/Network";
 
 import Hardware from "./react/views/Hardware";
 
+import Storage from "./react/views/Storage";
+
 module.exports = (
   <Route
     path    = "/"
@@ -93,6 +95,12 @@ module.exports = (
       name    = "hardware"
       path    = "hardware"
       handler = { Hardware } />
+
+    {/* STORAGE */}
+    <Route
+      name    = "storage"
+      route   = "storage"
+      handler = { Storage } />
 
     <NotFoundRoute handler={ Users } />
 

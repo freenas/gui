@@ -1,0 +1,180 @@
+.storage-first-pool {
+  padding: 40px 70px 15px;
+  overflow: hidden;
+
+  & > img {
+    height: 130px;
+    margin: 15px;
+    float: left;
+  }
+}
+
+.volume {
+  // Based on TWBS .panel
+  margin        : 25px;
+  border-radius : 0;
+  box-shadow    : 0 2px 16px -2px rgba(0, 0, 0, 0.15);
+  .transition( all 0.25S );
+
+  .panel-body {
+    padding : 15px;
+  }
+
+  .progress {
+    margin        : 0 -15px;
+    border-radius : 0;
+    height        : 10px;
+  }
+
+  &.awaiting-init {
+    background-color : #fbfbfb;
+    margin           : 0 25px;
+    box-shadow       : none;
+  }
+}
+
+nav.volume-nav {
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid @gray-lighter;
+  padding: 10px 0;
+  margin-bottom: 15px;
+
+  .nav {
+    display: inline-block;
+    & > li > a {
+      padding: 4px 16px;
+    }
+  }
+}
+
+.volume-name-input {
+  .pull-left();
+  width: 20%;
+}
+
+.volume-info {
+  margin-bottom: 15px;
+}
+
+.volume-name,
+.volume-name-input,
+.volume-capacity {
+  margin: 0;
+  line-height: 40px;
+}
+
+.volume-name {
+  font-size: 25px;
+}
+
+.volume-name-input {
+  min-width: 260px;
+  width: 30%;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+  .form-control {
+    font-size: 25px;
+    height: 40px;
+    margin: 0;
+  }
+}
+
+.volume-capacity {
+  font-size: 30px;
+  font-weight: 100;
+}
+
+.pool-topology-section {
+  min-height: 100px;
+}
+
+.pool-topology-header {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+  color: #AAAAAA;
+}
+
+.pool-vdev-message {
+  .text-muted();
+  font-style  : italic;
+  font-size   : 14px;
+  font-weight : 100;
+  margin      : 15px 0;
+}
+
+.vdev-bucket {
+  padding: 9px;
+
+  .toolbar {
+    margin: -9px -9px 5px -9px;
+    padding: 5px 10px;
+    border-bottom: inherit;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .vdev-type {
+    color: #555;
+
+    &.btn {
+      padding: 2px 4px;
+      border: none;
+      background: none;
+
+      &:active {
+        background-color: rgba(0, 0, 0, 0.075);
+      }
+    }
+  }
+
+  .open .vdev-type {
+    color: @brand-primary;
+  box-shadow: none;
+  }
+}
+
+.disk-icon {
+  position: relative;
+  float: left;
+  width: 6em;
+  text-align: center;
+  margin: 0.25em;
+
+  & > img {
+    width: 3.5em;
+  }
+
+  .primary-text {
+    display: block;
+  }
+  .secondary-text {
+    display: block;
+    font-size: 0.8em
+  }
+}
+.disk-remove {
+  height        : 15px;
+  width         : 15px;
+  display       : block;
+  position      : absolute;
+  right         : 0;
+  top           : 0;
+  color         : @gray-light;
+  border        : 1px solid;
+  border-color  : @gray-light;
+  border-radius : 50%;
+  font-size     : 10px;
+  text-align    : center;
+  font-style    : normal;
+  font-weight   : 100;
+  .transition( all 0.25s );
+
+  &:hover {
+    color: white;
+    background-color: @brand-danger;
+    border-color: @brand-danger;
+  }
+}
