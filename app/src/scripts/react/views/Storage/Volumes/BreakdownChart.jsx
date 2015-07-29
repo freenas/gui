@@ -9,6 +9,13 @@ import TWBS from "react-bootstrap";
 
 import ByteCalc from "../../../../utility/ByteCalc";
 
+const HUMAN_TYPES =
+  { used   : "Used"
+  , free   : "Free"
+  , parity : "Parity"
+  , total  : "Total"
+  };
+
 const BreakdownChart = React.createClass(
 
   { getDefaultProps () {
@@ -20,14 +27,33 @@ const BreakdownChart = React.createClass(
     }
 
   , calcPercent ( section ) {
-      if ( this.props.total > 0 ) {
+      if ( typeof this.props[ section ] === "number"
+           && this.props[ section ] > 0 ) {
         return Math.floor( ( this.props[ section ] / this.props.total ) * 100 );
       } else {
         return 0;
       }
     }
 
+  , formatLabel ( type, percent ) {
+      let label = [];
+
+      if ( percent > 20 ) {
+        label.push( ByteCalc.humanize( this.props[ type ] ) );
+      }
+
+      if ( percent > 10 ) {
+        label.push( HUMAN_TYPES[ type ] );
+      }
+
+      return label.join( " " );
+    }
+
   , render () {
+      let percentParity = this.calcPercent( "parity" );
+      let percentUsed   = this.calcPercent( "used" );
+      let percentFree   = this.calcPercent( "free" );
+
       return (
         <TWBS.ProgressBar
           style = { this.props.total > 0
@@ -36,21 +62,21 @@ const BreakdownChart = React.createClass(
                   }
         >
           <TWBS.ProgressBar
-            label   = "Parity"
+            label   = { this.formatLabel( "parity", percentParity ) }
             bsStyle = "info"
-            now     = { this.calcPercent( "parity" ) || 0 }
+            now     = { percentParity }
             key     = { 0 }
           />
           <TWBS.ProgressBar
-            label   = "Used"
+            label   = { this.formatLabel( "used", percentUsed ) }
             bsStyle = "primary"
-            now     = { this.calcPercent( "used" ) || 0 }
+            now     = { percentUsed }
             key     = { 1 }
           />
           <TWBS.ProgressBar
-            label     = { ByteCalc.humanize( this.props.free ) + " Free" }
+            label     = { this.formatLabel( "free", percentFree ) }
             className = "free-space"
-            now       = { this.calcPercent( "free" ) || 0 }
+            now       = { percentFree }
             key       = { 2 }
           />
         </TWBS.ProgressBar>
