@@ -11,23 +11,23 @@ import ByteCalc from "../../../../utility/ByteCalc";
 
 const BreakdownChart = React.createClass(
 
-  { getDefaultProps: function () {
-    return { used   : 0
-           , free   : 0
-           , parity : 0
-           , total  : 0
-           };
-  }
-
-  , calcPercent: function ( section ) {
-    if ( this.props.total > 0 ) {
-      return Math.floor( ( this.props[ section ] / this.props.total ) * 100 );
-    } else {
-      return 0;
+  { getDefaultProps () {
+      return { used   : 0
+             , free   : 0
+             , parity : 0
+             , total  : 0
+             };
     }
-  }
 
-  , render: function () {
+  , calcPercent ( section ) {
+      if ( this.props.total > 0 ) {
+        return Math.floor( ( this.props[ section ] / this.props.total ) * 100 );
+      } else {
+        return 0;
+      }
+    }
+
+  , render () {
       return (
         <TWBS.ProgressBar
           style = { this.props.total > 0
