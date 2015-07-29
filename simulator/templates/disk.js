@@ -92,6 +92,8 @@ function createDisks ( number, types ) {
     // Just use /dev/da* for everything for now.
     // FIXME: This is because the boot drive is hardcoded to be /dev/ada2.
     newDisk[ "name" ] = "/dev/da" + i;
+    newDisk[ "path" ] = newDisk[ "name" ];
+    newDisk[ "serial" ] = serial;
 
     newDisk[ "controller"] =
       { "controller-unit" : i
