@@ -124,14 +124,15 @@ function handleCall ( data ) {
     case "volumes.query":
       responseArgs = virtualSystem[ "volumes" ];
       break;
+
+    default:
+      responseArgs = [ "This call is not yet implemented." ];
+      break;
   }
 
-  if ( responseArgs ) {
-    this.send( pack( "rpc", "response", responseArgs, data.id ) );
-  } else {
-    // TODO: failure response
-    console.warn( "simulator.js; handleCall; Call failed." );
-  }
+  this.send( pack( "rpc", "response", responseArgs, data.id ) );
+  // TODO: failure response
+  // console.warn( "simulator.js; handleCall; Call failed." );
 
 }
 function handleRPC ( data, flags ) {
