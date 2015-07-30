@@ -10,14 +10,13 @@ var chalk = require( "chalk" );
 var WebSocketServer = require( "ws" ).Server;
 
 var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
+var virtualSystem = require( "./templates/generator.js" )();
 
 var schemas = require( "./discovery/schemas.json" );
 var services = require( "./discovery/services.json" );
 var methods = require( "./discovery/methods.json" );
-var systemGenerator = require( "./templates/generator.js" );
 
 
-var virtualSystem = systemGenerator();
 
 var authTokens = {};
 
