@@ -446,7 +446,7 @@ const Volume = React.createClass(
           allocated = 0; // FIXME
           freeSize  = breakdown.avail;
         } else {
-          totalSize = 0; // FIXME
+          totalSize = ByteCalc.convertString( this.props.size ); // FIXME
           usable    = ByteCalc.convertString( this.props.size );
           parity    = 0; // FIXME
           allocated = ByteCalc.convertString( this.props.allocated );
