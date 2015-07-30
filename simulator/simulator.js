@@ -16,9 +16,6 @@ var services = require( "./discovery/services.json" );
 var methods = require( "./discovery/methods.json" );
 var systemGenerator = require( "./templates/generator.js" );
 
-// Temporary hard-coded inputs for the system generator.
-var diskCount = 18;
-var diskTypes = "both";
 
 var virtualSystem = systemGenerator();
 
