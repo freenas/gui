@@ -18,7 +18,6 @@ import ContextDisks from "./Storage/ContextDisks";
 import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
 import DM from "../../flux/middleware/DisksMiddleware";
-import DS from "../../flux/stores/DisksStore"
 
 import Volume from "./Storage/Volume";
 
