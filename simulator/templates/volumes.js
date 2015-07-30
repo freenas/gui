@@ -363,10 +363,6 @@ var volumeDefaults =
       { source: "NONE"
       , value: "0%"
       }
-    , name:
-      { source: "NONE"
-      , value: "tank"
-      }
     , maxblocksize:
       { source: "NONE"
       , value: "131072"
@@ -633,6 +629,10 @@ function createVolume ( name, disks, id ) {
         { source: "NONE"
         , value: startingDatasetSize
         }
+      , name:
+        { source: "NONE"
+        , value: name
+        }
       }
     };
 
@@ -650,6 +650,10 @@ function createVolume ( name, disks, id ) {
              { free:
                { source: "NONE"
                , value: volumeSize
+               }
+              , name:
+               { source: "NONE"
+               , value: name
                }
              }
            }
