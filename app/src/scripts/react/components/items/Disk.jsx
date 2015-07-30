@@ -10,7 +10,7 @@ import ByteCalc from "../../../utility/ByteCalc";
 const Disk = React.createClass(
   { propTypes:
     { path: React.PropTypes.string.isRequired
-    , roundMode: React.PropTypes.oneOf(
+    , roundMode: React.PropTypes.oneOfType(
         [ React.PropTypes.string
         , React.PropTypes.number
         ]
