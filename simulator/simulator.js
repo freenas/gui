@@ -12,125 +12,66 @@ var WebSocketServer = require( "ws" ).Server;
 var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 var virtualSystem = require( "./templates/generator.js" )();
 
-var schemas = require( "./discovery/schemas.json" );
-var services = require( "./discovery/services.json" );
-var methods = require( "./discovery/methods.json" );
-
-
-
 var authTokens = {};
 
-function getUsedDiskPaths ( vdev ) {
-  var usedDiskPaths = [];
-
-  var i;
-
-  if ( vdev[ "type" ] === "disk" ) {
-    usedDiskPaths.push( vdev[ "path" ] );
-  } else {
-    for ( i = 0; i < vdev[ "children" ].length; i++ ) {
-      usedDiskPaths.push( vdev[ "children" ][ i ][ "path" ] );
-    }
-  }
-
-  return usedDiskPaths;
-
-}
-
-function getAvailableDisks ( system ) {
-  var availableDisks = [];
-  var volumes = system[ "volumes" ];
-
-  var i;
-  var j;
-
-  // Make a list of the paths to all disks
-  var availableDisks =
-    _.map( system[ "disks" ]
-         , function mapAvailableDiskPaths ( disk ) {
-           return disk[ "name" ];
-         }
-         );
-  // Iterate over volumes
-  for ( i = 0; i < volumes.length; i++ ) {
-    // Iterate over disk, spare, cache, and log in each volume
-    _.forEach( volumes[i].topology
-             , function mapUsedDisksOverTopology ( vdevType ) {
-               // Iterate over all the vdevs of a particular type
-               _.forEach( vdevType
-                        , function removeUsedDisksByVdev ( vdev ) {
-                          // Man I wish I could use spread attributes here.
-                          // This puts the available disks aray as the first
-                          // element of an array, followed by all the used disk
-                          // paths, so that the whole thing can be used as
-                          // arguments to apply to lodash pull and remove leave
-                          // only the unused disk paths. If there's a better
-                          // way, please do it.
-                          var availableDiskArgs = getUsedDiskPaths( vdev );
-                          availableDiskArgs.unshift( availableDisks );
-                          _.pull.apply( null , availableDiskArgs );
-                        }
-                        );
-             }
-             );
-  }
-
-  return availableDisks;
-
-}
 
 function handleCall ( data ) {
 
-  var responseArgs;
+  var response;
 
-  switch ( data[ "args" ][ "method" ] ) {
-    case "discovery.get_schema":
-      responseArgs = schemas;
-      break;
+  // This only splits off the top-level namespace. Some namespaces, such as
+  // system, have nested namespaces such as system.info. These are handled in
+  // classes for the top-level namespaces.
+  var call = data[ "args" ][ "method" ].split( "." );
+  var namespace = call.shift();
 
-    case "discovery.get_services":
-      responseArgs = services;
-      break;
-
-    case "discovery.get_methods":
-      var method = data.args.args[0];
-      responseArgs = methods[ method ];
-      break;
-
-    case "system.info.hardware":
-      responseArgs =
-        { memory_size: virtualSystem[ "memory_size" ]
-        , cpu_model: virtualSystem[ "cpu_model" ]
-        , cpu_cores: virtualSystem[ "cpu_cores" ]
-        };
-      break;
-
-    case "users.query":
-      responseArgs = virtualSystem[ "users" ];
-      break;
-
-    case "disks.query":
-      responseArgs = virtualSystem[ "disks" ];
-      break;
-
-    case "volumes.get_available_disks":
-      responseArgs = getAvailableDisks( virtualSystem );
-      break;
-
-    case "volumes.query":
-      responseArgs = virtualSystem[ "volumes" ];
-      break;
-
-    default:
-      responseArgs = [ "This call is not yet implemented." ];
-      break;
+  // Check for a second namespace. There are no extant triply-layered
+  // namespaces.
+  if ( call.length !== 1 ) {
+    var secondNamespace = call.shift();
   }
 
-  this.send( pack( "rpc", "response", responseArgs, data.id ) );
-  // TODO: failure response
-  // console.warn( "simulator.js; handleCall; Call failed." );
+  // task is crashing things until we have task handling set up.
+  // Skip it for now. This may become more sophisticated in the future, or it
+  // may go away.
+  if ( namespace !== "task" ) {
+    // require the class that corresonds to the namespace. This requires a very
+    // strict directory hierarchy. Don't mess with it.
+    var namespaceClass = require( "./RPC/" + namespace + "/" + namespace );
+  } else {
+    console.warn( "Namespace " + namespace + " is currently blocked from use." );
+  }
+  // The rest of the original string goes back into a string to used to
+  // reference the appropriate function.
+  var method = call[0];
+
+  console.log( "simulator.js; handleCall; namespace:", namespace, "method:", method );
+
+  // Don't try to call a function if there's no class to call it on.
+  if ( namespaceClass ) {
+    console.log( "namespaceClass", namespaceClass );
+    if ( secondNamespace ) {
+      // Call the method in the sub-namespace of the main namespace, get the
+      // response for packing.
+      response =
+        namespaceClass[ secondNamespace ][ method ]( virtualSystem
+                                                   , data[ "args" ][ "args" ] );
+    } else {
+      // Call the method in the namespace, get the response for packing.
+      response = namespaceClass[ method ]( virtualSystem
+                                         , data[ "args" ][ "args" ] );
+    }
+  }
+
+  if ( !response ) {
+    // TODO: error responses.
+    response = [ "This call is not yet implemented." ];
+  }
+
+  this.send( pack( "rpc", "response", response, data.id ) );
 
 }
+
 function handleRPC ( data, flags ) {
   var args;
   switch ( data.name ) {
