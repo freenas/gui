@@ -8,6 +8,7 @@ import React from "react";
 
 import DS from "../../../../flux/stores/DisksStore";
 import Icon from "../../../components/Icon";
+import ByteCalc from "../../../../utility/ByteCalc";
 
 const VDEVDisk = React.createClass(
   { propTypes:
@@ -37,7 +38,7 @@ const VDEVDisk = React.createClass(
       <div className="disk-icon">
         { deleteButton }
         <img src="img/hdd.png" />
-        <strong className="primary-text">{ disk.humanSize }</strong>
+        <strong className="primary-text">{ ByteCalc.humanize( disk.byteSize, { roundMode: "whole" } ) }</strong>
         <span className="secondary-text">{ this.props.path }</span>
       </div>
     );

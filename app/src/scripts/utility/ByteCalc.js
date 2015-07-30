@@ -150,7 +150,9 @@ class ByteCalc {
   // rendering the biggest possible unit with two decimal places. This function
   // can be instructed to output metric or IEC (default is metric). The
   // `verbose` option will output "megabytes" instead of "MB"
-  static humanize ( bytes, IEC = false, verbose = false, roundMode ) {
+  static humanize ( bytes, options = {} ) {
+    let { IEC = false, verbose = false, roundMode = null } = options;
+
     const base = IEC
                ? 1024
                : 1000;
