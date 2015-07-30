@@ -99,9 +99,9 @@ const ContextDisks = React.createClass(
            , function addDiskItem ( disk, index ) {
              return (
               <TWBS.Col
+                key = { index }
                 xs = {6} >
                 <Disk { ...disk }
-                  key = { index }
                 />
               </TWBS.Col> );
            }
