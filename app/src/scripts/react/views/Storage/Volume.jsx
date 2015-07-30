@@ -92,6 +92,7 @@ const Volume = React.createClass(
              , free          : this.props.free
              , allocated     : this.props.allocated
              , size          : this.props.size
+             , name          : this.props.name
              // To keep state pure and mimic the schema used by the middleware,
              // allowed types is a parallel data structure that stores
              // information about which VDEV types are allowed. It is created /
