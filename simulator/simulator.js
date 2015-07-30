@@ -41,11 +41,9 @@ function handleCall ( data ) {
   // reference the appropriate function.
   var method = call[0];
 
-  console.log( "simulator.js; handleCall; namespace:", namespace, "method:", method );
-
   // Don't try to call a function if there's no class to call it on.
   if ( namespaceClass ) {
-    console.log( "namespaceClass", namespaceClass );
+
     if ( secondNamespace ) {
       // Call the method in the sub-namespace of the main namespace, get the
       // response for packing.
