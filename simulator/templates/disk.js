@@ -59,11 +59,11 @@ var ssdSerialBase = "B061448240070000039";
 
 var hddSerialBase = "WD-WCC4ENSDRSV";
 
-// 'number' should be an integer greater than zero
-// 'types' should be one of "HDD", "SSD", or "both". If it's none of the above,
-// it will default to HDD. When "both" is chosen, one of every 3 disks will be
-// an SSD.
-function createDisks ( number, types ) {
+// 'config[ "diskCount" ]' should be an integer greater than zero
+// 'config[ "types" ]' should be one of "HDD", "SSD", or "BOTH". If it's none of
+// the above, it will default to HDD. When "BOTH" is chosen, one of every 3
+// disks will be an SSD.
+function createDisks ( config ) {
   var disks = [];
   var newDisk = {};
 
@@ -72,16 +72,16 @@ function createDisks ( number, types ) {
 
   var uuid;
 
-  for ( var i = 0; i < number; i++ ) {
+  for ( var i = 0; i < config[ "diskCount" ]; i++ ) {
 
     newDisk = {};
 
     // FIXME (if we care): over 10 disks, you end up with serials that are
     // longer than normal, because I can't be bothered to do anything other
     // than string concatenation for this.
-    if ( types === "SSD" ) {
+    if ( config[ "types" ] === "SSD" ) {
       serial = ssdSerialBase + i;
-    } else if ( types === "both" && i % 3 === 1 ) {
+    } else if ( config[ "types" ] === "BOTH" && i % 3 === 1 ) {
       serial = ssdSerialBase + i;
     } else {
       serial = hddSerialBase + i;
@@ -111,10 +111,10 @@ function createDisks ( number, types ) {
 
     // TODO: Partitions. Those are nuts.
 
-    if ( types === "SSD" ) {
+    if ( config[ "types" ] === "SSD" ) {
       newDisk = _.merge( newDisk, ssdDefaults, defaults );
-    // Every third disk will be an SSD is "both" is selected.
-    } else if ( types === "both" && i % 3 === 1 ) {
+    // Every third disk will be an SSD is "BOTH" is selected.
+    } else if ( config[ "types" ] === "BOTH" && i % 3 === 1 ) {
       newDisk = _.merge( newDisk, ssdDefaults, defaults );
     } else {
       newDisk = _.merge( newDisk, hddDefaults, defaults );

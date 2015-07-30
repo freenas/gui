@@ -658,9 +658,9 @@ function createVolume ( name, disks, id ) {
   return newVolume;
 }
 
-// Creates 'volNum' volumes, using 'diskNum' disks from 'disks'.
-// Impossible requests result in warnings.
-function createVolumes ( volNum, diskNum, disks ) {
+// Creates 'config[ "volumeCount" ]' volumes, using
+// 'config[ "volumeDiskCount" ]' disks from 'disks'.
+function createVolumes ( config, disks ) {
 
   var newVolumes = [];
 
@@ -674,14 +674,14 @@ function createVolumes ( volNum, diskNum, disks ) {
 
   var nextVolume;
 
-  for ( i = 0; i < volNum; i++ ) {
+  for ( i = 0; i < config[ "volumeCount" ]; i++ ) {
     nextVolume = {};
 
     name = nameStarter + i;
     mountpoint = "/volumes/" + name;
     id = volumeIDStarter + i;
 
-    volumeDisks = disks.splice( 0, diskNum );
+    volumeDisks = disks.splice( 0, config[ "volumeDiskCount" ] );
 
     nextVolume = createVolume( name, volumeDisks, id );
 

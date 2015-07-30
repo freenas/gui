@@ -56,3 +56,4 @@ app-deploy/
 # Exclude config files
 freenas9-conf.json
 freenas10-conf.json
+customSystem.js

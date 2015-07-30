@@ -5,9 +5,11 @@
 
 "use strict";
 
-var _ = require( "lodash" );
-var createDisks = require( "./disk.js" );
-var createVolumes = require( "./volumes.js" );
+import fs from "fs";
+
+import _ from "lodash";
+import createDisks from "./disk.js";
+import createVolumes from "./volumes.js";
 
 // These are taken from a real FreeNAS Mini, but they're arbitrary. Want to say
 // your virtual system has a Pentium? Go for it!
@@ -2350,11 +2352,19 @@ var startingPools =
   }
   ];
 
-// Starting defaults for volume creation.
-var volumeCount = 1;
-var volumeDiskCount = 6;
+function createSystem () {
 
-function createSystem ( diskCount, diskTypes ) {
+  // Select the system config file to use for the virtual FreeNAS instance.
+  var systemConfig;
+  var configStats;
+
+  try {
+    fs.lstatSync( "./simulator/configs/customSystem.js" );
+    systemConfig = require( "../configs/customSystem" )();
+  } catch ( err ) {
+    systemConfig = require( "../configs/defaultSystem" )();
+  }
+
   var newSystem =
     { users: builtinUsers
     , groups: builtinGroups
@@ -2363,11 +2373,12 @@ function createSystem ( diskCount, diskTypes ) {
 
   newSystem = _.merge( newSystem, systemConstants, shares );
 
-  var disks = createDisks( diskCount, diskTypes );
+  var disks = createDisks( systemConfig[ "disksConfig" ] );
 
   newSystem[ "disks" ] = _.cloneDeep( disks );
 
-  newSystem[ "volumes" ] = createVolumes( volumeCount, volumeDiskCount, disks );
+  newSystem[ "volumes" ]
+    = createVolumes( systemConfig[ "volumesConfig" ], disks );
 
   return newSystem;
 }
