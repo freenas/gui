@@ -113,8 +113,8 @@ class DisksStore extends FluxBase {
   getBiggestDisk ( path ) {
     if ( this.isInitialized ) {
       return _.chain( this.getByPath( path ) )
-              .sortBy( "mediasize" )
-              .first()
+              .sortBy( "byteSize" )
+              .last()
               .value();
     } else {
       DL.warn( "Cannot call method 'getBiggestDisk': DisksStore not "
@@ -127,8 +127,8 @@ class DisksStore extends FluxBase {
   getSmallestDisk ( path ) {
     if ( this.isInitialized ) {
       return _.chain( this.getByPath( path ) )
-              .sortBy( "mediasize" )
-              .last()
+              .sortBy( "byteSize" )
+              .first()
               .value();
     } else {
       DL.warn( "Cannot call method 'getSmallestDisk': DisksStore not "
