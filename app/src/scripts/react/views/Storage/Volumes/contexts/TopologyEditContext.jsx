@@ -10,17 +10,17 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
-import SS from "../../../flux/stores/SchemaStore";
-import DS from "../../../flux/stores/DisksStore";
-import DM from "../../../flux/middleware/DisksMiddleware";
-import VS from "../../../flux/stores/VolumeStore";
-import ZM from "../../../flux/middleware/ZfsMiddleware";
+import SS from "../../../../../flux/stores/SchemaStore";
+import DS from "../../../../../flux/stores/DisksStore";
+import DM from "../../../../../flux/middleware/DisksMiddleware";
+import VS from "../../../../../flux/stores/VolumeStore";
+import ZM from "../../../../../flux/middleware/ZfsMiddleware";
 
-import Disk from "../../components/items/Disk";
+import Disk from "../../../../components/items/Disk";
 
 const ContextDisks = React.createClass(
 
-  { displayName: "Contextual Disks Drawer"
+  { displayName: "Pool Topology Context Drawer"
 
   , getInitialState () {
 

@@ -11,10 +11,6 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import EventBus from "../../utility/EventBus";
-
-import ContextDisks from "./Storage/ContextDisks";
-
 import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
 import DM from "../../flux/middleware/DisksMiddleware";
@@ -52,8 +48,6 @@ const Storage = React.createClass(
       ZM.unsubscribe( this.constructor.displayName );
 
       DM.unsubscribe( this.constructor.displayName );
-
-      EventBus.emit( "hideContextPanel", ContextDisks );
     }
 
   , componentDidUpdate ( prevProps, prevState ) {
@@ -95,12 +89,6 @@ const Storage = React.createClass(
 
   , handleEditModeChange ( isEditing, event ) {
       this.setState({ editingVolume: isEditing });
-
-      if ( isEditing ) {
-        EventBus.emit( "showContextPanel", ContextDisks );
-      } else {
-        EventBus.emit( "hideContextPanel", ContextDisks );
-      }
     }
 
   , handleDiskSelection ( path ) {
@@ -121,9 +109,9 @@ const Storage = React.createClass(
 
   , createVolumes () {
       const volumeCommon =
-        { handleEditModeChange : this.handleEditModeChange
-        , handleDiskSelection  : this.handleDiskSelection
-        , handleDiskRemoval    : this.handleDiskRemoval
+        { onEditModeChange    : this.handleEditModeChange
+        , handleDiskSelection : this.handleDiskSelection
+        , handleDiskRemoval   : this.handleDiskRemoval
         , availableDisks:
           _.without( this.state.availableDisks, ...this.state.selectedDisks )
         , availableSSDs:

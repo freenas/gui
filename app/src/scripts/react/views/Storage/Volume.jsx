@@ -12,11 +12,13 @@ import TWBS from "react-bootstrap";
 
 import DS from "../../../flux/stores/DisksStore";
 
+import EventBus from "../../../utility/EventBus";
 import ByteCalc from "../../../utility/ByteCalc";
 
 import BreakdownChart from "./Volumes/BreakdownChart";
 import PoolDatasets from "./Volumes/PoolDatasets";
 import PoolTopology from "./Volumes/PoolTopology";
+import TopologyEditContext from "./Volumes/contexts/TopologyEditContext";
 
 const SLIDE_DURATION = 500;
 const NAV_STATES = new Set( [ "disks", "filesystem", "snapshots", "files" ] );
@@ -41,18 +43,18 @@ const Volume = React.createClass(
   { displayName: "Volume"
 
   , propTypes:
-    { handleEditModeChange : React.PropTypes.func.isRequired
-    , handleDiskSelection  : React.PropTypes.func.isRequired
-    , handleDiskRemoval    : React.PropTypes.func.isRequired
-    , availableDisks       : React.PropTypes.array.isRequired
-    , availableSSDs        : React.PropTypes.array.isRequired
-    , existsOnRemote       : React.PropTypes.bool
-    , data                 : React.PropTypes.array
-    , logs                 : React.PropTypes.array
-    , cache                : React.PropTypes.array
-    , spares               : React.PropTypes.array
-    , datasets             : React.PropTypes.array
-    , name                 : React.PropTypes.string
+    { onEditModeChange: React.PropTypes.func.isRequired
+    , handleDiskSelection: React.PropTypes.func.isRequired
+    , handleDiskRemoval: React.PropTypes.func.isRequired
+    , availableDisks: React.PropTypes.array.isRequired
+    , availableSSDs: React.PropTypes.array.isRequired
+    , existsOnRemote: React.PropTypes.bool
+    , data: React.PropTypes.array
+    , logs: React.PropTypes.array
+    , cache: React.PropTypes.array
+    , spares: React.PropTypes.array
+    , datasets: React.PropTypes.array
+    , name: React.PropTypes.string
     , free: React.PropTypes.oneOfType(
         [ React.PropTypes.string
         , React.PropTypes.number
@@ -135,9 +137,19 @@ const Volume = React.createClass(
       }
     }
 
-  , enterEditMode ( event ) {
-      this.props.handleEditModeChange( true, event );
-      this.setState({ editing: true });
+  , componentWillUnmount () {
+      EventBus.emit( "hideContextPanel", TopologyEditContext );
+    }
+
+  , handleEditModeChange ( isEditing, event ) {
+      if ( isEditing ) {
+        this.props.onEditModeChange( true, event );
+        EventBus.emit( "showContextPanel", TopologyEditContext );
+      } else {
+        EventBus.emit( "hideContextPanel", TopologyEditContext );
+      }
+
+      this.setState({ editing: isEditing });
     }
 
   , handlePanelOpen () {
@@ -425,7 +437,7 @@ const Volume = React.createClass(
           <div className="text-center">
             <TWBS.Button
               bsStyle = "primary"
-              onClick = { this.enterEditMode }
+              onClick = { this.handleEditModeChange.bind( null, true ) }
             >
             { "Create new ZFS volume" }
             </TWBS.Button>
