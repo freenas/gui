@@ -63,7 +63,7 @@ const Hardware = React.createClass({
         <TWBS.ListGroup fill>
           <TWBS.ListGroupItem>{ "CPU: " + cpuModel }</TWBS.ListGroupItem>
           <TWBS.ListGroupItem>{ "CPU Cores: " + cpuCores }</TWBS.ListGroupItem>
-          <TWBS.ListGroupItem>{ "Memory: " + ByteCalc.toBytes( memorySize ) }</TWBS.ListGroupItem>
+          <TWBS.ListGroupItem>{ "Memory: " + ByteCalc.humanize( memorySize ) }</TWBS.ListGroupItem>
         </TWBS.ListGroup>
       </TWBS.Panel>
     );
