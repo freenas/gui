@@ -10,7 +10,7 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
-import SS from "../../../flux/stores/SchemaStore"
+import SS from "../../../flux/stores/SchemaStore";
 import DS from "../../../flux/stores/DisksStore";
 import DM from "../../../flux/middleware/DisksMiddleware";
 import VS from "../../../flux/stores/VolumeStore";
