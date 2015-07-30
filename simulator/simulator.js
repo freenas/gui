@@ -18,6 +18,8 @@ var authTokens = {};
 function handleCall ( data ) {
 
   var response;
+  var namespaceClass;
+  var secondNamespace;
 
   // This only splits off the top-level namespace. Some namespaces, such as
   // system, have nested namespaces such as system.info. These are handled in
@@ -28,19 +30,13 @@ function handleCall ( data ) {
   // Check for a second namespace. There are no extant triply-layered
   // namespaces.
   if ( call.length !== 1 ) {
-    var secondNamespace = call.shift();
+    secondNamespace = call.shift();
   }
 
-  // task is crashing things until we have task handling set up.
-  // Skip it for now. This may become more sophisticated in the future, or it
-  // may go away.
-  if ( namespace !== "task" ) {
-    // require the class that corresonds to the namespace. This requires a very
-    // strict directory hierarchy. Don't mess with it.
-    var namespaceClass = require( "./RPC/" + namespace + "/" + namespace );
-  } else {
-    console.warn( "Namespace " + namespace + " is currently blocked from use." );
-  }
+  // require the class that corresonds to the namespace. This requires a very
+  // strict directory hierarchy. Don't mess with it.
+  namespaceClass = require( "./RPC/" + namespace + "/" + namespace );
+
   // The rest of the original string goes back into a string to used to
   // reference the appropriate function.
   var method = call[0];

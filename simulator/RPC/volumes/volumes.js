@@ -61,6 +61,16 @@ class Volumes {
   static query ( system ) {
     return system[ "volumes" ];
   }
+
+  static create ( system, args ) {
+    console.log( "volumes.create is not yet implemented." );
+    return system[ "volumes" ][0];
+  }
+
+  static destroy ( system, args ) {
+    console.log( "volumes.destroy is not yet implemented." );
+    return system[ "volumes" ];
+  }
 }
 
 

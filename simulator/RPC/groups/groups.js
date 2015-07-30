@@ -11,6 +11,21 @@ class Groups {
     return system[ "groups" ];
   }
 
+  static create ( system, args ) {
+    console.log( "groups.create is not yet implemented." );
+    return system[ "groups" ];
+  }
+
+  static delete ( system, args ) {
+    console.log( "groups.delete is not yet implemented." );
+    return system[ "groups" ];
+  }
+
+  static update ( system, args ) {
+    console.log( "groups.update is not yet implemented." );
+    return system[ "groups" ];
+  }
+
 }
 
 
