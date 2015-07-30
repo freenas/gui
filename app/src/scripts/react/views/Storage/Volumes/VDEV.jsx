@@ -7,7 +7,8 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import VDEVDisk from "./VDEVDisk";
+import Disk from "../../../components/items/Disk";
+import Icon from "../../../components/Icon";
 import VDEVInfo from "./VDEV/VDEVInfo";
 
 const VDEV = React.createClass(
@@ -57,36 +58,48 @@ const VDEV = React.createClass(
     );
   }
 
+  , createDiskItem ( path, key ) {
+      let deleteButton = null;
+
+      if ( !this.props.existsOnServer ) {
+        deleteButton = (
+          <span
+            className = "disk-remove"
+            onClick = { this.props.handleDiskRemove.bind( null, path ) }
+          >
+            <Icon glyph="times" />
+          </span>
+        );
+      }
+
+      return (
+        <div className="disk-wrapper">
+          { deleteButton }
+          <Disk
+            handleDiskRemove = { this.props.handleDiskRemove }
+            existsOnServer = { this.props.existsOnServer }
+            path = { path }
+            key = { key }
+          />
+        </div>
+      );
+    }
+
   , render () {
     let toolbar   = null;
     let vdevDisks = null;
     let addDisks  = null;
     let message   = null;
 
-    let diskProps =
-      { handleDiskRemove : this.props.handleDiskRemove
-      , existsOnServer   : this.props.existsOnServer
-      };
-
     if ( this.props.type === "disk" ) {
       // "Disk" is an unusual case in the sense that it will have no children
       // and "path" will be defined at the top level. Much of the complexity
       // in this component has to do with transitioning back and forth from
       // "disk" to other layouts.
-      vdevDisks = (
-        <VDEVDisk { ...diskProps }
-          path = { this.props.path }
-          key  = { 0 }
-        />
-      );
+      vdevDisks = this.createDiskItem( this.props.path, 0 );
     } else if ( this.props.type ) {
       vdevDisks = this.props.children.map( ( diskVdev, index ) => {
-        return (
-          <VDEVDisk { ...diskProps }
-            path = { diskVdev.path }
-            key  = { index }
-          />
-        );
+        return this.createDiskItem( diskVdev.path, index );
       });
     }
 

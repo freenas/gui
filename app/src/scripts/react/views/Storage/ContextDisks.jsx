@@ -16,7 +16,7 @@ import DM from "../../../flux/middleware/DisksMiddleware";
 import VS from "../../../flux/stores/VolumeStore";
 import ZM from "../../../flux/middleware/ZfsMiddleware";
 
-import DiskItemIcon from "./Disks/DiskItemIcon";
+import Disk from "../../components/items/Disk";
 
 const ContextDisks = React.createClass(
 
@@ -96,11 +96,13 @@ const ContextDisks = React.createClass(
 
     let diskItems =
       _.map( displayArray
-           , function addDiskItem ( disk ) {
+           , function addDiskItem ( disk, index ) {
              return (
               <TWBS.Col
                 xs = {6} >
-                <DiskItemIcon { ...disk } />
+                <Disk { ...disk }
+                  key = { index }
+                />
               </TWBS.Col> );
            }
            , this
