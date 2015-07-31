@@ -1,0 +1,107 @@
+{ "status": "ONLINE"
+, "type": "zfs"
+, "scan":
+  { "errors": null
+  , "start_time": null
+  , "bytes_to_process": null
+  , "state": null
+  , "end_time": null
+  , "func": null
+  , "bytes_processed": null
+  , "percentage": null
+  }
+, "properties":
+  { "comment":
+    { "source": "DEFAULT"
+    , "value": "-"
+    }
+  , "freeing":
+    { "source": "DEFAULT"
+    , "value": "0"
+    }
+  , "listsnapshots":
+    { "source": "DEFAULT"
+    , "value": "off"
+    }
+  , "leaked":
+    { "source": "DEFAULT"
+    , "value": "0"
+    }
+  , "version":
+    { "source": "DEFAULT"
+    , "value": "-"
+    }
+  , "delegation":
+    { "source": "DEFAULT"
+    , "value": "on"
+    }
+  , "dedupditto":
+    { "source": "DEFAULT"
+    , "value": "0"
+    }
+  , "failmode":
+    { "source": "LOCAL"
+    , "value": "continue"
+    }
+  , "autoexpand":
+    { "source": "LOCAL"
+    , "value": "on"
+    }
+  , "allocated":
+    { "source": "NONE"
+    , "value": "288000"
+    }
+  , "guid":
+    { "source": "DEFAULT"
+    , "value": "1628701766188201188"
+    }
+  , "altroot":
+    { "source": "DEFAULT"
+    , "value": "-"
+    }
+  , "size":
+    { "source": "NONE"
+    , "value": "3.62T"
+    }
+  , "fragmentation":
+    { "source": "NONE"
+    , "value": "-"
+    }
+  , "capacity":
+    { "source": "NONE"
+    , "value": "0%"
+    }
+  , "maxblocksize":
+    { "source": "NONE"
+    , "value": "131072"
+    }
+  , "cachefile":
+    { "source": "LOCAL"
+    , "value": "/data/zfs/zpool.cache"
+    }
+  , "bootfs":
+    { "source": "DEFAULT"
+    , "value": "-"
+    }
+  , "autoreplace":
+    { "source": "DEFAULT"
+    , "value": "off"
+    }
+  , "readonly":
+    { "source": "NONE"
+    , "value": "off"
+    }
+  , "dedupratio":
+    { "source": "NONE"
+    , "value": "1.00x"
+    }
+  , "health":
+    { "source": "NONE"
+    , "value": "ONLINE"
+    }
+  , "expandsize":
+    { "source": "NONE"
+    , "value": "-"
+    }
+  }
+}
