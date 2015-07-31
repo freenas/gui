@@ -5,25 +5,25 @@
 
 "use strict";
 
-var _ = require( "lodash" );
-var moment = require( "moment" );
+import _ from "lodash";
+import moment from "moment";
 
-var time = moment().unix();
+const time = moment().unix();
 
 const volumeDefaults = require( "./volumeDefaults.json" );
 const datasetDefaults = require( "./datasetDefaults.json" );
 
-var nameStarter = "tank";
+const nameStarter = "tank";
 
-var vDevGUIDStarter = 2866253151434971358;
+const vDevGUIDStarter = 2866253151434971358;
 
-var datasetGUIDStarter = 5133185099967636567;
+const datasetGUIDStarter = 5133185099967636567;
 
-var volumeIDStarter = 2950145407967379177;
+const volumeIDStarter = 2950145407967379177;
 
 // Feel free to mess with these numbers to change what number of disks the
 // volume maker will use to decide what kind of vdev to make.
-var vdevDiskCounts =
+const vdevDiskCounts =
   { raidz3 : 5 // Keep five or greater
   , raidz2 : 4 // Keep four or greater
   , raidz1 : 3 // Keep three or greater
@@ -31,7 +31,7 @@ var vdevDiskCounts =
   , disk   : 1 // Do not change
   };
 
-var vdevRedundancy =
+const vdevRedundancy =
   { raidz3 : 3
   , raidz2 : 2
   , raidz1 : 1
