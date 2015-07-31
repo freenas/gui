@@ -336,9 +336,7 @@ const Volume = React.createClass(
       this.reconstructVdev( key, purpose, disks, currentType );
     }
 
-  , handleDiskAdd ( vdevKey, vdevPurpose, event ) {
-      let path = event.target.value; // FIXME: Should come in as a string
-
+  , handleDiskAdd ( vdevKey, vdevPurpose, path ) {
       this.props.handleDiskSelection( path );
       this.vdevOperation( "add"
                         , vdevKey

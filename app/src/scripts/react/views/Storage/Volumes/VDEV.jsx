@@ -8,6 +8,8 @@ import React from "react";
 import TWBS from "react-bootstrap";
 
 import Disk from "../../../components/items/Disk";
+import DragTarget from "../../../components/DragTarget";
+import DropTarget from "../../../components/DropTarget";
 import Icon from "../../../components/Icon";
 import VDEVInfo from "./VDEV/VDEVInfo";
 
@@ -74,13 +76,19 @@ const VDEV = React.createClass(
 
       return (
         <div className="disk-wrapper">
-          { deleteButton }
-          <Disk
-            handleDiskRemove = { this.props.handleDiskRemove }
-            existsOnServer = { this.props.existsOnServer }
-            path = { path }
-            key = { key }
-          />
+          <DragTarget
+            namespace = "disk"
+            payload = { path }
+            callback = { this.props.handleDiskRemove.bind( null, path ) }
+          >
+            { deleteButton }
+            <Disk
+              handleDiskRemove = { this.props.handleDiskRemove }
+              existsOnServer = { this.props.existsOnServer }
+              path = { path }
+              key = { key }
+            />
+          </DragTarget>
         </div>
       );
     }
@@ -131,7 +139,7 @@ const VDEV = React.createClass(
           // move to a valid option and make it impossible to select that one
           // next.
           value = "-- SELECT --"
-          onChange= { this.props.handleDiskAdd }
+          onChange= { event => this.props.handleDiskAdd( event.target.value ) }
         >
           <option>{ "-- SELECT --" }</option>
           { this.props.availableDevices.map( this.createNewDeviceOptions ) }
@@ -152,12 +160,18 @@ const VDEV = React.createClass(
 
     return (
       <TWBS.Col xs={ this.props.cols }>
-        <TWBS.Well className="clearfix vdev-bucket">
-          { toolbar }
-          { vdevDisks }
-          { addDisks }
-          { message }
-        </TWBS.Well>
+        <DropTarget
+          namespace = "disk"
+          disabled = { Boolean( this.props.availableDevices.length ) }
+          callback = { this.props.handleDiskAdd }
+        >
+          <TWBS.Well className="clearfix vdev-bucket">
+            { toolbar }
+            { vdevDisks }
+            { addDisks }
+            { message }
+          </TWBS.Well>
+        </DropTarget>
       </TWBS.Col>
     );
   }
