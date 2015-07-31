@@ -487,7 +487,6 @@ const Volume = React.createClass(
           <div
             ref     = "drawer"
             style   = {{ display: "none" }}
-            onClick = { function ( event ) { event.stopPropagation(); } }
           >
             <TWBS.Nav
               className = "volume-nav"
