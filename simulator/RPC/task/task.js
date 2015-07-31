@@ -1,9 +1,17 @@
 // Tasks RPC Class
 // ===============
-// Handles task calls for the simulation middleware. Actual tasks are  handled
+// Handles task calls for the simulation middleware. Actual tasks are handled
 // in their respective namespace classes.
 
-class Tasks {
+"use strict";
+
+import { EventEmitter } from "events";
+
+class Tasks extends EventEmitter {
+
+  constructor () {
+    super();
+  }
 
   static query ( system, filter, params ) {
     return [ "tasks.query is not yet implemented." ];
@@ -49,6 +57,7 @@ class Tasks {
     return responseContent;
 
   }
+
 }
 
 

@@ -4,8 +4,13 @@
 
 "use strict";
 
+import { EventEmitter } from "events";
 
-class Disks {
+class Disks extends EventEmitter {
+
+  constructor () {
+    super();
+  }
 
   static query ( system ) {
     return system[ "disks" ];

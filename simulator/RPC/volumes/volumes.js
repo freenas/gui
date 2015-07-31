@@ -5,9 +5,10 @@
 "use strict";
 
 import _ from "lodash";
+import { EventEmitter } from "events";
 
 
-class Volumes {
+class Volumes extends EventEmitter {
 
   static getUsedDiskPaths ( vdev ) {
     var usedDiskPaths = [];

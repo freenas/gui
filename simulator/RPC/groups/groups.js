@@ -4,8 +4,13 @@
 
 "use strict";
 
+import { EventEmitter } from "events";
 
-class Groups {
+class Groups extends EventEmitter {
+
+  constructor () {
+    super();
+  }
 
   static query ( system ) {
     return system[ "groups" ];
