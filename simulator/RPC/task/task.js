@@ -14,7 +14,7 @@ class Tasks extends EventEmitter {
   }
 
   query ( system, filter, params ) {
-    console.log( "tasks.query is not yet implemented." )
+
   }
 
   submit ( system, args, systemChangeCallback ) {
