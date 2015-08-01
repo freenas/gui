@@ -58,11 +58,13 @@ function handleCall ( data ) {
   }
 
   if ( !response ) {
-    // TODO: error responses.
-    response = [ "This call is not yet implemented." ];
-  }
+    // TODO: proper error responses.
+    response = [ "This call failed or is not yet implemented." ];
 
-  this.send( pack( "rpc", "response", response, data.id ) );
+    this.send( pack( "rpc", "error", response, data.id ) );
+  } else {
+    this.send( pack( "rpc", "response", response, data.id ) );
+  }
 
 }
 
