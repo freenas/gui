@@ -24,7 +24,7 @@ class Tasks extends EventEmitter {
     var secondTaskNamespace;
     var taskNamespaceClass;
     var taskMethod;
-    var responseContent;
+    var taskFunction;
     var response;
 
     taskCall = args[0].split( "." );
@@ -51,20 +51,27 @@ class Tasks extends EventEmitter {
 
     if ( taskNamespaceClass ) {
       if ( secondTaskNamespace ) {
-        responseContent =
-          taskNamespaceClass[ secondTaskNamespace ][ taskMethod ]( system
-                                                                 , args[1] );
+        taskFunction = taskNamespaceClass[ secondTaskNamespace ][ taskMethod ];
       } else {
-        responseContent = taskNamespaceClass[ taskMethod ]( system, args[0] );
+        taskFunction = taskNamespaceClass[ taskMethod ];
       }
+
+      taskFunction( system
+                  , args[1]
+                  , function responseCallback ( changedSystem
+                                              , taskResponse
+                                              ) {
+                    system = changedSystem;
+                    response = taskResponse;
+                  }.bind( this )
+                  );
+
     }
 
-    if ( !responseContent ) {
-      responseContent =
-        [ "Task " + args[0] + " failed or is not implemented." ];
+    if ( !response ) {
+      console.warn( "Task " + args[0] + " failed or is not implemented." );
     }
-
-    return responseContent;
+    return response;
 
   }
 
