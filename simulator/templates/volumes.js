@@ -153,7 +153,7 @@ function calculateVolumeSize ( dataVdevs, disks ) {
 // If any of the disks are ssds, they'll be put in log or cache vdevs.
 // Where possible, it will try to even out the number of disks to make
 // symmetrical vdevs. Extra disks may become spares.
-function createVolume ( name, disks, id ) {
+function createVolume ( volumeIndex, disks, id ) {
 
   var newVolume = volumeDefaults;
   var topology;
@@ -162,6 +162,7 @@ function createVolume ( name, disks, id ) {
   var startingDataset = {};
   var startingDatasetSize = 0;
   var volumeSize;
+  var name = nameStarter + volumeIndex;
 
   var ssds = [];
   var hdds = [];
@@ -289,28 +290,20 @@ function createVolumes ( config, disks ) {
 
   var newVolumes = [];
 
-  var name;
-  var mountpoint;
   var volumeDisks = [];
-  var id;
 
-  var i;
-  var j;
+  for ( let i = 0; i < config[ "volumeCount" ]; i++ ) {
+    let nextVolume = {};
 
-  var nextVolume;
-
-  for ( i = 0; i < config[ "volumeCount" ]; i++ ) {
-    nextVolume = {};
-
-    name = nameStarter + i;
-    mountpoint = "/volumes/" + name;
-    id = volumeIDStarter + i;
+    // name = nameStarter + i;
+    // console.log( "createVolumes, name:", name );
+    let id = volumeIDStarter + i;
 
     volumeDisks = disks.splice( 0, config[ "volumeDiskCount" ] );
 
-    nextVolume = createVolume( name, volumeDisks, id );
+    nextVolume = createVolume( i, volumeDisks, id );
 
-    newVolumes.push( nextVolume );
+    newVolumes.push( _.cloneDeep( nextVolume ) );
   }
 
   return newVolumes;
