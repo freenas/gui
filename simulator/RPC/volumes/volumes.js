@@ -10,7 +10,30 @@ import { EventEmitter } from "events";
 
 class Volumes extends EventEmitter {
 
-  static getUsedDiskPaths ( vdev ) {
+  constructor ( ) {
+    super();
+  }
+
+  destroy ( system, args, callback ) {
+    console.log( "volumes.destroy; args:", args );
+    var volumeToRemove = _.findIndex( system[ "volumes" ]
+                                    , { name: args[0] }
+                                    );
+
+    if ( volumeToRemove !== -1 ) {
+      console.log( "volumes.destroy; got a volumeToRemove:", volumeToRemove );
+      _.pullAt( system[ "volumes" ]
+              , [ volumeToRemove ]
+              );
+      callback( system, system[ "volumes" ] );
+      // TODO: Emit event
+    } else {
+      // TODO: Emit error
+    }
+
+  }
+
+  getUsedDiskPaths ( vdev ) {
     var usedDiskPaths = [];
 
     if ( vdev[ "type" ] === "disk" ) {
@@ -65,15 +88,6 @@ class Volumes extends EventEmitter {
     return system[ "volumes" ];
   }
 
-  static create ( system, args ) {
-    console.log( "volumes.create is not yet implemented." );
-    return system[ "volumes" ][0];
-  }
-
-  static destroy ( system, args ) {
-    console.log( "volumes.destroy is not yet implemented." );
-    return system[ "volumes" ];
-  }
 }
 
 
