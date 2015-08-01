@@ -12,7 +12,7 @@ class Disks extends EventEmitter {
     super();
   }
 
-  static query ( system ) {
+  query ( system ) {
     return system[ "disks" ];
   }
 

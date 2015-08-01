@@ -13,11 +13,11 @@ class Tasks extends EventEmitter {
     super();
   }
 
-  static query ( system, filter, params ) {
-    return [ "tasks.query is not yet implemented." ];
+  query ( system, filter, params ) {
+    console.log( "tasks.query is not yet implemented." )
   }
 
-  static submit ( system, args ) {
+  submit ( system, args, systemChangeCallback ) {
 
     var taskCall;
     var taskNamespace;
@@ -44,7 +44,8 @@ class Tasks extends EventEmitter {
       secondTaskNamespace = taskCall.shift;
     }
 
-    taskNamespaceClass = require( "../" + taskNamespace + "/" + taskNamespace );
+    taskNamespaceClass =
+      new ( require( "../" + taskNamespace + "/" + taskNamespace ) )( system );
 
     taskMethod = taskCall[0];
 

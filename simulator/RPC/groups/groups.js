@@ -12,21 +12,21 @@ class Groups extends EventEmitter {
     super();
   }
 
-  static query ( system ) {
+  query ( system ) {
     return system[ "groups" ];
   }
 
-  static create ( system, args ) {
+  create ( system, args ) {
     console.log( "groups.create is not yet implemented." );
     return system[ "groups" ];
   }
 
-  static delete ( system, args ) {
+  delete ( system, args ) {
     console.log( "groups.delete is not yet implemented." );
     return system[ "groups" ];
   }
 
-  static update ( system, args ) {
+  update ( system, args ) {
     console.log( "groups.update is not yet implemented." );
     return system[ "groups" ];
   }

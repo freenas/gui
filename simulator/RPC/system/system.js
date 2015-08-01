@@ -7,12 +7,13 @@
 
 class System {
   constructor () {
-    const info = new Info();
+    this.info = new Info();
   }
 }
 
 class Info {
-  static hardware ( system ) {
+
+  hardware ( system ) {
     return { memory_size: system[ "memory_size" ]
            , cpu_model: system[ "cpu_model" ]
            , cpu_cores: system[ "cpu_cores" ]

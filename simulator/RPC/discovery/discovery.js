@@ -10,15 +10,15 @@ import methods from "./methods.json";
 
 class Discovery {
 
-  static get_methods ( system, service ) {
+  get_methods ( system, service ) {
     return methods[ service ];
   }
 
-  static get_schema () {
+  get_schema () {
     return schema;
   }
 
-  static get_services () {
+  get_services () {
     return services;
   }
 

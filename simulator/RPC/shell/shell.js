@@ -14,11 +14,11 @@ const shells =
 
 class Shell {
 
-  static get_shells () {
+  get_shells () {
     return shells;
   }
 
-  static spawn () {
+  spawn () {
     return [ "Cannot spawn a shell in simulation mode." ];
   }
 

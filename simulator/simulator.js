@@ -35,7 +35,7 @@ function handleCall ( data ) {
 
   // require the class that corresonds to the namespace. This requires a very
   // strict directory hierarchy. Don't mess with it.
-  namespaceClass = require( "./RPC/" + namespace + "/" + namespace );
+  namespaceClass = new ( require( "./RPC/" + namespace + "/" + namespace ) );
 
   // The rest of the original string goes back into a string to used to
   // reference the appropriate function.

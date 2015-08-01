@@ -12,21 +12,21 @@ class Users extends EventEmitter {
     super();
   }
 
-  static query ( system ) {
+  query ( system ) {
     return system[ "users" ];
   }
 
-  static create ( system, args ) {
+  create ( system, args ) {
     console.log( "users.create is not yet implemented." );
     return system[ "users" ];
   }
 
-  static delete ( system, args ) {
+  delete ( system, args ) {
     console.log( "users.delete is not yet implemented." );
     return system[ "users" ];
   }
 
-  static update ( system, args ) {
+  update ( system, args ) {
     console.log( "users.update is not yet implemented." );
     return system[ "users" ];
   }

@@ -25,9 +25,9 @@ class Volumes extends EventEmitter {
 
   }
 
-  static get_available_disks ( system ) {
+  get_available_disks ( system ) {
     var availableDisks = [];
-    var volumes = system[ "volumes" ];
+    const volumes = system[ "volumes" ];
 
     // Make a list of the paths to all disks
     var availableDisks =
@@ -47,11 +47,13 @@ class Volumes extends EventEmitter {
                             // Remove all the disks in a vdev from the list of
                             // available disks.
                             _.pull( availableDisks
-                                  , Volumes.getUsedDiskPaths( vdev )
+                                  , this.getUsedDiskPaths( vdev )
                                   );
                           }
+                          , this
                           );
                }
+               , this
                );
     }
 
@@ -59,7 +61,7 @@ class Volumes extends EventEmitter {
 
   }
 
-  static query ( system ) {
+  query ( system ) {
     return system[ "volumes" ];
   }
 
