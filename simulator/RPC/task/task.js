@@ -31,6 +31,15 @@ class Tasks extends EventEmitter {
 
     taskNamespace = taskCall.shift();
 
+    // This is a filthy thing to do, but it's better than changing things in
+    // the GUI that will break when we reunite with the new middleware.
+    // Basically, most task and RPC namespaces match, but for zfs volumes, the
+    // RPC namespace is "volumes" and the task namespace is "volume"... for only
+    // some tasks. Maybe because those calls apply only to one volume at a time?
+    if ( taskNamespace === "volume" ) {
+      taskNamespace =  "volumes";
+    }
+
     if ( taskCall.length > 1 ) {
       secondTaskNamespace = taskCall.shift;
     }
