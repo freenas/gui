@@ -63,7 +63,7 @@ class Tasks extends EventEmitter {
                                               ) {
                     system = changedSystem;
                     response = taskResponse;
-                  }.bind( this )
+                  }
                   );
 
     }

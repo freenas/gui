@@ -15,13 +15,13 @@ class Volumes extends EventEmitter {
   }
 
   destroy ( system, args, callback ) {
-    console.log( "volumes.destroy; args:", args );
+
     var volumeToRemove = _.findIndex( system[ "volumes" ]
                                     , { name: args[0] }
                                     );
 
     if ( volumeToRemove !== -1 ) {
-      console.log( "volumes.destroy; got a volumeToRemove:", volumeToRemove );
+
       _.pullAt( system[ "volumes" ]
               , [ volumeToRemove ]
               );
