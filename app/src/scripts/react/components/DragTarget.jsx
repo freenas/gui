@@ -19,7 +19,12 @@ const DragTarget = React.createClass(
     }
 
   , getInitialState () {
-      return { dragging: false };
+      return (
+        { dragging: false
+        , initPos: [ 0, 0 ]
+        , deltaPos: [ 0, 0 ]
+        }
+      );
     }
 
   , handleMouseDown ( event ) {
@@ -29,18 +34,49 @@ const DragTarget = React.createClass(
                    , this.props.callback
                    );
       window.addEventListener( "mouseup", this.handleDragEnd );
+      window.addEventListener( "mousemove", this.handleDragMove );
+    }
+
+  , handleDragMove ( event ) {
+      let newState = {};
+
+      if ( !this.state.dragging ) {
+        newState.initPos = [ event.clientX, event.clientY ];
+        newState.dragging = true;
+      }
+
+      newState.deltaPos = [ event.clientX, event.clientY ];
+
+      this.setState( newState );
     }
 
   , handleDragEnd () {
       window.removeEventListener( "mouseup", this.handleDragEnd );
+      window.removeEventListener( "mousemove", this.handleDragMove );
       EventBus.emit( "dragStop" );
+      this.setState(
+        { initPos: [ 0, 0 ]
+        , deltaPos: [ 0, 0 ]
+        , dragging: false
+        }
+      );
     }
 
   , render () {
+      let style = {};
+
+      if ( this.state.dragging ) {
+        style.position = "absolute";
+        style.left = this.state.deltaPos[0] - this.state.initPos[0];
+        style.top = this.state.deltaPos[1] - this.state.initPos[1];
+      }
+
       return (
         <span
           onMouseDown = { this.handleMouseDown }
-          className = "draggable"
+          ref = "dragTarget"
+          className = "drag-target"
+          style = { style }
         >
           { this.props.children }
         </span>
