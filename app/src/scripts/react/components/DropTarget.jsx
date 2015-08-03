@@ -71,7 +71,7 @@ const DropTarget = React.createClass(
       return (
         <span
           onMouseUp = { this.handleMouseUp }
-          className = "dropt-target"
+          className = "drop-target"
         >
           { this.props.children }
         </span>
