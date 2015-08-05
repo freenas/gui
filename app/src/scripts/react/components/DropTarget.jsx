@@ -92,6 +92,7 @@ const DropTarget = React.createClass(
   , render () {
       let classes = [ "drop-target" ];
       let dropzone = null;
+      let dropCatch = null;
 
       if ( this.state.droppable && this.state.disalowDrop === false ) {
         classes.push( "droppable" );
@@ -105,6 +106,10 @@ const DropTarget = React.createClass(
               }
             </span>
           );
+
+          dropCatch = (
+            <span className = "drop-catcher" />
+          );
         }
       }
 
@@ -116,6 +121,7 @@ const DropTarget = React.createClass(
         >
           { this.props.children }
           { dropzone }
+          { dropCatch }
         </span>
       );
     }

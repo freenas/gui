@@ -12,6 +12,10 @@
   }
 }
 
+.dragging {
+  z-index: 100;
+}
+
 .drag-placeholder {
   display: block;
 }
@@ -41,5 +45,11 @@
   background-color: rgba(255, 255, 255, 0.75);
   border: dashed 0.45em rgba(0, 0, 0, 0.1);
   border-radius: inherit;
-  z-index: 10;
+  z-index: 0;
+}
+
+.drop-catcher {
+  .all-positions-zero();
+  position: absolute;
+  z-index: 1000;
 }
