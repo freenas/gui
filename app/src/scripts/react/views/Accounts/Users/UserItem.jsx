@@ -82,11 +82,11 @@ const UserItem = React.createClass(
         switch ( this.state.currentMode ) {
           default:
           case "view":
-            DisplayComponent = <UserView { ...this.getRequiredProps() } { ...childProps } />;
+            DisplayComponent = <UserView { ...childProps } />;
             break;
 
           case "edit":
-            DisplayComponent = <UserEdit { ...this.getRequiredProps() } { ...childProps } />;
+            DisplayComponent = <UserEdit { ...childProps } />;
             break;
         }
       }

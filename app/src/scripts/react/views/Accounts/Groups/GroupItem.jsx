@@ -87,12 +87,10 @@ const GroupItem = React.createClass({
       switch ( this.state.currentMode ) {
         default:
         case "view":
-          DisplayComponent = <GroupView { ...childProps }
-                                        { ...this.getRequiredProps() } />;
+          DisplayComponent = <GroupView { ...childProps } />;
           break;
         case "edit":
-          DisplayComponent = <GroupEdit { ...childProps }
-                                        { ...this.getRequiredProps() } />;
+          DisplayComponent = <GroupEdit { ...childProps } />;
           break;
       }
     }
