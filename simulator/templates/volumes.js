@@ -164,10 +164,6 @@ function createVolume ( volumeIndex, disks, id ) {
       { source: "NONE"
       , value: name
       }
-    , mountpoint:
-      { source: "LOCAL"
-      , value: "/volumes/" + name
-      }
     , properties:
       { available:
         { source: "NONE"
@@ -180,6 +176,10 @@ function createVolume ( volumeIndex, disks, id ) {
       , creation:
         { source: "NONE"
         , value: time
+        , mountpoint:
+          { source: "LOCAL"
+          , value: "/volumes/" + name
+          }
         }
       }
     };
