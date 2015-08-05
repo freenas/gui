@@ -21,6 +21,11 @@ const DropTarget = React.createClass(
     { namespace: React.PropTypes.string.isRequired
     , callback: React.PropTypes.func
     , disabled: React.PropTypes.bool
+    , activeDrop: React.PropTypes.oneOfType(
+        [ React.PropTypes.string
+        , React.PropTypes.bool
+        ]
+      )
     }
 
   , getDefaultProps () {
@@ -86,9 +91,21 @@ const DropTarget = React.createClass(
 
   , render () {
       let classes = [ "drop-target" ];
+      let dropzone = null;
 
       if ( this.state.droppable && this.state.disalowDrop === false ) {
         classes.push( "droppable" );
+
+        if ( this.props.activeDrop ) {
+          dropzone = (
+            <span className="drop-zone">
+              { typeof this.props.activeDrop === "string"
+              ? this.props.activeDrop
+              : ""
+              }
+            </span>
+          );
+        }
       }
 
       return (
@@ -98,6 +115,7 @@ const DropTarget = React.createClass(
           className = { classes.join( " " ) }
         >
           { this.props.children }
+          { dropzone }
         </span>
       );
     }

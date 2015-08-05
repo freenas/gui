@@ -29,4 +29,17 @@
 .drop-target {
   .no-select();
   display: block;
+  position: relative;
+}
+
+.drop-zone {
+  .all-positions-zero();
+  .flex-display( flex );
+  .justify-content( center );
+  .align-items( center );
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.75);
+  border: dashed 0.45em rgba(0, 0, 0, 0.1);
+  border-radius: inherit;
+  z-index: 10;
 }
