@@ -56,7 +56,8 @@ const UserItem = React.createClass(
     }
 
   , getUserFromStore: function () {
-      return UsersStore.findUserByKeyValue( this.props.keyUnique, this.getDynamicRoute() );
+      return UsersStore.findUserByKeyValue( this.props.keyUnique
+                                          , this.getDynamicRoute() );
     }
 
   , updateUserInState: function () {
@@ -94,7 +95,8 @@ const UserItem = React.createClass(
       return (
         <div className="viewer-item-info">
 
-          {/* Overlay to block interaction while tasks or updates are processing */}
+          {/* Overlay to block interaction while tasks or updates are
+              processing */}
           <editorUtil.updateOverlay updateString={ processingText } />
 
           { DisplayComponent }
