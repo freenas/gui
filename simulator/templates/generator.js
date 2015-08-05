@@ -31,6 +31,25 @@ const shares =
   , cifs_shares: []
   };
 
+const globalNetworkConfig =
+  { dhcp:
+    { assign_gateway: true
+    , assign_dns: true
+    }
+  , http_proxy: null
+  , autoconfigure: false
+  , dns:
+    { search: []
+    , addresses: []
+    }
+  , gateway:
+    { ipv4: null
+    , ipv6: null
+    }
+  };
+
+const defaultInterfaces = require( "./default-interfaces.json" );
+
 // These are the system users that will always be present.
 const builtinUsers =  require( "./default-users.json" )[ "users" ];
 
@@ -1656,6 +1675,8 @@ function createSystem () {
   var newSystem =
     { users: builtinUsers
     , groups: builtinGroups
+    , globalNetworkConfig: globalNetworkConfig
+    , interfaces: defaultInterfaces
     , pools: startingPools
     };
 

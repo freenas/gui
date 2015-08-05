@@ -1,0 +1,56 @@
+{ "interfaces":
+  [ { "status":
+      { "link-state": "LINK_STATE_DOWN"
+      , "link-address": "d0:50:99:50:45:3a"
+      , "flags":
+        [ "DRV_OACTIVE"
+        , "SIMPLEX"
+        , "BROADCAST"
+        , "MULTICAST"
+        ]
+      , "name": "igb1"
+      , "aliases":
+        [ { "family": "LINK"
+          , "address": "d0:50:99:50:45:3a"
+          }
+        ]
+      }
+    , "name": "igb1"
+    , "enabled": false
+    , "updated-at": 1436222476.952221
+    , "created-at": 1436222476.952221
+    , "type": "ETHER"
+    , "id": "igb1"
+    }
+  , { "status":
+      { "link-state": "LINK_STATE_UP"
+      , "link-address": "d0:50:99:50:45:39"
+      , "flags":
+        [ "DRV_RUNNING"
+        , "UP"
+        , "BROADCAST"
+        , "SIMPLEX"
+        , "MULTICAST"
+        ]
+      , "name": "igb0"
+      , "aliases":
+        [ { "family": "LINK"
+          , "address": "d0:50:99:50:45:39"
+          }
+        , { "broadcast": "10.5.255.255"
+          , "netmask": 16
+          , "family": "INET"
+          , "address": "10.5.0.241"
+          }
+        ]
+      }
+    , "name": "igb0"
+    , "enabled": true
+    , "updated-at": 1436222476.946977
+    , "created-at": 1436222476.946977
+    , "dhcp": true
+    , "type": "ETHER"
+    , "id": "igb0"
+    }
+  ]
+}
