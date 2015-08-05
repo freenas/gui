@@ -6,12 +6,91 @@
 
 import _ from "lodash";
 import { EventEmitter } from "events";
+import moment from "moment";
 
+import VolumeCommon from "../../templates/VolumeCommon";
+
+const time = moment().unix();
+
+const volumeDefaults = require( "../../templates/volumeDefaults.json" );
+const datasetDefaults = require( "../../templates/datasetDefaults.json" );
+function processNewVolume ( volume, system ) {
+  var newVolume = volumeDefaults;
+
+  let size = VolumeCommon.calculateVolumeSize( volume[ "topology" ][ "data" ]
+                                             , system[ "disks" ]
+                                             );
+
+  var rootDataset = datasetDefaults;
+
+  _.merge( rootDataset
+         , { name:
+             { source: "NONE"
+             , value: volume[ "name" ]
+             }
+           , properties:
+             { available:
+               { source: "NONE"
+               , value: size.toString()
+               }
+             , name:
+               { source: "NONE"
+               , value: volume[ "name" ]
+               }
+             , creation:
+               { source: "NONE"
+               , value: time.toString()
+               }
+             }
+           }
+         );
+
+  let datasets = [ rootDataset ];
+
+  _.merge( newVolume
+         , { id: volumeIDStarter + system[ "volumes" ].length
+           , name: volume[ "name" ]
+           , mountpoint: "/volumes/" + volume[ "name" ]
+           , topology: volume[ "topology" ]
+           , properties:
+             { free:
+               { source: "NONE"
+               , value: size.toString()
+               }
+             , name:
+               { source: "NONE"
+               , value: volume[ "name" ]
+               }
+             }
+           , root_dataset: rootDataset
+           , datasets: datasets
+           , "updated-at": time.toString()
+           , "created-at" : time.toString()
+           }
+         );
+
+  return newVolume;
+
+}
 
 class Volumes extends EventEmitter {
 
   constructor ( ) {
     super();
+  }
+
+  create ( system, args, callback ) {
+
+    var newVolume = processNewVolume( args[0], system );
+
+    system.volumes.push( newVolume );
+
+    callback( system, system[ "volumes" ] );
+
+    // TODO: emit event
+
+    // TODO: error checking
+
   }
 
   destroy ( system, args, callback ) {
