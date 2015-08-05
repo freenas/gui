@@ -1,9 +1,11 @@
-.drag-target {
+.drag-target,
+.drag-content {
   .no-select();
   cursor: default;
   position: relative;
   display: block;
   z-index: 1;
+
   &:after {
     content: "";
     display: block;
@@ -11,6 +13,7 @@
     .all-positions-zero();
   }
 }
+
 
 .dragging {
   z-index: 100;
