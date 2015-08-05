@@ -54,12 +54,18 @@ const DragTarget = React.createClass(
       window.removeEventListener( "mouseup", this.handleDragEnd );
       window.removeEventListener( "mousemove", this.handleDragMove );
       EventBus.emit( "dragStop" );
-      this.setState(
-        { initPos: [ 0, 0 ]
-        , deltaPos: [ 0, 0 ]
-        , dragging: false
-        }
-      );
+
+      if ( this.isMounted() ) {
+        // Certain async callbacks will cause the DragTarget to unmount, such as
+        // a UX where it moves from one "bucket" to another. We use .isMounted()
+        // to guard against trying to reset state on a now-unmounted component.
+        this.setState(
+          { initPos: [ 0, 0 ]
+          , deltaPos: [ 0, 0 ]
+          , dragging: false
+          }
+        );
+      }
     }
 
   , render () {
