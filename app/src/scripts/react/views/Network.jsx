@@ -50,14 +50,14 @@ var NetworkSection = React.createClass(
 
     var headerButtons = "";
     if ( !_.isUndefined( this.props.onSave ) ) {
-      headerButtons =
+      /*headerButtons =
         <div className="header-buttons">
           <TWBS.Button
             onClick   = { this.props.onSave }
             bsStyle   = "primary">
             <Icon glyph="check" /> Save
           </TWBS.Button>
-        </div>;
+        </div>;*/
     }
 
     return (
