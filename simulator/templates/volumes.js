@@ -16,11 +16,8 @@ const volumeDefaults = require( "./volumeDefaults.json" );
 const datasetDefaults = require( "./datasetDefaults.json" );
 
 const nameStarter = "tank";
-
 const vDevGUIDStarter = 2866253151434971358;
-
 const datasetGUIDStarter = 5133185099967636567;
-
 const volumeIDStarter = 2950145407967379177;
 
 // Feel free to mess with these numbers to change what number of disks the
@@ -106,9 +103,6 @@ function createVolume ( volumeIndex, disks, id ) {
   var data = [];
   var spares = [];
 
-  var i;
-  var j;
-
   // We will represent volume size in bytes.
   var size = 0;
 
@@ -124,7 +118,7 @@ function createVolume ( volumeIndex, disks, id ) {
   );
 
   // Put every other ssd in cache or vdev
-  for ( i = 0; i < ssds.length; i++ ) {
+  for ( let i = 0; i < ssds.length; i++ ) {
     if ( i % 2 ) {
       cache.push( ssds[i] );
     } else {
