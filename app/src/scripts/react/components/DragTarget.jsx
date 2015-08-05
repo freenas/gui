@@ -97,6 +97,9 @@ const DragTarget = React.createClass(
             break;
 
           case "block":
+            // Render a low-opacity box where the content would have been. This
+            // may be a good option when the content would be expensive to
+            // render multiple times.
             let content = this.refs.dragTarget.getDOMNode();
 
             placeholder = (
