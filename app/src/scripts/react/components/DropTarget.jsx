@@ -11,6 +11,7 @@ import EventBus from "../../utility/EventBus";
 
 const INITIAL_STATE =
   { droppable: false
+  , disalowDrop: false
   , dragCallback: null
   , payload: null
   };
@@ -23,7 +24,11 @@ const DropTarget = React.createClass(
     }
 
   , getDefaultProps () {
-      return { disabled: false };
+      return (
+        { disabled: false
+        , preventSameOrigin: true
+        }
+      );
     }
 
   , getInitialState () {
@@ -56,14 +61,27 @@ const DropTarget = React.createClass(
     }
 
   , handleMouseUp ( event ) {
-      if ( this.state.droppable ) {
+      if ( this.state.droppable && this.state.disalowDrop === false ) {
         EventBus.emit( "dropSuccess" );
         if ( this.state.dragCallback ) {
           this.state.dragCallback();
+          console.log( "Allowed")
         }
         if ( this.props.callback ) {
           this.props.callback( this.state.payload );
         }
+      }
+      this.setState({ disalowDrop: INITIAL_STATE.disalowDrop });
+    }
+
+  , handleMouseDown ( event ) {
+      // We use this handler to catch drag events that originated in this
+      // container and prevent them. This avoids problems where state will
+      // be recalculated based on the "removal" and "addition" of an item
+      // to and from a collection it was already a member of.
+
+      if ( this.props.preventSameOrigin ) {
+        this.setState({ disalowDrop: true });
       }
     }
 
@@ -71,6 +89,7 @@ const DropTarget = React.createClass(
       return (
         <span
           onMouseUp = { this.handleMouseUp }
+          onMouseDown = { this.handleMouseDown }
           className = "drop-target"
         >
           { this.props.children }
