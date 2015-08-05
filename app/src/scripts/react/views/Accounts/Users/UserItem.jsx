@@ -75,9 +75,10 @@ const UserItem = React.createClass(
       if ( this.state.SESSION_AUTHENTICATED && this.state.targetUser ) {
 
         // DISPLAY COMPONENT
-        var childProps = {
-          handleViewChange : this.handleViewChange
+        var childProps =
+          { handleViewChange : this.handleViewChange
           , item             : this.state.targetUser
+          , itemLabels       : this.props.itemLabels
         };
 
         switch ( this.state.currentMode ) {
