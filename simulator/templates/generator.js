@@ -18,6 +18,10 @@ const systemConstants =
   , cpu_model: "Intel(R) Atom(TM) CPU  C2750  @ 2.40GHz\u0000"
   , cpu_cores: 8
   , uname_full: "FreeBSD freenas.local 10.1-STABLE FreeBSD 10.1-STABLE #9 a3a2df9(HEAD): Sun Jul  5 21:03:54 PDT 2015     root@build.ixsystems.com:/tank/home/nightlies/freenas-build/_BE/objs/tank/home/nightlies/freenas-build/_BE/trueos/sys/FreeNAS.amd64  amd64\n"
+  , timezone: "America/Los_Angeles"
+  , hostname: "freenas.local"
+  , language: "English"
+  , console_keymap: "us.iso"
   };
 
 // For now, start with all shares empty.
