@@ -364,8 +364,8 @@ const Network = React.createClass({
       }
     };
 
-    var networkConfig = _.defaults( NS.getNetworkConfig()
-                                  , defaultNetworkConfig );
+    var networkConfig = _.defaultsDeep( NS.getNetworkConfig()
+                                      , defaultNetworkConfig );
 
     return {
       networkConfig       : networkConfig
