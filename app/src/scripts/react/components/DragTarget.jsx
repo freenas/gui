@@ -16,6 +16,7 @@ const DragTarget = React.createClass(
     { namespace: React.PropTypes.string.isRequired
     , payload: React.PropTypes.any.isRequired
     , callback: React.PropTypes.func
+    , placeholder: React.PropTypes.oneOf( [ "ghost", "block" ] )
     }
 
   , getInitialState () {
@@ -23,6 +24,13 @@ const DragTarget = React.createClass(
         { dragging: false
         , initPos: [ 0, 0 ]
         , deltaPos: [ 0, 0 ]
+        }
+      );
+    }
+
+  , getDefaultProps () {
+      return (
+        { placeholder: "ghost"
         }
       );
     }
@@ -70,11 +78,39 @@ const DragTarget = React.createClass(
 
   , render () {
       let style = {};
+      let placeholder = null;
 
       if ( this.state.dragging ) {
         style.position = "absolute";
         style.left = this.state.deltaPos[0] - this.state.initPos[0];
         style.top = this.state.deltaPos[1] - this.state.initPos[1];
+
+        switch ( this.props.placeholder ) {
+          case "ghost":
+            // Render the DragTarget's children again, in the original position,
+            // with a lower opacity.
+            placeholder = (
+              <span className="drag-placeholder drag-ghost">
+                { this.props.children }
+              </span>
+            );
+            break;
+
+          case "block":
+            let content = this.refs.dragTarget.getDOMNode();
+
+            placeholder = (
+              <span
+                className="drag-placeholder drag-block"
+                style = {
+                  { height: content.offsetHeight
+                  , width: content.offsetWidth
+                  }
+                }
+              />
+            );
+            break;
+        }
       }
 
       return (
@@ -82,9 +118,14 @@ const DragTarget = React.createClass(
           onMouseDown = { this.handleMouseDown }
           ref = "dragTarget"
           className = "drag-target"
-          style = { style }
         >
-          { this.props.children }
+          <span
+            className = "drag-content"
+            style = { style }
+          >
+            { this.props.children }
+          </span>
+          { placeholder }
         </span>
       );
     }
