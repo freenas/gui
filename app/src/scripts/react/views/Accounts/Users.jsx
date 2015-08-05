@@ -35,7 +35,7 @@ const VIEWER_DATA =
 
   , routeName     : "users-editor"
   , routeParam    : "userID"
-  , routeAdd      : "add-user"
+//  , routeAdd      : "add-user"
 
   , textNewItem   : "Add User"
   , textRemaining : "other user accounts"

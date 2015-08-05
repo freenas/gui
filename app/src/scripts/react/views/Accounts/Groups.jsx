@@ -29,7 +29,7 @@ const VIEWER_DATA =
 
   , routeName     : "groups-editor"
   , routeParam    : "groupID"
-  , routeAdd      : "add-group"
+//  , routeAdd      : "add-group"
 
   , textNewItem   : "Add Group"
   , textRemaining : "other groups"
