@@ -79,11 +79,14 @@ const DragTarget = React.createClass(
   , render () {
       let style = {};
       let placeholder = null;
+      let contentClass = [ "drag-content" ];
 
       if ( this.state.dragging ) {
         style.position = "absolute";
         style.left = this.state.deltaPos[0] - this.state.initPos[0];
         style.top = this.state.deltaPos[1] - this.state.initPos[1];
+
+        contentClass.push( "dragging" );
 
         switch ( this.props.placeholder ) {
           case "ghost":
@@ -123,7 +126,7 @@ const DragTarget = React.createClass(
           className = "drag-target"
         >
           <span
-            className = "drag-content"
+            className = { contentClass.join( " " ) }
             style = { style }
           >
             { this.props.children }
