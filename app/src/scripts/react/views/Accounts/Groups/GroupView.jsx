@@ -69,7 +69,7 @@ const GroupView = React.createClass({
       );
     }
 
-    editButtons = (
+    /*editButtons = (
       <TWBS.ButtonToolbar>
         <TWBS.Button
           className = "pull-left"
@@ -85,7 +85,7 @@ const GroupView = React.createClass({
           { "Edit Group" }
         </TWBS.Button>
       </TWBS.ButtonToolbar>
-    );
+    );*/
 
     return (
       <TWBS.Grid fluid>
