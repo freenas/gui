@@ -48,7 +48,7 @@ const globalNetworkConfig =
     }
   };
 
-const defaultInterfaces = require( "./default-interfaces.json" );
+const defaultInterfaces = require( "./default-interfaces.json" )[ "interfaces" ];
 
 // These are the system users that will always be present.
 const builtinUsers =  require( "./default-users.json" )[ "users" ];
