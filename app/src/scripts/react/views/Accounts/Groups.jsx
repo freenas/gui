@@ -67,35 +67,11 @@ const VIEWER_DATA =
   };
 
 function getUsersList () {
-  let usersList = [];
-  // KILLME: This is just for a demo. Don't do this unless you know you're about
-  // to swap it for the upcoming new method (where this is handled by the
-  // virtual middleware).
-  if ( MS.getMode() === "DISCONNECTED" ) {
-    usersList = US.users;
-  } else if ( MS.getMode() === "DISCONNECTED" ) {
-    usersList = dummyUsers;
-  }
-  return { usersList: usersList };
-
-  // Old code. Worth keeping until permanent method is established.
-  // return { usersList: US.users };
+  return { usersList: US.users };
 }
 
 function getGroupsList () {
-  let groupsList = [];
-  // KILLME: This is just for a demo. Don't do this unless you know you're about
-  // to swap it for the upcoming new method (where this is handled by the
-  // virtual middleware).
-  if ( MS.getMode() === "DISCONNECTED" ) {
-    groupsList = GS.groups;
-  } else if ( MS.getMode() !== "DISCONNECTED" ) {
-    groupsList = dummyGroups;
-  }
-  return { groupsList: groupsList };
-
-  // Old code. Worth keeping until permanent method is established.
-  // return { groupsList: GS.groups };
+  return { groupsList: GS.groups };
 }
 
 const Groups = React.createClass(
@@ -108,22 +84,22 @@ const Groups = React.createClass(
 
   , componentDidMount: function () {
     GS.addChangeListener( this.handleGroupsChange );
-    // GM.requestGroupsList();
-    // GM.subscribe( this.constructor.displayName );
+    GM.requestGroupsList();
+    GM.subscribe( this.constructor.displayName );
 
     US.addChangeListener( this.handleUsersChange );
-    // UM.requestUsersList();
-    // UM.subscribe( this.constructor.displayName );
+    UM.requestUsersList();
+    UM.subscribe( this.constructor.displayName );
 
     MS.addChangeListener( this.handleModeSwap );
   }
 
   , componentWillUnmount: function () {
     GS.removeChangeListener( this.handleGroupsChange );
-    // GM.unsubscribe( this.constructor.displayName );
+    GM.unsubscribe( this.constructor.displayName );
 
     US.removeChangeListener( this.handleUsersChange );
-    // UM.unsubscribe( this.constructor.displayName );
+    UM.unsubscribe( this.constructor.displayName );
 
     MS.removeChangeListener( this.handleModeSwap );
   }
