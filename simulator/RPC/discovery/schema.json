@@ -568,7 +568,7 @@
       "type": "object",
       "properties": {
         "bytes_to_process": {
-          "type": "long"
+          "type": "integer"
         },
         "state": {
           "type": "string"
@@ -583,13 +583,13 @@
           "type": "integer"
         },
         "bytes_processed": {
-          "type": "long"
+          "type": "integer"
         },
         "start_time": {
           "type": "string"
         },
         "percentage": {
-          "type": "float"
+          "type": "number"
         }
       }
     },
@@ -608,7 +608,7 @@
           "type": "string"
         },
         "guid": {
-          "type": "long"
+          "type": "integer"
         },
         "name": {
           "type": "string"
