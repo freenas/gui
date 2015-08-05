@@ -85,11 +85,17 @@ const DropTarget = React.createClass(
     }
 
   , render () {
+      let classes = [ "drop-target" ];
+
+      if ( this.state.droppable && this.state.disalowDrop === false ) {
+        classes.push( "droppable" );
+      }
+
       return (
         <span
           onMouseUp = { this.handleMouseUp }
           onMouseDown = { this.handleMouseDown }
-          className = "drop-target"
+          className = { classes.join( " " ) }
         >
           { this.props.children }
         </span>
