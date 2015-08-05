@@ -16,9 +16,6 @@ import US from "../../../flux/stores/UsersStore";
 
 import MS from "../../../flux/stores/MiddlewareStore";
 
-import dummyUsers from "./Users/default-users";
-import dummyGroups from "./Groups/default-groups";
-
 const VIEWER_DATA =
   { keyUnique     : GS.uniqueKey
   , keyPrimary    : "groupName"

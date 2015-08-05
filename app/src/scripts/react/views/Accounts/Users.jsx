@@ -18,9 +18,6 @@ import MS from "../../../flux/stores/MiddlewareStore";
 
 import SS from "../../../flux/stores/SessionStore";
 
-import dummyUsers from "./Users/default-users";
-import dummyGroups from "./Groups/default-groups";
-
 function testCurrentUser ( user ) {
   return user.username === SS.getCurrentUser();
 }
