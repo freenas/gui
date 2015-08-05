@@ -3,6 +3,12 @@
   position: relative;
   display: block;
   z-index: 1;
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    .all-positions-zero();
+  }
 }
 
 .drop-target {
