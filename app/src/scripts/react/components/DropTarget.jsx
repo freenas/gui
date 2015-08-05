@@ -65,7 +65,6 @@ const DropTarget = React.createClass(
         EventBus.emit( "dropSuccess" );
         if ( this.state.dragCallback ) {
           this.state.dragCallback();
-          console.log( "Allowed")
         }
         if ( this.props.callback ) {
           this.props.callback( this.state.payload );
