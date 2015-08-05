@@ -651,7 +651,7 @@ const Network = React.createClass({
                   <label className="col-xs-3">DNS Server</label>
                   <div className="col-xs-9">
                     {dnsNodes}
-                    <div className="row">
+                    { /*<div className="row">
                       <div className="col-sm-9">
                         <TWBS.Input
                           type        = "text"
@@ -669,7 +669,7 @@ const Network = React.createClass({
                           <Icon glyph="plus" />
                         </TWBS.Button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
