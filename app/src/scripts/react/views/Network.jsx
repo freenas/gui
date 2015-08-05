@@ -249,7 +249,7 @@ var InterfaceWidget = React.createClass({
             { macPart }
             { ipv4Part }
             { ipv6Part }
-            <div className="bottom-section">
+            { /*<div className="bottom-section">
               <TWBS.Button
                 onClick   = { this.updateStatus }
                 className = "pull-left"
@@ -266,7 +266,7 @@ var InterfaceWidget = React.createClass({
                 bsSize    = "small">
                 <Icon glyph="pencil-square-o" /> Edit
               </TWBS.Button>
-            </div>
+            </div>*/ }
           </div>
           <div className="widget-body">
             <div className="row">
