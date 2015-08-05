@@ -18,8 +18,6 @@ const vdevRedundancy =
 class VolumeCommon {
 
   static getDiskSize ( disks, path ) {
-    console.log("VolumeCommon; getDiskSize; path:", path);
-    // console.log("_.find( disks, { name: path } )", _.find( disks, { name: path } ));
     return _.find( disks, { name: path } )[ "mediasize" ];
   }
 
