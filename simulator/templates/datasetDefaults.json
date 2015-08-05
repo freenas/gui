@@ -1,4 +1,5 @@
-{ "properties":
+{ "children": []
+, "properties":
   { "origin":
     { "source": null
     , "value": null
