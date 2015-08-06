@@ -68,6 +68,7 @@ const VDEV = React.createClass(
           <span
             className = "disk-remove"
             onClick = { this.props.handleDiskRemove.bind( null, path ) }
+            onMouseDown = { event => event.stopPropagation() }
           >
             <Icon glyph="times" />
           </span>
