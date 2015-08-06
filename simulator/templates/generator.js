@@ -22,6 +22,13 @@ const systemConstants =
   , hostname: "freenas.local"
   , language: "English"
   , console_keymap: "us.iso"
+  , shells:
+    [ "/bin/sh"
+    , "/bin/csh"
+    , "/usr/local/bin/zsh"
+    , "/usr/local/bin/bash"
+    , "/usr/local/bin/cli"
+    ]
   };
 
 // For now, start with all shares empty.

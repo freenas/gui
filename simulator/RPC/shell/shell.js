@@ -14,8 +14,8 @@ const shells =
 
 class Shell {
 
-  get_shells () {
-    return shells;
+  get_shells ( system ) {
+    return system[ "shells" ];
   }
 
   spawn () {
