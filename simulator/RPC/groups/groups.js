@@ -4,9 +4,9 @@
 
 "use strict";
 
-import { EventEmitter } from "events";
+import RPCBase from "../RPC_BASE_CLASS";
 
-class Groups extends EventEmitter {
+class Groups extends RPCBase {
 
   constructor () {
     super();

@@ -4,9 +4,9 @@
 
 "use strict";
 
-import { EventEmitter } from "events";
+import RPCBase from "../RPC_BASE_CLASS";
 
-class Network extends EventEmitter {
+class Network extends RPCBase {
 
   constructor () {
     super();
@@ -15,7 +15,7 @@ class Network extends EventEmitter {
   }
 }
 
-class Config extends EventEmitter {
+class Config extends RPCBase {
   constructor () {
     super();
   }
@@ -25,7 +25,7 @@ class Config extends EventEmitter {
   }
 }
 
-class Interfaces extends EventEmitter {
+class Interfaces extends RPCBase {
   constructor () {
     super();
   }

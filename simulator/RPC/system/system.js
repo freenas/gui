@@ -4,15 +4,22 @@
 
 "use strict";
 
+import RPCBase from "../RPC_BASE_CLASS";
 
-class System {
+class System extends RPCBase {
   constructor () {
+    super();
+
     this.info = new Info();
     this.general = new General();
   }
 }
 
-class Info {
+class Info extends RPCBase  {
+  constructor () {
+    super();
+
+  }
 
   hardware ( system ) {
     return { memory_size: system[ "memory_size" ]
@@ -22,7 +29,11 @@ class Info {
   }
 }
 
-class General {
+class General extends RPCBase {
+  constructor () {
+    super();
+
+  }
 
   get_config ( system ) {
     return { timezone: system[ "timezone" ]

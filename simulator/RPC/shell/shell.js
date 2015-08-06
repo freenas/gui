@@ -12,7 +12,13 @@ const shells =
   , "/usr/local/bin/cli"
   ];
 
-class Shell {
+import RPCBase from "../RPC_BASE_CLASS";
+
+class Shell extends RPCBase {
+
+  constructor() {
+    super();
+  }
 
   get_shells ( system ) {
     return system[ "shells" ];

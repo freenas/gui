@@ -7,8 +7,9 @@
 
 import { EventEmitter } from "events";
 
-class Tasks extends EventEmitter {
+import RPCBase from "../RPC_BASE_CLASS";
 
+class Tasks extends RPCBase {
   constructor () {
     super();
   }

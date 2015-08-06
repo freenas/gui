@@ -5,9 +5,9 @@
 "use strict";
 
 import _ from "lodash";
-import { EventEmitter } from "events";
 import moment from "moment";
 
+import RPCBase from "../RPC_BASE_CLASS";
 import VolumeCommon from "../../templates/VolumeCommon";
 
 const time = moment().unix();
@@ -77,9 +77,9 @@ function processNewVolume ( volume, system ) {
 
 }
 
-class Volumes extends EventEmitter {
+class Volumes extends RPCBase {
 
-  constructor ( ) {
+  constructor () {
     super();
   }
 
