@@ -24,18 +24,17 @@ const Disk = React.createClass(
   , render () {
     let disk = DS.getByPath( this.props.path );
 
-    let smartClass = "";
+    let diskClasses = [ "disk-icon" ];
 
     if ( disk.smartStatus === "PASS" ) {
-      smartClass = "smart-pass";
+      diskClasses.push( "smart-pass" );
     } else if ( disk.smartStatus === "FAIL" ) {
-      smartClass = "smart-fail";
+      diskClasses.push( "smart-fail" );
     }
 
 
     return (
-      <div className= { "disk-icon "
-                      + smartClass } >
+      <div className= { diskClasses.join( " " ) } >
         <img src="img/hdd.png" />
         <strong className="primary-text">
           { ByteCalc.humanize( disk.byteSize
