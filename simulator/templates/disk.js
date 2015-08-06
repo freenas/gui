@@ -47,6 +47,8 @@ const defaults =
     , "bus-id": 0
     , "target-lun": 0
     }
+  , "smart-status": "PASS"
+  , "smart-capable": true
   , "updated-at": time
   , "created-at": time
   , online: true
