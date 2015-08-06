@@ -270,16 +270,6 @@ const Volume = React.createClass(
           , type     : this.calcVdevType( vdevAllowedTypes, currentType )
           , children : _.sortBy( disks ).map( this.createNewDisk )
           };
-      } else if ( key > 0 && key === this.state[ purpose ].length - 1 ) {
-        // The VDEV is the last VDEV, and if so, is not the only VDEV. We
-        // perform this check to avoid a case where trying to zero out all VDEVs
-        // results in the first (empty) VDEV with the untracked "empty" VDEV
-        // being added anyways.
-        newVdev =
-          { path     : null
-          , type     : null
-          , children : []
-          };
       }
 
       if ( newVdev ) {
