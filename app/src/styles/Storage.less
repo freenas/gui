@@ -176,6 +176,7 @@ nav.volume-nav {
 .disk-icon {
   text-align: center;
   margin: 0.25em;
+  position: relative;
 
   & > img {
     width: 3.5em;
@@ -190,14 +191,14 @@ nav.volume-nav {
   }
 
   &:before {
-    content       : "";
-    position      : relative;
-    left          : 8px;
-    bottom        : 22px;
-    display       : inline-block;
-    height        : 11px;
-    width         : 11px;
-    border-radius : 50%;
+    content: "";
+    position: absolute;
+    left: 50%;
+    margin-left: -2.5em;
+    top: 0.2em;
+    height: 0.75em;
+    width: 0.75em;
+    border-radius: 50%;
   }
 
   &.smart-pass:before {
