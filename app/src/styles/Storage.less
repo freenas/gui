@@ -188,6 +188,25 @@ nav.volume-nav {
     display: block;
     font-size: 0.8em
   }
+
+  &:before {
+    content       : "";
+    position      : absolute;
+    right         : 55px;
+    display       : inline-block;
+    height        : 11px;
+    width         : 11px;
+    border-radius : 50%;
+  }
+
+  &.smart-pass:before {
+    background: @brand-success;
+  }
+
+  &.smart-fail:before {
+    background: red;
+  }
+
 }
 .disk-remove {
   height        : 15px;
