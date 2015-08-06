@@ -5,11 +5,12 @@
 
 "use strict";
 
-var _ = require( "lodash" );
+import _ from "lodash";
+import moment from "moment";
 
-var time = new Date().now;
+const time = moment().unix();
 
-var ssdDefaults =
+const ssdDefaults =
   { status:
     { "is-ssd" : true
     // These are from the FreeNAS Mini boot drive.
@@ -20,7 +21,7 @@ var ssdDefaults =
   , mediasize : 16013942784
   };
 
-var hddDefaults =
+const hddDefaults =
   { status:
     { "is-ssd" : true
       // These are from the WD drives used in the FreeNAS Mini
@@ -32,7 +33,7 @@ var hddDefaults =
   , mediasize: 4000787030016
   };
 
-var defaults =
+const defaults =
   { status :
     { sectorsize: 512
     , "smart-enabled": true
@@ -53,11 +54,11 @@ var defaults =
 
 // Real UUIDs are for suckers (and take too long to generate every time the
 // server restarts.)
-var uuidBase = "7abad094-2438-11e5-b86d-d";
+const uuidBase = "7abad094-2438-11e5-b86d-d";
 
-var ssdSerialBase = "B061448240070000039";
+const ssdSerialBase = "B061448240070000039";
 
-var hddSerialBase = "WD-WCC4ENSDRSV";
+const hddSerialBase = "WD-WCC4ENSDRSV";
 
 // 'config[ "diskCount" ]' should be an integer greater than zero
 // 'config[ "types" ]' should be one of "HDD", "SSD", or "BOTH". If it's none of
