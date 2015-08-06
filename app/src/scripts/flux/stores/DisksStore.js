@@ -117,9 +117,11 @@ class DisksStore extends FluxBase {
               .last()
               .value();
     } else {
-      DL.warn( "Cannot call method 'getBiggestDisk': DisksStore not "
-             + "initialized"
-             );
+      if ( DL.reports( "stores" ) ) {
+        DL.warn( "Cannot call method 'getBiggestDisk': DisksStore not "
+               + "initialized"
+               );
+      }
       return null;
     }
   }
@@ -131,9 +133,11 @@ class DisksStore extends FluxBase {
               .first()
               .value();
     } else {
-      DL.warn( "Cannot call method 'getSmallestDisk': DisksStore not "
-             + "initialized"
-             );
+      if ( DL.reports( "stores" ) ) {
+        DL.warn( "Cannot call method 'getSmallestDisk': DisksStore not "
+               + "initialized"
+               );
+      }
       return null;
     }
   }
