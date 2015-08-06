@@ -12,13 +12,37 @@ var WebSocketServer = require( "ws" ).Server;
 var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 var virtualSystem = require( "./templates/generator.js" )();
 
+var VolumesRPC = require( "./RPC/volumes/volumes" );
+var DiscoveryRPC = require( "./RPC/discovery/discovery" );
+var DisksRPC = require( "./RPC/disks/disks" );
+var GroupsRPC = require( "./RPC/groups/groups" );
+var NetworkRPC = require( "./RPC/network/network" );
+var ShellRPC = require( "./RPC/shell/shell" );
+var SystemRPC = require( "./RPC/system/system" );
+var TaskRPC = require( "./RPC/task/task" );
+var UsersRPC = require( "./RPC/users/users" );
+
+var rpcClasses =
+  { volumes: new VolumesRPC()
+  , discovery: new DiscoveryRPC()
+  , disks: new DisksRPC()
+  , groups: new GroupsRPC()
+  , network: new NetworkRPC()
+  , shell: new ShellRPC()
+  , system: new SystemRPC()
+  , task: new TaskRPC()
+  , users: new UsersRPC()
+  };
+
+rpcClasses[ "task" ].designateRPCClasses( rpcClasses );
+
 var authTokens = {};
 
 
 function handleCall ( data ) {
 
   var response;
-  var namespaceClass;
+  var namespace;
   var secondNamespace;
 
   // This only splits off the top-level namespace. Some namespaces, such as
@@ -33,27 +57,23 @@ function handleCall ( data ) {
     secondNamespace = call.shift();
   }
 
-  // require the class that corresonds to the namespace. This requires a very
-  // strict directory hierarchy. Don't mess with it.
-  namespaceClass = new ( require( "./RPC/" + namespace + "/" + namespace ) );
-
   // The rest of the original string goes back into a string to used to
   // reference the appropriate function.
   var method = call[0];
 
   // Don't try to call a function if there's no class to call it on.
-  if ( namespaceClass ) {
+  if ( rpcClasses[ namespace ] ) {
 
     if ( secondNamespace ) {
       // Call the method in the sub-namespace of the main namespace, get the
       // response for packing.
       response =
-        namespaceClass[ secondNamespace ][ method ]( virtualSystem
-                                                   , data[ "args" ][ "args" ] );
+        rpcClasses[ namespace ][ secondNamespace ][ method ]( virtualSystem
+                                                            , data[ "args" ][ "args" ] );
     } else {
       // Call the method in the namespace, get the response for packing.
-      response = namespaceClass[ method ]( virtualSystem
-                                         , data[ "args" ][ "args" ] );
+      response = rpcClasses[ namespace ][ method ]( virtualSystem
+                                                  , data[ "args" ][ "args" ] );
     }
   }
 

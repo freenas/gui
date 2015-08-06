@@ -6,16 +6,24 @@
 "use strict";
 
 import { EventEmitter } from "events";
+import _ from "lodash";
 
 import RPCBase from "../RPC_BASE_CLASS";
 
 class Tasks extends RPCBase {
   constructor () {
     super();
+
+    this.rpcClasses = [];
   }
 
   query ( system, filter, params ) {
 
+  }
+
+  // Submit the active RPCClasses. This will include itself!
+  designateRPCClasses( rpcClasses ) {
+    this.rpcClasses = rpcClasses;
   }
 
   submit ( system, args, systemChangeCallback ) {
@@ -38,23 +46,21 @@ class Tasks extends RPCBase {
     // RPC namespace is "volumes" and the task namespace is "volume"... for only
     // some tasks. Maybe because those calls apply only to one volume at a time?
     if ( taskNamespace === "volume" ) {
-      taskNamespace =  "volumes";
+      taskNamespace = "volumes";
     }
 
     if ( taskCall.length > 1 ) {
       secondTaskNamespace = taskCall.shift;
     }
 
-    taskNamespaceClass =
-      new ( require( "../" + taskNamespace + "/" + taskNamespace ) )( system );
-
     taskMethod = taskCall[0];
 
-    if ( taskNamespaceClass ) {
+    if ( _.has( this.rpcClasses, taskNamespace ) ) {
       if ( secondTaskNamespace ) {
-        taskFunction = taskNamespaceClass[ secondTaskNamespace ][ taskMethod ];
+        // Someone help me get to these functions, with the right binding, with less madness than this.
+        taskFunction = this.rpcClasses[ taskNamespace ][ secondTaskNamespace ][ taskMethod ].bind( this.rpcClasses[ taskNamespace ] );
       } else {
-        taskFunction = taskNamespaceClass[ taskMethod ];
+        taskFunction = this.rpcClasses[ taskNamespace ][ taskMethod ].bind( this.rpcClasses[ taskNamespace ] );
       }
 
       taskFunction( system
