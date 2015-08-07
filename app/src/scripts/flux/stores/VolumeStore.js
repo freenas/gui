@@ -45,6 +45,7 @@ class VolumeStore extends FluxBase {
 // Handler for payloads from Flux Dispatcher
 function handlePayload ( payload ) {
   const ACTION = payload.action;
+  const eventData = ACTION.eventData;
 
   switch ( ACTION.type ) {
 
