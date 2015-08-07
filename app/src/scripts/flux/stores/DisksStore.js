@@ -54,6 +54,41 @@ class DisksStore extends FluxBase {
     );
   }
 
+  get similarDisks () {
+    // Returns arrays of disks based on their self-similarity - determined as
+    // the combination of RPM, capacity, type, and manufacturer.
+    let disks = _.partition( _disks, disk => disk.status["is-ssd"] );
+    let SSDs = {};
+    let HDDs = {};
+
+    // SSDs
+    _.chain( disks[0] )
+      .sortBy( "path" )
+      .value()
+      .map( disk => {
+        let label = ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
+                  + " "
+                  + disk.status.manufacturer;
+
+        SSDs[ label ] = disk;
+      });
+
+    // HDDs
+    _.chain( disks[1] )
+      .sortBy( "path" )
+      .value()
+      .map( disk => {
+        let label = disk.status["max-rotation"] + "rpm "
+                  + ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
+                  + " "
+                  + disk.status.manufacturer;
+
+        HDDs[ label ] = disk;
+      });
+
+    return [ SSDs, HDDs ];
+  }
+
   getByPath ( path ) {
     if ( _.isArray( path ) ) {
       let collection = [];
