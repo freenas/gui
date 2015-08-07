@@ -114,17 +114,15 @@ const Volume = React.createClass(
     }
 
   , componentWillReceiveProps ( newProps ) {
-    this.setState( _.merge( this.state
-                          , { name: newProps.name
-                            , data : newProps.data
-                            , logs : newProps.logs
-                            , cache : newProps.cache
-                            , spares : newProps.spares
-                            , free : newProps.free
-                            , allocated : newProps.allocated
-                            , size : newProps.size
-                            }
-                          )
+    this.setState( { name: newProps.name
+                   , data : newProps.data
+                   , logs : newProps.logs
+                   , cache : newProps.cache
+                   , spares : newProps.spares
+                   , free : newProps.free
+                   , allocated : newProps.allocated
+                   , size : newProps.size
+                   }
                  );
   }
 
