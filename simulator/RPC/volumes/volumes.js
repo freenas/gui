@@ -21,7 +21,7 @@ const volumeIDStarter = 2950145407967379177;
 function processNewVolume ( volume, system ) {
   var newVolume = volumeDefaults;
 
-  let size = VolumeCommon.calculateVolumeSize( volume[ "topology" ][ "data" ]
+  var size = VolumeCommon.calculateVolumeSize( volume[ "topology" ][ "data" ]
                                              , system[ "disks" ]
                                              );
 
@@ -35,7 +35,7 @@ function processNewVolume ( volume, system ) {
            , properties:
              { available:
                { source: "NONE"
-               , value: size.toString()
+               , value: size
                }
              , name:
                { source: "NONE"
@@ -43,7 +43,7 @@ function processNewVolume ( volume, system ) {
                }
              , creation:
                { source: "NONE"
-               , value: time.toString()
+               , value: time
                }
              }
            }
@@ -59,7 +59,7 @@ function processNewVolume ( volume, system ) {
            , properties:
              { free:
                { source: "NONE"
-               , value: size.toString()
+               , value: size
                }
              , name:
                { source: "NONE"
