@@ -17,55 +17,17 @@ import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 const DL = new DebugLogger( "DISKS_STORE_DEBUG" );
 
-const DISK_SCHEMA =
-  // Available from disks.query
-  { serial       : { type: "string" }
-  , byteSize     : { type: "number" }
-  , humanSize    : { type: "string" }
-  , dateUpdated  : { type: "number" }
-  , dateCreated  : { type: "number" }
-  , online       : { type: "boolean" }
-  , path         : { type: "string" }
-  // Available from disks.get_disk_config
-  , sectorSize   : { type: "number" }
-  , description  : { type: "string" }
-  , maxRpm       : { type: "string" }
-  // , partitions   : ""
-  , smartEnabled : { type: "string" }
-  , smartStatus  : { type: "string" }
-  , model        : { type: "string" }
-  , schema       : { type: "string" }
-  };
-
-const KEY_TRANSLATION =
-  // Available from disks.query
-  { serial          : "serial"
-  , mediasize       : "byteSize"
-  , "updated-at"    : "dateUpdated"
-  , "created-at"    : "dateCreated"
-  , online          : "online"
-  , path            : "path"
-  // Available from disks.get_disk_config
-  , sectorsize      : "sectorSize"
-  , description     : "description"
-  , "max-rotation"  : "maxRpm"
-  , "smart-enabled" : "smartEnabled"
-  , "smart-status"  : "smartStatus"
-  , model           : "model"
-  , schema          : "schema"
-  };
-
 const DISK_LABELS =
-  { serial       : "Serial"
-  , humanSize    : "Capacity"
-  , online       : "Disk Online"
-  , path         : "Path"
-  , sectorSize   : "Sector Size"
-  , maxRpm       : "Maximum RPM"
-  , smartEnabled : "S.M.A.R.T. Enabled"
-  , smartStatus  : "S.M.A.R.T. Status"
-  , model        : "Disk Model"
-  , schema       : "Partition Format"
+  { serial: "Serial"
+  , humanSize: "Capacity"
+  , online: "Disk Online"
+  , path: "Path"
+  , sectorsize: "Sector Size"
+  , "max-rotation": "Maximum RPM"
+  , "smart-enabled": "S.M.A.R.T. Enabled"
+  , "smart-status": "S.M.A.R.T. Status"
+  , model: "Disk Model"
+  , schema: "Partition Format"
   };
 
 var _disks = {};
@@ -80,7 +42,6 @@ class DisksStore extends FluxBase {
     );
 
     this.KEY_UNIQUE = "serial";
-    this.ITEM_SCHEMA = DISK_SCHEMA;
     this.ITEM_LABELS = DISK_LABELS;
   }
 
@@ -113,7 +74,7 @@ class DisksStore extends FluxBase {
   getBiggestDisk ( path ) {
     if ( this.isInitialized ) {
       return _.chain( this.getByPath( path ) )
-              .sortBy( "byteSize" )
+              .sortBy( "mediasize" )
               .last()
               .value();
     } else {
@@ -129,7 +90,7 @@ class DisksStore extends FluxBase {
   getSmallestDisk ( path ) {
     if ( this.isInitialized ) {
       return _.chain( this.getByPath( path ) )
-              .sortBy( "byteSize" )
+              .sortBy( "mediasize" )
               .first()
               .value();
     } else {
@@ -148,9 +109,9 @@ function getCalculatedDiskProps ( disk ) {
   let calculatedProps = {};
 
   if ( disk.hasOwnProperty( "mediasize" ) ) {
-    calculatedProps["humanSize"] = ByteCalc.humanize( disk["mediasize"] );
+    calculatedProps.humanSize = ByteCalc.humanize( disk.mediasize );
     // FIXME: TEMPORARY WORKAROUND
-    calculatedProps["driveName"] = calculatedProps["humanSize"] + " Drive";
+    calculatedProps.driveName = calculatedProps.humanSize + " Drive";
   }
 
   return calculatedProps;
@@ -167,9 +128,7 @@ function handlePayload ( payload ) {
       ACTION.disksOverview.forEach(
         function iterateDisks ( disk ) {
           newDisks[ disk[ this.KEY_UNIQUE ] ] =
-            _.merge( getCalculatedDiskProps( disk )
-                   , FluxBase.rekeyForClient( disk, KEY_TRANSLATION )
-                   );
+            _.merge( getCalculatedDiskProps( disk ), disk );
         }.bind( this )
       );
 
@@ -182,14 +141,11 @@ function handlePayload ( payload ) {
       if ( _disks.hasOwnProperty( ACTION.diskDetails[ this.KEY_UNIQUE ] ) ) {
         // This disk has already been instantiated, and we should atttempt to
         // patch new information on top of it
-        _.merge( _disks[ this.KEY_UNIQUE ]
-               , FluxBase.rekeyForClient( ACTION.diskDetails, KEY_TRANSLATION )
-               );
+        _.merge( _disks[ this.KEY_UNIQUE ], ACTION.diskDetails );
       } else {
         // There is no current record for a disk with this identifier, so this
         // will be the initial data.
-        _disks[ ACTION.diskDetails[ this.KEY_UNIQUE ] ] =
-          FluxBase.rekeyForClient( ACTION.diskDetails, KEY_TRANSLATION );
+        _disks[ ACTION.diskDetails[ this.KEY_UNIQUE ] ] = ACTION.diskDetails;
       }
       this.emitChange();
       break;

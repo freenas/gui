@@ -192,8 +192,8 @@ const Volume = React.createClass(
             this.getMemberDiskPaths( vdev )
           );
 
-          let baseSize = _.has( smallestDisk, "byteSize" )
-                       ? smallestDisk.byteSize
+          let baseSize = _.has( smallestDisk, "mediasize" )
+                       ? smallestDisk.mediasize
                        : 0;
 
           switch ( vdev.type ) {
