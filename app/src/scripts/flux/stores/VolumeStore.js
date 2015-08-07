@@ -59,6 +59,15 @@ function handlePayload ( payload ) {
       this.emitChange( "availableDisks" );
       break;
 
+    case ActionTypes.MIDDLEWARE_EVENT:
+      let args = eventData.args;
+      if ( args.name === "entity-subscriber.volumes.changed" ) {
+        if ( args.args.operation === "create" ) {
+          _volumes[ args.args.entities[0][ "name" ] ] = _.cloneDeep( args.args.entities[0] );
+          this.emitChange( "volumes" );
+        }
+      }
+      break;
   }
 }
 
