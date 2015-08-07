@@ -7,6 +7,8 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import DS from "../../../../flux/stores/DisksStore";
+
 import Disk from "../../../components/items/Disk";
 import DragTarget from "../../../components/DragTarget";
 import DropTarget from "../../../components/DropTarget";
@@ -49,6 +51,13 @@ const VDEV = React.createClass(
            , cols    : 4
            };
   }
+
+  , preventHDDInSSDZone ( payload ) {
+      if ( this.props.purpose === "cache" || this.props.purpose === "logs" ) {
+        return DS.isHDD( payload );
+      }
+      return false;
+    }
 
   , createDiskItem ( path, key ) {
       let deleteButton = null;
@@ -147,6 +156,7 @@ const VDEV = React.createClass(
         <DropTarget
           namespace = "disk"
           disabled = { Boolean( this.props.availableDevices.length ) }
+          preventDrop = { this.preventHDDInSSDZone }
           callback = { this.props.handleDiskAdd }
           activeDrop = "Drop disks here"
         >
