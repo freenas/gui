@@ -26,6 +26,7 @@ const DropTarget = React.createClass(
         , React.PropTypes.bool
         ]
       )
+    , preventDrop: React.PropTypes.func
     }
 
   , getDefaultProps () {
@@ -52,12 +53,17 @@ const DropTarget = React.createClass(
 
   , handleDragStart ( namespace, payload, callback ) {
       if ( this.props.namespace === namespace ) {
-        this.setState(
-          { droppable: true
-          , dragCallback: callback
-          , payload: payload
-          }
-        );
+        let newState = {};
+
+        if ( this.props.preventDrop ) {
+          newState.disalowDrop = this.props.preventDrop( payload );
+        }
+
+        newState.droppable = true;
+        newState.dragCallback = callback;
+        newState.payload = payload;
+
+        this.setState( newState );
       }
     }
 
