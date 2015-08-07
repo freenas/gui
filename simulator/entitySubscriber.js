@@ -32,6 +32,8 @@ class EntitySubscriber extends EventEmitter {
              , this
     );
 
+    this.setMaxListeners( 0 );
+
   }
 
   sendEvent ( originEvent, originMethod, content ) {
@@ -58,12 +60,10 @@ class EntitySubscriber extends EventEmitter {
 
   addEventListener ( callback ) {
     this.on( this.BASE_NAMESPACE, callback );
-    console.log("subscribed");
   }
 
   removeEventListener ( callback ) {
     this.removeListener( this.BASE_NAMESPACE, callback );
-    console.log("unsubscribed");
   }
 
 }

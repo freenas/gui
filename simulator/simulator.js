@@ -44,7 +44,6 @@ var authTokens = {};
 function sendEvent ( message ) {
   if ( this.readyState === 1 ) {
     this.send( pack( "events", "event", message ) );
-    console.log( "tried to send event", message );
   } else {
     console.log( "Tried to send event when the socket was not open." );
   }
@@ -137,13 +136,11 @@ function generateToken () {
 
 function handleOpen () {
   // TODO
-  console.log( "socket opened" );
-  entitySubscriber.addEventListener( sendEvent.bind( this ) );
-  //
 };
 
 function handleClose ( code, message ) {
   var explanation = "";
+
   entitySubscriber.removeEventListener(  sendEvent.bind( this ) );
 
   switch ( code ) {
@@ -259,4 +256,5 @@ middleware.on( "connection", function ( socket ) {
   socket.on( "close", handleClose.bind( socket ) );
   socket.on( "error", handleError.bind( socket ) );
   socket.on( "message", handleMessage.bind( socket ) );
+  entitySubscriber.addEventListener( sendEvent.bind( socket ) );
 });
