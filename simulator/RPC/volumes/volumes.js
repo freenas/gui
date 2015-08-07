@@ -68,8 +68,8 @@ function processNewVolume ( volume, system ) {
              }
            , root_dataset: rootDataset
            , datasets: datasets
-           , "updated-at": time.toString()
-           , "created-at" : time.toString()
+           , "updated-at": time
+           , "created-at" : time
            }
          );
 
