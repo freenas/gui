@@ -12,6 +12,7 @@ var WebSocketServer = require( "ws" ).Server;
 var middleware = new WebSocketServer({ port: 4444, path: "/simulator" });
 var virtualSystem = require( "./templates/generator.js" )();
 
+var EntitySubscriber = require( "./entitySubscriber" );
 var VolumesRPC = require( "./RPC/volumes/volumes" );
 var DiscoveryRPC = require( "./RPC/discovery/discovery" );
 var DisksRPC = require( "./RPC/disks/disks" );
@@ -36,8 +37,15 @@ var rpcClasses =
 
 rpcClasses[ "task" ].designateRPCClasses( rpcClasses );
 
+var entitySubscriber = new EntitySubscriber( rpcClasses );
+
+entitySubscriber.addEventListener( sendEvent.bind( this ) );
+
 var authTokens = {};
 
+function sendEvent ( originEvent, content ) {
+  // Not yet implemented
+}
 
 function handleCall ( data ) {
 
