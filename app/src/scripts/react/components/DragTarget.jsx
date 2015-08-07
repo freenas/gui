@@ -36,6 +36,7 @@ const DragTarget = React.createClass(
     }
 
   , handleMouseDown ( event ) {
+      document.body.classList.add( "no-select" );
       EventBus.emit( "dragStart"
                    , this.props.namespace
                    , this.props.payload
@@ -59,6 +60,7 @@ const DragTarget = React.createClass(
     }
 
   , handleDragEnd () {
+      document.body.classList.remove( "no-select" );
       window.removeEventListener( "mouseup", this.handleDragEnd );
       window.removeEventListener( "mousemove", this.handleDragMove );
       EventBus.emit( "dragStop" );
