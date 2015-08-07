@@ -118,7 +118,7 @@ class DisksStore extends FluxBase {
     let targetDisk = this.getByPath( path );
 
     return targetDisk
-      ? targetDisk["is-ssd"]
+      ? targetDisk.status["is-ssd"]
       : null;
   }
 
@@ -126,7 +126,7 @@ class DisksStore extends FluxBase {
     let targetDisk = this.getByPath( path );
 
     return targetDisk
-      ? !targetDisk["is-ssd"]
+      ? !targetDisk.status["is-ssd"]
       : null;
   }
 
