@@ -21,13 +21,43 @@ import DebugTools from "./DebugTools";
 const FreeNASWebApp = React.createClass(
   { mixins: [ routerShim ]
 
-  , componentDidMount: function () {
-    this.calculateDefaultRoute( "/", "accounts", "is" );
-  }
+  , componentDidMount () {
+      this.calculateDefaultRoute( "/", "accounts", "is" );
+      window.addEventListener( "click", this.handleMenuClickOut );
+    }
 
-  , componentDidUpdate: function ( prevProps, prevState ) {
-    this.calculateDefaultRoute( "/", "accounts", "is" );
-  }
+  , componentDidUpdate ( prevProps, prevState ) {
+      this.calculateDefaultRoute( "/", "accounts", "is" );
+      window.removeEventListener( "click", this.handleMenuClickOut );
+    }
+
+  , getParent( child, testClass ) {
+      let parent = null;
+
+      if ( child ) {
+        parent = testClass
+               ? ( child.parentNode.classList.contains( testClass )
+                 ? child.parentNode
+                 : null
+                 )
+               : child.parentNode;
+      }
+
+      return parent;
+    }
+
+  , handleMenuClickOut ( event ) {
+      // FIXME: Remove this once react-bootstrap reaches 1.0
+      if ( event.target.tagName === "A" ) {
+        let li = this.getParent( event.target );
+        let ul = this.getParent( li, "dropdown-menu" );
+        let openGroup = this.getParent( ul, "open" );
+
+        if ( openGroup ) {
+          document.body.click();
+        }
+      }
+    }
 
   , render: function () {
     return (
