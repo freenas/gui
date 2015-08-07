@@ -16,10 +16,10 @@ const ssdDefaults =
     // These are from the FreeNAS Mini boot drive.
     , description : "16GB SATA Flash Drive"
     , model: "16GB SATA Flash Drive"
-    , byteSize : 16013942784
     , manufacturer: "Samsung"
+    , mediasize : 16013942784
     }
-  , byteSize : 16013942784
+  , mediasize : 16013942784
   };
 
 const hddDefaults =
@@ -27,19 +27,19 @@ const hddDefaults =
     { "is-ssd" : true
       // These are from the WD drives used in the FreeNAS Mini
     , description: "WDC WD40EFRX-68WT0N0"
-    , maxRPM: 5400
-    , byteSize: 4000787030016
+    , "max-rotation": 5400
+    , mediasize: 4000787030016
     , model: "WDC WD40EFRX-68WT0N0"
     , manufacturer: "Western Digital"
     }
-  , byteSize: 4000787030016
+  , mediasize: 4000787030016
   };
 
 const defaults =
   { status :
-    { sectorSize: 512
-    , smartEnabled: true
-    , smartStatus: "PASS"
+    { sectorsize: 512
+    , "smart-enabled": true
+    , "smart-status": "PASS"
     , "smart-capable": true
     , schema: "GPT"
     }
@@ -49,10 +49,10 @@ const defaults =
     , "bus-id": 0
     , "target-lun": 0
     }
-  , smartStatus: "PASS"
+  , "smart-status": "PASS"
   , "smart-capable": true
-  , dateUpdated: time
-  , dateCreated: time
+  , "updated-at": time
+  , "created-at": time
   , online: true
   };
 
