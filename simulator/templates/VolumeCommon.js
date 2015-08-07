@@ -25,21 +25,16 @@ class VolumeCommon {
 
     var volumeSize = 0;
 
-    var smallestDiskSize = Infinity;
-    var vdevSize = 0;
-
-    var i;
-    var j;
-
     _.forEach( dataVdevs
              , function calculateVdevSize ( vdev ) {
-               vdevSize = 0;
+               let vdevSize = 0;
+               let smallestDiskSize = Infinity;
                // Disk vdevs have only one disk and no children to iterate over.
                if ( vdev.type === "disk" ) {
                  vdevSize = VolumeCommon.getDiskSize( disks, vdev[ "path" ] );
                } else {
                  // Search for the smallest disk
-                 for ( i = 0; i < vdev[ "children" ].length; i++ ) {
+                 for ( let i = 0; i < vdev[ "children" ].length; i++ ) {
                    if ( VolumeCommon.getDiskSize( disks
                                    , vdev[ "children" ][ i ][ "path" ]
                                    )
@@ -58,7 +53,7 @@ class VolumeCommon {
                  } else {
                    // Add the smallest disk size to the vdev size for each disk
                    // over the vdev redundancy level.
-                   for ( j = 0
+                   for ( let j = 0
                        ; j < vdev[ "children" ].length
                            - vdevRedundancy[ vdev[ "type" ] ]
                        ; j ++
