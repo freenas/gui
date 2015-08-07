@@ -19,14 +19,10 @@ _NODE_VERSION=0.12.7
 # Its the only way to be sure.
 nuke_node_from_orbit()
 {
-	if check_for_sudo; then
-		exit 20
-	fi
-
-	if [ "$1" == "-all" ]; then
+	if [ "$1" = "-all" ]; then
 		# erase all possible install paths
 		echo "OK, I'm going all Ripley on your previous Node installation."
-		if [ ${_SYSTEM} == "FreeBSD" ]; then
+		if [ ${_SYSTEM} = "FreeBSD" ]; then
 			${_SUDO} ${_SUDO_ARGS} pkg remove node
 			${_SUDO} ${_SUDO_ARGS} pkg remove npm
 		fi
@@ -48,17 +44,21 @@ nuke_node_from_orbit()
 
 check_for_sudo()
 {
+	if [ `id -u` -eq 0 ]; then
+		_SUDO=""; _SUDO_ARGS=""
+		return 0
+	fi
 	if whitcher ${_SUDO}; then
 		echo "Unfortunately, there is no sudo on this machine.  You should install it."
-		_SUDO=""
-		_SUDO_ARGS=""
+		_SUDO=""; _SUDO_ARGS=""
 		return 1
 	fi
+	return 0
 }
 
 check_for_gmake()
 {
-	if [ "${_SYSTEM}" == "FreeBSD" ]; then
+	if [ "${_SYSTEM}" = "FreeBSD" ]; then
 		if whitcher gmake; then
 			if ! resolve gmake; then
 				echo "Sorry, can't install gmake and I need that for FreeBSD specifically."
@@ -91,7 +91,7 @@ try_with_root_permissions()
 
 resolve()
 {
-	if [ "${_PKG_INSTALL}" == "nopkg" ]; then
+	if [ "${_PKG_INSTALL}" = "nopkg" ]; then
 		return 1
 	fi
 
@@ -220,20 +220,20 @@ if [ -f /usr/local/bin/node ]; then
 	echo "Would you like me to nuke all of your previous Node.js stuff just in case"
 	echo "it conflicts with the current install?  Go on, you know you want me to."
 	read ans
-	if [ "${ans}" == "y" -o "${ans}" == "yes" ]; then
+	if [ "${ans}" = "y" -o "${ans}" = "yes" ]; then
 		nuke_node_from_orbit -all
 	fi
 fi
 
 if whitcher node; then
-	if [ "${_SYSTEM}" == "Darwin" ]; then
+	if [ "${_SYSTEM}" = "Darwin" ]; then
 		echo "You don't have macports or homebrew installed."
 		echo "Now compiling nodejs from source. This will take a little while."
 		if ! install_node_from_src; then
 			echo "I wasn't able to install nodejs. Please do that yourself."
 			exit 13
 		fi
-	elif [ "${_SYSTEM}" == "FreeBSD" ]; then
+	elif [ "${_SYSTEM}" = "FreeBSD" ]; then
 		if [ `uname -U` -gt 903000 ]; then
 			echo "Node.JS won't compile on FreeBSD > 9.3; trying the packages instead."
 			if resolve node && resolve npm; then
