@@ -50,16 +50,6 @@ const VDEV = React.createClass(
            };
   }
 
-  // FIXME: This function is temporary, and should be removed
-  , createNewDeviceOptions ( device, index ) {
-    return (
-      <option
-        key   = { index }
-        value = { device }
-        label = { device } />
-    );
-  }
-
   , createDiskItem ( path, key ) {
       let deleteButton = null;
 
@@ -133,18 +123,11 @@ const VDEV = React.createClass(
     // ADD DISKS
     // FIXME: Right now, you can add disks if they're available.
     // TODO: Make this not a dropdown
-    if ( this.props.availableDevices.length ) {
+    if ( this.props.availableDevices.length && !vdevDisks ) {
       addDisks = (
-        <select
-          // Reset the field to nothing selected every time so that it doesn't
-          // move to a valid option and make it impossible to select that one
-          // next.
-          value = "-- SELECT --"
-          onChange= { event => this.props.handleDiskAdd( event.target.value ) }
-        >
-          <option>{ "-- SELECT --" }</option>
-          { this.props.availableDevices.map( this.createNewDeviceOptions ) }
-        </select>
+        <h5 className="text-center text-muted">
+          {"Drag disks from the palette to add"}
+        </h5>
       );
     }
 
