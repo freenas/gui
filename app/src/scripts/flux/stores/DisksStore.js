@@ -114,6 +114,22 @@ class DisksStore extends FluxBase {
     }
   }
 
+  isSSD ( path ) {
+    let targetDisk = this.getByPath( path );
+
+    return targetDisk
+      ? targetDisk["is-ssd"]
+      : null;
+  }
+
+  isHDD ( path ) {
+    let targetDisk = this.getByPath( path );
+
+    return targetDisk
+      ? !targetDisk["is-ssd"]
+      : null;
+  }
+
   getBiggestDisk ( path ) {
     if ( this.isInitialized ) {
       return _.chain( this.getByPath( path ) )
