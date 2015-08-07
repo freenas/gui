@@ -15,12 +15,12 @@ class RPCBaseClass extends EventEmitter {
     this.CHANGE_EVENT = null;
   }
 
-  emitChange ( newData ) {
+  // Default implementation for use with EntitySubscriber
+  emitChange ( method, newData ) {
 
-    // Yes, include the CHANGE_EVENT twice. This is so that the entitySubscriber
-    // will have access to to the name of the event it received, so that it can
-    // in turn make it available to the top level simulator.
-    this.emit( this.CHANGE_EVENT, this.CHANGE_EVENT, newData );
+    // EntitySubscriber needs to know the exact change event, so send it
+    // as an argument as well.
+    this.emit( this.CHANGE_EVENT, this.CHANGE_EVENT, method, newData );
   }
 
   addChangeListener( callback ) {

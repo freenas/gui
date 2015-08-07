@@ -5,6 +5,7 @@
 "use strict";
 
 import _ from "lodash";
+import moment from "moment";
 
 import { EventEmitter } from "events";
 
@@ -33,16 +34,34 @@ class EntitySubscriber extends EventEmitter {
 
   }
 
-  sendEvent ( originEvent, content ) {
+  sendEvent ( originEvent, originMethod, content ) {
     // TODO: Actually check subscriptions before dispatching event
 
-    this.emit( this.BASE_NAMESPACE
-             , this.BASE_NAMESPACE + "." + originEvent
-             , content );
+    var methodInfo = originMethod.split( "." );
+    var operation = methodInfo.pop();
+    var service = methodInfo.length === 1
+                ? methodInfo[0]
+                : methodInfo[0] + "." + methodInfo[1];
+
+    var message =
+      { args:
+        { entities: [ content ]
+        , operation: operation
+        , service: service
+        , timestamp: moment().unix()
+        }
+      , name: this.BASE_NAMESPACE + "." + originEvent
+      };
+
+    this.emit( this.BASE_NAMESPACE, message );
   }
 
   addEventListener ( callback ) {
     this.on( this.BASE_NAMESPACE, callback );
+  }
+
+  removeEventListener ( callback ) {
+    this.removeListener( this.BASE_NAMESPACE, callback );
   }
 
 }
