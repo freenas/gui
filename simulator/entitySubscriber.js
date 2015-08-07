@@ -58,10 +58,12 @@ class EntitySubscriber extends EventEmitter {
 
   addEventListener ( callback ) {
     this.on( this.BASE_NAMESPACE, callback );
+    console.log("subscribed");
   }
 
   removeEventListener ( callback ) {
     this.removeListener( this.BASE_NAMESPACE, callback );
+    console.log("unsubscribed");
   }
 
 }

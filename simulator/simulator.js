@@ -42,7 +42,12 @@ var entitySubscriber = new EntitySubscriber( rpcClasses );
 var authTokens = {};
 
 function sendEvent ( message ) {
-  this.send( pack( "events", "event", message ) );
+  if ( this.readyState === 1 ) {
+    this.send( pack( "events", "event", message ) );
+    console.log( "tried to send event", message );
+  } else {
+    console.log( "Tried to send event when the socket was not open." );
+  }
 }
 
 function handleCall ( data ) {
@@ -132,10 +137,14 @@ function generateToken () {
 
 function handleOpen () {
   // TODO
+  console.log( "socket opened" );
+  entitySubscriber.addEventListener( sendEvent.bind( this ) );
+  //
 };
 
 function handleClose ( code, message ) {
   var explanation = "";
+  entitySubscriber.removeEventListener(  sendEvent.bind( this ) );
 
   switch ( code ) {
     case 1000:
