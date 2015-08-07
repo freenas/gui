@@ -117,14 +117,15 @@ function createVolume ( volumeIndex, disks, id ) {
            }
   );
 
+  // Not generating cache and logs at this time
   // Put every other ssd in cache or vdev
-  for ( let i = 0; i < ssds.length; i++ ) {
+  /*for ( let i = 0; i < ssds.length; i++ ) {
     if ( i % 2 ) {
       cache.push( ssds[i] );
     } else {
       log.push( ssds[i] );
     }
-  }
+  }*/
 
   // Construct data vdevs from the remaining disks.
   do {
