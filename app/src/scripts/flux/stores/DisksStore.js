@@ -70,7 +70,11 @@ class DisksStore extends FluxBase {
                   + " "
                   + disk.status.manufacturer;
 
-        SSDs[ label ] = disk;
+        if ( _.isArray( SSDs[ label ] ) ) {
+          SSDs[ label ].push( disk.path );
+        } else {
+          SSDs[ label ] = [ disk.path ];
+        }
       });
 
     // HDDs
@@ -83,7 +87,11 @@ class DisksStore extends FluxBase {
                   + " "
                   + disk.status.manufacturer;
 
-        HDDs[ label ] = disk;
+        if ( _.isArray( HDDs[ label ] ) ) {
+          HDDs[ label ].push( disk.path );
+        } else {
+          HDDs[ label ] = [ disk.path ];
+        }
       });
 
     return [ SSDs, HDDs ];
