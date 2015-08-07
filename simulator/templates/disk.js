@@ -24,7 +24,7 @@ const ssdDefaults =
 
 const hddDefaults =
   { status:
-    { "is-ssd" : true
+    { "is-ssd" : false
       // These are from the WD drives used in the FreeNAS Mini
     , description: "WDC WD40EFRX-68WT0N0"
     , "max-rotation": 5400
