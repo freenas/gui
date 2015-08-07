@@ -39,12 +39,10 @@ rpcClasses[ "task" ].designateRPCClasses( rpcClasses );
 
 var entitySubscriber = new EntitySubscriber( rpcClasses );
 
-entitySubscriber.addEventListener( sendEvent.bind( this ) );
-
 var authTokens = {};
 
-function sendEvent ( originEvent, content ) {
-  // Not yet implemented
+function sendEvent ( message ) {
+  this.send( pack( "events", "event", message ) );
 }
 
 function handleCall ( data ) {
