@@ -13,7 +13,7 @@ function systemConfig () {
 
   var disksConfig =
     { disksConfig:
-      { diskCount: 8
+      { diskCount: 10
       // Permissible disk types are "SDD", "HDD", or "BOTH". An invalid setting
       // will behave like "HDD".
       , diskTypes: "BOTH"
@@ -25,9 +25,9 @@ function systemConfig () {
 
   var volumesConfig =
     { volumesConfig:
-      { volumeCount: 1
+      { volumeCount: 0
       // All volumes will have this number of disks.
-      , volumeDiskCount: 6
+      , volumeDiskCount: 0
       }
     };
 
