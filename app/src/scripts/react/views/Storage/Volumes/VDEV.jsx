@@ -75,7 +75,10 @@ const VDEV = React.createClass(
       }
 
       return (
-        <div className="disk-wrapper">
+        <div
+          className="disk-wrapper"
+          key = { key }
+        >
           <DragTarget
             namespace = "disk"
             payload = { path }
@@ -86,7 +89,6 @@ const VDEV = React.createClass(
               handleDiskRemove = { this.props.handleDiskRemove }
               existsOnServer = { this.props.existsOnServer }
               path = { path }
-              key = { key }
             />
           </DragTarget>
         </div>
