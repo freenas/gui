@@ -17,9 +17,7 @@ const ssdDefaults =
     , description : "16GB SATA Flash Drive"
     , model: "16GB SATA Flash Drive"
     , manufacturer: "Samsung"
-    , mediasize : 16013942784
     }
-  , mediasize : 16013942784
   };
 
 const hddDefaults =
@@ -28,11 +26,9 @@ const hddDefaults =
       // These are from the WD drives used in the FreeNAS Mini
     , description: "WDC WD40EFRX-68WT0N0"
     , "max-rotation": 5400
-    , mediasize: 4000787030016
     , model: "WDC WD40EFRX-68WT0N0"
     , manufacturer: "Western Digital"
     }
-  , mediasize: 4000787030016
   };
 
 const defaults =
@@ -70,26 +66,37 @@ const hddSerialBase = "WD-WCC4ENSDRSV";
 // disks will be an SSD.
 function createDisks ( config ) {
   var disks = [];
-  var newDisk = {};
 
-  var serial;
-  var id;
+  for ( let i = 0; i < config[ "diskCount" ]; i++ ) {
 
-  var uuid;
+    let newDisk = {};
+    let serial = "";
+    let id = "";
+    let uuid = "";
 
-  for ( var i = 0; i < config[ "diskCount" ]; i++ ) {
+    switch ( config[ "diskTypes"] ) {
+      case "SSD":
+        serial = ssdSerialBase + i;
+        newDisk = _.merge( ssdDefaults, defaults );
+        newDisk[ "mediasize" ] = config[ "ssdSize" ];
+        break;
 
-    newDisk = {};
+      case "BOTH":
+        if ( i % 4 === 3 ) {
+          serial = ssdSerialBase + i;
+          newDisk = _.merge( ssdDefaults, defaults );
+          newDisk[ "mediasize" ] = config[ "ssdSize" ];
+          break;
+        }
+        // deliberate lack of both an else and a break here, so that
+        // otherwise it falls through to case "HDD"
 
-    // FIXME (if we care): over 10 disks, you end up with serials that are
-    // longer than normal, because I can't be bothered to do anything other
-    // than string concatenation for this.
-    if ( config[ "types" ] === "SSD" ) {
-      serial = ssdSerialBase + i;
-    } else if ( config[ "types" ] === "BOTH" && i % 3 === 1 ) {
-      serial = ssdSerialBase + i;
-    } else {
-      serial = hddSerialBase + i;
+      case "HDD":
+      default:
+        serial = hddSerialBase + i;
+        newDisk = _.merge( hddDefaults, defaults );
+        newDisk[ "mediasize" ] = config[ "hddSize" ];
+        break;
     }
 
     id = "serial:" + serial;
@@ -107,24 +114,11 @@ function createDisks ( config ) {
       , id: id
       };
 
-    // This is stored both inside the controller and at the top level.
-    // newDisk[ "serial" ] = serial;
-
     uuid = uuidBase + "0509950453" + i;
     newDisk[ "swap-partition-uuid" ] = uuid;
     newDisk[ "swap-partition-path" ] = "/dev/gptid/" + uuid;
 
-    // TODO: Partitions. Those are nuts.
-
-    if ( config[ "types" ] === "SSD" ) {
-      newDisk = _.merge( newDisk, ssdDefaults, defaults );
-    // Every third disk will be an SSD is "BOTH" is selected.
-    } else if ( config[ "types" ] === "BOTH" && i % 3 === 1 ) {
-      newDisk = _.merge( newDisk, ssdDefaults, defaults );
-    } else {
-      newDisk = _.merge( newDisk, hddDefaults, defaults );
-    }
-    disks.push( newDisk );
+    disks.push( _.cloneDeep( newDisk ) );
   }
 
   return disks;
