@@ -22,7 +22,7 @@ const DragTarget = React.createClass(
   , getInitialState () {
       return (
         { dragging: false
-        , initPos: [ 0, 0 ]
+        , dragOffset: [ 0, 0 ]
         , deltaPos: [ 0, 0 ]
         }
       );
@@ -36,6 +36,8 @@ const DragTarget = React.createClass(
     }
 
   , handleMouseDown ( event ) {
+      let elementRect = event.target.getBoundingClientRect();
+
       document.body.classList.add( "no-select" );
       EventBus.emit( "dragStart"
                    , this.props.namespace
@@ -44,13 +46,19 @@ const DragTarget = React.createClass(
                    );
       window.addEventListener( "mouseup", this.handleDragEnd );
       window.addEventListener( "mousemove", this.handleDragMove );
+
+      this.setState(
+        { dragOffset: [ elementRect.left - event.clientX
+                      , elementRect.top - event.clientY
+                      ]
+        }
+      );
     }
 
   , handleDragMove ( event ) {
       let newState = {};
 
       if ( !this.state.dragging ) {
-        newState.initPos = [ event.clientX, event.clientY ];
         newState.dragging = true;
       }
 
@@ -70,7 +78,7 @@ const DragTarget = React.createClass(
         // a UX where it moves from one "bucket" to another. We use .isMounted()
         // to guard against trying to reset state on a now-unmounted component.
         this.setState(
-          { initPos: [ 0, 0 ]
+          { dragOffset: [ 0, 0 ]
           , deltaPos: [ 0, 0 ]
           , dragging: false
           }
@@ -84,9 +92,9 @@ const DragTarget = React.createClass(
       let contentClass = [ "drag-content" ];
 
       if ( this.state.dragging ) {
-        style.position = "absolute";
-        style.left = this.state.deltaPos[0] - this.state.initPos[0];
-        style.top = this.state.deltaPos[1] - this.state.initPos[1];
+        style.position = "fixed";
+        style.left = this.state.deltaPos[0] + this.state.dragOffset[0];
+        style.top = this.state.deltaPos[1] + this.state.dragOffset[1];
 
         contentClass.push( "dragging" );
 
