@@ -29,7 +29,7 @@ class Tasks extends RPCBase {
     this.rpcClasses = rpcClasses;
   }
 
-  submit ( system, args, systemChangeCallback ) {
+  submit ( system, args ) {
 
     var taskCall;
     var taskNamespace;

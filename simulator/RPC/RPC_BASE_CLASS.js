@@ -27,15 +27,8 @@ class RPCBaseClass extends EventEmitter {
     if ( this.CHANGE_EVENT ) {
       this.on( this.CHANGE_EVENT, callback );
     } else {
-      throw new Error( "Namespace \""
-                     + this.namespace
-                     + "\" does not emit any events at this time."
-                     );
+      // Errors here are too noisy.
     }
-  }
-
-  removeChangeListener( callback ) {
-    this.removeListener( this.CHANGE_EVENT, callback );
   }
 
 };
