@@ -16,138 +16,131 @@ import DM from "../../../../../flux/middleware/DisksMiddleware";
 import VS from "../../../../../flux/stores/VolumeStore";
 import ZM from "../../../../../flux/middleware/ZfsMiddleware";
 
+import DiscTri from "../../../../components/DiscTri";
+import DragTarget from "../../../../components/DragTarget";
 import Disk from "../../../../components/items/Disk";
 
 const ContextDisks = React.createClass(
-
   { displayName: "Pool Topology Context Drawer"
 
   , getInitialState () {
+      let initialState = this.getDisks();
 
-    let initialState = this.populateDisks();
+      _.assign( initialState, { diskSchema: SS.getDef( "disk" ) } );
 
-    _.assign( initialState, { diskSchema: SS.getDef( "disk" ) } );
-
-    return initialState;
-  }
-
-  , componentDidMount () {
-    DS.addChangeListener( this.handleChange );
-    DM.subscribe( this.constructor.displayName );
-    DM.requestDisksOverview();
-
-    VS.addChangeListener( this.handleChange );
-
-    ZM.subscribe( this.constructor.displayName );
-
-    ZM.requestVolumes();
-    ZM.requestAvailableDisks();
-  }
-
-  , componentWillUnmount () {
-    DS.removeChangeListener( this.handleChange );
-    DM.unsubscribe( this.constructor.displayName );
-
-    VS.removeChangeListener( this.handleChange );
-
-    ZM.unsubscribe( this.constructor.displayName );
-  }
-
-  , populateDisks () {
-
-    var disks = DS.disksArray;
-
-    let availableDisks = _.map( VS.availableDisks
-                              , function mapAvailableDisks ( diskPath ) {
-                                return ( _.find( disks
-                                               , { path: diskPath }
-                                               , this
-                                               )
-                                       );
-                              }
-                          , this
-                          );
-
-    return { disks: disks
-           , availableDisks: availableDisks
-           };
-  }
-
-  , handleChange () {
-
-    let newDisksInformation = this.populateDisks();
-
-    this.setState( newDisksInformation );
-  }
-
-  // Produce a TWBS Row displaying all the disks where the filterKey matches the
-  // filterValue.
-  , createDisksDisplaySection ( filterKey, filterValue ) {
-
-    let displayArray =
-    _.filter( this.state.availableDisks
-      , function filterDisks ( disk ) {
-        return ( !_.has( disk, filterKey, this )
-              || disk[ filterKey ] === filterValue
-               );
-      }
-      , this
-      );
-
-    let diskItems =
-      _.map( displayArray
-           , function addDiskItem ( disk, index ) {
-             return (
-              <TWBS.Col
-                key = { index }
-                xs = {6} >
-                <Disk { ...disk }
-                />
-              </TWBS.Col> );
-           }
-           , this
-           );
-
-    return (
-        <TWBS.Row>
-          { diskItems }
-        </TWBS.Row>
-    );
-  }
-
-  , render () {
-
-    let filterControls = null;
-    let disksDisplay = null;
-
-    if ( this.state.availableDisks.length === 0 ) {
-      disksDisplay = (
-        <div>
-          { "You don't have any available disks" }
-        </div>
-      );
-    } else {
-      disksDisplay = this.createDisksDisplaySection( "is-ssd", false );
+      return initialState;
     }
 
-    return (
-      <TWBS.Grid fluid>
-        <TWBS.Row>
-          <TWBS.Col xs = { 4 } >
-            <h4>
-              { "Available Disks: " + this.state.availableDisks.length }
-            </h4>
-          </TWBS.Col>
-          <TWBS.Col xs = { 8 } >
-            { filterControls }
-          </TWBS.Col>
-        </TWBS.Row>
-        { disksDisplay }
-      </TWBS.Grid>
+  , componentDidMount () {
+      DS.addChangeListener( this.handleDiskChange );
+      DM.subscribe( this.constructor.displayName );
+      DM.requestDisksOverview();
 
-    );
+      VS.addChangeListener( this.handleDiskChange );
+
+      ZM.subscribe( this.constructor.displayName );
+
+      ZM.requestVolumes();
+      ZM.requestAvailableDisks();
+    }
+
+  , componentWillUnmount () {
+      DS.removeChangeListener( this.handleDiskChange );
+      DM.unsubscribe( this.constructor.displayName );
+
+      VS.removeChangeListener( this.handleDiskChange );
+
+      ZM.unsubscribe( this.constructor.displayName );
+    }
+
+  , reduceToAvailable ( paths, key, destination ) {
+      let available = _.intersection( paths, VS.availableDisks );
+
+      if ( available.length > 0 ) {
+        destination[ key ] = available;
+      }
+    }
+
+  , getDisks () {
+      let groupedDisks = DS.similarDisks;
+
+      let SSDs = {};
+      let HDDs = {};
+
+      _.forEach( groupedDisks[0], this.reduceToAvailable.bind( null, SSDs ) );
+      _.forEach( groupedDisks[1], this.reduceToAvailable.bind( null, HDDs ) );
+
+      return { ssds: groupedDisks[0]
+             , hdds: groupedDisks[1]
+             };
+    }
+
+  , handleDiskChange () {
+      this.setState( this.getDisks() );
+    }
+
+  , createPaletteSection ( disks, key ) {
+      let headerText = key + " (" + disks.length + ")";
+
+      return (
+        <DiscTri
+          headerShow = { headerText }
+          headerHide = { headerText }
+          defaultExpanded = { disks.length < 10 }
+          key = { key }
+        >
+          <div className="disk-container">
+            { disks.map( ( path, index ) => (
+                  <div
+                    className = "disk-wrapper"
+                    key = { index }
+                  >
+                    <DragTarget
+                      namespace = "disk"
+                      payload = { path }
+                    >
+                      <Disk path={ path } />
+                    </DragTarget>
+                  </div>
+                )
+              )
+            }
+          </div>
+        </DiscTri>
+      );
+    }
+
+  , createDiskPalette ( collection ) {
+      if ( _.isEmpty( collection ) ) {
+        return null;
+      } else {
+        return (
+          <TWBS.Well>
+            { _.map( collection, this.createPaletteSection ) }
+          </TWBS.Well>
+        );
+      }
+    }
+
+  , render () {
+      let disksHeader = null;
+      let availableSSDs = this.createDiskPalette( this.state.ssds );
+      let availableHDDs = this.createDiskPalette( this.state.hdds );
+
+      if ( availableSSDs || availableHDDs ) {
+        disksHeader = <h4>Available Devices</h4>;
+      }
+
+      return (
+        <div className="context-disks">
+          { disksHeader }
+          { availableSSDs }
+          { availableHDDs }
+        </div>
+      );
+    }
+
   }
-
-});
+);
 
 export default ContextDisks;
