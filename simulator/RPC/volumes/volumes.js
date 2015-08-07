@@ -65,6 +65,10 @@ function processNewVolume ( volume, system ) {
                { source: "NONE"
                , value: volume[ "name" ]
                }
+             , size:
+               { source: "NONE"
+               , value: size
+               }
              }
            , root_dataset: rootDataset
            , datasets: datasets

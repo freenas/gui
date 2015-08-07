@@ -59,10 +59,6 @@
     { "source": "DEFAULT"
     , "value": "-"
     }
-  , "size":
-    { "source": "NONE"
-    , "value": "3.62T"
-    }
   , "fragmentation":
     { "source": "NONE"
     , "value": "-"

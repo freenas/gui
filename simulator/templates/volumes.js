@@ -201,9 +201,13 @@ function createVolume ( volumeIndex, disks, id ) {
                { source: "NONE"
                , value: volumeSize
                }
-              , name:
+             , name:
                { source: "NONE"
                , value: name
+               }
+              , size:
+               { source: "NONE"
+               , value: volumeSize
                }
              }
            }
