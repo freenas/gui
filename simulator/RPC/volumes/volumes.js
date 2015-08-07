@@ -93,9 +93,9 @@ class Volumes extends RPCBase {
     system.volumes.push( newVolume );
 
     callback( system, system[ "volumes" ] );
-
-    // TODO: emit event
-
+    this.emitChange( "volume.create"
+                   , _.cloneDeep( newVolume )
+                   );
     // TODO: error checking
 
   }
