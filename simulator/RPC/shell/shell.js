@@ -4,14 +4,6 @@
 
 "use strict";
 
-const shells =
-  [ "/bin/sh"
-  , "/bin/csh"
-  , "/usr/local/bin/zsh"
-  , "/usr/local/bin/bash"
-  , "/usr/local/bin/cli"
-  ];
-
 import RPCBase from "../RPC_BASE_CLASS";
 
 class Shell extends RPCBase {
