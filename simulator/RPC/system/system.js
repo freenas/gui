@@ -12,6 +12,7 @@ class System extends RPCBase {
 
     this.info = new Info();
     this.general = new General();
+    this.namespace = "system";
   }
 }
 
@@ -19,6 +20,7 @@ class Info extends RPCBase  {
   constructor () {
     super();
 
+    this.namespace = "system.info";
   }
 
   hardware ( system ) {
@@ -33,6 +35,7 @@ class General extends RPCBase {
   constructor () {
     super();
 
+    this.namespace = "system.general";
   }
 
   get_config ( system ) {

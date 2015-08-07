@@ -15,6 +15,9 @@ class Tasks extends RPCBase {
     super();
 
     this.rpcClasses = [];
+    this.namespace = "task";
+    // TODO: Figure out events for tasks
+
   }
 
   query ( system, filter, params ) {

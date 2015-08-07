@@ -14,6 +14,7 @@ class Discovery extends RPCBase {
 
   constructor () {
     super();
+    this.namespace = "discovery";
   }
 
   get_methods ( system, service ) {

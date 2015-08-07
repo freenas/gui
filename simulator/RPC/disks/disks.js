@@ -10,6 +10,9 @@ class Disks extends RPCBase {
 
   constructor () {
     super();
+
+    this.namespace = "disks";
+    this.CHANGE_EVENT = "disks.changed";
   }
 
   query ( system ) {

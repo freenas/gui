@@ -81,6 +81,9 @@ class Volumes extends RPCBase {
 
   constructor () {
     super();
+
+    this.namespace = "volumes";
+    this.CHANGE_EVENT = "volumes.changed";
   }
 
   create ( system, args, callback ) {

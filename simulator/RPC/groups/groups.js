@@ -10,6 +10,9 @@ class Groups extends RPCBase {
 
   constructor () {
     super();
+
+    this.namespace = "groups";
+    this.CHANGE_EVENT = "groups.changed";
   }
 
   query ( system ) {

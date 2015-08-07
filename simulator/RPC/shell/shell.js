@@ -10,6 +10,7 @@ class Shell extends RPCBase {
 
   constructor() {
     super();
+    this.namespace = "shell";
   }
 
   get_shells ( system ) {

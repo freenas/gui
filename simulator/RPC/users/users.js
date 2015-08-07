@@ -10,6 +10,9 @@ class Users extends RPCBase {
 
   constructor () {
     super();
+
+    this.namespace = "users";
+    this.CHANGE_EVENT = "users.changed";
   }
 
   query ( system ) {

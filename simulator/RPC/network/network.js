@@ -12,12 +12,16 @@ class Network extends RPCBase {
     super();
     this.config = new Config();
     this.interfaces = new Interfaces();
+    this.namespace = "network";
+    this.CHANGE_EVENT = "network.changed";
   }
 }
 
 class Config extends RPCBase {
   constructor () {
     super();
+    this.namespace = "network.config";
+    this.CHANGE_EVENT = "network.config.changed";
   }
 
   get_global_config ( system ) {
@@ -28,6 +32,8 @@ class Config extends RPCBase {
 class Interfaces extends RPCBase {
   constructor () {
     super();
+    this.namespace = "network.interfaces";
+    this.CHANGE_EVENT = "network.interfaces.changed";
   }
 
   query ( system ) {
