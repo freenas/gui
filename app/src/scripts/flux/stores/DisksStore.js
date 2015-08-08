@@ -61,14 +61,23 @@ class DisksStore extends FluxBase {
     let SSDs = {};
     let HDDs = {};
 
+    function createLabel ( disk ) {
+      return (
+        [ disk.status.manufacturer
+        , ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
+        , disk.status["is-ssd"]
+          ? ""
+          : disk.status["max-rotation"] + "rpm"
+        ].join( " " )
+      );
+    }
+
     // SSDs
     _.chain( disks[0] )
       .sortBy( "path" )
       .value()
       .map( disk => {
-        let label = ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
-                  + " "
-                  + disk.status.manufacturer;
+        let label = createLabel( disk );
 
         if ( _.isArray( SSDs[ label ] ) ) {
           SSDs[ label ].push( disk.path );
@@ -82,10 +91,7 @@ class DisksStore extends FluxBase {
       .sortBy( "path" )
       .value()
       .map( disk => {
-        let label = disk.status["max-rotation"] + "rpm "
-                  + ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
-                  + " "
-                  + disk.status.manufacturer;
+        let label = createLabel( disk );
 
         if ( _.isArray( HDDs[ label ] ) ) {
           HDDs[ label ].push( disk.path );
