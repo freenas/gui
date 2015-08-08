@@ -190,15 +190,9 @@ const Storage = React.createClass(
               className = "clearfix storage-first-pool"
             >
               <img src="img/hdd.png" />
-              <h3>ZFS Pools</h3>
+              <h3>Creating Storage</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
             </div>
-          );
-        } else {
-          message = (
-            <h1 className="section-heading">
-              <span className="type-line">ZFS Storage Pools</span>
-            </h1>
           );
         }
         content = this.createVolumes();
@@ -209,6 +203,9 @@ const Storage = React.createClass(
 
       return (
         <main>
+          <h1 className="section-heading">
+            <span className="type-line">ZFS Storage Pools</span>
+          </h1>
           { loading }
           { message }
           { content }
