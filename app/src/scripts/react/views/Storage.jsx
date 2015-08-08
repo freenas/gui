@@ -11,6 +11,7 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import DS from "../../flux/stores/DisksStore";
 import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
 import DM from "../../flux/middleware/DisksMiddleware";
@@ -108,15 +109,27 @@ const Storage = React.createClass(
     }
 
   , createVolumes () {
+      let availableDisks = _.without( this.state.availableDisks
+                                    , ...this.state.selectedDisks
+                                    );
+      let availableHDDs = [];
+      let availableSSDs = [];
+
+      availableDisks.forEach( disk => {
+        if ( DS.isSSD( disk ) ) {
+          availableSSDs.push( disk );
+        } else {
+          availableHDDs.push( disk );
+        }
+      });
+
       const volumeCommon =
-        { onEditModeChange    : this.handleEditModeChange
-        , handleDiskSelection : this.handleDiskSelection
-        , handleDiskRemoval   : this.handleDiskRemoval
-        , availableDisks:
-          _.without( this.state.availableDisks, ...this.state.selectedDisks )
-        , availableSSDs:
-          // FIXME: Implement SSDs
-          _.without( [], ...this.state.selectedSSDs )
+        { onEditModeChange: this.handleEditModeChange
+        , handleDiskSelection: this.handleDiskSelection
+        , handleDiskRemoval: this.handleDiskRemoval
+        , availableDisks: availableDisks
+        , availableSSDs: availableSSDs
+        , availableHDDs: availableHDDs
         };
 
       let pools =
