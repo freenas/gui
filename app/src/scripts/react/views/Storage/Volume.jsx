@@ -131,7 +131,7 @@ const Volume = React.createClass(
   // warning to the user.
 
   , componentDidUpdate ( prevProps, prevState ) {
-      let sectionIsVisible       = Boolean( prevState.activeSection );
+      let sectionIsVisible = Boolean( prevState.activeSection );
       let sectionShouldBeVisible = Boolean( this.state.activeSection );
 
       // Toggle the display of the content drawer
@@ -148,6 +148,18 @@ const Volume = React.createClass(
                   );
         }
       }
+
+      if ( this.state.editing
+        && _.xor( this.props.availableDisks
+                , prevProps.availableDisks ).length
+                ) {
+        let contextProps =
+          { availableDisks: this.props.availableDisks
+          };
+        EventBus.emit( "updateContextPanel"
+                     , TopologyEditContext
+                     , contextProps );
+      }
     }
 
   , componentWillUnmount () {
@@ -156,8 +168,12 @@ const Volume = React.createClass(
 
   , handleEditModeChange ( isEditing, event ) {
       if ( isEditing ) {
+        let contextProps =
+          { availableDisks: this.props.availableDisks
+          };
+
         this.props.onEditModeChange( true, event );
-        EventBus.emit( "showContextPanel", TopologyEditContext );
+        EventBus.emit( "showContextPanel", TopologyEditContext, contextProps );
       } else {
         EventBus.emit( "hideContextPanel", TopologyEditContext );
       }

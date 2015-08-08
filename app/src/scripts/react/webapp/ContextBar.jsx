@@ -18,25 +18,31 @@ const ContextBar = React.createClass(
 
   , componentWillMount: function () {
     EventBus.on( "showContextPanel", this.showContext );
+    EventBus.on( "updateContextPanel", this.updateContext );
     EventBus.on( "hideContextPanel", this.hideContext );
   }
 
   , componentWillUnmount: function () {
     EventBus.removeListener( "showContextPanel", this.showContext );
+    EventBus.removeListener( "updateContextPanel", this.updateContext );
     EventBus.removeListener( "hideContextPanel", this.hideContext );
   }
 
   , getInitialState: function () {
-    return { activeComponent : null
-           , lastComponent   : null
+    return { activeComponent: null
+           , activeProps: {}
+           , lastComponent: null
+           , lastProps: {}
            };
   }
 
-  , showContext: function ( reactElement ) {
+  , showContext: function ( reactElement, props ) {
     if ( reactElement.displayName ) {
       this.setState(
-        { activeComponent : reactElement
-        , lastComponent   : this.state.activeComponent
+        { activeComponent: reactElement
+        , activeProps: props
+        , lastComponent: this.state.activeComponent
+        , lastProps: this.state.activeProps
         }
       );
     } else {
@@ -45,12 +51,23 @@ const ContextBar = React.createClass(
     }
   }
 
+  , updateContext ( reactElement, props ) {
+      if ( this.state.activeComponent.displayName === reactElement.displayName ) {
+        this.setState(
+          { activeProps: props
+          }
+        );
+      }
+    }
+
   , hideContext: function ( reactElement ) {
 
     if ( this.state.activeComponent.displayName === reactElement.displayName ) {
       this.setState(
         { activeComponent : this.state.lastComponent
-        , lastComponent   : null
+        , activeProps: this.state.lastProps
+        , lastComponent: null
+        , lastProps: {}
         }
       );
     }
@@ -60,7 +77,9 @@ const ContextBar = React.createClass(
     let activeComponent = null;
 
     if ( this.state.activeComponent ) {
-      activeComponent = <this.state.activeComponent />;
+      activeComponent = (
+        <this.state.activeComponent { ...this.state.activeProps } />
+      );
     }
 
     return (
