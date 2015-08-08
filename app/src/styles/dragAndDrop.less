@@ -4,7 +4,6 @@
   cursor: default;
   position: relative;
   display: block;
-  z-index: 1;
 
   &:after {
     content: "";
@@ -45,10 +44,10 @@
   .justify-content( center );
   .align-items( center );
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.75);
-  border: dashed 0.45em rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.95);
+  border: dashed 0.45em rgba(0, 0, 0, 0.05);
   border-radius: inherit;
-  z-index: 0;
+  z-index: 100;
 }
 
 .drop-catcher {
