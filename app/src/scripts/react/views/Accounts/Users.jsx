@@ -46,16 +46,16 @@ const VIEWER_DATA =
 
   , columnsInitial : new Set(
                        [ "id"
-                       , "builtIn"
+                       , "builtin"
                        , "username"
-                       , "fullname"
+                       , "full_name"
                        ]
                      )
   , columnsAllowed : new Set(
                      [ "id"
-                     , "builtIn"
+                     , "builtin"
                      , "username"
-                     , "fullname"
+                     , "full_name"
                      ]
                      )
 
