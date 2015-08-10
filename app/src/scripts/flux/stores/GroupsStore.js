@@ -30,12 +30,9 @@ const GROUP_SCHEMA =
   };
 
 const GROUP_LABELS =
-  { type: "object"
-  , properties:
-    { groupName: "Group Name"
-    , groupID: "Group ID"
-    , builtIn: "Built-in System Group"
-    }
+  { groupName: "Group Name"
+  , groupID: "Group ID"
+  , builtIn: "Built-in System Group"
   };
 
 const KEY_TRANSLATION =
