@@ -32,7 +32,7 @@ function getDiskGroups () {
 }
 
 const DiskDisclosure = React.createClass(
-  { propTypes: { diskGroups: React.PropTypes.object.isRequired }
+  { propTypes: { diskGroups: React.PropTypes.array.isRequired }
 
   , createDiskGroup: function ( group, index, groups ) {
 
@@ -55,7 +55,8 @@ const DiskDisclosure = React.createClass(
                          );
 
     return (
-      <TWBS.Col xs = {12} >
+      <TWBS.Col xs = {12}
+                key = { index } >
         <span className = "type-line">{ description }</span>
         <TWBS.Well>
           <TWBS.Grid fluid >
