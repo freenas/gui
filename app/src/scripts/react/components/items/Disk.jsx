@@ -26,9 +26,9 @@ const Disk = React.createClass(
 
     let diskClasses = [ "disk-icon" ];
 
-    if ( disk.smartStatus === "PASS" ) {
+    if ( disk[ "smart-status" ] === "PASS" ) {
       diskClasses.push( "smart-pass" );
-    } else if ( disk.smartStatus === "FAIL" ) {
+    } else if ( disk[ "smart-status" ] === "FAIL" ) {
       diskClasses.push( "smart-fail" );
     }
 
