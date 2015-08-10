@@ -61,9 +61,9 @@ const VIEWER_DATA =
 
   , groupBy:
     { current:
-     {/*{ name: "current user account"
+     { name: "current user account"
      , testProp: testCurrentUser
-     }*/}
+     }
     , userCreated:
      { name: "local user accounts"
      , testProp: { builtin: false }
