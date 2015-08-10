@@ -27,26 +27,52 @@ function getSystemInformation () {
   return { systemInformation: SS.getSystemInfo( "hardware" ) };
 }
 
+function getDiskGroups () {
+  return { diskGroups: DS.similarDisks };
+}
+
 const DiskDisclosure = React.createClass(
-  { propTypes: { disks: React.PropTypes.array.isRequired }
+  { propTypes: { diskGroups: React.PropTypes.object.isRequired }
+
+  , createDiskGroup: function ( group, index, groups ) {
+
+    // The groups are objects of only one key, which is the name to use to
+    // select the array of disks and the title to display for the section. This
+    // selects that key.
+    var description = _.keys( groups[ index ] )[0];
+
+    var diskItems = _.map( group[ description ]
+                         , function createDiskItems ( disk, index ) {
+                           return (
+                             <TWBS.Col xs = { 3 }
+                                       key = { index } >
+                               <TWBS.Panel>
+                                 <Disk path = { disk } />
+                               </TWBS.Panel>
+                              </TWBS.Col>
+                           );
+                         }
+                         );
+
+    return (
+      <TWBS.Col xs = {12} >
+        <span className = "type-line">{ description }</span>
+        <TWBS.Well>
+          <TWBS.Grid fluid >
+            <TWBS.Row>
+              { diskItems }
+            </TWBS.Row>
+          </TWBS.Grid>
+        </TWBS.Well>
+      </TWBS.Col>
+    );
+  }
 
   , render: function () {
 
-    var i;
-    var j;
-
-    var diskItems = _.map( this.props.disks
-                           , function createDiskItems ( disk, index ) {
-                             return (
-                               <TWBS.Col xs = { 3 }
-                                         key = { index } >
-                                 <TWBS.Panel>
-                                   <Disk path = { disk.path } />
-                                 </TWBS.Panel>
-                                </TWBS.Col>
-                             );
-                           }
-                           );
+    var diskGroups = _.map( this.props.diskGroups
+                          , this.createDiskGroup
+                          );
 
     return (
       <DiscTri headerShow = { "Disk Information" }
@@ -55,7 +81,7 @@ const DiskDisclosure = React.createClass(
                style = { { "overflow-y": "auto" } }>
         <TWBS.Grid fluid >
           <TWBS.Row>
-            { diskItems }
+            { diskGroups }
           </TWBS.Row>
         </TWBS.Grid>
       </DiscTri>
@@ -71,11 +97,15 @@ const Hardware = React.createClass({
   , mixins: [ routerShim ]
 
   , getInitialState: function () {
-    return getSystemInformation();
+    return _.merge( getSystemInformation()
+                  , getDiskGroups()
+                  );
   }
 
   , componentDidMount: function () {
+    DS.addChangeListener( this.handleDisksChange )
     DM.requestDisksOverview();
+    DM.subscribe( this.constructor.displayName );
 
     SS.addChangeListener( this.handleHardwareChange );
     SM.requestSystemInfo( "hardware" );
@@ -83,8 +113,16 @@ const Hardware = React.createClass({
   }
 
   , componentWillUnmount: function () {
+
+    DM.unsubscribe( this.constructor.displayName );
+
     SS.removeChangeListener( this.handleHardwareChange );
     SM.unsubscribe( this.constructor.displayName );
+  }
+
+  // For now, just
+  , handleDisksChange: function () {
+    this.setState( getDiskGroups() );
   }
 
   , handleHardwareChange: function () {
@@ -123,7 +161,7 @@ const Hardware = React.createClass({
           </TWBS.Panel>
         </div>
         <div className = { "disclosures" } >
-          <DiskDisclosure disks = { DS.disksArray } />
+          <DiskDisclosure diskGroups = { this.state.diskGroups } />
         </div>
       </div>
     );
