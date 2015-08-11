@@ -35,6 +35,25 @@ class Smart extends RPCBase {
     this.namespace = "smart";
   }
 
+  set_disk_temp ( system, args, callback ) {
+    var diskPath = args[0];
+    var temp = args[1];
+
+    var diskIndex =
+      _.findIndex( system[ "disks" ]
+                 , { path: diskPath }
+                 );
+
+    system[ "disks" ][ diskIndex ][ "smart-statistics" ][ "Temperature_Celcius" ] = temp;
+
+    callback( system, system[ "disks"][ diskIndex ] );
+
+    this.emitChange( "disks.update"
+                   , system[ "disks" ][ diskIndex ]
+                   );
+
+  }
+
   set_smart_status ( system, args, callback ) {
     var diskPath = args[0];
     var status = args[1];
