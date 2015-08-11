@@ -61,7 +61,7 @@ function handleCall ( data ) {
   // system, have nested namespaces such as system.info. These are handled in
   // classes for the top-level namespaces.
   var call = data[ "args" ][ "method" ].split( "." );
-  var namespace = call.shift();
+  namespace = call.shift();
 
   // Check for a second namespace. There are no extant triply-layered
   // namespaces.
