@@ -53,7 +53,8 @@ const DiskDisclosure = React.createClass(
                          );
 
     return (
-      <div className = "disk-category">
+      <div className = "disk-category"
+           key = { index }>
         <span className = "disk-category-title">{ description }</span>
         <TWBS.Well className = "disk-item-section"
                    bsSize = "small" >
