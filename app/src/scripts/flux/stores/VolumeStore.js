@@ -66,6 +66,9 @@ function handlePayload ( payload ) {
         if ( args.args.operation === "create" ) {
           _volumes[ args.args.entities[0][ "name" ] ] = _.cloneDeep( args.args.entities[0] );
           this.emitChange( "volumes" );
+        } else if ( args.args.operation = "destroy" ) {
+          _volumes = _.cloneDeep( args.args.entities[0] );
+          this.emitChange( "volumes" );
         }
       }
       break;

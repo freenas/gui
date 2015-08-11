@@ -116,7 +116,9 @@ class Volumes extends RPCBase {
               , [ volumeToRemove ]
               );
       callback( system, system[ "volumes" ] );
-      // TODO: Emit event
+      this.emitChange( "volume.destroy"
+                     , _.cloneDeep( system[ "volumes" ] )
+                     );
     } else {
       // TODO: Emit error
     }
