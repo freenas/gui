@@ -4,9 +4,18 @@
 
   .disclosures {
     overflow-y: auto;
-    .flex-display(flex);
     .flex(3);
     padding: 1.5em;
+
+    .disk-item-section {
+      .flex-display(flex);
+      .flex-flow(row wrap);
+      .justify-content(left);
+
+      .disk-item {
+        margin: 0.25em;
+      }
+    }
   }
 
   .statics {

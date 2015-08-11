@@ -44,28 +44,22 @@ const DiskDisclosure = React.createClass(
     var diskItems = _.map( group[ description ]
                          , function createDiskItems ( disk, index ) {
                            return (
-                             <TWBS.Col xs = { 3 }
-                                       key = { index } >
-                               <TWBS.Panel>
-                                 <Disk path = { disk } />
-                               </TWBS.Panel>
-                              </TWBS.Col>
+                             <TWBS.Panel className = "disk-item"
+                                         key = { index } >
+                               <Disk path = { disk } />
+                             </TWBS.Panel>
                            );
                          }
                          );
 
     return (
-      <TWBS.Col xs = {12}
-                key = { index } >
-        <span className = "type-line">{ description }</span>
-        <TWBS.Well>
-          <TWBS.Grid fluid >
-            <TWBS.Row>
-              { diskItems }
-            </TWBS.Row>
-          </TWBS.Grid>
+      <div className = "disk-category">
+        <span className = "disk-category-title">{ description }</span>
+        <TWBS.Well className = "disk-item-section"
+                   bsSize = "small" >
+          { diskItems }
         </TWBS.Well>
-      </TWBS.Col>
+      </div>
     );
   }
 
@@ -80,11 +74,7 @@ const DiskDisclosure = React.createClass(
                headerHide = { "Disk Information" }
                defaultExpanded = { true }
                style = { { "overflow-y": "auto" } }>
-        <TWBS.Grid fluid >
-          <TWBS.Row>
-            { diskGroups }
-          </TWBS.Row>
-        </TWBS.Grid>
+        { diskGroups }
       </DiscTri>
     );
   }
