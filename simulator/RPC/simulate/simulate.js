@@ -36,7 +36,6 @@ class Smart extends RPCBase {
   }
 
   set_smart_status ( system, args, callback ) {
-    console.log("set_smart_status")
     var diskPath = args[0];
     var status = args[1];
 
