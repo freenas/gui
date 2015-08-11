@@ -114,7 +114,7 @@ const Hardware = React.createClass({
   }
 
   , componentWillUnmount: function () {
-
+    DS.removeChangeListener( this.handleDisksChange );
     DM.unsubscribe( this.constructor.displayName );
 
     SS.removeChangeListener( this.handleHardwareChange );
