@@ -28,6 +28,8 @@ const Disk = React.createClass(
 
     if ( disk[ "smart-status" ] === "PASS" ) {
       diskClasses.push( "smart-pass" );
+    } else if ( disk[ "smart-status"] === "WARN" ) {
+      diskClasses.push( "smart-warn" );
     } else if ( disk[ "smart-status" ] === "FAIL" ) {
       diskClasses.push( "smart-fail" );
     }
