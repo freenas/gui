@@ -138,7 +138,7 @@ function generateToken () {
 
 function handleOpen () {
   // TODO
-};
+}
 
 function handleClose ( code, message ) {
   var explanation = "";
@@ -213,16 +213,16 @@ function handleClose ( code, message ) {
   console.log( "WebSocket connection closed: " + chalk.cyan( "Code " + code ) );
   if ( explanation ) {
     console.log( explanation );
-  };
+  }
   if ( message ) {
     console.log( message );
-  };
-};
+  }
+}
 
 function handleError ( error ) {
   console.log( "WebSocket error" );
   console.error( error );
-};
+}
 
 function handleMessage ( message, flags ) {
   var data;
@@ -239,7 +239,7 @@ function handleMessage ( message, flags ) {
       handleRPC.call( this, data, flags );
       break;
   }
-};
+}
 
 function pack ( namespace, name, args, id ) {
   return JSON.stringify(
