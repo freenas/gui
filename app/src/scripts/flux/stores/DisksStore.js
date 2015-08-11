@@ -184,6 +184,7 @@ function getCalculatedDiskProps ( disk ) {
 
 function handlePayload ( payload ) {
   const ACTION = payload.action;
+  const eventData = ACTION.eventData;
 
   switch ( ACTION.type ) {
 
@@ -216,7 +217,13 @@ function handlePayload ( payload ) {
       break;
 
     case ActionTypes.MIDDLEWARE_EVENT:
-      // TODO: There is currently no correct thing to subscribe to
+      let args = eventData.args;
+      if ( args.name === "entity-subscriber.disks.update" ) {
+        if ( args.args.operation === "update" ) {
+          _disks[ args.args.entities[0][ this.KEY_UNIQUE ] ] = _.cloneDeep( args.args.entities[0] );
+          this.emitChange();
+        }
+      }
       break;
   }
 }
