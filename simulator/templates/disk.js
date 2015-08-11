@@ -50,6 +50,14 @@ const defaults =
   , "updated-at": time
   , "created-at": time
   , online: true
+  // Generic S.M.A.R.T. stats for demonstration purposes. S.M.A.R.T. will NOT
+  // work like this in the real system.
+  , "smart-statistics":
+    { Temperature_Celcius: 29
+    , Power_On_Hours: 1200
+    , Load_CycleCount: 150
+    , Reallocated_Sector_Ct: 0
+    }
   };
 
 // Real UUIDs are for suckers (and take too long to generate every time the
