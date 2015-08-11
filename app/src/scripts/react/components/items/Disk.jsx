@@ -43,7 +43,12 @@ const Disk = React.createClass(
 
     return (
       <div className= { diskClasses.join( " " ) } >
-        <img src="img/hdd.png" />
+        <img
+          src = { disk.status["is-ssd"]
+                ? "img/ssd.png"
+                : "img/hdd.png"
+                }
+        />
         <strong className="primary-text">
           { ByteCalc.humanize( disk.mediasize
                              , { roundMode: this.props.roundMode }
