@@ -53,7 +53,7 @@ class Tasks extends RPCBase {
     }
 
     if ( taskCall.length > 1 ) {
-      secondTaskNamespace = taskCall.shift;
+      secondTaskNamespace = taskCall.shift();
     }
 
     taskMethod = taskCall[0];
