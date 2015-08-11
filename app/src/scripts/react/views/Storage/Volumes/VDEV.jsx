@@ -160,7 +160,7 @@ const VDEV = React.createClass(
           disabled = { Boolean( this.props.availableDevices.length ) }
           preventDrop = { this.preventHDDInSSDZone }
           callback = { this.props.handleDiskAdd }
-          activeDrop = "+"
+          activeDrop = { true }
         >
           <TWBS.Well className="clearfix vdev-bucket">
             { toolbar }
