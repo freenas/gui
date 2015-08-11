@@ -137,7 +137,7 @@ const VDEV = React.createClass(
     if ( this.props.availableDevices.length && !vdevDisks ) {
       addDisks = (
         <h5 className="text-center text-muted">
-          {"Drag disks from the palette to add"}
+          { `Drag from the palette to add ${ this.props.purpose }` }
         </h5>
       );
     }
