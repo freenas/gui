@@ -226,7 +226,6 @@ function handleError ( error ) {
 
 function handleMessage ( message, flags ) {
   var data;
-  var args;
 
   try {
     data = JSON.parse( message );
