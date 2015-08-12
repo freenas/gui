@@ -296,9 +296,13 @@ const Volume = React.createClass(
         // them (but striping is bad and we might want to not allow it in
         // certain "purposes", like data ). We add one to the length of the
         // array to accommodate both "stripe" and "mirror".
-        vdevAllowedTypes.push(
-          ...VDEV_TYPES[ purpose ].slice( 1, disks.length + 1 )
-        );
+        if ( VDEV_TYPES[ purpose ].length > 1 ) {
+          vdevAllowedTypes.push(
+            ...VDEV_TYPES[ purpose ].slice( 1, disks.length + 1 )
+          );
+        } else {
+          vdevAllowedTypes.push( VDEV_TYPES[ purpose ][0] );
+        }
 
         if ( currentType ) {
           let typeIndex = VDEV_TYPES[ purpose ].indexOf( currentType );
