@@ -10,6 +10,7 @@ import TWBS from "react-bootstrap";
 
 const HUMAN_TYPES =
   { disk   : "Disk"
+  , stripe : "Stripe"
   , mirror : "Mirror"
   , raidz1 : "RAID-Z1"
   , raidz2 : "RAID-Z2"
@@ -22,6 +23,7 @@ const VDEVInfo = React.createClass(
     , type: React.PropTypes.oneOf(
         [ null
         , "disk"
+        , "stripe"
         , "mirror"
         , "raidz1"
         , "raidz2"

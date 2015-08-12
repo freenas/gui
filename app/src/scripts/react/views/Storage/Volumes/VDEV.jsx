@@ -36,6 +36,7 @@ const VDEV = React.createClass(
         // children, and a falsy existsOnServer.
         [ null
         , "disk"
+        , "stripe"
         , "mirror"
         , "raidz1"
         , "raidz2"

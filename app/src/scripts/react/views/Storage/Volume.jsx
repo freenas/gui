@@ -37,7 +37,12 @@ const NAV_STATES = new Set( [ "disks", "filesystem", "snapshots", "files" ] );
 // unequal, we can choose instead to display a warning, indicate that another
 // user has modified that field, etc. As always, the last change "wins".
 
-const VDEV_TYPES = [ "disk", "mirror", "raidz1", "raidz2", "raidz3" ];
+const VDEV_TYPES =
+  { data: [ "disk", "stripe", "mirror", "raidz1", "raidz2", "raidz3" ]
+  , logs: [ "disk", "stripe", "mirror" ]
+  , cache: [ "disk", "stripe", "mirror" ]
+  , spares: [ "stripe" ]
+};
 
 const Volume = React.createClass(
   { displayName: "Volume"
@@ -201,14 +206,6 @@ const Volume = React.createClass(
       );
     }
 
-  , calcVdevType( allowedTypes, currentType ) {
-      if ( allowedTypes.indexOf( currentType ) > -1 ) {
-        return currentType;
-      } else {
-        return _.last( allowedTypes );
-      }
-    }
-
   , caluclateBreakdown() {
       let breakdown =
         { parity : 0
@@ -229,6 +226,11 @@ const Volume = React.createClass(
             case "disk":
               breakdown.parity += 0;
               breakdown.avail  += baseSize;
+              break;
+
+            case "stripe":
+              breakdown.parity += 0;
+              breakdown.avail  += baseSize * vdev.children.length;
               break;
 
             case "mirror":
@@ -274,14 +276,15 @@ const Volume = React.createClass(
       return paths;
     }
 
-  , reconstructVdev ( key, purpose = null, disks = [], currentType = null ) {
+  , reconstructVdev ( key, purpose, disks = [], currentType = null ) {
       let purposeVdevs = this.state[ purpose ];
       let allAllowedTypes = this.state.allowedTypes;
       let vdevAllowedTypes = [];
       let newVdev;
+      let newType;
 
       if ( disks.length === 1 ) {
-        vdevAllowedTypes.push( VDEV_TYPES[0] );
+        vdevAllowedTypes.push( VDEV_TYPES[ purpose ][0] );
         newVdev = this.createNewDisk( disks[0] );
       } else if ( disks.length > 1 ) {
         // This might look "too clever" at first, but it's very simple. The
@@ -291,12 +294,41 @@ const Volume = React.createClass(
         // mirror. This holds true for Z2 and Z1, all the way down to the case
         // where you have two disks, and your only option is to mirror or stripe
         // them (but striping is bad and we might want to not allow it in
-        // certain "purposes", like data ).
-        vdevAllowedTypes.push( ...VDEV_TYPES.slice( 1, disks.length ) );
+        // certain "purposes", like data ). We add one to the length of the
+        // array to accommodate both "stripe" and "mirror".
+        vdevAllowedTypes.push(
+          ...VDEV_TYPES[ purpose ].slice( 1, disks.length + 1 )
+        );
+
+        if ( currentType ) {
+          let typeIndex = VDEV_TYPES[ purpose ].indexOf( currentType );
+          let allowedIndex = vdevAllowedTypes.indexOf( currentType );
+
+          if ( typeIndex > ( vdevAllowedTypes.length - 1 ) ) {
+            // The user has selected a type, but the number of disks available
+            // now no longer supports that option. We should, then, select the
+            // *next* highest possible option: Z2 to Z1, Z1 to mirror, etc.
+            newType = _.last( vdevAllowedTypes );
+          } else if ( allowedIndex > -1 ) {
+            // The user has indicated a desire for this VDEV to be a certain
+            // type, and we have found that type in the array of allowed values.
+            // This is the simplest outcome: The user retains their selection.
+            newType = currentType;
+          }
+        }
+
+        if ( !newType ) {
+          // The only case in which a user could have a lower selection index
+          // is when transitioning from "disk" to something else, or else the
+          // user has not selected a type. We can select the first available
+          // option in this case. This will have the effect of selecting the
+          // first available type for two disks, usually "stripe".
+          newType = vdevAllowedTypes[0];
+        }
 
         newVdev =
           { path     : null
-          , type     : this.calcVdevType( vdevAllowedTypes, currentType )
+          , type     : newType
           , children : _.sortBy( disks ).map( this.createNewDisk )
           };
       }
