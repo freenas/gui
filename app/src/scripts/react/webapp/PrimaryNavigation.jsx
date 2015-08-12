@@ -12,8 +12,6 @@ import { Link } from "react-router";
 import TWBS from "react-bootstrap";
 import Icon from "../components/Icon";
 
-import EventBus from "../../utility/EventBus";
-
 // Path definitions
 // TODO: Convert to Flux or other external file
 const paths =
@@ -147,10 +145,6 @@ const PrimaryNavigation = React.createClass(
       Velocity.RunSequence( collapseSequence );
     }
 
-  , toggleDebugTools: function () {
-    EventBus.emit( "toggleDebugTools" );
-  }
-
   , createNavItem ( rawItem, index ) {
       if ( rawItem["disabled"] ) {
         return (
@@ -218,12 +212,6 @@ const PrimaryNavigation = React.createClass(
           </div>
 
           { paths.map( this.createNavItem ) }
-
-          <button
-            className="btn btn-info primary-nav-debug-button"
-            onClick={ this.toggleDebugTools }>
-            Toggle Debug Tools
-          </button>
 
         </TWBS.Nav>
       );
