@@ -122,7 +122,11 @@ const VDEV = React.createClass(
     // We want to see the toolbar anytime the VDEV is capable of displaying
     // disks. This means that we should see if when there are disks available or
     // disks have already been added (this.props.type will have a string value)
-    if ( this.props.availableDevices.length || this.props.type ) {
+    // "Spares" should not show the bar, as it will always be a collection of
+    // "disk" VDEVs
+    if ( this.props.purpose !== "spares"
+       && ( this.props.availableDevices.length || this.props.type )
+       ) {
       toolbar = (
         <VDEVInfo
           type             = { this.props.type }
