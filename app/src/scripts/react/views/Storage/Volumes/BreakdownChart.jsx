@@ -11,7 +11,7 @@ import ByteCalc from "../../../../utility/ByteCalc";
 
 const HUMAN_TYPES =
   { used   : "Used"
-  , free   : "Free"
+  , free   : "Usable"
   , parity : "Parity"
   , total  : "Total"
   };
