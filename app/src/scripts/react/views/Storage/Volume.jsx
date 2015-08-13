@@ -11,6 +11,7 @@ import React from "react";
 import TWBS from "react-bootstrap";
 
 import DS from "../../../flux/stores/DisksStore";
+import ZM from "../../../flux/middleware/ZfsMiddleware";
 
 import EventBus from "../../../utility/EventBus";
 import ByteCalc from "../../../utility/ByteCalc";
@@ -427,8 +428,49 @@ const Volume = React.createClass(
       );
     }
 
-  , submitVolume () {
+  , wrapStripe () {
       // TODO
+    }
+
+  , unwrapStripe ( vdevs ) {
+      // Because "stripe" is not an officialy recognized ZFS property, we
+      // approximate it in the FreeNAS GUI. What must actually be sent to ZFS
+      // is a flattened array of "disk" VDEVs at the top level, which will
+      // automatically be striped together.
+
+      if ( _.isArray( vdevs ) ) {
+        let unwrapped = [];
+
+        vdevs.forEach( vdev => {
+          if ( vdev.type === "stripe" ) {
+            unwrapped.push( ...vdev.children );
+          } else {
+            unwrapped.push( vdev );
+          }
+        });
+
+        return unwrapped;
+      } else {
+        return null;
+      }
+    }
+
+  , submitVolume () {
+      let { logs, cache, data, spares } = this.state;
+
+
+      let newVolume =
+        { topology:
+          { logs: this.unwrapStripe( logs ) || this.props.logs
+          , cache: this.unwrapStripe( cache ) || this.props.cache
+          , data: this.unwrapStripe( data ) || this.props.data
+          , spares: this.unwrapStripe( spares ) || this.props.spares
+          }
+        , type: "zfs"
+        , name: this.state.name || this.props.name
+        };
+
+      ZM.submitVolume( newVolume );
     }
 
   , createVolumeName () {
@@ -455,17 +497,19 @@ const Volume = React.createClass(
         case "disks":
           return (
             <PoolTopology
-              availableDisks       = { this.props.availableDisks }
-              availableSSDs        = { this.props.availableSSDs }
-              data                 = { this.state.data }
-              logs                 = { this.state.logs }
-              cache                = { this.state.cache }
-              spares               = { this.state.spares }
-              allowedTypes         = { this.state.allowedTypes }
-              handleDiskAdd        = { this.handleDiskAdd }
-              handleDiskRemove     = { this.handleDiskRemove }
-              handleVdevRemove     = { this.handleVdevRemove }
+              availableDisks = { this.props.availableDisks }
+              availableSSDs = { this.props.availableSSDs }
+              data = { this.state.data }
+              logs = { this.state.logs }
+              cache = { this.state.cache }
+              spares = { this.state.spares }
+              allowedTypes = { this.state.allowedTypes }
+              handleDiskAdd = { this.handleDiskAdd }
+              handleDiskRemove = { this.handleDiskRemove }
+              handleVdevRemove = { this.handleVdevRemove }
               handleVdevTypeChange = { this.handleVdevTypeChange }
+              handleVolumeSubmit = { this.submitVolume }
+              editing = { this.state.editing }
             />
           );
         case "filesystem":

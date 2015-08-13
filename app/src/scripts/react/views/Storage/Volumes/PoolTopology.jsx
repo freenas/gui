@@ -13,30 +13,32 @@ import VDEV from "./VDEV";
 var TopologyDrawer = React.createClass(
 
   { propTypes:
-    { handleDiskAdd        : React.PropTypes.func.isRequired
-    , handleDiskRemove     : React.PropTypes.func.isRequired
-    , handleVdevTypeChange : React.PropTypes.func.isRequired
-    , availableDisks       : React.PropTypes.array.isRequired
-    , availableSSDs        : React.PropTypes.array.isRequired
-    , data                 : React.PropTypes.array.isRequired
-    , logs                 : React.PropTypes.array.isRequired
-    , cache                : React.PropTypes.array.isRequired
-    , spares               : React.PropTypes.array.isRequired
+    { handleDiskAdd: React.PropTypes.func.isRequired
+    , handleDiskRemove: React.PropTypes.func.isRequired
+    , handleVdevTypeChange: React.PropTypes.func.isRequired
+    , handleVolumeSubmit: React.PropTypes.func.isRequired
+    , availableDisks: React.PropTypes.array.isRequired
+    , availableSSDs: React.PropTypes.array.isRequired
+    , data: React.PropTypes.array.isRequired
+    , logs: React.PropTypes.array.isRequired
+    , cache: React.PropTypes.array.isRequired
+    , spares: React.PropTypes.array.isRequired
     , allowedTypes: React.PropTypes.shape(
-        { data   : React.PropTypes.array
-        , logs   : React.PropTypes.array
-        , cache  : React.PropTypes.array
-        , spares : React.PropTypes.array
+        { data: React.PropTypes.array
+        , logs: React.PropTypes.array
+        , cache: React.PropTypes.array
+        , spares: React.PropTypes.array
         }
       ).isRequired
+    , editing: React.PropTypes.bool.isRequired
     }
 
   , createVdevs ( purpose ) {
     let sharedProps =
-      { purpose              : purpose
-      , availableDevices     : null
-      , cols                 : null
-      , newVdevAllowed       : false
+      { purpose: purpose
+      , availableDevices: null
+      , cols: null
+      , newVdevAllowed: false
       };
 
     switch ( purpose ) {
@@ -125,23 +127,43 @@ var TopologyDrawer = React.createClass(
   }
 
   , render () {
+    let changesToolbar = null;
+
+    if ( this.props.editing ) {
+      changesToolbar = (
+        <div className="clearfix">
+          <TWBS.ButtonToolbar className="pull-right">
+            <TWBS.Button bsStyle="default">
+              { "Cancel" }
+            </TWBS.Button>
+            <TWBS.Button
+              bsStyle = "primary"
+              onClick = { this.props.handleVolumeSubmit }
+            >
+              { "Submit Volume" }
+            </TWBS.Button>
+          </TWBS.ButtonToolbar>
+        </div>
+      );
+    }
+
     return (
       <div
-        style     = { this.props.style }
+        style = { this.props.style }
         className = "pool-topology"
       >
 
         <TWBS.Row>
           {/* LOG AND CACHE DEVICES */}
           <TWBS.Col
-            xs={ 6 }
+            xs = { 6 }
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Cache</h4>
             { this.createVdevs( "cache" ) }
           </TWBS.Col>
           <TWBS.Col
-            xs={ 6 }
+            xs = { 6 }
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Log</h4>
@@ -166,6 +188,8 @@ var TopologyDrawer = React.createClass(
             { this.createVdevs( "spares" ) }
           </TWBS.Col>
         </TWBS.Row>
+
+        { changesToolbar }
 
       </div>
     );
