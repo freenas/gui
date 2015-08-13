@@ -47,7 +47,8 @@ function sendEvent ( message ) {
   if ( this.readyState === 1 ) {
     this.send( pack( "events", "event", message ) );
   } else {
-    console.log( "Tried to send event when the socket was not open." );
+    // Don't bother warning on this case until we want to debug it again.
+    // console.log( "Tried to send event when the socket was not open." );
   }
 }
 
