@@ -48,6 +48,10 @@ class Tasks extends RPCBase {
     // Basically, most task and RPC namespaces match, but for zfs volumes, the
     // RPC namespace is "volumes" and the task namespace is "volume"... for only
     // some tasks. Maybe because those calls apply only to one volume at a time?
+    //
+    // TODO: This issue is being fixed in the new middleware. Once it's fixed
+    // and we're back to testing against builds with the new middleware change
+    // all simulation middleware namespaces to match and get rid of this.
     if ( taskNamespace === "volume" ) {
       taskNamespace = "volumes";
     }
