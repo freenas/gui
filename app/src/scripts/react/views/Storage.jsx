@@ -108,6 +108,10 @@ const Storage = React.createClass(
       this.setState({ selectedDisks: diskUpdate });
     }
 
+  , handleDiskClear () {
+      this.setState({ selectedDisks: new Set() });
+    }
+
   , createVolumes () {
       let availableDisks = _.without( this.state.availableDisks
                                     , ...this.state.selectedDisks
@@ -127,6 +131,7 @@ const Storage = React.createClass(
         { onEditModeChange: this.handleEditModeChange
         , handleDiskSelection: this.handleDiskSelection
         , handleDiskRemoval: this.handleDiskRemoval
+        , handleDiskClear: this.handleDiskClear
         , availableDisks: availableDisks
         , availableSSDs: availableSSDs
         , availableHDDs: availableHDDs

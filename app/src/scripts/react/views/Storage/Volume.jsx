@@ -51,6 +51,7 @@ const Volume = React.createClass(
     { onEditModeChange: React.PropTypes.func.isRequired
     , handleDiskSelection: React.PropTypes.func.isRequired
     , handleDiskRemoval: React.PropTypes.func.isRequired
+    , handleDiskClear: React.PropTypes.func.isRequired
     , availableDisks: React.PropTypes.array.isRequired
     , availableSSDs: React.PropTypes.array.isRequired
     , existsOnRemote: React.PropTypes.bool
