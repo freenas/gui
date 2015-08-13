@@ -107,7 +107,7 @@ class WebSocketClient {
     // Counter for stepped timeout
     this.k = -1;
     // Flag Variable for instant reconnect (like after logout)
-    this.instantReconnet = false;
+    this.instantReconnect = false;
 
 
 
@@ -200,9 +200,9 @@ class WebSocketClient {
     // Increase k in a cyclic fashion (it goes back to 0 after reachin 4)
     this.k = ++this.k % MODFIBONACCI.length;
     let reconnectInterval = MODFIBONACCI[this.k];
-    if ( this.k === 0 && this.instantReconnet ) {
+    if ( this.k === 0 && this.instantReconnect ) {
       reconnectInterval = 0;
-    } else { this.instantReconnet = false; }
+    } else { this.instantReconnect = false; }
 
     this.reconnectHandle.start( reconnectInterval );
     // Uncomment the below if debugging the reconnect timer, else let it be!
