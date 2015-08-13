@@ -406,8 +406,8 @@ const Volume = React.createClass(
                         );
     }
 
-  , handleVolumeNameChange () {
-      // TODO
+  , handleVolumeNameChange ( event ) {
+      this.setState({ name: event.target.value });
     }
 
   , resetTopology () {
@@ -474,20 +474,22 @@ const Volume = React.createClass(
     }
 
   , createVolumeName () {
+      let name = this.state.name || this.props.name;
+
       if ( this.state.editing ) {
         return (
           <div className="volume-name-input">
             <TWBS.Input
-              type        = "text"
+              type = "text"
               placeholder = "Volume Name"
-              onChange    = { this.handleVolumeNameChange }
-              value       = { this.state.name }
+              onChange = { this.handleVolumeNameChange }
+              value = { name }
             />
           </div>
         );
       } else {
         return (
-          <h3 className="pull-left volume-name">{ this.state.name }</h3>
+          <h3 className="pull-left volume-name">{ name }</h3>
         );
       }
     }
