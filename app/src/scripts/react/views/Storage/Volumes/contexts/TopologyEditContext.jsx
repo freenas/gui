@@ -19,8 +19,9 @@ import Disk from "../../../../components/items/Disk";
 const ContextDisks = React.createClass(
   { displayName: "Pool Topology Context Drawer"
 
-  , propTypes: {
-      availableDisks: React.PropTypes.array.isRequired
+  , propTypes:
+    { availableDisks: React.PropTypes.array.isRequired
+    , handleReset: React.PropTypes.func.isRequired
     }
 
   , createPaletteSection ( disks, key ) {
@@ -90,6 +91,13 @@ const ContextDisks = React.createClass(
         <div className="context-disks">
           { this.createDiskPalette( groupedDisks[0], "SSDs" ) }
           { this.createDiskPalette( groupedDisks[1], "Disks" ) }
+          <TWBS.Button
+            block
+            bsStyle = "default"
+            onClick = { this.props.handleReset }
+          >
+            {"Reset Pool Topology"}
+          </TWBS.Button>
         </div>
       );
     }

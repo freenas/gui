@@ -90,33 +90,29 @@ const Volume = React.createClass(
              };
     }
 
-  , returnInitialStateValues () {
+  , getInitialState () {
       return { activeSection : null
              , editing       : false
-             , data          : this.props.data
-             , logs          : this.props.logs
-             , cache         : this.props.cache
-             , spares        : this.props.spares
-             , free          : this.props.free
-             , allocated     : this.props.allocated
-             , size          : this.props.size
-             , name          : this.props.name
+             , data          : []
+             , logs          : []
+             , cache         : []
+             , spares        : []
+             , free          : 0
+             , allocated     : 0
+             , size          : 0
+             , name          : ""
              // To keep state pure and mimic the schema used by the middleware,
              // allowed types is a parallel data structure that stores
              // information about which VDEV types are allowed. It is created /
              // modified by reconstructVdev(), and passed to PoolTopology for
              // eventual use in VDEV.
              , allowedTypes:
-               { data   : []
-               , logs   : []
-               , cache  : []
-               , spares : []
+               { data: []
+               , logs: []
+               , cache: []
+               , spares: []
                }
              };
-    }
-
-  , getInitialState () {
-      return this.returnInitialStateValues();
     }
 
   // A shorthand method used to "cancel" creation or editing of a volume.
@@ -146,12 +142,9 @@ const Volume = React.createClass(
         && _.xor( this.props.availableDisks
                 , prevProps.availableDisks ).length
                 ) {
-        let contextProps =
-          { availableDisks: this.props.availableDisks
-          };
         EventBus.emit( "updateContextPanel"
                      , TopologyEditContext
-                     , contextProps );
+                     , this.getTopologyContextProps() );
       }
     }
 
@@ -159,14 +152,21 @@ const Volume = React.createClass(
       EventBus.emit( "hideContextPanel", TopologyEditContext );
     }
 
+  , getTopologyContextProps () {
+      return (
+        { availableDisks: this.props.availableDisks
+        , handleReset: this.resetTopology
+        }
+      );
+    }
+
   , handleEditModeChange ( isEditing, event ) {
       if ( isEditing ) {
-        let contextProps =
-          { availableDisks: this.props.availableDisks
-          };
-
         this.props.onEditModeChange( true, event );
-        EventBus.emit( "showContextPanel", TopologyEditContext, contextProps );
+        EventBus.emit( "showContextPanel"
+                     , TopologyEditContext
+                     , this.getTopologyContextProps()
+                     );
       } else {
         EventBus.emit( "hideContextPanel", TopologyEditContext );
       }
@@ -409,8 +409,22 @@ const Volume = React.createClass(
       // TODO
     }
 
-  , resetVolume () {
-      this.setState( this.returnInitialStateValues() );
+  , resetTopology () {
+      this.props.handleDiskClear();
+      this.setState(
+      { data: []
+      , logs: []
+      , cache: []
+      , spares: []
+      , free: 0
+      , allowedTypes:
+        { data: []
+        , logs: []
+        , cache: []
+        , spares: []
+        }
+      }
+      );
     }
 
   , submitVolume () {
