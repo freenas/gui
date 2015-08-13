@@ -118,19 +118,6 @@ const Volume = React.createClass(
       return this.returnInitialStateValues();
     }
 
-  , componentWillReceiveProps ( newProps ) {
-    this.setState( { name: newProps.name
-                   , data : newProps.data
-                   , logs : newProps.logs
-                   , cache : newProps.cache
-                   , spares : newProps.spares
-                   , free : newProps.free
-                   , allocated : newProps.allocated
-                   , size : newProps.size
-                   }
-                 );
-  }
-
   // A shorthand method used to "cancel" creation or editing of a volume.
   // TODO: This should probably be gated so that it isn't triggered without a
   // warning to the user.
