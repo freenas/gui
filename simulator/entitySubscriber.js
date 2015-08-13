@@ -39,11 +39,17 @@ class EntitySubscriber extends EventEmitter {
   sendEvent ( originEvent, originMethod, content ) {
     // TODO: Actually check subscriptions before dispatching event
 
-    var methodInfo = originMethod.split( "." );
-    var operation = methodInfo.pop();
-    var service = methodInfo.length === 1
-                ? methodInfo[0]
-                : methodInfo[0] + "." + methodInfo[1];
+
+    var operation = null;
+    var service = null;
+
+    if ( originMethod ) {
+      let methodInfo = originMethod.split( "." );
+      operation = methodInfo.pop();
+      service = methodInfo.length === 1
+              ? methodInfo[0]
+              : methodInfo[0] + "." + methodInfo[1];
+    }
 
     var message =
       { args:

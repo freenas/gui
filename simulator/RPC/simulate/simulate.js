@@ -14,16 +14,9 @@ class Simulate extends RPCBase {
 
     this.smart = new Smart();
     this.namespace = "simulate";
-    this.CHANGE_EVENT = [ "disks.update" ];
+    this.CHANGE_EVENT = [];
+    this.CHANGE_EVENT.push( ...this.smart.CHANGE_EVENT );
 
-    this.addChangeListener = function( callback ) {
-      _.forEach( this.CHANGE_EVENT
-               , function registerListener ( event ) {
-                 this.on( event, callback );
-               }
-               , this
-               );
-    }
   }
 
 }
@@ -33,6 +26,7 @@ class Smart extends RPCBase {
     super();
 
     this.namespace = "smart";
+    this.CHANGE_EVENT = [ "disks.update" ]
   }
 
   set_disk_temp ( system, args, callback ) {
@@ -49,6 +43,7 @@ class Smart extends RPCBase {
     callback( system, system[ "disks"][ diskIndex ] );
 
     this.emitChange( "disks.update"
+                   , "simulate.smart.set_disk_temp"
                    , system[ "disks" ][ diskIndex ]
                    );
 
@@ -68,6 +63,7 @@ class Smart extends RPCBase {
     callback( system, system[ "disks" ][ diskIndex ] );
 
     this.emitChange( "disks.update"
+                   , "simulate.smart.set_disk_status"
                    , system[ "disks" ][ diskIndex ]
                    );
 

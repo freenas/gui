@@ -97,7 +97,8 @@ class Volumes extends RPCBase {
     system.volumes.push( newVolume );
 
     callback( system, system[ "volumes" ] );
-    this.emitChange( "volume.create"
+    this.emitChange( this.CHANGE_EVENT
+                   , "volume.create"
                    , _.cloneDeep( newVolume )
                    );
     // TODO: error checking
@@ -116,7 +117,8 @@ class Volumes extends RPCBase {
               , [ volumeToRemove ]
               );
       callback( system, system[ "volumes" ] );
-      this.emitChange( "volume.destroy"
+      this.emitChange( this.CHANGE_EVENT
+                     , "volume.destroy"
                      , _.cloneDeep( system[ "volumes" ] )
                      );
     } else {
