@@ -9,21 +9,21 @@ var gulp    = require( "gulp" );
 var flatten = require( "gulp-flatten" );
 var chalk   = require( "chalk" );
 
-var OS = "bower_components/lessfonts-open-sans/dist/fonts/OpenSans/**/*";
-var FA = "bower_components/fontawesome/fonts/**/*";
+var fontawesome = "bower_components/fontawesome/fonts/**/*";
+var lato = "app/src/type/lato/**/*";
 
-gulp.task( "fonts", [ "openSans", "tempIconFont" ] );
+gulp.task( "fonts", [ "lato", "tempIconFont" ] );
 
-gulp.task( "openSans"
+gulp.task( "lato"
          , function () {
-  return gulp.src( OS )
+  return gulp.src( lato )
              .pipe( flatten() )
              .pipe( gulp.dest( "app/build/font" ) );
 });
 
 gulp.task( "tempIconFont"
          , function () {
-  return gulp.src( FA )
+  return gulp.src( fontawesome )
              .pipe( flatten() )
              .pipe( gulp.dest( "app/build/font" ) );
 });
