@@ -38,10 +38,15 @@ class EntitySubscriber extends EventEmitter {
 
   sendEvent ( originEvent, originMethod, content ) {
     // TODO: Actually check subscriptions before dispatching event
+    // TODO: Emulate actual behavior. Only emit an event as entity-subscriber.*
+    // if the original event ends in .changed AND the event includes ids to
+    // query for the data AND the query function exists and is successful
 
 
     var operation = null;
     var service = null;
+
+    var originEventType = originEvent.split( "." ).pop();
 
     if ( originMethod ) {
       let methodInfo = originMethod.split( "." );
@@ -58,7 +63,12 @@ class EntitySubscriber extends EventEmitter {
         , service: service
         , timestamp: moment().unix()
         }
-      , name: this.BASE_NAMESPACE + "." + originEvent
+        // Only prepend "entity-subscriber" if the event is a "changed" event,
+        // (which should be a change to some number of members of an enumerable
+        // group) AND if there are entities to send.
+      , name: originEventType === "changed" && entities
+            ? this.BASE_NAMESPACE + "." + originEvent
+            : originEvent
       };
 
     this.emit( this.BASE_NAMESPACE, message );
