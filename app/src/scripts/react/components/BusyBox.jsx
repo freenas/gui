@@ -50,7 +50,7 @@ var BusyBox = React.createClass(
              , loggedIn      : SessionStore.getLoginStatus()
              , logoutReason  : SessionStore.getLogoutReason()
              , operation     : "Connect you to FreeNAS"
-             , reconnetTime  : 0
+             , reconnectTime : 0
              , sockState     : false
       };
     }
@@ -132,7 +132,7 @@ var BusyBox = React.createClass(
   , handleMiddlewareChange: function () {
       let retcode = MiddlewareStore.getSockState();
       this.setState({ sockState     : retcode[0]
-                    , reconnetTime  : Math.round( retcode[1] / 1000 )
+                    , reconnectTime : Math.round( retcode[1] / 1000 )
                     }
       );
     }
@@ -179,8 +179,8 @@ var BusyBox = React.createClass(
           if ( !this.state.sockState ) {
             dispMsg = (
               <span>
-                <h2>{ "Reconnection you to FreeNAS in "
-                      + this.state.reconnetTime
+                <h2>{ "Reconnecting you to FreeNAS in "
+                      + this.state.reconnectTime
                       + " seconds" }
                 </h2>
                 <TWBS.Button block bsStyle="info"
