@@ -471,6 +471,7 @@ const Volume = React.createClass(
         };
 
       ZM.submitVolume( newVolume );
+      this.handleEditModeChange( false );
     }
 
   , createVolumeName () {
