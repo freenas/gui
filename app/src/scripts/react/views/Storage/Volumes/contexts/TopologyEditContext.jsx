@@ -27,38 +27,34 @@ const ContextDisks = React.createClass(
   , createPaletteSection ( disks, key ) {
       let available = _.intersection( disks, this.props.availableDisks );
 
-      if ( available.length && available[0] ) {
-        let headerText = key + " (" + available.length + ")";
+      let headerText = key + " (" + available.length + ")";
 
-        return (
-          <DiscTri
-            headerShow = { headerText }
-            headerHide = { headerText }
-            defaultExpanded = { available.length < 10 }
-            key = { key }
-          >
-            <div className="disk-container">
-              { available.map( ( path, index ) => (
-                    <div
-                      className = "disk-wrapper"
-                      key = { index }
+      return (
+        <DiscTri
+          headerShow = { headerText }
+          headerHide = { headerText }
+          defaultExpanded = { available.length < 10 }
+          key = { key }
+        >
+          <div className="disk-container">
+            { available.map( ( path, index ) => (
+                  <div
+                    className = "disk-wrapper"
+                    key = { index }
+                  >
+                    <DragTarget
+                      namespace = "disk"
+                      payload = { path }
                     >
-                      <DragTarget
-                        namespace = "disk"
-                        payload = { path }
-                      >
-                        <Disk path={ path } />
-                      </DragTarget>
-                    </div>
-                  )
+                      <Disk path={ path } />
+                    </DragTarget>
+                  </div>
                 )
-              }
-            </div>
-          </DiscTri>
-        );
-      } else {
-        return null;
-      }
+              )
+            }
+          </div>
+        </DiscTri>
+      );
     }
 
   , createDiskPalette ( collection, type ) {
