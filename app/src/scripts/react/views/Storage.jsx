@@ -88,7 +88,7 @@ const Storage = React.createClass(
       this.setState( newState );
     }
 
-  , handleEditModeChange ( isEditing, event ) {
+  , handleEditModeChange ( isEditing ) {
       this.setState({ editingVolume: isEditing });
     }
 

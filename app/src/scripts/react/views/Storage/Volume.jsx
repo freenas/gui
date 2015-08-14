@@ -124,6 +124,9 @@ const Volume = React.createClass(
       let sectionIsVisible = Boolean( prevState.activeSection );
       let sectionShouldBeVisible = Boolean( this.state.activeSection );
 
+      let wasEditing = Boolean( prevState.editing );
+      let isEditing = Boolean( this.state.editing );
+
       // Toggle the display of the content drawer
       if ( sectionIsVisible !== sectionShouldBeVisible ) {
         if ( sectionShouldBeVisible ) {
@@ -139,7 +142,26 @@ const Volume = React.createClass(
         }
       }
 
-      if ( this.state.editing
+      if ( wasEditing !== isEditing ) {
+        if ( isEditing ) {
+          if ( !this.state.name && this.refs.volumeNameInput ) {
+            React.findDOMNode( this.refs.volumeNameInput )
+                 .getElementsByTagName( "INPUT" )[0]
+                 .focus();
+          }
+
+          this.props.onEditModeChange( true );
+          EventBus.emit( "showContextPanel"
+                       , TopologyEditContext
+                       , this.getTopologyContextProps()
+                       );
+        } else {
+          this.props.onEditModeChange( false );
+          EventBus.emit( "hideContextPanel", TopologyEditContext );
+        }
+      }
+
+      if ( isEditing
         && _.xor( this.props.availableDisks
                 , prevProps.availableDisks ).length
                 ) {
@@ -161,17 +183,7 @@ const Volume = React.createClass(
       );
     }
 
-  , handleEditModeChange ( isEditing, event ) {
-      if ( isEditing ) {
-        this.props.onEditModeChange( true, event );
-        EventBus.emit( "showContextPanel"
-                     , TopologyEditContext
-                     , this.getTopologyContextProps()
-                     );
-      } else {
-        EventBus.emit( "hideContextPanel", TopologyEditContext );
-      }
-
+  , handleEditModeChange ( isEditing ) {
       this.setState({ editing: isEditing });
     }
 
@@ -481,6 +493,7 @@ const Volume = React.createClass(
         return (
           <div className="volume-name-input">
             <TWBS.Input
+              ref = "volumeNameInput"
               type = "text"
               placeholder = "Volume Name"
               onChange = { this.handleVolumeNameChange }
