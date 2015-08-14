@@ -606,6 +606,7 @@ const Volume = React.createClass(
             </TWBS.Nav>
           );
         }
+
         drawer = (
           <div
             ref = "drawer"
@@ -614,7 +615,6 @@ const Volume = React.createClass(
           >
             { sectionNav }
             { this.createDrawerContent() }
-            }
           </div>
         );
       }
