@@ -108,12 +108,6 @@ const PrimaryNavigation = React.createClass(
                      , complete: this.setState({ expanded: true })
                      }
           }
-        , { elements: this.refs.logoMark.getDOMNode()
-          , properties: "fadeIn"
-          , options: { duration: menuTiming
-                     , sequenceQueue: false
-                     }
-          }
         ];
 
       Velocity.RunSequence( expandSequence );
@@ -132,12 +126,6 @@ const PrimaryNavigation = React.createClass(
           , options: { duration: menuTiming
                      , sequenceQueue: false
                      , complete: this.setState({ expanded: false })
-                     }
-          }
-        , { elements: this.refs.logoMark.getDOMNode()
-          , properties: "fadeOut"
-          , options: { duration: menuTiming
-                     , sequenceQueue: false
                      }
           }
         ];
@@ -191,19 +179,7 @@ const PrimaryNavigation = React.createClass(
         <TWBS.Nav
           stacked
           ref = "navRoot"
-          className = "primary-nav" >
-
-          <div style={{ whiteSpace: "nowrap", margin: "10px" }}>
-            <img
-              style = {{ height: "32px" }}
-              src   = "/img/freenas-icon.png"
-            />
-            <img
-              ref   = "logoMark"
-              style = {{ marginLeft: "10px", height: "20px" }}
-              src   = "/img/freenas-logotype.png"
-            />
-          </div>
+          className = { navClass.join( " " ) } >
 
           { paths.map( this.createNavItem ) }
 
