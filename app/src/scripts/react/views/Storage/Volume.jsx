@@ -484,6 +484,7 @@ const Volume = React.createClass(
               type = "text"
               placeholder = "Volume Name"
               onChange = { this.handleVolumeNameChange }
+              className = "form-overlay"
               value = { name }
             />
           </div>
