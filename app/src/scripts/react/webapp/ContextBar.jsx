@@ -52,7 +52,8 @@ const ContextBar = React.createClass(
   }
 
   , updateContext ( reactElement, props ) {
-      if ( this.state.activeComponent.displayName === reactElement.displayName ) {
+      if ( this.state.activeComponent
+        && this.state.activeComponent.displayName === reactElement.displayName ) {
         this.setState(
           { activeProps: props
           }
@@ -61,17 +62,17 @@ const ContextBar = React.createClass(
     }
 
   , hideContext: function ( reactElement ) {
-
-    if ( this.state.activeComponent.displayName === reactElement.displayName ) {
-      this.setState(
-        { activeComponent : this.state.lastComponent
-        , activeProps: this.state.lastProps
-        , lastComponent: null
-        , lastProps: {}
-        }
-      );
+      if ( this.state.activeComponent
+        && this.state.activeComponent.displayName === reactElement.displayName ) {
+        this.setState(
+          { activeComponent : this.state.lastComponent
+          , activeProps: this.state.lastProps
+          , lastComponent: null
+          , lastProps: {}
+          }
+        );
+      }
     }
-  }
 
   , render: function () {
     let activeComponent = null;
