@@ -546,6 +546,7 @@ const Volume = React.createClass(
           </div>
         );
       } else {
+        let sectionNav = null;
         let breakdown = this.caluclateBreakdown();
         let totalSize;
         let usable;
@@ -584,12 +585,10 @@ const Volume = React.createClass(
           </div>
         );
 
-        drawer = (
-          <div
-            ref = "drawer"
-            style = {{ display: "none" }}
-            className = "volume-drawer"
-          >
+        if ( this.props.existsOnRemote ) {
+          // FIXME: Temporary measure to keep navigation from showing when first
+          // creating a pool
+          sectionNav = (
             <TWBS.Nav
               className = "volume-nav"
               bsStyle   = "pills"
@@ -605,7 +604,17 @@ const Volume = React.createClass(
               {/* <TWBS.NavItem>Snapshots</TWBS.NavItem> */}
               {/* <TWBS.NavItem>Files</TWBS.NavItem> */}
             </TWBS.Nav>
+          );
+        }
+        drawer = (
+          <div
+            ref = "drawer"
+            style = {{ display: "none" }}
+            className = "volume-drawer"
+          >
+            { sectionNav }
             { this.createDrawerContent() }
+            }
           </div>
         );
       }
