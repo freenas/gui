@@ -205,12 +205,6 @@ const PrimaryNavigation = React.createClass(
             />
           </div>
 
-          <div
-            className = "primary-nav-label-toggle"
-            onClick = { this.handleMenuToggle } >
-            {"…"}
-          </div>
-
           { paths.map( this.createNavItem ) }
 
         </TWBS.Nav>
