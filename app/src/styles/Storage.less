@@ -73,17 +73,24 @@
 }
 
 nav.volume-nav {
-  text-align: center;
-  height: 50px;
-  border-bottom: 1px solid @gray-lighter;
-  padding: 10px 0;
-  margin-bottom: 15px;
-
+  text-align       : center;
+  height           : 44px; // FIXME: Nav pills cause whitespace gap
+  border-bottom    : 1px solid @gray-lighter;
+  padding          : 8px 0;
+  margin           : 0 -15px 15px;
+  background-color : rgba(0, 0, 0, 0.05);
   .nav {
     display: inline-block;
     & > li > a {
       padding: 4px 16px;
     }
+  }
+
+  .nav-pills > li.active > a,
+  .nav-pills > li.active > a:hover,
+  .nav-pills > li.active > a:focus {
+    color            : darken( @brand-primary, 10% );
+    background-color : fade( @brand-primary, 20% );
   }
 }
 
