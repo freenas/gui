@@ -58,7 +58,7 @@ const BreakdownChart = React.createClass(
         <TWBS.ProgressBar
           style = { this.props.total > 0
                   ? {}
-                  : { opacity: 0, height: 0 }
+                  : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }
                   }
         >
           <TWBS.ProgressBar
