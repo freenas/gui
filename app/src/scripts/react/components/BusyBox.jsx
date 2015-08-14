@@ -183,7 +183,7 @@ var BusyBox = React.createClass(
                       + this.state.reconnectTime
                       + " seconds" }
                 </h2>
-                <TWBS.Button block bsStyle="info"
+                <TWBS.Button block bsStyle="primary"
                              onClick = {
                                MiddlewareClient
                                 .reconnectHandle
@@ -233,7 +233,7 @@ var BusyBox = React.createClass(
                          placeholder = "Password" />
                 </div>
 
-                <TWBS.Button block bsStyle="info"
+                <TWBS.Button block bsStyle="primary"
                              disabled = { this.state.userText.length ?
                                             false : true }
                              onClick  = { this.handleLoginClick }>{"Sign In"}
