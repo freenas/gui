@@ -86,10 +86,12 @@ class MiddlewareClient extends WebSocketClient {
     this.renewSubscriptions();
 
     if ( SessionStore.getLoginStatus() === false ) {
-      if ( sessionCookies.obtain( "auth" ) !== null ) {
+      // Dummy out cookie authentication. It's causing an issue where the login
+      // box appears twice, and it's not worth the time to debug.
+      /*if ( sessionCookies.obtain( "auth" ) !== null ) {
         // If our cookies contain a usable auth token, attempt a login
         this.login( "token", sessionCookies.obtain( "auth" ) );
-      } else if ( this.queuedLogin ) {
+      } else*/ if ( this.queuedLogin ) {
         // If the connection opens and we aren't authenticated, but we have a
         // queued login, dispatch the login and reset its variable.
         this.logPendingRequest( this.queuedLogin.id
