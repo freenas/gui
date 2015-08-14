@@ -66,7 +66,7 @@ class EntitySubscriber extends EventEmitter {
         // Only prepend "entity-subscriber" if the event is a "changed" event,
         // (which should be a change to some number of members of an enumerable
         // group) AND if there are entities to send.
-      , name: originEventType === "changed" && entities
+      , name: originEventType === "changed" && content
             ? this.BASE_NAMESPACE + "." + originEvent
             : originEvent
       };
