@@ -1,0 +1,49 @@
+.btn {
+  .button-size( @padding-base-vertical;
+                @padding-base-horizontal + 4px;
+                @font-size-base;
+                @line-height-base;
+                @border-radius-base
+              );
+}
+
+.button-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  #gradient > .vertical( @background, darken( @background, 5% ) );
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    color: @color;
+    background-color: darken(@background, 10%);
+    background-image: none;
+        border-color: darken(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @background;
+      background-image: none;
+          border-color: @border;
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @color;
+  }
+}

@@ -7,8 +7,8 @@
 @import "@{bootstrap-path}print.less";
 
 // Core variables and mixins
-@import "@{bootstrap-path}variables.less";
 @import "@{bootstrap-path}mixins.less";
+@import "@{bootstrap-path}variables.less";
 
 // Core CSS
 @import "@{bootstrap-path}scaffolding.less";
@@ -42,7 +42,7 @@
 @import "@{bootstrap-path}wells.less";
 @import "@{bootstrap-path}close.less";
 
-// Components w/ JavaScript
+// Components which use JavaScript
 @import "@{bootstrap-path}modals.less";
 @import "@{bootstrap-path}tooltip.less";
 @import "@{bootstrap-path}popovers.less";
@@ -72,6 +72,12 @@
 @fontsPath    : "../font";
 @fa-font-path : "@{fontsPath}";
 
+// Variables
+@import "variables.less";
+
+// TWBS Overwrites
+@import "overwrites/buttons.less";
+
 
 // Layout
 @import "utility.less";
@@ -99,7 +105,4 @@
 @import "Network.less";
 @import "Calendar.less";
 @import "Hardware.less";
-
-// Variables
-@import "variables.less";
 
