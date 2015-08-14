@@ -587,8 +587,9 @@ const Volume = React.createClass(
 
         drawer = (
           <div
-            ref     = "drawer"
-            style   = {{ display: "none" }}
+            ref = "drawer"
+            style = {{ display: "none" }}
+            className = "volume-drawer"
           >
             <TWBS.Nav
               className = "volume-nav"
