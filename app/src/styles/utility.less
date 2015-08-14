@@ -210,12 +210,19 @@
 }
 
 // Disallow selection
-// DANGEROUS: Does not work cross-browser.
 .no-select {
-    -webkit-touch-callout: none;
+  -webkit-touch-callout: none;
     -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+.blur ( @size: 2px ) {
+  -webkit-filter: blur( @size );
+     -moz-filter: blur( @size );
+      -ms-filter: blur( @size );
+       -o-filter: blur( @size );
+          filter: blur( @size );
 }
