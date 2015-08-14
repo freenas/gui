@@ -34,14 +34,9 @@ function getDiskGroups () {
 const DiskDisclosure = React.createClass(
   { propTypes: { diskGroups: React.PropTypes.array.isRequired }
 
-  , createDiskGroup: function ( group, index, groups ) {
+  , createDiskGroup: function ( group, groupName, groups ) {
 
-    // The groups are objects of only one key, which is the name to use to
-    // select the array of disks and the title to display for the section. This
-    // selects that key.
-    var description = _.keys( groups[ index ] )[0];
-
-    var diskItems = _.map( group[ description ]
+    var diskItems = _.map( group
                          , function createDiskItems ( disk, index ) {
                            return (
                              <TWBS.Panel className = "disk-item"
@@ -54,8 +49,8 @@ const DiskDisclosure = React.createClass(
 
     return (
       <div className = "disk-category"
-           key = { index }>
-        <span className = "disk-category-title">{ description }</span>
+           key = { groupName }>
+        <span className = "disk-category-title">{ groupName }</span>
         <TWBS.Well className = "disk-item-section"
                    bsSize = "small" >
           { diskItems }
@@ -66,7 +61,12 @@ const DiskDisclosure = React.createClass(
 
   , render: function () {
 
-    var diskGroups = _.map( this.props.diskGroups
+    // diskGroups comes back as two objects: one for SSDs and one for HDDs.
+    // combine them into one array for display.
+    var diskTypes = _.cloneDeep( this.props.diskGroups[0]);
+    _.merge( diskTypes, this.props.diskGroups[1] );
+
+    var diskGroups = _.map( diskTypes
                           , this.createDiskGroup
                           );
 
@@ -112,7 +112,6 @@ const Hardware = React.createClass({
     SM.unsubscribe( this.constructor.displayName );
   }
 
-  // For now, just
   , handleDisksChange: function () {
     this.setState( getDiskGroups() );
   }
@@ -124,16 +123,16 @@ const Hardware = React.createClass({
   , render: function () {
 
     let cpuModel = this.state.systemInformation
-                  ? this.state.systemInformation[ "cpu_model" ]
-                  : null;
+                 ? this.state.systemInformation[ "cpu_model" ]
+                 : null;
 
     let cpuCores = this.state.systemInformation
-                  ? this.state.systemInformation[ "cpu_cores" ]
-                  : null;
+                 ? this.state.systemInformation[ "cpu_cores" ]
+                 : null;
 
     let memorySize = this.state.systemInformation
-                    ? this.state.systemInformation[ "memory_size" ]
-                    : null;
+                   ? this.state.systemInformation[ "memory_size" ]
+                   : null;
 
     return (
       <div className = { "hardware-display" }>
