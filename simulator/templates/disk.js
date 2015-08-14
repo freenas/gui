@@ -50,7 +50,6 @@ function createDisks ( config ) {
       config[ "diskTypes" ]
     , function createDisksOfType ( diskType, diskName ) {
       for ( let i = 0; i < diskType[ "diskCount" ]; i++ ) {
-        console.log( diskName );
         let newDisk = _.cloneDeep( diskType );
         delete newDisk[ "diskCount" ];
 
