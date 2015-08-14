@@ -528,7 +528,6 @@ const Volume = React.createClass(
 
       let initMessage = null;
       let volumeInfo  = null;
-      let chart       = null;
       let drawer      = null;
 
       if ( isInitialized ) {
@@ -569,21 +568,20 @@ const Volume = React.createClass(
         }
 
         volumeInfo = (
-          <div className="volume-info clearfix">
-            { this.createVolumeName() }
-            <h3 className="pull-right volume-capacity">
-              { ByteCalc.humanize( usable ) }
-            </h3>
+          <div className="volume-info">
+            <div className="clearfix">
+              { this.createVolumeName() }
+              <h3 className="pull-right volume-capacity">
+                { ByteCalc.humanize( usable ) }
+              </h3>
+            </div>
+            <BreakdownChart
+              total  = { totalSize }
+              parity = { parity }
+              used   = { allocated }
+              free   = { freeSize }
+            />
           </div>
-        );
-
-        chart = (
-          <BreakdownChart
-            total  = { totalSize }
-            parity = { parity }
-            used   = { allocated }
-            free   = { freeSize }
-          />
         );
 
         drawer = (
@@ -628,7 +626,6 @@ const Volume = React.createClass(
         >
           { initMessage }
           { volumeInfo }
-          { chart }
           { drawer }
         </TWBS.Panel>
       );
