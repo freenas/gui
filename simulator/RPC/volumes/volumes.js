@@ -20,6 +20,7 @@ const volumeIDStarter = 2950145407967379177;
 
 function processNewVolume ( volume, system ) {
   var newVolume = volumeDefaults;
+  var volumeSettings = volume[ "settings" ] || null;
 
   var size = VolumeCommon.calculateVolumeSize( volume[ "topology" ][ "data" ]
                                              , system[ "disks" ]
@@ -48,6 +49,25 @@ function processNewVolume ( volume, system ) {
              }
            }
          );
+
+  if ( volumeSettings ) {
+    // For dedup, just a truthy value is needed.
+    if ( volumeSettings[ "dedup" ] ) {
+      rootDataset[ "properties" ][ "dedup" ] =
+        { source: "LOCAL"
+        , value: "on"
+        }
+    }
+    // For compression, set the desired compression algorithm. The default is
+    // lz4.
+    if ( volumeSettings[ "compression" ] ) {
+      rootDataset[ "properties" ][ "compression" ] =
+        { source: "LOCAL"
+        , volue: volumeSettings[ "compression" ]
+        }
+    }
+  }
+
 
   let datasets = [ rootDataset ];
 
