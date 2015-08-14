@@ -18,12 +18,8 @@
   box-shadow : 0 2px 16px -2px rgba(0, 0, 0, 0.15);
   .transition( all 0.25S );
 
-  .panel-body {
-    padding : 15px;
-  }
-
   .progress {
-    margin        : 15px -15px 0;
+    margin        : @panel-body-padding -@panel-body-padding 0;
     border-radius : 0;
     height        : 10px;
     .transition( all 0.6s );
@@ -36,7 +32,7 @@
     overflow    : hidden;
     text-align  : left;
     & > span {
-      margin: 0 15px;
+      margin: 0 @panel-body-padding;
     }
     .transition( all 0.6s );
   }
@@ -76,7 +72,7 @@ nav.volume-nav {
   height           : 44px; // FIXME: Nav pills cause whitespace gap
   border-bottom    : 1px solid @gray-lighter;
   padding          : 8px 0;
-  margin           : 0 -15px 15px;
+  margin           : 0 -@panel-body-padding @panel-body-padding;
   background-color : rgba(0, 0, 0, 0.05);
   .nav {
     display: inline-block;
@@ -144,7 +140,7 @@ nav.volume-nav {
 }
 
 .volume-drawer {
-  margin-top: @panel-body-padding;
+  margin-top: @panel-body-padding + 10px;
 }
 
 .pool-topology-header {
@@ -159,7 +155,7 @@ nav.volume-nav {
   font-style  : italic;
   font-size   : 14px;
   font-weight : 100;
-  margin      : 15px 0;
+  margin      : @panel-body-padding 0;
 }
 
 .vdev-bucket {
