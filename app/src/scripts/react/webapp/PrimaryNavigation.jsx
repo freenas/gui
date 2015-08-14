@@ -174,6 +174,14 @@ const PrimaryNavigation = React.createClass(
     }
 
   , render: function () {
+      let navClass = [ "primary-nav" ];
+
+      if ( this.state.expanded ) {
+        navClass.push( "expanded" )
+      } else {
+        navClass.push( "collapsed" )
+      }
+
       // TODO: Revert changes made for #7908 once externally resolved.
       return (
         <TWBS.Nav
