@@ -23,6 +23,7 @@ var SystemRPC = require( "./RPC/system/system" );
 var TaskRPC = require( "./RPC/task/task" );
 var UsersRPC = require( "./RPC/users/users" );
 var SimulateRPC = require( "./RPC/simulate/simulate" );
+var StatdRPC = require( "./RPC/statd/statd" );
 
 var rpcClasses =
   { volumes: new VolumesRPC()
@@ -35,6 +36,7 @@ var rpcClasses =
   , task: new TaskRPC()
   , users: new UsersRPC()
   , simulate: new SimulateRPC()
+  , statd: new StatdRPC( virtualSystem )
   };
 
 rpcClasses[ "task" ].designateRPCClasses( rpcClasses );
