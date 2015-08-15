@@ -130,12 +130,16 @@ const Volume = React.createClass(
       // Toggle the display of the content drawer
       if ( sectionIsVisible !== sectionShouldBeVisible ) {
         if ( sectionShouldBeVisible ) {
-          Velocity( React.findDOMNode( this.refs.drawer )
+          Velocity( [ React.findDOMNode( this.refs.drawer )
+                    , React.findDOMNode( this.refs.changesToolbar )
+                    ]
                   , "slideDown"
                   , SLIDE_DURATION
                   );
         } else {
-          Velocity( React.findDOMNode( this.refs.drawer )
+          Velocity( [ React.findDOMNode( this.refs.drawer )
+                    , React.findDOMNode( this.refs.changesToolbar )
+                    ]
                   , "slideUp"
                   , SLIDE_DURATION
                   );
@@ -525,7 +529,6 @@ const Volume = React.createClass(
               handleDiskRemove = { this.handleDiskRemove }
               handleVdevRemove = { this.handleVdevRemove }
               handleVdevTypeChange = { this.handleVdevTypeChange }
-              handleVolumeSubmit = { this.submitVolume }
               editing = { this.state.editing }
             />
           );
@@ -539,9 +542,10 @@ const Volume = React.createClass(
   , render () {
       let isInitialized = !this.props.existsOnRemote && !this.state.editing;
 
-      let initMessage = null;
-      let volumeInfo  = null;
-      let drawer      = null;
+      let initMessage    = null;
+      let volumeInfo     = null;
+      let drawer         = null;
+      let changesToolbar = null;
 
       if ( isInitialized ) {
         // We can deduce that this Volume is the "blank" one, and that it has
@@ -630,6 +634,27 @@ const Volume = React.createClass(
             { this.createDrawerContent() }
           </div>
         );
+
+        changesToolbar = (
+          <div
+            ref = "changesToolbar"
+            style = {{ display: "none" }}
+            className = "volume-info clearfix"
+          >
+            <TWBS.ButtonToolbar className="pull-right">
+              <TWBS.Button bsStyle="default">
+                { "Cancel" }
+              </TWBS.Button>
+              <TWBS.Button
+                bsStyle = "primary"
+                disabled = { !this.state.editing }
+                onClick = { this.submitVolume }
+              >
+                { "Submit" }
+              </TWBS.Button>
+            </TWBS.ButtonToolbar>
+          </div>
+        );
       }
 
       return (
@@ -649,6 +674,7 @@ const Volume = React.createClass(
           { initMessage }
           { volumeInfo }
           { drawer }
+          { changesToolbar }
         </TWBS.Panel>
       );
     }

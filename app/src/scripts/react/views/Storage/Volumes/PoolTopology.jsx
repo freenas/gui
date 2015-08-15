@@ -16,7 +16,6 @@ var TopologyDrawer = React.createClass(
     { handleDiskAdd: React.PropTypes.func.isRequired
     , handleDiskRemove: React.PropTypes.func.isRequired
     , handleVdevTypeChange: React.PropTypes.func.isRequired
-    , handleVolumeSubmit: React.PropTypes.func.isRequired
     , availableDisks: React.PropTypes.array.isRequired
     , availableSSDs: React.PropTypes.array.isRequired
     , data: React.PropTypes.array.isRequired
@@ -127,26 +126,6 @@ var TopologyDrawer = React.createClass(
   }
 
   , render () {
-    let changesToolbar = null;
-
-    if ( this.props.editing ) {
-      changesToolbar = (
-        <div className="clearfix">
-          <TWBS.ButtonToolbar className="pull-right">
-            <TWBS.Button bsStyle="default">
-              { "Cancel" }
-            </TWBS.Button>
-            <TWBS.Button
-              bsStyle = "primary"
-              onClick = { this.props.handleVolumeSubmit }
-            >
-              { "Submit Volume" }
-            </TWBS.Button>
-          </TWBS.ButtonToolbar>
-        </div>
-      );
-    }
-
     return (
       <div
         style = { this.props.style }
@@ -188,9 +167,6 @@ var TopologyDrawer = React.createClass(
             { this.createVdevs( "spares" ) }
           </TWBS.Col>
         </TWBS.Row>
-
-        { changesToolbar }
-
       </div>
     );
   }
