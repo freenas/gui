@@ -85,8 +85,7 @@ const ContextDisks = React.createClass(
 
       return (
         <div className="context-disks">
-          { this.createDiskPalette( groupedDisks[0], "SSDs" ) }
-          { this.createDiskPalette( groupedDisks[1], "Disks" ) }
+          <h3>ZFS Pool Topology</h3>
           <TWBS.Button
             block
             bsStyle = "default"
@@ -94,6 +93,8 @@ const ContextDisks = React.createClass(
           >
             {"Reset Pool Topology"}
           </TWBS.Button>
+          { this.createDiskPalette( groupedDisks[0], "SSDs" ) }
+          { this.createDiskPalette( groupedDisks[1], "Disks" ) }
         </div>
       );
     }
