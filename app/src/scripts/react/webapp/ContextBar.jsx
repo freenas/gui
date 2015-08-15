@@ -75,6 +75,7 @@ const ContextBar = React.createClass(
     }
 
   , render: function () {
+    let asideClass = [ "app-sidebar" ];
     let activeComponent = null;
 
     if ( this.state.activeComponent ) {
@@ -83,12 +84,14 @@ const ContextBar = React.createClass(
       );
     }
 
+    asideClass.push( this.state.activeComponent
+                   ? "context-bar-active"
+                   : "context-bar-inactive"
+                   );
+
     return (
       <aside
-        className = { "app-sidebar" + this.state.activeComponent
-                                    ? " context-bar-active"
-                                    : " context-bar-inactive"
-                    }
+        className = { asideClass.join( " " ) }
       >
         { activeComponent }
       </aside>
