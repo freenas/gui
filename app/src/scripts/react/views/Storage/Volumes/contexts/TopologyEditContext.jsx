@@ -84,7 +84,7 @@ const ContextDisks = React.createClass(
       let groupedDisks = DS.similarDisks;
 
       return (
-        <div className="context-disks">
+        <div className="context-content context-disks">
           <h3>ZFS Pool Topology</h3>
           <TWBS.Button
             block
