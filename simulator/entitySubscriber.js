@@ -45,6 +45,7 @@ class EntitySubscriber extends EventEmitter {
 
     var operation = null;
     var service = null;
+    var message = {};
 
     var originEventType = originEvent.split( "." ).pop();
 
@@ -56,20 +57,29 @@ class EntitySubscriber extends EventEmitter {
               : methodInfo[0] + "." + methodInfo[1];
     }
 
-    var message =
-      { args:
-        { entities: [ content ]
-        , operation: operation
-        , service: service
-        , timestamp: moment().unix()
+    // statd messages are formatted totally differently. Those messages are
+    // handled in the statd RPC class.
+    if ( _.startsWith( originEvent, "statd.") ) {
+      message =
+        { args: content
+        , name: originEvent
         }
-        // Only prepend "entity-subscriber" if the event is a "changed" event,
-        // (which should be a change to some number of members of an enumerable
-        // group) AND if there are entities to send.
-      , name: originEventType === "changed" && content
-            ? this.BASE_NAMESPACE + "." + originEvent
-            : originEvent
-      };
+    } else {
+      message =
+        { args:
+          { entities: [ content ]
+          , operation: operation
+          , service: service
+          , timestamp: moment().unix()
+          }
+          // Only prepend "entity-subscriber" if the event is a "changed" event,
+          // (which should be a change to some number of members of an
+          // enumerable group) AND if there are entities to send.
+        , name: originEventType === "changed" && content
+              ? this.BASE_NAMESPACE + "." + originEvent
+              : originEvent
+        };
+    }
 
     this.emit( this.BASE_NAMESPACE, message );
   }
