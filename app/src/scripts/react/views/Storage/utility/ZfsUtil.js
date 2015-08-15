@@ -8,6 +8,8 @@
 
 import _ from "lodash";
 
+import DS from "../../../../flux/stores/DisksStore";
+
 const VDEV_TYPES =
   { data: [ "disk", "stripe", "mirror", "raidz1", "raidz2", "raidz3" ]
   , logs: [ "disk", "stripe", "mirror" ]

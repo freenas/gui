@@ -10,7 +10,6 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import DS from "../../../flux/stores/DisksStore";
 import ZM from "../../../flux/middleware/ZfsMiddleware";
 
 import EventBus from "../../../utility/EventBus";
