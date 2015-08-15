@@ -205,18 +205,18 @@ const Volume = React.createClass(
                       ? [ options.path ]
                       : [];
 
-      if ( collection ) {
+      if ( targetVdev ) {
 
         switch ( opType ) {
           case "add":
-            currentType = collection.type;
-            disks.push( ...ZfsUtil.getMemberDiskPaths( collection ) );
+            currentType = targetVdev.type;
+            disks.push( ...ZfsUtil.getMemberDiskPaths( targetVdev ) );
             break;
 
           case "remove":
-            currentType = collection.type;
+            currentType = targetVdev.type;
             disks.push(
-              ..._.without( ZfsUtil.getMemberDiskPaths( collection )
+              ..._.without( ZfsUtil.getMemberDiskPaths( targetVdev )
                           , options.path
                           )
             );
@@ -224,7 +224,7 @@ const Volume = React.createClass(
 
           case "changeType":
             currentType = options.type;
-            disks.push( ...ZfsUtil.getMemberDiskPaths( collection ) );
+            disks.push( ...ZfsUtil.getMemberDiskPaths( targetVdev ) );
             break;
         }
       }
