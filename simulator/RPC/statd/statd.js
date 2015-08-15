@@ -197,7 +197,7 @@ class Statd extends RPCBase {
     var longterm =
       _.merge( _.clone( baseEvent )
              , { timestamp: timestamp
-               , value: .1 + Math.floor( Math.random() * 2 )/100
+               , value: .1 + Math.floor( Math.random() * 2 ) / 100
                , change: this.lastLoad[ "longterm" ][ "value" ]
                }
              );
@@ -205,7 +205,7 @@ class Statd extends RPCBase {
     var midterm =
       _.merge( _.clone( baseEvent )
              , { timestamp: timestamp
-               , value: .1 + Math.floor( Math.random() * 2 )/100
+               , value: .1 + Math.floor( Math.random() * 2 ) / 100
                , change: this.lastLoad[ "midterm" ][ "value" ]
                }
              );
@@ -213,7 +213,7 @@ class Statd extends RPCBase {
     var shortterm =
       _.merge( _.clone( baseEvent )
              , { timestamp: timestamp
-               , value: .1 + Math.floor( Math.random() * 2 )/100
+               , value: .1 + Math.floor( Math.random() * 2 ) / 100
                , change: this.lastLoad[ "shortterm" ][ "value" ]
                }
              );
