@@ -15,6 +15,8 @@ const NotFoundRoute = Router.NotFoundRoute;
 // STATIC ROUTES
 import Root from "./react/webapp/FreeNASWebApp";
 
+import Dashboard from "./react/views/Dashboard";
+
 import Accounts from "./react/views/Accounts";
 import Users from "./react/views/Accounts/Users";
 import UserItem from "./react/views/Accounts/Users/UserItem";
@@ -38,6 +40,12 @@ module.exports = (
     handler = { Root } >
 
     <DefaultRoute handler={ Users } />
+
+    {/*Dashboard*/}
+    <Route
+      name = "dashboard"
+      path = "dashboard"
+      handler = { Dashboard } />
 
     {/* ACCOUNTS */}
     <Route
