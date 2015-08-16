@@ -37,19 +37,21 @@
     .transition( all 0.6s );
   }
 
+  .free-space {
+    background: none;
+    background-image: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
   .panel-body:hover,
   &.editing {
     .progress {
       height: 25px;
     }
-
     .progress-bar {
       line-height : 25px;
       color       : #121212;
-    }
-    .free-space {
-      background: none;
-      box-shadow: none;
     }
   }
 
