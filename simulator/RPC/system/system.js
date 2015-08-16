@@ -29,6 +29,14 @@ class Info extends RPCBase  {
            , cpu_cores: system[ "cpu_cores" ]
            };
   }
+
+  uname_full ( system ) {
+    return { uname_full: system[ "uname_full" ] }
+  }
+
+  version ( system ) {
+    return { version: system[ "version" ] }
+  }
 }
 
 class General extends RPCBase {
