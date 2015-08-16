@@ -374,7 +374,6 @@ const Volume = React.createClass(
         );
       } else {
         let sectionNav = null;
-        let breakdown = ZfsUtil.caluclateBreakdown( this.state.data );
         let totalSize;
         let usable;
         let parity;
@@ -382,6 +381,7 @@ const Volume = React.createClass(
         let freeSize;
 
         if ( this.state.editing ) {
+          let breakdown = ZfsUtil.caluclateBreakdown( this.state.data );
           totalSize = breakdown.avail + breakdown.parity;
           usable    = breakdown.avail;
           parity    = breakdown.parity;
