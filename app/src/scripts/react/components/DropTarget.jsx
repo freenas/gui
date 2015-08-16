@@ -32,6 +32,7 @@ const DropTarget = React.createClass(
   , getDefaultProps () {
       return (
         { disabled: false
+        , className: ""
         , preventSameOrigin: true
         }
       );
@@ -96,9 +97,11 @@ const DropTarget = React.createClass(
     }
 
   , render () {
-      let classes = [ "drop-target" ];
+      let classes = this.props.className.split( " " );
       let dropzone = null;
       let dropCatch = null;
+
+      classes.push( "drop-target" );
 
       if ( this.state.droppable && this.state.disalowDrop === false ) {
         classes.push( "droppable" );
