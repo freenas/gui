@@ -1,17 +1,19 @@
 /* Global Widget Styling */
 
 .widget-wrapper {
-  .flex-display( flex );
+  .flex-display( flex-flow );
   .flex( 1 );
   .flex-flow( row wrap );
-  align-items: flex-start;
+  align-content: flex-start;
   position   : relative;
   overflow-y : auto;
 }
 
 .widget {
-  .flex( 0 0 auto );
+  .flex( 1 1 auto );
   #gradient > .vertical(#ffffff, #f7f7f7);
+  display: inline-block;
+  position: relative;
   background-color : #fcfcfc;
   border           : 1px solid #ccc;
   border-radius    : 5px;
@@ -25,10 +27,8 @@
     #gradient > .vertical(#f7f7f7, #cdcdcd);
     background-repeat : repeat-x;
     box-shadow        : 0 1px 2px #888;
-    cursor            : pointer;
     padding           : 2px 5px 2px 5px;
     width             : 100%;
-    font-size         : 60%;
 
     .fa {
       float      : right;
@@ -43,7 +43,23 @@
   }
 }
 
+.m-rect {
+  height: 20em;
+  width: 28em;
+}
 
+
+.chart-svg {
+  width: calc( 90% );
+  height: calc( 90% );
+  float: left;
+}
+
+.chart-div {
+  width: 1.8em;
+  height: 100%;
+  float: right;
+}
 
 //System Info Widget
 
@@ -100,37 +116,8 @@
   }
 }
 
-
-@grid-size   : 15px;
-@grid-color  : rgba(0, 0, 0, 0.15);
-@grid-weight : 1px;
-
-.grid-on {
-    background-size  : @grid-size @grid-size;
-    background-image : repeating-linear-gradient(0deg, @grid-color, @grid-color @grid-weight, transparent @grid-weight, transparent @grid-size), repeating-linear-gradient(-90deg, @grid-color, @grid-color @grid-weight, transparent @grid-weight, transparent @grid-size);
-}
-
-.playground {
-  position : absolute;
-  top      : @grid-size * 0;
-  margin   : @grid-size
-}
-
 .widget {
   .no-select();
   .align-items(center);
   .justify-content(center);
-  position        : absolute;
-  z-index         : 0;
-
-  &:hover {
-    cursor     : move;
-    box-shadow : 0 0 14px 5px rgba(0, 142, 180, 0.5);
-  }
-
-  &.in-motion {
-    box-shadow : none;
-    opacity    : 0.5;
-    z-index    : 1;
-  }
 }
