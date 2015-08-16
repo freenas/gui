@@ -142,10 +142,6 @@ const Volume = React.createClass(
       EventBus.emit( "hideContextPanel", TopologyEditContext );
     }
 
-  , handleEditModeChange ( isEditing ) {
-      this.setState({ editing: isEditing });
-    }
-
   , getAllowedDrawers () {
       // TODO: Needs more complex logic
       if ( this.props.existsOnRemote ) {
@@ -322,7 +318,10 @@ const Volume = React.createClass(
         };
 
       ZM.submitVolume( newVolume );
-      this.handleEditModeChange( false );
+      this.setState(
+        { editing: false
+        }
+      );
     }
 
   , createVolumeName () {
