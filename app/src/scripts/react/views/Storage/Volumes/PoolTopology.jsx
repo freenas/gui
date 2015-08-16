@@ -95,7 +95,7 @@ var TopologyDrawer = React.createClass(
       }
     );
 
-    if ( ( sharedProps.availableDevices.length && sharedProps.newVdevAllowed )
+    if ( ( this.props.editing && sharedProps.newVdevAllowed )
          || vdevs.length === 0
        ) {
       // If there are available devices, and the category in question allows the
