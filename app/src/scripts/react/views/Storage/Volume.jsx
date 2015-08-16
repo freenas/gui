@@ -75,13 +75,6 @@ const Volume = React.createClass(
 
   , getDefaultProps () {
       return { existsOnRemote : false
-             , data           : []
-             , logs           : []
-             , cache          : []
-             , spares         : []
-             , free           : 0
-             , allocated      : 0
-             , size           : 0
              };
     }
 
