@@ -43,7 +43,7 @@ class VolumeCommon {
           smallestDiskSize = diskSize < smallestDiskSize
                            ? diskSize
                            : smallestDiskSize;
-          }
+        }
           // The size of a mirror vdev is always the size of its smallest
           // component disk.
         if ( vdev[ "type" ] === "mirror" ) {
@@ -59,7 +59,7 @@ class VolumeCommon {
           }
         }
       }
-      volumeSize += vdevSize;
+    volumeSize += vdevSize;
     }
 
     return volumeSize;
