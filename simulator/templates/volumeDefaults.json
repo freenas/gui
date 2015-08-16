@@ -49,7 +49,7 @@
     }
   , "allocated":
     { "source": "NONE"
-    , "value": "288000"
+    , "value": "28800000000"
     }
   , "guid":
     { "source": "DEFAULT"
