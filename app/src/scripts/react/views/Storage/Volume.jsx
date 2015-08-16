@@ -358,14 +358,19 @@ const Volume = React.createClass(
   , createDrawerContent () {
       switch ( this.state.activeSection ) {
         case "disks":
+          // TODO: Temporary workaround until editing volumes works
+          let { data, logs, cache, spares } = this.props.existsOnRemote
+                                            ? this.props
+                                            : this.state;
+
           return (
             <PoolTopology
               availableDisks = { this.props.availableDisks }
               availableSSDs = { this.props.availableSSDs }
-              data = { this.state.data }
-              logs = { this.state.logs }
-              cache = { this.state.cache }
-              spares = { this.state.spares }
+              data = { data }
+              logs = { logs }
+              cache = { cache }
+              spares = { spares }
               allowedTypes = { this.state.allowedTypes }
               handleDiskAdd = { this.handleDiskAdd }
               handleDiskRemove = { this.handleDiskRemove }
