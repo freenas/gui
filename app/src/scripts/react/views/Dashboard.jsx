@@ -11,7 +11,7 @@ import React from "react";
 import freeNASUtil from "../../utility/freeNASUtil";
 
 // import MemoryStats from "./Dashboard/MemoryStats";
-import CpuStats from "./Dashboard/CpuStats";
+// import CpuStats from "./Dashboard/CpuStats";
 import SystemInfo from "./Dashboard/SystemInfo";
 // import SystemLoadStats from "./Dashboard/SystemLoadStats";
 // import NetworkActivity from "./Dashboard/NetworkActivity";
