@@ -29,6 +29,10 @@ class VolumeStore extends FluxBase {
     return _.sortBy( Array.from( _availableDisks ) );
   }
 
+  isDiskAvailable ( path ) {
+    return _availableDisks.has( path );
+  }
+
   listVolumes ( sortKey ) {
     if ( sortKey ) {
       return _.chain( _volumes )
