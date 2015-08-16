@@ -122,11 +122,17 @@ class Volumes extends RPCBase {
 
   create ( system, args, callback ) {
 
-    var newVolume = processNewVolume( args[0], system );
+    var newSystem = _.cloneDeep( system )
 
-    system.volumes.push( newVolume );
+    if ( _.has( newSystem[ "volumes" ], args[0][ "name" ] ) ) {
+      console.log( "dupe name" );
+    }
 
-    callback( system, system[ "volumes" ] );
+    var newVolume = processNewVolume( args[0], newSystem );
+
+    newSystem.volumes[ newVolume[ "name" ] ] = newVolume;
+
+    callback( newSystem, newSystem[ "volumes" ] );
     this.emitChange( "volumes.changed"
                    , "volume.create"
                    , _.cloneDeep( newVolume )
