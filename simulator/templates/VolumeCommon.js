@@ -53,7 +53,7 @@ class VolumeCommon {
             for ( let j = 0
                 ; j < vdev[ "children" ].length
                     - vdevRedundancy[ vdev[ "type" ] ]
-                ; j ++
+                ; j++
                 ) {
               vdevSize += smallestDiskSize;
             }
