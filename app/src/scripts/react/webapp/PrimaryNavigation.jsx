@@ -15,11 +15,11 @@ import Icon from "../components/Icon";
 // Path definitions
 // TODO: Convert to Flux or other external file
 const paths =
-  [ { path     : "dashboard"
+  [ { path     : ""
     , icon     : "dashboard"
     , label    : "Dashboard"
     , status   : null
-    , disabled : false
+    , disabled : true
     }
   , { path     : "storage"
     , icon     : "magic"
