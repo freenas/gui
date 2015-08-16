@@ -46,18 +46,16 @@ class VolumeCommon {
           }
           // The size of a mirror vdev is always the size of its smallest
           // component disk.
-          if ( vdev[ "type" ] === "mirror" ) {
-            vdevSize = smallestDiskSize;
-          } else {
-            // Add the smallest disk size to the vdev size for each disk
-            // over the vdev redundancy level.
-            for ( let j = 0
-                ; j < vdev[ "children" ].length
-                    - vdevRedundancy[ vdev[ "type" ] ]
-                ; j++
-                ) {
-              vdevSize += smallestDiskSize;
-            }
+        if ( vdev[ "type" ] === "mirror" ) {
+          vdevSize = smallestDiskSize;
+        } else {
+          // Add the smallest disk size to the vdev size for each disk
+          // over the vdev redundancy level.
+          let disksThatCount = vdev[ "children" ].length
+                             - vdevRedundancy[ vdev[ "type" ] ];
+          for ( let k = 0; k < disksThatCount; k++ ) {
+            vdevSize += smallestDiskSize;
+            console.log( "smallestDiskSize:", smallestDiskSize );
           }
         }
       }
