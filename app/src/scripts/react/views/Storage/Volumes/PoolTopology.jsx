@@ -70,10 +70,12 @@ var TopologyDrawer = React.createClass(
       ( vdev, index ) => {
         // Destructure vdev to avoid passing in props which will not be used.
         let { children, type, path } = vdev;
-
+        let allowedTypes = this.props.editing
+                         ? this.props.allowedTypes[ purpose ][ index ]
+                         : [ type ];
         return (
           <VDEV { ...sharedProps }
-            allowedTypes = { this.props.allowedTypes[ purpose ][ index ] }
+            allowedTypes = { allowedTypes }
             children     = { children }
             type         = { type }
             path         = { path }
