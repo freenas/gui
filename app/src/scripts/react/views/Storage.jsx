@@ -24,10 +24,10 @@ const Storage = React.createClass(
 
   , getInitialState () {
       return (
-        { volumes       : VS.listVolumes()
-        , selectedDisks : new Set()
-        , selectedSSDs  : new Set()
-        , editingVolume : false
+        { volumes: VS.listVolumes()
+        , selectedDisks: new Set()
+        , selectedSSDs: new Set()
+        , activeVolume: null
         }
       );
     }
@@ -53,7 +53,7 @@ const Storage = React.createClass(
 
   , componentDidUpdate ( prevProps, prevState ) {
       if ( ( this.state.volumes.length === 0 )
-           && ( this.state.editingVolume !== prevState.editingVolume )
+           && ( this.state.activeVolume !== prevState.activeVolume )
          ) {
         Velocity( React.findDOMNode( this.refs.newPoolMessage )
           , { opacity       : 0
@@ -88,8 +88,11 @@ const Storage = React.createClass(
       this.setState( newState );
     }
 
-  , handleEditModeChange ( isEditing ) {
-      this.setState({ editingVolume: isEditing });
+  , handleVolumeActive ( key ) {
+      this.setState(
+        { activeVolume: key
+        }
+      );
     }
 
   , handleDiskSelection ( path ) {
@@ -119,6 +122,8 @@ const Storage = React.createClass(
       let availableHDDs = [];
       let availableSSDs = [];
 
+      let activeVolume = this.state.activeVolume;
+
       availableDisks.forEach( disk => {
         if ( DS.isSSD( disk ) ) {
           availableSSDs.push( disk );
@@ -128,7 +133,7 @@ const Storage = React.createClass(
       });
 
       const volumeCommon =
-        { onEditModeChange: this.handleEditModeChange
+        { requestActive: this.handleVolumeActive
         , handleDiskSelection: this.handleDiskSelection
         , handleDiskRemoval: this.handleDiskRemoval
         , handleDiskClear: this.handleDiskClear
@@ -157,6 +162,7 @@ const Storage = React.createClass(
               size      = { size.value }
               datasets  = { volume.datasets }
               name      = { volume.name }
+              active    = { index === activeVolume }
               volumeKey = { index }
               key       = { index }
             />
@@ -172,6 +178,7 @@ const Storage = React.createClass(
             { ...volumeCommon }
             key       = { pools.length }
             volumeKey = { pools.length }
+            active    = { pools.length === activeVolume }
           />
         );
       } else if ( pools.length === 0 ) {

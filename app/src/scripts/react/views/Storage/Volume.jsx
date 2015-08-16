@@ -43,10 +43,10 @@ const Volume = React.createClass(
   { displayName: "Volume"
 
   , propTypes:
-    { onEditModeChange: React.PropTypes.func.isRequired
-    , handleDiskSelection: React.PropTypes.func.isRequired
+    { handleDiskSelection: React.PropTypes.func.isRequired
     , handleDiskRemoval: React.PropTypes.func.isRequired
     , handleDiskClear: React.PropTypes.func.isRequired
+    , requestActive: React.PropTypes.func.isRequired
     , availableDisks: React.PropTypes.array.isRequired
     , availableSSDs: React.PropTypes.array.isRequired
     , existsOnRemote: React.PropTypes.bool
@@ -80,6 +80,7 @@ const Volume = React.createClass(
 
   , getInitialState () {
       return { activeSection : null
+             , desiredSection: null
              , editing       : false
              , data          : []
              , logs          : []
@@ -103,6 +104,57 @@ const Volume = React.createClass(
              };
     }
 
+  , componentWillReceiveProps ( nextProps ) {
+      if ( this.props.active !== nextProps.active ) {
+        // Storage.jsx has authorized an active state on this component, or has
+        // revoked it
+
+        if ( nextProps.active ) {
+          let allowedSections = this.getAllowedDrawers();
+          let newState =
+            { activeSection: _.contains( allowedSections
+                                       , this.state.desiredSection
+                                       )
+                           ? this.state.desiredSection
+                           : allowedSections[0]
+            , desiredSection: null
+            , editing: this.props.existsOnRemote
+                     ? false
+                     : true
+            };
+
+          this.setState( newState
+                       , function showDrawer () {
+              Velocity( [ React.findDOMNode( this.refs.drawer )
+                        , React.findDOMNode( this.refs.changesToolbar )
+                        ]
+                      , "slideDown"
+                      , { duration: SLIDE_DURATION
+                        }
+                      );
+            }
+          );
+
+        } else {
+          let newState =
+            { activeSection: null
+            , editing: false
+            };
+
+          Velocity( [ React.findDOMNode( this.refs.drawer )
+                    , React.findDOMNode( this.refs.changesToolbar )
+                    ]
+                  , "slideUp"
+                  , { duration: SLIDE_DURATION
+                    , complete: function () {
+                        this.setState( newState );
+                      }.bind( this )
+                    }
+                  );
+        }
+      }
+    }
+
   , componentDidUpdate ( prevProps, prevState ) {
       let topologyContextProps =
         { availableDisks: this.props.availableDisks
@@ -117,13 +169,11 @@ const Volume = React.createClass(
                  .focus();
           }
 
-          this.props.onEditModeChange( true );
           EventBus.emit( "showContextPanel"
                        , TopologyEditContext
                        , topologyContextProps
                        );
         } else {
-          this.props.onEditModeChange( false );
           EventBus.emit( "hideContextPanel", TopologyEditContext );
         }
       }
@@ -152,47 +202,15 @@ const Volume = React.createClass(
     }
 
   , openDrawer ( desiredSection = null ) {
-      let allowedSections = this.getAllowedDrawers();
-      let newState =
-        { activeSection: _.contains( allowedSections, desiredSection )
-                       ? desiredSection
-                       : allowedSections[0]
-        , editing: this.props.existsOnRemote
-                 ? false
-                 : true
-        };
-
-      this.setState( newState
-                   , function showDrawer () {
-          Velocity( [ React.findDOMNode( this.refs.drawer )
-                    , React.findDOMNode( this.refs.changesToolbar )
-                    ]
-                  , "slideDown"
-                  , { duration: SLIDE_DURATION
-                    }
-                  );
+      this.setState(
+        { desiredSection: desiredSection
         }
+        , this.props.requestActive.bind( null, this.props.volumeKey )
       );
-
     }
 
   , closeDrawer () {
-      let newState =
-        { activeSection: null
-        , editing: false
-        };
-
-      Velocity( [ React.findDOMNode( this.refs.drawer )
-                , React.findDOMNode( this.refs.changesToolbar )
-                ]
-              , "slideUp"
-              , { duration: SLIDE_DURATION
-                , complete: function () {
-                    this.setState( newState );
-                  }.bind( this )
-                }
-              );
-
+      this.props.requestActive( null );
     }
 
   , toggleDrawer ( event ) {
