@@ -28,13 +28,14 @@ class VolumeCommon {
     for ( let i = 0; i < dataVdevs.length; i++ ) {
       let vdev = dataVdevs[i];
       let vdevSize = 0;
+      let smallestDiskSize = Infinity;
       // Disk vdevs have only one disk and no children to iterate over.
       if ( vdev.type === "disk" ) {
         vdevSize = VolumeCommon.getDiskSize( disks, vdev[ "path" ] );
       } else {
         // Search for the smallest disk
         for ( let j = 0; j < vdev[ "children" ].length; j++ ) {
-          let smallestDiskSize = Infinity;
+          smallestDiskSize = Infinity;
           let diskSize = VolumeCommon.getDiskSize( disks
                                      , vdev[ "children" ][ j ][ "path" ]
                                      )
