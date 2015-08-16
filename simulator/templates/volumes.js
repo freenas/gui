@@ -221,7 +221,7 @@ function createVolume ( volumeIndex, disks, id ) {
 // 'config[ "volumeDiskCount" ]' disks from 'disks'.
 function createVolumes ( config, disks ) {
 
-  var newVolumes = [];
+  var newVolumes = {};
 
   var volumeDisks = [];
 
@@ -236,7 +236,7 @@ function createVolumes ( config, disks ) {
 
     nextVolume = createVolume( i, volumeDisks, id );
 
-    newVolumes.push( _.cloneDeep( nextVolume ) );
+    newVolumes[ nextVolume[ "name" ] ]( _.cloneDeep( nextVolume ) );
   }
 
   return newVolumes;

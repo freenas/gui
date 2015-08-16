@@ -125,15 +125,8 @@ class Volumes extends RPCBase {
 
   destroy ( system, args, callback ) {
 
-    var volumeToRemove = _.findIndex( system[ "volumes" ]
-                                    , { name: args[0] }
-                                    );
-
-    if ( volumeToRemove !== -1 ) {
-
-      _.pullAt( system[ "volumes" ]
-              , [ volumeToRemove ]
-              );
+    if ( _.has ( system[ "volumes" ][ args[0] ] ) ) {
+      delete system[ "volumes" ][ args[0] ];
       callback( system, system[ "volumes" ] );
       this.emitChange( this.CHANGE_EVENT
                      , "volume.destroy"
