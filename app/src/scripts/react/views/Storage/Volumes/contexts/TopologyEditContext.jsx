@@ -14,6 +14,7 @@ import DS from "../../../../../flux/stores/DisksStore";
 
 import DiscTri from "../../../../components/DiscTri";
 import DragTarget from "../../../../components/DragTarget";
+import DropTarget from "../../../../components/DropTarget";
 import Disk from "../../../../components/items/Disk";
 
 const ContextDisks = React.createClass(
@@ -22,6 +23,22 @@ const ContextDisks = React.createClass(
   , propTypes:
     { availableDisks: React.PropTypes.array.isRequired
     , handleReset: React.PropTypes.func.isRequired
+    }
+
+  , ensureHomogeneity ( allowedType, payload ) {
+      // If this function returns `true`, dropping will be prevented. The test
+      // uses the known type to check if the payload belongs to another group.
+
+      switch ( allowedType.toLowerCase() ) {
+        case "ssds":
+          return DS.isHDD( payload );
+
+        case "disks":
+          return DS.isSSD( payload );
+
+        default:
+          return false;
+      }
     }
 
   , createPaletteSection ( disks, key ) {
@@ -36,7 +53,7 @@ const ContextDisks = React.createClass(
           defaultExpanded = { available.length < 10 }
           key = { key }
         >
-          <div className="disk-container">
+          <span className="disk-container">
             { available.map( ( path, index ) => (
                   <div
                     className = "disk-wrapper"
@@ -52,7 +69,7 @@ const ContextDisks = React.createClass(
                 )
               )
             }
-          </div>
+          </span>
         </DiscTri>
       );
     }
@@ -69,9 +86,15 @@ const ContextDisks = React.createClass(
               <h5 className="context-section-header">
                 <span className="type-line">{ "Available " + type }</span>
               </h5>
-              <TWBS.Well bsSize="small">
-                { paletteSection }
-              </TWBS.Well>
+              <DropTarget
+                namespace = "disk"
+                preventDrop = { this.ensureHomogeneity.bind( null, type ) }
+                activeDrop
+              >
+                <TWBS.Well bsSize="small">
+                  { paletteSection }
+                </TWBS.Well>
+              </DropTarget>
             </div>
           );
         } else {
