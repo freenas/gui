@@ -7,6 +7,7 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import VS from "../../../../flux/stores/VolumeStore";
 import DS from "../../../../flux/stores/DisksStore";
 
 import Disk from "../../../components/items/Disk";
@@ -17,13 +18,13 @@ import VDEVInfo from "./VDEV/VDEVInfo";
 
 const VDEV = React.createClass(
   { propTypes:
-    { handleDiskAdd    : React.PropTypes.func.isRequired
-    , handleDiskRemove : React.PropTypes.func.isRequired
-    , handleTypeChange : React.PropTypes.func.isRequired
-    , availableDevices : React.PropTypes.array.isRequired
-    , cols             : React.PropTypes.number
-    , children         : React.PropTypes.array
-    , path             : React.PropTypes.string
+    { handleDiskAdd: React.PropTypes.func.isRequired
+    , handleDiskRemove: React.PropTypes.func.isRequired
+    , handleTypeChange: React.PropTypes.func.isRequired
+    , availableDevices: React.PropTypes.array.isRequired
+    , cols: React.PropTypes.number
+    , children: React.PropTypes.array
+    , path: React.PropTypes.string
     , purpose: React.PropTypes.oneOf(
         [ "data"
         , "logs"
@@ -44,12 +45,11 @@ const VDEV = React.createClass(
         ]
       )
     , allowedTypes: React.PropTypes.array.isRequired
-    , existsOnServer: React.PropTypes.bool
     }
 
   , getDefaultProps () {
-    return { purpose : "data"
-           , cols    : 4
+    return { purpose: "data"
+           , cols: 4
            };
   }
 
@@ -61,18 +61,36 @@ const VDEV = React.createClass(
     }
 
   , createDiskItem ( path, key ) {
-      let deleteButton = null;
+      let content;
+      let mutable = VS.isDiskAvailable( path );
 
-      if ( !this.props.existsOnServer ) {
-        deleteButton = (
-          <span
-            className = "disk-remove"
-            onClick = { this.props.handleDiskRemove.bind( null, path ) }
-            onMouseDown = { event => event.stopPropagation() }
+      let disk = (
+        <Disk
+          handleDiskRemove = { this.props.handleDiskRemove }
+          existsOnServer = { !mutable }
+          path = { path }
+        />
+      );
+
+      if ( mutable ) {
+        content = (
+          <DragTarget
+            namespace = "disk"
+            payload = { path }
+            callback = { this.props.handleDiskRemove.bind( null, path ) }
           >
-            <Icon glyph="times" />
-          </span>
+            { disk }
+            <span
+              className = "disk-remove"
+              onClick = { this.props.handleDiskRemove.bind( null, path ) }
+              onMouseDown = { event => event.stopPropagation() }
+            >
+              <Icon glyph="times" />
+            </span>
+          </DragTarget>
         );
+      } else {
+        content = disk;
       }
 
       return (
@@ -80,18 +98,7 @@ const VDEV = React.createClass(
           className="disk-wrapper"
           key = { key }
         >
-          <DragTarget
-            namespace = "disk"
-            payload = { path }
-            callback = { this.props.handleDiskRemove.bind( null, path ) }
-          >
-            { deleteButton }
-            <Disk
-              handleDiskRemove = { this.props.handleDiskRemove }
-              existsOnServer = { this.props.existsOnServer }
-              path = { path }
-            />
-          </DragTarget>
+          { content }
         </div>
       );
     }
