@@ -104,6 +104,11 @@ const Volume = React.createClass(
     }
 
   , componentDidUpdate ( prevProps, prevState ) {
+      let topologyContextProps =
+        { availableDisks: this.props.availableDisks
+        , handleReset: this.resetTopology
+        };
+
       if ( prevState.editing !== this.state.editing ) {
         if ( this.state.editing ) {
           if ( !this.state.name && this.refs.volumeNameInput ) {
@@ -115,7 +120,7 @@ const Volume = React.createClass(
           this.props.onEditModeChange( true );
           EventBus.emit( "showContextPanel"
                        , TopologyEditContext
-                       , this.getTopologyContextProps()
+                       , topologyContextProps
                        );
         } else {
           this.props.onEditModeChange( false );
@@ -129,20 +134,12 @@ const Volume = React.createClass(
                 ) {
         EventBus.emit( "updateContextPanel"
                      , TopologyEditContext
-                     , this.getTopologyContextProps() );
+                     , topologyContextProps );
       }
     }
 
   , componentWillUnmount () {
       EventBus.emit( "hideContextPanel", TopologyEditContext );
-    }
-
-  , getTopologyContextProps () {
-      return (
-        { availableDisks: this.props.availableDisks
-        , handleReset: this.resetTopology
-        }
-      );
     }
 
   , handleEditModeChange ( isEditing ) {
