@@ -12,7 +12,7 @@ const vdevRedundancy =
   , raidz2 : 2
   , raidz1 : 1
   // Do not include mirror; it's variable.
-  , disk   : 0
+  // Do not include disk; it's meaningless.
   };
 
 class VolumeCommon {
