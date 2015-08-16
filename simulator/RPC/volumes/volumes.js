@@ -18,6 +18,19 @@ const vDevGUIDStarter = 2866253151434971358;
 const datasetGUIDStarter = 5133185099967636567;
 const volumeIDStarter = 2950145407967379177;
 
+  function getUsedDiskPaths ( vdev ) {
+    var usedDiskPaths = [];
+
+    if ( vdev[ "type" ] === "disk" ) {
+      usedDiskPaths.push( vdev[ "path" ] );
+    } else {
+      for ( let i = 0; i < vdev[ "children" ].length; i++ ) {
+        usedDiskPaths.push( vdev[ "children" ][ i ][ "path" ] );
+      }
+    }
+    return usedDiskPaths;
+  }
+
 function processNewVolume ( volume, system ) {
   var newVolume = {};
   var volumeSettings = volume[ "settings" ] || null;
@@ -135,21 +148,6 @@ class Volumes extends RPCBase {
     } else {
       // TODO: Emit error
     }
-
-  }
-
-  getUsedDiskPaths ( vdev ) {
-    var usedDiskPaths = [];
-
-    if ( vdev[ "type" ] === "disk" ) {
-      usedDiskPaths.push( vdev[ "path" ] );
-    } else {
-      for ( let i = 0; i < vdev[ "children" ].length; i++ ) {
-        usedDiskPaths.push( vdev[ "children" ][ i ][ "path" ] );
-      }
-    }
-
-    return usedDiskPaths;
 
   }
 
