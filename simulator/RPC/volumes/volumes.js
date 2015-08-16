@@ -175,23 +175,18 @@ class Volumes extends RPCBase {
            );
     // Iterate over volumes
     for ( let i = 0; i < volumes.length; i++ ) {
+      let topology = volumes[i].topology;
       // Iterate over disk, spare, cache, and log in each volume
-      _.forEach( volumes[i].topology
-               , function mapUsedDisksOverTopology ( vdevType ) {
-                 // Iterate over all the vdevs of a particular type
-                 _.forEach( vdevType
-                          , function removeUsedDisksByVdev ( vdev ) {
-                            // Remove all the disks in a vdev from the list of
-                            // available disks.
-                            _.pull( availableDisks
-                                  , this.getUsedDiskPaths( vdev )
-                                  );
-                          }
-                          , this
-                          );
-               }
-               , this
-               );
+      for ( let j = 0; j < topology.length; j++ ){
+        let vdevType = topology[j];
+        // Iterate over the disks in each vdev of that vdev type
+        for ( let k = 0; k < vdevType.length; k++ ) {
+          let vdev = vdevType[k];
+            _.pull( availableDisks
+                  , this.getUsedDiskPaths( vdev )
+                  );
+        }
+      }
     }
 
     return availableDisks;
