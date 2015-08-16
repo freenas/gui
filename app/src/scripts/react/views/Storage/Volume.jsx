@@ -352,6 +352,10 @@ const Volume = React.createClass(
   , render () {
       let isInitialized = !this.props.existsOnRemote && !this.state.editing;
 
+      let panelClass = [ "volume" ];
+      if ( isInitialized ) { panelClass.push( "awaiting-init" ); }
+      if ( this.state.editing ) { panelClass.push( "editing" ); }
+
       let initMessage    = null;
       let volumeInfo     = null;
       let drawer         = null;
@@ -469,17 +473,7 @@ const Volume = React.createClass(
 
       return (
         <TWBS.Panel
-          className = { "volume"
-                      + ( isInitialized
-                        ? " awaiting-init"
-                        : ""
-                        )
-                      + ( this.state.editing
-                        ? " editing"
-                        : ""
-                        )
-                      }
-          onClick   = { this.handlePanelOpen }
+          className = { panelClass.join( " " ) }
         >
           { initMessage }
           { volumeInfo }
