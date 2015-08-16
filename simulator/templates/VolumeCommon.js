@@ -32,37 +32,35 @@ class VolumeCommon {
       // Disk vdevs have only one disk and no children to iterate over.
       if ( vdev.type === "disk" ) {
         vdevSize = VolumeCommon.getDiskSize( disks, vdev[ "path" ] );
-       } else {
+      } else {
         // Search for the smallest disk
         for ( let j = 0; j < vdev[ "children" ].length; j++ ) {
           if ( VolumeCommon.getDiskSize( disks
-                          , vdev[ "children" ][ j ][ "path" ]
-                          )
-             < smallestDiskSize
-             ) {
+                                       , vdev[ "children" ][ j ][ "path" ]
+                                       ) < smallestDiskSize ) {
             smallestDiskSize =
               VolumeCommon.getDiskSize( disks
-                         , vdev[ "children" ][ j ][ "path" ]
-                         );
+                                      , vdev[ "children" ][ j ][ "path" ]
+                                      );
+          }
+          // The size of a mirror vdev is always the size of its smallest
+          // component disk.
+          if ( vdev[ "type" ] === "mirror" ) {
+            vdevSize = smallestDiskSize;
+          } else {
+            // Add the smallest disk size to the vdev size for each disk
+            // over the vdev redundancy level.
+            for ( let j = 0
+                ; j < vdev[ "children" ].length
+                    - vdevRedundancy[ vdev[ "type" ] ]
+                ; j ++
+                ) {
+              vdevSize += smallestDiskSize;
+            }
           }
         }
-        // The size of a mirror vdev is always the size of its smallest
-        // component disk.
-        if ( vdev[ "type" ] === "mirror" ) {
-          vdevSize = smallestDiskSize;
-        } else {
-          // Add the smallest disk size to the vdev size for each disk
-          // over the vdev redundancy level.
-          for ( let j = 0
-              ; j < vdev[ "children" ].length
-                  - vdevRedundancy[ vdev[ "type" ] ]
-              ; j ++
-              ) {
-            vdevSize += smallestDiskSize;
-          }
-        }
-        volumeSize += vdevSize;
       }
+      volumeSize += vdevSize;
     }
 
     return volumeSize;
