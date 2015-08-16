@@ -103,10 +103,6 @@ const Volume = React.createClass(
              };
     }
 
-  // A shorthand method used to "cancel" creation or editing of a volume.
-  // TODO: This should probably be gated so that it isn't triggered without a
-  // warning to the user.
-
   , componentDidUpdate ( prevProps, prevState ) {
       if ( prevState.editing !== this.state.editing ) {
         if ( this.state.editing ) {
