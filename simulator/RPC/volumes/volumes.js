@@ -19,36 +19,35 @@ const datasetGUIDStarter = 5133185099967636567;
 const volumeIDStarter = 2950145407967379177;
 
 function processNewVolume ( volume, system ) {
-  var newVolume = volumeDefaults;
+  var newVolume = {};
   var volumeSettings = volume[ "settings" ] || null;
 
   var size = VolumeCommon.calculateVolumeSize( volume[ "topology" ][ "data" ]
                                              , system[ "disks" ]
                                              );
 
-  var rootDataset = datasetDefaults;
+  var rootDataset =
+    { name:
+      { source: "NONE"
+      , value: volume[ "name" ]
+      }
+    , properties:
+      { available:
+        { source: "NONE"
+        , value: size
+        }
+      , name:
+        { source: "NONE"
+        , value: volume[ "name" ]
+        }
+      , creation:
+        { source: "NONE"
+        , value: time
+        }
+      }
+    };
 
-  _.merge( rootDataset
-         , { name:
-             { source: "NONE"
-             , value: volume[ "name" ]
-             }
-           , properties:
-             { available:
-               { source: "NONE"
-               , value: size
-               }
-             , name:
-               { source: "NONE"
-               , value: volume[ "name" ]
-               }
-             , creation:
-               { source: "NONE"
-               , value: time
-               }
-             }
-           }
-         );
+  _.defaultsDeep( rootDataset, datasetDefaults)
 
   if ( volumeSettings ) {
     // For dedup, just a truthy value is needed.
@@ -68,34 +67,33 @@ function processNewVolume ( volume, system ) {
     }
   }
 
-
   let datasets = [ rootDataset ];
 
-  _.merge( newVolume
-         , { id: volumeIDStarter + system[ "volumes" ].length
-           , name: volume[ "name" ]
-           , mountpoint: "/volumes/" + volume[ "name" ]
-           , topology: volume[ "topology" ]
-           , properties:
-             { free:
-               { source: "NONE"
-               , value: size
-               }
-             , name:
-               { source: "NONE"
-               , value: volume[ "name" ]
-               }
-             , size:
-               { source: "NONE"
-               , value: size
-               }
-             }
-           , root_dataset: rootDataset
-           , datasets: datasets
-           , "updated-at": time
-           , "created-at" : time
-           }
-         );
+  newVolume =
+    { name: volume[ "name" ]
+    , mountpoint: "/volumes/" + volume[ "name" ]
+    , topology: volume[ "topology" ]
+    , properties:
+      { free:
+        { source: "NONE"
+        , value: size
+        }
+      , name:
+        { source: "NONE"
+        , value: volume[ "name" ]
+        }
+      , size:
+        { source: "NONE"
+        , value: size
+        }
+      }
+    , root_dataset: rootDataset
+    , datasets: datasets
+    , "updated-at": time
+    , "created-at" : time
+    };
+
+  _.defaultsDeep( newVolume, volumeDefaults );
 
   return newVolume;
 
