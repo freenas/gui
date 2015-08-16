@@ -428,25 +428,23 @@ const Volume = React.createClass(
         );
       } else {
         let sectionNav = null;
-        let totalSize;
-        let usable;
+        let used;
         let parity;
-        let allocated;
-        let freeSize;
+        let free;
+        let total;
 
         if ( this.state.editing ) {
           let breakdown = ZfsUtil.caluclateBreakdown( this.state.data );
-          totalSize = breakdown.avail + breakdown.parity;
-          usable    = breakdown.avail;
-          parity    = breakdown.parity;
-          allocated = 0; // FIXME
-          freeSize  = breakdown.avail;
+          used   = 0;
+          parity = breakdown.parity;
+          free   = breakdown.avail;
+          total  = breakdown.avail + breakdown.parity;
         } else {
-          totalSize = ByteCalc.convertString( this.props.size ); // FIXME
-          usable    = ByteCalc.convertString( this.props.size );
-          parity    = 0; // FIXME
-          allocated = ByteCalc.convertString( this.props.allocated );
-          freeSize  = ByteCalc.convertString( this.props.free );
+          used   = 1000000000000;
+          parity = 0;
+          // free   = ByteCalc.convertString( this.props.free );
+          free   = ByteCalc.convertString( this.props.size ) - used;
+          total  = ByteCalc.convertString( this.props.size );
         }
 
         volumeInfo = (
@@ -457,14 +455,14 @@ const Volume = React.createClass(
             <div className="clearfix">
               { this.createVolumeName() }
               <h3 className="pull-right volume-capacity">
-                { ByteCalc.humanize( usable ) }
+                { ByteCalc.humanize( free ) }
               </h3>
             </div>
             <BreakdownChart
-              total  = { totalSize }
+              total  = { total }
               parity = { parity }
-              used   = { allocated }
-              free   = { freeSize }
+              used   = { used }
+              free   = { free }
             />
           </div>
         );
