@@ -13,6 +13,7 @@ gulp.task( "libs"
   return gulp.src( [ "bower_components/velocity/velocity.min.js"
                    , "bower_components/velocity/velocity.ui.min.js"
                    , "bower_components/d3/d3.min.js"
+                   , "nv.d3.js"
                    , "node_modules/babel/browser-pollyfill.min.js"
                    ]
                  )
