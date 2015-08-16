@@ -25,8 +25,12 @@ class VolumeStore extends FluxBase {
     );
   }
 
-  get availableDisks() {
+  get availableDisks () {
     return _.sortBy( Array.from( _availableDisks ) );
+  }
+
+  get disksAreAvailable () {
+    return _availableDisks.size > 0;
   }
 
   isDiskAvailable ( path ) {
