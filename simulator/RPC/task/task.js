@@ -11,8 +11,10 @@ import _ from "lodash";
 import RPCBase from "../RPC_BASE_CLASS";
 
 class Tasks extends RPCBase {
-  constructor () {
+  constructor ( system ) {
     super();
+
+    this.system = system;
 
     this.rpcClasses = [];
     this.namespace = "task";
@@ -70,14 +72,14 @@ class Tasks extends RPCBase {
         taskFunction = this.rpcClasses[ taskNamespace ][ taskMethod ].bind( this.rpcClasses[ taskNamespace ] );
       }
 
-      taskFunction( system
+      taskFunction( _.cloneDeep( this.system )
                   , args[1]
                   , function responseCallback ( changedSystem
                                               , taskResponse
                                               ) {
-                    system = changedSystem;
+                    _.assign( this.system, changedSystem );
                     response = taskResponse;
-                  }
+                  }.bind( this )
                   );
 
     }
