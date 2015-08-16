@@ -23,7 +23,7 @@ import PoolTopology from "./Volumes/PoolTopology";
 import TopologyEditContext from "./Volumes/contexts/TopologyEditContext";
 
 const SLIDE_DURATION = 500;
-const NAV_STATES = new Set( [ "disks", "filesystem", "snapshots", "files" ] );
+const DRAWERS = [ "files", "snapshots", "filesystem", "disks" ];
 
 // VOLUME EDITING
 // ==============
@@ -108,33 +108,8 @@ const Volume = React.createClass(
   // warning to the user.
 
   , componentDidUpdate ( prevProps, prevState ) {
-      let sectionIsVisible = Boolean( prevState.activeSection );
-      let sectionShouldBeVisible = Boolean( this.state.activeSection );
-
-      let wasEditing = Boolean( prevState.editing );
-      let isEditing = Boolean( this.state.editing );
-
-      // Toggle the display of the content drawer
-      if ( sectionIsVisible !== sectionShouldBeVisible ) {
-        if ( sectionShouldBeVisible ) {
-          Velocity( [ React.findDOMNode( this.refs.drawer )
-                    , React.findDOMNode( this.refs.changesToolbar )
-                    ]
-                  , "slideDown"
-                  , SLIDE_DURATION
-                  );
-        } else {
-          Velocity( [ React.findDOMNode( this.refs.drawer )
-                    , React.findDOMNode( this.refs.changesToolbar )
-                    ]
-                  , "slideUp"
-                  , SLIDE_DURATION
-                  );
-        }
-      }
-
-      if ( wasEditing !== isEditing ) {
-        if ( isEditing ) {
+      if ( prevState.editing !== this.state.editing ) {
+        if ( this.state.editing ) {
           if ( !this.state.name && this.refs.volumeNameInput ) {
             React.findDOMNode( this.refs.volumeNameInput )
                  .getElementsByTagName( "INPUT" )[0]
@@ -152,7 +127,7 @@ const Volume = React.createClass(
         }
       }
 
-      if ( isEditing
+      if ( this.state.editing
         && _.xor( this.props.availableDisks
                 , prevProps.availableDisks ).length
                 ) {
@@ -178,12 +153,69 @@ const Volume = React.createClass(
       this.setState({ editing: isEditing });
     }
 
-  , handlePanelOpen () {
-      this.setState({ activeSection: "disks" });
+  , getAllowedDrawers () {
+      // TODO: Needs more complex logic
+      if ( this.props.existsOnRemote ) {
+        return [ _.last( DRAWERS ) ];
+      } else {
+        return [ _.last( DRAWERS ) ];
+      }
+    }
+
+  , openDrawer ( desiredSection = null ) {
+      let allowedSections = this.getAllowedDrawers();
+      let newState =
+        { activeSection: _.contains( allowedSections, desiredSection )
+                       ? desiredSection
+                       : allowedSections[0]
+        , editing: this.props.existsOnRemote
+                 ? false
+                 : true
+        };
+
+      this.setState( newState
+                   , function showDrawer () {
+          Velocity( [ React.findDOMNode( this.refs.drawer )
+                    , React.findDOMNode( this.refs.changesToolbar )
+                    ]
+                  , "slideDown"
+                  , { duration: SLIDE_DURATION
+                    }
+                  );
+        }
+      );
+
+    }
+
+  , closeDrawer () {
+      let newState =
+        { activeSection: null
+        , editing: false
+        };
+
+      Velocity( [ React.findDOMNode( this.refs.drawer )
+                , React.findDOMNode( this.refs.changesToolbar )
+                ]
+              , "slideUp"
+              , { duration: SLIDE_DURATION
+                , complete: function () {
+                    this.setState( newState );
+                  }.bind( this )
+                }
+              );
+
+    }
+
+  , toggleDrawer ( event ) {
+      if ( this.state.activeSection ) {
+        this.closeDrawer();
+      } else {
+        this.openDrawer();
+      }
     }
 
   , handleNavSelect ( keyName ) {
-      if ( NAV_STATES.has( keyName ) ) {
+      if ( DRAWERS.has( keyName ) ) {
         this.setState({ activeSection: keyName });
       } else {
         this.setState({ activeSection: null });
@@ -370,7 +402,7 @@ const Volume = React.createClass(
           <div className="text-center">
             <TWBS.Button
               bsStyle = "primary"
-              onClick = { this.handleEditModeChange.bind( null, true ) }
+              onClick = { this.openDrawer.bind( this, "disks" ) }
             >
             { "Create new ZFS volume" }
             </TWBS.Button>
@@ -400,7 +432,10 @@ const Volume = React.createClass(
         }
 
         volumeInfo = (
-          <div className="volume-info">
+          <div
+            className = "volume-info"
+            onClick = { this.toggleDrawer }
+          >
             <div className="clearfix">
               { this.createVolumeName() }
               <h3 className="pull-right volume-capacity">
@@ -456,7 +491,10 @@ const Volume = React.createClass(
             className = "volume-info clearfix"
           >
             <TWBS.ButtonToolbar className="pull-right">
-              <TWBS.Button bsStyle="default">
+              <TWBS.Button
+                bsStyle = "default"
+                onClick = { this.closeDrawer }
+              >
                 { "Cancel" }
               </TWBS.Button>
               <TWBS.Button
