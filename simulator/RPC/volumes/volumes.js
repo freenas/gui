@@ -158,7 +158,7 @@ class Volumes extends RPCBase {
 
   get_available_disks ( system ) {
     var availableDisks = [];
-    const volumes = system[ "volumes" ];
+    const volumes = _.values( system[ "volumes" ] );
 
     // Make a list of the paths to all disks
     var availableDisks =
@@ -169,16 +169,18 @@ class Volumes extends RPCBase {
            );
     // Iterate over volumes
     for ( let i = 0; i < volumes.length; i++ ) {
-      let topology = volumes[i].topology;
+      let topology = _.values( volumes[i].topology );
       // Iterate over disk, spare, cache, and log in each volume
-      for ( let j = 0; j < topology.length; j++ ){
+      for ( let j = 0; j < topology.length; j++ ) {
         let vdevType = topology[j];
-        // Iterate over the disks in each vdev of that vdev type
+        // Iterate over the vdevs in each vdev of that vdev type
         for ( let k = 0; k < vdevType.length; k++ ) {
+          // Check the disk paths in each vdev and remove them from circulation
           let vdev = vdevType[k];
-            _.pull( availableDisks
-                  , this.getUsedDiskPaths( vdev )
-                  );
+          let usedDisks = getUsedDiskPaths( vdev );
+          _.pull( availableDisks
+                , ...usedDisks
+                );
         }
       }
     }
