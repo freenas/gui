@@ -33,7 +33,7 @@ var rpcClasses =
   , network: new NetworkRPC()
   , shell: new ShellRPC()
   , system: new SystemRPC()
-  , task: new TaskRPC()
+  , task: new TaskRPC( virtualSystem )
   , users: new UsersRPC()
   , simulate: new SimulateRPC()
   , statd: new StatdRPC( virtualSystem )
