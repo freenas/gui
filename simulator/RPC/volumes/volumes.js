@@ -16,7 +16,6 @@ const volumeDefaults = require( "../../templates/volumeDefaults.json" );
 const datasetDefaults = require( "../../templates/datasetDefaults.json" );
 const vDevGUIDStarter = 2866253151434971358;
 const datasetGUIDStarter = 5133185099967636567;
-const volumeIDStarter = 2950145407967379177;
 
   function getUsedDiskPaths ( vdev ) {
     var usedDiskPaths = [];
