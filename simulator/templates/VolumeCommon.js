@@ -35,13 +35,13 @@ class VolumeCommon {
         // Search for the smallest disk
         for ( let j = 0; j < vdev[ "children" ].length; j++ ) {
           let smallestDiskSize = Infinity;
-          if ( VolumeCommon.getDiskSize( disks
-                                       , vdev[ "children" ][ j ][ "path" ]
-                                       ) < smallestDiskSize ) {
-            smallestDiskSize =
-              VolumeCommon.getDiskSize( disks
-                                      , vdev[ "children" ][ j ][ "path" ]
-                                      );
+          let diskSize = VolumeCommon.getDiskSize( disks
+                                     , vdev[ "children" ][ j ][ "path" ]
+                                     )
+
+          smallestDiskSize = diskSize < smallestDiskSize
+                           ? diskSize
+                           : smallestDiskSize;
           }
           // The size of a mirror vdev is always the size of its smallest
           // component disk.
