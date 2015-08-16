@@ -48,7 +48,7 @@ class ByteCalc {
 
       output = this.toBytes.call( this, quantity, units );
     } else if ( typeof size === "number" ) {
-      output = size;
+      output = Math.max( size, 0 );
     } else {
       console.warn( "Provided size \"" + size
                   + "\" must be a number or a string"
@@ -139,9 +139,9 @@ class ByteCalc {
     }
 
     if ( exponent > 0 ) {
-      return Number( quantity ) * Math.pow( base, exponent );
+      return Math.max( Number( quantity ) * Math.pow( base, exponent ), 0 );
     } else {
-      return Number( quantity );
+      return Math.max( Number( quantity ), 0 );
     }
   }
 
@@ -161,7 +161,7 @@ class ByteCalc {
                    ? 0
                    : Math.floor( Math.log( bytes ) / Math.log( base ) );
 
-    const finalSize = ( bytes / Math.pow( base, exponent ) );
+    const finalSize = Math.max( ( bytes / Math.pow( base, exponent ) ), 0 );
 
     let units = "";
     let suffix = "";
