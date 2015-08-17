@@ -16,6 +16,7 @@ import DiscTri from "../../../../components/DiscTri";
 import DragTarget from "../../../../components/DragTarget";
 import DropTarget from "../../../../components/DropTarget";
 import Disk from "../../../../components/items/Disk";
+import Topologizer from "../Topologizer";
 
 const ContextDisks = React.createClass(
   { displayName: "Pool Topology Context Drawer"
@@ -109,6 +110,7 @@ const ContextDisks = React.createClass(
       return (
         <div className="context-content context-disks">
           <h3>ZFS Pool Topology</h3>
+          <Topologizer />
           <TWBS.Button
             block
             bsStyle = "default"
