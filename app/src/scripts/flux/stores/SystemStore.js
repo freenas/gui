@@ -4,10 +4,10 @@
 "use strict";
 
 import _ from "lodash";
-import { EventEmitter } from "events";
 
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
+import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 var CHANGE_EVENT = "change";
 
@@ -16,62 +16,59 @@ var _systemDeviceData = {};
 var _systemGeneralConfig = {};
 var _localUpdatePending = [];
 
-var SystemStore = _.assign( {}, EventEmitter.prototype, {
+class SystemStore extends FluxBase {
 
-  emitChange: function ( changeType ) {
-      this.emit( CHANGE_EVENT );
-    }
+  constructor () {
+    super();
 
-  , addChangeListener: function ( callback ) {
-      this.on( CHANGE_EVENT, callback );
-    }
+    this.dispatchToken = FreeNASDispatcher.register(
+      handlePayload.bind( this )
+    );
 
-  , removeChangeListener: function ( callback ) {
-      this.removeListener( CHANGE_EVENT, callback );
-    }
+  }
 
-  , getSystemInfo: function ( name ) {
-      return _systemInfoData[name];
-    }
+  getSystemInfo ( name ) {
+    return _systemInfoData[name];
+  }
 
-  , getSystemDevice: function ( name ) {
-      return _systemDeviceData[name];
-    }
+  getSystemDevice ( name ) {
+    return _systemDeviceData[name];
+  }
 
-  , getSystemGeneralConfig: function () {
-      return _systemGeneralConfig;
-    }
+  get systemGeneralConfig () {
+    return _systemGeneralConfig;
+  }
 
   /**
    * Check if there are any pending update tasks.
    * @return {Boolean}
    */
-  , isUpdating: function () {
-      return _localUpdatePending.length > 0;
-    }
+  isUpdating () {
+    return _localUpdatePending.length > 0;
+  }
 
-});
+}
 
-SystemStore.dispatchToken = FreeNASDispatcher.register( function ( payload ) {
+function handlePayload ( payload ) {
   var action = payload.action;
 
   switch ( action.type ) {
 
     case ActionTypes.RECEIVE_SYSTEM_INFO_DATA:
       _systemInfoData[action.systemInfoName] = action.systemInfo;
-      SystemStore.emitChange();
+      this.emitChange();
       break;
     case ActionTypes.RECEIVE_SYSTEM_DEVICE_DATA:
       _systemDeviceData[action.systemDeviceArgument] = action.systemDevice;
-      SystemStore.emitChange();
+      this.emitChange();
       break;
     case ActionTypes.RECEIVE_SYSTEM_GENERAL_CONFIG_DATA:
       _systemGeneralConfig = action.config;
-      SystemStore.emitChange();
+      this.emitChange();
       break;
     case ActionTypes.RECEIVE_SYSTEM_GENERAL_CONFIG_UPDATE:
       _localUpdatePending.push( action.taskID );
-      SystemStore.emitChange();
+      this.emitChange();
       break;
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
@@ -79,7 +76,7 @@ SystemStore.dispatchToken = FreeNASDispatcher.register( function ( payload ) {
           && args.args.name === "system.general.configure"
           && args.args.state === "FINISHED" ) {
         _localUpdatePending = _.without( _localUpdatePending, args.args.id );
-        SystemStore.emitChange();
+        this.emitChange();
       }
       break;
 
@@ -87,6 +84,6 @@ SystemStore.dispatchToken = FreeNASDispatcher.register( function ( payload ) {
       // No action
       break;
   }
-});
+}
 
-module.exports = SystemStore;
+export default new SystemStore;
