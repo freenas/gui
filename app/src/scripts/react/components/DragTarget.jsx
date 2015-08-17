@@ -22,6 +22,8 @@ const DragTarget = React.createClass(
   , getInitialState () {
       return (
         { dragging: false
+        , selected: false
+        , preventClickout: false
         , dragOffset: [ 0, 0 ]
         , deltaPos: [ 0, 0 ]
         }
@@ -33,6 +35,13 @@ const DragTarget = React.createClass(
         { placeholder: "ghost"
         }
       );
+    }
+
+  , componentDidUpdate ( prevProps, prevState ) {
+      if ( prevState.selected !== this.state.selected ) {
+        if ( this.state.selected ) {
+        }
+      }
     }
 
   , handleMouseDown ( event ) {
@@ -86,6 +95,45 @@ const DragTarget = React.createClass(
       }
     }
 
+  , handleClickout ( event ) {
+    if ( this.state.preventClickout ) {
+      // This check prevents the initial selection event from triggering the
+      // clickout handler. Considered a workaround.
+      this.setState(
+        { preventClickout: false
+        }
+      );
+    } else {
+      window.removeEventListener( "click", this.handleClickout );
+      this.setState(
+        { selected: false
+        }
+      );
+    }
+  }
+
+  , handleClick ( event ) {
+      let newState = {};
+
+      if ( event.shiftKey || event.metaKey || event.altKey || event.ctrlKey ) {
+        // Allows the selection and de-selection of this target in conjuntion
+        // with anything which may already be selected. We don't need to prevent
+        // the clickout in this case because the event will not propagate.
+        event.stopPropagation();
+        newState.preventClickout = false;
+      } else {
+        newState.preventClickout = !this.state.selected;
+      }
+
+      if ( !this.state.selected ) {
+        window.addEventListener( "click", this.handleClickout );
+      }
+
+      newState.selected = !this.state.selected;
+
+      this.setState( newState );
+    }
+
   , render () {
       let style = {};
       let placeholder = null;
@@ -127,11 +175,14 @@ const DragTarget = React.createClass(
             );
             break;
         }
+      } else if ( this.state.selected ) {
+        contentClass.push( "selected" );
       }
 
       return (
         <span
           onMouseDown = { this.handleMouseDown }
+          onClick = { this.handleClick }
           ref = "dragTarget"
           className = "drag-target"
         >
