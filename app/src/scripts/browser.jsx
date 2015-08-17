@@ -39,7 +39,7 @@ if ( typeof window !== "undefined" ) {
         break;
 
       case "SIMULATION_MODE":
-        url  = "localhost";
+        url  = document.domain;
         path = ":4444/simulator";
         mode = "SIMULATION_MODE";
         break;
