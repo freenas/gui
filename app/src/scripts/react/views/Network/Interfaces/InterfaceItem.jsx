@@ -16,7 +16,7 @@ import IM from "../../../../flux/middleware/InterfacesMiddleware";
 const InterfaceItem = React.createClass(
   { mixins: [ routerShim ]
 
-  , getInitalState: function () {
+  , getInitialState: function () {
     return (
       { targetInterface: this.getInterface()
       , activeRoute: this.getDynamicRoute()
