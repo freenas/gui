@@ -5,6 +5,26 @@
   position: relative;
 }
 
+.topologizer-bounding {
+  position : absolute;
+  top      : 30%;
+  right    : 22%;
+  bottom   : 0;
+  left     : 22%;
+}
+
+.topologizer-handle {
+  height        : 20px;
+  width         : 20px;
+  margin        : -10px 0 0 -10px;
+  border        : 5px solid rgba(255, 255, 255, 0.85);
+  border-radius : 50%;
+  position      : absolute;
+  top           : 60%;
+  left          : 50%;
+  z-index       : 100;
+}
+
 .toppologizer-wrap {
   width         : @topologizer-basis;
   padding-bottom: @topologizer-basis;
@@ -22,7 +42,7 @@
 }
 
 .toppologizer-triangle-wrap {
-  .transform( scaleX(-0.666) translateY(50%) );
+  .transform( scaleX( -0.575 ) translateY( 50% ) );
 }
 
 .topologizer-triangle {
@@ -44,7 +64,7 @@
 .topologizer-label-health {
   bottom     : -12%;
   right      : 50%;
-  left       : 15%;
+  left       : 20%;
   text-align : left;
 
 }
@@ -52,7 +72,7 @@
 .topologizer-label-size {
   bottom     : -12%;
   left       : 50%;
-  right      : 15%;
+  right      : 20%;
   text-align : right;
 }
 

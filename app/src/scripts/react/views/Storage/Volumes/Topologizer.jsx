@@ -20,6 +20,9 @@ const Topologizer = React.createClass(
           <span className = "topologizer-label-size">
             {"Size"}
           </span>
+          <div className = "topologizer-bounding">
+            <div className = "topologizer-handle" />
+          </div>
           <div className = "toppologizer-wrap">
             <span className = "toppologizer-triangle-wrap">
               <span className = "topologizer-triangle">
