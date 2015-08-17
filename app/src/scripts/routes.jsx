@@ -92,6 +92,8 @@ module.exports = (
       name    = "network"
       path    = "network"
       handler = { Network } >
+      <DefaultRoute handler = { NetworkConfig } />
+
       <Route
         name = "network-config"
         path = "config"
