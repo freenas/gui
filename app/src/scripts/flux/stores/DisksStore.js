@@ -218,7 +218,7 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = eventData.args;
-      if ( args.name === "entity-subscriber.disks.update" ) {
+      if ( args.name === "disks.update" ) {
         _disks[ args.args.entities[0][ this.KEY_UNIQUE ] ] = _.cloneDeep( args.args.entities[0] );
         this.emitChange();
       }
