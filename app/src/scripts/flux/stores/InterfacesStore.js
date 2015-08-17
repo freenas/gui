@@ -115,10 +115,6 @@ class InterfacesStore extends FluxBase {
     return _.find( _interfaces, predicate );
   }
 
-  getInterface ( name ) {
-    return _interfaces[ name ];
-  }
-
   get interfaces () {
     return _.values( _interfaces );
   }
