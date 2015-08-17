@@ -15,20 +15,7 @@ If you already have node.js installed and the repo checked out, great! Skip to
 "Using the FreeNAS 10 Development Environment" below.
 
 Otherwise, to begin developing for the FreeNAS 10 GUI on one of these platforms,
-simply do:
-
-    curl -o- https://raw.githubusercontent.com/freenas/gui/master/bootstrap.sh | sh
-
-This will analyze your development environment and bootstrap the development
-toolchain onto it as necessary, also checking out a working copy of this
-git repository for you. It will also install node and npm if they aren't already
-available.
-
-Alternatively, if you have already cloned this repo then just do:
-
-    sh bootstrap.sh
-
-from the root of it to accomplish the same thing.
+simply sacrifice a chicken to the node gods, then proceed.
 
 ## Using the FreeNAS 10 Development Environment
 
