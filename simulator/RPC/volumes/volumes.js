@@ -143,12 +143,15 @@ class Volumes extends RPCBase {
 
   destroy ( system, args, callback ) {
 
-    if ( _.has ( system[ "volumes" ][ args[0] ] ) ) {
-      delete system[ "volumes" ][ args[0] ];
-      callback( system, system[ "volumes" ] );
-      this.emitChange( this.CHANGE_EVENT
+    var newSystem = _.cloneDeep( system );
+    console.log(newSystem["volumes"]);
+
+    if ( _.has ( newSystem[ "volumes" ][ args[0] ] ) ) {
+      delete newSystem[ "volumes" ][ args[0] ];
+      callback( newSystem, newSystem[ "volumes" ] );
+      this.emitChange( "volumes.changed"
                      , "volume.destroy"
-                     , _.cloneDeep( system[ "volumes" ] )
+                     , _.cloneDeep( newSystem[ "volumes" ] )
                      );
     } else {
       // TODO: Emit error
