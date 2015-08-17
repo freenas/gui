@@ -18,7 +18,7 @@ const Topologizer = React.createClass(
             {"Speed"}
           </span>
           <span className = "topologizer-label-size">
-            {"Size"}
+            {"Storage"}
           </span>
           <div className = "topologizer-bounding">
             <div className = "topologizer-handle" />
