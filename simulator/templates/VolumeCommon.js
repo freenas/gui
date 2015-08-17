@@ -55,7 +55,6 @@ class VolumeCommon {
                              - vdevRedundancy[ vdev[ "type" ] ];
           for ( let k = 0; k < disksThatCount; k++ ) {
             vdevSize += smallestDiskSize;
-            console.log( "smallestDiskSize:", smallestDiskSize );
           }
         }
       }
