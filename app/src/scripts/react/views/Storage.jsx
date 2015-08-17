@@ -169,7 +169,7 @@ const Storage = React.createClass(
           );
         });
 
-      if ( this.state.selectedDisks ) {
+      if ( VS.disksAreAvailable ) {
         // If there are disks available, a new pool may be created. The Volume
         // component is responsible for displaying the correct "blank start"
         // behavior, depending on its knowledge of other pools.
