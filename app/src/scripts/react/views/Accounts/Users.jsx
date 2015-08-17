@@ -59,6 +59,8 @@ const VIEWER_DATA =
                      ]
                      )
 
+  , modesAllowed: new Set( [ "detail", "table" ] )
+
   , groupBy:
     { current:
      { name: "current user account"
