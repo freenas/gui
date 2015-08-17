@@ -78,7 +78,6 @@ const Interfaces = React.createClass(
   }
 
   , render: function () {
-    console.log(this.state)
     return <Viewer
              header = "Interfaces"
              itemData = { this.state.interfaces }
