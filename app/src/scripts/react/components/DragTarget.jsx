@@ -37,13 +37,6 @@ const DragTarget = React.createClass(
       );
     }
 
-  , componentDidUpdate ( prevProps, prevState ) {
-      if ( prevState.selected !== this.state.selected ) {
-        if ( this.state.selected ) {
-        }
-      }
-    }
-
   , handleMouseDown ( event ) {
       let elementRect = event.target.getBoundingClientRect();
 
