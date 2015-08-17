@@ -7,7 +7,7 @@ import MC from "../../websocket/MiddlewareClient";
 import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 
 import NCAC
-  from "..//actions/NetworkConfigActionCreators";
+  from "../actions/NetworkConfigActionCreators";
 
 class NetworkConfigMiddleware {
 
