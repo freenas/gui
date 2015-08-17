@@ -27,6 +27,9 @@ import GroupAdd from "./react/views/Accounts/Groups/GroupAdd";
 import Calendar from "./react/views/Calendar";
 
 import Network from "./react/views/Network";
+import NetworkConfig from "./react/views/Network/NetworkConfig";
+import Interfaces from "./react/views/Network/Interfaces";
+import InterfaceItem from "./react/views/Network/Interfaces/InterfaceItem";
 
 import Hardware from "./react/views/Hardware";
 
@@ -88,7 +91,22 @@ module.exports = (
     <Route
       name    = "network"
       path    = "network"
-      handler = { Network } />
+      handler = { Network } >
+      <Route
+        name = "network-config"
+        path = "config"
+        handler = { NetworkConfig } />
+      <Route
+        name = "interfaces"
+        path = "interfaces"
+        handler = { Interfaces } >
+        <Route
+          name = "interface-editor"
+          path = ":interfaceName"
+          handler = { InterfaceItem } />
+        </Route>
+    </Route>
+
 
     {/* HARDWARE */}
     <Route
