@@ -19,13 +19,14 @@ simply sacrifice a chicken to the node gods, then proceed.
 
 ## Using the FreeNAS 10 Development Environment
 
-If you used the bootstrap script, you'll already be ready to run 'gulp'. If not,
-run
+If you are a total node.js master, you'll already be ready to run 'gulp'
+or whatever build tool has replaced it this week. If not, run
 
     npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
     npm install
 
-from the root of the repo first.
+from the root of the repo first.  Then install another 400 or so npm modules
+we forgot to include above, and bingo!  Easy.
 
 Once your development environment is initialized, run 'gulp' to start the
 FreeNAS 10 SDK app.
