@@ -27,11 +27,11 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : ""
+  , { path     : "network"
     , icon     : "moon-o"
     , label    : "Network"
     , status   : null
-    , disabled : true
+    , disabled : false
     }
   , { path     : "accounts"
     , icon     : "paper-plane"
