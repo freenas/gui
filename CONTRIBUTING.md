@@ -1,9 +1,8 @@
 # Contributing to the FreeNAS 10 GUI
 
 FreeNAS 10 is a green-field project, and we're looking for contributors who are
-ready to take nothing and turn it into something. We provide a bootstrap script
-for those who haven't worked with node projects before, and a dev environment
-that makes iterating incredibly fast.
+ready to take nothing and turn it into something. We provide a dev environment
+that makes iterating incredibly fast, and
 
 ## Getting Started
 
@@ -15,12 +14,15 @@ If you already have node.js installed and the repo checked out, great! Skip to
 "Using the FreeNAS 10 Development Environment" below.
 
 Otherwise, to begin developing for the FreeNAS 10 GUI on one of these platforms,
-simply sacrifice a chicken to the node gods, then proceed.
+install node.js.
+
+For Mac OS X, installing the package from nodejs.org should suffice.
+For FreeBSD, run 'sudo pkg install node && pkg install npm'
 
 ## Using the FreeNAS 10 Development Environment
 
-If you are a total node.js master, you'll already be ready to run 'gulp'
-or whatever build tool has replaced it this week. If not, run
+To make sure you have all the necessary global dev dependencies for developing
+the FreeNAS 10 GUI, run:
 
     npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
     npm install
