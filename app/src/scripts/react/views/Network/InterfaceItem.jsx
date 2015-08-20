@@ -46,7 +46,9 @@ const InterfaceItem = React.createClass(
                                    <span className = "alias-attribute-label">
                                      { "Address: " }
                                    </span>
-                                   { alias[ "address" ] }
+                                   <span className = "alias-attribute">
+                                     { alias[ "address" ] }
+                                   </span>
                                  </div>;
 
                        if ( alias[ "netmask" ] ) {
@@ -54,7 +56,7 @@ const InterfaceItem = React.createClass(
                                      <span className = "alias-attribute-label">
                                        { "Netmask:"}
                                      </span>
-                                     <span>
+                                     <span className = "alias-attribute">
                                        { " /" + alias[ "netmask" ] }
                                      </span>
                                    </div>;
@@ -65,7 +67,7 @@ const InterfaceItem = React.createClass(
                                        <span className = "alias-attribute-label">
                                          { "Broadcast: "}
                                         </span>
-                                       <span>
+                                       <span className = "alias-attribute">
                                         { alias[ "broadcast" ] }
                                        </span>
                                      </div>;
