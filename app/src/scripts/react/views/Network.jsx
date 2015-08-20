@@ -137,8 +137,10 @@ const Network = React.createClass(
     return (
       <main>
         <div>
-        { networkConfig }
-        { interfaces }
+          { networkConfig }
+          <div className = "interface-item-container">
+            { interfaces }
+          </div>
         </div>
       </main>
     );
