@@ -86,4 +86,4 @@ function handlePayload ( payload ) {
   }
 }
 
-export default new SystemStore;
+export default new SystemStore();

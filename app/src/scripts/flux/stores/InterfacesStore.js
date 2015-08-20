@@ -154,4 +154,4 @@ function handlePayload ( payload ) {
   }
 }
 
-export default new InterfacesStore;
+export default new InterfacesStore();

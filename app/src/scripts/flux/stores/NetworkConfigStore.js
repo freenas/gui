@@ -65,4 +65,4 @@ function handlePayload ( payload ) {
   }
 }
 
-export default new NetworkConfigStore;
+export default new NetworkConfigStore();
