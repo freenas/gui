@@ -23,7 +23,7 @@ const InterfaceItem = React.createClass(
                        let interfaceType = "";
                        let broadcast = null;
                        let netmask = null;
-
+                       let address = null;
 
                        switch( alias[ "family" ] ) {
                          case "LINK":
@@ -42,21 +42,43 @@ const InterfaceItem = React.createClass(
                            break;
                        }
 
+                       address = <div>
+                                   <span className = "alias-attribute-label">
+                                     { "Address: " }
+                                   </span>
+                                   { alias[ "address" ] }
+                                 </div>;
+
                        if ( alias[ "netmask" ] ) {
-                         netmask = <div>{ "Netmask: /"}{ alias[ "netmask" ] }</div>
+                         netmask = <div>
+                                     <span className = "alias-attribute-label">
+                                       { "Netmask:"}
+                                     </span>
+                                     <span>
+                                       { " /" + alias[ "netmask" ] }
+                                     </span>
+                                   </div>;
                        }
 
                        if ( alias[ "broadcast" ] ) {
-                         broadcast = <div>{ "Broadcast: "}{ alias[ "broadcast" ] }</div>
+                         broadcast = <div>
+                                       <span className = "alias-attribute-label">
+                                         { "Broadcast: "}
+                                        </span>
+                                       <span>
+                                        { alias[ "broadcast" ] }
+                                       </span>
+                                     </div>;
                        }
 
                        return (
-                         <TWBS.Panel header = { interfaceType }
-                                     key = { index }>
-                           <div>{ "Address: " }{ alias[ "address" ] }</div>
-                           { netmask }
-                           { broadcast }
-                         </TWBS.Panel>
+                         <div key = { index }
+                              className = "network-alias">
+                          <h5 className = "alias-label" >{ interfaceType }</h5>
+                          { address }
+                          { netmask }
+                          { broadcast }
+                         </div>
                        )
                      } )
     }
