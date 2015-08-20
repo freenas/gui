@@ -16,7 +16,7 @@ import SM from "../../flux/middleware/SystemMiddleware";
 import SS from "../../flux/stores/SystemStore";
 
 import NetworkConfig from "./Network/NetworkConfig";
-import InterfaceItem from "./Network/Interfaces/InterfaceItem";
+import InterfaceItem from "./Network/InterfaceItem";
 
 function getInterfaces () {
   var interfaces = IS.interfaces || [];
