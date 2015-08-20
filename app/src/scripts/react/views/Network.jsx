@@ -74,7 +74,7 @@ const Network = React.createClass(
            };
   }
 
-  , componentDidMount: function () {
+  , componentDidMount () {
     IS.addChangeListener( this.handleInterfacesChange );
     IM.requestInterfacesList();
     IM.subscribe( this.constructor.displayName )
@@ -88,7 +88,7 @@ const Network = React.createClass(
     SM.subscribe( this.constructor.displayName );
   }
 
-  , componentWillUpdate: function ( prevProps, prevState ) {
+  , componentWillUnmount () {
     IS.removeChangeListener( this.handleInterfacesChange );
     IM.unsubscribe( this.constructor.displayName );
 
@@ -99,20 +99,19 @@ const Network = React.createClass(
     SM.unsubscribe( this.constructor.displayName );
   }
 
-  , handleInterfacesChange: function () {
+  , handleInterfacesChange () {
     this.setState( { interfaces: getInterfaces() } );
   }
 
-  , handleNetworkConfigChange: function () {
+  , handleNetworkConfigChange () {
     this.setState( { networkConfig: getNetworkConfig() } );
   }
 
-  , handleSystemGeneralConfigChange: function () {
+  , handleSystemGeneralConfigChange () {
     this.setState( { systemGeneralConfig: getSystemGeneralConfig() } );
   }
 
-  , render: function () {
-
+  , render () {
     var interfaces = [];
     var networkConfig = null;
 
