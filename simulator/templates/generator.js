@@ -52,8 +52,8 @@ const globalNetworkConfig =
     , addresses: []
     }
   , gateway:
-    { ipv4: null
-    , ipv6: null
+    { ipv4: "10.5.0.1"
+    , ipv6: "0:0:0:0:0:ffff:a05:1"
     }
   };
 
