@@ -20,22 +20,22 @@ const InterfaceItem = React.createClass(
     if ( this.props.interface ) {
       aliases = _.map( this.props.interface[ "status" ][ "aliases" ]
                      , function createAliasSections ( alias, index ) {
-                       let interfaceType = "";
                        let broadcast = null;
                        let netmask = null;
+                       let addressLabel = "";
                        let address = null;
 
                        switch( alias[ "family" ] ) {
                          case "LINK":
-                           interfaceType = "MAC Address";
+                           addressLabel = "MAC: ";
                            break;
 
                          case "INET":
-                           interfaceType = "IPv4 Address"
+                           addressLabel = "IPv4: "
                            break;
 
                          case "INET6":
-                           interfaceType = "IPv6 Address"
+                           addressLabel = "IPv6: "
                            break;
 
                          default:
@@ -44,7 +44,7 @@ const InterfaceItem = React.createClass(
 
                        address = <div>
                                    <span className = "alias-attribute-label">
-                                     { "Address: " }
+                                     { addressLabel }
                                    </span>
                                    <span className = "alias-attribute">
                                      { alias[ "address" ] }
@@ -54,7 +54,7 @@ const InterfaceItem = React.createClass(
                        if ( alias[ "netmask" ] ) {
                          netmask = <div>
                                      <span className = "alias-attribute-label">
-                                       { "Netmask:"}
+                                       { "Netmask:" }
                                      </span>
                                      <span className = "alias-attribute">
                                        { " /" + alias[ "netmask" ] }
