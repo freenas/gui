@@ -43,7 +43,7 @@ function getNetworkConfig () {
       }
     };
 
-  var networkConfig = _.defaultsDeep( NS.networkConfig
+  var networkConfig = _.defaultsDeep( _.cloneDeep( NS.networkConfig )
                                     , defaultNetworkConfig );
 
   return networkConfig;
@@ -60,7 +60,7 @@ function getSystemGeneralConfig () {
   };
 
   var systemGeneralConfig =
-    _.defaultsDeep( SS.systemGeneralConfig
+    _.defaultsDeep( _.cloneDeep( SS.systemGeneralConfig )
                   , defaultSystemGeneralConfig );
 
   return systemGeneralConfig;
