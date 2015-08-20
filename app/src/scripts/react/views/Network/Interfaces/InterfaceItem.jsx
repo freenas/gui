@@ -40,6 +40,58 @@ const InterfaceItem = React.createClass(
     return IS.findInterfaceByKeyValue( "name", this.getDynamicRoute() );
   }
 
+  , showAliases: function () {
+
+    var aliases = []
+
+    if ( this.state.targetInterface ) {
+      aliases = _.map( this.state.targetInterface[ "status" ][ "aliases" ]
+                     , function createAliasSections ( alias, index ) {
+                       let interfaceType = "";
+                       let broadcast = null;
+                       let netmask = null;
+
+
+                       switch( alias[ "family" ] ) {
+                         case "LINK":
+                           interfaceType = "MAC Address";
+                           break;
+
+                         case "INET":
+                           interfaceType = "IPv4 Address"
+                           break;
+
+                         case "INET6":
+                           interfaceType = "IPv6 Address"
+                           break;
+
+                         default:
+                           break;
+                       }
+
+                       if ( alias[ "netmask" ] ) {
+                         netmask = <div>{ "Netmask: "}{ alias[ "netmask" ] }</div>
+                       }
+
+                       if ( alias[ "broadcast" ] ) {
+                         broadcast = <div>{ "Broadcast: "}{ alias[ "broadcast" ] }</div>
+                       }
+
+                       return (
+                         <TWBS.Panel header = { interfaceType }
+                                     key = { index }>
+                           <div>{ "Address: " }{ alias[ "address" ] }</div>
+                           { netmask }
+                           { broadcast }
+                         </TWBS.Panel>
+                       )
+                     } )
+    }
+    return (
+      { aliases }
+    );
+  }
+
   , render: function () {
 
     var statusClass = "";
@@ -73,15 +125,19 @@ const InterfaceItem = React.createClass(
                     ? "10/100/1000 Ethernet Adapter"
                     : "";
 
-      // This could be much more robust.
     }
 
     return (
       <TWBS.Grid className = "viewer-item-info interface-item">
-        <TWBS.Row className = "interface-header" >
-          <TWBS.Col xs = {12} >
+        <TWBS.Row className = "interface-header">
+          <TWBS.Col xs = { 12 }>
             { interfaceName }
             <h4>{ interfaceType }</h4>
+          </TWBS.Col>
+        </TWBS.Row>
+        <TWBS.Row>
+          <TWBS.Col xs = { 12 }>
+            { this.showAliases() }
           </TWBS.Col>
         </TWBS.Row>
       </TWBS.Grid>
