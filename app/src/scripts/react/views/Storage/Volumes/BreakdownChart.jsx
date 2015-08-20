@@ -38,11 +38,8 @@ const BreakdownChart = React.createClass(
   , formatLabel ( type, percent ) {
       let label = [];
 
-      if ( percent > 20 ) {
-        label.push( ByteCalc.humanize( this.props[ type ] ) );
-      }
-
-      if ( percent > 10 ) {
+      if ( percent > 0 ) {
+        label.push( ByteCalc.humanize( this.props[ type ] ) )
         label.push( HUMAN_TYPES[ type ] );
       }
 
