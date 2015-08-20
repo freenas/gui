@@ -14,7 +14,7 @@ const Topologizer = React.createClass(
     return { topoPrefs: [ 0.33, 0.34, 0.33 ]
            , active: false
            , bounding: null
-           , cursorPos: [ 0, 0 ]
+           , cursorPos: [ "50%", "60%" ]
            , trianglePoints: []
            };
   }
