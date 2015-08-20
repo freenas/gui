@@ -262,16 +262,6 @@ const NetworkConfig = React.createClass(
                           {this.handleChange.bind( this, "newDnsServer" )}
                         placeholder = "Enter the new DNS server" />
                     </TWBS.Col >
-                    <TWBS.Col sm = {3}
-                              className="text-right">
-                      <TWBS.Button
-                        onClick = { this.addNewDnsServer }
-                        bsStyle = "primary"
-                        bsSize  = "small"
-                        title   = "Add New DNS Server">
-                        <Icon glyph="plus" />
-                      </TWBS.Button>
-                    </TWBS.Col>
                   </TWBS.Row> }
                 </TWBS.Col>
               </div>
