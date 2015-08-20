@@ -22,7 +22,7 @@ class Coords {
 
     // Determinant A is the common denominator for all three vertices, so we
     // compute that first.
-
+    // ((X1 * Y2) - (X1 * Y3) - (X2 * Y1) + (X2 * Y3) + (X3 * Y1) - (X3 * Y2))
     detA = ( ( A[0] * B[1] )
            - ( A[0] * C[1] )
            - ( B[0] * A[1] )
@@ -35,6 +35,7 @@ class Coords {
     // for point P, once divided by Determinant A.
 
     // Determinant for scalar U
+    // ((X4 * Y2) - (X4 * Y3) - (X2 * Y4) + (X2 * Y3) + (X3 * Y4) - (X3 * Y2))
     detA1 = ( ( P[0] * B[1] )
             - ( P[0] * C[1] )
             - ( B[0] * P[1] )
@@ -44,6 +45,7 @@ class Coords {
             );
 
     // Determinant for scalar V
+    // ((X1 * Y4) - (X1 * Y3) - (X4 * Y1) + (X4 * Y3) + (X3 * Y1) - (X3 * Y4))
     detA2 = ( ( A[0] * P[1] )
             - ( A[0] * C[1] )
             - ( P[0] * A[1] )
@@ -53,6 +55,7 @@ class Coords {
             );
 
     // Determinant for scalar W
+    // ((X1 * Y2) - (X1 * Y4) - (X2 * Y1) + (X2 * Y4) + (X4 * Y1) - (X4 * Y2))
     detA3 = ( ( A[0] * B[1] )
             - ( A[0] * P[1] )
             - ( B[0] * A[1] )
