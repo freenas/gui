@@ -70,7 +70,7 @@ const InterfaceItem = React.createClass(
                        }
 
                        if ( alias[ "netmask" ] ) {
-                         netmask = <div>{ "Netmask: "}{ alias[ "netmask" ] }</div>
+                         netmask = <div>{ "Netmask: /"}{ alias[ "netmask" ] }</div>
                        }
 
                        if ( alias[ "broadcast" ] ) {
