@@ -76,7 +76,6 @@ const InterfaceItem = React.createClass(
                        return (
                          <div key = { index }
                               className = "network-alias">
-                          <h5 className = "alias-label" >{ interfaceType }</h5>
                           { address }
                           { netmask }
                           { broadcast }
