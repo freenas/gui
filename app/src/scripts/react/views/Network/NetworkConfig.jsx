@@ -246,12 +246,12 @@ const NetworkConfig = React.createClass(
                 </TWBS.Col>
               </div>
             </TWBS.Col>
-            <TWBS.Col sm = { 6 }>
+            <TWBS.Col sm = { 3 }>
               <div className="form-group">
-                <TWBS.Col xs = { 3 } >
-                  <span>DNS Server</span>
+                <TWBS.Col xs = { 12 } >
+                  <h5>DNS Servers</h5>
                 </TWBS.Col>
-                <TWBS.Col xs = { 9 } >
+                <TWBS.Col xs = { 12 } >
                   { dnsNodes }
                   { <TWBS.Row>
                     <TWBS.Col sm = { 9 } >
