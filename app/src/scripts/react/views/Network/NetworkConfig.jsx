@@ -212,7 +212,7 @@ const NetworkConfig = React.createClass(
                     value       = { hostname }
                     onChange    =
                       {this.handleChange.bind( this, "hostname" )}
-                    placeholder = "Hostname" />
+                    placeholder = { this.props[ "systemGeneralConfig" ][ "hostname" ] } />
                 </TWBS.Col>
               </div>
               <div className="form-group">
@@ -225,7 +225,7 @@ const NetworkConfig = React.createClass(
                     value       = { ipv4Gateway }
                     onChange    =
                       {this.handleChange.bind( this, "ipv4" )}
-                    placeholder = "IPv4 Default Gateway" />
+                    placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv4" ] } />
                 </TWBS.Col>
               </div>
               <div className="form-group">
@@ -238,7 +238,7 @@ const NetworkConfig = React.createClass(
                     value       = { ipv6Gateway }
                     onChange    =
                       {this.handleChange.bind( this, "ipv6" )}
-                    placeholder = "IPv6 Default Gateway" />
+                    placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv6" ] } />
                 </TWBS.Col>
               </div>
             </TWBS.Col>
