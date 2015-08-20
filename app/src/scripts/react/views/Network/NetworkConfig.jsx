@@ -166,10 +166,9 @@ const NetworkConfig = React.createClass(
         </div>
       </li>;
 
-
-    if ( _.has( this, [ "state", "networkConfig", "dns", "servers", "length"] ) ) {
+    if ( _.has( this, [ "props", "networkConfig", "dns", "servers", "length"] ) ) {
       dnsNodes = _.map(
-        this.state.networkConfig.dns.servers
+        this.props.networkConfig.dns.servers
         , function ( server, index ) {
           return (
             <li key={ index }>
@@ -186,6 +185,7 @@ const NetworkConfig = React.createClass(
             </li>
           );
         }
+        , this
       );
     }
 
