@@ -204,7 +204,7 @@ const NetworkConfig = React.createClass(
             <TWBS.Col sm = { 6 }>
               <div className="form-group">
                 <TWBS.Col xs = { 3 } >
-                  <TWBS.Label>Hostname</TWBS.Label>
+                  <span>Hostname</span>
                 </TWBS.Col>
                 <TWBS.Col xs = { 9 } >
                   <TWBS.Input
@@ -217,7 +217,7 @@ const NetworkConfig = React.createClass(
               </div>
               <div className="form-group">
                 <TWBS.Col xs = { 3 } >
-                  <TWBS.Label>IPv4 Default Gateway</TWBS.Label>
+                  <span>IPv4 Default Gateway</span>
                 </TWBS.Col>
                 <TWBS.Col xs = { 9 } >
                   <TWBS.Input
@@ -230,7 +230,7 @@ const NetworkConfig = React.createClass(
               </div>
               <div className="form-group">
                 <TWBS.Col xs = { 3 } >
-                  <TWBS.Label>IPv6 Default Gateway</TWBS.Label>
+                  <span>IPv6 Default Gateway</span>
                 </TWBS.Col>
                 <TWBS.Col xs = { 9 } >
                   <TWBS.Input
@@ -245,7 +245,7 @@ const NetworkConfig = React.createClass(
             <TWBS.Col sm = { 6 }>
               <div className="form-group">
                 <TWBS.Col xs = { 3 } >
-                  <TWBS.Label>DNS Server</TWBS.Label>
+                  <span>DNS Server</span>
                 </TWBS.Col>
                 <TWBS.Col xs = { 9 } >
                   { dnsNodes }
