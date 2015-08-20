@@ -26,22 +26,22 @@ function getInterfaces () {
 
 function getNetworkConfig () {
   // Default network config values.
-  const defaultNetworkConfig = {
-    dhcp: {
-      assign_gateway: false
+  const defaultNetworkConfig =
+    { dhcp:
+      { assign_gateway: false
       , assign_dns: false
-    }
+      }
     , http_proxy: null
     , autoconfigure: false
-    , dns: {
-      search: []
+    , dns:
+      { search: []
       , servers: []
-    }
-    , gateway: {
-      ipv4: ""
+      }
+    , gateway:
+      { ipv4: ""
       , ipv6: ""
-    }
-  };
+      }
+    };
 
   var networkConfig = _.defaultsDeep( NS.networkConfig
                                     , defaultNetworkConfig );
@@ -52,8 +52,8 @@ function getNetworkConfig () {
 
 function getSystemGeneralConfig () {
   // Default system general config values.
-  const defaultSystemGeneralConfig = {
-    timezone: ""
+  const defaultSystemGeneralConfig =
+    { timezone: ""
     , hostname: ""
     , language: ""
     , console_keymap: ""
