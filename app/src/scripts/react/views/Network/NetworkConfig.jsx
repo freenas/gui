@@ -244,12 +244,8 @@ const NetworkConfig = React.createClass(
 
     return (
       <div className = "network-overview">
-        <div className = "header-text" >
-          <TWBS.Button
-            onClick   = { this.props.onSave }
-            bsStyle   = "primary">
-            <Icon glyph="check" /> Save
-          </TWBS.Button>
+        <div className = "text-center" >
+          <h3>Network Configuration</h3>
         </div>
         <TWBS.Grid fluid>
           <TWBS.Row>
