@@ -10,122 +10,71 @@ import TWBS from "react-bootstrap";
 import _ from "lodash";
 
 import NM from "../../../flux/middleware/NetworkConfigMiddleware";
-import NS from "../../../flux/stores/NetworkConfigStore";
-
 import SM from "../../../flux/middleware/SystemMiddleware";
-import SS from "../../../flux/stores/SystemStore";
 
 import Icon from "../../components/Icon";
 
-function getNetworkConfig () {
-    // Default network config values.
-    const defaultNetworkConfig = {
-      dhcp: {
-        assign_gateway: false
-        , assign_dns: false
-      }
-      , http_proxy: null
-      , autoconfigure: false
-      , dns: {
-        search: []
-        , servers: []
-      }
-      , gateway: {
-        ipv4: ""
-        , ipv6: ""
-      }
-    };
-
-    var networkConfig = _.defaultsDeep( NS.networkConfig
-                                      , defaultNetworkConfig );
-
-    return { networkConfig: networkConfig };
-
-  }
-
-function getSystemGeneralConfig () {
-  // Default system general config values.
-  const defaultSystemGenernalConfig = {
-    timezone: ""
-    , hostname: ""
-    , language: ""
-    , console_keymap: ""
-  };
-
-  var systemGeneralConfig =
-    _.defaultsDeep( SS.systemGeneralConfig
-                  , defaultSystemGenernalConfig );
-
-  return { systemGeneralConfig: systemGeneralConfig };
-}
-
 const NetworkConfig = React.createClass(
-  { getInitialState: function () {
+  { propTypes: { networkConfig: React.PropTypes.object.isRequired
+               , systemGeneralConfig: React.PropTypes.object.isRequired
+               }
 
-    var initalState = {}
-
-    return _.merge( getNetworkConfig()
-                  , getSystemGeneralConfig()
-                  , { newDnsServer: "" }
-                  );
-  }
-
-  , componentDidMount: function () {
-    NS.addChangeListener( this.onNetworkConfigChange );
-    NM.requestNetworkConfig();
-    NM.subscribe( this.constructor.displayName );
-
-    SS.addChangeListener( this.onSystemGeneralConfigChange );
-    SM.requestSystemGeneralConfig();
-    SM.subscribe( this.constructor.displayName );
-  }
-
-  , componentWillUnmount: function () {
-    NS.removeChangeListener( this.onNetworkConfigChange );
-    NM.unsubscribe( this.constructor.displayName );
-
-    SS.removeChangeListener( this.onSystemGeneralConfigChange );
-    SM.unsubscribe( this.constructor.displayName );
-  }
-
-  , onNetworkConfigChange: function () {
-    this.setState( getNetworkConfig() );
-  }
-
-  , onSystemGeneralConfigChange: function () {
-    this.setState( getSystemGeneralConfig() );
+  , getDefaultProps: function () {
+    return { networkConfig:
+             { dhcp:
+               { assign_gateway: false
+               , assign_dns: false
+               }
+             , http_proxy: null
+             , autoconfigure: false
+             , dns:
+               { search: []
+               , servers: []
+               }
+             , gateway:
+               { ipv4: ""
+               , ipv6: ""
+               }
+             }
+           , systemGeneralConfig:
+             { timezone: ""
+             , hostname: ""
+             , language: ""
+             , console_keymap: ""
+             }
+           };
   }
 
   , handleChange: function ( key, evt ) {
+
+    var networkConfig;
+    var systemGeneralConfig;
+
     switch ( key ) {
       case "hostname":
-        var systemGeneralConfig = this.state.systemGeneralConfig;
+        systemGeneralConfig = this.props.systemGeneralConfig
+                           || this.state.systemGeneralConfig;
         systemGeneralConfig.hostname = evt.target.value;
-        this.setState({
-          systemGeneralConfig: systemGeneralConfig
-        });
+        this.setState({ systemGeneralConfig: systemGeneralConfig });
         break;
 
       case "ipv4":
-        var networkConfig = this.state.networkConfig;
+        networkConfig = this.props.networkConfig
+                     || this.state.networkConfig;
         networkConfig.gateway.ipv4 = evt.target.value;
-        this.setState({
-          networkConfig: networkConfig
-        });
+        this.setState({ networkConfig: networkConfig });
         break;
 
       case "ipv6":
-        var networkConfig = this.state.networkConfig;
+        networkConfig = this.props.networkConfig
+                     || this.state.networkConfig;
         networkConfig.gateway.ipv6 = evt.target.value;
-        this.setState({
-          networkConfig: networkConfig
-        });
+        this.setState({ networkConfig: networkConfig });
         break;
 
+      // TODO: Take a hard look at this.
       case "newDnsServer":
-        this.setState({
-          newDnsServer: evt.target.value
-        });
+        this.setState({ newDnsServer: evt.target.value });
         break;
     }
   }
@@ -191,18 +140,23 @@ const NetworkConfig = React.createClass(
   }
 
   , render: function () {
+    var hostname = "";
+    var ipv4Gateway = "";
+    var ipv6Gateway = "";
 
-    const hostname = this.state.systemGeneralConfig
-                   ? this.state.systemGeneralConfig.hostname
-                   : "";
+    if ( _.has( this, [ "state", "networkConfig", "dns", "servers", "length"] ) ) {
+      hostname = this.state.systemGeneralConfig
+               ? this.state.systemGeneralConfig.hostname
+               : "";
 
-    const ipv4Gateway = this.state.networkConfig
-                      ? this.state.networkConfig.gateway.ipv4
-                      : "";
+      ipv4Gateway = this.state.networkConfig
+                  ? this.state.networkConfig.gateway.ipv4
+                  : "";
 
-    const ipv6Gateway = this.state.networkConfig
-                      ? this.state.networkConfig.gateway.ipv6
-                      : "";
+      ipv6Gateway = this.state.networkConfig
+                  ? this.state.networkConfig.gateway.ipv6
+                  : "";
+    }
 
     // Compile the DNS server list.
     var dnsNodes =
@@ -213,9 +167,7 @@ const NetworkConfig = React.createClass(
       </li>;
 
 
-    if ( this.state.networkConfig
-      && this.state.networkConfig.dns.servers.length ) {
-      var that = this;
+    if ( _.has( this, [ "state", "networkConfig", "dns", "servers", "length"] ) ) {
       dnsNodes = _.map(
         this.state.networkConfig.dns.servers
         , function ( server, index ) {
@@ -225,7 +177,7 @@ const NetworkConfig = React.createClass(
                 {server}
               </div>
               <TWBS.Button
-                onClick = { that.deleteDnsServer.bind( null, index ) }
+                onClick = { this.deleteDnsServer.bind( null, index ) }
                 bsStyle = "danger"
                 bsSize  = "small"
                 title   = "Delete Server">

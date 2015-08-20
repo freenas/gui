@@ -8,44 +8,17 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
-import routerShim from "../../../mixins/routerShim";
-
-import IS from "../../../../flux/stores/InterfacesStore";
 import IM from "../../../../flux/middleware/InterfacesMiddleware";
 
 const InterfaceItem = React.createClass(
-  { mixins: [ routerShim ]
-
-  , getInitialState: function () {
-    return (
-      { targetInterface: this.getInterface()
-      , activeRoute: this.getDynamicRoute()
-      }
-    );
-  }
-
-  , componentDidMount: function () {
-    IS.addChangeListener( this.handleInterfaceChange );
-  }
-
-  , componentWillUnmount: function () {
-    IS.removeChangeListener( this.handleInterfaceChange );
-  }
-
-  , handleInterfaceChange: function () {
-    this.setState( { targetInterface: this.getInterface() } );
-  }
-
-  , getInterface: function () {
-    return IS.findInterfaceByKeyValue( "name", this.getDynamicRoute() );
-  }
+  { propTypes: { interface: React.PropTypes.object.isRequired }
 
   , showAliases: function () {
 
     var aliases = []
 
-    if ( this.state.targetInterface ) {
-      aliases = _.map( this.state.targetInterface[ "status" ][ "aliases" ]
+    if ( this.props.interface ) {
+      aliases = _.map( this.props.interface[ "status" ][ "aliases" ]
                      , function createAliasSections ( alias, index ) {
                        let interfaceType = "";
                        let broadcast = null;
@@ -97,50 +70,42 @@ const InterfaceItem = React.createClass(
     var statusClass = "";
     var interfaceName = null;
     var interfaceType = "";
-    var enabled = this.state.targetInterface
-                ? this.state.targetInterface[ "enabled" ]
+    var enabled = this.props.interface
+                ? this.props.interface[ "enabled" ]
                 : false;
 
     // This all breaks if the interface isn't yet loaded.
-    if ( this.state.targetInterface ) {
-      if ( this.state.targetInterface[ "status" ][ "link-state" ]
+    if ( this.props.interface ) {
+      if ( this.props.interface[ "status" ][ "link-state" ]
        === "LINK_STATE_UP" ) {
         statusClass = "interface-up";
-      } else if ( this.state.targetInterface[ "status" ][ "link-state" ]
+      } else if ( this.props.interface[ "status" ][ "link-state" ]
        === "LINK_STATE_UNKNOWN" ) {
         statusClass = "interface-unknown";
-      } else if ( this.state.targetInterface[ "status" ][ "link-state" ]
+      } else if ( this.props.interface[ "status" ][ "link-state" ]
        === "LINK_STATE_DOWN" ) {
         statusClass = "interface-down";
       }
 
       interfaceName = (
         <h2 className = { "interface-name " + statusClass } >
-          { this.state.targetInterface[ "name" ] }
+          { this.props.interface[ "name" ] }
         </h2>
       );
 
       // So fake. Just a token use of the middleware.
-      interfaceType = this.state.targetInterface[ "type" ] === "ETHER"
+      interfaceType = this.props.interface[ "type" ] === "ETHER"
                     ? "10/100/1000 Ethernet Adapter"
                     : "";
 
     }
 
     return (
-      <TWBS.Grid className = "viewer-item-info interface-item">
-        <TWBS.Row className = "interface-header">
-          <TWBS.Col xs = { 12 }>
-            { interfaceName }
-            <h4>{ interfaceType }</h4>
-          </TWBS.Col>
-        </TWBS.Row>
-        <TWBS.Row>
-          <TWBS.Col xs = { 12 }>
-            { this.showAliases() }
-          </TWBS.Col>
-        </TWBS.Row>
-      </TWBS.Grid>
+      <TWBS.Panel className = "interface-item">
+        { interfaceName }
+        <h4>{ interfaceType }</h4>
+        { this.showAliases() }
+      </TWBS.Panel>
     );
   }
 });
