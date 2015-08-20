@@ -19,6 +19,10 @@ const NetworkConfig = React.createClass(
                , systemGeneralConfig: React.PropTypes.object.isRequired
                }
 
+  , getInitialState () {
+    return { newDnsServer: "" };
+  }
+
   , getDefaultProps: function () {
     return { networkConfig:
              { dhcp:
@@ -249,7 +253,7 @@ const NetworkConfig = React.createClass(
                 </TWBS.Col>
                 <TWBS.Col xs = { 9 } >
                   { dnsNodes }
-                  { /*<TWBS.Row>
+                  { <TWBS.Row>
                     <TWBS.Col sm = { 9 } >
                       <TWBS.Input
                         type        = "text"
@@ -268,7 +272,7 @@ const NetworkConfig = React.createClass(
                         <Icon glyph="plus" />
                       </TWBS.Button>
                     </TWBS.Col>
-                  </TWBS.Row> */}
+                  </TWBS.Row> }
                 </TWBS.Col>
               </div>
             </TWBS.Col>
