@@ -24,14 +24,14 @@ const DISK_CHUNKS =
       , storage: 2
       }
   , raidz1:
-      { speed: 7
-      , safety: 7
+      { speed: 3
+      , safety: 5
       , storage: 7
       }
   , raidz2:
-      { speed: 7
-      , safety: 7
-      , storage: 7
+      { speed: 4
+      , safety: 5
+      , storage: 6
       }
   };
 
