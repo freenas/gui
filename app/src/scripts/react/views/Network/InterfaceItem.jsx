@@ -93,17 +93,17 @@ const InterfaceItem = React.createClass(
         </h2>
       );
 
-      // So fake. Just a token use of the middleware.
-      interfaceType = this.props.interface[ "type" ] === "ETHER"
-                    ? "10/100/1000 Ethernet Adapter"
-                    : "";
-
     }
 
     return (
       <TWBS.Panel className = "interface-item">
         { interfaceName }
-        <h4>{ interfaceType }</h4>
+        <h4>
+          { /* Remove all pretense of this being based on the middleware.*/ }
+          { "10/100/" }
+          <strong className = "bg-primary" >{ "1000" }</strong>
+          { " Ethernet Adapter" }
+        </h4>
         { this.showAliases() }
       </TWBS.Panel>
     );
