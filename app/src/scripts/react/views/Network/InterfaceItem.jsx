@@ -93,6 +93,7 @@ const InterfaceItem = React.createClass(
     var statusClass = "";
     var interfaceName = null;
     var interfaceType = "";
+    var linkSpeed = null;
     var enabled = this.props.interface
                 ? this.props.interface[ "enabled" ]
                 : false;
@@ -102,12 +103,20 @@ const InterfaceItem = React.createClass(
       if ( this.props.interface[ "status" ][ "link-state" ]
        === "LINK_STATE_UP" ) {
         statusClass = "interface-up";
+        linkSpeed =
+          <h4>
+            { "10/100/" }
+            <strong className = "bg-primary" >{ "1000" }</strong>
+            { " Ethernet Adapter" }
+          </h4>
       } else if ( this.props.interface[ "status" ][ "link-state" ]
        === "LINK_STATE_UNKNOWN" ) {
         statusClass = "interface-unknown";
+        linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
       } else if ( this.props.interface[ "status" ][ "link-state" ]
        === "LINK_STATE_DOWN" ) {
         statusClass = "interface-down";
+        linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
       }
 
       interfaceName = (
@@ -121,12 +130,7 @@ const InterfaceItem = React.createClass(
     return (
       <TWBS.Panel className = "interface-item">
         { interfaceName }
-        <h4>
-          { /* Remove all pretense of this being based on the middleware.*/ }
-          { "10/100/" }
-          <strong className = "bg-primary" >{ "1000" }</strong>
-          { " Ethernet Adapter" }
-        </h4>
+        { linkSpeed }
         { this.showAliases() }
       </TWBS.Panel>
     );
