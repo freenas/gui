@@ -8,7 +8,7 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
-import IM from "../../../../flux/middleware/InterfacesMiddleware";
+import IM from "../../../flux/middleware/InterfacesMiddleware";
 
 const InterfaceItem = React.createClass(
   { propTypes: { interface: React.PropTypes.object.isRequired }
