@@ -200,71 +200,61 @@ const NetworkConfig = React.createClass(
 
     return (
       <div className = "network-overview">
-        <div className = "text-center" >
-          <h3>Network Configuration</h3>
-        </div>
+        <h3 className = "text-center">Network Configuration</h3>
         <TWBS.Grid fluid>
           <TWBS.Row>
-            <TWBS.Col sm = { 6 }>
-              <div className="form-group">
-                <TWBS.Col xs = { 3 } >
-                  <span>Hostname</span>
-                </TWBS.Col>
-                <TWBS.Col xs = { 9 } >
-                  <TWBS.Input
-                    type        = "text"
-                    value       = { hostname }
-                    onChange    =
-                      {this.handleChange.bind( this, "hostname" )}
-                    placeholder = { this.props[ "systemGeneralConfig" ][ "hostname" ] } />
-                </TWBS.Col>
-              </div>
-              <div className="form-group">
-                <TWBS.Col xs = { 3 } >
-                  <span>IPv4 Default Gateway</span>
-                </TWBS.Col>
-                <TWBS.Col xs = { 9 } >
-                  <TWBS.Input
-                    type        = "text"
-                    value       = { ipv4Gateway }
-                    onChange    =
-                      {this.handleChange.bind( this, "ipv4" )}
-                    placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv4" ] } />
-                </TWBS.Col>
-              </div>
-              <div className="form-group">
-                <TWBS.Col xs = { 3 } >
-                  <span>IPv6 Default Gateway</span>
-                </TWBS.Col>
-                <TWBS.Col xs = { 9 } >
-                  <TWBS.Input
-                    type        = "text"
-                    value       = { ipv6Gateway }
-                    onChange    =
-                      {this.handleChange.bind( this, "ipv6" )}
-                    placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv6" ] } />
-                </TWBS.Col>
-              </div>
+            <TWBS.Col sm = { 4 }>
+              <TWBS.Col xs = { 3 } >
+                <span>Hostname</span>
+              </TWBS.Col>
+              <TWBS.Col xs = { 9 } >
+                <TWBS.Input
+                  type        = "text"
+                  value       = { hostname }
+                  onChange    =
+                    {this.handleChange.bind( this, "hostname" )}
+                  placeholder = { this.props[ "systemGeneralConfig" ][ "hostname" ] } />
+              </TWBS.Col>
+              <TWBS.Col xs = { 3 } >
+                <span>IPv4 Default Gateway</span>
+              </TWBS.Col>
+              <TWBS.Col xs = { 9 } >
+                <TWBS.Input
+                  type        = "text"
+                  value       = { ipv4Gateway }
+                  onChange    =
+                    {this.handleChange.bind( this, "ipv4" )}
+                  placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv4" ] } />
+              </TWBS.Col>
+              <TWBS.Col xs = { 3 } >
+                <span>IPv6 Default Gateway</span>
+              </TWBS.Col>
+              <TWBS.Col xs = { 9 } >
+                <TWBS.Input
+                  type        = "text"
+                  value       = { ipv6Gateway }
+                  onChange    =
+                    {this.handleChange.bind( this, "ipv6" )}
+                  placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv6" ] } />
+              </TWBS.Col>
             </TWBS.Col>
-            <TWBS.Col sm = { 3 }>
-              <div className="form-group">
-                <TWBS.Col xs = { 12 } >
-                  <h5>DNS Servers</h5>
-                </TWBS.Col>
-                <TWBS.Col xs = { 12 } >
-                  { dnsNodes }
-                  { <TWBS.Row>
-                    <TWBS.Col sm = { 9 } >
-                      <TWBS.Input
-                        type        = "text"
-                        value       = {this.state.newDnsServer}
-                        onChange    =
-                          {this.handleChange.bind( this, "newDnsServer" )}
-                        placeholder = "Enter the new DNS server" />
-                    </TWBS.Col >
-                  </TWBS.Row> }
-                </TWBS.Col>
-              </div>
+            <TWBS.Col sm = { 4 }>
+              <TWBS.Col xs = { 12 } >
+                <h5>DNS Servers</h5>
+              </TWBS.Col>
+              <TWBS.Col xs = { 12 } >
+                { dnsNodes }
+                <TWBS.Row>
+                  <TWBS.Col sm = { 9 } >
+                    <TWBS.Input
+                      type        = "text"
+                      value       = {this.state.newDnsServer}
+                      onChange    =
+                        {this.handleChange.bind( this, "newDnsServer" )}
+                      placeholder = "Enter the new DNS server" />
+                  </TWBS.Col >
+                </TWBS.Row>
+              </TWBS.Col>
             </TWBS.Col>
           </TWBS.Row>
         </TWBS.Grid>
