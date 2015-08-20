@@ -14,61 +14,6 @@
     padding-bottom: 5px;
   }
 
-  .section {
-    margin-bottom: 15px;
-    border: 1px solid @network-border-color;
-    border-radius: @border-radius-base;
-
-    &.collapsed {
-      .section-header {
-        border-bottom: none;
-        border-bottom-left-radius: @border-radius-base;
-        border-bottom-right-radius: @border-radius-base;
-
-        .header-buttons {
-          display: none;
-        }
-      }
-
-      .section-body {
-        display: none;
-      }
-    }
-
-    .section-header {
-      padding: 5px 15px;
-      background-color: @network-bg-color;
-      line-height: 34px;
-      border-bottom: 1px solid @network-border-color;
-      border-top-left-radius: @border-radius-base;
-      border-top-right-radius: @border-radius-base;
-      cursor: pointer;
-      .clearfix();
-
-      .header-buttons {
-        float: right;
-      }
-    }
-
-    .section-body {
-      padding: 15px;
-
-      .form-group {
-        .clearfix();
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        label {
-          margin-bottom: 0;
-          padding-top: 7px;
-          text-align: right;
-        }
-      }
-    }
-  }
-
   .dns-server-list {
     margin-top: 2px;
     padding-left: 0;
