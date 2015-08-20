@@ -159,6 +159,7 @@ const Volume = React.createClass(
       let topologyContextProps =
         { availableDisks: this.props.availableDisks
         , handleReset: this.resetTopology
+        , handleTopoRequest: this.handleTopoRequest
         };
 
       if ( prevState.editing !== this.state.editing ) {
@@ -219,6 +220,16 @@ const Volume = React.createClass(
       } else {
         this.openDrawer();
       }
+    }
+
+  , handleTopoRequest ( preferences ) {
+      let newTopology =
+        ZfsUtil.createTopology( this.props.availableSSDs
+                              , this.props.availableDisks
+                              , preferences
+                              );
+
+      this.setState( newTopology );
     }
 
   , handleNavSelect ( keyName ) {

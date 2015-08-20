@@ -24,6 +24,7 @@ const ContextDisks = React.createClass(
   , propTypes:
     { availableDisks: React.PropTypes.array.isRequired
     , handleReset: React.PropTypes.func.isRequired
+    , handleTopoRequest: React.PropTypes.func.isRequired
     }
 
   , ensureHomogeneity ( allowedType, payload ) {
@@ -110,7 +111,9 @@ const ContextDisks = React.createClass(
       return (
         <div className="context-content context-disks">
           <h3>ZFS Pool Topology</h3>
-          <Topologizer />
+          <Topologizer
+            handleTopoRequest = { this.props.handleTopoRequest }
+          />
           <TWBS.Button
             block
             bsStyle = "default"

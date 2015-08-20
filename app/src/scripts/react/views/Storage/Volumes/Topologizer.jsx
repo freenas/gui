@@ -10,7 +10,11 @@ import React from "react";
 import Coords from "../../../../utility/Coords";
 
 const Topologizer = React.createClass(
-  { getInitialState () {
+  { propTypes:
+      { handleTopoRequest: React.PropTypes.func.isRequired
+      }
+
+  , getInitialState () {
     return { topoPrefs: [ 0.33, 0.34, 0.33 ]
            , active: false
            , bounding: null
@@ -36,9 +40,9 @@ const Topologizer = React.createClass(
 
   , calculatePreferences ( safety, speed, storage ) {
       //                    1         2/3        1/3         0
-      //            Safety  |----Z2----|----Z1----|--Mirror--|
-      //            Speed   |--Mirror--|----Z1----|----Z2----|
-      //            Storage |----Z1----|----Z2----|--Mirror--|
+      //            Safety  |--raidz2--|--raidz1--|--Mirror--|
+      //            Speed   |--Mirror--|--raidz1--|--raidz2--|
+      //            Storage |--raidz1--|--raidz2--|--Mirror--|
       //
       // A visual representation of the mapping used to calculate topology
       // preferences. It is, essentially, a weighted voting system where a value
@@ -47,9 +51,9 @@ const Topologizer = React.createClass(
       // area of each topology in terms of area, but biases based on the
       // provided Barycentric Coordinates.
 
-      const layouts = [ [ "Z2", "Z1", "mirror" ]
-                      , [ "mirror", "Z1", "Z1" ]
-                      , [ "Z1", "Z1", "Z1" ]
+      const layouts = [ [ "raidz2", "raidz1", "mirror" ]
+                      , [ "mirror", "raidz1", "raidz1" ]
+                      , [ "raidz1", "raidz1", "raidz1" ]
                       ];
 
       let preferences = { highest: 0
@@ -57,8 +61,8 @@ const Topologizer = React.createClass(
                         , desired: null
                         };
       let votes = { mirror: 0
-                  , Z1: 0
-                  , Z2: 0
+                  , raidz1: 0
+                  , raidz2: 0
                   };
 
       function addVotes ( scalar, index ) {
@@ -104,6 +108,8 @@ const Topologizer = React.createClass(
         let [ A, B, C ] = this.state.trianglePoints;
         let coordinates = Coords.cartToBary( A, B, C, cursorPos );
         let preferences = this.calculatePreferences.apply( null, coordinates );
+
+        this.props.handleTopoRequest( preferences );
 
         this.setState(
           { cursorPos: cursorPos

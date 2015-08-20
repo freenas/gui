@@ -17,6 +17,24 @@ const VDEV_TYPES =
   , spares: [ "disk", "stripe" ]
 };
 
+const DISK_CHUNKS =
+  { mirror:
+      { speed: 2
+      , safety: 2
+      , storage: 2
+      }
+  , raidz1:
+      { speed: 7
+      , safety: 7
+      , storage: 7
+      }
+  , raidz2:
+      { speed: 7
+      , safety: 7
+      , storage: 7
+      }
+  };
+
 class ZfsUtil {
 
   static getMemberDiskPaths( collection ) {
@@ -175,6 +193,59 @@ class ZfsUtil {
       , allowedTypes: allAllowedTypes
       }
     );
+  }
+
+  static createTopology ( ssds, disks, preferences ) {
+    let topology =
+      { data: []
+      , logs: []
+      , cache: []
+      , spares: []
+      , allowedTypes: _.cloneDeep( VDEV_TYPES )
+      };
+
+    // HAHA THIS IS DUMB DEAL WITH IT
+    // AIRHORN.MP3
+
+    let availableHDDs = _.difference( disks, ssds );
+    let ssdSplit = Math.floor( ssds.length / 2 );
+    let logsSsds = ssds.slice( 0, ssdSplit );
+    let cacheSsds = ssds.slice( ssdSplit, ssds.length );
+    let desired = preferences.desired[0].toLowerCase();
+    let chunkSize = DISK_CHUNKS[ desired ][ preferences.priority.toLowerCase() ];
+
+    topology.logs =
+      this.reconstructVdev( 0
+                          , "logs"
+                          , []
+                          , logsSsds
+                          , topology.allowedTypes
+                          , "stripe"
+                          )["logs"];
+    topology.cache =
+      this.reconstructVdev( 0
+                          , "cache"
+                          , []
+                          , cacheSsds
+                          , topology.allowedTypes
+                          , "stripe"
+                          )["cache"];
+
+
+    _.chunk( availableHDDs, chunkSize ).forEach( ( chunkDisks, index ) => {
+      if ( chunkDisks.length === chunkSize ) {
+        topology.data =
+          this.reconstructVdev( index
+                              , "data"
+                              , topology.data
+                              , chunkDisks
+                              , topology.allowedTypes
+                              , desired
+                              )["data"];
+      }
+    });
+
+    return topology;
   }
 
 
