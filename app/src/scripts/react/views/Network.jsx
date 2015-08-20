@@ -137,6 +137,7 @@ const Network = React.createClass(
       <main>
         <div>
           { networkConfig }
+          <hr className = "network-divider" />
           <div className = "interface-item-container">
             { interfaces }
           </div>
