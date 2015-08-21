@@ -50,12 +50,19 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
-      if ( args.name === "task.updated"
+      if ( args.name === "network.updated" ) {
+        if ( args.args.operation === "configure" ) {
+          _.merge( _networkConfig, args.args.entities[0] );
+          this.emitChange();
+        }
+      }
+
+      /*if ( args.name === "task.updated"
           && args.args.name === "network.configure"
           && args.args.state === "FINISHED" ) {
         _localUpdatePending = _.without( _localUpdatePending, args.args.id );
         this.emitChange();
-      }
+      }*/
       break;
 
     case ActionTypes.RECEIVE_NETWORK_CONFIG_UPDATE:
