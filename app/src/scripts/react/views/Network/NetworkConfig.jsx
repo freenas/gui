@@ -105,32 +105,8 @@ const NetworkConfig = React.createClass(
           NM.updateNetworkConfig( newConfig );
           break;
       }
+
     }
-  }
-
-  /**
-   * Add a new DNS server.
-   */
-  , addNewDnsServer: function () {
-    if ( this.state.newDnsServer === "" ) {
-      // No need to add an empty server.
-      return;
-    }
-
-    var networkConfig = this.state.networkConfig;
-    if ( _.includes( networkConfig.dns.servers, this.state.newDnsServer ) ) {
-      // No need to add a duplicate entry.
-      return;
-    }
-
-    // Append a new DNS server to the list.
-    networkConfig.dns.servers.push( this.state.newDnsServer );
-
-    // Reset the input value.
-    this.setState({
-      networkConfig: networkConfig
-      , newDnsServer: ""
-    });
   }
 
   /**
