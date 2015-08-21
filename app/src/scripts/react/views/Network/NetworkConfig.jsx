@@ -86,6 +86,18 @@ const NetworkConfig = React.createClass(
     }
   }
 
+  , submitChange ( target, evt ) {
+    var newConfig = {};
+
+    if ( evt.key === "Enter" ) {
+      switch ( target ) {
+        case "hostname":
+          newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
+          SM.updateSystemGeneralConfig( newConfig );
+      }
+    }
+  }
+
 /*  , saveGeneralConfig: function ( evt ) {
     evt.stopPropagation();
 
@@ -182,6 +194,7 @@ const NetworkConfig = React.createClass(
               className = "network-config-edit-input"
               type = "text"
               value = { hostnameValue }
+              onKeyDown = { this.submitChange.bind( this, "hostname" )}
               onChange = { this.handleChange.bind( this, "hostname" ) }
               placeholder = { this.props.systemGeneralConfig[ "hostname" ] } />
           </TWBS.Col>
