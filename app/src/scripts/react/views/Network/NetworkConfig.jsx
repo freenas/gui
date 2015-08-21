@@ -191,7 +191,7 @@ const NetworkConfig = React.createClass(
       hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
     }
     hostname =
-      <div className = "network-config-edit">
+      <div>
         <TWBS.Col xs = { 3 }>{ "Hostname" }</TWBS.Col>
         <TWBS.Col xs = { 9 }>
           <TWBS.Input
@@ -206,7 +206,7 @@ const NetworkConfig = React.createClass(
       ipv4GatewayValue = this.state.networkConfig[ "gateway" ][ "ipv4" ];
     }
     ipv4Gateway =
-      <div className = "network-config-edit">
+      <div>
         <TWBS.Col xs = { 3 }>{ "IPv4 Default Gateway" }</TWBS.Col>
         <TWBS.Col xs = { 9 }>
           <TWBS.Input
@@ -222,7 +222,7 @@ const NetworkConfig = React.createClass(
       ipv6GatewayValue = this.state.networkConfig[ "gateway" ][ "ipv6" ];
     }
     ipv6Gateway =
-      <div className = "network-config-edit">
+      <div>
         <TWBS.Col xs = { 3 }>{ "IPv6 Default Gateway" }</TWBS.Col>
         <TWBS.Col xs = { 9 }>
           <TWBS.Input
