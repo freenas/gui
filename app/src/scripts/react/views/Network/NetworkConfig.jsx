@@ -172,6 +172,21 @@ const NetworkConfig = React.createClass(
     return responseStyle;
   }
 
+  , resetFocus ( key, evt ) {
+    switch ( key ) {
+      case "ipv4":
+        if ( !isIPv4( evt.target.value ) ) {
+          evt.target.focus();
+        }
+        break;
+      case "ipv6":
+        if ( !isIPv6( evt.target.value ) ) {
+          evt.target.focus();
+        }
+        break;
+    }
+  }
+
   , render: function () {
     var hostname = null;
     var hostnameValue = this.props.systemGeneralConfig[ "hostname" ];
@@ -214,6 +229,7 @@ const NetworkConfig = React.createClass(
             type = "text"
             value = { ipv4GatewayValue }
             bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
+            onBlur = { this.resetFocus.bind( null, "ipv4") }
             onKeyDown = { this.submitChange.bind( this, "ipv4" ) }
             onChange = { this.handleChange.bind( this, "ipv4" ) } />
         </TWBS.Col>
@@ -234,6 +250,7 @@ const NetworkConfig = React.createClass(
             type = "text"
             value = { ipv6GatewayValue }
             bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
+            onBlur = { this.resetFocus.bind( null, "ipv6") }
             onKeyDown = { this.submitChange.bind( this, "ipv6" ) }
             onChange = { this.handleChange.bind( this, "ipv6" ) } />
         </TWBS.Col>
