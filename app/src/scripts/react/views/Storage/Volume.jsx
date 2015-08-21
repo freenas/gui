@@ -293,7 +293,7 @@ const Volume = React.createClass(
     }
 
   , resetTopology () {
-      this.props.handleDiskClear();
+      ZAC.replaceDiskSelection( [] );
       this.setState(
         { data: []
         , logs: []
