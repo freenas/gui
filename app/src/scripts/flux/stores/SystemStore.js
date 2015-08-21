@@ -72,12 +72,19 @@ function handlePayload ( payload ) {
       break;
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
-      if ( args.name === "task.updated"
+        if ( args.name === "entity-subscriber.system.general.changed" ) {
+          if ( args.args.operation === "configure" ) {
+            _.merge( _systemGeneralConfig, args.args.entities[0] );
+            this.emitChange();
+          }
+        }
+/*      if ( args.name === "task.updated"
           && args.args.name === "system.general.configure"
           && args.args.state === "FINISHED" ) {
         _localUpdatePending = _.without( _localUpdatePending, args.args.id );
         this.emitChange();
       }
+*/
       break;
 
     default:
