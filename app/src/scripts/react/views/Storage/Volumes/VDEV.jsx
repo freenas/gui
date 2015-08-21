@@ -11,11 +11,15 @@ import ZM from "../../../../flux/middleware/ZfsMiddleware";
 import VS from "../../../../flux/stores/VolumeStore";
 import DS from "../../../../flux/stores/DisksStore";
 
+import ZfsUtil from "../utility/ZfsUtil";
+
 import Disk from "../../../components/items/Disk";
 import DragTarget from "../../../components/DragTarget";
 import DropTarget from "../../../components/DropTarget";
 import Icon from "../../../components/Icon";
+
 import VDEVInfo from "./VDEV/VDEVInfo";
+import BreakdownChart from "./BreakdownChart";
 
 const VDEV = React.createClass(
   { displayName: "VDEV"
@@ -168,12 +172,31 @@ const VDEV = React.createClass(
     if ( this.props.purpose !== "spares"
        && ( this.state.devicesAreAvailable || this.props.type )
        ) {
+      let breakdown;
+      let chart = null;
+
+      if ( this.props.purpose === "data"
+        && ( this.props.path || this.props.children )
+        ) {
+        breakdown = ZfsUtil.calculateBreakdown( [ this.props ] );
+        chart = (
+          <BreakdownChart
+            total  = { breakdown.avail + breakdown.parity }
+            parity = { breakdown.parity }
+            used   = { 0 }
+            free   = { breakdown.avail }
+          />
+        );
+      }
+
       toolbar = (
         <VDEVInfo
           type = { this.props.type }
           allowedTypes = { this.props.allowedTypes }
           handleTypeChange = { this.props.handleTypeChange }
-        />
+        >
+          { chart }
+        </VDEVInfo>
       );
     }
 

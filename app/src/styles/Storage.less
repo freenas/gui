@@ -19,22 +19,19 @@
   .transition( all 0.25S );
 
   .progress {
-    margin        : @panel-body-padding -@panel-body-padding 0;
     border-radius : 0;
-    height        : 10px;
     .transition( all 0.6s );
   }
 
   .progress-bar {
     min-width   : 0;
-    line-height : 10px;
     color       : transparent;
     overflow    : hidden;
     text-align  : left;
+    .transition( all 0.6s );
     & > span {
       margin: 0 @panel-body-padding;
     }
-    .transition( all 0.6s );
   }
 
   .free-space {
@@ -46,12 +43,14 @@
 
   .panel-body:hover,
   &.editing {
-    .progress {
-      height: 25px;
-    }
-    .progress-bar {
-      line-height : 25px;
-      color       : #121212;
+    .volume-info {
+      .progress {
+        height: 25px;
+      }
+      .progress-bar {
+        line-height : 25px;
+        color       : #121212;
+      }
     }
   }
 
@@ -105,6 +104,15 @@ nav.volume-nav {
   color            : white;
   padding          : @panel-body-padding;
   margin           : -@panel-body-padding;
+
+  .progress {
+    margin: @panel-body-padding -@panel-body-padding 0;
+    height: 10px;
+  }
+
+  .progress-bar {
+    line-height : 10px;
+  }
 }
 
 .volume-name,
@@ -172,6 +180,28 @@ nav.volume-nav {
     padding: 5px 10px;
     border-bottom: inherit;
     background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .progress {
+    margin: 5px -10px -5px;
+    height: 4px;
+  }
+
+  .progress-bar {
+    line-height : 4px;
+    color       : transparent;
+  }
+
+  &:hover {
+    .progress {
+      height: 20px;
+    }
+
+    .progress-bar {
+      line-height: 20px;
+      font-size: 12px;
+      color: fade(black, 85%);
+    }
   }
 
   .vdev-type {

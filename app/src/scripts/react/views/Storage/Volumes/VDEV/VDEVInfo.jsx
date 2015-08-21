@@ -71,6 +71,7 @@ const VDEVInfo = React.createClass(
       return (
         <div className="toolbar">
           { typeButton }
+          { this.props.children }
         </div>
       );
     }
