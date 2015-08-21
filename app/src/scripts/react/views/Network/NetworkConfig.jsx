@@ -183,7 +183,6 @@ const NetworkConfig = React.createClass(
               type = "text"
               value = { hostnameValue }
               onChange = { this.handleChange.bind( this, "hostname" ) }
-              onExit = { this.exitEdit.bind( this, "hostname" ) }
               placeholder = { this.props.systemGeneralConfig[ "hostname" ] } />
           </TWBS.Col>
         </div>
