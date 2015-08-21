@@ -24,6 +24,57 @@ const TERMS =
   , ssds: "SSDs"
   };
 
+const PRESET_NAMES =
+  [ "Automatic"
+  , "Virtualization"
+  , "Backups"
+  , "Media"
+  ]
+
+const PRESET_VALUES =
+  { "Automatic":
+      { desired: [ "raidz1", "mirror" ]
+      , highest: 1
+      , priority: "storage"
+      }
+  , "Virtualization":
+      { desired: [ "mirror" ]
+      , highest: 1
+      , priority: "speed"
+      }
+  , "Backups":
+      { desired: [ "raidz2", "raidz1", "mirror" ]
+      , highest: 1
+      , priority: "safety"
+      }
+  , "Media":
+      { desired: [ "raidz1", "mirror" ]
+      , highest: 1
+      , priority: "speed"
+      }
+  };
+
+const PRESET_DESCS =
+  { "Automatic":
+      ( "The Automatic preset will try to strike a good balance between speed, "
+      + "storage, and safety."
+      )
+  , "Virtualization":
+      ( "Virtualization prioritizes fast storage over capacity or parity. This "
+      + "layout is similar to RAID 10 on a non-ZFS system."
+      )
+  , "Backups":
+      ( "Backups emphasizes data security, and uses RAID Z2 to create extra"
+      + "parity. For those willing to sacrifice performance for security, RAID "
+      + "Z3 offers more redundancy with degraded speed."
+      )
+  , "Media":
+      ( "Media attempts to create a highly performant pool with good parity. "
+      + "It is similar to the Automatic preset, but has a greater emphasis on "
+      + "speed over storage capacity."
+      )
+  };
+
 const ContextDisks = React.createClass(
   { displayName: "Pool Topology Context Drawer"
 
@@ -33,7 +84,11 @@ const ContextDisks = React.createClass(
     }
 
   , getInitialState () {
-    return this.getUpdatedDiskInfo();
+    let newState = this.getUpdatedDiskInfo();
+
+    newState.preset = "Automatic";
+
+    return newState;
   }
 
   , componentDidMount () {
@@ -50,6 +105,11 @@ const ContextDisks = React.createClass(
 
   , handleUpdatedVS () {
       this.setState( this.getUpdatedDiskInfo() );
+    }
+
+  , handlePresetChange ( preset, href, event ) {
+      this.props.handleTopoRequest( PRESET_VALUES[ preset ] );
+      this.setState({ preset });
     }
 
   , ensureHomogeneity ( allowedType, payload ) {
@@ -117,6 +177,20 @@ const ContextDisks = React.createClass(
       );
     }
 
+  , createPresetMenuItems ( ) {
+      return PRESET_NAMES.map( preset => {
+        return (
+          <TWBS.MenuItem
+            onSelect = { this.handlePresetChange }
+            eventKey = { preset }
+            active = { preset === this.state.preset }
+          >
+            { preset }
+          </TWBS.MenuItem>
+        );
+      });
+    }
+
   , createDiskPalette ( collection, type ) {
       if ( _.isEmpty( collection ) ) {
         return null;
@@ -156,9 +230,13 @@ const ContextDisks = React.createClass(
       return (
         <div className="context-content context-disks">
           <h3>ZFS Pool Topology</h3>
+
+          {/* TOPOLOGY TOOL */}
           <Topologizer
             handleTopoRequest = { this.props.handleTopoRequest }
           />
+
+          {/* RESET BUTTON */}
           <TWBS.Button
             block
             bsStyle = "default"
@@ -166,6 +244,27 @@ const ContextDisks = React.createClass(
           >
             {"Reset Pool Topology"}
           </TWBS.Button>
+
+          {/* PRESET SELECTOR */}
+          <h5 className="context-section-header">
+            <span className="type-line">
+              { "Topology Preset" }
+            </span>
+          </h5>
+          <TWBS.DropdownButton
+            block
+            title = { this.state.preset }
+            bsStyle = "primary"
+          >
+            { this.createPresetMenuItems() }
+          </TWBS.DropdownButton>
+          <TWBS.Alert
+            bsStyle = "default"
+          >
+            { PRESET_DESCS[ this.state.preset ] }
+          </TWBS.Alert>
+
+          {/* AVAILABLE DEVICES */}
           { this.createDiskPalette( groupedDisks[0], "SSDs" ) }
           { this.createDiskPalette( groupedDisks[1], "HDDs" ) }
         </div>
