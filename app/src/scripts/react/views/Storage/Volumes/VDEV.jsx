@@ -69,9 +69,9 @@ const VDEV = React.createClass(
 
   , queryDeviceAvailability () {
       if ( this.requiresSSDs() ) {
-        return VS.areSSDsAvailable;
+        return VS.SSDsAreAvailable;
       } else {
-        return VS.areHDDssAvailable;
+        return VS.HDDsAreAvailable;
       }
     }
 
