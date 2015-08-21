@@ -182,8 +182,10 @@ const NetworkConfig = React.createClass(
   , render: function () {
     var hostname = null;
     var hostnameValue = this.props.systemGeneralConfig[ "hostname" ];
-    var ipv4Gateway = "";
-    var ipv6Gateway = "";
+    var ipv4Gateway = null;
+    var ipv4GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv4" ];
+    var ipv6Gateway = null;
+    var ipv6GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv6" ];
 
     if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
       hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
@@ -197,6 +199,38 @@ const NetworkConfig = React.createClass(
             value = { hostnameValue }
             onKeyDown = { this.submitChange.bind( this, "hostname" ) }
             onChange = { this.handleChange.bind( this, "hostname" ) } />
+        </TWBS.Col>
+      </div>;
+
+    if ( _.has( this.state, [ "networkConfig", "gateway", "ipv4" ] ) ) {
+      ipv4GatewayValue = this.state.networkConfig[ "gateway" ][ "ipv4" ];
+    }
+    ipv4Gateway =
+      <div className = "network-config-edit">
+        <TWBS.Col xs = { 3 }>{ "IPv4 Default Gateway" }</TWBS.Col>
+        <TWBS.Col xs = { 9 }>
+          <TWBS.Input
+            type = "text"
+            value = { ipv4GatewayValue }
+            bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
+            onKeyDown = { this.submitChange.bind( this, "ipv4" ) }
+            onChange = { this.handleChange.bind( this, "ipv4" ) } />
+        </TWBS.Col>
+      </div>;
+
+    if ( _.has( this.state, [ "networkConfig", "gateway", "ipv6" ] ) ) {
+      ipv6GatewayValue = this.state.networkConfig[ "gateway" ][ "ipv6" ];
+    }
+    ipv6Gateway =
+      <div className = "network-config-edit">
+        <TWBS.Col xs = { 3 }>{ "IPv6 Default Gateway" }</TWBS.Col>
+        <TWBS.Col xs = { 9 }>
+          <TWBS.Input
+            type = "text"
+            value = { ipv6GatewayValue }
+            bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
+            onKeyDown = { this.submitChange.bind( this, "ipv6" ) }
+            onChange = { this.handleChange.bind( this, "ipv6" ) } />
         </TWBS.Col>
       </div>;
 
@@ -243,28 +277,8 @@ const NetworkConfig = React.createClass(
           <TWBS.Row>
             <TWBS.Col sm = { 4 }>
               { hostname }
-              <TWBS.Col xs = { 3 } >
-                <span>IPv4 Default Gateway</span>
-              </TWBS.Col>
-              <TWBS.Col xs = { 9 } >
-                <TWBS.Input
-                  type        = "text"
-                  value       = { ipv4Gateway }
-                  onChange    =
-                    {this.handleChange.bind( this, "ipv4" )}
-                  placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv4" ] } />
-              </TWBS.Col>
-              <TWBS.Col xs = { 3 } >
-                <span>IPv6 Default Gateway</span>
-              </TWBS.Col>
-              <TWBS.Col xs = { 9 } >
-                <TWBS.Input
-                  type        = "text"
-                  value       = { ipv6Gateway }
-                  onChange    =
-                    {this.handleChange.bind( this, "ipv6" )}
-                  placeholder = { this.props[ "networkConfig" ][ "gateway" ][ "ipv6" ] } />
-              </TWBS.Col>
+              { ipv4Gateway }
+              { ipv6Gateway }
             </TWBS.Col>
             <TWBS.Col sm = { 4 }>
               <TWBS.Col xs = { 12 } >
