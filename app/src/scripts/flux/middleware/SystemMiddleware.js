@@ -11,10 +11,12 @@ class SystemMiddleware extends AbstractBase {
 
   static subscribe ( componentID ) {
     MC.subscribe( [ "task.updated" ], componentID );
+    MC.subscribe( [ "entity-subscriber.system.config.changed "], componentID );
   }
 
   static unsubscribe ( componentID ) {
     MC.unsubscribe( [ "task.updated" ], componentID );
+    MC.unsubscribe( [ "entity-subscriber.system.config.changed "], componentID );
   }
 
   static requestSystemInfo ( namespace ) {
