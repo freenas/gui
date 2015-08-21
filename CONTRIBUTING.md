@@ -24,7 +24,7 @@ For FreeBSD, run 'sudo pkg install node && pkg install npm'
 To make sure you have all the necessary global dev dependencies for developing
 the FreeNAS 10 GUI, run:
 
-    npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
+    sudo npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
     npm install
 
 from the root of the repo first.  Then install another 400 or so npm modules
@@ -78,28 +78,11 @@ different from the mockup, or negatively impacts any other part of the GUI.
 ## My Node environment is totally messed up, help!
 
 Has something gone horribly wrong with your node and npm environment? For your
-convenience, here's the list of commands some members of our team have used to
-nuke everything from orbit. These commands are for Mac OS X.
+convenience, here's the command some members of our team have used to
+nuke everything from orbit. This command is for Mac OS X:
 
-    sudo rm -rf /usr/local/lib/node*
-    sudo rm -rf /usr/local/include/node*
-    sudo rm -rf ~{local,include,node*,npm*,.npm*}
-    sudo rm -rf /usr/local/bin/npm
-    sudo rm -rf /usr/local/bin/{node*,npm}
-    sudo rm -rf /usr/local/share/man/man1/node.1
-    sudo rm -rf /usr/local/lib/dtrace/node.d
-    rm -rf ~/.npm
-    rm -rf ~/.nvm
-    rm -rf ~/.node-gyp
-    rm ~/.v8flags.3.28.71.19.$USER.json (or similar)
-    rm ~/babel.json
-    rm ~/.cache/bower
-
-In the FreeNAS 10 gui source directory:
-
-    rm -rf node_modules/
-    rm -rf bower_components/
-    rm -rf app/build/
+	cd source-directory-for-gui (where this file you're reading is)
+	sudo ./node-nuker-osx.sh
 
 Once that's done, start fresh! We recommend against using MacPorts or Homebrew
-for your Node installation.
+for your Node installation on OS X.
