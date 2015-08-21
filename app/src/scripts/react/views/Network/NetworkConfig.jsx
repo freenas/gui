@@ -86,7 +86,7 @@ const NetworkConfig = React.createClass(
     }
   }
 
-  , saveGeneralConfig: function ( evt ) {
+/*  , saveGeneralConfig: function ( evt ) {
     evt.stopPropagation();
 
     // No need to call the API if there are no changes.
@@ -107,7 +107,7 @@ const NetworkConfig = React.createClass(
         oldNetworkConfig: _.cloneDeep( this.state.networkConfig )
       });
     }
-  }
+  }*/
 
   /**
    * Add a new DNS server.
