@@ -16,7 +16,6 @@ import ZfsUtil from "../utility/ZfsUtil";
 import Disk from "../../../components/items/Disk";
 import DragTarget from "../../../components/DragTarget";
 import DropTarget from "../../../components/DropTarget";
-import Icon from "../../../components/Icon";
 
 import VDEVInfo from "./VDEV/VDEVInfo";
 import BreakdownChart from "./BreakdownChart";
@@ -27,6 +26,7 @@ const VDEV = React.createClass(
   , propTypes:
     { handleDiskAdd: React.PropTypes.func.isRequired
     , handleDiskRemove: React.PropTypes.func.isRequired
+    , handleVdevNuke: React.PropTypes.func.isRequired
     , handleTypeChange: React.PropTypes.func.isRequired
     , cols: React.PropTypes.number.isRequired
     , children: React.PropTypes.array
@@ -122,9 +122,7 @@ const VDEV = React.createClass(
               className = "disk-remove"
               onClick = { this.props.handleDiskRemove.bind( null, path ) }
               onMouseDown = { event => event.stopPropagation() }
-            >
-              <Icon glyph="times" />
-            </span>
+            />
           </DragTarget>
         );
       } else {
@@ -194,6 +192,7 @@ const VDEV = React.createClass(
           type = { this.props.type }
           allowedTypes = { this.props.allowedTypes }
           handleTypeChange = { this.props.handleTypeChange }
+          handleVdevNuke = { this.props.handleVdevNuke }
         >
           { chart }
         </VDEVInfo>

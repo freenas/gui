@@ -245,6 +245,10 @@ const Volume = React.createClass(
             );
             break;
 
+          case "nuke":
+            ZAC.deselectDisks( ZfsUtil.getMemberDiskPaths( targetVdev ) );
+            break;
+
           case "changeType":
             currentType = options.type;
             disks.push( ...ZfsUtil.getMemberDiskPaths( targetVdev ) );
@@ -277,6 +281,13 @@ const Volume = React.createClass(
                         , vdevKey
                         , vdevPurpose
                         , { path: path }
+                        );
+    }
+
+  , handleVdevNuke ( vdevKey, vdevPurpose, event ) {
+      this.vdevOperation( "nuke"
+                        , vdevKey
+                        , vdevPurpose
                         );
     }
 
@@ -369,6 +380,7 @@ const Volume = React.createClass(
               handleDiskAdd = { this.handleDiskAdd }
               handleDiskRemove = { this.handleDiskRemove }
               handleVdevRemove = { this.handleVdevRemove }
+              handleVdevNuke = { this.handleVdevNuke }
               handleVdevTypeChange = { this.handleVdevTypeChange }
               editing = { this.state.editing }
             />

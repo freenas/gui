@@ -17,6 +17,7 @@ var TopologyDrawer = React.createClass(
   { propTypes:
     { handleDiskAdd: React.PropTypes.func.isRequired
     , handleDiskRemove: React.PropTypes.func.isRequired
+    , handleVdevNuke: React.PropTypes.func.isRequired
     , handleVdevTypeChange: React.PropTypes.func.isRequired
     , data: React.PropTypes.array.isRequired
     , logs: React.PropTypes.array.isRequired
@@ -79,6 +80,9 @@ var TopologyDrawer = React.createClass(
             handleDiskRemove = { this.props.handleDiskRemove
                                      .bind( null, index, purpose )
                                }
+            handleVdevNuke = { this.props.handleVdevNuke
+                                   .bind( null, index, purpose )
+                             }
             handleTypeChange = { this.props.handleVdevTypeChange
                                      .bind( null, index, purpose )
                                }
@@ -109,6 +113,9 @@ var TopologyDrawer = React.createClass(
           handleDiskRemove = { this.props.handleDiskRemove
                                    .bind( null, vdevs.length, purpose )
                              }
+          handleVdevNuke = { this.props.handleVdevNuke
+                                 .bind( null, vdevs.length, purpose )
+                           }
           handleTypeChange = { this.props.handleVdevTypeChange
                                    .bind( null, vdevs.length, purpose )
                              }

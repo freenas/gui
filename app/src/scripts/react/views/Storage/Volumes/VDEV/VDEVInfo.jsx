@@ -8,6 +8,8 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import Icon from "../../../../components/Icon";
+
 const HUMAN_TYPES =
   { disk   : "Disk"
   , stripe : "Stripe"
@@ -20,6 +22,7 @@ const HUMAN_TYPES =
 const VDEVInfo = React.createClass(
   { propTypes:
     { handleTypeChange: React.PropTypes.func.isRequired
+    , handleVdevNuke: React.PropTypes.func.isRequired
     , type: React.PropTypes.oneOf(
         [ null
         , "disk"
@@ -46,6 +49,7 @@ const VDEVInfo = React.createClass(
 
   , render () {
       let typeButton;
+      let closeButton;
       let typeName = HUMAN_TYPES[ this.props.type ] || "Empty";
 
       if ( this.props.allowedTypes.length > 1 ) {
@@ -68,9 +72,20 @@ const VDEVInfo = React.createClass(
         );
 
       }
+
+      if ( typeName !== "Empty" ) {
+        closeButton = (
+          <span
+            className = "vdev-remove"
+            onClick = { this.props.handleVdevNuke }
+          />
+        );
+      }
+
       return (
         <div className="toolbar">
           { typeButton }
+          { closeButton }
           { this.props.children }
         </div>
       );

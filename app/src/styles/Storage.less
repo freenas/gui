@@ -273,28 +273,39 @@ nav.volume-nav {
   }
 
 }
-.disk-remove {
-  height        : 15px;
-  width         : 15px;
-  line-height   : 15px;
-  display       : block;
-  position      : absolute;
-  right         : 0;
-  top           : 0;
-  color         : @gray-light;
-  border-radius : 50%;
-  font-size     : 12px;
-  text-align    : center;
-  font-style    : normal;
-  font-weight   : 100;
+.disk-remove,
+.vdev-remove {
+  height           : 14px;
+  width            : 14px;
+  line-height      : 14px;
+  display          : block;
+  position         : absolute;
+  right            : 0;
+  top              : 0;
+  color            : black;
+  background-color : fade(black, 10%);
+  border-radius    : 50%;
+  font-size        : 14px;
+  text-align       : center;
+  font-style       : normal;
+  font-weight      : 100;
   .transition( all 0.25s );
   z-index: 1;
+
+  &:before {
+    content: "×";
+    display: block;
+  }
 
   &:hover {
     color: white;
     background-color: @brand-danger;
     border-color: @brand-danger;
   }
+}
+
+.vdev-remove {
+  margin: 10px;
 }
 
 .dragging .disk-remove {
