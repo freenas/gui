@@ -230,6 +230,12 @@ const ContextDisks = React.createClass(
       return (
         <div className="context-content context-disks">
 
+          <h5 className="context-section-header">
+            <span className="type-line">
+              { "Modify Pool Topology" }
+            </span>
+          </h5>
+
           {/* TOPOLOGY TOOL */}
           <Topologizer
             handleTopoRequest = { this.props.handleTopoRequest }
@@ -247,7 +253,7 @@ const ContextDisks = React.createClass(
           {/* PRESET SELECTOR */}
           <h5 className="context-section-header">
             <span className="type-line">
-              { "Topology Preset" }
+              { "Preset Configuration" }
             </span>
           </h5>
           <TWBS.DropdownButton
