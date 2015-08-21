@@ -190,11 +190,6 @@ const NetworkConfig = React.createClass(
         </div>;
     }
 
-      ipv6Gateway = this.state.networkConfig
-                  ? this.state.networkConfig.gateway.ipv6
-                  : "";
-    }
-
     // Compile the DNS server list.
     var dnsNodes =
       <li>
