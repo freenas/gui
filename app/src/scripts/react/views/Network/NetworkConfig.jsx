@@ -167,7 +167,12 @@ const NetworkConfig = React.createClass(
         }
         break;
 
-      default:
+      case "dns":
+        if ( !isIPv4( value )
+          && !isIPv6( value )
+           ) {
+          responseStyle = "error";
+        }
         break;
     }
 
