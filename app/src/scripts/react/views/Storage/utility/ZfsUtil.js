@@ -10,30 +10,7 @@ import _ from "lodash";
 
 import DS from "../../../../flux/stores/DisksStore";
 
-const VDEV_TYPES =
-  { data: [ "disk", "stripe", "mirror", "raidz1", "raidz2", "raidz3" ]
-  , logs: [ "disk", "stripe", "mirror" ]
-  , cache: [ "disk", "stripe", "mirror" ]
-  , spares: [ "disk", "stripe" ]
-};
-
-const DISK_CHUNKS =
-  { mirror:
-      { speed: 2
-      , safety: 2
-      , storage: 2
-      }
-  , raidz1:
-      { speed: 3
-      , safety: 5
-      , storage: 7
-      }
-  , raidz2:
-      { speed: 4
-      , safety: 5
-      , storage: 6
-      }
-  };
+import { VDEV_TYPES, DISK_CHUNKS } from "./ZfsConstants";
 
 class ZfsUtil {
 
