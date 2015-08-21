@@ -156,6 +156,29 @@ const NetworkConfig = React.createClass(
     });
   }
 
+  , validate ( key, value ) {
+
+    var responseStyle = "";
+    switch ( key ) {
+      case "ipv4":
+        if ( !isIPv4( value ) ) {
+          responseStyle = "error";
+        }
+        break;
+
+      case "ipv6":
+        if ( !isIPv6( value ) ) {
+          responseStyle = "error";
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    return responseStyle;
+  }
+
   , render: function () {
     var hostname = null;
     var hostnameValue = this.props.systemGeneralConfig[ "hostname" ];
