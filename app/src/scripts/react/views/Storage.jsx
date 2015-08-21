@@ -7,11 +7,9 @@
 
 "use strict";
 
-import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
-import DS from "../../flux/stores/DisksStore";
 import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
 import DM from "../../flux/middleware/DisksMiddleware";
@@ -25,8 +23,7 @@ const Storage = React.createClass(
   , getInitialState () {
       return (
         { volumes: VS.listVolumes()
-        , selectedDisks: new Set()
-        , selectedSSDs: new Set()
+        , devicesAreAvailable: VS.devicesAreAvailable
         , activeVolume: null
         }
       );
@@ -35,25 +32,25 @@ const Storage = React.createClass(
   , componentDidMount () {
       VS.addChangeListener( this.handleUpdatedVS );
 
+      DM.requestDisksOverview();
+      DM.subscribe( this.constructor.displayName );
+
       ZM.requestVolumes();
       ZM.requestAvailableDisks();
       ZM.subscribe( this.constructor.displayName );
-
-      DM.requestDisksOverview();
-      DM.subscribe( this.constructor.displayName );
     }
 
   , componentWillUnmount () {
       VS.removeChangeListener( this.handleUpdatedVS );
 
-      ZM.unsubscribe( this.constructor.displayName );
-
       DM.unsubscribe( this.constructor.displayName );
+
+      ZM.unsubscribe( this.constructor.displayName );
     }
 
   , componentDidUpdate ( prevProps, prevState ) {
       if ( ( this.state.volumes.length === 0 )
-           && ( this.state.activeVolume !== prevState.activeVolume )
+        && ( this.state.activeVolume !== prevState.activeVolume )
          ) {
         Velocity( React.findDOMNode( this.refs.newPoolMessage )
           , { opacity       : 0
@@ -71,17 +68,13 @@ const Storage = React.createClass(
       let newState = {};
 
       switch ( eventMask ) {
-        case "volumes":
-          newState.volumes = VS.listVolumes();
-          break;
-
         case "availableDisks":
-          newState.availableDisks = VS.availableDisks;
+          newState.devicesAreAvailable = VS.devicesAreAvailable;
           break;
 
+        case "volumes":
         default:
           newState.volumes = VS.listVolumes();
-          newState.availableDisks = VS.availableDisks;
           break;
       }
 
@@ -95,51 +88,11 @@ const Storage = React.createClass(
       );
     }
 
-  , handleDiskSelection ( path ) {
-      let diskUpdate = this.state.selectedDisks;
-
-      diskUpdate.add( path );
-
-      this.setState({ selectedDisks: diskUpdate });
-    }
-
-  , handleDiskRemoval ( path ) {
-      let diskUpdate = this.state.selectedDisks;
-
-      diskUpdate.delete( path );
-
-      this.setState({ selectedDisks: diskUpdate });
-    }
-
-  , handleDiskClear () {
-      this.setState({ selectedDisks: new Set() });
-    }
-
   , createVolumes () {
-      let availableDisks = _.without( this.state.availableDisks
-                                    , ...this.state.selectedDisks
-                                    );
-      let availableHDDs = [];
-      let availableSSDs = [];
-
       let activeVolume = this.state.activeVolume;
-
-      availableDisks.forEach( disk => {
-        if ( DS.isSSD( disk ) ) {
-          availableSSDs.push( disk );
-        } else {
-          availableHDDs.push( disk );
-        }
-      });
 
       const volumeCommon =
         { requestActive: this.handleVolumeActive
-        , handleDiskSelection: this.handleDiskSelection
-        , handleDiskRemoval: this.handleDiskRemoval
-        , handleDiskClear: this.handleDiskClear
-        , availableDisks: availableDisks
-        , availableSSDs: availableSSDs
-        , availableHDDs: availableHDDs
         };
 
       let pools =
@@ -169,7 +122,7 @@ const Storage = React.createClass(
           );
         });
 
-      if ( VS.disksAreAvailable ) {
+      if ( this.state.devicesAreAvailable ) {
         // If there are disks available, a new pool may be created. The Volume
         // component is responsible for displaying the correct "blank start"
         // behavior, depending on its knowledge of other pools.

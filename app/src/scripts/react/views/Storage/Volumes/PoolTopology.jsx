@@ -18,8 +18,6 @@ var TopologyDrawer = React.createClass(
     { handleDiskAdd: React.PropTypes.func.isRequired
     , handleDiskRemove: React.PropTypes.func.isRequired
     , handleVdevTypeChange: React.PropTypes.func.isRequired
-    , availableDisks: React.PropTypes.array.isRequired
-    , availableSSDs: React.PropTypes.array.isRequired
     , data: React.PropTypes.array.isRequired
     , logs: React.PropTypes.array.isRequired
     , cache: React.PropTypes.array.isRequired
@@ -30,7 +28,6 @@ var TopologyDrawer = React.createClass(
   , createVdevs ( purpose ) {
     let sharedProps =
       { purpose: purpose
-      , availableDevices: null
       , cols: null
       , newVdevAllowed: false
       };
@@ -38,7 +35,6 @@ var TopologyDrawer = React.createClass(
     switch ( purpose ) {
       case "logs":
       case "cache":
-        sharedProps.availableDevices = this.props.availableSSDs;
         sharedProps.cols             = 12;
         // Log and Cache currently only allow a single VDEV.
         if ( this.props[ purpose ].length < 1 ) {
@@ -47,7 +43,6 @@ var TopologyDrawer = React.createClass(
         break;
 
       case "spares":
-        sharedProps.availableDevices = this.props.availableDisks;
         sharedProps.cols             = 12;
         if ( this.props[ purpose ].length < 1 ) {
           sharedProps.newVdevAllowed = true;
@@ -55,7 +50,6 @@ var TopologyDrawer = React.createClass(
         break;
       case "data":
       default:
-        sharedProps.availableDevices = this.props.availableDisks;
         sharedProps.cols             = 12;
         sharedProps.newVdevAllowed   = true;
         break;

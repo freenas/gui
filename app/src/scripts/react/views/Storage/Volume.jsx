@@ -10,7 +10,9 @@ import _ from "lodash";
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import ZAC from "../../../flux/actions/ZfsActionCreators";
 import ZM from "../../../flux/middleware/ZfsMiddleware";
+import VS from "../../../flux/stores/VolumeStore";
 
 import EventBus from "../../../utility/EventBus";
 import ByteCalc from "../../../utility/ByteCalc";
@@ -43,12 +45,7 @@ const Volume = React.createClass(
   { displayName: "Volume"
 
   , propTypes:
-    { handleDiskSelection: React.PropTypes.func.isRequired
-    , handleDiskRemoval: React.PropTypes.func.isRequired
-    , handleDiskClear: React.PropTypes.func.isRequired
-    , requestActive: React.PropTypes.func.isRequired
-    , availableDisks: React.PropTypes.array.isRequired
-    , availableSSDs: React.PropTypes.array.isRequired
+    { requestActive: React.PropTypes.func.isRequired
     , existsOnRemote: React.PropTypes.bool
     , data: React.PropTypes.array
     , logs: React.PropTypes.array
@@ -146,8 +143,7 @@ const Volume = React.createClass(
 
   , componentDidUpdate ( prevProps, prevState ) {
       let topologyContextProps =
-        { availableDisks: this.props.availableDisks
-        , handleReset: this.resetTopology
+        { handleReset: this.resetTopology
         , handleTopoRequest: this.handleTopoRequest
         };
 
@@ -166,15 +162,6 @@ const Volume = React.createClass(
         } else {
           EventBus.emit( "hideContextPanel", TopologyEditContext );
         }
-      }
-
-      if ( this.state.editing
-        && _.xor( this.props.availableDisks
-                , prevProps.availableDisks ).length
-                ) {
-        EventBus.emit( "updateContextPanel"
-                     , TopologyEditContext
-                     , topologyContextProps );
       }
     }
 
@@ -212,13 +199,17 @@ const Volume = React.createClass(
     }
 
   , handleTopoRequest ( preferences ) {
-      let newTopology =
-        ZfsUtil.createTopology( this.props.availableSSDs
-                              , this.props.availableDisks
+      let creatorOutput =
+        ZfsUtil.createTopology( VS.availableSSDs
+                              , VS.availableHDDs
                               , preferences
                               );
 
-      this.setState( newTopology );
+      let topology = creatorOutput[0];
+      let devicesUsed = creatorOutput[1];
+
+      ZAC.replaceDiskSelection( devicesUsed );
+      this.setState( topology );
     }
 
   , handleNavSelect ( keyName ) {
@@ -272,7 +263,7 @@ const Volume = React.createClass(
     }
 
   , handleDiskAdd ( vdevKey, vdevPurpose, path ) {
-      this.props.handleDiskSelection( path );
+      ZAC.selectDisks( path );
       this.vdevOperation( "add"
                         , vdevKey
                         , vdevPurpose
@@ -281,7 +272,7 @@ const Volume = React.createClass(
     }
 
   , handleDiskRemove ( vdevKey, vdevPurpose, path, event ) {
-      this.props.handleDiskRemoval( path );
+      ZAC.deselectDisks( path );
       this.vdevOperation( "remove"
                         , vdevKey
                         , vdevPurpose
@@ -371,8 +362,6 @@ const Volume = React.createClass(
 
           return (
             <PoolTopology
-              availableDisks = { this.props.availableDisks }
-              availableSSDs = { this.props.availableSSDs }
               data = { data }
               logs = { logs }
               cache = { cache }

@@ -9,6 +9,7 @@
 import _ from "lodash";
 
 import DS from "../../../../flux/stores/DisksStore";
+import ZAC from "../../../../flux/actions/ZfsActionCreators";
 
 import { VDEV_TYPES, DISK_CHUNKS } from "./ZfsConstants";
 
@@ -199,25 +200,29 @@ class ZfsUtil {
 
     let availableHDDs = _.difference( disks, ssds );
     let ssdSplit = Math.floor( ssds.length / 2 );
-    let logsSsds = ssds.slice( 0, ssdSplit );
-    let cacheSsds = ssds.slice( ssdSplit, ssds.length );
+    let logsSSDs = ssds.slice( 0, ssdSplit );
+    let cacheSSDs = ssds.slice( ssdSplit, ssds.length );
     let desired = preferences.desired[0].toLowerCase();
     let chunkSize = DISK_CHUNKS[ desired ][ preferences.priority.toLowerCase() ];
+
+    let allSelectedDisks = [];
 
     topology.logs =
       this.reconstructVdev( 0
                           , "logs"
                           , []
-                          , logsSsds
+                          , logsSSDs
                           , "stripe"
                           )["logs"];
+    allSelectedDisks = allSelectedDisks.concat( logsSSDs );
     topology.cache =
       this.reconstructVdev( 0
                           , "cache"
                           , []
-                          , cacheSsds
+                          , cacheSSDs
                           , "stripe"
                           )["cache"];
+    allSelectedDisks = allSelectedDisks.concat( cacheSSDs );
 
 
     _.chunk( availableHDDs, chunkSize ).forEach( ( chunkDisks, index ) => {
@@ -229,12 +234,12 @@ class ZfsUtil {
                               , chunkDisks
                               , desired
                               )["data"];
+        allSelectedDisks = allSelectedDisks.concat( chunkDisks );
       }
     });
 
-    return topology;
+    return [ topology, allSelectedDisks ];
   }
-
 
   static wrapStripe () {
     // TODO

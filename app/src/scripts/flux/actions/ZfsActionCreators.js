@@ -8,6 +8,7 @@ import { ActionTypes } from "../constants/FreeNASConstants";
 
 class ZfsActionCreators {
 
+  // SERVER METHODS
   static receiveVolumes ( volumes, timestamp ) {
     FreeNASDispatcher.handleMiddlewareAction(
       { type: ActionTypes.RECEIVE_VOLUMES
@@ -56,6 +57,31 @@ class ZfsActionCreators {
     );
   }
 
-};
+
+  // CLIENT METHODS
+  static replaceDiskSelection ( disks ) {
+    FreeNASDispatcher.handleClientAction(
+      { type: ActionTypes.DISKS_SELECTION_REPLACE
+      , disks
+      }
+    );
+  }
+  static selectDisks ( disks ) {
+    FreeNASDispatcher.handleClientAction(
+      { type: ActionTypes.DISKS_SELECTED
+      , disks
+      }
+    );
+  }
+
+  static deselectDisks ( disks ) {
+    FreeNASDispatcher.handleClientAction(
+      { type: ActionTypes.DISKS_DESELECTED
+      , disks
+      }
+    );
+  }
+
+}
 
 export default ZfsActionCreators;

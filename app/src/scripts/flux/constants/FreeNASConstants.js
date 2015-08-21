@@ -70,6 +70,11 @@ const FREENAS_CONSTANTS =
     , RECEIVE_BOOT_POOL: null
     , RECEIVE_POOL_DISK_IDS: null
 
+    // Volumes
+    , DISKS_SELECTION_REPLACE: null
+    , DISKS_SELECTED: null
+    , DISKS_DESELECTED: null
+
     // Disks
     , RECEIVE_DISKS_OVERVIEW: null
     , RECEIVE_DISK_DETAILS: null

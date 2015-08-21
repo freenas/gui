@@ -10,6 +10,7 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
+import VS from "../../../../../flux/stores/VolumeStore";
 import DS from "../../../../../flux/stores/DisksStore";
 
 import DiscTri from "../../../../components/DiscTri";
@@ -18,13 +19,37 @@ import DropTarget from "../../../../components/DropTarget";
 import Disk from "../../../../components/items/Disk";
 import Topologizer from "../Topologizer";
 
+const TERMS =
+  { hdds: "Disks"
+  , ssds: "SSDs"
+  };
+
 const ContextDisks = React.createClass(
   { displayName: "Pool Topology Context Drawer"
 
   , propTypes:
-    { availableDisks: React.PropTypes.array.isRequired
-    , handleReset: React.PropTypes.func.isRequired
+    { handleReset: React.PropTypes.func.isRequired
     , handleTopoRequest: React.PropTypes.func.isRequired
+    }
+
+  , getInitialState () {
+    return this.getUpdatedDiskInfo();
+  }
+
+  , componentDidMount () {
+      VS.addChangeListener( this.handleUpdatedVS );
+    }
+
+  , getUpdatedDiskInfo () {
+      return { availableSSDs: VS.availableSSDs
+             , selectedSSDs: VS.selectedSSDs
+             , availableHDDs: VS.availableHDDs
+             , selectedHDDs: VS.selectedHDDs
+             };
+    }
+
+  , handleUpdatedVS () {
+      this.setState( this.getUpdatedDiskInfo() );
     }
 
   , ensureHomogeneity ( allowedType, payload ) {
@@ -35,7 +60,7 @@ const ContextDisks = React.createClass(
         case "ssds":
           return DS.isHDD( payload );
 
-        case "disks":
+        case "hdds":
           return DS.isSSD( payload );
 
         default:
@@ -43,8 +68,24 @@ const ContextDisks = React.createClass(
       }
     }
 
-  , createPaletteSection ( disks, key ) {
-      let available = _.intersection( disks, this.props.availableDisks );
+  , createPaletteSection ( type, disks, key ) {
+      let available;
+
+      switch ( type.toLowerCase() ) {
+        case "ssds":
+          available = _.chain( disks )
+                       .difference( this.state.selectedSSDs )
+                       .intersection( this.state.availableSSDs )
+                       .value();
+          break;
+
+        case "hdds":
+          available = _.chain( disks )
+                       .difference( this.state.selectedHDDs )
+                       .intersection( this.state.availableHDDs )
+                       .value();
+          break;
+      }
 
       let headerText = key + " (" + available.length + ")";
 
@@ -80,13 +121,17 @@ const ContextDisks = React.createClass(
       if ( _.isEmpty( collection ) ) {
         return null;
       } else {
-        let paletteSection = _.map( collection, this.createPaletteSection );
+        let paletteSection = _.map( collection
+                                  , this.createPaletteSection.bind( null, type )
+                                  );
 
         if ( paletteSection.length > 0 && paletteSection[0] ) {
           return (
             <div>
               <h5 className="context-section-header">
-                <span className="type-line">{ "Available " + type }</span>
+                <span className="type-line">
+                  { "Available " + TERMS[ type.toLowerCase() ] }
+                </span>
               </h5>
               <DropTarget
                 namespace = "disk"
@@ -122,7 +167,7 @@ const ContextDisks = React.createClass(
             {"Reset Pool Topology"}
           </TWBS.Button>
           { this.createDiskPalette( groupedDisks[0], "SSDs" ) }
-          { this.createDiskPalette( groupedDisks[1], "Disks" ) }
+          { this.createDiskPalette( groupedDisks[1], "HDDs" ) }
         </div>
       );
     }
