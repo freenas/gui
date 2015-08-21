@@ -433,11 +433,12 @@ const Volume = React.createClass(
           free   = breakdown.avail;
           total  = breakdown.avail + breakdown.parity;
         } else {
+          let breakdown = ZfsUtil.calculateBreakdown( this.props.data );
           used   = 1000000000000;
-          parity = 0;
+          parity = breakdown.parity;
           // free   = ByteCalc.convertString( this.props.free );
           free   = ByteCalc.convertString( this.props.size ) - used;
-          total  = ByteCalc.convertString( this.props.size );
+          total  = ByteCalc.convertString( this.props.size ) + breakdown.parity;
         }
 
         volumeInfo = (
