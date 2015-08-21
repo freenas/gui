@@ -54,13 +54,14 @@ const NetworkConfig = React.createClass(
   , handleChange: function ( key, evt ) {
 
     var networkConfig;
-    var systemGeneralConfig;
+    var systemGeneralConfig = {};
 
     switch ( key ) {
       case "hostname":
-        systemGeneralConfig = this.props.systemGeneralConfig
-                           || this.state.systemGeneralConfig;
-        systemGeneralConfig.hostname = evt.target.value;
+        if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
+          systemGeneralConfig = this.state.systemGeneralConfig;
+        }
+        systemGeneralConfig[ "hostname" ] = evt.target.value;
         this.setState({ systemGeneralConfig: systemGeneralConfig });
         break;
 
@@ -155,18 +156,39 @@ const NetworkConfig = React.createClass(
   }
 
   , render: function () {
-    var hostname = "";
+    var hostname = null;
+    var hostnameValue = null;
     var ipv4Gateway = "";
     var ipv6Gateway = "";
 
-    if ( _.has( this, [ "state", "networkConfig", "dns", "servers", "length"] ) ) {
-      hostname = this.state.systemGeneralConfig
-               ? this.state.systemGeneralConfig.hostname
-               : "";
-
-      ipv4Gateway = this.state.networkConfig
-                  ? this.state.networkConfig.gateway.ipv4
-                  : "";
+    if ( this.state.editingHostname ) {
+      if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
+        hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
+      }
+      hostname =
+        <div className = "network-config-edit">
+          <TWBS.Col xs = { 3 }>{ "Hostname" }</TWBS.Col>
+          <TWBS.Col xs = { 9 }>
+            <TWBS.Input
+              className = "network-config-edit-input"
+              type = "text"
+              value = { hostnameValue }
+              onChange = { this.handleChange.bind( this, "hostname" ) }
+              onExit = { this.exitEdit.bind( this, "hostname" ) }
+              placeholder = { this.props.systemGeneralConfig[ "hostname" ] } />
+          </TWBS.Col>
+        </div>
+    } else {
+      hostname =
+        <div>
+          <TWBS.Col xs = { 4 }>{ "Hostname" }</TWBS.Col>
+          <TWBS.Col>
+            <span onClick = { this.enterEdit.bind( this, "hostname" ) } >
+              { this.props.systemGeneralConfig[ "hostname" ] }
+            </span>
+          </TWBS.Col>
+        </div>;
+    }
 
       ipv6Gateway = this.state.networkConfig
                   ? this.state.networkConfig.gateway.ipv6
@@ -215,17 +237,7 @@ const NetworkConfig = React.createClass(
         <TWBS.Grid fluid>
           <TWBS.Row>
             <TWBS.Col sm = { 4 }>
-              <TWBS.Col xs = { 3 } >
-                <span>Hostname</span>
-              </TWBS.Col>
-              <TWBS.Col xs = { 9 } >
-                <TWBS.Input
-                  type        = "text"
-                  value       = { hostname }
-                  onChange    =
-                    {this.handleChange.bind( this, "hostname" )}
-                  placeholder = { this.props[ "systemGeneralConfig" ][ "hostname" ] } />
-              </TWBS.Col>
+              { hostname }
               <TWBS.Col xs = { 3 } >
                 <span>IPv4 Default Gateway</span>
               </TWBS.Col>
