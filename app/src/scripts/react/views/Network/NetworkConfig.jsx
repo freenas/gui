@@ -19,10 +19,6 @@ const NetworkConfig = React.createClass(
                , systemGeneralConfig: React.PropTypes.object.isRequired
                }
 
-  , getInitialState () {
-    return { newDnsServer: "" };
-  }
-
   , getDefaultProps: function () {
     return { networkConfig:
              { dhcp:
