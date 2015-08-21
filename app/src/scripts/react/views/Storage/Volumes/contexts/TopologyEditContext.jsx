@@ -64,7 +64,7 @@ const PRESET_DESCS =
       + "layout is similar to RAID 10 on a non-ZFS system."
       )
   , "Backups":
-      ( "Backups emphasizes data security, and uses RAID Z2 to create extra"
+      ( "Backups emphasizes data security, and uses RAID Z2 to create extra "
       + "parity. For those willing to sacrifice performance for security, RAID "
       + "Z3 offers more redundancy with degraded speed."
       )
