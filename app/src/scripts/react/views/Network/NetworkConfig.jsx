@@ -91,18 +91,26 @@ const NetworkConfig = React.createClass(
     if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "hostname":
-          newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
-          SM.updateSystemGeneralConfig( newConfig );
+          if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
+            newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
+            SM.updateSystemGeneralConfig( newConfig );
+          }
           break;
 
         case "ipv4":
-          newConfig = { gateway: { ipv4: this.state.networkConfig[ "gateway" ][ "ipv4" ] } }
-          NM.updateNetworkConfig( newConfig );
+          if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] )
+            && isIPv4( this.state.networkConfig.gateway.ipv4 ) ) {
+            newConfig = { gateway: { ipv4: this.state.networkConfig[ "gateway" ][ "ipv4" ] } }
+            NM.updateNetworkConfig( newConfig );
+          }
           break;
 
         case "ipv6":
-          newConfig = { gateway: { ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ] } }
-          NM.updateNetworkConfig( newConfig );
+          if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] )
+            && isIPv6( this.state.networkConfig.gateway.ipv6 ) ) {
+            newConfig = { gateway: { ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ] } }
+            NM.updateNetworkConfig( newConfig );
+          }
           break;
       }
 
