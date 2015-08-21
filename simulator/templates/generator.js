@@ -48,8 +48,11 @@ const globalNetworkConfig =
   , http_proxy: null
   , autoconfigure: false
   , dns:
-    { search: [ "dns.freenas.org" ]
-    , servers: [ "10.5.0.1" ]
+    { search: []
+    , servers: [ "10.5.0.1"
+               , "8.8.8.8"
+               , "0:0:0:0:0:ffff:a05:1"
+               ]
     }
   , gateway:
     { ipv4: "10.5.0.1"
