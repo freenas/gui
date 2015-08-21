@@ -25,14 +25,15 @@ const TERMS =
   };
 
 const PRESET_NAMES =
-  [ "Automatic"
+  [ "None"
+  , "Optimal"
   , "Virtualization"
   , "Backups"
   , "Media"
   ]
 
 const PRESET_VALUES =
-  { "Automatic":
+  { "Optimal":
       { desired: [ "raidz1", "mirror" ]
       , highest: 1
       , priority: "storage"
@@ -55,8 +56,12 @@ const PRESET_VALUES =
   };
 
 const PRESET_DESCS =
-  { "Automatic":
-      ( "The Automatic preset will try to strike a good balance between speed, "
+  { "None":
+      ( "Select a ZFS topology layout to automatically assign drives to your, "
+      + "pool, or use the topologizer tool to customize your layout."
+      )
+  ,"Optimal":
+      ( "The Optimal preset will try to strike a good balance between speed, "
       + "storage, and safety."
       )
   , "Virtualization":
@@ -70,7 +75,7 @@ const PRESET_DESCS =
       )
   , "Media":
       ( "Media attempts to create a highly performant pool with good parity. "
-      + "It is similar to the Automatic preset, but has a greater emphasis on "
+      + "It is similar to the Optimal preset, but has a greater emphasis on "
       + "speed over storage capacity."
       )
   };
@@ -86,7 +91,7 @@ const ContextDisks = React.createClass(
   , getInitialState () {
     let newState = this.getUpdatedDiskInfo();
 
-    newState.preset = "Automatic";
+    newState.preset = "None";
 
     return newState;
   }
@@ -108,7 +113,12 @@ const ContextDisks = React.createClass(
     }
 
   , handlePresetChange ( preset, href, event ) {
-      this.props.handleTopoRequest( PRESET_VALUES[ preset ] );
+      if ( preset === "None" ) {
+        // TODO: We might want to re-enable this later
+        // this.props.handleReset();
+      } else {
+        this.props.handleTopoRequest( PRESET_VALUES[ preset ] );
+      }
       this.setState({ preset });
     }
 
