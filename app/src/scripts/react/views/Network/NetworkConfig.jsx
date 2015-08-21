@@ -185,8 +185,12 @@ const NetworkConfig = React.createClass(
     }
     hostname =
       <div>
-        <TWBS.Col xs = { 3 }>{ "Hostname" }</TWBS.Col>
-        <TWBS.Col xs = { 9 }>
+        <TWBS.Col md = { 4 }
+                  sm = { 5 }>
+          { "Hostname" }
+        </TWBS.Col>
+        <TWBS.Col md = { 8 }
+                  sm = { 7 }>
           <TWBS.Input
             type = "text"
             value = { hostnameValue }
@@ -200,8 +204,12 @@ const NetworkConfig = React.createClass(
     }
     ipv4Gateway =
       <div>
-        <TWBS.Col xs = { 3 }>{ "IPv4 Default Gateway" }</TWBS.Col>
-        <TWBS.Col xs = { 9 }>
+        <TWBS.Col md = { 4 }
+                  sm = { 5 }>
+          { "IPv4 Default Gateway" }
+        </TWBS.Col>
+        <TWBS.Col md = { 8 }
+                  sm = { 7 }>
           <TWBS.Input
             type = "text"
             value = { ipv4GatewayValue }
@@ -216,8 +224,12 @@ const NetworkConfig = React.createClass(
     }
     ipv6Gateway =
       <div>
-        <TWBS.Col xs = { 3 }>{ "IPv6 Default Gateway" }</TWBS.Col>
-        <TWBS.Col xs = { 9 }>
+        <TWBS.Col md = { 4 }
+                  sm = { 5 }>
+          { "IPv6 Default Gateway" }
+        </TWBS.Col>
+        <TWBS.Col md = { 8 }
+                  sm = { 7 }>
           <TWBS.Input
             type = "text"
             value = { ipv6GatewayValue }
@@ -268,12 +280,14 @@ const NetworkConfig = React.createClass(
         <h3 className = "text-center">Network Configuration</h3>
         <TWBS.Grid fluid>
           <TWBS.Row>
-            <TWBS.Col sm = { 4 }>
+            <TWBS.Col md = { 12 }
+                      lg = { 6 } >
               { hostname }
               { ipv4Gateway }
               { ipv6Gateway }
             </TWBS.Col>
-            <TWBS.Col sm = { 4 }>
+            <TWBS.Col md = { 6 }
+                      lg = { 3 } >
               <TWBS.Col xs = { 12 } >
                 <h5>DNS Servers</h5>
               </TWBS.Col>
