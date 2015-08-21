@@ -97,6 +97,17 @@ const NetworkConfig = React.createClass(
         case "hostname":
           newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
           SM.updateSystemGeneralConfig( newConfig );
+          break;
+
+        case "ipv4":
+          newConfig = { gateway: { ipv4: this.state.networkConfig[ "gateway" ][ "ipv4" ] } }
+          NM.updateNetworkConfig( newConfig );
+          break;
+
+        case "ipv6":
+          newConfig = { gateway: { ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ] } }
+          NM.updateNetworkConfig( newConfig );
+          break;
       }
     }
   }
