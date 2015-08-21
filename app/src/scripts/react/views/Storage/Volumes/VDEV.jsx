@@ -96,16 +96,17 @@ const VDEV = React.createClass(
 
   , createDiskItem ( path, key ) {
       let content;
+      let mutable = VS.isDeviceAvailable( path );
 
       let disk = (
         <Disk
           handleDiskRemove = { this.props.handleDiskRemove }
-          existsOnServer = { !this.state.devicesAreAvailable }
+          existsOnServer = { mutable }
           path = { path }
         />
       );
 
-      if ( this.state.devicesAreAvailable ) {
+      if ( mutable ) {
         content = (
           <DragTarget
             namespace = "disk"
