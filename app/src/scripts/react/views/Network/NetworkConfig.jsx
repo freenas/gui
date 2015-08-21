@@ -96,29 +96,6 @@ const NetworkConfig = React.createClass(
     }
   }
 
-/*  , saveGeneralConfig: function ( evt ) {
-    evt.stopPropagation();
-
-    // No need to call the API if there are no changes.
-    if ( !_.isEqual( this.state.systemGeneralConfig
-                    , this.state.oldSystemGeneralConfig ) ) {
-      SM.updateSystemGeneralConfig( this.state.systemGeneralConfig );
-
-      this.setState({
-        oldSystemGeneralConfig: _.cloneDeep( this.state.systemGeneralConfig )
-      });
-    }
-
-    if ( !_.isEqual( this.state.networkConfig
-                    , this.state.oldNetworkConfig ) ) {
-      NM.updateNetworkConfig( this.state.networkConfig );
-
-      this.setState({
-        oldNetworkConfig: _.cloneDeep( this.state.networkConfig )
-      });
-    }
-  }*/
-
   /**
    * Add a new DNS server.
    */
