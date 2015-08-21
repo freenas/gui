@@ -143,6 +143,15 @@ const NetworkConfig = React.createClass(
     }
   }
 
+  , exitEdit ( key ) {
+
+    switch ( key ) {
+      case "hostname":
+        this.setState( { editingHostname: false } );
+        break;
+    }
+  }
+
   /**
    * Delete a DNS server.
    * @param  {int} index The index of server to delete in the dns.servers array.
