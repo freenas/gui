@@ -4,6 +4,8 @@
 
 "use strict";
 
+import _ from "lodash";
+
 import RPCBase from "../RPC_BASE_CLASS";
 
 class System extends RPCBase {
@@ -13,6 +15,8 @@ class System extends RPCBase {
     this.info = new Info();
     this.general = new General();
     this.namespace = "system";
+
+    this.CHANGE_EVENT = [ "system.general.changed" ];
   }
 }
 
@@ -54,7 +58,37 @@ class General extends RPCBase {
            };
   }
 
-  configure () {}
+  configure ( system, args, callback ) {
+    var newSystem = _.cloneDeep( system );
+    var changedAttributes = {};
+
+    if ( _.has( args[0], "timezone" ) ) {
+      newSystem[ "timezone" ] = args[0][ "timezone" ];
+      changedAttributes[ "timezone" ] = args[0][ "timezone" ];
+    }
+
+    if ( _.has( args[0], "hostname" ) ) {
+      newSystem[ "hostname" ] = args[0][ "hostname" ];
+      changedAttributes[ "hostname" ] = args[0][ "hostname" ];
+    }
+
+    if ( _.has( args[0], "language" ) ) {
+      newSystem[ "language" ] = args[0][ "language" ];
+      changedAttributes[ "language" ] = args[0][ "language" ];
+    }
+
+    if ( _.has( args[0], "console_keymap" ) ) {
+      newSystem[ "console_keymap" ] = args[0][ "console_keymap" ];
+      changedAttributes[ "console_keymap" ] = args[0][ "console_keymap" ];
+    }
+
+    callback( newSystem, changedAttributes );
+    this.emitChange( "system.general.changed"
+                   , "system.general.configure"
+                   , _.cloneDeep( newSystem )
+                   );
+
+  }
 
 }
 
