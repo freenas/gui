@@ -92,14 +92,11 @@ class ZfsUtil {
     );
   }
 
-  static reconstructVdev ( key, purpose, purposeVdevs, disks = [], allAllowedTypes, currentType = null ) {
-    let vdevAllowedTypes = [];
-    let newVdev;
-    let newType;
+  static getAllowedVdevTypes ( disks, purpose ) {
+    let allowedTypes = [];
 
     if ( disks.length === 1 ) {
-      vdevAllowedTypes.push( VDEV_TYPES[ purpose ][0] );
-      newVdev = this.createNewDisk( disks[0] );
+      allowedTypes.push( VDEV_TYPES[ purpose ][0] );
     } else if ( disks.length > 1 ) {
       // This might look "too clever" at first, but it's very simple. The
       // VDEV_TYPES array contains 5 entries, from "disks" to "raidz3". To
@@ -111,29 +108,49 @@ class ZfsUtil {
       // certain "purposes", like data ). We add one to the length of the
       // array to accommodate both "stripe" and "mirror".
       if ( VDEV_TYPES[ purpose ].length > 1 ) {
-        vdevAllowedTypes.push(
+        allowedTypes.push(
           ...VDEV_TYPES[ purpose ].slice( 1, disks.length + 1 )
         );
       } else {
-        vdevAllowedTypes.push( VDEV_TYPES[ purpose ][0] );
+        allowedTypes.push( VDEV_TYPES[ purpose ][0] );
       }
+    }
 
-      if ( currentType ) {
-        let typeIndex = VDEV_TYPES[ purpose ].indexOf( currentType );
-        let allowedIndex = vdevAllowedTypes.indexOf( currentType );
+    return allowedTypes;
+  }
 
-        if ( typeIndex > ( vdevAllowedTypes.length - 1 ) ) {
-          // The user has selected a type, but the number of disks available
-          // now no longer supports that option. We should, then, select the
-          // *next* highest possible option: Z2 to Z1, Z1 to mirror, etc.
-          newType = _.last( vdevAllowedTypes );
-        } else if ( allowedIndex > -1 ) {
-          // The user has indicated a desire for this VDEV to be a certain
-          // type, and we have found that type in the array of allowed values.
-          // This is the simplest outcome: The user retains their selection.
-          newType = currentType;
-        }
+  static requestVdevTypeChange ( type, purpose, allowedTypes ) {
+    let newType = null;
+
+    if ( type ) {
+      let typeIndex = VDEV_TYPES[ purpose ].indexOf( type );
+      let allowedIndex = allowedTypes.indexOf( type );
+
+      if ( typeIndex > ( allowedTypes.length - 1 ) ) {
+        // The user has selected a type, but the number of disks available
+        // now no longer supports that option. We should, then, select the
+        // *next* highest possible option: Z2 to Z1, Z1 to mirror, etc.
+        newType = _.last( allowedTypes );
+      } else if ( allowedIndex > -1 ) {
+        // The user has indicated a desire for this VDEV to be a certain
+        // type, and we have found that type in the array of allowed values.
+        // This is the simplest outcome: The user retains their selection.
+        newType = type;
       }
+    }
+
+    return newType;
+  }
+
+  static reconstructVdev ( key, purpose, purposeVdevs, disks = [], allAllowedTypes, currentType = null ) {
+    let newVdev;
+    let newType;
+    let vdevAllowedTypes = this.getAllowedVdevTypes( disks, purpose );
+
+    if ( disks.length === 1 ) {
+      newVdev = this.createNewDisk( disks[0] );
+    } else if ( disks.length > 1 ) {
+      newType = this.requestVdevTypeChange( currentType, purpose, vdevAllowedTypes );
 
       if ( !newType ) {
         // The only case in which a user could have a lower selection index
