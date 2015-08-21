@@ -50,6 +50,7 @@ class Statd extends RPCBase {
       // TODO: put together events for each interface
       ];
 
+      /*
       setInterval( function update_all_stats () {
         let cpuStatValues = this.update_cpu_stats( this.system );
         let systemLoadValues = this.update_system_load( this.system );
@@ -101,7 +102,7 @@ class Statd extends RPCBase {
                  );
       }.bind( this )
       , 5000
-      );
+      );*/
 
     this.lastRAM =
       { "wired": _.clone( emptyStat )
