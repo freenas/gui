@@ -151,7 +151,7 @@ const NetworkConfig = React.createClass(
 
   , validate ( key, value ) {
 
-    var responseStyle = "success";
+    var responseStyle = null;
     switch ( key ) {
       case "ipv4":
         if ( !isIPv4( value ) ) {
