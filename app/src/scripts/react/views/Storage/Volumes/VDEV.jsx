@@ -44,7 +44,6 @@ const VDEV = React.createClass(
         , "raidz3"
         ]
       )
-    , allowedTypes: React.PropTypes.array.isRequired
     }
 
   , getDefaultProps () {
@@ -136,8 +135,8 @@ const VDEV = React.createClass(
        ) {
       toolbar = (
         <VDEVInfo
-          type             = { this.props.type }
-          allowedTypes     = { this.props.allowedTypes }
+          type = { this.props.type }
+          allowedTypes = { this.props.allowedTypes }
           handleTypeChange = { this.props.handleTypeChange }
         />
       );

@@ -90,17 +90,6 @@ const Volume = React.createClass(
              , allocated     : 0
              , size          : 0
              , name          : ""
-             // To keep state pure and mimic the schema used by the middleware,
-             // allowed types is a parallel data structure that stores
-             // information about which VDEV types are allowed. It is created /
-             // modified by reconstructVdev(), and passed to PoolTopology for
-             // eventual use in VDEV.
-             , allowedTypes:
-               { data: []
-               , logs: []
-               , cache: []
-               , spares: []
-               }
              };
     }
 
@@ -277,7 +266,6 @@ const Volume = React.createClass(
                                , purpose
                                , collection
                                , disks
-                               , this.state.allowedTypes
                                , currentType
                                )
       );
@@ -316,18 +304,12 @@ const Volume = React.createClass(
   , resetTopology () {
       this.props.handleDiskClear();
       this.setState(
-      { data: []
-      , logs: []
-      , cache: []
-      , spares: []
-      , free: 0
-      , allowedTypes:
         { data: []
         , logs: []
         , cache: []
         , spares: []
+        , free: 0
         }
-      }
       );
     }
 
@@ -395,7 +377,6 @@ const Volume = React.createClass(
               logs = { logs }
               cache = { cache }
               spares = { spares }
-              allowedTypes = { this.state.allowedTypes }
               handleDiskAdd = { this.handleDiskAdd }
               handleDiskRemove = { this.handleDiskRemove }
               handleVdevRemove = { this.handleVdevRemove }

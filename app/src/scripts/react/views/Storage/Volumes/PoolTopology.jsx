@@ -8,6 +8,8 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import ZfsUtil from "../utility/ZfsUtil";
+
 import VDEV from "./VDEV";
 
 var TopologyDrawer = React.createClass(
@@ -22,13 +24,6 @@ var TopologyDrawer = React.createClass(
     , logs: React.PropTypes.array.isRequired
     , cache: React.PropTypes.array.isRequired
     , spares: React.PropTypes.array.isRequired
-    , allowedTypes: React.PropTypes.shape(
-        { data: React.PropTypes.array
-        , logs: React.PropTypes.array
-        , cache: React.PropTypes.array
-        , spares: React.PropTypes.array
-        }
-      ).isRequired
     , editing: React.PropTypes.bool.isRequired
     }
 
@@ -70,8 +65,11 @@ var TopologyDrawer = React.createClass(
       ( vdev, index ) => {
         // Destructure vdev to avoid passing in props which will not be used.
         let { children, type, path } = vdev;
+
+        let members = ZfsUtil.getMemberDiskPaths({ type, path, children });
+
         let allowedTypes = this.props.editing
-                         ? this.props.allowedTypes[ purpose ][ index ]
+                         ? ZfsUtil.getAllowedVdevTypes( members, purpose )
                          : [ type ];
         return (
           <VDEV { ...sharedProps }

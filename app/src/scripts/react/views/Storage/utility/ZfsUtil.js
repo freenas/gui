@@ -142,7 +142,7 @@ class ZfsUtil {
     return newType;
   }
 
-  static reconstructVdev ( key, purpose, purposeVdevs, disks = [], allAllowedTypes, currentType = null ) {
+  static reconstructVdev ( key, purpose, purposeVdevs, disks = [], currentType = null ) {
     let newVdev;
     let newType;
     let vdevAllowedTypes = this.getAllowedVdevTypes( disks, purpose );
@@ -173,18 +173,15 @@ class ZfsUtil {
       // potentially including the "empty" VDEV that lives at the end of each
       // bucket.
       purposeVdevs[ key ] = newVdev;
-      allAllowedTypes[ purpose ][ key ] = vdevAllowedTypes;
     } else {
       // The alternate outcome is that we have an empty VDEV somewhere in the
       // middle of the bucket - probably because the user removed its disks
       purposeVdevs.splice( key, 1 );
-      allAllowedTypes[ purpose ].splice( key, 1 );
     }
 
     // These values should be used by this.setState in a React component
     return (
       { [ purpose ]: purposeVdevs
-      , allowedTypes: allAllowedTypes
       }
     );
   }
@@ -195,7 +192,6 @@ class ZfsUtil {
       , logs: []
       , cache: []
       , spares: []
-      , allowedTypes: _.cloneDeep( VDEV_TYPES )
       };
 
     // HAHA THIS IS DUMB DEAL WITH IT
@@ -213,7 +209,6 @@ class ZfsUtil {
                           , "logs"
                           , []
                           , logsSsds
-                          , topology.allowedTypes
                           , "stripe"
                           )["logs"];
     topology.cache =
@@ -221,7 +216,6 @@ class ZfsUtil {
                           , "cache"
                           , []
                           , cacheSsds
-                          , topology.allowedTypes
                           , "stripe"
                           )["cache"];
 
@@ -233,7 +227,6 @@ class ZfsUtil {
                               , "data"
                               , topology.data
                               , chunkDisks
-                              , topology.allowedTypes
                               , desired
                               )["data"];
       }
