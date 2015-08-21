@@ -87,6 +87,60 @@ class ZfsUtil {
     return breakdown;
   }
 
+  static calculatePreferences ( safety, speed, storage ) {
+    //                    1         2/3        1/3         0
+    //            Safety  |--raidz2--|--raidz1--|--Mirror--|
+    //            Speed   |--Mirror--|--raidz1--|--raidz2--|
+    //            Storage |--raidz1--|--raidz2--|--Mirror--|
+    //
+    // A visual representation of the mapping used to calculate topology
+    // preferences. It is, essentially, a weighted voting system where a value
+    // within the bounds of a given range will count as a vote for that layout
+    // multiplied by the scalar. This gives an even distribution to the total
+    // area of each topology in terms of area, but biases based on the
+    // provided Barycentric Coordinates.
+
+    const layouts = [ [ "raidz2", "raidz1", "mirror" ]
+                    , [ "mirror", "raidz1", "raidz1" ]
+                    , [ "raidz1", "raidz1", "raidz1" ]
+                    ];
+
+    let preferences = { highest: 0
+                      , priority: null
+                      , desired: null
+                      };
+    let votes = { mirror: 0
+                , raidz1: 0
+                , raidz2: 0
+                };
+
+    function addVotes ( scalar, index ) {
+      let victor;
+
+      if ( scalar < 0.33 ) {
+        victor = layouts[ index ][2];
+      } else if ( scalar < 0.66 ) {
+        victor = layouts[ index ][1];
+      } else {
+        victor = layouts[ index ][0];
+      }
+
+      if ( scalar > preferences.highest ) {
+        preferences.highest = scalar;
+        preferences.priority = [ "safety", "speed", "storage" ][ index ];
+      }
+
+      votes[ victor ] += scalar;
+    }
+
+    [ safety, speed, storage ].forEach( addVotes );
+
+    preferences.desired = Object.keys( votes )
+                                .sort( ( a, b ) => votes[b] - votes[a] );
+
+    return preferences;
+  }
+
   static createNewDisk ( path ) {
     return ( { path: path
              , type: "disk"
