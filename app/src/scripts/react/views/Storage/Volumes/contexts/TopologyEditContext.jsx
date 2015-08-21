@@ -229,7 +229,6 @@ const ContextDisks = React.createClass(
 
       return (
         <div className="context-content context-disks">
-          <h3>ZFS Pool Topology</h3>
 
           {/* TOPOLOGY TOOL */}
           <Topologizer
