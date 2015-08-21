@@ -181,11 +181,19 @@ const NetworkConfig = React.createClass(
           evt.target.focus();
         }
         break;
+
       case "ipv6":
         if ( !isIPv6( evt.target.value ) ) {
           evt.target.focus();
         }
         break;
+
+      case "dns":
+        if ( !isIPv4( evt.target.value )
+          && !isIPv6( evt.target.value )
+           ) {
+          evt.target.focus();
+        }
     }
   }
 
