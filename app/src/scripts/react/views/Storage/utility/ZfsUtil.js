@@ -44,41 +44,43 @@ class ZfsUtil {
         let baseSize = _.has( smallestDisk, "mediasize" )
                      ? smallestDisk.mediasize
                      : 0;
+        let parity;
+        let avail;
 
         switch ( vdev.type ) {
           case "disk":
-            breakdown.parity += 0;
-            breakdown.avail  += baseSize;
+            parity = 0;
+            avail  = baseSize;
             break;
 
           case "stripe":
-            breakdown.parity += 0;
-            breakdown.avail  += baseSize * vdev.children.length;
+            parity = 0;
+            avail  = baseSize * vdev.children.length;
             break;
 
           case "mirror":
-            breakdown.parity += baseSize * ( vdev.children.length - 1 );
-            breakdown.avail  += baseSize;
+            parity = baseSize * ( vdev.children.length - 1 );
+            avail  = baseSize;
             break;
 
           case "raidz1":
-            breakdown.parity += baseSize * 1;
-            breakdown.avail  += ( baseSize * vdev.children.length )
-                              - breakdown.parity;
+            parity = baseSize * 1;
+            avail  = ( baseSize * vdev.children.length ) - parity;
             break;
 
           case "raidz2":
-            breakdown.parity += baseSize * 2;
-            breakdown.avail  += ( baseSize * vdev.children.length )
-                              - breakdown.parity;
+            parity = baseSize * 2;
+            avail  = ( baseSize * vdev.children.length ) - parity;
             break;
 
           case "raidz3":
-            breakdown.parity += baseSize * 3;
-            breakdown.avail  += ( baseSize * vdev.children.length )
-                              - breakdown.parity;
+            parity = baseSize * 3;
+            avail  = ( baseSize * vdev.children.length ) - parity;
             break;
         }
+
+        breakdown.parity += parity;
+        breakdown.avail  += avail;
       }
     });
 
