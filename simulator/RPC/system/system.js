@@ -54,6 +54,8 @@ class General extends RPCBase {
            };
   }
 
+  configure () {}
+
 }
 
 
