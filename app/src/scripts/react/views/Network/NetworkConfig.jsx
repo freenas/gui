@@ -142,11 +142,15 @@ const NetworkConfig = React.createClass(
    * @param  {int} index The index of server to delete in the dns.servers array.
    */
   , deleteDnsServer: function ( index ) {
-    var networkConfig = this.state.networkConfig;
+    var networkConfig = {};
+
+    if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
+      networkConfig = this.state.networkConfig;
+    } else {
+      networkConfig = { dns: { servers: this.props.networkConfig.dns.servers } };
+    }
     networkConfig.dns.servers.splice( index, 1 );
-    this.setState({
-      networkConfig: networkConfig
-    });
+    this.setState( { networkConfig: networkConfig } );
   }
 
   , validate ( key, value ) {
