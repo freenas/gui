@@ -122,7 +122,7 @@ class Volumes extends RPCBase {
 
   create ( system, args, callback ) {
 
-    var newSystem = _.cloneDeep( system )
+    var newSystem = _.cloneDeep( system );
 
     if ( _.has( newSystem[ "volumes" ], args[0][ "name" ] ) ) {
       console.log( "dupe name" );
