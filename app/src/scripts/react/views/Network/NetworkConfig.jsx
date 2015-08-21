@@ -51,30 +51,35 @@ const NetworkConfig = React.createClass(
 
   , handleChange: function ( key, evt ) {
 
-    var networkConfig;
+    var networkConfig = {};
     var systemGeneralConfig = {};
 
     switch ( key ) {
       case "hostname":
-        if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
-          systemGeneralConfig = this.state.systemGeneralConfig;
+        systemGeneralConfig = { hostname: evt.target.value };
+        if ( _.has( this, [ "state", "systemGeneralConfig" ] ) ) {
+          this.setState( { systemGeneralConfig: _.defaultsDeep( systemGeneralConfig, this.state.systemGeneralConfig ) } );
+        } else {
+          this.setState( { systemGeneralConfig: systemGeneralConfig } );
         }
-        systemGeneralConfig[ "hostname" ] = evt.target.value;
-        this.setState({ systemGeneralConfig: systemGeneralConfig });
         break;
 
       case "ipv4":
-        networkConfig = this.props.networkConfig
-                     || this.state.networkConfig;
-        networkConfig.gateway.ipv4 = evt.target.value;
-        this.setState({ networkConfig: networkConfig });
+        networkConfig = { gateway: { ipv4: evt.target.value } };
+        if ( _.has( this, [ "state", "networkConfig" ] ) ) {
+          this.setState( { networkConfig: _.defaultsDeep( networkConfig, this.state.networkConfig ) } );
+        } else {
+          this.setState( { networkConfig: networkConfig } );
+        }
         break;
 
       case "ipv6":
-        networkConfig = this.props.networkConfig
-                     || this.state.networkConfig;
-        networkConfig.gateway.ipv6 = evt.target.value;
-        this.setState({ networkConfig: networkConfig });
+        networkConfig = { gateway: { ipv6: evt.target.value } };
+        if ( _.has( this, [ "state", "networkConfig" ] ) ) {
+          this.setState( { networkConfig: _.defaultsDeep( networkConfig, this.state.networkConfig ) } );
+        } else {
+          this.setState( { networkConfig: networkConfig } );
+        }
         break;
 
       // TODO: Take a hard look at this.
