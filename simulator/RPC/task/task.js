@@ -71,7 +71,7 @@ class Tasks extends RPCBase {
       } else if ( taskMethod ) {
         taskFunction = this.rpcClasses[ taskNamespace ][ taskMethod ].bind( this.rpcClasses[ taskNamespace ] );
       } else {
-        taskFunction = function noTask () { console.log( "Couldn't Find Task", this.rpcClasses[ taskNamespace] ); }.bind(this);
+        taskFunction = function noTask () { console.log( "Couldn't Find Task", this.rpcClasses[ taskNamespace ] ); }.bind( this );
       }
 
       taskFunction( _.cloneDeep( this.system )
