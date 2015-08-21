@@ -209,6 +209,7 @@ const NetworkConfig = React.createClass(
     var ipv4GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv4" ];
     var ipv6Gateway = null;
     var ipv6GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv6" ];
+    var newDNSServer = null;
 
     if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
       hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
@@ -280,32 +281,39 @@ const NetworkConfig = React.createClass(
       </li>;
 
     if ( _.has( this, [ "props", "networkConfig", "dns", "servers", "length"] ) ) {
-      dnsNodes = _.map(
-        this.props.networkConfig.dns.servers
-        , function ( server, index ) {
-          return (
-            <li key={ index }>
-              <div className="dns-server">
-                {server}
-              </div>
-              <TWBS.Button
-                onClick = { this.deleteDnsServer.bind( null, index ) }
-                bsStyle = "danger"
-                bsSize  = "small"
-                title   = "Delete Server">
-                <Icon glyph="times" />
-              </TWBS.Button>
-            </li>
-          );
-        }
-        , this
-      );
+      dnsNodes =
+        <div className = "dns-server-list">
+          { _.map(
+            this.props.networkConfig.dns.servers
+            , function ( server, index ) {
+              return (
+                <div className="dns-server"
+                     key = { index }>
+                  <span>{ server }</span>
+                  <TWBS.Button
+                    className = "pull-right"
+                    onClick = { this.deleteDnsServer.bind( null, index ) }
+                    bsStyle = "danger"
+                    bsSize  = "small"
+                    title   = "Delete Server">
+                    <Icon glyph="times" />
+                  </TWBS.Button>
+                </div>
+              );
+            }
+            , this
+            )
+          }
+        </div>;
     }
 
-    dnsNodes =
-      <ul className="dns-server-list">
-        { dnsNodes }
-      </ul>;
+    if ( _.has( this, [ "state", "networkConfig", "dns", "servers"] ) ) {
+      // The new DNS server is the next server in state after all the ones in
+      // props, or null if there isn't one.
+      newDNSServer = this.state.networkConfig.dns.servers
+                     [ this.props.networkConfig.dns.servers.length ]
+                  || null;
+    }
 
     return (
       <div className = "network-overview">
@@ -323,15 +331,18 @@ const NetworkConfig = React.createClass(
               <TWBS.Col xs = { 12 } >
                 <h5>DNS Servers</h5>
               </TWBS.Col>
-              <TWBS.Col xs = { 12 } >
+              <TWBS.Col xs = { 12 }
+                        className = "dns-section" >
                 { dnsNodes }
                 <TWBS.Row>
                   <TWBS.Col sm = { 9 } >
                     <TWBS.Input
-                      type        = "text"
-                      value       = {this.state.newDnsServer}
-                      onChange    =
-                        {this.handleChange.bind( this, "newDnsServer" )}
+                      type = "text"
+                      value = { newDNSServer }
+                      bsStyle = { this.validate( "dns", newDNSServer ) }
+                      onBlur = { this.resetFocus.bind( null, "dns" ) }
+                      onChange = { this.handleChange.bind( this, "dns" ) }
+                      onKeyDown = { this.submitChange.bind( this, "dns" ) }
                       placeholder = "Enter the new DNS server" />
                   </TWBS.Col >
                 </TWBS.Row>
