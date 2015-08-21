@@ -123,8 +123,15 @@ const NetworkConfig = React.createClass(
             NM.updateNetworkConfig( newConfig );
           }
           break;
-      }
 
+        case "dns":
+          if ( _.has( this, [ "state", "networkConfig", "dns" ] ) ) {
+            newConfig = { dns: { servers: [ this.state.networkConfig[ "dns" ][ "servers" ] ] } }
+            console.log( this.props.networkConfig, this.state.networkConfig, newConfig );
+            NM.updateNetworkConfig( newConfig );
+          }
+          break;
+      }
     }
   }
 
