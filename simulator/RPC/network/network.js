@@ -15,8 +15,24 @@ class Network extends RPCBase {
     this.config = new Config();
     this.interfaces = new Interfaces();
     this.namespace = "network";
-    this.CHANGE_EVENT = [ "network.changed" ];
+    this.CHANGE_EVENT = [ "network.updated" ];
     this.CHANGE_EVENT.push( this.config.CHANGE_EVENT );
+  }
+
+  configure( system, args, callback ) {
+
+    var newNetworkConfig = _.cloneDeep( system[ "globalNetworkConfig" ] );
+
+    _.merge( newNetworkConfig, args[0] );
+
+    system[ "globalNetworkConfig" ] = newNetworkConfig;
+
+    callback( system, system[ "globalNetworkConfig" ] );
+
+    this.emitChange( "network.updated"
+                   , "network.configure"
+                   );
+
   }
 }
 
@@ -31,21 +47,6 @@ class Config extends RPCBase {
     return system[ "globalNetworkConfig" ];
   }
 
-  configure( system, args, callback ) {
-
-    var newNetworkConfig = _.cloneDeep( system[ "globalNetworkConfig" ] );
-
-    _.merge( newNetworkConfig, args[0] );
-
-    system[ "globalNetworkConfig" ] = newNetworkConfig;
-
-    callback( system, system[ "globalNetworkConfig" ] );
-
-    this.emitChange( "network.config.updated"
-                   , "network.config.configure"
-                   );
-
-  }
 }
 
 class Interfaces extends RPCBase {
