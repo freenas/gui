@@ -68,7 +68,7 @@ class Tasks extends RPCBase {
       if ( _.has( this.rpcClasses, [ taskNamespace, secondTaskNamespace, taskMethod ] ) ) {
         // Someone help me get to these functions, with the right binding, with less madness than this.
         taskFunction = this.rpcClasses[ taskNamespace ][ secondTaskNamespace ][ taskMethod ].bind( this.rpcClasses[ taskNamespace ] );
-      } else if ( _.has( this.rpcClasses, [ taskNamespace, taskMethod] ) ) {
+      } else if ( _.has( this.rpcClasses, [ taskNamespace, taskMethod ] ) ) {
         taskFunction = this.rpcClasses[ taskNamespace ][ taskMethod ].bind( this.rpcClasses[ taskNamespace ] );
       } else {
         taskFunction = function noTask () { console.log( "Couldn't Find Task", this.rpcClasses[ taskNamespace] ); }.bind(this);
