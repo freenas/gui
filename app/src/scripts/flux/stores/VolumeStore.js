@@ -89,9 +89,9 @@ function handleDiskSelect ( disk ) {
 
 function handleDiskDeselect ( disk ) {
   if ( DS.isSSD( disk ) ) {
-    _selectedSSDs.remove( disk );
+    _selectedSSDs.delete( disk );
   } else {
-    _selectedHDDs.remove( disk );
+    _selectedHDDs.delete( disk );
   }
 }
 
