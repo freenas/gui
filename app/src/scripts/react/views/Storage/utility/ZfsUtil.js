@@ -29,7 +29,7 @@ class ZfsUtil {
     return paths;
   }
 
-  static caluclateBreakdown ( collection ) {
+  static calculateBreakdown ( collection ) {
     let breakdown =
       { parity : 0
       , avail  : 0

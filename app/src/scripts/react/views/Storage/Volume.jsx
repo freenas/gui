@@ -415,7 +415,7 @@ const Volume = React.createClass(
         let total;
 
         if ( this.state.editing ) {
-          let breakdown = ZfsUtil.caluclateBreakdown( this.state.data );
+          let breakdown = ZfsUtil.calculateBreakdown( this.state.data );
           used   = 0;
           parity = breakdown.parity;
           free   = breakdown.avail;
