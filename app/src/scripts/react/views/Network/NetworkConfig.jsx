@@ -94,6 +94,7 @@ const NetworkConfig = React.createClass(
         case "hostname":
           newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
           SM.updateSystemGeneralConfig( newConfig );
+          this.setState( { editingHostname: false } );
       }
     }
   }
