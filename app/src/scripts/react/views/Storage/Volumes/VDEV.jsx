@@ -183,7 +183,9 @@ const VDEV = React.createClass(
     if ( this.state.devicesAreAvailable && !vdevDisks ) {
       addDisks = (
         <h5 className="text-center text-muted">
-          { `Drag disks to add ${ this.props.purpose }` }
+          { `Drag and drop ${ this.requiresSSDs() ? "SSDs" : "disks" } to add `
+          + `${ this.props.purpose }`
+          }
         </h5>
       );
     }
