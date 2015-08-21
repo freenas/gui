@@ -20,9 +20,7 @@ const NetworkConfig = React.createClass(
                }
 
   , getInitialState () {
-    return { newDnsServer: ""
-           , editingHostname: false
-           };
+    return { newDnsServer: "" };
   }
 
   , getDefaultProps: function () {
@@ -94,7 +92,6 @@ const NetworkConfig = React.createClass(
         case "hostname":
           newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
           SM.updateSystemGeneralConfig( newConfig );
-          this.setState( { editingHostname: false } );
       }
     }
   }
@@ -147,24 +144,6 @@ const NetworkConfig = React.createClass(
     });
   }
 
-  , enterEdit ( key ) {
-
-    switch ( key ) {
-      case "hostname":
-        this.setState( { editingHostname: true } );
-        break;
-    }
-  }
-
-  , exitEdit ( key ) {
-
-    switch ( key ) {
-      case "hostname":
-        this.setState( { editingHostname: false } );
-        break;
-    }
-  }
-
   /**
    * Delete a DNS server.
    * @param  {int} index The index of server to delete in the dns.servers array.
@@ -179,38 +158,24 @@ const NetworkConfig = React.createClass(
 
   , render: function () {
     var hostname = null;
-    var hostnameValue = null;
+    var hostnameValue = this.props.systemGeneralConfig[ "hostname" ];
     var ipv4Gateway = "";
     var ipv6Gateway = "";
 
-    if ( this.state.editingHostname ) {
-      if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
-        hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
-      }
-      hostname =
-        <div className = "network-config-edit">
-          <TWBS.Col xs = { 3 }>{ "Hostname" }</TWBS.Col>
-          <TWBS.Col xs = { 9 }>
-            <TWBS.Input
-              className = "network-config-edit-input"
-              type = "text"
-              value = { hostnameValue }
-              onKeyDown = { this.submitChange.bind( this, "hostname" )}
-              onChange = { this.handleChange.bind( this, "hostname" ) }
-              placeholder = { this.props.systemGeneralConfig[ "hostname" ] } />
-          </TWBS.Col>
-        </div>
-    } else {
-      hostname =
-        <div>
-          <TWBS.Col xs = { 4 }>{ "Hostname" }</TWBS.Col>
-          <TWBS.Col>
-            <span onClick = { this.enterEdit.bind( this, "hostname" ) } >
-              { this.props.systemGeneralConfig[ "hostname" ] }
-            </span>
-          </TWBS.Col>
-        </div>;
+    if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
+      hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
     }
+    hostname =
+      <div className = "network-config-edit">
+        <TWBS.Col xs = { 3 }>{ "Hostname" }</TWBS.Col>
+        <TWBS.Col xs = { 9 }>
+          <TWBS.Input
+            type = "text"
+            value = { hostnameValue }
+            onKeyDown = { this.submitChange.bind( this, "hostname" ) }
+            onChange = { this.handleChange.bind( this, "hostname" ) } />
+        </TWBS.Col>
+      </div>;
 
     // Compile the DNS server list.
     var dnsNodes =
