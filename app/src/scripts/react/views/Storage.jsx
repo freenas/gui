@@ -143,6 +143,7 @@ const Storage = React.createClass(
           <TWBS.Alert
             bsStyle   = "warning"
             className = "volume"
+            key = { pools.length }
           >
             { "No volumes were found on the server, and no disks are "
             + "avaialable for inclusion in a new storage pool.\n\n Please shut "
