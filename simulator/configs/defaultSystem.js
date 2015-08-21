@@ -29,7 +29,7 @@ function systemConfig () {
             { "controller-unit": [ 1, 2 ]
             , "path-id": [1, 2 ]
             }
-          , diskCount: 8
+          , diskCount: 20
           }
         , samsungSSD:
           { status:
