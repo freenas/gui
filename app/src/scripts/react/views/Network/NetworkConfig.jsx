@@ -20,7 +20,9 @@ const NetworkConfig = React.createClass(
                }
 
   , getInitialState () {
-    return { newDnsServer: "" };
+    return { newDnsServer: ""
+           , editingHostname: false
+           };
   }
 
   , getDefaultProps: function () {
@@ -129,6 +131,15 @@ const NetworkConfig = React.createClass(
       networkConfig: networkConfig
       , newDnsServer: ""
     });
+  }
+
+  , enterEdit ( key ) {
+
+    switch ( key ) {
+      case "hostname":
+        this.setState( { editingHostname: true } );
+        break;
+    }
   }
 
   /**
