@@ -5,6 +5,7 @@
 
 "use strict";
 
+import _ from "lodash";
 import React from "react";
 
 import Coords from "../../../../utility/Coords";
@@ -22,6 +23,12 @@ const Topologizer = React.createClass(
            , trianglePoints: []
            };
   }
+
+  , componentWillMount () {
+      this.debouncedTopoChange = _.throttle( this.props.handleTopoRequest
+                                           , 300
+                                           );
+    }
 
   , componentDidMount () {
       let rect = React.findDOMNode( this.refs.bounding )
@@ -109,7 +116,7 @@ const Topologizer = React.createClass(
         let coordinates = Coords.cartToBary( A, B, C, cursorPos );
         let preferences = this.calculatePreferences.apply( null, coordinates );
 
-        this.props.handleTopoRequest( preferences );
+        this.debouncedTopoChange( preferences );
 
         this.setState(
           { cursorPos: cursorPos
