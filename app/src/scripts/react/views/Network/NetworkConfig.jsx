@@ -155,13 +155,15 @@ const NetworkConfig = React.createClass(
     var responseStyle = null;
     switch ( key ) {
       case "ipv4":
-        if ( !isIPv4( value ) ) {
+        if ( !isIPv4( value )
+          && _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] ) ) {
           responseStyle = "error";
         }
         break;
 
       case "ipv6":
-        if ( !isIPv6( value ) ) {
+        if ( !isIPv6( value )
+          && _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] ) ) {
           responseStyle = "error";
         }
         break;
