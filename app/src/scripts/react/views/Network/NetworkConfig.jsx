@@ -193,12 +193,13 @@ const NetworkConfig = React.createClass(
         }
         break;
 
-      case "dns":
+      /*case "dns":
         if ( !isIPv4( evt.target.value )
-          && !isIPv6( evt.target.value )
+          // && !isIPv6( evt.target.value )
            ) {
           evt.target.focus();
         }
+        break;*/
     }
   }
 
@@ -340,7 +341,7 @@ const NetworkConfig = React.createClass(
                       type = "text"
                       value = { newDNSServer }
                       bsStyle = { this.validate( "dns", newDNSServer ) }
-                      onBlur = { this.resetFocus.bind( null, "dns" ) }
+                      // onBlur = { this.resetFocus.bind( null, "dns" ) }
                       onChange = { this.handleChange.bind( this, "dns" ) }
                       onKeyDown = { this.submitChange.bind( this, "dns" ) }
                       placeholder = "Enter the new DNS server" />
