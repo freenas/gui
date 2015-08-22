@@ -19,7 +19,7 @@ const NetworkConfig = React.createClass(
                , systemGeneralConfig: React.PropTypes.object.isRequired
                }
 
-  , getDefaultProps: function () {
+  , getDefaultProps () {
     return { networkConfig:
              { dhcp:
                { assign_gateway: false
@@ -45,7 +45,7 @@ const NetworkConfig = React.createClass(
            };
   }
 
-  , handleChange: function ( key, evt ) {
+  , handleChange ( key, evt ) {
 
     var networkConfig = {};
     var systemGeneralConfig = {};
@@ -139,7 +139,7 @@ const NetworkConfig = React.createClass(
    * Delete a DNS server.
    * @param  {int} index The index of server to delete in the dns.servers array.
    */
-  , deleteDnsServer: function ( index ) {
+  , deleteDnsServer ( index ) {
     var networkConfig = {};
 
     if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
@@ -203,7 +203,7 @@ const NetworkConfig = React.createClass(
     }
   }
 
-  , render: function () {
+  , render () {
     var hostname = null;
     var hostnameValue = this.props.systemGeneralConfig[ "hostname" ];
     var ipv4Gateway = null;
