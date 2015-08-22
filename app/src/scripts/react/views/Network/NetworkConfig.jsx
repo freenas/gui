@@ -340,7 +340,7 @@ const NetworkConfig = React.createClass(
                       // onBlur = { this.resetFocus.bind( null, "dns" ) }
                       onChange = { this.handleChange.bind( this, "dns" ) }
                       onKeyDown = { this.submitChange.bind( this, "dns" ) }
-                      placeholder = "Enter the new DNS server" />
+                      placeholder = "Enter new DNS server" />
                   </TWBS.Col >
                 </TWBS.Row>
               </TWBS.Col>
