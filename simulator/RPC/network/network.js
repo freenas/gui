@@ -21,16 +21,24 @@ class Network extends RPCBase {
 
   configure( system, args, callback ) {
 
-    var newNetworkConfig = _.cloneDeep( system[ "globalNetworkConfig" ] );
+    var newSystem = _.cloneDeep( system );
+    var newNetworkConfig = _.cloneDeep( newSystem[ "globalNetworkConfig" ] );
 
-    _.merge( newNetworkConfig, args[0] );
+    // Why is the manual merge function necessary? Without it, deleting DNS
+    // servers fails.
+    _.merge( newNetworkConfig
+           , args[0]
+           , function mergeConfig ( oldProp, newProp, key ) {
+             return newProp;
+           } );
 
-    system[ "globalNetworkConfig" ] = newNetworkConfig;
+    newSystem[ "globalNetworkConfig" ] = newNetworkConfig;
 
-    callback( system, system[ "globalNetworkConfig" ] );
+    callback( newSystem, newSystem[ "globalNetworkConfig" ] );
 
     this.emitChange( "network.updated"
                    , "network.configure"
+                   , newSystem[ "globalNetworkConfig" ]
                    );
 
   }
