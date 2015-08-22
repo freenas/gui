@@ -10,8 +10,7 @@
   "dependencies": {
     "bootstrap": "~3.2.0",
     "velocity": "~1.1.0",
-    "fontawesome": "~4.2.0",
-    "d3": "~3.3.13"
+    "fontawesome": "~4.2.0"
   },
   "private": true
 }
