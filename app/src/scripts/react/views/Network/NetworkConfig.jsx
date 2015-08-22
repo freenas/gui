@@ -141,14 +141,13 @@ const NetworkConfig = React.createClass(
    */
   , deleteDnsServer ( index ) {
     var networkConfig = {};
-
     if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
-      networkConfig = this.state.networkConfig;
+      networkConfig = { dns: { servers: this.state.networkConfig.dns.servers.slice() } };
     } else {
-      networkConfig = { dns: { servers: this.props.networkConfig.dns.servers } };
+      networkConfig = { dns: { servers: this.props.networkConfig.dns.servers.slice() } };
     }
-    networkConfig.dns.servers.splice( index, 1 );
-    this.setState( { networkConfig: networkConfig } );
+    _.pullAt( networkConfig.dns.servers, index );
+    NM.updateNetworkConfig( networkConfig );
   }
 
   , validate ( key, value ) {
