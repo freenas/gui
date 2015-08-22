@@ -115,9 +115,6 @@ const FreeNASWebApp = React.createClass(
 
         <DebugTools />
 
-        {/* Libraries */}
-        <script type="text/javascript" src="/js/libs.js"></script>
-
         {/* Main app code */}
         <script type="text/javascript" src="/js/app.js"></script>
       </body>

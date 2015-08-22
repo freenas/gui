@@ -21,6 +21,17 @@ import DiscTri from "../../components/DiscTri";
 // Fuzzy TypeAhead
 import FuzzyTypeAhead from "../../components/FuzzyTypeAhead";
 
+var Velocity;
+
+if ( typeof window !== "undefined" ) {
+  Velocity = require( "velocity-animate" );
+} else {
+  // mocked velocity library
+  Velocity = function() {
+    return Promise().resolve( true );
+  };
+}
+
 
 var RPC = React.createClass(
 

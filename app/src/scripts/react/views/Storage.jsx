@@ -16,6 +16,17 @@ import DM from "../../flux/middleware/DisksMiddleware";
 
 import Volume from "./Storage/Volume";
 
+var Velocity;
+
+if ( typeof window !== "undefined" ) {
+  Velocity = require( "velocity-animate" );
+} else {
+  // mocked velocity library
+  Velocity = function() {
+    return Promise().resolve( true );
+  };
+}
+
 const Storage = React.createClass(
 
   { displayName: "Storage"

@@ -11,6 +11,17 @@ import TWBS from "react-bootstrap";
 
 import Throbber from "../../Throbber";
 
+var Velocity;
+
+if ( typeof window !== "undefined" ) {
+  Velocity = require( "velocity-animate" );
+} else {
+  // mocked velocity library
+  Velocity = function() {
+    return Promise().resolve( true );
+  };
+}
+
 var editorUtil = exports;
 
 editorUtil.updateOverlay = React.createClass({

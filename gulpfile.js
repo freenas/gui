@@ -16,7 +16,6 @@ gulp.task( "default", function ( callback ) {
   runSequence( [ "clean", "install-packages" ]
              , [ "babel"
                , "browserify"
-               , "libs"
                , "less"
                , "images"
                , "favicons"

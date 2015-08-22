@@ -24,6 +24,17 @@ import PoolDatasets from "./Volumes/PoolDatasets";
 import PoolTopology from "./Volumes/PoolTopology";
 import TopologyEditContext from "./Volumes/contexts/TopologyEditContext";
 
+var Velocity;
+
+if ( typeof window !== "undefined" ) {
+  Velocity = require( "velocity-animate" );
+} else {
+  // mocked velocity library
+  Velocity = function() {
+    return Promise().resolve( true );
+  };
+}
+
 const SLIDE_DURATION = 500;
 const DRAWERS = [ "files", "snapshots", "filesystem", "disks" ];
 

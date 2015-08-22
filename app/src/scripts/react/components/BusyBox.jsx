@@ -27,6 +27,17 @@ import Throbber from "./Throbber";
 // Twitter Bootstrap React components
 import TWBS from "react-bootstrap";
 
+var Velocity;
+
+if ( typeof window !== "undefined" ) {
+  Velocity = require( "velocity-animate" );
+} else {
+  // mocked velocity library
+  Velocity = function() {
+    return Promise().resolve( true );
+  };
+}
+
 var BusyBox = React.createClass(
 
   { displayName: "BusyBox"

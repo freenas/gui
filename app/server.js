@@ -18,7 +18,6 @@ var routes = require( __dirname + "/build/babel/routes" );
 
 // Content
 var appBundle  = fs.readFileSync( __dirname + "/build/app.js" );
-var libsBundle = fs.readFileSync( __dirname + "/build/libs.js" );
 
 var app = mach.stack();
 
@@ -61,12 +60,6 @@ app.get( "/js/data-window-props.js"
            } else if ( argv["simulation"] ) {
              return "window.__DEVELOPMENT_CONNECTION__ = \"SIMULATION_MODE\"";
            }
-         }
-       );
-
-app.get( "/js/libs.js"
-       , function ( request ) {
-           return libsBundle;
          }
        );
 
