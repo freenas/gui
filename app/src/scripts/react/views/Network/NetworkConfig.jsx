@@ -125,7 +125,8 @@ const NetworkConfig = React.createClass(
           break;
 
         case "dns":
-          if ( _.has( this, [ "state", "networkConfig", "dns" ] ) ) {
+          if ( _.has( this, [ "state", "networkConfig", "dns" ] )
+            && isIPv4( _.last ( this.state.networkConfig.dns.servers ) ) ) {
             newConfig = { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } };
             NM.updateNetworkConfig( newConfig );
           }
