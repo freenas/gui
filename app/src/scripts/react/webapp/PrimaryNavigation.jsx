@@ -26,11 +26,11 @@ if ( typeof window !== "undefined" ) {
 // Path definitions
 // TODO: Convert to Flux or other external file
 const paths =
-  [ { path     : ""
+  [ { path     : "dashboard"
     , icon     : "dashboard"
     , label    : "Dashboard"
     , status   : null
-    , disabled : true
+    , disabled : false
     }
   , { path     : "storage"
     , icon     : "magic"
