@@ -213,6 +213,7 @@ const NetworkConfig = React.createClass(
     var ipv6Gateway = null;
     var ipv6GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv6" ];
     var newDNSServer = null;
+    var dnsNodes = null;
 
     if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
       hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
@@ -275,13 +276,6 @@ const NetworkConfig = React.createClass(
         </TWBS.Col>
       </div>;
 
-    // Compile the DNS server list.
-    var dnsNodes =
-      <li>
-        <div className="dns-server">
-          <em>No DNS servers configured</em>
-        </div>
-      </li>;
 
     if ( _.has( this, [ "props", "networkConfig", "dns", "servers", "length"] ) ) {
       dnsNodes =
