@@ -286,7 +286,7 @@ const NetworkConfig = React.createClass(
         <div className = "dns-server-list">
           { _.map(
             this.props.networkConfig.dns.servers
-            , function ( server, index ) {
+            , function mapDNSServers ( server, index ) {
               return (
                 <div className="dns-server"
                      key = { index }>
