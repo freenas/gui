@@ -323,8 +323,8 @@ const NetworkConfig = React.createClass(
               { ipv4Gateway }
               { ipv6Gateway }
             </TWBS.Col>
-            <TWBS.Col md = { 6 }
-                      lg = { 3 } >
+            <TWBS.Col md = { 8 }
+                      lg = { 6 } >
               <TWBS.Col xs = { 12 } >
                 <h5>DNS Servers</h5>
               </TWBS.Col>
