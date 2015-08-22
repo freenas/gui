@@ -52,7 +52,12 @@ function handlePayload ( payload ) {
       let args = action.eventData.args;
       if ( args.name === "network.updated" ) {
         if ( args.args.operation === "configure" ) {
-          _.merge( _networkConfig, args.args.entities[0] );
+          _.merge( _networkConfig
+                 , args.args.entities[0]
+                 , function mergeHard ( oldValue, newValue ) {
+                   return newValue;
+                 }
+                 );
           this.emitChange();
         }
       }
