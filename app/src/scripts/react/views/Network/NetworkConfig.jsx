@@ -229,6 +229,13 @@ const NetworkConfig = React.createClass(
 
     var responseStyle = null;
     switch ( key ) {
+      case "hostname":
+        if ( !isHostname( value )
+          && _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
+          responseStyle = "error";
+        }
+        break;
+
       case "ipv4":
         if ( !isIPv4( value )
           && _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] ) ) {
@@ -304,6 +311,7 @@ const NetworkConfig = React.createClass(
           <TWBS.Input
             type = "text"
             value = { hostnameValue }
+            bsStyle = { this.validate( "hostname", hostnameValue ) }
             onKeyDown = { this.submitChange.bind( this, "hostname" ) }
             onChange = { this.handleChange.bind( this, "hostname" ) } />
         </TWBS.Col>
