@@ -69,12 +69,12 @@ const NetworkConfig = React.createClass(
           } else {
             // Otherwise, just take the new server list and put the pending new
             // server on the end of the list.
-            newNetworkConfig = combineDNSServerState( nextProps );
+            newNetworkConfig = this.combineDNSServerState( nextProps );
           }
         } else {
           // If there isn't an incoming new server or a server is being deleted,
           // append the last server in state to the incoming server list.
-          networkConfig = combineDNSServerState( nextProps );
+          newNetworkConfig = this.combineDNSServerState( nextProps );
         }
         this.setState( { networkConfig: newNetworkConfig } );
       }
