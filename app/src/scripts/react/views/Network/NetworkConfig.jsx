@@ -172,7 +172,8 @@ const NetworkConfig = React.createClass(
     if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "hostname":
-          if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
+          if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
+            && isHostname( this.state.systemGeneralConfig.hostname ) ) {
             newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
             SM.updateSystemGeneralConfig( newConfig );
           }
