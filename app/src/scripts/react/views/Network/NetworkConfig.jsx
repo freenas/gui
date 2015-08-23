@@ -143,6 +143,11 @@ const NetworkConfig = React.createClass(
     var networkConfig = {};
     if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
       networkConfig = { dns: { servers: this.state.networkConfig.dns.servers.slice() } };
+      // Don't accidentally send a work-in-progress server when deleting an old one
+      if ( this.state.networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ]
+       !== undefined ) {
+        networkConfig.dns.servers.pop();
+      }
     } else {
       networkConfig = { dns: { servers: this.props.networkConfig.dns.servers.slice() } };
     }
