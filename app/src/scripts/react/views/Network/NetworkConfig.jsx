@@ -86,7 +86,7 @@ const NetworkConfig = React.createClass(
           } else {
             networkConfig.dns.servers.push( evt.target.value );
           }
-          this.setState( { networkConfig: _.defaultsDeep( networkConfig, this.state.networkConfig ) } );
+          networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
         } else {
           networkConfig = { dns: { servers: this.props.networkConfig.dns.servers.slice() } };
           networkConfig.dns.servers.push( evt.target.value );
