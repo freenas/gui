@@ -3,6 +3,7 @@
 
 "use strict";
 
+import _ from "lodash";
 import GLOBAL_STYLES from "../static/ChartjsDefaults";
 
 const FREENAS_STYLES =
@@ -38,20 +39,20 @@ class WidgetUtil {
 
   static styleDatasets ( datasets ) {
     return datasets.map( ( dataset, index ) => {
-      return Object.assign( {}
-                          , COMMON_STYLES
-                          , SERIES_STYLES[ index ]
-                          , dataset
-                          );
+      return _.assign( {}
+                     , COMMON_STYLES
+                     , SERIES_STYLES[ index ]
+                     , dataset
+                     );
     });
   }
 
   static getChartStyles ( customStyles ) {
-    return Object.assign( {}
-                        , GLOBAL_STYLES
-                        , FREENAS_STYLES
-                        , customStyles || {}
-                        );
+    return _.assign( {}
+                   , GLOBAL_STYLES
+                   , FREENAS_STYLES
+                   , customStyles || {}
+                   );
   }
 }
 
