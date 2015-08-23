@@ -444,7 +444,7 @@ const NetworkConfig = React.createClass(
 });
 
 function isHostname ( input ) {
-  return /^([a-z0-9])([a-z0-9-\.]*)([a-z0-9])$/.test( input );
+  return /^(([a-z0-9])([a-z0-9-\.]*)([a-z0-9])|[a-z0-9])$/.test( input );
 }
 
 function isIPv4 ( input ) {
