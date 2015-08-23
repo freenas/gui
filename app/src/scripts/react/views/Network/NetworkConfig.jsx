@@ -81,7 +81,7 @@ const NetworkConfig = React.createClass(
       case "dns":
         if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
           networkConfig = { dns: { servers: this.state.networkConfig.dns.servers.slice() } };
-          if ( networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ] ) {
+          if ( networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ] !== undefined ) {
             networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ] = evt.target.value;
           } else {
             networkConfig.dns.servers.push( evt.target.value );
