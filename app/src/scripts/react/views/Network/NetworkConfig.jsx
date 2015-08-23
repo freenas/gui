@@ -266,6 +266,12 @@ const NetworkConfig = React.createClass(
 
   , resetFocus ( key, evt ) {
     switch ( key ) {
+      case "hostname":
+        if ( !isHostname( evt.target.value ) ) {
+          evt.target.focus();
+        }
+        break;
+
       case "ipv4":
         if ( !isIPv4( evt.target.value ) ) {
           evt.target.focus();
@@ -313,6 +319,7 @@ const NetworkConfig = React.createClass(
             type = "text"
             value = { hostnameValue }
             bsStyle = { this.validate( "hostname", hostnameValue ) }
+            onBlur = { this.resetFocus.bind( null, "hostname" ) }
             onKeyDown = { this.submitChange.bind( this, "hostname" ) }
             onChange = { this.handleChange.bind( this, "hostname" ) } />
         </TWBS.Col>
