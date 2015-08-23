@@ -45,6 +45,59 @@ const NetworkConfig = React.createClass(
            };
   }
 
+    // The only concern here is reconciling changes to the DNS servers list
+  , componentWillReceiveProps ( nextProps ) {
+    var newNetworkConfig = {};
+
+    // This only matters if there's a network config in state and it has dns servers in it
+    if ( _.has( this, [ "state", "networkConfig", "dns"] ) ) {
+      // This also only matters if there's a new DNS server in state.
+      if ( this.state.networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ]
+       !== undefined ) {
+        // Check if there's a new DNS server incoming
+        if ( nextProps.networkConfig.dns.servers.length
+           > this.props.networkConfig.dns.servers.length
+           ) {
+          // Then, check if it's the same as the last one in state.
+          if ( _.last( this.state.networkConfig.dns.servers )
+           === _.last( nextProps.networkConfig.dns.servers )
+             ) {
+          // If it is, assume that means the last one in state was submitted
+          // and delete the DNS servers in state.
+          newNetworkConfig = _.cloneDeep( this.state.networkConfig );
+          delete newNetworkConfig.dns;
+          } else {
+            // Otherwise, just take the new server list and put the pending new
+            // server on the end of the list.
+            newNetworkConfig = combineDNSServerState( nextProps );
+          }
+        } else {
+          // If there isn't an incoming new server or a server is being deleted,
+          // append the last server in state to the incoming server list.
+          networkConfig = combineDNSServerState( nextProps );
+        }
+        this.setState( { networkConfig: newNetworkConfig } );
+      }
+    }
+  }
+
+  // Breaking this out to avoid duplicating it in componentWillReceiveProps
+  , combineDNSServerState ( nextProps ) {
+    // Take the new server list and put the pending new server on the end of the
+    // list.
+    var newNetworkConfig =
+      { dns:
+        { servers: _.cloneDeep( nextProps.networkConfig.dns.servers ) }
+      };
+    newNetworkConfig.dns.servers.push( this.state.networkConfig.dns.servers
+                                     [ this.props.networkConfig.dns.servers.length ]
+                                     );
+    newNetworkConfig = _.defaultsDeep( newNetworkConfig
+                                     , _.cloneDeep( this.state.networkConfig )
+                                     );
+    return newNetworkConfig;
+  }
+
   , handleChange ( key, evt ) {
 
     var networkConfig = {};
