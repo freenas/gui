@@ -6,7 +6,7 @@
 import GLOBAL_STYLES from "../static/ChartjsDefaults";
 
 const FREENAS_STYLES =
-  {
+  { responsive: true
   };
 
 const COMMON_STYLES =
@@ -46,10 +46,11 @@ class WidgetUtil {
     });
   }
 
-  static getGlobalChartStyles () {
+  static getChartStyles ( customStyles ) {
     return Object.assign( {}
                         , GLOBAL_STYLES
                         , FREENAS_STYLES
+                        , customStyles || {}
                         );
   }
 }
