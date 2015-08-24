@@ -9,6 +9,7 @@ import React from "react";
 
 import Widget from "../components/Widget";
 import CPU from "../components/Widgets/CPU";
+import Network from "../components/Widgets/Network";
 
 const Dashboard = React.createClass(
   { render () {
@@ -17,10 +18,9 @@ const Dashboard = React.createClass(
           <Widget>
             <CPU />
           </Widget>
-          <Widget />
-          <Widget />
-          <Widget />
-          <Widget />
+          <Widget>
+            <Network />
+          </Widget>
         </main>
       );
     }
