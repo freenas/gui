@@ -98,6 +98,16 @@ const InterfaceItem = React.createClass(
     }
   }
 
+  , toggleDHCP () {
+    var newInterface = {}
+    if ( this.props.interface.dhcp ) {
+      newInterface = { dhcp: false };
+    } else {
+      newInterface = { dhcp: true };
+    }
+    IM.configureInterface( this.props.interface.name, newInterface );
+  }
+
   , render () {
 
     var statusClass = "";
@@ -108,6 +118,7 @@ const InterfaceItem = React.createClass(
                 ? this.props.interface[ "enabled" ]
                 : false;
     var interfaceToggle = null;
+    var dhcpToggle = null;
 
     // This all breaks if the interface isn't yet loaded.
     if ( this.props.interface ) {
@@ -146,12 +157,21 @@ const InterfaceItem = React.createClass(
                                                 ) } />
       );
 
+      dhcpToggle =
+        <TWBS.Input
+          type = "checkbox"
+          checked = { this.props.interface.dhcp }
+          onChange = { this.toggleDHCP }
+          label = { "Enable DHCP" }
+          disabled = { this.props.interface[ "status" ][ "link-state" ] !== "LINK_STATE_UP" }/>
+
     }
 
     return (
       <TWBS.Panel className = "interface-item">
         { interfaceName }
         { interfaceToggle }
+        { dhcpToggle }
         { linkSpeed }
         { this.showAliases() }
       </TWBS.Panel>
