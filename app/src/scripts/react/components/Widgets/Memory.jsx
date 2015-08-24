@@ -68,8 +68,6 @@ const Memory = React.createClass(
         let inactive = [ "Inactive" ].concat( ChartUtil.rand( 0.2, 0.25, 1 ) );
         let free = this.calcFree( 1, active, cache, wired, inactive );
 
-        console.log( [ free, active, cache, wired, inactive ] );
-
         this.chart.flow(
           { columns: [ free, active, cache, wired, inactive ]
           }
