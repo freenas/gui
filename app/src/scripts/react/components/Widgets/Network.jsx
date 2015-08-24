@@ -1,44 +1,71 @@
 // NETWORK WIDGET
 // ==========
 
-import _ from "lodash";
 import React from "react";
 
 import ChartUtil from "../../../utility/ChartUtil";
 
-var Chart;
+var c3;
 
 if ( typeof window !== "undefined" ) {
-  Chart = require( "chart.js" );
+  c3 = require( "c3" );
 } else {
-  Chart = function () {
+  c3 = function () {
     return Promise().resolve( true );
   };
 }
 
-const NW_OPTIONS =
-  { bezier                 : true
-  , bezierCurveTension     : 0.01
-  , datasetStrokeWidth     : 1
-  , scaleShowVerticalLines : false
-  , showTooltips           : false
-  , showScale              : false
-  , pointDot               : false
-  };
-
-const CHART_OPTIONS = ChartUtil.getChartStyles( NW_OPTIONS );
-
-const CHART_LABELS = _.fill( Array( 60 ), "" );
-
 const Network = React.createClass(
   { componentDidMount () {
-      let ctxIn = React.findDOMNode( this.refs.nwIn ).getContext( "2d" );
-      let ctxOut = React.findDOMNode( this.refs.nwOut ).getContext( "2d" );
+      let dataIn = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 61 ) );
+      let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 61 ) );
 
-      this.chartIn =
-        new Chart( ctxIn ).Line( this.lieIn(), CHART_OPTIONS );
-      this.chartOut =
-        new Chart( ctxOut ).Line( this.lieOut(), CHART_OPTIONS );
+      this.chartIn = c3.generate(
+        { bindto: React.findDOMNode( this.refs.nwIn )
+        , data:
+          { columns: [ dataIn ]
+          , type: "area"
+          }
+        , point:
+          { show: false
+          }
+        , axis:
+          { x:
+            { show: false
+            }
+          , y:
+            { tick:
+              { values: [ 0, 50, 100, 150 ]
+              }
+            , max: 150
+            }
+          }
+        }
+      );
+
+      this.chartOut = c3.generate(
+        { bindto: React.findDOMNode( this.refs.nwOut )
+        , data:
+          { columns: [ dataOut ]
+          , type: "area"
+          }
+        , point:
+          { show: false
+          }
+        , axis:
+          { x:
+            { show: false
+            }
+          , y:
+            { tick:
+              { values: [ 0, 50, 100, 150 ]
+              }
+            , max: 150
+            , inverted: true
+            }
+          }
+        }
+      );
 
       this.interval = setInterval( this.tick, 1000 );
     }
@@ -51,56 +78,33 @@ const Network = React.createClass(
 
   , tick () {
       if ( this.chartIn ) {
-        this.chartIn.addData( ChartUtil.rand( 2, 20, 1 ), "" );
-        this.chartIn.removeData();
+        let newPoint = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 1 ) );
+        this.chartIn.flow(
+          { columns: [ newPoint ]
+          }
+        );
       }
 
       if ( this.chartOut ) {
-        this.chartOut.addData( ChartUtil.rand( 2, 20, 1 ), "" );
-        this.chartOut.removeData();
+        let newPoint = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 1 ) );
+        this.chartOut.flow(
+          { columns: [ newPoint ]
+          }
+        );
       }
-    }
-
-  , lieIn () {
-      return (
-        { labels: CHART_LABELS
-        , datasets: ChartUtil.styleDatasets(
-            [ { label: "Network In"
-              , data: ChartUtil.rand( 2, 20, 60 )
-              }
-            ]
-          )
-        }
-      );
-    }
-
-  , lieOut () {
-      return (
-        { labels: CHART_LABELS
-        , datasets: ChartUtil.styleDatasets(
-            [ { label: "Network Out"
-              , data: ChartUtil.rand( 2, 20, 60 )
-              }
-            ]
-            , 1
-          )
-        }
-      );
     }
 
   , render () {
       return (
         <div className="network-widget-dual">
-          <div className="network-widget-inner">
-            <canvas ref="nwIn" />
-          </div>
-          <div className="network-widget-inner">
-            {/* HORRIBLE HACK */}
-            <canvas
-              ref = "nwOut"
-              style = {{ transform: "scaleY(-1)" }}
-            />
-          </div>
+          <div
+            ref = "nwIn"
+            className = "widget-chart"
+          />
+          <div
+            ref = "nwOut"
+            className = "widget-chart"
+          />
         </div>
       );
     }
