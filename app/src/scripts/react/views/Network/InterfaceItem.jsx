@@ -90,7 +90,7 @@ const InterfaceItem = React.createClass(
     );
   }
 
-  , interfaceToggle () {
+  , toggleInterface () {
     if ( this.props.interface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
       IM.downInterface( this.props.interface.name );
     } else {
@@ -141,7 +141,7 @@ const InterfaceItem = React.createClass(
           className = "pull-right"
           toggled = { this.props.interface[ "status" ][ "link-state" ]
                   === "LINK_STATE_UP" }
-          onChange = { this.interfaceToggle.bind( this
+          onChange = { this.toggleInterface.bind( this
                                                 , this.props.interface.name
                                                 ) } />
       );
