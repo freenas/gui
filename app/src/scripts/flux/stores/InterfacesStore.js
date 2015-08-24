@@ -123,6 +123,7 @@ class InterfacesStore extends FluxBase {
 
 function handlePayload ( payload ) {
   var action = payload.action;
+  var eventData = action.eventData;
 
   switch ( action.type ) {
 
@@ -141,6 +142,14 @@ function handlePayload ( payload ) {
       });
       this.emitChange();
       break;
+
+    case ActionTypes.MIDDLEWARE_EVENT:
+    let args = eventData.args;
+      if ( args.name === "entity-subscriber.network.interfaces.changed" ) {
+        _interfaces[ args.args.entities[0].name ] =
+          _.cloneDeep( args.args.entities[0] );
+        this.emitChange();
+      }
 
     case ActionTypes.RECEIVE_UP_INTERFACE_TASK:
     case ActionTypes.RECEIVE_DOWN_INTERFACE_TASK:
