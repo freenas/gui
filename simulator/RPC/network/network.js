@@ -65,6 +65,55 @@ class Interfaces extends RPCBase {
     this.CHANGE_EVENT = "network.interfaces.changed";
   }
 
+  up ( system, args, callback ) {
+    var newSystem = _.cloneDeep( system );
+    var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
+    var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
+    var newInterface = newInterfaces[ newInterfaceIndex ];
+
+    if ( newInterface[ "status" ][ "link-state" ] === "LINK_STATE_DOWN" ) {
+      newInterface[ "status" ][ "link-state" ] = "LINK_STATE_UP";
+
+      newInterfaces[ newInterfaceIndex ] = newInterface;
+
+      newSystem[ "interfaces" ] = newInterfaces;
+
+      callback( newSystem, newInterfaces );
+
+      this.emitChange( "network.interfaces.changed"
+                     , "network.interfaces.up"
+                     , _.cloneDeep( newInterface )
+                     );
+    } else {
+      // TODO: Error response.
+    }
+  }
+
+  down ( system, args, callback ) {
+    var newSystem = _.cloneDeep( system );
+    var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
+    var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
+    var newInterface = newInterfaces[ newInterfaceIndex ];
+
+    if ( newInterface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
+      newInterface[ "status" ][ "link-state" ] = "LINK_STATE_DOWN";
+
+      newInterfaces[ newInterfaceIndex ] = newInterface;
+
+      newSystem[ "interfaces" ] = newInterfaces;
+
+      callback( newSystem, newInterfaces );
+
+      this.emitChange( "network.interfaces.changed"
+                     , "network.interfaces.down"
+                     , _.cloneDeep( newInterface )
+                     );
+    } else {
+      // TODO: Error response.
+    }
+
+  }
+
   query ( system ) {
     return system[ "interfaces" ];
   }
