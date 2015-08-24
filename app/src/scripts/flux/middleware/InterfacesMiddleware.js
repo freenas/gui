@@ -11,12 +11,12 @@ import IAC from "..//actions/InterfacesActionCreators";
 class InterfacesMiddleware extends AbstractBase {
 
   static subscribe ( componentID ) {
-    MC.subscribe( [ "network.interface.*" ], componentID );
+    MC.subscribe( [ "entity-subscriber.network.interfaces.changed" ], componentID );
     MC.subscribe( [ "task.*" ], componentID );
   }
 
   static unsubscribe ( componentID ) {
-    MC.unsubscribe( [ "network.interface.*" ], componentID );
+    MC.unsubscribe( [ "entity-subscriber.network.interfaces.changed" ], componentID );
     MC.unsubscribe( [ "task.*" ], componentID );
   }
 
