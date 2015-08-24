@@ -16,10 +16,10 @@ const COMMON_STYLES =
   };
 
 const SERIES_STYLES =
-  [ { fillColor: "rgba(220,220,220,0.2)"
-    , strokeColor: "rgba(220,220,220,1)"
-    , pointColor: "rgba(220,220,220,1)"
-    , pointHighlightStroke: "rgba(220,220,220,1)"
+  [ { fillColor            : "rgba( 1, 150, 216, 0.2 )"
+    , strokeColor          : "rgba( 1, 150, 216, 1 )"
+    , pointColor           : "rgba( 1, 150, 216, 1 )"
+    , pointHighlightStroke : "rgba( 1, 150, 216, 1 )"
     }
   , { fillColor: "rgba(151,187,205,0.2)"
     , strokeColor: "rgba(151,187,205,1)"
