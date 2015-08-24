@@ -17,8 +17,7 @@ if ( typeof window !== "undefined" ) {
 }
 
 const CPU_OPTIONS =
-  { animation              : true
-  , bezier                 : true
+  { bezier                 : true
   , bezierCurveTension     : 0.01
   , scaleShowVerticalLines : false
   , scaleOverride          : true
