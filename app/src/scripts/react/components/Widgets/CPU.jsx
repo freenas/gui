@@ -4,12 +4,20 @@
 import _ from "lodash";
 import React from "react";
 
-import { Line as LineChart } from "react-chartjs";
-
 import ChartUtil from "../../../utility/ChartUtil";
 
+var Chart;
+
+if ( typeof window !== "undefined" ) {
+  Chart = require( "chart.js" );
+} else {
+  Chart = function () {
+    return Promise().resolve( true );
+  };
+}
+
 const CPU_OPTIONS =
-  { animation              : false
+  { animation              : true
   , bezier                 : true
   , bezierCurveTension     : 0.01
   , scaleShowVerticalLines : false
@@ -24,40 +32,31 @@ const CPU_OPTIONS =
 const CHART_OPTIONS = ChartUtil.getChartStyles( CPU_OPTIONS );
 
 const CPU = React.createClass(
-  { getInitialState () {
-    return (
-      { cpuValues: ChartUtil.rand( 2, 8, 50 )
-      , cpuLabels: _.fill( Array( 50 ), "" )
-      }
-    );
-  }
+  { componentDidMount () {
+      let ctx = React.findDOMNode( this.refs.cpuChart ).getContext( "2d" );
 
-  , componentDidMount () {
+      this.chart = new Chart( ctx ).Line( this.lie(), CHART_OPTIONS );
       this.interval = setInterval( this.tick, 1000 );
     }
 
   , componentWillUnmount () {
+      this.chart = null;
       clearInterval( this.interval );
     }
 
   , tick () {
-      let newValues = this.state.cpuValues
-                          .concat( ChartUtil.rand( 2, 8, 1 ) );
-
-      newValues.splice( 0, 1 );
-
-      this.setState(
-        { cpuValues: newValues
-        }
-      );
+      if ( this.chart ) {
+        this.chart.addData( ChartUtil.rand( 2, 8, 1 ), "" );
+        this.chart.removeData();
+      }
     }
 
   , lie () {
       return (
-        { labels: this.state.cpuLabels
+        { labels: _.fill( Array( 50 ), "" )
         , datasets: ChartUtil.styleDatasets(
             [ { label: "CPU Usage"
-              , data: this.state.cpuValues
+              , data: ChartUtil.rand( 2, 8, 50 )
               }
             ]
           )
@@ -67,10 +66,7 @@ const CPU = React.createClass(
 
   , render () {
       return (
-        <LineChart
-          data = { this.lie() }
-          options = { CHART_OPTIONS }
-          />
+        <canvas ref="cpuChart" />
       );
     }
   }
