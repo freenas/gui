@@ -37,11 +37,11 @@ class WidgetUtil {
     return rtn;
   }
 
-  static styleDatasets ( datasets ) {
+  static styleDatasets ( datasets, override = 0 ) {
     return datasets.map( ( dataset, index ) => {
       return _.assign( {}
                      , COMMON_STYLES
-                     , SERIES_STYLES[ index ]
+                     , SERIES_STYLES[ index + override ]
                      , dataset
                      );
     });
