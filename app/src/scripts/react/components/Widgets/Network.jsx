@@ -5,7 +5,6 @@ import _ from "lodash";
 import React from "react";
 
 import ChartUtil from "../../../utility/ChartUtil";
-import LineInverted from "../../../chartjs/LineInverted";
 
 var Chart;
 
