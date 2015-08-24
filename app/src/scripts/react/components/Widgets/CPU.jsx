@@ -1,42 +1,46 @@
 // CPU WIDGET
 // ==========
 
-import _ from "lodash";
 import React from "react";
 
 import ChartUtil from "../../../utility/ChartUtil";
 
-var Chart;
+var c3;
 
 if ( typeof window !== "undefined" ) {
-  Chart = require( "chart.js" );
+  c3 = require( "c3" );
 } else {
-  Chart = function () {
+  c3 = function () {
     return Promise().resolve( true );
   };
 }
 
-const CPU_OPTIONS =
-  { bezier                 : true
-  , bezierCurveTension     : 0.01
-  , datasetStrokeWidth     : 1
-  , scaleShowVerticalLines : false
-  , scaleOverride          : true
-  , scaleSteps             : 4
-  , scaleStepWidth         : 25
-  , scaleBeginAtZero       : true
-  , showTooltips           : false
-  , showScale              : false
-  , pointDot               : false
-  };
-
-const CHART_OPTIONS = ChartUtil.getChartStyles( CPU_OPTIONS );
-
 const CPU = React.createClass(
   { componentDidMount () {
-      let ctx = React.findDOMNode( this.refs.cpuChart ).getContext( "2d" );
+      let data = [ "CPU %" ].concat( ChartUtil.rand( 2, 8, 61 ) );
 
-      this.chart = new Chart( ctx ).Line( this.lie(), CHART_OPTIONS );
+      this.chart = c3.generate(
+        { bindto: React.findDOMNode( this.refs.cpuChart )
+        , data:
+          { columns: [ data ]
+          , type: "area"
+          , groups: [[ "CPU %" ]]
+          }
+        , point:
+          { show: false
+          }
+        , axis:
+          { x:
+            { show: false
+            }
+          , y:
+            { padding: false
+            , max: 90
+            }
+          }
+        }
+      );
+
       this.interval = setInterval( this.tick, 1000 );
     }
 
@@ -47,27 +51,20 @@ const CPU = React.createClass(
 
   , tick () {
       if ( this.chart ) {
-        this.chart.addData( ChartUtil.rand( 2, 8, 1 ), "" );
-        this.chart.removeData();
+        let newPoint = [ "CPU %" ].concat( ChartUtil.rand( 2, 8, 1 ) );
+        this.chart.flow(
+          { columns: [ newPoint ]
+          }
+        );
       }
-    }
-
-  , lie () {
-      return (
-        { labels: _.fill( Array( 60 ), "" )
-        , datasets: ChartUtil.styleDatasets(
-            [ { label: "CPU Usage"
-              , data: ChartUtil.rand( 2, 8, 60 )
-              }
-            ]
-          )
-        }
-      );
     }
 
   , render () {
       return (
-        <canvas ref="cpuChart" />
+        <div
+          className = "widget-chart"
+          ref="cpuChart"
+        />
       );
     }
   }
