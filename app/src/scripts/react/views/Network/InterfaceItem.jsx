@@ -166,6 +166,10 @@ const InterfaceItem = React.createClass(
         <TWBS.Input
           type = "text"
           label = "Static IP:"
+          value = { this.props.interface[ "ipv4-address" ]
+                  + "/"
+                  + this.props.interface[ "ipv4-netmask" ]
+                  }
           onChange = { this.handleStaticIPChange }
           disabled = { this.props.interface.dhcp } />
 
