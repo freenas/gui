@@ -7,7 +7,8 @@ import _ from "lodash";
 import GLOBAL_STYLES from "../static/ChartjsDefaults";
 
 const FREENAS_STYLES =
-  { responsive: true
+  { responsive          : true
+  , maintainAspectRatio : false
   };
 
 const COMMON_STYLES =

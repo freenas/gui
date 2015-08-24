@@ -90,12 +90,16 @@ const Network = React.createClass(
   , render () {
       return (
         <div className="network-widget-dual">
-          <canvas ref="nwIn" />
-          {/* HORRIBLE HACK */}
-          <canvas
-            ref = "nwOut"
-            style = {{ transform: "scaleY(-1)" }}
-          />
+          <div className="network-widget-inner">
+            <canvas ref="nwIn" />
+          </div>
+          <div className="network-widget-inner">
+            {/* HORRIBLE HACK */}
+            <canvas
+              ref = "nwOut"
+              style = {{ transform: "scaleY(-1)" }}
+            />
+          </div>
         </div>
       );
     }
