@@ -12,10 +12,14 @@ import _ from "lodash";
 import NM from "../../../flux/middleware/NetworkConfigMiddleware";
 import SM from "../../../flux/middleware/SystemMiddleware";
 
+import networkCommon from "./networkCommon";
+
 import Icon from "../../components/Icon";
 
 const NetworkConfig = React.createClass(
-  { propTypes: { networkConfig: React.PropTypes.object.isRequired
+  { mixins: [ networkCommon ]
+
+  , propTypes: { networkConfig: React.PropTypes.object.isRequired
                , systemGeneralConfig: React.PropTypes.object.isRequired
                }
 
@@ -173,7 +177,7 @@ const NetworkConfig = React.createClass(
       switch ( target ) {
         case "hostname":
           if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
-            && isHostname( this.state.systemGeneralConfig.hostname ) ) {
+            && this.isHostname( this.state.systemGeneralConfig.hostname ) ) {
             newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
             SM.updateSystemGeneralConfig( newConfig );
           }
@@ -181,7 +185,7 @@ const NetworkConfig = React.createClass(
 
         case "ipv4":
           if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] )
-            && isIPv4( this.state.networkConfig.gateway.ipv4 ) ) {
+            && this.isIPv4( this.state.networkConfig.gateway.ipv4 ) ) {
             newConfig = { gateway: { ipv4: this.state.networkConfig[ "gateway" ][ "ipv4" ]
                                    , ipv6: this.props.networkConfig[ "gateway" ][ "ipv6" ]
                                    }
@@ -192,7 +196,7 @@ const NetworkConfig = React.createClass(
 
         case "ipv6":
           if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] )
-            && isIPv6( this.state.networkConfig.gateway.ipv6 ) ) {
+            && this.isIPv6( this.state.networkConfig.gateway.ipv6 ) ) {
             newConfig = { gateway: { ipv4: this.props.networkConfig[ "gateway" ][ "ipv4" ]
                                    , ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ]
                                    }
@@ -203,7 +207,7 @@ const NetworkConfig = React.createClass(
 
         case "dns":
           if ( _.has( this, [ "state", "networkConfig", "dns" ] )
-            && isIPv4( _.last ( this.state.networkConfig.dns.servers ) ) ) {
+            && this.isIPv4( _.last ( this.state.networkConfig.dns.servers ) ) ) {
             newConfig = { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } };
             NM.updateNetworkConfig( newConfig );
           }
@@ -237,29 +241,29 @@ const NetworkConfig = React.createClass(
     var responseStyle = null;
     switch ( key ) {
       case "hostname":
-        if ( !isHostname( value )
+        if ( !this.isHostname( value )
           && _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
           responseStyle = "error";
         }
         break;
 
       case "ipv4":
-        if ( !isIPv4( value )
+        if ( !this.isIPv4( value )
           && _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] ) ) {
           responseStyle = "error";
         }
         break;
 
       case "ipv6":
-        if ( !isIPv6( value )
+        if ( !this.isIPv6( value )
           && _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] ) ) {
           responseStyle = "error";
         }
         break;
 
       case "dns":
-        if ( !isIPv4( value )
-          // && !isIPv6( value )
+        if ( !this.isIPv4( value )
+          // && !this.isIPv6( value )
           && ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) )
            ) {
           responseStyle = "error";
@@ -273,26 +277,26 @@ const NetworkConfig = React.createClass(
   , resetFocus ( key, evt ) {
     switch ( key ) {
       case "hostname":
-        if ( !isHostname( evt.target.value ) ) {
+        if ( !this.isHostname( evt.target.value ) ) {
           evt.target.focus();
         }
         break;
 
       case "ipv4":
-        if ( !isIPv4( evt.target.value ) ) {
+        if ( !this.isIPv4( evt.target.value ) ) {
           evt.target.focus();
         }
         break;
 
       case "ipv6":
-        if ( !isIPv6( evt.target.value ) ) {
+        if ( !this.isIPv6( evt.target.value ) ) {
           evt.target.focus();
         }
         break;
 
       /*case "dns":
-        if ( !isIPv4( evt.target.value )
-          // && !isIPv6( evt.target.value )
+        if ( !this.isIPv4( evt.target.value )
+          // && !this.isIPv6( evt.target.value )
            ) {
           evt.target.focus();
         }
@@ -448,17 +452,5 @@ const NetworkConfig = React.createClass(
     );
   }
 });
-
-function isHostname ( input ) {
-  return /^(([a-z0-9])([a-z0-9-\.]*)([a-z0-9])|[a-z0-9])$/.test( input );
-}
-
-function isIPv4 ( input ) {
-  return /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(input);
-};
-
-function isIPv6 ( input ) {
-  return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(input);
-};
 
 export default NetworkConfig;
