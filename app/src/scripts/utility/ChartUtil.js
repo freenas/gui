@@ -18,7 +18,7 @@ const COMMON_STYLES =
 
 const SERIES_STYLES =
   [ { fillColor            : "rgba( 1, 150, 216, 0.2 )"
-    , strokeColor          : "rgba( 1, 150, 216, 1 )"
+    , strokeColor          : "rgba( 1, 150, 216, 0.5 )"
     , pointColor           : "rgba( 1, 150, 216, 1 )"
     , pointHighlightStroke : "rgba( 1, 150, 216, 1 )"
     }

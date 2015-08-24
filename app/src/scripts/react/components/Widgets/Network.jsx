@@ -19,6 +19,7 @@ if ( typeof window !== "undefined" ) {
 const NW_OPTIONS =
   { bezier                 : true
   , bezierCurveTension     : 0.01
+  , datasetStrokeWidth     : 1
   , scaleShowVerticalLines : false
   , showTooltips           : false
   , showScale              : false
