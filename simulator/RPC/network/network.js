@@ -114,6 +114,33 @@ class Interfaces extends RPCBase {
 
   }
 
+  configure ( system, args, callback ) {
+    var newSystem = _.cloneDeep( system );
+    var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
+    var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
+    var newInterface = newInterfaces[ newInterfaceIndex ];
+
+    _.merge( newInterface
+           , args[1]
+           , function mergeHard ( oldProp, newProp ) {
+             return newProp;
+           }
+           );
+
+    newInterfaces[ newInterfaceIndex ] = newInterface;
+
+    newSystem[ "interfaces" ] = newInterfaces;
+
+    callback( newSystem, newInterfaces );
+
+    this.emitChange( "network.interfaces.changed"
+                   , "network.interfaces.configure"
+                   , _.cloneDeep( newInterface )
+                   );
+
+    // TODO: Error handling, validity checking.
+  }
+
   query ( system ) {
     return system[ "interfaces" ];
   }
