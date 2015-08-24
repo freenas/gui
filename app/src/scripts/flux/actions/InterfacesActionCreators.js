@@ -19,7 +19,7 @@ class InterfacesActionCreators {
 
   static receiveInterfaceConfigureTask ( interfaceName, taskID, timestamp ) {
     FreeNASDispatcher.handleMiddlewareAction(
-      { type: ActionTypes. RECEIVE_INTERFACE_CONFIGURE_TASK
+      { type: ActionTypes.RECEIVE_INTERFACE_CONFIGURE_TASK
       , timestamp
       , taskID
       , interfaceName
