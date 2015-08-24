@@ -10,6 +10,7 @@ import React from "react";
 import Widget from "../components/Widget";
 import CPU from "../components/Widgets/CPU";
 import Network from "../components/Widgets/Network";
+import Memory from "../components/Widgets/Memory";
 
 const Dashboard = React.createClass(
   { render () {
@@ -20,6 +21,9 @@ const Dashboard = React.createClass(
           </Widget>
           <Widget>
             <Network />
+          </Widget>
+          <Widget>
+            <Memory />
           </Widget>
         </main>
       );
