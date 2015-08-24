@@ -53,10 +53,10 @@ const CPU = React.createClass(
 
   , lie () {
       return (
-        { labels: _.fill( Array( 50 ), "" )
+        { labels: _.fill( Array( 60 ), "" )
         , datasets: ChartUtil.styleDatasets(
             [ { label: "CPU Usage"
-              , data: ChartUtil.rand( 2, 8, 50 )
+              , data: ChartUtil.rand( 2, 8, 60 )
               }
             ]
           )
