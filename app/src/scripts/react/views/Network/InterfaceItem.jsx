@@ -8,6 +8,8 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
+import ToggleSwitch from "../../components/ToggleSwitch";
+
 import IM from "../../../flux/middleware/InterfacesMiddleware";
 
 const InterfaceItem = React.createClass(
@@ -88,6 +90,14 @@ const InterfaceItem = React.createClass(
     );
   }
 
+  , interfaceToggle () {
+    if ( this.props.interface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
+      IM.downInterface( this.props.interface.name );
+    } else {
+      IM.upInterface( this.props.interface.name );
+    }
+  }
+
   , render () {
 
     var statusClass = "";
@@ -97,6 +107,7 @@ const InterfaceItem = React.createClass(
     var enabled = this.props.interface
                 ? this.props.interface[ "enabled" ]
                 : false;
+    var interfaceToggle = null;
 
     // This all breaks if the interface isn't yet loaded.
     if ( this.props.interface ) {
@@ -125,11 +136,22 @@ const InterfaceItem = React.createClass(
         </h2>
       );
 
+      interfaceToggle = (
+        <ToggleSwitch
+          className = "pull-right"
+          toggled = { this.props.interface[ "status" ][ "link-state" ]
+                  === "LINK_STATE_UP" }
+          onChange = { this.interfaceToggle.bind( this
+                                                , this.props.interface.name
+                                                ) } />
+      );
+
     }
 
     return (
       <TWBS.Panel className = "interface-item">
         { interfaceName }
+        { interfaceToggle }
         { linkSpeed }
         { this.showAliases() }
       </TWBS.Panel>
