@@ -98,6 +98,10 @@ const InterfaceItem = React.createClass(
     }
   }
 
+  , handleStaticIPChange () {
+
+  }
+
   , toggleDHCP () {
     var newInterface = {}
     if ( this.props.interface.dhcp ) {
@@ -118,6 +122,7 @@ const InterfaceItem = React.createClass(
                 ? this.props.interface[ "enabled" ]
                 : false;
     var interfaceToggle = null;
+    var staticIP = null;
     var dhcpToggle = null;
 
     // This all breaks if the interface isn't yet loaded.
@@ -157,13 +162,21 @@ const InterfaceItem = React.createClass(
                                                 ) } />
       );
 
+      staticIP =
+        <TWBS.Input
+          type = "text"
+          label = "Static IP:"
+          onChange = { this.handleStaticIPChange }
+          disabled = { this.props.interface.dhcp } />
+
       dhcpToggle =
         <TWBS.Input
           type = "checkbox"
           checked = { this.props.interface.dhcp }
           onChange = { this.toggleDHCP }
           label = { "Enable DHCP" }
-          disabled = { this.props.interface[ "status" ][ "link-state" ] !== "LINK_STATE_UP" }/>
+          disabled = { this.props.interface[ "status" ][ "link-state" ]
+                 !== "LINK_STATE_UP" }/>;
 
     }
 
@@ -171,6 +184,7 @@ const InterfaceItem = React.createClass(
       <TWBS.Panel className = "interface-item">
         { interfaceName }
         { interfaceToggle }
+        { staticIP }
         { dhcpToggle }
         { linkSpeed }
         { this.showAliases() }
