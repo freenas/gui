@@ -19,7 +19,7 @@ class Network extends RPCBase {
     this.CHANGE_EVENT.push( this.config.CHANGE_EVENT );
   }
 
-  configure( system, args, callback ) {
+  configure ( system, args, callback ) {
 
     var newSystem = _.cloneDeep( system );
     var newNetworkConfig = _.cloneDeep( newSystem[ "globalNetworkConfig" ] );
