@@ -13,7 +13,7 @@ import IM from "../../../flux/middleware/InterfacesMiddleware";
 const InterfaceItem = React.createClass(
   { propTypes: { interface: React.PropTypes.object.isRequired }
 
-  , showAliases: function () {
+  , showAliases () {
 
     var aliases = []
 
@@ -88,7 +88,7 @@ const InterfaceItem = React.createClass(
     );
   }
 
-  , render: function () {
+  , render () {
 
     var statusClass = "";
     var interfaceName = null;
