@@ -45,11 +45,16 @@ class Tasks extends RPCBase {
 
     taskNamespace = taskCall.shift();
 
+    if ( taskCall.length > 1 ) {
+      secondTaskNamespace = taskCall.shift();
+    }
+
     // This is a filthy thing to do, but it's better than changing things in
     // the GUI that will break when we reunite with the new middleware.
     // Basically, most task and RPC namespaces match, but for zfs volumes, the
     // RPC namespace is "volumes" and the task namespace is "volume"... for only
     // some tasks. Maybe because those calls apply only to one volume at a time?
+    // network.interface[s] has the same issue.
     //
     // TODO: This issue is being fixed in the new middleware. Once it's fixed
     // and we're back to testing against builds with the new middleware change
@@ -58,8 +63,8 @@ class Tasks extends RPCBase {
       taskNamespace = "volumes";
     }
 
-    if ( taskCall.length > 1 ) {
-      secondTaskNamespace = taskCall.shift();
+    if ( secondTaskNamespace === "interface" ) {
+      secondTaskNamespace = "interfaces";
     }
 
     taskMethod = taskCall[0];
