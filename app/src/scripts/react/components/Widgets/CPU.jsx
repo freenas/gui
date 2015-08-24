@@ -25,6 +25,7 @@ const CPU_OPTIONS =
   , scaleStepWidth         : 25
   , scaleBeginAtZero       : true
   , showTooltips           : false
+  , showScale              : false
   , pointDot               : false
   };
 
