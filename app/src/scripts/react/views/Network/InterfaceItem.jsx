@@ -27,10 +27,10 @@ const InterfaceItem = React.createClass(
   }
 
   , showAliases () {
-    var aliases = this.props.networkInterface[ "status" ][ "aliases" ];
     var aliasList = [];
 
     if ( this.props.networkInterface ) {
+      let aliases = _.cloneDeep( this.props.networkInterface[ "status" ][ "aliases" ] );
       _.remove( aliases, { family: "LINK" } );
       aliasList = _.map( aliases
                        , function createAliasSections ( alias, index ) {
@@ -177,9 +177,6 @@ const InterfaceItem = React.createClass(
                       + "/"
                       + this.props.networkInterface[ "ipv4-netmask" ];
     var dhcpToggle = null;
-    var macAddress = _.find( this.props.networkInterface[ "status" ][ "aliases" ]
-                           , { family: "LINK" }
-                           )[ "address" ];
     var macAddressDisplay = null;
 
     // This all breaks if the interface isn't yet loaded.
@@ -248,6 +245,11 @@ const InterfaceItem = React.createClass(
           label = { "Enable DHCP" }
           disabled = { this.props.networkInterface[ "status" ][ "link-state" ]
                    !== "LINK_STATE_UP" }/>;
+
+      let macAddressInfo = _.find( this.props.networkInterface[ "status" ][ "aliases" ]
+                                 , { family: "LINK" }
+                                 );
+      let macAddress = macAddressInfo[ "address" ];
 
       macAddressDisplay =
         <div className = "network-alias">
