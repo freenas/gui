@@ -10,7 +10,6 @@ var watch   = require( "gulp-watch" );
 var Monitor = require( "forever-monitor" ).Monitor;
 var chalk   = require( "chalk" );
 var argv    = require( "yargs" ).argv;
-var bs      = require( "browser-sync" );
 
 var APP_TAG = chalk.bgWhite.black( "  WEBSERVER  " ) + " ";
 var SIM_TAG = chalk.bgGreen.black( "  SIMULATOR  " ) + " ";
@@ -69,7 +68,6 @@ function startFreeNASApp ( mode ) {
 
   localServer.on( "restart", function ( forever ) {
     console.log( APP_TAG + RESTART_TAG + "Webserver is restarting" );
-    localServer.once( "stdout", bs.reload );
   });
 
   localServer.on( "exit:code", function ( code ) {
@@ -114,7 +112,6 @@ function startSimulator () {
 
   simulator.on( "restart", function ( forever ) {
     console.log( SIM_TAG + RESTART_TAG + "Simulator was restarted" );
-    simulator.once( "stdout", bs.reload );
   });
 
   simulator.on( "exit:code", function ( code ) {
@@ -139,14 +136,13 @@ function startSimulator () {
 };
 
 gulp.task( "serve"
-         , [ "browser-sync" ]
          , function () {
   var mode;
   var host;
 
-  watch( [ "app/build/babel/**/*"
-         , "app/build/app.js"
+  watch( [ "app/build/app.js"
          , "app/server.js"
+         , "app/src/styles/**/*"
          ]
        , _.debounce( buildChangeHandler, 3000 ) );
 
