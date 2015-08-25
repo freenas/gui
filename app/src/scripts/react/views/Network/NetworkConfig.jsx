@@ -173,13 +173,14 @@ const NetworkConfig = React.createClass(
   , submitChange ( target, evt ) {
     var newConfig = {};
 
-    if ( evt.key === "Enter" ) {
+    if ( evt.key === "Enter" || evt.key === "Tab" ) {
       switch ( target ) {
         case "hostname":
           if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
             && this.isHostname( this.state.systemGeneralConfig.hostname ) ) {
             newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
             SM.updateSystemGeneralConfig( newConfig );
+            this.refs.ipv4.getInputDOMNode().focus();
           }
           break;
 
@@ -191,6 +192,7 @@ const NetworkConfig = React.createClass(
                                    }
                         }
             NM.updateNetworkConfig( newConfig );
+            this.refs.ipv6.getInputDOMNode().focus();
           }
           break;
 
@@ -202,6 +204,7 @@ const NetworkConfig = React.createClass(
                                    }
                         }
             NM.updateNetworkConfig( newConfig );
+            this.refs.dns.getInputDOMNode().focus();
           }
           break;
 
@@ -327,6 +330,7 @@ const NetworkConfig = React.createClass(
                   sm = { 7 }>
           <TWBS.Input
             type = "text"
+            ref = "hostname"
             value = { hostnameValue }
             bsStyle = { this.validate( "hostname", hostnameValue ) }
             onBlur = { this.resetFocus.bind( null, "hostname" ) }
@@ -348,6 +352,7 @@ const NetworkConfig = React.createClass(
                   sm = { 7 }>
           <TWBS.Input
             type = "text"
+            ref = "ipv4"
             value = { ipv4GatewayValue }
             bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
             onBlur = { this.resetFocus.bind( null, "ipv4" ) }
@@ -369,6 +374,7 @@ const NetworkConfig = React.createClass(
                   sm = { 7 }>
           <TWBS.Input
             type = "text"
+            ref = "ipv6"
             value = { ipv6GatewayValue }
             bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
             onBlur = { this.resetFocus.bind( null, "ipv6" ) }
@@ -436,6 +442,7 @@ const NetworkConfig = React.createClass(
                   <TWBS.Col sm = { 9 } >
                     <TWBS.Input
                       type = "text"
+                      ref = "dns"
                       value = { newDNSServer }
                       bsStyle = { this.validate( "dns", newDNSServer ) }
                       // onBlur = { this.resetFocus.bind( null, "dns" ) }
