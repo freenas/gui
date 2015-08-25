@@ -127,23 +127,27 @@ const InterfaceItem = React.createClass(
 
     // This all breaks if the interface isn't yet loaded.
     if ( this.props.networkInterface ) {
-      if ( this.props.networkInterface[ "status" ][ "link-state" ]
-       === "LINK_STATE_UP" ) {
-        statusClass = "interface-up";
-        linkSpeed =
-          <h4>
-            { "10/100/" }
-            <strong className = "bg-primary" >{ "1000" }</strong>
-            { " Ethernet Adapter" }
-          </h4>
-      } else if ( this.props.networkInterface[ "status" ][ "link-state" ]
-       === "LINK_STATE_UNKNOWN" ) {
-        statusClass = "interface-unknown";
-        linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
-      } else if ( this.props.networkInterface[ "status" ][ "link-state" ]
-       === "LINK_STATE_DOWN" ) {
-        statusClass = "interface-down";
-        linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
+      switch ( this.props.networkInterface[ "status" ][ "link-state" ] ) {
+
+        case "LINK_STATE_UP":
+          statusClass = "interface-up";
+          linkSpeed =
+            <h4>
+              { "10/100/" }
+              <strong className = "bg-primary" >{ "1000" }</strong >
+              { " Ethernet Adapter" }
+            </h4>;
+          break;
+
+        case "LINK_STATE_UNKNOWN":
+          statusClass = "interface-unknown";
+          linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
+          break;
+
+        case "LINK_STATE_DOWN":
+          statusClass = "interface-down";
+          linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
+          break;
       }
 
       interfaceName = (
