@@ -80,6 +80,10 @@ var NotificationBar = React.createClass(
           className = "logo-wordmark"
           src   = "/img/freenas-logotype.png"
         />
+        <img
+          className = "logo-x"
+          src   = "/img/X.png"
+        />
 
         <h1 className={ "hostname "
                       + ( this.state.connected
