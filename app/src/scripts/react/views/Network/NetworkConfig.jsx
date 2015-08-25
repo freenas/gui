@@ -49,9 +49,15 @@ const NetworkConfig = React.createClass(
            };
   }
 
+  , getInitialState () {
+    return { updatedDNS: false };
+  }
+
     // The only concern here is reconciling changes to the DNS servers list
   , componentWillReceiveProps ( nextProps ) {
     var newNetworkConfig = {};
+    // This is used just for submission to state later, not for other logic.
+    var updatedDNS = false;
 
     // This only matters if there's a network config in state and it has dns servers in it
     if ( _.has( this, [ "state", "networkConfig", "dns"] ) ) {
@@ -70,6 +76,7 @@ const NetworkConfig = React.createClass(
           // and delete the DNS servers in state.
           newNetworkConfig = _.cloneDeep( this.state.networkConfig );
           delete newNetworkConfig.dns;
+          updatedDNS = true;
           } else {
             // Otherwise, just take the new server list and put the pending new
             // server on the end of the list.
@@ -80,8 +87,16 @@ const NetworkConfig = React.createClass(
           // append the last server in state to the incoming server list.
           newNetworkConfig = this.combineDNSServerState( nextProps );
         }
-        this.setState( { networkConfig: newNetworkConfig } );
+        this.setState( { networkConfig: newNetworkConfig
+                       , updatedDNS: updatedDNS
+                       } );
       }
+    }
+  }
+
+  , componentDidUpdate( prevProps, prevState ) {
+    if ( this.state.updatedDNS ) {
+      React.findDOMNode( this.refs["dns-server-list"] ).scrollTop = 1000000;
     }
   }
 
@@ -386,7 +401,8 @@ const NetworkConfig = React.createClass(
 
     if ( _.has( this, [ "props", "networkConfig", "dns", "servers", "length"] ) ) {
       dnsNodes =
-        <div className = "dns-server-list">
+        <div className = "dns-server-list"
+             ref = "dns-server-list">
           { _.map(
             this.props.networkConfig.dns.servers
             , function mapDNSServers ( server, index ) {
@@ -436,7 +452,8 @@ const NetworkConfig = React.createClass(
                 <h5>DNS Servers</h5>
               </TWBS.Col>
               <TWBS.Col xs = { 12 }
-                        className = "dns-section" >
+                        className = "dns-section"
+                        ref = "dns-section">
                 { dnsNodes }
                 <TWBS.Row>
                   <TWBS.Col sm = { 9 } >
