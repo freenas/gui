@@ -26,77 +26,71 @@ const InterfaceItem = React.createClass(
   }
 
   , showAliases () {
-
-    var aliases = []
+    var aliases = this.props.networkInterface[ "status" ][ "aliases" ];
+    var aliasList = [];
 
     if ( this.props.networkInterface ) {
-      aliases = _.map( this.props.networkInterface[ "status" ][ "aliases" ]
-                     , function createAliasSections ( alias, index ) {
-                       let broadcast = null;
-                       let netmask = null;
-                       let addressLabel = "";
-                       let address = null;
+      _.remove( aliases, { family: "LINK" } );
+      aliasList = _.map( aliases
+                       , function createAliasSections ( alias, index ) {
+                         let broadcast = null;
+                         let netmask = null;
+                         let addressLabel = "";
+                         let address = null;
 
-                       switch( alias[ "family" ] ) {
-                         case "LINK":
-                           addressLabel = "MAC: ";
-                           break;
+                         switch( alias[ "family" ] ) {
+                           case "INET":
+                             addressLabel = "IPv4: "
+                             break;
 
-                         case "INET":
-                           addressLabel = "IPv4: "
-                           break;
+                           case "INET6":
+                             addressLabel = "IPv6: "
+                             break;
+                         }
 
-                         case "INET6":
-                           addressLabel = "IPv6: "
-                           break;
-
-                         default:
-                           break;
-                       }
-
-                       address = <div>
-                                   <span className = "alias-attribute-label">
-                                     { addressLabel }
-                                   </span>
-                                   <span className = "alias-attribute">
-                                     { alias[ "address" ] }
-                                   </span>
-                                 </div>;
-
-                       if ( alias[ "netmask" ] ) {
-                         netmask = <div>
+                         address = <div>
                                      <span className = "alias-attribute-label">
-                                       { "Netmask:" }
+                                       { addressLabel }
                                      </span>
                                      <span className = "alias-attribute">
-                                       { " /" + alias[ "netmask" ] }
+                                       { alias[ "address" ] }
                                      </span>
                                    </div>;
-                       }
 
-                       if ( alias[ "broadcast" ] ) {
-                         broadcast = <div>
+                         if ( alias[ "netmask" ] ) {
+                           netmask = <div>
                                        <span className = "alias-attribute-label">
-                                         { "Broadcast: "}
-                                        </span>
+                                         { "Netmask:" }
+                                       </span>
                                        <span className = "alias-attribute">
-                                        { alias[ "broadcast" ] }
+                                         { " /" + alias[ "netmask" ] }
                                        </span>
                                      </div>;
-                       }
+                         }
 
-                       return (
-                         <div key = { index }
-                              className = "network-alias">
-                          { address }
-                          { netmask }
-                          { broadcast }
-                         </div>
-                       )
-                     } )
+                         if ( alias[ "broadcast" ] ) {
+                           broadcast = <div>
+                                         <span className = "alias-attribute-label">
+                                           { "Broadcast: "}
+                                          </span>
+                                         <span className = "alias-attribute">
+                                          { alias[ "broadcast" ] }
+                                         </span>
+                                       </div>;
+                         }
+
+                         return (
+                           <div key = { index }
+                                className = "network-alias">
+                            { address }
+                            { netmask }
+                            { broadcast }
+                           </div>
+                         )
+                       } );
     }
     return (
-      { aliases }
+      { aliasList }
     );
   }
 
@@ -182,6 +176,10 @@ const InterfaceItem = React.createClass(
                       + "/"
                       + this.props.networkInterface[ "ipv4-netmask" ];
     var dhcpToggle = null;
+    var macAddress = _.find( this.props.networkInterface[ "status" ][ "aliases" ]
+                           , { family: "LINK" }
+                           )[ "address" ];
+    var macAddressDisplay = null;
 
     // This all breaks if the interface isn't yet loaded.
     if ( this.props.networkInterface ) {
@@ -250,6 +248,17 @@ const InterfaceItem = React.createClass(
           disabled = { this.props.networkInterface[ "status" ][ "link-state" ]
                    !== "LINK_STATE_UP" }/>;
 
+      macAddressDisplay =
+        <div className = "network-alias">
+          <div>
+            <span className = "alias-attribute-label">
+              { "MAC: " }
+            </span>
+            <span className = "alias-attribute">
+              { macAddress }
+            </span>
+          </div>
+        </div>
     }
 
     return (
@@ -259,6 +268,7 @@ const InterfaceItem = React.createClass(
         { staticIP }
         { dhcpToggle }
         { linkSpeed }
+        { macAddressDisplay }
         { this.showAliases() }
       </TWBS.Panel>
     );
