@@ -139,7 +139,7 @@ const InterfaceItem = React.createClass(
             let newNetmask = parseInt( splitInput[1], 10 );
             newNetworkInterface[ "ipv4-address" ] = newIP;
             newNetworkInterface[ "ipv4-netmask" ] = newNetmask;
-            IM.configureInterface( this.props.networkInterface.name, newNetworkInterface)
+            IM.configureInterface( this.props.networkInterface.name, newNetworkInterface);
           }
         break;
       }
