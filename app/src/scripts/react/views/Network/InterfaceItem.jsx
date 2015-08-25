@@ -11,6 +11,7 @@ import TWBS from "react-bootstrap";
 import networkCommon from "./networkCommon";
 
 import ToggleSwitch from "../../components/ToggleSwitch";
+import DiscTri from "../../components/DiscTri";
 
 import IM from "../../../flux/middleware/InterfacesMiddleware";
 
@@ -269,7 +270,12 @@ const InterfaceItem = React.createClass(
         { dhcpToggle }
         { linkSpeed }
         { macAddressDisplay }
-        { this.showAliases() }
+        <DiscTri
+          headerShow = "Aliases"
+          headerHide = "Aliases"
+          defaultExpsnded = { true } >
+          { this.showAliases() }
+        </DiscTri>
       </TWBS.Panel>
     );
   }
