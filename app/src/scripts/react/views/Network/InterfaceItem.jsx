@@ -237,8 +237,7 @@ const InterfaceItem = React.createClass(
           onBlur = { this.resetFocus.bind( null, "staticIP" ) }
           onChange = { this.handleChange.bind( this, "staticIP" ) }
           onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
-          disabled = { this.props.networkInterface[ "status" ][ "link-state" ]
-                   !== "LINK_STATE_UP" } />
+          disabled = { this.props.networkInterface.dhcp } />
 
       dhcpToggle =
         <TWBS.Input
