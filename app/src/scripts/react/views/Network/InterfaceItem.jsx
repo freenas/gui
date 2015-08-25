@@ -127,6 +127,25 @@ const InterfaceItem = React.createClass(
     }
   }
 
+  , submitChange ( target, evt ) {
+    var newNetworkInterface = {};
+
+    if ( evt.key === "Enter" ) {
+      switch ( target ) {
+        case "staticIP":
+          if ( this.isIPv4WithNetmask( this.state.staticIP ) ) {
+            let splitInput = this.state.staticIP.split( "/" );
+            let newIP = splitInput[0];
+            let newNetmask = parseInt( splitInput[1], 10 );
+            newNetworkInterface[ "ipv4-address" ] = newIP;
+            newNetworkInterface[ "ipv4-netmask" ] = newNetmask;
+            IM.configureInterface( this.props.networkInterface.name, newNetworkInterface)
+          }
+        break;
+      }
+    }
+  }
+
   , toggleDHCP () {
     var newNetworkInterface = {};
     if ( this.props.networkInterface.dhcp ) {
@@ -206,6 +225,7 @@ const InterfaceItem = React.createClass(
           value = { staticIPValue }
           bsStyle = { this.validate( "staticIP", staticIPValue ) }
           onChange = { this.handleChange.bind( this, "staticIP" ) }
+          onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
           disabled = { this.props.networkInterface.dhcp } />
 
       dhcpToggle =
