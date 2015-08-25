@@ -11,7 +11,7 @@ import React from "react";
 
 // Routing
 import Router, { HistoryLocation } from "react-router";
-import Routes from "./routes";
+import Routes from "./routes.jsx";
 
 import MiddlewareClient from "./websocket/MiddlewareClient";
 

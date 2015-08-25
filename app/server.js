@@ -3,7 +3,7 @@
 
 "use strict";
 
-require( "babel/polyfill" );
+require( "babel/register" );
 
 var fs   = require( "fs" );
 var path = require( "path" );
@@ -14,7 +14,7 @@ var argv = require( "yargs" ).argv;
 var React  = require( "react" );
 var Router = require( "react-router" );
 
-var routes = require( __dirname + "/build/babel/routes" );
+var routes = require( __dirname + "/src/scripts/routes" );
 
 // Content
 var appBundle  = fs.readFileSync( __dirname + "/build/app.js" );

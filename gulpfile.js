@@ -14,8 +14,7 @@ require( "require-dir" )( "./gulp_tasks/", { recurse: true } );
 
 gulp.task( "default", function ( callback ) {
   runSequence( [ "clean", "install-packages" ]
-             , [ "babel"
-               , "browserify"
+             , [ "webpack"
                , "less"
                , "images"
                , "favicons"
