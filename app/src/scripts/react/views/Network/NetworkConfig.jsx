@@ -392,7 +392,7 @@ const NetworkConfig = React.createClass(
                     className = "pull-right"
                     onClick = { this.deleteDnsServer.bind( null, index ) }
                     bsStyle = "danger"
-                    bsSize  = "small"
+                    bsSize  = "xsmall"
                     title   = "Delete Server">
                     <Icon glyph="times" />
                   </TWBS.Button>

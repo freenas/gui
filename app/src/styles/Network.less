@@ -17,20 +17,27 @@
   .dns-section {
 
     .dns-server-list {
-      margin-top: 2px;
+      margin-top: .05em;
       padding-left: 0;
       overflow-y: scroll;
-      max-height: 8.2em;
+      max-height: 5.8em;
 
       .dns-server {
         float: left;
-        line-height: 30px;
-        margin-bottom: .6em;
+        margin-bottom: .39em;
+        line-height: 1.2em;
         width: 100%;
       }
 
+      // Manually imposing the xsmall bootstrap size.
+      // Not sure why it was being overridden.
       .btn {
         float: right;
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 2px;
+        vertical-align: center;
       }
     }
   }
