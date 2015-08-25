@@ -15,6 +15,12 @@ import IM from "../../../flux/middleware/InterfacesMiddleware";
 const InterfaceItem = React.createClass(
   { propTypes: { networkInterface: React.PropTypes.object.isRequired }
 
+  , getInitialState () {
+    // 'staticIP' is just the string in the static IP field while it is being
+    // edited. The actual static IP that is committed will be parsed from it.
+    return { staticIP: null };
+  }
+
   , showAliases () {
 
     var aliases = []
@@ -98,8 +104,13 @@ const InterfaceItem = React.createClass(
     }
   }
 
-  , handleStaticIPChange () {
 
+  , handleChange ( key, evt ) {
+    switch ( key ) {
+      case "staticIP":
+        this.setState( { staticIP: evt.target.value } );
+        break;
+    }
   }
 
   , toggleDHCP () {
@@ -123,6 +134,9 @@ const InterfaceItem = React.createClass(
                 : false;
     var interfaceToggle = null;
     var staticIP = null;
+    var staticIPValue = this.props.networkInterface[ "ipv4-address" ]
+                      + "/"
+                      + this.props.networkInterface[ "ipv4-netmask" ];
     var dhcpToggle = null;
 
     // This all breaks if the interface isn't yet loaded.
@@ -166,15 +180,16 @@ const InterfaceItem = React.createClass(
                                                 ) } />
       );
 
+      if ( this.state.staticIP !== null ) {
+        staticIPValue = this.state.staticIP;
+      }
+
       staticIP =
         <TWBS.Input
           type = "text"
           label = "Static IP:"
-          value = { this.props.networkInterface[ "ipv4-address" ]
-                  + "/"
-                  + this.props.networkInterface[ "ipv4-netmask" ]
-                  }
-          onChange = { this.handleStaticIPChange }
+          value = { staticIPValue }
+          onChange = { this.handleChange.bind( this, "staticIP" ) }
           disabled = { this.props.networkInterface.dhcp } />
 
       dhcpToggle =
