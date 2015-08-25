@@ -120,7 +120,7 @@ const Network = React.createClass(
       interfaces = _.map( this.state.interfaces
                         , function createInterfaceItems ( networkInterface, key ) {
                           return ( <InterfaceItem
-                            interface = { networkInterface }
+                            networkInterface = { networkInterface }
                             key = { networkInterface[ "name" ] } /> );
                         }
                         );

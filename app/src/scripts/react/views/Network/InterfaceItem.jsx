@@ -13,14 +13,14 @@ import ToggleSwitch from "../../components/ToggleSwitch";
 import IM from "../../../flux/middleware/InterfacesMiddleware";
 
 const InterfaceItem = React.createClass(
-  { propTypes: { interface: React.PropTypes.object.isRequired }
+  { propTypes: { networkInterface: React.PropTypes.object.isRequired }
 
   , showAliases () {
 
     var aliases = []
 
-    if ( this.props.interface ) {
-      aliases = _.map( this.props.interface[ "status" ][ "aliases" ]
+    if ( this.props.networkInterface ) {
+      aliases = _.map( this.props.networkInterface[ "status" ][ "aliases" ]
                      , function createAliasSections ( alias, index ) {
                        let broadcast = null;
                        let netmask = null;
@@ -91,10 +91,10 @@ const InterfaceItem = React.createClass(
   }
 
   , toggleInterface () {
-    if ( this.props.interface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
-      IM.downInterface( this.props.interface.name );
+    if ( this.props.networkInterface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
+      IM.downInterface( this.props.networkInterface.name );
     } else {
-      IM.upInterface( this.props.interface.name );
+      IM.upInterface( this.props.networkInterface.name );
     }
   }
 
@@ -104,12 +104,12 @@ const InterfaceItem = React.createClass(
 
   , toggleDHCP () {
     var newInterface = {}
-    if ( this.props.interface.dhcp ) {
+    if ( this.props.networkInterface.dhcp ) {
       newInterface = { dhcp: false };
     } else {
       newInterface = { dhcp: true };
     }
-    IM.configureInterface( this.props.interface.name, newInterface );
+    IM.configureInterface( this.props.networkInterface.name, newInterface );
   }
 
   , render () {
@@ -118,16 +118,16 @@ const InterfaceItem = React.createClass(
     var interfaceName = null;
     var interfaceType = "";
     var linkSpeed = null;
-    var enabled = this.props.interface
-                ? this.props.interface[ "enabled" ]
+    var enabled = this.props.networkInterface
+                ? this.props.networkInterface[ "enabled" ]
                 : false;
     var interfaceToggle = null;
     var staticIP = null;
     var dhcpToggle = null;
 
     // This all breaks if the interface isn't yet loaded.
-    if ( this.props.interface ) {
-      if ( this.props.interface[ "status" ][ "link-state" ]
+    if ( this.props.networkInterface ) {
+      if ( this.props.networkInterface[ "status" ][ "link-state" ]
        === "LINK_STATE_UP" ) {
         statusClass = "interface-up";
         linkSpeed =
@@ -136,11 +136,11 @@ const InterfaceItem = React.createClass(
             <strong className = "bg-primary" >{ "1000" }</strong>
             { " Ethernet Adapter" }
           </h4>
-      } else if ( this.props.interface[ "status" ][ "link-state" ]
+      } else if ( this.props.networkInterface[ "status" ][ "link-state" ]
        === "LINK_STATE_UNKNOWN" ) {
         statusClass = "interface-unknown";
         linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
-      } else if ( this.props.interface[ "status" ][ "link-state" ]
+      } else if ( this.props.networkInterface[ "status" ][ "link-state" ]
        === "LINK_STATE_DOWN" ) {
         statusClass = "interface-down";
         linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
@@ -148,17 +148,17 @@ const InterfaceItem = React.createClass(
 
       interfaceName = (
         <h2 className = { "interface-name " + statusClass } >
-          { this.props.interface[ "name" ] }
+          { this.props.networkInterface[ "name" ] }
         </h2>
       );
 
       interfaceToggle = (
         <ToggleSwitch
           className = "pull-right"
-          toggled = { this.props.interface[ "status" ][ "link-state" ]
+          toggled = { this.props.networkInterface[ "status" ][ "link-state" ]
                   === "LINK_STATE_UP" }
           onChange = { this.toggleInterface.bind( this
-                                                , this.props.interface.name
+                                                , this.props.networkInterface.name
                                                 ) } />
       );
 
@@ -166,20 +166,20 @@ const InterfaceItem = React.createClass(
         <TWBS.Input
           type = "text"
           label = "Static IP:"
-          value = { this.props.interface[ "ipv4-address" ]
+          value = { this.props.networkInterface[ "ipv4-address" ]
                   + "/"
-                  + this.props.interface[ "ipv4-netmask" ]
+                  + this.props.networkInterface[ "ipv4-netmask" ]
                   }
           onChange = { this.handleStaticIPChange }
-          disabled = { this.props.interface.dhcp } />
+          disabled = { this.props.networkInterface.dhcp } />
 
       dhcpToggle =
         <TWBS.Input
           type = "checkbox"
-          checked = { this.props.interface.dhcp }
+          checked = { this.props.networkInterface.dhcp }
           onChange = { this.toggleDHCP }
           label = { "Enable DHCP" }
-          disabled = { this.props.interface[ "status" ][ "link-state" ]
+          disabled = { this.props.networkInterface[ "status" ][ "link-state" ]
                  !== "LINK_STATE_UP" }/>;
 
     }
