@@ -114,13 +114,14 @@ const InterfaceItem = React.createClass(
   }
 
   , toggleDHCP () {
-    var newInterface = {}
+    var newNetworkInterface = {};
     if ( this.props.networkInterface.dhcp ) {
-      newInterface = { dhcp: false };
+      newNetworkInterface = { dhcp: false };
     } else {
-      newInterface = { dhcp: true };
+      newNetworkInterface = { dhcp: true };
     }
-    IM.configureInterface( this.props.networkInterface.name, newInterface );
+    IM.configureInterface( this.props.networkInterface.name
+                         , newNetworkInterface );
   }
 
   , render () {
