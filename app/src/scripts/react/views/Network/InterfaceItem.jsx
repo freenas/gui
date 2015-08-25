@@ -146,6 +146,16 @@ const InterfaceItem = React.createClass(
     }
   }
 
+  , resetFocus ( key, evt ) {
+    switch ( key ) {
+      case "staticIP":
+        if ( !this.isIPv4WithNetmask( evt.target.value ) ) {
+          evt.target.focus();
+        }
+        break;
+    }
+  }
+
   , toggleDHCP () {
     var newNetworkInterface = {};
     if ( this.props.networkInterface.dhcp ) {
@@ -224,6 +234,7 @@ const InterfaceItem = React.createClass(
           label = "Static IP:"
           value = { staticIPValue }
           bsStyle = { this.validate( "staticIP", staticIPValue ) }
+          onBlur = { this.resetFocus.bind( null, "staticIP" ) }
           onChange = { this.handleChange.bind( this, "staticIP" ) }
           onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
           disabled = { this.props.networkInterface.dhcp } />
