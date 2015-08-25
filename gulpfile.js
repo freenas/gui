@@ -21,6 +21,7 @@ gulp.task( "default", function ( callback ) {
                , "fonts"
                ]
              , "serve"
+             , "webpack-dev-server"
              , callback
              );
 });
