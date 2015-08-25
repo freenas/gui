@@ -8,12 +8,16 @@ import React from "react";
 import _ from "lodash";
 import TWBS from "react-bootstrap";
 
+import networkCommon from "./networkCommon";
+
 import ToggleSwitch from "../../components/ToggleSwitch";
 
 import IM from "../../../flux/middleware/InterfacesMiddleware";
 
 const InterfaceItem = React.createClass(
   { propTypes: { networkInterface: React.PropTypes.object.isRequired }
+
+  , mixins: [ networkCommon ]
 
   , getInitialState () {
     // 'staticIP' is just the string in the static IP field while it is being
@@ -104,6 +108,16 @@ const InterfaceItem = React.createClass(
     }
   }
 
+  , validate ( key, value ) {
+    var responseStyle = null;
+    switch( key ) {
+      case "staticIP":
+        if ( !this.isIPv4WithNetmask( value ) ) {
+          responseStyle = "error";
+        }
+    }
+    return responseStyle;
+  }
 
   , handleChange ( key, evt ) {
     switch ( key ) {
@@ -190,6 +204,7 @@ const InterfaceItem = React.createClass(
           type = "text"
           label = "Static IP:"
           value = { staticIPValue }
+          bsStyle = { this.validate( "staticIP", staticIPValue ) }
           onChange = { this.handleChange.bind( this, "staticIP" ) }
           disabled = { this.props.networkInterface.dhcp } />
 
