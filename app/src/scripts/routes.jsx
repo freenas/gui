@@ -34,12 +34,18 @@ import Hardware from "./react/views/Hardware";
 
 import Storage from "./react/views/Storage";
 
+import Settings from "./react/views/Settings";
+import System from "./react/views/Settings/System";
+import Update from "./react/views/Settings/Update";
+import Security from "./react/views/Settings/Security";
+import Support from "./react/views/Settings/Support";
+
 module.exports = (
   <Route
     path    = "/"
     handler = { Root } >
 
-    <DefaultRoute handler={ Users } />
+    <DefaultRoute handler={ Storage } />
 
     {/* DASHBOARD */}
     <Route
@@ -111,6 +117,32 @@ module.exports = (
       name    = "storage"
       route   = "storage"
       handler = { Storage } />
+
+    { /* Settings */ }
+    <Route
+      name = "settings"
+      route = "settings"
+      handler = { Settings }>
+
+      <DefaultRoute handler = { System } />
+
+      <Route
+        name = "system"
+        route = "system"
+        hanlder = { System }/>
+      <Route
+        name = "update"
+        route = "update"
+        handler = { Update }/>
+      <Route
+        name = "security"
+        route = "security"
+        handler = { Security }/>
+      <Route
+        name = "support"
+        route = "support"
+        handler = { Support }/>
+    </Route>
 
     <NotFoundRoute handler={ Users } />
 
