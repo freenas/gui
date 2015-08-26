@@ -4,13 +4,14 @@
 
 "use strict";
 
-var gulp   = require( "gulp" );
-var del    = require( "del" );
-var chalk  = require( "chalk" );
+var gulp = require( "gulp" );
+var del = require( "del" );
+
+var prettyPrint = require( "../gulp_common/prettyPrint" );
 
 gulp.task( "clean", function ( callback ) {
 
-  console.log( chalk.bgRed.white( "  CLEAN  " ) + " Cleaning previous builds" );
+  prettyPrint.tag( "bgRed", "CLEAN", "Cleaning previous builds" );
 
   del( [ "app/build" ], callback );
 });

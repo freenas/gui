@@ -11,8 +11,10 @@ var Monitor = require( "forever-monitor" ).Monitor;
 var chalk   = require( "chalk" );
 var argv    = require( "yargs" ).argv;
 
-var APP_TAG = chalk.bgWhite.black( "  WEBSERVER  " ) + " ";
-var SIM_TAG = chalk.bgGreen.black( "  SIMULATOR  " ) + " ";
+var prettyPrint = require( "../gulp_common/prettyPrint" );
+
+var APP_TAG = "WEBSERVER";
+var SIM_TAG = "SIMULATOR";
 
 var ERROR_TAG = chalk.red( "[ ERROR ] " );
 var START_TAG = chalk.green( "[ START ] " );
@@ -29,24 +31,31 @@ var simulator;
 
 function buildChangeHandler ( vinyl ) {
   if ( localServer && localServer.restart ) {
-    console.log( APP_TAG + chalk.blue( "[ WATCH ] " )
-               + "Issuing app restart command"
-               );
+    prettyPrint.tag( "bgWhite"
+                   , APP_TAG
+                   , chalk.blue( "[ WATCH ] " )
+                   + "Issuing app restart command"
+                   );
     localServer.restart();
   }
-};
+}
 
 function simChangeHandler ( vinyl ) {
   if ( simulator && simulator.restart ) {
-    console.log( SIM_TAG + chalk.blue( "[ WATCH ] " )
+    prettyPrint.tag( "bgGreen"
+                   , SIM_TAG
+                   , chalk.blue( "[ WATCH ] " )
                + "Issuing simulator restart command"
                );
     simulator.restart();
   }
-};
+}
 
 function startFreeNASApp ( mode ) {
-  console.log( APP_TAG + "Starting webserver in '" + mode + "' mode." );
+  prettyPrint.tag( "bgWhite"
+                 , APP_TAG
+                 , "Starting webserver in '" + mode + "' mode."
+                 );
 
   localServer =
     new Monitor( "app/server.js"
@@ -59,39 +68,58 @@ function startFreeNASApp ( mode ) {
   localServer.setMaxListeners( 0 );
 
   localServer.on( "error", function ( err ) {
-    console.log( APP_TAG + ERROR_TAG + err );
+    prettyPrint.tag( "bgWhite"
+                   , APP_TAG
+                   , ERROR_TAG + err
+                   );
   });
 
   localServer.on( "start", function ( process, data ) {
-    console.log( APP_TAG + START_TAG + "Webserver started" );
+    prettyPrint.tag( "bgWhite"
+                   , APP_TAG
+                   , START_TAG + "Webserver started"
+                   );
   });
 
   localServer.on( "restart", function ( forever ) {
-    console.log( APP_TAG + RESTART_TAG + "Webserver is restarting" );
+    prettyPrint.tag( "bgWhite"
+                   , APP_TAG
+                   , RESTART_TAG + "Webserver is restarting"
+                   );
   });
 
   localServer.on( "exit:code", function ( code ) {
-    console.log( APP_TAG + EXIT_TAG
-               + ( code
-                 ? " Code " + code
-                 : ""
-                 )
-               );
+    prettyPrint.tag( "bgWhite"
+                   , APP_TAG
+                   , EXIT_TAG
+                   + code
+                   ? " Code " + code
+                   : ""
+                   );
   });
 
   localServer.on( "stdout", function ( data ) {
-    console.log( APP_TAG + STDOUT_TAG + data + "\n" );
+    prettyPrint.tag( "bgWhite"
+                   , APP_TAG
+                   , STDOUT_TAG + data + "\n"
+                   );
   });
 
   localServer.on( "stderr", function ( data ) {
-    console.log( APP_TAG + STDERR_TAG + data + "\n" );
+    prettyPrint.tag( "bgWhite"
+                   , APP_TAG
+                   , STDERR_TAG + data + "\n"
+                   );
   });
 
   localServer.start();
-};
+}
 
 function startSimulator () {
-  console.log( SIM_TAG + "Starting simulator instance" );
+  prettyPrint.tag( "bgGreen"
+                 , SIM_TAG
+                 , "Starting simulator instance"
+                 );
   simulator =
     new Monitor( "simulator/simulator.js"
                , { silent   : true
@@ -103,19 +131,29 @@ function startSimulator () {
   simulator.setMaxListeners( 0 );
 
   simulator.on( "error", function ( err ) {
-    console.log( SIM_TAG + ERROR_TAG + err );
+    prettyPrint.tag( "bgGreen"
+                   , SIM_TAG
+                   , ERROR_TAG + err
+                   );
   });
 
   simulator.on( "start", function ( process, data ) {
-    console.log( SIM_TAG + START_TAG + "Simulator started successfully" );
+    prettyPrint.tag( "bgGreen"
+                   , SIM_TAG
+                   , START_TAG + "Simulator started successfully" );
   });
 
   simulator.on( "restart", function ( forever ) {
-    console.log( SIM_TAG + RESTART_TAG + "Simulator was restarted" );
+    prettyPrint.tag( "bgGreen"
+                   , SIM_TAG
+                   , RESTART_TAG + "Simulator was restarted"
+                   );
   });
 
   simulator.on( "exit:code", function ( code ) {
-    console.log( SIM_TAG + EXIT_TAG
+    prettyPrint.tag( "bgGreen"
+                   , SIM_TAG
+                   , EXIT_TAG
                + ( code
                  ? " Code " + code
                  : ""
@@ -124,16 +162,22 @@ function startSimulator () {
   });
 
   simulator.on( "stdout", function ( data ) {
-    console.log( SIM_TAG + STDOUT_TAG + data + "\n" );
+    prettyPrint.tag( "bgGreen"
+                   , SIM_TAG
+                   , STDOUT_TAG + data + "\n"
+                   );
   });
 
   simulator.on( "stderr", function ( data ) {
-    console.log( SIM_TAG + STDERR_TAG + data + "\n" );
+    prettyPrint.tag( "bgGreen"
+                   , SIM_TAG
+                   , STDERR_TAG + data + "\n"
+                   );
   });
 
   simulator.start();
 
-};
+}
 
 gulp.task( "serve"
          , function () {
