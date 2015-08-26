@@ -195,8 +195,8 @@ const NetworkConfig = React.createClass(
             && this.isHostname( this.state.systemGeneralConfig.hostname ) ) {
             newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
             SM.updateSystemGeneralConfig( newConfig );
-            this.refs.ipv4.getInputDOMNode().focus();
           }
+          this.refs.ipv4.getInputDOMNode().focus();
           break;
 
         case "ipv4":
@@ -207,8 +207,8 @@ const NetworkConfig = React.createClass(
                                    }
                         }
             NM.updateNetworkConfig( newConfig );
-            this.refs.ipv6.getInputDOMNode().focus();
           }
+          this.refs.ipv6.getInputDOMNode().focus();
           break;
 
         case "ipv6":
@@ -219,8 +219,8 @@ const NetworkConfig = React.createClass(
                                    }
                         }
             NM.updateNetworkConfig( newConfig );
-            this.refs.dns.getInputDOMNode().focus();
           }
+          this.refs.dns.getInputDOMNode().focus();
           break;
 
         case "dns":
