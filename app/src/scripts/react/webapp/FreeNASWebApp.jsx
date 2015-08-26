@@ -17,6 +17,12 @@ import ContextBar from "./ContextBar";
 import PrimaryNavigation from "./PrimaryNavigation";
 import DebugTools from "./DebugTools";
 
+let cssCachebust = "";
+
+// Static Assets
+if ( process.env.BROWSER ) {
+  require( "../../../styles/core.less" );
+}
 
 const FreeNASWebApp = React.createClass(
   { mixins: [ routerShim ]
@@ -85,7 +91,7 @@ const FreeNASWebApp = React.createClass(
         />
 
         {/* Primary Styles */}
-        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <link rel="stylesheet" type="text/css" href={ "extract.css" + cssCachebust } />
         <script type="text/javascript" src="/js/data-window-props.js"></script>
       </head>
       <body>

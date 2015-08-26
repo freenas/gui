@@ -5,6 +5,7 @@
 "use strict";
 
 var webpack = require( "webpack" );
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports =
   { name: "browser"
@@ -20,22 +21,36 @@ module.exports =
     , filename: "app.js"
     }
   , resolve:
-    { extensions: [ "", ".js", ".jsx" ]
+    { extensions: [ "", ".js", ".jsx", ".css", ".less" ]
     }
   , node:
     { fs: "empty"
     }
   , module:
     { loaders:
-      [ { test: /(\.js$)|(\.jsx$)/
+      [ { test: /\.(js|jsx)$/
         , exclude: /node_modules/
-        , loaders: [ "react-hot", "babel-loader" ]
+        , loaders: [ "react-hot", "babel" ]
+        }
+      , { test: /\.less$/
+          // Activate source maps via loader query
+        , loader: ExtractTextPlugin.extract( "style"
+                                           , "css?sourceMap"
+                                           + "!less?sourceMap"
+                                           )
+        }
+      , { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)/
+        , loader: "url-loader?limit=30000&name=[name]-[hash].[ext]"
         }
       ]
     }
-  , devtool: "cheap-eval-source-map"
+  , devtool: "source-map"
   , plugins:
     [ new webpack.HotModuleReplacementPlugin()
     , new webpack.NoErrorsPlugin()
+    , new ExtractTextPlugin( "extract.css"
+                           , { allChunks: true
+                             }
+                           )
     ]
   };

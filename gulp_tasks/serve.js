@@ -142,7 +142,6 @@ gulp.task( "serve"
 
   watch( [ "app/build/app.js"
          , "app/server.js"
-         , "app/src/styles/**/*"
          ]
        , _.debounce( buildChangeHandler, 3000 ) );
 

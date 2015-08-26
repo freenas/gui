@@ -42,6 +42,8 @@ gulp.task( "webpack-dev-server", function ( callback ) {
 
   new WebpackDevServer( compiler
                       , { hot: true
+                        , noInfo: true
+                        , colors: true
                         , historyApiFallback: true
                         , proxy:
                           { "*": "http://localhost:8888" }
