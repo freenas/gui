@@ -5,6 +5,10 @@
 
 require( "babel/register" );
 
+// Delete BROWSER variable ( in case it exists! ) to make sure that any static
+// resource requires are not triggered here when rendering.
+delete process.env.BROWSER;
+
 var fs   = require( "fs" );
 var path = require( "path" );
 var mach = require( "mach" );
