@@ -36,7 +36,7 @@ function handleDevServerOutput ( callback, error ) {
                  , "Starting Webpack dev server"
                  );
 
-  gutil.log(
+  console.log(
 "\n\n" +
 "The FreeNAS X GUI builder is now using Webpack's Hot Module Replacement\n" +
 "in conjunction with the Webpack development server. This means that aside\n" +
