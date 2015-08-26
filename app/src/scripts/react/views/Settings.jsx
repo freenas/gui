@@ -11,13 +11,13 @@ import routerShim from "../mixins/routerShim";
 import SectionNav from "../components/SectionNav";
 
 const sections = [ { route: "system"
-                   , display: "System Settings"
+                   , display: "System"
                    }
                  , { route: "update"
-                   , display: "Updates and Boot Environments"
+                   , display: "Updates"
                    }
                  , { route: "security"
-                   , display: "Security Certificates"
+                   , display: "Security"
                    }
                  , { route: "support"
                    , display: "Support"
