@@ -17,8 +17,6 @@ import ContextBar from "./ContextBar";
 import PrimaryNavigation from "./PrimaryNavigation";
 import DebugTools from "./DebugTools";
 
-let cssCachebust = "";
-
 // Static Assets
 if ( process.env.BROWSER ) {
   require( "../../../styles/core.less" );
@@ -27,7 +25,15 @@ if ( process.env.BROWSER ) {
 const FreeNASWebApp = React.createClass(
   { mixins: [ routerShim ]
 
+  , getInitialState () {
+      return { cssBust: ""
+             };
+    }
+
   , componentDidMount () {
+      if ( module.hot ) {
+        module.hot.addStatusHandler( this.cssBust );
+      }
       this.calculateDefaultRoute( "/", "accounts", "is" );
       window.addEventListener( "click", this.handleMenuClickOut );
     }
@@ -35,6 +41,21 @@ const FreeNASWebApp = React.createClass(
   , componentDidUpdate ( prevProps, prevState ) {
       this.calculateDefaultRoute( "/", "accounts", "is" );
       window.removeEventListener( "click", this.handleMenuClickOut );
+    }
+
+  , componentWillUnmount () {
+      if ( module.hot ) {
+        module.hot.removeStatusHandler( this.cssBust );
+      }
+    }
+
+  , cssBust ( hmrState ) {
+      if ( hmrState === "idle" ) {
+        this.setState(
+          { cssBust: "?" + new Date().getTime() / 1000
+          }
+        )
+      }
     }
 
   , getParent( child, testClass ) {
@@ -91,7 +112,7 @@ const FreeNASWebApp = React.createClass(
         />
 
         {/* Primary Styles */}
-        <link rel="stylesheet" type="text/css" href={ "extract.css" + cssCachebust } />
+        <link rel="stylesheet" type="text/css" href={ "extract.css" + this.state.cssBust } />
         <script type="text/javascript" src="/js/data-window-props.js"></script>
       </head>
       <body>
