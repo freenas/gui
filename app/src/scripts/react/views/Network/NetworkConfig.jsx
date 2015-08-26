@@ -188,7 +188,7 @@ const NetworkConfig = React.createClass(
   , submitChange ( target, evt ) {
     var newConfig = {};
 
-    if ( evt.key === "Enter" || evt.key === "Tab" ) {
+    if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "hostname":
           if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
@@ -196,9 +196,7 @@ const NetworkConfig = React.createClass(
             newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
             SM.updateSystemGeneralConfig( newConfig );
           }
-          if ( !evt.getModifierState( "Shift" ) && evt.key !== "Tab" ) {
-            this.refs.ipv4.getInputDOMNode().focus();
-          }
+          this.refs.ipv4.getInputDOMNode().focus();
           break;
 
         case "ipv4":
@@ -210,9 +208,7 @@ const NetworkConfig = React.createClass(
                         }
             NM.updateNetworkConfig( newConfig );
           }
-          if ( !evt.getModifierState( "Shift" ) && evt.key !== "Tab" ) {
-            this.refs.ipv6.getInputDOMNode().focus();
-          }
+          this.refs.ipv6.getInputDOMNode().focus();
           break;
 
         case "ipv6":
@@ -224,9 +220,7 @@ const NetworkConfig = React.createClass(
                         }
             NM.updateNetworkConfig( newConfig );
           }
-          if ( !evt.getModifierState( "Shift" ) && evt.key !== "Tab" ) {
-            this.refs.dns.getInputDOMNode().focus();
-          }
+          this.refs.dns.getInputDOMNode().focus();
           break;
 
         case "dns":
