@@ -68,11 +68,11 @@ const paths =
     , status   : null
     , disabled : true
     }
-  , { path     : ""
+  , { path     : "settings"
     , icon     : "paragraph"
     , label    : "Settings"
     , status   : null
-    , disabled : true
+    , disabled : false
     }
   ];
 
