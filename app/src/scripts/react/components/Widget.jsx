@@ -7,16 +7,27 @@
 import React from "react";
 
 const Widget = React.createClass(
+  { propTypes:
+    { title: React.PropTypes.string
+    }
 
-  { render () {
+  , getDefaultProps () {
+      return { title: ""
+             };
+    }
 
-    return (
-      <div className = { "widget" }>
-        { this.props.children }
-      </div>
-    );
+  , render () {
+      return (
+        <div className = "widget">
+          <div className = "widget-toolbar">
+            <span className = "widget-name">{ this.props.title }</span>
+          </div>
+          { this.props.children }
+        </div>
+      );
+    }
   }
-});
+);
 
 export default Widget;
 

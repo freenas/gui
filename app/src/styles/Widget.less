@@ -1,16 +1,24 @@
 .widget {
+  .flex-display( flex );
+  .flex-flow( column wrap );
+  box-shadow: 1px 1px 1px 1px rgba( 0, 0, 0, 0.25 );
+  margin: 15px;
+
   canvas {
     width: 100%;
     height: 100%;
   }
 }
 
+.widget-toolbar {
+}
+
 .widget-chart {
-  height: 100%;
+  .flex( 1 );
 }
 
 .network-widget-dual {
-  height: 100%;
+  .flex( 1 );
   .widget-chart {
     height: 50%;
   }
