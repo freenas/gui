@@ -20,7 +20,7 @@ if ( typeof window !== "undefined" ) {
 
 const CPU = React.createClass(
   { componentDidMount () {
-      let data = [ "CPU %" ].concat( ChartUtil.rand( 2, 8, 31 ) );
+      let data = [ "CPU Usage" ].concat( ChartUtil.rand( 2, 8, 31 ) );
 
       this.chart = c3.generate(
         _.assign( {}
@@ -29,7 +29,7 @@ const CPU = React.createClass(
                   , data:
                     { columns: [ data ]
                     , type: "area"
-                    , groups: [[ "CPU %" ]]
+                    , groups: [[ "CPU Usage" ]]
                     }
                   , point:
                     { show: false
@@ -39,8 +39,13 @@ const CPU = React.createClass(
                       { show: false
                       }
                     , y:
-                      { padding: false
-                      , max: 90
+                      { max: 100
+                      , min: 0
+                      , padding: { top: 0, bottom: 0 }
+                      , tick:
+                        { values: [ 0, 25, 50, 75, 100 ]
+                        , format: function ( x ) { return x + " %"; }
+                        }
                       }
                     }
                   }
@@ -57,7 +62,7 @@ const CPU = React.createClass(
 
   , tick () {
       if ( this.chart ) {
-        let newPoint = [ "CPU %" ].concat( ChartUtil.rand( 2, 8, 1 ) );
+        let newPoint = [ "CPU Usage" ].concat( ChartUtil.rand( 2, 8, 1 ) );
         this.chart.flow(
           { columns: [ newPoint ]
           }
@@ -69,7 +74,7 @@ const CPU = React.createClass(
 
   , render () {
       return (
-        <Widget title="CPU %">
+        <Widget title="CPU Usage">
           <div
             className = "widget-chart"
             ref="cpuChart"
