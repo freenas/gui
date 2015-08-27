@@ -17,8 +17,14 @@ const Widget = React.createClass(
     }
 
   , render () {
+      let classes = [ "widget" ];
+
+      if ( this.props.className ) {
+        classes.push( this.props.className.split( /\s/ ) );
+      }
+
       return (
-        <div className = "widget">
+        <div className = { classes.join( " " ) }>
           <div className = "widget-toolbar">
             <span className = "widget-name">{ this.props.title }</span>
           </div>
