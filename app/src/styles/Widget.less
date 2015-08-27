@@ -25,10 +25,34 @@
   .flex-display( flex );
   .flex-flow( column nowrap );
 
+  .table {
+    margin: 0;
+
+    & > thead > tr > th,
+    & > tbody > tr > th,
+    & > tfoot > tr > th,
+    & > thead > tr > td,
+    & > tbody > tr > td,
+    & > tfoot > tr > td {
+      border-top: none;
+      padding: 0;
+      vertical-align: baseline;
+    }
+  }
+
   .property {
     display: block;
     font-weight: 300;
-    font-size: 1.1em;
+    margin-left: 15px;
+  }
+
+  .property-label {
+    color: @gray-light;
+    font-weight: 200;
+    text-transform: uppercase;
+    text-align: right;
+    font-size: 0.85em;
+    width: 20%;
   }
 
   .hostname {
@@ -40,6 +64,8 @@
     .flex( 1 );
     .flex-display( flex );
     .flex-flow( row wrap );
+    border-top: 1px solid @gray-lighter;
+    margin-top: 15px;
 
     .hardware-item {
       .flex( 1 );
@@ -71,6 +97,5 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
   }
 }

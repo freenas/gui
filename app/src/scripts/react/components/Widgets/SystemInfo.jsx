@@ -5,6 +5,7 @@
 
 import _ from "lodash";
 import React from "react";
+import TWBS from "react-bootstrap";
 import Throbber from "../Throbber";
 import Widget from "../Widget";
 
@@ -149,9 +150,20 @@ const Hardware = React.createClass(
           title = "System Info"
           className = "system-info"
         >
-          <span className = "property hostname">{ hostname }</span>
-          <span className = "property device">{ device }</span>
-          <span className = "property version">{ version }</span>
+        <TWBS.Table>
+          <tr>
+            <td className = "property-label">Hostname</td>
+            <td className = "property hostname">{ hostname }</td>
+          </tr>
+          <tr>
+            <td className = "property-label">Platform</td>
+            <td className = "property device">{ device }</td>
+          </tr>
+          <tr>
+            <td className = "property-label">OS Version</td>
+            <td className = "property version">{ version }</td>
+          </tr>
+        </TWBS.Table>
           <div className = "hardware-info">
             { this.createHardwareDetail( "CPU", cpuSpeed, cpuCores ) }
             { this.createHardwareDetail( "Memory", memorySize, memoryType ) }
