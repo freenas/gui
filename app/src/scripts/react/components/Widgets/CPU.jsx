@@ -48,6 +48,13 @@ const CPU = React.createClass(
                         }
                       }
                     }
+                  , tooltip:
+                    { format:
+                      { value: function ( value, ratio, id ) {
+                          return Math.round( value ) + "%";
+                        }
+                      }
+                    }
                   }
                 )
               );
