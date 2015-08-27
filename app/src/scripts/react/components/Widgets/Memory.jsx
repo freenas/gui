@@ -83,10 +83,10 @@ const Memory = React.createClass(
 
   , tick () {
       if ( this.chart ) {
-        let active = [ "Active" ].concat( ChartUtil.rand( 400000000, 500000000, 31 ) );
-        let cache = [ "Cache" ].concat( ChartUtil.rand( 2000000, 3000000, 31 ) );
-        let wired = [ "Wired" ].concat( ChartUtil.rand( 1100000000, 1300000000, 31 ) );
-        let inactive = [ "Inactive" ].concat( ChartUtil.rand( 200000000, 250000000, 31 ) );
+        let active = [ "Active" ].concat( ChartUtil.rand( 400000000, 500000000, 1 ) );
+        let cache = [ "Cache" ].concat( ChartUtil.rand( 2000000, 3000000, 1 ) );
+        let wired = [ "Wired" ].concat( ChartUtil.rand( 1100000000, 1300000000, 1 ) );
+        let inactive = [ "Inactive" ].concat( ChartUtil.rand( 200000000, 250000000, 1 ) );
         let free = this.calcFree( 1, active, cache, wired, inactive );
 
         this.chart.flow(
