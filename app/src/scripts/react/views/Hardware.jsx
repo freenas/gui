@@ -14,7 +14,7 @@ import SM from "../../flux/middleware/SystemMiddleware";
 import SS from "../../flux/stores/SystemStore";
 
 import DM from "../../flux/middleware/DisksMiddleware";
-import DS from "../../flux/stores/DisksStore"
+import DS from "../../flux/stores/DisksStore";
 
 import ByteCalc from "../../utility/ByteCalc";
 
@@ -95,7 +95,7 @@ const Hardware = React.createClass({
   }
 
   , componentDidMount: function () {
-    DS.addChangeListener( this.handleDisksChange )
+    DS.addChangeListener( this.handleDisksChange );
     DM.requestDisksOverview();
     DM.subscribe( this.constructor.displayName );
 
