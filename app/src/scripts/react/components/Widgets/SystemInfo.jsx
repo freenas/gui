@@ -14,11 +14,13 @@ import NS from "../../../flux/stores/NetworkConfigStore";
 import SM from "../../../flux/middleware/SystemMiddleware";
 import SS from "../../../flux/stores/SystemStore";
 
+import DM from "../../../flux/middleware/DisksMiddleware";
+import DS from "../../../flux/stores/DisksStore";
+
 import ByteCalc from "../../../utility/ByteCalc";
 
 
 function getNetworkConfig () {
-  console.log( NS.networkConfig );
   return { networkConfig: NS.networkConfig };
 }
 
@@ -30,16 +32,27 @@ function getSystemInformation () {
          };
 }
 
+function getPredominantDisks () {
+  let predominantDisks = DS.predominantDisks;
+
+  return { predominantDisks: predominantDisks };
+}
+
 const Hardware = React.createClass(
   { displayName: "System Info Widget"
 
   , getInitialState () {
-      return _.merge( getNetworkConfig()
+      return _.merge( getPredominantDisks()
+                    , getNetworkConfig()
                     , getSystemInformation()
                     );
     }
 
   , componentDidMount () {
+      DS.addChangeListener( this.handleDisksChange );
+      DM.requestDisksOverview();
+      DM.subscribe( this.constructor.displayName );
+
       NS.addChangeListener( this.handleNetworkConfigChange );
       NM.requestNetworkConfig();
       NM.subscribe( this.constructor.displayName );
@@ -56,6 +69,10 @@ const Hardware = React.createClass(
 
       SS.removeChangeListener( this.handleHardwareChange );
       SM.unsubscribe( this.constructor.displayName );
+    }
+
+  , handleDisksChange () {
+      this.setState( getPredominantDisks() );
     }
 
   , handleNetworkConfigChange () {
@@ -88,7 +105,12 @@ const Hardware = React.createClass(
       console.log( this.state );
 
       let hostname =
-        _.get( this.state, "systemInformation.hostname", "Loading..." );
+        _.get( this.state, "systemInformation.hostname" );
+
+      if ( !hostname ) {
+        hostname = <Throbber />;
+      }
+
       let device = "iXsystems FreeNAS Mini";
       let version = "FreeNAS X v0.1";
 
@@ -112,6 +134,18 @@ const Hardware = React.createClass(
         memoryType = "1866MHz ECC";
       }
 
+      let diskLabel = _.get( this.state, "predominantDisks[0]" );
+      let diskSize;
+      let diskCount;
+      let diskType;
+
+      if ( diskLabel ) {
+        diskSize = this.state.predominantDisks[0]
+                       .match( /\d+\s?[a-z]{1,2}\b/gi );
+        diskCount = this.state.predominantDisks[1].length + " x " + diskSize;
+        diskType = "7200rpm SATA";
+      }
+
       return (
         <Widget
           title = "System Info"
@@ -123,7 +157,7 @@ const Hardware = React.createClass(
           <div className = "hardware-info">
             { this.createHardwareDetail( "CPU", cpuSpeed, cpuCores ) }
             { this.createHardwareDetail( "Memory", memorySize, memoryType ) }
-            { this.createHardwareDetail( "Drives", "24", "7200rpm SATA" ) }
+            { this.createHardwareDetail( "Drives", diskCount, diskType ) }
           </div>
         </Widget>
       );
