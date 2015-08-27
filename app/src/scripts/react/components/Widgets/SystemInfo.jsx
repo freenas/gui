@@ -102,8 +102,6 @@ const Hardware = React.createClass(
     }
 
   , render () {
-      console.log( this.state );
-
       let hostname =
         _.get( this.state, "systemInformation.hostname" );
 
