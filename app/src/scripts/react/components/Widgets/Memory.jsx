@@ -74,7 +74,7 @@ const Memory = React.createClass(
 
       // Start at 1 because the first value will be the category
       for ( let i = 1; i < length + 1; i++ ) {
-        free.push( 30000000000 - active[i] - cache[i] - wired[i] - inactive[i] );
+        free.push( 32768000000 - active[i] - cache[i] - wired[i] - inactive[i] );
       }
 
       return free;
