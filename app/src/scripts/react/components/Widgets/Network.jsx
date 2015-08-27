@@ -52,7 +52,7 @@ const Network = React.createClass(
                   , tooltip:
                     { format:
                       { value: function ( value, ratio, id ) {
-                          return ByteCalc.humanize( value );
+                          return ByteCalc.humanize( Math.abs( value ) );
                         }
                       }
                     }
