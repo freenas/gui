@@ -3,6 +3,7 @@
 
 import React from "react";
 
+import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
 
 var c3;
@@ -79,10 +80,12 @@ const Memory = React.createClass(
 
   , render () {
       return (
-        <div
-          className = "widget-chart"
-          ref="cpuChart"
-        />
+        <Widget title="Memory Allocation">
+          <div
+            className = "widget-chart"
+            ref="cpuChart"
+          />
+        </Widget>
       );
     }
   }

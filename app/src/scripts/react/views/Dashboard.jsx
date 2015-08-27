@@ -7,7 +7,6 @@
 
 import React from "react";
 
-import Widget from "../components/Widget";
 import CPU from "../components/Widgets/CPU";
 import Network from "../components/Widgets/Network";
 import Memory from "../components/Widgets/Memory";
@@ -17,15 +16,12 @@ const Dashboard = React.createClass(
       return (
         <main className="dashboard">
           <div className="dashboard-widgets">
-            <Widget title="CPU %">
-              <CPU />
-            </Widget>
-            <Widget title="Network Traffic">
-              <Network />
-            </Widget>
-            <Widget title="Memory Allocation">
-              <Memory />
-            </Widget>
+
+            <CPU />
+
+            <Network />
+
+            <Memory />
           </div>
         </main>
       );

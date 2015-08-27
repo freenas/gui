@@ -3,6 +3,7 @@
 
 import React from "react";
 
+import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
 
 var c3;
@@ -98,16 +99,18 @@ const Network = React.createClass(
 
   , render () {
       return (
-        <div className="network-widget-dual">
-          <div
-            ref = "nwIn"
-            className = "widget-chart"
-          />
-          <div
-            ref = "nwOut"
-            className = "widget-chart"
-          />
-        </div>
+        <Widget title="Network Traffic">
+          <div className="network-widget-dual">
+            <div
+              ref = "nwIn"
+              className = "widget-chart"
+            />
+            <div
+              ref = "nwOut"
+              className = "widget-chart"
+            />
+          </div>
+        </Widget>
       );
     }
   }

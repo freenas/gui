@@ -3,6 +3,7 @@
 
 import React from "react";
 
+import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
 
 var c3;
@@ -63,10 +64,12 @@ const CPU = React.createClass(
 
   , render () {
       return (
-        <div
-          className = "widget-chart"
-          ref="cpuChart"
-        />
+        <Widget title="CPU %">
+          <div
+            className = "widget-chart"
+            ref="cpuChart"
+          />
+        </Widget>
       );
     }
   }
