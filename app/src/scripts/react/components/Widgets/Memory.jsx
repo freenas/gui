@@ -17,11 +17,11 @@ if ( typeof window !== "undefined" ) {
 
 const Memory = React.createClass(
   { componentDidMount () {
-      let active = [ "Active" ].concat( ChartUtil.rand( 0.4, 0.5, 61 ) );
-      let cache = [ "Cache" ].concat( ChartUtil.rand( 0.002, 0.003, 61 ) );
-      let wired = [ "Wired" ].concat( ChartUtil.rand( 1.1, 1.3, 61 ) );
-      let inactive = [ "Inactive" ].concat( ChartUtil.rand( 0.2, 0.25, 61 ) );
-      let free = this.calcFree( 61, active, cache, wired, inactive );
+      let active = [ "Active" ].concat( ChartUtil.rand( 0.4, 0.5, 31 ) );
+      let cache = [ "Cache" ].concat( ChartUtil.rand( 0.002, 0.003, 31 ) );
+      let wired = [ "Wired" ].concat( ChartUtil.rand( 1.1, 1.3, 31 ) );
+      let inactive = [ "Inactive" ].concat( ChartUtil.rand( 0.2, 0.25, 31 ) );
+      let free = this.calcFree( 31, active, cache, wired, inactive );
 
       this.chart = c3.generate(
         { bindto: React.findDOMNode( this.refs.cpuChart )
@@ -41,12 +41,12 @@ const Memory = React.createClass(
         }
       );
 
-      this.interval = setInterval( this.tick, 1000 );
+      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , componentWillUnmount () {
       this.chart = null;
-      clearInterval( this.interval );
+      clearTimeout( this.timeout );
     }
 
   , calcFree ( length, active, cache, wired, inactive ) {
@@ -73,6 +73,8 @@ const Memory = React.createClass(
           }
         );
       }
+
+      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , render () {

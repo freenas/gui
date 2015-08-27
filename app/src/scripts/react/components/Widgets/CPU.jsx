@@ -17,7 +17,7 @@ if ( typeof window !== "undefined" ) {
 
 const CPU = React.createClass(
   { componentDidMount () {
-      let data = [ "CPU %" ].concat( ChartUtil.rand( 2, 8, 61 ) );
+      let data = [ "CPU %" ].concat( ChartUtil.rand( 2, 8, 31 ) );
 
       this.chart = c3.generate(
         { bindto: React.findDOMNode( this.refs.cpuChart )
@@ -41,12 +41,12 @@ const CPU = React.createClass(
         }
       );
 
-      this.interval = setInterval( this.tick, 1000 );
+      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , componentWillUnmount () {
       this.chart = null;
-      clearInterval( this.interval );
+      clearTimeout( this.timeout );
     }
 
   , tick () {
@@ -57,6 +57,8 @@ const CPU = React.createClass(
           }
         );
       }
+
+      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , render () {

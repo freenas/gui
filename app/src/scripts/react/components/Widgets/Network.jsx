@@ -17,8 +17,8 @@ if ( typeof window !== "undefined" ) {
 
 const Network = React.createClass(
   { componentDidMount () {
-      let dataIn = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 61 ) );
-      let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 61 ) );
+      let dataIn = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 31 ) );
+      let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 31 ) );
 
       this.chartIn = c3.generate(
         { bindto: React.findDOMNode( this.refs.nwIn )
@@ -67,13 +67,13 @@ const Network = React.createClass(
         }
       );
 
-      this.interval = setInterval( this.tick, 1000 );
+      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , componentWillUnmount () {
       this.chartIn = null;
       this.chartOut = null;
-      clearInterval( this.interval );
+      clearTimeout( this.timeout );
     }
 
   , tick () {
@@ -92,6 +92,8 @@ const Network = React.createClass(
           }
         );
       }
+
+      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , render () {
