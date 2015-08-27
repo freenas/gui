@@ -34,7 +34,6 @@ const Memory = React.createClass(
                   , data:
                     { columns: [ free, active, cache, wired, inactive ]
                     , type: "area-step"
-                    , groups: [[ "Free", "Active", "Cache", "Wired", "Inactive" ]]
                     }
                   , point:
                     { show: false
