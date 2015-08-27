@@ -1,10 +1,12 @@
 // CPU WIDGET
 // ==========
 
+import _ from "lodash";
 import React from "react";
 
 import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
+import c3Defaults from "../../../constants/c3Defaults";
 
 var c3;
 
@@ -25,22 +27,25 @@ const Memory = React.createClass(
       let free = this.calcFree( 31, active, cache, wired, inactive );
 
       this.chart = c3.generate(
-        { bindto: React.findDOMNode( this.refs.cpuChart )
-        , data:
-          { columns: [ free, active, cache, wired, inactive ]
-          , type: "area-step"
-          , groups: [[ "Free", "Active", "Cache", "Wired", "Inactive" ]]
-          }
-        , point:
-          { show: false
-          }
-        , axis:
-          { x:
-            { show: false
-            }
-          }
-        }
-      );
+        _.assign( {}
+                , c3Defaults
+                , { bindto: React.findDOMNode( this.refs.cpuChart )
+                  , data:
+                    { columns: [ free, active, cache, wired, inactive ]
+                    , type: "area-step"
+                    , groups: [[ "Free", "Active", "Cache", "Wired", "Inactive" ]]
+                    }
+                  , point:
+                    { show: false
+                    }
+                  , axis:
+                    { x:
+                      { show: false
+                      }
+                    }
+                  }
+                )
+              );
 
       this.timeout = setTimeout( this.tick, 2000 );
     }

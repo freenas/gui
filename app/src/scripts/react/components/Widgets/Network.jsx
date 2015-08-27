@@ -1,10 +1,12 @@
 // NETWORK WIDGET
 // ==========
 
+import _ from "lodash";
 import React from "react";
 
 import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
+import c3Defaults from "../../../constants/c3Defaults";
 
 var c3;
 
@@ -22,51 +24,57 @@ const Network = React.createClass(
       let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 31 ) );
 
       this.chartIn = c3.generate(
-        { bindto: React.findDOMNode( this.refs.nwIn )
-        , data:
-          { columns: [ dataIn ]
-          , type: "area"
-          }
-        , point:
-          { show: false
-          }
-        , axis:
-          { x:
-            { show: false
-            }
-          , y:
-            { tick:
-              { values: [ 0, 50, 100, 150 ]
-              }
-            , max: 150
-            }
-          }
-        }
-      );
+        _.assign( {}
+                , c3Defaults
+                , { bindto: React.findDOMNode( this.refs.nwIn )
+                  , data:
+                    { columns: [ dataIn ]
+                    , type: "area"
+                    }
+                  , point:
+                    { show: false
+                    }
+                  , axis:
+                    { x:
+                      { show: false
+                      }
+                    , y:
+                      { tick:
+                        { values: [ 0, 50, 100, 150 ]
+                        }
+                      , max: 150
+                      }
+                    }
+                  }
+                )
+              );
 
       this.chartOut = c3.generate(
-        { bindto: React.findDOMNode( this.refs.nwOut )
-        , data:
-          { columns: [ dataOut ]
-          , type: "area"
-          }
-        , point:
-          { show: false
-          }
-        , axis:
-          { x:
-            { show: false
-            }
-          , y:
-            { tick:
-              { values: [ 0, 50, 100, 150 ]
-              }
-            , max: 150
-            , inverted: true
-            }
-          }
-        }
-      );
+        _.assign( {}
+                , c3Defaults
+                , { bindto: React.findDOMNode( this.refs.nwOut )
+                  , data:
+                    { columns: [ dataOut ]
+                    , type: "area"
+                    }
+                  , point:
+                    { show: false
+                    }
+                  , axis:
+                    { x:
+                      { show: false
+                      }
+                    , y:
+                      { tick:
+                        { values: [ 0, 50, 100, 150 ]
+                        }
+                      , max: 150
+                      , inverted: true
+                      }
+                    }
+                  }
+                )
+              );
 
       this.timeout = setTimeout( this.tick, 2000 );
     }

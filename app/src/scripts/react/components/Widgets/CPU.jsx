@@ -1,10 +1,12 @@
 // CPU WIDGET
 // ==========
 
+import _ from "lodash";
 import React from "react";
 
 import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
+import c3Defaults from "../../../constants/c3Defaults";
 
 var c3;
 
@@ -21,26 +23,29 @@ const CPU = React.createClass(
       let data = [ "CPU %" ].concat( ChartUtil.rand( 2, 8, 31 ) );
 
       this.chart = c3.generate(
-        { bindto: React.findDOMNode( this.refs.cpuChart )
-        , data:
-          { columns: [ data ]
-          , type: "area"
-          , groups: [[ "CPU %" ]]
-          }
-        , point:
-          { show: false
-          }
-        , axis:
-          { x:
-            { show: false
-            }
-          , y:
-            { padding: false
-            , max: 90
-            }
-          }
-        }
-      );
+        _.assign( {}
+                , c3Defaults
+                , { bindto: React.findDOMNode( this.refs.cpuChart )
+                  , data:
+                    { columns: [ data ]
+                    , type: "area"
+                    , groups: [[ "CPU %" ]]
+                    }
+                  , point:
+                    { show: false
+                    }
+                  , axis:
+                    { x:
+                      { show: false
+                      }
+                    , y:
+                      { padding: false
+                      , max: 90
+                      }
+                    }
+                  }
+                )
+              );
 
       this.timeout = setTimeout( this.tick, 2000 );
     }
