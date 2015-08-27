@@ -10,6 +10,7 @@ var ExtractTextPlugin = require( "extract-text-webpack-plugin" );
 module.exports =
   { name: "browser"
   , context: __dirname + "/app"
+  , cache: {}
   , entry:
     // WebpackDevServer host and port
     [ "webpack-dev-server/client?http://0.0.0.0:9999"
