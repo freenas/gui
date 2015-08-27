@@ -16,15 +16,17 @@ const Dashboard = React.createClass(
   { render () {
       return (
         <main className="dashboard">
-          <Widget title="CPU %">
-            <CPU />
-          </Widget>
-          <Widget title="Network Traffic">
-            <Network />
-          </Widget>
-          <Widget title="Memory Allocation">
-            <Memory />
-          </Widget>
+          <div className="dashboard-widgets">
+            <Widget title="CPU %">
+              <CPU />
+            </Widget>
+            <Widget title="Network Traffic">
+              <Network />
+            </Widget>
+            <Widget title="Memory Allocation">
+              <Memory />
+            </Widget>
+          </div>
         </main>
       );
     }
