@@ -32,6 +32,17 @@ const DISK_LABELS =
 
 var _disks = {};
 
+function createLabel ( disk ) {
+  return (
+    [ disk.status.manufacturer
+    , ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
+    , disk.status["is-ssd"]
+      ? ""
+      : disk.status["max-rotation"] + "rpm"
+    ].join( " " )
+  );
+}
+
 class DisksStore extends FluxBase {
 
   constructor () {
@@ -54,23 +65,38 @@ class DisksStore extends FluxBase {
     );
   }
 
+  get predominantDisks () {
+    let candidates = {};
+
+    _.forEach( _disks, disk => {
+      let label = createLabel( disk );
+
+      if ( _.isArray( candidates[ label ] ) ) {
+        candidates[ label ].push( disk.path );
+      } else {
+        candidates[ label ] = [ disk.path ];
+      }
+    });
+
+    let highest = 0;
+    let winner;
+
+    _.forEach( candidates, ( collection, key ) => {
+      if ( collection.length > highest ) {
+        highest = collection.length;
+        winner = [ key, collection ];
+      }
+    });
+
+    return winner;
+  }
+
   get similarDisks () {
     // Returns arrays of disks based on their self-similarity - determined as
     // the combination of RPM, capacity, type, and manufacturer.
     let disks = _.partition( _disks, disk => disk.status["is-ssd"] );
     let SSDs = {};
     let HDDs = {};
-
-    function createLabel ( disk ) {
-      return (
-        [ disk.status.manufacturer
-        , ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
-        , disk.status["is-ssd"]
-          ? ""
-          : disk.status["max-rotation"] + "rpm"
-        ].join( " " )
-      );
-    }
 
     // SSDs
     _.chain( disks[0] )
