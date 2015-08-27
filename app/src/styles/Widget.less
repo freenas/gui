@@ -20,3 +20,57 @@
   .flex-display( flex );
   .flex-flow( column wrap );
 }
+
+.widget.system-info {
+  .flex-display( flex );
+  .flex-flow( column nowrap );
+
+  .property {
+    display: block;
+    font-weight: 300;
+    font-size: 1.1em;
+  }
+
+  .hostname {
+    font-weight: 800;
+    font-size: 1.75em;
+  }
+
+  .hardware-info {
+    .flex( 1 );
+    .flex-display( flex );
+    .flex-flow( row wrap );
+
+    .hardware-item {
+      .flex( 1 );
+      padding: 15px;
+    }
+
+    .hardware-name,
+    .hardware-value,
+    .hardware-detail {
+      width: 100%;
+      display: block;
+      text-align: center;
+      font-weight: 200;
+    }
+
+    .hardware-name {
+      text-transform: uppercase;
+      color: @gray-light;
+    }
+
+    .hardware-value {
+      font-size: 1.5em;
+    }
+
+    .hardware-detail {
+      font-weight: 300;
+      font-size: 0.85em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+  }
+}
