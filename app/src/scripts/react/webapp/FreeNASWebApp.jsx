@@ -54,7 +54,7 @@ const FreeNASWebApp = React.createClass(
         this.setState(
           { cssBust: "?" + new Date().getTime() / 1000
           }
-        )
+        );
       }
     }
 
