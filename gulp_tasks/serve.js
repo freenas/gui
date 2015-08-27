@@ -180,6 +180,7 @@ function startSimulator () {
 }
 
 gulp.task( "serve"
+         , [ "webpack" ]
          , function () {
   var mode;
   var host;

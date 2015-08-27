@@ -14,11 +14,10 @@ require( "require-dir" )( "./gulp_tasks/", { recurse: true } );
 
 gulp.task( "default", function ( callback ) {
   runSequence( [ "clean", "install-packages" ]
-             , [ "webpack"
-               , "images"
+             , [ "images"
                , "favicons"
+               , "serve"
                ]
-             , "serve"
              , "webpack-dev-server"
              , callback
              );
