@@ -6,6 +6,7 @@ import React from "react";
 
 import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
+import ByteCalc from "../../../utility/ByteCalc";
 import c3Defaults from "../../../constants/c3Defaults";
 
 var c3;
@@ -21,14 +22,14 @@ if ( typeof window !== "undefined" ) {
 const Network = React.createClass(
   { componentDidMount () {
       let dataIn = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 31 ) );
-      let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 31 ) );
+      let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( -25, 0, 31 ) );
 
-      this.chartIn = c3.generate(
+      this.chart = c3.generate(
         _.assign( {}
                 , c3Defaults
-                , { bindto: React.findDOMNode( this.refs.nwIn )
+                , { bindto: React.findDOMNode( this.refs.networkChart )
                   , data:
-                    { columns: [ dataIn ]
+                    { columns: [ dataIn, dataOut ]
                     , type: "area"
                     }
                   , point:
@@ -40,36 +41,19 @@ const Network = React.createClass(
                       }
                     , y:
                       { tick:
-                        { values: [ 0, 50, 100, 150 ]
+                        { values: [ -150, -100, -50, 0, 50, 100, 150 ]
+                        , format: function ( x ) { return Math.abs( x ); }
                         }
+                      , min: -150
+                      , center: 0
                       , max: 150
                       }
                     }
-                  }
-                )
-              );
-
-      this.chartOut = c3.generate(
-        _.assign( {}
-                , c3Defaults
-                , { bindto: React.findDOMNode( this.refs.nwOut )
-                  , data:
-                    { columns: [ dataOut ]
-                    , type: "area"
-                    }
-                  , point:
-                    { show: false
-                    }
-                  , axis:
-                    { x:
-                      { show: false
-                      }
-                    , y:
-                      { tick:
-                        { values: [ 0, 50, 100, 150 ]
+                  , tooltip:
+                    { format:
+                      { value: function ( value, ratio, id ) {
+                          return ByteCalc.humanize( value );
                         }
-                      , max: 150
-                      , inverted: true
                       }
                     }
                   }
@@ -80,24 +64,17 @@ const Network = React.createClass(
     }
 
   , componentWillUnmount () {
-      this.chartIn = null;
-      this.chartOut = null;
+      this.chart = null;
       clearTimeout( this.timeout );
     }
 
   , tick () {
-      if ( this.chartIn ) {
-        let newPoint = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 1 ) );
-        this.chartIn.flow(
-          { columns: [ newPoint ]
-          }
-        );
-      }
+      if ( this.chart ) {
+        let newDown = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 1 ) );
+        let newUp = [ "igb0 Up" ].concat( ChartUtil.rand( -25, 0, 1 ) );
 
-      if ( this.chartOut ) {
-        let newPoint = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 1 ) );
-        this.chartOut.flow(
-          { columns: [ newPoint ]
+        this.chart.flow(
+          { columns: [ newDown, newUp ]
           }
         );
       }
@@ -108,16 +85,10 @@ const Network = React.createClass(
   , render () {
       return (
         <Widget title="Network Traffic">
-          <div className="network-widget-dual">
-            <div
-              ref = "nwIn"
-              className = "widget-chart"
-            />
-            <div
-              ref = "nwOut"
-              className = "widget-chart"
-            />
-          </div>
+          <div
+            ref = "networkChart"
+            className = "widget-chart"
+          />
         </Widget>
       );
     }
