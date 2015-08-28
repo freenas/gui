@@ -348,6 +348,7 @@ const NetworkConfig = React.createClass(
                    ? this.state.networkConfig[ "dns" ][ "servers" ].slice()
                    : this.props.networkConfig[ "dns" ][ "servers" ].slice();
     var dnsNodes = null;
+    var newDNSInput = null;
     var formControlButtons = null;
 
     if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
@@ -443,13 +444,17 @@ const NetworkConfig = React.createClass(
         }
       </div>;
 
-    if ( _.has( this, [ "state", "networkConfig", "dns", "servers"] ) ) {
-      // The new DNS server is the next server in state after all the ones in
-      // props, or null if there isn't one.
-      newDNSServer = this.state.networkConfig.dns.servers
-                     [ this.props.networkConfig.dns.servers.length ]
-                  || null;
-    }
+    newDNSInput =
+      <TWBS.Input
+        type = "text"
+        ref = "dns"
+        // hasFeedback
+        value = { this.state.dnsServerInProgress }
+        // bsStyle = { this.validate( "dns", newDNSServer ) }
+        // onBlur = { this.resetFocus.bind( null, "dns" ) }
+        onChange = { this.handleChange.bind( this, "dns" ) }
+        onKeyDown = { this.addDNSServer }
+        placeholder = "Enter new DNS server" />;
 
     formControlButtons =
       <TWBS.ButtonToolbar className = "pull-right">
@@ -487,15 +492,7 @@ const NetworkConfig = React.createClass(
                 { dnsNodes }
                 <TWBS.Row>
                   <TWBS.Col sm = { 9 } >
-                    <TWBS.Input
-                      type = "text"
-                      ref = "dns"
-                      value = { newDNSServer }
-                      bsStyle = { this.validate( "dns", newDNSServer ) }
-                      // onBlur = { this.resetFocus.bind( null, "dns" ) }
-                      onChange = { this.handleChange.bind( this, "dns" ) }
-                      onKeyDown = { this.submitChange.bind( this, "dns" ) }
-                      placeholder = "Enter new DNS server" />
+                    { newDNSInput }
                   </TWBS.Col >
                 </TWBS.Row>
               </TWBS.Col>
