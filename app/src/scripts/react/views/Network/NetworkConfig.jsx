@@ -175,27 +175,34 @@ const NetworkConfig = React.createClass(
       && this.isIPv4( this.state.networkConfig.gateway.ipv4 ) ) {
       newNetworkConfig =
         { gateway: { ipv4: this.state.networkConfig[ "gateway" ][ "ipv4" ] } };
-      if ( !_.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] ) ) {
-        newNetworkConfig[ "gateway" ][ "ipv6" ] =
-          this.props.networkConfig[ "gateway" ][ "ipv6" ];
-      }
     }
 
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] )
       && this.isIPv6( this.state.networkConfig.gateway.ipv6 ) ) {
-      newNetworkConfig =
-        { gateway: { ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ] } };
-      if ( !_.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] ) ) {
-        newNetworkConfig[ "gateway" ][ "ipv4" ] =
-          this.props.networkConfig[ "gateway" ][ "ipv4" ];
+      // Rely on previous check for ipv4 to determine whether to populate ipv4
+      // from props
+      if ( _.has( newNetworkConfig, [ "gateway", "ipv4" ] ) ) {
+        newNetworkConfig[ "gateway" ][ "ipv6" ] =
+          this.state.networkConfig[ "gateway" ][ "ipv6" ];
+      } else {
+        newNetworkConfig =
+          { gateway: { ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ] } };
       }
+    // If ipv4 was updated but ipv6 was not, add ipv6 information from props
+    } else if ( _.has( newNetworkConfig, [ "gateway", "ipv4" ] ) ) {
+      newNetworkConfig[ "gateway" ][ "ipv6" ] =
+        this.props.networkConfig[ "gateway" ][ "ipv6" ];
     }
 
-    if ( _.has( this, [ "state", "networkConfig", "dns" ] )
-      && this.isIPv4( _.last ( this.state.networkConfig.dns.servers ) ) ) {
-      newNetworkConfig =
-        { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } };
+    if ( _.has( this, [ "state", "networkConfig", "dns" ] ) ) {
+      if ( !_.isEmpty( newNetworkConfig ) ) {
+        newNetworkConfig =
+          { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } };
+      } else {
+        newNetworkConfig[ "dns" ][ "servers" ] =
+          this.state.networkConfig[ "dns" ][ "servers" ];
       }
+    }
 
     if ( !_.isEmpty( newNetworkConfig ) ) {
       NM.updateNetworkConfig( newNetworkConfig );
