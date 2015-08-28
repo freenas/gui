@@ -97,8 +97,6 @@ const NetworkConfig = React.createClass(
     if ( !_.isEmpty( systemGeneralConfig ) ) {
       this.setState( { systemGeneralConfig: systemGeneralConfig } );
     }
-
-
   }
 
   , submit () {
@@ -198,11 +196,11 @@ const NetworkConfig = React.createClass(
           _.assign( newNetworkConfig, { dns: { servers: newDNSServers } } );
           if ( _.has( this, [ "state", "networkConfig" ] ) ) {
             newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
-                          , newNetworkConfig
-                          , function mergeDNSHard ( newValue ) {
-                            return newValue;
-                          }
-                          );
+                                      , newNetworkConfig
+                                      , function mergeDNSHard ( newValue ) {
+                                        return newValue;
+                                      }
+                                      );
           }
         }
       }
@@ -405,7 +403,6 @@ const NetworkConfig = React.createClass(
             onChange = { this.handleChange.bind( this, "ipv6" ) } />
         </TWBS.Col>
       </div>;
-
 
     dnsNodes =
       <div className = "dns-server-list"
