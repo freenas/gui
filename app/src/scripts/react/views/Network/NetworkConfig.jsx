@@ -348,6 +348,7 @@ const NetworkConfig = React.createClass(
                    ? this.state.networkConfig[ "dns" ][ "servers" ].slice()
                    : this.props.networkConfig[ "dns" ][ "servers" ].slice();
     var dnsNodes = null;
+    var formControlButtons = null;
 
     if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
       hostnameValue = this.state.systemGeneralConfig[ "hostname" ];
