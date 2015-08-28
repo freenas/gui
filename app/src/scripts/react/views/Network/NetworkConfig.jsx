@@ -344,7 +344,9 @@ const NetworkConfig = React.createClass(
     var ipv4GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv4" ];
     var ipv6Gateway = null;
     var ipv6GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv6" ];
-    var newDNSServer = null;
+    var dnsServers = _.has( this, [ "state", "networkConfig", "dns", "servers" ] )
+                   ? this.state.networkConfig[ "dns" ][ "servers" ].slice()
+                   : this.props.networkConfig[ "dns" ][ "servers" ].slice();
     var dnsNodes = null;
 
     if ( _.has( this.state, [ "systemGeneralConfig", "hostname" ] ) ) {
@@ -414,33 +416,31 @@ const NetworkConfig = React.createClass(
       </div>;
 
 
-    if ( _.has( this, [ "props", "networkConfig", "dns", "servers", "length"] ) ) {
-      dnsNodes =
-        <div className = "dns-server-list"
-             ref = "dns-server-list">
-          { _.map(
-            this.props.networkConfig.dns.servers
-            , function mapDNSServers ( server, index ) {
-              return (
-                <div className="dns-server"
-                     key = { index }>
-                  <span>{ server }</span>
-                  <TWBS.Button
-                    className = "pull-right"
-                    onClick = { this.deleteDnsServer.bind( null, index ) }
-                    bsStyle = "danger"
-                    bsSize  = "xsmall"
-                    title   = "Delete Server">
-                    <Icon glyph="times" />
-                  </TWBS.Button>
-                </div>
-              );
-            }
-            , this
-            )
+    dnsNodes =
+      <div className = "dns-server-list"
+           ref = "dns-server-list">
+        { _.map(
+          dnsServers
+          , function mapDNSServers ( server, index ) {
+            return (
+              <div className="dns-server"
+                   key = { index }>
+                <span>{ server }</span>
+                <TWBS.Button
+                  className = "pull-right"
+                  onClick = { this.deleteDnsServer.bind( null, index ) }
+                  bsStyle = "danger"
+                  bsSize  = "xsmall"
+                  title   = "Delete Server">
+                  <Icon glyph="times" />
+                </TWBS.Button>
+              </div>
+            );
           }
-        </div>;
-    }
+          , this
+          )
+        }
+      </div>;
 
     if ( _.has( this, [ "state", "networkConfig", "dns", "servers"] ) ) {
       // The new DNS server is the next server in state after all the ones in
