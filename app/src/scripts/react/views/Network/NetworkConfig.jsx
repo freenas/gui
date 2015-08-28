@@ -50,73 +50,13 @@ const NetworkConfig = React.createClass(
   }
 
   , getInitialState () {
-    return { updatedDNS: false
-           , dnsServerInProgress: ""
-           };
+    return { dnsServerInProgress: "" };
   }
 
-    // The only concern here is reconciling changes to the DNS servers list
+  // Totally wipes out config changes in state.
+  // TODO: Use this function to create the conflict state.
   , componentWillReceiveProps ( nextProps ) {
-    var newNetworkConfig = {};
-    // This is used just for submission to state later, not for other logic.
-    var updatedDNS = false;
-
-    // This only matters if there's a network config in state and it has dns servers in it
-    if ( _.has( this, [ "state", "networkConfig", "dns"] ) ) {
-      // This also only matters if there's a new DNS server in state.
-      if ( this.state.networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ]
-       !== undefined ) {
-        // Check if there's a new DNS server incoming
-        if ( nextProps.networkConfig.dns.servers.length
-           > this.props.networkConfig.dns.servers.length
-           ) {
-          // Then, check if it's the same as the last one in state.
-          if ( _.last( this.state.networkConfig.dns.servers )
-           === _.last( nextProps.networkConfig.dns.servers )
-             ) {
-          // If it is, assume that means the last one in state was submitted
-          // and delete the DNS servers in state.
-          newNetworkConfig = _.cloneDeep( this.state.networkConfig );
-          delete newNetworkConfig.dns;
-          updatedDNS = true;
-          } else {
-            // Otherwise, just take the new server list and put the pending new
-            // server on the end of the list.
-            newNetworkConfig = this.combineDNSServerState( nextProps );
-          }
-        } else {
-          // If there isn't an incoming new server or a server is being deleted,
-          // append the last server in state to the incoming server list.
-          newNetworkConfig = this.combineDNSServerState( nextProps );
-        }
-        this.setState( { networkConfig: newNetworkConfig
-                       , updatedDNS: updatedDNS
-                       } );
-      }
-    }
-  }
-
-  , componentDidUpdate( prevProps, prevState ) {
-    if ( this.state.updatedDNS ) {
-      React.findDOMNode( this.refs["dns-server-list"] ).scrollTop = 1000000;
-    }
-  }
-
-  // Breaking this out to avoid duplicating it in componentWillReceiveProps
-  , combineDNSServerState ( nextProps ) {
-    // Take the new server list and put the pending new server on the end of the
-    // list.
-    var newNetworkConfig =
-      { dns:
-        { servers: _.cloneDeep( nextProps.networkConfig.dns.servers ) }
-      };
-    newNetworkConfig.dns.servers.push( this.state.networkConfig.dns.servers
-                                     [ this.props.networkConfig.dns.servers.length ]
-                                     );
-    newNetworkConfig = _.defaultsDeep( newNetworkConfig
-                                     , _.cloneDeep( this.state.networkConfig )
-                                     );
-    return newNetworkConfig;
+    this.replaceState( { dnsServerInProgress: this.state.dnsServerInProgress } );
   }
 
   , handleChange ( key, evt ) {
