@@ -187,51 +187,30 @@ const NetworkConfig = React.createClass(
     }
   }
 
-  , submitChange ( target, evt ) {
+  , submit () {
+  }
+
+  , advanceCursor ( target, evt ) {
     var newConfig = {};
 
     if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "hostname":
-          if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
-            && this.isHostname( this.state.systemGeneralConfig.hostname ) ) {
-            newConfig[ "hostname" ] = this.state.systemGeneralConfig[ "hostname" ];
-            SM.updateSystemGeneralConfig( newConfig );
-          }
           this.refs.ipv4.getInputDOMNode().focus();
           break;
 
         case "ipv4":
-          if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] )
-            && this.isIPv4( this.state.networkConfig.gateway.ipv4 ) ) {
-            newConfig = { gateway: { ipv4: this.state.networkConfig[ "gateway" ][ "ipv4" ]
-                                   , ipv6: this.props.networkConfig[ "gateway" ][ "ipv6" ]
-                                   }
-                        }
-            NM.updateNetworkConfig( newConfig );
+          if ( this.isIPv4( evt.target.value ) ) {
+            this.refs.ipv6.getInputDOMNode().focus();
           }
-          this.refs.ipv6.getInputDOMNode().focus();
           break;
 
         case "ipv6":
-          if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] )
-            && this.isIPv6( this.state.networkConfig.gateway.ipv6 ) ) {
-            newConfig = { gateway: { ipv4: this.props.networkConfig[ "gateway" ][ "ipv4" ]
-                                   , ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ]
-                                   }
-                        }
-            NM.updateNetworkConfig( newConfig );
+          if ( this.isIPv6( evt.target.value ) ) {
+            this.refs.dns.getInputDOMNode().focus();
           }
-          this.refs.dns.getInputDOMNode().focus();
           break;
 
-        case "dns":
-          if ( _.has( this, [ "state", "networkConfig", "dns" ] )
-            && this.isIPv4( _.last ( this.state.networkConfig.dns.servers ) ) ) {
-            newConfig = { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } };
-            NM.updateNetworkConfig( newConfig );
-          }
-          break;
       }
     }
   }
@@ -381,7 +360,7 @@ const NetworkConfig = React.createClass(
             value = { ipv4GatewayValue }
             bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
             onBlur = { this.resetFocus.bind( null, "ipv4" ) }
-            onKeyDown = { this.submitChange.bind( this, "ipv4" ) }
+            onKeyDown = { this.advanceCursor.bind( this, "ipv4" ) }
             onChange = { this.handleChange.bind( this, "ipv4" ) } />
         </TWBS.Col>
       </div>;
@@ -403,7 +382,7 @@ const NetworkConfig = React.createClass(
             value = { ipv6GatewayValue }
             bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
             onBlur = { this.resetFocus.bind( null, "ipv6" ) }
-            onKeyDown = { this.submitChange.bind( this, "ipv6" ) }
+            onKeyDown = { this.advanceCursor.bind( this, "ipv6" ) }
             onChange = { this.handleChange.bind( this, "ipv6" ) } />
         </TWBS.Col>
       </div>;
