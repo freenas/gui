@@ -225,16 +225,29 @@ const NetworkConfig = React.createClass(
     var networkConfig = {};
     if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
       networkConfig = { dns: { servers: this.state.networkConfig.dns.servers.slice() } };
+      networkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
+                             , networkConfig
+                             , function mergeDNSHard ( newValue ) {
+                               return newValue;
+                             }
+                             );
       _.pullAt( networkConfig.dns.servers, index );
-      networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
     } else {
       networkConfig = { dns: { servers: this.props.networkConfig.dns.servers.slice() } };
       if ( _.has( this, [ "state", "networkConfig" ] ) ) {
-        networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
+        networkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
+                               , networkConfig
+                               , function mergeDNSHard ( newValue ) {
+                                 return newValue;
+                               }
+                               );
       }
       _.pullAt( networkConfig.dns.servers, index );
     }
-    this.setState( { networkConfig: networkConfig } );
+
+    if ( !_.isEmpty( networkConfig ) ) {
+      this.setState( { networkConfig: networkConfig } );
+    }
   }
 
   , validate ( key, value ) {
