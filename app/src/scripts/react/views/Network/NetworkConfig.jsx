@@ -50,7 +50,9 @@ const NetworkConfig = React.createClass(
   }
 
   , getInitialState () {
-    return { updatedDNS: false };
+    return { updatedDNS: false
+           , dnsServerInProgress: ""
+           };
   }
 
     // The only concern here is reconciling changes to the DNS servers list
