@@ -322,6 +322,14 @@ const NetworkConfig = React.createClass(
     }
   }
 
+  , resetAll () {
+    this.setState( { networkConfig: {}
+                   , systemGeneralConfig: {}
+                   , updatedDNS: false
+                   }
+                 );
+  }
+
   , render () {
     var hostname = null;
     var hostnameValue = this.props.systemGeneralConfig[ "hostname" ];
