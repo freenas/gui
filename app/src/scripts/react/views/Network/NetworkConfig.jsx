@@ -210,7 +210,10 @@ const NetworkConfig = React.createClass(
 
     if ( !_.isEmpty( newNetworkConfig ) ) {
       this.setState( { dnsServerInProgress: ""
-                     , networkConfig: newNetworkConfig } );
+                     , networkConfig: newNetworkConfig }
+                   , function scrollDNSList () {
+                     React.findDOMNode( this.refs["dns-server-list"] ).scrollTop = 1000000;
+                   } );
     }
   }
 
