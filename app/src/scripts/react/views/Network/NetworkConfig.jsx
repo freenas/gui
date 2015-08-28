@@ -126,65 +126,39 @@ const NetworkConfig = React.createClass(
 
     switch ( key ) {
       case "hostname":
-        systemGeneralConfig = { hostname: evt.target.value };
-        if ( _.has( this, [ "state", "systemGeneralConfig" ] ) ) {
-          this.setState( { systemGeneralConfig: _.defaultsDeep( systemGeneralConfig, this.state.systemGeneralConfig ) } );
-        } else {
-          this.setState( { systemGeneralConfig: systemGeneralConfig } );
+        if ( evt.target.value !== this.props.systemGeneralConfig[ "hostname" ] ) {
+          systemGeneralConfig = { hostname: evt.target.value };
         }
         break;
 
       case "ipv4":
         networkConfig = { gateway: { ipv4: evt.target.value } };
         if ( _.has( this, [ "state", "networkConfig" ] ) ) {
-          this.setState( { networkConfig: _.defaultsDeep( networkConfig, this.state.networkConfig ) } );
-        } else {
-          this.setState( { networkConfig: networkConfig } );
+          networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
         }
         break;
 
       case "ipv6":
         networkConfig = { gateway: { ipv6: evt.target.value } };
         if ( _.has( this, [ "state", "networkConfig" ] ) ) {
-          this.setState( { networkConfig: _.defaultsDeep( networkConfig, this.state.networkConfig ) } );
-        } else {
-          this.setState( { networkConfig: networkConfig } );
+          networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
         }
         break;
 
       case "dns":
-
-        if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
-          if ( evt.target.value === "" ) {
-            // If the new server is empty, reset the servers in state and bail out
-            networkConfig = this.state.networkConfig;
-            delete networkConfig.dns;
-          } else {
-            // If there are already dns servers in state, copy those for the new state
-            networkConfig = { dns: { servers: this.state.networkConfig.dns.servers.slice() } };
-            if ( networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ] !== undefined ) {
-              // If the servers in state include one past the end of the array of existing servers,
-              // that's the WIP server. Update that one.
-              networkConfig.dns.servers[ this.props.networkConfig.dns.servers.length ] = evt.target.value;
-            } else {
-              // If there are servers in state but none past the end of the established ones,
-              // add the new server there.
-              // Note: This should not happen, because servers in state should
-              // be cleared if there are none in progress.
-              networkConfig.dns.servers.push( evt.target.value );
-            }
-            // Once the new servers array is set, merge them with the existing state for submission.
-            networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
-          }
-        } else {
-          // If there are no dns servers in state, copy the ones from props there
-          // and add the new one to the end.
-          networkConfig = { dns: { servers: this.props.networkConfig.dns.servers.slice() } };
-          networkConfig.dns.servers.push( evt.target.value );
-        }
-        this.setState( { networkConfig: networkConfig } );
+        this.setState( { dnsServerInProgress: evt.target.value } );
         break;
     }
+
+    if ( !_.isEmpty( networkConfig ) ) {
+      this.setState( { networkConfig: networkConfig } );
+    }
+
+    if ( !_.isEmpty( systemGeneralConfig ) ) {
+      this.setState( { systemGeneralConfig: systemGeneralConfig } );
+    }
+
+
   }
 
   , submit () {
