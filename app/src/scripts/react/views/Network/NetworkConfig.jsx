@@ -239,11 +239,12 @@ const NetworkConfig = React.createClass(
 
   , addDNSServer ( evt ) {
     var newNetworkConfig = {};
+    var newDNSServers = [];
     if ( evt.key === "Enter" ) {
       if ( this.isIPv4( this.state.dnsServerInProgress ) ) {
         if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
           newDNSServers = this.state.networkConfig[ "dns" ][ "servers" ].slice();
-          newDNSServers.push( "" );
+          newDNSServers.push( this.state.dnsServerInProgress );
           newNetworkConfig[ "dns" ][ "servers" ] = newDNSServers;
           newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                                     , newNetworkConfig
@@ -253,14 +254,23 @@ const NetworkConfig = React.createClass(
                                     );
         } else {
           newDNSServers = this.props.networkConfig[ "dns" ][ "servers" ].slice();
-          newDNSServers.push( "" );
-          newNetworkConfig[ "dns" ][ "servers" ] = newDNSServers;
+          newDNSServers.push( this.state.dnsServerInProgress );
+          _.assign( newNetworkConfig, { dns: { servers: newDNSServers } } );
+          if ( _.has( this, [ "state", "networkConfig" ] ) ) {
+            newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
+                          , newNetworkConfig
+                          , function mergeDNSHard ( newValue ) {
+                            return newValue;
+                          }
+                          );
+          }
         }
       }
     }
 
     if ( !_.isEmpty( newNetworkConfig ) ) {
-      this.setState( { networkConfig: newNetworkConfig } );
+      this.setState( { dnsServerInProgress: ""
+                     , networkConfig: newNetworkConfig } );
     }
   }
 
