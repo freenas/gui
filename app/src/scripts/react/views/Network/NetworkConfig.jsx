@@ -210,8 +210,34 @@ const NetworkConfig = React.createClass(
             this.refs.dns.getInputDOMNode().focus();
           }
           break;
-
       }
+    }
+  }
+
+  , addDNSServer ( evt ) {
+    var newNetworkConfig = {};
+    if ( evt.key === "Enter" ) {
+      if ( this.isIPv4( this.state.dnsServerInProgress ) ) {
+        if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
+          newDNSServers = this.state.networkConfig[ "dns" ][ "servers" ].slice();
+          newDNSServers.push( "" );
+          newNetworkConfig[ "dns" ][ "servers" ] = newDNSServers;
+          newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
+                                    , newNetworkConfig
+                                    , function mergeDNSHard ( newValue ) {
+                                      return newValue;
+                                    }
+                                    );
+        } else {
+          newDNSServers = this.props.networkConfig[ "dns" ][ "servers" ].slice();
+          newDNSServers.push( "" );
+          newNetworkConfig[ "dns" ][ "servers" ] = newDNSServers;
+        }
+      }
+    }
+
+    if ( !_.isEmpty( newNetworkConfig ) ) {
+      this.setState( { networkConfig: newNetworkConfig } );
     }
   }
 
