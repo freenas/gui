@@ -450,6 +450,20 @@ const NetworkConfig = React.createClass(
                   || null;
     }
 
+    formControlButtons =
+      <TWBS.ButtonToolbar className = "pull-right">
+        <TWBS.Button
+          bsStyle = "default"
+          onClick = { this.resetAll }>
+          { "Reset" }
+        </TWBS.Button>
+        <TWBS.Button
+          bsStyle = "primary"
+          onClick = { this.submit } >
+          { "Apply" }
+        </TWBS.Button>
+      </TWBS.ButtonToolbar>;
+
     return (
       <form className = "network-overview">
         <h3 className = "text-center">Network Configuration</h3>
@@ -484,6 +498,11 @@ const NetworkConfig = React.createClass(
                   </TWBS.Col >
                 </TWBS.Row>
               </TWBS.Col>
+            </TWBS.Col>
+          </TWBS.Row>
+          <TWBS.Row>
+            <TWBS.Col xs = { 12 }>
+              { formControlButtons }
             </TWBS.Col>
           </TWBS.Row>
         </TWBS.Grid>
