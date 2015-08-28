@@ -384,7 +384,7 @@ const NetworkConfig = React.createClass(
             value = { hostnameValue }
             bsStyle = { this.validate( "hostname", hostnameValue ) }
             onBlur = { this.resetFocus.bind( null, "hostname" ) }
-            onKeyDown = { this.submitChange.bind( this, "hostname" ) }
+            onKeyDown = { this.advanceCursor.bind( this, "hostname" ) }
             onChange = { this.handleChange.bind( this, "hostname" ) } />
         </TWBS.Col>
       </div>;
