@@ -199,8 +199,8 @@ const NetworkConfig = React.createClass(
         newNetworkConfig =
           { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } };
       } else {
-        newNetworkConfig[ "dns" ][ "servers" ] =
-          this.state.networkConfig[ "dns" ][ "servers" ];
+        _.assign( newNetworkConfig
+                , { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } } );
       }
     }
 
