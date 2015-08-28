@@ -436,7 +436,7 @@ const NetworkConfig = React.createClass(
     }
 
     return (
-      <div className = "network-overview">
+      <form className = "network-overview">
         <h3 className = "text-center">Network Configuration</h3>
         <TWBS.Grid fluid>
           <TWBS.Row>
@@ -472,7 +472,7 @@ const NetworkConfig = React.createClass(
             </TWBS.Col>
           </TWBS.Row>
         </TWBS.Grid>
-      </div>
+      </form>
     );
   }
 });
