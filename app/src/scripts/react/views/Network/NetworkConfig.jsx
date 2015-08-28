@@ -185,7 +185,7 @@ const NetworkConfig = React.createClass(
         if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
           newDNSServers = this.state.networkConfig[ "dns" ][ "servers" ].slice();
           newDNSServers.push( this.state.dnsServerInProgress );
-          newNetworkConfig[ "dns" ][ "servers" ] = newDNSServers;
+          _.assign( newNetworkConfig, { dns: { servers: newDNSServers } } );
           newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                                     , newNetworkConfig
                                     , function mergeDNSHard ( newValue ) {
