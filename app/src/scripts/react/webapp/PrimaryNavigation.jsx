@@ -27,49 +27,49 @@ if ( typeof window !== "undefined" ) {
 // TODO: Convert to Flux or other external file
 const paths =
   [ { path     : "dashboard"
-    , icon     : "dashboard"
+    , icon     : "icon-datareport"
     , label    : "Dashboard"
     , status   : null
     , disabled : false
     }
   , { path     : "storage"
-    , icon     : "magic"
+    , icon     : "icon-cloud-alt"
     , label    : "Storage"
     , status   : null
     , disabled : false
     }
   , { path     : "network"
-    , icon     : "moon-o"
+    , icon     : "icon-flowchart"
     , label    : "Network"
     , status   : null
     , disabled : false
     }
   , { path     : "accounts"
-    , icon     : "paper-plane"
+    , icon     : "icon-id"
     , label    : "Accounts"
     , status   : null
     , disabled : false
     }
   , { path     : "calendar"
-    , icon     : "paw"
+    , icon     : "icon-calendar"
     , label    : "Calendar"
     , status   : null
     , disabled : false
     }
   , { path     : "hardware"
-    , icon     : "ambulance"
+    , icon     : "icon-drive"
     , label    : "Hardware"
     , status   : null
     , disabled : false
     }
   , { path     : ""
-    , icon     : "futbol-o"
+    , icon     : "icon-mug"
     , label    : "AppCafe"
     , status   : null
     , disabled : true
     }
   , { path     : "settings"
-    , icon     : "paragraph"
+    , icon     : "icon-adjust-horiz"
     , label    : "Settings"
     , status   : null
     , disabled : false
