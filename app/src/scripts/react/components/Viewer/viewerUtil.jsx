@@ -162,7 +162,7 @@ viewerUtil.ItemIcon = React.createClass(
         // TODO: BASE64 encoded user images from middleware
         return (
           <div
-            className = "icon"
+            className = "item-graphic"
             style     = { { height : this.props.size
                           , width  : this.props.size }
                         }
@@ -177,7 +177,7 @@ viewerUtil.ItemIcon = React.createClass(
         // Use a Font Icon, but only if there isn't a specific image specified.
         return (
           <div
-            className = "icon"
+            className = "item-graphic"
             style     = { { background : this.state.userColor
                                        ? this.state.userColor
                                        : null
@@ -197,7 +197,7 @@ viewerUtil.ItemIcon = React.createClass(
         // Using the Initials icon is a last resort.
         return (
           <div
-            className = "icon"
+            className = "item-graphic"
             style     = { { background : this.state.userColor
                                        ? this.state.userColor
                                        : null
