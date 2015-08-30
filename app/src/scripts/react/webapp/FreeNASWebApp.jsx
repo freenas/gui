@@ -112,7 +112,7 @@ const FreeNASWebApp = React.createClass(
         />
 
         {/* Primary Styles */}
-        <link rel="stylesheet" type="text/css" href={ "extract.css" + this.state.cssBust } />
+        <link rel="stylesheet" type="text/css" href={ "/extract.css" + this.state.cssBust } />
         <script type="text/javascript" src="/js/data-window-props.js"></script>
       </head>
       <body>
