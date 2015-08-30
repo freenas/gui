@@ -1,54 +1,34 @@
-
+// FONT ICON
+// =========
+// Generates a font-based icon
 
 "use strict";
 
-import _ from "lodash";
 import React from "react";
 
-var Icon = React.createClass({
-  propTypes: (
-    { glyph         : React.PropTypes.string.isRequired
-    , icoSize       : React.PropTypes.string
-    , icoClass      : React.PropTypes.string
-    , className     : React.PropTypes.string
-    , badgeStyle    : React.PropTypes.string
-    , badgeContent  : React.PropTypes.oneOfType( [
-          React.PropTypes.string
-        , React.PropTypes.number
-        , React.PropTypes.bool
-      ] )
+const Icon = React.createClass(
+  { propTypes:
+    { glyph: React.PropTypes.string.isRequired
+    , className: React.PropTypes.string
+    , style: React.PropTypes.object
     }
-  )
 
-  , getDefaultProps: function () {
-    return (
-      { icoSize      : null
-      , icoClass     : null
-      , bsBadgeStyle : "info"
+  , render () {
+      let iconClass = [ "icon" ];
+
+      if ( this.props.className ) {
+        iconClass.push( this.props.className.split( /\s/ ) );
       }
-    );
-  }
 
-  , render: function () {
-    var iconBadge = null;
-
-    if ( this.props.badgeContent ) {
-      iconBadge = <span className="badge">{ this.props.badgeContent }</span>;
+      return (
+        <span
+          onClick   = { this.props.onClick }
+          className = { iconClass.join( " " ) }
+          style     = { this.props.style }
+        />
+      );
     }
-
-    return (
-      <i onClick   = { this.props.onClick }
-         className = { _.without( [
-                          "fa"
-                        , ( "fa-" + this.props.glyph )
-                        , this.props.className
-                        , ( "badge-" + this.props.bsBadgeStyle )
-                        , this.props.icoClass ], null ).join( " " ) }
-         style     = { { fontSize: this.props.icoSize } }>
-        { iconBadge }
-      </i>
-    );
   }
-});
+);
 
-module.exports = Icon;
+export default Icon;
