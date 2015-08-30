@@ -101,8 +101,8 @@ var NotificationBar = React.createClass(
 
         <div className="user-info">
 
-          <Icon glyph="flag" style={{ color: "#121212" }} />
-          <Icon glyph="list-alt" style={{ color: "#121212" }} />
+          <Icon glyph="icon-comment-alt" />
+          <Icon glyph="icon-clipboard" />
 
           <TWBS.DropdownButton
             pullRight
