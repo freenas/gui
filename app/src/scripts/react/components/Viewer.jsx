@@ -305,10 +305,10 @@ const Viewer = React.createClass(
     }
 
   , createModeNav: function ( mode, index ) {
-      var modeIcons = { detail : "th-list"
-                      , icon   : "th"
-                      , table  : "align-justify"
-                      , heir   : "bell"
+      var modeIcons = { detail : "icon-document-alt"
+                      , icon   : "icon-grid-2x2"
+                      , table  : "icon-table"
+                      , heir   : ""
                       };
 
       return (
