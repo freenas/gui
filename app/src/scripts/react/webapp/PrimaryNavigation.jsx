@@ -152,13 +152,7 @@ const PrimaryNavigation = React.createClass(
             className = "nav-item disabled"
             key = { index } >
             <a href = "#">
-              <Icon
-                glyph = { rawItem["icon"] }
-                badgeContent = { rawItem["status"]
-                             ? "!"
-                             : "" /* TODO: Better content, from Flux store */
-                             }
-                badgeStyle = { rawItem["status"] } />
+              <Icon glyph = { rawItem["icon"] } />
               <span className = "nav-item-label" >{ rawItem["label"] }</span>
             </a>
           </li>
@@ -170,13 +164,7 @@ const PrimaryNavigation = React.createClass(
             className = "nav-item"
             key = { index } >
             <Link to = { rawItem["path"] } >
-              <Icon
-                glyph = { rawItem["icon"] }
-                badgeContent = { rawItem["status"]
-                             ? "!"
-                             : "" /* TODO: Better content, from Flux store */
-                             }
-                badgeStyle = { rawItem["status"] } />
+              <Icon glyph = { rawItem["icon"] } />
               <span className = "nav-item-label" >{ rawItem["label"] }</span>
             </Link>
           </li>
