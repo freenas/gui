@@ -16,6 +16,10 @@ const Icon = React.createClass(
   , render () {
       let iconClass = [ "icon" ];
 
+      if ( this.props.glyph ) {
+        iconClass.push( this.props.glyph );
+      }
+
       if ( this.props.className ) {
         iconClass.push( this.props.className.split( /\s/ ) );
       }
