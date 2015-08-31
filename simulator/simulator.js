@@ -146,7 +146,8 @@ function handleOpen () {
 function handleClose ( code, message ) {
   var explanation = "";
 
-  entitySubscriber.removeEventListener(  sendEvent.bind( this ) );
+  entitySubscriber.removeEventListener( sendEvent.bind( this ) );
+  rpcClasses[ "task" ].removeTaskBroadcastListener( sendEvent.bind( this ) );
 
   switch ( code ) {
     case 1000:
@@ -261,4 +262,5 @@ middleware.on( "connection", function ( socket ) {
   socket.on( "error", handleError.bind( socket ) );
   socket.on( "message", handleMessage.bind( socket ) );
   entitySubscriber.addEventListener( sendEvent.bind( socket ) );
+  rpcClasses[ "task" ].addTaskBroadcastListener( sendEvent.bind( socket ) );
 });
