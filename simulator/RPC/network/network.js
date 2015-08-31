@@ -18,6 +18,9 @@ class Network extends RPCBase {
     this.CHANGE_EVENT = [ "network.updated" ];
     this.CHANGE_EVENT.push( this.config.CHANGE_EVENT );
     this.CHANGE_EVENT.push( this.interfaces.CHANGE_EVENT );
+    this.TASK_EVENT = [ "network"
+                      , "network.interfaces"
+                      ]
   }
 
   configure ( system, args, callback ) {
