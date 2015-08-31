@@ -129,7 +129,7 @@ module.exports = (
       <Route
         name = "system"
         route = "system"
-        hanlder = { System }/>
+        handler = { System }/>
       <Route
         name = "update"
         route = "update"
