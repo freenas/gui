@@ -10,7 +10,7 @@ import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
-import UsersMiddleware from "..//middleware/UsersMiddleware";
+import UsersMiddleware from "../middleware/UsersMiddleware";
 
 var CHANGE_EVENT = "change";
 var UPDATE_MASK  = "users.changed";

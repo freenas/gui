@@ -10,7 +10,7 @@ import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
-import GM from "..//middleware/GroupsMiddleware";
+import GM from "../middleware/GroupsMiddleware";
 
 var CHANGE_EVENT = "change";
 var UPDATE_MASK  = "groups.changed";
