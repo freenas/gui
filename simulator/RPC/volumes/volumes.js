@@ -156,6 +156,7 @@ class Volumes extends RPCBase {
   destroy ( system, args, callback ) {
 
     var newSystem = _.cloneDeep( system );
+    const timeout = 5000;
 
     if ( _.has ( newSystem[ "volumes" ], [ args[0] ] ) ) {
       delete newSystem[ "volumes" ][ args[0] ];
@@ -163,7 +164,17 @@ class Volumes extends RPCBase {
       this.emitChange( "volumes.changed"
                      , "volume.destroy"
                      , _.cloneDeep( newSystem[ "volumes" ] )
+                     , timeout
                      );
+
+      this.emitTask( "volumes"
+                   , "volume.destroy"
+                   , timeout // time the task should take before dispatch
+                   , "root" // task owner
+                   , args[0] // original arguments
+                   , _.cloneDeep( newSystem[ "volumes" ] )
+                   , true
+                   );
     } else {
       // TODO: Emit error
     }
