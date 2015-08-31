@@ -80,8 +80,8 @@ class EntitySubscriber extends EventEmitter {
               : originEvent
         };
     }
-    setTimeout( this.emit
-              , timeout - 100
+    setTimeout( this.emit.bind( this )
+              , timeout + 100
               , this.BASE_NAMESPACE
               , message
               );
