@@ -20,6 +20,7 @@ class Tasks extends RPCBase {
     this.namespace = "task";
     // TODO: Figure out events for tasks
 
+    this.taskIndex = 0;
   }
 
   query ( system, filter, params ) {
@@ -58,6 +59,7 @@ class Tasks extends RPCBase {
         , percentage: 0
         , name: originMethod
         , timestamp: time
+        , id: this.taskIndex
         }
       , name: taskEventName
       };
@@ -68,6 +70,7 @@ class Tasks extends RPCBase {
         , percentage: 33
         , name: originMethod
         , timestamp: Math.floor( time + timeout / 3 )
+        , id: this.taskIndex
         }
       , name: taskEventName
       };
@@ -78,6 +81,7 @@ class Tasks extends RPCBase {
         , percentage: 67
         , name: originMethod
         , timestamp: Math.floor( time + ( 2 * timeout / 3 ) )
+        , id: this.taskIndex
         }
       , name: taskEventName
       };
@@ -88,6 +92,7 @@ class Tasks extends RPCBase {
         , percentage: 100
         , name: originMethod
         , timestamp: Math.floor( time + timeout )
+        , id: this.taskIndex
         }
       , name: taskEventName
       };
@@ -111,6 +116,8 @@ class Tasks extends RPCBase {
               , this.namespace
               , finishedMessage
               );
+
+    this.taskIndex++;
   }
 
   submit ( system, args ) {
