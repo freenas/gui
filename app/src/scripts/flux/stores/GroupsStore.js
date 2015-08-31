@@ -14,7 +14,7 @@ import GM from "../middleware/GroupsMiddleware";
 
 var CHANGE_EVENT = "change";
 var UPDATE_MASK  = "groups.changed";
-var PRIMARY_KEY  = "groupID";
+var PRIMARY_KEY  = "id";
 
 var _localUpdatePending = {};
 var _updatedOnServer    = [];
@@ -23,22 +23,16 @@ var _groups = {};
 const GROUP_SCHEMA =
   { type: "object"
   , properties:
-    { groupName: { type: "string" }
-    , groupID: { type: "number" }
-    , builtIn: { type: [ "boolean", "null" ] }
+    { name: { type: "string" }
+    , id: { type: "number" }
+    , builtin: { type: [ "boolean", "null" ] }
     }
   };
 
 const GROUP_LABELS =
-  { groupName: "Group Name"
-  , groupID: "Group ID"
-  , builtIn: "Built-in System Group"
-  };
-
-const KEY_TRANSLATION =
-  { name: "groupName"
-  , id: "groupID"
-  , builtin: "builtIn"
+  { name: "Group Name"
+  , id: "Group ID"
+  , builtin: "Built-in System Group"
   };
 
 class GroupsStore extends FluxBase {
@@ -50,7 +44,7 @@ class GroupsStore extends FluxBase {
       handlePayload.bind( this )
     );
 
-    this.KEY_UNIQUE = "groupName";
+    this.KEY_UNIQUE = "name";
     this.ITEM_SCHEMA = GROUP_SCHEMA;
     this.ITEM_LABELS = GROUP_LABELS;
   }
@@ -124,9 +118,7 @@ function handlePayload ( payload ) {
 
       ACTION.groupsList.forEach(
         function convertGroups ( group ) {
-          _groups[ group[ "id" ] ] = FluxBase.rekeyForClient( group
-                                                            , KEY_TRANSLATION
-                                                            );
+          _groups[ group[ "id" ] ] = group;
         }
         , this
       );

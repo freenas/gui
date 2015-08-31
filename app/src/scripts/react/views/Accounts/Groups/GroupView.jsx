@@ -60,7 +60,7 @@ const GroupView = React.createClass({
     var builtInGroupAlert = null;
     var editButtons = null;
 
-    if ( this.props.item["builtIn"] ) {
+    if ( this.props.item["builtin"] ) {
       builtInGroupAlert = (
         <TWBS.Alert bsStyle   = "info"
                     className = "text-center">
@@ -73,7 +73,7 @@ const GroupView = React.createClass({
       <TWBS.ButtonToolbar>
         <TWBS.Button
           className = "pull-left"
-          disabled  = { this.props.item[ "builtIn" ] }
+          disabled  = { this.props.item[ "builtin" ] }
           onClick   = { this.deleteGroup }
           bsStyle   = "danger" >
           { "Delete Group" }
@@ -97,13 +97,13 @@ const GroupView = React.createClass({
             xs={3}
             className="text-center">
             <viewerUtil.ItemIcon
-              primaryString  = { this.props.item[ "groupName" ] }
-              fallbackString = { this.props.item[ "groupID" ] }
-              seedNumber     = { this.props.item[ "groupID" ] } />
+              primaryString  = { this.props.item[ "name" ] }
+              fallbackString = { this.props.item[ "id" ] }
+              seedNumber     = { this.props.item[ "id" ] } />
           </TWBS.Col>
           <TWBS.Col xs={9}>
             <h3>
-              { this.props.item[ "groupName" ] }
+              { this.props.item[ "name" ] }
             </h3>
             <hr />
           </TWBS.Col>
@@ -119,12 +119,12 @@ const GroupView = React.createClass({
             xs      = {2}
             className = "text-muted" >
             <h4 className = "text-muted" >
-              { this.props.itemLabels.properties[ "groupID" ] }
+              { this.props.itemLabels[ "id" ] }
             </h4>
           </TWBS.Col>
           <TWBS.Col xs = {10}>
             <h3>
-              { this.props.item[ "groupID" ] }
+              { this.props.item[ "id" ] }
             </h3>
           </TWBS.Col>
         </TWBS.Row>
@@ -136,7 +136,7 @@ const GroupView = React.createClass({
               { "Users" }
             </h4>
             <TWBS.ListGroup>
-              { this.createUserDisplayList( this.props.item[ "groupID" ] ) }
+              { this.createUserDisplayList( this.props.item[ "id" ] ) }
             </TWBS.ListGroup>
           </TWBS.Col>
         </TWBS.Row>

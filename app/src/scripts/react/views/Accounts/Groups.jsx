@@ -18,8 +18,8 @@ import MS from "../../../flux/stores/MiddlewareStore";
 
 const VIEWER_DATA =
   { keyUnique     : GS.uniqueKey
-  , keyPrimary    : "groupName"
-  , keySecondary  : "groupID"
+  , keyPrimary    : "name"
+  , keySecondary  : "id"
 
   , itemSchema    : GS.itemSchema
   , itemLabels    : GS.itemLabels
@@ -32,33 +32,33 @@ const VIEWER_DATA =
   , textRemaining : "other groups"
   , textUngrouped : "all groups"
 
-  , groupsInitial : new Set( [ "userCreated", "builtIn" ] )
-  , groupsAllowed : new Set( [ "userCreated", "builtIn" ] )
+  , groupsInitial : new Set( [ "userCreated", "builtin" ] )
+  , groupsAllowed : new Set( [ "userCreated", "builtin" ] )
 
   , filtersInitial : new Set( )
-  , filtersAllowed : new Set( [ "builtIn" ] )
+  , filtersAllowed : new Set( [ "builtin" ] )
 
   , columnsInitial : new Set(
-                      [ "groupID"
-                      , "groupName"
-                      , "builtIn"
+                      [ "id"
+                      , "name"
+                      , "builtin"
                       ]
                     )
   , columnsAllowed : new Set(
-                      [ "groupID"
-                      , "groupName"
-                      , "builtIn"
+                      [ "id"
+                      , "name"
+                      , "builtin"
                       ]
                     )
 
   , groupBy:
     { userCreated:
        { name: "local groups"
-       , testProp: { builtIn: false }
+       , testProp: { builtin: false }
        }
-    , builtIn:
+    , builtin:
        { name: "built-in system groups"
-       , testProp: { builtIn: true }
+       , testProp: { builtin: true }
        }
     }
   };
