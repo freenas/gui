@@ -1,4 +1,5 @@
 [ "system.info"
+, "system.ui"
 , "shares"
 , "shares.afp"
 , "shares.nfs"
