@@ -1,5 +1,152 @@
 {
   "definitions": {
+    "crypto-certificate": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "valid_until": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "csr_path": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lifetime": {
+          "type": "integer"
+        },
+        "serial": {
+          "type": "integer"
+        },
+        "city": {
+          "type": "string"
+        },
+        "valid_from": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "certificate": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "CA_EXISTING",
+            "CA_INTERMEDIATE",
+            "CA_INTERNAL",
+            "CERT_CSR",
+            "CERT_EXISTING",
+            "CERT_INTERMEDIATE",
+            "CERT_INTERNAL"
+          ],
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "digest_algorithm": {
+          "enum": [
+            "SHA1",
+            "SHA224",
+            "SHA256",
+            "SHA384",
+            "SHA512"
+          ],
+          "type": "string"
+        },
+        "common": {
+          "type": "string"
+        },
+        "dn": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "privatekey_path": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "key_length": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "privatekey": {
+          "type": "string"
+        },
+        "certificate_path": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "organization": {
+          "type": "string"
+        },
+        "csr": {
+          "type": "string"
+        },
+        "signedby": {
+          "type": "string"
+        }
+      }
+    },
+    "network-interface-status": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "link_address": {
+          "type": "string"
+        },
+        "capabilities": {
+          "$ref": "network-interface-capabilities"
+        },
+        "mtu": {
+          "type": "integer"
+        },
+        "link_state": {
+          "type": "string"
+        },
+        "flags": {
+          "$ref": "network-interface-flags"
+        },
+        "media_options": {
+          "$ref": "network-interface-media-options"
+        },
+        "media_type": {
+          "type": "string"
+        },
+        "media_subtype": {
+          "type": "string"
+        },
+        "aliases": {
+          "items": {
+            "$ref": "network-interface-alias"
+          },
+          "type": "array"
+        }
+      }
+    },
     "network-interface-alias": {
       "type": "object",
       "properties": {
@@ -21,6 +168,43 @@
         },
         "address": {
           "type": "string"
+        }
+      }
+    },
+    "disk-erase-method": {
+      "enum": [
+        "QUICK",
+        "ZEROS",
+        "RANDOM"
+      ],
+      "type": "string"
+    },
+    "zfs-topology": {
+      "type": "object",
+      "properties": {
+        "spare": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        },
+        "cache": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        },
+        "data": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
+        },
+        "logs": {
+          "items": {
+            "$ref": "zfs-vdev"
+          },
+          "type": "array"
         }
       }
     },
@@ -85,6 +269,48 @@
         }
       }
     },
+    "support-ticket": {
+      "additionalProperties": false,
+      "required": [
+        "username",
+        "password",
+        "subject",
+        "description",
+        "category",
+        "type",
+        "debug"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "attachments": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "description": {
+          "type": "string"
+        },
+        "debug": {
+          "type": "boolean"
+        },
+        "password": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        }
+      }
+    },
     "session": {
       "type": "object",
       "properties": {
@@ -113,6 +339,67 @@
           "type": "integer"
         }
       }
+    },
+    "network-interface-capabilities": {
+      "items": {
+        "enum": [
+          "RXCSUM",
+          "TXCSUM",
+          "NETCONS",
+          "VLAN_MTU",
+          "VLAN_HWTAGGING",
+          "JUMBO_MTU",
+          "POLLING",
+          "VLAN_HWCSUM",
+          "TSO4",
+          "TSO6",
+          "LRO",
+          "WOL_UCAST",
+          "WOL_MCAST",
+          "WOL_MAGIC",
+          "TOE4",
+          "TOE6",
+          "VLAN_HWFILTER",
+          "POLLING_NOCOUNT",
+          "VLAN_HWTSO",
+          "LINKSTATE",
+          "NETMAP",
+          "RXCSUM_IPV6",
+          "TXCSUM_IPV6",
+          "HWSTATS"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "network-interface-flags": {
+      "items": {
+        "enum": [
+          "UP",
+          "BROADCAST",
+          "DEBUG",
+          "LOOPBACK",
+          "POINTOPOINT",
+          "DRV_RUNNING",
+          "NOARP",
+          "PROMISC",
+          "ALLMULTI",
+          "DRV_OACTIVE",
+          "SIMPLEX",
+          "LINK0",
+          "LINK1",
+          "LINK2",
+          "MULTICAST",
+          "CANTCONFIG",
+          "PPROMISC",
+          "MONITOR",
+          "STATICARP",
+          "DYING",
+          "RENAMING"
+        ],
+        "type": "string"
+      },
+      "type": "array"
     },
     "nfs-share-properties": {
       "type": "object",
@@ -146,137 +433,209 @@
     "disk": {
       "type": "object",
       "properties": {
+        "smart_enabled": {
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "disk-status"
+        },
+        "description": {
+          "type": "string"
+        },
+        "apm_mode": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "acoustic_level": {
+          "enum": [
+            "DISABLED",
+            "MINIMUM",
+            "MEDIUM",
+            "MAXIMUM"
+          ],
+          "type": "string"
+        },
+        "smart_options": {
+          "type": "string"
+        },
+        "serial": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
         },
-        "acoustic-level": {
-          "type": "string"
+        "standby_mode": {
+          "type": [
+            "integer",
+            "null"
+          ]
         },
-        "is-ssd": {
+        "mediasize": {
+          "type": "integer"
+        },
+        "smart": {
+          "type": "boolean"
+        }
+      }
+    },
+    "disk-status": {
+      "type": "object",
+      "properties": {
+        "smart_enabled": {
           "type": "boolean"
         },
-        "apm-mode": {
+        "swap_partition_path": {
           "type": "string"
         },
-        "smart-enabled": {
-          "type": "boolean"
+        "serial": {
+          "type": "string"
         },
-        "standby-mode": {
+        "multipath": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "node": {
+              "type": "string"
+            },
+            "members": {
+              "items": "string",
+              "type": "aray"
+            }
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "smart_status": {
+          "type": "string"
+        },
+        "data_partition_uuid": {
           "type": "string"
         },
         "mediasize": {
           "type": "integer"
         },
-        "max-rotation": {
+        "smart_capable": {
+          "type": "boolean"
+        },
+        "data_partition_path": {
+          "type": "string"
+        },
+        "lunid": {
+          "type": "string"
+        },
+        "schema": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sectorsize": {
           "type": "integer"
         },
-        "smart-status": {
+        "description": {
           "type": "string"
+        },
+        "controller": {
+          "type": "object"
         },
         "interface": {
           "type": "string"
         },
-        "smart-capable": {
+        "partitions": {
+          "items": {
+            "$ref": "disk-partition"
+          },
+          "type": "array"
+        },
+        "is_ssd": {
           "type": "boolean"
         },
-        "serial": {
-          "type": "string"
+        "max_rotation": {
+          "type": "integer"
         },
-        "smart-options": {
+        "is_multipath": {
+          "type": "boolean"
+        },
+        "is_encrypted": {
+          "type": "boolean"
+        },
+        "swap_partition_uuid": {
           "type": "string"
         },
         "model": {
           "type": "string"
-        },
-        "smart": {
-          "type": "boolean"
-        },
-        "description": {
-          "type": "string"
         }
       }
     },
-    "update.in_progress": {
+    "permissions-tuple": {
       "type": "object",
       "properties": {
-        "num_files_total": {
-          "type": "number"
-        },
-        "indeterminate": {
+        "read": {
           "type": "boolean"
         },
-        "filesize": {
-          "type": "number"
-        },
-        "percent": {
-          "type": "number"
-        },
-        "reboot": {
+        "write": {
           "type": "boolean"
         },
-        "filename": {
-          "type": "string"
-        },
-        "finished": {
+        "execute": {
           "type": "boolean"
-        },
-        "pkg_name": {
-          "type": "string"
-        },
-        "num_files_done": {
-          "type": "number"
-        },
-        "error": {
-          "type": "boolean"
-        },
-        "pkg_version": {
-          "type": "string"
-        },
-        "operation": {
-          "enum": [
-            "Downloading",
-            "Installing"
-          ],
-          "type": "string"
-        },
-        "details": {
-          "type": "string"
         }
       }
     },
-    "update.ops": {
+    "mail-message": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
-        "new_name": {
+        "extra_headers": {
+          "type": "object"
+        },
+        "attachments": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "to": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "from": {
           "type": "string"
         },
-        "operation": {
-          "enum": [
-            "upgrade",
-            "install"
-          ],
+        "message": {
           "type": "string"
         },
-        "new_version": {
-          "type": "string"
-        },
-        "previous_name": {
-          "type": "string"
-        },
-        "previous_version": {
+        "subject": {
           "type": "string"
         }
       }
     },
     "group": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
         "builtin": {
           "readOnly": true,
           "type": "boolean"
         },
+        "sudo": {
+          "type": "boolean"
+        },
         "id": {
           "type": "integer"
+        },
+        "members": {
+          "items": {
+            "type": "integer"
+          },
+          "readOnly": true,
+          "type": "array"
         },
         "name": {
           "type": "string"
@@ -288,13 +647,10 @@
       "properties": {
         "state": {
           "enum": [
-            "RUNNING",
-            "STOPPED",
-            "UNKNOWN"
+            "running",
+            "stopped",
+            "unknown"
           ],
-          "type": "string"
-        },
-        "label": {
           "type": "string"
         },
         "pid": {
@@ -324,6 +680,16 @@
           ]
         }
       }
+    },
+    "network-interface-type": {
+      "enum": [
+        "LOOPBACK",
+        "ETHER",
+        "VLAN",
+        "BRIDGE",
+        "LAGG"
+      ],
+      "type": "string"
     },
     "zfs-properties": {
       "type": "object",
@@ -505,12 +871,32 @@
         }
       }
     },
-    "system-ui": {
+    "network-aggregation-protocols": {
+      "enum": [
+        "NONE",
+        "ROUNDROBIN",
+        "FAILOVER",
+        "LOADBALANCE",
+        "LACP",
+        "ETHERCHANNEL"
+      ],
+      "type": "string"
+    },
+    "zfs-vdev-extension": {
       "type": "object",
       "properties": {
-        "webui_https_port": {
-          "type": "integer"
+        "target_guid": {
+          "type": "string"
         },
+        "vdev": {
+          "$ref": "zfs-vdev"
+        }
+      }
+    },
+    "system-ui": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
         "webui_protocol": {
           "items": {
             "enum": [
@@ -523,8 +909,17 @@
             "array"
           ]
         },
-        "webui-http_port": {
+        "webui_http_port": {
           "type": "integer"
+        },
+        "webui_http_redirect_https": {
+          "type": "boolean"
+        },
+        "webui_https_certificate": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "webui_listen": {
           "items": {
@@ -533,6 +928,9 @@
           "type": [
             "array"
           ]
+        },
+        "webui_https_port": {
+          "type": "integer"
         }
       }
     },
@@ -547,6 +945,23 @@
         }
       }
     },
+    "update-train": {
+      "type": "object",
+      "properties": {
+        "current": {
+          "type": "boolean"
+        },
+        "sequence": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
     "zfs-dataset": {
       "type": "object",
       "properties": {
@@ -556,7 +971,13 @@
           },
           "type": "array"
         },
+        "type": {
+          "$ref": "dataset-type"
+        },
         "name": {
+          "type": "string"
+        },
+        "pool": {
           "type": "string"
         },
         "properties": {
@@ -564,11 +985,56 @@
         }
       }
     },
+    "mail": {
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "server",
+        "port",
+        "auth",
+        "encryption"
+      ],
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "encryption": {
+          "enum": [
+            "PLAIN",
+            "TLS",
+            "SSL"
+          ],
+          "type": "string"
+        },
+        "auth": {
+          "type": "boolean"
+        },
+        "server": {
+          "type": "string"
+        },
+        "user": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pass": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "port": {
+          "type": "integer"
+        }
+      }
+    },
     "zfs-scan": {
       "type": "object",
       "properties": {
         "bytes_to_process": {
-          "type": "integer"
+          "type": "long"
         },
         "state": {
           "type": "string"
@@ -583,13 +1049,104 @@
           "type": "integer"
         },
         "bytes_processed": {
-          "type": "integer"
+          "type": "long"
         },
         "start_time": {
           "type": "string"
         },
         "percentage": {
-          "type": "number"
+          "type": "float"
+        }
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "FILESYSTEM",
+            "VOLUME"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "share_type": {
+          "enum": [
+            "UNIX",
+            "MAC",
+            "WINDOWS"
+          ],
+          "type": "string"
+        },
+        "properties": {
+          "type": "object"
+        }
+      }
+    },
+    "stat": {
+      "type": "object",
+      "properties": {
+        "gid": {
+          "type": "integer"
+        },
+        "ctime": {
+          "type": "string"
+        },
+        "mtime": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "integer"
+        },
+        "path": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "$ref": "permissions-tuple"
+            },
+            "group": {
+              "$ref": "permissions-tuple"
+            },
+            "others": {
+              "$ref": "permissions-tuple"
+            }
+          }
+        },
+        "atime": {
+          "type": "string"
+        },
+        "type": "set(['type', 'string'])",
+        "size": {
+          "type": "integer"
+        }
+      }
+    },
+    "alert-filter": {
+      "type": "object",
+      "properties": {
+        "emitters": {
+          "items": {
+            "enum": [
+              "UI",
+              "EMAIL"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "severity": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       }
     },
@@ -608,24 +1165,13 @@
           "type": "string"
         },
         "guid": {
-          "type": "integer"
+          "type": "long"
         },
         "name": {
           "type": "string"
         },
         "groups": {
-          "type": "object",
-          "properties": {
-            "cache": {
-              "type": "array"
-            },
-            "data": {
-              "$ref": "zfs-vdev"
-            },
-            "log": {
-              "type": "array"
-            }
-          }
+          "$ref": "zfs-topology"
         },
         "scan": {
           "$ref": "zfs-scan"
@@ -641,71 +1187,127 @@
         }
       }
     },
+    "update-ops": {
+      "type": "object",
+      "properties": {
+        "new_name": {
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "delete",
+            "install",
+            "upgrade"
+          ],
+          "type": "string"
+        },
+        "new_version": {
+          "type": "string"
+        },
+        "previous_name": {
+          "type": "string"
+        },
+        "previous_version": {
+          "type": "string"
+        }
+      }
+    },
     "update": {
       "type": "object",
       "properties": {
         "check_auto": {
           "type": "boolean"
         },
+        "update_server": {
+          "readOnly": true,
+          "type": "string"
+        },
         "train": {
           "type": "string"
         }
       }
     },
-    "zfs-topology": {
+    "alert": {
       "type": "object",
       "properties": {
-        "spare": {
-          "items": {
-            "$ref": "zfs-vdev"
-          },
-          "type": "array"
-        },
-        "cache": {
-          "items": {
-            "$ref": "zfs-vdev"
-          },
-          "type": "array"
-        },
-        "data": {
-          "items": {
-            "$ref": "zfs-vdev"
-          },
-          "type": "array"
-        },
-        "logs": {
-          "items": {
-            "$ref": "zfs-vdev"
-          },
-          "type": "array"
-        }
-      }
-    },
-    "volume": {
-      "type": "object",
-      "properties": {
-        "params": {
-          "type": "object"
-        },
-        "topology": {
-          "$ref": "zfs-topology"
-        },
-        "type": {
-          "enum": [
-            "zfs"
-          ],
+        "severity": {
           "type": "string"
         },
-        "id": {
+        "when": {
           "type": "string"
         },
         "name": {
           "type": "string"
+        },
+        "description": {
+          "type": "string"
         }
+      }
+    },
+    "ntp-server": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "maxpoll": {
+          "type": "integer"
+        },
+        "burst": {
+          "type": "boolean"
+        },
+        "prefer": {
+          "type": "boolean"
+        },
+        "iburst": {
+          "type": "boolean"
+        },
+        "address": {
+          "type": "string"
+        },
+        "minpoll": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "network-interface-mediaopts": {
+      "items": {
+        "enum": [
+          "AUTO",
+          "MANUAL",
+          "NONE",
+          "FDX",
+          "HDX",
+          "FLOW",
+          "FLAG0",
+          "FLAG1",
+          "FLAG2",
+          "LOOP"
+        ],
+        "type": "string"
       },
-      "title": "volume"
+      "type": "array"
+    },
+    "update-info": {
+      "type": "object",
+      "properties": {
+        "operations": {
+          "$ref": "update-ops"
+        },
+        "notes": {
+          "type": "object"
+        },
+        "notice": {
+          "type": "string"
+        },
+        "changelog": {
+          "type": "string"
+        }
+      }
     },
     "user": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
         "username": {
@@ -735,6 +1337,9 @@
           },
           "readOnly": true,
           "type": "array"
+        },
+        "attributes": {
+          "type": "object"
         },
         "unixhash": {
           "type": [
@@ -777,6 +1382,12 @@
         "group": {
           "type": "integer"
         },
+        "password": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "id": {
           "type": "number"
         },
@@ -785,7 +1396,34 @@
         }
       }
     },
+    "boot-environment": {
+      "type": "object",
+      "properties": {
+        "realname": {
+          "type": "string"
+        },
+        "space": {
+          "type": "integer"
+        },
+        "on_reboot": {
+          "type": "boolean"
+        },
+        "created": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "mountpoint": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
     "system-general": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
         "timezone": {
@@ -793,6 +1431,12 @@
         },
         "hostname": {
           "type": "string"
+        },
+        "syslog_server": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "language": {
           "type": "string"
@@ -826,6 +1470,37 @@
         }
       }
     },
+    "volume": {
+      "type": "object",
+      "properties": {
+        "params": {
+          "type": "object"
+        },
+        "topology": {
+          "$ref": "zfs-topology"
+        },
+        "type": {
+          "enum": [
+            "zfs"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "volume"
+    },
+    "dataset-type": {
+      "enum": [
+        "FILESYSTEM",
+        "VOLUME"
+      ],
+      "type": "string"
+    },
     "swap-mirror": {
       "type": "object",
       "properties": {
@@ -858,6 +1533,9 @@
         "path": {
           "type": "string"
         },
+        "guid": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "disk",
@@ -884,6 +1562,52 @@
           "type": "string"
         },
         "description": {
+          "type": "string"
+        }
+      }
+    },
+    "tunable": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": "string"
+        },
+        "var": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "LOADER",
+            "RC",
+            "SYSCTL"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "importable-disk": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "label": {
+          "type": "string"
+        },
+        "fstype": {
           "type": "string"
         }
       }
@@ -1465,6 +2189,72 @@
         }
       }
     },
+    "system-advanced": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "boot_scrub_internal": {
+          "type": "integer"
+        },
+        "motd": {
+          "type": "string"
+        },
+        "serial_console": {
+          "type": "boolean"
+        },
+        "serial_port": {
+          "type": "string"
+        },
+        "uploadcrash": {
+          "type": "boolean"
+        },
+        "console_screensaver": {
+          "type": "boolean"
+        },
+        "swapondrive": {
+          "type": "integer"
+        },
+        "debugkernel": {
+          "type": "boolean"
+        },
+        "serial_speed": {
+          "type": "integer"
+        },
+        "powerd": {
+          "type": "boolean"
+        },
+        "console_cli": {
+          "type": "boolean"
+        },
+        "autotune": {
+          "type": "boolean"
+        },
+        "periodic_notify_user": {
+          "type": "integer"
+        }
+      }
+    },
+    "zfs-property": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "enum": [
+            "NONE",
+            "DEFAULT",
+            "LOCAL",
+            "INHERITED",
+            "RECEIVED"
+          ],
+          "type": "string"
+        },
+        "rawvalue": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
     "ui-transaction": {
       "type": "object",
       "properties": {
@@ -1493,6 +2283,54 @@
         }
       }
     },
+    "update-progress": {
+      "type": "object",
+      "properties": {
+        "num_files_total": {
+          "type": "number"
+        },
+        "indeterminate": {
+          "type": "boolean"
+        },
+        "filesize": {
+          "type": "number"
+        },
+        "percent": {
+          "type": "number"
+        },
+        "reboot": {
+          "type": "boolean"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "finished": {
+          "type": "boolean"
+        },
+        "pkg_name": {
+          "type": "string"
+        },
+        "num_files_done": {
+          "type": "number"
+        },
+        "error": {
+          "type": "boolean"
+        },
+        "pkg_version": {
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "DOWNLOADING",
+            "INSTALLING"
+          ],
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
     "network-device": {
       "type": "object",
       "properties": {
@@ -1504,47 +2342,54 @@
         }
       }
     },
-    "network-interface": {
+    "disk-partition": {
       "type": "object",
       "properties": {
-        "status": {
-          "type": "object",
-          "properties": {
-            "link-state": {
-              "type": "string"
-            },
-            "link-address": {
-              "type": "string"
-            },
-            "flags": {
-              "enum": [
-                "DRV_RUNNING",
-                "UP",
-                "BROADCAST",
-                "SIMPLEX",
-                "MULTICAST"
-              ],
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "aliases": {
-              "items": {
-                "$ref": "network-interface-alias"
-              },
-              "type": "array"
-            }
-          }
+        "paths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "name": {
           "type": "string"
         },
-        "dhcp": {
-          "type": "boolean"
+        "label": {
+          "type": "string"
         },
-        "enabled": {
-          "type": "boolean"
+        "mediasize": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "network-interface": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "network-interface-status"
+        },
+        "vlan": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "integer"
+            },
+            "parent": {
+              "type": "string"
+            }
+          }
+        },
+        "mediaopts": {
+          "$ref": "network-interface-mediaopts"
+        },
+        "id": {
+          "type": "string"
         },
         "aliases": {
           "items": {
@@ -1552,17 +2397,54 @@
           },
           "type": "array"
         },
-        "type": {
+        "name": {
           "type": "string"
         },
-        "id": {
-          "type": "string"
+        "media": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "add": {
+              "$ref": "network-interface-capabilities"
+            },
+            "del": {
+              "$ref": "network-interface-capabilities"
+            }
+          }
         },
         "mtu": {
           "type": [
             "integer",
             "null"
           ]
+        },
+        "dhcp": {
+          "type": "boolean"
+        },
+        "lagg": {
+          "type": "object",
+          "properties": {
+            "protocol": {
+              "$ref": "network-aggregation-protocols"
+            },
+            "ports": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "type": {
+          "$ref": "network-interface-type"
         }
       }
     }
