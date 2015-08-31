@@ -87,6 +87,14 @@ class General extends RPCBase {
                    , "system.general.configure"
                    , _.cloneDeep( newSystem )
                    );
+    this.emitTask( this.namespace
+                 , "system.general.configure"
+                 , timeout // time the task should take before dispatch
+                 , "root" // task owner
+                 , args[0] // original arguments
+                 , _.cloneDeep( newSystem[ "uiSettings" ] )
+                 , true // task succeeds
+                 );
 
   }
 
