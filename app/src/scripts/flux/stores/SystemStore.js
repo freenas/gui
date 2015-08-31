@@ -14,6 +14,7 @@ var CHANGE_EVENT = "change";
 var _systemInfoData = {};
 var _systemDeviceData = {};
 var _systemGeneralConfig = {};
+var _systemUIConfig = {};
 var _localUpdatePending = [];
 
 class SystemStore extends FluxBase {
@@ -37,6 +38,10 @@ class SystemStore extends FluxBase {
 
   get systemGeneralConfig () {
     return _systemGeneralConfig;
+  }
+
+  get systemUIConfig () {
+    return _systemUIConfig;
   }
 
   /**
@@ -67,6 +72,14 @@ function handlePayload ( payload ) {
       this.emitChange();
       break;
     case ActionTypes.RECEIVE_SYSTEM_GENERAL_CONFIG_UPDATE:
+      _localUpdatePending.push( action.taskID );
+      this.emitChange();
+      break;
+    case ActionTypes.RECEIVE_SYSTEM_UI_CONFIG_DATA:
+      _systemUIConfig = action.config;
+      this.emitChange();
+      break;
+    case ActionTypes.RECEIVE_SYSTEM_UI_CONFIG_UPDATE:
       _localUpdatePending.push( action.taskID );
       this.emitChange();
       break;

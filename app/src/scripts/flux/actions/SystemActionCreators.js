@@ -45,6 +45,23 @@ class SystemActionCreators {
     );
   }
 
+  static receiveSystemUIConfig ( config, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_SYSTEM_UI_CONFIG_DATA
+      , timestamp
+      , config }
+    );
+  }
+
+  static receiveSystemUIConfigUpdateTask ( taskID, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_SYSTEM_UI_CONFIG_UPDATE
+      , timestamp
+      , taskID
+      }
+    );
+  }
+
 };
 
 export default SystemActionCreators;

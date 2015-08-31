@@ -46,6 +46,19 @@ class SystemMiddleware extends AbstractBase {
               );
   }
 
+  static requestSystemUIConfig () {
+    MC.request( "system.ui.get_config"
+              , []
+              , SAC.receiveSystemUIConfig );
+  }
+
+  static updateSystemUIConfig ( settings ) {
+    MC.request( "task.submit"
+              , [ "system.ui.configure", [ settings ] ]
+              , SAC.receiveSystemUIConfigUpdateTask
+              );
+  }
+
 };
 
 export default SystemMiddleware;
