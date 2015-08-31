@@ -34,13 +34,6 @@ const Disk = React.createClass(
       diskClasses.push( "smart-fail" );
     }
 
-    if ( disk[ "smart-statistics"][ "Temperature_Celcius" ] > 39 ) {
-      diskClasses.push( "temp-overheat" );
-    } else if ( disk[ "smart-statistics"][ "Temperature_Celcius" ] <= 39
-             && disk[ "smart-statistics"][ "Temperature_Celcius" ] > 36 ) {
-      diskClasses.push( "temp-warn" );
-    }
-
     return (
       <div className= { diskClasses.join( " " ) } >
         <img
