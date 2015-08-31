@@ -46,6 +46,73 @@ class Tasks extends RPCBase {
     this.setMaxListeners( 0 );
   }
 
+  // Some of this is only meant to be used with task logging, which is not yet implemented
+  sendTaskEvents ( originMethod, timeout, owner, orginalArgs, content, succeeded ) {
+    const time = moment().unix();
+
+    const taskEventName = "task.progress";
+
+    var creationMessage =
+      { args:
+        { state: "CREATED"
+        , percentage: 0
+        , name: originMethod
+        , timestamp: time
+        }
+      , name: taskEventName
+      };
+
+    var waitingMessage =
+      { args:
+        { state: "WAITING"
+        , percentage: 33
+        , name: originMethod
+        , timestamp: Math.floor( time + timeout / 3 )
+        }
+      , name: taskEventName
+      };
+
+    var executingMessage =
+      { args:
+        { state: "EXECUTING"
+        , percentage: 67
+        , name: originMethod
+        , timestamp: Math.floor( time + ( 2 * timeout / 3 ) )
+        }
+      , name: taskEventName
+      };
+
+    var finishedMessage =
+      { args:
+        { state: "FINISHED"
+        , percentage: 100
+        , name: originMethod
+        , timestamp: Math.floor( time + timeout )
+        }
+      , name: taskEventName
+      };
+
+    this.emit( this.namespace, creationMessage );
+
+    setTimeout( this.emit.bind( this )
+              , Math.floor( timeout / 3 )
+              , this.namespace
+              , waitingMessage
+              );
+
+    setTimeout( this.emit.bind( this )
+              , Math.floor( 2 * timeout / 3 )
+              , this.namespace
+              , executingMessage
+              );
+
+    setTimeout( this.emit.bind( this )
+              , timeout
+              , this.namespace
+              , finishedMessage
+              );
+  }
+
   submit ( system, args ) {
 
     var taskCall;
