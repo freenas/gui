@@ -33,12 +33,16 @@
       // Not sure why it was being overridden.
       .btn {
         float: right;
-        padding: 1px 5px;
+        padding: 1px 7px;
         font-size: 12px;
-        line-height: 1.5;
+        line-height: 1.6;
         border-radius: 2px;
         vertical-align: center;
         margin-right: 1.2em;
+
+        &:before {
+          content: "×";
+        }
       }
     }
   }
