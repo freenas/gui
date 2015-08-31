@@ -17,7 +17,12 @@ class System extends RPCBase {
     this.ui = new UI();
     this.namespace = "system";
 
-    this.CHANGE_EVENT = [ "system.general.changed" ];
+    this.CHANGE_EVENT = [ "system.general.changed"
+                        , "system.ui.changed"
+                        ];
+    this.TASK_EVENT = [ "system.general"
+                      , "system.ui"
+                      ];
   }
 }
 
