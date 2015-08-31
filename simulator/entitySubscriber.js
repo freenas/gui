@@ -36,7 +36,7 @@ class EntitySubscriber extends EventEmitter {
 
   }
 
-  sendEvent ( originEvent, originMethod, content, timeout = 1000 ) {
+  sendEvent ( originEvent, originMethod, content, timeout = 0 ) {
     // TODO: Actually check subscriptions before dispatching event
     // TODO: Emulate actual behavior. Only emit an event as entity-subscriber.*
     // if the original event ends in .changed AND the event includes ids to
