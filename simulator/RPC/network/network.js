@@ -24,6 +24,7 @@ class Network extends RPCBase {
 
     var newSystem = _.cloneDeep( system );
     var newNetworkConfig = _.cloneDeep( newSystem[ "globalNetworkConfig" ] );
+    const timeout = 2500;
 
     // Why is the manual merge function necessary? Without it, deleting DNS
     // servers fails.
@@ -39,8 +40,17 @@ class Network extends RPCBase {
 
     this.emitChange( "network.updated"
                    , "network.configure"
-                   , newSystem[ "globalNetworkConfig" ]
+                   , _.cloneDeep( newSystem[ "globalNetworkConfig" ] )
+                   , timeout
                    );
+    this.emitTask( this.namespace
+                 , "network.configure"
+                 , timeout
+                 , "root"
+                 , args[0]
+                 , _.cloneDeep( newSystem[ "globalNetworkConfig" ] )
+                 , true
+                 );
 
   }
 }
