@@ -18,10 +18,10 @@ class RPCBaseClass extends EventEmitter {
   }
 
   // Default implementation for use with EntitySubscriber
-  emitChange ( event, method, newData ) {
+  emitChange ( event, method, newData, timeout ) {
     // EntitySubscriber needs to know the exact change event, so send it
     // as an argument as well.
-    this.emit( event, event, method, newData );
+    this.emit( event, event, method, newData, timeout );
   }
 
   // Tasks need a lot more data than change events
