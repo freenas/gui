@@ -147,7 +147,7 @@ class Volumes extends RPCBase {
                  , "root" // task owner
                  , args[0] // original arguments
                  , _.cloneDeep( newVolume )
-                 , true
+                 , true // task succeeds
                  );
     // TODO: error checking
 
