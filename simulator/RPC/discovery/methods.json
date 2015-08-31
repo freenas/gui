@@ -75,6 +75,22 @@
       "private": false
     }
   ]
+, "system.ui":
+  [
+    {
+      "result-schema": [
+        {
+          "$ref": "system-ui"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "get_config",
+      "private": false
+    }
+  ]
 , "shares":
   [
     {
