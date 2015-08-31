@@ -50,59 +50,59 @@ class Statd extends RPCBase {
       // TODO: put together events for each interface
       ];
 
-      /*
-      setInterval( function update_all_stats () {
-        let cpuStatValues = this.update_cpu_stats( this.system );
-        let systemLoadValues = this.update_system_load( this.system );
-        let ramStatValues = this.update_ram_use( this.system );
 
-        // Construct and emit events for cpu values
-        _.forEach( cpuStatValues
-                 , function emitCPUStats ( stat
-                                         , statName
-                                         ) {
-                   this.emitChange( "statd.localhost.aggregation-cpu-sum.cpu-"
-                                  + statName
-                                  + ".value.pulse"
-                                  , null
-                                  , stat
-                                  );
-                 }
-                 , this
-                 );
+    setInterval( function update_all_stats () {
+      let cpuStatValues = this.update_cpu_stats( this.system );
+      let systemLoadValues = this.update_system_load( this.system );
+      let ramStatValues = this.update_ram_use( this.system );
 
-        // Construct and emit events for system load values
-        _.forEach( systemLoadValues
-                 , function emitLoadStats ( stat
-                                          , statName
-                                          ) {
-                   this.emitChange( "statd.localhost.load.load."
-                                  + statName
-                                  + ".pulse"
-                                  , null
-                                  , stat
-                                  );
-                 }
-                 , this
-                 );
+      // Construct and emit events for cpu values
+      _.forEach( cpuStatValues
+               , function emitCPUStats ( stat
+                                       , statName
+                                       ) {
+                 this.emitChange( "statd.localhost.aggregation-cpu-sum.cpu-"
+                                + statName
+                                + ".value.pulse"
+                                , null
+                                , stat
+                                );
+               }
+               , this
+               );
 
-        // Construct and emit events for memory values
-        _.forEach( ramStatValues
-                 , function emitRAMStats ( stat
-                                         , statName
-                                         ) {
-                   this.emitChange( "statd.localhost.memory.memory-"
-                                  + statName
-                                  + ".value.pulse"
-                                  , null
-                                  , stat
-                                  );
-                 }
-                 , this
-                 );
-      }.bind( this )
-      , 5000
-      );*/
+      // Construct and emit events for system load values
+      _.forEach( systemLoadValues
+               , function emitLoadStats ( stat
+                                        , statName
+                                        ) {
+                 this.emitChange( "statd.localhost.load.load."
+                                + statName
+                                + ".pulse"
+                                , null
+                                , stat
+                                );
+               }
+               , this
+               );
+
+      // Construct and emit events for memory values
+      _.forEach( ramStatValues
+               , function emitRAMStats ( stat
+                                       , statName
+                                       ) {
+                 this.emitChange( "statd.localhost.memory.memory-"
+                                + statName
+                                + ".value.pulse"
+                                , null
+                                , stat
+                                );
+               }
+               , this
+               );
+    }.bind( this )
+    , 10000
+    );
 
     this.lastRAM =
       { "wired": _.clone( emptyStat )
