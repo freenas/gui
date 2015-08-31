@@ -26,9 +26,22 @@ class Tasks extends RPCBase {
 
   }
 
-  // Submit the active RPCClasses. This will include itself!
+  // Submit the active RPCClasses. This will include itself! It will then also
+  // subscribe to their task events.
   designateRPCClasses( rpcClasses ) {
     this.rpcClasses = rpcClasses;
+
+    // Register event listeners for all active namespaces
+    _.forEach( this.rpcClasses
+             , function addTaskListenersToRPCClasses ( rpcClass ) {
+               try {
+                 rpcClass.addTaskListener( this.sendTaskEvents.bind( this ) );
+               } catch ( err ) {
+                 console.warn( err.message );
+               }
+             }
+             , this
+    );
   }
 
   submit ( system, args ) {
