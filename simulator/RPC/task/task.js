@@ -5,8 +5,8 @@
 
 "use strict";
 
-import { EventEmitter } from "events";
 import _ from "lodash";
+import moment from "moment";
 
 import RPCBase from "../RPC_BASE_CLASS";
 
