@@ -36,7 +36,7 @@ class EntitySubscriber extends EventEmitter {
 
   }
 
-  sendEvent ( originEvent, originMethod, content ) {
+  sendEvent ( originEvent, originMethod, content, timeout = 1000 ) {
     // TODO: Actually check subscriptions before dispatching event
     // TODO: Emulate actual behavior. Only emit an event as entity-subscriber.*
     // if the original event ends in .changed AND the event includes ids to
@@ -80,8 +80,11 @@ class EntitySubscriber extends EventEmitter {
               : originEvent
         };
     }
-
-    this.emit( this.BASE_NAMESPACE, message );
+    setTimeout( this.emit
+              , timeout - 100
+              , this.BASE_NAMESPACE
+              , message
+              );
   }
 
   addEventListener ( callback ) {
