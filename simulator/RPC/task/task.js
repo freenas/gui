@@ -42,6 +42,8 @@ class Tasks extends RPCBase {
              }
              , this
     );
+
+    this.setMaxListeners( 0 );
   }
 
   submit ( system, args ) {
@@ -109,6 +111,14 @@ class Tasks extends RPCBase {
     }
     return response;
 
+  }
+
+  addTaskBroadcastListener ( callback ) {
+    this.on( this.namespace, callback );
+  }
+
+  removeTaskBroadcastListener ( callback ) {
+    this.removeListener( this.namespace, callback );
   }
 
 }
