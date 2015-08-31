@@ -14,6 +14,7 @@ class RPCBaseClass extends EventEmitter {
 
     this.namespace = "";
     this.CHANGE_EVENT = null;
+    this.TASK_EVENT = null;
   }
 
   // Default implementation for use with EntitySubscriber
@@ -21,6 +22,11 @@ class RPCBaseClass extends EventEmitter {
     // EntitySubscriber needs to know the exact change event, so send it
     // as an argument as well.
     this.emit( event, event, method, newData );
+  }
+
+  // Tasks need a lot more data than change events
+  emitTask ( event, method, timeout, owner, args, newData, success ) {
+    this.emit( event, method, timeout, owner, args, newData, success );
   }
 
   addChangeListener( callback ) {
@@ -31,6 +37,20 @@ class RPCBaseClass extends EventEmitter {
         }
       } else {
         this.on( this.CHANGE_EVENT, callback );
+      }
+    } else {
+      // Errors here are too noisy.
+    }
+  }
+
+  addTaskListener( callback ) {
+    if ( this.TASK_EVENT ) {
+      if ( _.isArray( this.TASK_EVENT ) ) {
+        for ( let taskEvent of this.TASK_EVENT ){
+          this.on( taskEvent, callback );
+        }
+      } else {
+        this.on( this.TASK_EVENT, callback );
       }
     } else {
       // Errors here are too noisy.
