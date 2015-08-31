@@ -105,6 +105,7 @@ class Interfaces extends RPCBase {
     var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
     var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
     var newInterface = newInterfaces[ newInterfaceIndex ];
+    const timeout = 1500;
 
     if ( newInterface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
       newInterface[ "status" ][ "link-state" ] = "LINK_STATE_DOWN";
@@ -118,7 +119,17 @@ class Interfaces extends RPCBase {
       this.emitChange( "network.interfaces.changed"
                      , "network.interfaces.down"
                      , _.cloneDeep( newInterface )
+                     , timeout
                      );
+
+      this.emitTask( this.namespace
+                   , "network.interfaces.down"
+                   , timeout
+                   , "operator"
+                   , args[0]
+                   , _.cloneDeep( newInterface )
+                   , true
+                   );
     } else {
       // TODO: Error response.
     }
