@@ -118,11 +118,13 @@ class Volumes extends RPCBase {
 
     this.namespace = "volumes";
     this.CHANGE_EVENT = "volumes.changed";
+    this.TASK_EVENT = "volumes";
   }
 
   create ( system, args, callback ) {
 
     var newSystem = _.cloneDeep( system );
+    const timeout = 5000 // Delay in dispatching completion events
 
     if ( _.has( newSystem[ "volumes" ], args[0][ "name" ] ) ) {
       console.log( "dupe name" );
@@ -136,7 +138,17 @@ class Volumes extends RPCBase {
     this.emitChange( "volumes.changed"
                    , "volume.create"
                    , _.cloneDeep( newVolume )
+                   , timeout
                    );
+
+    this.emitTask( "volumes"
+                 , "volume.create"
+                 , timeout // time the task should take before dispatch
+                 , "root" // task owner
+                 , args[0] // original arguments
+                 , _.cloneDeep( newVolume )
+                 , true
+                 );
     // TODO: error checking
 
   }
