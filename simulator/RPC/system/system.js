@@ -14,6 +14,7 @@ class System extends RPCBase {
 
     this.info = new Info();
     this.general = new General();
+    this.ui = new UI();
     this.namespace = "system";
 
     this.CHANGE_EVENT = [ "system.general.changed" ];
@@ -95,7 +96,44 @@ class General extends RPCBase {
                  , _.cloneDeep( newSystem[ "uiSettings" ] )
                  , true // task succeeds
                  );
+  }
+}
 
+class UI extends RPCBase {
+  constructor () {
+    super();
+
+    this.namespace = "system.ui";
+  }
+
+  get_config ( system ) {
+    return system[ "uiSettings" ];
+  }
+
+  configure ( system, args, callback ) {
+    var newSystem = _.cloneDeep( system );
+    const timeout = 1500;
+
+    newSystem[ "uiSettings" ] =
+      _.merge( _.cloneDeep( newSystem[ "uiSettings" ] )
+             , args[0]
+             );
+
+    callback( newSystem, newSystem[ "uiSettings" ] );
+    this.emitChange( "system.ui.changed"
+                   , "system.ui.configure"
+                   , _.cloneDeep( newSystem[ "uiSettings" ] )
+                   , timeout
+                   );
+    this.emitTask( this.namespace
+                 , "system.ui.configure"
+                 , timeout
+                 , "www"
+                 , args[0]
+                 , _.cloneDeep( newSystem[ "uiSettings" ] )
+                 , true
+                 );
+    // TODO: Error detection and handling
   }
 
 }
