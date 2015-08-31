@@ -141,7 +141,7 @@ class Volumes extends RPCBase {
                    , timeout
                    );
 
-    this.emitTask( "volumes"
+    this.emitTask( this.namespace
                  , "volume.create"
                  , timeout // time the task should take before dispatch
                  , "root" // task owner
@@ -167,13 +167,13 @@ class Volumes extends RPCBase {
                      , timeout
                      );
 
-      this.emitTask( "volumes"
+      this.emitTask( this.namespace
                    , "volume.destroy"
                    , timeout // time the task should take before dispatch
                    , "root" // task owner
                    , args[0] // original arguments
                    , _.cloneDeep( newSystem[ "volumes" ] )
-                   , true
+                   , true // task
                    );
     } else {
       // TODO: Emit error
