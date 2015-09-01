@@ -25,6 +25,9 @@ var appBundle  = fs.readFileSync( __dirname + "/build/app.js" );
 
 var app = mach.stack();
 
+function isDevMode () {
+  return Boolean( argv.connect || argv.simulation );
+}
 
 // Mach server helpers
 function renderApp ( path ) {
@@ -43,8 +46,22 @@ function renderApp ( path ) {
   });
 }
 
+function cors ( app ) {
+  return function ( connection ) {
+    return connection.call( app ).then( function () {
+      connection.response.setHeader( "Access-Control-Allow-Origin", "*" );
+    });
+  };
+}
+
 // Mach server config
-app.use( mach.gzip );
+// DEVELOPMENT ENVIRONMENT
+if ( isDevMode() ) {
+  app.use( cors );
+} else {
+  app.use( mach.gzip );
+}
+
 app.use( mach.favicon );
 app.use( mach.file, { root: path.join( __dirname, "build" ) } );
 
