@@ -18,16 +18,17 @@ class Network extends RPCBase {
     this.CHANGE_EVENT = [ "network.updated" ];
     this.CHANGE_EVENT.push( this.config.CHANGE_EVENT );
     this.CHANGE_EVENT.push( this.interfaces.CHANGE_EVENT );
-    this.TASK_EVENT = [ "network"
-                      , "network.interfaces"
-                      ]
+    //this.TASK_EVENT = [ "network"
+    //                  , "network.interfaces"
+    //                  ]
   }
 
   configure ( system, args, callback ) {
 
     var newSystem = _.cloneDeep( system );
     var newNetworkConfig = _.cloneDeep( newSystem[ "globalNetworkConfig" ] );
-    const timeout = 2500;
+    //const timeout = 2500;
+    const timeout = 0;
 
     // Why is the manual merge function necessary? Without it, deleting DNS
     // servers fails.
@@ -83,7 +84,8 @@ class Interfaces extends RPCBase {
     var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
     var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
     var newInterface = newInterfaces[ newInterfaceIndex ];
-    const timeout = 1500;
+    const timeout = 0;
+    //const timeout = 1500;
 
     if ( newInterface[ "status" ][ "link-state" ] === "LINK_STATE_DOWN" ) {
       newInterface[ "status" ][ "link-state" ] = "LINK_STATE_UP";
@@ -118,7 +120,8 @@ class Interfaces extends RPCBase {
     var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
     var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
     var newInterface = newInterfaces[ newInterfaceIndex ];
-    const timeout = 1500;
+    const timeout = 0;
+    //const timeout = 1500;
 
     if ( newInterface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
       newInterface[ "status" ][ "link-state" ] = "LINK_STATE_DOWN";
