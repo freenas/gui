@@ -10,6 +10,6 @@ var install = require( "gulp-install" );
 // TODO: Install packages whenever bower.json or package.json change (from git
 // pull or other non-user initiated action)
 gulp.task( "install-packages", function () {
-  return gulp.src( [ "./bower.json", "./package.json" ] )
+  return gulp.src( [ "./package.json" ] )
              .pipe( install() );
 });
