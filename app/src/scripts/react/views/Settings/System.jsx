@@ -8,7 +8,7 @@ import React from "react";
 import TWBS from "react-bootstrap";
 
 import SM from "../../../flux/middleware/SystemMiddleware";
-import SS from "../../../flux/middleware/SystemStore";
+import SS from "../../../flux/stores/SystemStore";
 
 const languageChoices =
   [ "English"
