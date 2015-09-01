@@ -1,3 +1,4 @@
+@contrast-bg-color: #F8F8F8;
 
 // Single-page setup
 html, body {
@@ -20,7 +21,7 @@ html, body {
     position : relative;
 
     &.full {
-      background-color: #F1F1F1;
+      background-color: @contrast-bg-color;
       position: relative;
       padding-right: @panel-body-padding;
 
@@ -45,7 +46,7 @@ html, body {
 .app-sidebar {
   .flex-display(flex);
   .flex( 0 0 50px );
-  background-color: #F1F1F1;
+  background-color: @contrast-bg-color;
   height     : inherit;
   overflow-x : hidden;
   overflow-y : auto;
