@@ -22,7 +22,7 @@ if ( typeof window !== "undefined" ) {
 const Network = React.createClass(
   { componentDidMount () {
       let dataIn = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 31 ) );
-      let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( -25, 0, 31 ) );
+      let dataOut = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 31 ) );
 
       this.chart = c3.generate(
         _.assign( {}
@@ -30,7 +30,7 @@ const Network = React.createClass(
                 , { bindto: React.findDOMNode( this.refs.networkChart )
                   , data:
                     { columns: [ dataIn, dataOut ]
-                    , type: "area"
+                    , type: "line"
                     }
                   , point:
                     { show: false
@@ -40,20 +40,8 @@ const Network = React.createClass(
                       { show: false
                       }
                     , y:
-                      { tick:
-                        { values: [ -150, -100, -50, 0, 50, 100, 150 ]
-                        , format: function ( x ) { return Math.abs( x ); }
-                        }
-                      , min: -150
-                      , center: 0
+                      { min: 0
                       , max: 150
-                      }
-                    }
-                  , tooltip:
-                    { format:
-                      { value: function ( value, ratio, id ) {
-                          return ByteCalc.humanize( Math.abs( value ) );
-                        }
                       }
                     }
                   }
@@ -71,7 +59,7 @@ const Network = React.createClass(
   , tick () {
       if ( this.chart ) {
         let newDown = [ "igb0 Down" ].concat( ChartUtil.rand( 0, 40, 1 ) );
-        let newUp = [ "igb0 Up" ].concat( ChartUtil.rand( -25, 0, 1 ) );
+        let newUp = [ "igb0 Up" ].concat( ChartUtil.rand( 0, 25, 1 ) );
 
         this.chart.flow(
           { columns: [ newDown, newUp ]
