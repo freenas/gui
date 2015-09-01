@@ -147,14 +147,10 @@ const Hardware = React.createClass(
 
       return (
         <Widget
-          title = "System Info"
           className = "system-info"
         >
+        <h2 className="hostname">{ hostname }</h2>
         <TWBS.Table>
-          <tr>
-            <td className = "property-label">Hostname</td>
-            <td className = "property hostname">{ hostname }</td>
-          </tr>
           <tr>
             <td className = "property-label">Platform</td>
             <td className = "property device">{ device }</td>
