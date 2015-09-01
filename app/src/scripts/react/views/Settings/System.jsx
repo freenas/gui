@@ -108,9 +108,30 @@ const LocalizationSettings = React.createClass(
   }
 
   , render () {
+    var language = null;
+    var languageValue = this.props.localizationSettings[ "language" ];
+    var timezone = null;
+    var timezoneValue = this.props.localizationSettings[ "timezone" ];
+    var console_keymap = null;
+    var console_keymapValue = this.props.localizationSettings[ "console_keymap" ];
     return (
       <TWBS.Panel>
         <h4>Localization</h4>
+        <form>
+          <TWBS.Input
+            type = "select"
+            value = { language }>
+            { languageChoices }
+          </TWBS.Input>
+          <TWBS.Input
+            type = "select"
+            value = { timezone }>
+          </TWBS.Input>
+          <TWBS.Input
+            type = "select"
+            value = { console_keymap }>
+          </TWBS.Input>
+        </form>
       </TWBS.Panel>
     );
   }
