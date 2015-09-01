@@ -123,38 +123,76 @@ const HardwareSettings = React.createClass(
 
 const LocalizationSettings = React.createClass(
   { getDefaultProps () {
-    return { localizationSettings:
-             { language: "English"
-             , timezone: "America/Los_Angeles"
-             , console_keymap: "us.iso"
-             }
+    return { language: "English"
+           , timezone: "America/Los_Angeles"
+           , console_keymap: "us.iso"
            };
+  }
+
+  , handleChange( key, event ) {
+    var language = "";
+    var timezone = "";
+    var console_keymap = "";
+
+    switch ( key ) {
+      case "language":
+        this.setState( { language: event.target.value } );
+        break;
+      case "timezone":
+        this.setState( { timezone: event.target.value } );
+        break;
+      case "console_keymap":
+        this.setState( { console_keymap: event.target.value } );
+        break;
+    }
   }
 
   , render () {
     var language = null;
-    var languageValue = this.props.localizationSettings[ "language" ];
+    var languageValue = this.props[ "language" ];
     var timezone = null;
-    var timezoneValue = this.props.localizationSettings[ "timezone" ];
+    var timezoneValue = this.props[ "timezone" ];
     var console_keymap = null;
-    var console_keymapValue = this.props.localizationSettings[ "console_keymap" ];
+    var console_keymapValue = this.props[ "console_keymap" ];
+
+    if ( _.has( this, [ "state", "language" ] ) ) {
+      languageValue = this.state.language;
+    }
+    language =
+      <TWBS.Input
+        type = "select"
+        value = { languageValue }
+        onChange = { this.handleChange.bind( this, "language" ) }>
+        { createOptions( languageChoices ) }
+      </TWBS.Input>;
+
+    if ( _.has( this, [ "state", "timezone" ] ) ) {
+      timezoneValue = this.state.language;
+    }
+    timezone =
+      <TWBS.Input
+        type = "select"
+        value = { timezoneValue }
+        onChange = { this.handleChange.bind( this, "timezone" ) }>
+      </TWBS.Input>;
+
+    if ( _.has( this, [ "state", "console_keymap" ] ) ) {
+      console_keymapValue = this.state.language;
+    }
+    console_keymap =
+      <TWBS.Input
+        type = "select"
+        value = { console_keymapValue }
+        onChange = { this.handleChange.bind( this, "console" ) }>
+      </TWBS.Input>
+
     return (
       <TWBS.Panel>
         <h4>Localization</h4>
         <form>
-          <TWBS.Input
-            type = "select"
-            value = { language }>
-            { languageChoices }
-          </TWBS.Input>
-          <TWBS.Input
-            type = "select"
-            value = { timezone }>
-          </TWBS.Input>
-          <TWBS.Input
-            type = "select"
-            value = { console_keymap }>
-          </TWBS.Input>
+         { language }
+         { timezone }
+         { console_keymap }
         </form>
       </TWBS.Panel>
     );
