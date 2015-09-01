@@ -7,6 +7,9 @@
 import React from "react";
 import TWBS from "react-bootstrap";
 
+import SM from "../../../flux/middleware/SystemMiddleware";
+import SS from "../../../flux/middleware/SystemStore";
+
 const languageChoices =
   [ "English"
   , "Afrikaans"
@@ -86,6 +89,10 @@ const languageChoices =
   , "Simplified Chinese"
   , "Traditional Chinese"
   ]
+
+function getSystemUIConfig () {
+  return SS.systemUIConfig;
+}
 
 const HardwareSettings = React.createClass(
   { render () {
