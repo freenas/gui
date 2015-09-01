@@ -24,7 +24,7 @@ For FreeBSD, run 'sudo pkg install node && pkg install npm'
 To make sure you have all the necessary global dev dependencies for developing
 the FreeNAS 10 GUI, run:
 
-    sudo npm install -g bower gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
+    sudo npm install -g gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
     npm install
 
 from the root of the repo first.  Then install another 400 or so npm modules
