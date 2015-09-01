@@ -20,16 +20,17 @@ if ( typeof window !== "undefined" ) {
 
 const CPU = React.createClass(
   { componentDidMount () {
-      let data = [ "CPU Usage" ].concat( ChartUtil.rand( 2, 8, 31 ) );
+      let dataUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 31 ) );
+      let dataSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 31 ) );
 
       this.chart = c3.generate(
         _.assign( {}
                 , c3Defaults
                 , { bindto: React.findDOMNode( this.refs.cpuChart )
                   , data:
-                    { columns: [ data ]
+                    { columns: [ dataUser, dataSystem ]
                     , type: "area"
-                    , groups: [[ "CPU Usage" ]]
+                    , groups: [[ "User", "System" ]]
                     }
                   , point:
                     { show: false
@@ -69,9 +70,10 @@ const CPU = React.createClass(
 
   , tick () {
       if ( this.chart ) {
-        let newPoint = [ "CPU Usage" ].concat( ChartUtil.rand( 2, 8, 1 ) );
+        let newPointUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 1 ) );
+        let newPointSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 1 ) );
         this.chart.flow(
-          { columns: [ newPoint ]
+          { columns: [ newPointUser, newPointSystem ]
           }
         );
       }
