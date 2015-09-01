@@ -128,7 +128,21 @@ const Tuneables = React.createClass(
 });
 
 const UISettings = React.createClass(
-  { render () {
+  { getDefaultProps () {
+    return { systemUIConfig:
+             { webui_protocol: "HTTP"
+             , webui_http_port: 80
+             , webui_http_redirect_https: false
+             , webui_https_certificate: null
+             , webui_listen: [ "0.0.0.0"
+                             , "::"
+                             ]
+             , webui_https_port: null
+             }
+           };
+  }
+
+  , render () {
     return (
       <TWBS.Panel>
         <h4>Webapp</h4>
