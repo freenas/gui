@@ -6,6 +6,7 @@
 
 import React from "react";
 import TWBS from "react-bootstrap";
+import _ from "lodash";
 
 import SM from "../../../flux/middleware/SystemMiddleware";
 import SS from "../../../flux/stores/SystemStore";
@@ -92,6 +93,22 @@ const languageChoices =
 
 function getSystemUIConfig () {
   return SS.systemUIConfig;
+}
+
+function createOptions ( optionsArray ) {
+  var options =
+    _.map( optionsArray
+         , function mapOptions ( optionValue, index ) {
+           return (
+             <option
+               value = { optionValue }
+               key = { index }>
+               { optionValue }
+             </option>
+             );
+         }
+         );
+  return options;
 }
 
 const HardwareSettings = React.createClass(
