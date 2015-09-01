@@ -6,6 +6,7 @@
 , "network.hosts"
 , "network.routes"
 , "discovery"
+, "system.advanced"
 , "shell"
 , "system.device"
 , "users"

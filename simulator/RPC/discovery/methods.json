@@ -326,6 +326,39 @@
       "private": false
     }
   ]
+, "system.advanced":
+  [
+    {
+      "result-schema": [
+        {
+          "$ref": "system-advanced"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "get_config",
+      "private": false
+    },
+    {
+      "result-schema": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      ],
+      "params-schema": {
+        "items": [],
+        "type": "array"
+      },
+      "name": "serial_ports",
+      "private": false,
+      "description": "Returns array of serial port address"
+    }
+  ]
 , "discovery":
   [
     {
