@@ -18,16 +18,23 @@ const Widget = React.createClass(
 
   , render () {
       let classes = [ "widget" ];
+      let toolbar = null;
 
       if ( this.props.className ) {
         classes.push( this.props.className.split( /\s/ ) );
       }
 
-      return (
-        <div className = { classes.join( " " ) }>
+      if ( this.props.title ) {
+        toolbar = (
           <div className = "widget-toolbar">
             <span className = "widget-name">{ this.props.title }</span>
           </div>
+        );
+      }
+
+      return (
+        <div className = { classes.join( " " ) }>
+          { toolbar }
           { this.props.children }
         </div>
       );
