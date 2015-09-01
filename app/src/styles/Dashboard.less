@@ -1,5 +1,20 @@
 .dashboard {
-  background-color: darken( @gray-lighter, 2.5% );
+  position: relative;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    bottom: 25px;
+    left: auto;
+    width: 1px;
+    #gradient > .vertical( fade( @freenas-gray, 10% )
+                         , fade( darken( @freenas-gray, 10% ), 10% )
+                         );
+    border-right: 1px solid white;
+  }
 }
 
 .dashboard-widgets {

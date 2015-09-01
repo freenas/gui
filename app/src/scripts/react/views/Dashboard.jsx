@@ -15,7 +15,7 @@ import Memory from "../components/Widgets/Memory";
 const Dashboard = React.createClass(
   { render () {
       return (
-        <main className="dashboard">
+        <main className="full dashboard">
           <div className="dashboard-widgets">
 
             <SystemInfo />

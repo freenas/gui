@@ -18,12 +18,34 @@ html, body {
     .flex( auto );
     overflow : auto;
     position : relative;
+
+    &.full {
+      background-color: #F1F1F1;
+      position: relative;
+      padding-right: @panel-body-padding;
+
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 25px;
+        right: 0;
+        bottom: 25px;
+        left: auto;
+        width: 2px;
+        #gradient > .vertical( fade( @freenas-gray, 10% )
+                             , fade( darken( @freenas-gray, 10% ), 10% )
+                             );
+        border-right: 1px solid fade( white, 90% );
+      }
+    }
   }
 }
 
 .app-sidebar {
   .flex-display(flex);
   .flex( 0 0 50px );
+  background-color: #F1F1F1;
   height     : inherit;
   overflow-x : hidden;
   overflow-y : auto;
