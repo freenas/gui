@@ -149,17 +149,19 @@ const Hardware = React.createClass(
         <Widget
           className = "system-info"
         >
-        <h2 className="hostname">{ hostname }</h2>
-        <TWBS.Table>
-          <tr>
-            <td className = "property-label">Platform</td>
-            <td className = "property device">{ device }</td>
-          </tr>
-          <tr>
-            <td className = "property-label">OS Version</td>
-            <td className = "property version">{ version }</td>
-          </tr>
-        </TWBS.Table>
+          <div className="system-properties">
+            <h2 className="hostname">{ hostname }</h2>
+            <TWBS.Table>
+              <tr>
+                <td className = "property-label">Platform</td>
+                <td className = "property device">{ device }</td>
+              </tr>
+              <tr>
+                <td className = "property-label">OS Version</td>
+                <td className = "property version">{ version }</td>
+              </tr>
+            </TWBS.Table>
+          </div>
           <div className = "hardware-info">
             { this.createHardwareDetail( "CPU", cpuSpeed, cpuCores ) }
             { this.createHardwareDetail( "Memory", memorySize, memoryType ) }

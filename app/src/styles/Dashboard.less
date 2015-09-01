@@ -24,12 +24,16 @@
   }
 
   .system-info {
+    .flex( none );
     .flex-display( flex );
     .flex-flow( row wrap );
     background: url("/img/underwater.jpg") center/cover;
     color: white;
     padding-top: 0;
     padding-bottom: 0;
+    width: 100%;
+    height: auto;
+    min-height: 130px;
 
     .table {
       margin: 0;
@@ -66,12 +70,17 @@
       margin-left: 15px;
     }
 
+    .system-properties {
+      .flex( 1 1 350px );
+    }
+
     .hardware-info {
+      .flex( 4 1 380px );
       .flex-display( flex );
       .flex-flow( row wrap );
       .align-self( flex-end );
-      margin-top: 15px;
-      width: 100%;
+      .justify-content( center );
+      margin-top: 25px;
 
       .hardware-item {
         .flex( 1 );
@@ -79,6 +88,7 @@
         margin: 0 2.5%;
         border-top-width: 5px;
         border-top-style: solid;
+        max-width: 150px;
 
         &:nth-child(1) {
           border-top-color: fade( @brand-primary, 90% );
