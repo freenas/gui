@@ -33,6 +33,22 @@ const systemConstants =
     ]
   };
 
+const advancedSettings =
+  { boot_scrub_internal: 35
+  , motd: "FreeBSD ?.?.?  (UNKNOWN)\n\nFreeNAS (c) 2009-2014, The FreeNAS Development Team\nAll rights reserved.\nFreeNAS is released under the modified BSD license.\nFor more information, documentation, help or support, go here:\nhttp://freenas.org\n"
+  , serial_console: false
+  , serial_port: null
+  , uploadcrash: true
+  , console_screensaver: false
+  , swapondrive: 2
+  , debugkernel: false
+  , serial_speed: null
+  , powerd: false
+  , console_cli: true
+  , autotune: false
+  , periodic_notify_user: 0
+  };
+
 const uiSettings =
   { "webui_http_port": 80
   , "webui_http_redirect_https": false
@@ -1704,6 +1720,7 @@ function createSystem () {
     , interfaces: defaultInterfaces
     , pools: startingPools
     , uiSettings: uiSettings
+    , advancedSettings: advancedSettings
     };
 
   newSystem = _.merge( newSystem, systemConstants, shares );
