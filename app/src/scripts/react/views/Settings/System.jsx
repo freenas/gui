@@ -98,7 +98,16 @@ const HardwareSettings = React.createClass(
 });
 
 const LocalizationSettings = React.createClass(
-  { render () {
+  { getDefaultProps () {
+    return { localizationSettings:
+             { language: "English"
+             , timezone: "America/Los_Angeles"
+             , console_keymap: "us.iso"
+             }
+           };
+  }
+
+  , render () {
     return (
       <TWBS.Panel>
         <h4>Localization</h4>
