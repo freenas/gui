@@ -15,13 +15,16 @@ class System extends RPCBase {
     this.info = new Info();
     this.general = new General();
     this.ui = new UI();
+    this.advanced = new Advanced();
     this.namespace = "system";
 
     this.CHANGE_EVENT = [ "system.general.changed"
                         , "system.ui.changed"
+                        , "system.advanced.changed"
                         ];
     this.TASK_EVENT = [ "system.general"
                       , "system.ui"
+                      , "system.advanced"
                       ];
   }
 }
@@ -140,7 +143,44 @@ class UI extends RPCBase {
                  );
     // TODO: Error detection and handling
   }
+}
 
+class Advanced extends RPCBase {
+  constructor () {
+    super();
+
+    this.namespace = "system.advanced";
+  }
+
+  get_config ( system ) {
+    return system[ "advancedSettings" ];
+  }
+
+  configure ( system, args, callback ) {
+    var newSystem = _.cloneDeep( system );
+    const timeout = 1000;
+
+    newSystem[ "advancedSettings" ] =
+      _.merge( _.cloneDeep( newSystem[ "advancedSettings" ] )
+             , args[0]
+             );
+
+    callback( newSystem, newSystem[ "advancedSettings" ] );
+    this.emitChange( "system.advanced.changed"
+                   , "system.advanced.configure"
+                   , _.cloneDeep( newSystem[ "advancedSettings" ] )
+                   , timeout
+                   );
+    this.emitTask( this.namespace
+                 , "system.advanced.configure"
+                 , timeout
+                 , "root"
+                 , args[0]
+                 , _.cloneDeep( newSystem[ "advancedSettings" ] )
+                 , true
+                 );
+    // TODO: Error detection and handling
+  }
 }
 
 
