@@ -111,8 +111,17 @@ function createOptions ( optionsArray ) {
   return options;
 }
 
+// All settings in this panel are from system.advanced
 const HardwareSettings = React.createClass(
-  { render () {
+  { getDefaultProps () {
+    return { console_screensaver: null
+           , serial_console: null
+           , serial_port: null
+           , serial_speed: null
+           };
+  }
+
+  , render () {
     return (
       <TWBS.Panel>
         <h4>Hardware</h4>
