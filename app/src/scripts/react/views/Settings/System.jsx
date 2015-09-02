@@ -13,6 +13,7 @@ import SS from "../../../flux/stores/SystemStore";
 
 import LocalizationSettings from "./System/LocalizationSettings";
 import OSSettings from "./System/OSSettings";
+import Tuneables from "./System/Tuneables";
 import WebappSettings from "./System/WebappSettings";
 
 function getSystemUIConfig () {
@@ -33,16 +34,6 @@ const HardwareSettings = React.createClass(
     return (
       <TWBS.Panel>
         <h4>Hardware</h4>
-      </TWBS.Panel>
-    );
-  }
-});
-
-const Tuneables = React.createClass(
-  { render () {
-    return (
-      <TWBS.Panel>
-        <h4>Tuneables</h4>
       </TWBS.Panel>
     );
   }
