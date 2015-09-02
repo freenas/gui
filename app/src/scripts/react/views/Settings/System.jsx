@@ -11,6 +11,7 @@ import _ from "lodash";
 import SM from "../../../flux/middleware/SystemMiddleware";
 import SS from "../../../flux/stores/SystemStore";
 
+import HardwareSettings from "./System/HardwareSettings";
 import LocalizationSettings from "./System/LocalizationSettings";
 import OSSettings from "./System/OSSettings";
 import Tuneables from "./System/Tuneables";
@@ -19,25 +20,6 @@ import WebappSettings from "./System/WebappSettings";
 function getSystemUIConfig () {
   return SS.systemUIConfig;
 }
-
-// All settings in this panel are from system.advanced
-const HardwareSettings = React.createClass(
-  { getDefaultProps () {
-    return { console_screensaver: null
-           , serial_console: null
-           , serial_port: null
-           , serial_speed: null
-           };
-  }
-
-  , render () {
-    return (
-      <TWBS.Panel>
-        <h4>Hardware</h4>
-      </TWBS.Panel>
-    );
-  }
-});
 
 const System = React.createClass(
   { render () {
