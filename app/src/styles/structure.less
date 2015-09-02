@@ -13,16 +13,16 @@ html, body {
   .flex( 1 0 0px );
   .flex-display( flex );
   .flex-flow( column nowrap );
-  min-height: 0px;
+  height: inherit;
 }
 
 .app-view {
-  .flex( auto );
+  .flex( 1 );
   .flex-display( flex );
   .flex-flow( row nowrap );
 
   & > main {
-    .flex( auto );
+    .flex( 1 );
     overflow : auto;
     position : relative;
 
