@@ -31,7 +31,7 @@
       & {
         color: @freenas-gray;
         background-color: transparent;
-        #gradient > .vertical( fade( @brand-primary, 0% ), fade( @brand-primary, 40% ) );
+        #gradient > .vertical( rgba( 0, 0, 0, 0.05 ), fade( @brand-primary, 40% ) );
         border-bottom-color: @brand-primary;
       }
     }
@@ -67,6 +67,10 @@
       border-bottom: 5px solid transparent;
       border-radius: 0;
       padding-bottom: 5px;
+
+      &:hover {
+        background-color: rgba( 255, 255, 255, 0.75 );
+      }
     }
     > .active > a,
     > .active > a:hover,
