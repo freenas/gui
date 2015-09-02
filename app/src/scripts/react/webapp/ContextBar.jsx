@@ -29,7 +29,6 @@ const ContextBar = React.createClass(
   }
 
   , getInitialState () {
-    console.log( ContextDefault );
     return { activeComponent: ContextDefault
            , activeProps: {}
            , lastComponent: null
@@ -38,7 +37,6 @@ const ContextBar = React.createClass(
   }
 
   , componentDidUpdate: function(prevProps, prevState) {
-    console.log( this.state );
     }
 
   , showContext ( reactElement, props ) {
@@ -82,8 +80,6 @@ const ContextBar = React.createClass(
   , render () {
     let asideClass = [ "app-sidebar" ];
     let activeComponent = null;
-
-    console.log( this.state );
 
     if ( this.state.activeComponent ) {
       activeComponent = (
