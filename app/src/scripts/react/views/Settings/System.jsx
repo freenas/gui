@@ -161,6 +161,7 @@ const LocalizationSettings = React.createClass(
     language =
       <TWBS.Input
         type = "select"
+        label = "Language"
         value = { languageValue }
         onChange = { this.handleChange.bind( this, "language" ) }>
         { createOptions( languageChoices ) }
@@ -172,6 +173,7 @@ const LocalizationSettings = React.createClass(
     timezone =
       <TWBS.Input
         type = "select"
+        label = "Timezone"
         value = { timezoneValue }
         onChange = { this.handleChange.bind( this, "timezone" ) }>
       </TWBS.Input>;
@@ -182,6 +184,7 @@ const LocalizationSettings = React.createClass(
     console_keymap =
       <TWBS.Input
         type = "select"
+        label = "Console Keymap"
         value = { console_keymapValue }
         onChange = { this.handleChange.bind( this, "console" ) }>
       </TWBS.Input>
