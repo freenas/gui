@@ -19,6 +19,9 @@ const sections = [ { route: "system"
                  , { route: "security"
                    , display: "Security"
                    }
+                 , { route: "alerts"
+                   , display: "Alerts"
+                   }
                  , { route: "support"
                    , display: "Support"
                    }

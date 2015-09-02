@@ -38,6 +38,7 @@ import Settings from "./react/views/Settings";
 import System from "./react/views/Settings/System";
 import Update from "./react/views/Settings/Update";
 import Security from "./react/views/Settings/Security";
+import Alerts from "./react/views/Settings/Alerts";
 import Support from "./react/views/Settings/Support";
 
 module.exports = (
@@ -138,6 +139,10 @@ module.exports = (
         name = "security"
         route = "security"
         handler = { Security }/>
+      <Route
+        name = "alerts"
+        route = "alerts"
+        handler = { Alerts }/>
       <Route
         name = "support"
         route = "support"
