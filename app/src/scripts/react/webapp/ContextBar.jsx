@@ -6,37 +6,42 @@
 
 "use strict";
 
-import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
 
 import EventBus from "../../utility/EventBus";
+
+import ContextDefault from "./ContextBar/ContextDefault";
 
 const ContextBar = React.createClass(
 
   { displayName: "Context Sidebar"
 
-  , componentWillMount: function () {
+  , componentWillMount () {
     EventBus.on( "showContextPanel", this.showContext );
     EventBus.on( "updateContextPanel", this.updateContext );
     EventBus.on( "hideContextPanel", this.hideContext );
   }
 
-  , componentWillUnmount: function () {
+  , componentWillUnmount () {
     EventBus.removeListener( "showContextPanel", this.showContext );
     EventBus.removeListener( "updateContextPanel", this.updateContext );
     EventBus.removeListener( "hideContextPanel", this.hideContext );
   }
 
-  , getInitialState: function () {
-    return { activeComponent: null
+  , getInitialState () {
+    console.log( ContextDefault );
+    return { activeComponent: ContextDefault
            , activeProps: {}
            , lastComponent: null
            , lastProps: {}
            };
   }
 
-  , showContext: function ( reactElement, props ) {
+  , componentDidUpdate: function(prevProps, prevState) {
+    console.log( this.state );
+    }
+
+  , showContext ( reactElement, props ) {
     if ( reactElement.displayName ) {
       this.setState(
         { activeComponent: reactElement
@@ -61,7 +66,7 @@ const ContextBar = React.createClass(
       }
     }
 
-  , hideContext: function ( reactElement ) {
+  , hideContext ( reactElement ) {
       if ( this.state.activeComponent
         && this.state.activeComponent.displayName === reactElement.displayName ) {
         this.setState(
@@ -74,9 +79,11 @@ const ContextBar = React.createClass(
       }
     }
 
-  , render: function () {
+  , render () {
     let asideClass = [ "app-sidebar" ];
     let activeComponent = null;
+
+    console.log( this.state );
 
     if ( this.state.activeComponent ) {
       activeComponent = (
