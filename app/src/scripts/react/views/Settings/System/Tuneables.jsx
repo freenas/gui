@@ -5,6 +5,7 @@
 "use strict";
 
 import React from "react";
+import TWBS from "react-bootstrap";
 
 const Tuneables = React.createClass(
   { render () {
