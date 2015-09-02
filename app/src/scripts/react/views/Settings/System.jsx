@@ -138,7 +138,7 @@ const LocalizationSettings = React.createClass(
            };
   }
 
-  , handleChange( key, event ) {
+  , handleLocalizationChange( key, event ) {
     var language = "";
     var timezone = "";
     var console_keymap = "";
@@ -172,7 +172,7 @@ const LocalizationSettings = React.createClass(
         type = "select"
         label = "Language"
         value = { languageValue }
-        onChange = { this.handleChange.bind( this, "language" ) }>
+        onChange = { this.handleLocalizationChange.bind( this, "language" ) }>
         { createOptions( languageChoices ) }
       </TWBS.Input>;
 
@@ -184,7 +184,7 @@ const LocalizationSettings = React.createClass(
         type = "select"
         label = "Timezone"
         value = { timezoneValue }
-        onChange = { this.handleChange.bind( this, "timezone" ) }>
+        onChange = { this.handleLocalizationChange.bind( this, "timezone" ) }>
       </TWBS.Input>;
 
     if ( _.has( this, [ "state", "console_keymap" ] ) ) {
@@ -195,7 +195,7 @@ const LocalizationSettings = React.createClass(
         type = "select"
         label = "Console Keymap"
         value = { console_keymapValue }
-        onChange = { this.handleChange.bind( this, "console" ) }>
+        onChange = { this.handleLocalizationChange.bind( this, "console" ) }>
       </TWBS.Input>
 
     return (
