@@ -342,9 +342,9 @@ const OSSettings = React.createClass(
         <form className = "settings-config-form">
           { autotune }
           { console_cli }
-          { swapondrive }
           { powerd }
           { uploadcrash }
+          { swapondrive }
           { motd }
         </form>
       </TWBS.Panel>
