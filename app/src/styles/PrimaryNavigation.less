@@ -9,6 +9,32 @@ nav.primary-nav {
   min-width: 150px;
   .flex( 0 0 auto );
 
+  .logo-wrapper {
+    height: 45px;
+    margin: 10px 10px 15px 15px;
+  }
+
+
+  .logo-image,
+  .logo-wordmark,
+  .logo-x {
+    height: inherit;
+    float: left;
+  }
+
+  .logo-image {
+    padding: 8px 10px 8px 0;
+  }
+
+  .logo-wordmark {
+    padding: 15px 0;
+  }
+
+  .logo-x {
+    padding: 8px 0;
+    margin-left: -5px;
+  }
+
   .icon {
     font-size      : 1.1em;
     width          : 2em;
@@ -21,7 +47,8 @@ nav.primary-nav {
 
   li {
     & > a {
-      padding: 0.75em 0;
+      padding: 0.75em;
+      padding-right: 0;
       white-space: nowrap;
       font-size: 14px;
       font-weight: 300;

@@ -123,23 +123,27 @@ const FreeNASWebApp = React.createClass(
         */}
         <BusyBox />
 
-        {/* Header containing system status and information */}
-        <NotificationBar />
+        {/* Primary navigation menu */}
+        <PrimaryNavigation />
 
         <div className="app-content">
-          {/* Primary navigation menu */}
-          <PrimaryNavigation />
+          {/* Header containing system status and information */}
+          <NotificationBar />
 
-          {/* Primary view */}
-          <RouteHandler />
+          <div className="app-view">
+            {/* Primary view */}
+            <RouteHandler />
 
-          {/* User-customizable component showing system events */}
-          <ContextBar />
+            {/* User-customizable component showing system events */}
+            <ContextBar />
+          </div>
+
+          <footer className="app-footer">
+            {/* TODO? */}
+          </footer>
         </div>
 
-        <footer className="app-footer">
-        </footer>
-
+        {/* Hidden, user-callable developer tools */}
         <DebugTools />
 
         {/* Main app code */}

@@ -188,6 +188,21 @@ const PrimaryNavigation = React.createClass(
           ref = "navRoot"
           className = { navClass.join( " " ) } >
 
+          <div className="logo-wrapper">
+            <img
+              className = "logo-image"
+              src   = "/img/freenas-icon.png"
+            />
+            <img
+              className = "logo-wordmark"
+              src   = "/img/freenas-logotype.png"
+            />
+            <img
+              className = "logo-x"
+              src   = "/img/X.png"
+            />
+          </div>
+
           { paths.map( this.createNavItem ) }
 
         </TWBS.Nav>

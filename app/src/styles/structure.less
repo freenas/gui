@@ -6,14 +6,20 @@ html, body {
   height : 100vh;
   width  : 100vw;
   .flex-display( flex );
-  .flex-flow( column nowrap );
+  .flex-flow( row nowrap );
 }
 
 .app-content {
   .flex( 1 0 0px );
   .flex-display( flex );
-  .flex-flow( row nowrap );
+  .flex-flow( column nowrap );
   min-height: 0px;
+}
+
+.app-view {
+  .flex( auto );
+  .flex-display( flex );
+  .flex-flow( row nowrap );
 
   & > main {
     .flex( auto );
@@ -24,6 +30,11 @@ html, body {
       background-color: @contrast-bg-color;
       position: relative;
       padding-right: @panel-body-padding;
+
+      & + .app-footer {
+        // TODO: This should be reevaluated later
+        display: none;
+      }
 
       &:after {
         content: "";

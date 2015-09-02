@@ -13,9 +13,6 @@ import MiddlewareClient from "../../websocket/MiddlewareClient";
 import SS from "../../flux/stores/SessionStore";
 import MS from "../../flux/stores/MiddlewareStore";
 
-import Icon from "../components/Icon";
-
-
 var NotificationBar = React.createClass(
   { getInitialState: function () {
     return (
@@ -71,20 +68,6 @@ var NotificationBar = React.createClass(
     return (
       <header className = "app-header notification-bar" >
 
-
-        <img
-          className = "logo-image"
-          src   = "/img/freenas-icon.png"
-        />
-        <img
-          className = "logo-wordmark"
-          src   = "/img/freenas-logotype.png"
-        />
-        <img
-          className = "logo-x"
-          src   = "/img/X.png"
-        />
-
         <h1 className={ "hostname "
                       + ( this.state.connected
                         ? "connected"
@@ -100,9 +83,6 @@ var NotificationBar = React.createClass(
         </h1>
 
         <div className="user-info">
-
-          <Icon glyph="icon-comment-alt" />
-          <Icon glyph="icon-clipboard" />
 
           <TWBS.DropdownButton
             pullRight
