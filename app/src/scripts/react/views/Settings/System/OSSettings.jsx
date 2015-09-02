@@ -21,9 +21,6 @@ const OSSettings = React.createClass(
   }
 
   , handleOSSettingsChange ( key, event ) {
-    var language = "";
-    var timezone = "";
-    var console_keymap = "";
 
     switch ( key ) {
       // FIXME: Wrong way to work with checkboxes
