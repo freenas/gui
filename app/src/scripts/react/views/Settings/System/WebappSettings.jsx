@@ -18,6 +18,7 @@ const ConnectionSettings = React.createClass(
            , webui_http_port: null
            , webui_http_redirect_https: null
            , webui_https_certificate: null
+           , webappListenAll: null // Listen on :: and 0.0.0.0
            , webui_listen: []
            , webui_https_port: null
            };
@@ -41,6 +42,9 @@ const ConnectionSettings = React.createClass(
       case "webui_http_redirect_https":
         this.setState( { webui_http_redirect_https: event.target.value } );
         break;
+      case "webappListenAll":
+        this.setState( { webappListenAll: event.target.value } );
+        break;
       case "webui_listen":
         this.setState( { webui_listen: event.target.value } );
         break;
@@ -58,6 +62,8 @@ const ConnectionSettings = React.createClass(
     var webui_https_certificateValue = this.props[ "webui_https_certificate" ];
     var webui_http_portValue = this.props[ "webui_http_port" ];
     var webui_http_redirect_https = null;
+    var webappListenAll = null;
+    var webappListenAllValue = this.props[ "webappListenAll" ];
     var webui_listen = null;
     var webui_listenValue = this.props[ "webui_listen" ];
 
@@ -120,6 +126,18 @@ const ConnectionSettings = React.createClass(
         onChange = { this.handleChange.bind( this, "webui_http_redirect_https" ) }>
       </TWBS.Input>;
 
+    if (_.has( this, [ "state", "webappListenAll" ] ) ) {
+      webappListenAllValue = this.state[ "webappListenAll" ];
+    }
+    // Allows ALL IPs, overriding available IP choices
+    webappListenAll =
+      <TWBS.Input
+        type = "checkbox"
+        checked = { webappListenAllValue}
+        label = "Allow Access Over All IP Addresses"
+        onChange = { this.handleChange.bind( this, "webappListenAll" ) }>
+      </TWBS.Input>;
+
     if (_.has( this, [ "state", "webui_listen" ] ) ) {
       webui_listenValue = this.state[ "webui_listen" ];
     }
@@ -128,6 +146,7 @@ const ConnectionSettings = React.createClass(
       <TWBS.Input
         type = "select"
         multiple
+        disabled = { webappListenAllValue }
         label = "IP Addresses"
         value = { webui_listenValue }
         onChange = { this.handleChange.bind( this, "webui_listen" ) }>
@@ -142,6 +161,7 @@ const ConnectionSettings = React.createClass(
           { webui_https_port }
           { webui_https_certificate }
           { webui_http_redirect_https }
+          { webappListenAll }
           { webui_listen }
         </form>
       </TWBS.Panel>
