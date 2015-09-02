@@ -235,14 +235,14 @@ const OSSettings = React.createClass(
       case "console_cli":
         this.setState( { console_cli: event.target.value } );
         break;
-      case "swapondrive":
-        this.setState( { swapondrive: event.target.value } );
-        break;
       case "powerd":
         this.setState( { powerd: event.target.value } );
         break;
       case "uploadcrash":
         this.setState( { uploadcrash: event.target.value } );
+        break;
+      case "swapondrive":
+        this.setState( { swapondrive: event.target.value } );
         break;
       case "motd":
         this.setState( { motd: event.target.value } );
@@ -255,12 +255,12 @@ const OSSettings = React.createClass(
     var autotuneValue = this.props[ "autotune" ];
     var console_cli = null;
     var console_cliValue = this.props[ "console_cli" ];
-    var swapondrive = null;
-    var swapondriveValue = this.props[ "swapondrive" ];
     var powerd = null;
     var powerdValue = this.props[ "powerd" ];
     var uploadcrash = null;
     var uploadcrashValue = this.props[ "uploadcrash" ];
+    var swapondrive = null;
+    var swapondriveValue = this.props[ "swapondrive" ];
     var motd = null;
     var motdValue = this.props[ "motd" ];
 
@@ -286,8 +286,8 @@ const OSSettings = React.createClass(
         onChange = { this.handleOSSettingsChange.bind( this, "console_cli" ) }>
       </TWBS.Input>;
 
-    if (_.has( this, [ "state", "swapondrive" ] ) ) {
-      swapondriveValue = this.state[ "swapondrive" ];
+    if (_.has( this, [ "state", "powerd" ] ) ) {
+      powerdValue = this.state[ "powerd" ];
     }
     powerd =
       <TWBS.Input
@@ -308,8 +308,8 @@ const OSSettings = React.createClass(
         onChange = { this.handleOSSettingsChange.bind( this, "uploadcrash" ) }>
       </TWBS.Input>;
 
-    if (_.has( this, [ "state", "motd" ] ) ) {
-      motdValue = this.state[ "motd" ];
+    if (_.has( this, [ "state", "swapondrive" ] ) ) {
+      swapondriveValue = this.state[ "swapondrive" ];
     }
     // Validate that it's an integer
     swapondrive =
@@ -320,8 +320,8 @@ const OSSettings = React.createClass(
         onChange = { this.handleOSSettingsChange.bind( this, "swapondrive" ) }>
       </TWBS.Input>;
 
-    if (_.has( this, [ "state", "powerd" ] ) ) {
-      powerdValue = this.state[ "powerd" ];
+    if (_.has( this, [ "state", "motd" ] ) ) {
+      motdValue = this.state[ "motd" ];
     }
     motd =
       <TWBS.Input
