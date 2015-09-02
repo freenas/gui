@@ -67,7 +67,7 @@ const ConnectionSettings = React.createClass(
     webui_protocol =
       <TWBS.Input
         type = "select"
-        label = "Webapp Protocol"
+        label = "Protocol"
         value = { webui_protocolValue }
         onChange = { this.handleChange.bind( this, "webui_protocol" ) }>
       </TWBS.Input>;
@@ -79,7 +79,7 @@ const ConnectionSettings = React.createClass(
     webui_http_port =
       <TWBS.Input
         type = "text"
-        label = "Webapp HTTP Port"
+        label = "HTTP Port"
         value = { webui_http_portValue }
         onChange = { this.handleChange.bind( this, "webui_http_port" ) }>
       </TWBS.Input>;
@@ -91,7 +91,7 @@ const ConnectionSettings = React.createClass(
     webui_https_port =
       <TWBS.Input
         type = "text"
-        label = "Webapp HTTPS Port"
+        label = "HTTPS Port"
         value = { webui_https_portValue }
         onChange = { this.handleChange.bind( this, "webui_https_port" ) }>
       </TWBS.Input>;
@@ -103,7 +103,7 @@ const ConnectionSettings = React.createClass(
     webui_https_certificate =
       <TWBS.Input
         type = "select"
-        label = "Webapp SSL/TLS Certificate"
+        label = "SSL/TLS Certificate"
         value = { webui_https_certificateValue }
         onChange = { this.handleChange.bind( this, "webui_https_certificate" ) }
         disabled>
@@ -128,14 +128,14 @@ const ConnectionSettings = React.createClass(
       <TWBS.Input
         type = "select"
         multiple
-        label = "Webapp IP Addresses"
+        label = "IP Addresses"
         value = { webui_listenValue }
         onChange = { this.handleChange.bind( this, "webui_listen" ) }>
       </TWBS.Input>;
 
     return (
       <TWBS.Panel>
-        <h4>Webapp</h4>
+        <h4>Management Connection</h4>
         <form className = "settings-config-form">
           { webui_protocol }
           { webui_http_port }
