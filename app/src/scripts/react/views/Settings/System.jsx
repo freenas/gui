@@ -229,15 +229,19 @@ const OSSettings = React.createClass(
     var console_keymap = "";
 
     switch ( key ) {
+      // FIXME: Wrong way to work with checkboxes
       case "autotune":
         this.setState( { autotune: event.target.value } );
         break;
+      // FIXME: Wrong way to work with checkboxes
       case "console_cli":
         this.setState( { console_cli: event.target.value } );
         break;
+      // FIXME: Wrong way to work with checkboxes
       case "powerd":
         this.setState( { powerd: event.target.value } );
         break;
+      // FIXME: Wrong way to work with checkboxes
       case "uploadcrash":
         this.setState( { uploadcrash: event.target.value } );
         break;
@@ -383,6 +387,7 @@ const UISettings = React.createClass(
       case "webui_https_certificate":
         this.setState( { webui_https_certificate: event.target.value } );
         break;
+      // FIXME: Wrong way to work with checkboxes
       case "webui_http_redirect_https":
         this.setState( { webui_http_redirect_https: event.target.value } );
         break;
