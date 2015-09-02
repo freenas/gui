@@ -18,7 +18,7 @@ const ContextDefault = React.createClass(
           justified
         >
           <TWBS.NavItem eventKey={1}>
-            <Icon glyph="icon-comment-alt" />
+            <Icon glyph="icon-datareport" />
           </TWBS.NavItem>
           <TWBS.NavItem eventKey={2}>
             <Icon glyph="icon-comment-alt" />
