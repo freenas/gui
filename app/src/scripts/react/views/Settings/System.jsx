@@ -201,7 +201,7 @@ const LocalizationSettings = React.createClass(
     return (
       <TWBS.Panel>
         <h4>Localization</h4>
-        <form>
+        <form className = "settings-config-form">
           { language }
           { timezone }
           { console_keymap }
@@ -334,8 +334,8 @@ const OSSettings = React.createClass(
 
     return (
       <TWBS.Panel>
-        <h4>Operating System</h4>
-        <form>
+        <h4>Operating System </h4>
+        <form className = "settings-config-form">
           { autotune }
           { console_cli }
           { swapondrive }
