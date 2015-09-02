@@ -233,16 +233,12 @@ const Tuneables = React.createClass(
 
 const UISettings = React.createClass(
   { getDefaultProps () {
-    return { systemUIConfig:
-             { webui_protocol: "HTTP"
-             , webui_http_port: 80
-             , webui_http_redirect_https: false
-             , webui_https_certificate: null
-             , webui_listen: [ "0.0.0.0"
-                             , "::"
-                             ]
-             , webui_https_port: null
-             }
+    return { webui_protocol: ""
+           , webui_http_port: null
+           , webui_http_redirect_https: null
+           , webui_https_certificate: null
+           , webui_listen: []
+           , webui_https_port: null
            };
   }
 
