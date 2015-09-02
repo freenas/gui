@@ -454,7 +454,7 @@ const UISettings = React.createClass(
       <TWBS.Input
         type = "select"
         label = "Webapp SSL/TLS Certificate"
-        avlue = { webui_https_certificateValue }
+        value = { webui_https_certificateValue }
         onChange = { this.handleUISettingsChange.bind( this, "webui_https_certificate" ) }
         disabled>
       </TWBS.Input>;
