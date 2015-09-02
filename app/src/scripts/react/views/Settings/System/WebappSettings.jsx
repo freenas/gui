@@ -23,7 +23,7 @@ const WebappSettings = React.createClass(
            };
   }
 
-  , handleWebappSettingsChange( key, event ) {
+  , handleChange ( key, event ) {
     switch ( key ) {
       case "webui_protocol":
         this.setState( { webui_protocol: event.target.value } );
@@ -69,7 +69,7 @@ const WebappSettings = React.createClass(
         type = "select"
         label = "Webapp Protocol"
         value = { webui_protocolValue }
-        onChange = { this.handleWebappSettingsChange.bind( this, "webui_protocol" ) }>
+        onChange = { this.handleChange.bind( this, "webui_protocol" ) }>
       </TWBS.Input>;
 
     if (_.has( this, [ "state", "webui_http_port" ] ) ) {
@@ -81,7 +81,7 @@ const WebappSettings = React.createClass(
         type = "text"
         label = "Webapp HTTP Port"
         value = { webui_http_portValue }
-        onChange = { this.handleWebappSettingsChange.bind( this, "webui_http_port" ) }>
+        onChange = { this.handleChange.bind( this, "webui_http_port" ) }>
       </TWBS.Input>;
 
     if (_.has( this, [ "state", "webui_https_port" ] ) ) {
@@ -93,7 +93,7 @@ const WebappSettings = React.createClass(
         type = "text"
         label = "Webapp HTTPS Port"
         value = { webui_https_portValue }
-        onChange = { this.handleWebappSettingsChange.bind( this, "webui_https_port" ) }>
+        onChange = { this.handleChange.bind( this, "webui_https_port" ) }>
       </TWBS.Input>;
 
     if (_.has( this, [ "state", "webui_https_certificate" ] ) ) {
@@ -105,7 +105,7 @@ const WebappSettings = React.createClass(
         type = "select"
         label = "Webapp SSL/TLS Certificate"
         value = { webui_https_certificateValue }
-        onChange = { this.handleWebappSettingsChange.bind( this, "webui_https_certificate" ) }
+        onChange = { this.handleChange.bind( this, "webui_https_certificate" ) }
         disabled>
       </TWBS.Input>;
 
@@ -117,7 +117,7 @@ const WebappSettings = React.createClass(
         type = "checkbox"
         label = "Redirect HTTP to HTTPS"
         checked = { webui_http_redirect_httpsValue }
-        onChange = { this.handleWebappSettingsChange.bind( this, "webui_http_redirect_https" ) }>
+        onChange = { this.handleChange.bind( this, "webui_http_redirect_https" ) }>
       </TWBS.Input>;
 
     if (_.has( this, [ "state", "webui_listen" ] ) ) {
@@ -130,7 +130,7 @@ const WebappSettings = React.createClass(
         multiple
         label = "Webapp IP Addresses"
         value = { webui_listenValue }
-        onChange = { this.handleWebappSettingsChange.bind( this, "webui_listen" ) }>
+        onChange = { this.handleChange.bind( this, "webui_listen" ) }>
       </TWBS.Input>;
 
     return (
