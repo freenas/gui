@@ -10,7 +10,7 @@ import _ from "lodash";
 
 import networkCommon from "../../Network/networkCommon";
 
-const WebappSettings = React.createClass(
+const ConnectionSettings = React.createClass(
   { mixins: [ networkCommon ]
 
   , getDefaultProps () {
@@ -149,4 +149,4 @@ const WebappSettings = React.createClass(
   }
 });
 
-export default WebappSettings;
+export default ConnectionSettings;
