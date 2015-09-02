@@ -15,7 +15,7 @@ import HardwareSettings from "./System/HardwareSettings";
 import LocalizationSettings from "./System/LocalizationSettings";
 import OSSettings from "./System/OSSettings";
 import Tuneables from "./System/Tuneables";
-import WebappSettings from "./System/WebappSettings";
+import ConnectionSettings from "./System/ConnectionSettings";
 
 function getSystemUIConfig () {
   return SS.systemUIConfig;
@@ -27,7 +27,7 @@ const System = React.createClass(
       <TWBS.Grid>
         <TWBS.Row>
           <TWBS.Col xs = {4}>
-            <WebappSettings/>
+            <ConnectionSettings/>
           </TWBS.Col>
           <TWBS.Col xs = {4}>
             <OSSettings/>
