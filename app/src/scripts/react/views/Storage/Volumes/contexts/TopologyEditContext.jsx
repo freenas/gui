@@ -212,8 +212,8 @@ const ContextDisks = React.createClass(
         if ( paletteSection.length > 0 && paletteSection[0] ) {
           return (
             <div>
-              <h5 className="context-section-header">
-                <span className="type-line">
+              <h5 className="context-section-header type-line">
+                <span className="text">
                   { "Available " + TERMS[ type.toLowerCase() ] }
                 </span>
               </h5>
@@ -240,8 +240,8 @@ const ContextDisks = React.createClass(
       return (
         <div className="context-content context-disks">
 
-          <h5 className="context-section-header">
-            <span className="type-line">
+          <h5 className="context-section-header type-line">
+            <span className="text">
               { "Modify Pool Topology" }
             </span>
           </h5>
@@ -261,8 +261,8 @@ const ContextDisks = React.createClass(
           </TWBS.Button>
 
           {/* PRESET SELECTOR */}
-          <h5 className="context-section-header">
-            <span className="type-line">
+          <h5 className="context-section-header type-line">
+            <span className="text">
               { "Preset Configuration" }
             </span>
           </h5>

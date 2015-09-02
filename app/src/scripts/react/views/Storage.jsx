@@ -193,8 +193,8 @@ const Storage = React.createClass(
 
       return (
         <main>
-          <h1 className="section-heading">
-            <span className="type-line">ZFS Storage Pools</span>
+          <h1 className="section-heading type-line">
+            <span className="text">ZFS Storage Pools</span>
           </h1>
           { loading }
           { message }
