@@ -105,7 +105,7 @@ const ConnectionSettings = React.createClass(
     if (_.has( this, [ "state", "webui_https_certificate" ] ) ) {
       webui_https_certificateValue = this.state[ "webui_https_certificate" ];
     }
-    // Depends on certificat configuration
+    // Depends on certificate configuration
     webui_https_certificate =
       <TWBS.Input
         type = "select"
