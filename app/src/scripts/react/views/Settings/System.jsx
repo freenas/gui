@@ -202,9 +202,9 @@ const LocalizationSettings = React.createClass(
       <TWBS.Panel>
         <h4>Localization</h4>
         <form>
-         { language }
-         { timezone }
-         { console_keymap }
+          { language }
+          { timezone }
+          { console_keymap }
         </form>
       </TWBS.Panel>
     );
