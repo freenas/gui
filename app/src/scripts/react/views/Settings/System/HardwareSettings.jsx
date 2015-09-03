@@ -8,10 +8,14 @@ import React from "react";
 import TWBS from "react-bootstrap";
 import _ from "lodash";
 
+import inputHelpers from "../../../mixins/inputHelpers";
 
 // All settings in this panel are from system.advanced
 const HardwareSettings = React.createClass(
   { getDefaultProps () {
+  { mixins: [ inputHelpers ]
+
+  , getDefaultProps () {
     return { console_screensaver: null
            , serial_console: null
            , serial_port: null
