@@ -10,6 +10,14 @@ import _ from "lodash";
 
 import inputHelpers from "../../../mixins/inputHelpers";
 
+const serialPortSpeeds =
+  [ 9600
+  , 19200
+  , 38400
+  , 57600
+  , 115200
+  ];
+
 // All settings in this panel are from system.advanced
 const HardwareSettings = React.createClass(
   { getDefaultProps () {
