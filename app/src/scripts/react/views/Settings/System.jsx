@@ -97,7 +97,8 @@ const System = React.createClass(
       <Grid>
         <Row>
           <Col xs = {4}>
-            <ConnectionSettings/>
+            <ConnectionSettings
+            { ...this.state.ui }/>
           </Col>
           <Col xs = {4}>
             <OSSettings
