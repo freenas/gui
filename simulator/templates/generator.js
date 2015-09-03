@@ -11,89 +11,18 @@ import moment from "moment";
 import _ from "lodash";
 import createDisks from "./disk.js";
 import createVolumes from "./volumes.js";
+import systemDefaults from "./default-system.json";
 
 // These are taken from a real FreeNAS Mini, but they're arbitrary. Want to say
 // your virtual system has a Pentium? Go for it!
-const systemConstants =
-  { memory_size: 17124196352
-  , cpu_model: "Intel(R) Atom(TM) CPU  C2750  @ 2.40GHz\u0000"
-  , cpu_cores: 8
-  , uname_full: "FreeBSD freenas.local 10.1-STABLE FreeBSD 10.1-STABLE #9 a3a2df9(HEAD): Sun Jul  5 21:03:54 PDT 2015     root@build.ixsystems.com:/tank/home/nightlies/freenas-build/_BE/objs/tank/home/nightlies/freenas-build/_BE/trueos/sys/FreeNAS.amd64  amd64\n"
-  , version: "FreeNAS 10 New GUI Simulator" // Made up for demonstration only
-  , timezone: "America/Los_Angeles"
-  , hostname: "freenas.local"
-  , language: "English"
-  , console_keymap: "us.iso"
-  , shells:
-    [ "/bin/sh"
-    , "/bin/csh"
-    , "/usr/local/bin/zsh"
-    , "/usr/local/bin/bash"
-    , "/usr/local/bin/cli"
-    ]
-  };
-
-const advancedSettings =
-  { boot_scrub_internal: 35
-  , motd: "FreeBSD ?.?.?  (UNKNOWN)\n\nFreeNAS (c) 2009-2014, The FreeNAS Development Team\nAll rights reserved.\nFreeNAS is released under the modified BSD license.\nFor more information, documentation, help or support, go here:\nhttp://freenas.org\n"
-  , serial_console: false
-  , serial_port: null
-  , uploadcrash: true
-  , console_screensaver: false
-  , swapondrive: 2
-  , debugkernel: false
-  , serial_speed: null
-  , powerd: false
-  , console_cli: true
-  , autotune: false
-  , periodic_notify_user: 0
-  };
-
-const uiSettings =
-  { "webui_http_port": 80
-  , "webui_http_redirect_https": false
-  , "webui_https_certificate": null
-  , "webui_procotol":
-    [ "HTTP" ]
-  , "webui_listen":
-    [ "0.0.0.0"
-    , "[::]"
-    ]
-  , "webui_https_port": null
-  };
-
-// For now, start with all shares empty.
-const shares =
-  { afp_shares: []
-  , nfs_shares: []
-  , cifs_shares: []
-  };
-
-const globalNetworkConfig =
-  { dhcp:
-    { assign_gateway: true
-    , assign_dns: true
-    }
-  , http_proxy: null
-  , autoconfigure: false
-  , dns:
-    { search: []
-    , servers: [ "10.5.0.1"
-               , "8.8.8.8"
-               , "0:0:0:0:0:ffff:a05:1"
-               ]
-    }
-  , gateway:
-    { ipv4: "10.5.0.1"
-    , ipv6: "0:0:0:0:0:ffff:a05:1"
-    }
-  };
-
+const systemConstants = systemDefaults[ "systemConstants" ];
+const advancedSettings = systemDefaults[ "advancedSettings" ];
+const uiSettings = systemDefaults[ "uiSettings" ];
+const shares = systemDefaults[ "shares" ];
+const globalNetworkConfig = systemDefaults[ "globalNetworkConfig" ];
 const defaultInterfaces = require( "./default-interfaces.json" )[ "interfaces" ];
-
 // These are the system users that will always be present.
 const builtinUsers =  require( "./default-users.json" )[ "users" ];
-
 // These are the system groups that will always be present.
 const builtinGroups = require( "./default-groups.json" )[ "groups" ];
 
