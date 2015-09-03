@@ -20,6 +20,8 @@ const advancedSettings = systemDefaults[ "advancedSettings" ];
 const uiSettings = systemDefaults[ "uiSettings" ];
 const shares = systemDefaults[ "shares" ];
 const globalNetworkConfig = systemDefaults[ "globalNetworkConfig" ];
+const keymaps = systemDefaults[ "keymaps" ];
+const timezones = systemDefaults[ "timezones" ];
 const defaultInterfaces = require( "./default-interfaces.json" )[ "interfaces" ];
 // These are the system users that will always be present.
 const builtinUsers =  require( "./default-users.json" )[ "users" ];
@@ -1650,6 +1652,8 @@ function createSystem () {
     , pools: startingPools
     , uiSettings: uiSettings
     , advancedSettings: advancedSettings
+    , keymaps: keymaps
+    , timezones: timezones
     };
 
   newSystem = _.merge( newSystem, systemConstants, shares );

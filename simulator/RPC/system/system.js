@@ -67,6 +67,14 @@ class General extends RPCBase {
            };
   }
 
+  timezones ( system ) {
+    return system[ "timezones" ];
+  }
+
+  keymaps ( system ) {
+    return system[ "keymaps" ];
+  }
+
   configure ( system, args, callback ) {
     var newSystem = _.cloneDeep( system );
     var changedAttributes = {};
