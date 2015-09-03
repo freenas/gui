@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Input, Panel } from "react-bootstrap";
 import _ from "lodash";
 
 import networkCommon from "../../Network/networkCommon";
@@ -71,89 +71,89 @@ const ConnectionSettings = React.createClass(
       webui_protocolValue = this.state[ "webui_protocol" ];
     }
     webui_protocol =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Protocol"
         value = { webui_protocolValue }
         onChange = { this.handleChange.bind( this, "webui_protocol" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if (_.has( this, [ "state", "webui_http_port" ] ) ) {
       webui_http_portValue = this.state[ "webui_http_port" ];
     }
     // TODO: Check that it's an integer in the valid range
     webui_http_port =
-      <TWBS.Input
+      <Input
         type = "text"
         label = "HTTP Port"
         value = { webui_http_portValue }
         onChange = { this.handleChange.bind( this, "webui_http_port" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if (_.has( this, [ "state", "webui_https_port" ] ) ) {
       webui_https_portValue = this.state[ "webui_https_port" ];
     }
     // TODO: Check that it's an integer in the valid range
     webui_https_port =
-      <TWBS.Input
+      <Input
         type = "text"
         label = "HTTPS Port"
         value = { webui_https_portValue }
         onChange = { this.handleChange.bind( this, "webui_https_port" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if (_.has( this, [ "state", "webui_https_certificate" ] ) ) {
       webui_https_certificateValue = this.state[ "webui_https_certificate" ];
     }
     // Depends on certificate configuration
     webui_https_certificate =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "SSL/TLS Certificate"
         value = { webui_https_certificateValue }
         onChange = { this.handleChange.bind( this, "webui_https_certificate" ) }
         disabled>
-      </TWBS.Input>;
+      </Input>;
 
     if (_.has( this, [ "state", "webui_http_redirect_https" ] ) ) {
       webui_http_redirect_httpsValue = this.state[ "webui_http_redirect_https" ];
     }
     webui_http_redirect_https =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Redirect HTTP to HTTPS"
         checked = { webui_http_redirect_httpsValue }
         onChange = { this.handleChange.bind( this, "webui_http_redirect_https" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if (_.has( this, [ "state", "webappListenAll" ] ) ) {
       webappListenAllValue = this.state[ "webappListenAll" ];
     }
     // Allows ALL IPs, overriding available IP choices
     webappListenAll =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         checked = { webappListenAllValue}
         label = "Allow Access Over All IP Addresses"
         onChange = { this.handleChange.bind( this, "webappListenAll" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if (_.has( this, [ "state", "webui_listen" ] ) ) {
       webui_listenValue = this.state[ "webui_listen" ];
     }
     // Choose among available IPs
     webui_listen =
-      <TWBS.Input
+      <Input
         type = "select"
         multiple
         disabled = { webappListenAllValue }
         label = "IP Addresses"
         value = { webui_listenValue }
         onChange = { this.handleChange.bind( this, "webui_listen" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     return (
-      <TWBS.Panel>
+      <Panel>
         <h4>Management Connection</h4>
         <form className = "settings-config-form">
           { webui_protocol }
@@ -164,7 +164,7 @@ const ConnectionSettings = React.createClass(
           { webappListenAll }
           { webui_listen }
         </form>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });

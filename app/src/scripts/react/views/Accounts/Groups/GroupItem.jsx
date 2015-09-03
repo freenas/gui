@@ -8,7 +8,6 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
 
 import routerShim from "../../../mixins/routerShim";
 import clientStatus from "../../../mixins/clientStatus";

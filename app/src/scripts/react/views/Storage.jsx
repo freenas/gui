@@ -8,7 +8,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
 import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
@@ -151,7 +151,7 @@ const Storage = React.createClass(
         // are not connected, etc.
 
         pools.push(
-          <TWBS.Alert
+          <Alert
             bsStyle   = "warning"
             className = "volume"
             key = { pools.length }
@@ -160,7 +160,7 @@ const Storage = React.createClass(
             + "avaialable for inclusion in a new storage pool.\n\n Please shut "
             + "down the system, check your hardware, and try again."
             }
-          </TWBS.Alert>
+          </Alert>
         );
       }
 

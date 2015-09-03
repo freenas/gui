@@ -8,7 +8,8 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { ListGroup, ListGroupItem, Grid, Row, Col, Button, ButtonToolbar }
+  from "react-bootstrap";
 
 import routerShim from "../../../mixins/routerShim";
 import clientStatus from "../../../mixins/clientStatus";
@@ -47,9 +48,9 @@ const GroupView = React.createClass({
 
     for ( var i = 0; i < users.length; i++ ) {
       listUserItemArray.push(
-        <TWBS.ListGroupItem>
+        <ListGroupItem>
           { users[i].username }
-        </TWBS.ListGroupItem>
+        </ListGroupItem>
       );
     }
 
@@ -62,86 +63,86 @@ const GroupView = React.createClass({
 
     if ( this.props.item["builtin"] ) {
       builtInGroupAlert = (
-        <TWBS.Alert bsStyle   = "info"
+        <Alert bsStyle   = "info"
                     className = "text-center">
           <b>{"This is a built-in FreeNAS group."}</b>
-        </TWBS.Alert>
+        </Alert>
       );
     }
 
     /*editButtons = (
-      <TWBS.ButtonToolbar>
-        <TWBS.Button
+      <ButtonToolbar>
+        <Button
           className = "pull-left"
           disabled  = { this.props.item[ "builtin" ] }
           onClick   = { this.deleteGroup }
           bsStyle   = "danger" >
           { "Delete Group" }
-        </TWBS.Button>
-        <TWBS.Button
+        </Button>
+        <Button
           className = "pull-right"
           onClick   = { this.props.handleViewChange.bind( null, "edit" ) }
           bsStyle   = "info" >
           { "Edit Group" }
-        </TWBS.Button>
-      </TWBS.ButtonToolbar>
+        </Button>
+      </ButtonToolbar>
     );*/
 
     return (
-      <TWBS.Grid fluid>
+      <Grid fluid>
         {/* "Edit Group" Button - Top */}
         { editButtons }
 
-        <TWBS.Row>
-          <TWBS.Col
+        <Row>
+          <Col
             xs={3}
             className="text-center">
             <viewerUtil.ItemIcon
               primaryString  = { this.props.item[ "name" ] }
               fallbackString = { this.props.item[ "id" ] }
               seedNumber     = { this.props.item[ "id" ] } />
-          </TWBS.Col>
-          <TWBS.Col xs={9}>
+          </Col>
+          <Col xs={9}>
             <h3>
               { this.props.item[ "name" ] }
             </h3>
             <hr />
-          </TWBS.Col>
-        </TWBS.Row>
+          </Col>
+        </Row>
 
         {/* Shows a warning if the group account is built in */}
         { builtInGroupAlert }
 
         {/* Primary group data overview */}
 
-        <TWBS.Row>
-          <TWBS.Col
+        <Row>
+          <Col
             xs      = {2}
             className = "text-muted" >
             <h4 className = "text-muted" >
               { this.props.itemLabels[ "id" ] }
             </h4>
-          </TWBS.Col>
-          <TWBS.Col xs = {10}>
+          </Col>
+          <Col xs = {10}>
             <h3>
               { this.props.item[ "id" ] }
             </h3>
-          </TWBS.Col>
-        </TWBS.Row>
-        <TWBS.Row>
-          <TWBS.Col
+          </Col>
+        </Row>
+        <Row>
+          <Col
             xs      = {12}
             className = "text-muted" >
             <h4 className = "text-muted" >
               { "Users" }
             </h4>
-            <TWBS.ListGroup>
+            <ListGroup>
               { this.createUserDisplayList( this.props.item[ "id" ] ) }
-            </TWBS.ListGroup>
-          </TWBS.Col>
-        </TWBS.Row>
+            </ListGroup>
+          </Col>
+        </Row>
 
-      </TWBS.Grid>
+      </Grid>
     );
   }
 });

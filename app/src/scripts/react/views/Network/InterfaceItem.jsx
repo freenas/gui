@@ -6,7 +6,7 @@
 
 import React from "react";
 import _ from "lodash";
-import TWBS from "react-bootstrap";
+import { Input, Panel } from "react-bootstrap";
 
 import networkCommon from "./networkCommon";
 
@@ -225,7 +225,7 @@ const InterfaceItem = React.createClass(
       }
 
       staticIP =
-        <TWBS.Input
+        <Input
           type = "text"
           label = "Static IP:"
           value = { staticIPValue }
@@ -238,7 +238,7 @@ const InterfaceItem = React.createClass(
                    !== "LINK_STATE_UP" } />
 
       dhcpToggle =
-        <TWBS.Input
+        <Input
           type = "checkbox"
           checked = { this.props.networkInterface.dhcp }
           onChange = { this.toggleDHCP }
@@ -265,7 +265,7 @@ const InterfaceItem = React.createClass(
     }
 
     return (
-      <TWBS.Panel className = "interface-item">
+      <Panel className = "interface-item">
         { interfaceName }
         { interfaceToggle }
         { staticIP }
@@ -278,7 +278,7 @@ const InterfaceItem = React.createClass(
           defaultExpsnded = { true } >
           { this.showAliases() }
         </DiscTri>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });

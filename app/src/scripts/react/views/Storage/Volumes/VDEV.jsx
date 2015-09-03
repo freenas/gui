@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Well, Col } from "react-bootstrap";
 
 import ZM from "../../../../flux/middleware/ZfsMiddleware";
 import VS from "../../../../flux/stores/VolumeStore";
@@ -224,7 +224,7 @@ const VDEV = React.createClass(
     }
 
     return (
-      <TWBS.Col xs={ this.props.cols }>
+      <Col xs={ this.props.cols }>
         <DropTarget
           namespace = "disk"
           disabled = { this.state.devicesAreAvailable }
@@ -232,14 +232,14 @@ const VDEV = React.createClass(
           callback = { this.props.handleDiskAdd }
           activeDrop
         >
-          <TWBS.Well className="clearfix vdev-bucket">
+          <Well className="clearfix vdev-bucket">
             { toolbar }
             { vdevDisks }
             { addDisks }
             { message }
-          </TWBS.Well>
+          </Well>
         </DropTarget>
-      </TWBS.Col>
+      </Col>
     );
   }
 

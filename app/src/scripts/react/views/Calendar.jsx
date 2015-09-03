@@ -6,7 +6,7 @@
 
 import React from "react";
 import _ from "lodash";
-import TWBS from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import moment from "moment";
 
 import Icon from "../components/Icon";
@@ -135,21 +135,21 @@ const Calendar = React.createClass(
               style     = {{ margin: 0 }}
             ><b>{ month }</b> { year }</h1>
 
-            <TWBS.ButtonGroup
+            <ButtonGroup
               className = "pull-right"
               style     = {{ margin: 0 }}
             >
-              <TWBS.Button
+              <Button
                 onClick={ this.handlePage.bind( null, "prev" ) }
-              ><Icon glyph="chevron-left" /></TWBS.Button>
-              <TWBS.Button
+              ><Icon glyph="chevron-left" /></Button>
+              <Button
                 onClick={ this.handleToday }
-              >Today</TWBS.Button>
-              <TWBS.Button
+              >Today</Button>
+              <Button
                 onClick={ this.handlePage.bind( null, "next" ) }
-              ><Icon glyph="chevron-right" /></TWBS.Button>
+              ><Icon glyph="chevron-right" /></Button>
 
-            </TWBS.ButtonGroup>
+            </ButtonGroup>
           </div>
 
           <div className="month">

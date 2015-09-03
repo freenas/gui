@@ -5,7 +5,7 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Button, Col, Input, Row, Table } from "react-bootstrap";
 
 // Disclosure Triangles
 import DiscTri from "../../components/DiscTri";
@@ -96,7 +96,7 @@ var Subscriptions = React.createClass(
         );
 
         subscriptionsContent = (
-          <TWBS.Table responsive>
+          <Table responsive>
             <thead>
               <tr>
                 <th>Namespace</th>
@@ -107,54 +107,54 @@ var Subscriptions = React.createClass(
             <tbody>
               { subscriptionKeys.map( this.createRow ) }
             </tbody>
-          </TWBS.Table>
+          </Table>
         );
       }
 
       return (
         <div className="debug-content-flex-wrapper">
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">Active Subscriptions</h5>
             <div className="debug-column-content">
               { subscriptionsContent }
             </div>
 
-          </TWBS.Col>
+          </Col>
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">Add Subsriptions</h5>
-            <TWBS.Row>
-              <TWBS.Col xs={5}>
-                <TWBS.Input type        = "textarea"
+            <Row>
+              <Col xs={5}>
+                <Input type        = "textarea"
                             style       = {{ resize: "vertical"
                                            , height: "34px" }}
                             placeholder = "Subscription Mask(s)"
                             onChange    = { this.handleMaskInputChange }
                             value       = { this.state.subsMasks } />
-              </TWBS.Col>
-            </TWBS.Row>
-            <TWBS.Row>
-              <TWBS.Col xs={2}>
-                <TWBS.Button bsStyle = "primary"
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={2}>
+                <Button bsStyle = "primary"
                              onClick = { this.handleSubsSubmit }
                              block>
                   {"Submit"}
-                </TWBS.Button>
-              </TWBS.Col>
-            </TWBS.Row>
+                </Button>
+              </Col>
+            </Row>
 
             <h5 className="debug-heading">Remove Subscriptions</h5>
               <div className="debug-column-content">
-                <TWBS.Button block bsStyle = "danger"
+                <Button block bsStyle = "danger"
                              onClick = { removeALL }>
                   {"Remove All Subscriptions"}
-                </TWBS.Button>
+                </Button>
               </div>
 
-          </TWBS.Col>
+          </Col>
         </div>
       );
     }

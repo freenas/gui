@@ -9,7 +9,8 @@
 
 import React from "react";
 import _ from "lodash";
-import TWBS from "react-bootstrap";
+import { MenuItem, Button, NavDropdown, ButtonGroup, Nav, Navbar, Input }
+  from "react-bootstrap";
 
 import viewerCommon from "./Viewer/mixins/viewerCommon";
 
@@ -280,12 +281,12 @@ const Viewer = React.createClass(
                      : "Group by ";
 
       return (
-        <TWBS.MenuItem
+        <MenuItem
           key     = { index }
           onClick = { this.handleGroupsEnabledToggle.bind( null, group ) }
         >
           { toggleText + this.props.groupBy[ group ].name.toLowerCase() }
-        </TWBS.MenuItem>
+        </MenuItem>
       );
     }
 
@@ -295,12 +296,12 @@ const Viewer = React.createClass(
                      : "Hide ";
 
       return (
-        <TWBS.MenuItem
+        <MenuItem
           key     = { index }
           onClick = { this.handleFiltersEnabledToggle.bind( null, filter ) }
         >
           { toggleText + this.props.groupBy[ filter ].name.toLowerCase() }
-        </TWBS.MenuItem>
+        </MenuItem>
       );
     }
 
@@ -312,7 +313,7 @@ const Viewer = React.createClass(
                       };
 
       return (
-        <TWBS.Button
+        <Button
           onClick = { this.handleModeSelect.bind( this, mode ) }
           key = { index }
           bsStyle = { ( mode === this.state.modeActive )
@@ -321,7 +322,7 @@ const Viewer = React.createClass(
                     }
           active = { false } >
           <Icon glyph = { modeIcons[ mode ] } />
-        </TWBS.Button>
+        </Button>
       );
     }
 
@@ -368,22 +369,22 @@ const Viewer = React.createClass(
       // Create "Show" Menu
       if ( this.props.filtersAllowed.size > 0 ) {
         showMenu = (
-          <TWBS.DropdownButton title="Show">
+          <NavDropdown title="Show">
             { Array.from( this.props.filtersAllowed )
                 .map( this.createFilterMenuOption )
             }
-          </TWBS.DropdownButton>
+          </NavDropdown>
         );
       }
 
       // Create "Group By" Menu
       if ( this.props.groupsAllowed.size > 0 ) {
         groupMenu = (
-          <TWBS.DropdownButton title="Group">
+          <NavDropdown title="Group">
             { Array.from( this.props.groupsAllowed )
                 .map( this.createGroupMenuOption )
             }
-          </TWBS.DropdownButton>
+          </NavDropdown>
         );
       }
 
@@ -391,23 +392,23 @@ const Viewer = React.createClass(
       // Create navigation mode icons
       if ( this.props.modesAllowed.size > 1 ) {
         viewerModeNav = (
-          <TWBS.ButtonGroup
+          <ButtonGroup
             className = "navbar-btn navbar-right"
             activeMode = { this.state.modeActive } >
             { Array.from( this.props.modesAllowed ).map( this.createModeNav ) }
-          </TWBS.ButtonGroup>
+          </ButtonGroup>
         );
       }
 
       return (
         <div className="viewer">
-          <TWBS.Navbar
+          <Navbar
             fluid
             className = "viewer-nav"
             brand     = { this.props.header }
           >
             {/* Searchbox for Viewer */}
-            <TWBS.Input
+            <Input
               type           = "text"
               placeholder    = "Search"
               groupClassName = "navbar-form navbar-left"
@@ -417,15 +418,15 @@ const Viewer = React.createClass(
             />
 
             {/* Dropdown menus for filters and groups */}
-            <TWBS.Nav className="navbar-left">
+            <Nav className="navbar-left">
               { showMenu }
               { groupMenu }
-            </TWBS.Nav>
+            </Nav>
 
             {/* Select view mode */}
             { viewerModeNav }
 
-          </TWBS.Navbar>
+          </Navbar>
 
           { this.createViewerContent() }
         </div>

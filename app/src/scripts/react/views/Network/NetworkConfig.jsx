@@ -6,7 +6,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Col, Input, Button, ButtonToolbar, Grid, Row } from "react-bootstrap";
 import _ from "lodash";
 
 import NM from "../../../flux/middleware/NetworkConfigMiddleware";
@@ -343,13 +343,13 @@ const NetworkConfig = React.createClass(
     }
     hostname =
       <div>
-        <TWBS.Col md = { 4 }
+        <Col md = { 4 }
                   sm = { 5 }>
           { "Hostname" }
-        </TWBS.Col>
-        <TWBS.Col md = { 8 }
+        </Col>
+        <Col md = { 8 }
                   sm = { 7 }>
-          <TWBS.Input
+          <Input
             type = "text"
             ref = "hostname"
             value = { hostnameValue }
@@ -357,7 +357,7 @@ const NetworkConfig = React.createClass(
             onBlur = { this.resetFocus.bind( null, "hostname" ) }
             onKeyDown = { this.advanceCursor.bind( this, "hostname" ) }
             onChange = { this.handleChange.bind( this, "hostname" ) } />
-        </TWBS.Col>
+        </Col>
       </div>;
 
     if ( _.has( this.state, [ "networkConfig", "gateway", "ipv4" ] ) ) {
@@ -365,13 +365,13 @@ const NetworkConfig = React.createClass(
     }
     ipv4Gateway =
       <div>
-        <TWBS.Col md = { 4 }
+        <Col md = { 4 }
                   sm = { 5 }>
           { "IPv4 Default Gateway" }
-        </TWBS.Col>
-        <TWBS.Col md = { 8 }
+        </Col>
+        <Col md = { 8 }
                   sm = { 7 }>
-          <TWBS.Input
+          <Input
             type = "text"
             ref = "ipv4"
             value = { ipv4GatewayValue }
@@ -379,7 +379,7 @@ const NetworkConfig = React.createClass(
             onBlur = { this.resetFocus.bind( null, "ipv4" ) }
             onKeyDown = { this.advanceCursor.bind( this, "ipv4" ) }
             onChange = { this.handleChange.bind( this, "ipv4" ) } />
-        </TWBS.Col>
+        </Col>
       </div>;
 
     if ( _.has( this.state, [ "networkConfig", "gateway", "ipv6" ] ) ) {
@@ -387,13 +387,13 @@ const NetworkConfig = React.createClass(
     }
     ipv6Gateway =
       <div>
-        <TWBS.Col md = { 4 }
+        <Col md = { 4 }
                   sm = { 5 }>
           { "IPv6 Default Gateway" }
-        </TWBS.Col>
-        <TWBS.Col md = { 8 }
+        </Col>
+        <Col md = { 8 }
                   sm = { 7 }>
-          <TWBS.Input
+          <Input
             type = "text"
             ref = "ipv6"
             value = { ipv6GatewayValue }
@@ -401,7 +401,7 @@ const NetworkConfig = React.createClass(
             onBlur = { this.resetFocus.bind( null, "ipv6" ) }
             onKeyDown = { this.advanceCursor.bind( this, "ipv6" ) }
             onChange = { this.handleChange.bind( this, "ipv6" ) } />
-        </TWBS.Col>
+        </Col>
       </div>;
 
     dnsNodes =
@@ -414,14 +414,14 @@ const NetworkConfig = React.createClass(
               <div className="dns-server"
                    key = { index }>
                 <span>{ server }</span>
-                <TWBS.Button
+                <Button
                   className = "pull-right"
                   onClick = { this.deleteDnsServer.bind( null, index ) }
                   bsStyle = "danger"
                   bsSize  = "xsmall"
                   title   = "Delete Server">
                   <Icon glyph="times" />
-                </TWBS.Button>
+                </Button>
               </div>
             );
           }
@@ -431,7 +431,7 @@ const NetworkConfig = React.createClass(
       </div>;
 
     newDNSInput =
-      <TWBS.Input
+      <Input
         type = "text"
         ref = "dns"
         // hasFeedback
@@ -443,53 +443,53 @@ const NetworkConfig = React.createClass(
         placeholder = "Enter new DNS server" />;
 
     formControlButtons =
-      <TWBS.ButtonToolbar className = "pull-right">
-        <TWBS.Button
+      <ButtonToolbar className = "pull-right">
+        <Button
           bsStyle = "default"
           onClick = { this.resetAll }>
           { "Reset" }
-        </TWBS.Button>
-        <TWBS.Button
+        </Button>
+        <Button
           bsStyle = "primary"
           onClick = { this.submit } >
           { "Apply" }
-        </TWBS.Button>
-      </TWBS.ButtonToolbar>;
+        </Button>
+      </ButtonToolbar>;
 
     return (
       <form className = "network-overview">
         <h3 className = "text-center">Network Configuration</h3>
-        <TWBS.Grid fluid>
-          <TWBS.Row>
-            <TWBS.Col md = { 12 }
+        <Grid fluid>
+          <Row>
+            <Col md = { 12 }
                       lg = { 6 } >
               { hostname }
               { ipv4Gateway }
               { ipv6Gateway }
-            </TWBS.Col>
-            <TWBS.Col md = { 8 }
+            </Col>
+            <Col md = { 8 }
                       lg = { 6 } >
-              <TWBS.Col xs = { 12 } >
+              <Col xs = { 12 } >
                 <h5>DNS Servers</h5>
-              </TWBS.Col>
-              <TWBS.Col xs = { 12 }
+              </Col>
+              <Col xs = { 12 }
                         className = "dns-section"
                         ref = "dns-section">
                 { dnsNodes }
-                <TWBS.Row>
-                  <TWBS.Col sm = { 9 } >
+                <Row>
+                  <Col sm = { 9 } >
                     { newDNSInput }
-                  </TWBS.Col >
-                </TWBS.Row>
-              </TWBS.Col>
-            </TWBS.Col>
-          </TWBS.Row>
-          <TWBS.Row>
-            <TWBS.Col xs = { 12 }>
+                  </Col >
+                </Row>
+              </Col>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs = { 12 }>
               { formControlButtons }
-            </TWBS.Col>
-          </TWBS.Row>
-        </TWBS.Grid>
+            </Col>
+          </Row>
+        </Grid>
       </form>
     );
   }

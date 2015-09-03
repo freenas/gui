@@ -4,7 +4,7 @@
 
 import React from "react";
 import _ from "lodash";
-import TWBS from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 import { Link, RouteHandler } from "react-router";
 
@@ -208,7 +208,7 @@ const TableViewer = React.createClass(
           { editorContent }
           <div className = "fixed-table-container-inner">
 
-            <TWBS.Table
+            <Table
               striped bordered condensed hover
               ref       = "TABLE_VIEWER"
               className = "fixed-table"
@@ -224,7 +224,7 @@ const TableViewer = React.createClass(
                 { tableData.map( this.createRows ) }
               </tbody>
 
-            </TWBS.Table>
+            </Table>
           </div>
         </div>
       );

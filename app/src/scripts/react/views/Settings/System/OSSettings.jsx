@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Input, Panel } from "react-bootstrap";
 import _ from "lodash";
 
 // All settings in this panel are from system.advanced
@@ -66,72 +66,72 @@ const OSSettings = React.createClass(
       autotuneValue = this.state[ "autotune" ];
     }
     autotune =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Enable Autotune"
         checked = { autotuneValue }
         onChange = { this.handleOSSettingsChange.bind( this, "autotune" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "console_cli" ] ) ) {
       console_cliValue = this.state[ "console_cli" ];
     }
     console_cli =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Enable Console CLI"
         checked = { console_cliValue }
         onChange = { this.handleOSSettingsChange.bind( this, "console_cli" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "powerd" ] ) ) {
       powerdValue = this.state[ "powerd" ];
     }
     powerd =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Enable powerd"
         checked = { powerdValue }
         onChange = { this.handleOSSettingsChange.bind( this, "powerd" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "uploadcrash" ] ) ) {
       uploadcrashValue = this.state[ "uploadcrash" ];
     }
     uploadcrash =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Automatically upload crash dumps to iXsystems"
         checked = { uploadcrashValue }
         onChange = { this.handleOSSettingsChange.bind( this, "uploadcrash" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "swapondrive" ] ) ) {
       swapondriveValue = this.state[ "swapondrive" ];
     }
     // Validate that it's an integer
     swapondrive =
-      <TWBS.Input
+      <Input
         type = "text"
         label = "Default swap on drive, in GB"
         value = { swapondriveValue }
         onChange = { this.handleOSSettingsChange.bind( this, "swapondrive" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "motd" ] ) ) {
       motdValue = this.state[ "motd" ];
     }
     motd =
-      <TWBS.Input
+      <Input
         type = "textarea"
         label = "Message of the Day to display at shell login"
         value = { motdValue }
         onChange = { this.handleOSSettingsChange.bind( this, "motd" ) }>
-      </TWBS.Input>;
+      </Input>;
 
 
     return (
-      <TWBS.Panel>
+      <Panel>
         <h4>Operating System </h4>
         <form className = "settings-config-form">
           { autotune }
@@ -141,7 +141,7 @@ const OSSettings = React.createClass(
           { swapondrive }
           { motd }
         </form>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });

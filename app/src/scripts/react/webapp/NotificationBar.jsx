@@ -7,7 +7,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { MenuItem, DropdownButton } from "react-bootstrap";
 
 import MiddlewareClient from "../../websocket/MiddlewareClient";
 import SS from "../../flux/stores/SessionStore";
@@ -84,19 +84,19 @@ var NotificationBar = React.createClass(
 
         <div className="user-info">
 
-          <TWBS.DropdownButton
+          <DropdownButton
             pullRight
             title     = { this.state.currentUser }
             bsStyle   = "link"
             className = "user online"
           >
-            <TWBS.MenuItem
+            <MenuItem
               key     = { 0 }
               onClick = { MiddlewareClient.logout.bind( MiddlewareClient ) }
             >
               {"Logout"}
-            </TWBS.MenuItem>
-          </TWBS.DropdownButton>
+            </MenuItem>
+          </DropdownButton>
 
         </div>
       </header>

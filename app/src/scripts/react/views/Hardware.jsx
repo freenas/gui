@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Panel, Well, ListGroup, ListGroupItem } from "react-bootstrap";
 import _ from "lodash";
 
 import routerShim from "../mixins/routerShim";
@@ -39,10 +39,10 @@ const DiskDisclosure = React.createClass(
     var diskItems = _.map( group
                          , function createDiskItems ( disk, index ) {
                            return (
-                             <TWBS.Panel className = "disk-item"
+                             <Panel className = "disk-item"
                                          key = { index } >
                                <Disk path = { disk } />
-                             </TWBS.Panel>
+                             </Panel>
                            );
                          }
                          );
@@ -51,10 +51,10 @@ const DiskDisclosure = React.createClass(
       <div className = "disk-category"
            key = { groupName }>
         <span className = "disk-category-title">{ groupName }</span>
-        <TWBS.Well className = "disk-item-section"
+        <Well className = "disk-item-section"
                    bsSize = "small" >
           { diskItems }
-        </TWBS.Well>
+        </Well>
       </div>
     );
   }
@@ -137,19 +137,19 @@ const Hardware = React.createClass({
     return (
       <div className = { "hardware-display" }>
         <div className ={ "statics" }>
-          <TWBS.Panel header = "System Information" /*TODO: split panel out into its own component when appropriate*/ >
-            <TWBS.ListGroup fill>
-              <TWBS.ListGroupItem>
+          <Panel header = "System Information" /*TODO: split panel out into its own component when appropriate*/ >
+            <ListGroup fill>
+              <ListGroupItem>
                 { "CPU: " + cpuModel }
-              </TWBS.ListGroupItem>
-              <TWBS.ListGroupItem>
+              </ListGroupItem>
+              <ListGroupItem>
                 { "CPU Cores: " + cpuCores }
-              </TWBS.ListGroupItem>
-              <TWBS.ListGroupItem>
+              </ListGroupItem>
+              <ListGroupItem>
                 { "Memory: " + ByteCalc.humanize( memorySize ) }
-              </TWBS.ListGroupItem>
-            </TWBS.ListGroup>
-          </TWBS.Panel>
+              </ListGroupItem>
+            </ListGroup>
+          </Panel>
         </div>
         <div className = { "disclosures" } >
           <DiskDisclosure diskGroups = { this.state.diskGroups } />

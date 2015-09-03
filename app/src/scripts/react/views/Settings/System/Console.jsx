@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Input, Panel } from "react-bootstrap";
 import _ from "lodash";
 
 import inputHelpers from "../../../mixins/inputHelpers";
@@ -89,7 +89,7 @@ const Console = React.createClass(
       console_screensaverValue = this.state[ "console_screensaver" ];
     }
     console_screensaver =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Enable Console Screensaver"
         checked = { console_screensaverValue }
@@ -100,7 +100,7 @@ const Console = React.createClass(
       serial_consoleValue = this.state[ "serial_console" ];
     }
     serial_console =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Enable Serial Console"
         checked = { serial_consoleValue }
@@ -112,7 +112,7 @@ const Console = React.createClass(
     }
     // Make sure the port is valid
     serial_port =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Serial Console Port"
         value = { serial_portValue }
@@ -123,30 +123,30 @@ const Console = React.createClass(
       serial_speedValue = this.state[ "serial_speed" ];
     }
     serial_speed =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Serial Port Speed"
         value = { serial_speedValue }
         onChange = { this.handleChange.bind( this
                                            , "serial_speed" ) }>
         { this.createSimpleOptions( serialPortSpeeds ) }
-        </TWBS.Input>
+        </Input>
 
     if ( _.has( this, [ "state", "console_keymap" ] ) ) {
       console_keymapValue = this.state[ "console_keymap" ];
     }
     console_keymap =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Console Keymap"
         value = { console_keymapValue }
         onChange = { this.handleChange.bind( this
                                            , "console_keymap" ) }>
         { keymapOptions }
-      </TWBS.Input>
+      </Input>
 
     return (
-      <TWBS.Panel>
+      <Panel>
         <h4>Console</h4>
         <form className = "settings-config-form">
           { console_screensaver }
@@ -155,7 +155,7 @@ const Console = React.createClass(
           { serial_speed }
           { console_keymap }
         </form>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });

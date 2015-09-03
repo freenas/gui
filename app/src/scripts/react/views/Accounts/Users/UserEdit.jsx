@@ -7,7 +7,8 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Alert, Button, ButtonToolbar, Input, Grid, Row, Col }
+  from "react-bootstrap";
 
 import inputHelpers from "../../../mixins/inputHelpers";
 import userMixins from "../../../mixins/userMixins";
@@ -76,66 +77,66 @@ const UserEdit = React.createClass(
 
     if ( this.props.item[ "builtin" ] ) {
       builtInWarning =
-        <TWBS.Alert
+        <Alert
           bsStyle   = { "warning" }
           className = { "text-center built-in-warning" } >
           {"This is a built in user account.  Only edit this account if you"
           + "know exactly what you're doing."}
-        </TWBS.Alert>;
+        </Alert>;
     }
 
     if ( this.props.item["logged-in"] ) {
       loggedInUserAlert = (
-        <TWBS.Alert bsStyle   = "info"
+        <Alert bsStyle   = "info"
                     className = "text-center">
           <b>{"This user is currently logged in."}</b>
-        </TWBS.Alert>
+        </Alert>
       );
     }
 
     let resetButton =
-      <TWBS.Button
+      <Button
         className = "pull-right"
         bsStyle = "warning"
         onClick = { this.resetChanges } >
         { "Reset Changes" }
-      </TWBS.Button>;
+      </Button>;
 
     let submitButton =
-      <TWBS.Button
+      <Button
         className = "pull-right"
         bsStyle = "success"
         onClick = { this.submitChanges } >
         { "Submit Changes" }
-      </TWBS.Button>;
+      </Button>;
 
     let cancelButton =
-      <TWBS.Button
+      <Button
         className = "pull-left"
         bsStyle = "default"
         onClick = { this.props.handleViewChange.bind( null, "view" ) } >
         { "Cancel Edit" }
-      </TWBS.Button>;
+      </Button>;
 
     let deletebutton =
-      <TWBS.Button
+      <Button
         className = "pull-left"
         bsStyle = "danger"
         onClick = { this.deleteUser }
         disabled = { this.props.item[ "builtin" ] } >
         { "Delete User" }
-      </TWBS.Button>;
+      </Button>;
 
     let buttonToolbar =
-        <TWBS.ButtonToolbar>
+        <ButtonToolbar>
           { cancelButton }
           { deletebutton }
           { resetButton }
           { submitButton }
-        </TWBS.ButtonToolbar>;
+        </ButtonToolbar>;
 
     let userIdField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "User ID" }
         value            = { this.state.modifiedValues[ "id" ]
@@ -147,7 +148,7 @@ const UserEdit = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userNameField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "User Name" }
         value            = { this.state.modifiedValues[ "username" ]
@@ -159,7 +160,7 @@ const UserEdit = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userFullNameField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "Full Name" }
         value            = { this.state.modifiedValues[ "full_name" ]
@@ -171,7 +172,7 @@ const UserEdit = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userEmailField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "eMail" }
         value            = { this.state.modifiedValues[ "email" ]
@@ -183,7 +184,7 @@ const UserEdit = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userShellField =
-      <TWBS.Input
+      <Input
         type             = "select"
         label            = { "Shell" }
         value     = { this.state.modifiedValues[ "shell" ]
@@ -194,10 +195,10 @@ const UserEdit = React.createClass(
         groupClassName   = { _.has( this.state.modifiedValues["shell"] )
           ? "editor-was-modified" : "" } >
         { this.generateOptionsList( this.state.shells, "name" ) }
-      </TWBS.Input>;
+      </Input>;
 
     let userPrimaryGroupField =
-      <TWBS.Input
+      <Input
         type             = "select"
         label            = { "Primary Group" }
         value            = { this.state.modifiedValues[ "group" ]
@@ -208,10 +209,10 @@ const UserEdit = React.createClass(
         groupClassName   = { _.has( this.state.modifiedValues["group"] )
           ? "editor-was-modified" : "" } >
         { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
-      </TWBS.Input>;
+      </Input>;
 
     let userSshPubKeyField =
-      <TWBS.Input
+      <Input
         type             = "textarea"
         label            = { "Public Key" }
         value            = { this.state.modifiedValues["sshpubkey" ]
@@ -224,7 +225,7 @@ const UserEdit = React.createClass(
         rows             = "10" />;
 
     let userGroupsField =
-      <TWBS.Input
+      <Input
         type             = "select"
         label            = "Other Groups"
         value            = { this.state.modifiedValues[ "groups" ]
@@ -237,10 +238,10 @@ const UserEdit = React.createClass(
         multiple >
         this.state.modifiedValues[ "groups" ] = [];
         { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
-      </TWBS.Input>;
+      </Input>;
 
     let userLockedField =
-      <TWBS.Input
+      <Input
         type             = "checkbox"
         checked          = { this.state.modifiedValues[ "locked" ]
           || this.props.item["locked"] }
@@ -253,7 +254,7 @@ const UserEdit = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userSudoField =
-      <TWBS.Input
+      <Input
         type             = "checkbox"
         checked          = { this.state.modifiedValues[ "sudo" ]
           || this.props.item["sudo"] }
@@ -265,7 +266,7 @@ const UserEdit = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userPasswordDisabledField =
-      <TWBS.Input
+      <Input
         type             = "checkbox"
         label            = { "Password Disabled" }
         checked          = { this.state.modifiedValues[ "password_disabled" ]
@@ -297,25 +298,25 @@ const UserEdit = React.createClass(
       </div>;
 
     return (
-      <TWBS.Grid fluid>
-        <TWBS.Row>
-          <TWBS.Col xs = {12} >
+      <Grid fluid>
+        <Row>
+          <Col xs = {12} >
             { buttonToolbar }
-          </TWBS.Col>
-        </TWBS.Row>
-        <TWBS.Row>
-          <TWBS.Col xs = {12} >
+          </Col>
+        </Row>
+        <Row>
+          <Col xs = {12} >
             { builtInWarning }
             { loggedInUserAlert }
-          </TWBS.Col>
-          <TWBS.Col xs = {8} >
+          </Col>
+          <Col xs = {8} >
             { textEditForm }
-          </TWBS.Col>
-          <TWBS.Col xs = {4} >
+          </Col>
+          <Col xs = {4} >
             { checkboxEditForm }
-          </TWBS.Col>
-        </TWBS.Row>
-      </TWBS.Grid>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 

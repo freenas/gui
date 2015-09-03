@@ -4,7 +4,8 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Alert, Button, Col, Input, Panel, ProgressBar, Row }
+  from "react-bootstrap";
 import _ from "lodash";
 
 // Middleware
@@ -188,9 +189,9 @@ var RPC = React.createClass(
                    headerHide={ service }
                    key={ index }
                    defaultExpanded={false}>
-            <TWBS.Panel bsStyle="info" key={ index }>
+            <Panel bsStyle="info" key={ index }>
               { methods }
-            </TWBS.Panel>
+            </Panel>
           </DiscTri>
         );
 
@@ -220,26 +221,26 @@ var RPC = React.createClass(
         }
         RPCAlert = (
           <div className="overlay-error">
-            <TWBS.Alert bsStyle='danger' onDismiss={this.handleAlertDismiss}>
+            <Alert bsStyle='danger' onDismiss={this.handleAlertDismiss}>
               <h4>Oh snap! A very specific Error Occurred</h4>
               {errStack}
               <p>
-                <TWBS.Button onClick={this.handleAlertDismiss}>
+                <Button onClick={this.handleAlertDismiss}>
                  Done
-                </TWBS.Button>
+                </Button>
               </p>
-             </TWBS.Alert>
+             </Alert>
            </div> )
       }
       return (
         <div className="debug-content-flex-wrapper">
             { RPCAlert }
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">RPC Interface</h5>
-            <TWBS.Row>
-              <TWBS.Col xs={5}>
+            <Row>
+              <Col xs={5}>
                 <FuzzyTypeAhead
                   name="RPC Fuzzy Search"
                   placeholder="Method Name"
@@ -254,28 +255,28 @@ var RPC = React.createClass(
                                  , listItem  : "typeahead-list__item"
                                  , hover     : "typeahead-active"
                   }} />
-              </TWBS.Col>
-              <TWBS.Col xs={5}>
-              <TWBS.Input
+              </Col>
+              <Col xs={5}>
+              <Input
                   type        = "textarea"
                   disabled    = { this.state.submissionPending }
                   style       = {{ resize: "vertical", height: "34px" }}
                   placeholder = "Arguments (JSON Array)"
                   onChange    = { this.handleArgsInputChange }
                   value       = { this.state.argsValue } />
-              </TWBS.Col>
-              <TWBS.Col xs={2}>
-              <TWBS.Button
+              </Col>
+              <Col xs={2}>
+              <Button
                     bsStyle  = "primary"
                     disabled = { this.state.submissionPending }
                     onClick  = { this.handleRPCSubmit }
                     block >
                   {"Submit"}
-                </TWBS.Button>
-              </TWBS.Col>
+                </Button>
+              </Col>
 
-              <TWBS.Col xs={12}>
-                <TWBS.ProgressBar
+              <Col xs={12}>
+                <ProgressBar
                   active
                   ref   = "pendingProgressBar"
                   style = {{ display: "none"
@@ -283,9 +284,9 @@ var RPC = React.createClass(
                            , height: "10px"
                            , margin: "0 0 6px 0" }}
                   now   = { 100 } />
-              </TWBS.Col>
+              </Col>
 
-            </TWBS.Row>
+            </Row>
 
             <h5 className="debug-heading">RPC Results</h5>
             <textarea className = "form-control debug-column-content debug-monospace-content"
@@ -294,16 +295,16 @@ var RPC = React.createClass(
                       style     = {{ resize: "vertical" }}
                       onChange  = { this.handleResultsChange } />
 
-          </TWBS.Col>
+          </Col>
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">Available Service Namespaces</h5>
             <div className="debug-column-content well well-sm">
               { this.state.services.map( this.createMethodPanel ) }
             </div>
 
-          </TWBS.Col>
+          </Col>
 
         </div>
       );

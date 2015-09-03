@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 import _ from "lodash";
 
 import IM from "../../../flux/middleware/InterfacesMiddleware";
@@ -94,12 +94,12 @@ const System = React.createClass(
 
   , render () {
     return (
-      <TWBS.Grid>
-        <TWBS.Row>
-          <TWBS.Col xs = {4}>
+      <Grid>
+        <Row>
+          <Col xs = {4}>
             <ConnectionSettings/>
-          </TWBS.Col>
-          <TWBS.Col xs = {4}>
+          </Col>
+          <Col xs = {4}>
             <OSSettings
               motd = { this.state.advanced[ "motd" ] }
               uploadcrash = { this.state.advanced[ "uploadcrash" ] }
@@ -107,16 +107,16 @@ const System = React.createClass(
               powerd = { this.state.advanced[ "powerd" ] }
               console_cli = { this.state.advanced[ "console_cli" ] }
               autotune = { this.state.advanced[ "autotune" ] }/>
-          </TWBS.Col>
-          <TWBS.Col xs = {4}>
+          </Col>
+          <Col xs = {4}>
             <LocalizationSettings
               language = { this.state.general[ "language" ] }
               timezone = { this.state.general[ "timezone" ] }
               timezoneList = { this.state[ "timezoneList" ] }/>
-          </TWBS.Col>
-        </TWBS.Row>
-        <TWBS.Row>
-          <TWBS.Col xs = {4}>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs = {4}>
             <Console
               console_screensaver = { this.state.advanced[ "console_screensaver" ] }
               serial_console = { this.state.advanced[ "serial_console" ] }
@@ -124,12 +124,12 @@ const System = React.createClass(
               serial_speed = { this.state.advanced[ "serial_speed" ] }
               console_keymap = { this.state.general[ "console_keymap" ] }
               keymapList = { this.state[ "keymapList" ] }/>
-          </TWBS.Col>
-          <TWBS.Col xs = {8}>
+          </Col>
+          <Col xs = {8}>
             <Tuneables/>
-          </TWBS.Col>
-        </TWBS.Row>
-      </TWBS.Grid>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 });

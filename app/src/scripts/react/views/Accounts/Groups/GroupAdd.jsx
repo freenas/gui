@@ -6,7 +6,7 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
 import GS from "../../../../flux/stores/GroupsStore";
 import GM from "../../../../flux/middleware/GroupsMiddleware";
@@ -60,42 +60,42 @@ const AddGroup = React.createClass({
   , render: function () {
 
     let cancelButton =
-      <TWBS.Button
+      <Button
         className = "pull-left"
         onClick   = { this.cancel }
         bsStyle   = "default" >
         { "Cancel" }
-      </TWBS.Button>;
+      </Button>;
 
     let resetButton =
-      <TWBS.Button
+      <Button
         className = "pull-left"
         bsStyle = "warning"
         onClick = { this.reset } >
         { "Reset Changes" }
-      </TWBS.Button>;
+      </Button>;
 
     let submitGroupButton =
-      <TWBS.Button
+      <Button
         className = "pull-right"
         disabled  = { _.isEmpty( this.state.newGroup ) }
         onClick   = { this.submitNewGroup }
         bsStyle   = "info" >
         { "Create New Group" }
-      </TWBS.Button>;
+      </Button>;
 
     let buttonToolbar =
-      <TWBS.ButtonToolbar>
+      <ButtonToolbar>
         { cancelButton }
         { resetButton }
         { submitGroupButton }
-      </TWBS.ButtonToolbar>;
+      </ButtonToolbar>;
 
     let inputFields =
-      <TWBS.Row>
-        <TWBS.Col xs = {4}>
+      <Row>
+        <Col xs = {4}>
           {/* Group id */}
-          <TWBS.Input
+          <Input
             type             = "text"
             min              = { 1000 }
             label            = { this.props.itemLabels.properties[ "groupID" ] }
@@ -107,10 +107,10 @@ const AddGroup = React.createClass({
                               && !_.isEmpty( this.state.newGroup[ "groupID" ] )
                                ? "editor-was-modified"
                                : "" } />
-        </TWBS.Col>
-        <TWBS.Col xs = {8}>
+        </Col>
+        <Col xs = {8}>
           {/* username */}
-          <TWBS.Input
+          <Input
             type             = "text"
             label            = { this.props.itemLabels.properties[ "groupName" ] }
             value            = { this.state.newGroup[ "groupName" ]
@@ -121,20 +121,20 @@ const AddGroup = React.createClass({
                               && !_.isEmpty( this.state.newGroup[ "groupName" ] )
                                ? "editor-was-modified"
                                : "" } />
-        </TWBS.Col>
-      </TWBS.Row>;
+        </Col>
+      </Row>;
 
 
     return (
       <div className="viewer-item-info">
-        <TWBS.Grid fluid>
-          <TWBS.Row>
-            <TWBS.Col xs = {12}>
+        <Grid fluid>
+          <Row>
+            <Col xs = {12}>
               { buttonToolbar }
-            </TWBS.Col>
-          </TWBS.Row>
+            </Col>
+          </Row>
           { inputFields }
-        </TWBS.Grid>
+        </Grid>
       </div>
     );
   }

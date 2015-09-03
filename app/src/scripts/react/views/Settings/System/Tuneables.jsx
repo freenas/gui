@@ -5,14 +5,14 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Panel } from "react-bootstrap";
 
 const Tuneables = React.createClass(
   { render () {
     return (
-      <TWBS.Panel>
+      <Panel>
         <h4>Tuneables</h4>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });

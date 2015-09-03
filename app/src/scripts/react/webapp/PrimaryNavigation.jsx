@@ -9,7 +9,7 @@ import React from "react";
 
 import { Link } from "react-router";
 
-import TWBS from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import Icon from "../components/Icon";
 
 var Velocity;
@@ -183,7 +183,7 @@ const PrimaryNavigation = React.createClass(
 
       // TODO: Revert changes made for #7908 once externally resolved.
       return (
-        <TWBS.Nav
+        <Nav
           stacked
           ref = "navRoot"
           className = { navClass.join( " " ) } >
@@ -205,7 +205,7 @@ const PrimaryNavigation = React.createClass(
 
           { paths.map( this.createNavItem ) }
 
-        </TWBS.Nav>
+        </Nav>
       );
     }
 

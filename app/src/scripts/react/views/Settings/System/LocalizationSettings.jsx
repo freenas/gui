@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Input, Panel } from "react-bootstrap";
 import _ from "lodash";
 
 import inputHelpers from "../../../mixins/inputHelpers";
@@ -122,34 +122,34 @@ const LocalizationSettings = React.createClass(
       languageValue = this.state.language;
     }
     language =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Language"
         value = { languageValue }
         onChange = { this.handleLocalizationChange.bind( this, "language" ) }>
         { this.createSimpleOptions( languageChoices ) }
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "timezone" ] ) ) {
       timezoneValue = this.state.language;
     }
     timezone =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Timezone"
         value = { timezoneValue }
         onChange = { this.handleLocalizationChange.bind( this, "timezone" ) }>
         { this.createSimpleOptions( this.props.timezoneList ) }
-      </TWBS.Input>;
+      </Input>;
 
     return (
-      <TWBS.Panel>
+      <Panel>
         <h4>Localization</h4>
         <form className = "settings-config-form">
           { language }
           { timezone }
         </form>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });
