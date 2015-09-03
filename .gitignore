@@ -1,6 +1,5 @@
 ### SublimeText ###
 *.sublime-workspace
-*.sublime-project
 
 ### PyCharm ###
 .idea
