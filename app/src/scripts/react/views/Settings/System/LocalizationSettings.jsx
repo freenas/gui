@@ -8,6 +8,8 @@ import React from "react";
 import TWBS from "react-bootstrap";
 import _ from "lodash";
 
+import inputHelpers from "../../../mixins/inputHelpers";
+
 const languageChoices =
   [ "English"
   , "Afrikaans"
@@ -89,7 +91,9 @@ const languageChoices =
   ];
 
 const LocalizationSettings = React.createClass(
-  { getDefaultProps () {
+  { mixins: [ inputHelpers ]
+
+  , getDefaultProps () {
     return { language: ""
            , timezone: ""
            , timezoneList: []
