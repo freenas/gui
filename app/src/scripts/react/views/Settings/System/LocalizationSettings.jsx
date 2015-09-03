@@ -139,6 +139,7 @@ const LocalizationSettings = React.createClass(
         label = "Timezone"
         value = { timezoneValue }
         onChange = { this.handleLocalizationChange.bind( this, "timezone" ) }>
+        { this.createSimpleOptions( this.props.timezoneList ) }
       </TWBS.Input>;
 
     return (
