@@ -59,6 +59,19 @@ class SystemMiddleware extends AbstractBase {
               );
   }
 
+  static requestSystemAdvancedConfig () {
+    MC.request( "system.advanced.get_config"
+              , []
+              , SAC.receiveSystemAdvancedConfig
+              );
+  }
+
+  static updateSystemAdvancedConfig ( settings ) {
+    MC.request( "task.submit"
+              , [ "system.advanced.configure", [ settings ] ]
+              , SAC.receiveSystemAdvancedConfigUpdateTask
+              );
+  }
 };
 
 export default SystemMiddleware;
