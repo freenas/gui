@@ -136,6 +136,7 @@ const ConnectionSettings = React.createClass(
         value = { webui_https_certificateValue }
         onChange = { this.handleChange.bind( this, "webui_https_certificate" ) }
         disabled>
+      { /*An array of options based on the available certificates goes here.*/ }
       </Input>;
 
     if (_.has( this, [ "state", "webui_http_redirect_https" ] ) ) {
