@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import Col from "react-bootstrap";
 
 import Icon from "../../components/Icon";
 
@@ -278,11 +278,11 @@ viewerUtil.DataCell = React.createClass(
   , render: function () {
       if ( typeof this.props.entry !== "undefined" ) {
         return (
-          <TWBS.Col className="text-center"
+          <Col className="text-center"
                     xs={6} sm={12 / this.props.colNum}>
             <h4 className="text-muted">{ this.props.title }</h4>
             <h4>{ viewerUtil.identifyAndWrite( this.props.entry ) }</h4>
-          </TWBS.Col>
+          </Col>
         );
       } else {
         return null;

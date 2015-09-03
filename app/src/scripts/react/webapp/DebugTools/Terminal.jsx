@@ -4,7 +4,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { MenuItem, Col, DropdownButton } from "react-bootstrap";
 
 import ShellMiddleware from "../../../flux/middleware/ShellMiddleware";
 
@@ -29,11 +29,11 @@ var Terminal = React.createClass(
 
   , createShellMenuItem: function ( shell, index ) {
       return (
-        <TWBS.MenuItem
+        <MenuItem
             onClick = { this.handleShellSelect.bind( null, shell ) }
             key     = { index }>
           { shell }
-        </TWBS.MenuItem>
+        </MenuItem>
       );
     }
 
@@ -41,24 +41,24 @@ var Terminal = React.createClass(
       return (
         <div className="debug-content-flex-wrapper">
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">{"FreeNAS Shell: "
                           + this.state.currentShell }</h5>
             <Shell shellType={ this.state.currentShell } />
 
-          </TWBS.Col>
+          </Col>
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <div className="debug-column-content">
               <h5 className="debug-heading">Terminal Options</h5>
               <div>
                 <label style={{ marginRight: "10px" }}>Shell Type:</label>
-                <TWBS.DropdownButton bsStyle="default"
+                <DropdownButton bsStyle="default"
                                      title={ this.state.currentShell }>
                   { this.state.shells.map( this.createShellMenuItem ) }
-                </TWBS.DropdownButton>
+                </DropdownButton>
               </div>
 
               <hr />
@@ -75,7 +75,7 @@ var Terminal = React.createClass(
               <p>For Mac users: Consider <code>Ctrl</code> to be <code>Command/Apple</code> above.</p>
             </div>
 
-          </TWBS.Col>
+          </Col>
         </div>
       );
     }

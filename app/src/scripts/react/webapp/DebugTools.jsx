@@ -7,7 +7,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { TabbedArea, TabPane } from "react-bootstrap";
 
 // Events
 import EventBus from "../../utility/EventBus";
@@ -90,40 +90,40 @@ var DebugTools = React.createClass(
           <div className = "debug-panel"
                style     = {{ height: this.state.panelHeight + "px" }} >
 
-            <TWBS.TabbedArea className   = "debug-nav"
+            <TabbedArea className   = "debug-nav"
                              onMouseDown = { this.handleResizeStart } >
 
               {/* RPC Interface */}
-              <TWBS.TabPane eventKey={1} tab="RPC">
+              <TabPane eventKey={1} tab="RPC">
                 <RPC />
-              </TWBS.TabPane>
+              </TabPane>
 
               {/* Event Log */}
-              <TWBS.TabPane eventKey={2} tab="Events">
+              <TabPane eventKey={2} tab="Events">
                 <Events />
-              </TWBS.TabPane>
+              </TabPane>
 
               {/* Subscriptions List */}
-              <TWBS.TabPane eventKey={3} tab="Subscriptions">
+              <TabPane eventKey={3} tab="Subscriptions">
                 <Subscriptions />
-              </TWBS.TabPane>
+              </TabPane>
 
               {/* Task Log and Queue */}
-              <TWBS.TabPane eventKey={4} tab="Tasks">
+              <TabPane eventKey={4} tab="Tasks">
                 <Tasks />
-              </TWBS.TabPane>
+              </TabPane>
 
               {/* Debugging Options */}
-              <TWBS.TabPane eventKey={6} tab="Options">
+              <TabPane eventKey={6} tab="Options">
                 <Options />
-              </TWBS.TabPane>
+              </TabPane>
 
               {/* Web Console */}
-              <TWBS.TabPane eventKey={7} tab="Terminal">
+              <TabPane eventKey={7} tab="Terminal">
                 <Terminal />
-              </TWBS.TabPane>
+              </TabPane>
 
-            </TWBS.TabbedArea>
+            </TabbedArea>
 
           </div>
         );

@@ -21,7 +21,7 @@
 import React from "react";
 import fuzzy from "fuzzy";
 import classNames from "classnames";
-import TWBS from "react-bootstrap";
+import { Input } from "react-bootstrap";
 /**
  * PolyFills make me(The author Peter Ruibal) sad
  */
@@ -452,7 +452,7 @@ var FuzzyTypeAhead = React.createClass(
       return (
         <div className={classList}>
           { this._renderHiddenInput() }
-          <TWBS.Input
+          <Input
               ref          = "entry"
               type         = "text"
               placeholder  = { this.props.placeholder }

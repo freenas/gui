@@ -6,7 +6,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 import ZfsUtil from "../utility/ZfsUtil";
 
@@ -133,41 +133,41 @@ var TopologyDrawer = React.createClass(
         className = "pool-topology"
       >
 
-        <TWBS.Row>
+        <Row>
           {/* LOG AND CACHE DEVICES */}
-          <TWBS.Col
+          <Col
             xs = { 6 }
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Cache</h4>
             { this.createVdevs( "cache" ) }
-          </TWBS.Col>
-          <TWBS.Col
+          </Col>
+          <Col
             xs = { 6 }
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Log</h4>
             { this.createVdevs( "logs" ) }
-          </TWBS.Col>
+          </Col>
 
           {/* STORAGE VDEVS */}
-          <TWBS.Col
+          <Col
             xs={ 12 }
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Storage</h4>
             { this.createVdevs( "data" ) }
-          </TWBS.Col>
+          </Col>
 
           {/* SPARE DISKS */}
-          <TWBS.Col
+          <Col
             xs={ 12 }
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Spares</h4>
             { this.createVdevs( "spares" ) }
-          </TWBS.Col>
-        </TWBS.Row>
+          </Col>
+        </Row>
       </div>
     );
   }

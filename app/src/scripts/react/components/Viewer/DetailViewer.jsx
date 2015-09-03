@@ -4,7 +4,7 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Nav, Button } from "react-bootstrap";
 
 import { Link, RouteHandler } from "react-router";
 
@@ -127,7 +127,7 @@ const DetailNavSection = React.createClass(
 
   , render: function () {
       return (
-        <TWBS.Nav
+        <Nav
           stacked
           bsStyle   = "pills"
           className = { "disclosure-" + this.isUnderThreshold()
@@ -141,7 +141,7 @@ const DetailNavSection = React.createClass(
             { this.props.sectionName }
           </h5>
           { this.props.entries.map( this.createItem ) }
-        </TWBS.Nav>
+        </Nav>
       );
     }
 
@@ -172,10 +172,10 @@ const DetailViewer = React.createClass(
         addEntityButton = (
           <Link to        = { this.props.routeAdd }
                 className = "viewer-detail-add-entity">
-            <TWBS.Button bsStyle   = "default"
+            <Button bsStyle   = "default"
                          className = "viewer-detail-add-entity">
               { this.props.textNewItem }
-            </TWBS.Button>
+            </Button>
           </Link>
         );
 

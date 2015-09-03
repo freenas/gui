@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Grid, Row, ButtonGroup } from "react-bootstrap";
 
 import { Link } from "react-router";
 
@@ -47,13 +47,13 @@ const SectionNav = React.createClass(
       const viewNum = this.props.views.length;
       if ( viewNum > 1 ) {
         return (
-          <TWBS.Grid fluid>
-            <TWBS.Row className="text-center">
-              <TWBS.ButtonGroup bsSize="large">
+          <Grid fluid>
+            <Row className="text-center">
+              <ButtonGroup bsSize="large">
                 { this.props.views.map( this.createNavItems ) }
-              </TWBS.ButtonGroup>
-            </TWBS.Row>
-          </TWBS.Grid>
+              </ButtonGroup>
+            </Row>
+          </Grid>
         );
       } else {
         console.warn(

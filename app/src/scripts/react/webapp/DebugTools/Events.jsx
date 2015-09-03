@@ -5,7 +5,8 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Button, ButtonGroup, Col, DropdownButton, Input, MenuItem }
+  from "react-bootstrap";
 import moment from "moment";
 
 // Middleware
@@ -204,23 +205,23 @@ const Events = React.createClass(
       return (
         <div className="debug-content-flex-wrapper">
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">FreeNAS Event Log</h5>
             <div className="debug-column-content">
               { logContent }
             </div>
 
-          </TWBS.Col>
+          </Col>
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">Options</h5>
             <div className="debug-column-content well well-sm">
 
               <form className="form-horizontal">
 
-                <TWBS.Input
+                <Input
                   type             = "text"
                   value            = { this.state.predicate }
                   onChange         = { this.handlePredicateChange }
@@ -228,35 +229,35 @@ const Events = React.createClass(
                   labelClassName   = "col-xs-2"
                   wrapperClassName = "col-xs-10"
                   buttonBefore = {
-                    <TWBS.DropdownButton
+                    <DropdownButton
                       bsStyle  = "default"
                       title    = { this.state.predicateType }
                     >
-                      <TWBS.MenuItem
+                      <MenuItem
                         onClick  = {
                           this.switchPredicateType.bind( null, "Object" )
                         }
                       >
                         {"Object"}
-                      </TWBS.MenuItem>
-                      <TWBS.MenuItem
+                      </MenuItem>
+                      <MenuItem
                         onClick  = {
                           this.switchPredicateType.bind( null, "String" )
                         }
                       >
                         {"String"}
-                      </TWBS.MenuItem>
-                      <TWBS.MenuItem
+                      </MenuItem>
+                      <MenuItem
                         onClick  = {
                           this.switchPredicateType.bind( null, "RegExp" )
                         }
                       >
                         {"RegExp"}
-                      </TWBS.MenuItem>
-                    </TWBS.DropdownButton>
+                      </MenuItem>
+                    </DropdownButton>
                   }
                   buttonAfter = {
-                    <TWBS.Button
+                    <Button
                       bsStyle  = { this.state.appliedPredicate ? "success"
                                                                : "primary"
                                  }
@@ -266,38 +267,38 @@ const Events = React.createClass(
                       { this.state.appliedPredicate ? "Remove Filter"
                                                     : "Apply Filter"
                       }
-                    </TWBS.Button>
+                    </Button>
                   } />
 
-                <TWBS.Col xs={ 10 } xsOffset={ 2 }>
+                <Col xs={ 10 } xsOffset={ 2 }>
                   <small>
                     { this.getPredicateHelp( this.state.predicateType ) }
                   </small>
-                </TWBS.Col>
+                </Col>
 
                 <div className="form-group">
                   <label className="control-label col-xs-2">Time Format</label>
-                  <TWBS.Col xs={ 10 }>
-                    <TWBS.ButtonGroup>
-                      <TWBS.Button
+                  <Col xs={ 10 }>
+                    <ButtonGroup>
+                      <Button
                           active  = { this.state.timeFormat === "human" }
                           onClick = { this.handleHumanDateSelect }>
                         {"Relative Time"}
-                      </TWBS.Button>
-                      <TWBS.Button
+                      </Button>
+                      <Button
                           active  = { this.state.timeFormat === "absolute" }
                           onClick = { this.handleAbsoluteDateSelect }>
                         {"Absolute Date"}
-                      </TWBS.Button>
-                    </TWBS.ButtonGroup>
-                  </TWBS.Col>
+                      </Button>
+                    </ButtonGroup>
+                  </Col>
                 </div>
 
               </form>
 
             </div>
 
-          </TWBS.Col>
+          </Col>
 
         </div>
       );

@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Input, Panel } from "react-bootstrap";
 import _ from "lodash";
 
 const languageChoices =
@@ -142,45 +142,45 @@ const LocalizationSettings = React.createClass(
       languageValue = this.state.language;
     }
     language =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Language"
         value = { languageValue }
         onChange = { this.handleLocalizationChange.bind( this, "language" ) }>
         { createOptions( languageChoices ) }
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "timezone" ] ) ) {
       timezoneValue = this.state.language;
     }
     timezone =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Timezone"
         value = { timezoneValue }
         onChange = { this.handleLocalizationChange.bind( this, "timezone" ) }>
-      </TWBS.Input>;
+      </Input>;
 
     if ( _.has( this, [ "state", "console_keymap" ] ) ) {
       console_keymapValue = this.state.language;
     }
     console_keymap =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Console Keymap"
         value = { console_keymapValue }
         onChange = { this.handleLocalizationChange.bind( this, "console" ) }>
-      </TWBS.Input>
+      </Input>
 
     return (
-      <TWBS.Panel>
+      <Panel>
         <h4>Localization</h4>
         <form className = "settings-config-form">
           { language }
           { timezone }
           { console_keymap }
         </form>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });

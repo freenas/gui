@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Input, Panel } from "react-bootstrap";
 import _ from "lodash";
 
 
@@ -54,7 +54,7 @@ const HardwareSettings = React.createClass(
       console_screensaverValue = this.state[ "console_screensaver" ];
     }
     console_screensaver =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Enable Console Screensaver"
         checked = { console_screensaverValue }
@@ -65,7 +65,7 @@ const HardwareSettings = React.createClass(
       serial_consoleValue = this.state[ "serial_console" ];
     }
     serial_console =
-      <TWBS.Input
+      <Input
         type = "checkbox"
         label = "Enable Serial Console"
         checked = { serial_consoleValue }
@@ -77,7 +77,7 @@ const HardwareSettings = React.createClass(
     }
     // Make sure the port is valid
     serial_port =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Serial Console Port"
         value = { serial_portValue}
@@ -88,7 +88,7 @@ const HardwareSettings = React.createClass(
       serial_speedValue = this.state[ "serial_speed" ];
     }
     serial_speed =
-      <TWBS.Input
+      <Input
         type = "select"
         label = "Serial Port Speed"
         value = { serial_speedValue}
@@ -97,7 +97,7 @@ const HardwareSettings = React.createClass(
 
 
     return (
-      <TWBS.Panel>
+      <Panel>
         <h4>Hardware</h4>
         <form className = "settings-config-form">
           { console_screensaver }
@@ -105,7 +105,7 @@ const HardwareSettings = React.createClass(
           { serial_port }
           { serial_speed }
         </form>
-      </TWBS.Panel>
+      </Panel>
     );
   }
 });

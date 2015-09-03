@@ -8,7 +8,7 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Button, ButtonToolbar, Input, Nav, NavItem, Panel } from "react-bootstrap";
 
 import ZAC from "../../../flux/actions/ZfsActionCreators";
 import ZM from "../../../flux/middleware/ZfsMiddleware";
@@ -356,7 +356,7 @@ const Volume = React.createClass(
       if ( this.state.editing ) {
         return (
           <div className="volume-name-input">
-            <TWBS.Input
+            <Input
               ref = "volumeNameInput"
               type = "text"
               placeholder = "Volume Name"
@@ -422,12 +422,12 @@ const Volume = React.createClass(
 
         initMessage = (
           <div className="text-center">
-            <TWBS.Button
+            <Button
               bsStyle = "primary"
               onClick = { this.openDrawer.bind( this, "disks" ) }
             >
             { "Create new ZFS volume" }
-            </TWBS.Button>
+            </Button>
           </div>
         );
       } else {
@@ -476,21 +476,21 @@ const Volume = React.createClass(
           // FIXME: Temporary measure to keep navigation from showing when first
           // creating a pool
           sectionNav = (
-            <TWBS.Nav
+            <Nav
               className = "volume-nav"
               bsStyle   = "pills"
               activeKey = { this.state.activeSection }
               onSelect  = { this.handleNavSelect }
             >
-              <TWBS.NavItem eventKey="disks">
+              <NavItem eventKey="disks">
                 {"Disks"}
-              </TWBS.NavItem>
-              <TWBS.NavItem eventKey="filesystem">
+              </NavItem>
+              <NavItem eventKey="filesystem">
                 {"Filesystem"}
-              </TWBS.NavItem>
-              {/* <TWBS.NavItem>Snapshots</TWBS.NavItem> */}
-              {/* <TWBS.NavItem>Files</TWBS.NavItem> */}
-            </TWBS.Nav>
+              </NavItem>
+              {/* <NavItem>Snapshots</NavItem> */}
+              {/* <NavItem>Files</NavItem> */}
+            </Nav>
           );
         }
 
@@ -511,34 +511,34 @@ const Volume = React.createClass(
             style = {{ display: "none" }}
             className = "volume-info clearfix"
           >
-            <TWBS.ButtonToolbar className="pull-right">
-              <TWBS.Button
+            <ButtonToolbar className="pull-right">
+              <Button
                 bsStyle = "default"
                 onClick = { this.closeDrawer }
               >
                 { "Cancel" }
-              </TWBS.Button>
-              <TWBS.Button
+              </Button>
+              <Button
                 bsStyle = "primary"
                 disabled = { !this.state.editing }
                 onClick = { this.submitVolume }
               >
                 { "Submit" }
-              </TWBS.Button>
-            </TWBS.ButtonToolbar>
+              </Button>
+            </ButtonToolbar>
           </div>
         );
       }
 
       return (
-        <TWBS.Panel
+        <Panel
           className = { panelClass.join( " " ) }
         >
           { initMessage }
           { volumeInfo }
           { drawer }
           { changesToolbar }
-        </TWBS.Panel>
+        </Panel>
       );
     }
 

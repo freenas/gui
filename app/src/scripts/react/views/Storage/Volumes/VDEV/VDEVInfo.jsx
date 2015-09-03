@@ -6,7 +6,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { MenuItem, DropdownButton, Button } from "react-bootstrap";
 
 import Icon from "../../../../components/Icon";
 
@@ -38,12 +38,12 @@ const VDEVInfo = React.createClass(
 
   , createMenuItems ( type, index ) {
       return (
-        <TWBS.MenuItem
+        <MenuItem
           key = { index }
           onClick = { this.props.handleTypeChange.bind( null, type ) }
         >
           { HUMAN_TYPES[ type ] }
-        </TWBS.MenuItem>
+        </MenuItem>
       );
     }
 
@@ -54,21 +54,21 @@ const VDEVInfo = React.createClass(
 
       if ( this.props.allowedTypes.length > 1 ) {
         typeButton = (
-          <TWBS.DropdownButton
+          <DropdownButton
             buttonClassName = "vdev-type"
             title = { typeName }
           >
             { this.props.allowedTypes.map( this.createMenuItems ) }
-          </TWBS.DropdownButton>
+          </DropdownButton>
         );
       } else {
         typeButton = (
-          <TWBS.Button
+          <Button
             disabled
             className = "vdev-type"
           >
             { typeName }
-          </TWBS.Button>
+          </Button>
         );
 
       }

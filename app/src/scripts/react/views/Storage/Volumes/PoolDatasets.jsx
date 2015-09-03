@@ -6,17 +6,17 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Well } from "react-bootstrap";
 
 var PoolDatasets = React.createClass({
 
   render: function () {
     return (
-      <TWBS.Well
+      <Well
         style = { this.props.style }
       >
         <h1>Storage goes here, when you have it</h1>
-      </TWBS.Well>
+      </Well>
     );
   }
 

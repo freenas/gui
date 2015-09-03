@@ -8,7 +8,7 @@
 
 import React from "react";
 import _ from "lodash";
-import TWBS from "react-bootstrap";
+import { Alert, Button, DropdownButton, MenuItem, Well } from "react-bootstrap";
 
 import VS from "../../../../../flux/stores/VolumeStore";
 import DS from "../../../../../flux/stores/DisksStore";
@@ -30,7 +30,7 @@ const PRESET_NAMES =
   , "Virtualization"
   , "Backups"
   , "Media"
-  ]
+  ];
 
 const PRESET_VALUES =
   { "Optimal":
@@ -190,13 +190,13 @@ const ContextDisks = React.createClass(
   , createPresetMenuItems ( ) {
       return PRESET_NAMES.map( preset => {
         return (
-          <TWBS.MenuItem
+          <MenuItem
             onSelect = { this.handlePresetChange }
             eventKey = { preset }
             active = { preset === this.state.preset }
           >
             { preset }
-          </TWBS.MenuItem>
+          </MenuItem>
         );
       });
     }
@@ -222,9 +222,9 @@ const ContextDisks = React.createClass(
                 preventDrop = { this.ensureHomogeneity.bind( null, type ) }
                 activeDrop
               >
-                <TWBS.Well bsSize="small">
+                <Well bsSize="small">
                   { paletteSection }
-                </TWBS.Well>
+                </Well>
               </DropTarget>
             </div>
           );
@@ -252,13 +252,13 @@ const ContextDisks = React.createClass(
           />
 
           {/* RESET BUTTON */}
-          <TWBS.Button
+          <Button
             block
             bsStyle = "default"
             onClick = { this.props.handleReset }
           >
             {"Reset Pool Topology"}
-          </TWBS.Button>
+          </Button>
 
           {/* PRESET SELECTOR */}
           <h5 className="context-section-header type-line">
@@ -266,18 +266,18 @@ const ContextDisks = React.createClass(
               { "Preset Configuration" }
             </span>
           </h5>
-          <TWBS.DropdownButton
+          <DropdownButton
             block
             title = { this.state.preset }
             bsStyle = "primary"
           >
             { this.createPresetMenuItems() }
-          </TWBS.DropdownButton>
-          <TWBS.Alert
+          </DropdownButton>
+          <Alert
             bsStyle = "default"
           >
             { PRESET_DESCS[ this.state.preset ] }
-          </TWBS.Alert>
+          </Alert>
 
           {/* AVAILABLE DEVICES */}
           { this.createDiskPalette( groupedDisks[0], "SSDs" ) }

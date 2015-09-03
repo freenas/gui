@@ -6,7 +6,10 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { ListGroupItem, Alert, ButtonToolbar, Button, Grid, Row, Col
+       , ListGroup
+       }
+  from "react-bootstrap";
 
 import userMixins from "../../../mixins/userMixins";
 
@@ -40,8 +43,8 @@ const UserView = React.createClass(
         var group = GroupsStore.getGroup( groupID );
 
         if ( group ) {
-          displayItem = <TWBS.ListGroupItem>{ group["groupName"] }
-            </TWBS.ListGroupItem>;
+          displayItem = <ListGroupItem>{ group["groupName"] }
+            </ListGroupItem>;
         }
 
         return displayItem;
@@ -57,61 +60,61 @@ const UserView = React.createClass(
 
       if ( this.props.item["builtin"] ) {
         builtInUserAlert = (
-          <TWBS.Alert bsStyle   = "info"
+          <Alert bsStyle   = "info"
                       className = "text-center">
             <b>{"This is a built-in FreeNAS user account."}</b>
-          </TWBS.Alert>
+          </Alert>
         );
       }
 
       if ( this.props.item["logged-in"] ) {
         loggedInUserAlert = (
-          <TWBS.Alert bsStyle   = "info"
+          <Alert bsStyle   = "info"
                       className = "text-center">
             <b>{"This user is currently logged in."}</b>
-          </TWBS.Alert>
+          </Alert>
         );
       }
 
       /*editButtons = (
-        <TWBS.ButtonToolbar>
-            <TWBS.Button className = "pull-left"
+        <ButtonToolbar>
+            <Button className = "pull-left"
                          disabled  = { this.props.item["builtin"] }
                          onClick   = { this.deleteUser }
-                         bsStyle   = "danger" >{"Delete User"}</TWBS.Button>
-            <TWBS.Button className = "pull-right"
+                         bsStyle   = "danger" >{"Delete User"}</Button>
+            <Button className = "pull-right"
                          onClick   = { this.props.handleViewChange.bind( null, "edit" ) }
-                         bsStyle   = "info" >{"Edit User"}</TWBS.Button>
-        </TWBS.ButtonToolbar>
+                         bsStyle   = "info" >{"Edit User"}</Button>
+        </ButtonToolbar>
       );*/
 
       return (
-        <TWBS.Grid fluid>
+        <Grid fluid>
           {/* "Edit User" Button - Top */}
           { editButtons }
 
           {/* User icon and general information */}
-          <TWBS.Row>
-            <TWBS.Col xs={3}
+          <Row>
+            <Col xs={3}
                       className="text-center">
               <viewerUtil.ItemIcon primaryString   = { this.props.item["full_name"] }
                                    fallbackString  = { this.props.item["username"] }
                                    iconImage       = { this.props.item["user_icon"] }
                                    seedNumber      = { this.props.item["id"] } />
-            </TWBS.Col>
-            <TWBS.Col xs={9}>
+            </Col>
+            <Col xs={9}>
               <h3>{ this.props.item["username"] }</h3>
               <h4 className="text-muted">{ viewerUtil.writeString( this.props.item["full_name"], "\u200B" ) }</h4>
               <h4 className="text-muted">{ viewerUtil.writeString( this.props.item["email"], "\u200B" ) }</h4>
               <hr />
-            </TWBS.Col>
-          </TWBS.Row>
+            </Col>
+          </Row>
 
           {/* Shows a warning if the user account is built in */}
           { builtInUserAlert }
 
           {/* Primary user data overview */}
-          <TWBS.Row>
+          <Row>
             <viewerUtil.DataCell title  = { "User ID" }
                                  colNum = { 3 }
                                  entry  = { this.props.item["id"] } />
@@ -136,18 +139,20 @@ const UserView = React.createClass(
             <viewerUtil.DataCell title  = { "email" }
                                  colNum = { 3 }
                                  entry  = { this.props.item["email"] ? this.props.item["email"]: "" } />
-            <TWBS.Col xs        = {12}
-                      className ="text-muted" >
-                        <h4 className = "text-muted" >{ "Other Groups" }</h4>
-                        <TWBS.ListGroup>
-                          { this.createGroupDisplayList() }
-                        </TWBS.ListGroup>
-            </TWBS.Col>
-          </TWBS.Row>
+            <Col
+              xs = {12}
+              className ="text-muted"
+            >
+              <h4 className = "text-muted" >{ "Other Groups" }</h4>
+              <ListGroup>
+                { this.createGroupDisplayList() }
+              </ListGroup>
+            </Col>
+          </Row>
 
           { loggedInUserAlert }
 
-        </TWBS.Grid>
+        </Grid>
       );
     }
   }

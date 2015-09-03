@@ -25,7 +25,7 @@ import PowerMiddleware from "../../flux/middleware/PowerMiddleware";
 import Throbber from "./Throbber";
 
 // Twitter Bootstrap React components
-import TWBS from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 var Velocity;
 
@@ -194,14 +194,18 @@ var BusyBox = React.createClass(
                       + this.state.reconnectTime
                       + " seconds" }
                 </h2>
-                <TWBS.Button block bsStyle="primary"
-                             onClick = {
-                               MiddlewareClient
-                                .reconnectHandle
-                                .reconnectNow
-                                .bind( MiddlewareClient.reconnectHandle ) }>
-                  {"Reconnect Now"}
-                </TWBS.Button>
+                <Button
+                  block
+                  bsStyle="primary"
+                  onClick = {
+                    MiddlewareClient
+                      .reconnectHandle
+                      .reconnectNow
+                      .bind( MiddlewareClient.reconnectHandle )
+                  }
+                >
+                  { "Reconnect Now" }
+                </Button>
                 <br />
               </span>
             );
@@ -244,11 +248,14 @@ var BusyBox = React.createClass(
                          placeholder = "Password" />
                 </div>
 
-                <TWBS.Button block bsStyle="primary"
-                             disabled = { this.state.userText.length ?
-                                            false : true }
-                             onClick  = { this.handleLoginClick }>{"Sign In"}
-                </TWBS.Button>
+                <Button
+                  block
+                  bsStyle="primary"
+                  disabled = { this.state.userText.length < 1 }
+                  onClick  = { this.handleLoginClick }
+                >
+                  {"Sign In"}
+                </Button>
               </div>
             </div>
           );

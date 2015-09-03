@@ -10,7 +10,7 @@
 import React from "react";
 
 // Twitter Bootstrap React Components
-import TWBS from "react-bootstrap";
+import { OverlayMixin, Modal, Button } from "react-bootstrap";
 
 var ConfDialog = React.createClass(
 
@@ -29,7 +29,7 @@ var ConfDialog = React.createClass(
                , dataText         : React.PropTypes.node.isRequired
       }
 
-  , mixins: [ TWBS.OverlayMixin ]
+  , mixins: [ OverlayMixin ]
 
   , getDefaultProps: function ( ) {
       return { bsStyle        : "primary"
@@ -75,19 +75,19 @@ var ConfDialog = React.createClass(
       }
 
       return (
-        <TWBS.Modal {...this.props} onRequestHide={this.handleToggle}>
+        <Modal {...this.props} onRequestHide={this.handleToggle}>
           <div className="modal-body">
             <h4>{ this.props.bodyText }</h4>
           </div>
           <div className="modal-footer">
-            <TWBS.Button onClick={ this.handleToggle }>
+            <Button onClick={ this.handleToggle }>
               { this.props.footerLeftBtn }
-            </TWBS.Button>
-            <TWBS.Button bsStyle="primary" onClick={ this.saveClick }>
+            </Button>
+            <Button bsStyle="primary" onClick={ this.saveClick }>
               { this.props.footerRightBtn }
-            </TWBS.Button>
+            </Button>
           </div>
-        </TWBS.Modal>
+        </Modal>
         );
     }
   }

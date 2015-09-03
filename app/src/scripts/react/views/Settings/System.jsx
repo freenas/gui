@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 import _ from "lodash";
 
 import SM from "../../../flux/middleware/SystemMiddleware";
@@ -24,27 +24,27 @@ function getSystemUIConfig () {
 const System = React.createClass(
   { render () {
     return (
-      <TWBS.Grid>
-        <TWBS.Row>
-          <TWBS.Col xs = {4}>
+      <Grid>
+        <Row>
+          <Col xs = {4}>
             <WebappSettings/>
-          </TWBS.Col>
-          <TWBS.Col xs = {4}>
+          </Col>
+          <Col xs = {4}>
             <OSSettings/>
-          </TWBS.Col>
-          <TWBS.Col xs = {4}>
+          </Col>
+          <Col xs = {4}>
             <LocalizationSettings/>
-          </TWBS.Col>
-        </TWBS.Row>
-        <TWBS.Row>
-          <TWBS.Col xs = {4}>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs = {4}>
             <HardwareSettings/>
-          </TWBS.Col>
-          <TWBS.Col xs = {8}>
+          </Col>
+          <Col xs = {8}>
             <Tuneables/>
-          </TWBS.Col>
-        </TWBS.Row>
-      </TWBS.Grid>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 });

@@ -4,7 +4,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 import ToggleSwitch from "../../components/ToggleSwitch";
 
@@ -48,19 +48,19 @@ var Options = React.createClass({
 
   , createMiddlewareFlag: function ( flag, label, description ) {
       return (
-        <TWBS.Row>
-          <TWBS.Col xs={3} className="text-center">
+        <Row>
+          <Col xs={3} className="text-center">
             <h6>{ label }</h6>
             <ToggleSwitch
               sm
               toggled   = { this.state.MIDDLEWARE_CLIENT_DEBUG[ flag ] }
               onChange  = { this.handleFlagToggle.bind( null, flag ) } />
-          </TWBS.Col>
+          </Col>
 
-          <TWBS.Col xs={9} className="debug-options-label">
+          <Col xs={9} className="debug-options-label">
             <p>{ description }</p>
-          </TWBS.Col>
-        </TWBS.Row>
+          </Col>
+        </Row>
       );
     }
 
@@ -69,7 +69,7 @@ var Options = React.createClass({
     return (
       <div className="debug-content-flex-wrapper debug-options">
 
-        <TWBS.Col xs={6} className="debug-column" >
+        <Col xs={6} className="debug-column" >
 
           <h5 className="debug-heading">Middleware Debug Message Flags</h5>
           <div className="debug-column-content well well-sm">
@@ -116,13 +116,13 @@ var Options = React.createClass({
             ) }
           </div>
 
-        </TWBS.Col>
+        </Col>
 
-        <TWBS.Col xs={6} className="debug-column" >
+        <Col xs={6} className="debug-column" >
 
           {/* TODO: Should something go here? */}
 
-        </TWBS.Col>
+        </Col>
       </div>
     );
   }

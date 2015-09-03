@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import TWBS from "react-bootstrap";
+import { ProgressBar } from "react-bootstrap";
 
 import ByteCalc from "../../../../utility/ByteCalc";
 
@@ -52,31 +52,31 @@ const BreakdownChart = React.createClass(
       let percentFree   = this.calcPercent( "free" );
 
       return (
-        <TWBS.ProgressBar
+        <ProgressBar
           style = { this.props.total > 0
                   ? {}
                   : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }
                   }
         >
-          <TWBS.ProgressBar
+          <ProgressBar
             label   = { this.formatLabel( "parity", percentParity ) }
             bsStyle = "info"
             now     = { percentParity }
             key     = { 0 }
           />
-          <TWBS.ProgressBar
+          <ProgressBar
             label   = { this.formatLabel( "used", percentUsed ) }
             bsStyle = "primary"
             now     = { percentUsed }
             key     = { 1 }
           />
-          <TWBS.ProgressBar
+          <ProgressBar
             label     = { this.formatLabel( "free", percentFree ) }
             className = "free-space"
             now       = { percentFree }
             key       = { 2 }
           />
-        </TWBS.ProgressBar>
+        </ProgressBar>
       );
     }
 

@@ -5,7 +5,7 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Alert, Button, Col, Input, ProgressBar, Row } from "react-bootstrap";
 import moment from "moment";
 
 // freeNASUtil
@@ -70,7 +70,7 @@ var TasksSection = React.createClass(
             progressprops.label   = "Aborted";
             break;
         }
-        progress = <TWBS.ProgressBar {...progressprops} />;
+        progress = <ProgressBar {...progressprops} />;
       }
 
       this.callAbort = function () {
@@ -78,11 +78,11 @@ var TasksSection = React.createClass(
       };
 
       if ( this.props.canCancel || abortable ) {
-        cancelBtn = <TWBS.Button
+        cancelBtn = <Button
                       bsSize    = "small"
                       className = "debug-task-abort"
                       bsStyle   = "danger"
-                      onClick   = { this.callAbort }>Abort Task</TWBS.Button>;
+                      onClick   = { this.callAbort }>Abort Task</Button>;
       }
 
       if ( taskData["message"] ) {
@@ -245,55 +245,55 @@ var Tasks = React.createClass(
         }
         taskAlert = (
           <div className="overlay-error">
-            <TWBS.Alert bsStyle='danger' onDismiss={this.handleAlertDismiss}>
+            <Alert bsStyle='danger' onDismiss={this.handleAlertDismiss}>
               <h4>Oh snap! A very specific Error Occurred</h4>
               {errStack}
               <p>
-                <TWBS.Button onClick={this.handleAlertDismiss}>
+                <Button onClick={this.handleAlertDismiss}>
                  Done
-                </TWBS.Button>
+                </Button>
               </p>
-             </TWBS.Alert>
+             </Alert>
            </div> )
       }
       return (
         <div className="debug-content-flex-wrapper">
           {taskAlert}
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
 
             <h5 className="debug-heading">Schedule Task</h5>
-            <TWBS.Row>
-              <TWBS.Col xs={5}>
-                <TWBS.Input type        = "text"
+            <Row>
+              <Col xs={5}>
+                <Input type        = "text"
                             placeholder = "Task Name"
                             onChange    = { this.handleMethodInputChange }
                             value       = { this.state.taskMethodValue } />
-              </TWBS.Col>
-            </TWBS.Row>
-            <TWBS.Row>
-              <TWBS.Col xs={5}>
-                <TWBS.Input type        = "textarea"
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={5}>
+                <Input type        = "textarea"
                             style       = {{ resize: "vertical"
                                            , height: "100px" }}
                             placeholder = "Arguments (JSON Array)"
                             onChange    = { this.handleArgsInputChange }
                             value       = { this.state.argsValue } />
-              </TWBS.Col>
-            </TWBS.Row>
-            <TWBS.Row>
-              <TWBS.Col xs={5}>
-                <TWBS.Button bsStyle = "primary"
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={5}>
+                <Button bsStyle = "primary"
                              onClick = { this.handleTaskSubmit }
                              block>
                   {"Submit"}
-                </TWBS.Button>
-              </TWBS.Col>
-            </TWBS.Row>
+                </Button>
+              </Col>
+            </Row>
 
-          </TWBS.Col>
+          </Col>
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
             <h5 className="debug-heading">
               {  "Created Tasks ("
                  + _.keys( this.state.tasks["CREATED"] ).length
@@ -317,9 +317,9 @@ var Tasks = React.createClass(
             </h5>
             <TasksSection
               tasks = { this.state.tasks["EXECUTING"] } showProgress />
-          </TWBS.Col>
+          </Col>
 
-          <TWBS.Col xs={6} className="debug-column" >
+          <Col xs={6} className="debug-column" >
             <h5 className="debug-heading">{  "Finished Task History" }</h5>
             <TasksSection tasks = { this.state.tasks["FINISHED"] }
                           showProgress canCancel = {false} />
@@ -331,7 +331,7 @@ var Tasks = React.createClass(
             <TasksSection
               tasks = { this.state.tasks["ABORTED"] }
                       showProgress canCancel = {false} />
-          </TWBS.Col>
+          </Col>
 
         </div>
       );

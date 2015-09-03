@@ -7,7 +7,7 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
 import US from "../../../../flux/stores/UsersStore";
 import UM from "../../../../flux/middleware/UsersMiddleware";
@@ -106,39 +106,39 @@ const UserAdd = React.createClass(
   , render: function () {
 
     let cancelButton =
-      <TWBS.Button
+      <Button
         className = "pull-left"
         onClick   = { this.cancel }
         bsStyle   = "default" >
         { "Cancel" }
-      </TWBS.Button>;
+      </Button>;
 
     let resetButton =
-      <TWBS.Button
+      <Button
         className = "pull-left"
         bsStyle = "warning"
         onClick = { this.reset } >
         { "Reset Changes" }
-      </TWBS.Button>;
+      </Button>;
 
     let submitUserButton =
-      <TWBS.Button
+      <Button
         className = "pull-right"
         disabled  = { _.isEmpty( this.state.newUser ) }
         onClick   = { this.submitNewUser }
         bsStyle   = "info" >
         { "Create New User" }
-      </TWBS.Button>;
+      </Button>;
 
     let buttonToolbar =
-      <TWBS.ButtonToolbar>
+      <ButtonToolbar>
         { cancelButton }
         { resetButton }
         { submitUserButton }
-      </TWBS.ButtonToolbar>;
+      </ButtonToolbar>;
 
     let userIdField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "User ID" }
         value            = { this.state.newUser[ "id" ]
@@ -151,7 +151,7 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userNameField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "User Name" }
         value            = { this.state.newUser[ "username" ]
@@ -164,7 +164,7 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userFullNameField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "Full Name" }
         value            = { this.state.newUser[ "full_name" ]
@@ -177,7 +177,7 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userEmailField =
-      <TWBS.Input
+      <Input
         type             = "text"
         label            = { "eMail" }
         value            = { this.state.newUser[ "email" ]
@@ -190,7 +190,7 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userShellField =
-      <TWBS.Input
+      <Input
         type             = "select"
         label            = { "Shell" }
         value     = { this.state.newUser[ "shell" ]
@@ -202,10 +202,10 @@ const UserAdd = React.createClass(
         groupClassName   = { _.has( this.state.newUser["shell"] )
           ? "editor-was-modified" : "" } >
         { this.generateOptionsList( this.state.shells, "name" ) }
-      </TWBS.Input>;
+      </Input>;
 
     let userSshPubKeyField =
-      <TWBS.Input
+      <Input
         type             = "textarea"
         label            = { "Public Key" }
         value            = { this.state.newUser["sshpubkey" ]
@@ -219,7 +219,7 @@ const UserAdd = React.createClass(
         rows             = "10" />;
 
     let userGroupsField =
-      <TWBS.Input
+      <Input
         type             = "select"
         label            = "Other Groups"
         value            = { this.state.newUser[ "groups" ]
@@ -232,10 +232,10 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" }
         multiple >
         { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
-      </TWBS.Input>;
+      </Input>;
 
     let userLockedField =
-      <TWBS.Input
+      <Input
         type             = "checkbox"
         checked          = { this.state.newUser[ "locked" ]
           ? this.state.newUser["locked"]
@@ -248,7 +248,7 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userSudoField =
-      <TWBS.Input
+      <Input
         type             = "checkbox"
         checked          = { this.state.newUser[ "sudo" ]
           ? this.state.newUser[ "sudo" ]
@@ -261,7 +261,7 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userPasswordDisabledField =
-      <TWBS.Input
+      <Input
         type             = "checkbox"
         label            = { "Password Disabled" }
         checked          = { this.state.newUser[ "password_disabled" ]
@@ -275,7 +275,7 @@ const UserAdd = React.createClass(
           ? "editor-was-modified" : "" } />;
 
     let userAutoPrimaryGroupField =
-      <TWBS.Input type             = "checkbox"
+      <Input type             = "checkbox"
         label            = "Automatically Create Primary Group"
         ref              = "createPrimaryGroup"
         onChange         = { this.primaryGroupToggle }
@@ -285,7 +285,7 @@ const UserAdd = React.createClass(
 
     if ( !this.state.pleaseCreatePrimaryGroup ) {
       userPrimaryGroupField =
-        <TWBS.Input
+        <Input
           type             = "select"
           label            = { "Primary Group" }
           value            = { this.state.newUser[ "group" ]
@@ -297,7 +297,7 @@ const UserAdd = React.createClass(
           groupClassName   = { _.has( this.state.newUser[ "group" ] )
             ? "editor-was-modified" : "" } >
           { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
-        </TWBS.Input>;
+        </Input>;
     }
 
     let textEditForm =
@@ -321,21 +321,21 @@ const UserAdd = React.createClass(
       </div>;
 
     return (
-      <TWBS.Grid fluid>
-        <TWBS.Row>
-          <TWBS.Col xs = {12} >
+      <Grid fluid>
+        <Row>
+          <Col xs = {12} >
             { buttonToolbar }
-          </TWBS.Col>
-        </TWBS.Row>
-        <TWBS.Row>
-          <TWBS.Col xs = {8} >
+          </Col>
+        </Row>
+        <Row>
+          <Col xs = {8} >
             { textEditForm }
-          </TWBS.Col>
-          <TWBS.Col xs = {4} >
+          </Col>
+          <Col xs = {4} >
             { checkboxEditForm }
-          </TWBS.Col>
-        </TWBS.Row>
-      </TWBS.Grid>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 

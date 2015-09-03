@@ -5,7 +5,7 @@
 
 import _ from "lodash";
 import React from "react";
-import TWBS from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import Throbber from "../Throbber";
 import Widget from "../Widget";
 
@@ -151,7 +151,7 @@ const Hardware = React.createClass(
         >
           <div className="system-properties">
             <h2 className="hostname">{ hostname }</h2>
-            <TWBS.Table>
+            <Table>
               <tr>
                 <td className = "property-label">Platform</td>
                 <td className = "property device">{ device }</td>
@@ -160,7 +160,7 @@ const Hardware = React.createClass(
                 <td className = "property-label">OS Version</td>
                 <td className = "property version">{ version }</td>
               </tr>
-            </TWBS.Table>
+            </Table>
           </div>
           <div className = "hardware-info">
             { this.createHardwareDetail( "CPU", cpuSpeed, cpuCores ) }
