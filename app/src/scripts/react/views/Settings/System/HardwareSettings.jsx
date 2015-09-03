@@ -18,6 +18,22 @@ const serialPortSpeeds =
   , 115200
   ];
 
+function createKeymapOptions ( keymapArray ) {
+  var options =
+    _.map( keymapArray
+         , function mapOptions ( keymap, index ) {
+           return (
+             <option
+               value = { keymap[0] }
+               key = { index }>
+               { keymap[1] }
+             </option>
+             );
+         }
+         );
+  return options;
+}
+
 // All settings in this panel are from system.advanced
 const HardwareSettings = React.createClass(
   { getDefaultProps () {
