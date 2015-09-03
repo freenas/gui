@@ -74,6 +74,20 @@ class SystemMiddleware extends AbstractBase {
               , SAC.receiveSystemAdvancedConfigUpdateTask
               );
   }
+
+  static requestTimezones () {
+    MC.request( "system.general.timezones"
+              , []
+              , SAC.receiveTimezones
+              );
+  }
+
+  static requestKeymaps () {
+    MC.request( "system.general.keymaps"
+              , []
+              , SAC.receiveKeymaps
+              );
+  }
 };
 
 export default SystemMiddleware;

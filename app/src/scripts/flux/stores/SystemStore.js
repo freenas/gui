@@ -17,6 +17,8 @@ var _systemGeneralConfig = {};
 var _systemUIConfig = {};
 var _systemAdvancedConfig = {};
 var _localUpdatePending = [];
+var _timezones = [];
+var _keymaps = [];
 
 class SystemStore extends FluxBase {
 
@@ -47,6 +49,14 @@ class SystemStore extends FluxBase {
 
   get systemAdvancedConfig () {
     return _systemAdvancedConfig;
+  }
+
+  get keymaps () {
+    return _keymaps;
+  }
+
+  get timezones () {
+    return _timezones;
   }
 
   /**
@@ -95,6 +105,14 @@ function handlePayload ( payload ) {
     case ActionTypes.RECEIVE_SYSTEM_ADVANCED_CONFIG_UPDATE:
       _localUpdatePending.push( action.taskID );
       this.emitChange( "advanced" );
+      break;
+    case ActionTypes.RECEIVE_TIMEZONES:
+      _timezones = action.timezones;
+      this.emitChange( "timezones" );
+      break;
+    case ActionTypes.RECEIVE_KEYMAPS:
+      _keymaps = action.keymaps;
+      this.emitChange( "keymaps" );
       break;
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;

@@ -80,7 +80,23 @@ class SystemActionCreators {
     );
   }
 
+  static receiveTimezones ( timezones, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_TIMEZONES
+      , timestamp
+      , timezones
+      }
+    );
+  }
 
+  static receiveKeymaps ( keymaps, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_KEYMAPS
+      , timestamp
+      , keymaps
+      }
+    );
+  }
 };
 
 export default SystemActionCreators;
