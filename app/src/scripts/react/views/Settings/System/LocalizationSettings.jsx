@@ -92,7 +92,6 @@ const LocalizationSettings = React.createClass(
   { getDefaultProps () {
     return { language: "English"
            , timezone: "America/Los_Angeles"
-           , console_keymap: "us.iso"
            };
   }
 
@@ -104,9 +103,6 @@ const LocalizationSettings = React.createClass(
       case "timezone":
         this.setState( { timezone: event.target.value } );
         break;
-      case "console_keymap":
-        this.setState( { console_keymap: event.target.value } );
-        break;
     }
   }
 
@@ -115,8 +111,6 @@ const LocalizationSettings = React.createClass(
     var languageValue = this.props[ "language" ];
     var timezone = null;
     var timezoneValue = this.props[ "timezone" ];
-    var console_keymap = null;
-    var console_keymapValue = this.props[ "console_keymap" ];
 
     if ( _.has( this, [ "state", "language" ] ) ) {
       languageValue = this.state.language;
@@ -141,24 +135,12 @@ const LocalizationSettings = React.createClass(
         onChange = { this.handleLocalizationChange.bind( this, "timezone" ) }>
       </TWBS.Input>;
 
-    if ( _.has( this, [ "state", "console_keymap" ] ) ) {
-      console_keymapValue = this.state.language;
-    }
-    console_keymap =
-      <TWBS.Input
-        type = "select"
-        label = "Console Keymap"
-        value = { console_keymapValue }
-        onChange = { this.handleLocalizationChange.bind( this, "console" ) }>
-      </TWBS.Input>
-
     return (
       <TWBS.Panel>
         <h4>Localization</h4>
         <form className = "settings-config-form">
           { language }
           { timezone }
-          { console_keymap }
         </form>
       </TWBS.Panel>
     );
