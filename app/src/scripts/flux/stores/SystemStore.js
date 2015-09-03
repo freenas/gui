@@ -66,35 +66,35 @@ function handlePayload ( payload ) {
 
     case ActionTypes.RECEIVE_SYSTEM_INFO_DATA:
       _systemInfoData[action.systemInfoName] = action.systemInfo;
-      this.emitChange();
+      this.emitChange( "info" );
       break;
     case ActionTypes.RECEIVE_SYSTEM_DEVICE_DATA:
       _systemDeviceData[action.systemDeviceArgument] = action.systemDevice;
-      this.emitChange();
+      this.emitChange( "device" );
       break;
     case ActionTypes.RECEIVE_SYSTEM_GENERAL_CONFIG_DATA:
       _systemGeneralConfig = action.config;
-      this.emitChange();
+      this.emitChange( "general" );
       break;
     case ActionTypes.RECEIVE_SYSTEM_GENERAL_CONFIG_UPDATE:
       _localUpdatePending.push( action.taskID );
-      this.emitChange();
+      this.emitChange( "general" );
       break;
     case ActionTypes.RECEIVE_SYSTEM_UI_CONFIG_DATA:
       _systemUIConfig = action.config;
-      this.emitChange();
+      this.emitChange( "ui" );
       break;
     case ActionTypes.RECEIVE_SYSTEM_UI_CONFIG_UPDATE:
       _localUpdatePending.push( action.taskID );
-      this.emitChange();
+      this.emitChange( "ui" );
       break;
     case ActionTypes.RECEIVE_SYSTEM_ADVANCED_CONFIG_DATA:
       _systemAdvancedConfig = action.config;
-      this.emitChange();
+      this.emitChange( "advanced" );
       break;
     case ActionTypes.RECEIVE_SYSTEM_ADVANCED_CONFIG_UPDATE:
       _localUpdatePending.push( action.taskID );
-      this.emitChange();
+      this.emitChange( "advanced" );
       break;
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
