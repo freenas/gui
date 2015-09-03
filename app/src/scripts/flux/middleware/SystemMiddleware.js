@@ -10,13 +10,15 @@ import SAC from "../actions/SystemActionCreators";
 class SystemMiddleware extends AbstractBase {
 
   static subscribe ( componentID ) {
-    MC.subscribe( [ "task.updated" ], componentID );
-    MC.subscribe( [ "entity-subscriber.system.config.changed "], componentID );
+    MC.subscribe( [ "task.*", "system.*" ]
+                , componentID
+                );
   }
 
   static unsubscribe ( componentID ) {
-    MC.unsubscribe( [ "task.updated" ], componentID );
-    MC.unsubscribe( [ "entity-subscriber.system.config.changed "], componentID );
+    MC.unsubscribe( [ "task.*", "system.*" ]
+                  , componentID
+                  );
   }
 
   static requestSystemInfo ( namespace ) {
