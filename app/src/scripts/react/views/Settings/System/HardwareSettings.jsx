@@ -35,8 +35,7 @@ function createKeymapOptions ( keymapArray ) {
 }
 
 // All settings in this panel are from system.advanced
-const HardwareSettings = React.createClass(
-  { getDefaultProps () {
+const Console = React.createClass(
   { mixins: [ inputHelpers ]
 
   , getDefaultProps () {
@@ -148,7 +147,7 @@ const HardwareSettings = React.createClass(
 
     return (
       <TWBS.Panel>
-        <h4>Hardware</h4>
+        <h4>Console</h4>
         <form className = "settings-config-form">
           { console_screensaver }
           { serial_console }
@@ -161,4 +160,4 @@ const HardwareSettings = React.createClass(
   }
 });
 
-export default HardwareSettings;
+export default Console;
