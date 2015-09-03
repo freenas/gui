@@ -129,7 +129,9 @@ const HardwareSettings = React.createClass(
         label = "Serial Port Speed"
         value = { serial_speedValue }
         onChange = { this.handleChange.bind( this
-                                           , "serial_speed" ) }/>
+                                           , "serial_speed" ) }>
+        { this.createSimpleOptions( serialPortSpeeds ) }
+        </TWBS.Input>
 
     if ( _.has( this, [ "state", "console_keymap" ] ) ) {
       console_keymapValue = this.state[ "console_keymap" ];
