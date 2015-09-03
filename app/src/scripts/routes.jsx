@@ -46,7 +46,7 @@ module.exports = (
     path    = "/"
     handler = { Root } >
 
-    <DefaultRoute handler={ Storage } />
+    <DefaultRoute handler={ Dashboard } />
 
     {/* DASHBOARD */}
     <Route
@@ -149,7 +149,7 @@ module.exports = (
         handler = { Support }/>
     </Route>
 
-    <NotFoundRoute handler={ Users } />
+    <NotFoundRoute handler={ Dashboard } />
 
   </Route>
 );

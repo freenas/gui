@@ -34,12 +34,12 @@ const FreeNASWebApp = React.createClass(
       if ( module.hot ) {
         module.hot.addStatusHandler( this.cssBust );
       }
-      this.calculateDefaultRoute( "/", "accounts", "is" );
+      this.calculateDefaultRoute( "/", "dashboard", "is" );
       window.addEventListener( "click", this.handleMenuClickOut );
     }
 
   , componentDidUpdate ( prevProps, prevState ) {
-      this.calculateDefaultRoute( "/", "accounts", "is" );
+      this.calculateDefaultRoute( "/", "dashboard", "is" );
       window.removeEventListener( "click", this.handleMenuClickOut );
     }
 
