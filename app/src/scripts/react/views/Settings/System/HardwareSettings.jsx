@@ -116,7 +116,7 @@ const HardwareSettings = React.createClass(
       <TWBS.Input
         type = "select"
         label = "Serial Console Port"
-        value = { serial_portValue}
+        value = { serial_portValue }
         onChange = { this.handleChange.bind( this
                                            , "serial_port" ) }/>
 
@@ -127,7 +127,7 @@ const HardwareSettings = React.createClass(
       <TWBS.Input
         type = "select"
         label = "Serial Port Speed"
-        value = { serial_speedValue}
+        value = { serial_speedValue }
         onChange = { this.handleChange.bind( this
                                            , "serial_speed" ) }/>
 
