@@ -18,7 +18,6 @@ const ConnectionSettings = React.createClass(
            , webui_http_port: null
            , webui_http_redirect_https: null
            , webui_https_certificate: null
-           , webappListenAll: null // Listen on :: and 0.0.0.0
            , webui_listen: []
            , webui_https_port: null
            };
@@ -53,7 +52,8 @@ const ConnectionSettings = React.createClass(
 
   , render () {
     var webui_protocol = null;
-    var webui_protocolValue = this.props[ "webui_protocol" ];
+    var webui_protocolRealValue = this.props[ "webui_protocol" ];
+    var webui_protocolValue = ""
     var webui_http_port = null;
     var webui_http_redirect_httpsValue = this.props[ "webui_http_redirect_https" ];
     var webui_https_port = null;
@@ -68,7 +68,17 @@ const ConnectionSettings = React.createClass(
     var webui_listenValue = this.props[ "webui_listen" ];
 
     if (_.has( this, [ "state", "webui_protocol" ] ) ) {
-      webui_protocolValue = this.state[ "webui_protocol" ];
+      webui_protocolRealValue = this.state[ "webui_protocol" ];
+    }
+
+    if ( webui_protocolRealValue === [ "HTTP" ] ) {
+      webui_protocolValue = "http";
+    } else if ( webui_protocolRealValue === [ "HTTPS" ] ) {
+      webui_protocolValue = "https";
+    } else if ( webui_protocolRealValue === [ "HTTP", "HTTPS" ]
+             || webui_protocolRealValue === [ "HTTPS", "HTTP" ]
+              ) {
+      webui_protocolValue = "both";
     }
     webui_protocol =
       <Input
@@ -76,6 +86,21 @@ const ConnectionSettings = React.createClass(
         label = "Protocol"
         value = { webui_protocolValue }
         onChange = { this.handleChange.bind( this, "webui_protocol" ) }>
+        <option
+          value = { "http" }
+          key = { "http" }>
+          { "HTTP" }
+        </option>
+        <option
+          value = { "https" }
+          key = { "https" }>
+          { "HTTPS" }
+        </option>
+        <option
+          value = { "both" }
+          key = { "both" }>
+          { "HTTP and HTTPS" }
+        </option>
       </Input>;
 
     if (_.has( this, [ "state", "webui_http_port" ] ) ) {
