@@ -90,8 +90,10 @@ const languageChoices =
 
 const LocalizationSettings = React.createClass(
   { getDefaultProps () {
-    return { language: "English"
-           , timezone: "America/Los_Angeles"
+    return { language: ""
+           , timezone: ""
+           , timezoneList: []
+           , debug: null
            };
   }
 
