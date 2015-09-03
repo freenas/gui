@@ -97,10 +97,6 @@ const LocalizationSettings = React.createClass(
   }
 
   , handleLocalizationChange( key, event ) {
-    var language = "";
-    var timezone = "";
-    var console_keymap = "";
-
     switch ( key ) {
       case "language":
         this.setState( { language: event.target.value } );
