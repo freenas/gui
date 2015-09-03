@@ -62,6 +62,25 @@ class SystemActionCreators {
     );
   }
 
+  static receiveSystemAdvancedConfig ( config, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_SYSTEM_ADVANCED_CONFIG_DATA
+      , timestamp
+      , config
+      }
+    );
+  }
+
+  static receiveSystemAdvancedConfigUpdateTask ( taskID, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_SYSTEM_ADVANCED_CONFIG_UPDATE
+      , timestamp
+      , taskID
+      }
+    );
+  }
+
+
 };
 
 export default SystemActionCreators;
