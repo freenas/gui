@@ -112,8 +112,7 @@ const ConnectionSettings = React.createClass(
         type = "text"
         label = "HTTP Port"
         value = { webui_http_portValue }
-        onChange = { this.handleChange.bind( this, "webui_http_port" ) }>
-      </Input>;
+        onChange = { this.handleChange.bind( this, "webui_http_port" ) }/>;
 
     if (_.has( this, [ "state", "webui_https_port" ] ) ) {
       webui_https_portValue = this.state[ "webui_https_port" ];
@@ -124,8 +123,7 @@ const ConnectionSettings = React.createClass(
         type = "text"
         label = "HTTPS Port"
         value = { webui_https_portValue }
-        onChange = { this.handleChange.bind( this, "webui_https_port" ) }>
-      </Input>;
+        onChange = { this.handleChange.bind( this, "webui_https_port" ) }/>;
 
     if (_.has( this, [ "state", "webui_https_certificate" ] ) ) {
       webui_https_certificateValue = this.state[ "webui_https_certificate" ];
@@ -148,8 +146,8 @@ const ConnectionSettings = React.createClass(
         type = "checkbox"
         label = "Redirect HTTP to HTTPS"
         checked = { webui_http_redirect_httpsValue }
-        onChange = { this.handleChange.bind( this, "webui_http_redirect_https" ) }>
-      </Input>;
+        onChange = { this.handleChange.bind( this, "webui_http_redirect_https" ) }
+        disabled = { webui_protocolValue === "http" } />;
 
     if (_.has( this, [ "state", "webappListenAll" ] ) ) {
       webappListenAllValue = this.state[ "webappListenAll" ];
@@ -160,8 +158,7 @@ const ConnectionSettings = React.createClass(
         type = "checkbox"
         checked = { webappListenAllValue}
         label = "Allow Access Over All IP Addresses"
-        onChange = { this.handleChange.bind( this, "webappListenAll" ) }>
-      </Input>;
+        onChange = { this.handleChange.bind( this, "webappListenAll" ) }/>;
 
     if (_.has( this, [ "state", "webui_listen" ] ) ) {
       webui_listenValue = this.state[ "webui_listen" ];
