@@ -100,15 +100,30 @@ const System = React.createClass(
             <ConnectionSettings/>
           </TWBS.Col>
           <TWBS.Col xs = {4}>
-            <OSSettings/>
+            <OSSettings
+              motd = { this.state.advanced[ "motd" ] }
+              uploadcrash = { this.state.advanced[ "uploadcrash" ] }
+              swapondrive = { this.state.advanced[ "swapondrive" ] }
+              powerd = { this.state.advanced[ "powerd" ] }
+              console_cli = { this.state.advanced[ "console_cli" ] }
+              autotune = { this.state.advanced[ "autotune" ] }/>
           </TWBS.Col>
           <TWBS.Col xs = {4}>
-            <LocalizationSettings/>
+            <LocalizationSettings
+              language = { this.state.general[ "language" ] }
+              timezone = { this.state.general[ "timezone" ] }
+              timezoneList = { this.state[ "timezoneList" ] }/>
           </TWBS.Col>
         </TWBS.Row>
         <TWBS.Row>
           <TWBS.Col xs = {4}>
             <Console
+              console_screensaver = { this.state.advanced[ "console_screensaver" ] }
+              serial_console = { this.state.advanced[ "serial_console" ] }
+              serial_port = { this.state.advanced[ "serial_port" ] }
+              serial_speed = { this.state.advanced[ "serial_speed" ] }
+              console_keymap = { this.state.general[ "console_keymap" ] }
+              keymapList = { this.state[ "keymapList" ] }/>
           </TWBS.Col>
           <TWBS.Col xs = {8}>
             <Tuneables/>
