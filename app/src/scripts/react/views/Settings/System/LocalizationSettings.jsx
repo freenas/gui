@@ -88,22 +88,6 @@ const languageChoices =
   , "Traditional Chinese"
   ];
 
-function createOptions ( optionsArray ) {
-  var options =
-    _.map( optionsArray
-         , function mapOptions ( optionValue, index ) {
-           return (
-             <option
-               value = { optionValue }
-               key = { index }>
-               { optionValue }
-             </option>
-             );
-         }
-         );
-  return options;
-}
-
 const LocalizationSettings = React.createClass(
   { getDefaultProps () {
     return { language: "English"
@@ -147,7 +131,7 @@ const LocalizationSettings = React.createClass(
         label = "Language"
         value = { languageValue }
         onChange = { this.handleLocalizationChange.bind( this, "language" ) }>
-        { createOptions( languageChoices ) }
+        { this.createSimpleOptions( languageChoices ) }
       </TWBS.Input>;
 
     if ( _.has( this, [ "state", "timezone" ] ) ) {

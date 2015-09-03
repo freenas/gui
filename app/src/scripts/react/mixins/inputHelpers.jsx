@@ -10,8 +10,8 @@ import React from "react";
 
 module.exports = {
 
-  // Takes an array and turns it into an array of options suitable for use
-  // in a select box or multi-select box.
+  // Takes an array of objects and turns it into an array of options suitable
+  // for use in a select box or multi-select box.
   generateOptionsList: function ( options, selectionKey, displayKey ) {
     let optionList = [];
 
@@ -31,6 +31,24 @@ module.exports = {
              );
 
     return optionList;
+  }
+
+  // Takes an array of simple values and turns it into an array of options for
+  // a select or multi-select box.
+  , createSimpleOptions: function ( optionsArray ) {
+    var options =
+      _.map( optionsArray
+           , function mapOptions ( optionValue, index ) {
+             return (
+               <option
+                 value = { optionValue }
+                 key = { index }>
+                 { optionValue }
+               </option>
+               );
+           }
+           );
+    return options;
   }
 
   // Deals with input from different kinds of input fields.
