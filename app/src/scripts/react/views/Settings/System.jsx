@@ -11,7 +11,7 @@ import _ from "lodash";
 import SM from "../../../flux/middleware/SystemMiddleware";
 import SS from "../../../flux/stores/SystemStore";
 
-import HardwareSettings from "./System/HardwareSettings";
+import Console from "./System/Console";
 import LocalizationSettings from "./System/LocalizationSettings";
 import OSSettings from "./System/OSSettings";
 import Tuneables from "./System/Tuneables";
@@ -38,7 +38,7 @@ const System = React.createClass(
         </TWBS.Row>
         <TWBS.Row>
           <TWBS.Col xs = {4}>
-            <HardwareSettings/>
+            <Console
           </TWBS.Col>
           <TWBS.Col xs = {8}>
             <Tuneables/>
