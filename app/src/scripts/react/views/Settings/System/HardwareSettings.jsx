@@ -44,6 +44,8 @@ const HardwareSettings = React.createClass(
            , serial_console: null
            , serial_port: null
            , serial_speed: null
+           , console_keymap: null
+           , keymapList: []
            };
   }
 
@@ -64,6 +66,9 @@ const HardwareSettings = React.createClass(
       case "serial_speed":
         this.setState( { serial_speed: event.target.value } );
         break;
+      case "console_keymap":
+        this.setState( { console_keymap: event.target.value } );
+        break;
     }
   }
 
@@ -76,7 +81,10 @@ const HardwareSettings = React.createClass(
     var serial_portValue = this.props[ "serial_port" ];
     var serial_speed = null;
     var serial_speedValue = this.props[ "serial_speed" ];
+    var console_keymap = null;
+    var console_keymapValue = this.props[ "console_keymap" ];
 
+    const keymapOptions = createKeymapOptions( this.props[ "keymapList" ] );
 
     if ( _.has( this, [ "state", "console_screensaver" ] ) ) {
       console_screensaverValue = this.state[ "console_screensaver" ];
@@ -123,6 +131,18 @@ const HardwareSettings = React.createClass(
         onChange = { this.handleChange.bind( this
                                            , "serial_speed" ) }/>
 
+    if ( _.has( this, [ "state", "console_keymap" ] ) ) {
+      console_keymapValue = this.state[ "console_keymap" ];
+    }
+    console_keymap =
+      <TWBS.Input
+        type = "select"
+        label = "Console Keymap"
+        value = { console_keymapValue }
+        onChange = { this.handleChange.bind( this
+                                           , "console_keymap" ) }>
+        { keymapOptions }
+      </TWBS.Input>
 
     return (
       <TWBS.Panel>
@@ -132,6 +152,7 @@ const HardwareSettings = React.createClass(
           { serial_console }
           { serial_port }
           { serial_speed }
+          { console_keymap }
         </form>
       </TWBS.Panel>
     );
