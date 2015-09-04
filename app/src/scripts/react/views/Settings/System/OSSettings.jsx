@@ -23,21 +23,17 @@ const OSSettings = React.createClass(
   , handleOSSettingsChange ( key, event ) {
 
     switch ( key ) {
-      // FIXME: Wrong way to work with checkboxes
       case "autotune":
-        this.setState( { autotune: event.target.value } );
+        this.setState( { autotune: event.target.checked } );
         break;
-      // FIXME: Wrong way to work with checkboxes
       case "console_cli":
-        this.setState( { console_cli: event.target.value } );
+        this.setState( { console_cli: event.target.checked } );
         break;
-      // FIXME: Wrong way to work with checkboxes
       case "powerd":
-        this.setState( { powerd: event.target.value } );
+        this.setState( { powerd: event.target.checked } );
         break;
-      // FIXME: Wrong way to work with checkboxes
       case "uploadcrash":
-        this.setState( { uploadcrash: event.target.value } );
+        this.setState( { uploadcrash: event.target.checked } );
         break;
       case "swapondrive":
         this.setState( { swapondrive: event.target.value } );
