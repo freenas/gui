@@ -16,7 +16,6 @@ import SS from "../../../flux/stores/SystemStore";
 import Console from "./System/Console";
 import LocalizationSettings from "./System/LocalizationSettings";
 import OSSettings from "./System/OSSettings";
-import Tuneables from "./System/Tuneables";
 import ConnectionSettings from "./System/ConnectionSettings";
 
 function getSystemUIConfig () {
@@ -125,9 +124,6 @@ const System = React.createClass(
               serial_speed = { this.state.advanced[ "serial_speed" ] }
               console_keymap = { this.state.general[ "console_keymap" ] }
               keymapList = { this.state[ "keymapList" ] }/>
-          </Col>
-          <Col xs = {8}>
-            <Tuneables/>
           </Col>
         </Row>
       </Grid>
