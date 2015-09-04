@@ -51,13 +51,11 @@ const Console = React.createClass(
   , handleChange ( key, event ) {
 
     switch ( key ) {
-      // FIXME: Wrong way to work with checkboxes
       case "console_screensaver":
-        this.setState( { console_screensaver: event.target.value } );
+        this.setState( { console_screensaver: event.target.checked } );
         break;
-      // FIXME: Wrong way to work with checkboxes
       case "serial_console":
-        this.setState( { serial_console: event.target.value } );
+        this.setState( { serial_console: event.target.checked } );
         break;
       case "serial_port":
         this.setState( { serial_port: event.target.value } );
