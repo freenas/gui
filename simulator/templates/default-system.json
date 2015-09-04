@@ -35,7 +35,7 @@
   { "webui_http_port": 80
   , "webui_http_redirect_https": false
   , "webui_https_certificate": null
-  , "webui_procotol":
+  , "webui_protocol":
     [ "HTTP" ]
   , "webui_listen":
     [ "0.0.0.0"
