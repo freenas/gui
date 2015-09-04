@@ -37,12 +37,11 @@ const ConnectionSettings = React.createClass(
       case "webui_https_certificate":
         this.setState( { webui_https_certificate: event.target.value } );
         break;
-      // FIXME: Wrong way to work with checkboxes
       case "webui_http_redirect_https":
-        this.setState( { webui_http_redirect_https: event.target.value } );
+        this.setState( { webui_http_redirect_https: event.target.checked } );
         break;
       case "webappListenAll":
-        this.setState( { webappListenAll: event.target.value } );
+        this.setState( { webappListenAll: event.target.checked } );
         break;
       case "webui_listen":
         this.setState( { webui_listen: event.target.value } );
