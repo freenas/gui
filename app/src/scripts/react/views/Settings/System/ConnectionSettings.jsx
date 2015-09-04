@@ -56,13 +56,13 @@ const ConnectionSettings = React.createClass(
     var webui_protocolRealValue = this.props[ "webui_protocol" ];
     var webui_protocolValue = ""
     var webui_http_port = null;
-    var webui_http_redirect_httpsValue = this.props[ "webui_http_redirect_https" ];
+    var webui_http_portValue = this.props[ "webui_http_port" ];
     var webui_https_port = null;
     var webui_https_portValue = this.props[ "webui_https_port" ];
     var webui_https_certificate = null;
     var webui_https_certificateValue = this.props[ "webui_https_certificate" ];
-    var webui_http_portValue = this.props[ "webui_http_port" ];
     var webui_http_redirect_https = null;
+    var webui_http_redirect_httpsValue = this.props[ "webui_http_redirect_https" ];
     var webappListenAll = null;
     // webappListenAllValue must be false by default, because it won't be in
     // props and may not be in state.
