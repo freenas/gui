@@ -5,8 +5,10 @@
 "use strict";
 
 import React from "react";
-import { Input, Panel } from "react-bootstrap";
+import { Input, Panel, Button, ButtonToolbar } from "react-bootstrap";
 import _ from "lodash";
+
+import SM from "../../../../flux/middleware/SystemMiddleware";
 
 // All settings in this panel are from system.advanced
 const OSSettings = React.createClass(
