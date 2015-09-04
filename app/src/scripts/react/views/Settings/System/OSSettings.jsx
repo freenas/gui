@@ -22,8 +22,8 @@ const OSSettings = React.createClass(
            };
   }
 
-  , handleOSSettingsChange ( key, event ) {
 
+  , handleChange ( key, event ) {
     switch ( key ) {
       case "autotune":
         this.setState( { autotune: event.target.checked } );
@@ -68,7 +68,7 @@ const OSSettings = React.createClass(
         type = "checkbox"
         label = "Enable Autotune"
         checked = { autotuneValue }
-        onChange = { this.handleOSSettingsChange.bind( this, "autotune" ) }>
+        onChange = { this.handleChange.bind( this, "autotune" ) }>
       </Input>;
 
     if ( _.has( this, [ "state", "console_cli" ] ) ) {
@@ -79,7 +79,7 @@ const OSSettings = React.createClass(
         type = "checkbox"
         label = "Enable Console CLI"
         checked = { console_cliValue }
-        onChange = { this.handleOSSettingsChange.bind( this, "console_cli" ) }>
+        onChange = { this.handleChange.bind( this, "console_cli" ) }>
       </Input>;
 
     if ( _.has( this, [ "state", "powerd" ] ) ) {
@@ -90,7 +90,7 @@ const OSSettings = React.createClass(
         type = "checkbox"
         label = "Enable powerd"
         checked = { powerdValue }
-        onChange = { this.handleOSSettingsChange.bind( this, "powerd" ) }>
+        onChange = { this.handleChange.bind( this, "powerd" ) }>
       </Input>;
 
     if ( _.has( this, [ "state", "uploadcrash" ] ) ) {
@@ -101,19 +101,20 @@ const OSSettings = React.createClass(
         type = "checkbox"
         label = "Automatically upload crash dumps to iXsystems"
         checked = { uploadcrashValue }
-        onChange = { this.handleOSSettingsChange.bind( this, "uploadcrash" ) }>
+        onChange = { this.handleChange.bind( this, "uploadcrash" ) }>
       </Input>;
 
     if ( _.has( this, [ "state", "swapondrive" ] ) ) {
       swapondriveValue = this.state[ "swapondrive" ];
     }
     // Validate that it's an integer
+    // Converting to human readable would be even better
     swapondrive =
       <Input
         type = "text"
         label = "Default swap on drive, in GB"
         value = { swapondriveValue }
-        onChange = { this.handleOSSettingsChange.bind( this, "swapondrive" ) }>
+        onChange = { this.handleChange.bind( this, "swapondrive" ) }>
       </Input>;
 
     if ( _.has( this, [ "state", "motd" ] ) ) {
@@ -124,7 +125,7 @@ const OSSettings = React.createClass(
         type = "textarea"
         label = "Message of the Day to display at shell login"
         value = { motdValue }
-        onChange = { this.handleOSSettingsChange.bind( this, "motd" ) }>
+        onChange = { this.handleChange.bind( this, "motd" ) }>
       </Input>;
 
 

@@ -103,7 +103,7 @@ const LocalizationSettings = React.createClass(
            };
   }
 
-  , handleLocalizationChange( key, event ) {
+  , handleChange( key, event ) {
     switch ( key ) {
       case "language":
         this.setState( { language: event.target.value } );
@@ -128,7 +128,7 @@ const LocalizationSettings = React.createClass(
         type = "select"
         label = "Language"
         value = { languageValue }
-        onChange = { this.handleLocalizationChange.bind( this, "language" ) }>
+        onChange = { this.handleChange.bind( this, "language" ) }>
         { this.createSimpleOptions( languageChoices ) }
       </Input>;
 
@@ -140,7 +140,7 @@ const LocalizationSettings = React.createClass(
         type = "select"
         label = "Timezone"
         value = { timezoneValue }
-        onChange = { this.handleLocalizationChange.bind( this, "timezone" ) }>
+        onChange = { this.handleChange.bind( this, "timezone" ) }>
         { this.createSimpleOptions( this.props.timezoneList ) }
       </Input>;
 
