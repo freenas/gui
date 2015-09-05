@@ -20,12 +20,12 @@
   { "boot_scrub_internal": 35
   , "motd": "FreeBSD ?.?.?  (UNKNOWN)\n\nFreeNAS (c) 2009-2014, The FreeNAS Development Team\nAll rights reserved.\nFreeNAS is released under the modified BSD license.\nFor more information, documentation, help or support, go here:\nhttp://freenas.org\n"
   , "serial_console": false
-  , "serial_port": null
+  , "serial_port": "0x2f8"
   , "uploadcrash": true
   , "console_screensaver": false
   , "swapondrive": 2
   , "debugkernel": false
-  , "serial_speed": null
+  , "serial_speed": 9600
   , "powerd": false
   , "console_cli": true
   , "autotune": false
