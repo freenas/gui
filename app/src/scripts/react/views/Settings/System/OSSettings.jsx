@@ -22,7 +22,6 @@ const OSSettings = React.createClass(
            };
   }
 
-
   , handleChange ( key, event ) {
     switch ( key ) {
       case "autotune":
