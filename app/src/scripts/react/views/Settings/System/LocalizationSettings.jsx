@@ -114,6 +114,21 @@ const LocalizationSettings = React.createClass(
     }
   }
 
+  , submit () {
+    var newConfig = {};
+
+    if ( _.has( this, [ "state", "language" ] ) ) {
+      newConfig.language = this.state.language
+    }
+    if ( _.has( this, [ "state", "timezone" ] ) ) {
+      newConfig.timezone = this.state.timezone
+    }
+
+    if ( !_.isEmpty( newConfig ) ) {
+      SM.updateSystemGeneralConfig( newConfig );
+    }
+  }
+
   , resetAll () {
     this.replaceState( null );
   }
