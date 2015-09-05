@@ -77,6 +77,34 @@ const Console = React.createClass(
     }
   }
 
+  , submit () {
+    var newAdvancedConfig = {};
+    var newGeneralConfig = {};
+
+    if ( _.has( this, [ "state", "console_screensaver" ] ) ) {
+      newAdvancedConfig.console_screensaver = this.state.console_screensaver
+    }
+    if ( _.has( this, [ "state", "serial_console" ] ) ) {
+      newAdvancedConfig.serial_console = this.state.serial_console
+    }
+    if ( _.has( this, [ "state", "serial_port" ] ) ) {
+      newAdvancedConfig.serial_port = this.state.serial_port
+    }
+    if ( _.has( this, [ "state", "serial_speed" ] ) ) {
+      newAdvancedConfig.serial_speed = Number.parseInt( this.state.serial_speed );
+    }
+    if ( _.has( this, [ "state", "console_keymap" ] ) ) {
+      newGeneralConfig.console_keymap = this.state.console_keymap
+    }
+
+    if ( !_.isEmpty( newAdvancedConfig) ) {
+      SM.updateSystemAdvancedConfig( newAdvancedConfig );
+    }
+    if ( !_.isEmpty( newGeneralConfig ) ) {
+      SM.updateSystemGeneralConfig( newGeneralConfig );
+    }
+  }
+
   , resetAll () {
     this.replaceState( null );
   }
