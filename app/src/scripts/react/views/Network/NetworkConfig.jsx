@@ -442,6 +442,7 @@ const NetworkConfig = React.createClass(
         onKeyDown = { this.addDNSServer }
         placeholder = "Enter new DNS server" />;
 
+    // TODO: Properly disable these when there's nothing to submit
     formControlButtons =
       <ButtonToolbar className = "pull-right">
         <Button
