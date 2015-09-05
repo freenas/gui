@@ -20,6 +20,12 @@ const serialPortSpeeds =
   , 115200
   ];
 
+// This is bad. Get real data ASAP.
+const serialPorts =
+  [ "0x248"
+  , "0x3f8"
+  ];
+
 function createKeymapOptions ( keymapArray ) {
   var options =
     _.map( keymapArray
