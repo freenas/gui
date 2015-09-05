@@ -138,6 +138,7 @@ const LocalizationSettings = React.createClass(
     var languageValue = this.props[ "language" ];
     var timezone = null;
     var timezoneValue = this.props[ "timezone" ];
+    var formControlButtons = null;
 
     if ( _.has( this, [ "state", "language" ] ) ) {
       languageValue = this.state.language;
@@ -163,12 +164,29 @@ const LocalizationSettings = React.createClass(
         { this.createSimpleOptions( this.props.timezoneList ) }
       </Input>;
 
+    formControlButtons =
+      <ButtonToolbar className = "pull-right">
+        <Button
+          bsStyle = "default"
+          onClick = { this.resetAll }
+          disabled = { _.isEmpty( this.state ) }>
+          { "Reset" }
+        </Button>
+        <Button
+          bsStyle = "primary"
+          onClick = { this.submit  }
+          disabled = { _.isEmpty( this.state ) }>
+          { "Apply" }
+        </Button>
+      </ButtonToolbar>;
+
     return (
       <Panel>
         <h4>Localization</h4>
         <form className = "settings-config-form">
           { language }
           { timezone }
+          { formControlButtons }
         </form>
       </Panel>
     );
