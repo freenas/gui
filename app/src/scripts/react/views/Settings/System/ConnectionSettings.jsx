@@ -51,6 +51,35 @@ const ConnectionSettings = React.createClass(
     }
   }
 
+  , submit () {
+    var newConfig = {};
+
+    if ( _.has( this, [ "state", "webui_protocol" ] ) ) {
+      newConfig.webui_protocol = this.state.webui_protocol;
+    }
+    if ( _.has( this, [ "state", "webui_http_port" ] ) ) {
+      newConfig.webui_http_port = Number.parseInt( this.state.webui_http_port, 10 );
+    }
+    if ( _.has( this, [ "state", "webui_https_port" ] ) ) {
+      newConfig.webui_https_port = Number.parseInt( this.state.webui_https_port, 10 );
+    }
+    if ( _.has( this, [ "state", "webui_https_certificate" ] ) ) {
+      newConfig.webui_https_certificate = this.state.webui_https_certificate;
+    }
+    if ( _.has( this, [ "state", "webui_http_redirect_https" ] ) ) {
+      newConfig.webui_http_redirect_https = this.state.webui_http_redirect_https;
+    }
+    if ( _.has( this, [ "state", "webappListenAll" ] ) ) {
+      newConfig.webui_listen = [ "0.0.0.0", "::" ];
+    } else if ( _.has( this, [ "state", "webui_listen" ] ) ) {
+      newConfig.webui_listen = this.state.webui_listen;
+    }
+
+    if ( !_.isEmpty( newConfig ) ) {
+      SM.updateSystemUIConfig( newConfig );
+    }
+  }
+
   , resetAll () {
     this.replaceState( null );
   }
