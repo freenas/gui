@@ -120,6 +120,7 @@ const Console = React.createClass(
     var serial_speedValue = this.props[ "serial_speed" ];
     var console_keymap = null;
     var console_keymapValue = this.props[ "console_keymap" ];
+    var formControlButtons = null;
 
     const keymapOptions = createKeymapOptions( this.props[ "keymapList" ] );
 
@@ -185,6 +186,22 @@ const Console = React.createClass(
         { keymapOptions }
       </Input>
 
+    formControlButtons =
+      <ButtonToolbar className = "pull-right">
+        <Button
+          bsStyle = "default"
+          onClick = { this.resetAll }
+          disabled = { _.isEmpty( this.state ) }>
+          { "Reset" }
+        </Button>
+        <Button
+          bsStyle = "primary"
+          onClick = { this.submit  }
+          disabled = { _.isEmpty( this.state ) }>
+          { "Apply" }
+        </Button>
+      </ButtonToolbar>;
+
     return (
       <Panel>
         <h4>Console</h4>
@@ -194,6 +211,7 @@ const Console = React.createClass(
           { serial_port }
           { serial_speed }
           { console_keymap }
+          { formControlButtons }
         </form>
       </Panel>
     );
