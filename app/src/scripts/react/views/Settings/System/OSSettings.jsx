@@ -45,6 +45,33 @@ const OSSettings = React.createClass(
     }
   }
 
+  , submit () {
+    var newConfig = {};
+
+    if ( _.has( this, [ "state", "autotune" ] ) ) {
+      newConfig.autotune = this.state.autotune;
+    }
+    if ( _.has( this, [ "state", "console_cli" ] ) ) {
+      newConfig.console_cli = this.state.console_cli;
+    }
+    if ( _.has( this, [ "state", "powerd" ] ) ) {
+      newConfig.powerd = this.state.powerd;
+    }
+    if ( _.has( this, [ "state", "uploadcrash" ] ) ) {
+      newConfig.uploadcrash = this.state.uploadcrash;
+    }
+    if ( _.has( this, [ "state", "swapondrive" ] ) ) {
+      newConfig.swapondrive = Number.parseInt( this.state.swapondrive );
+    }
+    if ( _.has( this, [ "state", "motd" ] ) ) {
+      newConfig.motd = this.state.motd;
+    }
+
+    if ( !_.isEmpty( newConfig ) ) {
+      SM.updateSystemAdvancedConfig( newConfig );
+    }
+  }
+
   , resetAll () {
     this.replaceState( null );
   }
