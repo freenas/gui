@@ -127,7 +127,9 @@ const Console = React.createClass(
         label = "Serial Console Port"
         value = { serial_portValue }
         onChange = { this.handleChange.bind( this
-                                           , "serial_port" ) }/>
+                                           , "serial_port" ) }>
+        { this.createSimpleOptions( serialPorts ) }
+      </Input>
 
     if ( _.has( this, [ "state", "serial_speed" ] ) ) {
       serial_speedValue = this.state[ "serial_speed" ];
@@ -140,7 +142,7 @@ const Console = React.createClass(
         onChange = { this.handleChange.bind( this
                                            , "serial_speed" ) }>
         { this.createSimpleOptions( serialPortSpeeds ) }
-        </Input>
+      </Input>
 
     if ( _.has( this, [ "state", "console_keymap" ] ) ) {
       console_keymapValue = this.state[ "console_keymap" ];
