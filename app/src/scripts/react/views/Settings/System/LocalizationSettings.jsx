@@ -114,6 +114,10 @@ const LocalizationSettings = React.createClass(
     }
   }
 
+  , resetAll () {
+    this.replaceState( null );
+  }
+
   , render () {
     var language = null;
     var languageValue = this.props[ "language" ];

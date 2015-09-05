@@ -71,6 +71,10 @@ const Console = React.createClass(
     }
   }
 
+  , resetAll () {
+    this.replaceState( null );
+  }
+
   , render () {
     var console_screensaver = null;
     var console_screensaverValue = this.props[ "console_screensaver" ];

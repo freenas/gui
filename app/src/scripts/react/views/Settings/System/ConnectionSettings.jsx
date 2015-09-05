@@ -51,6 +51,10 @@ const ConnectionSettings = React.createClass(
     }
   }
 
+  , resetAll () {
+    this.replaceState( null );
+  }
+
   , render () {
     var webui_protocol = null;
     var webui_protocolRealValue = this.props[ "webui_protocol" ];

@@ -45,6 +45,10 @@ const OSSettings = React.createClass(
     }
   }
 
+  , resetAll () {
+    this.replaceState( null );
+  }
+
   , render () {
     var autotune = null;
     var autotuneValue = this.props[ "autotune" ];
