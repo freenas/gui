@@ -78,6 +78,8 @@ class General extends RPCBase {
   configure ( system, args, callback ) {
     var newSystem = _.cloneDeep( system );
     var changedAttributes = {};
+    // var timeout = 1000;
+    var timeout = 0;
 
     if ( _.has( args[0], "timezone" ) ) {
       newSystem[ "timezone" ] = args[0][ "timezone" ];
@@ -103,12 +105,13 @@ class General extends RPCBase {
     this.emitChange( "system.general.changed"
                    , "system.general.configure"
                    , _.cloneDeep( newSystem )
+                   , timeout
                    );
     this.emitTask( this.namespace
                  , "system.general.configure"
-                 , timeout // time the task should take before dispatch
-                 , "root" // task owner
-                 , args[0] // original arguments
+                 , timeout
+                 , "root"
+                 , args[0]
                  , _.cloneDeep( newSystem[ "uiSettings" ] )
                  , true // task succeeds
                  );
