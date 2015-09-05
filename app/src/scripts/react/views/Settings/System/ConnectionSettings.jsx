@@ -102,6 +102,7 @@ const ConnectionSettings = React.createClass(
     var webappListenAllValue = false;
     var webui_listen = null;
     var webui_listenValue = this.props[ "webui_listen" ];
+    var formControlButtons = null;
 
     if (_.has( this, [ "state", "webui_protocol" ] ) ) {
       webui_protocolRealValue = this.state[ "webui_protocol" ];
@@ -211,6 +212,22 @@ const ConnectionSettings = React.createClass(
         onChange = { this.handleChange.bind( this, "webui_listen" ) }>
       </Input>;
 
+    formControlButtons =
+      <ButtonToolbar className = "pull-right">
+        <Button
+          bsStyle = "default"
+          onClick = { this.resetAll }
+          disabled = { _.isEmpty( this.state ) }>
+          { "Reset" }
+        </Button>
+        <Button
+          bsStyle = "primary"
+          onClick = { this.submit  }
+          disabled = { _.isEmpty( this.state ) }>
+          { "Apply" }
+        </Button>
+      </ButtonToolbar>;
+
     return (
       <Panel>
         <h4>Management Connection</h4>
@@ -222,6 +239,7 @@ const ConnectionSettings = React.createClass(
           { webui_http_redirect_https }
           { webappListenAll }
           { webui_listen }
+          { formControlButtons }
         </form>
       </Panel>
     );
