@@ -110,10 +110,28 @@ const InterfaceItem = React.createClass(
   }
 
   , handleChange ( key, evt ) {
+    var newNetworkInterface = {};
     switch ( key ) {
+      // TODO: have this handle broadcast and IPv6 properly as well
       case "staticIP":
-        this.setState( { staticIP: evt.target.value } );
+        let newAliases = [];
+        let aliasParts = evt.target.value.split( "/" );
+        let newNetmask = aliasParts[1];
+        if ( _.has( this, [ "state", "networkInterface", "aliases" ] ) ) {
+          newAliases = _.cloneDeep( this.state.networkInterface.aliases );
+        } else if ( _.has( this, [ "props", "networkInterface", "aliases" ] ) ) {
+          newAliases = _.cloneDeep( this.props.networkInterface.aliases );
+        }
+        if ( !_.isEmpty( newAliases ) ) {
+          let oldAliasIndex = _.find( newAliases, { family: "INET" } );
+          newAliases[ oldAliasIndex ].address = aliasParts[0];
+          newAliases[ oldAliasIndex ].newNetmask = aliasParts[1];
+          newNetworkInterface.aliases = newAliases;
+        }
         break;
+    }
+    if ( !_.isEmpty( newNetworkInterface ) ) {
+      this.setState( { networkInterface: newNetworkInterface } );
     }
   }
 
@@ -123,16 +141,25 @@ const InterfaceItem = React.createClass(
     if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "staticIP":
-          if ( this.isIPv4WithNetmask( this.state.staticIP ) ) {
-            let splitInput = this.state.staticIP.split( "/" );
-            let newIP = splitInput[0];
-            let newNetmask = parseInt( splitInput[1], 10 );
-            newNetworkInterface[ "ipv4-address" ] = newIP;
-            newNetworkInterface[ "ipv4-netmask" ] = newNetmask;
-            IM.configureInterface( this.props.networkInterface.name, newNetworkInterface);
+          if ( _.has( this, [ "state", "networkInterface", "aliases" ] )
+            && !_.isEmpty( this.state.networkInterface.aliases ) ) {
+            let newStaticIPAlias = _.find( this.state.networkInterface.aliases
+                                         , { family: "INET" }
+                                         );
+            if ( this.isIPv4WithNetmask( newStaticIPAlias.address
+                                       + "/"
+                                       + newStaticIPAlias.netmask
+                                       )
+               ) {
+              newNetworkInterface.aliases = this.state.networkInterface.aliases;
+            }
           }
         break;
       }
+    }
+    if ( !_.isEmpty( newNetworkInterface ) ) {
+      IM.configureInterface( this.props.networkInterface.id
+                           , newNetworkInterface);
     }
   }
 
@@ -202,6 +229,8 @@ const InterfaceItem = React.createClass(
           break;
       }
 
+      // TODO: Figure out how to represent both name and id, and allow changing
+      // only name.
       interfaceName = (
         <h2 className = { "interface-name " + statusClass } >
           { this.props.networkInterface.status.name }
