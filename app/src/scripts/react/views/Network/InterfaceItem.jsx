@@ -242,7 +242,7 @@ const InterfaceItem = React.createClass(
           className = "pull-right"
           toggled = { this.props.networkInterface.status.link_state
                   === "LINK_STATE_UP" }
-          onChange = { this.toggleInterface.bind( this ) } />;
+          onChange = { this.toggleInterface } />;
 
       if ( _.has( this, [ "state", "networkInterface", "status", "aliases" ] ) ) {
         aliases = this.state.networkInterface.status.aliases;
@@ -280,8 +280,8 @@ const InterfaceItem = React.createClass(
           value = { staticIPValue }
           bsStyle = { this.validate( "staticIP", staticIPValue ) }
           onBlur = { this.resetFocus.bind( null, "staticIP" ) }
-          onChange = { this.handleChange.bind( this, "staticIP" ) }
-          onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
+          onChange = { this.handleChange.bind( null, "staticIP" ) }
+          onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
           disabled = { this.props.networkInterface.dhcp
                     || this.props.networkInterface.status.link_state
                    !== "LINK_STATE_UP" } />;
