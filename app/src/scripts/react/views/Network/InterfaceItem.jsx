@@ -99,9 +99,9 @@ const InterfaceItem = React.createClass(
 
   , toggleInterface () {
     if ( this.props.networkInterface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
-      IM.downInterface( this.props.networkInterface.name );
+      IM.downInterface( this.props.networkInterface.id );
     } else {
-      IM.upInterface( this.props.networkInterface.name );
+      IM.upInterface( this.props.networkInterface.id );
     }
   }
 
@@ -160,7 +160,7 @@ const InterfaceItem = React.createClass(
     } else {
       newNetworkInterface = { dhcp: true };
     }
-    IM.configureInterface( this.props.networkInterface.name
+    IM.configureInterface( this.props.networkInterface.id
                          , newNetworkInterface );
   }
 
@@ -214,15 +214,12 @@ const InterfaceItem = React.createClass(
         </h2>
       );
 
-      interfaceToggle = (
+      interfaceToggle =
         <ToggleSwitch
           className = "pull-right"
           toggled = { this.props.networkInterface[ "status" ][ "link-state" ]
                   === "LINK_STATE_UP" }
-          onChange = { this.toggleInterface.bind( this
-                                                , this.props.networkInterface.name
-                                                ) } />
-      );
+          onChange = { this.toggleInterface.bind( this ) } />;
 
       if ( this.state.staticIP !== null ) {
         staticIPValue = this.state.staticIP;
