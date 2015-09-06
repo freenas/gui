@@ -26,7 +26,7 @@ class Network extends RPCBase {
   configure ( system, args, callback ) {
 
     var newSystem = _.cloneDeep( system );
-    var newNetworkConfig = _.cloneDeep( newSystem[ "globalNetworkConfig" ] );
+    var newNetworkConfig = _.cloneDeep( newSystem.globalNetworkConfig );
     //const timeout = 2500;
     const timeout = 0;
 
@@ -38,13 +38,13 @@ class Network extends RPCBase {
              return newProp;
            } );
 
-    newSystem[ "globalNetworkConfig" ] = newNetworkConfig;
+    newSystem.globalNetworkConfig = newNetworkConfig;
 
-    callback( newSystem, newSystem[ "globalNetworkConfig" ] );
+    callback( newSystem, newSystem.globalNetworkConfig );
 
     this.emitChange( "network.updated"
                    , "network.configure"
-                   , _.cloneDeep( newSystem[ "globalNetworkConfig" ] )
+                   , _.cloneDeep( newSystem.globalNetworkConfig )
                    , timeout
                    );
     this.emitTask( this.namespace
@@ -52,7 +52,7 @@ class Network extends RPCBase {
                  , timeout
                  , "root"
                  , args[0]
-                 , _.cloneDeep( newSystem[ "globalNetworkConfig" ] )
+                 , _.cloneDeep( newSystem.globalNetworkConfig )
                  , true
                  );
 
@@ -67,7 +67,7 @@ class Config extends RPCBase {
   }
 
   get_global_config ( system ) {
-    return system[ "globalNetworkConfig" ];
+    return system.globalNetworkConfig;
   }
 
 }
@@ -81,18 +81,18 @@ class Interfaces extends RPCBase {
 
   up ( system, args, callback ) {
     var newSystem = _.cloneDeep( system );
-    var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
+    var newInterfaces = _.cloneDeep( system.interfaces );
     var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
     var newInterface = newInterfaces[ newInterfaceIndex ];
     const timeout = 0;
     //const timeout = 1500;
 
-    if ( newInterface[ "status" ][ "link-state" ] === "LINK_STATE_DOWN" ) {
-      newInterface[ "status" ][ "link-state" ] = "LINK_STATE_UP";
+    if ( newInterface.status.link_state === "LINK_STATE_DOWN" ) {
+      newInterface.status.link_state = "LINK_STATE_UP";
 
       newInterfaces[ newInterfaceIndex ] = newInterface;
 
-      newSystem[ "interfaces" ] = newInterfaces;
+      newSystem.interfaces = newInterfaces;
 
       callback( newSystem, newInterfaces );
 
@@ -117,18 +117,18 @@ class Interfaces extends RPCBase {
 
   down ( system, args, callback ) {
     var newSystem = _.cloneDeep( system );
-    var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
+    var newInterfaces = _.cloneDeep( system.interfaces );
     var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
     var newInterface = newInterfaces[ newInterfaceIndex ];
     const timeout = 0;
     //const timeout = 1500;
 
-    if ( newInterface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
-      newInterface[ "status" ][ "link-state" ] = "LINK_STATE_DOWN";
+    if ( newInterface.status.link_state === "LINK_STATE_UP" ) {
+      newInterface.status.link_state = "LINK_STATE_DOWN";
 
       newInterfaces[ newInterfaceIndex ] = newInterface;
 
-      newSystem[ "interfaces" ] = newInterfaces;
+      newSystem.interfaces = newInterfaces;
 
       callback( newSystem, newInterfaces );
 
@@ -154,7 +154,7 @@ class Interfaces extends RPCBase {
 
   configure ( system, args, callback ) {
     var newSystem = _.cloneDeep( system );
-    var newInterfaces = _.cloneDeep( system[ "interfaces" ] );
+    var newInterfaces = _.cloneDeep( system.interfaces );
     var newInterfaceIndex = _.findIndex( newInterfaces, { name: args[0] } );
     var newInterface = newInterfaces[ newInterfaceIndex ];
 
@@ -167,7 +167,7 @@ class Interfaces extends RPCBase {
 
     newInterfaces[ newInterfaceIndex ] = newInterface;
 
-    newSystem[ "interfaces" ] = newInterfaces;
+    newSystem.interfaces = newInterfaces;
 
     callback( newSystem, newInterfaces );
 
@@ -180,7 +180,7 @@ class Interfaces extends RPCBase {
   }
 
   query ( system ) {
-    return system[ "interfaces" ];
+    return system.interfaces;
   }
 }
 
