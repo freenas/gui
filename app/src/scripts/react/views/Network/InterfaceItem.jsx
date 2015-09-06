@@ -22,18 +22,10 @@ const InterfaceItem = React.createClass(
 
   , mixins: [ networkCommon ]
 
-  , getInitialState () {
-    // 'staticIP' is just the string in the static IP field while it is being
-    // edited. The actual static IP that is committed will be parsed from it.
-    return { staticIP: null };
-  }
-
-  , showAliases () {
+  , showAliases ( aliases ) {
     var aliasList = [];
 
     if ( this.props.networkInterface ) {
-      let aliases = _.cloneDeep( this.props.networkInterface[ "status" ][ "aliases" ] );
-      _.remove( aliases, { family: "LINK" } );
       aliasList = _.map( aliases
                        , function createAliasSections ( alias, index ) {
                          let broadcast = null;
@@ -171,17 +163,18 @@ const InterfaceItem = React.createClass(
     var interfaceName = null;
     var interfaceType = "";
     var linkSpeed = null;
-    var enabled = this.props.networkInterface
-                ? this.props.networkInterface[ "enabled" ]
-                : false;
     var interfaceToggle = null;
     // FIXME: No such thing. Figure out how to represent real behavior at some point.
     var staticIP = null;
-    var staticIPValue = this.props.networkInterface[ "ipv4-address" ]
-                      + "/"
-                      + this.props.networkInterface[ "ipv4-netmask" ];
+    var staticIPValue = "";
     var dhcpToggle = null;
     var macAddressDisplay = null;
+    var macAddress = "";
+    // TODO: Find some way to indicate a mismatch between configured aliases and
+    // actual status.
+    var aliases = this.props.networkInterface
+                ? _.cloneDeep( this.props.networkInterface.status.aliases )
+                : [];
 
     // This all breaks if the interface isn't yet loaded. This should be fixed
     // by providing the component with individual props instead of one object.
@@ -222,10 +215,35 @@ const InterfaceItem = React.createClass(
                   === "LINK_STATE_UP" }
           onChange = { this.toggleInterface.bind( this ) } />;
 
-      if ( this.state.staticIP !== null ) {
-        staticIPValue = this.state.staticIP;
+      if ( _.has( this, [ "state", "networkInterface", "status", "aliases" ] ) ) {
+        aliases = this.state.networkInterface.status.aliases;
       }
 
+      let macAddressAlias = _.find( aliases
+                                  , { family: "LINK" }
+                                  );
+      if ( macAddressAlias ) {
+        macAddress = macAddressAlias.address;
+      }
+
+      macAddressDisplay =
+        <div className = "network-alias">
+          <div>
+            <span className = "alias-attribute-label">
+              { "MAC: " }
+            </span>
+            <span className = "alias-attribute">
+              { macAddress }
+            </span>
+          </div>
+        </div>;
+
+      // TODO: Update this for VLANs and LAGGs
+      _.remove( aliases, { family: "LINK" } );
+      if ( !_.isEmpty( aliases ) ) {
+        let staticIPAlias = aliases.shift();
+        staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
+      }
       staticIP =
         <Input
           type = "text"
@@ -248,22 +266,6 @@ const InterfaceItem = React.createClass(
           disabled = { this.props.networkInterface.status.link_state
                    !== "LINK_STATE_UP" }/>;
 
-      let macAddressInfo = _.find( this.props.networkInterface[ "status" ][ "aliases" ]
-                                 , { family: "LINK" }
-                                 );
-      let macAddress = macAddressInfo[ "address" ];
-
-      macAddressDisplay =
-        <div className = "network-alias">
-          <div>
-            <span className = "alias-attribute-label">
-              { "MAC: " }
-            </span>
-            <span className = "alias-attribute">
-              { macAddress }
-            </span>
-          </div>
-        </div>
     }
 
     return (
@@ -278,7 +280,7 @@ const InterfaceItem = React.createClass(
           headerShow = "Aliases"
           headerHide = "Aliases"
           defaultExpsnded = { true } >
-          { this.showAliases() }
+          { this.showAliases( aliases ) }
         </DiscTri>
       </Panel>
     );
