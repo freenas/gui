@@ -97,13 +97,13 @@ class Interfaces extends RPCBase {
       callback( newSystem, newInterfaces );
 
       this.emitChange( "network.interfaces.changed"
-                     , "network.interfaces.up"
+                     , "network.interface.up"
                      , _.cloneDeep( newInterface )
                      , timeout
                      );
 
       this.emitTask( this.namespace
-                   , "network.interfaces.up"
+                   , "network.interface.up"
                    , timeout
                    , "operator"
                    , args[0]
@@ -133,13 +133,13 @@ class Interfaces extends RPCBase {
       callback( newSystem, newInterfaces );
 
       this.emitChange( "network.interfaces.changed"
-                     , "network.interfaces.down"
+                     , "network.interface.down"
                      , _.cloneDeep( newInterface )
                      , timeout
                      );
 
       this.emitTask( this.namespace
-                   , "network.interfaces.down"
+                   , "network.interface.down"
                    , timeout
                    , "operator"
                    , args[0]
@@ -172,7 +172,7 @@ class Interfaces extends RPCBase {
     callback( newSystem, newInterfaces );
 
     this.emitChange( "network.interfaces.changed"
-                   , "network.interfaces.configure"
+                   , "network.interface.configure"
                    , _.cloneDeep( newInterface )
                    );
 
