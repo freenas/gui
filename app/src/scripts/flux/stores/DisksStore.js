@@ -23,7 +23,7 @@ const DISK_LABELS =
   , online: "Disk Online"
   , path: "Path"
   , sectorsize: "Sector Size"
-  , "max-rotation": "Maximum RPM"
+  , "max_rotation": "Maximum RPM"
   , "smart-enabled": "S.M.A.R.T. Enabled"
   , "smart-status": "S.M.A.R.T. Status"
   , model: "Disk Model"
@@ -38,7 +38,7 @@ function createLabel ( disk ) {
     , ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
     , disk.status["is-ssd"]
       ? ""
-      : disk.status["max-rotation"] + "rpm"
+      : disk.status.max_rotation + "rpm"
     ].join( " " )
   );
 }

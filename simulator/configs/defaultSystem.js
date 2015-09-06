@@ -19,7 +19,7 @@ function systemConfig () {
             { manufacturer: "Western Digital"
             , description: "WDC WD40EFRX-68WT0N0"
             , model: "WDC WD40EFRX-68WT0N0"
-            , "max-rotation": 5400
+            , "max_rotation": 5400
             , "is-ssd": false
             }
           , mediasize: 4000787030016 // Roughly 4TB
