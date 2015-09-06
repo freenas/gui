@@ -63,11 +63,15 @@ const NetworkConfig = React.createClass(
 
     var networkConfig = {};
     var systemGeneralConfig = {};
+    let removeSystemGeneralConfig = false;
 
     switch ( key ) {
       case "hostname":
         if ( evt.target.value !== this.props.systemGeneralConfig[ "hostname" ] ) {
           systemGeneralConfig = { hostname: evt.target.value };
+        } else {
+          // This allows the hostname to return to its neutral value.
+          removeSystemGeneralConfig = true;
         }
         break;
 
@@ -96,6 +100,10 @@ const NetworkConfig = React.createClass(
 
     if ( !_.isEmpty( systemGeneralConfig ) ) {
       this.setState( { systemGeneralConfig: systemGeneralConfig } );
+    } else if ( removeSystemGeneralConfig ) {
+      let newState = _.cloneDeep( this.state );
+      delete newState.systemGeneralConfig;
+      this.replaceState( newState );
     }
   }
 
