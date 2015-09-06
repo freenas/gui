@@ -34,7 +34,7 @@ var _disks = {};
 
 function createLabel ( disk ) {
   return (
-    [ disk.status.manufacturer
+    [ disk.status.manufacturer || ""
     , ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
     , disk.status["is-ssd"]
       ? ""
@@ -52,7 +52,7 @@ class DisksStore extends FluxBase {
       handlePayload.bind( this )
     );
 
-    this.KEY_UNIQUE = "serial";
+    this.KEY_UNIQUE = "id";
     this.ITEM_LABELS = DISK_LABELS;
   }
 

@@ -22,7 +22,7 @@ class DisksActionCreators {
       { type: ActionTypes.RECEIVE_DISK_DETAILS
       , timestamp
       , diskDetails
-      , diskID: diskDetails[ "serial" ]
+      , diskID: diskDetails.id
       }
     );
   }
