@@ -15,6 +15,8 @@ import DiscTri from "../../components/DiscTri";
 
 import IM from "../../../flux/middleware/InterfacesMiddleware";
 
+// FIXME: Change this component so that each prop is submitted separately,
+// with proper propTypes and default props.
 const InterfaceItem = React.createClass(
   { propTypes: { networkInterface: React.PropTypes.object.isRequired }
 
@@ -172,6 +174,7 @@ const InterfaceItem = React.createClass(
                 ? this.props.networkInterface[ "enabled" ]
                 : false;
     var interfaceToggle = null;
+    // FIXME: No such thing. Figure out how to represent real behavior at some point.
     var staticIP = null;
     var staticIPValue = this.props.networkInterface[ "ipv4-address" ]
                       + "/"
@@ -179,7 +182,8 @@ const InterfaceItem = React.createClass(
     var dhcpToggle = null;
     var macAddressDisplay = null;
 
-    // This all breaks if the interface isn't yet loaded.
+    // This all breaks if the interface isn't yet loaded. This should be fixed
+    // by providing the component with individual props instead of one object.
     if ( this.props.networkInterface ) {
       switch ( this.props.networkInterface[ "status" ][ "link-state" ] ) {
 
