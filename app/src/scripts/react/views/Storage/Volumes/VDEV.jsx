@@ -33,7 +33,7 @@ const VDEV = React.createClass(
     , path: React.PropTypes.string
     , purpose: React.PropTypes.oneOf(
         [ "data"
-        , "logs"
+        , "log"
         , "cache"
         , "spares"
         ]
@@ -68,7 +68,7 @@ const VDEV = React.createClass(
     }
 
   , requiresSSDs () {
-      return this.props.purpose === "cache" || this.props.purpose === "logs";
+      return this.props.purpose === "cache" || this.props.purpose === "log";
     }
 
   , queryDeviceAvailability () {

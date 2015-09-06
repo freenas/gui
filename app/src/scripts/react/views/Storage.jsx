@@ -108,7 +108,7 @@ const Storage = React.createClass(
 
       let pools =
         this.state.volumes.map( function ( volume, index ) {
-          let { data, logs, cache } = volume.topology;
+          let { data, log, cache } = volume.topology;
           let { free, allocated, size } = volume.properties;
 
           let spares = volume.topology.spares || [];
@@ -118,7 +118,7 @@ const Storage = React.createClass(
               { ...volumeCommon }
               existsOnRemote
               cache     = { cache }
-              logs      = { logs }
+              log       = { log }
               data      = { data }
               spares    = { spares }
               free      = { free.value }

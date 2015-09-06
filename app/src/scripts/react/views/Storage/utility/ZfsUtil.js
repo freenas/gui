@@ -246,7 +246,7 @@ class ZfsUtil {
   static createTopology ( ssds, disks, preferences ) {
     let topology =
       { data: []
-      , logs: []
+      , log: []
       , cache: []
       , spares: []
       };
@@ -256,21 +256,21 @@ class ZfsUtil {
 
     let availableHDDs = _.difference( disks, ssds );
     let ssdSplit = Math.floor( ssds.length / 2 );
-    let logsSSDs = ssds.slice( 0, ssdSplit );
+    let logSSDs = ssds.slice( 0, ssdSplit );
     let cacheSSDs = ssds.slice( ssdSplit, ssds.length );
     let desired = preferences.desired[0].toLowerCase();
     let chunkSize = DISK_CHUNKS[ desired ][ preferences.priority.toLowerCase() ];
 
     let allSelectedDisks = [];
 
-    topology.logs =
+    topology.log =
       this.reconstructVdev( 0
-                          , "logs"
+                          , "log"
                           , []
-                          , logsSSDs
+                          , logSSDs
                           , "stripe"
-                          )["logs"];
-    allSelectedDisks = allSelectedDisks.concat( logsSSDs );
+                          )["log"];
+    allSelectedDisks = allSelectedDisks.concat( logSSDs );
     topology.cache =
       this.reconstructVdev( 0
                           , "cache"

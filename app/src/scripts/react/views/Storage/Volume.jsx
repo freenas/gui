@@ -59,7 +59,7 @@ const Volume = React.createClass(
     { requestActive: React.PropTypes.func.isRequired
     , existsOnRemote: React.PropTypes.bool
     , data: React.PropTypes.array
-    , logs: React.PropTypes.array
+    , log: React.PropTypes.array
     , cache: React.PropTypes.array
     , spares: React.PropTypes.array
     , datasets: React.PropTypes.array
@@ -91,7 +91,7 @@ const Volume = React.createClass(
              , desiredSection: null
              , editing       : false
              , data          : []
-             , logs          : []
+             , log          : []
              , cache         : []
              , spares        : []
              , free          : 0
@@ -318,7 +318,7 @@ const Volume = React.createClass(
       ZAC.replaceDiskSelection( [] );
       this.setState(
         { data: []
-        , logs: []
+        , log: []
         , cache: []
         , spares: []
         , free: 0
@@ -327,12 +327,12 @@ const Volume = React.createClass(
     }
 
   , submitVolume () {
-      let { logs, cache, data, spares } = this.state;
+      let { log, cache, data, spares } = this.state;
 
 
       let newVolume =
         { topology:
-          { logs: ZfsUtil.unwrapStripe( logs ) || this.props.logs
+          { log: ZfsUtil.unwrapStripe( log ) || this.props.log
           , cache: ZfsUtil.unwrapStripe( cache ) || this.props.cache
           , data: ZfsUtil.unwrapStripe( data ) || this.props.data
           , spares: ZfsUtil.unwrapStripe( spares ) || this.props.spares
@@ -378,14 +378,14 @@ const Volume = React.createClass(
       switch ( this.state.activeSection ) {
         case "disks":
           // TODO: Temporary workaround until editing volumes works
-          let { data, logs, cache, spares } = this.props.existsOnRemote
+          let { data, log, cache, spares } = this.props.existsOnRemote
                                             ? this.props
                                             : this.state;
 
           return (
             <PoolTopology
               data = { data }
-              logs = { logs }
+              log = { log }
               cache = { cache }
               spares = { spares }
               handleDiskAdd = { this.handleDiskAdd }

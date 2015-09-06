@@ -1,7 +1,7 @@
 // TOPOLOGY DRAWER
 // ==============
 // A section of the Pool/Volume UI that shows the constituent VDEVs which are
-// being used for logs, cache, data, and spares.
+// being used for log, cache, data, and spares.
 
 "use strict";
 
@@ -20,7 +20,7 @@ var TopologyDrawer = React.createClass(
     , handleVdevNuke: React.PropTypes.func.isRequired
     , handleVdevTypeChange: React.PropTypes.func.isRequired
     , data: React.PropTypes.array.isRequired
-    , logs: React.PropTypes.array.isRequired
+    , log: React.PropTypes.array.isRequired
     , cache: React.PropTypes.array.isRequired
     , spares: React.PropTypes.array.isRequired
     , editing: React.PropTypes.bool.isRequired
@@ -34,7 +34,7 @@ var TopologyDrawer = React.createClass(
       };
 
     switch ( purpose ) {
-      case "logs":
+      case "log":
       case "cache":
         sharedProps.cols             = 12;
         // Log and Cache currently only allow a single VDEV.
@@ -147,7 +147,7 @@ var TopologyDrawer = React.createClass(
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Log</h4>
-            { this.createVdevs( "logs" ) }
+            { this.createVdevs( "log" ) }
           </Col>
 
           {/* STORAGE VDEVS */}

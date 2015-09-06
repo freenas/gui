@@ -200,7 +200,7 @@
           },
           "type": "array"
         },
-        "logs": {
+        "log": {
           "items": {
             "$ref": "zfs-vdev"
           },
