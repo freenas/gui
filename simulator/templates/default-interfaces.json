@@ -1,7 +1,7 @@
 { "interfaces":
   [ { "status":
-      { "link-state": "LINK_STATE_DOWN"
-      , "link-address": "d0:50:99:50:45:3a"
+      { "link_state": "LINK_STATE_DOWN"
+      , "link_address": "d0:50:99:50:45:3a"
       , "flags":
         [ "DRV_OACTIVE"
         , "SIMPLEX"
@@ -15,10 +15,6 @@
           }
         ]
       }
-    , "ipv4-address": "10.5.5.230"
-    , "ipv4-netmask": 16
-    , "ipv6-address": null
-    , "ipv6-netmask": null
     , "name": "igb1"
     , "enabled": false
     , "updated-at": 1436222476.952221
@@ -27,8 +23,8 @@
     , "id": "igb1"
     }
   , { "status":
-      { "link-state": "LINK_STATE_UP"
-      , "link-address": "d0:50:99:50:45:39"
+      { "link_state": "LINK_STATE_UP"
+      , "link_address": "d0:50:99:50:45:39"
       , "flags":
         [ "DRV_RUNNING"
         , "UP"
@@ -48,10 +44,6 @@
           }
         ]
       }
-    , "ipv4-address": "10.5.5.229"
-    , "ipv4-netmask": 16
-    , "ipv6-address": null
-    , "ipv6-netmask": null
     , "name": "igb0"
     , "enabled": true
     , "updated-at": 1436222476.946977

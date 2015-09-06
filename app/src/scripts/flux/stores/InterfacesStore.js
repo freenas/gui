@@ -22,7 +22,7 @@ const INTERFACE_SCHEMA =
     { status:
         { type: "object"
         , properties:
-          { "link-state"    : { type: "string" }
+          { "link_state"    : { type: "string" }
           , "link-address"  : { type: "string" }
           , flags:
             { enum:
@@ -56,8 +56,8 @@ const INTERFACE_SCHEMA =
 
 const INTERFACE_LABELS =
     { status              : "Status"
-    , "link-state"        : "Link State"
-    , "link-address"      : "Link Address"
+    , "link_state"        : "Link State"
+    , "link_address"      : "Link Address"
     , flags               : "Flags"
     , name                : "Interface Name"
     , aliases             : "Aliases"
