@@ -109,7 +109,7 @@ function createVolume ( volumeIndex, disks, id ) {
   // Separate out hdds and ssds
   _.forEach( disks
            , function selectSSDs ( disk ) {
-             if ( disk[ "status" ][ "is-ssd" ] ) {
+             if ( disk[ "status" ][ "is_ssd" ] ) {
                ssds.push( disk );
              } else {
                hdds.push( disk );

@@ -20,7 +20,7 @@ function systemConfig () {
             , description: "WDC WD40EFRX-68WT0N0"
             , model: "WDC WD40EFRX-68WT0N0"
             , "max_rotation": 5400
-            , "is-ssd": false
+            , "is_ssd": false
             }
           , mediasize: 4000787030016 // Roughly 4TB
           , serial: "WD-WCC4ENSDRSV"
@@ -36,7 +36,7 @@ function systemConfig () {
             { manufacturer: "Samsung"
             , description: "16GB SATA Flash Drive"
             , model: "16GB SATA Flash Drive"
-            , "is-ssd": true
+            , "is_ssd": true
             }
           , mediasize: 16013377536 // Roughly 16GB
           , serial: "B061448240070000039"
@@ -51,7 +51,7 @@ function systemConfig () {
             { manufacturer: "OCZ"
             , description: "FreeNAS Mini ZIL"
             , model: "FreeNAS Mini ZIL rev. 2"
-            , "is-ssd": true
+            , "is_ssd": true
             }
           , mediasize: 8006688768 // Roughly 8GB
           , serial: "A19D101121600854"

@@ -37,7 +37,7 @@ const Disk = React.createClass(
     return (
       <div className= { diskClasses.join( " " ) } >
         <img
-          src = { disk.status["is-ssd"]
+          src = { disk.status["is_ssd"]
                 ? "img/ssd.png"
                 : "img/hdd.png"
                 }

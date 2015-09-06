@@ -36,7 +36,7 @@ function createLabel ( disk ) {
   return (
     [ disk.status.manufacturer || ""
     , ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
-    , disk.status["is-ssd"]
+    , disk.status["is_ssd"]
       ? ""
       : disk.status.max_rotation + "rpm"
     ].join( " " )
@@ -94,7 +94,7 @@ class DisksStore extends FluxBase {
   get similarDisks () {
     // Returns arrays of disks based on their self-similarity - determined as
     // the combination of RPM, capacity, type, and manufacturer.
-    let disks = _.partition( _disks, disk => disk.status["is-ssd"] );
+    let disks = _.partition( _disks, disk => disk.status["is_ssd"] );
     let SSDs = {};
     let HDDs = {};
 
@@ -150,7 +150,7 @@ class DisksStore extends FluxBase {
     let targetDisk = this.getByPath( path );
 
     return targetDisk
-      ? targetDisk.status["is-ssd"]
+      ? targetDisk.status["is_ssd"]
       : null;
   }
 
@@ -158,7 +158,7 @@ class DisksStore extends FluxBase {
     let targetDisk = this.getByPath( path );
 
     return targetDisk
-      ? !targetDisk.status["is-ssd"]
+      ? !targetDisk.status["is_ssd"]
       : null;
   }
 
