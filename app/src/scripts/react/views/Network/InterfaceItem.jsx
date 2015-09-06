@@ -98,7 +98,8 @@ const InterfaceItem = React.createClass(
   }
 
   , toggleInterface () {
-    if ( this.props.networkInterface[ "status" ][ "link-state" ] === "LINK_STATE_UP" ) {
+    if ( this.props.networkInterface.status.link_state
+     === "LINK_STATE_UP" ) {
       IM.downInterface( this.props.networkInterface.id );
     } else {
       IM.upInterface( this.props.networkInterface.id );
@@ -185,7 +186,7 @@ const InterfaceItem = React.createClass(
     // This all breaks if the interface isn't yet loaded. This should be fixed
     // by providing the component with individual props instead of one object.
     if ( this.props.networkInterface ) {
-      switch ( this.props.networkInterface[ "status" ][ "link-state" ] ) {
+      switch ( this.props.networkInterface.status.link_state ) {
 
         case "LINK_STATE_UP":
           statusClass = "interface-up";
@@ -210,14 +211,14 @@ const InterfaceItem = React.createClass(
 
       interfaceName = (
         <h2 className = { "interface-name " + statusClass } >
-          { this.props.networkInterface[ "name" ] }
+          { this.props.networkInterface.status.name }
         </h2>
       );
 
       interfaceToggle =
         <ToggleSwitch
           className = "pull-right"
-          toggled = { this.props.networkInterface[ "status" ][ "link-state" ]
+          toggled = { this.props.networkInterface.status.link_state
                   === "LINK_STATE_UP" }
           onChange = { this.toggleInterface.bind( this ) } />;
 
@@ -235,8 +236,8 @@ const InterfaceItem = React.createClass(
           onChange = { this.handleChange.bind( this, "staticIP" ) }
           onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
           disabled = { this.props.networkInterface.dhcp
-                    || this.props.networkInterface[ "status" ][ "link-state" ]
-                   !== "LINK_STATE_UP" } />
+                    || this.props.networkInterface.status.link_state
+                   !== "LINK_STATE_UP" } />;
 
       dhcpToggle =
         <Input
@@ -244,7 +245,7 @@ const InterfaceItem = React.createClass(
           checked = { this.props.networkInterface.dhcp }
           onChange = { this.toggleDHCP }
           label = { "Enable DHCP" }
-          disabled = { this.props.networkInterface[ "status" ][ "link-state" ]
+          disabled = { this.props.networkInterface.status.link_state
                    !== "LINK_STATE_UP" }/>;
 
       let macAddressInfo = _.find( this.props.networkInterface[ "status" ][ "aliases" ]
