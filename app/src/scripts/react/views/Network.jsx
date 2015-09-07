@@ -88,7 +88,7 @@ const Network = React.createClass(
                         , function createInterfaceItems ( networkInterface, key ) {
                           return ( <InterfaceItem
                             networkInterface = { networkInterface }
-                            key = { networkInterface[ "name" ] } /> );
+                            key = { networkInterface.id } /> );
                         }
                         );
     }
