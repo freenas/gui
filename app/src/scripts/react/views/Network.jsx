@@ -25,45 +25,12 @@ function getInterfaces () {
 }
 
 function getNetworkConfig () {
-  // Default network config values.
-  const defaultNetworkConfig =
-    { dhcp:
-      { assign_gateway: false
-      , assign_dns: false
-      }
-    , http_proxy: null
-    , autoconfigure: false
-    , dns:
-      { search: []
-      , servers: []
-      }
-    , gateway:
-      { ipv4: ""
-      , ipv6: ""
-      }
-    };
-
-  var networkConfig = _.defaultsDeep( _.cloneDeep( NS.networkConfig )
-                                    , defaultNetworkConfig );
-
-  return networkConfig;
+  return NS.networkConfig;
 
 }
 
 function getSystemGeneralConfig () {
-  // Default system general config values.
-  const defaultSystemGeneralConfig =
-    { timezone: ""
-    , hostname: ""
-    , language: ""
-    , console_keymap: ""
-  };
-
-  var systemGeneralConfig =
-    _.defaultsDeep( _.cloneDeep( SS.systemGeneralConfig )
-                  , defaultSystemGeneralConfig );
-
-  return systemGeneralConfig;
+  return SS.systemGeneralConfig;
 }
 
 const Network = React.createClass(
