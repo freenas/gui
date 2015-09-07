@@ -28,8 +28,28 @@ const ConnectionSettings = React.createClass(
   , handleChange ( key, event ) {
     switch ( key ) {
       case "webui_protocol":
-        this.setState( { webui_protocol: event.target.value } );
-        break;
+        let nextProtocol;
+        switch ( event.target.value ) {
+          case "both":
+            nextProtocol = [ "HTTP", "HTTPS" ];
+            break;
+          case "http":
+            nextProtocol = [ "HTTP" ];
+            break;
+          case "https":
+            nextProtocol = [ "HTTPS" ];
+            break;
+        }
+        // If you set the protocol back where it was, remove the change from
+        // state.
+        if ( !_.isEqual( nextProtocol, this.props.webui_protocol ) ) {
+          this.setState( { webui_protocol: nextProtocol } );
+        } else {
+          let nextState = _.cloneDeep( this.state );
+          delete nextState.webui_protocol;
+          this.replaceState( nextState );
+        }
+      break;
       case "webui_http_port":
         this.setState( { webui_http_port: event.target.value } );
         break;
@@ -53,7 +73,6 @@ const ConnectionSettings = React.createClass(
 
   , submit () {
     var newConfig = {};
-
     if ( _.has( this, [ "state", "webui_protocol" ] ) ) {
       newConfig.webui_protocol = this.state.webui_protocol;
     }
@@ -74,7 +93,6 @@ const ConnectionSettings = React.createClass(
     } else if ( _.has( this, [ "state", "webui_listen" ] ) ) {
       newConfig.webui_listen = this.state.webui_listen;
     }
-
     if ( !_.isEmpty( newConfig ) ) {
       SM.updateSystemUIConfig( newConfig );
     }
@@ -107,22 +125,37 @@ const ConnectionSettings = React.createClass(
     if ( _.has( this, [ "state", "webui_protocol" ] ) ) {
       webui_protocolRealValue = this.state.webui_protocol;
     }
-
-    if ( webui_protocolRealValue === [ "HTTP" ] ) {
-      webui_protocolValue = "http";
-    } else if ( webui_protocolRealValue === [ "HTTPS" ] ) {
-      webui_protocolValue = "https";
-    } else if ( webui_protocolRealValue === [ "HTTP", "HTTPS" ]
-             || webui_protocolRealValue === [ "HTTPS", "HTTP" ]
-              ) {
+    if ( _.find( webui_protocolRealValue
+               , function ( value ) {
+                 return value === "HTTP"
+               }
+               )
+      && _.find( webui_protocolRealValue
+               , function ( value ) {
+                  return value === "HTTPS"
+               }
+               )
+        ) {
       webui_protocolValue = "both";
+    } else if ( _.find( webui_protocolRealValue
+              , function ( value ) {
+                return value === "HTTP"
+              }
+              ) ) {
+      webui_protocolValue = "http";
+    } else if ( _.find( webui_protocolRealValue
+              , function ( value ) {
+                return value === "HTTPS"
+              }
+              ) ) {
+      webui_protocolValue = "https";
     }
     webui_protocol =
       <Input
         type = "select"
         label = "Protocol"
         value = { webui_protocolValue }
-        onChange = { this.handleChange.bind( this, "webui_protocol" ) }>
+        onChange = { this.handleChange.bind( null, "webui_protocol" ) }>
         <option
           value = { "http" }
           key = { "http" }>
@@ -140,7 +173,7 @@ const ConnectionSettings = React.createClass(
         </option>
       </Input>;
 
-    if (_.has( this, [ "state", "webui_http_port" ] ) ) {
+    if ( _.has( this, [ "state", "webui_http_port" ] ) ) {
       webui_http_portValue = this.state.webui_http_port;
     }
     // TODO: Check that it's an integer in the valid range
@@ -151,7 +184,7 @@ const ConnectionSettings = React.createClass(
         value = { webui_http_portValue }
         onChange = { this.handleChange.bind( this, "webui_http_port" ) }/>;
 
-    if (_.has( this, [ "state", "webui_https_port" ] ) ) {
+    if ( _.has( this, [ "state", "webui_https_port" ] ) ) {
       webui_https_portValue = this.state.webui_https_port;
     }
     // TODO: Check that it's an integer in the valid range
@@ -162,7 +195,7 @@ const ConnectionSettings = React.createClass(
         value = { webui_https_portValue }
         onChange = { this.handleChange.bind( this, "webui_https_port" ) }/>;
 
-    if (_.has( this, [ "state", "webui_https_certificate" ] ) ) {
+    if ( _.has( this, [ "state", "webui_https_certificate" ] ) ) {
       webui_https_certificateValue = this.state.webui_https_certificate;
     }
     // Depends on certificate configuration
@@ -176,7 +209,7 @@ const ConnectionSettings = React.createClass(
       { /*An array of options based on the available certificates goes here.*/ }
       </Input>;
 
-    if (_.has( this, [ "state", "webui_http_redirect_https" ] ) ) {
+    if ( _.has( this, [ "state", "webui_http_redirect_https" ] ) ) {
       webui_http_redirect_httpsValue = this.state.webui_http_redirect_https;
     }
     webui_http_redirect_https =
@@ -187,7 +220,7 @@ const ConnectionSettings = React.createClass(
         onChange = { this.handleChange.bind( this, "webui_http_redirect_https" ) }
         disabled = { webui_protocolValue === "http" } />;
 
-    if (_.has( this, [ "state", "webappListenAll" ] ) ) {
+    if ( _.has( this, [ "state", "webappListenAll" ] ) ) {
       webappListenAllValue = this.state.webappListenAll;
     }
     // Allows ALL IPs, overriding available IP choices
@@ -198,7 +231,7 @@ const ConnectionSettings = React.createClass(
         label = "Allow Access Over All IP Addresses"
         onChange = { this.handleChange.bind( this, "webappListenAll" ) }/>;
 
-    if (_.has( this, [ "state", "webui_listen" ] ) ) {
+    if ( _.has( this, [ "state", "webui_listen" ] ) ) {
       webui_listenValue = this.state.webui_listen;
     }
     // Choose among available IPs
