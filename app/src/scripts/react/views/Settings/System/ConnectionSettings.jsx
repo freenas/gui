@@ -86,26 +86,26 @@ const ConnectionSettings = React.createClass(
 
   , render () {
     var webui_protocol = null;
-    var webui_protocolRealValue = this.props[ "webui_protocol" ];
-    var webui_protocolValue = ""
+    var webui_protocolRealValue = this.props.webui_protocol;
+    var webui_protocolValue = "";
     var webui_http_port = null;
-    var webui_http_portValue = this.props[ "webui_http_port" ];
+    var webui_http_portValue = this.props.webui_http_port;
     var webui_https_port = null;
-    var webui_https_portValue = this.props[ "webui_https_port" ];
+    var webui_https_portValue = this.props.webui_https_port;
     var webui_https_certificate = null;
-    var webui_https_certificateValue = this.props[ "webui_https_certificate" ];
+    var webui_https_certificateValue = this.props.webui_https_certificate;
     var webui_http_redirect_https = null;
-    var webui_http_redirect_httpsValue = this.props[ "webui_http_redirect_https" ];
+    var webui_http_redirect_httpsValue = this.props.webui_http_redirect_https;
     var webappListenAll = null;
     // webappListenAllValue must be false by default, because it won't be in
     // props and may not be in state.
     var webappListenAllValue = false;
     var webui_listen = null;
-    var webui_listenValue = this.props[ "webui_listen" ];
+    var webui_listenValue = this.props.webui_listen;
     var formControlButtons = null;
 
-    if (_.has( this, [ "state", "webui_protocol" ] ) ) {
-      webui_protocolRealValue = this.state[ "webui_protocol" ];
+    if ( _.has( this, [ "state", "webui_protocol" ] ) ) {
+      webui_protocolRealValue = this.state.webui_protocol;
     }
 
     if ( webui_protocolRealValue === [ "HTTP" ] ) {
@@ -141,7 +141,7 @@ const ConnectionSettings = React.createClass(
       </Input>;
 
     if (_.has( this, [ "state", "webui_http_port" ] ) ) {
-      webui_http_portValue = this.state[ "webui_http_port" ];
+      webui_http_portValue = this.state.webui_http_port;
     }
     // TODO: Check that it's an integer in the valid range
     webui_http_port =
@@ -152,7 +152,7 @@ const ConnectionSettings = React.createClass(
         onChange = { this.handleChange.bind( this, "webui_http_port" ) }/>;
 
     if (_.has( this, [ "state", "webui_https_port" ] ) ) {
-      webui_https_portValue = this.state[ "webui_https_port" ];
+      webui_https_portValue = this.state.webui_https_port;
     }
     // TODO: Check that it's an integer in the valid range
     webui_https_port =
@@ -163,7 +163,7 @@ const ConnectionSettings = React.createClass(
         onChange = { this.handleChange.bind( this, "webui_https_port" ) }/>;
 
     if (_.has( this, [ "state", "webui_https_certificate" ] ) ) {
-      webui_https_certificateValue = this.state[ "webui_https_certificate" ];
+      webui_https_certificateValue = this.state.webui_https_certificate;
     }
     // Depends on certificate configuration
     webui_https_certificate =
@@ -177,7 +177,7 @@ const ConnectionSettings = React.createClass(
       </Input>;
 
     if (_.has( this, [ "state", "webui_http_redirect_https" ] ) ) {
-      webui_http_redirect_httpsValue = this.state[ "webui_http_redirect_https" ];
+      webui_http_redirect_httpsValue = this.state.webui_http_redirect_https;
     }
     webui_http_redirect_https =
       <Input
@@ -188,7 +188,7 @@ const ConnectionSettings = React.createClass(
         disabled = { webui_protocolValue === "http" } />;
 
     if (_.has( this, [ "state", "webappListenAll" ] ) ) {
-      webappListenAllValue = this.state[ "webappListenAll" ];
+      webappListenAllValue = this.state.webappListenAll;
     }
     // Allows ALL IPs, overriding available IP choices
     webappListenAll =
@@ -199,7 +199,7 @@ const ConnectionSettings = React.createClass(
         onChange = { this.handleChange.bind( this, "webappListenAll" ) }/>;
 
     if (_.has( this, [ "state", "webui_listen" ] ) ) {
-      webui_listenValue = this.state[ "webui_listen" ];
+      webui_listenValue = this.state.webui_listen;
     }
     // Choose among available IPs
     webui_listen =
