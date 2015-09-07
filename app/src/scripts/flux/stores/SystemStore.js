@@ -122,13 +122,13 @@ function handlePayload ( payload ) {
             this.emitChange();
           }
         }
-/*      if ( args.name === "task.updated"
+      // Check for all the other tasks that could complete
+      if ( args.name === "task.progress"
           && args.args.name === "system.general.configure"
           && args.args.state === "FINISHED" ) {
         _localUpdatePending = _.without( _localUpdatePending, args.args.id );
         this.emitChange();
       }
-*/
       break;
 
     default:
