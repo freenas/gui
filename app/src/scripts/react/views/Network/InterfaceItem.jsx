@@ -22,6 +22,7 @@ const InterfaceItem = React.createClass(
                , dhcp: React.PropTypes.bool
                , id: React.PropTypes.string
                , name: React.PropTypes.string
+               , enabled: React.PropTypes.bool
                }
 
   , mixins: [ networkCommon ]
@@ -93,11 +94,10 @@ const InterfaceItem = React.createClass(
   }
 
   , toggleInterface () {
-    if ( this.props.status.link_state
-     === "LINK_STATE_UP" ) {
-      IM.downInterface( this.props.id );
+    if ( this.props.enabled ) {
+      IM.configureInterface( this.props.id, { enabled: false } );
     } else {
-      IM.upInterface( this.props.id );
+      IM.configureInterface( this.props.id, { enabled: true } );
     }
   }
 
@@ -195,6 +195,7 @@ const InterfaceItem = React.createClass(
     var interfaceType = "";
     var linkSpeed = null;
     var interfaceToggle = null;
+    var interfaceToggleValue = false;
     // FIXME: No such thing. Figure out how to represent real behavior at some point.
     var staticIP = null;
     var staticIPValue = "";
@@ -224,13 +225,6 @@ const InterfaceItem = React.createClass(
           break;
       }
 
-      interfaceToggle =
-        <ToggleSwitch
-          className = "pull-right"
-          toggled = { this.props.status.link_state
-                  === "LINK_STATE_UP" }
-          onChange = { this.toggleInterface } />;
-
       let dhcpValue = false;
       if ( _.has( this.props, [ "dhcp" ] ) ) {
         dhcpValue = this.props.dhcp
@@ -244,6 +238,15 @@ const InterfaceItem = React.createClass(
           disabled = { this.props.status.link_state
                    !== "LINK_STATE_UP" }/>;
     }
+
+    if ( _.has( this, [ "props", "enabled" ] ) ) {
+      interfaceToggleValue = this.props.enabled
+    }
+    interfaceToggle =
+      <ToggleSwitch
+        className = "pull-right"
+        toggled = { interfaceToggleValue }
+        onChange = { this.toggleInterface } />;
 
     if ( _.has( this, [ "props", "status", "name" ] ) ) {
       // TODO: Figure out how to represent both name and id, and allow changing
