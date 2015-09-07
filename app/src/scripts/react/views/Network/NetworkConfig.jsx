@@ -395,12 +395,14 @@ const NetworkConfig = React.createClass(
     }
     ipv6Gateway =
       <div>
-        <Col md = { 4 }
-                  sm = { 5 }>
+        <Col
+          md = { 4 }
+          sm = { 5 }>
           { "IPv6 Default Gateway" }
         </Col>
-        <Col md = { 8 }
-                  sm = { 7 }>
+        <Col
+          md = { 8 }
+          sm = { 7 }>
           <Input
             type = "text"
             ref = "ipv6"
@@ -470,14 +472,16 @@ const NetworkConfig = React.createClass(
         <h3 className = "text-center">Network Configuration</h3>
         <Grid fluid>
           <Row>
-            <Col md = { 12 }
-                      lg = { 6 } >
+            <Col
+              md = { 12 }
+              lg = { 6 } >
               { hostname }
               { ipv4Gateway }
               { ipv6Gateway }
             </Col>
-            <Col md = { 8 }
-                      lg = { 6 } >
+            <Col
+              md = { 8 }
+              lg = { 6 } >
               <Col xs = { 12 } >
                 <h5>DNS Servers</h5>
               </Col>
