@@ -77,7 +77,7 @@ class InterfacesStore extends FluxBase {
       handlePayload.bind( this )
     );
 
-    this.KEY_UNIQUE = "name";
+    this.KEY_UNIQUE = "id";
     this.ITEM_SCHEMA = INTERFACE_SCHEMA;
     this.ITEM_LABELS = INTERFACE_LABELS;
   }
@@ -93,20 +93,20 @@ class InterfacesStore extends FluxBase {
   /**
    * Check if the selected interface is
    * in the list of interfaces with pending updates.
-   * @param  {String} name The interface name.
+   * @param  {String} id The interface id.
    * @return {Boolean}
    */
-  isLocalTaskPending ( name ) {
-    return _.values( _localUpdatePending ).indexof( name ) > -1;
+  isLocalTaskPending ( id ) {
+    return _.values( _localUpdatePending ).indexof( id ) > -1;
   }
 
   /**
    * Check if the selected interface is in the list of updated interfaces.
-   * @param  {String} name The interface name.
+   * @param  {String} id The interface id.
    * @return {Boolean}
    */
-  isInterfaceUpdatePending ( name ) {
-      return _updatedOnServer.indexof( name ) > -1;
+  isInterfaceUpdatePending ( id ) {
+      return _updatedOnServer.indexof( id ) > -1;
   }
 
   findInterfaceByKeyValue ( key, value ) {
@@ -128,7 +128,7 @@ function handlePayload ( payload ) {
   switch ( action.type ) {
 
     case ActionTypes.RECEIVE_INTERFACES_LIST:
-      var updatedInterfaceNames = _.pluck( action.rawInterfacesList, "name" );
+      var updatedInterfaceNames = _.pluck( action.rawInterfacesList, "id" );
 
       if ( _updatedOnServer.length ) {
         _updatedOnServer = _.difference(
@@ -138,7 +138,7 @@ function handlePayload ( payload ) {
       }
 
       action.rawInterfacesList.map( function ( _interface ) {
-        _interfaces[ _interface.name ] = _interface;
+        _interfaces[ _interface.id ] = _interface;
       });
       this.emitChange();
       break;
@@ -146,7 +146,7 @@ function handlePayload ( payload ) {
     case ActionTypes.MIDDLEWARE_EVENT:
     let args = eventData.args;
       if ( args.name === "entity-subscriber.network.interfaces.changed" ) {
-        _interfaces[ args.args.entities[0].name ] =
+        _interfaces[ args.args.entities[0].id ] =
           _.cloneDeep( args.args.entities[0] );
         this.emitChange();
       }
