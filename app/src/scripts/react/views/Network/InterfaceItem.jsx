@@ -118,20 +118,7 @@ const InterfaceItem = React.createClass(
     switch ( key ) {
       // TODO: have this handle broadcast and IPv6 properly as well
       case "staticIP":
-        let newAliases = [];
-        let aliasParts = evt.target.value.split( "/" );
-        let newNetmask = aliasParts[1];
-        if ( _.has( this, [ "state", "aliases" ] ) ) {
-          newAliases = _.cloneDeep( this.state.aliases );
-        } else if ( _.has( this, [ "props", "aliases" ] ) ) {
-          newAliases = _.cloneDeep( this.props.aliases );
-        }
-        if ( !_.isEmpty( newAliases ) ) {
-          let oldAliasIndex = _.find( newAliases, { family: "INET" } );
-          newAliases[ oldAliasIndex ].address = aliasParts[0];
-          newAliases[ oldAliasIndex ].newNetmask = aliasParts[1];
-          newNetworkInterface.aliases = newAliases;
-        }
+        this.setState( { staticIPInProgress: evt.target.value } );
         break;
     }
     if ( !_.isEmpty( newNetworkInterface ) ) {
@@ -145,20 +132,31 @@ const InterfaceItem = React.createClass(
     if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "staticIP":
-          if ( _.has( this, [ "state", "aliases" ] )
-            && !_.isEmpty( this.state.aliases ) ) {
-            let newStaticIPAlias = _.find( this.state.aliases
-                                         , { family: "INET" }
-                                         );
-            if ( this.isIPv4WithNetmask( newStaticIPAlias.address
-                                       + "/"
-                                       + newStaticIPAlias.netmask
-                                       )
-               ) {
-              newNetworkInterface.aliases = this.state.aliases;
+          if ( _.has( this, [ "state", "staticIPInProgress" ] )
+            && this.isIPv4WithNetmask( this.state.staticIPInProgress ) ) {
+            let newAliases = [];
+            let aliasParts = this.state.staticIPInProgress.split( "/" );
+            if ( _.has( this, [ "state", "aliases" ] ) ) {
+              newAliases = this.state.aliases.slice();
+            } else if ( _.has( this, [ "props", "aliases" ] ) ) {
+              newAliases = this.props.aliases.slice();
+            }
+            if ( _.find( newAliases, { family: "INET" } ) ) {
+              let oldAliasIndex = _.findIndex( newAliases, { family: "INET" } );
+              newAliases[ oldAliasIndex ].address = aliasParts[0];
+              newAliases[ oldAliasIndex ].newNetmask = aliasParts[1];
+              newNetworkInterface.aliases = newAliases;
+            } else {
+              newAliases =
+                [ { family: "INET"
+                  , address: aliasParts[0]
+                  , netmask: aliasParts[1]
+                  }
+                ];
+              newNetworkInterface.aliases = newAliases;
             }
           }
-        break;
+          break;
       }
     }
     if ( !_.isEmpty( newNetworkInterface ) ) {
@@ -261,52 +259,58 @@ const InterfaceItem = React.createClass(
     // TODO: Find some way to indicate a mismatch between configured aliases and
     // actual status.
     if ( _.has( this, [ "props", "status", "aliases" ] ) ) {
-      aliases = _.cloneDeep( this.props.status.aliases );
+      aliases = this.props.status.aliases.slice();
+    }
+    // Aliases in state override those in props
+    if ( _.has( this, [ "state", "status", "aliases" ] ) ) {
+       aliases = this.state.status.aliases.slice();
+    }
 
-      if ( _.has( this, [ "state", "status", "aliases" ] ) ) {
-        aliases = this.state.status.aliases;
+    if ( !_.isEmpty( aliases ) ) {
+      let macAddressAlias = _.find( aliases
+                                  , { family: "LINK" }
+                                  );
+      if ( macAddressAlias ) {
+        macAddress = macAddressAlias.address;
       }
 
+      macAddressDisplay =
+        <div className = "network-alias">
+          <div>
+            <span className = "alias-attribute-label">
+              { "MAC: " }
+            </span>
+            <span className = "alias-attribute">
+              { macAddress }
+            </span>
+          </div>
+        </div>;
+    }
+    // TODO: Update this for VLANs and LAGGs
+    _.remove( aliases, { family: "LINK" } );
+
+    // FIXME: There is no way this will work once we're presenting aliases as
+    // equals, without a "static IP". Don't let it survive past then.
+    if ( _.has( this, [ "state", "staticIPInProgress" ] ) ) {
+      staticIPValue = this.state.staticIPInProgress;
+    } else {
       if ( !_.isEmpty( aliases ) ) {
-        let macAddressAlias = _.find( aliases
-                                    , { family: "LINK" }
-                                    );
-        if ( macAddressAlias ) {
-          macAddress = macAddressAlias.address;
-        }
-
-        macAddressDisplay =
-          <div className = "network-alias">
-            <div>
-              <span className = "alias-attribute-label">
-                { "MAC: " }
-              </span>
-              <span className = "alias-attribute">
-                { macAddress }
-              </span>
-            </div>
-          </div>;
-
-        // TODO: Update this for VLANs and LAGGs
-        _.remove( aliases, { family: "LINK" } );
-        if ( !_.isEmpty( aliases ) ) {
-          let staticIPAlias = aliases.shift();
-          staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
-        }
-        staticIP =
-          <Input
-            type = "text"
-            label = "Static IP:"
-            value = { staticIPValue }
-            bsStyle = { this.validate( "staticIP", staticIPValue ) }
-            onBlur = { this.resetFocus.bind( null, "staticIP" ) }
-            onChange = { this.handleChange.bind( null, "staticIP" ) }
-            onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
-            disabled = { this.props.dhcp
-                      || this.props.status.link_state
-                     !== "LINK_STATE_UP" } />;
+        let staticIPAlias = aliases.shift();
+        staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
       }
     }
+    staticIP =
+      <Input
+        type = "text"
+        label = "Static IP:"
+        value = { staticIPValue }
+        bsStyle = { this.validate( "staticIP", staticIPValue ) }
+        onBlur = { this.resetFocus.bind( null, "staticIP" ) }
+        onChange = { this.handleChange.bind( null, "staticIP" ) }
+        onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
+        disabled = { this.props.dhcp
+                  || this.props.status.link_state
+                 !== "LINK_STATE_UP" } />;
 
     return (
       <Panel className = "interface-item">
