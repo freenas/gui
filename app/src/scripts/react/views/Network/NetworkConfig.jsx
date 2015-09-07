@@ -120,7 +120,7 @@ const NetworkConfig = React.createClass(
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] )
       && this.isIPv4( this.state.networkConfig.gateway.ipv4 ) ) {
       newNetworkConfig =
-        { gateway: { ipv4: this.state.networkConfig[ "gateway" ][ "ipv4" ] } };
+        { gateway: { ipv4: this.state.networkConfig.gateway.ipv4 } };
     }
 
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] )
@@ -128,16 +128,16 @@ const NetworkConfig = React.createClass(
       // Rely on previous check for ipv4 to determine whether to populate ipv4
       // from props
       if ( _.has( newNetworkConfig, [ "gateway", "ipv4" ] ) ) {
-        newNetworkConfig[ "gateway" ][ "ipv6" ] =
-          this.state.networkConfig[ "gateway" ][ "ipv6" ];
+        newNetworkConfig.gateway.ipv6 =
+          this.state.networkConfig.gateway.ipv6;
       } else {
         newNetworkConfig =
-          { gateway: { ipv6: this.state.networkConfig[ "gateway" ][ "ipv6" ] } };
+          { gateway: { ipv6: this.state.networkConfig.gateway.ipv6 } };
       }
     // If ipv4 was updated but ipv6 was not, add ipv6 information from props
     } else if ( _.has( newNetworkConfig, [ "gateway", "ipv4" ] ) ) {
-      newNetworkConfig[ "gateway" ][ "ipv6" ] =
-        this.props.networkConfig[ "gateway" ][ "ipv6" ];
+      newNetworkConfig.gateway.ipv6 =
+        this.props.networkConfig.gateway.ipv6;
     }
 
     if ( _.has( this, [ "state", "networkConfig", "dns" ] ) ) {
@@ -336,9 +336,9 @@ const NetworkConfig = React.createClass(
     var hostname = null;
     var hostnameValue = this.props.systemGeneralConfig[ "hostname" ];
     var ipv4Gateway = null;
-    var ipv4GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv4" ];
+    var ipv4GatewayValue = this.props.networkConfig.gateway.ipv4;
     var ipv6Gateway = null;
-    var ipv6GatewayValue = this.props.networkConfig[ "gateway" ][ "ipv6" ];
+    var ipv6GatewayValue = this.props.networkConfig.gateway.ipv6;
     var dnsServers = _.has( this, [ "state", "networkConfig", "dns", "servers" ] )
                    ? this.state.networkConfig[ "dns" ][ "servers" ].slice()
                    : this.props.networkConfig[ "dns" ][ "servers" ].slice();
@@ -369,7 +369,7 @@ const NetworkConfig = React.createClass(
       </div>;
 
     if ( _.has( this.state, [ "networkConfig", "gateway", "ipv4" ] ) ) {
-      ipv4GatewayValue = this.state.networkConfig[ "gateway" ][ "ipv4" ];
+      ipv4GatewayValue = this.state.networkConfig.gateway.ipv4;
     }
     ipv4Gateway =
       <div>
@@ -391,7 +391,7 @@ const NetworkConfig = React.createClass(
       </div>;
 
     if ( _.has( this.state, [ "networkConfig", "gateway", "ipv6" ] ) ) {
-      ipv6GatewayValue = this.state.networkConfig[ "gateway" ][ "ipv6" ];
+      ipv6GatewayValue = this.state.networkConfig.gateway.ipv6;
     }
     ipv6Gateway =
       <div>
