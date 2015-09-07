@@ -9,6 +9,8 @@ import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
+import IM from "../middleware/InterfacesMiddleware";
+
 const CHANGE_EVENT = "change";
 const UPDATE_MASK  = "network.interface.changed";
 
@@ -145,10 +147,18 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
     let args = eventData.args;
-      if ( args.name === "entity-subscriber.network.interfaces.changed" ) {
+      /*if ( args.name === "entity-subscriber.network.interfaces.changed" ) {
         _interfaces[ args.args.entities[0].id ] =
           _.cloneDeep( args.args.entities[0] );
         this.emitChange();
+      }*/
+      if ( args.name === "task.progress"
+        && args.args.name === "network.interface.configure"
+        && args.args.state === "FINISHED"
+         ) {
+        _localUpdatePending = _.without( _localUpdatePending, args.args.id );
+        // Shameful. Don't do this. Find out why it doesn't work otherwise.
+        IM.requestInterfacesList();
       }
 
     case ActionTypes.RECEIVE_UP_INTERFACE_TASK:
