@@ -67,7 +67,7 @@ const NetworkConfig = React.createClass(
 
     switch ( key ) {
       case "hostname":
-        if ( evt.target.value !== this.props.systemGeneralConfig[ "hostname" ] ) {
+        if ( evt.target.value !== this.props.systemGeneralConfig.hostname ) {
           systemGeneralConfig = { hostname: evt.target.value };
         } else {
           // This allows the hostname to return to its neutral value.
@@ -113,8 +113,8 @@ const NetworkConfig = React.createClass(
 
     if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
       && this.isHostname( this.state.systemGeneralConfig.hostname ) ) {
-      newSystemGeneralConfig[ "hostname" ] =
-        this.state.systemGeneralConfig[ "hostname" ];
+      newSystemGeneralConfig.hostname =
+        this.state.systemGeneralConfig.hostname;
     }
 
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] )
@@ -143,10 +143,10 @@ const NetworkConfig = React.createClass(
     if ( _.has( this, [ "state", "networkConfig", "dns" ] ) ) {
       if ( !_.isEmpty( newNetworkConfig ) ) {
         newNetworkConfig =
-          { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } };
+          { dns: { servers: this.state.networkConfig.dns.servers } };
       } else {
         _.assign( newNetworkConfig
-                , { dns: { servers: this.state.networkConfig[ "dns" ][ "servers" ] } } );
+                , { dns: { servers: this.state.networkConfig.dns.servers } } );
       }
     }
 
@@ -189,7 +189,7 @@ const NetworkConfig = React.createClass(
     if ( evt.key === "Enter" ) {
       if ( this.isIPv4( this.state.dnsServerInProgress ) ) {
         if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
-          newDNSServers = this.state.networkConfig[ "dns" ][ "servers" ].slice();
+          newDNSServers = this.state.networkConfig.dns.servers.slice();
           newDNSServers.push( this.state.dnsServerInProgress );
           _.assign( newNetworkConfig, { dns: { servers: newDNSServers } } );
           newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
@@ -199,7 +199,7 @@ const NetworkConfig = React.createClass(
                                     }
                                     );
         } else {
-          newDNSServers = this.props.networkConfig[ "dns" ][ "servers" ].slice();
+          newDNSServers = this.props.networkConfig.dns.servers.slice();
           newDNSServers.push( this.state.dnsServerInProgress );
           _.assign( newNetworkConfig, { dns: { servers: newDNSServers } } );
           if ( _.has( this, [ "state", "networkConfig" ] ) ) {
