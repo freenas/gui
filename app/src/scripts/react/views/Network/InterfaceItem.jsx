@@ -18,83 +18,86 @@ import IM from "../../../flux/middleware/InterfacesMiddleware";
 // FIXME: Change this component so that each prop is submitted separately,
 // with proper propTypes and default props.
 const InterfaceItem = React.createClass(
-  { propTypes: { networkInterface: React.PropTypes.object.isRequired }
+  { propTypes: { status: React.PropTypes.object
+               , dhcp: React.PropTypes.bool
+               , id: React.PropTypes.string
+               , name: React.PropTypes.string
+               }
 
   , mixins: [ networkCommon ]
 
   , showAliases ( aliases ) {
     var aliasList = [];
 
-    if ( this.props.networkInterface ) {
-      aliasList = _.map( aliases
-                       , function createAliasSections ( alias, index ) {
-                         let broadcast = null;
-                         let netmask = null;
-                         let addressLabel = "";
-                         let address = null;
+    aliasList = _.map( aliases
+                     , function createAliasSections ( alias, index ) {
+                       let broadcast = null;
+                       let netmask = null;
+                       let addressLabel = "";
+                       let address = null;
 
-                         switch( alias[ "family" ] ) {
-                           case "INET":
-                             addressLabel = "IPv4: "
-                             break;
+                       switch( alias.family ) {
+                         case "INET":
+                           addressLabel = "IPv4: "
+                           break;
 
-                           case "INET6":
-                             addressLabel = "IPv6: "
-                             break;
-                         }
+                         case "INET6":
+                           addressLabel = "IPv6: "
+                           break;
+                       }
 
-                         address = <div>
+                       address = <div>
+                                   <span className = "alias-attribute-label">
+                                     { addressLabel }
+                                   </span>
+                                   <span className = "alias-attribute">
+                                     { alias.address }
+                                   </span>
+                                 </div>;
+
+                       if ( alias.netmask ) {
+                         netmask = <div>
                                      <span className = "alias-attribute-label">
-                                       { addressLabel }
+                                       { "Netmask:" }
                                      </span>
                                      <span className = "alias-attribute">
-                                       { alias[ "address" ] }
+                                       { " /" + alias.netmask }
                                      </span>
                                    </div>;
+                       }
 
-                         if ( alias[ "netmask" ] ) {
-                           netmask = <div>
+                       if ( alias.broadcast ) {
+                         broadcast = <div>
                                        <span className = "alias-attribute-label">
-                                         { "Netmask:" }
-                                       </span>
+                                         { "Broadcast: "}
+                                        </span>
                                        <span className = "alias-attribute">
-                                         { " /" + alias[ "netmask" ] }
+                                        { alias.broadcast }
                                        </span>
                                      </div>;
-                         }
+                       }
 
-                         if ( alias[ "broadcast" ] ) {
-                           broadcast = <div>
-                                         <span className = "alias-attribute-label">
-                                           { "Broadcast: "}
-                                          </span>
-                                         <span className = "alias-attribute">
-                                          { alias[ "broadcast" ] }
-                                         </span>
-                                       </div>;
-                         }
+                       return (
+                         <div key = { index }
+                              className = "network-alias">
+                          { address }
+                          { netmask }
+                          { broadcast }
+                         </div>
+                       )
+                     } );
 
-                         return (
-                           <div key = { index }
-                                className = "network-alias">
-                            { address }
-                            { netmask }
-                            { broadcast }
-                           </div>
-                         )
-                       } );
-    }
     return (
       { aliasList }
     );
   }
 
   , toggleInterface () {
-    if ( this.props.networkInterface.status.link_state
+    if ( this.props.status.link_state
      === "LINK_STATE_UP" ) {
-      IM.downInterface( this.props.networkInterface.id );
+      IM.downInterface( this.props.id );
     } else {
-      IM.upInterface( this.props.networkInterface.id );
+      IM.upInterface( this.props.id );
     }
   }
 
@@ -102,7 +105,8 @@ const InterfaceItem = React.createClass(
     var responseStyle = null;
     switch( key ) {
       case "staticIP":
-        if ( !this.isIPv4WithNetmask( value ) ) {
+        if ( !this.isIPv4WithNetmask( value )
+          && !this.props.dhcp ) {
           responseStyle = "error";
         }
     }
@@ -117,10 +121,10 @@ const InterfaceItem = React.createClass(
         let newAliases = [];
         let aliasParts = evt.target.value.split( "/" );
         let newNetmask = aliasParts[1];
-        if ( _.has( this, [ "state", "networkInterface", "aliases" ] ) ) {
-          newAliases = _.cloneDeep( this.state.networkInterface.aliases );
-        } else if ( _.has( this, [ "props", "networkInterface", "aliases" ] ) ) {
-          newAliases = _.cloneDeep( this.props.networkInterface.aliases );
+        if ( _.has( this, [ "state", "aliases" ] ) ) {
+          newAliases = _.cloneDeep( this.state.aliases );
+        } else if ( _.has( this, [ "props", "aliases" ] ) ) {
+          newAliases = _.cloneDeep( this.props.aliases );
         }
         if ( !_.isEmpty( newAliases ) ) {
           let oldAliasIndex = _.find( newAliases, { family: "INET" } );
@@ -131,7 +135,7 @@ const InterfaceItem = React.createClass(
         break;
     }
     if ( !_.isEmpty( newNetworkInterface ) ) {
-      this.setState( { networkInterface: newNetworkInterface } );
+      this.setState( { newNetworkInterface } );
     }
   }
 
@@ -141,9 +145,9 @@ const InterfaceItem = React.createClass(
     if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "staticIP":
-          if ( _.has( this, [ "state", "networkInterface", "aliases" ] )
-            && !_.isEmpty( this.state.networkInterface.aliases ) ) {
-            let newStaticIPAlias = _.find( this.state.networkInterface.aliases
+          if ( _.has( this, [ "state", "aliases" ] )
+            && !_.isEmpty( this.state.aliases ) ) {
+            let newStaticIPAlias = _.find( this.state.aliases
                                          , { family: "INET" }
                                          );
             if ( this.isIPv4WithNetmask( newStaticIPAlias.address
@@ -151,14 +155,14 @@ const InterfaceItem = React.createClass(
                                        + newStaticIPAlias.netmask
                                        )
                ) {
-              newNetworkInterface.aliases = this.state.networkInterface.aliases;
+              newNetworkInterface.aliases = this.state.aliases;
             }
           }
         break;
       }
     }
     if ( !_.isEmpty( newNetworkInterface ) ) {
-      IM.configureInterface( this.props.networkInterface.id
+      IM.configureInterface( this.props.id
                            , newNetworkInterface);
     }
   }
@@ -175,12 +179,12 @@ const InterfaceItem = React.createClass(
 
   , toggleDHCP () {
     var newNetworkInterface = {};
-    if ( this.props.networkInterface.dhcp ) {
+    if ( this.props.dhcp ) {
       newNetworkInterface = { dhcp: false };
     } else {
       newNetworkInterface = { dhcp: true };
     }
-    IM.configureInterface( this.props.networkInterface.id
+    IM.configureInterface( this.props.id
                          , newNetworkInterface );
   }
 
@@ -197,17 +201,10 @@ const InterfaceItem = React.createClass(
     var dhcpToggle = null;
     var macAddressDisplay = null;
     var macAddress = "";
-    // TODO: Find some way to indicate a mismatch between configured aliases and
-    // actual status.
-    var aliases = this.props.networkInterface
-                ? _.cloneDeep( this.props.networkInterface.status.aliases )
-                : [];
+    var aliases = [];
 
-    // This all breaks if the interface isn't yet loaded. This should be fixed
-    // by providing the component with individual props instead of one object.
-    if ( this.props.networkInterface ) {
-      switch ( this.props.networkInterface.status.link_state ) {
-
+    if ( _.has( this, [ "props", "status", "link_state" ] ) ) {
+      switch ( this.props.status.link_state ) {
         case "LINK_STATE_UP":
           statusClass = "interface-up";
           linkSpeed =
@@ -217,84 +214,95 @@ const InterfaceItem = React.createClass(
               { " Ethernet Adapter" }
             </h4>;
           break;
-
         case "LINK_STATE_UNKNOWN":
           statusClass = "interface-unknown";
           linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
           break;
-
         case "LINK_STATE_DOWN":
           statusClass = "interface-down";
           linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
           break;
       }
 
+      interfaceToggle =
+        <ToggleSwitch
+          className = "pull-right"
+          toggled = { this.props.status.link_state
+                  === "LINK_STATE_UP" }
+          onChange = { this.toggleInterface } />;
+
+      let dhcpValue = false;
+      if ( _.has( this.props, [ "dhcp" ] ) ) {
+        dhcpValue = this.props.dhcp
+      }
+      dhcpToggle =
+        <Input
+          type = "checkbox"
+          checked = { dhcpValue }
+          onChange = { this.toggleDHCP }
+          label = { "Enable DHCP" }
+          disabled = { this.props.status.link_state
+                   !== "LINK_STATE_UP" }/>;
+    }
+
+    if ( _.has( this, [ "props", "status", "name" ] ) ) {
       // TODO: Figure out how to represent both name and id, and allow changing
       // only name.
       interfaceName = (
         <h2 className = { "interface-name " + statusClass } >
-          { this.props.networkInterface.status.name }
+          { this.props.status.name }
         </h2>
       );
+    }
 
-      interfaceToggle =
-        <ToggleSwitch
-          className = "pull-right"
-          toggled = { this.props.networkInterface.status.link_state
-                  === "LINK_STATE_UP" }
-          onChange = { this.toggleInterface } />;
+    // TODO: Find some way to indicate a mismatch between configured aliases and
+    // actual status.
+    if ( _.has( this, [ "props", "status", "aliases" ] ) ) {
+      aliases = _.cloneDeep( this.props.status.aliases );
 
-      if ( _.has( this, [ "state", "networkInterface", "status", "aliases" ] ) ) {
-        aliases = this.state.networkInterface.status.aliases;
+      if ( _.has( this, [ "state", "status", "aliases" ] ) ) {
+        aliases = this.state.status.aliases;
       }
 
-      let macAddressAlias = _.find( aliases
-                                  , { family: "LINK" }
-                                  );
-      if ( macAddressAlias ) {
-        macAddress = macAddressAlias.address;
-      }
-
-      macAddressDisplay =
-        <div className = "network-alias">
-          <div>
-            <span className = "alias-attribute-label">
-              { "MAC: " }
-            </span>
-            <span className = "alias-attribute">
-              { macAddress }
-            </span>
-          </div>
-        </div>;
-
-      // TODO: Update this for VLANs and LAGGs
-      _.remove( aliases, { family: "LINK" } );
       if ( !_.isEmpty( aliases ) ) {
-        let staticIPAlias = aliases.shift();
-        staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
+        let macAddressAlias = _.find( aliases
+                                    , { family: "LINK" }
+                                    );
+        if ( macAddressAlias ) {
+          macAddress = macAddressAlias.address;
+        }
+
+        macAddressDisplay =
+          <div className = "network-alias">
+            <div>
+              <span className = "alias-attribute-label">
+                { "MAC: " }
+              </span>
+              <span className = "alias-attribute">
+                { macAddress }
+              </span>
+            </div>
+          </div>;
+
+        // TODO: Update this for VLANs and LAGGs
+        _.remove( aliases, { family: "LINK" } );
+        if ( !_.isEmpty( aliases ) ) {
+          let staticIPAlias = aliases.shift();
+          staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
+        }
+        staticIP =
+          <Input
+            type = "text"
+            label = "Static IP:"
+            value = { staticIPValue }
+            bsStyle = { this.validate( "staticIP", staticIPValue ) }
+            onBlur = { this.resetFocus.bind( null, "staticIP" ) }
+            onChange = { this.handleChange.bind( null, "staticIP" ) }
+            onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
+            disabled = { this.props.dhcp
+                      || this.props.status.link_state
+                     !== "LINK_STATE_UP" } />;
       }
-      staticIP =
-        <Input
-          type = "text"
-          label = "Static IP:"
-          value = { staticIPValue }
-          bsStyle = { this.validate( "staticIP", staticIPValue ) }
-          onBlur = { this.resetFocus.bind( null, "staticIP" ) }
-          onChange = { this.handleChange.bind( null, "staticIP" ) }
-          onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
-          disabled = { this.props.networkInterface.dhcp
-                    || this.props.networkInterface.status.link_state
-                   !== "LINK_STATE_UP" } />;
-
-      dhcpToggle =
-        <Input
-          type = "checkbox"
-          checked = { this.props.networkInterface.dhcp }
-          onChange = { this.toggleDHCP }
-          label = { "Enable DHCP" }
-          disabled = { this.props.networkInterface.status.link_state
-                   !== "LINK_STATE_UP" }/>;
-
     }
 
     return (
