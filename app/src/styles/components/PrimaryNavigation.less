@@ -35,6 +35,82 @@ nav.primary-nav {
     margin-left: -5px;
   }
 
+  .hostname {
+    color       : white;
+    display     : inline-block;
+    margin      : 0;
+    position    : relative;
+    line-height : @app-header-height;
+    font-size   : 2em;
+
+    &:before {
+      content       : "";
+      position      : absolute;
+      top           : 50%;
+      left          : -24px;
+      display       : inline-block;
+      height        : 12px;
+      width         : 12px;
+      margin-top    : -6px;
+      border        : 1px solid rgba(0, 0, 0, 0.7);
+      border-radius : 50%;
+      .transition( ease-in-out 0.25s );
+    }
+
+    &.connected:before {
+      background: @brand-success;
+    }
+
+    &.disconnected:before {
+      background: @gray;
+    }
+
+    &.simulation:before {
+      background: yellow;
+    }
+  }
+
+  .user-info {
+    float        : right;
+    height       : @app-header-height;
+    margin-right : 10px;
+    color        : #f3f3f3;
+    line-height  : @app-header-height;
+
+    .icon {
+      font-size: 1.75em;
+      margin: 0 8px;
+      color: @gray-light;
+      vertical-align: middle;
+    }
+
+    .userName {
+      font-size: 100%;
+      padding: 0 5px;
+    }
+  }
+
+  .btn-group {
+    height         : 100%;
+    vertical-align : top;
+
+    &:hover {
+      background: darken( @freenas-dark-gray, 10% );
+    }
+  }
+
+  .btn {
+    color           : inherit;
+    background      : none;
+    border          : none;
+    height          : inherit;
+    text-decoration : none;
+  }
+
+  .user {
+    margin: 0 15px;
+  }
+
   .icon {
     font-size      : 1.1em;
     width          : 2em;

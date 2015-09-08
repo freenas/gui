@@ -73,12 +73,19 @@ const menuTiming = 600;
 const PrimaryNavigation = React.createClass(
 
   { getInitialState () {
-      return { expanded    : true
-             , docLocation : "#"
-      };
+      return (
+        { host: MS.getHost()
+        , protocol: MS.getProtocol()
+        , mode: MS.getMode()
+        , connected: MS.getSockState()[0]
+        , currentUser: SS.getCurrentUser()
+        }
+      );
     }
 
   , componentDidMount () {
+      SS.addChangeListener( this.updateCurrentUser );
+      MS.addChangeListener( this.updateHost );
       // After the component has a real DOM representation, store the auto width
       // value of the navbar
       this.setState(
@@ -86,16 +93,35 @@ const PrimaryNavigation = React.createClass(
       );
     }
 
+  , componentWillUnmount () {
+      SS.removeChangeListener( this.updateCurrentUser );
+      MS.removeChangeListener( this.updateHost );
+    }
+
+  , updateCurrentUser ( event ) {
+      this.setState({ currentUser: SS.getCurrentUser() });
+    }
+
+  , updateHost ( event ) {
+      this.setState(
+        { host: MS.getHost()
+        , protocol: MS.getProtocol()
+        , mode: MS.getMode()
+        , connected: MS.getSockState()[0]
+        }
+      );
+    }
+
   , createNavItem ( rawItem, index ) {
-      if ( rawItem["disabled"] ) {
+      if ( rawItem.disabled ) {
         return (
           <li
             role = "presentation"
             className = "nav-item disabled"
             key = { index } >
             <a href = "#">
-              <Icon glyph = { rawItem["icon"] } />
-              <span className = "nav-item-label" >{ rawItem["label"] }</span>
+              <Icon glyph = { rawItem.icon } />
+              <span className = "nav-item-label" >{ rawItem.label }</span>
             </a>
           </li>
         );
@@ -105,9 +131,9 @@ const PrimaryNavigation = React.createClass(
             role = "presentation"
             className = "nav-item"
             key = { index } >
-            <Link to = { rawItem["path"] } >
-              <Icon glyph = { rawItem["icon"] } />
-              <span className = "nav-item-label" >{ rawItem["label"] }</span>
+            <Link to = { rawItem.path } >
+              <Icon glyph = { rawItem.icon } />
+              <span className = "nav-item-label" >{ rawItem.label }</span>
             </Link>
           </li>
         );
@@ -115,15 +141,23 @@ const PrimaryNavigation = React.createClass(
     }
 
   , render () {
-      let navClass = [ "primary-nav" ];
+      let navClass = [ "primary-nav", "expanded" ];
+      let hostDisplay;
+      let hostClass = [ "hostname" ];
 
-      if ( this.state.expanded ) {
-        navClass.push( "expanded" )
+      if ( this.state.host ) {
+        if ( this.state.mode === "SIMULATION_MODE" ) {
+          hostDisplay = "Simulation Mode";
+          hostClass.push( "connected" );
+        } else {
+          hostDisplay = this.state.host;
+          hostClass.push( "disconnected" );
+        }
       } else {
-        navClass.push( "collapsed" )
+        hostDisplay = "Disconnected";
+        hostClass.push( "simulation" );
       }
 
-      // TODO: Revert changes made for #7908 once externally resolved.
       return (
         <Nav
           stacked
@@ -133,16 +167,38 @@ const PrimaryNavigation = React.createClass(
           <div className="logo-wrapper">
             <img
               className = "logo-image"
-              src   = "/img/freenas-icon.png"
+              src = "/img/freenas-icon.png"
             />
             <img
               className = "logo-wordmark"
-              src   = "/img/freenas-logotype.png"
+              src = "/img/freenas-logotype.png"
             />
             <img
               className = "logo-x"
-              src   = "/img/X.png"
+              src = "/img/X.png"
             />
+          </div>
+
+          <h1 className={ hostClass.join( " " ) }>
+            { hostDisplay }
+          </h1>
+
+          <div className="user-info">
+
+            <DropdownButton
+              pullRight
+              title     = { this.state.currentUser }
+              bsStyle   = "link"
+              className = "user online"
+            >
+              <MenuItem
+                key     = { 0 }
+                onClick = { MiddlewareClient.logout.bind( MiddlewareClient ) }
+              >
+                {"Logout"}
+              </MenuItem>
+            </DropdownButton>
+
           </div>
 
           { paths.map( this.createNavItem ) }
@@ -151,6 +207,7 @@ const PrimaryNavigation = React.createClass(
       );
     }
 
-});
+  }
+);
 
 export default PrimaryNavigation;

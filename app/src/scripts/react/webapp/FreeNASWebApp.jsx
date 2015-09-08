@@ -12,7 +12,6 @@ import routerShim from "../mixins/routerShim";
 
 // WebApp Components
 import BusyBox from "../components/BusyBox";
-import NotificationBar from "./NotificationBar";
 import ContextBar from "./ContextBar";
 import PrimaryNavigation from "./PrimaryNavigation";
 import DebugTools from "./DebugTools";
@@ -127,8 +126,6 @@ const FreeNASWebApp = React.createClass(
         <PrimaryNavigation />
 
         <div className="app-content">
-          {/* Header containing system status and information */}
-          <NotificationBar />
 
           <div className="app-view">
             {/* Primary view */}
