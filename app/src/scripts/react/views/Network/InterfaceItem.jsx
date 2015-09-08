@@ -106,7 +106,8 @@ const InterfaceItem = React.createClass(
     switch( key ) {
       case "staticIP":
         if ( !this.isIPv4WithNetmask( value )
-          && !this.props.dhcp ) {
+          && !this.props.dhcp
+          && this.props.enabled ) {
           responseStyle = "error";
         }
     }
