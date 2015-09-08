@@ -6,22 +6,14 @@
 "use strict";
 
 import React from "react";
-
+import { Nav, MenuItem, DropdownButton } from "react-bootstrap";
 import { Link } from "react-router";
 
-import { Nav } from "react-bootstrap";
+import MiddlewareClient from "../../websocket/MiddlewareClient";
+import SS from "../../flux/stores/SessionStore";
+import MS from "../../flux/stores/MiddlewareStore";
+
 import Icon from "../components/Icon";
-
-var Velocity;
-
-if ( typeof window !== "undefined" ) {
-  Velocity = require( "velocity-animate" );
-} else {
-  // mocked velocity library
-  Velocity = function() {
-    return Promise().resolve( true );
-  };
-}
 
 // Path definitions
 // TODO: Convert to Flux or other external file
@@ -80,68 +72,18 @@ const menuTiming = 600;
 
 const PrimaryNavigation = React.createClass(
 
-  { getInitialState: function () {
+  { getInitialState () {
       return { expanded    : true
              , docLocation : "#"
       };
     }
 
-  , componentDidMount: function () {
+  , componentDidMount () {
       // After the component has a real DOM representation, store the auto width
       // value of the navbar
       this.setState(
         { fullNavWidth: this.refs.navRoot.getDOMNode().offsetWidth + "px" }
       );
-    }
-
-  , handleMenuToggle: function ( event ) {
-      event.stopPropagation();
-
-      if ( this.state.expanded ) {
-        this.collapseMenu();
-      } else {
-        this.expandMenu();
-      }
-    }
-
-  , expandMenu: function () {
-      const expandSequence =
-        [ { elements: this.refs.navRoot.getDOMNode()
-          , properties: { width: this.state.fullNavWidth }
-          , options: { duration: menuTiming
-                     , easing: "easeInOutBounce"
-                     }
-          }
-        , { elements: document.getElementsByClassName( "nav-item-label" )
-          , properties: "fadeIn"
-          , options: { duration: menuTiming
-                     , sequenceQueue: false
-                     , complete: this.setState({ expanded: true })
-                     }
-          }
-        ];
-
-      Velocity.RunSequence( expandSequence );
-    }
-
-  , collapseMenu: function () {
-      const collapseSequence =
-        [ { elements: this.refs.navRoot.getDOMNode()
-          , properties: { width: "60px" }
-          , options: { duration: menuTiming
-                     , easing: "easeInOutBounce"
-                     }
-          }
-        , { elements: document.getElementsByClassName( "nav-item-label" )
-          , properties: "fadeOut"
-          , options: { duration: menuTiming
-                     , sequenceQueue: false
-                     , complete: this.setState({ expanded: false })
-                     }
-          }
-        ];
-
-      Velocity.RunSequence( collapseSequence );
     }
 
   , createNavItem ( rawItem, index ) {
@@ -172,7 +114,7 @@ const PrimaryNavigation = React.createClass(
       }
     }
 
-  , render: function () {
+  , render () {
       let navClass = [ "primary-nav" ];
 
       if ( this.state.expanded ) {
@@ -211,4 +153,4 @@ const PrimaryNavigation = React.createClass(
 
 });
 
-module.exports = PrimaryNavigation;
+export default PrimaryNavigation;
