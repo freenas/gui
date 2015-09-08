@@ -169,7 +169,9 @@ const InterfaceItem = React.createClass(
   , resetFocus ( key, evt ) {
     switch ( key ) {
       case "staticIP":
-        if ( !this.isIPv4WithNetmask( evt.target.value ) ) {
+        if ( !this.isIPv4WithNetmask( evt.target.value )
+          && !this.props.dhcp
+          && this.props.enabled ) {
           evt.target.focus();
         }
         break;
