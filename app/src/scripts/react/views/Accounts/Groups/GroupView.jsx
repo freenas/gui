@@ -8,7 +8,9 @@
 
 import _ from "lodash";
 import React from "react";
-import { ListGroup, ListGroupItem, Grid, Row, Col, Button, ButtonToolbar }
+import { Alert, ListGroup, ListGroupItem, Grid, Row, Col, Button
+       , ButtonToolbar
+       }
   from "react-bootstrap";
 
 import routerShim from "../../../mixins/routerShim";
