@@ -1,0 +1,22 @@
+// USER EXPERIENCE STYLES
+// ======================
+// A collection of styling decisions that affect the overall "feel" of the
+// application as a whole.
+
+// To provide a more "app-like" experience, text-selection is disabled by
+// default. It can be re-enabled with the `.allow-select()` mixin.
+* {
+  .no-select();
+}
+
+// Paragraph text is relatively rare in this webapp, and generally will be used
+// in a context where selecting text would be sensible and applicable.
+p {
+  .allow-select();
+}
+
+// By default, headings are decoration and not selectable text
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  cursor: default;
+}
