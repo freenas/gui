@@ -340,7 +340,7 @@ const Volume = React.createClass(
         , type: "zfs"
         , name: this.state.name
              || this.props.name
-             || "Volume " + ( this.props.volumeKey + 1 )
+             || "Volume" + ( this.props.volumeKey + 1 )
         };
 
       ZM.submitVolume( newVolume );
