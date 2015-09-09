@@ -48,7 +48,7 @@ const GroupEdit = React.createClass(
 
     newGroupProps = GS.reverseKeyTranslation( newGroupProps );
 
-    GM.updateGroup( this.props.item[ "groupID" ], newGroupProps );
+    GM.updateGroup( this.props.item[ "id" ], newGroupProps );
   }
 
   , render: function () {
@@ -128,9 +128,9 @@ const GroupEdit = React.createClass(
     let groupIDDisplay =
       <div>
         <strong>
-          { this.props.itemLabels.properties[ "groupID" ] + ": " }
+          { this.props.itemLabels.properties[ "id" ] + ": " }
         </strong>
-        { this.props.item[ "groupID" ] }
+        { this.props.item[ "id" ] }
       </div>;
 
     return (

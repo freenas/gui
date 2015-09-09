@@ -231,7 +231,7 @@ const UserAdd = React.createClass(
         groupClassName   = { _.has( this.state.newUser[ "groups" ] )
           ? "editor-was-modified" : "" }
         multiple >
-        { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
+        { this.generateOptionsList( GS.groups, "id", "name" ) }
       </Input>;
 
     let userLockedField =
@@ -296,7 +296,7 @@ const UserAdd = React.createClass(
           ref              = "group"
           groupClassName   = { _.has( this.state.newUser[ "group" ] )
             ? "editor-was-modified" : "" } >
-          { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
+          { this.generateOptionsList( GS.groups, "id", "name" ) }
         </Input>;
     }
 

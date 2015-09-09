@@ -208,7 +208,7 @@ const UserEdit = React.createClass(
         ref              = "group"
         groupClassName   = { _.has( this.state.modifiedValues["group"] )
           ? "editor-was-modified" : "" } >
-        { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
+        { this.generateOptionsList( GS.groups, "id", "name" ) }
       </Input>;
 
     let userSshPubKeyField =
@@ -237,7 +237,7 @@ const UserEdit = React.createClass(
           ? "editor-was-modified" : "" }
         multiple >
         this.state.modifiedValues[ "groups" ] = [];
-        { this.generateOptionsList( GS.groups, "groupID", "groupName" ) }
+        { this.generateOptionsList( GS.groups, "id", "name" ) }
       </Input>;
 
     let userLockedField =

@@ -38,10 +38,10 @@ const AddGroup = React.createClass({
 
     let newGroup = this.state.newGroup;
 
-    if ( _.has( newGroup, "groupID" ) ) {
-      newGroup[ "groupID" ] = _.parseInt( newGroup[ "groupID" ] );
+    if ( _.has( newGroup, "id" ) ) {
+      newGroup[ "id" ] = _.parseInt( newGroup[ "id" ] );
     } else {
-      newGroup[ "groupID" ] = this.state.nextGID;
+      newGroup[ "id" ] = this.state.nextGID;
     }
 
     newGroup = GS.reverseKeyTranslation( newGroup );
@@ -98,13 +98,13 @@ const AddGroup = React.createClass({
           <Input
             type             = "text"
             min              = { 1000 }
-            label            = { this.props.itemLabels.properties[ "groupID" ] }
-            value            = { this.state.newGroup[ "groupID" ]
-                               ? this.state.newGroup[ "groupID" ]
+            label            = { this.props.itemLabels.properties[ "id" ] }
+            value            = { this.state.newGroup[ "id" ]
+                               ? this.state.newGroup[ "id" ]
                                : this.state.nextGID }
-            onChange         = { this.handleChange.bind( null, "groupID" ) }
-            className        = { _.has( this.state.newGroup, "groupID" )
-                              && !_.isEmpty( this.state.newGroup[ "groupID" ] )
+            onChange         = { this.handleChange.bind( null, "id" ) }
+            className        = { _.has( this.state.newGroup, "id" )
+                              && !_.isEmpty( this.state.newGroup[ "id" ] )
                                ? "editor-was-modified"
                                : "" } />
         </Col>
