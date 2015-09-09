@@ -76,7 +76,7 @@ const UserView = React.createClass(
         );
       }
 
-      /*editButtons = (
+      editButtons = (
         <ButtonToolbar>
             <Button className = "pull-left"
                          disabled  = { this.props.item["builtin"] }
@@ -86,7 +86,7 @@ const UserView = React.createClass(
                          onClick   = { this.props.handleViewChange.bind( null, "edit" ) }
                          bsStyle   = "info" >{"Edit User"}</Button>
         </ButtonToolbar>
-      );*/
+      );
 
       return (
         <Grid fluid>
