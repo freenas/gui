@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import Col from "react-bootstrap";
+import { Col } from "react-bootstrap";
 
 import Icon from "../../components/Icon";
 
