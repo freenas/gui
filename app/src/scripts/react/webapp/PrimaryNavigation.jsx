@@ -148,14 +148,14 @@ const PrimaryNavigation = React.createClass(
       if ( this.state.host ) {
         if ( this.state.mode === "SIMULATION_MODE" ) {
           hostDisplay = "Simulation Mode";
-          hostClass.push( "connected" );
+          hostClass.push( "simulation" );
         } else {
           hostDisplay = this.state.host;
-          hostClass.push( "disconnected" );
+          hostClass.push( "connected" );
         }
       } else {
         hostDisplay = "Disconnected";
-        hostClass.push( "simulation" );
+        hostClass.push( "disconnected" );
       }
 
       return (
