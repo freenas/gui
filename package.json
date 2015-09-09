@@ -55,5 +55,8 @@
     "ws": "^0.8.0",
     "yargs": "^3.23.0"
   },
+  "scripts": {
+    "gulp": "gulp"
+  },
   "private": true
 }
