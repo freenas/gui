@@ -116,12 +116,6 @@ function handlePayload ( payload ) {
       break;
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
-        if ( args.name === "entity-subscriber.system.general.changed" ) {
-          if ( args.args.operation === "configure" ) {
-            _.merge( _systemGeneralConfig, args.args.entities[0] );
-            this.emitChange();
-          }
-        }
       // Check for all the other tasks that could complete
       if ( args.name === "task.progress"
           && args.args.name === "system.general.configure"
