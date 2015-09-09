@@ -6,20 +6,20 @@ html, body {
   height : 100vh;
   width  : 100vw;
   .flex-display( flex );
-  .flex-flow( row nowrap );
+  .flex-flow( column nowrap );
 }
 
 .app-content {
   .flex( 1 0 0px );
   .flex-display( flex );
-  .flex-flow( column nowrap );
+  .flex-flow( row nowrap );
   height: inherit;
 }
 
 .app-view {
   .flex( 1 );
   .flex-display( flex );
-  .flex-flow( row nowrap );
+  .flex-flow( column nowrap );
 
   & > main {
     .flex( 1 );

@@ -100,29 +100,24 @@ const FreeNASWebApp = React.createClass(
         <script type="text/javascript" src="/js/data-window-props.js"></script>
       </head>
       <body>
-        {/* TODO: Add Modal mount div */}
-
-        {/* Modal windows for busy spinner and/or FreeNAS login.
-            Hidden normally except when invoked
-        */}
+        {/* Modal windows for busy spinner and/or FreeNAS login. */}
         <BusyBox />
 
-        {/* Primary navigation menu */}
-        <PrimaryNavigation />
-
         <div className="app-content">
+          {/* Primary navigation menu */}
+          <PrimaryNavigation />
 
           <div className="app-view">
             {/* Primary view */}
             <RouteHandler />
 
-            {/* User-customizable component showing system events */}
-            <ContextBar />
+            <footer className="app-footer">
+              {/* TODO? */}
+            </footer>
           </div>
 
-          <footer className="app-footer">
-            {/* TODO? */}
-          </footer>
+          {/* User-customizable component showing system events */}
+          <ContextBar />
         </div>
 
         {/* Hidden, user-callable developer tools */}
