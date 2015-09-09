@@ -38,6 +38,7 @@ const DetailNavSection = React.createClass(
 
       , routeName           : React.PropTypes.string.isRequired
       , routeParam          : React.PropTypes.string.isRequired
+      , routeNewItem        : React.PropTypes.string
       }
 
   , getDefaultProps: function () {
@@ -168,9 +169,9 @@ const DetailViewer = React.createClass(
   , createAddEntityButton: function () {
       let addEntityButton = null;
 
-      if ( this.props.textNewItem && this.props.routeAdd ) {
+      if ( this.props.textNewItem && this.props.routeNewItem ) {
         addEntityButton = (
-          <Link to        = { this.props.routeAdd }
+          <Link to        = { this.props.routeNewItem }
                 className = "viewer-detail-add-entity">
             <Button bsStyle   = "default"
                          className = "viewer-detail-add-entity">

@@ -70,7 +70,7 @@ const ViewerCommon =
 
   , addingEntity: function () {
       return _.endsWith( this.context.router.getCurrentPathname()
-                       , this.props.routeAdd );
+                       , this.props.routeNewItem );
     }
 
   , dynamicPathIsActive: function () {
