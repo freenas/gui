@@ -141,13 +141,13 @@ const Calendar = React.createClass(
             >
               <Button
                 onClick={ this.handlePage.bind( null, "prev" ) }
-              ><Icon glyph="chevron-left" /></Button>
+              ><Icon glyph="arrow-triangle-left" /></Button>
               <Button
                 onClick={ this.handleToday }
               >Today</Button>
               <Button
                 onClick={ this.handlePage.bind( null, "next" ) }
-              ><Icon glyph="chevron-right" /></Button>
+              ><Icon glyph="arrow-triangle-right" /></Button>
 
             </ButtonGroup>
           </div>
