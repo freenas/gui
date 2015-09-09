@@ -34,12 +34,10 @@ const FreeNASWebApp = React.createClass(
         module.hot.addStatusHandler( this.cssBust );
       }
       this.calculateDefaultRoute( "/", "dashboard", "is" );
-      window.addEventListener( "click", this.handleMenuClickOut );
     }
 
   , componentDidUpdate ( prevProps, prevState ) {
       this.calculateDefaultRoute( "/", "dashboard", "is" );
-      window.removeEventListener( "click", this.handleMenuClickOut );
     }
 
   , componentWillUnmount () {
@@ -70,19 +68,6 @@ const FreeNASWebApp = React.createClass(
       }
 
       return parent;
-    }
-
-  , handleMenuClickOut ( event ) {
-      // FIXME: Remove this once react-bootstrap reaches 1.0
-      if ( event.target.tagName === "A" ) {
-        let li = this.getParent( event.target );
-        let ul = this.getParent( li, "dropdown-menu" );
-        let openGroup = this.getParent( ul, "open" );
-
-        if ( openGroup ) {
-          document.body.click();
-        }
-      }
     }
 
   , render: function () {
