@@ -11,9 +11,8 @@ nav.primary-nav {
 
   .logo-wrapper {
     height: 45px;
-    margin: 10px 10px 15px 15px;
+    margin: 10px 20px 5px 25px;
   }
-
 
   .logo-image,
   .logo-wordmark,
@@ -36,46 +35,30 @@ nav.primary-nav {
   }
 
   .hostname {
-    color       : white;
-    display     : inline-block;
-    margin      : 0;
-    position    : relative;
-    line-height : @app-header-height;
-    font-size   : 2em;
+    color: white;
+    display: block;
+    font-weight: 200;
+    text-align: center;
+    margin: 10px 0;
 
     &:before {
-      content       : "";
-      position      : absolute;
-      top           : 50%;
-      left          : -24px;
-      display       : inline-block;
-      height        : 12px;
-      width         : 12px;
-      margin-top    : -6px;
-      border        : 1px solid rgba(0, 0, 0, 0.7);
-      border-radius : 50%;
+      content: "";
+      display: inline-block;
+      height: 0.85em;
+      width: 0.85em;
+      margin: 0 0.525em 0 -0.525em;
+      border: 1px solid rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
       .transition( ease-in-out 0.25s );
     }
 
-    &.connected:before {
-      background: @brand-success;
-    }
-
-    &.disconnected:before {
-      background: @gray;
-    }
-
-    &.simulation:before {
-      background: yellow;
-    }
+    &.connected:before    { background: @brand-success; }
+    &.disconnected:before { background: @gray; }
+    &.simulation:before   { background: yellow; }
   }
 
   .user-info {
-    float        : right;
-    height       : @app-header-height;
-    margin-right : 10px;
-    color        : #f3f3f3;
-    line-height  : @app-header-height;
+    color: #f3f3f3;
 
     .icon {
       font-size: 1.75em;

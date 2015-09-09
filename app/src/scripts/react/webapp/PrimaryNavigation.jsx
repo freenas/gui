@@ -179,9 +179,9 @@ const PrimaryNavigation = React.createClass(
             />
           </div>
 
-          <h1 className={ hostClass.join( " " ) }>
+          <span className={ hostClass.join( " " ) }>
             { hostDisplay }
-          </h1>
+          </span>
 
           <div className="user-info">
 
