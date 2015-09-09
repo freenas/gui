@@ -12,7 +12,7 @@ import viewerMode from "./mixins/viewerMode";
 import viewerCommon from "./mixins/viewerCommon";
 import viewerUtil from "./viewerUtil";
 
-import ToggleSwitch from "..//ToggleSwitch";
+import ToggleSwitch from "../ToggleSwitch";
 
 
 const DetailNavSection = React.createClass(
