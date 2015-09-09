@@ -288,36 +288,6 @@ const NetworkConfig = React.createClass(
     return responseStyle;
   }
 
-  , resetFocus ( key, evt ) {
-    switch ( key ) {
-      case "hostname":
-        if ( !this.isHostname( evt.target.value ) ) {
-          evt.target.focus();
-        }
-        break;
-
-      case "ipv4":
-        if ( !this.isIPv4( evt.target.value ) ) {
-          evt.target.focus();
-        }
-        break;
-
-      case "ipv6":
-        if ( !this.isIPv6( evt.target.value ) ) {
-          evt.target.focus();
-        }
-        break;
-
-      /*case "dns":
-        if ( !this.isIPv4( evt.target.value )
-          // && !this.isIPv6( evt.target.value )
-           ) {
-          evt.target.focus();
-        }
-        break;*/
-    }
-  }
-
   , resetAll () {
     this.setState( { networkConfig: {}
                    , systemGeneralConfig: {}
@@ -356,7 +326,6 @@ const NetworkConfig = React.createClass(
             ref = "hostname"
             value = { hostnameValue }
             bsStyle = { this.validate( "hostname", hostnameValue ) }
-            onBlur = { this.resetFocus.bind( null, "hostname" ) }
             onKeyDown = { this.advanceCursor.bind( this, "hostname" ) }
             onChange = { this.handleChange.bind( this, "hostname" ) } />
         </Col>
@@ -380,7 +349,6 @@ const NetworkConfig = React.createClass(
             ref = "ipv4"
             value = { ipv4GatewayValue }
             bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
-            onBlur = { this.resetFocus.bind( null, "ipv4" ) }
             onKeyDown = { this.advanceCursor.bind( this, "ipv4" ) }
             onChange = { this.handleChange.bind( this, "ipv4" ) } />
         </Col>
@@ -406,7 +374,6 @@ const NetworkConfig = React.createClass(
             ref = "ipv6"
             value = { ipv6GatewayValue }
             bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
-            onBlur = { this.resetFocus.bind( null, "ipv6" ) }
             onKeyDown = { this.advanceCursor.bind( this, "ipv6" ) }
             onChange = { this.handleChange.bind( this, "ipv6" ) } />
         </Col>
@@ -450,7 +417,6 @@ const NetworkConfig = React.createClass(
         // hasFeedback
         value = { this.state.dnsServerInProgress }
         // bsStyle = { this.validate( "dns", newDNSServer ) }
-        // onBlur = { this.resetFocus.bind( null, "dns" ) }
         onChange = { this.handleChange.bind( this, "dns" ) }
         onKeyDown = { this.addDNSServer }
         placeholder = "Enter new DNS server" />;
