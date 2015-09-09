@@ -78,6 +78,7 @@ const UserItem = React.createClass(
           { handleViewChange : this.handleViewChange
           , item             : this.state.targetUser
           , itemLabels       : this.props.itemLabels
+          , itemSchema       : this.props.itemSchema
         };
 
         switch ( this.state.currentMode ) {
