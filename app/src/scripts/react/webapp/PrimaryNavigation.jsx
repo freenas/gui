@@ -6,13 +6,14 @@
 "use strict";
 
 import React from "react";
-import { Nav, MenuItem, DropdownButton } from "react-bootstrap";
+import { Nav, MenuItem, NavDropdown, DropdownButton } from "react-bootstrap";
 import { Link } from "react-router";
 
 import MiddlewareClient from "../../websocket/MiddlewareClient";
 import SS from "../../flux/stores/SessionStore";
 import MS from "../../flux/stores/MiddlewareStore";
 
+import ItemIcon from "../components/items/ItemIcon";
 import Icon from "../components/Icon";
 
 // Path definitions
@@ -144,6 +145,20 @@ const PrimaryNavigation = React.createClass(
       let navClass = [ "primary-nav", "expanded" ];
       let hostDisplay;
       let hostClass = [ "hostname" ];
+      let activeUser = (
+        <div className="user-info">
+          <ItemIcon
+            primaryString = "Foo"
+            fallbackString = { this.state.currentUser }
+          />
+          <span className="username">
+            { this.state.currentUser }
+          </span>
+          <span className="fullname">
+            { "Full Name" }
+          </span>
+        </div>
+      );
 
       if ( this.state.host ) {
         if ( this.state.mode === "SIMULATION_MODE" ) {
@@ -183,23 +198,16 @@ const PrimaryNavigation = React.createClass(
             { hostDisplay }
           </span>
 
-          <div className="user-info">
-
-            <DropdownButton
-              pullRight
-              title     = { this.state.currentUser }
-              bsStyle   = "link"
-              className = "user online"
+          <NavDropdown
+            title = { activeUser }
+          >
+            <MenuItem
+              key     = { 0 }
+              onClick = { MiddlewareClient.logout.bind( MiddlewareClient ) }
             >
-              <MenuItem
-                key     = { 0 }
-                onClick = { MiddlewareClient.logout.bind( MiddlewareClient ) }
-              >
-                {"Logout"}
-              </MenuItem>
-            </DropdownButton>
-
-          </div>
+              {"Logout"}
+            </MenuItem>
+          </NavDropdown>
 
           { paths.map( this.createNavItem ) }
 

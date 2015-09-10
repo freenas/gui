@@ -60,17 +60,34 @@ nav.primary-nav {
   .user-info {
     color: #f3f3f3;
 
-    .icon {
-      font-size: 1.75em;
-      margin: 0 8px;
-      color: @gray-light;
-      vertical-align: middle;
+    .item-graphic {
+      float: left;
+      margin: 0 0.66em 0 0.33em;
     }
 
-    .userName {
-      font-size: 100%;
-      padding: 0 5px;
+    .username, .fullname {
+      display: block;
+      white-space: pre;
+      height: 1em;
+      line-height: 1em;
+      margin: 0 0.25em;
     }
+    .username {
+      font-weight: 500;
+    }
+    .fullname {
+      color: @gray-lighter;
+      font-weight: 200;
+      margin-top: 0.25em;
+      font-size: 0.85em;
+    }
+  }
+
+  .caret {
+    color: fade( white, 90% );
+    position: absolute;
+    top: 50%;
+    right: 15px;
   }
 
   .btn-group {
@@ -104,7 +121,8 @@ nav.primary-nav {
     margin         : 0 1em;
   }
 
-  li {
+  .nav-item,
+  .dropdown {
     & > a {
       padding: 0.75em;
       padding-right: 0;
@@ -131,6 +149,12 @@ nav.primary-nav {
         border-right     : 8px solid @brand-primary;
       }
     }
+  }
+
+  .dropdown.open > a {
+    #gradient > .vertical( rgba( 0, 0, 0, 0.25 ), fade( @brand-primary, 30% ) );
+    background-color : rgba( 0, 0, 0, 0.25 );
+    color            : white;
   }
 
   .nav-item-label {
