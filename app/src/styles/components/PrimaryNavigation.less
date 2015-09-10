@@ -2,16 +2,18 @@
 // TODO: Revert changes made for #7908 once externally resolved.
 nav.primary-nav {
   #gradient > .vertical( @freenas-gray, darken( @freenas-gray, 10% ) );
-  background-color : @freenas-gray;
-  overflow-x       : hidden;
-  overflow-y       : auto;
-  position         : relative;
+  background-color   : @freenas-gray;
+  overflow-x         : hidden;
+  overflow-y         : auto;
+  position           : relative;
   min-width: 150px;
   .flex( 0 0 auto );
 
   .logo-wrapper {
     height: 45px;
-    margin: 10px 20px 5px 25px;
+    padding: 2px 20px 2px 25px;
+    box-sizing: initial;
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
   .logo-image,
@@ -37,28 +39,40 @@ nav.primary-nav {
   .hostname {
     color: white;
     display: block;
+    margin: 0;
     font-weight: 200;
+    font-size: 0.9em;
+    letter-spacing: 0.1em;
+    line-height: 2.5em;
     text-align: center;
-    margin: 10px 0 0;
+    text-transform: uppercase;
+    box-shadow: inset 0 2px 12px -6px rgba( 0, 0, 0, 0.4 );
+    background-color: rgba( 0, 0, 0, 0.25 );
+    .transition( ease-in-out 0.25s );
 
-    &:before {
-      content: "";
-      display: inline-block;
-      height: 0.85em;
-      width: 0.85em;
-      margin: 0 0.525em 0 -0.525em;
-      border: 1px solid rgba(0, 0, 0, 0.7);
-      border-radius: 50%;
-      .transition( ease-in-out 0.25s );
+    &.connected {
+      #gradient > .vertical( transparent
+                           , fade( @brand-success, 10% )
+                           );
+      border-bottom: 2px solid @brand-success;
     }
-
-    &.connected:before    { background: @brand-success; }
-    &.disconnected:before { background: @gray; }
-    &.simulation:before   { background: yellow; }
+    &.disconnected {
+      #gradient > .vertical( transparent
+                           , fade( @gray, 10% )
+                           );
+      border-bottom: 2px solid @gray;
+    }
+    &.simulation {
+      #gradient > .vertical( transparent
+                           , fade( @brand-warning, 10% )
+                           );
+      border-bottom: 2px solid @brand-warning;
+    }
   }
 
   .user-info {
     color: #f3f3f3;
+    padding: 5px 30px 5px 5px;
 
     .item-graphic {
       float: left;
@@ -87,7 +101,7 @@ nav.primary-nav {
     color: fade( white, 90% );
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 20px;
   }
 
   .btn-group {
