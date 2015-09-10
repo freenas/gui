@@ -9,7 +9,10 @@ import _ from "lodash";
 import { Button, ButtonGroup } from "react-bootstrap";
 import moment from "moment";
 
+import EventBus from "../../utility/EventBus"
 import Icon from "../components/Icon";
+
+import CalendarTasksContext from "./Calendar/CalendarTasksContext";
 
 function createMonth ( time = moment() ) {
   let today = moment();
@@ -42,6 +45,14 @@ const Calendar = React.createClass(
         }
       );
     }
+
+  , componentDidMount () {
+    EventBus.emit( "showContextPanel", CalendarTasksContext );
+  }
+
+  , componentWillUnmount () {
+    EventBus.emit( "hideContextPanel", CalendarTasksContext );
+  }
 
   , handlePage: function ( direction ) {
       let now = moment().month( this.state.activeMonth );
