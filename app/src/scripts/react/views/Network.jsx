@@ -35,85 +35,86 @@ function getSystemGeneralConfig () {
 
 const Network = React.createClass(
   { getInitialState: function () {
-    return { interfaces: getInterfaces()
-           , networkConfig: getNetworkConfig()
-           , systemGeneralConfig: getSystemGeneralConfig()
-           };
-  }
+      return { interfaces: getInterfaces()
+             , networkConfig: getNetworkConfig()
+             , systemGeneralConfig: getSystemGeneralConfig()
+             };
+    }
 
   , componentDidMount () {
-    IS.addChangeListener( this.handleInterfacesChange );
-    IM.requestInterfacesList();
-    IM.subscribe( this.constructor.displayName )
+      IS.addChangeListener( this.handleInterfacesChange );
+      IM.requestInterfacesList();
+      IM.subscribe( this.constructor.displayName )
 
-    NS.addChangeListener( this.handleNetworkConfigChange );
-    NM.requestNetworkConfig();
-    NM.subscribe( this.constructor.displayName );
+      NS.addChangeListener( this.handleNetworkConfigChange );
+      NM.requestNetworkConfig();
+      NM.subscribe( this.constructor.displayName );
 
-    SS.addChangeListener( this.handleSystemGeneralConfigChange );
-    SM.requestSystemGeneralConfig();
-    SM.subscribe( this.constructor.displayName );
-  }
+      SS.addChangeListener( this.handleSystemGeneralConfigChange );
+      SM.requestSystemGeneralConfig();
+      SM.subscribe( this.constructor.displayName );
+    }
 
   , componentWillUnmount () {
-    IS.removeChangeListener( this.handleInterfacesChange );
-    IM.unsubscribe( this.constructor.displayName );
+      IS.removeChangeListener( this.handleInterfacesChange );
+      IM.unsubscribe( this.constructor.displayName );
 
-    NS.removeChangeListener( this.handleNetworkConfigChange );
-    NM.unsubscribe( this.constructor.displayName );
+      NS.removeChangeListener( this.handleNetworkConfigChange );
+      NM.unsubscribe( this.constructor.displayName );
 
-    SS.removeChangeListener( this.handleSystemGeneralConfigChange );
-    SM.unsubscribe( this.constructor.displayName );
-  }
+      SS.removeChangeListener( this.handleSystemGeneralConfigChange );
+      SM.unsubscribe( this.constructor.displayName );
+    }
 
   , handleInterfacesChange () {
-    this.setState( { interfaces: getInterfaces() } );
-  }
+      this.setState( { interfaces: getInterfaces() } );
+    }
 
   , handleNetworkConfigChange () {
-    this.setState( { networkConfig: getNetworkConfig() } );
-  }
+      this.setState( { networkConfig: getNetworkConfig() } );
+    }
 
   , handleSystemGeneralConfigChange () {
-    this.setState( { systemGeneralConfig: getSystemGeneralConfig() } );
-  }
+      this.setState( { systemGeneralConfig: getSystemGeneralConfig() } );
+    }
 
   , render () {
-    var interfaces = [];
-    var networkConfig = null;
+      var interfaces = [];
+      var networkConfig = null;
 
-    // Why is this necessary even though interfaces is returned in getInitialState?
-    if ( _.has( this, [ "state", "interfaces" ] ) ) {
-      interfaces = _.map( this.state.interfaces
-                        , function createInterfaceItems ( networkInterface, key ) {
-                          return (
-                            <InterfaceItem
-                              { ...networkInterface }
-                              key = { networkInterface.id }/>
+      // Why is this necessary even though interfaces is returned in getInitialState?
+      if ( _.has( this, [ "state", "interfaces" ] ) ) {
+        interfaces = _.map( this.state.interfaces
+                          , function createInterfaceItems ( networkInterface, key ) {
+                            return (
+                              <InterfaceItem
+                                { ...networkInterface }
+                                key = { networkInterface.id }/>
+                            );
+                          }
                           );
-                        }
-                        );
-    }
+      }
 
-    if ( _.has( this, [ "state", "networkConfig" ] )
-      && _.has( this, [ "state", "systemGeneralConfig" ] ) ) {
-      networkConfig = <NetworkConfig
-                        networkConfig = { this.state.networkConfig }
-                        systemGeneralConfig = { this.state.systemGeneralConfig } />
-    }
+      if ( _.has( this, [ "state", "networkConfig" ] )
+        && _.has( this, [ "state", "systemGeneralConfig" ] ) ) {
+        networkConfig = <NetworkConfig
+                          networkConfig = { this.state.networkConfig }
+                          systemGeneralConfig = { this.state.systemGeneralConfig } />
+      }
 
-    return (
-      <main>
-        <div>
-          { networkConfig }
-          <hr className = "network-divider" />
-          <div className = "interface-item-container">
-            { interfaces }
+      return (
+        <main>
+          <div>
+            { networkConfig }
+            <hr className = "network-divider" />
+            <div className = "interface-item-container">
+              { interfaces }
+            </div>
           </div>
-        </div>
-      </main>
-    );
+        </main>
+      );
+    }
   }
-});
+);
 
 export default Network;
