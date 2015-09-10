@@ -1,163 +1,57 @@
 {
   "definitions": {
-    "crypto-certificate": {
+    "cpu-device": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "tunable": {
       "additionalProperties": false,
       "type": "object",
       "properties": {
-        "valid_until": {
-          "readOnly": true,
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "csr_path": {
-          "readOnly": true,
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "lifetime": {
-          "type": "integer"
-        },
-        "serial": {
-          "type": "integer"
-        },
-        "city": {
+        "comment": {
           "type": "string"
         },
-        "valid_from": {
-          "readOnly": true,
-          "type": [
-            "string",
-            "null"
-          ]
+        "enabled": {
+          "type": "boolean"
         },
-        "certificate": {
+        "value": {
           "type": "string"
         },
-        "state": {
+        "var": {
           "type": "string"
         },
         "type": {
           "enum": [
-            "CA_EXISTING",
-            "CA_INTERMEDIATE",
-            "CA_INTERNAL",
-            "CERT_CSR",
-            "CERT_EXISTING",
-            "CERT_INTERMEDIATE",
-            "CERT_INTERNAL"
+            "LOADER",
+            "RC",
+            "SYSCTL"
           ],
           "type": "string"
         },
-        "email": {
+        "id": {
           "type": "string"
-        },
-        "digest_algorithm": {
-          "enum": [
-            "SHA1",
-            "SHA224",
-            "SHA256",
-            "SHA384",
-            "SHA512"
-          ],
-          "type": "string"
-        },
-        "common": {
-          "type": "string"
-        },
-        "dn": {
-          "readOnly": true,
-          "type": "string"
-        },
-        "privatekey_path": {
-          "readOnly": true,
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "key_length": {
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        },
-        "privatekey": {
-          "type": "string"
-        },
-        "certificate_path": {
-          "readOnly": true,
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "organization": {
-          "type": "string"
-        },
-        "csr": {
-          "type": "string"
-        },
-        "signedby": {
-          "type": "string"
-        }
-      }
-    },
-    "network-interface-status": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "link_address": {
-          "type": "string"
-        },
-        "capabilities": {
-          "$ref": "network-interface-capabilities"
-        },
-        "mtu": {
-          "type": "integer"
-        },
-        "link_state": {
-          "type": "string"
-        },
-        "flags": {
-          "$ref": "network-interface-flags"
-        },
-        "media_options": {
-          "$ref": "network-interface-media-options"
-        },
-        "media_type": {
-          "type": "string"
-        },
-        "media_subtype": {
-          "type": "string"
-        },
-        "aliases": {
-          "items": {
-            "$ref": "network-interface-alias"
-          },
-          "type": "array"
         }
       }
     },
     "network-interface-alias": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
-        "prefixlen": {
-          "type": "integer"
-        },
         "broadcast": {
           "type": [
             "string",
             "null"
           ]
+        },
+        "netmask": {
+          "type": "integer"
         },
         "type": {
           "enum": [
@@ -226,6 +120,7 @@
       }
     },
     "network-config": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
         "dhcp": {
@@ -262,7 +157,21 @@
             "search": {
               "type": "array"
             },
-            "servers": {
+            "addresses": {
+              "type": "array"
+            }
+          }
+        },
+        "netwait": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "addresses": {
+              "items": {
+                "type": "string"
+              },
               "type": "array"
             }
           }
@@ -311,6 +220,79 @@
         }
       }
     },
+    "calendar-task": {
+      "status": {
+        "$ref": "calendar-task-status"
+      },
+      "description": {
+        "type": "string"
+      },
+      "schedule": {
+        "week": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hour": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "day_of_week": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "month": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "coalesce": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "second": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "year": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "day": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minute": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "args": {
+        "type": "array"
+      },
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      }
+    },
     "session": {
       "type": "object",
       "properties": {
@@ -340,37 +322,16 @@
         }
       }
     },
-    "network-interface-capabilities": {
-      "items": {
-        "enum": [
-          "RXCSUM",
-          "TXCSUM",
-          "NETCONS",
-          "VLAN_MTU",
-          "VLAN_HWTAGGING",
-          "JUMBO_MTU",
-          "POLLING",
-          "VLAN_HWCSUM",
-          "TSO4",
-          "TSO6",
-          "LRO",
-          "WOL_UCAST",
-          "WOL_MCAST",
-          "WOL_MAGIC",
-          "TOE4",
-          "TOE6",
-          "VLAN_HWFILTER",
-          "POLLING_NOCOUNT",
-          "VLAN_HWTSO",
-          "LINKSTATE",
-          "NETMAP",
-          "RXCSUM_IPV6",
-          "TXCSUM_IPV6",
-          "HWSTATS"
-        ],
-        "type": "string"
-      },
-      "type": "array"
+    "network-aggregation-protocols": {
+      "enum": [
+        "NONE",
+        "ROUNDROBIN",
+        "FAILOVER",
+        "LOADBALANCE",
+        "LACP",
+        "ETHERCHANNEL"
+      ],
+      "type": "string"
     },
     "network-interface-flags": {
       "items": {
@@ -430,53 +391,41 @@
         }
       }
     },
-    "disk": {
+    "network-interface-status": {
       "type": "object",
       "properties": {
-        "smart_enabled": {
-          "type": "boolean"
-        },
-        "status": {
-          "$ref": "disk-status"
-        },
-        "description": {
-          "type": "string"
-        },
-        "apm_mode": {
-          "type": [
-            "integer",
-            "null"
-          ]
-        },
-        "acoustic_level": {
-          "enum": [
-            "DISABLED",
-            "MINIMUM",
-            "MEDIUM",
-            "MAXIMUM"
-          ],
-          "type": "string"
-        },
-        "smart_options": {
-          "type": "string"
-        },
-        "serial": {
-          "type": "string"
-        },
         "name": {
           "type": "string"
         },
-        "standby_mode": {
-          "type": [
-            "integer",
-            "null"
-          ]
+        "link_address": {
+          "type": "string"
         },
-        "mediasize": {
+        "capabilities": {
+          "$ref": "network-interface-capabilities"
+        },
+        "mtu": {
           "type": "integer"
         },
-        "smart": {
-          "type": "boolean"
+        "link_state": {
+          "type": "string"
+        },
+        "flags": {
+          "$ref": "network-interface-flags"
+        },
+        "media_options": {
+          "$ref": "network-interface-media-options"
+        },
+        "media_type": {
+          "type": "string"
+        },
+        "media_subtype": {
+          "type": "string"
+        },
+        "aliases": {
+          "items": {
+            "$ref": "network-interface-alias"
+          },
+          "type": "array"
         }
       }
     },
@@ -572,17 +521,26 @@
         }
       }
     },
-    "permissions-tuple": {
+    "calendar-task-status": {
       "type": "object",
       "properties": {
-        "read": {
-          "type": "boolean"
+        "last_run_status": {
+          "type": "string"
         },
-        "write": {
-          "type": "boolean"
+        "next_run_time": {
+          "type": "string"
         },
-        "execute": {
-          "type": "boolean"
+        "current_run_status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "current_run_progress": {
+          "type": [
+            "object",
+            "null"
+          ]
         }
       }
     },
@@ -641,55 +599,6 @@
           "type": "string"
         }
       }
-    },
-    "service": {
-      "type": "object",
-      "properties": {
-        "state": {
-          "enum": [
-            "running",
-            "stopped",
-            "unknown"
-          ],
-          "type": "string"
-        },
-        "pid": {
-          "type": "integer"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "share-client": {
-      "type": "object",
-      "properties": {
-        "host": {
-          "type": "string"
-        },
-        "share": {
-          "type": "string"
-        },
-        "user": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
-    },
-    "network-interface-type": {
-      "enum": [
-        "LOOPBACK",
-        "ETHER",
-        "VLAN",
-        "BRIDGE",
-        "LAGG"
-      ],
-      "type": "string"
     },
     "zfs-properties": {
       "type": "object",
@@ -871,16 +780,101 @@
         }
       }
     },
-    "network-aggregation-protocols": {
+    "service": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "RUNNING",
+            "STOPPED",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "pid": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "share-client": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string"
+        },
+        "share": {
+          "type": "string"
+        },
+        "user": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "disk-selftest-type": {
       "enum": [
-        "NONE",
-        "ROUNDROBIN",
-        "FAILOVER",
-        "LOADBALANCE",
-        "LACP",
-        "ETHERCHANNEL"
+        "CONVEYANCE",
+        "LONG",
+        "OFFLINE",
+        "SHORT"
       ],
       "type": "string"
+    },
+    "acl-entry": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "perms": {
+          "type": "object"
+        },
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tag": {
+          "enum": [
+            "USER_OBJ",
+            "USER",
+            "GROUP_OBJ",
+            "GROUP",
+            "MASK",
+            "OTHER",
+            "EVERYONE"
+          ],
+          "type": "string"
+        },
+        "flags": {
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "ALLOW",
+            "DENY"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
     },
     "zfs-vdev-extension": {
       "type": "object",
@@ -890,6 +884,56 @@
         },
         "vdev": {
           "$ref": "zfs-vdev"
+        }
+      }
+    },
+    "disk": {
+      "type": "object",
+      "properties": {
+        "smart_enabled": {
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "disk-status"
+        },
+        "description": {
+          "type": "string"
+        },
+        "apm_mode": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "acoustic_level": {
+          "enum": [
+            "DISABLED",
+            "MINIMUM",
+            "MEDIUM",
+            "MAXIMUM"
+          ],
+          "type": "string"
+        },
+        "smart_options": {
+          "type": "string"
+        },
+        "serial": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "standby_mode": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "mediasize": {
+          "type": "integer"
+        },
+        "smart": {
+          "type": "boolean"
         }
       }
     },
@@ -935,9 +979,10 @@
       }
     },
     "network-host": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
-        "name": {
+        "id": {
           "type": "string"
         },
         "address": {
@@ -1030,6 +1075,23 @@
         }
       }
     },
+    "importable-disk": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "label": {
+          "type": "string"
+        },
+        "fstype": {
+          "type": "string"
+        }
+      }
+    },
     "zfs-scan": {
       "type": "object",
       "properties": {
@@ -1062,6 +1124,13 @@
     "dataset": {
       "type": "object",
       "properties": {
+        "permissions_type": {
+          "enum": [
+            "PERM",
+            "ACL"
+          ],
+          "type": "string"
+        },
         "type": {
           "enum": [
             "FILESYSTEM",
@@ -1088,34 +1157,17 @@
     "stat": {
       "type": "object",
       "properties": {
-        "gid": {
-          "type": "integer"
-        },
         "ctime": {
           "type": "string"
         },
         "mtime": {
           "type": "string"
         },
-        "uid": {
-          "type": "integer"
-        },
         "path": {
           "type": "string"
         },
         "permissions": {
-          "type": "object",
-          "properties": {
-            "owner": {
-              "$ref": "permissions-tuple"
-            },
-            "group": {
-              "$ref": "permissions-tuple"
-            },
-            "others": {
-              "$ref": "permissions-tuple"
-            }
-          }
+          "$ref": "permissions"
         },
         "atime": {
           "type": "string"
@@ -1306,6 +1358,20 @@
         }
       }
     },
+    "unix-mode-tuple": {
+      "type": "object",
+      "properties": {
+        "read": {
+          "type": "boolean"
+        },
+        "write": {
+          "type": "boolean"
+        },
+        "execute": {
+          "type": "boolean"
+        }
+      }
+    },
     "user": {
       "additionalProperties": false,
       "type": "object",
@@ -1447,6 +1513,7 @@
       }
     },
     "network-route": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
         "netmask": {
@@ -1462,11 +1529,55 @@
           ],
           "type": "string"
         },
-        "name": {
+        "id": {
           "type": "string"
         },
         "network": {
           "type": "string"
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "acl": {
+          "items": {
+            "$ref": "acl-entry"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "group": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "user": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "modes": {
+          "type": [
+            "object",
+            "integer",
+            "null"
+          ],
+          "properties": {
+            "group": {
+              "$ref": "unix-mode-tuple"
+            },
+            "user": {
+              "$ref": "unix-mode-tuple"
+            },
+            "others": {
+              "$ref": "unix-mode-tuple"
+            }
+          }
         }
       }
     },
@@ -1500,6 +1611,17 @@
         "VOLUME"
       ],
       "type": "string"
+    },
+    "network-device": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
     },
     "swap-mirror": {
       "type": "object",
@@ -1555,60 +1677,388 @@
         }
       }
     },
-    "cpu-device": {
+    "zfs-snapshot": {
       "type": "object",
       "properties": {
+        "properties": {
+          "type": "object"
+        },
+        "holds": {
+          "type": "object"
+        },
         "name": {
           "type": "string"
         },
-        "description": {
+        "pool": {
+          "type": "string"
+        },
+        "dataset": {
           "type": "string"
         }
       }
     },
-    "tunable": {
+    "network-interface": {
       "additionalProperties": false,
       "type": "object",
       "properties": {
-        "comment": {
+        "status": {
+          "$ref": "network-interface-status"
+        },
+        "vlan": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "integer"
+            },
+            "parent": {
+              "type": "string"
+            }
+          }
+        },
+        "mediaopts": {
+          "$ref": "network-interface-mediaopts"
+        },
+        "id": {
           "type": "string"
+        },
+        "aliases": {
+          "items": {
+            "$ref": "network-interface-alias"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "media": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "enabled": {
           "type": "boolean"
         },
-        "value": {
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "add": {
+              "$ref": "network-interface-capabilities"
+            },
+            "del": {
+              "$ref": "network-interface-capabilities"
+            }
+          }
+        },
+        "mtu": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "dhcp": {
+          "type": "boolean"
+        },
+        "lagg": {
+          "type": "object",
+          "properties": {
+            "protocol": {
+              "$ref": "network-aggregation-protocols"
+            },
+            "ports": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "type": {
+          "$ref": "network-interface-type"
+        }
+      }
+    },
+    "crypto-certificate": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "valid_until": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "csr_path": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lifetime": {
+          "type": "integer"
+        },
+        "serial": {
+          "type": "integer"
+        },
+        "city": {
           "type": "string"
         },
-        "var": {
+        "valid_from": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "certificate": {
+          "type": "string"
+        },
+        "state": {
           "type": "string"
         },
         "type": {
           "enum": [
-            "LOADER",
-            "RC",
-            "SYSCTL"
+            "CA_EXISTING",
+            "CA_INTERMEDIATE",
+            "CA_INTERNAL",
+            "CERT_CSR",
+            "CERT_EXISTING",
+            "CERT_INTERMEDIATE",
+            "CERT_INTERNAL"
           ],
           "type": "string"
         },
-        "id": {
+        "email": {
+          "type": "string"
+        },
+        "digest_algorithm": {
+          "enum": [
+            "SHA1",
+            "SHA224",
+            "SHA256",
+            "SHA384",
+            "SHA512"
+          ],
+          "type": "string"
+        },
+        "common": {
+          "type": "string"
+        },
+        "dn": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "privatekey_path": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "key_length": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "privatekey": {
+          "type": "string"
+        },
+        "certificate_path": {
+          "readOnly": true,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "organization": {
+          "type": "string"
+        },
+        "csr": {
+          "type": "string"
+        },
+        "signedby": {
           "type": "string"
         }
       }
     },
-    "importable-disk": {
+    "service-afp": {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
-        "path": {
-          "type": "string"
-        },
-        "size": {
+        "connections_limit": {
           "type": "integer"
         },
-        "label": {
+        "guest_user": {
           "type": "string"
         },
-        "fstype": {
+        "dbpath": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "homedir_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "bind_addresses": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "homedir_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "homedir_enable": {
+          "type": "boolean"
+        },
+        "guest_enable": {
+          "type": "boolean"
+        },
+        "auxiliary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "service-cifs": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "dos_charset": {
           "type": "string"
+        },
+        "filemask": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unix_charset": {
+          "type": "string"
+        },
+        "domain_logons": {
+          "type": "boolean"
+        },
+        "max_protocol": {
+          "enum": [
+            "CORE",
+            "COREPLUS",
+            "LANMAN1",
+            "LANMAN2",
+            "NT1",
+            "SMB2",
+            "SMB2_02",
+            "SMB2_10",
+            "SMB2_22",
+            "SMB2_24",
+            "SMB3",
+            "SMB3_00"
+          ],
+          "type": "string"
+        },
+        "netbiosname": {
+          "type": "string"
+        },
+        "empty_password": {
+          "type": "boolean"
+        },
+        "dirmask": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "log_level": {
+          "type": "string"
+        },
+        "min_protocol": {
+          "enum": [
+            "CORE",
+            "COREPLUS",
+            "LANMAN1",
+            "LANMAN2",
+            "NT1",
+            "SMB2",
+            "SMB2_02",
+            "SMB2_10",
+            "SMB2_22",
+            "SMB2_24",
+            "SMB3",
+            "SMB3_00"
+          ],
+          "type": "string"
+        },
+        "obey_pam_restrictions": {
+          "type": "boolean"
+        },
+        "workgroup": {
+          "type": "string"
+        },
+        "sid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "time_server": {
+          "type": "boolean"
+        },
+        "guest_user": {
+          "type": "string"
+        },
+        "local_master": {
+          "type": "boolean"
+        },
+        "auxiliary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hostlookup": {
+          "type": "boolean"
+        },
+        "syslog": {
+          "type": "boolean"
+        },
+        "zeroconf": {
+          "type": "boolean"
+        },
+        "execute_always": {
+          "type": "boolean"
+        },
+        "unixext": {
+          "type": "boolean"
+        },
+        "bind_addresses": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
         }
       }
     },
@@ -2331,16 +2781,15 @@
         }
       }
     },
-    "network-device": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        }
-      }
+    "network-interface-type": {
+      "enum": [
+        "LOOPBACK",
+        "ETHER",
+        "VLAN",
+        "BRIDGE",
+        "LAGG"
+      ],
+      "type": "string"
     },
     "disk-partition": {
       "type": "object",
@@ -2368,85 +2817,37 @@
         }
       }
     },
-    "network-interface": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "$ref": "network-interface-status"
-        },
-        "vlan": {
-          "type": "object",
-          "properties": {
-            "tag": {
-              "type": "integer"
-            },
-            "parent": {
-              "type": "string"
-            }
-          }
-        },
-        "mediaopts": {
-          "$ref": "network-interface-mediaopts"
-        },
-        "id": {
-          "type": "string"
-        },
-        "aliases": {
-          "items": {
-            "$ref": "network-interface-alias"
-          },
-          "type": "array"
-        },
-        "name": {
-          "type": "string"
-        },
-        "media": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "enabled": {
-          "type": "boolean"
-        },
-        "capabilities": {
-          "type": "object",
-          "properties": {
-            "add": {
-              "$ref": "network-interface-capabilities"
-            },
-            "del": {
-              "$ref": "network-interface-capabilities"
-            }
-          }
-        },
-        "mtu": {
-          "type": [
-            "integer",
-            "null"
-          ]
-        },
-        "dhcp": {
-          "type": "boolean"
-        },
-        "lagg": {
-          "type": "object",
-          "properties": {
-            "protocol": {
-              "$ref": "network-aggregation-protocols"
-            },
-            "ports": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          }
-        },
-        "type": {
-          "$ref": "network-interface-type"
-        }
-      }
+    "network-interface-capabilities": {
+      "items": {
+        "enum": [
+          "RXCSUM",
+          "TXCSUM",
+          "NETCONS",
+          "VLAN_MTU",
+          "VLAN_HWTAGGING",
+          "JUMBO_MTU",
+          "POLLING",
+          "VLAN_HWCSUM",
+          "TSO4",
+          "TSO6",
+          "LRO",
+          "WOL_UCAST",
+          "WOL_MCAST",
+          "WOL_MAGIC",
+          "TOE4",
+          "TOE6",
+          "VLAN_HWFILTER",
+          "POLLING_NOCOUNT",
+          "VLAN_HWTSO",
+          "LINKSTATE",
+          "NETMAP",
+          "RXCSUM_IPV6",
+          "TXCSUM_IPV6",
+          "HWSTATS"
+        ],
+        "type": "string"
+      },
+      "type": "array"
     }
   },
   "$schema": "http://json-schema.org/draft-04/schema#",
