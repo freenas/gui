@@ -18,6 +18,22 @@
     text-overflow : ellipsis;
 }
 
+.spotlight ( @spotlight-color: white ) {
+  position: relative;
+  overflow: hidden;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: -0.4em;
+    left: 0;
+    border-radius: 50%;
+    height: 0.4em;
+    box-shadow: 0 0 0.4em 0.4em fade( @spotlight-color, 40% );
+  }
+}
 
 // Overlays
 //
