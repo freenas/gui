@@ -1,0 +1,27 @@
+{ "folders":
+  [ { "name": "/"
+    , "path": "."
+    , "file_exclude_patterns": [ "*.sublime-workspace" ]
+    , "folder_exclude_patterns":
+      [ "app/build"
+      , "node_modules"
+      , "src"
+      , "webpack"
+      ]
+    }
+    , { "name": "Server Files"
+      , "path": "app"
+      , "folder_exclude_patterns":
+        [ "build"
+        , "src"
+        ]
+      }
+    , { "path": "app/src/scripts" }
+    , { "path": "app/src/styles" }
+    , { "path": "app/src/type" }
+    , { "path": "simulator" }
+    , { "path": "app/build" }
+    , { "path": "gulp_tasks" }
+    , { "path": "node_modules" }
+  ]
+}
