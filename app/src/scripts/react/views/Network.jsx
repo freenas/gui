@@ -104,6 +104,9 @@ const Network = React.createClass(
 
       return (
         <main>
+          <h1 className="section-heading type-line">
+            <span className="text">Network</span>
+          </h1>
           <div>
             { networkConfig }
             <hr className = "network-divider" />

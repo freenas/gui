@@ -438,7 +438,6 @@ const NetworkConfig = React.createClass(
 
     return (
       <form className = "network-overview">
-        <h3 className = "text-center">Network Configuration</h3>
         <Grid fluid>
           <Row>
             <Col
