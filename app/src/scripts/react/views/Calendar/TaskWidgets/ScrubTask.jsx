@@ -59,7 +59,7 @@ const ScrubTask = React.createClass(
   , render () {
     return (
       <div>
-        <h4>Scrub ZFS Pool</h4>
+        <h4>ZFS Scrub</h4>
         <Input type = "select">
           { this.createVolumeOptions() }
         </Input>
