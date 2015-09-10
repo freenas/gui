@@ -47,7 +47,7 @@ const Memory = React.createClass(
                     , y:
                       { tick:
                         { format: function ( y ) {
-                            return ByteCalc.humanize( y, { roundMode: "whole" } );
+                            return ByteCalc.humanize( y, { roundMode: 1 } );
                           }
                         }
                       }
