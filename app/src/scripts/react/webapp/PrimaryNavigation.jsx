@@ -179,24 +179,25 @@ const PrimaryNavigation = React.createClass(
           ref = "navRoot"
           className = { navClass.join( " " ) } >
 
-          <div className="logo-wrapper">
-            <img
-              className = "logo-image"
-              src = "/img/freenas-icon.png"
-            />
-            <img
-              className = "logo-wordmark"
-              src = "/img/freenas-logotype.png"
-            />
-            <img
-              className = "logo-x"
-              src = "/img/X.png"
-            />
-          </div>
+          <div className={ hostClass.join( " " ) }>
+            <div className="logo-wrapper">
+              <img
+                className = "logo-image"
+                src = "/img/freenas-icon.png"
+              />
+              <img
+                className = "logo-wordmark"
+                src = "/img/freenas-logotype.png"
+              />
+              <img
+                className = "logo-x"
+                src = "/img/X.png"
+              />
+            </div>
 
-          <span className={ hostClass.join( " " ) }>
-            { hostDisplay }
-          </span>
+            <span>{ hostDisplay }</span>
+
+          </div>
 
           <NavDropdown
             title = { activeUser }
