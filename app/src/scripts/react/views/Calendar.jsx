@@ -47,6 +47,7 @@ const Calendar = React.createClass(
         , selectedDay  : now.date()
         , monthContent : createMonth( now )
         , mode         : "month"
+        , tasks        : []
         }
       );
     }
