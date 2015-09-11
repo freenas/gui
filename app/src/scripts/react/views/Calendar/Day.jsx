@@ -69,7 +69,7 @@ const Day = React.createClass (
              }
 
              return (
-               <div
+               <DragTarget
                  key = { index }
                  namespace = "calendar">
                  { taskWidget }
@@ -79,7 +79,7 @@ const Day = React.createClass (
                    target = { ()=> React.findDOMNode( this.refs[ this.state.activeTask ] ) }>
                    { taskModal }
                  </Overlay>
-               </div>
+               </DragTarget>
              );
            }
            , this
