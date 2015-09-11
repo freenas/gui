@@ -12,7 +12,7 @@ import DropTarget from "../../components/DropTarget";
 
 const Day = React.createClass (
   { propTypes: { handleTaskAdd: React.PropTypes.func.isRequired
-               , selectDay: React.PropTypes.func.isRequired
+               , chooseDay: React.PropTypes.func.isRequired
                // Whether this is today's date
                , isToday: React.PropTypes.bool.isRequired
                // Whether this is the day selected by the user
@@ -40,7 +40,7 @@ const Day = React.createClass (
       <div
         key={ this.props.index }
         className= { dayClass.join( " " ) }
-        onClick = { this.props.selectDay.bind( null, this.props.dayOfMonth ) }
+        onClick = { this.props.chooseDay.bind( null, this.props.dayOfMonth ) }
       >
         <DropTarget
           className="day-content"
