@@ -22,10 +22,6 @@ const Day = React.createClass (
                , index: React.PropTypes.number.isRequired
                }
 
-  , getDefaultProps () {
-    return { isToday: false };
-  }
-
   , render () {
     var dayClass = [ "day" ];
 
