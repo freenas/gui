@@ -50,11 +50,23 @@ const Calendar = React.createClass(
     }
 
   , componentDidMount () {
+    CS.addChangeListener( this.handleTaskUpdate );
+    CM.subscribe( this.constructor.displayName );
+    CM.requestCalendar();
+
     EventBus.emit( "showContextPanel", CalendarTasksContext );
   }
 
   , componentWillUnmount () {
+    CS.removeChangeListener( this.handleTaskUpdate );
+    CM.unsubscribe( this.constructor.displayName );
+
     EventBus.emit( "hideContextPanel", CalendarTasksContext );
+  }
+
+  // This will be more sophisticated when task updates emit events.
+  , handleTaskUpdate () {
+    this.setState( { tasks: CS.tasks } );
   }
 
   , handlePage: function ( direction ) {
