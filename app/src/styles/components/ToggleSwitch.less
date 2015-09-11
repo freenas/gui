@@ -6,8 +6,7 @@
   display       : inline-block;
   width         : 2*@toggle-switch-y;
   height        : @toggle-switch-y;
-  background    : #FEFEFE;
-  border        : 1px solid #E1E1E1;
+  background    : #E7E7E7;
   border-radius : @toggle-switch-y;
   overflow      : hidden;
 
@@ -20,38 +19,38 @@
   }
 
   &:before {
-    height           : 100%;
-    padding-left     : 50%;
-    background-color : #ECECEC;
-    .box-shadow(~"inset 4px 4px 20px 0 rgba(255, 255, 255, 0.75)
-                 , inset  2px  2px 0 0 #DEDEDE
-                 , inset  2px -2px 0 0 #DEDEDE
-                 , inset -2px  2px 0 0 #DEDEDE
-                 , inset -2px -2px 0 0 #DEDEDE
-                 "
-               );
+    height: ( @toggle-switch-y - 4px );
+    width: ( @toggle-switch-y - 4px );
+    margin: 2px;
+    background-color : white;
+    .box-shadow( -1px -1px 4px 0 rgba(0,0,0,0.25) );
     border-radius    : 50%;
     left             : 0%;
     z-index          : 1;
-    &:hover {
-
-    }
   }
 
   &:after {
-    top              : 0;
-    right            : 75%;
-    bottom           : 0;
-    left             : 0;
+    top    : 0;
+    right  : 50%;
+    bottom : 0;
+    left   : 0;
+    opacity: 0;
+    #gradient > .horizontal( fade( @freenas-gray, 50% ), @brand-primary );
     background-color : @brand-primary;
-    border-radius    : @toggle-switch-y 0 0 @toggle-switch-y;
+    border-radius    : @toggle-switch-y;
     .box-shadow( inset 1px 1px 2px 0 rgba(0, 0, 0, 0.15) );
-    z-index          : 0;
+    z-index: 0;
   }
 
   &.on {
-    &:before { left: 50%; }
-    &:after  { right: 25%; }
+    &:before {
+      left: 50%;
+      .box-shadow( -1px -1px 6px 1px @brand-primary );
+    }
+    &:after {
+      right: 0%;
+      opacity: 1;
+    }
   }
 
   &.toggle-switch-sm {
@@ -59,8 +58,14 @@
     height        : @toggle-switch-y-sm;
     border-radius : @toggle-switch-y-sm;
 
+    &:before {
+    height: ( @toggle-switch-y-sm - 2px );
+    width: ( @toggle-switch-y-sm - 2px );
+    margin: 1px;
+    }
+
     &:after {
-      border-radius: @toggle-switch-y-sm 0 0 @toggle-switch-y-sm;
+      border-radius: @toggle-switch-y-sm;
     }
   }
 }
