@@ -66,7 +66,7 @@ const Month = React.createClass(
     var activeMoment = moment().month( this.props.activeMonth );
 
     var start = activeMoment.startOf( "month" ).day();
-    var end = ( 7 - ( ( start + activeMoment.daysInMonth ) % 7 ) );
+    var end = ( 7 - ( ( start + activeMoment.daysInMonth() ) % 7 ) );
 
     return (
       <div className="month">
