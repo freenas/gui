@@ -376,10 +376,10 @@ const NetworkConfig = React.createClass(
         className = "network-overview"
       >
 
-        <Row>
+        <Row className="well">
           <Col
-            md = { 6 }
-            xs = { 12 }
+            lg = { 6 }
+            md = { 12 }
           >
             <form className="form-horizontal">
               <Input { ...formClasses }
@@ -413,8 +413,8 @@ const NetworkConfig = React.createClass(
           </Col>
 
           <Col
-            md = { 6 }
-            xs = { 12 }
+            lg = { 6 }
+            md = { 12 }
           >
             <h5>DNS Servers</h5>
             <Col
@@ -430,21 +430,20 @@ const NetworkConfig = React.createClass(
               </Row>
             </Col>
           </Col>
-        </Row>
-
-        <Row>
-          <ButtonToolbar className = "pull-right">
-            <Button
-              bsStyle = "default"
-              onClick = { this.resetAll }>
-              { "Reset" }
-            </Button>
-            <Button
-              bsStyle = "primary"
-              onClick = { this.submit } >
-              { "Apply" }
-            </Button>
-          </ButtonToolbar>
+          <Col xs={ 12 }>
+            <ButtonToolbar className = "pull-right">
+              <Button
+                bsStyle = "default"
+                onClick = { this.resetAll }>
+                { "Reset" }
+              </Button>
+              <Button
+                bsStyle = "primary"
+                onClick = { this.submit } >
+                { "Apply" }
+              </Button>
+            </ButtonToolbar>
+          </Col>
         </Row>
 
       </Grid>
