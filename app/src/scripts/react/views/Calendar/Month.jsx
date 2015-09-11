@@ -54,7 +54,13 @@ const Month = React.createClass(
           isToday = { today.isSame( date, "day" ) }
           isSelected = { i + 1 === this.props.selectedDay }
           dayOfMonth = { i + 1 }
-          index = { i }/>
+          index = { i }
+          tasks = { [ { name: "zfs.pool.scrub"
+                      , id: "sample" + i
+                      , hour: "12"
+                      , args: [ "sampleVolumeName" ]
+                      } ]
+                  }/>
       );
       date.setDate( date.getDate() + 1 );
     }
