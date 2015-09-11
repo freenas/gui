@@ -106,6 +106,14 @@ const Calendar = React.createClass(
       return result;
     }
 
+  , handleTaskAdd () {
+    console.log( "handleTaskAdd" );
+  }
+
+  , handleTaskRemove () {
+    console.log( "handleTaskRemove" );
+  }
+
   , dayMonth: function ( contents, index ) {
       let dayClass = [ "day" ];
       if ( contents ) {
