@@ -22,7 +22,7 @@ import CalendarTasksContext from "./Calendar/CalendarTasksContext";
 const Calendar = React.createClass(
   { displayName: "Calendar"
 
-  , getInitialState: function () {
+  , getInitialState () {
       let now = moment();
 
       return (
@@ -54,7 +54,7 @@ const Calendar = React.createClass(
     this.setState( { tasks: CS.tasks } );
   }
 
-  , handlePage: function ( direction ) {
+  , handlePage ( direction ) {
       let now = moment().month( this.state.activeMonth );
 
       if ( direction === "prev" ) {
@@ -70,7 +70,7 @@ const Calendar = React.createClass(
       );
     }
 
-  , handleToday: function ( ) {
+  , handleToday ( ) {
       let now = moment();
 
       this.setState(
@@ -80,7 +80,7 @@ const Calendar = React.createClass(
       );
     }
 
-  , chooseDay: function ( day ) {
+  , chooseDay ( day ) {
       this.setState({ selectedDay: day });
     }
 
@@ -92,7 +92,7 @@ const Calendar = React.createClass(
     console.log( "handleTaskRemove" );
   }
 
-  , render: function () {
+  , render () {
       let activeMoment = moment().month( this.state.activeMonth );
       let month = activeMoment.format( "MMMM" );
       let year  = activeMoment.format( "YYYY" );
