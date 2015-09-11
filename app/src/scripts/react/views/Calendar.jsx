@@ -9,6 +9,9 @@ import _ from "lodash";
 import { Button, ButtonGroup } from "react-bootstrap";
 import moment from "moment";
 
+import CM from "../../flux/middleware/CalendarMiddleware";
+import CS from "../../flux/stores/CalendarStore";
+
 import EventBus from "../../utility/EventBus"
 import Icon from "../components/Icon";
 
