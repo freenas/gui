@@ -297,87 +297,36 @@ const NetworkConfig = React.createClass(
   }
 
   , render () {
-    var hostname = null;
+    let formClasses =
+      { labelClassName: "col-xs-4"
+      , wrapperClassName: "col-xs-8"
+      };
+
     var hostnameValue = "";
-    var ipv4Gateway = null;
     var ipv4GatewayValue = "";
-    var ipv6Gateway = null;
     var ipv6GatewayValue = "";
+
     var dnsServers = [];
     var dnsNodes = null;
     var newDNSInput = null;
-    var formControlButtons = null;
 
     if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
       hostnameValue = this.state.systemGeneralConfig.hostname;
     } else if ( _.has( this, [ "props", "systemGeneralConfig", "hostname" ] ) ) {
       hostnameValue = this.props.systemGeneralConfig.hostname;
     }
-    hostname =
-      <div>
-        <Col md = { 4 }
-                  sm = { 5 }>
-          { "Hostname" }
-        </Col>
-        <Col md = { 8 }
-                  sm = { 7 }>
-          <Input
-            type = "text"
-            ref = "hostname"
-            value = { hostnameValue }
-            bsStyle = { this.validate( "hostname", hostnameValue ) }
-            onKeyDown = { this.advanceCursor.bind( this, "hostname" ) }
-            onChange = { this.handleChange.bind( this, "hostname" ) } />
-        </Col>
-      </div>;
 
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] ) ) {
       ipv4GatewayValue = this.state.networkConfig.gateway.ipv4;
     } else if ( _.has( this, [ "props", "networkConfig", "gateway", "ipv4" ] ) ) {
       ipv4GatewayValue = this.props.networkConfig.gateway.ipv4;
     }
-    ipv4Gateway =
-      <div>
-        <Col md = { 4 }
-                  sm = { 5 }>
-          { "IPv4 Default Gateway" }
-        </Col>
-        <Col md = { 8 }
-                  sm = { 7 }>
-          <Input
-            type = "text"
-            ref = "ipv4"
-            value = { ipv4GatewayValue }
-            bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
-            onKeyDown = { this.advanceCursor.bind( this, "ipv4" ) }
-            onChange = { this.handleChange.bind( this, "ipv4" ) } />
-        </Col>
-      </div>;
 
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] ) ) {
       ipv6GatewayValue = this.state.networkConfig.gateway.ipv6;
     } else if ( _.has( this, [ "props", "networkConfig", "gateway", "ipv6" ] ) ) {
       ipv6GatewayValue = this.props.networkConfig.gateway.ipv6;
     }
-    ipv6Gateway =
-      <div>
-        <Col
-          md = { 4 }
-          sm = { 5 }>
-          { "IPv6 Default Gateway" }
-        </Col>
-        <Col
-          md = { 8 }
-          sm = { 7 }>
-          <Input
-            type = "text"
-            ref = "ipv6"
-            value = { ipv6GatewayValue }
-            bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
-            onKeyDown = { this.advanceCursor.bind( this, "ipv6" ) }
-            onChange = { this.handleChange.bind( this, "ipv6" ) } />
-        </Col>
-      </div>;
 
     if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
       dnsServers = this.state.networkConfig.dns.servers.slice();
@@ -421,57 +370,84 @@ const NetworkConfig = React.createClass(
         onKeyDown = { this.addDNSServer }
         placeholder = "Enter new DNS server" />;
 
-    // TODO: Properly disable these when there's nothing to submit
-    formControlButtons =
-      <ButtonToolbar className = "pull-right">
-        <Button
-          bsStyle = "default"
-          onClick = { this.resetAll }>
-          { "Reset" }
-        </Button>
-        <Button
-          bsStyle = "primary"
-          onClick = { this.submit } >
-          { "Apply" }
-        </Button>
-      </ButtonToolbar>;
-
     return (
-      <form className = "network-overview">
-        <Grid fluid>
-          <Row>
+      <Grid
+        fluid
+        className = "network-overview"
+      >
+
+        <Row>
+          <Col
+            md = { 6 }
+            xs = { 12 }
+          >
+            <form className="form-horizontal">
+              <Input { ...formClasses }
+                type = "text"
+                ref = "hostname"
+                label = "Hostname"
+                value = { hostnameValue }
+                bsStyle = { this.validate( "hostname", hostnameValue ) }
+                onKeyDown = { this.advanceCursor.bind( this, "hostname" ) }
+                onChange = { this.handleChange.bind( this, "hostname" ) }
+              />
+              <Input { ...formClasses }
+                type = "text"
+                ref = "ipv4"
+                label = "IPv4 Default Gateway"
+                value = { ipv4GatewayValue }
+                bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
+                onKeyDown = { this.advanceCursor.bind( this, "ipv4" ) }
+                onChange = { this.handleChange.bind( this, "ipv4" ) }
+              />
+              <Input { ...formClasses }
+                type = "text"
+                ref = "ipv6"
+                label = "IPv6 Default Gateway"
+                value = { ipv6GatewayValue }
+                bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
+                onKeyDown = { this.advanceCursor.bind( this, "ipv6" ) }
+                onChange = { this.handleChange.bind( this, "ipv6" ) }
+              />
+            </form>
+          </Col>
+
+          <Col
+            md = { 6 }
+            xs = { 12 }
+          >
+            <h5>DNS Servers</h5>
             <Col
-              md = { 12 }
-              lg = { 6 } >
-              { hostname }
-              { ipv4Gateway }
-              { ipv6Gateway }
+              xs = { 12 }
+              className = "dns-section"
+              ref = "dns-section"
+            >
+              { dnsNodes }
+              <Row>
+                <Col sm = { 9 } >
+                  { newDNSInput }
+                </Col >
+              </Row>
             </Col>
-            <Col
-              md = { 8 }
-              lg = { 6 } >
-              <Col xs = { 12 } >
-                <h5>DNS Servers</h5>
-              </Col>
-              <Col xs = { 12 }
-                        className = "dns-section"
-                        ref = "dns-section">
-                { dnsNodes }
-                <Row>
-                  <Col sm = { 9 } >
-                    { newDNSInput }
-                  </Col >
-                </Row>
-              </Col>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs = { 12 }>
-              { formControlButtons }
-            </Col>
-          </Row>
-        </Grid>
-      </form>
+          </Col>
+        </Row>
+
+        <Row>
+          <ButtonToolbar className = "pull-right">
+            <Button
+              bsStyle = "default"
+              onClick = { this.resetAll }>
+              { "Reset" }
+            </Button>
+            <Button
+              bsStyle = "primary"
+              onClick = { this.submit } >
+              { "Apply" }
+            </Button>
+          </ButtonToolbar>
+        </Row>
+
+      </Grid>
     );
   }
 });
