@@ -1,0 +1,31 @@
+.form-control {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom-width: 1px;
+  background-color: transparent;
+  border-radius: 0;
+  .box-shadow( none );
+
+  &:hover {
+    border-color: lighten( @brand-primary, 5% );
+  }
+
+  &:active,
+  &:focus {
+    .box-shadow( none );
+  }
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: transparent;
+  border-bottom-style: dotted;
+  color: @gray-light;
+  border-color: @gray-light;
+
+  &:hover {
+    border-color: @gray-light;
+  }
+}
