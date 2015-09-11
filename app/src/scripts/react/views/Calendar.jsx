@@ -12,29 +12,12 @@ import moment from "moment";
 import CM from "../../flux/middleware/CalendarMiddleware";
 import CS from "../../flux/stores/CalendarStore";
 
-import Day from "./Calendar/Day";
+import Month from "./Calendar/Month";
 
 import EventBus from "../../utility/EventBus"
 import Icon from "../components/Icon";
 
 import CalendarTasksContext from "./Calendar/CalendarTasksContext";
-
-function createMonth ( time = moment() ) {
-  let today = moment();
-  let date = new Date( time.year(), time.month(), 1 );
-  let result = [];
-
-  while ( date.getMonth() === time.month() ) {
-    if ( today.isSame( date, "day" ) ) {
-      result.push({ today: true });
-    } else {
-      result.push( null );
-    }
-    date.setDate( date.getDate() + 1 );
-  }
-
-  return result;
-}
 
 const Calendar = React.createClass(
   { displayName: "Calendar"
@@ -45,7 +28,6 @@ const Calendar = React.createClass(
       return (
         { activeMonth  : now.month()
         , selectedDay  : now.date()
-        , monthContent : createMonth( now )
         , mode         : "month"
         , tasks        : []
         }
@@ -82,43 +64,24 @@ const Calendar = React.createClass(
       }
 
       this.setState(
-        { activeMonth  : now.month()
-        , selectedDay  : now.startOf( "month" ).date()
-        , monthContent : createMonth( now )
+        { activeMonth: now.month()
+        , selectedDay: now.startOf( "month" ).date()
         }
       );
     }
 
-  , handleToday: function ( direction ) {
+  , handleToday: function ( ) {
       let now = moment();
 
       this.setState(
-        { activeMonth  : now.month()
-        , selectedDay  : now.date()
-        , monthContent : createMonth( now )
+        { activeMonth: now.month()
+        , selectedDay: now.date()
         }
       );
     }
 
-  , selectDay: function ( day ) {
+  , chooseDay: function ( day ) {
       this.setState({ selectedDay: day });
-    }
-
-  , createBlankDays: function ( number ) {
-      let result = [];
-
-      for ( let i = 0; i < number; i++ ) {
-        result.push(
-          <div
-            key={ i }
-            className="day"
-          >
-            <span className="day-content day-blank"></span>
-          </div>
-        );
-      }
-
-      return result;
     }
 
   , handleTaskAdd () {
@@ -129,36 +92,10 @@ const Calendar = React.createClass(
     console.log( "handleTaskRemove" );
   }
 
-  , dayMonth: function ( contents, index ) {
-      let dayClass = [ "day" ];
-      let today = false;
-      let selected = false;
-
-      if ( contents ) {
-        if ( contents["today"] ) {
-          today = true;
-        }
-      }
-      if ( index + 1 === this.state.selectedDay ) {
-        selected = true;
-      }
-
-      return <Day
-               handleTaskAdd = { this.handleTaskAdd }
-               selectDay = { this.selectDay.bind( this ) }
-               isToday = { today }
-               isSelected = { selected }
-               dayOfMonth = { index + 1 }
-               index = { index }/>;
-    }
-
   , render: function () {
       let activeMoment = moment().month( this.state.activeMonth );
       let month = activeMoment.format( "MMMM" );
       let year  = activeMoment.format( "YYYY" );
-
-      let start = activeMoment.startOf( "month" ).day();
-      let end = ( 7 - ( ( start + this.state.monthContent.length ) % 7 ) );
 
       return (
         <main className="calendar">
@@ -188,18 +125,11 @@ const Calendar = React.createClass(
             </ButtonGroup>
           </div>
 
-          <div className="month">
-            <span className="day-label">Sunday</span>
-            <span className="day-label">Monday</span>
-            <span className="day-label">Tuesday</span>
-            <span className="day-label">Wednesday</span>
-            <span className="day-label">Thursday</span>
-            <span className="day-label">Friday</span>
-            <span className="day-label">Saturday</span>
-            { this.createBlankDays( start ) }
-            { this.state.monthContent.map( this.dayMonth ) }
-            { end === 7 ? null : this.createBlankDays( end ) }
-          </div>
+          <Month
+            tasks = { this.state.tasks }
+            activeMonth = { this.state.activeMonth }
+            selectedDay = { this.state.selectedDay }
+            chooseDay = { this.chooseDay } />
         </main>
       );
     }
