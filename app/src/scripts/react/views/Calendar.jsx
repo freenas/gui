@@ -12,6 +12,8 @@ import moment from "moment";
 import CM from "../../flux/middleware/CalendarMiddleware";
 import CS from "../../flux/stores/CalendarStore";
 
+import Day from "./Calendar/Day";
+
 import EventBus from "../../utility/EventBus"
 import Icon from "../components/Icon";
 
@@ -128,26 +130,25 @@ const Calendar = React.createClass(
 
   , dayMonth: function ( contents, index ) {
       let dayClass = [ "day" ];
+      let today = false;
+      let selected = false;
+
       if ( contents ) {
         if ( contents["today"] ) {
-          dayClass.push( "today" );
+          today = true;
         }
       }
       if ( index + 1 === this.state.selectedDay ) {
-        dayClass.push( "selected" );
+        selected = true;
       }
 
-      return (
-        <div
-          key={ index }
-          className= { dayClass.join( " " ) }
-          onClick = { this.selectDay.bind( null, index + 1 ) }
-        >
-          <span className="day-content">
-            <span className="day-numeral">{ index + 1 }</span>
-          </span>
-        </div>
-      );
+      return <Day
+               handleTaskAdd = { this.handleTaskAdd }
+               selectDay = { this.selectDay.bind( this ) }
+               isToday = { today }
+               isSelected = { selected }
+               dayOfMonth = { index + 1 }
+               index = { index }/>;
     }
 
   , render: function () {
