@@ -48,7 +48,8 @@ const Month = React.createClass(
     for ( let i = 0; i < activeDate.daysInMonth(); i++ ) {
       result.push(
         <Day
-          handleTaskAdd = { this.handleTaskAdd }
+          handleTaskAdd = { this.props.handleTaskAdd }
+          handleTaskRemove = { this.props.handleTaskRemove }
           chooseDay = { this.props.chooseDay }
           isToday = { today.isSame( date, "day" ) }
           isSelected = { i + 1 === this.props.selectedDay }

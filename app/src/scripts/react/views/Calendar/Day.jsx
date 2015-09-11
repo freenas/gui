@@ -12,6 +12,7 @@ import DropTarget from "../../components/DropTarget";
 
 const Day = React.createClass (
   { propTypes: { handleTaskAdd: React.PropTypes.func.isRequired
+               , handleTaskRemove: React.PropTypes.func.isRequired
                , chooseDay: React.PropTypes.func.isRequired
                // Whether this is today's date
                , isToday: React.PropTypes.bool.isRequired
