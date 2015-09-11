@@ -31,7 +31,7 @@
     left: 0;
     border-radius: 50%;
     height: 0.4em;
-    box-shadow: 0 0 0.4em 0.4em fade( @spotlight-color, 40% );
+    .box-shadow( 0 0 0.4em 0.4em fade( @spotlight-color, 40% ) );
   }
 }
 
@@ -62,7 +62,7 @@
 
 .overlay-modal {
     border     : 1px solid #F5F5F5;
-    box-shadow : 2px 2px 8px 0 rgba(0, 0, 0, 0.035);
+    .box-shadow( 2px 2px 8px 0 rgba(0, 0, 0, 0.035) );
     #gradient.directional( white, #FAFAFA, 135deg );
 }
 

@@ -15,7 +15,7 @@
   // Based on TWBS .panel
   margin     : 25px;
   overflow   : hidden;
-  box-shadow : 0 2px 16px -2px rgba(0, 0, 0, 0.15);
+  .box-shadow( 0 2px 16px -2px rgba(0, 0, 0, 0.15) );
   .transition( all 0.25S );
 
   .progress {
@@ -38,7 +38,7 @@
     background: none;
     background-image: none;
     background-color: transparent;
-    box-shadow: none;
+    .box-shadow( none );
   }
 
   .panel-body:hover,
@@ -58,7 +58,7 @@
   &.awaiting-init {
     background-color : #fbfbfb;
     margin           : 0 25px;
-    box-shadow       : none;
+    .box-shadow( none );
   }
 
   .disk-wrapper {
@@ -220,7 +220,7 @@ nav.volume-nav {
 
   .open .vdev-type {
     color: @brand-primary;
-  box-shadow: none;
+  .box-shadow( none );
   }
 }
 
