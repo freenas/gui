@@ -8,11 +8,15 @@
 import React from "react";
 
 const ScrubTask = React.createClass(
-  { getDefaultProps () { return { volumeName: null } }
+  { propTypes: { volumeName: React.PropTypes.string
+               , toggleTask: React.PropTypes.func
+               }
+
+  , getDefaultProps () { return { volumeName: null } }
 
   , render () {
     return (
-      <div>
+      <div onDoubleClick = { this.props.toggleTask }>
         <h4>ZFS Scrub</h4>
         <h5>{ this.props.volumeName }</h5>
       </div>
