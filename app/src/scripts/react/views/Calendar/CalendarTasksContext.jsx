@@ -14,8 +14,11 @@ import ScrubTask from "./TaskWidgets/ScrubTask";
 const CalendarTaskContext = React.createClass(
   { render() {
     return (
-      <DropTarget>
-        <DragTarget>
+      <DropTarget
+        namespace={"calendar"}>
+        <DragTarget
+          namespace={"calendar"}
+          payload={"scrub"}>
           <ScrubTask/>
         </DragTarget>
       </DropTarget>
