@@ -84,6 +84,10 @@ const FREENAS_CONSTANTS =
     // Disks
     , RECEIVE_DISKS_OVERVIEW: null
     , RECEIVE_DISK_DETAILS: null
+
+    // Calendar
+    , RECEIVE_CALENDAR: null
+    , RECEIVE_CALENDAR_UPDATE_TASK: null
     })
 
   , PayloadSources: keyMirror(
