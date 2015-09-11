@@ -8,7 +8,7 @@ import { ActionTypes } from "../constants/FreeNASConstants";
 
 class CalendarActionCreators {
 
-  static receiveCalendar ( scheduledTasks, timestamp ) {
+  static receiveCalendar ( calendar, timestamp ) {
     FreeNASDispatcher.handleMiddlewareAction(
       { type: ActionTypes.RECEIVE_CALENDAR
       , timestamp
