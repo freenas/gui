@@ -372,4 +372,4 @@ const ScrubModal = React.createClass(
   }
 });
 
-export default ScrubModal
+export default ScrubModal;
