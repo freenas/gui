@@ -405,7 +405,6 @@ const Viewer = React.createClass(
             fluid
             inverse
             className = "viewer-nav heading-with-nav-addon"
-            brand     = { this.props.header }
           >
             {/* Searchbox for Viewer */}
             <Input

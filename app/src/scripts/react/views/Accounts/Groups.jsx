@@ -116,7 +116,6 @@ const Groups = React.createClass(
 
   , render: function () {
     return <Viewer
-             header = { "Groups" }
              itemData = { this.state.groupsList }
              { ...VIEWER_DATA } />;
   }

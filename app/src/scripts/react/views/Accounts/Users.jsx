@@ -130,7 +130,6 @@ const Users = React.createClass(
 
   , render: function () {
     return <Viewer
-             header   = { "Users" }
              itemData = { this.state.usersList }
              { ...VIEWER_DATA } />;
   }
