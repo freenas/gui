@@ -147,11 +147,13 @@ const InterfaceItem = React.createClass(
             && this.isIPv4WithNetmask( this.state.staticIPInProgress ) ) {
             let newAliases = [];
             let aliasParts = this.state.staticIPInProgress.split( "/" );
-            if ( _.has( this.state, [ "aliases" ] ) ) {
+
+            if ( this.state.aliases ) {
               newAliases = this.state.aliases.slice();
-            } else if ( _.has( this.props, "aliases" ) ) {
+            } else if ( this.props.aliases ) {
               newAliases = this.props.aliases.slice();
             }
+
             if ( _.find( newAliases, { family: "INET" } ) ) {
               let oldAliasIndex = _.findIndex( newAliases, { family: "INET" } );
               newAliases[ oldAliasIndex ].address = aliasParts[0];
