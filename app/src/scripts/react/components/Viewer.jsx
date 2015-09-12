@@ -390,7 +390,7 @@ const Viewer = React.createClass(
       if ( this.props.modesAllowed.size > 1 ) {
         viewerModeNav = (
           <ButtonGroup
-            className =  { "navbar-btn navbar-right btn-group-radio "
+            className =  { "navbar-btn pull-right btn-group-radio "
                          + "btn-group-radio-info"
                          }
             activeMode = { this.state.modeActive } >
