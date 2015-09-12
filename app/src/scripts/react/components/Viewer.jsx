@@ -316,11 +316,8 @@ const Viewer = React.createClass(
         <Button
           onClick = { this.handleModeSelect.bind( this, mode ) }
           key = { index }
-          bsStyle = { ( mode === this.state.modeActive )
-                    ? "info"
-                    : "default"
-                    }
-          active = { false } >
+          active = { mode === this.state.modeActive }
+        >
           <Icon glyph = { modeIcons[ mode ] } />
         </Button>
       );
@@ -393,7 +390,9 @@ const Viewer = React.createClass(
       if ( this.props.modesAllowed.size > 1 ) {
         viewerModeNav = (
           <ButtonGroup
-            className = "navbar-btn navbar-right"
+            className =  { "navbar-btn navbar-right btn-group-radio "
+                         + "btn-group-radio-info"
+                         }
             activeMode = { this.state.modeActive } >
             { Array.from( this.props.modesAllowed ).map( this.createModeNav ) }
           </ButtonGroup>
