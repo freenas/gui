@@ -11,7 +11,7 @@ import EventBus from "../../utility/EventBus";
 
 const INITIAL_STATE =
   { droppable: false
-  , disalowDrop: false
+  , disallowDrop: false
   , dragCallback: null
   , payload: null
   };
@@ -57,7 +57,7 @@ const DropTarget = React.createClass(
         let newState = {};
 
         if ( this.props.preventDrop ) {
-          newState.disalowDrop = this.props.preventDrop( payload );
+          newState.disallowDrop = this.props.preventDrop( payload );
         }
 
         newState.droppable = true;
@@ -73,7 +73,7 @@ const DropTarget = React.createClass(
     }
 
   , handleMouseUp ( event ) {
-      if ( this.state.droppable && this.state.disalowDrop === false ) {
+      if ( this.state.droppable && this.state.disallowDrop === false ) {
         EventBus.emit( "dropSuccess" );
         if ( this.state.dragCallback ) {
           this.state.dragCallback();
@@ -82,7 +82,7 @@ const DropTarget = React.createClass(
           this.props.callback( this.state.payload );
         }
       }
-      this.setState({ disalowDrop: INITIAL_STATE.disalowDrop });
+      this.setState({ disallowDrop: INITIAL_STATE.disallowDrop });
     }
 
   , handleMouseDown ( event ) {
@@ -92,7 +92,7 @@ const DropTarget = React.createClass(
       // to and from a collection it was already a member of.
 
       if ( this.props.preventSameOrigin ) {
-        this.setState({ disalowDrop: true });
+        this.setState({ disallowDrop: true });
       }
     }
 
@@ -103,7 +103,7 @@ const DropTarget = React.createClass(
 
       classes.push( "drop-target" );
 
-      if ( this.state.droppable && this.state.disalowDrop === false ) {
+      if ( this.state.droppable && this.state.disallowDrop === false ) {
         classes.push( "droppable" );
 
         dropCatch = (
