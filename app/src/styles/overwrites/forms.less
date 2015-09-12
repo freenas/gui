@@ -45,14 +45,26 @@ fieldset[disabled] .form-control {
   color: white;
   .placeholder( #C4C4C4 );
 
-  &:active,
-  &:focus,
-  &:hover {
+  .form-control {
+    color: white;
+  }
+
+  &.form-control:active,
+  .form-control:active,
+  &.form-control:focus,
+  .form-control:focus,
+  &.form-control:hover
+  .form-control:hover {
     background-color: rgba( 255, 255, 255, 0.1 );
+  }
+
+  .input-group-addon {
+    color: white;
   }
 }
 
 .input-group-addon {
   background: none;
+  color: inherit;
   border: none;
 }
