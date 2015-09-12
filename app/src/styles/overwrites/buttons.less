@@ -57,3 +57,72 @@
     display: block;
   }
 }
+
+.btn-group-radio {
+  border-radius: @border-radius-base;
+
+  &.btn-default,
+  &.btn-primary {
+    & > .btn {
+      color: darken( @brand-primary, 10% );
+    }
+    #gradient > .vertical( darken( @brand-primary, 20% ), @brand-primary );
+  }
+
+  &.btn-warning {
+    & > .btn {
+      color: darken( @brand-warning, 10% );
+    }
+    #gradient > .vertical( darken( @brand-warning, 20% ), @brand-warning );
+  }
+
+  &.btn-info {
+    & > .btn {
+      color: darken( @brand-info, 10% );
+    }
+    #gradient > .vertical( darken( @brand-info, 10% ), @brand-info );
+  }
+
+  &.btn-success {
+    & > .btn {
+      color: darken( @brand-success, 10% );
+    }
+    #gradient > .vertical( darken( @brand-success, 20% ), @brand-success );
+  }
+
+  &.btn-danger {
+    & > .btn {
+      color: darken( @brand-danger, 10% );
+    }
+    #gradient > .vertical( darken( @brand-danger, 20% ), @brand-danger );
+  }
+
+  & > .btn {
+    width: auto;
+    background: none;
+    .box-shadow( none );
+    background-color: white;
+    border: none;
+    margin: 1px 0.5px;
+    border-radius: 0;
+
+    & + .btn {
+      margin-left: 0.5px;
+    }
+
+    &.active {
+      background-color: transparent;
+      color: white;
+    }
+
+    &:first-child {
+      margin-left: 1px;
+      border-radius: ( @border-radius-base - 1px ) 0 0 ( @border-radius-base - 1px );
+    }
+
+    &:last-child {
+      margin-right: 1px;
+      border-radius: 0 ( @border-radius-base - 1px ) ( @border-radius-base - 1px ) 0;
+    }
+  }
+}
