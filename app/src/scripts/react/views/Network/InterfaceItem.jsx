@@ -297,27 +297,34 @@ const InterfaceItem = React.createClass(
         className = "interface-item"
         header = { interfaceName }
       >
-
-        <Input
-          type = "checkbox"
-          checked = { Boolean( this.props.dhcp ) }
-          onChange = { this.toggleDHCP }
-          label = { "Enable DHCP" }
-          disabled = { !interfaceIsActive }
-        />
         { linkSpeed }
         <form className="form-horizontal">
 
           {/* ENABLE/DISABLE INTERFACE TOGGLE */}
           <div className="form-group">
             <label className={ "control-label " + labelClassName } >
-              { "Enable Interface" }
+              { "Interface Enabled" }
             </label>
             <div className={ wrapperClassName }>
               <ToggleSwitch
                 className = "pull-right"
-                toggled = { this.props.enabled }
+                toggled = { Boolean( this.props.enabled ) }
                 onChange = { this.toggleInterface }
+              />
+            </div>
+          </div>
+
+          {/* ENABLE/DISABLE DHCP TOGGLE */}
+          <div className="form-group">
+            <label className={ "control-label " + labelClassName } >
+              { "DHCP" }
+            </label>
+            <div className={ wrapperClassName }>
+              <ToggleSwitch
+                className = "pull-right"
+                toggled = { Boolean( this.props.dhcp ) }
+                disabled = { !interfaceIsActive }
+                onChange = { this.toggleDHCP }
               />
             </div>
           </div>
