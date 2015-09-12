@@ -11,11 +11,26 @@ import { Link } from "react-router";
 
 const SectionNav = React.createClass(
 
-  { propTypes: {
-      views: React.PropTypes.array
+  { propTypes:
+    { views: React.PropTypes.array
+    , disabled: React.PropTypes.bool
+    , bsSize: React.PropTypes.oneOf(
+        [ "xsmall", "small", "medium", "large", "xs", "sm", "md", "lg" ]
+      )
+    , bsStyle: React.PropTypes.oneOf(
+        [ "primary", "info", "danger", "warning", "success" ]
+      )
     }
 
-  , createNavItems: function ( item, index ) {
+  , getDefaultProps: function() {
+      return (
+        { bsSize: "large"
+        , bsStyle: "primary"
+        }
+      );
+    }
+
+  , createNavItems ( item, index ) {
       let navItem;
 
       if ( item.disabled || !item.route ) {
@@ -43,24 +58,29 @@ const SectionNav = React.createClass(
       return navItem;
     }
 
-  , render: function () {
+  , render () {
       const viewNum = this.props.views.length;
+      let btnGroupClasses = [ "btn-group-radio"
+                            , "btn-group-radio-" + this.props.bsStyle
+                            ];
+
       if ( viewNum > 1 ) {
         return (
-          <Grid fluid>
-            <Row className="text-center">
-              <ButtonGroup bsSize="large">
-                { this.props.views.map( this.createNavItems ) }
-              </ButtonGroup>
-            </Row>
-          </Grid>
+          <div className="section-nav">
+            <ButtonGroup
+              bsSize = { this.props.bsSize }
+              className = { btnGroupClasses.join( " " ) }
+            >
+              { this.props.views.map( this.createNavItems ) }
+            </ButtonGroup>
+          </div>
         );
       } else {
-        console.warn(
-          "A SectionNav is being called with " +
-          viewNum === 1
-            ? "only one view"
-            : "no views"
+        console.warn( "A SectionNav is being called with "
+                    + ( viewNum === 1
+                      ? "only one view"
+                      : "no views"
+                      )
         );
         return null;
       }
