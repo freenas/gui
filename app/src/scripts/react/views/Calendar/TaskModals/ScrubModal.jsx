@@ -76,11 +76,8 @@ function generateDayOptions ( month, year ) {
                        </option>
                      );
     }
-
     break;
   }
-
-
   return dayOptions;
 }
 
