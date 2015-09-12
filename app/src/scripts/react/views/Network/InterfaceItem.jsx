@@ -202,8 +202,8 @@ const InterfaceItem = React.createClass(
   }
 
   , render () {
-    const labelClassName = "col-xs-4";
-    const wrapperClassName = "col-xs-8";
+    const labelClassName = "col-xs-5";
+    const wrapperClassName = "col-xs-7";
     const formClasses = { labelClassName, wrapperClassName };
 
     let interfaceIsActive = false;
