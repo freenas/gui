@@ -84,8 +84,31 @@ const Calendar = React.createClass(
       this.setState( { selectedDay: day } );
     }
 
-  , handleTaskAdd () {
-    console.log( "handleTaskAdd" );
+  , handleTaskAdd ( targetDate, taskType ) {
+    var newTask = {};
+
+    // Create initial properties for each task type. For now, scrub and smart
+    // tasks have basically identical defaults of the day of week targeted at
+    // 2am, then every 35 days thereafter.
+    switch ( taskType ) {
+      case "scrub":
+        newTask.name = "zfs.pool.scrub";
+        newTask.schedule = { day_of_week: targetDate.getDay().toString() }
+        newTask.coalesce = true;
+        newTask.args = [ null ];
+        break;
+
+      case "smart":
+        newTask.name = "disks.test";
+        newTask.schedule = { day_of_week: targetDate.getDay().toString() }
+        newTask.coalesce = true;
+        newTask.args = [ null, "SHORT" ];
+        break;
+    }
+    newTask.id = "task" + this.state.tasks.length;
+    var newTasks = _.cloneDeep( this.state.tasks );
+    newTasks.push( newTask );
+    this.setState( { tasks: newTasks } );
   }
 
   , handleTaskRemove () {
