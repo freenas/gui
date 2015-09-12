@@ -81,7 +81,7 @@ const Calendar = React.createClass(
     }
 
   , chooseDay ( day ) {
-      this.setState({ selectedDay: day });
+      this.setState( { selectedDay: day } );
     }
 
   , handleTaskAdd () {

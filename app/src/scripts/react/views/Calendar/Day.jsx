@@ -33,7 +33,7 @@ const Day = React.createClass (
     return { activeTask: "" };
   }
 
-  , toggleTask( taskID ) {
+  , toggleTask ( taskID ) {
     if ( this.state.activeTask !== taskID ) {
       this.setState( { activeTask: taskID } );
     } else {
