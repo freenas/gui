@@ -111,7 +111,7 @@ const ScrubModal = React.createClass(
     ZM.unsubscribe( this.constructor.displayName );
   }
 
-  , handleChange ( key, value ) {
+  , handleChange ( key, evt ) {
     switch ( key ) {
       case "Volume":
         this.setState( { selectedVolume: evt.target.value } );
