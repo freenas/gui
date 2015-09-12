@@ -7,19 +7,23 @@
 
 import React from "react";
 
-var ToggleSwitch = React.createClass(
+const ToggleSwitch = React.createClass(
   { propTypes: { toggled  : React.PropTypes.bool
+               , disabled : React.PropTypes.bool
                , onChange : React.PropTypes.func
+               , small    : React.PropTypes.string
+               , sm       : React.PropTypes.string
     }
 
-  , getDefaultProps: function () {
-      return { toggled : false
+  , getDefaultProps () {
+      return { toggled: false
+             , disabled: false
              , onChange: function ( toggleState, reactID ) {
                  console.warn( "No onChange handler was provided for"
                                + " ToggleSwitch"
                              , reactID );
                }
-      };
+             };
     }
 
   , handleToggleClick: function ( event, reactID ) {
@@ -29,11 +33,15 @@ var ToggleSwitch = React.createClass(
       this.props.onChange( !this.props.toggled, reactID );
     }
 
-  , render: function () {
+  , render () {
       var toggleClasses = [ "toggle-switch" ];
 
       if ( this.props.toggled ) {
         toggleClasses.push( "on" );
+      }
+
+      if ( this.props.disabled ) {
+        toggleClasses.push( "disabled" );
       }
 
       if ( this.props.sm || this.props.small ) {
@@ -43,11 +51,15 @@ var ToggleSwitch = React.createClass(
       return (
         <div
           className = { toggleClasses.join( " " ) }
-          onClick   = { this.handleToggleClick } />
+          onClick   = { this.props.disabled
+                      ? null
+                      : this.handleToggleClick
+                      }
+        />
       );
     }
 
   }
 );
 
-module.exports = ToggleSwitch;
+export default ToggleSwitch;
