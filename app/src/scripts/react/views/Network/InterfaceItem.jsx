@@ -33,8 +33,14 @@ const InterfaceItem = React.createClass(
     }
 
   , getDefaultProps () {
-      return { enabled: false
-             };
+      return (
+        { enabled: false
+        , status:
+          { link_state: null
+          , name: null
+          }
+        }
+      );
     }
 
   , showAliases ( aliases ) {
