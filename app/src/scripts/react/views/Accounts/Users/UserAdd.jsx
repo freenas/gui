@@ -75,7 +75,6 @@ const UserAdd = React.createClass(
     // available GID and the username.
     if ( this.state.pleaseCreatePrimaryGroup ) {
       let newGID = GS.nextGID;
-      console.log( newGID );
       GM.createGroup( { id   : newGID
                       , name : newUser[ "username" ] } );
       newUser[ "group" ] = newGID;
