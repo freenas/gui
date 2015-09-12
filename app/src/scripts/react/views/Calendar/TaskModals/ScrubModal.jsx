@@ -16,7 +16,7 @@ import ZM from "../../../../flux/middleware/ZfsMiddleware";
 function generateDayOptions ( month, year ) {
   var dayOptions = [];
 
-  for ( i = 1; i < 29; i++ ) {
+  for ( let i = 1; i < 29; i++ ) {
     dayOptions.push(
       <option
         key = { i }
