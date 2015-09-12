@@ -103,6 +103,29 @@ const ScrubModal = React.createClass(
     ZM.unsubscribe( this.constructor.displayName );
   }
 
+  , handleChange ( key, value ) {
+    switch ( key ) {
+      case "Volume":
+        this.setState( { selectedVolume: evt.target.value } );
+        break;
+      case "Weekday":
+        this.setState( { weekday: evt.target.value } );
+        break;
+      case "Day":
+        this.setState( { day: evt.target.value } );
+        break;
+      case "Month":
+        this.setState( { month: evt.target.value } );
+        break;
+      case "Year":
+        this.setState( { year: evt.target.value } );
+        break;
+      case "coalesce":
+        this.setState( { coalesce: evt.target.checked } );
+        break;
+    }
+  }
+
   , handleVolumes () {
     this.setState( { volumes: VS.listVolumes( "name" ) } );
   }
