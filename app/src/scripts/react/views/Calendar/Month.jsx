@@ -5,11 +5,69 @@
 "use strict";
 
 import React from "react";
+import _ from "lodash";
 
 import moment from "moment";
 
 import Day from "./Day";
 import DropTarget from "../../components/DropTarget";
+
+// Primitive and messy
+function checkTaskDates ( tasks, date ) {
+  var matchingTasks = [];
+  _.forEach( tasks
+           , function checkScheduleMatch ( task ) {
+
+             var matchDay;
+             if ( _.has( task.schedule, "day" ) ) {
+               matchDay = task.schedule.day === date.getDate().toString()
+                        ? true
+                        : false;
+             } else {
+               matchDay = true;
+             }
+
+             var matchWeekday;
+             if ( _.has( task.schedule, "day_of_week" ) ) {
+               matchWeekday = task.schedule.day_of_week === date.getDay().toString()
+                            ? true
+                            : false;
+             } else {
+               matchWeekday = true;
+             }
+
+             // TODO: Figure out how 'week' works in the calendar_task schema
+             // and check that too
+
+             var matchMonth;
+             if ( _.has( task.schedule, "month" ) ) {
+               matchMonth = task.schedule.month === date.getMonth().toString()
+                          ? true
+                          : false;
+             } else {
+               matchMonth = true;
+             }
+
+             var matchYear;
+             if ( _.has( task.schedule, "year" ) ) {
+               matchYear = task.schedule.year === date.getYear().toString()
+                         ? true
+                         : false;
+             } else {
+               matchYear = true;
+             }
+
+             if ( matchDay
+               && matchWeekday
+               // && matchWeek
+               && matchMonth
+               && matchYear ) {
+               matchingTasks.push( task );
+             }
+           }
+           );
+  return matchingTasks;
+}
 
 const Month = React.createClass(
   { getDefaultProps () {
