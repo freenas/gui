@@ -275,6 +275,11 @@ const ScrubModal = React.createClass(
         </Input>
         <Input type = "select">
           <option
+            value = { null }
+            key = { "none" }>
+            { null }
+          </option>
+          <option
             value = { "2015" }
             key = { "2015" }>
             { "2015" }
