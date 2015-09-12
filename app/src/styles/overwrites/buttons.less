@@ -58,43 +58,40 @@
   }
 }
 
+.radio-style( @radio-color ) {
+  & > .btn {
+    color: darken( @radio-color, 10% );
+  }
+  #gradient > .vertical( fade( @radio-color, 0% ), @radio-color );
+  &.disabled {
+    background-image: none;
+    background-color: #EBEBEB;
+  }
+}
+
 .btn-group-radio {
   border-radius: @border-radius-base;
+  background-color: @freenas-gray;
 
-  &.btn-default,
-  &.btn-primary {
-    & > .btn {
-      color: darken( @brand-primary, 10% );
-    }
-    #gradient > .vertical( darken( @brand-primary, 20% ), @brand-primary );
+  &.btn-group-radio-default,
+  &.btn-group-radio-primary {
+    .radio-style( @brand-primary );
   }
 
-  &.btn-warning {
-    & > .btn {
-      color: darken( @brand-warning, 10% );
-    }
-    #gradient > .vertical( darken( @brand-warning, 20% ), @brand-warning );
+  &.btn-group-radio-warning {
+    .radio-style( @brand-warning );
   }
 
-  &.btn-info {
-    & > .btn {
-      color: darken( @brand-info, 10% );
-    }
-    #gradient > .vertical( darken( @brand-info, 10% ), @brand-info );
+  &.btn-group-radio-info {
+    .radio-style( @brand-info );
   }
 
-  &.btn-success {
-    & > .btn {
-      color: darken( @brand-success, 10% );
-    }
-    #gradient > .vertical( darken( @brand-success, 20% ), @brand-success );
+  &.btn-group-radio-success {
+    .radio-style( @brand-success );
   }
 
-  &.btn-danger {
-    & > .btn {
-      color: darken( @brand-danger, 10% );
-    }
-    #gradient > .vertical( darken( @brand-danger, 20% ), @brand-danger );
+  &.btn-group-radio-danger {
+    .radio-style( @brand-danger );
   }
 
   & > .btn {
@@ -110,9 +107,16 @@
       margin-left: 0.5px;
     }
 
+    &.disabled {
+      color: #C6C6C6;
+    }
+
     &.active {
       background-color: transparent;
       color: white;
+      &.disabled {
+        color: #7E7E7E;
+      }
     }
 
     &:first-child {
@@ -124,5 +128,11 @@
       margin-right: 1px;
       border-radius: 0 ( @border-radius-base - 1px ) ( @border-radius-base - 1px ) 0;
     }
+  }
+
+  .btn.disabled,
+  .btn[disabled],
+  fieldset[disabled] .btn {
+    opacity: 1;
   }
 }
