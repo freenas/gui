@@ -210,7 +210,7 @@ const ScrubModal = React.createClass(
           <option
             value = { null }
             key = { "none" }>
-            { "" }
+            { null }
           </option>
           <option
             value = { "January" }
