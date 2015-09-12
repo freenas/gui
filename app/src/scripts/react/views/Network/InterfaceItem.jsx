@@ -213,7 +213,6 @@ const InterfaceItem = React.createClass(
             <h4>
               { "10/100/" }
               <strong className = "bg-primary" >{ "1000" }</strong >
-              { " Ethernet Adapter" }
             </h4>;
           break;
         case "LINK_STATE_UNKNOWN":
@@ -255,6 +254,7 @@ const InterfaceItem = React.createClass(
       interfaceName = (
         <h2 className = { "interface-name " + statusClass } >
           { this.props.status.name }
+          <span className="interface-type">{ "Ethernet" }</span>
         </h2>
       );
     }
