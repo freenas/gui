@@ -6,7 +6,7 @@
 
 import React from "react";
 import _ from "lodash";
-import { Input, Panel } from "react-bootstrap";
+import { Input, Panel, FormControls } from "react-bootstrap";
 
 import networkCommon from "./networkCommon";
 
@@ -26,6 +26,11 @@ const InterfaceItem = React.createClass(
                }
 
   , mixins: [ networkCommon ]
+
+  , getDefaultProps () {
+      return { enabled: false
+             };
+    }
 
   , showAliases ( aliases ) {
     var aliasList = [];
@@ -190,24 +195,27 @@ const InterfaceItem = React.createClass(
   }
 
   , render () {
+    const labelClassName = "col-xs-4";
+    const wrapperClassName = "col-xs-8";
+    const formClasses = { labelClassName, wrapperClassName };
+
+    let interfaceIsActive = false;
 
     var statusClass = "";
     var interfaceName = null;
     var interfaceType = "";
     var linkSpeed = null;
     var interfaceToggle = null;
-    var interfaceToggleValue = false;
     // FIXME: No such thing. Figure out how to represent real behavior at some point.
-    var staticIP = null;
     var staticIPValue = "";
     var dhcpToggle = null;
-    var macAddressDisplay = null;
     var macAddress = "";
     var aliases = [];
 
     if ( _.has( this.props, "status.link_state" ) ) {
       switch ( this.props.status.link_state ) {
         case "LINK_STATE_UP":
+          interfaceIsActive = true;
           statusClass = "interface-up";
           linkSpeed =
             <h4>
@@ -239,13 +247,10 @@ const InterfaceItem = React.createClass(
         />;
     }
 
-    if ( _.has( this, [ "props", "enabled" ] ) ) {
-      interfaceToggleValue = this.props.enabled
-    }
     interfaceToggle =
       <ToggleSwitch
         className = "pull-right"
-        toggled = { interfaceToggleValue }
+        toggled = { this.props.enabled }
         onChange = { this.toggleInterface } />;
 
     if ( _.has( this, [ "props", "status", "name" ] ) ) {
@@ -276,18 +281,6 @@ const InterfaceItem = React.createClass(
       if ( macAddressAlias ) {
         macAddress = macAddressAlias.address;
       }
-
-      macAddressDisplay =
-        <div className = "network-alias">
-          <div>
-            <span className = "alias-attribute-label">
-              { "MAC: " }
-            </span>
-            <span className = "alias-attribute">
-              { macAddress }
-            </span>
-          </div>
-        </div>;
     }
     // TODO: Update this for VLANs and LAGGs
     _.remove( aliases, { family: "LINK" } );
@@ -302,34 +295,49 @@ const InterfaceItem = React.createClass(
         staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
       }
     }
-    staticIP =
-      <Input
-        type = "text"
-        label = "Static IP:"
-        value = { staticIPValue }
-        bsStyle = { this.validate( "staticIP", staticIPValue ) }
-        onBlur = { this.resetFocus.bind( null, "staticIP" ) }
-        onChange = { this.handleChange.bind( null, "staticIP" ) }
-        onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
-        disabled = { this.props.dhcp
-                  || this.props.status.link_state
-                 !== "LINK_STATE_UP" } />;
 
     return (
       <Panel
-        bsStyle = { statusClass === "interface-up"
+        bsStyle = { interfaceIsActive
                   ? "success"
                   : "default"
                   }
         className = "interface-item"
         header = { interfaceName }
       >
-
-        { interfaceToggle }
-        { staticIP }
         { dhcpToggle }
         { linkSpeed }
-        { macAddressDisplay }
+        <form className="form-horizontal">
+
+          {/* ENABLE/DISABLE INTERFACE TOGGLE */}
+          <div className="form-group">
+            <label className={ "control-label " + labelClassName } >
+              { "Enable Interface" }
+            </label>
+            <div className={ wrapperClassName }>
+              { interfaceToggle }
+            </div>
+          </div>
+
+          {/* STATIC IP ADDRESS INPUT */}
+          <Input { ...formClasses }
+            type = "text"
+            label = "Static IP Address"
+            value = { staticIPValue }
+            bsStyle = { this.validate( "staticIP", staticIPValue ) }
+            onBlur = { this.resetFocus.bind( null, "staticIP" ) }
+            onChange = { this.handleChange.bind( null, "staticIP" ) }
+            onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
+            disabled = { this.props.dhcp || !interfaceIsActive }
+          />
+
+          {/* MAC ADDRESS DISPLAY */}
+          <FormControls.Static { ...formClasses }
+            label = { "MAC Address" }
+            value = { macAddress }
+          />
+
+        </form>
         <DiscTri
           headerShow = "Aliases"
           headerHide = "Aliases"
