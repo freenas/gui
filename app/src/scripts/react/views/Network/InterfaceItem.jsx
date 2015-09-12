@@ -210,7 +210,6 @@ const InterfaceItem = React.createClass(
     var interfaceName = null;
     var interfaceType = "";
     var linkSpeed = null;
-    var interfaceToggle = null;
     // FIXME: No such thing. Figure out how to represent real behavior at some point.
     var staticIPValue = "";
     var macAddress = "";
@@ -237,12 +236,6 @@ const InterfaceItem = React.createClass(
           break;
       }
     }
-
-    interfaceToggle =
-      <ToggleSwitch
-        className = "pull-right"
-        toggled = { this.props.enabled }
-        onChange = { this.toggleInterface } />;
 
     if ( _.has( this.props, "status.name" ) ) {
       // TODO: Figure out how to represent both name and id, and allow changing
@@ -313,7 +306,11 @@ const InterfaceItem = React.createClass(
               { "Enable Interface" }
             </label>
             <div className={ wrapperClassName }>
-              { interfaceToggle }
+              <ToggleSwitch
+                className = "pull-right"
+                toggled = { this.props.enabled }
+                onChange = { this.toggleInterface }
+              />
             </div>
           </div>
 
