@@ -161,10 +161,18 @@ const ScrubModal = React.createClass(
     return (
       <div>
         <h4>ZFS Scrub</h4>
-        <Input type = "select">
+        <Input
+          type = "select"
+          onChange = { this.handleChange.bind( null, "Volume" ) }
+          value = { this.state.selectedVolume }
+          label = "Volume">
           { this.createVolumeOptions() }
         </Input>
-        <Input type = "select">
+        <Input
+          type = "select"
+          onChange = { this.handleChange.bind( null, "Weekday" ) }
+          value = { this.state.weekday }
+          label = "Weekday">
           <option
             value = { null }
             key = { "none" }>
@@ -206,7 +214,11 @@ const ScrubModal = React.createClass(
             { "Saturday" }
           </option>
         </Input>
-        <Input type = "select">
+        <Input
+          type = "select"
+          onChange = { this.handleChange.bind( null, "Month" ) }
+          value = { this.state.month }
+          label = "Month">
           <option
             value = { null }
             key = { "none" }>
@@ -273,7 +285,11 @@ const ScrubModal = React.createClass(
             { "December" }
           </option>
         </Input>
-        <Input type = "select">
+        <Input
+          type = "select"
+          onChange = { this.handleChange.bind( null, "Year" ) }
+          value = { this.state.year }
+          label = "Year">
           <option
             value = { null }
             key = { "none" }>
