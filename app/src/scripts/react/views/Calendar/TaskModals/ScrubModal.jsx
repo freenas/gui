@@ -136,6 +136,48 @@ const ScrubModal = React.createClass(
         <Input type = "select">
           { this.createVolumeOptions() }
         </Input>
+        <Input type = "select">
+          <option
+            value = { null }
+            key = { "none" }>
+            { "" }
+          </option>
+          <option
+            value = { "Sunday" }
+            key = { "Sunday" }>
+            { "Sunday" }
+          </option>
+          <option
+            value = { "Monday" }
+            key = { "Monday" }>
+            { "Monday" }
+          </option>
+          <option
+            value = { "Tuesday" }
+            key = { "Tuesday" }>
+            { "Tuesday" }
+          </option>
+          <option
+            value = { "Wednesday" }
+            key = { "Wednesday" }>
+            { "Wednesday" }
+          </option>
+          <option
+            value = { "Thursday" }
+            key = { "Thursday" }>
+            { "Thursday" }
+          </option>
+          <option
+            value = { "Friday" }
+            key = { "Friday" }>
+            { "Friday" }
+          </option>
+          <option
+            value = { "Saturday" }
+            key = { "Saturday" }>
+            { "Saturday" }
+          </option>
+        </Input>
       </div>
     );
   }
