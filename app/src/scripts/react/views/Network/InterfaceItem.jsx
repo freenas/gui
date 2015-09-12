@@ -29,6 +29,9 @@ const InterfaceItem = React.createClass(
 
   , getInitialState () {
       return { staticIPInProgress: null
+             , status:
+               { aliases: null
+               }
              };
     }
 
@@ -38,6 +41,7 @@ const InterfaceItem = React.createClass(
         , status:
           { link_state: null
           , name: null
+          , aliases: null
           }
         }
       );
@@ -207,63 +211,47 @@ const InterfaceItem = React.createClass(
                          , newNetworkInterface );
   }
 
+  , createLinkSpeedToggles () {
+
+    }
+
   , render () {
     const labelClassName = "col-xs-5";
     const wrapperClassName = "col-xs-7";
     const formClasses = { labelClassName, wrapperClassName };
 
+    let nameClasses = [ "interface-name" ];
     let interfaceIsActive = false;
 
-    var statusClass = "";
-    var interfaceName = null;
-    var interfaceType = "";
     var linkSpeed = null;
     // FIXME: No such thing. Figure out how to represent real behavior at some point.
     var staticIPValue = "";
     var macAddress = "";
     var aliases = [];
 
-    if ( _.has( this.props, "status.link_state" ) ) {
-      switch ( this.props.status.link_state ) {
-        case "LINK_STATE_UP":
-          interfaceIsActive = true;
-          statusClass = "interface-up";
-          linkSpeed =
-            <h4>
-              { "10/100/" }
-              <strong className = "bg-primary" >{ "1000" }</strong >
-            </h4>;
-          break;
-        case "LINK_STATE_UNKNOWN":
-          statusClass = "interface-unknown";
-          linkSpeed = <h4>{ "Unknown" }</h4>
-          break;
-        case "LINK_STATE_DOWN":
-          statusClass = "interface-down";
-          linkSpeed = <h4>{ "10/100/1000" }</h4>
-          break;
-      }
+    switch ( this.props.status.link_state ) {
+      case "LINK_STATE_UP":
+        interfaceIsActive = true;
+        nameClasses.push( "interface-up" );
+        linkSpeed = [ "10", "100", "1000" ];
+        break;
+      case "LINK_STATE_UNKNOWN":
+        nameClasses.push( "interface-unknown" );
+        linkSpeed = null;
+        break;
+      case "LINK_STATE_DOWN":
+        nameClasses.push( "interface-down" );
+        linkSpeed = [ "10", "100", "1000" ];
+        break;
     }
 
-    if ( _.has( this.props, "status.name" ) ) {
-      // TODO: Figure out how to represent both name and id, and allow changing
-      // only name.
-      interfaceName = (
-        <h2 className = { "interface-name " + statusClass } >
-          { this.props.status.name }
-          <span className="interface-type">{ "Ethernet" }</span>
-        </h2>
-      );
-    }
-
-    // TODO: Find some way to indicate a mismatch between configured aliases and
-    // actual status.
-    if ( _.has( this.props, "status.aliases" ) ) {
+    if ( this.state.status.aliases ) {
+      // Aliases in state override those in props
+      aliases = this.state.status.aliases.slice();
+    } else if ( this.props.status.aliases ) {
+      // TODO: Find some way to indicate a mismatch between configured aliases
+      // and actual status.
       aliases = this.props.status.aliases.slice();
-    }
-    // Aliases in state override those in props
-    if ( _.has( this.state, "status.aliases" ) ) {
-       aliases = this.state.status.aliases.slice();
     }
 
     if ( !_.isEmpty( aliases ) ) {
@@ -287,6 +275,13 @@ const InterfaceItem = React.createClass(
         staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
       }
     }
+
+    let interfaceName = (
+        <h2 className = { nameClasses.join( " " ) } >
+          { this.props.status.name }
+          <span className="interface-type">{ "Ethernet" }</span>
+        </h2>
+      );
 
     return (
       <Panel
