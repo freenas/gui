@@ -24,7 +24,7 @@ const SectionNav = React.createClass(
 
   , getDefaultProps: function() {
       return (
-        { bsSize: "large"
+        { bsSize: null
         , bsStyle: "primary"
         }
       );

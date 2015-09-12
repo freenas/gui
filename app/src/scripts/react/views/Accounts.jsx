@@ -38,7 +38,10 @@ const Accounts = React.createClass({
         <main>
           <h1 className="section-heading heading-with-nav">
             <span className="text">Accounts</span>
-            <SectionNav views = { sections } />
+            <SectionNav
+              bs-size = "md"
+              views = { sections }
+            />
           </h1>
           <RouteHandler />
         </main>
