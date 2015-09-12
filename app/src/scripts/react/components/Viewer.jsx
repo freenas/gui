@@ -403,17 +403,18 @@ const Viewer = React.createClass(
         <div className="viewer">
           <Navbar
             fluid
-            className = "viewer-nav"
+            inverse
+            className = "viewer-nav heading-with-nav-addon"
             brand     = { this.props.header }
           >
             {/* Searchbox for Viewer */}
             <Input
               type           = "text"
               placeholder    = "Search"
-              groupClassName = "navbar-form navbar-left"
+              groupClassName = "navbar-form navbar-left form-overlay"
               value          = { this.state.searchString }
               onChange       = { this.handleSearchChange }
-              addonBefore    = { <Icon glyph ="search" /> }
+              addonBefore    = { <Icon glyph ="icon-search" /> }
             />
 
             {/* Dropdown menus for filters and groups */}
