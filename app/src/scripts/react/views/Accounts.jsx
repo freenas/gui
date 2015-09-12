@@ -25,18 +25,21 @@ const Accounts = React.createClass({
 
   ,  mixins: [ routerShim ]
 
-  , componentDidMount: function () {
+  , componentDidMount () {
       this.calculateDefaultRoute( "accounts", "users", "endsWith" );
     }
 
-  , componentWillUpdate: function ( prevProps, prevState ) {
+  , componentWillUpdate ( prevProps, prevState ) {
       this.calculateDefaultRoute( "accounts", "users", "endsWith" );
     }
 
-  , render: function () {
+  , render () {
       return (
         <main>
-          <SectionNav views = { sections } />
+          <h1 className="section-heading heading-with-nav">
+            <span className="text">Accounts</span>
+            <SectionNav views = { sections } />
+          </h1>
           <RouteHandler />
         </main>
       );
