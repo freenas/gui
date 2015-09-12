@@ -205,7 +205,7 @@ const InterfaceItem = React.createClass(
     var macAddress = "";
     var aliases = [];
 
-    if ( _.has( this, [ "props", "status", "link_state" ] ) ) {
+    if ( _.has( this.props, "status.link_state" ) ) {
       switch ( this.props.status.link_state ) {
         case "LINK_STATE_UP":
           statusClass = "interface-up";
@@ -236,8 +236,8 @@ const InterfaceItem = React.createClass(
           checked = { dhcpValue }
           onChange = { this.toggleDHCP }
           label = { "Enable DHCP" }
-          disabled = { this.props.status.link_state
-                   !== "LINK_STATE_UP" }/>;
+          disabled = { this.props.status.link_state !== "LINK_STATE_UP" }
+        />;
     }
 
     if ( _.has( this, [ "props", "enabled" ] ) ) {
@@ -316,8 +316,15 @@ const InterfaceItem = React.createClass(
                  !== "LINK_STATE_UP" } />;
 
     return (
-      <Panel className = "interface-item">
-        { interfaceName }
+      <Panel
+        bsStyle = { statusClass === "interface-up"
+                  ? "success"
+                  : "default"
+                  }
+        className = "interface-item"
+        header = { interfaceName }
+      >
+
         { interfaceToggle }
         { staticIP }
         { dhcpToggle }

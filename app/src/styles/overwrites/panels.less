@@ -1,0 +1,44 @@
+.panel-primary {
+  & > .panel-heading {
+    .glowlight( @brand-primary );
+  }
+
+}
+.panel-info {
+  & > .panel-heading {
+    .glowlight( @brand-info );
+  }
+
+}
+.panel-warning {
+  & > .panel-heading {
+    .glowlight( @brand-warning );
+  }
+
+}
+.panel-success {
+  & > .panel-heading {
+    .glowlight( @brand-success );
+  }
+
+}
+.panel-danger {
+  & > .panel-heading {
+    .glowlight( @brand-danger );
+  }
+
+}
+
+.panel,
+.panel-primary,
+.panel-info,
+.panel-warning,
+.panel-success,
+.panel-danger {
+  & > .panel-heading {
+    color: white;
+    background-color: @freenas-gray;
+    border-bottom-width: 4px;
+  }
+  border-color: @gray-lighter;
+}
