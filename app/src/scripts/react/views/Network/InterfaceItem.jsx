@@ -6,7 +6,8 @@
 
 import React from "react";
 import _ from "lodash";
-import { Input, Panel, FormControls } from "react-bootstrap";
+import { Button, ButtonGroup, Input, Panel, FormControls }
+  from "react-bootstrap";
 
 import networkCommon from "./networkCommon";
 
@@ -43,6 +44,7 @@ const InterfaceItem = React.createClass(
           , name: null
           , aliases: null
           }
+        , currentLinkSpeed: "1000" // FIXME
         }
       );
     }
@@ -211,8 +213,20 @@ const InterfaceItem = React.createClass(
                          , newNetworkInterface );
   }
 
-  , createLinkSpeedToggles () {
+  , createLinkSpeedToggles ( speed ) {
+      let buttonClasses = [ "disabled" ];
 
+      if ( speed === this.props.currentLinkSpeed ) {
+        buttonClasses.push( "active" );
+      }
+
+      return (
+        <Button
+          className = { buttonClasses.join( " " ) }
+        >
+          { speed }
+        </Button>
+      );
     }
 
   , render () {
@@ -222,8 +236,8 @@ const InterfaceItem = React.createClass(
 
     let nameClasses = [ "interface-name" ];
     let interfaceIsActive = false;
+    let allowedLinkSpeeds = null;
 
-    var linkSpeed = null;
     // FIXME: No such thing. Figure out how to represent real behavior at some point.
     var staticIPValue = "";
     var macAddress = "";
@@ -233,15 +247,16 @@ const InterfaceItem = React.createClass(
       case "LINK_STATE_UP":
         interfaceIsActive = true;
         nameClasses.push( "interface-up" );
-        linkSpeed = [ "10", "100", "1000" ];
+        allowedLinkSpeeds = [ "10", "100", "1000" ];
         break;
+
       case "LINK_STATE_UNKNOWN":
         nameClasses.push( "interface-unknown" );
-        linkSpeed = null;
         break;
+
       case "LINK_STATE_DOWN":
         nameClasses.push( "interface-down" );
-        linkSpeed = [ "10", "100", "1000" ];
+        allowedLinkSpeeds = [ "10", "100", "1000" ];
         break;
     }
 
@@ -292,7 +307,6 @@ const InterfaceItem = React.createClass(
         className = "interface-item"
         header = { interfaceName }
       >
-        { linkSpeed }
         <form className="form-horizontal">
 
           {/* ENABLE/DISABLE INTERFACE TOGGLE */}
@@ -336,6 +350,21 @@ const InterfaceItem = React.createClass(
             disabled = { this.props.dhcp || !interfaceIsActive }
           />
 
+          {/* LINK SPEED RADIO SET */}
+          <div className="form-group">
+            <label className={ "control-label " + labelClassName } >
+              { "Link Speed" }
+            </label>
+            <div className={ wrapperClassName }>
+              <ButtonGroup
+                justified
+                className = "btn-group-radio btn-group-radio-primary disabled"
+              >
+                { allowedLinkSpeeds.map( this.createLinkSpeedToggles ) }
+              </ButtonGroup>
+            </div>
+          </div>
+
           {/* MAC ADDRESS DISPLAY */}
           <FormControls.Static { ...formClasses }
             label = { "MAC Address" }
@@ -343,6 +372,7 @@ const InterfaceItem = React.createClass(
           />
 
         </form>
+
         <DiscTri
           headerShow = "Aliases"
           headerHide = "Aliases"
