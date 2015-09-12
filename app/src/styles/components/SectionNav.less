@@ -1,3 +1,31 @@
 .section-nav {
   .text-center();
 }
+
+.heading-with-nav {
+  padding: 0.45em 1em 0.25em;
+  margin: 0;
+  box-sizing: initial;
+  overflow: visible;
+  color: white;
+  #gradient > .directional( @freenas-gray
+                          , lighten( @freenas-gray, 5% )
+                          , @golden-angle
+                          );
+  border-bottom: 1px solid lighten( @freenas-gray, 10% );
+
+  .text {
+    display: block;
+  }
+  .section-nav {
+    margin-top: 0.25em;
+    position: relative;
+    z-index: 1;
+    .transform( translateY( -50% ) );
+  }
+
+  & + .heading-with-nav-addon {
+    margin-top: 0;
+    padding-top: 1em;
+  }
+}
