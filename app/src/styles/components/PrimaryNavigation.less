@@ -52,22 +52,16 @@ nav.primary-nav {
     .transition( ease-in-out 0.25s );
 
     &.connected {
-      #gradient > .vertical( transparent
-                           , fade( @brand-success, 10% )
-                           );
-      border-bottom: 2px solid @brand-success;
+      .glowlight( @brand-success );
+      border-bottom-width: 2px;
     }
     &.disconnected {
-      #gradient > .vertical( transparent
-                           , fade( @gray, 10% )
-                           );
-      border-bottom: 2px solid @gray;
+      .glowlight( @gray );
+      border-bottom-width: 2px;
     }
     &.simulation {
-      #gradient > .vertical( transparent
-                           , fade( @brand-warning, 10% )
-                           );
-      border-bottom: 2px solid @brand-warning;
+      .glowlight( @brand-warning );
+      border-bottom-width: 2px;
     }
   }
 

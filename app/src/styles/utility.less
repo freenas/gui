@@ -18,6 +18,13 @@
     text-overflow : ellipsis;
 }
 
+.glowlight ( @glowlight-color: transparent ) {
+  #gradient > .vertical( transparent
+                       , fade( @glowlight-color, 10% )
+                       );
+  border: 0 solid @glowlight-color;
+}
+
 .spotlight ( @spotlight-color: white ) {
   position: relative;
   overflow: hidden;
