@@ -178,6 +178,73 @@ const ScrubModal = React.createClass(
             { "Saturday" }
           </option>
         </Input>
+        <Input type = "select">
+          <option
+            value = { null }
+            key = { "none" }>
+            { "" }
+          </option>
+          <option
+            value = { "January" }
+            key = { "January" }>
+            { "January" }
+          </option>
+          <option
+            value = { "February" }
+            key = { "February" }>
+            { "February" }
+          </option>
+          <option
+            value = { "March" }
+            key = { "March" }>
+            { "March" }
+          </option>
+          <option
+            value = { "April" }
+            key = { "April" }>
+            { "April" }
+          </option>
+          <option
+            value = { "May" }
+            key = { "May" }>
+            { "May" }
+          </option>
+          <option
+            value = { "June" }
+            key = { "June" }>
+            { "June" }
+          </option>
+          <option
+            value = { "July" }
+            key = { "July" }>
+            { "July" }
+          </option>
+          <option
+            value = { "August" }
+            key = { "August" }>
+            { "August" }
+          </option>
+          <option
+            value = { "September" }
+            key = { "September" }>
+            { "September" }
+          </option>
+          <option
+            value = { "October" }
+            key = { "October" }>
+            { "October" }
+          </option>
+          <option
+            value = { "November" }
+            key = { "November" }>
+            { "November" }
+          </option>
+          <option
+            value = { "December" }
+            key = { "December" }>
+            { "December" }
+          </option>
+        </Input>
       </div>
     );
   }
