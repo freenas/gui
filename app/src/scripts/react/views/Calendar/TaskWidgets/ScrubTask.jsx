@@ -6,6 +6,7 @@
 "use strict";
 
 import React from "react";
+import { Alert } from "react-bootstrap";
 
 const ScrubTask = React.createClass(
   { propTypes: { volumeName: React.PropTypes.string
@@ -16,10 +17,13 @@ const ScrubTask = React.createClass(
 
   , render () {
     return (
-      <div onDoubleClick = { this.props.toggleTask }>
+      <Alert
+        bsStyle = "info"
+        bsSize = "small"
+        onDoubleClick = { this.props.toggleTask }>
         <h4>ZFS Scrub</h4>
         <h5>{ this.props.volumeName }</h5>
-      </div>
+      </Alert>
     );
   }
 });
