@@ -27,6 +27,11 @@ const InterfaceItem = React.createClass(
 
   , mixins: [ networkCommon ]
 
+  , getInitialState () {
+      return { staticIPInProgress: null
+             };
+    }
+
   , getDefaultProps () {
       return { enabled: false
              };
@@ -138,13 +143,13 @@ const InterfaceItem = React.createClass(
     if ( evt.key === "Enter" ) {
       switch ( target ) {
         case "staticIP":
-          if ( _.has( this, [ "state", "staticIPInProgress" ] )
+          if ( this.state.staticIPInProgress
             && this.isIPv4WithNetmask( this.state.staticIPInProgress ) ) {
             let newAliases = [];
             let aliasParts = this.state.staticIPInProgress.split( "/" );
-            if ( _.has( this, [ "state", "aliases" ] ) ) {
+            if ( _.has( this.state, [ "aliases" ] ) ) {
               newAliases = this.state.aliases.slice();
-            } else if ( _.has( this, [ "props", "aliases" ] ) ) {
+            } else if ( _.has( this.props, "aliases" ) ) {
               newAliases = this.props.aliases.slice();
             }
             if ( _.find( newAliases, { family: "INET" } ) ) {
@@ -208,7 +213,6 @@ const InterfaceItem = React.createClass(
     var interfaceToggle = null;
     // FIXME: No such thing. Figure out how to represent real behavior at some point.
     var staticIPValue = "";
-    var dhcpToggle = null;
     var macAddress = "";
     var aliases = [];
 
@@ -232,19 +236,6 @@ const InterfaceItem = React.createClass(
           linkSpeed = <h4>{ "10/100/1000" }</h4>
           break;
       }
-
-      let dhcpValue = false;
-      if ( _.has( this.props, [ "dhcp" ] ) ) {
-        dhcpValue = this.props.dhcp
-      }
-      dhcpToggle =
-        <Input
-          type = "checkbox"
-          checked = { dhcpValue }
-          onChange = { this.toggleDHCP }
-          label = { "Enable DHCP" }
-          disabled = { this.props.status.link_state !== "LINK_STATE_UP" }
-        />;
     }
 
     interfaceToggle =
@@ -253,7 +244,7 @@ const InterfaceItem = React.createClass(
         toggled = { this.props.enabled }
         onChange = { this.toggleInterface } />;
 
-    if ( _.has( this, [ "props", "status", "name" ] ) ) {
+    if ( _.has( this.props, "status.name" ) ) {
       // TODO: Figure out how to represent both name and id, and allow changing
       // only name.
       interfaceName = (
@@ -266,11 +257,11 @@ const InterfaceItem = React.createClass(
 
     // TODO: Find some way to indicate a mismatch between configured aliases and
     // actual status.
-    if ( _.has( this, [ "props", "status", "aliases" ] ) ) {
+    if ( _.has( this.props, "status.aliases" ) ) {
       aliases = this.props.status.aliases.slice();
     }
     // Aliases in state override those in props
-    if ( _.has( this, [ "state", "status", "aliases" ] ) ) {
+    if ( _.has( this.state, "status.aliases" ) ) {
        aliases = this.state.status.aliases.slice();
     }
 
@@ -287,7 +278,7 @@ const InterfaceItem = React.createClass(
 
     // FIXME: There is no way this will work once we're presenting aliases as
     // equals, without a "static IP". Don't let it survive past then.
-    if ( _.has( this, [ "state", "staticIPInProgress" ] ) ) {
+    if ( this.state.staticIPInProgress ) {
       staticIPValue = this.state.staticIPInProgress;
     } else {
       if ( !_.isEmpty( aliases ) ) {
@@ -305,7 +296,14 @@ const InterfaceItem = React.createClass(
         className = "interface-item"
         header = { interfaceName }
       >
-        { dhcpToggle }
+
+        <Input
+          type = "checkbox"
+          checked = { Boolean( this.props.dhcp ) }
+          onChange = { this.toggleDHCP }
+          label = { "Enable DHCP" }
+          disabled = { !interfaceIsActive }
+        />
         { linkSpeed }
         <form className="form-horizontal">
 
@@ -325,9 +323,9 @@ const InterfaceItem = React.createClass(
             label = "Static IP Address"
             value = { staticIPValue }
             bsStyle = { this.validate( "staticIP", staticIPValue ) }
-            onBlur = { this.resetFocus.bind( null, "staticIP" ) }
-            onChange = { this.handleChange.bind( null, "staticIP" ) }
-            onKeyDown = { this.submitChange.bind( null, "staticIP" ) }
+            onBlur = { this.resetFocus.bind( this, "staticIP" ) }
+            onChange = { this.handleChange.bind( this, "staticIP" ) }
+            onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
             disabled = { this.props.dhcp || !interfaceIsActive }
           />
 
