@@ -216,6 +216,13 @@ const ScrubModal = React.createClass(
         </Input>
         <Input
           type = "select"
+          onChange = { this.handleChange.bind( null, "Day" ) }
+          value = { this.state.day }
+          label = "Day">
+          { generateDayOptions( this.state.month, this.state.year ) }
+        </Input>
+        <Input
+          type = "select"
           onChange = { this.handleChange.bind( null, "Month" ) }
           value = { this.state.month }
           label = "Month">
