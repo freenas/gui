@@ -13,6 +13,76 @@ import { Input, Popover } from "react-bootstrap";
 import VS from "../../../../flux/stores/VolumeStore";
 import ZM from "../../../../flux/middleware/ZfsMiddleware";
 
+function generateDayOptions ( month, year ) {
+  var dayOptions = [];
+
+  for ( i = 1; i < 29; i++ ) {
+    dayOptions.push(
+      <option
+        key = { i }
+        value = { i }>
+        { i }
+      </option>
+    );
+  }
+  switch ( month ) {
+    case "September":
+    case "April":
+    case "June":
+    case "November":
+    dayOptions.push( <option
+                       key = { 29 }
+                       value = { 29 }>
+                       { 29 }
+                     </option>
+                   , <option
+                       key = { 30 }
+                       value = { 30 }>
+                       { 30 }
+                     </option>
+                   );
+    break;
+    case "January":
+    case "March":
+    case "May":
+    case "July":
+    case "August":
+    case "October":
+    case "December":
+    dayOptions.push( <option
+                       key = { 29 }
+                       value = { 29 }>
+                       { 29 }
+                     </option>
+                   , <option
+                       key = { 30 }
+                       value = { 30 }>
+                       { 30 }
+                     </option>
+                   , <option
+                       key = { 31 }
+                       value = { 31 }>
+                       { 31 }
+                     </option>
+                   );
+    break;
+
+    case "February":
+    if ( year % 4 === 0 ) {
+      dayOptions.push( <option
+                         key = { 29 }
+                         value = { 29 }>
+                         { 29 }
+                       </option>
+                     );
+    }
+
+    break;
+  }
+
+
+  return dayOptions;
+}
 
 const ScrubModal = React.createClass(
   { getDefaultProps () {
