@@ -47,3 +47,13 @@
     background-color: @color;
   }
 }
+
+.btn-group-justified {
+  .flex-display( flex );
+
+  & > .btn,
+  & > .btn-group {
+    .flex( 1 );
+    display: block;
+  }
+}
