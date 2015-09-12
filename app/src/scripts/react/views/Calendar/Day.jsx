@@ -108,8 +108,8 @@ const Day = React.createClass (
           callback={ this.props.handleTaskAdd }
           namespace="calendar"
           activeDrop>
-          { this.createTasks() }
           <span className="day-numeral">{ this.props.dayOfMonth }</span>
+          { this.createTasks() }
         </DropTarget>
       </div>
     );
