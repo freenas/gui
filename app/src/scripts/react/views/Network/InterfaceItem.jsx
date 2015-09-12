@@ -217,11 +217,11 @@ const InterfaceItem = React.createClass(
           break;
         case "LINK_STATE_UNKNOWN":
           statusClass = "interface-unknown";
-          linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
+          linkSpeed = <h4>{ "Unknown" }</h4>
           break;
         case "LINK_STATE_DOWN":
           statusClass = "interface-down";
-          linkSpeed = <h4>{ "10/100/1000 Ethernet Adapter" }</h4>
+          linkSpeed = <h4>{ "10/100/1000" }</h4>
           break;
       }
 
