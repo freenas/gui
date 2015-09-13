@@ -19,22 +19,20 @@ function checkTaskDates ( tasks, date ) {
            , function checkScheduleMatch ( task ) {
 
              var matchDay;
-             if ( _.has( task.schedule, "day" )
-               && task.schedule.day !== "*" ) {
+             if ( _.has( task.schedule, "day" ) ) {
                matchDay = task.schedule.day === date.getDate().toString()
                         ? true
                         : false;
-             } else {
+             } else if ( task.schedule.day === "*" ) {
                matchDay = true;
              }
 
              var matchWeekday;
-             if ( _.has( task.schedule, "day_of_week" )
-               && task.schedule.day_of_week !== "*" ) {
+             if ( _.has( task.schedule, "day_of_week" ) ) {
                matchWeekday = task.schedule.day_of_week === date.getDay().toString()
                             ? true
                             : false;
-             } else {
+             } else if ( task.schedule.day_of_week === "*" ) {
                matchWeekday = true;
              }
 
@@ -42,22 +40,20 @@ function checkTaskDates ( tasks, date ) {
              // and check that too
 
              var matchMonth;
-             if ( _.has( task.schedule, "month" )
-               && task.schedule.month !== "*" ) {
+             if ( _.has( task.schedule, "month" ) ) {
                matchMonth = task.schedule.month === date.getMonth().toString()
                           ? true
                           : false;
-             } else {
+             } else if ( task.schedule.month === "*" ) {
                matchMonth = true;
              }
 
              var matchYear;
-             if ( _.has( task.schedule, "year" )
-               && task.schedule.year !== "*" ) {
+             if ( _.has( task.schedule, "year" ) ) {
                matchYear = task.schedule.year === date.getYear().toString()
                          ? true
                          : false;
-             } else {
+             } else if ( task.schedule.year === "*" ) {
                matchYear = true;
              }
 
