@@ -11,6 +11,7 @@ import { Alert } from "react-bootstrap";
 const ScrubTask = React.createClass(
   { propTypes: { volumeName: React.PropTypes.string
                , chooseActiveTask: React.PropTypes.func
+               , handleTaskRemove: React.PropTypes.func
                }
 
   , getDefaultProps () { return { volumeName: null } }

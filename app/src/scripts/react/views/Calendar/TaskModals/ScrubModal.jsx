@@ -101,6 +101,7 @@ const ScrubModal = React.createClass(
                // , minute: React.PropTypes.string
                // , hour: React.PropTypes.string
                , coalesce: React.PropTypes.bool
+               , handleTaskRemove: React.PropTypes.func
                }
 
   , getDefaultProps () {
