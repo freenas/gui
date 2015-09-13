@@ -27,9 +27,9 @@ function generateDayOptions ( month, year ) {
   for ( let i = 1; i < 29; i++ ) {
     dayOptions.push(
       <option
-        key = { i }
-        value = { i }>
-        { i }
+        key = { i.toString() }
+        value = { i.toString() }>
+        { i.toString() }
       </option>
     );
   }
@@ -39,14 +39,14 @@ function generateDayOptions ( month, year ) {
     case "June":
     case "November":
     dayOptions.push( <option
-                       key = { 29 }
-                       value = { 29 }>
-                       { 29 }
+                       key = { "29" }
+                       value = { "29" }>
+                       { "29" }
                      </option>
                    , <option
-                       key = { 30 }
-                       value = { 30 }>
-                       { 30 }
+                       key = { "30" }
+                       value = { "30" }>
+                       { "30" }
                      </option>
                    );
     break;
@@ -58,19 +58,19 @@ function generateDayOptions ( month, year ) {
     case "October":
     case "December":
     dayOptions.push( <option
-                       key = { 29 }
-                       value = { 29 }>
-                       { 29 }
+                       key = { "29" }
+                       value = { "29" }>
+                       { "29" }
                      </option>
                    , <option
-                       key = { 30 }
-                       value = { 30 }>
-                       { 30 }
+                       key = { "30" }
+                       value = { "30" }>
+                       { "30" }
                      </option>
                    , <option
-                       key = { 31 }
-                       value = { 31 }>
-                       { 31 }
+                       key = { "31" }
+                       value = { "31" }>
+                       { "31" }
                      </option>
                    );
     break;
@@ -78,9 +78,9 @@ function generateDayOptions ( month, year ) {
     case "February":
     if ( year % 4 === 0 ) {
       dayOptions.push( <option
-                         key = { 29 }
-                         value = { 29 }>
-                         { 29 }
+                         key = { "29" }
+                         value = { "29" }>
+                         { "29" }
                        </option>
                      );
     }
