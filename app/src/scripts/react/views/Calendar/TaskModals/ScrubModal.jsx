@@ -221,6 +221,10 @@ const ScrubModal = React.createClass(
     CM.createCalendarTask( newTask );
   }
 
+  , changeTask () {
+
+  }
+
   , render () {
     return (
       <div>
