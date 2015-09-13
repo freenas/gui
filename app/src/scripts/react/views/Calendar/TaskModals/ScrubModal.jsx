@@ -93,7 +93,7 @@ const ScrubModal = React.createClass(
   { propTypes: { tasks: React.PropTypes.array
                , selectedVolume: React.PropTypes.string
                , taskID: React.PropTypes.string
-               , weekday: React.PropTypes.string
+               , day_of_week: React.PropTypes.string
                , week: React.PropTypes.string
                , day: React.PropTypes.string
                , month: React.PropTypes.string
@@ -131,19 +131,19 @@ const ScrubModal = React.createClass(
       case "taskID":
         this.setState( { taskID: evt.target.value } );
         break;
-      case "Volume":
+      case "selectedVolume":
         this.setState( { selectedVolume: evt.target.value } );
         break;
-      case "Weekday":
-        this.setState( { weekday: evt.target.value } );
+      case "day_of_week":
+        this.setState( { day_of_week: evt.target.value } );
         break;
-      case "Day":
+      case "day":
         this.setState( { day: evt.target.value } );
         break;
-      case "Month":
+      case "month":
         this.setState( { month: evt.target.value } );
         break;
-      case "Year":
+      case "year":
         this.setState( { year: evt.target.value } );
         break;
       case "coalesce":
@@ -195,15 +195,15 @@ const ScrubModal = React.createClass(
           label = { "Task ID" } />
         <Input
           type = "select"
-          onChange = { this.handleChange.bind( null, "Volume" ) }
+          onChange = { this.handleChange.bind( null, "selectedVolume" ) }
           value = { this.state.selectedVolume }
           label = "Volume">
           { this.createVolumeOptions() }
         </Input>
         <Input
           type = "select"
-          onChange = { this.handleChange.bind( null, "Weekday" ) }
-          value = { this.state.weekday }
+          onChange = { this.handleChange.bind( null, "day_of_week" ) }
+          value = { this.state.day_of_week }
           label = "Weekday">
           <option
             value = { "*" }
@@ -248,14 +248,14 @@ const ScrubModal = React.createClass(
         </Input>
         <Input
           type = "select"
-          onChange = { this.handleChange.bind( null, "Day" ) }
+          onChange = { this.handleChange.bind( null, "day" ) }
           value = { this.state.day }
           label = "Day">
           { generateDayOptions( this.state.month, this.state.year ) }
         </Input>
         <Input
           type = "select"
-          onChange = { this.handleChange.bind( null, "Month" ) }
+          onChange = { this.handleChange.bind( null, "month" ) }
           value = { this.state.month }
           label = "Month">
           <option
@@ -326,7 +326,7 @@ const ScrubModal = React.createClass(
         </Input>
         <Input
           type = "select"
-          onChange = { this.handleChange.bind( null, "Year" ) }
+          onChange = { this.handleChange.bind( null, "year" ) }
           value = { this.state.year }
           label = "Year">
           <option
