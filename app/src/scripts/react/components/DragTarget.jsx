@@ -37,6 +37,13 @@ const DragTarget = React.createClass(
       );
     }
 
+  , componentWillUnmount () {
+      document.body.classList.remove( "no-select" );
+      window.removeEventListener( "click", this.handleClickout );
+      window.removeEventListener( "mouseup", this.handleDragEnd );
+      window.removeEventListener( "mousemove", this.handleDragMove );
+    }
+
   , handleMouseDown ( event ) {
       let elementRect = event.target.getBoundingClientRect();
 
@@ -89,21 +96,21 @@ const DragTarget = React.createClass(
     }
 
   , handleClickout ( event ) {
-    if ( this.state.preventClickout ) {
-      // This check prevents the initial selection event from triggering the
-      // clickout handler. Considered a workaround.
-      this.setState(
-        { preventClickout: false
-        }
-      );
-    } else {
-      window.removeEventListener( "click", this.handleClickout );
-      this.setState(
-        { selected: false
-        }
-      );
+      if ( this.state.preventClickout ) {
+        // This check prevents the initial selection event from triggering the
+        // clickout handler. Considered a workaround.
+        this.setState(
+          { preventClickout: false
+          }
+        );
+      } else {
+        window.removeEventListener( "click", this.handleClickout );
+        this.setState(
+          { selected: false
+          }
+        );
+      }
     }
-  }
 
   , handleClick ( event ) {
       let newState = {};
