@@ -76,7 +76,11 @@ const Day = React.createClass (
                  namespace = "calendar">
                  { taskWidget }
                  <Overlay
-                   show = { this.state.activeTask === task.id }
+                   // FIXME: This does not account for multiple copies of a task
+                   // in one day.
+                   show = { this.state.activeTask === task.id
+                         && this.props.isSelected
+                          }
                    placement = "bottom"
                    target = { ()=> React.findDOMNode( this.refs[ this.state.activeTask ] ) }>
                    { taskModal }
