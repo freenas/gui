@@ -211,37 +211,37 @@ const ScrubModal = React.createClass(
             { null }
           </option>
           <option
-            value = { "Sunday" }
+            value = { "0" }
             key = { "Sunday" }>
             { "Sunday" }
           </option>
           <option
-            value = { "Monday" }
+            value = { "1" }
             key = { "Monday" }>
             { "Monday" }
           </option>
           <option
-            value = { "Tuesday" }
+            value = { "2" }
             key = { "Tuesday" }>
             { "Tuesday" }
           </option>
           <option
-            value = { "Wednesday" }
+            value = { "3" }
             key = { "Wednesday" }>
             { "Wednesday" }
           </option>
           <option
-            value = { "Thursday" }
+            value = { "4" }
             key = { "Thursday" }>
             { "Thursday" }
           </option>
           <option
-            value = { "Friday" }
+            value = { "5" }
             key = { "Friday" }>
             { "Friday" }
           </option>
           <option
-            value = { "Saturday" }
+            value = { "6" }
             key = { "Saturday" }>
             { "Saturday" }
           </option>
@@ -264,62 +264,62 @@ const ScrubModal = React.createClass(
             { null }
           </option>
           <option
-            value = { "January" }
+            value = { "0" }
             key = { "January" }>
             { "January" }
           </option>
           <option
-            value = { "February" }
+            value = { "1" }
             key = { "February" }>
             { "February" }
           </option>
           <option
-            value = { "March" }
+            value = { "2" }
             key = { "March" }>
             { "March" }
           </option>
           <option
-            value = { "April" }
+            value = { "3" }
             key = { "April" }>
             { "April" }
           </option>
           <option
-            value = { "May" }
+            value = { "4" }
             key = { "May" }>
             { "May" }
           </option>
           <option
-            value = { "June" }
+            value = { "5" }
             key = { "June" }>
             { "June" }
           </option>
           <option
-            value = { "July" }
+            value = { "6" }
             key = { "July" }>
             { "July" }
           </option>
           <option
-            value = { "August" }
+            value = { "7" }
             key = { "August" }>
             { "August" }
           </option>
           <option
-            value = { "September" }
+            value = { "8" }
             key = { "September" }>
             { "September" }
           </option>
           <option
-            value = { "October" }
+            value = { "9" }
             key = { "October" }>
             { "October" }
           </option>
           <option
-            value = { "November" }
+            value = { "10" }
             key = { "November" }>
             { "November" }
           </option>
           <option
-            value = { "December" }
+            value = { "11" }
             key = { "December" }>
             { "December" }
           </option>
