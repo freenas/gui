@@ -7,8 +7,8 @@
 import React from "react";
 import { Input, Popover } from "react-bootstrap";
 
-// import TM from "../../../../flux/middleware/TaskMiddleware";
-// import TS from "../../../../flux/stores/TaskStore";
+import CM from "../../../../flux/middleware/CalendarMiddleware";
+import CS from "../../../../flux/stores/CalendarStore";
 
 import VS from "../../../../flux/stores/VolumeStore";
 import ZM from "../../../../flux/middleware/ZfsMiddleware";
