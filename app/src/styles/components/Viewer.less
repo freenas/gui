@@ -9,10 +9,9 @@
 // Main Viewer Rules
 .viewer {
   .flex-display(flex);
-  .flex-flow(column wrap);
-  .flex( 0 0 auto );
-
-  overflow    : auto;
+  .flex-flow(column nowrap);
+  .flex( 1 );
+  overflow: auto;
 
   // Prototype Disclosure Triangle Classes
   .disclosure-open,
@@ -163,9 +162,17 @@
 // Detail Viewer
 @icon-detail-width: 40px;
 
+.viewer-detail,
+.viewer-icon,
+.viewer-table {
+  .flex(1);
+  position   : relative;
+  width      : 100%;
+  overflow-y : auto;
+}
+
 .viewer-detail {
   .flex-display(flex);
-  .flex(1);
 
   mark {
     background-color : @brand-primary;
@@ -261,10 +268,6 @@
 
 // Icon Viewer
 .viewer-icon {
-  .flex(1);
-  position   : relative;
-  width      : 100%;
-  overflow-y : auto;
 
   .viewer-icon-section {
     .flex(1 1 100px);
@@ -325,10 +328,6 @@
 
 // Table Viewer
 .viewer-table {
-  .flex(1);
-  position   : relative;
-  width      : 100%;
-  overflow-y : auto;
   .table-hover > tbody > tr.active > td {
     .viewer-active-item();
   }
