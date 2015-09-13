@@ -63,7 +63,7 @@ const Day = React.createClass (
                      <ScrubModal
                        tasks = { this.props.tasks }
                        selectedVolume = { task.args[0] }
-                       id = { task.id }
+                       taskID = { task.id }
                        handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
                        chooseActiveTask = { this.props.chooseActiveTask }
                        { ...task.schedule }/>

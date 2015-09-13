@@ -92,6 +92,7 @@ function generateDayOptions ( month, year ) {
 const ScrubModal = React.createClass(
   { propTypes: { tasks: React.PropTypes.array
                , selectedVolume: React.PropTypes.string
+               , taskID: React.PropTypes.string
                , weekday: React.PropTypes.string
                , week: React.PropTypes.string
                , day: React.PropTypes.string
