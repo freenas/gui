@@ -93,14 +93,24 @@ const Calendar = React.createClass(
     switch ( taskType ) {
       case "scrub":
         newTask.name = "zfs.pool.scrub";
-        newTask.schedule = { day_of_week: targetDate.getDay().toString() }
+        newTask.schedule = { day_of_week: targetDate.getDay().toString()
+                           , day: "*"
+                           , week: "*"
+                           , month: "*"
+                           , year: "*"
+                           };
         newTask.coalesce = true;
         newTask.args = [ null ];
         break;
 
       case "smart":
         newTask.name = "disks.test";
-        newTask.schedule = { day_of_week: targetDate.getDay().toString() }
+        newTask.schedule = { day_of_week: targetDate.getDay().toString()
+                           , day: "*"
+                           , week: "*"
+                           , month: "*"
+                           , year: "*"
+                           };
         newTask.coalesce = true;
         newTask.args = [ null, "SHORT" ];
         break;
