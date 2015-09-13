@@ -15,8 +15,21 @@ import Routes from "./routes.jsx";
 
 import MiddlewareClient from "./websocket/MiddlewareClient";
 
+function shimReactWarnings () {
+  let warn = console.warn;
+  console.warn = warning => {
+    if ( /(setState)/.test( warning ) ) {
+      throw new Error( warning );
+    }
+    warn.apply( console, arguments );
+  };
+}
+
 if ( typeof window !== "undefined" ) {
   window.onload = function () {
+
+    shimReactWarnings();
+
     // window["__DEVELOPMENT_CONNECTION__"] is either a hostname or the string
     // "SIMULATION_MODE", if defined. The fallthrough assigns "self", an
     // indication that no development mode is active, and the client should try
