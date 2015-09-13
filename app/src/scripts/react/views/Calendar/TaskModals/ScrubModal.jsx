@@ -183,6 +183,44 @@ const ScrubModal = React.createClass(
     return options;
   }
 
+  , createTask () {
+    var newTask = { schedule: {}
+                  , name: "zfs.pool.scrub"
+                  };
+
+    if ( _.has( this.state, "selectedVolume" ) ) {
+      newTask.args = [ this.state.selectedVolume ];
+    }
+    if ( _.has( this.state, "day_of_week" )
+      && this.state.day_of_week ) {
+      newTask.schedule.day_of_week = this.state.day_of_week;
+    }
+    if ( _.has( this.state, "day" )
+      && this.state.day ) {
+      newTask.schedule.day = this.state.day;
+    }
+    if ( _.has( this.state, "week" )
+      && this.state.week ) {
+      newTask.schedule.week = this.state.week;
+    }
+    if ( _.has( this.state, "month" )
+      && this.state.month ) {
+      newTask.schedule.month = this.state.month;
+    }
+    if ( _.has( this.state, "year" )
+      && this.state.year ) {
+      newTask.schedule.year = this.state.year;
+    }
+    if ( _.has( this.state, "coalesce" )
+      && this.state.coalesce ) {
+      newTask.schedule.coalesce = this.state.coalesce;
+    }
+
+    newTask.id = this.state.taskID;
+    console.log( newTask );
+    CM.createCalendarTask( newTask );
+  }
+
   , render () {
     return (
       <div>
