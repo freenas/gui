@@ -29,6 +29,10 @@ const Day = React.createClass (
                , tasks: React.PropTypes.array
                }
 
+  , getDefaultProps () {
+    return { tasks: [] };
+  }
+
   , getInitialState () {
     return { activeTask: "" };
   }
