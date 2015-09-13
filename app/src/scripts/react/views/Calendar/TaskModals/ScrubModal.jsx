@@ -225,6 +225,61 @@ const ScrubModal = React.createClass(
 
   }
 
+  , isTaskValid () {
+
+    var idValid;
+    if ( _.has( this.state, "taskID" ) ) {
+      // Get a copy of the list of tasks and remove one instance with the
+      // matching id from the list, so that we can check if there's more than
+      // one.
+      let tasksToCheck = _.cloneDeep( this.props.tasks );
+      _.pullAt( tasksToCheck
+              , _.findIndex( tasksToCheck
+                           , { id: this.state.taskID }
+                           )
+              );
+      idValid = !_.any( tasksToCheck
+                      , function checkTaskIdUnique ( task ) {
+                        return _.has( task, { id: this.state.taskID } );
+                      }
+                      , this
+                      );
+    } else if ( this.props.existsOnServer ) {
+      // It doesn't matter if there isn't an id in state if the task exists on
+      // the server already.
+      idValid = true;
+    } else {
+      // If there isn't an id in state and this is a new task,
+      // the task is invalid
+      idValid = false;
+    }
+
+    // FIXME: There should be invalid cases where some of these are true, such
+    // as days that don't exist (monday in the first week of a year that has
+    // no monday in the first week, for example).
+    // FIXME: it is probably possible to pass this check unintentionally by
+    // selecting the  wildcard option, putting that value in state. This will
+    // result in a task that runs every day. On the other hand, it is also
+    // possible to WANT a task to run every day.
+    var scheduleValid = this.state.day_of_week
+                     || this.state.day
+                     || this.state.week
+                     || this.state.month
+                     || this.state.year;
+
+    var volumeValid = _.any( this.state.volumes
+                           , function checkVolumeExists ( volume ) {
+                             return volume.name === this.state.selectedVolume;
+                           }
+                           , this
+                           );
+
+    return ( idValid
+          && scheduleValid
+          && volumeValid
+           );
+  }
+
   , render () {
     return (
       <div>
