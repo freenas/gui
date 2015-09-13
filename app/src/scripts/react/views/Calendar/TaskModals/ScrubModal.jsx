@@ -281,6 +281,41 @@ const ScrubModal = React.createClass(
   }
 
   , render () {
+
+    // Used to create new tasks
+    const submitButton =
+      <Button
+        onClick = { this.createTask }
+        bsStyle = "primary"
+        disabled = { !this.isTaskValid() }>
+        { "Submit" }
+      </Button>;
+
+    // Used to update existing tasks
+    const changeButton =
+      <Button
+        onClick = { this.changeTask }
+        bsStyle = "primary"
+        disabled = { !this.isTaskValid() }>
+        { "Submit" }
+      </Button>;
+
+    // Used to discard new tasks
+    const cancelButton =
+      <Button
+        onClick = { this.props.handleTaskRemove }
+        bsStyle = "warning">
+        { "Cancel" }
+      </Button>;
+
+    // Used to unselect existing tasks
+    const resetButton =
+      <Button
+        onClick = { this.props.chooseActiveTask.bind( null, null ) }
+        bsStyle = "warning">
+        { "Cancel" }
+      </Button>;
+
     return (
       <div>
         <h4>ZFS Scrub</h4>
@@ -552,6 +587,15 @@ const ScrubModal = React.createClass(
             { "2038" }
           </option>
         </Input>
+        <ButtonToolbar>
+          { /*this.props.existsOnServer
+          ? changeButton
+          :*/ submitButton
+          }
+          { /*this.props.existsOnServer
+          ? resetButton
+          */ cancelButton }
+        </ButtonToolbar>
       </div>
     );
   }
