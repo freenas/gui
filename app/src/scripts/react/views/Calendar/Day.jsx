@@ -61,7 +61,11 @@ const Day = React.createClass (
                      ref = { task.id }/>;
                  taskModal =
                    <Popover id = { task.id }>
-                     <ScrubModal { ...task } />
+                     <ScrubModal
+                       tasks = { this.props.tasks }
+                       selectedVolume = { task.args[0] }
+                       id = { task.id }
+                       { ...task.schedule }/>
                    </Popover>;
                  break;
                case "disks.test":
