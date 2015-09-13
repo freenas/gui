@@ -171,6 +171,14 @@ const ScrubModal = React.createClass(
                      }
                      );
     }
+
+    options.unshift(
+      <option
+        value = { null }
+        key = { 0 }>
+        { null }
+      </option>
+    );
     return options;
   }
 
