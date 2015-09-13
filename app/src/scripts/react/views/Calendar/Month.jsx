@@ -19,48 +19,48 @@ function checkTaskDates ( tasks, date ) {
            , function checkScheduleMatch ( task ) {
 
              var matchDay;
-             if ( _.has( task.schedule, "day" ) ) {
+             if ( task.schedule.day === "*" ) {
+               matchDay = true;
+             } else if ( _.has( task.schedule, "day" ) ) {
                matchDay = task.schedule.day === date.getDate().toString()
                         ? true
                         : false;
-             } else if ( task.schedule.day === "*" ) {
-               matchDay = true;
              }
 
              var matchWeekday;
-             if ( _.has( task.schedule, "day_of_week" ) ) {
+             if ( task.schedule.day_of_week === "*" ) {
+               matchWeekday = true;
+             } else if ( _.has( task.schedule, "day_of_week" ) ) {
                matchWeekday = task.schedule.day_of_week === date.getDay().toString()
                             ? true
                             : false;
-             } else if ( task.schedule.day_of_week === "*" ) {
-               matchWeekday = true;
              }
 
              var matchWeek;
-             if ( _.has( task.schedule, "day_of_week" ) ) {
+             if ( task.schedule.week === "*" ) {
+               matchWeek = true;
+             } else if ( _.has( task.schedule, "day_of_week" ) ) {
                matchWeek = task.schedule.week === moment(date).week().toString()
                          ? true
                          : false;
-             } else if ( task.schedule.week === "*" ) {
-               matchWeek = true;
              }
 
              var matchMonth;
-             if ( _.has( task.schedule, "month" ) ) {
+             if ( task.schedule.month === "*" ) {
+               matchMonth = true;
+             } else if ( _.has( task.schedule, "month" ) ) {
                matchMonth = task.schedule.month === date.getMonth().toString()
                           ? true
                           : false;
-             } else if ( task.schedule.month === "*" ) {
-               matchMonth = true;
              }
 
              var matchYear;
-             if ( _.has( task.schedule, "year" ) ) {
+             if ( task.schedule.year === "*" ) {
+               matchYear = true;
+             } else if ( _.has( task.schedule, "year" ) ) {
                matchYear = task.schedule.year === date.getYear().toString()
                          ? true
                          : false;
-             } else if ( task.schedule.year === "*" ) {
-               matchYear = true;
              }
 
              if ( matchDay
