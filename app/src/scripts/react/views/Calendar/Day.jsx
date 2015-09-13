@@ -111,12 +111,14 @@ const Day = React.createClass (
       <div
         key={ this.props.index }
         className= { dayClass.join( " " ) }
-        onClick = { this.props.chooseDay.bind( null, this.props.dayOfMonth ) }>
+        onClick = { this.props.chooseDay.bind( null, this.props.dayOfMonth ) }
+      >
         <DropTarget
           className="day-content"
           callback={ this.props.handleTaskAdd }
           namespace="calendar"
-          activeDrop>
+          activeDrop
+        >
           <span className="day-numeral">{ this.props.dayOfMonth }</span>
           { this.createTasks() }
         </DropTarget>
