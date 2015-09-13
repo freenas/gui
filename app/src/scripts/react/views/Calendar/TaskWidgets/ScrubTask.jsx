@@ -10,7 +10,7 @@ import { Alert } from "react-bootstrap";
 
 const ScrubTask = React.createClass(
   { propTypes: { volumeName: React.PropTypes.string
-               , toggleTask: React.PropTypes.func
+               , chooseActiveTask: React.PropTypes.func
                }
 
   , getDefaultProps () { return { volumeName: null } }
@@ -20,7 +20,7 @@ const ScrubTask = React.createClass(
       <Alert
         bsStyle = "info"
         bsSize = "small"
-        onDoubleClick = { this.props.toggleTask }>
+        onDoubleClick = { this.props.chooseActiveTask }>
         <h4>ZFS Scrub</h4>
         <h5>{ this.props.volumeName }</h5>
       </Alert>

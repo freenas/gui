@@ -27,6 +27,8 @@ const Day = React.createClass (
                , dayOfMonth: React.PropTypes.number.isRequired
                , index: React.PropTypes.number.isRequired
                , tasks: React.PropTypes.array
+               , chooseActiveTask: React.PropTypes.func
+               , activeTask: React.PropTypes.string
                }
 
   , getDefaultProps () {
@@ -35,14 +37,6 @@ const Day = React.createClass (
 
   , getInitialState () {
     return { activeTask: "" };
-  }
-
-  , toggleTask ( taskID ) {
-    if ( this.state.activeTask !== taskID ) {
-      this.setState( { activeTask: taskID } );
-    } else {
-      this.setState( { activeTask: "" } );
-    }
   }
 
   , createTasks () {
@@ -61,7 +55,7 @@ const Day = React.createClass (
                  taskWidget =
                    <ScrubTask
                      volumeName = { task.args[0] || null }
-                     toggleTask = { this.toggleTask.bind( this, task.id ) }
+                     chooseActiveTask = { this.chooseActiveTask.bind( null, task.id ) }
                      ref = { task.id }/>;
                  taskModal =
                    <Popover id = { task.id }>

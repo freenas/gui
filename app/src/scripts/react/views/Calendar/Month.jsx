@@ -80,6 +80,7 @@ const Month = React.createClass(
     return { tasks: []
            , activeMonth: moment().month()
            , selectedDay: moment().date()
+           , activeTask: ""
            };
   }
 
@@ -119,7 +120,9 @@ const Month = React.createClass(
           isSelected = { i + 1 === this.props.selectedDay }
           dayOfMonth = { i + 1 }
           index = { i }
-          tasks = { checkTaskDates( this.props.tasks, date )}/>
+          tasks = { checkTaskDates( this.props.tasks, date ) }
+          chooseActiveTask = { this.props.chooseActiveTask }
+          activeTask = { this.props.activeTask }/>
       );
       date.setDate( date.getDate() + 1 );
     }
