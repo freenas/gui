@@ -184,11 +184,12 @@
   .viewer-detail-add-entity {
     margin-bottom: 8px;
     width: 100%;
-    flex: 0 0 auto;
   }
 
   .viewer-detail-sidebar {
-    .flex(1 0 150px);
+    .flex( 1 );
+    max-width: 300px;
+    min-width: 200px;
     margin-left : 15px;
     flex-flow: column;
     display: flex;
@@ -376,8 +377,9 @@
 
 .viewer-item-info {
   .flex-display(flex);
-  .flex(10);
+  .flex(4);
   .align-content(flex-start);
+
   position : relative;
 
   .container-fluid {
