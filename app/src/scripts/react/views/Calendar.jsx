@@ -118,7 +118,11 @@ const Calendar = React.createClass(
     newTask.id = "";
     var newTasks = _.cloneDeep( this.state.tasks );
     newTasks.push( newTask );
-    this.setState( { tasks: newTasks } );
+    this.setState( { tasks: newTasks
+                   , activeTask: ""
+                   , selectedDay: targetDate.getDate()
+                   }
+                 );
   }
 
   , handleTaskRemove ( taskID ) {
