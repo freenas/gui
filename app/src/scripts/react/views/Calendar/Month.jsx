@@ -36,8 +36,14 @@ function checkTaskDates ( tasks, date ) {
                matchWeekday = true;
              }
 
-             // TODO: Figure out how 'week' works in the calendar_task schema
-             // and check that too
+             var matchWeek;
+             if ( _.has( task.schedule, "day_of_week" ) ) {
+               matchWeek = task.schedule.week === moment(date).week().toString()
+                         ? true
+                         : false;
+             } else if ( task.schedule.week === "*" ) {
+               matchWeek = true;
+             }
 
              var matchMonth;
              if ( _.has( task.schedule, "month" ) ) {
@@ -59,7 +65,7 @@ function checkTaskDates ( tasks, date ) {
 
              if ( matchDay
                && matchWeekday
-               // && matchWeek
+               && matchWeek
                && matchMonth
                && matchYear ) {
                matchingTasks.push( task );
