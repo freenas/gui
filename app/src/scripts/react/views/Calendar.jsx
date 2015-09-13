@@ -115,7 +115,7 @@ const Calendar = React.createClass(
         newTask.args = [ null, "SHORT" ];
         break;
     }
-    newTask.id = "task" + this.state.tasks.length;
+    newTask.id = "";
     var newTasks = _.cloneDeep( this.state.tasks );
     newTasks.push( newTask );
     this.setState( { tasks: newTasks } );
