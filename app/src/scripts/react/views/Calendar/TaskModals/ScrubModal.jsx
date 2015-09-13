@@ -126,6 +126,9 @@ const ScrubModal = React.createClass(
 
   , handleChange ( key, evt ) {
     switch ( key ) {
+      case "taskID":
+        this.setState( { taskID: evt.target.value } );
+        break;
       case "Volume":
         this.setState( { selectedVolume: evt.target.value } );
         break;
@@ -174,6 +177,12 @@ const ScrubModal = React.createClass(
     return (
       <div>
         <h4>ZFS Scrub</h4>
+        { /* TODO: Add a warning when the task id is taken */ }
+        <Input
+          type = "text"
+          onChange = { this.handleChange.bind( null, "taskID" ) }
+          value = { this.state.taskID }
+          label = { "Task ID" } />
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "Volume" ) }
