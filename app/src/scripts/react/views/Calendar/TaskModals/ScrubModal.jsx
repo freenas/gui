@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import { Input, Popover } from "react-bootstrap";
+import { Button, ButtonToolbar, Input, Popover } from "react-bootstrap";
 
 import CM from "../../../../flux/middleware/CalendarMiddleware";
 import CS from "../../../../flux/stores/CalendarStore";
