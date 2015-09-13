@@ -59,7 +59,7 @@ const InterfaceItem = React.createClass(
                        let addressLabel = "";
                        let address = null;
 
-                       switch( alias.family ) {
+                       switch( alias.type ) {
                          case "INET":
                            addressLabel = "IPv4: "
                            break;
@@ -166,14 +166,14 @@ const InterfaceItem = React.createClass(
               newAliases = this.props.aliases.slice();
             }
 
-            if ( _.find( newAliases, { family: "INET" } ) ) {
-              let oldAliasIndex = _.findIndex( newAliases, { family: "INET" } );
+            if ( _.find( newAliases, { type: "INET" } ) ) {
+              let oldAliasIndex = _.findIndex( newAliases, { type: "INET" } );
               newAliases[ oldAliasIndex ].address = aliasParts[0];
               newAliases[ oldAliasIndex ].newNetmask = aliasParts[1];
               newNetworkInterface.aliases = newAliases;
             } else {
               newAliases =
-                [ { family: "INET"
+                [ { type: "INET"
                   , address: aliasParts[0]
                   , netmask: aliasParts[1]
                   }
@@ -271,14 +271,14 @@ const InterfaceItem = React.createClass(
 
     if ( !_.isEmpty( aliases ) ) {
       let macAddressAlias = _.find( aliases
-                                  , { family: "LINK" }
+                                  , { type: "LINK" }
                                   );
       if ( macAddressAlias ) {
         macAddress = macAddressAlias.address;
       }
     }
     // TODO: Update this for VLANs and LAGGs
-    _.remove( aliases, { family: "LINK" } );
+    _.remove( aliases, { type: "LINK" } );
 
     // FIXME: There is no way this will work once we're presenting aliases as
     // equals, without a "static IP". Don't let it survive past then.
