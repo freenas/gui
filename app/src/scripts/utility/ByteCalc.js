@@ -151,7 +151,13 @@ class ByteCalc {
   // can be instructed to output metric or IEC (default is metric). The
   // `verbose` option will output "megabytes" instead of "MB"
   static humanize ( bytes, options = {} ) {
-    let { IEC = false, verbose = false, roundMode = null } = options;
+    // FIXME: Flow could be refactored to not do any operations on the number
+    // of bytes if the unitsOnly flag is set.
+    let { IEC = false
+        , verbose = false
+        , roundMode = null
+        , unitsOnly = false
+        } = options;
 
     const base = IEC
                ? 1024
@@ -201,7 +207,11 @@ class ByteCalc {
       }
     }
 
-    return output + " " + units + suffix;
+    if ( unitsOnly ) {
+      return units + suffix;
+    } else {
+      return output + " " + units + suffix;
+    }
   }
 
 }
