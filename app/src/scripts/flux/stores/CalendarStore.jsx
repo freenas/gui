@@ -9,6 +9,8 @@ import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
+import CM from "../middleware/CalendarMiddleware"
+
 var _tasks = [];
 
 class CalendarStore extends FluxBase {
@@ -55,6 +57,14 @@ function handlePayload( payload ) {
     // Blocked until calendar tasks emit events
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = eventData.args;
+      if ( args.name === "task.progress"
+        && args.args.state === "FINISHED" ) {
+        if ( args.args.name === "calendar_tasks.create"
+          || args.args.name === "calendar_tasks.update"
+          || args.args.name === "calendar_tasks.delete" ) {
+          CM.requestCalendar();
+        }
+      }
       break;
   }
 }
