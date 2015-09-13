@@ -41,7 +41,13 @@ const Settings = React.createClass(
   , render () {
     return (
       <main>
-        <SectionNav views = { sections } />
+        <h1 className="section-heading heading-with-nav">
+          <span className="text">System Settings</span>
+          <SectionNav
+            bs-size = "md"
+            views = { sections }
+          />
+        </h1>
         <RouteHandler />
       </main>
     );
