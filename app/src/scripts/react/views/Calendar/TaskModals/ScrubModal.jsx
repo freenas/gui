@@ -18,8 +18,8 @@ function generateDayOptions ( month, year ) {
 
   dayOptions.push(
     <option
-      key = { "none" }
-      value = { null }>
+      key = { "*" }
+      value = { "*" }>
       { null }
     </option>
   );
@@ -187,8 +187,8 @@ const ScrubModal = React.createClass(
           value = { this.state.weekday }
           label = "Weekday">
           <option
-            value = { null }
-            key = { "none" }>
+            value = { "*" }
+            key = { "*" }>
             { null }
           </option>
           <option
@@ -240,8 +240,8 @@ const ScrubModal = React.createClass(
           value = { this.state.month }
           label = "Month">
           <option
-            value = { null }
-            key = { "none" }>
+            value = { "*" }
+            key = { "*" }>
             { null }
           </option>
           <option
@@ -311,8 +311,8 @@ const ScrubModal = React.createClass(
           value = { this.state.year }
           label = "Year">
           <option
-            value = { null }
-            key = { "none" }>
+            value = { "*" }
+            key = { "*" }>
             { null }
           </option>
           <option
