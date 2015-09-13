@@ -121,8 +121,10 @@ const Calendar = React.createClass(
     this.setState( { tasks: newTasks } );
   }
 
-  , handleTaskRemove () {
-    console.log( "handleTaskRemove" );
+  , handleTaskRemove ( taskID ) {
+    var newTasks = this.state.tasks;
+    _.remove( this.state.tasks, { id: taskID } );
+    this.setState( { tasks: newTasks } );
   }
 
   , chooseActiveTask ( taskID ) {
