@@ -217,7 +217,6 @@ const ScrubModal = React.createClass(
     }
 
     newTask.id = this.state.taskID;
-    console.log( newTask );
     CM.createCalendarTask( newTask );
   }
 
