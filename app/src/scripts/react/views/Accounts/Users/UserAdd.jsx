@@ -320,21 +320,23 @@ const UserAdd = React.createClass(
       </div>;
 
     return (
-      <Grid fluid>
-        <Row>
-          <Col xs = {12} >
-            { buttonToolbar }
-          </Col>
-        </Row>
-        <Row>
-          <Col xs = {8} >
-            { textEditForm }
-          </Col>
-          <Col xs = {4} >
-            { checkboxEditForm }
-          </Col>
-        </Row>
-      </Grid>
+      <div className="viewer-item-info">
+        <Grid fluid>
+          <Row>
+            <Col xs = {12} >
+              { buttonToolbar }
+            </Col>
+          </Row>
+          <Row>
+            <Col xs = {8} >
+              { textEditForm }
+            </Col>
+            <Col xs = {4} >
+              { checkboxEditForm }
+            </Col>
+          </Row>
+        </Grid>
+      </div>
     );
   }
 
