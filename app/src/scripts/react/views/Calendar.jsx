@@ -66,6 +66,7 @@ const Calendar = React.createClass(
       this.setState(
         { activeMonth: now.month()
         , selectedDay: now.startOf( "month" ).date()
+        , tasks: CS.tasks
         }
       );
     }
@@ -76,6 +77,7 @@ const Calendar = React.createClass(
       this.setState(
         { activeMonth: now.month()
         , selectedDay: now.date()
+        , tasks: CS.tasks
         }
       );
     }
