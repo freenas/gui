@@ -30,8 +30,8 @@ const ScrubTask = React.createClass(
         bsStyle = "info"
         bsSize = "small"
         onClick = { this.props.chooseActiveTask }>
-        <h4>ZFS Scrub</h4>
-        <h5>{ this.props.volumeName }</h5>
+        <span>ZFS Scrub</span>
+        <p>{ this.props.volumeName }</p>
         { deleteButton }
       </Alert>
     );
