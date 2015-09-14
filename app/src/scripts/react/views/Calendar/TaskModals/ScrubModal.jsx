@@ -1,11 +1,11 @@
 // Scrub Task
 // ==========
-// Modal window to configure or exit a ZFS scrub task.
+// Modal window to configure or edit a ZFS scrub task.
 
 "use strict";
 
 import React from "react";
-import { Button, ButtonToolbar, Input, Popover } from "react-bootstrap";
+import { Button, ButtonToolbar, Input } from "react-bootstrap";
 import TaskSchedule from "../TaskSchedule";
 
 import CM from "../../../../flux/middleware/CalendarMiddleware";
