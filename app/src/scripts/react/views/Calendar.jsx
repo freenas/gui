@@ -30,6 +30,7 @@ const Calendar = React.createClass(
         , selectedDay  : now.date()
         , mode         : "month"
         , tasks        : []
+        , activeTask   : null
         }
       );
     }
@@ -83,11 +84,17 @@ const Calendar = React.createClass(
     }
 
   , chooseDay ( day ) {
-      this.setState( { selectedDay: day
-                     , activeTask: null
-                     , tasks: CS.tasks
-                     } );
-    }
+
+  var newState = { selectedDay: day
+                 , tasks: CS.tasks
+                 };
+
+  if ( this.state.activeTask !== null ) {
+    newState.activeTask = null;
+  }
+
+    this.setState( newState );
+  }
 
   , handleTaskAdd ( targetDate, taskType ) {
     var newTask = {};
