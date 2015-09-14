@@ -321,14 +321,16 @@ class ZfsUtil {
     }
 
     chunks.forEach( ( chunkDisks, index ) => {
-      topology.data =
-        this.reconstructVdev( index
-                            , "data"
-                            , topology.data
-                            , chunkDisks
-                            , desired
-                            )["data"];
-      allSelectedDisks = allSelectedDisks.concat( chunkDisks );
+      if ( chunkDisks.length === chunkSize ) {
+        topology.data =
+          this.reconstructVdev( index
+                              , "data"
+                              , topology.data
+                              , chunkDisks
+                              , desired
+                              )["data"];
+        allSelectedDisks = allSelectedDisks.concat( chunkDisks );
+      }
     });
 
     return [ topology, allSelectedDisks ];
