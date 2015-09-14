@@ -320,7 +320,7 @@ const ScrubModal = React.createClass(
     const cancelButton =
       <Button
         onClick = { this.props.handleTaskRemove }
-        bsStyle = "warning">
+        bsStyle = "default">
         { "Cancel" }
       </Button>;
 
@@ -328,7 +328,7 @@ const ScrubModal = React.createClass(
     const resetButton =
       <Button
         onClick = { this.props.chooseActiveTask.bind( null, null ) }
-        bsStyle = "warning">
+        bsStyle = "default">
         { "Cancel" }
       </Button>;
 
