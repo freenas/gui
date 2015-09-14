@@ -112,11 +112,13 @@ const ContextDisks = React.createClass(
       this.setState( this.getUpdatedDiskInfo() );
     }
 
-  , handlePresetChange ( preset, href, event ) {
+  , handlePresetChange ( event, preset ) {
       if ( preset === "None" ) {
         // TODO: We might want to re-enable this later
         // this.props.handleReset();
       } else {
+        console.log( arguments );
+        console.log( PRESET_VALUES );
         this.props.handleTopoRequest( PRESET_VALUES[ preset ] );
       }
       this.setState({ preset });
