@@ -15,10 +15,10 @@ const CalendarTaskContext = React.createClass(
   { render() {
     return (
       <DropTarget
-        namespace={"calendar"}>
+        namespace = "calendar">
         <DragTarget
-          namespace={"calendar"}
-          payload={"scrub"}>
+          namespace = "calendar"
+          payload = "scrub">
           <ScrubTask/>
         </DragTarget>
       </DropTarget>
