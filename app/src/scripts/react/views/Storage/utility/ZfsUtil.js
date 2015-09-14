@@ -251,37 +251,47 @@ class ZfsUtil {
       , spares: []
       };
 
-    // HAHA THIS IS DUMB DEAL WITH IT
-    // AIRHORN.MP3
+    let allSelectedDisks = [];
 
-    let availableHDDs = _.difference( disks, ssds );
-    let ssdSplit = Math.floor( ssds.length / 2 );
-    let logSSDs = ssds.slice( 0, ssdSplit );
-    let cacheSSDs = ssds.slice( ssdSplit, ssds.length );
     let desired = preferences.desired[0].toLowerCase();
     let chunkSize = DISK_CHUNKS[ desired ][ preferences.priority.toLowerCase() ];
 
-    let allSelectedDisks = [];
+    let dataDisks;
+    let ssdSplit;
+    let logSSDs;
+    let cacheSSDs;
 
-    topology.log =
-      this.reconstructVdev( 0
-                          , "log"
-                          , []
-                          , logSSDs
-                          , "stripe"
-                          )["log"];
-    allSelectedDisks = allSelectedDisks.concat( logSSDs );
-    topology.cache =
-      this.reconstructVdev( 0
-                          , "cache"
-                          , []
-                          , cacheSSDs
-                          , "stripe"
-                          )["cache"];
-    allSelectedDisks = allSelectedDisks.concat( cacheSSDs );
+    if ( ssds.length > disks.length ) {
+      // In the event that more SSDs are available than HDDs, we will attempt to
+      // create an all-flash pool with no log or cache devices, and ignoring any
+      // spinning disks which may be present.
+      dataDisks = ssds;
+    } else {
+      dataDisks = _.difference( disks, ssds );
+      ssdSplit = Math.floor( ssds.length / 2 );
+      logSSDs = ssds.slice( 0, ssdSplit );
+      cacheSSDs = ssds.slice( ssdSplit, ssds.length );
+
+      topology.log =
+        this.reconstructVdev( 0
+                            , "log"
+                            , []
+                            , logSSDs
+                            , "stripe"
+                            )["log"];
+      allSelectedDisks = allSelectedDisks.concat( logSSDs );
+      topology.cache =
+        this.reconstructVdev( 0
+                            , "cache"
+                            , []
+                            , cacheSSDs
+                            , "stripe"
+                            )["cache"];
+      allSelectedDisks = allSelectedDisks.concat( cacheSSDs );
+    }
 
 
-    _.chunk( availableHDDs, chunkSize ).forEach( ( chunkDisks, index ) => {
+    _.chunk( dataDisks, chunkSize ).forEach( ( chunkDisks, index ) => {
       if ( chunkDisks.length === chunkSize ) {
         topology.data =
           this.reconstructVdev( index
