@@ -10,7 +10,7 @@
         ]
       , "name": "igb1"
       , "aliases":
-        [ { "family": "LINK"
+        [ { "type": "LINK"
           , "address": "d0:50:99:50:45:3a"
           }
         ]
@@ -34,12 +34,12 @@
         ]
       , "name": "igb0"
       , "aliases":
-        [ { "family": "LINK"
+        [ { "type": "LINK"
           , "address": "d0:50:99:50:45:39"
           }
         , { "broadcast": "10.5.255.255"
           , "netmask": 16
-          , "family": "INET"
+          , "type": "INET"
           , "address": "10.5.0.241"
           }
         ]
