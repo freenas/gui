@@ -194,6 +194,11 @@ const ScrubModal = React.createClass(
     if ( _.has( this.state, "day_of_week" )
       && this.state.day_of_week ) {
       newTask.schedule.day_of_week = this.state.day_of_week;
+    } else if ( _.has( this.props, "day_of_week" )
+      && this.props.day_of_week ) {
+      // day_of_week is different because it can be present without any other
+      // settings made
+      newTask.schedule.day_of_week = this.props.day_of_week;
     }
     if ( _.has( this.state, "day" )
       && this.state.day ) {
