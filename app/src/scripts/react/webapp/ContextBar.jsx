@@ -10,7 +10,7 @@ import React from "react";
 
 import EventBus from "../../utility/EventBus";
 
-import ContextDefault from "./ContextBar/ContextDefault";
+import DashboardContext from "../../react/views/Dashboard/DashboardContext";
 
 const ContextBar = React.createClass(
 
@@ -29,7 +29,7 @@ const ContextBar = React.createClass(
   }
 
   , getInitialState () {
-    return { activeComponent: ContextDefault
+    return { activeComponent: DashboardContext
            , activeProps: {}
            , lastComponent: null
            , lastProps: {}

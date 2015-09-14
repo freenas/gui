@@ -13,18 +13,8 @@ import Network from "../components/Widgets/Network";
 import Memory from "../components/Widgets/Memory";
 import DashboardContext from "./Dashboard/DashboardContext";
 
-import EventBus from "../../utility/EventBus";
-
 const Dashboard = React.createClass(
-  { componentDidMount () {
-      EventBus.emit( "showContextPanel", DashboardContext );
-  }
-
-  , componentWillUnmount () {
-      EventBus.emit( "hideContextPanel", DashboardContext );
-  }
-
-  , render () {
+  { render () {
       return (
         <main className="full dashboard">
           <div className="dashboard-widgets">
