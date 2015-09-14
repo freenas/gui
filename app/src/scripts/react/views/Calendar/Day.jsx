@@ -35,10 +35,6 @@ const Day = React.createClass (
     return { tasks: [] };
   }
 
-  , getInitialState () {
-    return { activeTask: "" };
-  }
-
   , createTasks () {
     var tasks = this.props.tasks;
     if ( _.has( this, [ "state", "tasks" ] ) ){
@@ -81,11 +77,11 @@ const Day = React.createClass (
                  <Overlay
                    // FIXME: This does not account for multiple copies of a task
                    // in one day.
-                   show = { this.state.activeTask === task.id
+                   show = { this.props.activeTask === task.id
                          && this.props.isSelected
                           }
                    placement = "bottom"
-                   target = { ()=> React.findDOMNode( this.refs[ this.state.activeTask ] ) }>
+                   target = { ()=> React.findDOMNode( this.refs[ this.props.activeTask ] ) }>
                    { taskModal }
                  </Overlay>
                </div>
