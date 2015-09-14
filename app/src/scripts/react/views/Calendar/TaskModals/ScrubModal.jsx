@@ -230,65 +230,73 @@ const ScrubModal = React.createClass(
   }
 
   , isTaskValid () {
-
+    var taskIsValid;
     var idValid;
-    if ( this.state.taskID !== "" ) {
+    if ( this.state.taskID ) {
       if ( this.props.taskID === this.state.taskID ) {
       // If you happen to have returned the task ID to its original state,
-      // it's valid
+      // it's valid, but the task may not be
       idValid = true;
       } else {
-        // otherwise check that it's not already taken
-        idValid = ( _.find( CS.tasks
-                          , function checkTaskIdUnique ( task ) {
-                            return _.has( task, { id: this.state.taskID } );
-                          }
-                          , this
-                          )
-                !== undefined );
+        // otherwise check that it's not already taken. Changing the task name
+        // means the task is valid.
+        taskIsValid = ( _.find( CS.tasks
+                              , function checkTaskIdUnique ( task ) {
+                                return _.has( task, { id: this.state.taskID } );
+                              }
+                              , this
+                              )
+                    === undefined
+                      );
       }
     } else if ( this.props.taskID !== "" ) {
       // It doesn't matter if there isn't an id in state if the task exists on
       // the server already.
       idValid = true;
     } else {
-      // No new id and no prexisting id means the id is not valid
+      // No new id and no prexisting id means the id is not valid. This fails
+      // the check overall.
       idValid = false;
+      taskIsValid =  false;
     }
 
-    // FIXME: There should be invalid cases where some of these are true, such
-    // as days that don't exist (monday in the first week of a year that has
-    // no monday in the first week, for example).
-    // FIXME: it is probably possible to pass this check unintentionally by
-    // selecting the  wildcard option, putting that value in state. This will
-    // result in a task that runs every day. On the other hand, it is also
-    // possible to WANT a task to run every day.
-    var scheduleValid;
+    // Only keep checking if task validity has not been determined.
+    if ( taskIsValid !== undefined ) {
+
+      var volumeToCheck = this.state.selectedVolume || this.props.selectedVolume;
+      var volumeValid = _.any( this.state.volumes
+                             , function checkVolumeExists ( volume ) {
+                               return volume.name === volumeToCheck;
+                             }
+                             , this
+                             );
+
+      // FIXME: There should be invalid cases where some of these are true, such
+      // as days that don't exist (monday in the first week of a year that has
+      // no monday in the first week, for example).
+      // FIXME: it is probably possible to pass this check unintentionally by
+      // selecting the  wildcard option, putting that value in state. This will
+      // result in a task that runs every day. On the other hand, it is also
+      // possible to WANT a task to run every day.
+      var scheduleValid;
       if ( this.props.taskID ) {
-        scheduleValid = this.state.day_of_week
-                     || this.state.day
-                     || this.state.week
-                     || this.state.month
-                     || this.state.year;
-      } else {
-        scheduleValid = ( this.state.day_of_week || this.props.day_of_week)
-                     || ( this.state.day || this.props.day)
-                     || ( this.state.week || this.props.week)
-                     || ( this.state.month || this.props.month)
-                     || ( this.state.year || this.props.year);
-      }
+          scheduleValid = this.state.day_of_week
+                       || this.state.day
+                       || this.state.week
+                       || this.state.month
+                       || this.state.year;
+          taskIsValid = scheduleValid || volumeValid;
+        } else {
+          scheduleValid = ( this.state.day_of_week || this.props.day_of_week)
+                       || ( this.state.day || this.props.day)
+                       || ( this.state.week || this.props.week)
+                       || ( this.state.month || this.props.month)
+                       || ( this.state.year || this.props.year);
+          taskIsValid = scheduleValid && volumeValid;
+        }
+    }
 
-    var volumeValid = _.any( this.state.volumes
-                           , function checkVolumeExists ( volume ) {
-                             return volume.name === this.state.selectedVolume;
-                           }
-                           , this
-                           );
-
-    return ( idValid
-          && scheduleValid
-          && volumeValid
-           );
+    return taskIsValid;
   }
 
   , render () {
