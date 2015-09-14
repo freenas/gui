@@ -151,7 +151,60 @@ const ScrubModal = React.createClass(
   }
 
   , changeTask () {
+    var newTask = { schedule: {}
+                  , name: "zfs.pool.scrub"
+                  };
 
+    if ( _.has( this.state, "selectedVolume" ) ) {
+      newTask.args = [ this.state.selectedVolume ];
+    } else if ( _.has( this.props, "selectedVolume" ) ) {
+      newTask.args = [ this.props.selectedVolume ];
+    }
+    if ( _.has( this.state, "day_of_week" )
+      && this.state.day_of_week ) {
+      newTask.schedule.day_of_week = this.state.day_of_week;
+    } else if ( _.has( this.props, "day_of_week" )
+      && this.props.day_of_week ) {
+      newTask.schedule.day_of_week = this.props.day_of_week;
+    }
+    if ( _.has( this.state, "day" )
+      && this.state.day ) {
+      newTask.schedule.day = this.state.day;
+    } else if ( _.has( this.props, "day" )
+      && this.state.day ) {
+      newTask.schedule.day = this.state.day;
+    }
+    if ( _.has( this.state, "week" )
+      && this.state.week ) {
+      newTask.schedule.week = this.state.week;
+    } else if ( _.has( this.props, "week" )
+      && this.state.week ) {
+      newTask.schedule.week = this.state.week;
+    }
+    if ( _.has( this.state, "month" )
+      && this.state.month ) {
+      newTask.schedule.month = this.state.month;
+    } else if ( _.has( this.props, "month" )
+      && this.state.month ) {
+      newTask.schedule.month = this.state.month;
+    }
+    if ( _.has( this.state, "year" )
+      && this.state.year ) {
+      newTask.schedule.year = this.state.year;
+    } else if ( _.has( this.props, "year" )
+      && this.state.year ) {
+      newTask.schedule.year = this.state.year;
+    }
+    if ( _.has( this.state, "coalesce" )
+      && this.state.coalesce ) {
+      newTask.schedule.coalesce = this.state.coalesce;
+    } else if ( _.has( this.props, "coalesce" )
+      && this.props.coalesce ) {
+      newTask.schedule.coalesce = this.props.coalesce;
+    }
+    newTask.id = this.state.taskID || this.props.taskID;
+
+    CM.updateCalendarTask( this.props.taskID, newTask );
   }
 
   , isTaskValid () {
