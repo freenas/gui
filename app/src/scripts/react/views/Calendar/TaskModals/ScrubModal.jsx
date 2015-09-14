@@ -280,6 +280,21 @@ const ScrubModal = React.createClass(
   }
 
   , render () {
+  var day_of_weekValue = this.state.day_of_week
+                      || this.props.day_of_week
+                      || "*";
+  var dayValue = this.state.day
+              || this.props.day
+              || "*";
+  var weekValue = this.state.week
+               || this.props.week
+               || "*";
+  var monthValue = this.state.month
+                || this.props.month
+                || "*";
+  var yearValue = this.state.year
+               || this.props.year
+               || "*";
 
     // Used to create new tasks
     const submitButton =
@@ -334,7 +349,7 @@ const ScrubModal = React.createClass(
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "day_of_week" ) }
-          value = { this.state.day_of_week }
+          value = { day_of_weekValue }
           label = "Weekday">
           <option
             value = { "*" }
@@ -380,14 +395,14 @@ const ScrubModal = React.createClass(
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "day" ) }
-          value = { this.state.day }
+          value = { dayValue }
           label = "Day">
-          { generateDayOptions( this.state.month, this.state.year ) }
+          { generateDayOptions( monthValue, yearValue ) }
         </Input>
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "month" ) }
-          value = { this.state.month }
+          value = { monthValue }
           label = "Month">
           <option
             value = { "*" }
@@ -458,7 +473,7 @@ const ScrubModal = React.createClass(
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "year" ) }
-          value = { this.state.year }
+          value = { yearValue }
           label = "Year">
           <option
             value = { "*" }
