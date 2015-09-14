@@ -340,7 +340,7 @@ const ScrubModal = React.createClass(
           type = "text"
           onChange = { this.handleChange.bind( null, "taskID" ) }
           value = { taskIDValue }
-          label = { "Task ID" } />
+          label = { "Name" } />
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "selectedVolume" ) }
