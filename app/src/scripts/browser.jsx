@@ -28,7 +28,8 @@ function shimReactWarnings () {
 if ( typeof window !== "undefined" ) {
   window.onload = function () {
 
-    shimReactWarnings();
+    // TODO: Conditionally re-enable this
+    // shimReactWarnings();
 
     // window["__DEVELOPMENT_CONNECTION__"] is either a hostname or the string
     // "SIMULATION_MODE", if defined. The fallthrough assigns "self", an
