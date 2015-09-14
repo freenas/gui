@@ -19,6 +19,8 @@ import Icon from "../components/Icon";
 
 import CalendarTasksContext from "./Calendar/CalendarTasksContext";
 
+const weekdays = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
+
 const Calendar = React.createClass(
   { displayName: "Calendar"
 
@@ -103,7 +105,7 @@ const Calendar = React.createClass(
     switch ( taskType ) {
       case "scrub":
         newTask.name = "zfs.pool.scrub";
-        newTask.schedule = { day_of_week: targetDate.getDay().toString()
+        newTask.schedule = { day_of_week: weekdays[ targetDate.getDay() ]
                            , day: "*"
                            , week: "*"
                            , month: "*"
@@ -115,7 +117,7 @@ const Calendar = React.createClass(
 
       case "smart":
         newTask.name = "disks.test";
-        newTask.schedule = { day_of_week: targetDate.getDay().toString()
+        newTask.schedule = { day_of_week: weekdays[ targetDate.getDay() ]
                            , day: "*"
                            , week: "*"
                            , month: "*"

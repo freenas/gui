@@ -12,6 +12,8 @@ import moment from "moment";
 import Day from "./Day";
 import DropTarget from "../../components/DropTarget";
 
+const weekdays = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
+
 // Primitive and messy
 function checkTaskDates ( tasks, date ) {
   var matchingTasks = [];
@@ -31,7 +33,7 @@ function checkTaskDates ( tasks, date ) {
              if ( task.schedule.day_of_week === "*" ) {
                matchWeekday = true;
              } else if ( _.has( task.schedule, "day_of_week" ) ) {
-               matchWeekday = task.schedule.day_of_week === date.getDay().toString()
+               matchWeekday = task.schedule.day_of_week === weekdays[ date.getDay() ]
                             ? true
                             : false;
              }
