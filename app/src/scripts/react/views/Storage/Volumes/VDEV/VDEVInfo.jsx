@@ -40,7 +40,7 @@ const VDEVInfo = React.createClass(
       return (
         <MenuItem
           key = { index }
-          onClick = { this.props.handleTypeChange.bind( null, type ) }
+          onSelect = { this.props.handleTypeChange.bind( null, type ) }
         >
           { HUMAN_TYPES[ type ] }
         </MenuItem>
