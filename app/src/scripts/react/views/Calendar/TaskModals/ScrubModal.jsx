@@ -292,6 +292,10 @@ const ScrubModal = React.createClass(
   }
 
   , render () {
+  var taskIDValue = this.state.taskID
+                 || this.props.taskID;
+  var selectedVolumeValue = this.state.selectedVolume
+                         || this.props.selectedVolume;
   var day_of_weekValue = this.state.day_of_week
                       || this.props.day_of_week
                       || "*";
@@ -349,12 +353,12 @@ const ScrubModal = React.createClass(
         <Input
           type = "text"
           onChange = { this.handleChange.bind( null, "taskID" ) }
-          value = { this.state.taskID }
+          value = { taskIDValue }
           label = { "Task ID" } />
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "selectedVolume" ) }
-          value = { this.state.selectedVolume }
+          value = { selectedVolumeValue }
           label = "Volume">
           { this.createVolumeOptions() }
         </Input>
