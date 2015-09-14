@@ -37,7 +37,7 @@ class CalendarMiddleware extends MiddlewareAbstract {
 
   static updateCalendarTask ( taskID, newTask ) {
     MC.request( "task.submit"
-              , [ "calendar_tasks.update", [ taskId, newTask ] ]
+              , [ "calendar_tasks.update", [ taskID, newTask ] ]
               , CAC.receiveCalendarUpdateTask
               );
   }
