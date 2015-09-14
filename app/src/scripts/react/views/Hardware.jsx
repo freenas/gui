@@ -18,10 +18,7 @@ import DS from "../../flux/stores/DisksStore";
 
 import ByteCalc from "../../utility/ByteCalc";
 
-import DiscTri from "../components/DiscTri";
-
-import Disk from "../components/items/Disk";
-
+import DiskSection from "./Hardware/DiskSection";
 
 function getSystemInformation () {
   return { systemInformation: SS.getSystemInfo( "hardware" ) };
@@ -31,70 +28,19 @@ function getDiskGroups () {
   return { diskGroups: DS.similarDisks };
 }
 
-const DiskDisclosure = React.createClass(
-  { propTypes: { diskGroups: React.PropTypes.array.isRequired }
-
-  , createDiskGroup: function ( group, groupName, groups ) {
-
-    var diskItems = _.map( group
-                         , function createDiskItems ( disk, index ) {
-                           return (
-                             <Panel className = "disk-item"
-                                         key = { index } >
-                               <Disk path = { disk } />
-                             </Panel>
-                           );
-                         }
-                         );
-
-    return (
-      <div className = "disk-category"
-           key = { groupName }>
-        <span className = "disk-category-title">{ groupName }</span>
-        <Well className = "disk-item-section"
-                   bsSize = "small" >
-          { diskItems }
-        </Well>
-      </div>
-    );
-  }
-
-  , render: function () {
-
-    // diskGroups comes back as two objects: one for SSDs and one for HDDs.
-    // combine them into one array for display.
-    var diskTypes = _.cloneDeep( this.props.diskGroups[0]);
-    _.merge( diskTypes, this.props.diskGroups[1] );
-
-    var diskGroups = _.map( diskTypes
-                          , this.createDiskGroup
-                          );
-
-    return (
-      <DiscTri headerShow = { "Disk Information" }
-               headerHide = { "Disk Information" }
-               defaultExpanded = { true }
-               style = { { "overflow-y": "auto" } }>
-        { diskGroups }
-      </DiscTri>
-    );
-  }
-  }
-);
-
 const Hardware = React.createClass({
 
   displayName: "Hardware"
 
   , mixins: [ routerShim ]
 
-  , getInitialState: function () {
+  , getInitialState () {
     return _.merge( getSystemInformation()
                   , getDiskGroups()
                   );
   }
 
-  , componentDidMount: function () {
+  , componentDidMount () {
     DS.addChangeListener( this.handleDisksChange );
     DM.requestDisksOverview();
     DM.subscribe( this.constructor.displayName );
@@ -104,7 +50,7 @@ const Hardware = React.createClass({
     SM.subscribe( this.constructor.displayName );
   }
 
-  , componentWillUnmount: function () {
+  , componentWillUnmount () {
     DS.removeChangeListener( this.handleDisksChange );
     DM.unsubscribe( this.constructor.displayName );
 
@@ -112,15 +58,15 @@ const Hardware = React.createClass({
     SM.unsubscribe( this.constructor.displayName );
   }
 
-  , handleDisksChange: function () {
+  , handleDisksChange () {
     this.setState( getDiskGroups() );
   }
 
-  , handleHardwareChange: function () {
+  , handleHardwareChange () {
     this.setState( getSystemInformation() );
   }
 
-  , render: function () {
+  , render () {
 
     let cpuModel = this.state.systemInformation
                  ? this.state.systemInformation[ "cpu_model" ]
@@ -135,7 +81,7 @@ const Hardware = React.createClass({
                    : null;
 
     return (
-      <div className = { "hardware-display" }>
+      <main className = { "hardware-wrapper" }>
         <div className ={ "statics" }>
           <Panel header = "System Information" /*TODO: split panel out into its own component when appropriate*/ >
             <ListGroup fill>
@@ -152,9 +98,9 @@ const Hardware = React.createClass({
           </Panel>
         </div>
         <div className = { "disclosures" } >
-          <DiskDisclosure diskGroups = { this.state.diskGroups } />
+          <DiskSection diskGroups = { this.state.diskGroups } />
         </div>
-      </div>
+      </main>
     );
   }
 
