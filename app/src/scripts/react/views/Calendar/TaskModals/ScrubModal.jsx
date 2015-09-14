@@ -177,7 +177,7 @@ const ScrubModal = React.createClass(
       <option
         value = { null }
         key = { 0 }>
-        { "All" }
+        { null }
       </option>
     );
     return options;
