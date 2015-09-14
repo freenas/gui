@@ -84,15 +84,13 @@ const Calendar = React.createClass(
     }
 
   , chooseDay ( day ) {
+    var newState = { selectedDay: day
+                   , tasks: CS.tasks
+                   };
 
-  var newState = { selectedDay: day
-                 , tasks: CS.tasks
-                 };
-
-  if ( this.state.activeTask !== null ) {
-    newState.activeTask = null;
-  }
-
+    if ( this.state.activeTask !== null ) {
+      newState.activeTask = null;
+    }
     this.setState( newState );
   }
 
