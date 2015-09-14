@@ -20,7 +20,7 @@ function generateDayOptions ( month, year ) {
     <option
       key = { "*" }
       value = { "*" }>
-      { null }
+      { "All" }
     </option>
   );
 
@@ -177,7 +177,7 @@ const ScrubModal = React.createClass(
       <option
         value = { null }
         key = { 0 }>
-        { null }
+        { "All" }
       </option>
     );
     return options;
@@ -378,7 +378,7 @@ const ScrubModal = React.createClass(
           <option
             value = { "*" }
             key = { "*" }>
-            { null }
+            { "All" }
           </option>
           <option
             value = { "0" }
@@ -431,7 +431,7 @@ const ScrubModal = React.createClass(
           <option
             value = { "*" }
             key = { "*" }>
-            { null }
+            { "All" }
           </option>
           <option
             value = { "0" }
@@ -502,7 +502,7 @@ const ScrubModal = React.createClass(
           <option
             value = { "*" }
             key = { "*" }>
-            { null }
+            { "All" }
           </option>
           <option
             value = { "2015" }
