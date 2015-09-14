@@ -219,7 +219,7 @@ class ZfsUtil {
       }
 
       newVdev =
-        { path     : null
+        { path     : ""
         , type     : newType
         , children : _.sortBy( disks ).map( this.createNewDisk )
         };
