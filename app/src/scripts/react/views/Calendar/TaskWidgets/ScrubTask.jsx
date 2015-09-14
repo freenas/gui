@@ -14,16 +14,16 @@ const ScrubTask = React.createClass(
                , handleTaskRemove: React.PropTypes.func
                }
 
-  , getDefaultProps () { return { volumeName: null } }
+  , getDefaultProps () { return { volumeName: null }; }
 
   , render () {
     var deleteButton = null;
     if ( this.props.handleTaskRemove ) {
       deleteButton =
         <span
-          className = "disk-remove"
+          className = "task-remove"
           onClick = { this.props.handleTaskRemove }
-        />
+        />;
     }
     return (
       <Alert
