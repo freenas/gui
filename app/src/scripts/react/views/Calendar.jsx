@@ -137,6 +137,11 @@ const Calendar = React.createClass(
 
   , handleTaskRemove ( taskID ) {
     var newTasks = this.state.tasks;
+    if ( _.any( CS.tasks
+              , { id: taskID }
+              ) ) {
+      CM.deleteCalendarTask( taskID );
+    }
     _.remove( this.state.tasks, { id: taskID } );
     this.setState( { tasks: newTasks } );
   }

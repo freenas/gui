@@ -17,6 +17,14 @@ const ScrubTask = React.createClass(
   , getDefaultProps () { return { volumeName: null } }
 
   , render () {
+    var deleteButton = null;
+    if ( this.props.handleTaskRemove ) {
+      deleteButton =
+        <span
+          className = "disk-remove"
+          onClick = { this.props.handleTaskRemove }
+        />
+    }
     return (
       <Alert
         bsStyle = "info"
@@ -24,6 +32,7 @@ const ScrubTask = React.createClass(
         onClick = { this.props.chooseActiveTask }>
         <h4>ZFS Scrub</h4>
         <h5>{ this.props.volumeName }</h5>
+        { deleteButton }
       </Alert>
     );
   }
