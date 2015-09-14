@@ -49,20 +49,33 @@ const MemoryMeter = React.createClass(
 
     this.chart = c3.generate(
       _.assign( {}
-              , c3Defaults
+              , { color:
+                  { pattern: [ "#E9E9E9", "#B8252F", "#7045B2", "#F5E923", "#0DC92E" ]
+                  }
+                }
               , { bindto: React.findDOMNode( this.refs.memoryMeter )
                 , data:
                   { columns: [ free, active, cache, wired, inactive ]
-                  , hide: [ "Free" ]
                   , type: "donut"
                   }
+                , legend: {
+                    hide: true
+                  }
+                , padding: {
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                }
                 , donut:
                   { label:
                     { title: "Memory Use"
+                    , show: false
                     , format: function ( value ) {
                       return ByteCalc.humanize( value );
                     }
-                  }
+                    }
+                  , title: "MEMORY"
                   , expand: false
                   }
                 , tooltip:
@@ -116,7 +129,7 @@ const MemoryMeter = React.createClass(
 
   , render () {
     return(
-      <Widget title = "Memory Use Ratio">
+      <Widget>
         <div ref = "memoryMeter"/>
       </Widget>
     );

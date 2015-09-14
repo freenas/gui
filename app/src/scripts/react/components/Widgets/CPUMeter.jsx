@@ -29,14 +29,30 @@ const CPUMeter = React.createClass(
 
   this.chart = c3.generate(
       _.assign( {}
-              , c3Defaults
+              , { color:
+                  { pattern: [ "#0196D8", "#B8252F", "#E9E9E9" ]
+                  }
+                }
               , { bindto: React.findDOMNode( this.refs.cpuMeter )
                 , data:
                   { columns: [ dataUser, dataSystem, idle ]
                   , type: "donut"
                   }
+                , padding: {
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                }
+                , legend: {
+                    hide: true
+                  }
                 , donut:
-                  { label: { title: "CPU Use" }
+                  { label:
+                      { title: "CPU Use"
+                      , show: false
+                      }
+                  , title: "CPU %"
                   , expand: false
                   }
                 //, legend: { hide: "Idle" }
@@ -62,7 +78,7 @@ const CPUMeter = React.createClass(
 
   , render () {
     return(
-      <Widget title = "CPU Use Ratio">
+      <Widget>
         <div ref = "cpuMeter"/>
       </Widget>
     );

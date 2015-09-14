@@ -12,9 +12,9 @@ import CPUMeter from "../../components/Widgets/CPUMeter";
 const DashboardContext = React.createClass(
   { render () {
     return (
-      <div>
-        <MemoryMeter/>
+      <div className="context-dashboard">
         <CPUMeter/>
+        <MemoryMeter/>
       </div>
     );
   }
