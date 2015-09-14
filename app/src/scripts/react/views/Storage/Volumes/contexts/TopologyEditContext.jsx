@@ -117,8 +117,6 @@ const ContextDisks = React.createClass(
         // TODO: We might want to re-enable this later
         // this.props.handleReset();
       } else {
-        console.log( arguments );
-        console.log( PRESET_VALUES );
         this.props.handleTopoRequest( PRESET_VALUES[ preset ] );
       }
       this.setState({ preset });
