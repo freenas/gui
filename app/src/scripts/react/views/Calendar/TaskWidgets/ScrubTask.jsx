@@ -21,7 +21,7 @@ const ScrubTask = React.createClass(
       <Alert
         bsStyle = "info"
         bsSize = "small"
-        onDoubleClick = { this.props.chooseActiveTask }>
+        onClick = { this.props.chooseActiveTask }>
         <h4>ZFS Scrub</h4>
         <h5>{ this.props.volumeName }</h5>
       </Alert>
