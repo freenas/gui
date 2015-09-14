@@ -255,6 +255,7 @@ class ZfsUtil {
 
     let desired = preferences.desired[0].toLowerCase();
     let chunkSize = DISK_CHUNKS[ desired ][ preferences.priority.toLowerCase() ];
+    let chunks;
 
     let dataDisks;
     let ssdSplit;
@@ -290,18 +291,44 @@ class ZfsUtil {
       allSelectedDisks = allSelectedDisks.concat( cacheSSDs );
     }
 
+    // Break the selected data disks into equally-sized chunks, if possible. We
+    // will try to use these to create an even VDEV topology.
+    chunks = _.chunk( dataDisks, chunkSize );
 
-    _.chunk( dataDisks, chunkSize ).forEach( ( chunkDisks, index ) => {
-      if ( chunkDisks.length === chunkSize ) {
-        topology.data =
-          this.reconstructVdev( index
-                              , "data"
-                              , topology.data
-                              , chunkDisks
-                              , desired
-                              )["data"];
-        allSelectedDisks = allSelectedDisks.concat( chunkDisks );
+    if ( _.last( chunks ).length === chunkSize ) {
+      // If the last chunk is the right size, all chunks are of even size and we
+      // have no edge cases. The VDEVs are created according to the sizes of the
+      // chunks, with one for each chunk.
+    } else if ( chunks.length === 2 ) {
+      // This is a shortcut case, and until someone has a better idea, we'll
+      // just lump everything in a single VDEV so that there's no remainder.
+      chunks[0] = chunks[0].concat( chunks.pop() );
+      chunkSize = chunks[0].length;
+    } else if ( chunks.length > 0 ) {
+      // This is the annoying case, where there's some odd-numbered remainder in
+      // the last chunk. This case totally blows, and there's really no good
+      // outcome. The best we can do is evenly distribute the disks as best we
+      // can, and hope that it still makes sense with the selected topology.
+      let averagedRemainder =
+        Math.floor( ( chunks.length - 1 ) / _.last( chunks ).length );
+
+      if ( averagedRemainder > 0 ) {
+        for ( let i = 0; i < chunks.length - 1; i++ ) {
+          chunks[i].concat( _.last( chunks ).splice( 0, averagedRemainder ) );
+        }
       }
+      chunkSize = chunks[0].length;
+    }
+
+    chunks.forEach( ( chunkDisks, index ) => {
+      topology.data =
+        this.reconstructVdev( index
+                            , "data"
+                            , topology.data
+                            , chunkDisks
+                            , desired
+                            )["data"];
+      allSelectedDisks = allSelectedDisks.concat( chunkDisks );
     });
 
     return [ topology, allSelectedDisks ];
