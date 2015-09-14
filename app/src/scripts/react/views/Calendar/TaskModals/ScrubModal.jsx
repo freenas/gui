@@ -227,29 +227,27 @@ const ScrubModal = React.createClass(
   , isTaskValid () {
 
     var idValid;
-    if ( _.has( this.state, "taskID" ) ) {
-      // Get a copy of the list of tasks and remove one instance with the
-      // matching id from the list, so that we can check if there's more than
-      // one.
-      let tasksToCheck = _.cloneDeep( this.props.tasks );
-      _.pullAt( tasksToCheck
-              , _.findIndex( tasksToCheck
-                           , { id: this.state.taskID }
-                           )
-              );
-      idValid = !_.any( tasksToCheck
-                      , function checkTaskIdUnique ( task ) {
-                        return _.has( task, { id: this.state.taskID } );
-                      }
-                      , this
-                      );
-    } else if ( this.props.existsOnServer ) {
+    if ( this.state.taskID !== "" ) {
+      if ( this.props.taskID === this.state.taskID ) {
+      // If you happen to have returned the task ID to its original state,
+      // it's valid
+      idValid = true;
+      } else {
+        // otherwise check that it's not already taken
+        idValid = ( _.find( CS.tasks
+                          , function checkTaskIdUnique ( task ) {
+                            return _.has( task, { id: this.state.taskID } );
+                          }
+                          , this
+                          )
+                !== undefined );
+      }
+    } else if ( this.props.taskID !== "" ) {
       // It doesn't matter if there isn't an id in state if the task exists on
       // the server already.
       idValid = true;
     } else {
-      // If there isn't an id in state and this is a new task,
-      // the task is invalid
+      // No new id and no prexisting id means the id is not valid
       idValid = false;
     }
 
@@ -260,11 +258,20 @@ const ScrubModal = React.createClass(
     // selecting the  wildcard option, putting that value in state. This will
     // result in a task that runs every day. On the other hand, it is also
     // possible to WANT a task to run every day.
-    var scheduleValid = this.state.day_of_week
+    var scheduleValid;
+      if ( this.props.taskID ) {
+        scheduleValid = this.state.day_of_week
                      || this.state.day
                      || this.state.week
                      || this.state.month
                      || this.state.year;
+      } else {
+        scheduleValid = ( this.state.day_of_week || this.props.day_of_week)
+                     || ( this.state.day || this.props.day)
+                     || ( this.state.week || this.props.week)
+                     || ( this.state.month || this.props.month)
+                     || ( this.state.year || this.props.year);
+      }
 
     var volumeValid = _.any( this.state.volumes
                            , function checkVolumeExists ( volume ) {
@@ -602,13 +609,13 @@ const ScrubModal = React.createClass(
           </option>
         </Input>
         <ButtonToolbar>
-          { /*this.props.existsOnServer
+          { this.props.taskID
           ? changeButton
-          :*/ submitButton
+          : submitButton
           }
-          { /*this.props.existsOnServer
+          { this.props.taskID
           ? resetButton
-          */ cancelButton }
+          : cancelButton }
         </ButtonToolbar>
       </div>
     );
