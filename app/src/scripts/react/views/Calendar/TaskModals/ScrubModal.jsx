@@ -382,37 +382,37 @@ const ScrubModal = React.createClass(
           </option>
           <option
             value = { "0" }
-            key = { "Sunday" }>
+            key = { "sun" }>
             { "Sunday" }
           </option>
           <option
             value = { "1" }
-            key = { "Monday" }>
+            key = { "mon" }>
             { "Monday" }
           </option>
           <option
             value = { "2" }
-            key = { "Tuesday" }>
+            key = { "tue" }>
             { "Tuesday" }
           </option>
           <option
             value = { "3" }
-            key = { "Wednesday" }>
+            key = { "wed" }>
             { "Wednesday" }
           </option>
           <option
             value = { "4" }
-            key = { "Thursday" }>
+            key = { "thu" }>
             { "Thursday" }
           </option>
           <option
             value = { "5" }
-            key = { "Friday" }>
+            key = { "fri" }>
             { "Friday" }
           </option>
           <option
             value = { "6" }
-            key = { "Saturday" }>
+            key = { "sat" }>
             { "Saturday" }
           </option>
         </Input>
