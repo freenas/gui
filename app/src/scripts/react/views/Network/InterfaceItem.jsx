@@ -136,6 +136,7 @@ const InterfaceItem = React.createClass(
     return responseStyle;
   }
 
+  // TODO Add Interface Alias editing.
   , handleChange ( key, evt ) {
     var newNetworkInterface = {};
     switch ( key ) {
@@ -201,7 +202,8 @@ const InterfaceItem = React.createClass(
         break;
     }
   }
-
+  // WARNING: Aliases set on interfaces configured with DHCP will not do
+  // anything. Turning on DHCP requires a message to this effect.
   , toggleDHCP () {
     var newNetworkInterface = {};
     if ( this.props.dhcp ) {
