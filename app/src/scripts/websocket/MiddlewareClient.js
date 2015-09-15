@@ -161,7 +161,7 @@ class MiddlewareClient extends WebSocketClient {
         }
         if ( data.name !== undefined && data.name === "logout" ) {
           SAC.forceLogout( data.args, timestamp );
-          this.instantReconnet = true;
+          this.instantReconnect = true;
           sessionCookies.delete( "auth" );
         } else {
           MiddlewareActionCreators.receiveEventData( data, timestamp );
@@ -504,7 +504,7 @@ class MiddlewareClient extends WebSocketClient {
     // For socket close codes (and why 1000 is used here) see the RFC:
     // https://tools.ietf.org/html/rfc6455#page-64
     sessionCookies.delete( "auth" );
-    this.instantReconnet = true;
+    this.instantReconnect = true;
     this.disconnect( 1000, "User logged out" );
   }
 
