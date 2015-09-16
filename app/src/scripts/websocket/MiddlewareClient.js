@@ -10,31 +10,21 @@
 
 import _ from "lodash";
 
-import WebSocketClient
-  from "./WebSocketClient";
-import freeNASUtil
-  from "../utility/freeNASUtil";
-import MCD
-  from "./MiddlewareClientDebug";
+import WebSocketClient from "./WebSocketClient";
+import freeNASUtil from "../utility/freeNASUtil";
+import MCD from "./MiddlewareClientDebug";
 
-import SubscriptionsStore
-  from "../flux/stores/SubscriptionsStore";
-import SubscriptionsActionCreators
-  from "../flux/actions/SubscriptionsActionCreators";
+import SubscriptionsStore from "../flux/stores/SubscriptionsStore";
+import SubscriptionsActionCreators from "../flux/actions/SubscriptionsActionCreators";
 
-import MiddlewareStore
-  from "../flux/stores/MiddlewareStore";
-import MiddlewareActionCreators
-  from "../flux/actions/MiddlewareActionCreators";
+import MiddlewareStore from "../flux/stores/MiddlewareStore";
+import MiddlewareActionCreators from "../flux/actions/MiddlewareActionCreators";
 
-import SessionStore
-  from "../flux/stores/SessionStore";
+import SessionStore from "../flux/stores/SessionStore";
+import SAC from "../flux/actions/SessionActionCreators";
 
-import sessionCookies
-  from "../utility/cookies";
+import sessionCookies from "../utility/cookies";
 
-import SAC
-  from "../flux/actions/SessionActionCreators";
 
 const defaultTimeoutDelay = 10000;
 
@@ -507,6 +497,8 @@ class MiddlewareClient extends WebSocketClient {
     this.instantReconnect = true;
     this.disconnect( 1000, "User logged out" );
   }
+
+
 
 
   // CHANNELS AND REQUESTS
