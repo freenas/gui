@@ -1,71 +1,66 @@
-// statdStore
-// ==========
+// Statd Flux Store
+// ================
 
 "use strict";
-
-import _ from "lodash";
-import { EventEmitter } from "events";
 
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
+var _statdData = {};
+// var _dataUpdate = [];
+
 class StatdStore extends FluxBase {
+
   constructor () {
     super();
-
-    this._stats = {}
-
-    this.CHANGE_EVENT = "pulse";
 
     this.dispatchToken = FreeNASDispatcher.register(
       handlePayload.bind( this )
     );
   }
 
-  get stats () {
-    return this._stats;
+  getStatdData ( name ) {
+    return _statdData[name];
   }
 
-  // 'type' should be strings like "cpu", "longterm", the name of a specific
-  // interface, and so on which will uniquely appear in the desired stat keys.
-  getStatsByType ( type ) {
-    let keys = _.keys( this._stats );
-    let returnStats = [];
-
-    for ( let i = 0; i < keys.length; i++ ) {
-      if ( keys[i].search( type ) !== -1 ) {
-        returnStats.push( this._stats[ key[i] ] );
-      }
-    }
-  }
+  /*get dataUpdate () {
+    return _dataUpdate;
+  }*/
 }
 
 function handlePayload ( payload ) {
   const ACTION = payload.action;
-  const eventData = ACTION.eventData;
 
   switch ( ACTION.type ) {
 
-    case ActionTypes.MIDDLEWARE_EVENT:
-      let eventName = eventData.args[ "name" ];
-      if ( _.startsWith( eventName, "statd." ) ) {
-        // Only use the data if it's not initial null data
-        if ( eventData.args.args && eventData.args.args[ "value" ] ) {
-          // If there's already a record of that data, use it
-          if ( this._stats[ eventName ] ) {
-            this._stats[ eventName ].push( eventData.args.args );
-          // If there's no record for this kind of data, create it
-          } else {
-            this._stats[ eventName ] = [ eventData.args.args ];
+    case ActionTypes.RECEIVE_STATD_DATA:
+      if ( action.statdData.data !== undefined ) {
+        _statdData[action.dataSourceName] = action.statdData.data;
+      }/* else {
+        _statdData[action.dataSourceName] = (
+          { error: true
+          , msg: action.statdData.message
           }
-        } else {
-          break;
-        }
-      }
-      this.emitChange( eventName );
+        );
+      }*/
+      this.emitChange();
       break;
+
+    // Not ready - check structure of event in more detail, and push the data
+    // to the appropriate source directly rather than requiring a new query
+    /*case ActionTypes.MIDDLEWARE_EVENT:
+      if ( action.eventData.args && _.startsWith(
+        action.eventData.args["name"], "statd." )
+      ) {
+        _dataUpdate = action.eventData.args;
+        this.emitChange();
+      }
+      break;*/
+
+    default:
+    // No action
   }
-}
+};
 
 export default new StatdStore();
