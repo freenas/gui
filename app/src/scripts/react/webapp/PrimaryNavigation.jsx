@@ -6,7 +6,9 @@
 "use strict";
 
 import React from "react";
-import { Nav, MenuItem, NavDropdown, DropdownButton } from "react-bootstrap";
+import { OverlayTrigger, Popover, Input, Nav, MenuItem, NavDropdown
+       , DropdownButton, Button }
+  from "react-bootstrap";
 import { Link } from "react-router";
 
 import MiddlewareClient from "../../websocket/MiddlewareClient";
@@ -76,6 +78,7 @@ const PrimaryNavigation = React.createClass(
   { getInitialState () {
       return (
         { host: MS.getHost()
+        , userHost: null
         , protocol: MS.getProtocol()
         , mode: MS.getMode()
         , connected: MS.getSockState()[0]
@@ -113,6 +116,26 @@ const PrimaryNavigation = React.createClass(
       );
     }
 
+  , resetHostInput ( event ) {
+      this.setState({ userHost: null });
+    }
+
+  , updateHostInput ( event ) {
+      this.setState({ userHost: event.target.value });
+    }
+
+  , handleHostKeyDown ( event ) {
+      if ( event.which === 13 ) { this.changeConnection(); }
+    }
+
+  , changeConnection ( event ) {
+      // HACK: I wish react-bootstap's "show" prop worked for the OverlayTrigger
+      document.body.click();
+
+      MiddlewareClient.logout();
+      this.resetHostInput();
+    }
+
   , createNavItem ( rawItem, index ) {
       if ( rawItem.disabled ) {
         return (
@@ -145,6 +168,7 @@ const PrimaryNavigation = React.createClass(
       let navClass = [ "primary-nav", "expanded" ];
       let hostDisplay;
       let hostClass = [ "hostname" ];
+      let hostValue;
       let activeUser = (
         <div className="user-info">
           <ItemIcon
@@ -163,15 +187,44 @@ const PrimaryNavigation = React.createClass(
       if ( this.state.host ) {
         if ( this.state.mode === "SIMULATION_MODE" ) {
           hostDisplay = "Simulation Mode";
+          hostValue = "!!SIM";
           hostClass.push( "simulation" );
         } else {
           hostDisplay = this.state.host;
+          hostValue = hostDisplay;
           hostClass.push( "connected" );
         }
       } else {
         hostDisplay = "Disconnected";
+        hostValue = "";
         hostClass.push( "disconnected" );
       }
+
+      if ( typeof this.state.userHost === "string" ) {
+        hostValue = this.state.userHost
+      }
+
+      let connectionPopover = (
+        <Popover>
+          <Input
+            ref = "connectionInput"
+            type = "text"
+            label = "Connect to FreeNAS Host"
+            value = { hostValue }
+            placeholder = "Hostname or IP"
+            onKeyDown = { this.handleHostKeyDown }
+            onChange = { this.updateHostInput }
+            buttonAfter = {
+                <Button
+                  bsStyle = "primary"
+                  onClick = { this.changeConnection }
+                >
+                  {"Go"}
+                </Button>
+              }
+          />
+        </Popover>
+      );
 
       return (
         <Nav
@@ -195,7 +248,20 @@ const PrimaryNavigation = React.createClass(
               />
             </div>
 
-            <span>{ hostDisplay }</span>
+            <OverlayTrigger
+              rootClose
+              trigger = "click"
+              placement = "bottom"
+              onExited = { this.resetHostInput }
+              overlay = { connectionPopover }
+            >
+              <span
+                role = "button"
+                className = "host-display"
+              >
+                { hostDisplay }
+              </span>
+            </OverlayTrigger>
 
           </div>
 
