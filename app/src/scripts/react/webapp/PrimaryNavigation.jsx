@@ -204,7 +204,7 @@ const PrimaryNavigation = React.createClass(
           >
             <MenuItem
               key     = { 0 }
-              onClick = { MiddlewareClient.logout.bind( MiddlewareClient ) }
+              onSelect = { MiddlewareClient.logout.bind( MiddlewareClient ) }
             >
               {"Logout"}
             </MenuItem>
