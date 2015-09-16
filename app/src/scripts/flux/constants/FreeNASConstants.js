@@ -88,6 +88,9 @@ const FREENAS_CONSTANTS =
     // Calendar
     , RECEIVE_CALENDAR: null
     , RECEIVE_CALENDAR_UPDATE_TASK: null
+
+    // STATD
+    , RECEIVE_STATD_DATA: null
     })
 
   , PayloadSources: keyMirror(
