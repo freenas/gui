@@ -33,7 +33,7 @@ const NetworkConfig = React.createClass(
              , autoconfigure: false
              , dns:
                { search: []
-               , servers: []
+               , addresses: []
                }
              , gateway:
                { ipv4: ""
@@ -50,13 +50,13 @@ const NetworkConfig = React.createClass(
   }
 
   , getInitialState () {
-    return { dnsServerInProgress: "" };
+    return { dnsAddressInProgress: "" };
   }
 
   // Totally wipes out config changes in state.
   // TODO: Use this function to create the conflict state.
   , componentWillReceiveProps ( nextProps ) {
-    this.replaceState( { dnsServerInProgress: this.state.dnsServerInProgress } );
+    this.replaceState( { dnsAddressInProgress: this.state.dnsAddressInProgress } );
   }
 
   , handleChange ( key, evt ) {
@@ -90,7 +90,7 @@ const NetworkConfig = React.createClass(
         break;
 
       case "dns":
-        this.setState( { dnsServerInProgress: evt.target.value } );
+        this.setState( { dnsAddressInProgress: evt.target.value } );
         break;
     }
 
@@ -143,10 +143,10 @@ const NetworkConfig = React.createClass(
     if ( _.has( this, [ "state", "networkConfig", "dns" ] ) ) {
       if ( !_.isEmpty( newNetworkConfig ) ) {
         newNetworkConfig =
-          { dns: { servers: this.state.networkConfig.dns.servers } };
+          { dns: { addresses: this.state.networkConfig.dns.addresses } };
       } else {
         _.assign( newNetworkConfig
-                , { dns: { servers: this.state.networkConfig.dns.servers } } );
+                , { dns: { addresses: this.state.networkConfig.dns.addresses } } );
       }
     }
 
@@ -185,20 +185,20 @@ const NetworkConfig = React.createClass(
 
   , addDNSServer ( evt ) {
     var newNetworkConfig = {};
-    var newDNSServers = [];
+    var newDNSAddresses = [];
     if ( evt.key === "Enter" ) {
-      if ( this.isIPv4( this.state.dnsServerInProgress ) ) {
-        if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
-          newDNSServers = this.state.networkConfig.dns.servers.slice();
-          newDNSServers.push( this.state.dnsServerInProgress );
-          _.assign( newNetworkConfig, { dns: { servers: newDNSServers } } );
+      if ( this.isIPv4( this.state.dnsAddressInProgress ) ) {
+        if ( _.has( this, [ "state", "networkConfig", "dns", "addresses" ] ) ) {
+          newDNSAddresses = this.state.networkConfig.dns.addresses.slice();
+          newDNSAddresses.push( this.state.dnsAddressInProgress );
+          _.assign( newNetworkConfig, { dns: { addresses: newDNSAddresses } } );
           newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                                     , newNetworkConfig
                                     );
         } else {
-          newDNSServers = this.props.networkConfig.dns.servers.slice();
-          newDNSServers.push( this.state.dnsServerInProgress );
-          _.assign( newNetworkConfig, { dns: { servers: newDNSServers } } );
+          newDNSAddresses = this.props.networkConfig.dns.addresses.slice();
+          newDNSAddresses.push( this.state.dnsAddressInProgress );
+          _.assign( newNetworkConfig, { dns: { addresses: newDNSAddresses } } );
           if ( _.has( this, [ "state", "networkConfig" ] ) ) {
             newNetworkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                                       , newNetworkConfig
@@ -209,7 +209,7 @@ const NetworkConfig = React.createClass(
     }
 
     if ( !_.isEmpty( newNetworkConfig ) ) {
-      this.setState( { dnsServerInProgress: ""
+      this.setState( { dnsAddressInProgress: ""
                      , networkConfig: newNetworkConfig }
                    , function scrollDNSList () {
                      React.findDOMNode( this.refs["dns-server-list"] ).scrollTop = 1000000;
@@ -219,21 +219,21 @@ const NetworkConfig = React.createClass(
 
   /**
    * Delete a DNS server.
-   * @param  {int} index The index of server to delete in the dns.servers array.
+   * @param  {int} index The index of server to delete in the dns.addresses array.
    */
   , deleteDnsServer ( index ) {
     var networkConfig = {};
-    if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
-      networkConfig = { dns: { servers: this.state.networkConfig.dns.servers.slice() } };
+    if ( _.has( this, [ "state", "networkConfig", "dns", "addresses" ] ) ) {
+      networkConfig = { dns: { addresses: this.state.networkConfig.dns.addresses.slice() } };
       networkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                              , networkConfig
                              , function mergeDNSHard ( newValue ) {
                                return newValue;
                              }
                              );
-      _.pullAt( networkConfig.dns.servers, index );
+      _.pullAt( networkConfig.dns.addresses, index );
     } else {
-      networkConfig = { dns: { servers: this.props.networkConfig.dns.servers.slice() } };
+      networkConfig = { dns: { addresses: this.props.networkConfig.dns.addresses.slice() } };
       if ( _.has( this, [ "state", "networkConfig" ] ) ) {
         networkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                                , networkConfig
@@ -242,7 +242,7 @@ const NetworkConfig = React.createClass(
                                }
                                );
       }
-      _.pullAt( networkConfig.dns.servers, index );
+      _.pullAt( networkConfig.dns.addresses, index );
     }
 
     if ( !_.isEmpty( networkConfig ) ) {
@@ -278,7 +278,7 @@ const NetworkConfig = React.createClass(
       case "dns":
         if ( !this.isIPv4( value )
           // && !this.isIPv6( value )
-          && ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) )
+          && ( _.has( this, [ "state", "networkConfig", "dns", "addresses" ] ) )
            ) {
           responseStyle = "error";
         }
@@ -306,7 +306,7 @@ const NetworkConfig = React.createClass(
     var ipv4GatewayValue = "";
     var ipv6GatewayValue = "";
 
-    var dnsServers = [];
+    var dnsAddresses = [];
     var dnsNodes = null;
     var newDNSInput = null;
 
@@ -328,17 +328,17 @@ const NetworkConfig = React.createClass(
       ipv6GatewayValue = this.props.networkConfig.gateway.ipv6;
     }
 
-    if ( _.has( this, [ "state", "networkConfig", "dns", "servers" ] ) ) {
-      dnsServers = this.state.networkConfig.dns.servers.slice();
-    } else if ( _.has( this, [ "props", "networkConfig", "dns", "servers" ] ) ) {
-      dnsServers = this.props.networkConfig.dns.servers.slice();
+    if ( _.has( this, [ "state", "networkConfig", "dns", "addresses" ] ) ) {
+      dnsAddresses = this.state.networkConfig.dns.addresses.slice();
+    } else if ( _.has( this, [ "props", "networkConfig", "dns", "addresses" ] ) ) {
+      dnsAddresses = this.props.networkConfig.dns.addresses.slice();
     }
     dnsNodes =
       <div className = "dns-server-list"
            ref = "dns-server-list">
         { _.map(
-          dnsServers
-          , function mapDNSServers ( server, index ) {
+          dnsAddresses
+          , function mapDNSAddresses ( server, index ) {
             return (
               <div className="dns-server"
                    key = { index }>
@@ -364,7 +364,7 @@ const NetworkConfig = React.createClass(
         type = "text"
         ref = "dns"
         // hasFeedback
-        value = { this.state.dnsServerInProgress }
+        value = { this.state.dnsAddressInProgress }
         // bsStyle = { this.validate( "dns", newDNSServer ) }
         onChange = { this.handleChange.bind( this, "dns" ) }
         onKeyDown = { this.addDNSServer }
@@ -416,7 +416,7 @@ const NetworkConfig = React.createClass(
             lg = { 6 }
             md = { 12 }
           >
-            <h5>DNS Servers</h5>
+            <h5>DNS Addresses</h5>
             <Col
               xs = { 12 }
               className = "dns-section"
