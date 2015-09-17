@@ -121,9 +121,9 @@ const Storage = React.createClass(
               log       = { log }
               data      = { data }
               spares    = { spares }
-              free      = { free.value }
-              allocated = { allocated.value }
-              size      = { size.value }
+              free      = { free.rawvalue }
+              allocated = { allocated.rawvalue }
+              size      = { size.rawvalue }
               datasets  = { volume.datasets }
               name      = { volume.name }
               active    = { index === activeVolume }
