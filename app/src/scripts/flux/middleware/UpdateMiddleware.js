@@ -4,7 +4,7 @@
 
 "use strict";
 
-import MC from "../../MiddlewareClient";
+import MC from "../../websocket/MiddlewareClient";
 import MiddlewareBase from "./MIDDLEWARE_BASE_CLASS";
 
 import UAC from "../actions/UpdateActionCreators";
