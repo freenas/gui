@@ -9,7 +9,7 @@ import MiddlewareBase from "./MIDDLEWARE_BASE_CLASS";
 
 import UAC from "../actions/UpdateActionCreators";
 
-class UpdateMiddleware extents MiddlewareBase {
+class UpdateMiddleware extends MiddlewareBase {
   static subscribe ( componentID ) {
     MC.subscribe( [ "update.*", "task.progress" ], componentID );
   }
