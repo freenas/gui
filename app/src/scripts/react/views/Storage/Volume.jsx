@@ -436,9 +436,6 @@ const Volume = React.createClass(
         let parity;
         let free;
         let total;
-        let rootDatasetProperties = _.find( this.props.datasets
-                                          , { name: this.props.name }
-                                          ).properties;
 
         if ( this.state.editing ) {
           let breakdown = ZfsUtil.calculateBreakdown( this.state.data );
@@ -447,6 +444,9 @@ const Volume = React.createClass(
           free   = breakdown.avail;
           total  = breakdown.avail + breakdown.parity;
         } else {
+          let rootDatasetProperties = _.find( this.props.datasets
+                                            , { name: this.props.name }
+                                            ).properties;
           let breakdown = ZfsUtil.calculateBreakdown( this.props.data );
           used = ByteCalc.convertString( rootDatasetProperties.used.rawvalue );
           free = ByteCalc.convertString( rootDatasetProperties.available.rawvalue );
