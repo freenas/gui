@@ -97,15 +97,6 @@ class UpdateActionCreators {
       }
     );
   }
-
-  static receiveConfigureUpdateTask ( taskID, timestamp ) {
-    FreeNASDispatcher.handleClientAction(
-      { type: ActionTypes.RECEIVE_CONFIGURE_UPDATE_TASK
-      , taskID
-      , timestamp
-      }
-    );
-  }
 }
 
 export default UpdateActionCreators;
