@@ -13,6 +13,7 @@ import React from "react";
 import Router, { HistoryLocation } from "react-router";
 import Routes from "./routes.jsx";
 
+import ConnectionHandler from "./websocket/ConnectionHandler";
 import MiddlewareClient from "./websocket/MiddlewareClient";
 
 function shimReactWarnings () {
@@ -38,7 +39,7 @@ if ( typeof window !== "undefined" ) {
     let target = window["__DEVELOPMENT_CONNECTION__"] || "self";
 
     let protocol;
-    let url;
+    let host;
     let path;
     let mode;
 
@@ -47,26 +48,27 @@ if ( typeof window !== "undefined" ) {
         protocol = ( window.location.protocol === "https:" )
                  ? "wss://"
                  : "ws://";
-        url = document.domain;
+        host = document.domain;
         path = ":5000/socket";
         mode = "STANDARD";
         break;
 
       case "SIMULATION_MODE":
-        url  = document.domain;
+        protocol = "ws://";
+        host  = document.domain;
         path = ":4444/simulator";
         mode = "SIMULATION_MODE";
         break;
 
       default:
         protocol = "ws://";
-        url = target;
+        host = target;
         path = ":5000/socket";
         mode = "CONNECT_TO_TARGET";
         break;
     }
 
-    MiddlewareClient.connect( protocol, url, path, mode );
+    MiddlewareClient.connect( protocol, host, path, mode );
 
     Router.run( Routes
               , HistoryLocation

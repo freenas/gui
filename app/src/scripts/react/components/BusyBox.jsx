@@ -5,27 +5,18 @@
 "use strict";
 
 import React from "react";
+import { Button } from "react-bootstrap";
 
-// Middleware
+import CH from "../../websocket/ConnectionHandler";
 import MiddlewareClient from "../../websocket/MiddlewareClient";
+import MiddlewareStore from "../../flux/stores/MiddlewareStore";
 
-// Middleware Store (this is needed for reconnection interval)
-import MiddlewareStore from "../../flux/stores/MiddlewareStore"
-
-// SessionStore stores the logged in user and the fact that login happened.
 import SessionStore from "../../flux/stores/SessionStore";
 
-// PowerStore
+import PowerMiddleware from "../../flux/middleware/PowerMiddleware";
 import PowerStore from "../../flux/stores/PowerStore";
 
-// Power Middleware
-import PowerMiddleware from "../../flux/middleware/PowerMiddleware";
-
-// Throbber
 import Throbber from "./Throbber";
-
-// Twitter Bootstrap React components
-import { Button } from "react-bootstrap";
 
 var Velocity;
 
@@ -101,9 +92,11 @@ var BusyBox = React.createClass(
     }
 
   , showBusyBox: function () {
-      this.setState({ boxIsVisible: true });
-      // clear the cached password!
-      this.setState({ passText: "" });
+      this.setState(
+        { boxIsVisible: true
+        , passText: ""
+        }
+      );
       Velocity( React.findDOMNode( this.refs.Busy )
              , "fadeIn"
              , { duration: this.props.animDuration } );
@@ -141,7 +134,7 @@ var BusyBox = React.createClass(
     }
 
   , handleMiddlewareChange: function () {
-      let retcode = MiddlewareStore.getSockState();
+      let retcode = MiddlewareStore.sockState;
       this.setState({ sockState     : retcode[0]
                     , reconnectTime : Math.round( retcode[1] / 1000 )
                     }
@@ -197,12 +190,7 @@ var BusyBox = React.createClass(
                 <Button
                   block
                   bsStyle="primary"
-                  onClick = {
-                    MiddlewareClient
-                      .reconnectHandle
-                      .reconnectNow
-                      .bind( MiddlewareClient.reconnectHandle )
-                  }
+                  onClick = { CH.attemptConnection.bind( CH ) }
                 >
                   { "Reconnect Now" }
                 </Button>

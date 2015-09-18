@@ -11,128 +11,105 @@ import { EventEmitter } from "events";
 
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
+import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 var CHANGE_EVENT = "change";
 
 var _rpcServices    = [];
 var _rpcMethods     = {};
 var _events         = [];
-var protocol        = null;
-var url             = null;
-var path            = null;
-var mode            = "DISCONNECTED";
-var socketConnected = false;
-var reconnectETA    = 0;
 
+var reconnectETA = null;
+var connection =
+  { protocol: null
+  , host: null
+  , path: null
+  , status: "DISCONNECTED"
+  , mode: null
+  };
 
-var MiddlewareStore = _.assign( {}, EventEmitter.prototype, (
+class MiddlewareStore extends FluxBase {
 
-    { emitChange: function ( namespace ) {
-      this.emit( CHANGE_EVENT, namespace );
-    }
-
-  , addChangeListener: function ( callback ) {
-      this.on( CHANGE_EVENT, callback );
-    }
-
-  , removeChangeListener: function ( callback ) {
-      this.removeListener( CHANGE_EVENT, callback );
-    }
+  constructor () {
+    super();
+    this.dispatchToken =
+      FreeNASDispatcher.register( handlePayload.bind( this ) );
+  }
 
   // RPC
-  , getAvailableRPCServices: function () {
-      return _rpcServices;
-    }
-
-  , getAvailableRPCMethods: function () {
-      return _rpcMethods;
-    }
-
-  , getMode: function () {
-    return mode;
+  getAvailableRPCServices () {
+    return _rpcServices;
   }
 
-  , getProtocol: function () {
-    return protocol;
+  getAvailableRPCMethods () {
+    return _rpcMethods;
   }
 
-  , getHost: function () {
-    return url;
+  get protocol () { return connection.protocol; }
+  get host ()     { return connection.host; }
+  get path ()     { return connection.path; }
+  get status ()   { return connection.status; }
+  get mode ()     { return connection.mode; }
+
+  get connected () {
+    return ( connection.status === "CONNECTED" );
   }
 
-  // hook to get socket state and time to reconnect if not connected
-  , getSockState: function () {
-      return [ socketConnected, reconnectETA ];
-    }
+  get sockState () {
+    return [ this.connected, reconnectETA ];
+  }
 
   // EVENTS
-  , getEventLog: function () {
-      return _events;
-    }
+  getEventLog () {
+    return _events;
   }
-) );
+};
 
-MiddlewareStore.dispatchToken = FreeNASDispatcher.register(
-  function ( payload ) {
-    var action = payload.action;
+function handlePayload ( payload ) {
+  let action = payload.action;
 
-    switch ( action.type ) {
+  switch ( action.type ) {
 
-      case ActionTypes.UPDATE_SOCKET_STATE:
-        if ( action.sockState === "connected" ) {
-          socketConnected = true;
-          protocol        = action.protocol;
-          url             = action.url;
-          path            = action.path;
-          mode            = action.mode;
-        } else if ( action.sockState === "disconnected" ) {
-          socketConnected = false;
-          protocol        = null;
-          url             = null;
-          path            = null;
-          mode            = "DISCONNECTED";
-        }
-        MiddlewareStore.emitChange();
-        break;
+    case ActionTypes.UPDATE_SOCKET_STATE:
+      connection = _.merge( connection, action.connection );
+      this.emitChange( "SOCKET_STATE" );
+      break;
 
-      case ActionTypes.UPDATE_RECONNECT_TIME:
-        reconnectETA = action.ETA;
-        MiddlewareStore.emitChange();
-        break;
+    case ActionTypes.UPDATE_RECONNECT_TIME:
+      reconnectETA = action.ETA;
+      this.emitChange();
+      break;
 
-      case ActionTypes.MIDDLEWARE_EVENT:
+    case ActionTypes.MIDDLEWARE_EVENT:
 
-        // Prepend latest event to the front of the array
-        _events.unshift( action.eventData );
-        MiddlewareStore.emitChange( "events" );
+      // Prepend latest event to the front of the array
+      _events.unshift( action.eventData );
+      this.emitChange( "events" );
 
-        break;
+      break;
 
-      case ActionTypes.LOG_MIDDLEWARE_TASK_QUEUE:
+    case ActionTypes.LOG_MIDDLEWARE_TASK_QUEUE:
 
-        // TODO: handle task queue
+      // TODO: handle task queue
 
-        MiddlewareStore.emitChange();
-        break;
+      this.emitChange();
+      break;
 
-      case ActionTypes.RECEIVE_RPC_SERVICES:
-        _rpcServices = action.services;
+    case ActionTypes.RECEIVE_RPC_SERVICES:
+      _rpcServices = action.services;
 
-        MiddlewareStore.emitChange( "services" );
-        break;
+      this.emitChange( "services" );
+      break;
 
-      case ActionTypes.RECEIVE_RPC_SERVICE_METHODS:
-        _rpcMethods[ action.service ] = action.methods;
+    case ActionTypes.RECEIVE_RPC_SERVICE_METHODS:
+      _rpcMethods[ action.service ] = action.methods;
 
-        MiddlewareStore.emitChange( "methods" );
-        break;
+      this.emitChange( "methods" );
+      break;
 
-
-
-      default:
-      // No action
-    }
+    default:
+    // No action
   }
-);
+}
 
-module.exports = MiddlewareStore;
+export default new MiddlewareStore();

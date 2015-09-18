@@ -20,15 +20,11 @@ class MiddleWareActionCreators {
     );
   }
 
-  static updateSocketState ( sockState, protocol, url, path, mode, timestamp ) {
+  static updateSocketState ( connection, timestamp ) {
     FreeNASDispatcher.handleMiddlewareAction(
       { type: ActionTypes.UPDATE_SOCKET_STATE
       , timestamp
-      , sockState
-      , protocol
-      , url
-      , path
-      , mode
+      , connection
       }
     );
   }

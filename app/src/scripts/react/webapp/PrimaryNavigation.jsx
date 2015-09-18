@@ -77,11 +77,11 @@ const PrimaryNavigation = React.createClass(
 
   { getInitialState () {
       return (
-        { host: MS.getHost()
+        { host: MS.host
         , userHost: null
-        , protocol: MS.getProtocol()
-        , mode: MS.getMode()
-        , connected: MS.getSockState()[0]
+        , protocol: MS.protocol
+        , mode: MS.mode
+        , connected: MS.connected
         , currentUser: SS.getCurrentUser()
         }
       );
@@ -108,10 +108,10 @@ const PrimaryNavigation = React.createClass(
 
   , updateHost ( event ) {
       this.setState(
-        { host: MS.getHost()
-        , protocol: MS.getProtocol()
-        , mode: MS.getMode()
-        , connected: MS.getSockState()[0]
+        { host: MS.host
+        , protocol: MS.protocol
+        , mode: MS.mode
+        , connected: MS.connected
         }
       );
     }

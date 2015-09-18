@@ -32,12 +32,7 @@ class MiddlewareClient extends WebSocketClient {
 
   constructor () {
     super();
-    if ( typeof this.reconnectHandle !== "undefined" ) {
-      this.reconnectHandle.setUpdateFunc( function ( time ) {
-        MiddlewareActionCreators.updateReconnectTime( time );
-      } );
-    }
-    // this.logout = this.logout.bind( this );
+
     this.queuedLogin = null;
     this.queuedActions = [];
     this.pendingRequests = {};
@@ -48,9 +43,16 @@ class MiddlewareClient extends WebSocketClient {
     SessionStore.addChangeListener( this.dequeueActions.bind( this ) );
   }
 
-  connect ( protocol, url, path, mode ) {
-    super.connect( protocol, url, path );
-    this.socketInfo["mode"] = mode;
+  connect ( protocol, host, path, mode ) {
+    super.connect( protocol, host, path );
+    MiddlewareActionCreators.updateSocketState(
+      { status: "CONNECTING"
+      , protocol
+      , host
+      , path
+      , mode
+      }
+    );
   }
 
 
@@ -64,12 +66,7 @@ class MiddlewareClient extends WebSocketClient {
     super.handleOpen();
 
     // Dispatch message stating that we have just connected
-    MiddlewareActionCreators.updateSocketState( "connected"
-                                              , this.socketInfo.protocol
-                                              , this.socketInfo.url
-                                              , this.socketInfo.path
-                                              , this.socketInfo.mode
-                                              );
+    MiddlewareActionCreators.updateSocketState({ status: "CONNECTED" });
 
     // Re-subscribe to any namespaces that may have been active during the
     // session. On the first login, this will do nothing.
@@ -117,7 +114,7 @@ class MiddlewareClient extends WebSocketClient {
 
     // Dispatch logout status
     MiddlewareActionCreators.receiveAuthenticationChange( "", false );
-    MiddlewareActionCreators.updateSocketState( "disconnected" );
+    MiddlewareActionCreators.updateSocketState({ status: "DISCONNECTED" });
   }
 
   // Triggered by the WebSocket's `onmessage` event. Parses the JSON from the
@@ -151,7 +148,6 @@ class MiddlewareClient extends WebSocketClient {
         }
         if ( data.name !== undefined && data.name === "logout" ) {
           SAC.forceLogout( data.args, timestamp );
-          this.instantReconnect = true;
           sessionCookies.delete( "auth" );
         } else {
           MiddlewareActionCreators.receiveEventData( data, timestamp );
@@ -490,16 +486,10 @@ class MiddlewareClient extends WebSocketClient {
 
   logout () {
     // Deletes the login cookie (which contains the token) and closes the socket
-    // connection. `handleClose` is triggered, and the reconnect process begins.
-    // For socket close codes (and why 1000 is used here) see the RFC:
-    // https://tools.ietf.org/html/rfc6455#page-64
+    // connection
     sessionCookies.delete( "auth" );
-    this.instantReconnect = true;
     this.disconnect( 1000, "User logged out" );
   }
-
-
-
 
   // CHANNELS AND REQUESTS
   // Make a request to the middleware, which translates to an RPC call. A
