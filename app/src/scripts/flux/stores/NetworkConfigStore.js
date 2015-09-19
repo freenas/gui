@@ -36,7 +36,6 @@ class NetworkConfigStore extends FluxBase {
   get networkConfig () {
     return _networkConfig;
   }
-
 }
 
 function handlePayload ( payload ) {

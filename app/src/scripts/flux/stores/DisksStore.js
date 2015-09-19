@@ -105,7 +105,7 @@ class DisksStore extends FluxBase {
   get similarDisks () {
     // Returns arrays of disks based on their self-similarity - determined as
     // the combination of RPM, capacity, type, and manufacturer.
-    let disks = _.partition( _disks, disk => disk.status["is_ssd"] );
+    let disks = _.partition( this.onlineDisks, disk => disk.status["is_ssd"] );
     let SSDs = {};
     let HDDs = {};
 
@@ -136,7 +136,6 @@ class DisksStore extends FluxBase {
           HDDs[ label ] = [ disk.path ];
         }
       });
-
     return [ SSDs, HDDs ];
   }
 
@@ -145,7 +144,7 @@ class DisksStore extends FluxBase {
       let collection = [];
 
       for ( let i = 0; i < path.length; i++ ) {
-        let workingDisk = _.findWhere( _disks, { path: path[i] } );
+        let workingDisk = _.findWhere( this.onlineDisks, { path: path[i] } );
         if ( workingDisk ) {
           collection.push( workingDisk );
         }
@@ -153,7 +152,7 @@ class DisksStore extends FluxBase {
 
       return collection;
     } else {
-      return _.findWhere( _disks, { path: path } );
+      return _.findWhere( this.onlineDisks, { path: path } );
     }
   }
 
