@@ -21,12 +21,14 @@ class UpdateMiddleware extends MiddlewareBase {
   // requests general update config
   static getUpdateConfig () {
     MC.request( "update.get_config"
+              , []
               , UAC.receiveUpdateConfig
               );
   }
 
   static getCurrentTrain () {
     MC.request( "update.get_current_train"
+              , []
               , UAC.receiveCurrentTrain
               );
   }
@@ -34,18 +36,21 @@ class UpdateMiddleware extends MiddlewareBase {
   // requests information for an available update
   static getUpdateInfo () {
     MC.request( "update.update_info"
+              , []
               , UAC.receiveUpdateInfo
               );
   }
 
   static isUpdateAvailable () {
-    MC.request( "update.isUpdateAvailable"
+    MC.request( "update.is_update_available"
+              , []
               , UAC.receiveUpdateAvailable
               );
   }
 
   static getUpdateTrains () {
     MC.request( "update.trains"
+              , []
               , UAC.receiveUpdateTrains
               );
   }
