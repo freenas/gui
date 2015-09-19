@@ -6,7 +6,12 @@
 "use strict";
 
 var gulp        = require( "gulp" );
+var path        = require( "path" );
 var runSequence = require( "run-sequence" );
+
+var argv = require( "yargs" ).argv;
+
+var prettyPrint = require( "./gulp_common/prettyPrint" );
 
 // Load all independent tasks defined in the gulp_tasks directory, including
 // those in subdirectories.
@@ -24,10 +29,24 @@ gulp.task( "default", function ( callback ) {
 });
 
 gulp.task( "deploy", function ( callback ) {
+  if ( !argv.output ) {
+    throw new Error( "An --output was not set!" );
+    callback();
+  }
+  prettyPrint.tag( "bgBlue"
+                 , "DEPLOY"
+                 , "Creating deployment in "
+                 + path.join( __dirname, argv.output )
+                 );
   runSequence( [ "clean", "install-packages" ]
              , [ "images"
                , "favicons"
                , "webpack"
+               ]
+             , [ "package-build"
+               , "package-src"
+               , "package-server"
+               , "package-node-modules"
                ]
              , callback
              );
