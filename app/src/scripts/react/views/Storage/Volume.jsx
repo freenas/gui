@@ -414,6 +414,7 @@ const Volume = React.createClass(
       let volumeInfo     = null;
       let drawer         = null;
       let changesToolbar = null;
+      let deleteButton = null;
 
       if ( isInitialized ) {
         // We can deduce that this Volume is the "blank" one, and that it has
@@ -507,6 +508,20 @@ const Volume = React.createClass(
           </div>
         );
 
+        if ( this.props.existsOnRemote ) {
+          // HAHA THIS IS UGLY VUVUZELA.MP3
+          deleteButton = (
+            <Button
+              style = { { "background-color": "#00ff00"
+                        , "background-image": "none"
+                        }
+                      }
+            >
+              { "Delete" }
+            </Button>
+          );
+        }
+
         changesToolbar = (
           <div
             ref = "changesToolbar"
@@ -527,6 +542,7 @@ const Volume = React.createClass(
               >
                 { "Submit" }
               </Button>
+              { deleteButton }
             </ButtonToolbar>
           </div>
         );
