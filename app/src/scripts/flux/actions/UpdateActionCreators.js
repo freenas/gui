@@ -97,6 +97,6 @@ class UpdateActionCreators {
       }
     );
   }
-}
+};
 
 export default UpdateActionCreators;

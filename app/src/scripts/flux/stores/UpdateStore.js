@@ -49,8 +49,6 @@ class UpdateStore extends FluxBase {
   get trains () {
     return _trains;
   }
-
-
 }
 
 function handlePayload( payload ) {
