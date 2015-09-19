@@ -22,3 +22,13 @@ gulp.task( "default", function ( callback ) {
              , callback
              );
 });
+
+gulp.task( "deploy", function ( callback ) {
+  runSequence( [ "clean", "install-packages" ]
+             , [ "images"
+               , "favicons"
+               , "webpack"
+               ]
+             , callback
+             );
+});
