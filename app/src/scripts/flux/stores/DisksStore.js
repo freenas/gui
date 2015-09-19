@@ -65,6 +65,17 @@ class DisksStore extends FluxBase {
     );
   }
 
+  get onlineDisks () {
+    return _.filter( _disks, function workingDisks( disk ) {
+                     return !_.isEmpty( disk.status ) && disk.online;
+                   }
+                   );
+  }
+
+  get offlineDisks () {
+    return ( _disks, { online: false } );
+  }
+
   get predominantDisks () {
     let candidates = {};
 
