@@ -133,6 +133,9 @@ function handleMiddlewareEvent ( payload ) {
         case update.update:
           break;
 
+        case "update.check":
+          break;
+
         case update.download:
           break;
 

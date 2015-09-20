@@ -62,6 +62,13 @@ class UpdateMiddleware extends MiddlewareBase {
               );
   }
 
+  static checkForUpdate () {
+    MC.request( "task.submit"
+              , [ "update.check", [] ]
+              , UAC.receiveUpdateCheckTask
+              );
+  }
+
   static downloadUpdate () {
     MC.request( "task.submit"
               , [ "update.download", [] ]

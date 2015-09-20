@@ -71,6 +71,15 @@ class UpdateActionCreators {
     );
   }
 
+  static receiveUpdateCheckTask ( taskID, timestamp ) {
+    FreeNASDispatcher.handleClientAction(
+      { type: ActionTypes.RECEIVE_UPDATE_CHECK_TASK
+      , taskID
+      , timestamp
+      }
+    );
+  }
+
   static receiveDownloadUpdateTask ( taskID, timestamp ) {
     FreeNASDispatcher.handleClientAction(
       { type: ActionTypes.RECEIVE_DOWNLOAD_UPDATE_TASK
