@@ -120,32 +120,32 @@ function handleMiddlewareEvent ( payload ) {
     case "update.changed":
     // React to change in update config that may not have originated with
     // this session
-    break;
+      break;
 
     case "update.in_progress":
     // React to an update that may not have originated with this session.
-    break;
+      break;
 
     case "task.progress":
       // switch in a switch. It can't be helped. There are five distinct tasks
       // we care about, and each needs slightly different handling.
       switch ( args.args.name ) {
-        case update.update:
+        case "update.update":
           break;
 
         case "update.check":
           break;
 
-        case update.download:
+        case "update.download":
           break;
 
-        case update.manual:
+        case "update.manual":
           break;
 
-        case update.verify:
+        case "update.verify":
           break;
 
-        case update.configure:
+        case "update.configure":
           break;
       }
     break;
