@@ -5,6 +5,12 @@
 "use strict";
 
 import React from "react";
+import { Button
+       , Input
+       , ListGroup
+       , ListGroupItem
+       , Panel
+       } from "react-bootstrap";
 
 import SM from "../../../flux/middleware/SystemMiddleware";
 import SS from "../../../flux/stores/SystemStore";
@@ -95,8 +101,77 @@ const Update = React.createClass(
     }
   }
 
+  // TODO: Connection with tasks to schedule update check
   , render () {
-    return <h2>Update FreeNAS</h2>;
+
+    const updateServer = (
+      <span>
+        { "Update Server: " + this.state.update_server }
+      </span>
+    );
+
+    const updateTrain = (
+      <span>
+        { "Update Train: " + this.state.current_train }
+      </span>
+    );
+
+    const checkForUpdatesButton = (
+      <Button
+        bsStyle = "default"
+        onClick = { UM.checkForUpdate }
+      >
+        { "Check for Updates" }
+      </Button>
+    );
+
+    const updateNowButton = (
+      <Button
+        bsStyle = "success"
+        onClick = { UM.updateNow }
+        disabled = { !US.updateAvailable }
+      >
+        { "Update Now" }
+      </Button>
+    );
+
+    var availableUpdatePanel = (
+      <Panel>
+        { "No Update Available." }
+      </Panel>
+    );
+
+    if ( US.updateAvailable ) {
+      let changelog = (
+        <ListGroup>
+          { US.updateInfo.changelog.map( function makeChangelogList ( item, index ) {
+              return (
+                <ListGroupItem key = { index }>
+                  { item }
+                 </ListGroupItem>
+              );
+            } )
+          }
+        </ListGroup>
+      );
+      availableUpdatePanel = (
+        <Panel>
+          { changelog }
+        </Panel>
+      );
+    }
+
+    return (
+      <div>
+        <h2>Update FreeNAS</h2>
+          { updateServer }
+          <br/>
+          { updateTrain }
+          { availableUpdatePanel }
+          { checkForUpdatesButton }
+          { updateNowButton }
+        </div>
+    );
   }
 });
 
