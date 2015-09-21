@@ -17,6 +17,7 @@ var _updateAvailable = false;
 var _trains = [];
 var _configureUpdateTask = null;
 var _updateNowTask = null;
+var _checkForUpdateTask = null;
 var _downloadUpdateTask = null;
 var _manualUpdateTask = null;
 var _verifyInstallTask = null;
