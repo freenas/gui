@@ -143,16 +143,19 @@ const Update = React.createClass(
 
     if ( US.updateAvailable ) {
       let changelog = (
-        <ListGroup>
-          { US.updateInfo.changelog.map( function makeChangelogList ( item, index ) {
-              return (
-                <ListGroupItem key = { index }>
-                  { item }
-                 </ListGroupItem>
-              );
-            } )
-          }
-        </ListGroup>
+        <div>
+          { "Pending Changes:"}
+          <ListGroup>
+            { US.updateInfo.changelog.map( function makeChangelogList ( item, index ) {
+                return (
+                  <ListGroupItem key = { index }>
+                    { item }
+                   </ListGroupItem>
+                );
+              } )
+            }
+          </ListGroup>
+        </div>
       );
       availableUpdatePanel = (
         <Panel>
