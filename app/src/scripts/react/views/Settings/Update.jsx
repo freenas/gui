@@ -110,6 +110,14 @@ const Update = React.createClass(
     }
   }
 
+  , acceptChange ( tag, evt ) {
+    switch ( tag ) {
+      case "train":
+        this.setState( { current_train: evt.target.value } );
+        break;
+    }
+  }
+
   // TODO: Connection with tasks to schedule update check
   , render () {
 
