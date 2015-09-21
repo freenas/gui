@@ -87,6 +87,8 @@ const Update = React.createClass(
         this.setState( { trains: US.trains } );
         break;
 
+      // These cases are for showing task processing, eg with spinners or
+      // progress bars
       case "configureUpdateTask":
         break;
 
