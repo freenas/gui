@@ -7,6 +7,7 @@ import React from "react";
 import DS from "../../../flux/stores/DisksStore";
 import ByteCalc from "../../../utility/ByteCalc";
 
+
 const Disk = React.createClass(
   { propTypes:
     { path: React.PropTypes.string.isRequired
@@ -38,8 +39,8 @@ const Disk = React.createClass(
       <div className= { diskClasses.join( " " ) } >
         <img
           src = { disk.status["is_ssd"]
-                ? "img/ssd.png"
-                : "img/hdd.png"
+                ? require( "../../../../images/ssd.png" )
+                : require( "../../../../images/hdd.png" )
                 }
         />
         <strong className="primary-text">

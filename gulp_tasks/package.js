@@ -15,7 +15,7 @@ gulp.task( "make-output-dir"
 );
 
 gulp.task( "package-build"
-         , [ "make-output-dir" ]
+         , [ "webpack", "make-output-dir" ]
          , function () {
   return gulp.src( "./app/build/**" )
     .pipe( gulp.dest( path.join( argv.output, "app", "build" ) ) );

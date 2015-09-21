@@ -16,7 +16,7 @@ import ContextBar from "./ContextBar";
 import PrimaryNavigation from "./PrimaryNavigation";
 import DebugTools from "./DebugTools";
 
-// Static Assets
+// WEBPACK RESOURCES
 if ( process.env.BROWSER ) {
   require( "../../../styles/core.less" );
 }

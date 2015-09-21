@@ -18,6 +18,7 @@ import MS from "../../flux/stores/MiddlewareStore";
 import ItemIcon from "../components/items/ItemIcon";
 import Icon from "../components/Icon";
 
+
 // Path definitions
 // TODO: Convert to Flux or other external file
 const paths =
@@ -236,15 +237,15 @@ const PrimaryNavigation = React.createClass(
             <div className="logo-wrapper">
               <img
                 className = "logo-image"
-                src = "/img/freenas-icon.png"
+                src = { require( "../../../images/freenas-icon.png" ) }
               />
               <img
                 className = "logo-wordmark"
-                src = "/img/freenas-logotype.png"
+                src = { require( "../../../images/freenas-logotype.png" ) }
               />
               <img
                 className = "logo-x"
-                src = "/img/X.png"
+                src = { require( "../../../images/X.png" ) }
               />
             </div>
 

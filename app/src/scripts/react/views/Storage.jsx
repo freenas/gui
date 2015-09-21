@@ -179,7 +179,7 @@ const Storage = React.createClass(
               ref       = "newPoolMessage"
               className = "clearfix storage-first-pool"
             >
-              <img src="img/hdd.png" />
+              <img src={ require( "../../../images/hdd.png" ) } />
               <h3>Creating Storage</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
             </div>

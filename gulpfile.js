@@ -19,10 +19,8 @@ require( "require-dir" )( "./gulp_tasks/", { recurse: true } );
 
 gulp.task( "default", function ( callback ) {
   runSequence( [ "clean", "install-packages" ]
-             , [ "images"
-               , "favicons"
-               , "serve"
-               ]
+             , "favicons"
+             , "serve"
              , "webpack-dev-server"
              , callback
              );
@@ -39,14 +37,11 @@ gulp.task( "deploy", function ( callback ) {
                  + path.join( __dirname, argv.output )
                  );
   runSequence( [ "clean", "install-packages" ]
-             , [ "images"
-               , "favicons"
-               , "webpack"
-               ]
-             , [ "package-build"
-               , "package-src"
+             , "favicons"
+             , [ "package-src"
                , "package-server"
                , "package-node-modules"
+               , "package-build"
                ]
              , callback
              );
