@@ -90,6 +90,11 @@ function handlePayload( payload ) {
       this.emitChange( "updateNowTask" );
       break;
 
+    case ActionTypes.RECEIVE_UPDATE_CHECK_TASK:
+      _checkForUpdateTask = action.taskID;
+      this.emitChange( "updateCheckTask" );
+      break;
+
     case ActionTypes.RECEIVE_DOWNLOAD_UPDATE_TASK:
       _downloadUpdateTask = action.taskID;
       this.emitChange( "downloadUpdateTask" );
@@ -134,6 +139,9 @@ function handleMiddlewareEvent ( payload ) {
           break;
 
         case "update.check":
+          if ( args.args.state === "FINISHED" ) {
+            this.emitChange( "updateCheckFinished" );
+          }
           break;
 
         case "update.download":
