@@ -74,6 +74,9 @@ const Update = React.createClass(
 
       case "updateInfo":
         this.setState( US.updateInfo );
+        if ( !_.isEmpty( US.updateInfo) && !this.state.updateAvailable ) {
+          UM.isUpdateAvailable();
+        }
         break;
 
       case "updateAvailable":
@@ -97,6 +100,10 @@ const Update = React.createClass(
         break;
 
       case "verifyInstallTask":
+        break;
+
+      case "updateCheckFinished":
+        UM.getUpdateInfo();
         break;
     }
   }
