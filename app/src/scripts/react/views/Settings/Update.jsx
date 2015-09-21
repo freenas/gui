@@ -146,7 +146,7 @@ const Update = React.createClass(
       <Button
         bsStyle = "success"
         onClick = { UM.updateNow }
-        disabled = { !US.updateAvailable }
+        disabled = { !this.state.updateAvailable }
       >
         { "Update Now" }
       </Button>
@@ -163,7 +163,7 @@ const Update = React.createClass(
         <div>
           { "Pending Changes:"}
           <ListGroup>
-            { US.updateInfo.changelog.map( function makeChangelogList ( item, index ) {
+            { this.state.changelog.map( function makeChangelogList ( item, index ) {
                 return (
                   <ListGroupItem key = { index }>
                     { item }
