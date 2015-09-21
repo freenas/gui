@@ -156,6 +156,18 @@ const Update = React.createClass(
       </Button>
     );
 
+    // TODO: Only enable when there's an update available but not staged.
+    const downloadUpdateButton = (
+      <Button
+        bsStyle = "info"
+        onClick = { UM.downloadUpdate }
+        disabled = { !this.state.updateAvailable }
+      >
+        { "Download Update" }
+      </Button>
+    );
+
+    // TODO: Only enabled when there's an update downloaded but not installed
     const updateNowButton = (
       <Button
         bsStyle = "success"
@@ -203,6 +215,7 @@ const Update = React.createClass(
           { updateTrain }
           { availableUpdatePanel }
           { checkForUpdatesButton }
+          { downloadUpdateButton }
           { updateNowButton }
         </div>
     );
