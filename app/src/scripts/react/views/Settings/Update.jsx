@@ -127,10 +127,24 @@ const Update = React.createClass(
       </span>
     );
 
+    var updateTrainChoices =
+      this.state.trains.map( function cheateUpdateTrainChoices ( train ) {
+                             return (
+                               <option
+                                 key = { train }
+                                 value = { train }
+                                 label = { train }
+                               />
+                             );
+                             }
+                           );
+
+    // Not yet functional; waiting for middleware issue to be resolved
     const updateTrain = (
-      <span>
-        { "Update Train: " + this.state.current_train }
-      </span>
+      <Input
+        label = "Update Train">
+        { updateTrainChoices }
+      </Input>
     );
 
     const checkForUpdatesButton = (
