@@ -108,7 +108,7 @@ function handlePayload( payload ) {
     // Handle task events and any event that may not have originated with this
     // session:
     case ActionTypes.MIDDLEWARE_EVENT:
-      handleMiddlewareEvent.bind( this, payload );
+      handleMiddlewareEvent.call( this, payload );
     break;
   }
 }
