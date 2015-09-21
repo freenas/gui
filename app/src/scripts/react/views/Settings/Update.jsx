@@ -74,7 +74,7 @@ const Update = React.createClass(
 
       case "updateInfo":
         this.setState( US.updateInfo );
-        if ( !_.isEmpty( US.updateInfo) && !this.state.updateAvailable ) {
+        if ( !_.isEmpty( US.updateInfo ) && !this.state.updateAvailable ) {
           UM.isUpdateAvailable();
         }
         break;
