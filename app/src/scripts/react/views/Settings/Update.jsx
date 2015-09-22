@@ -138,7 +138,7 @@ const Update = React.createClass(
     );
 
     var updateTrainChoices =
-      this.state.trains.map( function cheateUpdateTrainChoices ( train ) {
+      this.state.trains.map( function createUpdateTrainChoices ( train ) {
                              return (
                                <option
                                  key = { train }
