@@ -196,7 +196,7 @@ const Update = React.createClass(
       </Panel>
     );
 
-    if ( US.updateAvailable ) {
+    if ( this.state.changelog.length > 1 ) {
       let changelog = (
         <div>
           { "Pending Changes:"}
