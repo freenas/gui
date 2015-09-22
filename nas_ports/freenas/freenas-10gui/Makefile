@@ -19,7 +19,7 @@ EXTRACT_ONLY=
 
 RUN_DEPENDS=	node:${PORTSDIR}/www/node
 
-WRKSRC=		/usr/freenas_src/gui
+WRKSRC=		/usr/freenas_gui_src
 WRKDEPLOY=	/usr/freenas_gui
 
 NO_BUILD = yes
