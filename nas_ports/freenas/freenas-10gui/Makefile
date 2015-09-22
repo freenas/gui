@@ -39,6 +39,8 @@ pre-install:
 	true
 
 do-install:
+	install ${WRKSRC}/etc/gui ${STAGEDIR}${PREFIX}/etc/rc.d/
+	install ${WRKSRC}/sbin/gui ${STAGEDIR}${PREFIX}/sbin/
 	mkdir -p ${STAGEDIR}${PREFIX}/www/gui/
 	cp -a ${WRKDEPLOY}/ ${STAGEDIR}${PREFIX}/www/gui/
 
