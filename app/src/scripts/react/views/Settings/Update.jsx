@@ -141,9 +141,9 @@ const Update = React.createClass(
       this.state.trains.map( function createUpdateTrainChoices ( train ) {
                              return (
                                <option
-                                 key = { train }
-                                 value = { train }
-                                 label = { train }
+                                 key = { train.name }
+                                 value = { train.name }
+                                 label = { train.name }
                                />
                              );
                              }
