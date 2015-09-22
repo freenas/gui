@@ -232,14 +232,16 @@ const Update = React.createClass(
     return (
       <div>
         <h2>Update FreeNAS</h2>
-          { updateServer }
-          <br/>
-          { updateTrain }
-          { availableUpdatePanel }
-          { checkForUpdatesButton }
-          { downloadUpdateButton }
-          { updateNowButton }
-        </div>
+        { currentVersion }
+        <br/>
+        { updateServer }
+        <br/>
+        { updateTrain }
+        { availableUpdatePanel }
+        { checkForUpdatesButton }
+        { downloadUpdateButton }
+        { updateNowButton }
+      </div>
     );
   }
 });
