@@ -38,9 +38,9 @@ gulp.task( "deploy", function ( callback ) {
   runSequence( [ "clean", "install-packages" ]
              , [ "package-src"
                , "package-server"
-               , "package-node-modules"
                , "package-build"
                ]
+             , "package-node-modules"
              , callback
              );
 });
