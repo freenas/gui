@@ -237,15 +237,15 @@ const PrimaryNavigation = React.createClass(
             <div className="logo-wrapper">
               <img
                 className = "logo-image"
-                src = { require( "../../../images/freenas-icon.png" ) }
+                src = "/images/freenas-icon.png"
               />
               <img
                 className = "logo-wordmark"
-                src = { require( "../../../images/freenas-logotype.png" ) }
+                src = "/images/freenas-logotype.png"
               />
               <img
                 className = "logo-x"
-                src = { require( "../../../images/X.png" ) }
+                src = "/images/X.png"
               />
             </div>
 

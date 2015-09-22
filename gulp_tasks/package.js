@@ -15,7 +15,7 @@ gulp.task( "make-output-dir"
 );
 
 gulp.task( "package-build"
-         , [ "webpack", "make-output-dir" ]
+         , [ "webpack", "images", "favicons", "make-output-dir" ]
          , function () {
   return gulp.src( "./app/build/**" )
     .pipe( gulp.dest( path.join( argv.output, "app", "build" ) ) );

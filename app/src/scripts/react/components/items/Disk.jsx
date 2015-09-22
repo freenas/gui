@@ -39,8 +39,8 @@ const Disk = React.createClass(
       <div className= { diskClasses.join( " " ) } >
         <img
           src = { disk.status["is_ssd"]
-                ? require( "../../../../images/ssd.png" )
-                : require( "../../../../images/hdd.png" )
+                ? "/images/ssd.png"
+                : "/images/hdd.png"
                 }
         />
         <strong className="primary-text">

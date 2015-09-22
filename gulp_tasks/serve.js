@@ -180,7 +180,7 @@ function startSimulator () {
 }
 
 gulp.task( "serve"
-         , [ "webpack" ]
+         , [ "webpack", "images", "favicons" ]
          , function () {
   var mode;
   var host;
