@@ -93,7 +93,7 @@ class UpdateMiddleware extends MiddlewareBase {
 
   static configureUpdates ( config ) {
     MC.request( "task.submit"
-              , [ "update.configure", config ]
+              , [ "update.configure", [ config ] ]
               , UAC.receiveConfigureUpdateTask
               );
   }
