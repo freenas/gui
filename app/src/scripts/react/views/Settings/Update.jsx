@@ -24,7 +24,8 @@ const Update = React.createClass(
            // from update.get_config:
            , check_auto: false
            , update_server: "" // read-only
-           , train: "" // the next target train
+           , train: "" // the server-side target train
+           , targetTrain: "" // The target train being configured
            // from update.get_current_train
            // This is the train that the current OS is from
            , current_train: ""
@@ -65,7 +66,9 @@ const Update = React.createClass(
   , handleChanges ( eventMask ) {
     switch ( eventMask ) {
       case "updateConfig":
-        this.setState( US.updateConfig );
+        let newState = _.cloneDeep( US.updateConfig );
+        newState.targetTrain = "";
+        this.setState( newState );
         break;
 
       case "currentTrain":
@@ -113,7 +116,10 @@ const Update = React.createClass(
   , acceptChange ( tag, evt ) {
     switch ( tag ) {
       case "train":
-        this.setState( { current_train: evt.target.value } );
+        // TODO: Make this more forgiving by using the upcoming version of
+        // the update info queries that takes a train name
+        this.setState( { targetTrain})
+        UM.configureUpdates( { train: evt.target.value } );
         break;
     }
   }
@@ -152,7 +158,11 @@ const Update = React.createClass(
     // Not yet functional; waiting for middleware issue to be resolved
     const updateTrain = (
       <Input
-        label = "Update Train">
+        type = "select"
+        label = "Update Train"
+        value = { this.state.targetTrain || this.state.train }
+        onChange = { this.acceptChange.bind( null, "train" ) }
+      >
         { updateTrainChoices }
       </Input>
     );
