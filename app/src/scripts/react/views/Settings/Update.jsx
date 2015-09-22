@@ -20,7 +20,7 @@ import US from "../../../flux/stores/UpdateStore";
 
 const Update = React.createClass(
   { getInitialState () {
-    return { boot_scrub_internal: null // from system.advanced
+    return { version: "" // from system.info.version
            // from update.get_config:
            , check_auto: false
            , update_server: "" // read-only
@@ -46,7 +46,7 @@ const Update = React.createClass(
     UM.subscribe( this.constructor.displayName );
     US.addChangeListener( this.handleChanges );
 
-    SM.requestSystemAdvancedConfig();
+    SM.requestVersion();
     UM.getUpdateConfig();
     UM.getCurrentTrain();
     UM.getUpdateInfo();
@@ -87,6 +87,9 @@ const Update = React.createClass(
         this.setState( { trains: US.trains } );
         break;
 
+      case "version":
+        this.setState( { version: SS.version } );
+
       // These cases are for showing task processing, eg with spinners or
       // progress bars
       case "configureUpdateTask":
@@ -120,6 +123,16 @@ const Update = React.createClass(
 
   // TODO: Connection with tasks to schedule update check
   , render () {
+
+    const currentVersion = (
+      <span>
+        { "Installed Version: "
+        + this.state.version
+        + " on update train "
+        + this.state.current_train
+        }
+      </span>
+    );
 
     const updateServer = (
       <span>
