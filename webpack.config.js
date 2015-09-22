@@ -53,5 +53,11 @@ module.exports =
                            , { allChunks: true
                              }
                            )
+    , new webpack.DefinePlugin(
+        { "process.env":
+          { BROWSER: JSON.stringify( true )
+          }
+        }
+      )
     ]
   };
