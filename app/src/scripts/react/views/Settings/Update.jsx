@@ -205,7 +205,7 @@ const Update = React.createClass(
                 return (
                   <ListGroupItem key = { index }>
                     { item }
-                   </ListGroupItem>
+                  </ListGroupItem>
                 );
               } )
             }
