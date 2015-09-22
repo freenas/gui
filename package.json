@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "dependencies": {
     "async": "^1.x",
-    "babel": "^5.x",
+    "babel": "^5.8.23",
     "c3": "^0.4.11-rc4",
     "classnames": "^1.2.0",
     "flux": "^2.0.x",
