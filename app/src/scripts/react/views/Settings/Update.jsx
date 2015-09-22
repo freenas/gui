@@ -178,6 +178,8 @@ const Update = React.createClass(
     );
 
     // TODO: Only enabled when there's an update downloaded but not installed
+    // Alternate TODO: Have it check for update, download update, and apply
+    // update if necessary.
     const updateNowButton = (
       <Button
         bsStyle = "success"
