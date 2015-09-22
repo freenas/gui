@@ -27,36 +27,6 @@ class ZfsActionCreators {
     );
   }
 
-  static receivePool ( poolData, poolName, timestamp ) {
-    FreeNASDispatcher.handleMiddlewareAction(
-      { type: ActionTypes.RECEIVE_VOLUMES
-      , timestamp
-      , poolData
-      , poolName
-      }
-    );
-  }
-
-  static receiveBootPool ( bootPool, poolName, timestamp ) {
-    FreeNASDispatcher.handleMiddlewareAction(
-      { type: ActionTypes.RECEIVE_BOOT_POOL
-      , timestamp
-      , bootPool
-      , poolName
-      }
-    );
-  }
-
-  static receivePoolDisks ( poolName, poolDisks, timestamp ) {
-    FreeNASDispatcher.handleMiddlewareAction(
-      { type: ActionTypes.RECEIVE_POOL_DISK_IDS
-      , timestamp
-      , poolDisks
-      , poolName
-      }
-    );
-  }
-
 
   // CLIENT METHODS
   static replaceDiskSelection ( disks ) {

@@ -35,28 +35,6 @@ class ZfsMiddleware extends MiddlewareAbstract {
               );
   }
 
-  // TODO: Deprecated, should be using volumes.* RPC namespaces now
-  static requestPool ( poolName ) {
-    MC.request( "zfs.pool." + poolName
-              , []
-              , ZAC.receivePool
-              );
-  }
-
-  static requestBootPool () {
-    MC.request( "zfs.pool.get_boot_pool"
-              , []
-              , ZAC.receiveBootPool
-              );
-  }
-
-  static requestPoolDisks ( poolName ) {
-    MC.request( "zfs.pool.get_disks"
-              , [ poolName ]
-              , ZAC.receivePoolDisks.bind( ZAC, poolName )
-              );
-  }
-
   static submitVolume ( volumeProps ) {
     MC.request( "task.submit"
               , [ "volume.create", [ volumeProps ] ]
