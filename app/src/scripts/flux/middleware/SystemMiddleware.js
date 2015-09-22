@@ -88,6 +88,13 @@ class SystemMiddleware extends AbstractBase {
               , SAC.receiveKeymaps
               );
   }
+
+  static requestVersion () {
+    MC.request( "system.info.version"
+              , []
+              , SAC.receiveVersion
+              );
+  }
 };
 
 export default SystemMiddleware;

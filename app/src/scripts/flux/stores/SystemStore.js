@@ -19,6 +19,7 @@ var _systemAdvancedConfig = {};
 var _localUpdatePending = [];
 var _timezones = [];
 var _keymaps = [];
+var _version = "";
 
 class SystemStore extends FluxBase {
 
@@ -57,6 +58,10 @@ class SystemStore extends FluxBase {
 
   get timezones () {
     return _timezones;
+  }
+
+  get version () {
+    return _version;
   }
 
   /**
@@ -113,6 +118,10 @@ function handlePayload ( payload ) {
     case ActionTypes.RECEIVE_KEYMAPS:
       _keymaps = action.keymaps;
       this.emitChange( "keymaps" );
+      break;
+    case ActionTypes.RECEIVE_VERSION:
+      _version = action.version;
+      this.emitChange( "version" );
       break;
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;

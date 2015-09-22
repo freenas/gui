@@ -97,6 +97,15 @@ class SystemActionCreators {
       }
     );
   }
+
+  static receiveVersion ( version, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_VERSION
+      , timestamp
+      , version
+      }
+    );
+  }
 };
 
 export default SystemActionCreators;

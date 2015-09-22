@@ -55,6 +55,7 @@ const FREENAS_CONSTANTS =
     , RECEIVE_SYSTEM_ADVANCED_CONFIG_UPDATE: null
     , RECEIVE_TIMEZONES: null
     , RECEIVE_KEYMAPS: null
+    , RECEIVE_VERSION: null
 
     // Update Data
     , RECEIVE_UPDATE_CONFIG: null
