@@ -22,6 +22,7 @@
     "when": "3.7.x"
   },
   "devDependencies": {
+    "babel-core": "^5.8.25",
     "babel-loader": "^5.3.2",
     "bootstrap": "^3.3.5",
     "chalk": "^1.0.0",
@@ -29,6 +30,7 @@
     "del": "^1.2.0",
     "esprima-fb": "15001.1001.0-dev-harmony-fb",
     "extract-text-webpack-plugin": "^0.8.2",
+    "file-loader": "^0.8.4",
     "forever-monitor": "^1.6.0",
     "gulp": "^3.9.0",
     "gulp-jscs": "^2.0.0",
