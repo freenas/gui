@@ -39,6 +39,7 @@ pre-install:
 	true
 
 do-install:
+	mkdir -p ${STAGEDIR}${PREFIX}/www/gui/
 	cp -a ${WRKDEPLOY}/ ${STAGEDIR}${PREFIX}/www/gui/
 
 .include <bsd.port.mk>
