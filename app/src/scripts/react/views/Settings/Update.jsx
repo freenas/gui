@@ -24,9 +24,9 @@ const Update = React.createClass(
            // from update.get_config:
            , check_auto: false
            , update_server: "" // read-only
-           , train: "" // regarding a particular update.
-           // Is it possible for more than one updates to be queued?
-           // from update.get_current_train:
+           , train: "" // the next target train
+           // from update.get_current_train
+           // This is the train that the current OS is from
            , current_train: ""
            // from update.is_update_available:
            , updateAvailable: false // contradicts the schema?
