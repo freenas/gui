@@ -404,10 +404,10 @@ const Volume = React.createClass(
     }
 
   , render () {
-      let isInitialized = !this.props.existsOnRemote && !this.state.editing;
+      let notInitialized = !this.props.existsOnRemote && !this.state.editing;
 
       let panelClass = [ "volume" ];
-      if ( isInitialized ) { panelClass.push( "awaiting-init" ); }
+      if ( notInitialized ) { panelClass.push( "awaiting-init" ); }
       if ( this.state.editing ) { panelClass.push( "editing" ); }
 
       let initMessage    = null;
@@ -416,7 +416,7 @@ const Volume = React.createClass(
       let changesToolbar = null;
       let deleteButton = null;
 
-      if ( isInitialized ) {
+      if ( notInitialized ) {
         // We can deduce that this Volume is the "blank" one, and that it has
         // not yet been interacted with. We use this state information to
         // display an initialization message.
