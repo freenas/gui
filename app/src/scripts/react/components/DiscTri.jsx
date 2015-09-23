@@ -12,62 +12,52 @@ import Icon from "./Icon";
 
 var DiscTri = React.createClass(
 
-  { propTypes: { headerShow      : React.PropTypes.string
-               , headerHide      : React.PropTypes.string
-               , DiscShowImg     : React.PropTypes.node
-               , DiscHideImg     : React.PropTypes.node
-               , onDisc          : React.PropTypes.func
-               , defaultExpanded : React.PropTypes.bool
+  { propTypes:
+    { headerShow      : React.PropTypes.string
+    , headerHide      : React.PropTypes.string
+    , defaultExpanded : React.PropTypes.bool
     }
 
-  , getDefaultProps : function () {
-      return { headerShow   : "Hide"
-             , headerHide   : "Show"
-             , DiscShowImg  : ( <Icon glyph="arrow-triangle-down" /> )
-             , DiscHideImg  : ( <Icon glyph="arrow-triangle-right" /> )
-      };
+  , getDefaultProps () {
+      return { headerShow: "Hide"
+             , headerHide: "Show"
+             };
     }
 
-  , getInitialState: function ( ) {
-    var defaultExpanded = this.props.defaultExpanded !== null ?
-      this.props.defaultExpanded : this.props.expanded !== null ?
-        this.props.expanded : false;
-
-    return {
-      expanded: defaultExpanded
-    };
-  }
-
-  , isExpanded: function ( ) {
-      return this.state.expanded;
+  , getInitialState () {
+      return { expanded: this.props.defaultExpanded || true };
     }
 
-  , onHandleToggle: function ( e ) {
-      e.preventDefault();
-      if ( typeof this.props.onDisc === "function" ) {
-        this.props.onDisc();
+  , render () {
+      const { children, headerShow, headerHide, ...other } = this.props;
+      let text, iconGlyph, containerClass;
+
+      if ( this.state.expanded ) {
+        text = headerShow;
+        iconGlyph = "arrow-triangle-down";
+        containerClass = "disc-show";
+      } else {
+        text = headerHide;
+        iconGlyph = "arrow-triangle-right";
+        containerClass = "disc-hide";
       }
-      this.setState( { expanded: !this.state.expanded } );
-    }
 
-  , render: function ( ) {
-      // TODO: change to classnames?
-      var text = this.props.headerHide;
-      var img  = this.props.DiscHideImg;
-      var cln  = "disc-hide";
-      if ( this.isExpanded() ) {
-        text   = this.props.headerShow;
-        img    = this.props.DiscShowImg;
-        cln    = "disc-show";
-      }
       return (
-        <div className = "disclosure-triangle">
-          <div onClick={this.onHandleToggle}
-                className="disc-title" >
-            {img}{text}
+        <div
+          { ...other }
+          className = "disclosure-triangle"
+        >
+          <div
+            className = "disc-title"
+            onClick = { ( event ) => {
+              this.setState( { expanded: !this.state.expanded } );
+            }}
+          >
+            <Icon glyph = { iconGlyph } />
+            { text }
           </div>
-          <div className={ cln }>
-            {this.props.children}
+          <div className = { containerClass } >
+            { children }
           </div>
         </div>
       );
@@ -75,4 +65,4 @@ var DiscTri = React.createClass(
   }
 );
 
-module.exports = DiscTri;
+export default DiscTri;
