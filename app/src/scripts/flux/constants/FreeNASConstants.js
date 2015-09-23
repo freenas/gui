@@ -20,9 +20,11 @@ const FREENAS_CONSTANTS =
 
     // Events
     , MIDDLEWARE_EVENT: null
+    , RECEIVE_EVENTS: null
 
     // Tasks
     , RECEIVE_TASK_HISTORY: null
+    , RECEIVE_SUBTASKS: null
 
     // RPC
     , RECEIVE_RPC_SERVICES: null
