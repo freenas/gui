@@ -10,6 +10,7 @@ import { Button
        , ListGroup
        , ListGroupItem
        , Panel
+       , ProgressBar
        } from "react-bootstrap";
 
 import SM from "../../../flux/middleware/SystemMiddleware";
@@ -37,6 +38,10 @@ const Update = React.createClass(
            , operations: [] // Changes that will be made. Pretty much just a package list
            // from update.trains:
            , trains: []
+           // from an ongoing download task
+           , downloadPercentage: 0
+           // from an ongoing update task
+           , updatePercentage: 0
            };
   }
 
@@ -98,13 +103,16 @@ const Update = React.createClass(
       case "configureUpdateTask":
         break;
 
-      case "updateNowTask":
+      case "updateTask":
+        let newPercentageState = { updatePercentage: US.updateTask.percentage };
+        if ( this.state.downloadPercentage ) {
+          newPercentageState.downloadPercentage = 0;
+        }
+        this.setState( newPercentageState );
         break;
 
       case "downloadUpdateTask":
-        break;
-
-      case "manualUpdateTask":
+        this.setState( { downloadPercentage: US.downloadUpdateTask.percentage } );
         break;
 
       case "verifyInstallTask":
@@ -232,6 +240,28 @@ const Update = React.createClass(
       );
     }
 
+    var downloadProgressBar = null;
+
+    if ( this.state.downloadPercentage ) {
+      downloadProgressBar = (
+        <ProgressBar
+          active
+          now = { this.state.downloadPercentage }
+        />
+      );
+    }
+
+    var upgradeProgressBar = null;
+
+    if ( this.state.updatePercentage ) {
+      upgradeProgressBar = (
+        <ProgressBar
+          active
+          now = { this.state.updatePercentage }
+        />
+      );
+    }
+
     return (
       <div>
         <h2>Update FreeNAS</h2>
@@ -243,7 +273,9 @@ const Update = React.createClass(
         { availableUpdatePanel }
         { checkForUpdatesButton }
         { downloadUpdateButton }
+        { downloadProgressBar }
         { updateNowButton }
+        { upgradeProgressBar }
       </div>
     );
   }
