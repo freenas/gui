@@ -81,6 +81,9 @@ const Volume = React.createClass(
       )
     }
 
+
+  // REACT COMPONENT MANAGEMENT LIFECYCLE
+  // ====================================
   , getDefaultProps () {
       return { existsOnRemote : false
              };
@@ -91,7 +94,7 @@ const Volume = React.createClass(
              , desiredSection: null
              , editing       : false
              , data          : []
-             , log          : []
+             , log           : []
              , cache         : []
              , spares        : []
              , free          : 0
@@ -159,15 +162,9 @@ const Volume = React.createClass(
       EventBus.emit( "hideContextPanel", TopologyEditContext );
     }
 
-  , getAllowedDrawers () {
-      // TODO: Needs more complex logic
-      if ( this.props.existsOnRemote ) {
-        return [ _.last( DRAWERS ) ];
-      } else {
-        return [ _.last( DRAWERS ) ];
-      }
-    }
 
+  // ANIMATION HELPERS
+  // =================
   , slideDownDrawer () {
       Velocity( React.findDOMNode( this.refs.drawer )
               , "slideDown"
@@ -185,6 +182,11 @@ const Volume = React.createClass(
               );
     }
 
+
+  // DRAWER MANAGEMENT
+  // =================
+  // Helper methods to mange the state of the Volume's drawer, including
+  // communicating its active status to Storage.
   , openDrawer ( desiredSection = null ) {
       this.setState(
         { desiredSection: desiredSection
@@ -205,6 +207,26 @@ const Volume = React.createClass(
       }
     }
 
+  , getAllowedDrawers () {
+      // TODO: Needs more complex logic
+      if ( this.props.existsOnRemote ) {
+        return [ _.last( DRAWERS ) ];
+      } else {
+        return [ _.last( DRAWERS ) ];
+      }
+    }
+
+  , handleDrawerChange ( keyName ) {
+      if ( DRAWERS.has( keyName ) ) {
+        this.setState({ activeSection: keyName });
+      } else {
+        this.setState({ activeSection: null });
+      }
+    }
+
+
+  // ZFS TOPOLOGY FUNCTIONS
+  // ======================
   , handleTopoRequest ( preferences ) {
       let creatorOutput =
         ZfsUtil.createTopology( VS.availableSSDs
@@ -217,14 +239,6 @@ const Volume = React.createClass(
 
       ZAC.replaceDiskSelection( devicesUsed );
       this.setState( topology );
-    }
-
-  , handleNavSelect ( keyName ) {
-      if ( DRAWERS.has( keyName ) ) {
-        this.setState({ activeSection: keyName });
-      } else {
-        this.setState({ activeSection: null });
-      }
     }
 
   , vdevOperation( opType, key, purpose, options = {} ) {
@@ -306,10 +320,6 @@ const Volume = React.createClass(
                         );
     }
 
-  , handleVolumeNameChange ( event ) {
-      this.setState({ name: event.target.value });
-    }
-
   , resetTopology () {
       ZAC.replaceDiskSelection( [] );
       this.setState(
@@ -322,9 +332,18 @@ const Volume = React.createClass(
       );
     }
 
-  , submitVolume () {
-      let { log, cache, data, spares } = this.state;
 
+  // GENERAL HANDLERS
+  // ================
+  , handleVolumeNameChange ( event ) {
+      this.setState({ name: event.target.value });
+    }
+
+
+  // MIDDLEWARE COMMUNICATION
+  // ========================
+  , submitVolume () {
+      let { log, cache, data, spares, name } = this.state;
 
       let newVolume =
         { topology:
@@ -334,9 +353,8 @@ const Volume = React.createClass(
           , spares: ZfsUtil.unwrapStripe( spares ) || this.props.spares
           }
         , type: "zfs"
-        , name: this.state.name
-             || this.props.name
-             || "Volume" + ( this.props.volumeKey + 1 )
+        , name: name || this.props.name
+              || "Volume" + ( this.props.volumeKey + 1 )
         };
 
       ZM.submitVolume( newVolume );
@@ -346,6 +364,9 @@ const Volume = React.createClass(
       );
     }
 
+
+  // RENDER METHODS
+  // ==============
   , createVolumeName () {
       let name = this.state.name || this.props.name;
 
@@ -478,7 +499,7 @@ const Volume = React.createClass(
               className = "volume-nav"
               bsStyle   = "pills"
               activeKey = { this.state.activeSection }
-              onSelect  = { this.handleNavSelect }
+              onSelect  = { this.handleDrawerChange }
             >
               <NavItem disabled> {/* FIXME */}
                 {"Files"}
