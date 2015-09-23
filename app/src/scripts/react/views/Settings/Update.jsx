@@ -196,7 +196,7 @@ const Update = React.createClass(
       <Button
         bsStyle = "info"
         onClick = { UM.downloadUpdate }
-        disabled = { !this.state.updateAvailable }
+        disabled = { !this.state.updateAvailable || this.state.downloaded }
       >
         { "Download Update" }
       </Button>
