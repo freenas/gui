@@ -206,7 +206,9 @@ const PrimaryNavigation = React.createClass(
       }
 
       let connectionPopover = (
-        <Popover>
+        <Popover
+          id = "host-connection-input"
+        >
           <Input
             ref = "connectionInput"
             type = "text"
