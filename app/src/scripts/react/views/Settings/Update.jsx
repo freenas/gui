@@ -113,6 +113,9 @@ const Update = React.createClass(
 
       case "downloadUpdateTask":
         this.setState( { downloadPercentage: US.downloadUpdateTask.percentage } );
+        if ( US.downloadUpdateTask.percentage === 100 ) {
+          UM.getUpdateInfo();
+        }
         break;
 
       case "verifyInstallTask":
