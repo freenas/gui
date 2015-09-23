@@ -484,14 +484,18 @@ const Volume = React.createClass(
               activeKey = { this.state.activeSection }
               onSelect  = { this.handleNavSelect }
             >
-              <NavItem eventKey="disks">
-                {"Disks"}
-              </NavItem>
+              <NavItem disabled> {/* FIXME */}
+                {"Files"}
+                </NavItem>
               <NavItem eventKey="filesystem">
-                {"Filesystem"}
+                {"Shares"}
               </NavItem>
-              {/* <NavItem>Snapshots</NavItem> */}
-              {/* <NavItem>Files</NavItem> */}
+              <NavItem disabled> {/* FIXME */}
+                {"Snapshots"}
+              </NavItem>
+              <NavItem eventKey="disks">
+                {"Topology"}
+              </NavItem>
             </Nav>
           );
         }
