@@ -120,34 +120,13 @@ const Volume = React.createClass(
                      : true
             };
 
-          this.setState( newState
-                       , function showDrawer () {
-              Velocity( [ React.findDOMNode( this.refs.drawer )
-                        , React.findDOMNode( this.refs.changesToolbar )
-                        ]
-                      , "slideDown"
-                      , { duration: SLIDE_DURATION
-                        }
-                      );
-            }
-          );
-
+          this.setState( newState, this.slideDownDrawer );
         } else {
-          let newState =
-            { activeSection: null
-            , editing: false
-            };
+          let onComplete = () => {
+            this.setState({ activeSection: null, editing: false });
+          };
 
-          Velocity( [ React.findDOMNode( this.refs.drawer )
-                    , React.findDOMNode( this.refs.changesToolbar )
-                    ]
-                  , "slideUp"
-                  , { duration: SLIDE_DURATION
-                    , complete: function () {
-                        this.setState( newState );
-                      }.bind( this )
-                    }
-                  );
+          this.slideUpDrawer( onComplete );
         }
       }
     }
@@ -187,6 +166,23 @@ const Volume = React.createClass(
       } else {
         return [ _.last( DRAWERS ) ];
       }
+    }
+
+  , slideDownDrawer () {
+      Velocity( React.findDOMNode( this.refs.drawer )
+              , "slideDown"
+              , { duration: SLIDE_DURATION
+                }
+              );
+    }
+
+  , slideUpDrawer ( onComplete ) {
+      Velocity( React.findDOMNode( this.refs.drawer )
+              , "slideUp"
+              , { duration: SLIDE_DURATION
+                , complete: onComplete
+                }
+              );
     }
 
   , openDrawer ( desiredSection = null ) {
