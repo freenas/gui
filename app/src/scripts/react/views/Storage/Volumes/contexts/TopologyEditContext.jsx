@@ -187,13 +187,14 @@ const ContextDisks = React.createClass(
       );
     }
 
-  , createPresetMenuItems ( ) {
-      return PRESET_NAMES.map( preset => {
+  , createPresetMenuItems () {
+      return PRESET_NAMES.map( ( preset, index ) => {
         return (
           <MenuItem
             onSelect = { this.handlePresetChange }
             eventKey = { preset }
             active = { preset === this.state.preset }
+            key = { index }
           >
             { preset }
           </MenuItem>
