@@ -424,7 +424,6 @@ const Volume = React.createClass(
       let notInitialized = !this.props.existsOnRemote && !this.state.editing;
 
       let panelClass = [ "volume" ];
-      if ( notInitialized ) { panelClass.push( "awaiting-init" ); }
       if ( this.state.editing ) { panelClass.push( "editing" ); }
 
       let initMessage    = null;
@@ -437,15 +436,17 @@ const Volume = React.createClass(
         // not yet been interacted with. We use this state information to
         // display an initialization message.
 
-        initMessage = (
-          <div className="text-center">
+        panelClass.push( "awaiting-init", "text-center" );
+
+        return (
+          <Panel className= { panelClass.join( " " ) } >
             <Button
               bsStyle = "primary"
               onClick = { this.openDrawer.bind( this, "disks" ) }
             >
             { "Create new ZFS volume" }
             </Button>
-          </div>
+          </Panel>
         );
       } else {
         let sectionNav = null;
