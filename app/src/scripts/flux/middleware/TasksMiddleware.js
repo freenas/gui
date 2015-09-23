@@ -1,14 +1,12 @@
-// Users Middleware
+// Tasks Middleware
 // ================
-// Handle the lifecycle and event hooks for the Users channel of the middleware
+// Handle the lifecycle and event hooks for the tasks namespace
 
 "use strict";
 
 import MC from "../../websocket/MiddlewareClient";
 import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 
-// There are no subscribe or unsubscribe functions here, because task
-// subscription can be handled directly through the Middleware Client.
 
 class TasksMiddleware extends AbstractBase {
 
@@ -38,7 +36,6 @@ class TasksMiddleware extends AbstractBase {
   static abortTask ( taskID ) {
     MC.request( "task.abort", [ parseInt( taskID, 10 ) ] );
   }
-
 };
 
 export default TasksMiddleware;
