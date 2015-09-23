@@ -52,7 +52,7 @@ const DiskSection = React.createClass(
         <DiscTri headerShow = { "Disk Information" }
                  headerHide = { "Disk Information" }
                  defaultExpanded = { true }
-                 style = { { "overflow-y": "auto" } }>
+                 style = { { "overflowY": "auto" } }>
           { diskGroups }
         </DiscTri>
       );
