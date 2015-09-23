@@ -538,8 +538,8 @@ const Volume = React.createClass(
         >
           { initMessage }
           { volumeInfo }
-          { drawer }
           { changesToolbar }
+          { drawer }
         </Panel>
       );
     }
