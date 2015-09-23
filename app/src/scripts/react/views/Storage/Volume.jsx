@@ -8,7 +8,7 @@
 
 import _ from "lodash";
 import React from "react";
-import { Button, ButtonToolbar, Input, Nav, NavItem, Panel } from "react-bootstrap";
+import { Button, ButtonToolbar, Input, Panel } from "react-bootstrap";
 
 import ZAC from "../../../flux/actions/ZfsActionCreators";
 import ZM from "../../../flux/middleware/ZfsMiddleware";
@@ -19,9 +19,11 @@ import ByteCalc from "../../../utility/ByteCalc";
 
 import ZfsUtil from "./utility/ZfsUtil";
 
+import VolumeSectionNav from "./Volumes/VolumeSectionNav";
 import BreakdownChart from "./Volumes/BreakdownChart";
 import PoolDatasets from "./Volumes/PoolDatasets";
 import PoolTopology from "./Volumes/PoolTopology";
+
 import TopologyEditContext from "./Volumes/contexts/TopologyEditContext";
 
 var Velocity;
@@ -426,7 +428,6 @@ const Volume = React.createClass(
       let panelClass = [ "volume" ];
       if ( this.state.editing ) { panelClass.push( "editing" ); }
 
-      let initMessage    = null;
       let volumeInfo     = null;
       let drawer         = null;
       let changesToolbar = null;
@@ -449,7 +450,6 @@ const Volume = React.createClass(
           </Panel>
         );
       } else {
-        let sectionNav = null;
         let used, parity, free, total;
 
         if ( this.state.editing ) {
@@ -491,76 +491,50 @@ const Volume = React.createClass(
           );
         }
 
-        volumeInfo = (
-          <div
-            className = "volume-info"
-            onClick = { this.toggleDrawer }
-          >
-            <div className="clearfix">
-              { this.createVolumeName() }
-              <h3 className="pull-right volume-capacity">
-                { ByteCalc.humanize( free ) }
-              </h3>
-            </div>
-            { changesToolbar }
-            <BreakdownChart
-              total  = { total }
-              parity = { parity }
-              used   = { used }
-              free   = { free }
-            />
-          </div>
-        );
-
-        if ( this.props.existsOnRemote ) {
-          // FIXME: Temporary measure to keep navigation from showing when first
-          // creating a pool
-          sectionNav = (
-            <Nav
-              className = "volume-nav"
-              bsStyle   = "pills"
-              activeKey = { this.state.activeSection }
-              onSelect  = { this.handleDrawerChange }
-            >
-              <NavItem disabled> {/* FIXME */}
-                {"Files"}
-                </NavItem>
-              <NavItem eventKey="filesystem">
-                {"Shares"}
-              </NavItem>
-              <NavItem disabled> {/* FIXME */}
-                {"Snapshots"}
-              </NavItem>
-              <NavItem eventKey="disks">
-                {"Topology"}
-              </NavItem>
-            </Nav>
-          );
-        }
-
         drawer = (
           <div
             ref = "drawer"
             style = {{ display: "none" }}
             className = "volume-drawer"
           >
-            { sectionNav }
+            { this.props.existsOnRemote
+            ? <VolumeSectionNav
+                activeKey = { this.state.activeSection }
+                onSelect = { this.state.handleDrawerChange }
+              />
+            : null
+            }
             { this.createDrawerContent() }
           </div>
         );
+
+        return (
+          <Panel className = { panelClass.join( " " ) } >
+
+            {/* VOLUME INFORMATION */}
+            <div
+              className = "volume-info"
+              onClick = { this.toggleDrawer }
+            >
+              <div className="clearfix">
+                { this.createVolumeName() }
+                <h3 className="pull-right volume-capacity">
+                  { ByteCalc.humanize( free ) }
+                </h3>
+              </div>
+              { changesToolbar }
+              <BreakdownChart
+                total  = { total }
+                parity = { parity }
+                used   = { used }
+                free   = { free }
+              />
+            </div>
+            { drawer }
+          </Panel>
+        );
       }
-
-      return (
-        <Panel
-          className = { panelClass.join( " " ) }
-        >
-          { initMessage }
-          { volumeInfo }
-          { drawer }
-        </Panel>
-      );
     }
-
   }
 );
 
