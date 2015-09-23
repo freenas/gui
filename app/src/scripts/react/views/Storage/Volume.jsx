@@ -449,10 +449,7 @@ const Volume = React.createClass(
         );
       } else {
         let sectionNav = null;
-        let used;
-        let parity;
-        let free;
-        let total;
+        let used, parity, free, total;
 
         if ( this.state.editing ) {
           let breakdown = ZfsUtil.calculateBreakdown( this.state.data );
@@ -471,6 +468,28 @@ const Volume = React.createClass(
           total = used + free + parity;
         }
 
+        if ( this.state.editing ) {
+          changesToolbar = (
+            <div className ="volume-info clearfix">
+              <ButtonToolbar className="pull-right">
+                <Button
+                  bsStyle = "default"
+                  onClick = { this.closeDrawer }
+                >
+                  { "Cancel" }
+                </Button>
+                <Button
+                  bsStyle = "primary"
+                  disabled = { !this.state.editing }
+                  onClick = { this.submitVolume }
+                >
+                  { "Submit" }
+                </Button>
+              </ButtonToolbar>
+            </div>
+          );
+        }
+
         volumeInfo = (
           <div
             className = "volume-info"
@@ -482,6 +501,7 @@ const Volume = React.createClass(
                 { ByteCalc.humanize( free ) }
               </h3>
             </div>
+            { changesToolbar }
             <BreakdownChart
               total  = { total }
               parity = { parity }
@@ -527,30 +547,6 @@ const Volume = React.createClass(
             { this.createDrawerContent() }
           </div>
         );
-
-        changesToolbar = (
-          <div
-            ref = "changesToolbar"
-            style = {{ display: "none" }}
-            className = "volume-info clearfix"
-          >
-            <ButtonToolbar className="pull-right">
-              <Button
-                bsStyle = "default"
-                onClick = { this.closeDrawer }
-              >
-                { "Cancel" }
-              </Button>
-              <Button
-                bsStyle = "primary"
-                disabled = { !this.state.editing }
-                onClick = { this.submitVolume }
-              >
-                { "Submit" }
-              </Button>
-            </ButtonToolbar>
-          </div>
-        );
       }
 
       return (
@@ -559,7 +555,6 @@ const Volume = React.createClass(
         >
           { initMessage }
           { volumeInfo }
-          { changesToolbar }
           { drawer }
         </Panel>
       );
