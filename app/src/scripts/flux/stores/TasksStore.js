@@ -5,10 +5,10 @@
 "use strict";
 
 import _ from "lodash";
-import { EventEmitter } from "events";
 
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
+import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 var CHANGE_EVENT = "change";
 
@@ -19,65 +19,62 @@ var _finished  = {};
 var _failed    = {};
 var _aborted   = {};
 
-var TasksStore = _.assign( {}, EventEmitter.prototype
-  , { emitChange: function ( namespace ) {
-        this.emit( CHANGE_EVENT, namespace );
-      }
+class TasksStore extends FluxBase {
 
-    , addChangeListener: function ( callback ) {
-        this.on( CHANGE_EVENT, callback );
-      }
+  constructor () {
+    super();
 
-    , removeChangeListener: function ( callback ) {
-        this.removeListener( CHANGE_EVENT, callback );
-      }
-
-    , getAllTasks: function () {
-        return { CREATED   : _created
-               , WAITING   : _waiting
-               , EXECUTING : _executing
-               , FINISHED  : _finished
-               , FAILED    : _failed
-               , ABORTED   : _aborted
-        };
-      }
-
-    , getCreatedTasks: function () {
-        return _created;
-      }
-
-    , getWaitingTasks: function () {
-        return _waiting;
-      }
-
-    , getExecutingTasks: function () {
-        return _executing;
-      }
-
-    , getFinishedTasks: function () {
-        return _finished;
-      }
-
-    , getFailedTasks: function () {
-        return _failed;
-      }
-
-    , getAbortedTasks: function () {
-        return _aborted;
-      }
-
-    , getTaskByID: function ( ID ) {
-        let allTasks = [ _created, _waiting, _executing, _finished, _failed
-                       , _aborted ];
-        return _.find( function ( task ) {
-          return task[ "id" ] === ID;
-        });
-      }
+    this.dispatchToken = FreeNASDispatcher.register(
+      handlePayload.bind( this )
+    );
   }
-);
 
-TasksStore.dispatchToken = FreeNASDispatcher.register( function ( payload ) {
+  get tasks () {
+    return { CREATED: _created
+           , WAITING: _waiting
+           , EXECUTING: _executing
+           , FINISHED: _finished
+           , FAILED: _failed
+           , ABORTED: _aborted
+    };
+  }
 
+  get created () {
+    return _created;
+  }
+
+  get waiting () {
+    return _waiting;
+  }
+
+  get executing () {
+    return _executing;
+  }
+
+  get finished () {
+    return _finished;
+  }
+
+  get failed () {
+    return _failed;
+  }
+
+  get aborted () {
+    return _aborted;
+  }
+
+  getTaskByID ( ID ) {
+    let allTasks = [ _created, _waiting, _executing, _finished, _failed
+                   , _aborted ];
+    return _.find( allTasks, function ( task ) {
+      return task[ "id" ] === ID;
+    });
+  }
+
+}
+
+
+function handlePayload ( payload ) {
   var action = payload.action;
 
   switch ( action.type ) {
@@ -163,13 +160,13 @@ TasksStore.dispatchToken = FreeNASDispatcher.register( function ( payload ) {
             break;
         }
 
-        TasksStore.emitChange();
+        this.emitChange();
       }
       break;
 
     default:
     // No action
   }
-});
+}
 
-module.exports = TasksStore;
+export default new TasksStore();

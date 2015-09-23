@@ -124,7 +124,7 @@ var TasksSection = React.createClass(
 
 var Tasks = React.createClass(
   { getInitialState: function () {
-      return { tasks           : _.assign( {}, TasksStore.getAllTasks() )
+      return { tasks           : _.assign( {}, TasksStore.tasks )
              , taskMethodValue : ""
              , argsValue       : "[[]]"
              , anErrorOccurred : false
@@ -158,7 +158,7 @@ var Tasks = React.createClass(
 
       this.setState({ tasks : _.merge( {}, { FINISHED: histFinished }
                     , { FAILED: histFailed }
-                    , { ABORTED: histAborted }, TasksStore.getAllTasks() )
+                    , { ABORTED: histAborted }, TasksStore.tasks )
       });
     }
 
@@ -186,7 +186,7 @@ var Tasks = React.createClass(
         , { FINISHED: this.state.tasks["FINISHED"] }
         , { FAILED: this.state.tasks["FAILED"] }
         , { ABORTED: this.state.tasks["ABORTED"] }
-        , TasksStore.getAllTasks() )
+        , TasksStore.tasks )
         }
       );
     }
