@@ -16,10 +16,9 @@ var _updateInfo = {};
 var _updateAvailable = false;
 var _trains = [];
 var _configureUpdateTask = null;
-var _updateNowTask = null;
+var _updateTask = null;
 var _checkForUpdateTask = null;
 var _downloadUpdateTask = null;
-var _manualUpdateTask = null;
 var _verifyInstallTask = null;
 
 class UpdateStore extends FluxBase {
@@ -49,6 +48,14 @@ class UpdateStore extends FluxBase {
 
   get trains () {
     return _trains;
+  }
+
+  get downloadUpdateTask () {
+    return _downloadUpdateTask;
+  }
+
+  get updateTask () {
+    return _updateTask;
   }
 }
 
@@ -87,8 +94,8 @@ function handlePayload( payload ) {
       break;
 
     case ActionTypes.RECEIVE_UPDATE_NOW_TASK:
-      _updateNowTask = action.taskID;
-      this.emitChange( "updateNowTask" );
+      _updateTask = action.taskID;
+      this.emitChange( "updateTask" );
       break;
 
     case ActionTypes.RECEIVE_UPDATE_CHECK_TASK:
@@ -137,6 +144,9 @@ function handleMiddlewareEvent ( payload ) {
       // we care about, and each needs slightly different handling.
       switch ( args.args.name ) {
         case "update.update":
+        case "update.manual":
+          _updateTask = args.args;
+          this.emitChange( "updateTask" );
           break;
 
         case "update.check":
@@ -146,9 +156,8 @@ function handleMiddlewareEvent ( payload ) {
           break;
 
         case "update.download":
-          break;
-
-        case "update.manual":
+          _downloadUpdateTask = args.args;
+          this.emitChange( "downloadUpdateTask" );
           break;
 
         case "update.verify":
