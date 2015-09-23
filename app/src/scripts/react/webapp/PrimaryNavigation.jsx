@@ -58,12 +58,6 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : ""
-    , icon     : "icon-mug"
-    , label    : "AppCafe"
-    , status   : null
-    , disabled : true
-    }
   , { path     : "settings"
     , icon     : "icon-adjust-horiz"
     , label    : "Settings"
