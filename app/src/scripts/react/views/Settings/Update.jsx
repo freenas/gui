@@ -170,7 +170,6 @@ const Update = React.createClass(
                              }
                            );
 
-    // Not yet functional; waiting for middleware issue to be resolved
     const updateTrain = (
       <Input
         type = "select"
@@ -191,7 +190,6 @@ const Update = React.createClass(
       </Button>
     );
 
-    // TODO: Only enable when there's an update available but not staged.
     const downloadUpdateButton = (
       <Button
         bsStyle = "info"
@@ -202,7 +200,6 @@ const Update = React.createClass(
       </Button>
     );
 
-    // TODO: Only enabled when there's an update downloaded but not installed
     // Alternate TODO: Have it check for update, download update, and apply
     // update if necessary.
     const updateNowButton = (
