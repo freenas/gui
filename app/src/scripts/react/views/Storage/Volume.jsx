@@ -428,7 +428,6 @@ const Volume = React.createClass(
       let panelClass = [ "volume" ];
       if ( this.state.editing ) { panelClass.push( "editing" ); }
 
-      let volumeInfo     = null;
       let drawer         = null;
       let changesToolbar = null;
 
