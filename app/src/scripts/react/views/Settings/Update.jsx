@@ -209,7 +209,7 @@ const Update = React.createClass(
       <Button
         bsStyle = "success"
         onClick = { UM.updateNow }
-        disabled = { !this.state.updateAvailable }
+        disabled = { !this.state.downloaded }
       >
         { "Update Now" }
       </Button>
