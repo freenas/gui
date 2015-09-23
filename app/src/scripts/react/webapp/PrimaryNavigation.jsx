@@ -269,6 +269,7 @@ const PrimaryNavigation = React.createClass(
           </div>
 
           <NavDropdown
+            id = "active-user-controls"
             title = { activeUser }
           >
             <MenuItem
