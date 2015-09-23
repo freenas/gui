@@ -36,6 +36,7 @@ const Update = React.createClass(
            , changelog: [] // Array of strings
            , notes: "" // Human-readable notes, usually links to a README or such
            , operations: [] // Changes that will be made. Pretty much just a package list
+           , downloaded: false // The update in question is downloaded and ready to install
            // from update.trains:
            , trains: []
            // from an ongoing download task
