@@ -66,9 +66,9 @@ const Update = React.createClass(
   , handleChanges ( eventMask ) {
     switch ( eventMask ) {
       case "updateConfig":
-        let newState = _.cloneDeep( US.updateConfig );
-        newState.targetTrain = "";
-        this.setState( newState );
+        let newUpdateState = _.cloneDeep( US.updateConfig );
+        newUpdateState.targetTrain = "";
+        this.setState( newUpdateState );
         break;
 
       case "currentTrain":
