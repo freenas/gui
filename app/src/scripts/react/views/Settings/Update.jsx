@@ -121,7 +121,7 @@ const Update = React.createClass(
       case "train":
         // TODO: Make this more forgiving by using the upcoming version of
         // the update info queries that takes a train name
-        this.setState( { targetTrain})
+        this.setState( { targetTrain: evt.target.value } );
         UM.configureUpdates( { train: evt.target.value } );
         break;
     }
