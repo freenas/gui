@@ -22,7 +22,6 @@ export default class TasksSidebar extends React.Component {
   componentDidMount () {
     ES.addChangeListener( this.handleChanges.bind( this ) );
     EM.requestEvents();
-    EM.requestEventCount();
 
     TM.subscribe( this.displayName );
     TS.addChangeListener( this.handleChanges.bind( this ) );
