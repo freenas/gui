@@ -52,6 +52,7 @@ const BreakdownChart = React.createClass(
 
   , render () {
       const TOTAL = this.props.used + this.props.free + this.props.parity;
+
       const PERCENT_PARITY = this.calcPercent( "parity", TOTAL );
       const PERCENT_USED   = this.calcPercent( "used", TOTAL );
       const PERCENT_FREE   = this.calcPercent( "free", TOTAL );

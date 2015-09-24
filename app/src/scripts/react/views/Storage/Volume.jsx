@@ -20,6 +20,7 @@ import ByteCalc from "../../../utility/ByteCalc";
 import ZfsUtil from "./utility/ZfsUtil";
 
 import NewVolumeForm from "./Volumes/NewVolumeForm";
+import ExistingVolumeHeader from "./Volumes/ExistingVolumeHeader";
 import VolumeSectionNav from "./Volumes/VolumeSectionNav";
 import BreakdownChart from "./Volumes/BreakdownChart";
 import PoolDatasets from "./Volumes/PoolDatasets";
@@ -437,10 +438,16 @@ const Volume = React.createClass(
 
           let breakdown =
             { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
-            , free   : ByteCalc.convertString( rootDataset.available.rawvalue )
+            , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
             , parity : ZfsUtil.calculateBreakdown( this.props.data ).parity
           }
 
+          volumeHeader = (
+            <ExistingVolumeHeader
+              volumeName        = { this.props.name }
+              topologyBreakdown = { breakdown }
+            />
+          );
         }
 
         drawer = (

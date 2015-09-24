@@ -8,8 +8,6 @@
 import React from "react";
 import { Button, ButtonToolbar, Input } from "react-bootstrap";
 
-import ByteCalc from "../../../../utility/ByteCalc";
-
 import BreakdownChart from "./BreakdownChart";
 
 export default class NewVolumeForm extends React.Component {
@@ -36,9 +34,6 @@ export default class NewVolumeForm extends React.Component {
               value       = { this.props.volumeName }
             />
           </div>
-          <h3 className="pull-right volume-capacity">
-            { ByteCalc.humanize( this.props.topologyBreakdown.avail ) }
-          </h3>
 
           {/* CANCEL AND SUBMIT BUTTONS */}
           <ButtonToolbar className="pull-right">
