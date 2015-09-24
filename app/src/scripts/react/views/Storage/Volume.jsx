@@ -491,7 +491,6 @@ const Volume = React.createClass(
       return (
         <Panel
           className = { panelClass.join( " " ) }
-          onClick   = { this.toggleDrawer }
         >
 
           { volumeHeader }
