@@ -51,14 +51,14 @@ const BreakdownChart = React.createClass(
     }
 
   , render () {
-      const TOTAL = this.props.used + this.props.free + this.props.total;
+      const TOTAL = this.props.used + this.props.free + this.props.parity;
       const PERCENT_PARITY = this.calcPercent( "parity", TOTAL );
       const PERCENT_USED   = this.calcPercent( "used", TOTAL );
       const PERCENT_FREE   = this.calcPercent( "free", TOTAL );
 
       return (
         <ProgressBar
-          style = { this.props.total > 0
+          style = { TOTAL > 0
                   ? {}
                   : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }
                   }
