@@ -27,6 +27,15 @@ class TasksMiddleware extends AbstractBase {
               );
   }
 
+  static getSubtasks ( taskID ) {
+    MC.request( "task.query"
+              , [ [[ "parent", "=", "taskID" ]]
+                , { sort: "id" }
+                ]
+              , TAC.receiveSubtasks.bind( TAC, taskID )
+              );
+  }
+
   static getCompletedTaskHistory ( callback ) {
     // TODO: This MUST go through the Flux pattern, and needs to be limited
     // by the value set in StoreLimits

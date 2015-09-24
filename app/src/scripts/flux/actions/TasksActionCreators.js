@@ -19,6 +19,15 @@ class TasksActionCreators {
     );
   }
 
+  static receiveSubTasks( taskID, subtasks, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_SUBTASKS
+      , taskID
+      , timestamp
+      , subtasks
+      }
+    );
+  }
 };
 
 export default TasksActionCreators;

@@ -18,6 +18,7 @@ var _executing = {};
 var _finished  = {};
 var _failed    = {};
 var _aborted   = {};
+var _subtasks  = {};
 
 class TasksStore extends FluxBase {
 
@@ -71,6 +72,10 @@ class TasksStore extends FluxBase {
     });
   }
 
+  // returns all subtasks of the provided taskID
+  getSubtasks ( taskID ) {
+    return _subtasks[ taskID ];
+  }
 }
 
 function handlePayload ( payload ) {
@@ -116,6 +121,9 @@ function handlePayload ( payload ) {
       this.emitChange( "allTasks" );
       break;
 
+    case ActionTypes.RECEIVE_SUBTASKS:
+      _subtasks[ action.taskID ] = action.subtasks;
+      break;
 
     case ActionTypes.MIDDLEWARE_EVENT:
       if ( action.eventData.args["name"].indexOf( "task." ) !== -1 ) {
