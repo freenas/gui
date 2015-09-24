@@ -158,17 +158,21 @@ const Update = React.createClass(
       </span>
     );
 
-    var updateTrainChoices =
-      this.state.trains.map( function createUpdateTrainChoices ( train ) {
-                             return (
-                               <option
-                                 key = { train.name }
-                                 value = { train.name }
-                                 label = { train.name }
-                               />
+    var updateTrainChoices = null;
+
+    if ( _.isArray ( this.state.trains ) ) {
+      updateTrainChoices =
+        this.state.trains.map( function createUpdateTrainChoices ( train ) {
+                               return (
+                                 <option
+                                   key = { train.name }
+                                   value = { train.name }
+                                   label = { train.name }
+                                 />
+                               );
+                               }
                              );
-                             }
-                           );
+    }
 
     const updateTrain = (
       <Input
