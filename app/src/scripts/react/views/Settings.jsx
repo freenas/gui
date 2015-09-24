@@ -18,12 +18,15 @@ const sections = [ { route: "system"
                    }
                  , { route: "security"
                    , display: "Security"
+                   , disabled: true
                    }
                  , { route: "alerts"
                    , display: "Alerts"
+                   , disabled: true
                    }
                  , { route: "support"
                    , display: "Support"
+                   , disabled: true
                    }
                  ];
 
