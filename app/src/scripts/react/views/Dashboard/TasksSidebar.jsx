@@ -16,7 +16,7 @@ import TS from "../../../flux/stores/TasksStore";
 export default class TasksSidebar extends React.Component {
   constructor ( props ) {
     super( props );
-    this.displayName = "TasksSidebar"
+    this.displayName = "TasksSidebar";
   }
 
   componentDidMount () {
