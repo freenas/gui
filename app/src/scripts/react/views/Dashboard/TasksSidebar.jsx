@@ -17,6 +17,10 @@ export default class TasksSidebar extends React.Component {
   constructor ( props ) {
     super( props );
     this.displayName = "TasksSidebar";
+    this.state =
+      { tasks: []
+      , events: []
+    };
   }
 
   componentDidMount () {
