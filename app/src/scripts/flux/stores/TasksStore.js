@@ -73,11 +73,48 @@ class TasksStore extends FluxBase {
 
 }
 
-
 function handlePayload ( payload ) {
   var action = payload.action;
+  const taskStatusDict =
+    { CREATED: function populateCreated ( task ) {
+                 newCreated[ task.id ] = task;
+               }
+    , WAITING: function populateWaiting ( task ) {
+                 newWaiting[ task.id ] = task;
+               }
+    , EXECUTING: function populateExecuting ( task ) {
+                   newExecuting[ task.id ] = task;
+                 }
+    , FINISHED: function populateFinished ( task ) {
+                  newFinished[ task.id ] = task;
+                }
+    , FAILED: function populateFailed ( task ) {
+                newFailed[ task.id ] = task;
+              }
+    , ABORTED: function populateAborted ( task ) {
+                 newAborted[ task.id ] = task;
+               }
+    };
 
   switch ( action.type ) {
+    case ActionTypes.RECEIVE_TASK_HISTORY:
+      let newCreated = {};
+      let newWaiting = {};
+      let newExecuting = {};
+      let newFinished = {};
+      let newFailed = {};
+      let newAborted = {};
+      action.tasks.forEach( function populateTasks ( task ) {
+        taskStatusDict[ task.state ]( task );
+      });
+      _created = newCreated;
+      _waiting = newWaiting;
+      _executing = newExecuting;
+      _finished = newFinished;
+      _failed = newFailed;
+      _aborted = newAborted;
+      this.emitChange( "allTasks" );
+      break;
 
 
     case ActionTypes.MIDDLEWARE_EVENT:

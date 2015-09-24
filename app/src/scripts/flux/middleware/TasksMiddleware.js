@@ -8,6 +8,7 @@ import MC from "../../websocket/MiddlewareClient";
 import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 import { TASKS as TASKS_LIMIT } from "../constants/StoreLimits";
 
+import TAC from "../actions/TasksActionCreators";
 
 class TasksMiddleware extends AbstractBase {
 
@@ -17,6 +18,13 @@ class TasksMiddleware extends AbstractBase {
 
   static unsubscribe ( componentID ) {
     MC.unsubscribe( [ "task.*" ], componentID );
+  }
+
+  static requestAllTasks () {
+    MC.request( "task.query"
+              , []
+              , TAC.receiveTaskHistory
+              );
   }
 
   static getCompletedTaskHistory ( callback ) {
