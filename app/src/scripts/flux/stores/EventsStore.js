@@ -34,7 +34,6 @@ function handlePayload( payload ) {
   switch ( action.type ) {
     case ActionTypes.RECEIVE_EVENTS:
       _events = action.events;
-      console.log( _events );
       this.emitChange( "events" );
       break;
   }
