@@ -19,6 +19,7 @@ import ByteCalc from "../../../utility/ByteCalc";
 
 import ZfsUtil from "./utility/ZfsUtil";
 
+import NewVolumeForm from "./Volumes/NewVolumeForm";
 import VolumeSectionNav from "./Volumes/VolumeSectionNav";
 import BreakdownChart from "./Volumes/BreakdownChart";
 import PoolDatasets from "./Volumes/PoolDatasets";
@@ -369,30 +370,6 @@ const Volume = React.createClass(
 
   // RENDER METHODS
   // ==============
-  , createVolumeName () {
-      let name = this.state.name || this.props.name;
-
-      if ( this.state.editing ) {
-        return (
-          <div className="volume-name-input">
-            <Input
-              ref = "volumeNameInput"
-              type = "text"
-              placeholder = "Volume Name"
-              onClick = { event => event.stopPropagation() }
-              onChange = { this.handleVolumeNameChange }
-              className = "form-overlay"
-              value = { name }
-            />
-          </div>
-        );
-      } else {
-        return (
-          <h3 className="pull-left volume-name">{ name }</h3>
-        );
-      }
-    }
-
   , createDrawerContent () {
       switch ( this.state.activeSection ) {
         case "disks":
@@ -423,71 +400,53 @@ const Volume = React.createClass(
     }
 
   , render () {
-      let notInitialized = !this.props.existsOnRemote && !this.state.editing;
+      const NOT_INITIALIZED = !this.props.existsOnRemote && !this.state.editing;
 
       let panelClass = [ "volume" ];
       if ( this.state.editing ) { panelClass.push( "editing" ); }
 
-      let drawer         = null;
-      let changesToolbar = null;
+      let volumeHeader = null;
+      let drawer       = null;
 
-      if ( notInitialized ) {
+      if ( NOT_INITIALIZED ) {
         // We can deduce that this Volume is the "blank" one, and that it has
         // not yet been interacted with. We use this state information to
         // display an initialization message.
 
         panelClass.push( "awaiting-init", "text-center" );
 
-        return (
-          <Panel className= { panelClass.join( " " ) } >
-            <Button
-              bsStyle = "primary"
-              onClick = { this.openDrawer.bind( this, "disks" ) }
-            >
-            { "Create new ZFS volume" }
-            </Button>
-          </Panel>
+        volumeHeader = (
+          <Button
+            bsStyle = "primary"
+            onClick = { this.openDrawer.bind( this, "disks" ) }
+          >
+            { "Create new storage pool" }
+          </Button>
         );
       } else {
-        let used, parity, free, total;
-
         if ( this.state.editing ) {
-          let breakdown = ZfsUtil.calculateBreakdown( this.state.data );
-          used   = 0;
-          parity = breakdown.parity;
-          free   = breakdown.avail;
-          total  = breakdown.avail + breakdown.parity;
-        } else {
-          let rootDatasetProperties = _.find( this.props.datasets
-                                            , { name: this.props.name }
-                                            ).properties;
-          let breakdown = ZfsUtil.calculateBreakdown( this.props.data );
-          used = ByteCalc.convertString( rootDatasetProperties.used.rawvalue );
-          free = ByteCalc.convertString( rootDatasetProperties.available.rawvalue );
-          parity = ZfsUtil.calculateBreakdown( this.props.data ).parity;
-          total = used + free + parity;
-        }
-
-        if ( this.state.editing ) {
-          changesToolbar = (
-            <div className ="volume-info clearfix">
-              <ButtonToolbar className="pull-right">
-                <Button
-                  bsStyle = "default"
-                  onClick = { this.closeDrawer }
-                >
-                  { "Cancel" }
-                </Button>
-                <Button
-                  bsStyle = "primary"
-                  disabled = { !this.state.editing }
-                  onClick = { this.submitVolume }
-                >
-                  { "Submit" }
-                </Button>
-              </ButtonToolbar>
-            </div>
+          volumeHeader = (
+            <NewVolumeForm
+              onVolumeNameChange = { this.handleVolumeNameChange }
+              onSubmitClick      = { this.submitVolume }
+              onCancelClick      = { this.closeDrawer }
+              volumeName         = { this.state.name }
+              topologyBreakdown =
+                { ZfsUtil.calculateBreakdown( this.state.data ) }
+            />
           );
+        } else {
+          let rootDataset =
+            _.find( this.props.datasets
+                  , { name: this.props.name }
+                  ).properties;
+
+          let breakdown =
+            { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
+            , free   : ByteCalc.convertString( rootDataset.available.rawvalue )
+            , parity : ZfsUtil.calculateBreakdown( this.props.data ).parity
+          }
+
         }
 
         drawer = (
@@ -499,40 +458,24 @@ const Volume = React.createClass(
             { this.props.existsOnRemote
             ? <VolumeSectionNav
                 activeKey = { this.state.activeSection }
-                onSelect = { this.state.handleDrawerChange }
+                onSelect = { this.handleDrawerChange }
               />
             : null
             }
             { this.createDrawerContent() }
           </div>
         );
-
-        return (
-          <Panel className = { panelClass.join( " " ) } >
-
-            {/* VOLUME INFORMATION */}
-            <div
-              className = "volume-info"
-              onClick = { this.toggleDrawer }
-            >
-              <div className="clearfix">
-                { this.createVolumeName() }
-                <h3 className="pull-right volume-capacity">
-                  { ByteCalc.humanize( free ) }
-                </h3>
-              </div>
-              { changesToolbar }
-              <BreakdownChart
-                total  = { total }
-                parity = { parity }
-                used   = { used }
-                free   = { free }
-              />
-            </div>
-            { drawer }
-          </Panel>
-        );
       }
+
+      return (
+        <Panel
+          className = { panelClass.join( " " ) }
+          onClick   = { this.toggleDrawer }
+        >
+          { volumeHeader }
+          { drawer }
+        </Panel>
+      );
     }
   }
 );
