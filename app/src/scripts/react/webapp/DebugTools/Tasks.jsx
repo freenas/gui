@@ -166,13 +166,7 @@ var Tasks = React.createClass(
       TasksMiddleware.subscribe( this.constructor.displayName );
       TasksStore.addChangeListener( this.handleMiddlewareChange );
 
-      var totalLength = 0;
-
-      _.forEach( this.state.tasks, function ( category, index ) {
-        totalLength += _.keys( this.state.tasks[ category ] ).length;
-      }, this );
-
-      TasksMiddleware.getCompletedTaskHistory( this.init, totalLength );
+      TasksMiddleware.getCompletedTaskHistory( this.init );
     }
 
   , componentWillUnmount: function () {

@@ -6,6 +6,7 @@
 
 import MC from "../../websocket/MiddlewareClient";
 import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
+import { TASKS as TASKS_LIMIT } from "../constants/StoreLimits";
 
 
 class TasksMiddleware extends AbstractBase {
@@ -18,14 +19,13 @@ class TasksMiddleware extends AbstractBase {
     MC.unsubscribe( [ "task.*" ], componentID );
   }
 
-  static getCompletedTaskHistory ( callback, offset ) {
+  static getCompletedTaskHistory ( callback ) {
     // TODO: This MUST go through the Flux pattern, and needs to be limited
     // by the value set in StoreLimits
     return MC.request( "task.query"
                      , [ [[ "state", "~", "FINISHED|ABORTED|FAILED" ]]
-                       , { offset: ( offset || 0 )
-                         , limit: 100
-                         , sort: "id"
+                       , { limit: TASKS_LIMIT
+                         , sort: "-id"
                          , dir: "desc"
                          }
                        ]
