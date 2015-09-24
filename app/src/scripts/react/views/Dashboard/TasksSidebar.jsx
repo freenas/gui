@@ -6,6 +6,7 @@
 
 import React from "react";
 import _ from "lodash";
+import moment from "moment";
 
 import EM from "../../../flux/middleware/EventsMiddleware";
 import ES from "../../../flux/stores/EventsStore";
@@ -52,6 +53,26 @@ export default class TasksSidebar extends React.Component {
     }
   }
 
-  render () { return null };
+  // Combine and sort the tasks and events for display.
+  processContents () {
+    var tasks =
+      _.chain( this.state.tasks )
+       .cloneDeep()
+       .values()
+       .map( function ( taskType ) { return _.values( taskType ); } )
+       .flatten()
+       .forEach( function addTimestamp ( task ) {
+                   task.timestamp =
+                     moment( task[ "updated-at" ] ).unix();
+                 }
+               )
+       .value();
+    var events = _.values( _.cloneDeep( this.state.events ) );
+    var contents = _.union( tasks, events );
+    return _.sortBy( contents, "timestamp" );
+  }
 
+  render () {
+    return null;
+  }
 }
