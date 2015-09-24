@@ -47,7 +47,7 @@ export default class TasksSidebar extends React.Component {
         this.setState( { tasks: TS.tasks } );
         break;
       case "events":
-        this.setState( { events: ES.tasks } );
+        this.setState( { events: ES.events } );
         break;
     }
   }
