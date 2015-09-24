@@ -18,18 +18,22 @@ const HUMAN_TYPES =
 
 const BreakdownChart = React.createClass(
 
-  { getDefaultProps () {
+  { propTypes:
+    { used   : React.PropTypes.number
+    , free   : React.PropTypes.number
+    , parity : React.PropTypes.number
+    }
+
+  , getDefaultProps () {
       return { used   : 0
              , free   : 0
              , parity : 0
-             , total  : 0
              };
     }
 
-  , calcPercent ( section ) {
-      if ( typeof this.props[ section ] === "number"
-           && this.props[ section ] > 0 ) {
-        return Math.floor( ( this.props[ section ] / this.props.total ) * 100 );
+  , calcPercent ( section, total ) {
+      if ( this.props[ section ] > 0 ) {
+        return Math.floor( ( this.props[ section ] / total ) * 100 );
       } else {
         return 0;
       }
@@ -47,9 +51,10 @@ const BreakdownChart = React.createClass(
     }
 
   , render () {
-      let percentParity = this.calcPercent( "parity" );
-      let percentUsed   = this.calcPercent( "used" );
-      let percentFree   = this.calcPercent( "free" );
+      const TOTAL = this.props.used + this.props.free + this.props.total;
+      const PERCENT_PARITY = this.calcPercent( "parity", TOTAL );
+      const PERCENT_USED   = this.calcPercent( "used", TOTAL );
+      const PERCENT_FREE   = this.calcPercent( "free", TOTAL );
 
       return (
         <ProgressBar
@@ -59,21 +64,21 @@ const BreakdownChart = React.createClass(
                   }
         >
           <ProgressBar
-            label   = { this.formatLabel( "parity", percentParity ) }
+            label   = { this.formatLabel( "parity", PERCENT_PARITY ) }
             bsStyle = "info"
-            now     = { percentParity }
+            now     = { PERCENT_PARITY }
             key     = { 0 }
           />
           <ProgressBar
-            label   = { this.formatLabel( "used", percentUsed ) }
+            label   = { this.formatLabel( "used", PERCENT_USED ) }
             bsStyle = "primary"
-            now     = { percentUsed }
+            now     = { PERCENT_USED }
             key     = { 1 }
           />
           <ProgressBar
-            label     = { this.formatLabel( "free", percentFree ) }
+            label     = { this.formatLabel( "free", PERCENT_FREE ) }
             className = "free-space"
-            now       = { percentFree }
+            now       = { PERCENT_FREE }
             key       = { 2 }
           />
         </ProgressBar>
