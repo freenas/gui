@@ -13,6 +13,12 @@ import ByteCalc from "../../../../utility/ByteCalc";
 import BreakdownChart from "./BreakdownChart";
 
 export default class NewVolumeForm extends React.Component {
+  componentDidMount () {
+    React.findDOMNode( this.refs.volumeNameInput )
+         .getElementsByTagName( "INPUT" )[0]
+         .focus();
+  }
+
   render () {
     return (
       <div className="volume-info">

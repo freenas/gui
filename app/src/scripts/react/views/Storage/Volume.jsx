@@ -145,12 +145,6 @@ const Volume = React.createClass(
 
       if ( prevState.editing !== this.state.editing ) {
         if ( this.state.editing ) {
-          if ( !this.state.name && this.refs.volumeNameInput ) {
-            React.findDOMNode( this.refs.volumeNameInput )
-                 .getElementsByTagName( "INPUT" )[0]
-                 .focus();
-          }
-
           EventBus.emit( "showContextPanel"
                        , TopologyEditContext
                        , topologyContextProps
