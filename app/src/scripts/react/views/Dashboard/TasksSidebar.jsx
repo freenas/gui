@@ -5,6 +5,7 @@
 "use strict";
 
 import React from "react";
+import _ from "lodash";
 
 import EM from "../../../flux/middleware/EventsMiddleware";
 import ES from "../../../flux/stores/EventsStore";
