@@ -160,7 +160,7 @@ function handlePayload ( payload ) {
             break;
         }
 
-        this.emitChange();
+        this.emitChange( "taskEvent" );
       }
       break;
 

@@ -180,15 +180,17 @@ var Tasks = React.createClass(
       TasksMiddleware.unsubscribe( this.constructor.displayName );
     }
 
-  , handleMiddlewareChange: function () {
-      this.setState(
-        { tasks : _.merge( {}
-        , { FINISHED: this.state.tasks["FINISHED"] }
-        , { FAILED: this.state.tasks["FAILED"] }
-        , { ABORTED: this.state.tasks["ABORTED"] }
-        , TasksStore.tasks )
-        }
-      );
+  , handleMiddlewareChange: function ( eventType ) {
+      if ( eventType === "taskEvent" ) {
+        this.setState(
+          { tasks : _.merge( {}
+          , { FINISHED: this.state.tasks["FINISHED"] }
+          , { FAILED: this.state.tasks["FAILED"] }
+          , { ABORTED: this.state.tasks["ABORTED"] }
+          , TasksStore.tasks )
+          }
+        );
+      }
     }
 
   , handleMethodInputChange: function ( event ) {
