@@ -151,6 +151,28 @@ nav.volume-nav {
 .volume-capacity {
   font-size: 30px;
   font-weight: 100;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.volume-options-dropdown {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 20px;
+
+  .btn-link {
+    color: #858585;
+    border: none;
+    padding: 0;
+    font-size: 20px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+      color: @brand-primary;
+    }
+  }
 }
 
 .pool-topology {

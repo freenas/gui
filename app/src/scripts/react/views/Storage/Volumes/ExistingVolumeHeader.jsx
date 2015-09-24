@@ -6,9 +6,11 @@
 "use strict";
 
 import React from "react";
+import { DropdownButton, MenuItem } from "react-bootstrap";
 
 import ByteCalc from "../../../../utility/ByteCalc";
 
+import Icon from "../../../components/Icon";
 import BreakdownChart from "./BreakdownChart";
 
 export default class ExistingVolumeHeader extends React.Component {
@@ -22,10 +24,30 @@ export default class ExistingVolumeHeader extends React.Component {
             { this.props.volumeName }
           </h3>
 
-          {/* TOTAL CAPACITY */}
-          <h3 className="pull-right volume-capacity">
-            { ByteCalc.humanize( this.props.topologyBreakdown.avail ) }
-          </h3>
+          <div className = "pull-right">
+            {/* TOTAL CAPACITY */}
+            <h3 className="volume-capacity">
+              { ByteCalc.humanize( this.props.topologyBreakdown.avail ) }
+            </h3>
+
+            {/* VOLUME OPTIONS */}
+            <div className = "volume-options-dropdown">
+              <DropdownButton
+                noCaret
+                pullRight
+                bsStyle = "link"
+                title   = { <Icon glyph="icon-cog" /> }
+              >
+                <MenuItem
+                  eventKey = { 1 }
+                  onSelect = { this.props.onDestroyPool }
+                >
+                  { "Destroy " + this.props.volumeName + "..." }
+                </MenuItem>
+              </DropdownButton>
+            </div>
+          </div>
+
         </div>
 
         {/* TOPOLOGY BREAKDOWN */}
