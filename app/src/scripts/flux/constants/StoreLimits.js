@@ -15,9 +15,10 @@ import keyMirror from "keymirror";
 const STORE_LIMITS =
   { DISKS: Infinity
   , GROUPS: Infinity
+  , EVENTS: 200
   , INTERFACES: Infinity
   , SERVICES: Infinity
-  , TASKS: Infinity
+  , TASKS: 200
   , USERS: Infinity
   };
 
