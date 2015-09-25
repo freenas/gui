@@ -7,7 +7,7 @@
 "use strict";
 
 import React from "react";
-import { TabbedArea, TabPane } from "react-bootstrap";
+import { Tabs, Tab } from "react-bootstrap";
 
 // Events
 import EventBus from "../../utility/EventBus";
@@ -90,42 +90,44 @@ var DebugTools = React.createClass(
           <div className = "debug-panel"
                style     = {{ height: this.state.panelHeight + "px" }} >
 
-            <TabbedArea className   = "debug-nav"
-                             onMouseDown = { this.handleResizeStart } >
+            <Tabs
+              className = "debug-nav"
+              onMouseDown = { this.handleResizeStart }
+            >
 
               {/* RPC Interface */}
-              <TabPane eventKey={1} tab="RPC">
+              <Tab eventKey={1} tab="RPC">
                 <RPC />
-              </TabPane>
+              </Tab>
 
               {/* Event Log */}
-              <TabPane eventKey={2} tab="Events">
+              <Tab eventKey={2} tab="Events">
                 <Events />
-              </TabPane>
+              </Tab>
 
               {/* Subscriptions List */}
-              <TabPane eventKey={3} tab="Subscriptions">
+              <Tab eventKey={3} tab="Subscriptions">
                 <Subscriptions />
-              </TabPane>
+              </Tab>
 
               {/* Task Log and Queue */}
-              <TabPane eventKey={4} tab="Tasks">
+              <Tab eventKey={4} tab="Tasks">
                 <Tasks />
-              </TabPane>
+              </Tab>
 
               {/* Debugging Options */}
-              <TabPane eventKey={6} tab="Options">
+              <Tab eventKey={6} tab="Options">
                 <Options />
-              </TabPane>
+              </Tab>
 
               {/* Web Console */}
               {/* FIXME: This has bit-rotted to the point of being unusable
-              <TabPane eventKey={7} tab="Terminal">
+              <Tab eventKey={7} tab="Terminal">
                 <Terminal />
-              </TabPane>
+              </Tab>
               */}
 
-            </TabbedArea>
+            </Tabs>
 
           </div>
         );
