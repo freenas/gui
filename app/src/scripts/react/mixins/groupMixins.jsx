@@ -11,9 +11,13 @@ import _ from "lodash";
 import GroupsStore from "../../flux/stores/GroupsStore";
 import GroupsMiddleware from "../../flux/middleware/GroupsMiddleware";
 
+import viewerCommon from "../components/Viewer/mixins/viewerCommon";
+
 module.exports = {
 
-  componentDidMount: function () {
+  mixins: [ viewerCommon ]
+
+  , componentDidMount: function () {
     GroupsStore.addChangeListener( this.updateGroupsListInState );
   }
 
