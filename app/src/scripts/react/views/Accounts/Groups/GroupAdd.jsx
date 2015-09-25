@@ -44,8 +44,6 @@ const AddGroup = React.createClass({
       newGroup[ "id" ] = this.state.nextGID;
     }
 
-    newGroup = GS.reverseKeyTranslation( newGroup );
-
     GM.createGroup( newGroup );
   }
 

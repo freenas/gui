@@ -46,8 +46,6 @@ const GroupEdit = React.createClass(
 
     let newGroupProps = this.state.modifiedValues;
 
-    newGroupProps = GS.reverseKeyTranslation( newGroupProps );
-
     GM.updateGroup( this.props.item.id, newGroupProps );
   }
 
