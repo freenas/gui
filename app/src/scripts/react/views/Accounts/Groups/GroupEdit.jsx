@@ -75,13 +75,15 @@ const GroupEdit = React.createClass(
         type = "text"
         label = { this.props.itemLabels.name }
         value = { groupNameValue }
-        onChange = { this.handleChange.bind( null, "name" ) } />;
+        onChange = { this.handleChange.bind( null, "name" ) }
+      />;
 
     let resetButton =
       <Button
         className = "pull-right"
         bsStyle = "warning"
-        onClick = { this.resetChanges } >
+        onClick = { this.resetChanges }
+      >
         { "Reset Changes" }
       </Button>;
 
@@ -89,7 +91,8 @@ const GroupEdit = React.createClass(
       <Button
         className = "pull-right"
         bsStyle = "success"
-        onClick = { this.submitChanges } >
+        onClick = { this.submitChanges }
+      >
         { "Submit Changes" }
       </Button>;
 
@@ -97,7 +100,8 @@ const GroupEdit = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "default"
-        onClick = { this.props.handleViewChange.bind( null, "view" ) } >
+        onClick = { this.props.handleViewChange.bind( null, "view" ) }
+      >
         { "Cancel Edit" }
       </Button>;
 
@@ -106,7 +110,8 @@ const GroupEdit = React.createClass(
         className = "pull-left"
         bsStyle = "danger"
         onClick = { this.deleteGroup.bind( this ) }
-        disabled = { this.props.item.builtin } >
+        disabled = { this.props.item.builtin }
+      >
         { "Delete Group" }
       </Button>;
 
@@ -134,26 +139,26 @@ const GroupEdit = React.createClass(
     return (
       <Grid fluid>
         <Row>
-          <Col
-            xs = { 12 } >
+          <Col xs = { 12 } >
             { buttonToolbar }
           </Col>
         </Row>
         <Row>
-          <Col
-            xs = { 12 } >
+          <Col xs = { 12 } >
             { builtinWarning }
           </Col>
         </Row>
         <Row>
           <Col
             xs = { 12 }
-            sm = { 6 } >
+            sm = { 6 }
+          >
             { editForm }
           </Col>
           <Col
             xs = { 12 }
-            sm = { 6 } >
+            sm = { 6 }
+          >
             { groupIDDisplay }
           </Col>
         </Row>
