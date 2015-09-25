@@ -98,7 +98,7 @@ const AddGroup = React.createClass({
           <Input
             type             = "text"
             min              = { 1000 }
-            label            = { this.props.itemLabels.properties[ "id" ] }
+            label            = { this.props.itemLabels[ "id" ] }
             value            = { this.state.newGroup[ "id" ]
                                ? this.state.newGroup[ "id" ]
                                : this.state.nextGID }
@@ -112,13 +112,13 @@ const AddGroup = React.createClass({
           {/* username */}
           <Input
             type             = "text"
-            label            = { this.props.itemLabels.properties[ "groupName" ] }
-            value            = { this.state.newGroup[ "groupName" ]
-                               ? this.state.newGroup[ "groupName" ]
+            label            = { this.props.itemLabels[ "name" ] }
+            value            = { this.state.newGroup[ "name" ]
+                               ? this.state.newGroup[ "name" ]
                                : null }
-            onChange         = { this.handleChange.bind( null, "groupName" ) }
-            className   = { _.has( this.state.newGroup, "groupName" )
-                              && !_.isEmpty( this.state.newGroup[ "groupName" ] )
+            onChange         = { this.handleChange.bind( null, "name" ) }
+            className   = { _.has( this.state.newGroup, "name" )
+                              && !_.isEmpty( this.state.newGroup[ "name" ] )
                                ? "editor-was-modified"
                                : "" } />
         </Col>
