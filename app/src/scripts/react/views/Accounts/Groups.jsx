@@ -71,20 +71,12 @@ const VIEWER_DATA =
     }
   };
 
-function getUsersList () {
-  return { usersList: US.users };
-}
-
-function getGroupsList () {
-  return { groupsList: GS.groups };
-}
-
 const Groups = React.createClass(
 
   { displayName: "Groups Viewer"
 
   , getInitialState: function () {
-    return getGroupsList();
+    return { groupsList: GS.groups };
   }
 
   , componentDidMount: function () {
@@ -114,7 +106,7 @@ const Groups = React.createClass(
   }
 
   , handleUsersChange: function () {
-    this.setState( getUsersList() );
+    this.setState( { usersList: US.users } );
   }
 
   , handleModeSwap: function () {
