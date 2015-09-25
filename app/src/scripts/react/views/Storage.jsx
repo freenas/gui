@@ -181,7 +181,13 @@ const Storage = React.createClass(
             >
               <img src="/images/hdd.png" />
               <h3>Creating Storage</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+              <p>
+                { "This is the place where you create ZFS pools and stuff. "
+                + "Someday, this text will be very helpful and everyone will "
+                + "like what it says. Today it just says this, so maybe create "
+                + "a pool or something, maaaaaan."
+                }
+              </p>
             </div>
           );
         }
