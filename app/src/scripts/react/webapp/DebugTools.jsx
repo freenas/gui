@@ -96,33 +96,33 @@ var DebugTools = React.createClass(
             >
 
               {/* RPC Interface */}
-              <Tab eventKey={1} tab="RPC">
+              <Tab eventKey={1} title="RPC">
                 <RPC />
               </Tab>
 
               {/* Event Log */}
-              <Tab eventKey={2} tab="Events">
+              <Tab eventKey={2} title="Events">
                 <Events />
               </Tab>
 
               {/* Subscriptions List */}
-              <Tab eventKey={3} tab="Subscriptions">
+              <Tab eventKey={3} title="Subscriptions">
                 <Subscriptions />
               </Tab>
 
               {/* Task Log and Queue */}
-              <Tab eventKey={4} tab="Tasks">
+              <Tab eventKey={4} title="Tasks">
                 <Tasks />
               </Tab>
 
               {/* Debugging Options */}
-              <Tab eventKey={6} tab="Options">
+              <Tab eventKey={6} title="Options">
                 <Options />
               </Tab>
 
               {/* Web Console */}
               {/* FIXME: This has bit-rotted to the point of being unusable
-              <Tab eventKey={7} tab="Terminal">
+              <Tab eventKey={7} title="Terminal">
                 <Terminal />
               </Tab>
               */}
