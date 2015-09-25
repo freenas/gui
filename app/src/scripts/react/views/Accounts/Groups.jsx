@@ -51,6 +51,8 @@ const VIEWER_DATA =
                       ]
                     )
 
+  , modesAllowed: new Set( [ "detail", "table" ] )
+
   , groupBy:
     { userCreated:
        { name: "local groups"
