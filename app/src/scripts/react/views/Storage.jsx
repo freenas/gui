@@ -12,6 +12,7 @@ import { Alert } from "react-bootstrap";
 
 import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
+import DS from "../../flux/stores/DisksStore";
 import DM from "../../flux/middleware/DisksMiddleware";
 
 import Volume from "./Storage/Volume";
@@ -42,6 +43,7 @@ const Storage = React.createClass(
 
   , componentDidMount () {
       VS.addChangeListener( this.handleUpdatedVS );
+      DS.addChangeListener( this.handleUpdatedDS );
 
       DM.requestDisksOverview();
       DM.subscribe( this.constructor.displayName );
@@ -53,6 +55,7 @@ const Storage = React.createClass(
 
   , componentWillUnmount () {
       VS.removeChangeListener( this.handleUpdatedVS );
+      DS.removeChangeListener( this.handleUpdatedDS );
 
       DM.unsubscribe( this.constructor.displayName );
 
@@ -90,6 +93,14 @@ const Storage = React.createClass(
       }
 
       this.setState( newState );
+    }
+
+  , handleUpdatedDS ( eventMask ) {
+      // FIXME: Until there's some way to get this information in a more direct
+      // way, re-query available disks every time a disk changes. (This should
+      // hopefully have the benefit of covering things like ejection, even if
+      // it gets triggered by a lot of non-important stuff)
+      ZM.requestAvailableDisks();
     }
 
   , handleVolumeActive ( key ) {
