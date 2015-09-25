@@ -67,6 +67,14 @@ const System = React.createClass(
     SM.subscribe( this.constructor.displayName );
   }
 
+  , componentWillUnmount() {
+    IS.removeChangeListener( this.handleInterfacesChange );
+    IM.unsubscribe( this.constructor.displayName );
+
+    SS.removeChangeListener( this.handleSystemChange );
+    SM.unsubscribe( this.constructor.displayName );
+  }
+
   , handleSystemChange ( eventMask ) {
     switch ( eventMask ) {
       case "general":
