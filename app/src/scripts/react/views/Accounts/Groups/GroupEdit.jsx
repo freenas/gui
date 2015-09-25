@@ -105,7 +105,7 @@ const GroupEdit = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "danger"
-        onClick = { this.deleteGroup }
+        onClick = { this.deleteGroup.bind( this ) }
         disabled = { this.props.item.builtin } >
         { "Delete Group" }
       </Button>;
