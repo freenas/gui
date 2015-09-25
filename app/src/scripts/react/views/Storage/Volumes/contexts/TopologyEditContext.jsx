@@ -100,6 +100,10 @@ const ContextDisks = React.createClass(
       VS.addChangeListener( this.handleUpdatedVS );
     }
 
+  , componentWillUnmount () {
+      VS.removeChangeListener( this.handleUpdatedVS );
+    }
+
   , getUpdatedDiskInfo () {
       return { availableSSDs: VS.availableSSDs
              , selectedSSDs: VS.selectedSSDs
