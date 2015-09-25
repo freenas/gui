@@ -14,6 +14,7 @@ import ES from "../../../flux/stores/EventsStore";
 import TM from "../../../flux/middleware/TasksMiddleware";
 import TS from "../../../flux/stores/TasksStore";
 
+import DiscTri from "../../components/DiscTri";
 
 export default class TasksSidebar extends React.Component {
   constructor ( props ) {
@@ -81,7 +82,53 @@ export default class TasksSidebar extends React.Component {
     return _.sortBy( contents, "timestamp" );
   }
 
+  generateDisplayItems( contents ) {
+    return (
+      contents.map( function createDisplayItem ( item, index ) {
+                    var info = null;
+                    if ( item.type === "event" ) {
+                      info = (
+                        <div className = "event" >
+                          <span>{ moment( item.timestamp * 1000 ).format( "L, h:mm:ss a" ) }</span>
+                        </div>
+                      );
+                    } else if ( item.type === "task" ) {
+                      let taskClass = "task-" + item.state.toLowerCase();
+                      info = (
+                        <div className = { taskClass }>
+                          <span>{ moment( item.timestamp * 1000 ).format( "L, h:mm:ss a" ) }</span>
+                          <br/>
+                          <span>{ "Status: " + item.state }</span>
+                          <br/>
+                          <span>
+                            { item.user
+                            ? "User: " + item.user
+                            : null
+                            }
+                          </span>
+                        </div>
+                      );
+                    }
+                    return (
+                      <DiscTri
+                        key = { index }
+                        headerShow = { item.name }
+                        headerHide = { item.name }
+                        defaultExpanded = { false }
+                      >
+                        { info }
+                      </DiscTri>
+                    );
+                    }
+                  )
+    );
+  }
+
   render () {
-    return null;
+    return (
+      <div className = "tasks-sidebar">
+        { this.generateDisplayItems( this.processContents() ) }
+      </div>
+    );
   }
 }
