@@ -32,22 +32,24 @@ const VIEWER_DATA =
   , textRemaining : "other groups"
   , textUngrouped : "all groups"
 
-  , groupsInitial : new Set( [ "userCreated", "builtin" ] )
-  , groupsAllowed : new Set( [ "userCreated", "builtin" ] )
+  , groupsInitial : new Set( [ "userCreated", "builtin", "sudo" ] )
+  , groupsAllowed : new Set( [ "userCreated", "builtin", "sudo" ] )
 
   , filtersInitial : new Set( )
-  , filtersAllowed : new Set( [ "builtin" ] )
+  , filtersAllowed : new Set( [ "builtin", "sudo" ] )
 
   , columnsInitial : new Set(
                       [ "id"
                       , "name"
                       , "builtin"
+                      , "sudo"
                       ]
                     )
   , columnsAllowed : new Set(
                       [ "id"
                       , "name"
                       , "builtin"
+                      , "sudo"
                       ]
                     )
 
@@ -62,6 +64,10 @@ const VIEWER_DATA =
        { name: "built-in system groups"
        , testProp: { builtin: true }
        }
+    , sudo:
+      { name: "groups with sudo access"
+      , testProp: { sudo: true }
+      }
     }
   };
 

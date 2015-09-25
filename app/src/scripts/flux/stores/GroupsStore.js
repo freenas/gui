@@ -26,6 +26,7 @@ const GROUP_SCHEMA =
     { name: { type: "string" }
     , id: { type: "number" }
     , builtin: { type: [ "boolean", "null" ] }
+    , sudo: { type: "boolean" }
     }
   };
 
@@ -33,6 +34,7 @@ const GROUP_LABELS =
   { name: "Group Name"
   , id: "Group ID"
   , builtin: "Built-in System Group"
+  , sudo: "sudo access"
   };
 
 class GroupsStore extends FluxBase {
