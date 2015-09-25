@@ -12,13 +12,19 @@ import GAC from "..//actions/GroupsActionCreators";
 class GroupsMiddleware extends AbstractBase {
 
   static subscribe ( componentID ) {
-    MC.subscribe( [ "groups.changed" ], componentID );
-    MC.subscribe( [ "task.*" ], componentID );
+    MC.subscribe( [ "groups.changed"
+                  , "entity-subscriber.groups.changed"
+                  , "task.progress"
+                  ]
+                , componentID );
   }
 
   static unsubscribe ( componentID ) {
-    MC.unsubscribe( [ "groups.changed" ], componentID );
-    MC.unsubscribe( [ "task.*" ], componentID );
+    MC.unsubscribe( [ "groups.changed"
+                    , "entity-subscriber.groups.changed"
+                    , "task.progress"
+                    ]
+                  , componentID );
   }
 
   static requestGroupsList () {
