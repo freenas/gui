@@ -18,7 +18,7 @@ import Events from "./DebugTools/Events";
 import Subscriptions from "./DebugTools/Subscriptions";
 import Tasks from "./DebugTools/Tasks";
 import Options from "./DebugTools/Options";
-import Terminal from "./DebugTools/Terminal";
+// import Terminal from "./DebugTools/Terminal";
 
 // Local variables
 var initialPanelHeight;
@@ -119,9 +119,11 @@ var DebugTools = React.createClass(
               </TabPane>
 
               {/* Web Console */}
+              {/* FIXME: This has bit-rotted to the point of being unusable
               <TabPane eventKey={7} tab="Terminal">
                 <Terminal />
               </TabPane>
+              */}
 
             </TabbedArea>
 
