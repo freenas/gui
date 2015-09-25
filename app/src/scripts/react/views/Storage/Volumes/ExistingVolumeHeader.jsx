@@ -35,6 +35,7 @@ export default class ExistingVolumeHeader extends React.Component {
               <DropdownButton
                 noCaret
                 pullRight
+                id      = { "volume-options-" + this.props.volumeName }
                 bsStyle = "link"
                 title   = { <Icon glyph="icon-cog" /> }
               >
