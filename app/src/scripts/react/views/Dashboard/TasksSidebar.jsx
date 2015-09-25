@@ -64,10 +64,19 @@ export default class TasksSidebar extends React.Component {
        .forEach( function addTimestamp ( task ) {
                    task.timestamp =
                      moment( task[ "updated-at" ] ).unix();
+                   task.type = "task";
                  }
                )
        .value();
-    var events = _.values( _.cloneDeep( this.state.events ) );
+    var events =
+      _.chain( this.state.events )
+       .cloneDeep()
+       .values()
+       .forEach( function addTypeToEvents( event ) {
+                   event.type = "event";
+                 }
+               )
+       .value();
     var contents = _.union( tasks, events );
     return _.sortBy( contents, "timestamp" );
   }
