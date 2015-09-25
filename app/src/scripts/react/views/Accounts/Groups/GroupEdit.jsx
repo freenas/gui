@@ -48,14 +48,14 @@ const GroupEdit = React.createClass(
 
     newGroupProps = GS.reverseKeyTranslation( newGroupProps );
 
-    GM.updateGroup( this.props.item[ "id" ], newGroupProps );
+    GM.updateGroup( this.props.item.id, newGroupProps );
   }
 
   , render: function () {
-    let builtInWarning = null;
+    let builtinWarning = null;
 
-    if ( this.props.item[ "builtIn" ] ) {
-      builtInWarning =
+    if ( this.props.item.builtin ) {
+      builtinWarning =
         <Alert
           bsStyle = { "warning" }
           className = { "text-center built-in-warning" } >
@@ -64,10 +64,10 @@ const GroupEdit = React.createClass(
         </Alert>;
     }
 
-    let groupNameValue = this.state.modifiedValues[ "groupName" ]
-                      || this.props.item[ "groupName" ];
+    let groupNameValue = this.state.modifiedValues.name
+                      || this.props.item.name;
 
-    let groupNameClass = this.state.modifiedValues[ "groupName" ]
+    let groupNameClass = this.state.modifiedValues.name
                        ? "editor-was-modified"
                        : "";
 
@@ -75,9 +75,9 @@ const GroupEdit = React.createClass(
       <Input
         className = { groupNameClass }
         type = "text"
-        label = { this.props.itemLabels.properties[ "groupName" ] }
+        label = { this.props.itemLabels.name }
         value = { groupNameValue }
-        onChange = { this.handleChange.bind( null, "groupName" ) } />;
+        onChange = { this.handleChange.bind( null, "name" ) } />;
 
     let resetButton =
       <Button
@@ -108,7 +108,7 @@ const GroupEdit = React.createClass(
         className = "pull-left"
         bsStyle = "danger"
         onClick = { this.deleteGroup }
-        disabled = { this.props.item[ "builtIn" ] } >
+        disabled = { this.props.item.builtin } >
         { "Delete Group" }
       </Button>;
 
@@ -128,9 +128,9 @@ const GroupEdit = React.createClass(
     let groupIDDisplay =
       <div>
         <strong>
-          { this.props.itemLabels.properties[ "id" ] + ": " }
+          { this.props.itemLabels.id + ": " }
         </strong>
-        { this.props.item[ "id" ] }
+        { this.props.item.id }
       </div>;
 
     return (
@@ -144,7 +144,7 @@ const GroupEdit = React.createClass(
         <Row>
           <Col
             xs = { 12 } >
-            { builtInWarning }
+            { builtinWarning }
           </Col>
         </Row>
         <Row>

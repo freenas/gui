@@ -28,7 +28,7 @@ module.exports = {
 
   , deleteGroup: function () {
     GroupsMiddleware.deleteGroup(
-      this.props.item[ "id" ]
+      this.props.item.id
     , this.returnToViewerRoot() );
   }
 };
