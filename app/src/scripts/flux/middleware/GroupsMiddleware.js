@@ -38,14 +38,14 @@ class GroupsMiddleware extends AbstractBase {
   static updateGroup ( groupID, props ) {
     MC.request( "task.submit"
               , [ "groups.update", [ groupID, props ] ]
-              , GAC.receiveGroupUpdateTask.bind( GAC, groupID )
+              , GAC.receiveGroupUpdateTask.bind( null, groupID )
               );
   }
 
   static deleteGroup ( groupID ) {
     MC.request( "task.submit"
               , [ "groups.delete", [ groupID ] ]
-              , GAC.receiveGroupUpdateTask.bind( GAC, groupID )
+              , GAC.receiveGroupUpdateTask.bind( null, groupID )
               );
   }
 
