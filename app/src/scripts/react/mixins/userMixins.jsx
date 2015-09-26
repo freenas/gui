@@ -12,8 +12,12 @@ import ShellMiddleware from "../../flux/middleware/ShellMiddleware";
 import UsersStore from "../../flux/stores/UsersStore";
 import UsersMiddleware from "../../flux/middleware/UsersMiddleware";
 
+import viewerCommon from "../components/Viewer/mixins/viewerCommon";
+
 module.exports = (
-  { componentDidMount: function () {
+  { mixins: [ viewerCommon ]
+
+  , componentDidMount: function () {
       ShellMiddleware.requestAvailableShells( function ( shells ) {
         var systemShells = _.map( shells, function ( shell ) {
           return ( { name: shell }
