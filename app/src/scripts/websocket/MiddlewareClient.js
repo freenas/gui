@@ -527,6 +527,12 @@ class MiddlewareClient extends WebSocketClient {
                  "be an array of FreeNAS RPC namespaces."
                  );
       return false;
+    } else if ( _.isEmpty( masks ) ) {
+      MCD.warn( "The array of masks to subscribe to must have at least one "
+              + "element. The componentID making this mistake is "
+              + componentID
+              );
+      return false;
     }
 
     if ( !_.isString( componentID ) ) {
@@ -542,6 +548,9 @@ class MiddlewareClient extends WebSocketClient {
     }
 
     _.forEach( masks, function ( mask ) {
+      if ( mask === "" ) {
+        MCD.warn( componentID + " tried to subscribe to an empty mask." );
+      }
       let subCount = SubscriptionsStore.getNumberOfSubscriptionsForMask( mask );
 
       if ( MCD.reports( "subscriptions" ) ) {
@@ -566,6 +575,12 @@ class MiddlewareClient extends WebSocketClient {
                 "be an array of FreeNAS RPC namespaces."
               );
       return;
+    } else if ( _.isEmpty( masks ) ) {
+      MCD.warn( "The array of masks to unsubscribe from must have at least one "
+              + "element. The componentID making this mistake is "
+              + componentID
+              );
+      return;
     }
 
     if ( !_.isString( componentID ) ) {
@@ -581,6 +596,9 @@ class MiddlewareClient extends WebSocketClient {
     }
 
     _.forEach( masks, function ( mask ) {
+      if ( mask === "" ) {
+        MCD.warn( componentID + " tried to unsubscribe from an empty mask." );
+      }
       let subCount = SubscriptionsStore.getNumberOfSubscriptionsForMask( mask );
 
       if ( subCount === 1 ) {
