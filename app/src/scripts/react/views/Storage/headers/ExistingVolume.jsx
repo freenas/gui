@@ -11,9 +11,9 @@ import { DropdownButton, MenuItem } from "react-bootstrap";
 import ByteCalc from "../../../../utility/ByteCalc";
 
 import Icon from "../../../components/Icon";
-import BreakdownChart from "./BreakdownChart";
+import BreakdownChart from "../common/BreakdownChart";
 
-export default class ExistingVolumeHeader extends React.Component {
+export default class ExistingVolume extends React.Component {
   render () {
     return (
       <div className="volume-info">
@@ -62,7 +62,7 @@ export default class ExistingVolumeHeader extends React.Component {
   }
 }
 
-ExistingVolumeHeader.propTypes =
+ExistingVolume.propTypes =
   { volumeName        : React.PropTypes.string.isRequired
   , topologyBreakdown : React.PropTypes.shape(
       { parity : React.PropTypes.number.isRequired

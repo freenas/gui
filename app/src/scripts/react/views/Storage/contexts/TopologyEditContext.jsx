@@ -10,14 +10,14 @@ import React from "react";
 import _ from "lodash";
 import { Alert, Button, DropdownButton, MenuItem, Well } from "react-bootstrap";
 
-import VS from "../../../../../flux/stores/VolumeStore";
-import DS from "../../../../../flux/stores/DisksStore";
+import VS from "../../../../flux/stores/VolumeStore";
+import DS from "../../../../flux/stores/DisksStore";
 
-import DiscTri from "../../../../components/DiscTri";
-import DragTarget from "../../../../components/DragTarget";
-import DropTarget from "../../../../components/DropTarget";
-import Disk from "../../../../components/items/Disk";
-import Topologizer from "../Topologizer";
+import DiscTri from "../../../components/DiscTri";
+import DragTarget from "../../../components/DragTarget";
+import DropTarget from "../../../components/DropTarget";
+import Disk from "../../../components/items/Disk";
+import Topologizer from "../common/Topologizer";
 
 const TERMS =
   { hdds: "Disks"

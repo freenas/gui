@@ -7,18 +7,18 @@
 import React from "react";
 import { Well, Col } from "react-bootstrap";
 
-import ZM from "../../../../flux/middleware/ZfsMiddleware";
-import VS from "../../../../flux/stores/VolumeStore";
-import DS from "../../../../flux/stores/DisksStore";
+import ZM from "../../../../../flux/middleware/ZfsMiddleware";
+import VS from "../../../../../flux/stores/VolumeStore";
+import DS from "../../../../../flux/stores/DisksStore";
 
-import ZfsUtil from "../utility/ZfsUtil";
+import ZfsUtil from "../../utility/ZfsUtil";
 
-import Disk from "../../../components/items/Disk";
-import DragTarget from "../../../components/DragTarget";
-import DropTarget from "../../../components/DropTarget";
+import Disk from "../../../../components/items/Disk";
+import DragTarget from "../../../../components/DragTarget";
+import DropTarget from "../../../../components/DropTarget";
+import BreakdownChart from "../../common/BreakdownChart";
 
 import VDEVInfo from "./VDEV/VDEVInfo";
-import BreakdownChart from "./BreakdownChart";
 
 const VDEV = React.createClass(
   { displayName: "VDEV"

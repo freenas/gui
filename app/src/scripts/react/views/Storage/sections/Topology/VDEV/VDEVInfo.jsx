@@ -8,7 +8,7 @@
 import React from "react";
 import { MenuItem, DropdownButton, Button } from "react-bootstrap";
 
-import Icon from "../../../../components/Icon";
+import Icon from "../../../../../components/Icon";
 
 const HUMAN_TYPES =
   { disk   : "Disk"

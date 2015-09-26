@@ -8,9 +8,9 @@
 import React from "react";
 import { Button, ButtonToolbar, Input } from "react-bootstrap";
 
-import BreakdownChart from "./BreakdownChart";
+import BreakdownChart from "../common/BreakdownChart";
 
-export default class NewVolumeForm extends React.Component {
+export default class NewVolume extends React.Component {
   componentDidMount () {
     React.findDOMNode( this.refs.volumeNameInput )
          .getElementsByTagName( "INPUT" )[0]
@@ -65,7 +65,7 @@ export default class NewVolumeForm extends React.Component {
   }
 }
 
-NewVolumeForm.propTypes =
+NewVolume.propTypes =
   { onVolumeNameChange : React.PropTypes.func.isRequired
   , onSubmitClick      : React.PropTypes.func.isRequired
   , onCancelClick      : React.PropTypes.func.isRequired

@@ -10,7 +10,7 @@ import { Row, Col } from "react-bootstrap";
 
 import ZfsUtil from "../utility/ZfsUtil";
 
-import VDEV from "./VDEV";
+import VDEV from "./Topology/VDEV";
 
 var TopologyDrawer = React.createClass(
 

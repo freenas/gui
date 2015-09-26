@@ -19,14 +19,13 @@ import ByteCalc from "../../../utility/ByteCalc";
 
 import ZfsUtil from "./utility/ZfsUtil";
 
-import NewVolumeForm from "./Volumes/NewVolumeForm";
-import ExistingVolumeHeader from "./Volumes/ExistingVolumeHeader";
-import VolumeSectionNav from "./Volumes/VolumeSectionNav";
-import BreakdownChart from "./Volumes/BreakdownChart";
-import PoolDatasets from "./Volumes/PoolDatasets";
-import PoolTopology from "./Volumes/PoolTopology";
+import NewVolume from "./headers/NewVolume";
+import ExistingVolume from "./headers/ExistingVolume";
+import VolumeSectionNav from "./VolumeSectionNav";
+import Filesystem from "./sections/Filesystem";
+import Topology from "./sections/Topology";
 
-import TopologyEditContext from "./Volumes/contexts/TopologyEditContext";
+import TopologyEditContext from "./contexts/TopologyEditContext";
 
 var Velocity;
 
@@ -393,7 +392,7 @@ const Volume = React.createClass(
                                             : this.state;
 
           return (
-            <PoolTopology
+            <Topology
               data = { data }
               log = { log }
               cache = { cache }
@@ -408,7 +407,7 @@ const Volume = React.createClass(
           );
         case "filesystem":
           return (
-            <PoolDatasets ref="Storage" />
+            <Filesystem ref="Storage" />
           );
       }
     }
@@ -440,7 +439,7 @@ const Volume = React.createClass(
       } else {
         if ( this.state.editing ) {
           volumeHeader = (
-            <NewVolumeForm
+            <NewVolume
               onVolumeNameChange = { this.handleVolumeNameChange }
               onSubmitClick      = { this.submitVolume }
               onCancelClick      = { this.closeDrawer }
@@ -462,7 +461,7 @@ const Volume = React.createClass(
           }
 
           volumeHeader = (
-            <ExistingVolumeHeader
+            <ExistingVolume
               volumeName        = { this.props.name }
               onDestroyPool     = { this.confirmPoolDestruction }
               topologyBreakdown = { breakdown }
