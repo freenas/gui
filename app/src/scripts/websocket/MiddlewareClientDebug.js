@@ -116,7 +116,7 @@ class MiddlewareClientDebug extends DebugLogger {
                      .join( ", " )
                  : masks;
 
-    this.log( `Requested: Subscribe to %c'${ logMasks }'%c events`
+    this.log( `Requested: Unsubscribe to %c'${ logMasks }'%c events`
             , [ "args", "normal" ]
             );
   }
