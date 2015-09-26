@@ -167,28 +167,25 @@ function handlePayload ( payload ) {
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
       let updateData = args[ "args" ];
+      console.log( action );
 
-      // FIXME: This is a workaround for the current implementation of task
-      // subscriptions and submission resolutions.
-      if ( args[ "name" ] === UPDATE_MASK ) {
+      if ( args[ "name" ] === "entity-subscriber.users.changed" ) {
         if ( updateData[ "operation" ] === "delete" ) {
-          // FIXME: Will this cause an issue if the delete is unsuccessful?
-          // This will no doubt be overriden
-          // in the new patch-based world anyway.
           _users = _.omit( _users, updateData[ "ids" ] );
-        } else if (
-          updateData[ "operation" ] === "update"
-          || updateData[ "operation" ] === "create"
-        ) {
-          Array.prototype.push.apply( _updatedOnServer, updateData["ids"] );
-          UsersMiddleware.requestUsersList( _updatedOnServer );
+          this.emitChange( "userDeleted" );
+        } else if ( updateData[ "operation" ] === "update" ) {
+          updateData.entities.forEach( function addNewUsers ( user ) {
+                                         _users[ user.id ] = user;
+                                       }
+                                     );
+          this.emitChange( "userCreated" );
+        } else if ( updateData[ "operation" ] === "create" ) {
+          updateData.entities.forEach( function updateUser ( user ) {
+                                         _users[ user.id ] = user;
+                                       }
+                                     );
+          this.emitChange( "userUpdated" );
         }
-        /*
-        // TODO: Are there any other cases?
-        else {
-        }
-        */
-        this.emitChange();
 
       // TODO: Make this more generic,
       // triage it earlier, create ActionTypes for it
