@@ -308,7 +308,6 @@ const Volume = React.createClass(
         allowedSections = new Set(["filesystem", "topology"]);
         editing = false;
         ( { data, log, cache, spares } = this.props );
-        panelClass.push( "active" );
         const rootDataset =
           _.find( this.props.datasets, { name: this.props.name }).properties;
 
@@ -360,6 +359,10 @@ const Volume = React.createClass(
             { "Create new storage pool" }
           </Button>
         );
+      }
+
+      if ( this.props.active ) {
+        panelClass.push( "active" );
       }
 
       return (
