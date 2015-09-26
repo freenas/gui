@@ -65,6 +65,9 @@ const Hardware = React.createClass(
     }
 
   , componentWillUnmount () {
+      DS.removeChangeListener( this.handleDisksChange );
+      DM.unsubscribe( this.constructor.displayName );
+
       NS.removeChangeListener( this.handleNetworkConfigChange );
       NM.unsubscribe( this.constructor.displayName );
 
