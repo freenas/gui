@@ -10,7 +10,7 @@ import CAC from "../actions/CalendarActionCreators";
 class CalendarMiddleware extends MiddlewareAbstract {
 
   static subscribe ( componentId ) {
-    MC.subscribe( [ "task.progress, calendar_tasks.changed" ]
+    MC.subscribe( [ "task.progress", "calendar_tasks.changed" ]
                 , componentId
                 );
   }
