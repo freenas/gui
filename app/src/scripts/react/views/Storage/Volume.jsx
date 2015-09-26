@@ -21,25 +21,10 @@ import ZfsUtil from "./utility/ZfsUtil";
 
 import NewVolume from "./headers/NewVolume";
 import ExistingVolume from "./headers/ExistingVolume";
-import VolumeSectionNav from "./VolumeSectionNav";
-import Filesystem from "./sections/Filesystem";
-import Topology from "./sections/Topology";
+import VolumeSections from "./VolumeSections";
 
 import TopologyEditContext from "./contexts/TopologyEditContext";
 
-var Velocity;
-
-if ( typeof window !== "undefined" ) {
-  Velocity = require( "velocity-animate" );
-} else {
-  // mocked velocity library
-  Velocity = function() {
-    return Promise().resolve( true );
-  };
-}
-
-const SLIDE_DURATION = 500;
-const DRAWERS = [ "files", "snapshots", "filesystem", "disks" ];
 
 // VOLUME EDITING
 // ==============
@@ -59,7 +44,8 @@ const Volume = React.createClass(
   { displayName: "Volume"
 
   , propTypes:
-    { requestActive: React.PropTypes.func.isRequired
+    { becomeActive: React.PropTypes.func.isRequired
+    , becomeInactive: React.PropTypes.func.isRequired
     , existsOnRemote: React.PropTypes.bool
     , data: React.PropTypes.array
     , log: React.PropTypes.array
@@ -94,8 +80,6 @@ const Volume = React.createClass(
 
   , getInitialState () {
       return { activeSection : null
-             , desiredSection: null
-             , editing       : false
              , data          : []
              , log           : []
              , cache         : []
@@ -107,50 +91,20 @@ const Volume = React.createClass(
              };
     }
 
-  , componentWillReceiveProps ( nextProps ) {
-      if ( this.props.active !== nextProps.active ) {
-        // Storage.jsx has authorized an active state on this component, or has
-        // revoked it
-
-        if ( nextProps.active ) {
-          let allowedSections = this.getAllowedDrawers();
-          let newState =
-            { activeSection: _.contains( allowedSections
-                                       , this.state.desiredSection
-                                       )
-                           ? this.state.desiredSection
-                           : allowedSections[0]
-            , desiredSection: null
-            , editing: this.props.existsOnRemote
-                     ? false
-                     : true
-            };
-
-          this.setState( newState, this.slideDownDrawer );
-        } else {
-          let onComplete = () => {
-            this.setState({ activeSection: null, editing: false });
-          };
-
-          this.slideUpDrawer( onComplete );
-        }
-      }
-    }
-
   , componentDidUpdate ( prevProps, prevState ) {
       let topologyContextProps =
         { handleReset: this.resetTopology
         , handleTopoRequest: this.handleTopoRequest
         };
 
-      if ( prevState.editing !== this.state.editing ) {
-        if ( this.state.editing ) {
+      if ( prevProps.active !== this.props.active ) {
+        if ( this.props.existsOnRemote ) {
+          EventBus.emit( "hideContextPanel", TopologyEditContext );
+        } else {
           EventBus.emit( "showContextPanel"
                        , TopologyEditContext
                        , topologyContextProps
                        );
-        } else {
-          EventBus.emit( "hideContextPanel", TopologyEditContext );
         }
       }
     }
@@ -160,65 +114,24 @@ const Volume = React.createClass(
     }
 
 
-  // ANIMATION HELPERS
-  // =================
-  , slideDownDrawer () {
-      Velocity( React.findDOMNode( this.refs.drawer )
-              , "slideDown"
-              , { duration: SLIDE_DURATION
-                }
-              );
-    }
-
-  , slideUpDrawer ( onComplete ) {
-      Velocity( React.findDOMNode( this.refs.drawer )
-              , "slideUp"
-              , { duration: SLIDE_DURATION
-                , complete: onComplete
-                }
-              );
-    }
-
-
   // DRAWER MANAGEMENT
   // =================
   // Helper methods to mange the state of the Volume's drawer, including
   // communicating its active status to Storage.
-  , openDrawer ( desiredSection = null ) {
+  , openDrawer ( activeSection ) {
       this.setState(
-        { desiredSection: desiredSection
+        { activeSection: activeSection || this.state.activeSection
         }
-        , this.props.requestActive.bind( null, this.props.volumeKey )
+        , this.props.becomeActive.bind( null, this.props.volumeKey )
       );
     }
 
   , closeDrawer () {
-      this.props.requestActive( null );
-    }
-
-  , toggleDrawer ( event ) {
-      if ( this.state.activeSection ) {
-        this.closeDrawer();
-      } else {
-        this.openDrawer();
-      }
-    }
-
-  , getAllowedDrawers () {
-      // TODO: Needs more complex logic
-      if ( this.props.existsOnRemote ) {
-        return [ _.last( DRAWERS ) ];
-      } else {
-        return [ _.last( DRAWERS ) ];
-      }
+      this.props.becomeInactive();
     }
 
   , handleDrawerChange ( keyName ) {
-      if ( DRAWERS.has( keyName ) ) {
-        this.setState({ activeSection: keyName });
-      } else {
-        this.setState({ activeSection: null });
-      }
+      this.setState({ activeSection: keyName });
     }
 
 
@@ -275,56 +188,36 @@ const Volume = React.createClass(
       }
 
       this.setState(
-        ZfsUtil.reconstructVdev( key
-                               , purpose
-                               , collection
-                               , disks
-                               , currentType
-                               )
+        ZfsUtil.reconstructVdev( key, purpose, collection, disks, currentType )
       );
     }
 
   , handleDiskAdd ( vdevKey, vdevPurpose, path ) {
       ZAC.selectDisks( path );
-      this.vdevOperation( "add"
-                        , vdevKey
-                        , vdevPurpose
-                        , { path: path }
-                        );
+      this.vdevOperation( "add", vdevKey, vdevPurpose, { path: path } );
     }
 
   , handleDiskRemove ( vdevKey, vdevPurpose, path, event ) {
       ZAC.deselectDisks( path );
-      this.vdevOperation( "remove"
-                        , vdevKey
-                        , vdevPurpose
-                        , { path: path }
-                        );
+      this.vdevOperation( "remove", vdevKey, vdevPurpose, { path: path } );
     }
 
   , handleVdevNuke ( vdevKey, vdevPurpose, event ) {
-      this.vdevOperation( "nuke"
-                        , vdevKey
-                        , vdevPurpose
-                        );
+      this.vdevOperation( "nuke", vdevKey, vdevPurpose );
     }
 
   , handleVdevTypeChange ( vdevKey, vdevPurpose, vdevType, event ) {
-      this.vdevOperation( "changeType"
-                        , vdevKey
-                        , vdevPurpose
-                        , { type: vdevType }
-                        );
+      this.vdevOperation( "changeType", vdevKey, vdevPurpose, { type: vdevType } );
     }
 
   , resetTopology () {
       ZAC.replaceDiskSelection( [] );
       this.setState(
-        { data: []
-        , log: []
-        , cache: []
-        , spares: []
-        , free: 0
+        { data   : []
+        , log    : []
+        , cache  : []
+        , spares : []
+        , free   : 0
         }
       );
     }
@@ -383,49 +276,53 @@ const Volume = React.createClass(
       this.setState({ showDestroyPoolModal: false });
     }
 
-  , createDrawerContent () {
-      switch ( this.state.activeSection ) {
-        case "disks":
-          // TODO: Temporary workaround until editing volumes works
-          let { data, log, cache, spares } = this.props.existsOnRemote
-                                            ? this.props
-                                            : this.state;
-
-          return (
-            <Topology
-              data = { data }
-              log = { log }
-              cache = { cache }
-              spares = { spares }
-              handleDiskAdd = { this.handleDiskAdd }
-              handleDiskRemove = { this.handleDiskRemove }
-              handleVdevRemove = { this.handleVdevRemove }
-              handleVdevNuke = { this.handleVdevNuke }
-              handleVdevTypeChange = { this.handleVdevTypeChange }
-              editing = { this.state.editing }
-            />
-          );
-        case "filesystem":
-          return (
-            <Filesystem ref="Storage" />
-          );
-      }
-    }
-
   , render () {
-      const NOT_INITIALIZED = !this.props.existsOnRemote && !this.state.editing;
-
-      let panelClass = [ "volume" ];
-      if ( this.state.editing ) { panelClass.push( "editing" ); }
-
       let volumeHeader = null;
-      let drawer       = null;
+      let editing;
+      let data, log, cache, spares;
+      let allowedKeys;
+      let panelClass   = [ "volume" ];
 
-      if ( NOT_INITIALIZED ) {
+      if ( this.props.existsOnRemote ) {
+        editing = false;
+        ( { data, log, cache, spares } = this.props );
+        const rootDataset =
+          _.find( this.props.datasets, { name: this.props.name }).properties;
+
+        const breakdown =
+          { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
+          , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
+          , parity : ZfsUtil.calculateBreakdown( this.props.data ).parity
+        }
+
+        volumeHeader = (
+          <ExistingVolume
+            volumeName        = { this.props.name }
+            onDestroyPool     = { this.confirmPoolDestruction }
+            topologyBreakdown = { breakdown }
+          />
+        );
+      } else if ( this.props.active ) {
+        editing = true;
+        ( { data, log, cache, spares } = this.state );
+        panelClass.push( "editing" );
+
+        volumeHeader = (
+          <NewVolume
+            onVolumeNameChange = { this.handleVolumeNameChange }
+            onSubmitClick      = { this.submitVolume }
+            onCancelClick      = { this.closeDrawer }
+            volumeName         = { this.state.name }
+            topologyBreakdown =
+              { ZfsUtil.calculateBreakdown( this.state.data ) }
+          />
+        );
+      } else {
         // We can deduce that this Volume is the "blank" one, and that it has
         // not yet been interacted with. We use this state information to
         // display an initialization message.
 
+        editing = false;
         panelClass.push( "awaiting-init", "text-center" );
 
         volumeHeader = (
@@ -436,71 +333,35 @@ const Volume = React.createClass(
             { "Create new storage pool" }
           </Button>
         );
-      } else {
-        if ( this.state.editing ) {
-          volumeHeader = (
-            <NewVolume
-              onVolumeNameChange = { this.handleVolumeNameChange }
-              onSubmitClick      = { this.submitVolume }
-              onCancelClick      = { this.closeDrawer }
-              volumeName         = { this.state.name }
-              topologyBreakdown =
-                { ZfsUtil.calculateBreakdown( this.state.data ) }
-            />
-          );
-        } else {
-          let rootDataset =
-            _.find( this.props.datasets
-                  , { name: this.props.name }
-                  ).properties;
-
-          let breakdown =
-            { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
-            , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
-            , parity : ZfsUtil.calculateBreakdown( this.props.data ).parity
-          }
-
-          volumeHeader = (
-            <ExistingVolume
-              volumeName        = { this.props.name }
-              onDestroyPool     = { this.confirmPoolDestruction }
-              topologyBreakdown = { breakdown }
-            />
-          );
-        }
-
-        drawer = (
-          <div
-            ref = "drawer"
-            style = {{ display: "none" }}
-            className = "volume-drawer"
-          >
-            { this.props.existsOnRemote
-            ? <VolumeSectionNav
-                activeKey = { this.state.activeSection }
-                onSelect = { this.handleDrawerChange }
-              />
-            : null
-            }
-            { this.createDrawerContent() }
-          </div>
-        );
       }
 
       return (
         <Panel
           className = { panelClass.join( " " ) }
         >
-
           { volumeHeader }
-          { drawer }
+
+          {/* VOLUME SUB-SECTIONS */}
+          <VolumeSections
+            activeKey        = { this.state.activeSection }
+            allowedKeys      = { allowedKeys }
+            data             = { data }
+            log              = { log }
+            cache            = { cache }
+            spares           = { spares }
+            editing          = { editing }
+            onSelect         = { this.handleDrawerChange }
+            onDiskAdd        = { this.handleDiskAdd }
+            onDiskRemove     = { this.handleDiskRemove }
+            onVdevNuke       = { this.handleVdevNuke }
+            onVdevTypeChange = { this.handleVdevTypeChange }
+          />
 
           {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
           <Modal
             show   = { this.state.showDestroyPoolModal }
             onHide = { this.hideDestroyPoolModal }
           >
-
             <Modal.Header closebutton>
               <Modal.Title>
                 {"Confirm Destruction of " + this.props.name }
@@ -518,9 +379,7 @@ const Volume = React.createClass(
             </Modal.Body>
 
             <Modal.Footer>
-              <Button
-                onClick = { this.hideDestroyPoolModal }
-              >
+              <Button onClick={ this.hideDestroyPoolModal }>
                 {"Uhhh no"}
               </Button>
               <Button

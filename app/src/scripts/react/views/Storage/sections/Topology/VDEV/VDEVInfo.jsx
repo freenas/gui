@@ -21,8 +21,8 @@ const HUMAN_TYPES =
 
 const VDEVInfo = React.createClass(
   { propTypes:
-    { handleTypeChange: React.PropTypes.func.isRequired
-    , handleVdevNuke: React.PropTypes.func.isRequired
+    { onTypeChange: React.PropTypes.func.isRequired
+    , onVdevNuke: React.PropTypes.func.isRequired
     , type: React.PropTypes.oneOf(
         [ null
         , "disk"
@@ -40,7 +40,7 @@ const VDEVInfo = React.createClass(
       return (
         <MenuItem
           key = { index }
-          onSelect = { this.props.handleTypeChange.bind( null, type ) }
+          onSelect = { this.props.onTypeChange.bind( null, type ) }
         >
           { HUMAN_TYPES[ type ] }
         </MenuItem>
@@ -77,7 +77,7 @@ const VDEVInfo = React.createClass(
         closeButton = (
           <span
             className = "vdev-remove"
-            onClick = { this.props.handleVdevNuke }
+            onClick = { this.props.onVdevNuke }
           />
         );
       }

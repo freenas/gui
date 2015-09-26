@@ -16,18 +16,18 @@ import ZfsUtil from "../../utility/ZfsUtil";
 import Disk from "../../../../components/items/Disk";
 import DragTarget from "../../../../components/DragTarget";
 import DropTarget from "../../../../components/DropTarget";
-import BreakdownChart from "../../common/BreakdownChart";
 
 import VDEVInfo from "./VDEV/VDEVInfo";
+import BreakdownChart from "../../common/BreakdownChart";
 
 const VDEV = React.createClass(
   { displayName: "VDEV"
 
   , propTypes:
-    { handleDiskAdd: React.PropTypes.func.isRequired
-    , handleDiskRemove: React.PropTypes.func.isRequired
-    , handleVdevNuke: React.PropTypes.func.isRequired
-    , handleTypeChange: React.PropTypes.func.isRequired
+    { onDiskAdd: React.PropTypes.func.isRequired
+    , onDiskRemove: React.PropTypes.func.isRequired
+    , onVdevNuke: React.PropTypes.func.isRequired
+    , onTypeChange: React.PropTypes.func.isRequired
     , cols: React.PropTypes.number.isRequired
     , children: React.PropTypes.array
     , path: React.PropTypes.string
@@ -104,7 +104,7 @@ const VDEV = React.createClass(
 
       let disk = (
         <Disk
-          handleDiskRemove = { this.props.handleDiskRemove }
+          handleDiskRemove = { this.props.onDiskRemove }
           existsOnServer = { mutable }
           path = { path }
         />
@@ -115,12 +115,12 @@ const VDEV = React.createClass(
           <DragTarget
             namespace = "disk"
             payload = { path }
-            callback = { this.props.handleDiskRemove.bind( null, path ) }
+            callback = { this.props.onDiskRemove.bind( null, path ) }
           >
             { disk }
             <span
               className = "disk-remove"
-              onClick = { this.props.handleDiskRemove.bind( null, path ) }
+              onClick = { this.props.onDiskRemove.bind( null, path ) }
               onMouseDown = { event => event.stopPropagation() }
             />
           </DragTarget>
@@ -191,8 +191,8 @@ const VDEV = React.createClass(
         <VDEVInfo
           type = { this.props.type }
           allowedTypes = { this.props.allowedTypes }
-          handleTypeChange = { this.props.handleTypeChange }
-          handleVdevNuke = { this.props.handleVdevNuke }
+          onTypeChange = { this.props.onTypeChange }
+          onVdevNuke = { this.props.onVdevNuke }
         >
           { chart }
         </VDEVInfo>
@@ -229,7 +229,7 @@ const VDEV = React.createClass(
           namespace = "disk"
           disabled = { this.state.devicesAreAvailable }
           preventDrop = { this.preventHDDInSSDZone }
-          callback = { this.props.handleDiskAdd }
+          callback = { this.props.onDiskAdd }
           activeDrop
         >
           <Well className="clearfix vdev-bucket">

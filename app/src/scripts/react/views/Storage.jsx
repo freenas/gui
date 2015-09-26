@@ -104,17 +104,19 @@ const Storage = React.createClass(
     }
 
   , handleVolumeActive ( key ) {
-      this.setState(
-        { activeVolume: key
-        }
-      );
+      this.setState({ activeVolume: key });
+    }
+
+  , handleVolumeInactive () {
+      this.setState({ activeVolume: null });
     }
 
   , createVolumes () {
       let activeVolume = this.state.activeVolume;
 
       const volumeCommon =
-        { requestActive: this.handleVolumeActive
+        { becomeActive   : this.handleVolumeActive
+        , becomeInactive : this.handleVolumeInactive
         };
 
       let pools =

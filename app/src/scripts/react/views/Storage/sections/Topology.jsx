@@ -12,13 +12,13 @@ import ZfsUtil from "../utility/ZfsUtil";
 
 import VDEV from "./Topology/VDEV";
 
-var TopologyDrawer = React.createClass(
+var Topology = React.createClass(
 
   { propTypes:
-    { handleDiskAdd: React.PropTypes.func.isRequired
-    , handleDiskRemove: React.PropTypes.func.isRequired
-    , handleVdevNuke: React.PropTypes.func.isRequired
-    , handleVdevTypeChange: React.PropTypes.func.isRequired
+    { onDiskAdd: React.PropTypes.func.isRequired
+    , onDiskRemove: React.PropTypes.func.isRequired
+    , onVdevNuke: React.PropTypes.func.isRequired
+    , onVdevTypeChange: React.PropTypes.func.isRequired
     , data: React.PropTypes.array.isRequired
     , log: React.PropTypes.array.isRequired
     , cache: React.PropTypes.array.isRequired
@@ -66,6 +66,8 @@ var TopologyDrawer = React.createClass(
         let allowedTypes = this.props.editing
                          ? ZfsUtil.getAllowedVdevTypes( members, purpose )
                          : [ type ];
+        const boundArgs = [ null, index, purpose ];
+
         return (
           <VDEV { ...sharedProps }
             allowedTypes = { allowedTypes }
@@ -74,18 +76,10 @@ var TopologyDrawer = React.createClass(
             path         = { path }
             vdevKey      = { index }
             key          = { index }
-            handleDiskAdd = { this.props.handleDiskAdd
-                                  .bind( null, index, purpose )
-                            }
-            handleDiskRemove = { this.props.handleDiskRemove
-                                     .bind( null, index, purpose )
-                               }
-            handleVdevNuke = { this.props.handleVdevNuke
-                                   .bind( null, index, purpose )
-                             }
-            handleTypeChange = { this.props.handleVdevTypeChange
-                                     .bind( null, index, purpose )
-                               }
+            onDiskAdd    = { this.props.onDiskAdd.bind( ...boundArgs ) }
+            onDiskRemove = { this.props.onDiskRemove.bind( ...boundArgs ) }
+            onVdevNuke   = { this.props.onVdevNuke.bind( ...boundArgs ) }
+            onTypeChange = { this.props.onVdevTypeChange.bind( ...boundArgs ) }
           />
         );
       }
@@ -101,24 +95,17 @@ var TopologyDrawer = React.createClass(
       // which there are no devices available and no VDEVs of that type in
       // props. There must always be a VDEV in Winterfell, however, even if it's
       // just going to render a message about "you can't do anything with me".
+      const boundArgs = [ null, vdevs.length, purpose ];
       vdevs.push(
         <VDEV { ...sharedProps }
           allowedTypes = { [] }
           type         = { null }
           vdevKey      = { vdevs.length }
           key          = { vdevs.length }
-          handleDiskAdd = { this.props.handleDiskAdd
-                                .bind( null, vdevs.length, purpose )
-                          }
-          handleDiskRemove = { this.props.handleDiskRemove
-                                   .bind( null, vdevs.length, purpose )
-                             }
-          handleVdevNuke = { this.props.handleVdevNuke
-                                 .bind( null, vdevs.length, purpose )
-                           }
-          handleTypeChange = { this.props.handleVdevTypeChange
-                                   .bind( null, vdevs.length, purpose )
-                             }
+          onDiskAdd    = { this.props.onDiskAdd.bind( ...boundArgs ) }
+          onDiskRemove = { this.props.onDiskRemove.bind( ...boundArgs ) }
+          onVdevNuke   = { this.props.onVdevNuke.bind( ...boundArgs ) }
+          onTypeChange = { this.props.onVdevTypeChange.bind( ...boundArgs ) }
         />
       );
     }
@@ -175,4 +162,4 @@ var TopologyDrawer = React.createClass(
   }
 );
 
-export default TopologyDrawer;
+export default Topology;
