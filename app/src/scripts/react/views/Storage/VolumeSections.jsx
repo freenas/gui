@@ -67,7 +67,7 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Files"
           eventKey = "files"
-          disabled
+          disabled = { !this.props.allowedSections.has( "files" ) }
         >
           {/* TODO */}
         </Tab>
@@ -76,6 +76,7 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Filesystem"
           eventKey = "filesystem"
+          disabled = { !this.props.allowedSections.has( "filesystem" ) }
         >
           <Filesystem />
         </Tab>
@@ -84,7 +85,7 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Snapshots"
           eventKey = "snapshots"
-          disabled
+          disabled = { !this.props.allowedSections.has( "snapshots" ) }
           >
           {/* TODO */}
         </Tab>
@@ -93,6 +94,7 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Pool Topology"
           eventKey = "topology"
+          disabled = { !this.props.allowedSections.has( "topology" ) }
         >
           <Topology
             data             = { this.props.data }
