@@ -75,26 +75,6 @@ const USER_LABELS =
     , password_disabled : "Password Disabled"
   };
 
-const KEY_TRANSLATION =
-  { username          : "username"
-  , sshpubkey         : "sshPubKey"
-  , shell             : "shell"
-  , locked            : "locked"
-  , groups            : "groups"
-  , sessions          : "sessions"
-  , unixhash          : "unixHash"
-  , sudo              : "sudo"
-  , smbhash           : "smbHash"
-  , email             : "email"
-  , builtin           : "builtIn"
-  , loggedin          : "loggedIn"
-  , full_name         : "fullname"
-  , home              : "home"
-  , group             : "group"
-  , id                : "id"
-  , password_disabled : "passwordDisabled"
-  };
-
 class UsersStore extends FluxBase {
 
   constructor () {
