@@ -119,15 +119,23 @@ function handlePayload ( payload ) {
       let args = ACTION.eventData.args;
       let updateData = args[ "args" ];
 
-      if ( args[ "name" ] === UPDATE_MASK ) {
+      if ( args[ "name" ] === "entity-subscriber.groups.changed" ) {
         if ( updateData[ "operation" ] === "delete" ) {
-          _groups = _.omit( _groups, updateData["ids"] );
-        } else if ( updateData[ "operation" ] === "create"
-                  || updateData[ "operation" ] === "update" ) {
-          Array.prototype.push.apply( _updatedOnServer, updateData["ids"] );
-          GM.requestGroupsList( _updatedOnServer );
+          _groups = _.omit( _groups, updateData[ "ids" ] );
+          this.emitChange( "userDeleted" );
+        } else if ( updateData[ "operation" ] === "update" ) {
+          updateData.entities.forEach( function addNewGroup ( group ) {
+                                         _groups[ group.id ] = group;
+                                       }
+                                     );
+          this.emitChange( "groupCreated" );
+        } else if ( updateData[ "operation" ] === "create" ) {
+          updateData.entities.forEach( function updateGroup ( group ) {
+                                         _groups[ group.id ] = group;
+                                       }
+                                     );
+          this.emitChange( "groupUpdated" );
         }
-        this.emitChange();
 
       } else if ( args[ "name" ] === "task.progress"
                 && updateData["state"] === "FINISHED" ) {
