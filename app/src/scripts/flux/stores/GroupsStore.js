@@ -93,9 +93,7 @@ class GroupsStore extends FluxBase {
     while ( _.has( _groups, nextGID ) ) {
       nextGID++;
     }
-
     return nextGID;
-
   }
 
 }
@@ -145,7 +143,6 @@ function handlePayload ( payload ) {
     default:
     // Do Nothing
   }
-
 };
 
 export default new GroupsStore ();
