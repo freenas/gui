@@ -12,13 +12,19 @@ import UAC from "..//actions/UsersActionCreators";
 class UsersMiddleware extends AbstractBase {
 
   static subscribe ( componentID ) {
-    MC.subscribe( [ "users.changed" ], componentID );
-    MC.subscribe( [ "task.*" ], componentID );
+    MC.subscribe( [ "users.changed"
+                  , "entity-subscriber.users.changed"
+                  , "task.progress"
+                  ]
+                , componentID );
   }
 
   static unsubscribe ( componentID ) {
-    MC.unsubscribe( [ "users.changed" ], componentID );
-    MC.unsubscribe( [ "task.*" ], componentID );
+    MC.unsubscribe( [ "users.changed"
+                    , "entity-subscriber.users.changed"
+                    , "task.progress"
+                    ]
+                  , componentID );
   }
 
   static requestUsersList ( ids ) {
