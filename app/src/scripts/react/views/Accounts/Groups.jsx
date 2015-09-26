@@ -102,7 +102,7 @@ const Groups = React.createClass(
   }
 
   , handleGroupsChange: function () {
-    this.setState( getGroupsList() );
+    this.setState( { groupsList: GS.groups } );
   }
 
   , handleUsersChange: function () {
