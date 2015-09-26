@@ -24,8 +24,8 @@ const DISK_LABELS =
   , path: "Path"
   , sectorsize: "Sector Size"
   , "max_rotation": "Maximum RPM"
-  , "smart-enabled": "S.M.A.R.T. Enabled"
-  , "smart-status": "S.M.A.R.T. Status"
+  , "smart_enabled": "S.M.A.R.T. Enabled"
+  , "smart_status": "S.M.A.R.T. Status"
   , model: "Disk Model"
   , schema: "Partition Format"
   };
