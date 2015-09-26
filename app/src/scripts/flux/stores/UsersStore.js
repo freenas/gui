@@ -193,7 +193,7 @@ function handlePayload ( payload ) {
       // TODO: Make this more generic,
       // triage it earlier, create ActionTypes for it
       } else if (
-        args[ "name" ] === "task.updated"
+        args[ "name" ] === "task.progress"
         && args.args["state"] === "FINISHED"
       ) {
         delete _localUpdatePending[ args.args["id"] ];

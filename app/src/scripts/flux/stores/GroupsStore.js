@@ -131,7 +131,7 @@ function handlePayload ( payload ) {
         }
         this.emitChange();
 
-      } else if ( args[ "name" ] === "task.updated"
+      } else if ( args[ "name" ] === "task.progress"
                 && updateData["state"] === "FINISHED" ) {
         delete _localUpdatePending[ updateData["id"] ];
       }
