@@ -16,7 +16,10 @@ import BreakdownChart from "../common/BreakdownChart";
 export default class ExistingVolume extends React.Component {
   render () {
     return (
-      <div className="volume-info">
+      <div
+        className = "volume-info"
+        onClick   = { this.props.onClick }
+      >
         <div className="clearfix">
 
           {/* POOL NAME AND HEALTH INDICATOR */}
@@ -31,7 +34,10 @@ export default class ExistingVolume extends React.Component {
             </h3>
 
             {/* VOLUME OPTIONS */}
-            <div className = "volume-options-dropdown">
+            <div
+              className = "volume-options-dropdown"
+              onClick = { ( event ) => { event.stopPropagation(); } }
+            >
               <DropdownButton
                 noCaret
                 pullRight

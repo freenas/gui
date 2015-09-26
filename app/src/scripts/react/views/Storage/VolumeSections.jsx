@@ -21,6 +21,7 @@ if ( typeof window !== "undefined" ) {
   };
 }
 
+const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
 const SLIDE_DURATION = 500;
 
 export default class VolumeSections extends React.Component {
@@ -28,10 +29,10 @@ export default class VolumeSections extends React.Component {
   componentDidUpdate ( prevProps, prevState ) {
     if ( this.props.active && !prevProps.active ) {
       // The volume has become active, and the drawer should slide down
-      this.slideDownDrawer()
+      this.slideDownDrawer();
     } else if ( !this.props.active && prevProps.active ) {
       // The volume has become inactive, and the drawer should slide up
-      this.slideUpDrawer()
+      this.slideUpDrawer();
     }
   }
 
@@ -55,10 +56,11 @@ export default class VolumeSections extends React.Component {
   render () {
     return (
       <Tabs
+        ref       = "drawer"
         className = "volume-nav"
         style     = {{ display: "none" }}
         bsStyle   = "pills"
-        activeKey = { this.props.activeKey }
+        activeKey = { this.props.activeSection }
         onSelect  = { this.props.onSelect }
       >
         {/* FILE BROWSER */}
@@ -110,7 +112,8 @@ export default class VolumeSections extends React.Component {
 }
 
 VolumeSections.propTypes =
-  { activeKey        : React.PropTypes.any
+  { activeKey        : React.PropTypes.oneOf( SECTIONS )
+  , allowedSections  : React.PropTypes.instanceOf( Set )
   , onSelect         : React.PropTypes.func.isRequired
   , onDiskAdd        : React.PropTypes.func.isRequired
   , onDiskRemove     : React.PropTypes.func.isRequired
@@ -121,4 +124,5 @@ VolumeSections.propTypes =
   , cache            : React.PropTypes.array.isRequired
   , spares           : React.PropTypes.array.isRequired
   , editing          : React.PropTypes.bool.isRequired
+  , active           : React.PropTypes.bool.isRequired
   };

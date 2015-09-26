@@ -75,15 +75,18 @@
   }
 }
 
-nav.volume-nav {
-  text-align       : center;
-  height           : 44px; // FIXME: Nav pills cause whitespace gap
-  border-bottom    : 1px solid @gray-lighter;
-  padding          : 8px 0;
-  margin           : 0 -@panel-body-padding @panel-body-padding;
-  background-color : rgba(0, 0, 0, 0.05);
-  .nav {
-    display: inline-block;
+.volume-nav {
+  nav {
+    text-align       : center;
+    border-bottom    : 1px solid @gray-lighter;
+    padding          : 4px 0;
+    margin           : 0 -@panel-body-padding @panel-body-padding;
+    background-color : rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-pills {
+    .flex-display( flex );
+    .justify-content( center );
     & > li > a {
       padding: 4px 16px;
     }
@@ -112,6 +115,7 @@ nav.volume-nav {
   padding          : @panel-body-padding;
   padding-bottom   : 0;
   margin           : -@panel-body-padding;
+  margin-bottom    : 0;
 
   .progress {
     margin: @panel-body-padding -@panel-body-padding 0;

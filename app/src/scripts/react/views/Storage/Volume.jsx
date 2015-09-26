@@ -25,6 +25,7 @@ import VolumeSections from "./VolumeSections";
 
 import TopologyEditContext from "./contexts/TopologyEditContext";
 
+const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
 
 // VOLUME EDITING
 // ==============
@@ -46,6 +47,7 @@ const Volume = React.createClass(
   , propTypes:
     { becomeActive: React.PropTypes.func.isRequired
     , becomeInactive: React.PropTypes.func.isRequired
+    , active: React.PropTypes.bool.isRequired
     , existsOnRemote: React.PropTypes.bool
     , data: React.PropTypes.array
     , log: React.PropTypes.array
@@ -118,9 +120,9 @@ const Volume = React.createClass(
   // =================
   // Helper methods to mange the state of the Volume's drawer, including
   // communicating its active status to Storage.
-  , openDrawer ( activeSection ) {
+  , handleDrawerOpen ( event ) {
       this.setState(
-        { activeSection: activeSection || this.state.activeSection
+        { activeSection: this.state.activeSection || null
         }
         , this.props.becomeActive.bind( null, this.props.volumeKey )
       );
@@ -132,6 +134,25 @@ const Volume = React.createClass(
 
   , handleDrawerChange ( keyName ) {
       this.setState({ activeSection: keyName });
+    }
+
+  , getActiveSection ( allowedSections ) {
+      if ( allowedSections.has( this.state.activeSection ) ) {
+        // If the requested section is allowed, use it
+        return this.state.activeSection;
+      } else {
+        // If the requested section was not allowed, iterate over all sections in
+        // order, and make active whichever one is first found to be allowed
+        SECTIONS.forEach( ( section ) => {
+          if ( allowedSections.has( section ) ) {
+            return section;
+          }
+        });
+
+        // If no sections were allowed, use the last one in the line, which should
+        // theoretically be the most fundamental
+        return SECTIONS[ SECTIONS.length - 1 ];
+      }
     }
 
 
@@ -280,10 +301,11 @@ const Volume = React.createClass(
       let volumeHeader = null;
       let editing;
       let data, log, cache, spares;
-      let allowedKeys;
+      let allowedSections;
       let panelClass   = [ "volume" ];
 
       if ( this.props.existsOnRemote ) {
+        allowedSections = new Set(["filesystem", "topology"]);
         editing = false;
         ( { data, log, cache, spares } = this.props );
         const rootDataset =
@@ -299,10 +321,12 @@ const Volume = React.createClass(
           <ExistingVolume
             volumeName        = { this.props.name }
             onDestroyPool     = { this.confirmPoolDestruction }
+            onClick           = { this.handleDrawerOpen }
             topologyBreakdown = { breakdown }
           />
         );
       } else if ( this.props.active ) {
+        allowedSections = new Set(["topology"]);
         editing = true;
         ( { data, log, cache, spares } = this.state );
         panelClass.push( "editing" );
@@ -322,13 +346,14 @@ const Volume = React.createClass(
         // not yet been interacted with. We use this state information to
         // display an initialization message.
 
+        allowedSections = new Set();
         editing = false;
         panelClass.push( "awaiting-init", "text-center" );
 
         volumeHeader = (
           <Button
             bsStyle = "primary"
-            onClick = { this.openDrawer.bind( this, "disks" ) }
+            onClick = { this.handleDrawerOpen }
           >
             { "Create new storage pool" }
           </Button>
@@ -343,13 +368,14 @@ const Volume = React.createClass(
 
           {/* VOLUME SUB-SECTIONS */}
           <VolumeSections
-            activeKey        = { this.state.activeSection }
-            allowedKeys      = { allowedKeys }
+            activeSection    = { this.getActiveSection( allowedSections ) }
+            allowedSections  = { allowedSections }
             data             = { data }
             log              = { log }
             cache            = { cache }
             spares           = { spares }
             editing          = { editing }
+            active           = { this.props.active }
             onSelect         = { this.handleDrawerChange }
             onDiskAdd        = { this.handleDiskAdd }
             onDiskRemove     = { this.handleDiskRemove }
