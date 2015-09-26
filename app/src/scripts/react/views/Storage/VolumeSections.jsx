@@ -22,7 +22,7 @@ if ( typeof window !== "undefined" ) {
 }
 
 const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
-const SLIDE_DURATION = 500;
+const SLIDE_DURATION = 350;
 
 export default class VolumeSections extends React.Component {
 
