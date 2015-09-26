@@ -349,6 +349,7 @@ const Volume = React.createClass(
 
         allowedSections = new Set();
         editing = false;
+        ( { data, log, cache, spares } = this.state );
         panelClass.push( "awaiting-init", "text-center" );
 
         volumeHeader = (
