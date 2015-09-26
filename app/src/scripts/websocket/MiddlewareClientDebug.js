@@ -81,7 +81,6 @@ class MiddlewareClientDebug extends DebugLogger {
   logNewSubscriptionMasks ( masks ) {
     let logMasks = masks.length > 1
                  ? _.clone( masks )
-                     .splice( masks.length - 1, 0, " and " )
                      .join( ", " )
                  : masks;
 
@@ -112,7 +111,6 @@ class MiddlewareClientDebug extends DebugLogger {
   logUnsubscribeMasks ( masks ) {
     let logMasks = masks.length > 1
                  ? _.clone( masks )
-                     .splice( masks.length - 1, 0, " and " )
                      .join( ", " )
                  : masks;
 
