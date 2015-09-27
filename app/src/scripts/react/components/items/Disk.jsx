@@ -24,27 +24,44 @@ const Disk = React.createClass(
 
   , render () {
     let disk = DS.getByPath( this.props.path );
-
     let diskClasses = [ "disk-icon" ];
 
-    if ( disk[ "smart_status" ] === "PASS" ) {
-      diskClasses.push( "smart-pass" );
-    } else if ( disk[ "smart_status"] === "WARN" ) {
-      diskClasses.push( "smart-warn" );
-    } else if ( disk[ "smart_status" ] === "FAIL" ) {
-      diskClasses.push( "smart-fail" );
+    let smart_status, mediasize;
+    let is_ssd;
+
+    if ( disk ) {
+      ( { smart_status, mediasize } = disk );
+      ( { is_ssd } = disk.status );
+
+      switch ( smart_status ) {
+        case "PASS":
+          diskClasses.push( "smart-pass" );
+          break;
+
+        case "WARN":
+          diskClasses.push( "smart-warn" );
+          break;
+
+        case "FAIL":
+          diskClasses.push( "smart-fail" );
+          break;
+
+        default:
+          // TODO: Some kind of thing for when the smart status is unknown?
+          break;
+      }
     }
 
     return (
       <div className= { diskClasses.join( " " ) } >
         <img
-          src = { disk.status["is_ssd"]
+          src = { is_ssd
                 ? "/images/ssd.png"
                 : "/images/hdd.png"
                 }
         />
         <strong className="primary-text">
-          { ByteCalc.humanize( disk.mediasize
+          { ByteCalc.humanize( mediasize
                              , { roundMode: this.props.roundMode }
                              )
           }
