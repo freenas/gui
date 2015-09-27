@@ -10,13 +10,13 @@ import ZAC from "../actions/ZfsActionCreators";
 class ZfsMiddleware extends MiddlewareAbstract {
 
   static subscribe ( componentID ) {
-    MC.subscribe( [ "entity-subscriber.volumes.changed" ]
+    MC.subscribe( [ "entity-subscriber.volumes.changed", "task.progress" ]
                 , componentID
                 );
   }
 
   static unsubscribe ( componentID ) {
-    MC.unsubscribe( [ "entity-subscriber.volumes.changed" ]
+    MC.unsubscribe( [ "entity-subscriber.volumes.changed", "task.progress" ]
                   , componentID
                   );
   }
