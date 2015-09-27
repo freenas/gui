@@ -167,7 +167,6 @@ function handlePayload ( payload ) {
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
       let updateData = args[ "args" ];
-      console.log( action );
 
       if ( args[ "name" ] === "entity-subscriber.users.changed" ) {
         if ( updateData[ "operation" ] === "delete" ) {
