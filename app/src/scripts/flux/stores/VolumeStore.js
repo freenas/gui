@@ -17,6 +17,9 @@ var _availableSSDs = new Set();
 var _availableHDDs = new Set();
 var _selectedSSDs = new Set();
 var _selectedHDDs = new Set();
+var _pendingVolumeCreateTasks = [];
+var _pendingVolumeUpdateTasks = [];
+var _pendingVolumeDeleteTasks = [];
 
 class VolumeStore extends FluxBase {
 
@@ -154,6 +157,21 @@ function handlePayload ( payload ) {
       });
 
       this.emitChange( "availableDisks" );
+      break;
+
+    case ActionTypes.RECEIVE_VOLUME_CREATE_TASK:
+      _pendingVolumeCreateTasks.push( action.taskID );
+      this.emitChange( "volumeCreateTaskPending" );
+      break;
+
+    case ActionTypes.RECEIVE_VOLUME_UPDATE_TASK:
+      _pendingVolumeUpdateTasks.push( action.taskID );
+      this.emitChange( "volumeUpdateTaskPending" );
+      break;
+
+    case ActionTypes.RECEIVE_VOLUME_DELETE_TASK:
+      _pendingVolumeDeleteTasks.push( action.taskID );
+      this.emitChange( "volumeDeleteTaskPending" );
       break;
 
     case ActionTypes.MIDDLEWARE_EVENT:
