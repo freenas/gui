@@ -79,7 +79,8 @@ export default class TasksSidebar extends React.Component {
                )
        .value();
     var contents = _.union( tasks, events );
-    return _.sortBy( contents, "timestamp" );
+
+    return _.sortBy( contents, "timestamp" ).reverse();
   }
 
   generateDisplayItems( contents ) {
