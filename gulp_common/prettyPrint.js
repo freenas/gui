@@ -12,6 +12,7 @@ function textColor ( bgColor ) {
     case "bgCyan":
     case "bgWhite":
     case "bgGreen":
+    case "bgYellow":
       return "black";
 
     default:
