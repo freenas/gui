@@ -139,7 +139,11 @@ function handlePayload ( payload ) {
       break;
 
     case ActionTypes.RECEIVE_VOLUMES:
-      _volumes = ACTION.volumes;
+      _volumes = {};
+      ACTION.volumes.forEach( function populateVolumeStore ( volume ) {
+                                _volumes[ volume.id ] = volume;
+                              }
+                            );
       this.fullUpdateAt = ACTION.timestamp;
       this.emitChange( "volumes" );
       break;
