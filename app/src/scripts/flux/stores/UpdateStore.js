@@ -145,6 +145,7 @@ function handleMiddlewareEvent ( payload ) {
       switch ( args.args.name ) {
         case "update.update":
         case "update.manual":
+          // This is super not done by the way.
           _updateTask = args.args;
           this.emitChange( "updateTask" );
           break;
