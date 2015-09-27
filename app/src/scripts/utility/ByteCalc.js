@@ -150,9 +150,18 @@ class ByteCalc {
   // rendering the biggest possible unit with two decimal places. This function
   // can be instructed to output metric or IEC (default is metric). The
   // `verbose` option will output "megabytes" instead of "MB"
-  static humanize ( bytes, options = {} ) {
+  static humanize ( inputBytes, options = {} ) {
     // FIXME: Flow could be refactored to not do any operations on the number
     // of bytes if the unitsOnly flag is set.
+    let bytes = parseInt( inputBytes );
+
+    if ( typeof bytes !== "number" ) {
+      console.warn( "Arguments to ByteCalc.humanize() should be numbers"
+                  , inputBytes
+                  );
+      return null;
+    }
+
     let { IEC = false
         , verbose = false
         , roundMode = null
