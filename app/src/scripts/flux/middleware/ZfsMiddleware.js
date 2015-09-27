@@ -42,6 +42,13 @@ class ZfsMiddleware extends MiddlewareAbstract {
               );
   }
 
+  static updateVolume ( volumeProps ) {
+    MC.request( "task.submit"
+              , [ "volume.create", [ volumeProps ] ]
+              , ZAC.receiveVolumeUpdateTask
+              );
+  }
+
   static destroyVolume ( volumeName ) {
     MC.request( "task.submit"
               , [ "volume.destroy", [ volumeName ] ]
