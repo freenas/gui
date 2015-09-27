@@ -160,17 +160,17 @@ function handlePayload ( payload ) {
       break;
 
     case ActionTypes.RECEIVE_VOLUME_CREATE_TASK:
-      _pendingVolumeCreateTasks.push( action.taskID );
+      _pendingVolumeCreateTasks.push( ACTION.taskID );
       this.emitChange( "volumeCreateTaskPending" );
       break;
 
     case ActionTypes.RECEIVE_VOLUME_UPDATE_TASK:
-      _pendingVolumeUpdateTasks.push( action.taskID );
+      _pendingVolumeUpdateTasks.push( ACTION.taskID );
       this.emitChange( "volumeUpdateTaskPending" );
       break;
 
     case ActionTypes.RECEIVE_VOLUME_DELETE_TASK:
-      _pendingVolumeDeleteTasks.push( action.taskID );
+      _pendingVolumeDeleteTasks.push( ACTION.taskID );
       this.emitChange( "volumeDeleteTaskPending" );
       break;
 
