@@ -24,7 +24,7 @@ export default class TasksSidebar extends React.Component {
     this.state =
       { tasks: []
       , events: []
-    };
+      };
   }
 
   componentDidMount () {
