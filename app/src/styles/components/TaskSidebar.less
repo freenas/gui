@@ -1,25 +1,80 @@
 .tasks-sidebar {
-  .task-finished {
+  overflow-y: scroll;
 
-  }
+  .task-item {
+    .flex-display( flex );
 
-  .task-failed {
+    .task-id {
+      .flex( 0 0 auto );
+      .align-self( center );
+      background: @brand-info;
+      width: 50px;
+      height: 50px;
+      color: white;
+      line-height: 50px;
+      text-align: center;
+      font-size: 1.15em;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
 
-  }
+    .task-details {
+      .flex( 1 );
+    }
 
-  .task-waiting {
+    .task-title {
+      text-transform: uppercase;
+      margin: 5px 10px;
+    }
 
-  }
+    .task-timestamp {
+      width: 100%;
+      margin: 0;
+      padding: 0 10px;
+    }
 
-  .task-executing {
+    .task-user {
+      width: 100%;
+      margin: 0;
+      padding: 0 10px;
+    }
 
-  }
+    hr {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .progress {
+      margin: 5px 10px;
+    }
+    .task-abort {
+      float: right;
+      overflow: hidden;
+      margin: 0 0 0 10px;
+    }
 
-  .task-created {
+    .task-finished {
 
-  }
+    }
 
-  .task-aborted {
+    .task-failed {
+
+    }
+
+    .task-waiting {
+
+    }
+
+    .task-executing {
+
+    }
+
+    .task-created {
+
+    }
+
+    .task-aborted {
+
+    }
 
   }
 
