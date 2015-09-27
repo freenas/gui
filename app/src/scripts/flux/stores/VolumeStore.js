@@ -197,6 +197,33 @@ function handleMiddlewareEvent ( payload ) {
         this.emitChange( "volumeDestroyed" );
       }
       break;
+    case "task.progress":
+      switch ( args.args.name ) {
+        case "volume.create":
+          if ( args.args.state === "FINISHED" ) {
+            _.pull( _pendingVolumeCreateTasks
+                  , args.args.id
+                  );
+            this.emitChange( "createVolumeTaskFinished" );
+          }
+          break;
+        case "volume.update":
+          if ( args.args.state === "FINISHED" ) {
+            _.pull( _pendingVolumeUpdateTasks
+                  , args.args.id
+                  );
+            this.emitChange( "updateVolumeTaskFinished" );
+          }
+          break;
+        case "volume.destroy":
+          if ( args.args.state === "FINISHED" ) {
+            _.pull( _pendingVolumeDestroyTasks
+                  , args.args.id
+                  );
+            this.emitChange( "destroyVolumeTaskFinished" );
+          }
+          break;
+      }
   }
 }
 
