@@ -14,9 +14,9 @@ const DashboardContext = React.createClass(
   { render () {
     return (
       <div className="context-dashboard">
+        <TasksSidebar/>
         <CPUMeter/>
         <MemoryMeter/>
-        <TasksSidebar/>
       </div>
     );
   }
