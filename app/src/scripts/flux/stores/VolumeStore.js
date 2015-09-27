@@ -179,15 +179,22 @@ function handlePayload ( payload ) {
       break;
 
     case ActionTypes.MIDDLEWARE_EVENT:
-      let args = eventData.args;
-      if ( args.args.name === "entity-subscriber.volumes.changed" ) {
-        if ( args.args.operation === "create" ) {
-          _volumes[ args.args.entities[0][ "name" ] ] = _.cloneDeep( args.args.entities[0] );
-          this.emitChange( "volumes" );
-        } else if ( args.args.operation = "destroy" ) {
-          _volumes = _.cloneDeep( args.args.entities[0] );
-          this.emitChange( "volumes" );
-        }
+      handleMiddlewareEvent.call( this, payload );
+      break;
+  }
+}
+
+function handleMiddlewareEvent ( payload ) {
+  const args = payload.action.eventData.args;
+
+  switch ( args.name ) {
+    case "entity-subscriber.volumes.changed":
+      if ( args.args.operation === "create" ) {
+        _volumes[ args.args.entities[0].id ] = _.cloneDeep( args.args.entities[0] );
+        this.emitChange( "volumeCreated" );
+      } else if ( args.args.operation = "destroy" ) {
+        delete _volumes[ args.args.ids[0] ];
+        this.emitChange( "volumeDestroyed" );
       }
       break;
   }
