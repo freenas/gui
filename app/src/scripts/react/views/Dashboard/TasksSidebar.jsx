@@ -62,7 +62,12 @@ export default class TasksSidebar extends React.Component {
        .values()
        .map( function ( taskType ) { return _.values( taskType ); } )
        .flatten()
-       .forEach( function addTimestamp ( task ) {
+       .filter( function omitChildTasks ( task ) {
+           console.log( task );
+           return task.parent === null;
+         }
+       )
+       .forEach( function addTimestampAndType ( task ) {
                    task.timestamp =
                      moment( task[ "updated-at" ] ).unix();
                    task.type = "task";
