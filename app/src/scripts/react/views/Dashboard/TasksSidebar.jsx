@@ -15,6 +15,7 @@ import TM from "../../../flux/middleware/TasksMiddleware";
 import TS from "../../../flux/stores/TasksStore";
 
 import DiscTri from "../../components/DiscTri";
+import TaskItem from "./Items/TaskItem";
 
 export default class TasksSidebar extends React.Component {
   constructor ( props ) {
@@ -91,40 +92,26 @@ export default class TasksSidebar extends React.Component {
   generateDisplayItems( contents ) {
     return (
       contents.map( function createDisplayItem ( item, index ) {
-                    var info = null;
-                    if ( item.type === "event" ) {
-                      info = (
-                        <div className = "event" >
-                          <span>{ moment( item.timestamp * 1000 ).format( "L, h:mm:ss a" ) }</span>
-                        </div>
-                      );
-                    } else if ( item.type === "task" ) {
-                      let taskClass = "task-" + item.state.toLowerCase();
-                      info = (
-                        <div className = { taskClass }>
-                          <span>{ moment( item.timestamp * 1000 ).format( "L, h:mm:ss a" ) }</span>
-                          <br/>
-                          <span>{ "Status: " + item.state }</span>
-                          <br/>
-                          <span>
-                            { item.user
-                            ? "User: " + item.user
-                            : null
-                            }
-                          </span>
-                        </div>
-                      );
-                    }
-                    return (
-                      <DiscTri
-                        key = { index }
-                        headerShow = { item.name }
-                        headerHide = { item.name }
-                        defaultExpanded = { false }
-                      >
-                        { info }
-                      </DiscTri>
-                    );
+                      var info = null;
+                      if ( item.type === "event" ) {
+                        info = (
+                          <DiscTri
+                            headerShow = { item.name }
+                            headerHide = { item.name }
+                            defaultExpanded = { false }
+                          >
+                            <div className = "event" >
+                              <span>{ moment( item.timestamp * 1000 ).format( "L, h:mm:ss a" ) }</span>
+                            </div>
+                          </DiscTri>
+                        );
+                      } else if ( item.type === "task" ) {
+                        info = <TaskItem
+                                 key = { item.id }
+                                 { ...item }
+                               />;
+                      }
+                      return info;
                     }
                   )
     );
