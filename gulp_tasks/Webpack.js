@@ -9,8 +9,7 @@ var webpack = require( "webpack" );
 var WebpackDevServer = require( "webpack-dev-server" );
 
 var prettyPrint = require( "../gulp_common/prettyPrint" );
-
-var config = require( "../webpack.config" );
+var Configuration = require( "../gulp_common/WebpackConfiguration" );
 
 var DEV_PORT = "9999";
 
@@ -57,12 +56,11 @@ function handleDevServerOutput ( callback, error ) {
 }
 
 gulp.task( "webpack", function ( callback ) {
-
-  webpack( config, handleWebpackOutput.bind( this, callback ) );
+  webpack( new Configuration(), handleWebpackOutput.bind( this, callback ) );
 });
 
 gulp.task( "webpack-dev-server", function ( callback ) {
-  var compiler = webpack( config );
+  var compiler = webpack( new Configuration() );
 
   new WebpackDevServer( compiler
                       , { hot: true
