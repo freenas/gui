@@ -45,9 +45,9 @@ class ZfsActionCreators {
     );
   }
 
-  static receiveVolumeDeleteTask ( taskID, timestamp ) {
+  static receiveVolumeDestroyTask ( taskID, timestamp ) {
     FreeNASDispatcher.handleClientAction(
-      { type: ActionTypes.RECEIVE_VOLUME_DELETE_TASK
+      { type: ActionTypes.RECEIVE_VOLUME_DESTROY_TASK
       , taskID
       , timestamp
       }

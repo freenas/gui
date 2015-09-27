@@ -52,7 +52,7 @@ class ZfsMiddleware extends MiddlewareAbstract {
   static destroyVolume ( volumeName ) {
     MC.request( "task.submit"
               , [ "volume.destroy", [ volumeName ] ]
-              , ZAC.receiveVolumeDeleteTask
+              , ZAC.receiveVolumeDestroyTask
               );
   }
 
