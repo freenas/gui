@@ -9,6 +9,9 @@ import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
+// Remove when we do task tracking properly.
+import NCM from "../middleware/NetworkConfigMiddleware";
+
 const CHANGE_EVENT = "change";
 const UPDATE_MASK = "network.config.changed";
 
@@ -49,10 +52,15 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
-      if ( args.name === "network.changed" ) {
+      console.log( args );
+      // This appears to be broken on the middleware side. We simply never
+      // receive the `network.changed` event.
+      /*if ( args.name === "network.changed" ) {
         if ( args.args.operation === "update" ) {
+          // THIS IS THE BAD THING. Fix when we do the task tracking properly.
+          NCM.requestNetworkConfig();
         }
-      }
+      }*/
 
       /*if ( args.name === "task.updated"
           && args.args.name === "network.update"
