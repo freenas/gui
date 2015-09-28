@@ -227,7 +227,9 @@ const NetworkConfig = React.createClass(
     var newNetworkConfig = {};
     var newDNSAddresses = [];
     if ( evt.key === "Enter" ) {
-      if ( this.isIPv4( this.state.dnsAddressInProgress ) ) {
+      if ( this.isIPv4( this.state.dnsAddressInProgress )
+        || this.isIPv6( this.state.dnsAddressInProgress )
+         ) {
         if ( _.has( this, [ "state", "networkConfig", "dns", "addresses" ] ) ) {
           newDNSAddresses = this.state.networkConfig.dns.addresses.slice();
           newDNSAddresses.push( this.state.dnsAddressInProgress );
@@ -311,7 +313,7 @@ const NetworkConfig = React.createClass(
 
       case "dns":
         if ( !this.isIPv4( value )
-          // && !this.isIPv6( value )
+          && !this.isIPv6( value )
           && ( _.has( this, [ "state", "networkConfig", "dns", "addresses" ] ) )
            ) {
           responseStyle = "error";
