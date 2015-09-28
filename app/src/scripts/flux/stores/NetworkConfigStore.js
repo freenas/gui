@@ -53,9 +53,6 @@ function handlePayload ( payload ) {
         if ( args.args.operation === "configure" ) {
           _.merge( _networkConfig
                  , args.args.entities[0]
-                 , function mergeHard ( oldValue, newValue ) {
-                   return newValue;
-                 }
                  );
           this.emitChange();
         }
