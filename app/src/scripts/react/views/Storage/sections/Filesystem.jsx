@@ -8,18 +8,16 @@
 import React from "react";
 import { Well } from "react-bootstrap";
 
-var PoolDatasets = React.createClass({
+import Dataset from "./Filesystem/Dataset";
 
-  render: function () {
+export default class Filesystem extends React.Component {
+  render () {
     return (
       <Well
         style = { this.props.style }
       >
-        <h1>Storage goes here, when you have it</h1>
+        <Dataset />
       </Well>
     );
   }
-
-});
-
-export default PoolDatasets;
+}
