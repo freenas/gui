@@ -49,7 +49,7 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
-      if ( args.name === "network.updated" ) {
+      if ( args.name === "network.changed" ) {
         if ( args.args.operation === "configure" ) {
           _.merge( _networkConfig
                  , args.args.entities[0]

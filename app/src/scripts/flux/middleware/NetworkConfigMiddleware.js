@@ -12,12 +12,12 @@ import NCAC
 class NetworkConfigMiddleware {
 
   static subscribe ( componentID ) {
-    MC.subscribe( [ "network.updated" ], componentID );
+    MC.subscribe( [ "network.changed" ], componentID );
     MC.subscribe( [ "task.*" ], componentID );
   }
 
   static unsubscribe ( componentID ) {
-    MC.unsubscribe( [ "network.updated" ], componentID );
+    MC.unsubscribe( [ "network.changed" ], componentID );
     MC.unsubscribe( [ "task.*" ], componentID );
   }
 
