@@ -51,10 +51,6 @@ function handlePayload ( payload ) {
       let args = action.eventData.args;
       if ( args.name === "network.changed" ) {
         if ( args.args.operation === "update" ) {
-          _.merge( _networkConfig
-                 , args.args.entities[0]
-                 );
-          this.emitChange();
         }
       }
 
