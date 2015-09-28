@@ -62,12 +62,14 @@ function handlePayload ( payload ) {
         }
       }*/
 
-      /*if ( args.name === "task.updated"
-          && args.args.name === "network.update"
+      if ( args.name === "task.progress"
+          && args.args.name === "network.configure"
           && args.args.state === "FINISHED" ) {
         _localUpdatePending = _.without( _localUpdatePending, args.args.id );
-        this.emitChange();
-      }*/
+        // THIS IS THE BAD THING. Fix when we do the task tracking properly.
+        NCM.requestNetworkConfig();
+        // this.emitChange();
+      }
       break;
 
     case ActionTypes.RECEIVE_NETWORK_CONFIG_UPDATE:
