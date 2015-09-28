@@ -50,7 +50,7 @@ function handlePayload ( payload ) {
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
       if ( args.name === "network.changed" ) {
-        if ( args.args.operation === "configure" ) {
+        if ( args.args.operation === "update" ) {
           _.merge( _networkConfig
                  , args.args.entities[0]
                  );
@@ -59,7 +59,7 @@ function handlePayload ( payload ) {
       }
 
       /*if ( args.name === "task.updated"
-          && args.args.name === "network.configure"
+          && args.args.name === "network.update"
           && args.args.state === "FINISHED" ) {
         _localUpdatePending = _.without( _localUpdatePending, args.args.id );
         this.emitChange();
