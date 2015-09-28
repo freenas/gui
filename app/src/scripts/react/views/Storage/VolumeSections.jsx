@@ -64,7 +64,7 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Files"
           eventKey = "files"
-          disabled = { !this.props.allowedSections.has( "files" ) }
+          disabled = { true }
         >
           {/* TODO */}
         </Tab>
@@ -73,16 +73,18 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Filesystem"
           eventKey = "filesystem"
-          disabled = { !this.props.allowedSections.has( "filesystem" ) }
+          disabled = { this.props.datasets.length > 0 }
         >
-          <Filesystem />
+          <Filesystem
+            datasets = { this.props.datasets }
+          />
         </Tab>
 
         {/* ZFS SNAPSHOTS */}
         <Tab
           title    = "Snapshots"
           eventKey = "snapshots"
-          disabled = { !this.props.allowedSections.has( "snapshots" ) }
+          disabled = { true }
           >
           {/* TODO */}
         </Tab>
@@ -91,7 +93,6 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Pool Topology"
           eventKey = "topology"
-          disabled = { !this.props.allowedSections.has( "topology" ) }
         >
           <Topology
             topology         = { this.props.topology }
@@ -122,6 +123,7 @@ VolumeSections.propTypes =
       , spare : React.PropTypes.array.isRequired
       }
     )
+  , datasets         : React.PropTypes.array
   , editing          : React.PropTypes.bool.isRequired
   , active           : React.PropTypes.bool.isRequired
   };

@@ -12,6 +12,7 @@ import Dataset from "./Filesystem/Dataset";
 
 export default class Filesystem extends React.Component {
   render () {
+    console.log( this.props.datasets );
     return (
       <Well
         style = { this.props.style }
