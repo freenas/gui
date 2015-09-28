@@ -92,6 +92,24 @@ const NetworkConfig = React.createClass(
       case "dns":
         this.setState( { dnsAddressInProgress: evt.target.value } );
         break;
+
+      case "dhcpAssignDNS":
+        networkConfig = { dhcp: { assign_dns: evt.target.checked } };
+        if ( _.has( this, [ "state", "networkConfig" ] ) ) {
+          networkConfig = _.defaultsDeep( networkConfig
+                                        , this.state.networkConfig
+                                        );
+        }
+        break;
+
+      case "dhcpAssignGateway":
+        networkConfig = { dhcp: { assign_gateway: evt.target.checked } };
+        if ( _.has( this, [ "state", "networkConfig" ] ) ) {
+          networkConfig = _.defaultsDeep( networkConfig
+                                        , this.state.networkConfig
+                                        );
+        }
+        break;
     }
 
     if ( !_.isEmpty( networkConfig ) ) {
@@ -147,6 +165,28 @@ const NetworkConfig = React.createClass(
       } else {
         _.assign( newNetworkConfig
                 , { dns: { addresses: this.state.networkConfig.dns.addresses } } );
+      }
+    }
+
+    if ( _.has( this, [ "state", "networkConfig", "dhcp", "assign_dns" ] ) ) {
+      if ( !_.isEmpty( newNetworkConfig ) ) {
+        newNetworkConfig =
+          { dhcp: { assign_dns: this.state.networkConfig.dhcp.assign_dns } };
+      } else {
+        _.assign( newNetworkConfig
+                , { dhcp: { assign_dns: this.state.networkConfig.dhcp.assign_dns } }
+                );
+      }
+    }
+
+    if ( _.has( this, [ "state", "networkConfig", "dhcp", "assign_gateway" ] ) ) {
+      if ( !_.isEmpty( newNetworkConfig ) ) {
+        newNetworkConfig =
+          { dhcp: { assign_gateway: this.state.networkConfig.dhcp.assign_gateway } };
+      } else {
+        _.assign( newNetworkConfig
+                , { dhcp: { assign_gateway: this.state.networkConfig.dhcp.assign_gateway } }
+                );
       }
     }
 
@@ -305,6 +345,8 @@ const NetworkConfig = React.createClass(
     var hostnameValue = "";
     var ipv4GatewayValue = "";
     var ipv6GatewayValue = "";
+    var dhcpAssignDNSValue = false;
+    var dhcpAssignGatewayValue = false;
 
     var dnsAddresses = [];
     var dnsNodes = null;
@@ -333,6 +375,19 @@ const NetworkConfig = React.createClass(
     } else if ( _.has( this, [ "props", "networkConfig", "dns", "addresses" ] ) ) {
       dnsAddresses = this.props.networkConfig.dns.addresses.slice();
     }
+
+    if ( _.has( this, [ "state", "networkConfig", "dhcp", "assign_dns" ] ) ) {
+      dhcpAssignDNSValue = this.state.networkConfig.dhcp.assign_dns;
+    } else if ( _.has( this, [ "props", "networkConfig", "dhcp", "assign_dns" ] ) ) {
+      dhcpAssignDNSValue = this.props.networkConfig.dhcp.assign_dns;
+    }
+
+    if ( _.has( this, [ "state", "networkConfig", "dhcp", "assign_gateway" ] ) ) {
+      dhcpAssignGatewayValue = this.state.networkConfig.dhcp.assign_gateway;
+    } else if ( _.has( this, [ "props", "networkConfig", "dhcp", "assign_gateway" ] ) ) {
+      dhcpAssignGatewayValue = this.props.networkConfig.dhcp.assign_gateway;
+    }
+
     dnsNodes =
       <div className = "dns-server-list"
            ref = "dns-server-list">
@@ -429,6 +484,22 @@ const NetworkConfig = React.createClass(
                 </Col >
               </Row>
             </Col>
+          </Col>
+          <Col xs={3}>
+            <Input
+              type = "checkbox"
+              label = "dhcp Assign DNS"
+              checked = { dhcpAssignDNSValue }
+              onChange = { this.handleChange.bind( this, "dhcpAssignDNS" ) }
+            />
+          </Col>
+          <Col xs={3}>
+            <Input
+              type = "checkbox"
+              label = "dhcp Assign Gateway"
+              checked = { dhcpAssignGatewayValue }
+              onChange = { this.handleChange.bind( this, "dhcpAssignGateway" ) }
+            />
           </Col>
           <Col xs={ 12 }>
             <ButtonToolbar className = "pull-right">
