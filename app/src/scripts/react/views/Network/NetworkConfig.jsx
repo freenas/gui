@@ -267,9 +267,6 @@ const NetworkConfig = React.createClass(
       networkConfig = { dns: { addresses: this.state.networkConfig.dns.addresses.slice() } };
       networkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                              , networkConfig
-                             , function mergeDNSHard ( newValue ) {
-                               return newValue;
-                             }
                              );
       _.pullAt( networkConfig.dns.addresses, index );
     } else {
@@ -277,9 +274,6 @@ const NetworkConfig = React.createClass(
       if ( _.has( this, [ "state", "networkConfig" ] ) ) {
         networkConfig = _.merge( _.cloneDeep( this.state.networkConfig )
                                , networkConfig
-                               , function mergeDNSHard ( newValue ) {
-                                 return newValue;
-                               }
                                );
       }
       _.pullAt( networkConfig.dns.addresses, index );
