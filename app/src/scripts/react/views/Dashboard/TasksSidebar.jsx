@@ -64,7 +64,6 @@ export default class TasksSidebar extends React.Component {
        .map( function ( taskType ) { return _.values( taskType ); } )
        .flatten()
        .filter( function omitChildTasks ( task ) {
-           console.log( task );
            return task.parent === null;
          }
        )
