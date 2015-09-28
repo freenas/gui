@@ -13,12 +13,12 @@ class NetworkConfigMiddleware {
 
   static subscribe ( componentID ) {
     MC.subscribe( [ "network.changed" ], componentID );
-    MC.subscribe( [ "task.*" ], componentID );
+    MC.subscribe( [ "task.progress" ], componentID );
   }
 
   static unsubscribe ( componentID ) {
     MC.unsubscribe( [ "network.changed" ], componentID );
-    MC.unsubscribe( [ "task.*" ], componentID );
+    MC.unsubscribe( [ "task.progress" ], componentID );
   }
 
   static requestNetworkConfig () {
