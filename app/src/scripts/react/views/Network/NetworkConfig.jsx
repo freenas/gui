@@ -55,9 +55,9 @@ const NetworkConfig = React.createClass(
 
   // Totally wipes out config changes in state.
   // TODO: Use this function to create the conflict state.
-  , componentWillReceiveProps ( nextProps ) {
+  /*, componentWillReceiveProps ( nextProps ) {
     this.replaceState( { dnsAddressInProgress: this.state.dnsAddressInProgress } );
-  }
+  }*/
 
   , handleChange ( key, evt ) {
 
