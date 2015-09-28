@@ -18,7 +18,8 @@ export default class TaskItem extends React.Component {
   }
 
   render () {
-    var progressProps = { now: this.props.percentage };
+    var progressProps = { now: this.props.percent
+                        , bsStyle: "info" };
     var cancelBtn = null; // TODO: implement cancelBtn
 
     switch ( this.props.state ) {
