@@ -40,7 +40,7 @@ var PRODUCTION_CONFIG =
         , loaders: [ "babel" ]
         }
       , { test: /\.less$/
-        , loader: "style!css!less"
+        , loader: ExtractTextPlugin.extract( "css!less" )
         }
       , { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)/
         , loader: "url-loader?limit=30000&name=[name]-[hash].[ext]"
@@ -49,6 +49,10 @@ var PRODUCTION_CONFIG =
     }
   , plugins:
     [ new webpack.NoErrorsPlugin()
+    , new ExtractTextPlugin( "extract.css"
+                           , { allChunks: true
+                             }
+                           )
     , new webpack.DefinePlugin(
         { "process.env":
           { BROWSER: JSON.stringify( true )
@@ -72,10 +76,7 @@ var DEVELOPMENT_CONFIG =
         }
       , { test: /\.less$/
           // Activate source maps via loader query
-        , loader: ExtractTextPlugin.extract( "style"
-                                           , "css?sourceMap"
-                                           + "!less?sourceMap"
-                                           )
+        , loader: ExtractTextPlugin.extract( "css?sourceMap!less?sourceMap" )
         }
       , { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)/
         , loader: "url-loader?limit=30000&name=[name]-[hash].[ext]"
