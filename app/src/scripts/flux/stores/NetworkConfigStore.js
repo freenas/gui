@@ -74,7 +74,8 @@ function handlePayload ( payload ) {
 
     case ActionTypes.RECEIVE_NETWORK_CONFIG_UPDATE:
       _localUpdatePending.push( action.taskID );
-      this.emitChange();
+      // bring back when we do task spinners
+      // this.emitChange();
       break;
   }
 }
