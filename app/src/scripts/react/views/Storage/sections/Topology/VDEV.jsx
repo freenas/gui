@@ -35,7 +35,7 @@ const VDEV = React.createClass(
         [ "data"
         , "log"
         , "cache"
-        , "spares"
+        , "spare"
         ]
       ).isRequired
     , type: React.PropTypes.oneOf(
@@ -167,7 +167,7 @@ const VDEV = React.createClass(
     // disks have already been added (this.props.type will have a string value)
     // "Spares" should not show the bar, as it will always be a collection of
     // "disk" VDEVs
-    if ( this.props.purpose !== "spares"
+    if ( this.props.purpose !== "spare"
        && ( this.state.devicesAreAvailable || this.props.type )
        ) {
       let breakdown;

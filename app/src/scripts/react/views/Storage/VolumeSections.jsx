@@ -94,10 +94,7 @@ export default class VolumeSections extends React.Component {
           disabled = { !this.props.allowedSections.has( "topology" ) }
         >
           <Topology
-            data             = { this.props.data }
-            log              = { this.props.log }
-            cache            = { this.props.cache }
-            spares           = { this.props.spares }
+            topology         = { this.props.topology }
             onDiskAdd        = { this.props.onDiskAdd }
             onDiskRemove     = { this.props.onDiskRemove }
             onVdevNuke       = { this.props.onVdevNuke }
@@ -118,10 +115,13 @@ VolumeSections.propTypes =
   , onDiskRemove     : React.PropTypes.func.isRequired
   , onVdevNuke       : React.PropTypes.func.isRequired
   , onVdevTypeChange : React.PropTypes.func.isRequired
-  , data             : React.PropTypes.array.isRequired
-  , log              : React.PropTypes.array.isRequired
-  , cache            : React.PropTypes.array.isRequired
-  , spares           : React.PropTypes.array.isRequired
+  , topology: React.PropTypes.shape(
+      { data  : React.PropTypes.array.isRequired
+      , log   : React.PropTypes.array.isRequired
+      , cache : React.PropTypes.array.isRequired
+      , spare : React.PropTypes.array.isRequired
+      }
+    )
   , editing          : React.PropTypes.bool.isRequired
   , active           : React.PropTypes.bool.isRequired
   };

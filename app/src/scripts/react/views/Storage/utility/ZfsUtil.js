@@ -245,10 +245,10 @@ class ZfsUtil {
 
   static createTopology ( ssds, disks, preferences ) {
     let topology =
-      { data: []
-      , log: []
-      , cache: []
-      , spares: []
+      { data  : []
+      , log   : []
+      , cache : []
+      , spare : []
       };
 
     let allSelectedDisks = [];

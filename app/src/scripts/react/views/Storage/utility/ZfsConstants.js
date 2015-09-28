@@ -6,10 +6,10 @@
 "use strict";
 
 export const VDEV_TYPES =
-  { data: [ "disk", "stripe", "mirror", "raidz1", "raidz2", "raidz3" ]
-  , log: [ "disk", "stripe", "mirror" ]
-  , cache: [ "disk", "stripe", "mirror" ]
-  , spares: [ "disk", "stripe" ]
+  { data  : [ "disk", "stripe", "mirror", "raidz1", "raidz2", "raidz3" ]
+  , log   : [ "disk", "stripe", "mirror" ]
+  , cache : [ "disk", "stripe", "mirror" ]
+  , spare : [ "disk", "stripe" ]
 };
 
 export const DISK_CHUNKS =

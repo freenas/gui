@@ -1,7 +1,7 @@
 // TOPOLOGY DRAWER
 // ==============
 // A section of the Pool/Volume UI that shows the constituent VDEVs which are
-// being used for log, cache, data, and spares.
+// being used for log, cache, data, and spare.
 
 "use strict";
 
@@ -19,11 +19,13 @@ var Topology = React.createClass(
     , onDiskRemove: React.PropTypes.func.isRequired
     , onVdevNuke: React.PropTypes.func.isRequired
     , onVdevTypeChange: React.PropTypes.func.isRequired
-    , data: React.PropTypes.array.isRequired
-    , log: React.PropTypes.array.isRequired
-    , cache: React.PropTypes.array.isRequired
-    , spares: React.PropTypes.array.isRequired
-    , editing: React.PropTypes.bool.isRequired
+    , topology: React.PropTypes.shape(
+        { data  : React.PropTypes.array.isRequired
+        , log   : React.PropTypes.array.isRequired
+        , cache : React.PropTypes.array.isRequired
+        , spare : React.PropTypes.array.isRequired
+        }
+      )
     }
 
   , createVdevs ( purpose ) {
@@ -38,14 +40,14 @@ var Topology = React.createClass(
       case "cache":
         sharedProps.cols             = 12;
         // Log and Cache currently only allow a single VDEV.
-        if ( this.props[ purpose ].length < 1 ) {
+        if ( this.props.topology[ purpose ].length < 1 ) {
           sharedProps.newVdevAllowed = true;
         }
         break;
 
-      case "spares":
+      case "spare":
         sharedProps.cols             = 12;
-        if ( this.props[ purpose ].length < 1 ) {
+        if ( this.props.topology[ purpose ].length < 1 ) {
           sharedProps.newVdevAllowed = true;
         }
         break;
@@ -56,7 +58,7 @@ var Topology = React.createClass(
         break;
     }
 
-    let vdevs = this.props[ purpose ].map(
+    let vdevs = this.props.topology[ purpose ].map(
       ( vdev, index ) => {
         // Destructure vdev to avoid passing in props which will not be used.
         let { children, type, path } = vdev;
@@ -152,7 +154,7 @@ var Topology = React.createClass(
             className = "pool-topology-section"
           >
             <h4 className="pool-topology-header">Spares</h4>
-            { this.createVdevs( "spares" ) }
+            { this.createVdevs( "spare" ) }
           </Col>
         </Row>
       </div>

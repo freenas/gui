@@ -114,34 +114,21 @@ const Storage = React.createClass(
   , createVolumes () {
       let activeVolume = this.state.activeVolume;
 
-      const volumeCommon =
+      const VOLUME_HANDLERS =
         { becomeActive   : this.handleVolumeActive
         , becomeInactive : this.handleVolumeInactive
         };
 
       let pools =
         this.state.volumes.map( function ( volume, index ) {
-          let { data, log, cache } = volume.topology;
-          let { free, allocated, size } = volume.properties;
-
-          let spares = volume.topology.spares || [];
-
           return (
             <Volume
-              { ...volumeCommon }
+              { ...VOLUME_HANDLERS }
+              { ...volume }
               existsOnRemote
-              cache     = { cache }
-              log       = { log }
-              data      = { data }
-              spares    = { spares }
-              free      = { free.rawvalue }
-              allocated = { allocated.rawvalue }
-              size      = { size.rawvalue }
-              datasets  = { volume.datasets }
-              name      = { volume.name }
-              active    = { index === activeVolume }
-              volumeKey = { index }
               key       = { index }
+              volumeKey = { index }
+              active    = { index === activeVolume }
             />
           );
         });
@@ -152,7 +139,7 @@ const Storage = React.createClass(
         // behavior, depending on its knowledge of other pools.
         pools.push(
           <Volume
-            { ...volumeCommon }
+            { ...VOLUME_HANDLERS }
             key       = { pools.length }
             volumeKey = { pools.length }
             active    = { pools.length === activeVolume }

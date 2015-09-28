@@ -41,6 +41,15 @@ const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
 // unequal, we can choose instead to display a warning, indicate that another
 // user has modified that field, etc. As always, the last change "wins".
 
+const RAW_VALUE_PROPTYPE = {
+  rawvalue:
+    React.PropTypes.oneOfType(
+      [ React.PropTypes.string
+      , React.PropTypes.number
+      ]
+    ).isRequired
+};
+
 const Volume = React.createClass(
   { displayName: "Volume"
 
@@ -49,28 +58,22 @@ const Volume = React.createClass(
     , becomeInactive: React.PropTypes.func.isRequired
     , active: React.PropTypes.bool.isRequired
     , existsOnRemote: React.PropTypes.bool
-    , data: React.PropTypes.array
-    , log: React.PropTypes.array
-    , cache: React.PropTypes.array
-    , spares: React.PropTypes.array
-    , datasets: React.PropTypes.array
     , name: React.PropTypes.string
-    , free: React.PropTypes.oneOfType(
-        [ React.PropTypes.string
-        , React.PropTypes.number
-        ]
+    , topology: React.PropTypes.shape(
+        { data  : React.PropTypes.array.isRequired
+        , log   : React.PropTypes.array.isRequired
+        , cache : React.PropTypes.array.isRequired
+        , spare : React.PropTypes.array.isRequired
+        }
       )
-    , allocated: React.PropTypes.oneOfType(
-        [ React.PropTypes.string
-        , React.PropTypes.number
-        ]
+    , datasets: React.PropTypes.array
+    , properties: React.PropTypes.shape(
+        { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
+        , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
+        , size      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
+        }
       )
-    , size: React.PropTypes.oneOfType(
-        [ React.PropTypes.string
-        , React.PropTypes.number
-        ]
-      )
-    }
+  }
 
 
   // REACT COMPONENT MANAGEMENT LIFECYCLE
@@ -81,20 +84,26 @@ const Volume = React.createClass(
     }
 
   , getInitialState () {
-      return { activeSection : null
-             , data          : []
-             , log           : []
-             , cache         : []
-             , spares        : []
-             , free          : 0
-             , allocated     : 0
-             , size          : 0
-             , name          : ""
-             };
+      return (
+        { activeSection : null
+        , name          : ""
+        , topology:
+          { data  : []
+          , log   : []
+          , cache : []
+          , spare : []
+          }
+        , properties:
+          { free      : { rawvalue: 0 }
+          , allocated : { rawvalue: 0 }
+          , size      : { rawvalue: 0 }
+          }
+        }
+      );
     }
 
   , componentDidUpdate ( prevProps, prevState ) {
-      let topologyContextProps =
+      const topologyContextProps =
         { handleReset: this.resetTopology
         , handleTopoRequest: this.handleTopoRequest
         };
@@ -159,26 +168,24 @@ const Volume = React.createClass(
   // ZFS TOPOLOGY FUNCTIONS
   // ======================
   , handleTopoRequest ( preferences ) {
-      let creatorOutput =
+      const CREATOR_OUTPUT =
         ZfsUtil.createTopology( VS.availableSSDs
                               , VS.availableHDDs
                               , preferences
                               );
 
-      let topology = creatorOutput[0];
-      let devicesUsed = creatorOutput[1];
-
-      ZAC.replaceDiskSelection( devicesUsed );
-      this.setState( topology );
+      ZAC.replaceDiskSelection( CREATOR_OUTPUT[1] );
+      this.setState({ topology: CREATOR_OUTPUT[0] });
     }
 
   , vdevOperation( opType, key, purpose, options = {} ) {
-      let collection  = this.state[ purpose ];
+      let collection  = this.state.topology[ purpose ];
       let targetVdev  = collection[ key ];
       let currentType = null;
       let disks       = opType === "add" && options.path
                       ? [ options.path ]
                       : [];
+      let newTopologySection;
 
       if ( targetVdev ) {
 
@@ -208,8 +215,12 @@ const Volume = React.createClass(
         }
       }
 
+      newTopologySection =
+        ZfsUtil.reconstructVdev( key, purpose, collection, disks, currentType );
+
       this.setState(
-        ZfsUtil.reconstructVdev( key, purpose, collection, disks, currentType )
+        { topology: Object.assign( this.state.topology, newTopologySection )
+        }
       );
     }
 
@@ -234,11 +245,15 @@ const Volume = React.createClass(
   , resetTopology () {
       ZAC.replaceDiskSelection( [] );
       this.setState(
-        { data   : []
-        , log    : []
-        , cache  : []
-        , spares : []
-        , free   : 0
+        { topology:
+          { data  : []
+          , log   : []
+          , cache : []
+          , spare : []
+          }
+        , properties:
+          { free: { rawvalue: 0 }
+          }
         }
       );
     }
@@ -254,25 +269,30 @@ const Volume = React.createClass(
   // MIDDLEWARE COMMUNICATION
   // ========================
   , submitVolume () {
-      let { log, cache, data, spares, name } = this.state;
+      let { log, cache, data, spare } = this.state.topology;
 
       let newVolume =
         { topology:
-          { log: ZfsUtil.unwrapStripe( log ) || this.props.log
-          , cache: ZfsUtil.unwrapStripe( cache ) || this.props.cache
-          , data: ZfsUtil.unwrapStripe( data ) || this.props.data
-          , spares: ZfsUtil.unwrapStripe( spares ) || this.props.spares
+          { log: log
+               ? ZfsUtil.unwrapStripe( log )
+               : this.props.topology.log
+          , cache: cache
+                 ? ZfsUtil.unwrapStripe( cache )
+                 : this.props.topology.cache
+          , data: data
+                ? ZfsUtil.unwrapStripe( data )
+                : this.props.topology.data
+          , spare: spare
+                  ? ZfsUtil.unwrapStripe( spare )
+                  : this.props.topology.spare
           }
         , type: "zfs"
-        , name: name || this.props.name
+        , name: this.state.name
+              || this.props.name
               || "Volume" + ( this.props.volumeKey + 1 )
         };
 
       ZM.submitVolume( newVolume );
-      this.setState(
-        { editing: false
-        }
-      );
     }
 
   , destroyVolume () {
@@ -281,7 +301,8 @@ const Volume = React.createClass(
       this.setState({ showDestroyPoolModal: false });
     } else {
       throw new Error( "STORAGE: Somehow, the user tried to destroy a pool "
-                     + "that doesn't yet exist on the server"
+                     + "that doesn't exist on the server: "
+                     + this.props.name
                      );
     }
   }
@@ -298,23 +319,25 @@ const Volume = React.createClass(
     }
 
   , render () {
-      let volumeHeader = null;
       let editing;
-      let data, log, cache, spares;
+      let topology;
       let allowedSections;
+
+      let volumeHeader = null;
       let panelClass   = [ "volume" ];
 
       if ( this.props.existsOnRemote ) {
+        editing         = false;
+        topology        = this.props.topology;
         allowedSections = new Set(["filesystem", "topology"]);
-        editing = false;
-        ( { data, log, cache, spares } = this.props );
+
         const rootDataset =
           _.find( this.props.datasets, { name: this.props.name }).properties;
 
         const breakdown =
           { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
           , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
-          , parity : ZfsUtil.calculateBreakdown( this.props.data ).parity
+          , parity : ZfsUtil.calculateBreakdown( topology.data ).parity
         }
 
         volumeHeader = (
@@ -326,10 +349,9 @@ const Volume = React.createClass(
           />
         );
       } else if ( this.props.active ) {
+        editing         = true;
+        topology        = this.state.topology;
         allowedSections = new Set(["topology"]);
-        editing = true;
-        ( { data, log, cache, spares } = this.state );
-        panelClass.push( "editing" );
 
         volumeHeader = (
           <NewVolume
@@ -338,18 +360,18 @@ const Volume = React.createClass(
             onCancelClick      = { this.closeDrawer }
             volumeName         = { this.state.name }
             topologyBreakdown =
-              { ZfsUtil.calculateBreakdown( this.state.data ) }
+              { ZfsUtil.calculateBreakdown( topology.data ) }
           />
         );
+        panelClass.push( "editing" );
       } else {
         // We can deduce that this Volume is the "blank" one, and that it has
         // not yet been interacted with. We use this state information to
         // display an initialization message.
 
+        editing         = false;
+        topology        = this.state.topology;
         allowedSections = new Set();
-        editing = false;
-        ( { data, log, cache, spares } = this.state );
-        panelClass.push( "awaiting-init", "text-center" );
 
         volumeHeader = (
           <Button
@@ -359,11 +381,10 @@ const Volume = React.createClass(
             { "Create new storage pool" }
           </Button>
         );
+        panelClass.push( "awaiting-init", "text-center" );
       }
 
-      if ( this.props.active ) {
-        panelClass.push( "active" );
-      }
+      if ( this.props.active ) { panelClass.push( "active" ); }
 
       return (
         <Panel
@@ -374,12 +395,9 @@ const Volume = React.createClass(
           {/* VOLUME SUB-SECTIONS */}
           <VolumeSections
             activeSection    = { this.getActiveSection( allowedSections ) }
-            allowedSections  = { allowedSections }
-            data             = { data }
-            log              = { log }
-            cache            = { cache }
-            spares           = { spares }
             editing          = { editing }
+            topology         = { topology }
+            allowedSections  = { allowedSections }
             active           = { this.props.active }
             onSelect         = { this.handleDrawerChange }
             onDiskAdd        = { this.handleDiskAdd }
