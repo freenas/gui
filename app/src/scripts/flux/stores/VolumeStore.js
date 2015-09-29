@@ -21,6 +21,54 @@ var _pendingVolumeCreateTasks = [];
 var _pendingVolumeUpdateTasks = [];
 var _pendingVolumeDestroyTasks = [];
 
+function nestDatasets ( datasets ) {
+  if ( !datasets ) {
+    // Datasets was definitely not an array
+    console.warn( "Expected `datasets` to be an array" );
+    return [];
+  }
+
+  switch ( datasets.length ) {
+    case 0:
+      // There are no datasets, return early.
+      return [];
+
+    case 1:
+      // The only dataset is the root datset, return early.
+      return datasets;
+
+    default:
+      let poolName;
+      let hash  = _.indexBy( datasets, "name" );
+      let names = _.pluck( datasets, "name" );
+
+      _.sortBy( names, ( name ) => {
+          // Create sorted list of dataset names in accordance of their path
+          // lengths, starting with the longest (most nested) paths.
+          let slashes = name.match( /\//gi );
+          return ( slashes
+                 ? ( -1 * slashes.length )
+                 : 0
+                 );
+        })
+       .forEach( ( name, index ) => {
+          let parentPath = name.replace( /(\/[^\/]*$)/i, "" );
+
+          if ( parentPath === name ) {
+            poolName = name;
+          } else {
+            if ( hash[ parentPath ].children ) {
+              hash[ parentPath ].children.push( hash[ name ] );
+            } else {
+              hash[ parentPath ].children = [ hash[ name ] ];
+            }
+          }
+        });
+
+      return [ hash[ poolName ] ];
+  }
+}
+
 class VolumeStore extends FluxBase {
 
   constructor () {
@@ -140,10 +188,11 @@ function handlePayload ( payload ) {
 
     case ActionTypes.RECEIVE_VOLUMES:
       _volumes = {};
-      ACTION.volumes.forEach( function populateVolumeStore ( volume ) {
-                                _volumes[ volume.id ] = volume;
-                              }
-                            );
+      ACTION.volumes.forEach( ( volume ) => {
+          volume.datasets = nestDatasets( volume.datasets );
+          _volumes[ volume.id ] = volume;
+        }
+      );
       this.fullUpdateAt = ACTION.timestamp;
       this.emitChange( "volumes" );
       break;
