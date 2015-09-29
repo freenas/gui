@@ -33,12 +33,20 @@ const DISK_LABELS =
 var _disks = {};
 
 function createLabel ( disk ) {
+  var manufacturer = false;
+  var rpm = "";
+  if ( _.has( disk, [ "status", "manufacturer" ] ) ) {
+    manufacturer = disk.state.manufacturer;
+  }
+  if ( _.has( disk, [ "status", "max_rotation" ] ) ) {
+    rpm = disk.status.max_rotation;
+  }
   return (
-    [ disk.status.manufacturer || ""
+    [ manufacturer
     , ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
-    , disk.status["is_ssd"]
-      ? ""
-      : disk.status.max_rotation + "rpm"
+    , rpm
+    ? ""
+    : rpm + "rpm"
     ].join( " " )
   );
 }
