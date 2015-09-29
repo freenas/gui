@@ -52,7 +52,6 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
-      console.log( args );
       // This appears to be broken on the middleware side. We simply never
       // receive the `network.changed` event.
       /*if ( args.name === "network.changed" ) {
