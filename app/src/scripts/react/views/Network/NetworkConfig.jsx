@@ -369,6 +369,22 @@ const NetworkConfig = React.createClass(
     var dnsNodes = null;
     var newDNSInput = null;
 
+    var disableApply = false;
+
+    // if networkConfig and systemGeneralConfig are undefined or empty,
+    // don't allow form submission
+    // TODO: also disable form submission when the form isn't fully valid and
+    // add some kind of warning
+    if ( ( !_.has( this, [ "state", "networkConfig" ] )
+        || _.isEmpty( this.state.networkConfig )
+         )
+      && ( !_.has( this, [ "state", "systemGeneralConfig" ] )
+        || _.isEmpty( this.state.systemGeneralConfig )
+         )
+       ) {
+      disableApply = true;
+    }
+
     if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
       hostnameValue = this.state.systemGeneralConfig.hostname;
     } else if ( _.has( this, [ "props", "systemGeneralConfig", "hostname" ] ) ) {
@@ -527,7 +543,9 @@ const NetworkConfig = React.createClass(
               </Button>
               <Button
                 bsStyle = "primary"
-                onClick = { this.submit } >
+                onClick = { this.submit }
+                disabled = { disableApply }
+              >
                 { "Apply" }
               </Button>
             </ButtonToolbar>
