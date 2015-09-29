@@ -51,6 +51,8 @@ export default class VolumeSections extends React.Component {
   }
 
   render () {
+    const { editing, datasets, topology } = this.props;
+
     return (
       <Tabs
         ref       = "drawer"
@@ -73,10 +75,11 @@ export default class VolumeSections extends React.Component {
         <Tab
           title    = "Filesystem"
           eventKey = "filesystem"
-          disabled = { this.props.datasets.length > 0 }
+          disabled = { !datasets || datasets.length === 0 }
         >
           <Filesystem
-            datasets = { this.props.datasets }
+            editing  = { editing }
+            datasets = { datasets }
           />
         </Tab>
 
@@ -95,12 +98,12 @@ export default class VolumeSections extends React.Component {
           eventKey = "topology"
         >
           <Topology
-            topology         = { this.props.topology }
+            topology         = { topology }
+            editing          = { editing }
             onDiskAdd        = { this.props.onDiskAdd }
             onDiskRemove     = { this.props.onDiskRemove }
             onVdevNuke       = { this.props.onVdevNuke }
             onVdevTypeChange = { this.props.onVdevTypeChange }
-            editing          = { this.props.editing }
           />
         </Tab>
       </Tabs>
@@ -110,7 +113,6 @@ export default class VolumeSections extends React.Component {
 
 VolumeSections.propTypes =
   { activeKey        : React.PropTypes.oneOf( SECTIONS )
-  , allowedSections  : React.PropTypes.instanceOf( Set )
   , onSelect         : React.PropTypes.func.isRequired
   , onDiskAdd        : React.PropTypes.func.isRequired
   , onDiskRemove     : React.PropTypes.func.isRequired
