@@ -543,7 +543,7 @@ const NetworkConfig = React.createClass(
           <Col xs={3}>
             <Input
               type = "checkbox"
-              label = "dhcp Assign DNS"
+              label = "DHCP Assign DNS"
               checked = { dhcpAssignDNSValue }
               onChange = { this.handleChange.bind( this, "dhcpAssignDNS" ) }
             />
@@ -551,7 +551,7 @@ const NetworkConfig = React.createClass(
           <Col xs={3}>
             <Input
               type = "checkbox"
-              label = "dhcp Assign Gateway"
+              label = "DHCP Assign Gateway"
               checked = { dhcpAssignGatewayValue }
               onChange = { this.handleChange.bind( this, "dhcpAssignGateway" ) }
             />
