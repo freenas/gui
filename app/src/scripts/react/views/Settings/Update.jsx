@@ -250,10 +250,7 @@ const Update = React.createClass(
 
     if ( this.state.downloadPercentage ) {
       downloadProgressBar = (
-        <ProgressBar
-          active
-          now = { this.state.downloadPercentage }
-        />
+        <ProgressBar now = { this.state.downloadPercentage }/>
       );
     }
 
@@ -261,10 +258,7 @@ const Update = React.createClass(
 
     if ( this.state.updatePercentage ) {
       upgradeProgressBar = (
-        <ProgressBar
-          active
-          now = { this.state.updatePercentage }
-        />
+        <ProgressBar now = { this.state.updatePercentage }/>
       );
     }
 
