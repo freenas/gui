@@ -76,16 +76,28 @@ const NetworkConfig = React.createClass(
         break;
 
       case "ipv4":
-        networkConfig = { gateway: { ipv4: evt.target.value } };
-        if ( _.has( this, [ "state", "networkConfig" ] ) ) {
-          networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
+        if ( evt.target.value !== this.props.networkConfig.gateway.ipv4 ) {
+          networkConfig = { gateway: { ipv4: evt.target.value } };
+          if ( _.has( this, [ "state", "networkConfig" ] ) ) {
+            networkConfig = _.defaultsDeep( networkConfig
+                                          , this.state.networkConfig
+                                          );
+          }
+        } else {
+          removeNetworkConfig = true;
         }
         break;
 
       case "ipv6":
-        networkConfig = { gateway: { ipv6: evt.target.value } };
-        if ( _.has( this, [ "state", "networkConfig" ] ) ) {
-          networkConfig = _.defaultsDeep( networkConfig, this.state.networkConfig );
+        if ( evt.target.value !== this.props.networkConfig.gateway.ipv6 ) {
+          networkConfig = { gateway: { ipv6: evt.target.value } };
+          if ( _.has( this, [ "state", "networkConfig" ] ) ) {
+            networkConfig = _.defaultsDeep( networkConfig
+                                          , this.state.networkConfig
+                                          );
+          }
+        } else {
+          removeNetworkConfig = true;
         }
         break;
 
@@ -114,6 +126,10 @@ const NetworkConfig = React.createClass(
 
     if ( !_.isEmpty( networkConfig ) ) {
       this.setState( { networkConfig: networkConfig } );
+    } else if ( removeNetworkConfig ) {
+      let newState = _.cloneDeep( this.state );
+      delete newState.networkConfig;
+      this.replaceState( newState );
     }
 
     if ( !_.isEmpty( systemGeneralConfig ) ) {
