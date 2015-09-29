@@ -168,6 +168,24 @@ const NetworkConfig = React.createClass(
       }
     }
 
+    // handle a valid DNS address in the entry field
+    // TODO: safely remove it from state when doing this
+    if ( _.has( this, [ "state", "dnsAddressInProgress" ] )
+      && ( this.isIPv4( this.state.dnsAddressInProgress )
+        || this.isIPv6( this.state.dnsAddressInProgress )
+         )
+      ) {
+      if ( _.has( newNetworkConfig, [ "dns", "addresses" ] ) ) {
+        let newDNSAddresses = newNetworkConfig.dns.addresses.slice();
+        newDNSAddresses.push( this.state.dnsAddressInProgress );
+        _.assign( newNetworkConfig, { dns: { addresses: newDNSAddresses } } );
+      } else {
+        let newDNSAddresses = this.props.networkConfig.dns.addresses.slice();
+        newDNSAddresses.push( this.state.dnsAddressInProgress );
+        _.assign( newNetworkConfig, { dns: { addresses: newDNSAddresses } } );
+      }
+    }
+
     if ( _.has( this, [ "state", "networkConfig", "dhcp", "assign_dns" ] ) ) {
       if ( !_.isEmpty( newNetworkConfig ) ) {
         newNetworkConfig =
