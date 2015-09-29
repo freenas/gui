@@ -130,19 +130,22 @@ const NetworkConfig = React.createClass(
     var newSystemGeneralConfig = {};
 
     if ( _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
-      && this.isHostname( this.state.systemGeneralConfig.hostname ) ) {
+      && this.isHostname( this.state.systemGeneralConfig.hostname )
+       ) {
       newSystemGeneralConfig.hostname =
         this.state.systemGeneralConfig.hostname;
     }
 
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] )
-      && this.isIPv4( this.state.networkConfig.gateway.ipv4 ) ) {
+      && this.isIPv4( this.state.networkConfig.gateway.ipv4 )
+       ) {
       newNetworkConfig =
         { gateway: { ipv4: this.state.networkConfig.gateway.ipv4 } };
     }
 
     if ( _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] )
-      && this.isIPv6( this.state.networkConfig.gateway.ipv6 ) ) {
+      && this.isIPv6( this.state.networkConfig.gateway.ipv6 )
+       ) {
       // Rely on previous check for ipv4 to determine whether to populate ipv4
       // from props
       if ( _.has( newNetworkConfig, [ "gateway", "ipv4" ] ) ) {
@@ -530,7 +533,6 @@ const NetworkConfig = React.createClass(
             </ButtonToolbar>
           </Col>
         </Row>
-
       </Grid>
     );
   }
