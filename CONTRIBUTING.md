@@ -17,7 +17,7 @@ Otherwise, to begin developing for the FreeNAS 10 GUI on one of these platforms,
 install node.js.
 
 For Mac OS X, installing the package from nodejs.org should suffice.
-For FreeBSD, run 'sudo pkg install node && pkg install npm'
+For FreeBSD, run `sudo pkg install node && pkg install npm`
 
 ## Using the FreeNAS 10 Development Environment
 
@@ -36,8 +36,8 @@ FreeNAS 10 SDK app.
 You will need to choose whether to target a real FreeNAS instance in order to
 interact with the middleware, or to operate in "dumb mode", in which case it
 will run a local copy of the GUI webapp that simulates interaction with real
-data. 'gulp --connect FreenasIPorHostname' will start you in live development
-mode with a real connection. 'gulp' alone will start you with a local webserver
+data. `gulp --connect FreeNASIPorHostname` will start you in live development
+mode with a real connection. `gulp` alone will start you with a local webserver
 only, so you can work on UI elements for as-yet-unavailable middleware
 functionality.
 
