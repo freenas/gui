@@ -21,18 +21,17 @@ var DiscTri = React.createClass(
   , getDefaultProps () {
       return { headerShow: "Hide"
              , headerHide: "Show"
+             , expanded: true
              };
-    }
-
-  , getInitialState () {
-      return { expanded: this.props.defaultExpanded || true };
     }
 
   , render () {
       const { children, headerShow, headerHide, ...other } = this.props;
       let text, iconGlyph, containerClass;
 
-      if ( this.state.expanded ) {
+      if ( ( _.has( this, [ "state", "expanded" ] ) && this.state.expanded )
+        || this.props.defaultExpanded
+         ) {
         text = headerShow;
         iconGlyph = "arrow-triangle-down";
         containerClass = "disc-show";
