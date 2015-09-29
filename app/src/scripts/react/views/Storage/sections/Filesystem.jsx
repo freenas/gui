@@ -11,14 +11,20 @@ import { Well } from "react-bootstrap";
 import Dataset from "./Filesystem/Dataset";
 
 export default class Filesystem extends React.Component {
+
   render () {
-    console.log( this.props.datasets );
+    const { datasets, ...other } = this.props;
+
     return (
       <Well
         style = { this.props.style }
       >
-        <Dataset />
+        <Dataset
+          root
+          { ...datasets[0] }
+        />
       </Well>
     );
   }
 }
+
