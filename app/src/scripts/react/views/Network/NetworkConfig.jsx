@@ -329,21 +329,26 @@ const NetworkConfig = React.createClass(
     switch ( key ) {
       case "hostname":
         if ( !this.isHostname( value )
-          && _.has( this, [ "state", "systemGeneralConfig", "hostname" ] ) ) {
+          && _.has( this, [ "state", "systemGeneralConfig", "hostname" ] )
+           ) {
           responseStyle = "error";
         }
         break;
 
       case "ipv4":
         if ( !this.isIPv4( value )
-          && _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] ) ) {
+          && _.has( this, [ "state", "networkConfig", "gateway", "ipv4" ] )
+          && this.state.networkConfig.gateway.ipv4 !== ""
+           ) {
           responseStyle = "error";
         }
         break;
 
       case "ipv6":
         if ( !this.isIPv6( value )
-          && _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] ) ) {
+          && _.has( this, [ "state", "networkConfig", "gateway", "ipv6" ] )
+          && this.state.networkConfig.gateway.ipv6 !== ""
+           ) {
           responseStyle = "error";
         }
         break;
