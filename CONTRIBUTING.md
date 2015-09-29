@@ -2,7 +2,8 @@
 
 FreeNAS 10 is a green-field project, and we're looking for contributors who are
 ready to take nothing and turn it into something. We provide a dev environment
-that makes iterating incredibly fast, and
+that makes iterating incredibly fast, and provides tools like sourcemaps and
+live-updating to make debugging as easy as possible.
 
 ## Getting Started
 
@@ -17,7 +18,7 @@ Otherwise, to begin developing for the FreeNAS 10 GUI on one of these platforms,
 install node.js.
 
 For Mac OS X, installing the package from nodejs.org should suffice.
-For FreeBSD, run `sudo pkg install node && pkg install npm`
+For FreeBSD, run `sudo pkg install npm`.
 
 ## Using the FreeNAS 10 Development Environment
 
@@ -27,19 +28,13 @@ the FreeNAS 10 GUI, run:
     sudo npm install -g gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
     npm install
 
-from the root of the repo first.  Then install another 400 or so npm modules
-we forgot to include above, and bingo!  Easy.
-
-Once your development environment is initialized, run 'gulp' to start the
-FreeNAS 10 SDK app.
+from the root of where you cloned the repo first.
 
 You will need to choose whether to target a real FreeNAS instance in order to
 interact with the middleware, or to operate in "dumb mode", in which case it
 will run a local copy of the GUI webapp that simulates interaction with real
 data. `gulp --connect FreeNASIPorHostname` will start you in live development
-mode with a real connection. `gulp` alone will start you with a local webserver
-only, so you can work on UI elements for as-yet-unavailable middleware
-functionality.
+mode with a real connection.
 
 Once the app is running, it will monitor your source files and automatically
 rebuild and restart the GUI every time a file changes.
