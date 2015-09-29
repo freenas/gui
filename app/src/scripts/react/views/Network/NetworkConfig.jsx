@@ -64,6 +64,7 @@ const NetworkConfig = React.createClass(
     var networkConfig = {};
     var systemGeneralConfig = {};
     let removeSystemGeneralConfig = false;
+    var removeNetworkConfig = false;
 
     switch ( key ) {
       case "hostname":
