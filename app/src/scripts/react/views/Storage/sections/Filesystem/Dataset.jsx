@@ -12,12 +12,17 @@ export default class Dataset extends React.Component {
   }
 
   render () {
+    let classes = [ "dataset" ];
     const CHILDREN = this.props.children
                    ? this.props.children.map( this.createChild )
                    : null;
 
+    if ( this.props.root ) {
+      classes.push( "root" );
+    }
+
     return (
-      <div>
+      <div className={ classes.join( " " ) } >
         { this.props.name }
         { CHILDREN }
       </div>
