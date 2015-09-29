@@ -25,6 +25,14 @@ var DiscTri = React.createClass(
              };
     }
 
+  , toggleExpanded () {
+    if ( _.has( this, [ "state", "expanded" ] ) ) {
+      this.setState( { expanded: !this.state.expanded } );
+    } else {
+      this.setState( { expanded: !this.props.defaultExpanded } );
+    }
+  }
+
   , render () {
       const { children, headerShow, headerHide, ...other } = this.props;
       let text, iconGlyph, containerClass;
@@ -48,9 +56,7 @@ var DiscTri = React.createClass(
         >
           <div
             className = "disc-title"
-            onClick = { ( event ) => {
-              this.setState( { expanded: !this.state.expanded } );
-            }}
+            onClick = { this.toggleExpanded }
           >
             <Icon glyph = { iconGlyph } />
             { text }
