@@ -198,7 +198,7 @@ const NetworkConfig = React.createClass(
       SM.updateSystemGeneralConfig( newSystemGeneralConfig );
     }
   }
-
+/*
   , advanceCursor ( target, evt ) {
     var newConfig = {};
 
@@ -222,7 +222,7 @@ const NetworkConfig = React.createClass(
       }
     }
   }
-
+*/
   , addDNSServer ( evt ) {
     var newNetworkConfig = {};
     var newDNSAddresses = [];
@@ -439,7 +439,7 @@ const NetworkConfig = React.createClass(
                 label = "Hostname"
                 value = { hostnameValue }
                 bsStyle = { this.validate( "hostname", hostnameValue ) }
-                onKeyDown = { this.advanceCursor.bind( this, "hostname" ) }
+                //onKeyDown = { this.advanceCursor.bind( this, "hostname" ) }
                 onChange = { this.handleChange.bind( this, "hostname" ) }
               />
               <Input { ...formClasses }
@@ -448,7 +448,7 @@ const NetworkConfig = React.createClass(
                 label = "IPv4 Default Gateway"
                 value = { ipv4GatewayValue }
                 bsStyle = { this.validate( "ipv4", ipv4GatewayValue ) }
-                onKeyDown = { this.advanceCursor.bind( this, "ipv4" ) }
+                //onKeyDown = { this.advanceCursor.bind( this, "ipv4" ) }
                 onChange = { this.handleChange.bind( this, "ipv4" ) }
               />
               <Input { ...formClasses }
@@ -457,7 +457,7 @@ const NetworkConfig = React.createClass(
                 label = "IPv6 Default Gateway"
                 value = { ipv6GatewayValue }
                 bsStyle = { this.validate( "ipv6", ipv6GatewayValue ) }
-                onKeyDown = { this.advanceCursor.bind( this, "ipv6" ) }
+                //onKeyDown = { this.advanceCursor.bind( this, "ipv6" ) }
                 onChange = { this.handleChange.bind( this, "ipv6" ) }
               />
             </form>
