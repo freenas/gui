@@ -46,16 +46,19 @@ const MemoryMeter = React.createClass(
         <h5>{"Memory Resource Usage"}</h5>
         <ProgressBar>
           <ProgressBar
+            key = {0}
             now = { this.state.active }
             label = "Active"
             bsStyle = "success"
           />
           <ProgressBar
+            key = {1}
             now = { this.state.cache }
             label = "Cache"
             bsStyle = "warning"
           />
           <ProgressBar
+            key = {2}
             now = { this.state.wired }
             label = "Wired"
             bsStyle = "info"

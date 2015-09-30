@@ -40,11 +40,13 @@ const CPUMeter = React.createClass(
         <h5>{"CPU Resource Usage"}</h5>
         <ProgressBar>
           <ProgressBar
+            key = {0}
             now = { this.state.user }
             label = "User"
             bsStyle = "success"
           />
           <ProgressBar
+            key = {1}
             now = { this.state.system }
             label = "System"
             bsStyle = "warning"
