@@ -173,6 +173,14 @@ const Update = React.createClass(
                                );
                                }
                              );
+    } else {
+      updateTrainChoices = [
+        (<option
+          key = { this.state.current_train }
+          value = { this.state.current_train }
+          label = { this.state.current_train }
+        />)
+      ];
     }
 
     const updateTrain = (
