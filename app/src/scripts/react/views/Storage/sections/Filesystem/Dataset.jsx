@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import { DropdownButton, MenuItem } from "react-bootstrap";
+import { ButtonGroup, Button, DropdownButton, MenuItem } from "react-bootstrap";
 
 import ByteCalc from "../../../../../utility/ByteCalc";
 
@@ -15,6 +15,8 @@ import BreakdownChart from "../../common/BreakdownChart";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
 
+const SHARE_TYPES = [ "NFS", "CIFS", "AFP" ];
+
 export default class Dataset extends React.Component {
   createProperty ( legend, content ) {
     return (
@@ -22,6 +24,16 @@ export default class Dataset extends React.Component {
         <span className="property-legend">{ legend }</span>
         <span className="property-content">{ content }</span>
       </div>
+    );
+  }
+
+  createShare ( shareType, index ) {
+    return (
+      <Button
+        bsStyle = "default"
+      >
+        { shareType }
+      </Button>
     );
   }
 
@@ -61,10 +73,34 @@ export default class Dataset extends React.Component {
             </span>
           </div>
 
+        {/* PROPERTIES OF DATASET AND OPTIONS */}
           <div className="dataset-properties">
             { this.createProperty( "Used", ByteCalc.humanize( used.rawvalue ) ) }
             { this.createProperty( "Available", ByteCalc.humanize( available.rawvalue ) ) }
             { this.createProperty( "Compression", compression.rawvalue ) }
+
+            {/* RADIO TOGGLES FOR CREATING SHARES */}
+            <div className="dataset-property">
+              <span className="property-legend">
+                {"File Sharing"}
+              </span>
+              <span className="property-content">
+                <ButtonGroup
+                  className = "btn-group-radio btn-group-radio-primary"
+                  bsSize    = "sm"
+                >
+                  <Button
+                    active
+                    bsStyle = "default"
+                  >
+                    { "Off" }
+                  </Button>
+                  { SHARE_TYPES.map( this.createShare ) }
+                </ButtonGroup>
+              </span>
+            </div>
+
+            {/* "+" DROPDOWN BUTTON: ADD DATASETS AND ZVOLS */}
             <DropdownButton
               noCaret
               pullRight
