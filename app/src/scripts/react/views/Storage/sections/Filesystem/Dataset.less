@@ -1,10 +1,54 @@
 @import ( optional, reference ) "../../../../../../styles/bootstrap.less";
 @import ( optional, reference ) "../../../../../../styles/variables.less";
 
+@dataset-basis: 8px;
+
 .dataset {
+  background-color: #F8F8F8;
 
   .dataset {
-    margin-left: @panel-body-padding;
+    padding-left: 32px;
+
+    .dataset-toolbar:before,
+    .dataset-toolbar:after {
+      // Create a "|-" separator for each child dataset to show its relationship
+      // with parent datasets
+      content: "";
+      display: block;
+      position: absolute;
+      height: 50%;
+      width: 10px;
+      right: 100%;
+      box-sizing: initial;
+      border: #999999 solid 0;
+      border-left-width: 1px;
+      margin-right: 8px;
+    }
+
+    .dataset-toolbar:before {
+      // Creates the top half of the "|" and the "_"
+      padding-top: @dataset-basis;
+      border-bottom-width: 1px;
+      top: 0;
+    }
+
+    .dataset-toolbar:after {
+      // Creates the bottom half of the "|"
+      padding-bottom: @dataset-basis;
+      top: 50%;
+    }
+
+    &:last-child > .dataset-toolbar:after {
+      // Don't show the bottom part of the "|" for the last child, since there's
+      // no "next" child dataset
+      display: none;
+    }
+
+    &:first-child > .dataset-toolbar:before {
+      // Show a small gap before the first "|-"
+      margin-top: @dataset-basis;
+      padding-top: 0;
+    }
   }
 
   .progress {
@@ -14,8 +58,8 @@
 }
 
 .dataset-toolbar {
-  padding: 8px;
-  background-color: #F8F8F8;
+  padding: @dataset-basis;
+  position: relative;
 }
 
 .dataset-properties {

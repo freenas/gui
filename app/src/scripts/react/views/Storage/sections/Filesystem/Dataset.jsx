@@ -26,21 +26,23 @@ export default class Dataset extends React.Component {
   }
 
   createChild ( dataset, index ) {
-    return <Dataset key={ index } { ...dataset } />
+    return (
+      <Dataset { ...dataset } key = { index } />
+    );
   }
 
   render () {
-    let classes = [ "dataset" ];
-
     const { used, available, compression } = this.props.properties;
     const CHILDREN = this.props.children
-                   ? this.props.children.map( this.createChild )
+                   ? this.props.children.map( this.createChild.bind( this ) )
                    : null;
+
+    let classes = [ "dataset" ];
 
     if ( this.props.root ) classes.push( "root" );
 
     return (
-      <div className={ classes.join( " " ) } >
+      <div className={ classes.join( " " ) }>
 
         {/* DATASET TOOLBAR */}
         <div className="dataset-toolbar">
@@ -65,7 +67,10 @@ export default class Dataset extends React.Component {
           free = { ByteCalc.convertString( available.rawvalue ) }
         />
 
-        { CHILDREN }
+        {/* CHILD DATASETS */}
+        <div className="dataset-children">
+          { CHILDREN }
+        </div>
       </div>
     );
   }
