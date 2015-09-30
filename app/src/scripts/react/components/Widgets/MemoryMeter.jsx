@@ -17,18 +17,9 @@ const MemoryMeter = React.createClass(
   }
 
   , getInitialState () {
-    let active = ChartUtil.rand( 20
-                               , 25
-                               , 1
-                               );
-    let cache = ChartUtil.rand( 30
-                              , 40
-                              , 1
-                              );
-    let wired = ChartUtil.rand( 20
-                              , 30
-                              , 1
-                              );
+    let active = ChartUtil.rand( 20, 25, 1 )[0];
+    let cache = ChartUtil.rand( 30, 40, 1 )[0];
+    let wired = ChartUtil.rand( 20, 30, 1 )[0];
 
     return ( { active : active
              , cache : cache
@@ -37,18 +28,9 @@ const MemoryMeter = React.createClass(
   }
 
   , update () {
-    let active = ChartUtil.rand( 25
-                               , 30
-                               , 1
-                               );
-    let cache = ChartUtil.rand( 30
-                              , 40
-                              , 1
-                              );
-    let wired = ChartUtil.rand( 20
-                              , 30
-                              , 1
-                              );
+    let active = ChartUtil.rand( 25, 30, 1 )[0];
+    let cache = ChartUtil.rand( 30, 40, 1 )[0];
+    let wired = ChartUtil.rand( 20, 30, 1 )[0];
 
     this.setState( { active : active
                    , cache : cache

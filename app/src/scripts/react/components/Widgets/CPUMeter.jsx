@@ -15,8 +15,8 @@ const CPUMeter = React.createClass(
   }
 
   , getInitialState() {
-    let dataUser = ChartUtil.rand( 20, 35, 1 );
-    let dataSystem = ChartUtil.rand( 30, 40, 1 );
+    let dataUser = ChartUtil.rand( 20, 35, 1 )[0];
+    let dataSystem = ChartUtil.rand( 30, 40, 1 )[0];
 
     return { user: dataUser
            , system: dataSystem
@@ -24,8 +24,8 @@ const CPUMeter = React.createClass(
   }
 
   , update () {
-    let dataUser = ChartUtil.rand( 20, 35, 1 );
-    let dataSystem = ChartUtil.rand( 30, 40, 1 );
+    let dataUser = ChartUtil.rand( 20, 35, 1 )[0];
+    let dataSystem = ChartUtil.rand( 30, 40, 1 )[0];
 
     this.setState( { user: dataUser
                    , system: dataSystem
