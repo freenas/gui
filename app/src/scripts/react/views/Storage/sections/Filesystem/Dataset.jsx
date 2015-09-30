@@ -82,7 +82,7 @@ export default class Dataset extends React.Component {
             {/* RADIO TOGGLES FOR CREATING SHARES */}
             <div className="dataset-property">
               <span className="property-legend">
-                {"File Sharing"}
+                { "File Sharing" }
               </span>
               <span className="property-content">
                 <ButtonGroup
@@ -109,8 +109,8 @@ export default class Dataset extends React.Component {
               id        = { this.props.name.replace( /\s/, "-" ) + "-add-btn" }
               title     = { <Icon glyph="icon-plus" /> }
             >
-              <MenuItem disabled>{"Add Dataset..."}</MenuItem>
-              <MenuItem disabled>{"Add ZVOL..."}</MenuItem>
+              <MenuItem disabled>{ "Add Dataset..." }</MenuItem>
+              <MenuItem disabled>{ "Add ZVOL..." }</MenuItem>
             </DropdownButton>
           </div>
         </div>
