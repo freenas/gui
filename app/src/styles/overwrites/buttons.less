@@ -136,3 +136,28 @@
     opacity: 1;
   }
 }
+
+.btn-gradient {
+  .btn-link();
+  color: @gray;
+  background-image: none;
+  padding: 0.25em;
+  line-height: 1em;
+  height: 1em;
+  width: 1em;
+  box-sizing: initial;
+  vertical-align: middle;
+
+  &:hover,
+  &:focus {
+    color: @brand-primary;
+    text-decoration: none;
+  }
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
