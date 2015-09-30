@@ -22,7 +22,6 @@ export default class SharesMiddleware extends AbstractBase {
 
   // QUERY
   static query () {
-    console.log( "query" );
     MC.request( "shares.query", [], SAC.receiveShares );
   }
 
