@@ -5,8 +5,11 @@
 "use strict";
 
 import React from "react";
+import { Button, ButtonToolbar } from "react-bootstrap";
 
-import BC from "../../../../../utility/ByteCalc";
+import ByteCalc from "../../../../../utility/ByteCalc";
+
+import Icon from "../../../../components/Icon";
 import BreakdownChart from "../../common/BreakdownChart";
 
 // STYLESHEET
@@ -47,16 +50,19 @@ export default class Dataset extends React.Component {
           </div>
 
           <div className="dataset-properties">
-            { this.createProperty( "Used", BC.humanize( used.rawvalue ) ) }
-            { this.createProperty( "Available", BC.humanize( available.rawvalue ) ) }
+            { this.createProperty( "Used", ByteCalc.humanize( used.rawvalue ) ) }
+            { this.createProperty( "Available", ByteCalc.humanize( available.rawvalue ) ) }
             { this.createProperty( "Compression", compression.rawvalue ) }
+            <Button className="btn-gradient add-child">
+              <Icon glyph="icon-plus" />
+            </Button>
           </div>
         </div>
 
         {/* BREAKDOWN */}
         <BreakdownChart
-          used = { BC.convertString( used.rawvalue ) }
-          free = { BC.convertString( available.rawvalue ) }
+          used = { ByteCalc.convertString( used.rawvalue ) }
+          free = { ByteCalc.convertString( available.rawvalue ) }
         />
 
         { CHILDREN }
