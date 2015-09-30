@@ -13,60 +13,58 @@ import ByteCalc from "../../../utility/ByteCalc";
 
 const MemoryMeter = React.createClass(
   { componentDidMount () {
-    this.timeout = setTimeout( this.update, 2000 );
-  }
+      this.timeout = setTimeout( this.update, 0 );
+    }
+
+  , componentWillUnmount () {
+      clearTimeout( this.timeout );
+      this.timeout = null;
+    }
 
   , getInitialState () {
-    let active = ChartUtil.rand( 20, 25, 1 )[0];
-    let cache = ChartUtil.rand( 30, 40, 1 )[0];
-    let wired = ChartUtil.rand( 20, 30, 1 )[0];
-
-    return ( { active : active
-             , cache : cache
-             , wired : wired
-             } );
-  }
+      return ( { active : 0
+               , cache  : 0
+               , wired  : 0
+               } );
+    }
 
   , update () {
-    let active = ChartUtil.rand( 25, 30, 1 )[0];
-    let cache = ChartUtil.rand( 30, 40, 1 )[0];
-    let wired = ChartUtil.rand( 20, 30, 1 )[0];
+      this.setState( { active : ChartUtil.rand( 25, 30, 1 )[0]
+                     , cache  : ChartUtil.rand( 30, 40, 1 )[0]
+                     , wired  : ChartUtil.rand( 20, 30, 1 )[0]
+                     } );
 
-    this.setState( { active : active
-                   , cache : cache
-                   , wired : wired
-                   } );
-
-    this.timeout = setTimeout( this.update, 2000 );
-  }
+      this.timeout = setTimeout( this.update, 2000 );
+    }
 
   , render () {
-    return(
-      <div>
-        <h5>{"Memory Resource Usage"}</h5>
-        <ProgressBar>
-          <ProgressBar
-            key = {0}
-            now = { this.state.active }
-            label = "Active"
-            bsStyle = "success"
-          />
-          <ProgressBar
-            key = {1}
-            now = { this.state.cache }
-            label = "Cache"
-            bsStyle = "warning"
-          />
-          <ProgressBar
-            key = {2}
-            now = { this.state.wired }
-            label = "Wired"
-            bsStyle = "info"
-          />
-        </ProgressBar>
-      </div>
-    );
+      return(
+        <div>
+          <h5>{"Memory Resource Usage"}</h5>
+          <ProgressBar>
+            <ProgressBar
+              key = {0}
+              now = { this.state.active }
+              label = "Active"
+              bsStyle = "success"
+            />
+            <ProgressBar
+              key = {1}
+              now = { this.state.cache }
+              label = "Cache"
+              bsStyle = "warning"
+            />
+            <ProgressBar
+              key = {2}
+              now = { this.state.wired }
+              label = "Wired"
+              bsStyle = "info"
+            />
+          </ProgressBar>
+        </div>
+      );
+    }
   }
-});
+);
 
 export default MemoryMeter;
