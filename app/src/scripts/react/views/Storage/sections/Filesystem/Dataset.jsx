@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import { Button, ButtonToolbar } from "react-bootstrap";
+import { DropdownButton, MenuItem } from "react-bootstrap";
 
 import ByteCalc from "../../../../../utility/ByteCalc";
 
@@ -65,9 +65,17 @@ export default class Dataset extends React.Component {
             { this.createProperty( "Used", ByteCalc.humanize( used.rawvalue ) ) }
             { this.createProperty( "Available", ByteCalc.humanize( available.rawvalue ) ) }
             { this.createProperty( "Compression", compression.rawvalue ) }
-            <Button className="btn-gradient add-child">
-              <Icon glyph="icon-plus" />
-            </Button>
+            <DropdownButton
+              noCaret
+              pullRight
+              bsStyle   = "link"
+              className = "add-child"
+              id        = { this.props.name.replace( /\s/, "-" ) + "-add-btn" }
+              title     = { <Icon glyph="icon-plus" /> }
+            >
+              <MenuItem disabled>{"Add Dataset..."}</MenuItem>
+              <MenuItem disabled>{"Add ZVOL..."}</MenuItem>
+            </DropdownButton>
           </div>
         </div>
 
