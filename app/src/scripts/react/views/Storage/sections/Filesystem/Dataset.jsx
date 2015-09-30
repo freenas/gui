@@ -32,10 +32,16 @@ export default class Dataset extends React.Component {
   }
 
   render () {
+    const { name, children } = this.props;
     const { used, available, compression } = this.props.properties;
-    const CHILDREN = this.props.children
-                   ? this.props.children.map( this.createChild.bind( this ) )
+    const CHILDREN = children
+                   ? children.map( this.createChild.bind( this ) )
                    : null;
+    let pathArray = name.split( "/" );
+    const DATASET_NAME = pathArray.pop();
+    const PARENT_NAME = this.props.root
+                      ? "Top Level"
+                      : "ZFS Dataset";
 
     let classes = [ "dataset" ];
 
@@ -47,8 +53,12 @@ export default class Dataset extends React.Component {
         {/* DATASET TOOLBAR */}
         <div className="dataset-toolbar">
           <div className="dataset-property dataset-name">
-            <span className="property-legend">{"ZFS Dataset"}</span>
-            <span className="property-content">{ this.props.name }</span>
+            <span className="property-legend">
+              { PARENT_NAME }
+            </span>
+            <span className="property-content">
+              { DATASET_NAME }
+            </span>
           </div>
 
           <div className="dataset-properties">
