@@ -47,6 +47,7 @@ export default class TasksSidebar extends React.Component {
   handleChanges ( eventType ) {
     switch ( eventType ) {
       case "allTasks":
+      case "taskEvent":
         this.setState( { tasks: TS.tasks } );
         break;
       case "events":
