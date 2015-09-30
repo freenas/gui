@@ -67,6 +67,7 @@ const Volume = React.createClass(
         }
       )
     , datasets: React.PropTypes.array
+    , shares: React.PropTypes.instanceOf( Map )
     , properties: React.PropTypes.shape(
         { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
         , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
@@ -398,6 +399,7 @@ const Volume = React.createClass(
             editing          = { editing }
             topology         = { topology }
             datasets         = { this.props.datasets }
+            shares           = { this.props.shares }
             active           = { this.props.active }
             onSelect         = { this.handleDrawerChange }
             onDiskAdd        = { this.handleDiskAdd }

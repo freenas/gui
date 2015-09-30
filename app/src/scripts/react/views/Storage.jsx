@@ -14,6 +14,8 @@ import VS from "../../flux/stores/VolumeStore";
 import ZM from "../../flux/middleware/ZfsMiddleware";
 import DS from "../../flux/stores/DisksStore";
 import DM from "../../flux/middleware/DisksMiddleware";
+import SM from "../../flux/middleware/SharesMiddleware";
+import SS from "../../flux/stores/SharesStore";
 
 import Volume from "./Storage/Volume";
 
@@ -35,6 +37,7 @@ const Storage = React.createClass(
   , getInitialState () {
       return (
         { volumes: VS.listVolumes()
+        , shares: SS.shares
         , devicesAreAvailable: VS.devicesAreAvailable
         , activeVolume: null
         }
@@ -44,22 +47,26 @@ const Storage = React.createClass(
   , componentDidMount () {
       VS.addChangeListener( this.handleUpdatedVS );
       DS.addChangeListener( this.handleUpdatedDS );
+      SS.addChangeListener( this.handleUpdatedSS );
+
+      DM.subscribe( this.constructor.displayName );
+      ZM.subscribe( this.constructor.displayName );
+      SM.subscribe( this.constructor.displayName );
 
       DM.requestDisksOverview();
-      DM.subscribe( this.constructor.displayName );
-
       ZM.requestVolumes();
       ZM.requestAvailableDisks();
-      ZM.subscribe( this.constructor.displayName );
+      SM.query();
     }
 
   , componentWillUnmount () {
       VS.removeChangeListener( this.handleUpdatedVS );
       DS.removeChangeListener( this.handleUpdatedDS );
+      SS.removeChangeListener( this.handleUpdatedDS );
 
       DM.unsubscribe( this.constructor.displayName );
-
       ZM.unsubscribe( this.constructor.displayName );
+      SM.unsubscribe( this.constructor.displayName );
     }
 
   , componentDidUpdate ( prevProps, prevState ) {
@@ -103,6 +110,10 @@ const Storage = React.createClass(
       ZM.requestAvailableDisks();
     }
 
+  , handleUpdatedSS ( eventMask ) {
+      this.setState({ shares: SS.shares });
+    }
+
   , handleVolumeActive ( key ) {
       this.setState({ activeVolume: key });
     }
@@ -114,16 +125,17 @@ const Storage = React.createClass(
   , createVolumes () {
       let activeVolume = this.state.activeVolume;
 
-      const VOLUME_HANDLERS =
+      const COMMON_PROPS =
         { becomeActive   : this.handleVolumeActive
         , becomeInactive : this.handleVolumeInactive
+        , shares         : this.state.shares
         };
 
       let pools =
         this.state.volumes.map( function ( volume, index ) {
           return (
             <Volume
-              { ...VOLUME_HANDLERS }
+              { ...COMMON_PROPS }
               { ...volume }
               existsOnRemote
               key       = { index }
@@ -139,7 +151,7 @@ const Storage = React.createClass(
         // behavior, depending on its knowledge of other pools.
         pools.push(
           <Volume
-            { ...VOLUME_HANDLERS }
+            { ...COMMON_PROPS }
             key       = { pools.length }
             volumeKey = { pools.length }
             active    = { pools.length === activeVolume }

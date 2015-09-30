@@ -10,11 +10,11 @@ import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
-var shares;
-
 class SharesStore extends FluxBase {
   constructor () {
     super();
+
+    this.shares = null;
 
     this.dispatchToken = FreeNASDispatcher.register(
       handlePayload.bind( this )
@@ -27,7 +27,15 @@ function handlePayload ( payload ) {
 
   switch ( ACTION.type ) {
     case ActionTypes.RECEIVE_SHARES:
-      shares = ACTION.shares;
+      if ( this.isInitialized ) {
+        this.shares.clear();
+      } else {
+        this.shares = new Map();
+      }
+
+      ACTION.shares.forEach( ( share ) => {
+        this.shares.set( share.target, share );
+      });
       this.fullUpdateAt = ACTION.timestamp;
       this.emitChange();
       break;

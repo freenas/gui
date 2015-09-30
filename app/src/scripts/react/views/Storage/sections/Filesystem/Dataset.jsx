@@ -39,7 +39,11 @@ export default class Dataset extends React.Component {
 
   createChild ( dataset, index ) {
     return (
-      <Dataset { ...dataset } key = { index } />
+      <Dataset
+        { ...dataset }
+        key = { index }
+        shares = { this.props.shares }
+      />
     );
   }
 
@@ -139,6 +143,7 @@ Dataset.propTypes =
   , type             : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
   , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
   , properties       : React.PropTypes.object // TODO: Get more specific
+  , shares           : React.PropTypes.instanceOf( Map )
   };
 
 Dataset.defaultProps =

@@ -51,7 +51,7 @@ export default class VolumeSections extends React.Component {
   }
 
   render () {
-    const { editing, datasets, topology } = this.props;
+    const { editing, datasets, topology, shares } = this.props;
 
     return (
       <Tabs
@@ -80,6 +80,7 @@ export default class VolumeSections extends React.Component {
           <Filesystem
             editing  = { editing }
             datasets = { datasets }
+            shares   = { shares }
           />
         </Tab>
 
@@ -126,6 +127,7 @@ VolumeSections.propTypes =
       }
     )
   , datasets         : React.PropTypes.array
+  , shares           : React.PropTypes.instanceOf( Map )
   , editing          : React.PropTypes.bool.isRequired
   , active           : React.PropTypes.bool.isRequired
   };

@@ -12,13 +12,14 @@ import Dataset from "./Filesystem/Dataset";
 export default class Filesystem extends React.Component {
 
   render () {
-    const { datasets, ...other } = this.props;
+    const { datasets, shares, ...other } = this.props;
 
     return (
       <div { ...other }>
         <Dataset
           root
           { ...datasets[0] }
+          shares = { shares }
         />
       </div>
     );
