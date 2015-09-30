@@ -7,7 +7,7 @@
 import MC from "../../websocket/MiddlewareClient";
 import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 
-import GAC from "..//actions/GroupsActionCreators";
+import GAC from "../actions/GroupsActionCreators";
 
 class GroupsMiddleware extends AbstractBase {
 
