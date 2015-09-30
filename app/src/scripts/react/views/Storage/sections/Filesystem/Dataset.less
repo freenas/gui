@@ -1,0 +1,50 @@
+@import ( optional, reference ) "../../../../../../styles/bootstrap.less";
+@import ( optional, reference ) "../../../../../../styles/variables.less";
+
+.dataset {
+
+  .dataset {
+    margin-left: @panel-body-padding;
+  }
+
+  .progress {
+    height: 8px;
+    margin: 0;
+  }
+}
+
+.dataset-toolbar {
+  padding: 8px 16px;
+  background-color: #F8F8F8;
+}
+
+.dataset-properties {
+  float: right;
+}
+
+.dataset-property {
+  text-align: center;
+  display: inline-block;
+
+  & + .dataset-property {
+    margin-left: 25px;
+  }
+
+  .property-content {
+    display: block;
+    font-size: 1.15em;
+    font-weight: 300;
+  }
+
+  .property-legend {
+    display: block;
+    font-size: 0.65em;
+    display: inline-block;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.dataset-name {
+  text-align: left;
+}
