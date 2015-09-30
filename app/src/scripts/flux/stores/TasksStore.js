@@ -139,7 +139,6 @@ function handlePayload ( payload ) {
             break;
 
           case "task.progress":
-          case "task.updated":
             switch ( taskArgs[ "state" ] ) {
 
               case "WAITING":
