@@ -13,7 +13,7 @@ import viewerCommon from "./mixins/viewerCommon";
 import viewerOverlay from "./mixins/viewerOverlay";
 import viewerUtil from "./viewerUtil";
 
-import ToggleSwitch from "..//ToggleSwitch";
+import ToggleSwitch from "../ToggleSwitch";
 
 // Icon Viewer
 var IconViewer = React.createClass(
