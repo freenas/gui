@@ -95,6 +95,7 @@ export default class TasksSidebar extends React.Component {
                       if ( item.type === "event" ) {
                         info = (
                           <DiscTri
+                            key = { index }
                             headerShow = { item.name }
                             headerHide = { item.name }
                             defaultExpanded = { false }
@@ -106,7 +107,7 @@ export default class TasksSidebar extends React.Component {
                         );
                       } else if ( item.type === "task" ) {
                         info = <TaskItem
-                                 key = { item.id }
+                                 key = { index }
                                  { ...item }
                                />;
                       }
