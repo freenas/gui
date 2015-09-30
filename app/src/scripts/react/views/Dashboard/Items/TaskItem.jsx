@@ -18,30 +18,38 @@ export default class TaskItem extends React.Component {
   }
 
   render () {
-    var progressProps = { now: this.props.percent
-                        , bsStyle: "info" };
+    var progressProps = { bsStyle: "primary" };
+    if ( _.has( this, [ "props", "progress", "percentage" ] ) ) {
+      progressProps.now = this.props.progress.percentage;
+    }
     var cancelBtn = null; // TODO: implement cancelBtn
 
     switch ( this.props.state ) {
+      case "CREATED":
+        progressProps.active = true;
+        progressProps.label = "Created";
+        progressProps.now = 100;
+        break;
       case "WAITING":
         progressProps.active = true;
         progressProps.label = "Waiting...";
+        progressProps.now = 100;
         break;
       case "EXECUTING":
-        progressProps.active = true;
-        progressProps.label = "Executing...";
+        progressProps.now = progressProps.now || 0;
         break;
       case "FINISHED":
-        progressProps.bsStyle = "success";
-        progressProps.label = "Completed";
+        progressProps.label = "Complete";
+        progressProps.now = 100;
         break;
       case "FAILED":
         progressProps.bsStyle = "danger";
         progressProps.label = "Failed";
+        progressProps.now = 100;
         break;
       case "ABORTED":
-        progressProps.bsStyle = "warning";
         progressProps.label = "Aborted";
+        progressProps.now = 100;
         break;
     }
 
