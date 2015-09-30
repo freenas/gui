@@ -66,7 +66,6 @@ export default class TaskItem extends React.Component {
                 }
               </h6>
             </div>
-            <hr />
             <div className = "clearfix">
               { cancelBtn }
               <ProgressBar { ...progressProps } />
