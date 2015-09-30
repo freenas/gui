@@ -30,6 +30,7 @@ export default class Dataset extends React.Component {
   createShare ( shareType, index ) {
     return (
       <Button
+        key     = { index }
         bsStyle = "default"
       >
         { shareType }
