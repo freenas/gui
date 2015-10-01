@@ -37,7 +37,7 @@ export default class TasksSidebar extends React.Component {
     TM.requestAllTasks();
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     ES.removeChangeListener( this.handleChanges.bind( this ) );
 
     TM.unsubscribe( this.displayName );
