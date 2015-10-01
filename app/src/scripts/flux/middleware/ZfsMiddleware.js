@@ -7,7 +7,7 @@ import MC from "../../websocket/MiddlewareClient";
 import MiddlewareAbstract from "./MIDDLEWARE_BASE_CLASS";
 import ZAC from "../actions/ZfsActionCreators";
 
-class ZfsMiddleware extends MiddlewareAbstract {
+export default class ZfsMiddleware extends MiddlewareAbstract {
 
   static subscribe ( componentID ) {
     MC.subscribe( [ "entity-subscriber.volumes.changed", "task.progress" ]
@@ -35,27 +35,37 @@ class ZfsMiddleware extends MiddlewareAbstract {
               );
   }
 
+
+  // VOLUME TASKS
   static submitVolume ( volumeProps ) {
-    MC.request( "task.submit"
-              , [ "volume.create", [ volumeProps ] ]
-              , ZAC.receiveVolumeCreateTask
-              );
+    MC.submitTask( [ "volume.create", [ volumeProps ] ]
+                 , ZAC.receiveVolumeCreateTask
+                 );
   }
 
   static updateVolume ( volumeProps ) {
-    MC.request( "task.submit"
-              , [ "volume.create", [ volumeProps ] ]
-              , ZAC.receiveVolumeUpdateTask
-              );
+    MC.submitTask( [ "volume.create", [ volumeProps ] ]
+                 , ZAC.receiveVolumeUpdateTask
+                 );
   }
 
   static destroyVolume ( volumeName ) {
-    MC.request( "task.submit"
-              , [ "volume.destroy", [ volumeName ] ]
-              , ZAC.receiveVolumeDestroyTask
-              );
+    MC.submitTask( [ "volume.destroy", [ volumeName ] ]
+                 , ZAC.receiveVolumeDestroyTask
+                 );
+  }
+
+  // DATASET TASKS
+  static createDataset ( pool_name, path, type, params ) {
+    MC.submitTask( [ "volume.dataset.create", Array.from( arguments ) ] );
+  }
+
+  static updateDataset ( pool_name, path, updated_params ) {
+    MC.submitTask( [ "volume.dataset.update", Array.from( arguments ) ] );
+  }
+
+  static deleteDataset ( pool_name, path ) {
+    MC.submitTask( [ "volume.dataset.delete", Array.from( arguments ) ] );
   }
 
 };
-
-export default ZfsMiddleware;
