@@ -27,25 +27,22 @@ export default class SharesMiddleware extends AbstractBase {
 
 
   // MODIFICATION TASKS
-  // static create () {
-  //   MC.request( "task.submit"
-  //             , [ "shares.create" ]
-  //             , SAC.receiveShareCreateTask
-  //             );
-  // }
+  static create ( share ) {
+    MC.submitTask( [ "shares.create", [ share ] ]
+                 , SAC.receiveShareCreateTask
+                 );
+  }
 
-  // static update () {
-  //   MC.request( "task.submit"
-  //             , [ "shares.update" ]
-  //             , SAC.receiveShareUpdateTask
-  //             );
-  // }
+  static update ( name ) {
+    MC.submitTask( [ "shares.update", [ name ] ]
+                 , SAC.receiveShareUpdateTask
+                 );
+  }
 
-  // static delete () {
-  //   MC.request( "task.submit"
-  //             , [ "shares.delete" ]
-  //             , SAC.receiveShareDeleteTask
-  //             );
-  // }
+  static delete ( name ) {
+    MC.submitTask( [ "shares.delete", [ name ] ]
+                 , SAC.receiveShareDeleteTask
+                 );
+  }
 
 };
