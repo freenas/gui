@@ -30,198 +30,222 @@ if ( typeof window !== "undefined" ) {
   };
 }
 
-const Storage = React.createClass(
+export default class Storage extends React.Component {
 
-  { displayName: "Storage"
+  constructor( props ) {
+    super( props );
 
-  , getInitialState () {
-      return (
-        { volumes: VS.listVolumes()
-        , shares: SS.shares
-        , devicesAreAvailable: VS.devicesAreAvailable
-        , activeVolume: null
-        }
-      );
-    }
+    this.displayName = "Storage";
 
-  , componentDidMount () {
-      VS.addChangeListener( this.handleUpdatedVS );
-      DS.addChangeListener( this.handleUpdatedDS );
-      SS.addChangeListener( this.handleUpdatedSS );
+    // SET INITIAL STATE
+    this.state =
+      { volumes: VS.listVolumes()
+      , shares: SS.shares
+      , devicesAreAvailable: VS.devicesAreAvailable
+      , activeVolume: null
+      };
+  }
 
-      DM.subscribe( this.constructor.displayName );
-      ZM.subscribe( this.constructor.displayName );
-      SM.subscribe( this.constructor.displayName );
+  componentDidMount () {
+    VS.addChangeListener( this.handleUpdatedVS.bind( this ) );
+    DS.addChangeListener( this.handleUpdatedDS.bind( this ) );
+    SS.addChangeListener( this.handleUpdatedSS.bind( this ) );
 
-      DM.requestDisksOverview();
-      ZM.requestVolumes();
-      ZM.requestAvailableDisks();
-      SM.query();
-    }
+    DM.subscribe( this.displayName );
+    ZM.subscribe( this.displayName );
+    SM.subscribe( this.displayName );
 
-  , componentWillUnmount () {
-      VS.removeChangeListener( this.handleUpdatedVS );
-      DS.removeChangeListener( this.handleUpdatedDS );
-      SS.removeChangeListener( this.handleUpdatedDS );
+    DM.requestDisksOverview();
+    ZM.requestVolumes();
+    ZM.requestAvailableDisks();
+    SM.query();
+  }
 
-      DM.unsubscribe( this.constructor.displayName );
-      ZM.unsubscribe( this.constructor.displayName );
-      SM.unsubscribe( this.constructor.displayName );
-    }
+  componentWillUnmount () {
+    VS.removeChangeListener( this.handleUpdatedVS.bind( this ) );
+    DS.removeChangeListener( this.handleUpdatedDS.bind( this ) );
+    SS.removeChangeListener( this.handleUpdatedDS.bind( this ) );
 
-  , componentDidUpdate ( prevProps, prevState ) {
-      if ( ( this.state.volumes.length === 0 )
-        && ( this.state.activeVolume !== prevState.activeVolume )
-         ) {
-        Velocity( React.findDOMNode( this.refs.newPoolMessage )
-          , { opacity       : 0
-            , height        : 0
-            , paddingTop    : 0
-            , paddingBottom : 0
-            }
-          , { display: "none" }
-          , 500
-          );
-      }
-    }
+    DM.unsubscribe( this.displayName );
+    ZM.unsubscribe( this.displayName );
+    SM.unsubscribe( this.displayName );
+  }
 
-  , handleUpdatedVS ( eventMask ) {
-      let newState = {};
-
-      switch ( eventMask ) {
-        case "availableDisks":
-          newState.devicesAreAvailable = VS.devicesAreAvailable;
-          break;
-
-        case "volumes":
-        default:
-          newState.volumes = VS.listVolumes();
-          break;
-      }
-
-      this.setState( newState );
-    }
-
-  , handleUpdatedDS ( eventMask ) {
-      // FIXME: Until there's some way to get this information in a more direct
-      // way, re-query available disks every time a disk changes. (This should
-      // hopefully have the benefit of covering things like ejection, even if
-      // it gets triggered by a lot of non-important stuff)
-      ZM.requestAvailableDisks();
-    }
-
-  , handleUpdatedSS ( eventMask ) {
-      this.setState({ shares: SS.shares });
-    }
-
-  , handleVolumeActive ( key ) {
-      this.setState({ activeVolume: key });
-    }
-
-  , handleVolumeInactive () {
-      this.setState({ activeVolume: null });
-    }
-
-  , createVolumes () {
-      let activeVolume = this.state.activeVolume;
-
-      const COMMON_PROPS =
-        { becomeActive   : this.handleVolumeActive
-        , becomeInactive : this.handleVolumeInactive
-        , shares         : this.state.shares
-        };
-
-      let pools =
-        this.state.volumes.map( function ( volume, index ) {
-          return (
-            <Volume
-              { ...COMMON_PROPS }
-              { ...volume }
-              existsOnRemote
-              key       = { index }
-              volumeKey = { index }
-              active    = { index === activeVolume }
-            />
-          );
-        });
-
-      if ( this.state.devicesAreAvailable ) {
-        // If there are disks available, a new pool may be created. The Volume
-        // component is responsible for displaying the correct "blank start"
-        // behavior, depending on its knowledge of other pools.
-        pools.push(
-          <Volume
-            { ...COMMON_PROPS }
-            key       = { pools.length }
-            volumeKey = { pools.length }
-            active    = { pools.length === activeVolume }
-          />
+  componentDidUpdate ( prevProps, prevState ) {
+    if ( ( this.state.volumes.length === 0 )
+      && ( this.state.activeVolume !== prevState.activeVolume )
+       ) {
+      Velocity( React.findDOMNode( this.refs.newPoolMessage )
+        , { opacity       : 0
+          , height        : 0
+          , paddingTop    : 0
+          , paddingBottom : 0
+          }
+        , { display: "none" }
+        , 500
         );
-      } else if ( pools.length === 0 ) {
-        // There were no resources, AND no volumes exist on the server. This
-        // most likely indicates that the user's system has no disks, the disks
-        // are not connected, etc.
+    }
+  }
 
-        pools.push(
-          <Alert
-            bsStyle   = "warning"
-            className = "volume"
-            key = { pools.length }
-          >
-            { "No volumes were found on the server, and no disks are "
-            + "avaialable for inclusion in a new storage pool.\n\n Please shut "
-            + "down the system, check your hardware, and try again."
-            }
-          </Alert>
-        );
-      }
 
-      return pools;
+  // FLUX STORE UPDATE HANDLERS
+  handleUpdatedVS ( eventMask ) {
+    let newState = {};
+
+    switch ( eventMask ) {
+      case "availableDisks":
+        newState.devicesAreAvailable = VS.devicesAreAvailable;
+        break;
+
+      case "volumes":
+      default:
+        newState.volumes = VS.listVolumes();
+        break;
     }
 
-  , render () {
-      let loading = null;
-      let message = null;
-      let content = null;
+    this.setState( newState );
+  }
 
-      if ( VS.isInitialized ) {
-        if ( this.state.volumes.length === 0 ) {
-          message = (
-            <div
-              ref       = "newPoolMessage"
-              className = "clearfix storage-first-pool"
-            >
-              <img src="/images/hdd.png" />
-              <h3>Creating Storage</h3>
-              <p>
-                { "This is the place where you create ZFS pools and stuff. "
-                + "Someday, this text will be very helpful and everyone will "
-                + "like what it says. Today it just says this, so maybe create "
-                + "a pool or something, maaaaaan."
-                }
-              </p>
-            </div>
-          );
-        }
-        content = this.createVolumes();
-      } else {
-        // TODO: Make this pretty
-        loading = <h1 className="text-center">LOADING</h1>;
-      }
+  handleUpdatedDS ( eventMask ) {
+    // FIXME: Until there's some way to get this information in a more direct
+    // way, re-query available disks every time a disk changes. (This should
+    // hopefully have the benefit of covering things like ejection, even if
+    // it gets triggered by a lot of non-important stuff)
+    ZM.requestAvailableDisks();
+  }
 
-      return (
-        <main>
-          <h1 className="section-heading type-line">
-            <span className="text">ZFS Storage Pools</span>
-          </h1>
-          { loading }
-          { message }
-          { content }
-        </main>
-      );
-    }
+  handleUpdatedSS ( eventMask ) {
+    this.setState({ shares: SS.shares });
+  }
+
+
+  // VOLUME RENDER / VISIBILITY MANAGEMENT
+  handleVolumeActive ( key ) {
+    this.setState({ activeVolume: key });
+  }
+
+  handleVolumeInactive () {
+    this.setState({ activeVolume: null });
+  }
+
+
+  // FILESYSTEM AND SHARING HANDLERS
+  handleShareCreate ( target, type ) {
 
   }
-);
 
-export default Storage;
+  handleShareDelete ( target ) {
+
+  }
+
+  handleSharingTypeChange () {
+
+  }
+
+
+  // RENDER METHODS
+  createVolumes () {
+    let activeVolume = this.state.activeVolume;
+
+    const COMMON_PROPS =
+      { becomeActive       : this.handleVolumeActive.bind( this )
+      , becomeInactive     : this.handleVolumeInactive.bind( this )
+      , shares             : this.state.shares
+      , filesystemHandlers:
+        { onShareCreate       : this.handleShareCreate.bind( this )
+        , onShareDelete       : this.handleShareDelete.bind( this )
+        , onSharingTypeChange : this.handleSharingTypeChange.bind( this )
+        }
+      };
+
+    let pools =
+      this.state.volumes.map( function ( volume, index ) {
+        return (
+          <Volume
+            { ...COMMON_PROPS }
+            { ...volume }
+            existsOnRemote
+            key       = { index }
+            volumeKey = { index }
+            active    = { index === activeVolume }
+          />
+        );
+      });
+
+    if ( this.state.devicesAreAvailable ) {
+      // If there are disks available, a new pool may be created. The Volume
+      // component is responsible for displaying the correct "blank start"
+      // behavior, depending on its knowledge of other pools.
+      pools.push(
+        <Volume
+          { ...COMMON_PROPS }
+          key       = { pools.length }
+          volumeKey = { pools.length }
+          active    = { pools.length === activeVolume }
+        />
+      );
+    } else if ( pools.length === 0 ) {
+      // There were no resources, AND no volumes exist on the server. This
+      // most likely indicates that the user's system has no disks, the disks
+      // are not connected, etc.
+
+      pools.push(
+        <Alert
+          bsStyle   = "warning"
+          className = "volume"
+          key = { pools.length }
+        >
+          { "No volumes were found on the server, and no disks are "
+          + "avaialable for inclusion in a new storage pool.\n\n Please shut "
+          + "down the system, check your hardware, and try again."
+          }
+        </Alert>
+      );
+    }
+
+    return pools;
+  }
+
+  render () {
+    let loading = null;
+    let message = null;
+    let content = null;
+
+    if ( VS.isInitialized ) {
+      if ( this.state.volumes.length === 0 ) {
+        message = (
+          <div
+            ref       = "newPoolMessage"
+            className = "clearfix storage-first-pool"
+          >
+            <img src="/images/hdd.png" />
+            <h3>Creating Storage</h3>
+            <p>
+              { "This is the place where you create ZFS pools and stuff. "
+              + "Someday, this text will be very helpful and everyone will "
+              + "like what it says. Today it just says this, so maybe create "
+              + "a pool or something, maaaaaan."
+              }
+            </p>
+          </div>
+        );
+      }
+      content = this.createVolumes();
+    } else {
+      // TODO: Make this pretty
+      loading = <h1 className="text-center">LOADING</h1>;
+    }
+
+    return (
+      <main>
+        <h1 className="section-heading type-line">
+          <span className="text">ZFS Storage Pools</span>
+        </h1>
+        { loading }
+        { message }
+        { content }
+      </main>
+    );
+  }
+
+}

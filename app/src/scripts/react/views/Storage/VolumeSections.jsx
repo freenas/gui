@@ -78,6 +78,7 @@ export default class VolumeSections extends React.Component {
           disabled = { !datasets || datasets.length === 0 }
         >
           <Filesystem
+            { ...this.props.filesystemHandlers }
             editing  = { editing }
             datasets = { datasets }
             shares   = { shares }
@@ -99,12 +100,9 @@ export default class VolumeSections extends React.Component {
           eventKey = "topology"
         >
           <Topology
-            topology         = { topology }
-            editing          = { editing }
-            onDiskAdd        = { this.props.onDiskAdd }
-            onDiskRemove     = { this.props.onDiskRemove }
-            onVdevNuke       = { this.props.onVdevNuke }
-            onVdevTypeChange = { this.props.onVdevTypeChange }
+            { ...this.props.topologyHandlers }
+            topology = { topology }
+            editing  = { editing }
           />
         </Tab>
       </Tabs>
@@ -113,21 +111,21 @@ export default class VolumeSections extends React.Component {
 }
 
 VolumeSections.propTypes =
-  { activeKey        : React.PropTypes.oneOf( SECTIONS )
-  , onSelect         : React.PropTypes.func.isRequired
-  , onDiskAdd        : React.PropTypes.func.isRequired
-  , onDiskRemove     : React.PropTypes.func.isRequired
-  , onVdevNuke       : React.PropTypes.func.isRequired
-  , onVdevTypeChange : React.PropTypes.func.isRequired
-  , topology: React.PropTypes.shape(
-      { data  : React.PropTypes.array.isRequired
-      , log   : React.PropTypes.array.isRequired
-      , cache : React.PropTypes.array.isRequired
-      , spare : React.PropTypes.array.isRequired
-      }
-    )
-  , datasets         : React.PropTypes.array
-  , shares           : React.PropTypes.instanceOf( Map )
-  , editing          : React.PropTypes.bool.isRequired
-  , active           : React.PropTypes.bool.isRequired
+  { activeKey : React.PropTypes.oneOf( SECTIONS )
+  , onSelect  : React.PropTypes.func.isRequired
+
+  // GENERAL FLAGS
+  , editing : React.PropTypes.bool.isRequired
+  , active  : React.PropTypes.bool.isRequired
+
+  // HANDLERS
+  , topologyHandlers   : React.PropTypes.object.isRequired
+  , filesystemHandlers : React.PropTypes.object.isRequired
+
+  // TOPOLOGY ENTITIES
+  , topology: React.PropTypes.object.isRequired
+
+  // FILESYSTEM ENTITIES
+  , datasets : React.PropTypes.array
+  , shares   : React.PropTypes.instanceOf( Map )
   };

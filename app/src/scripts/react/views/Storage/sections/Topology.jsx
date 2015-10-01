@@ -15,10 +15,10 @@ import VDEV from "./Topology/VDEV";
 var Topology = React.createClass(
 
   { propTypes:
-    { onDiskAdd: React.PropTypes.func.isRequired
-    , onDiskRemove: React.PropTypes.func.isRequired
-    , onVdevNuke: React.PropTypes.func.isRequired
-    , onVdevTypeChange: React.PropTypes.func.isRequired
+    { onDiskAdd        : React.PropTypes.func.isRequired
+    , onDiskRemove     : React.PropTypes.func.isRequired
+    , onVdevNuke       : React.PropTypes.func.isRequired
+    , onVdevTypeChange : React.PropTypes.func.isRequired
     , topology: React.PropTypes.shape(
         { data  : React.PropTypes.array.isRequired
         , log   : React.PropTypes.array.isRequired

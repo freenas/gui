@@ -74,6 +74,7 @@ const Volume = React.createClass(
         , size      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
         }
       )
+    , filesystemHandlers: React.PropTypes.object.isRequired
   }
 
 
@@ -327,6 +328,13 @@ const Volume = React.createClass(
       let volumeHeader = null;
       let panelClass   = [ "volume" ];
 
+      const TOPOLOGY_HANDLERS =
+        { onDiskAdd        : this.handleDiskAdd
+        , onDiskRemove     : this.handleDiskRemove
+        , onVdevNuke       : this.handleVdevNuke
+        , onVdevTypeChange : this.handleVdevTypeChange
+        };
+
       if ( this.props.existsOnRemote ) {
         editing         = false;
         topology        = this.props.topology;
@@ -395,17 +403,12 @@ const Volume = React.createClass(
 
           {/* VOLUME SUB-SECTIONS */}
           <VolumeSections
-            activeSection    = { this.getActiveSection( allowedSections ) }
-            editing          = { editing }
-            topology         = { topology }
-            datasets         = { this.props.datasets }
-            shares           = { this.props.shares }
-            active           = { this.props.active }
-            onSelect         = { this.handleDrawerChange }
-            onDiskAdd        = { this.handleDiskAdd }
-            onDiskRemove     = { this.handleDiskRemove }
-            onVdevNuke       = { this.handleVdevNuke }
-            onVdevTypeChange = { this.handleVdevTypeChange }
+            { ...this.props }
+            activeSection      = { this.getActiveSection( allowedSections ) }
+            editing            = { editing }
+            topology           = { topology }
+            onSelect           = { this.handleDrawerChange }
+            topologyHandlers   = { TOPOLOGY_HANDLERS }
           />
 
           {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}

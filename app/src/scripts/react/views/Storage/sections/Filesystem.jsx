@@ -19,15 +19,22 @@ export default class Filesystem extends React.Component {
                        : undefined;
 
     return (
-      <div { ...other }>
-        <Dataset
-          root
-          { ...datasets[0] }
-          shares      = { shares }
-          activeShare = { ACTIVE_SHARE }
-        />
-      </div>
+      <Dataset
+        root
+        { ...other }
+        { ...datasets[0] }
+        shares      = { shares }
+        activeShare = { ACTIVE_SHARE }
+      />
     );
   }
 }
 
+Filesystem.propTypes =
+  { editing             : React.PropTypes.bool
+  , datasets            : React.PropTypes.array
+  , shares              : React.PropTypes.instanceOf( Map )
+  , onShareCreate       : React.PropTypes.func.isRequired
+  , onShareDelete       : React.PropTypes.func.isRequired
+  , onSharingTypeChange : React.PropTypes.func.isRequired
+  };

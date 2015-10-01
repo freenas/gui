@@ -15,11 +15,16 @@ import BreakdownChart from "../../common/BreakdownChart";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
 
-const SHARE_TYPES = [ "Off", "NFS", "CIFS", "AFP" ];
-
 export default class Dataset extends React.Component {
   handleShareToggle ( type ) {
+    if ( this.props.activeShare ) {
+      this.props.onShareDelete();
+    }
 
+    if ( type !== "off" ) {
+      this.props.onSharingTypeChange();
+      this.props.onShareCreate();
+    }
   }
 
   createProperty ( legend, content ) {
@@ -40,9 +45,12 @@ export default class Dataset extends React.Component {
     return (
       <Dataset
         { ...dataset }
-        key         = { index }
-        shares      = { this.props.shares }
-        activeShare = { ACTIVE_SHARE }
+        key                 = { index }
+        shares              = { this.props.shares }
+        activeShare         = { ACTIVE_SHARE }
+        onShareCreate       = { this.props.onShareCreate }
+        onShareDelete       = { this.props.onShareDelete }
+        onSharingTypeChange = { this.props.onSharingTypeChange }
       />
     );
   }
@@ -153,18 +161,21 @@ export default class Dataset extends React.Component {
 }
 
 Dataset.propTypes =
-  { name             : React.PropTypes.string.isRequired
-  , root             : React.PropTypes.bool
-  , children         : React.PropTypes.array
-  , pool             : React.PropTypes.string
-  , permissions_type : React.PropTypes.oneOf([ "PERM", "ACL" ])
-  , type             : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
-  , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
-  , properties       : React.PropTypes.object // TODO: Get more specific
-  , shares           : React.PropTypes.instanceOf( Map )
-  , activeShare      : React.PropTypes.object
-  , disallowSharing  : React.PropTypes.bool
-  , parentIsShared   : React.PropTypes.bool
+  { name                : React.PropTypes.string.isRequired
+  , root                : React.PropTypes.bool
+  , children            : React.PropTypes.array
+  , pool                : React.PropTypes.string
+  , permissions_type    : React.PropTypes.oneOf([ "PERM", "ACL" ])
+  , type                : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
+  , share_type          : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
+  , properties          : React.PropTypes.object // TODO: Get more specific
+  , shares              : React.PropTypes.instanceOf( Map )
+  , activeShare         : React.PropTypes.object
+  , disallowSharing     : React.PropTypes.bool // TODO: Not used... yet
+  , parentIsShared      : React.PropTypes.bool // TODO: Not used... yet
+  , onShareCreate       : React.PropTypes.func.isRequired
+  , onShareDelete       : React.PropTypes.func.isRequired
+  , onSharingTypeChange : React.PropTypes.func.isRequired
   };
 
 Dataset.defaultProps =
