@@ -511,6 +511,11 @@ class MiddlewareClient extends WebSocketClient {
                           );
   }
 
+  // Shorthand for task submission - takes the same arguments as `request()`
+  submitTask () {
+    this.request( [ "task.submit" ].push.call( arguments ) );
+  }
+
 
   // SUBSCRIPTION INTERFACES
   // Generic interface for subscribing to Middleware namespaces. The Middleware
