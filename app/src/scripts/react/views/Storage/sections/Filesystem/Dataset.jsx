@@ -15,7 +15,7 @@ import BreakdownChart from "../../common/BreakdownChart";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
 
-const SHARE_TYPES = [ "NFS", "CIFS", "AFP" ];
+const SHARE_TYPES = [ "Off", "NFS", "CIFS", "AFP" ];
 
 export default class Dataset extends React.Component {
   createProperty ( legend, content ) {
@@ -24,17 +24,6 @@ export default class Dataset extends React.Component {
         <span className="property-legend">{ legend }</span>
         <span className="property-content">{ content }</span>
       </div>
-    );
-  }
-
-  createShare ( shareType, index ) {
-    return (
-      <Button
-        key     = { index }
-        bsStyle = "default"
-      >
-        { shareType }
-      </Button>
     );
   }
 
@@ -59,6 +48,11 @@ export default class Dataset extends React.Component {
     const PARENT_NAME = this.props.root
                       ? "Top Level"
                       : "ZFS Dataset";
+
+    // HACK: Remove when dataset path is gettable
+    const ACTIVE_SHARE = this.props.shares
+                       ? this.props.shares.get( "/mnt/" + this.props.name )
+                       : undefined;
 
     let classes = [ "dataset" ];
 
@@ -92,15 +86,27 @@ export default class Dataset extends React.Component {
               <span className="property-content">
                 <ButtonGroup
                   className = "btn-group-radio btn-group-radio-primary"
-                  bsSize    = "sm"
                 >
                   <Button
-                    active
-                    bsStyle = "default"
+                    active = { !ACTIVE_SHARE }
                   >
                     { "Off" }
                   </Button>
-                  { SHARE_TYPES.map( this.createShare ) }
+                  <Button
+                    active = { ACTIVE_SHARE && ACTIVE_SHARE.type === "nfs" }
+                  >
+                    { "NFS" }
+                  </Button>
+                  <Button
+                    active = { ACTIVE_SHARE && ACTIVE_SHARE.type === "cifs" }
+                  >
+                    { "CIFS" }
+                  </Button>
+                  <Button
+                    active = { ACTIVE_SHARE && ACTIVE_SHARE.type === "afp" }
+                  >
+                    { "AFP" }
+                  </Button>
                 </ButtonGroup>
               </span>
             </div>
@@ -145,6 +151,9 @@ Dataset.propTypes =
   , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
   , properties       : React.PropTypes.object // TODO: Get more specific
   , shares           : React.PropTypes.instanceOf( Map )
+  , activeShare      : React.PropTypes.object
+  , disallowSharing  : React.PropTypes.bool
+  , parentIsShared   : React.PropTypes.bool
   };
 
 Dataset.defaultProps =
