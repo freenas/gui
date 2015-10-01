@@ -14,19 +14,29 @@ export default class Filesystem extends React.Component {
   render () {
     const { datasets, shares, ...other } = this.props;
 
-    const ACTIVE_SHARE = shares
+    const ROOT_DATASET = datasets && datasets[0]
+                       ? datasets[0]
+                       : undefined;
+
+    const ACTIVE_SHARE = shares && ROOT_DATASET
                        ? shares.get( "/mnt/" + datasets[0].name )
                        : undefined;
 
-    return (
-      <Dataset
-        root
-        { ...other }
-        { ...datasets[0] }
-        shares      = { shares }
-        activeShare = { ACTIVE_SHARE }
-      />
-    );
+    if ( ROOT_DATASET ) {
+      return (
+        <Dataset
+          root
+          { ...other }
+          { ...ROOT_DATASET }
+          shares      = { shares }
+          activeShare = { ACTIVE_SHARE }
+        />
+      );
+    } else {
+      return (
+        <h3 className="text-center">LOADING...</h3>
+      );
+    }
   }
 }
 
