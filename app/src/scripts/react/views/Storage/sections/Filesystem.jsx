@@ -14,12 +14,17 @@ export default class Filesystem extends React.Component {
   render () {
     const { datasets, shares, ...other } = this.props;
 
+    const ACTIVE_SHARE = shares
+                       ? shares.get( "/mnt/" + datasets[0].name )
+                       : undefined;
+
     return (
       <div { ...other }>
         <Dataset
           root
           { ...datasets[0] }
-          shares = { shares }
+          shares      = { shares }
+          activeShare = { ACTIVE_SHARE }
         />
       </div>
     );

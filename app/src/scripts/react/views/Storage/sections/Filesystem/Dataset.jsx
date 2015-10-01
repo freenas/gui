@@ -18,6 +18,10 @@ if ( process.env.BROWSER ) require( "./Dataset.less" );
 const SHARE_TYPES = [ "Off", "NFS", "CIFS", "AFP" ];
 
 export default class Dataset extends React.Component {
+  handleShareToggle ( type ) {
+
+  }
+
   createProperty ( legend, content ) {
     return (
       <div className="dataset-property">
@@ -28,31 +32,34 @@ export default class Dataset extends React.Component {
   }
 
   createChild ( dataset, index ) {
+    // HACK: Remove when dataset path is gettable
+    const ACTIVE_SHARE = this.props.shares
+                       ? this.props.shares.get( "/mnt/" + dataset.name )
+                       : undefined;
+
     return (
       <Dataset
         { ...dataset }
-        key = { index }
-        shares = { this.props.shares }
+        key         = { index }
+        shares      = { this.props.shares }
+        activeShare = { ACTIVE_SHARE }
       />
     );
   }
 
   render () {
-    const { name, children } = this.props;
+    const { name, children, activeShare } = this.props;
     const { used, available, compression } = this.props.properties;
+
     const CHILDREN = children
                    ? children.map( this.createChild.bind( this ) )
                    : null;
+
     let pathArray = name.split( "/" );
     const DATASET_NAME = pathArray.pop();
     const PARENT_NAME = this.props.root
                       ? "Top Level"
                       : "ZFS Dataset";
-
-    // HACK: Remove when dataset path is gettable
-    const ACTIVE_SHARE = this.props.shares
-                       ? this.props.shares.get( "/mnt/" + this.props.name )
-                       : undefined;
 
     let classes = [ "dataset" ];
 
@@ -88,22 +95,26 @@ export default class Dataset extends React.Component {
                   className = "btn-group-radio btn-group-radio-primary"
                 >
                   <Button
-                    active = { !ACTIVE_SHARE }
+                    active = { !activeShare }
+                    onClick = { this.handleShareToggle.bind( this, "off" ) }
                   >
                     { "Off" }
                   </Button>
                   <Button
-                    active = { ACTIVE_SHARE && ACTIVE_SHARE.type === "nfs" }
+                    active = { activeShare && activeShare.type === "nfs" }
+                    onClick = { this.handleShareToggle.bind( this, "nfs" ) }
                   >
                     { "NFS" }
                   </Button>
                   <Button
-                    active = { ACTIVE_SHARE && ACTIVE_SHARE.type === "cifs" }
+                    active = { activeShare && activeShare.type === "cifs" }
+                    onClick = { this.handleShareToggle.bind( this, "cifs" ) }
                   >
                     { "CIFS" }
                   </Button>
                   <Button
-                    active = { ACTIVE_SHARE && ACTIVE_SHARE.type === "afp" }
+                    active = { activeShare && activeShare.type === "afp" }
+                    onClick = { this.handleShareToggle.bind( this, "afp" ) }
                   >
                     { "AFP" }
                   </Button>
