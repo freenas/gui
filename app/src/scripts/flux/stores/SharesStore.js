@@ -6,6 +6,7 @@
 
 import _ from "lodash";
 
+import SM from "../middleware/SharesMiddleware";
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
@@ -39,6 +40,12 @@ function handlePayload ( payload ) {
       this.fullUpdateAt = ACTION.timestamp;
       this.emitChange();
       break;
+
+    case ActionTypes.MIDDLEWARE_EVENT:
+      if ( ACTION.eventData.args.name === "shares.changed" ) {
+        SM.query();
+      }
+    break;
   }
 }
 
