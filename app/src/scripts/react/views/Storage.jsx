@@ -327,7 +327,7 @@ export default class Storage extends React.Component {
     return (
       <main>
         <h1 className="section-heading type-line">
-          <span className="text">ZFS Storage Pools</span>
+          <span className="text">Storage Volumes</span>
         </h1>
         { loading }
         { message }
