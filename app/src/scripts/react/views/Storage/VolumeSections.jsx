@@ -78,7 +78,7 @@ export default class VolumeSections extends React.Component {
           disabled = { !datasets || datasets.length === 0 }
         >
           <Filesystem
-            { ...this.props.filesystemHandlers }
+            handlers = { this.props.filesystemHandlers }
             editing  = { editing }
             datasets = { datasets }
             shares   = { shares }

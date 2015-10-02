@@ -18,12 +18,12 @@ if ( process.env.BROWSER ) require( "./Dataset.less" );
 export default class Dataset extends React.Component {
   handleShareToggle ( type ) {
     if ( this.props.activeShare ) {
-      this.props.onShareDelete();
+      this.props.handlers.onShareDelete();
     }
 
     if ( type !== "off" ) {
-      this.props.onSharingTypeChange();
-      this.props.onShareCreate();
+      this.props.handlers.onSharingTypeChange();
+      this.props.handlers.onShareCreate();
     }
   }
 
@@ -37,7 +37,7 @@ export default class Dataset extends React.Component {
   }
 
   createChild ( dataset, index ) {
-    if ( dataset && this.props.nameIsPermitted( dataset.name ) ) {
+    if ( dataset && this.props.handlers.nameIsPermitted( dataset.name ) ) {
       // HACK: Remove when dataset path is gettable
       const ACTIVE_SHARE = this.props.shares && dataset
                          ? this.props.shares.get( "/mnt/" + dataset.name )
@@ -46,12 +46,10 @@ export default class Dataset extends React.Component {
       return (
         <Dataset
           { ...dataset }
-          key                 = { index }
-          shares              = { this.props.shares }
-          activeShare         = { ACTIVE_SHARE }
-          onShareCreate       = { this.props.onShareCreate }
-          onShareDelete       = { this.props.onShareDelete }
-          onSharingTypeChange = { this.props.onSharingTypeChange }
+          key         = { index }
+          shares      = { this.props.shares }
+          activeShare = { ACTIVE_SHARE }
+          handlers    = { this.props.handlers }
         />
       );
     } else {
@@ -177,10 +175,13 @@ Dataset.propTypes =
   , activeShare         : React.PropTypes.object
   , disallowSharing     : React.PropTypes.bool // TODO: Not used... yet
   , parentIsShared      : React.PropTypes.bool // TODO: Not used... yet
-  , onShareCreate       : React.PropTypes.func.isRequired
-  , onShareDelete       : React.PropTypes.func.isRequired
-  , onSharingTypeChange : React.PropTypes.func.isRequired
-  , nameIsPermitted     : React.PropTypes.func.isRequired
+  , handlers : React.PropTypes.shape(
+      { onShareCreate       : React.PropTypes.func.isRequired
+      , onShareDelete       : React.PropTypes.func.isRequired
+      , onSharingTypeChange : React.PropTypes.func.isRequired
+      , nameIsPermitted     : React.PropTypes.func.isRequired
+      }
+    ).isRequired
   };
 
 Dataset.defaultProps =
