@@ -102,7 +102,7 @@ const CPU = React.createClass(
       SS.removeChangeListener( this.tick );
     }
 
-  , tick () {
+  , tick ( eventMask ) {
       if ( this.chart ) {
         let newPointUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 1 ) );
         let newPointSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 1 ) );
