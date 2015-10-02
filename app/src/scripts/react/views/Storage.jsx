@@ -142,6 +142,10 @@ export default class Storage extends React.Component {
     );
   }
 
+  handleNewDatasetCancel () {
+    this.setState({ newDataset: {} });
+  }
+
   nestDatasets ( datasets ) {
     if ( !datasets ) {
       // Datasets was definitely not an array
@@ -237,7 +241,11 @@ export default class Storage extends React.Component {
         { onShareCreate       : SM.create
         , onShareDelete       : SM.delete
         , onSharingTypeChange : this.handleSharingTypeChange.bind( this )
+        , onDatasetCreate     : ZM.createDataset
+        , onDatasetUpdate     : ZM.updateDataset
+        , onDatasetDelete     : ZM.deleteDataset
         , onDatasetChange     : this.handleNewDatasetChange.bind( this )
+        , onDatasetCancel     : this.handleNewDatasetCancel.bind( this )
         , nameIsPermitted     : VS.isDatasetNamePermitted
         }
       };
