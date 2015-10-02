@@ -32,6 +32,8 @@ const DATA_SOURCES =
   , "localhost.aggregation-cpu-sum.cpu-interrupt.value"
   ];
 
+const BASE_TICK_VALUES = [ 0, 25, 50, 75, 100 ];
+
 // request data every 10 seconds for now
 const FREQUENCY = 10;
 
@@ -71,11 +73,13 @@ const CPU = React.createClass(
                       { show: false
                       }
                     , y:
+                      // the max and the tick values will be multiplied by the
+                      // number of CPU cores available to the system.
                       { max: 100
                       , min: 0
                       , padding: { top: 0, bottom: 0 }
                       , tick:
-                        { values: [ 0, 25, 50, 75, 100 ]
+                        { values: BASE_TICK_VALUES
                         , format: function ( x ) { return x + " %"; }
                         }
                       }
