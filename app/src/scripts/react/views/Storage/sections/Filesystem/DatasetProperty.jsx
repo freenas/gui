@@ -8,8 +8,10 @@ import React from "react";
 
 export default class DatasetProperty extends React.Component {
   render () {
+    const { legend, children, className, ...other } = this.props;
+
     return (
-      <div className="dataset-property">
+      <div className={ "dataset-property " + className }>
         <span className="property-legend">{ this.props.legend }</span>
         <span className="property-content">{ this.props.children }</span>
       </div>
@@ -19,4 +21,8 @@ export default class DatasetProperty extends React.Component {
 
 DatasetProperty.propTypes =
   { legend  : React.PropTypes.string.isRequired
+  };
+
+DatasetProperty.defaultProps =
+  { className : ""
   };
