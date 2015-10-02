@@ -6,7 +6,7 @@
 
 import React from "react";
 
-export default class DatasetProperties extends React.Component {
+export default class DatasetProperty extends React.Component {
   render () {
     return (
       <div className="dataset-property">
@@ -17,6 +17,6 @@ export default class DatasetProperties extends React.Component {
   }
 }
 
-DatasetProperties.propTypes =
+DatasetProperty.propTypes =
   { legend  : React.PropTypes.string.isRequired
   };
