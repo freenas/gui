@@ -39,10 +39,11 @@ export default class Storage extends React.Component {
 
     // SET INITIAL STATE
     this.state =
-      { volumes: VS.listVolumes()
-      , shares: SS.shares
-      , devicesAreAvailable: VS.devicesAreAvailable
-      , activeVolume: null
+      { volumes             : VS.listVolumes()
+      , shares              : SS.shares
+      , devicesAreAvailable : VS.devicesAreAvailable
+      , activeVolume        : null
+      , newDataset          : {}
       };
   }
 
@@ -130,37 +131,120 @@ export default class Storage extends React.Component {
 
 
   // FILESYSTEM AND SHARING HANDLERS
-  handleShareCreate ( target, type ) {
-
-  }
-
-  handleShareDelete ( target ) {
-
-  }
-
   handleSharingTypeChange () {
 
+  }
+
+  handleNewDatasetChange ( newAttributes ) {
+    this.setState(
+      { newDataset: Object.assign( {}, this.state.newDataset, newAttributes )
+      }
+    );
+  }
+
+  nestDatasets ( datasets ) {
+    if ( !datasets ) {
+      // Datasets was definitely not an array
+      console.warn( "Expected `datasets` to be an array" );
+      return [];
+    }
+
+    switch ( datasets.length ) {
+      case 0:
+        // There are no datasets, return early.
+        return [];
+
+      case 1:
+        // The only dataset is the root datset, return early.
+        return datasets;
+
+      default:
+        let poolName;
+        let hash  = _.indexBy( datasets, "name" );
+        let names = _.pluck( datasets, "name" );
+
+        _.sortBy( names, ( name ) => {
+            // Create sorted list of dataset names in accordance of their path
+            // lengths, starting with the longest (most nested) paths.
+            let slashes = name.match( /\//gi );
+            return ( slashes
+                   ? ( -1 * slashes.length )
+                   : 0
+                   );
+          })
+         .forEach( ( name, index ) => {
+            let parentPath = name.replace( /(\/[^\/]*$)/i, "" );
+
+            if ( parentPath === name ) {
+              poolName = name;
+            } else {
+              if ( hash[ parentPath ].children ) {
+                hash[ parentPath ].children.push( hash[ name ] );
+              } else {
+                hash[ parentPath ].children = [ hash[ name ] ];
+              }
+            }
+          });
+
+        return [ hash[ poolName ] ];
+    }
+  }
+
+
+  // LOCAL STATE PATCHING METHODS
+  patchDatasetInto ( volumes, target ) {
+    var { pool_name, mountpoint } = target;
+
+    if ( volumes.length === 0 ) {
+      console.warn( "Can't patch dataset into volumes: No volumes exist");
+    } else if ( !pool_name || typeof mountpoint !== "string" ) {
+      console.log( "Both `pool_name` and `mountpoint` must be properties of "
+                 + "target when patching"
+                 );
+    } else {
+      let targetVolume = _.findWhere( volumes, { "name": pool_name } );
+
+      if ( !targetVolume ) {
+        console.warn( `${ pool_name } could not be found in provided volumes` );
+        console.dir( "volumes", volumes );
+      } else if ( targetVolume.datasets.length === 0 ) {
+        console.warn( `${ pool_name } doesn't have any datasets` );
+        console.dir( pool_name, targetVolume );
+      } else {
+        targetVolume.datasets.push( target );
+      }
+    }
   }
 
 
   // RENDER METHODS
   createVolumes () {
-    let activeVolume = this.state.activeVolume;
+    const { activeVolume, volumes } = this.state;
+
+    let renderableVolumes = _.cloneDeep( volumes );
+
+    if ( Object.keys( this.state.newDataset ).length ) {
+      // There's content in the newDataset state, so we should patch it in to
+      // what we've got from the store
+      this.patchDatasetInto( renderableVolumes, this.state.newDataset );
+    }
 
     const COMMON_PROPS =
       { becomeActive       : this.handleVolumeActive.bind( this )
       , becomeInactive     : this.handleVolumeInactive.bind( this )
       , shares             : this.state.shares
       , filesystemHandlers:
-        { onShareCreate       : this.handleShareCreate.bind( this )
-        , onShareDelete       : this.handleShareDelete.bind( this )
+        { onShareCreate       : SM.create
+        , onShareDelete       : SM.delete
         , onSharingTypeChange : this.handleSharingTypeChange.bind( this )
+        , onDatasetChange     : this.handleNewDatasetChange.bind( this )
         , nameIsPermitted     : VS.isDatasetNamePermitted
         }
       };
 
     let pools =
-      this.state.volumes.map( function ( volume, index ) {
+      renderableVolumes.map( ( volume, index ) => {
+        volume.datasets = this.nestDatasets( volume.datasets );
         return (
           <Volume
             { ...COMMON_PROPS }

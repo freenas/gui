@@ -79,6 +79,7 @@ export default class VolumeSections extends React.Component {
         >
           <Filesystem
             handlers = { this.props.filesystemHandlers }
+            pool     = { this.props.name }
             editing  = { editing }
             datasets = { datasets }
             shares   = { shares }
