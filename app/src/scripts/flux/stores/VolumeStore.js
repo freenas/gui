@@ -76,7 +76,7 @@ class VolumeStore extends FluxBase {
   }
 
 
-  static isDatasetNamePermitted ( name ) {
+  isDatasetNamePermitted ( name ) {
     if ( DATASET_NAME_BLACKLIST.has( name ) ) {
       // Take advantage of Set string matching capabilities to short circuit
       // non-regexp matches
