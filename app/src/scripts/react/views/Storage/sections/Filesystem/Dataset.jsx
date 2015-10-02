@@ -33,9 +33,8 @@ export default class Dataset extends React.Component {
 
   createChild ( dataset, index ) {
     if ( dataset && this.props.handlers.nameIsPermitted( dataset.name ) ) {
-      // HACK: Remove when dataset path is gettable
       const ACTIVE_SHARE = this.props.shares && dataset
-                         ? this.props.shares.get( "/mnt/" + dataset.name )
+                         ? this.props.shares.get( dataset.mountpoint )
                          : undefined;
 
       return (
