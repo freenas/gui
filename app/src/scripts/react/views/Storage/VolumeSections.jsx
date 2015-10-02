@@ -62,18 +62,10 @@ export default class VolumeSections extends React.Component {
         activeKey = { this.props.activeSection }
         onSelect  = { this.props.onSelect }
       >
-        {/* FILE BROWSER */}
-        <Tab
-          title    = "Files"
-          eventKey = "files"
-          disabled = { true }
-        >
-          {/* TODO */}
-        </Tab>
 
         {/* DATASETS, ZVOLS, AND SHARES */}
         <Tab
-          title    = "Filesystem"
+          title    = "Shares"
           eventKey = "filesystem"
           disabled = { !datasets || datasets.length === 0 }
         >
@@ -97,7 +89,7 @@ export default class VolumeSections extends React.Component {
 
         {/* POOL TOPOLOGY */}
         <Tab
-          title    = "Pool Topology"
+          title    = "Pool"
           eventKey = "topology"
         >
           <Topology
