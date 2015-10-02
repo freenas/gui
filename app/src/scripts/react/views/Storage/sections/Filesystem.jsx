@@ -41,7 +41,6 @@ export default class Filesystem extends React.Component {
 }
 
 Filesystem.propTypes =
-  { editing             : React.PropTypes.bool
-  , datasets            : React.PropTypes.array
-  , shares              : React.PropTypes.instanceOf( Map )
+  { datasets : React.PropTypes.array
+  , shares   : React.PropTypes.instanceOf( Map )
   };
