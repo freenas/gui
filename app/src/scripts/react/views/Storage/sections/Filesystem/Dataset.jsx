@@ -5,13 +5,14 @@
 "use strict";
 
 import React from "react";
-import { ButtonGroup, Button, DropdownButton, MenuItem } from "react-bootstrap";
+import { DropdownButton, MenuItem } from "react-bootstrap";
 
 import ByteCalc from "../../../../../utility/ByteCalc";
 
 import Icon from "../../../../components/Icon";
 import BreakdownChart from "../../common/BreakdownChart";
 import DatasetProperty from "./DatasetProperty";
+import DatasetShareToggles from "./DatasetShareToggles";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
@@ -28,17 +29,6 @@ export default class Dataset extends React.Component {
       };
 
     this.props.handlers.onDatasetChange( newDataset );
-  }
-
-  handleShareToggle ( type ) {
-    if ( this.props.activeShare ) {
-      this.props.handlers.onShareDelete();
-    }
-
-    if ( type !== "off" ) {
-      this.props.handlers.onSharingTypeChange();
-      this.props.handlers.onShareCreate();
-    }
   }
 
   createChild ( dataset, index ) {
@@ -105,36 +95,12 @@ export default class Dataset extends React.Component {
             </DatasetProperty>
 
             {/* RADIO TOGGLES FOR CREATING SHARES */}
-            <DatasetProperty legend="File Sharing">
-              <ButtonGroup
-                className = "btn-group-radio btn-group-radio-primary"
-              >
-                <Button
-                  active = { !activeShare }
-                  onClick = { this.handleShareToggle.bind( this, "off" ) }
-                >
-                  { "Off" }
-                </Button>
-                <Button
-                  active = { activeShare && activeShare.type === "nfs" }
-                  onClick = { this.handleShareToggle.bind( this, "nfs" ) }
-                >
-                  { "NFS" }
-                </Button>
-                <Button
-                  active = { activeShare && activeShare.type === "cifs" }
-                  onClick = { this.handleShareToggle.bind( this, "cifs" ) }
-                >
-                  { "CIFS" }
-                </Button>
-                <Button
-                  active = { activeShare && activeShare.type === "afp" }
-                  onClick = { this.handleShareToggle.bind( this, "afp" ) }
-                >
-                  { "AFP" }
-                </Button>
-              </ButtonGroup>
-            </DatasetProperty>
+            <DatasetShareToggles
+              activeShare         = { activeShare }
+              onShareCreate       = { this.props.handlers.onShareCreate }
+              onShareDelete       = { this.props.handlers.onShareDelete }
+              onSharingTypeChange = { this.props.handlers.onSharingTypeChange }
+            />
 
             {/* "+" DROPDOWN BUTTON: ADD DATASETS AND ZVOLS */}
             <DropdownButton
@@ -175,7 +141,6 @@ Dataset.propTypes =
   , mountpoint          : React.PropTypes.string.isRequired
   , pool                : React.PropTypes.string.isRequired
   , root                : React.PropTypes.bool
-  , newDataset          : React.PropTypes.bool
   , children            : React.PropTypes.array
   , permissions_type    : React.PropTypes.oneOf([ "PERM", "ACL" ])
   , type                : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
