@@ -340,13 +340,22 @@ const Volume = React.createClass(
         topology        = this.props.topology;
         allowedSections = new Set(["filesystem", "topology"]);
 
-        const rootDataset =
-          _.find( this.props.datasets, { name: this.props.name }).properties;
+        let breakdown;
 
-        const breakdown =
-          { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
-          , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
-          , parity : ZfsUtil.calculateBreakdown( topology.data ).parity
+        if ( this.props.datasets.length ) {
+          let rootDataset = _.find( this.props.datasets
+                                  , { name: this.props.name }
+                                  ).properties;
+          breakdown =
+            { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
+            , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
+            , parity : ZfsUtil.calculateBreakdown( topology.data ).parity
+          }
+        } else {
+          breakdown = { used: 0, avail: 0, parity: 0 };
+          console.warn( `The root dataset for ${ this.props.name } does not `
+                      + `seem to exist`
+                      );
         }
 
         volumeHeader = (
