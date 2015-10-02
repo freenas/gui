@@ -18,7 +18,48 @@ import NewDataset from "./NewDataset";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
 
+const SHARE_TYPES =
+  {"CIFS": "WINDOWS"
+  , "AFP": "MAC"
+  , "NFS": "UNIX"
+  }
 export default class Dataset extends React.Component {
+  handleShareToggle ( type ) {
+    const { share_type, activeShare, handlers, name, mountpoint, pool }
+      = this.props;
+
+    if ( activeShare ) {
+      if ( activeShare.type === type ) {
+        // Early exit so that we don't do a whole ton of churn if the user
+        // clicks on the toggle that's already selected.
+        return;
+      }
+
+      // Delete the existing active share (this won't be triggered if 'off' is
+      // clicked, so it's always safe)
+      handlers.onShareDelete( activeShare.id );
+    }
+
+    if ( type !== "off" ) {
+      // The user selected some share type that wasn't off, which means the
+      // first task is converting the dataset to use the appropriate share_type
+      let newShareType = SHARE_TYPES[ type.toUpperCase() ] || "UNIX";
+
+      if ( newShareType !== share_type ) {
+        // Of course, if the share_type is already correct, no need to update
+        handlers.onDatasetUpdate( pool, name, { share_type: newShareType } );
+      }
+
+      // Finally, create the share
+      handlers.onShareCreate(
+        { id     : name.split( "/" ).pop()
+        , type   : type
+        , target : mountpoint
+        }
+      );
+    }
+  }
+
   formatNewDataset () {
     const NAME = "New Share";
     const newDataset =
@@ -107,10 +148,8 @@ export default class Dataset extends React.Component {
 
             {/* RADIO TOGGLES FOR CREATING SHARES */}
             <DatasetShareToggles
-              activeShare         = { activeShare }
-              onShareCreate       = { this.props.handlers.onShareCreate }
-              onShareDelete       = { this.props.handlers.onShareDelete }
-              onSharingTypeChange = { this.props.handlers.onSharingTypeChange }
+              activeShare   = { activeShare }
+              onShareToggle = { this.handleShareToggle.bind( this ) }
             />
 
             {/* "+" DROPDOWN BUTTON: ADD DATASETS AND ZVOLS */}
@@ -164,8 +203,8 @@ Dataset.propTypes =
   , handlers : React.PropTypes.shape(
       { onShareCreate       : React.PropTypes.func.isRequired
       , onShareDelete       : React.PropTypes.func.isRequired
-      , onSharingTypeChange : React.PropTypes.func.isRequired
       , onDatasetChange     : React.PropTypes.func.isRequired
+      , onDatasetUpdate     : React.PropTypes.func.isRequired
       , nameIsPermitted     : React.PropTypes.func.isRequired
       }
     ).isRequired

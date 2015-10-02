@@ -9,20 +9,10 @@ import { ButtonGroup, Button } from "react-bootstrap";
 
 import DatasetProperty from "./DatasetProperty";
 
+
 export default class DatasetShareToggles extends React.Component {
-  handleShareToggle ( type ) {
-    if ( this.props.activeShare ) {
-      this.props.handlers.onShareDelete();
-    }
-
-    if ( type !== "off" ) {
-      this.props.handlers.onSharingTypeChange();
-      this.props.handlers.onShareCreate();
-    }
-  }
-
   render () {
-    const { activeShare } = this.props;
+    const { activeShare, onShareToggle } = this.props;
 
     return (
       <DatasetProperty legend="File Sharing">
@@ -31,25 +21,25 @@ export default class DatasetShareToggles extends React.Component {
         >
           <Button
             active = { !activeShare }
-            onClick = { this.handleShareToggle.bind( this, "off" ) }
+            onClick = { onShareToggle.bind( this, "off" ) }
           >
             { "Off" }
           </Button>
           <Button
             active = { activeShare && activeShare.type === "nfs" }
-            onClick = { this.handleShareToggle.bind( this, "nfs" ) }
+            onClick = { onShareToggle.bind( this, "nfs" ) }
           >
             { "NFS" }
           </Button>
           <Button
             active = { activeShare && activeShare.type === "cifs" }
-            onClick = { this.handleShareToggle.bind( this, "cifs" ) }
+            onClick = { onShareToggle.bind( this, "cifs" ) }
           >
             { "CIFS" }
           </Button>
           <Button
             active = { activeShare && activeShare.type === "afp" }
-            onClick = { this.handleShareToggle.bind( this, "afp" ) }
+            onClick = { onShareToggle.bind( this, "afp" ) }
           >
             { "AFP" }
           </Button>
@@ -60,8 +50,6 @@ export default class DatasetShareToggles extends React.Component {
 }
 
 DatasetShareToggles.propTypes =
-  { onShareCreate       : React.PropTypes.func.isRequired
-  , onShareDelete       : React.PropTypes.func.isRequired
-  , onSharingTypeChange : React.PropTypes.func.isRequired
-  , activeShare         : React.PropTypes.object
+  { onShareToggle : React.PropTypes.func.isRequired
+  , activeShare   : React.PropTypes.object
   };

@@ -131,10 +131,6 @@ export default class Storage extends React.Component {
 
 
   // FILESYSTEM AND SHARING HANDLERS
-  handleSharingTypeChange () {
-
-  }
-
   handleNewDatasetChange ( newAttributes ) {
     this.setState(
       { newDataset: Object.assign( {}, this.state.newDataset, newAttributes )
@@ -240,7 +236,6 @@ export default class Storage extends React.Component {
       , filesystemHandlers:
         { onShareCreate       : SM.create
         , onShareDelete       : SM.delete
-        , onSharingTypeChange : this.handleSharingTypeChange.bind( this )
         , onDatasetCreate     : ZM.createDataset
         , onDatasetUpdate     : ZM.updateDataset
         , onDatasetDelete     : ZM.deleteDataset
