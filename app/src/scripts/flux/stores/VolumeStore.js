@@ -12,6 +12,15 @@ import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 import DS from "./DisksStore";
 
+// DATASET NAME BLACKLIST
+// This set represents all of the strings and regexps that should be blacklisted
+// by the GUI in most situations
+const DATASET_NAME_BLACKLIST = new Set(
+  [ "iocage"
+  , /^\./
+  ]
+);
+
 var _volumes = {};
 var _availableSSDs = new Set();
 var _availableHDDs = new Set();
@@ -30,6 +39,7 @@ class VolumeStore extends FluxBase {
       handlePayload.bind( this )
     );
   }
+
 
   get SSDsAreAvailable () {
     return Boolean( _availableSSDs.size );
@@ -63,6 +73,27 @@ class VolumeStore extends FluxBase {
 
   get selectedHDDs () {
     return _.sortBy( Array.from( _selectedHDDs ) );
+  }
+
+
+  static isDatasetNamePermitted ( name ) {
+    if ( DATASET_NAME_BLACKLIST.has( name ) ) {
+      // Take advantage of Set string matching capabilities to short circuit
+      // non-regexp matches
+      return false;
+    }
+
+    for ( let entry of DATASET_NAME_BLACKLIST ) {
+      // Iterate over the RegExps in the blacklist, and try to match them
+      // with the supplied `name` argument
+      if ( entry instanceof RegExp && name.match( entry ) ) {
+        return false;
+      }
+    }
+
+    // The string literal was not matched, and none of the RegExp rules
+    // triggered a match: The name is not blacklisted
+    return true;
   }
 
   isDeviceAvailable ( path ) {

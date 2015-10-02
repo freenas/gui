@@ -155,6 +155,7 @@ export default class Storage extends React.Component {
         { onShareCreate       : this.handleShareCreate.bind( this )
         , onShareDelete       : this.handleShareDelete.bind( this )
         , onSharingTypeChange : this.handleSharingTypeChange.bind( this )
+        , nameIsPermitted     : VS.isDatasetNamePermitted
         }
       };
 

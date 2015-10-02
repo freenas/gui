@@ -37,22 +37,26 @@ export default class Dataset extends React.Component {
   }
 
   createChild ( dataset, index ) {
-    // HACK: Remove when dataset path is gettable
-    const ACTIVE_SHARE = this.props.shares && dataset
-                       ? this.props.shares.get( "/mnt/" + dataset.name )
-                       : undefined;
+    if ( dataset && this.props.nameIsPermitted( dataset.name ) ) {
+      // HACK: Remove when dataset path is gettable
+      const ACTIVE_SHARE = this.props.shares && dataset
+                         ? this.props.shares.get( "/mnt/" + dataset.name )
+                         : undefined;
 
-    return (
-      <Dataset
-        { ...dataset }
-        key                 = { index }
-        shares              = { this.props.shares }
-        activeShare         = { ACTIVE_SHARE }
-        onShareCreate       = { this.props.onShareCreate }
-        onShareDelete       = { this.props.onShareDelete }
-        onSharingTypeChange = { this.props.onSharingTypeChange }
-      />
-    );
+      return (
+        <Dataset
+          { ...dataset }
+          key                 = { index }
+          shares              = { this.props.shares }
+          activeShare         = { ACTIVE_SHARE }
+          onShareCreate       = { this.props.onShareCreate }
+          onShareDelete       = { this.props.onShareDelete }
+          onSharingTypeChange = { this.props.onSharingTypeChange }
+        />
+      );
+    } else {
+      return null;
+    }
   }
 
   render () {
@@ -176,6 +180,7 @@ Dataset.propTypes =
   , onShareCreate       : React.PropTypes.func.isRequired
   , onShareDelete       : React.PropTypes.func.isRequired
   , onSharingTypeChange : React.PropTypes.func.isRequired
+  , nameIsPermitted     : React.PropTypes.func.isRequired
   };
 
 Dataset.defaultProps =
