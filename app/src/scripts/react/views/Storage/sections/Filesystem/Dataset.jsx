@@ -13,6 +13,7 @@ import Icon from "../../../../components/Icon";
 import BreakdownChart from "../../common/BreakdownChart";
 import DatasetProperty from "./DatasetProperty";
 import DatasetShareToggles from "./DatasetShareToggles";
+import NewDataset from "./NewDataset";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
@@ -32,7 +33,20 @@ export default class Dataset extends React.Component {
   }
 
   createChild ( dataset, index ) {
-    if ( dataset && this.props.handlers.nameIsPermitted( dataset.name ) ) {
+    if ( !dataset ) {
+      console.warn( "No dataset was passed in" );
+    }
+
+    if ( dataset.newDataset ) {
+      return (
+        <NewDataset
+          { ...dataset }
+          key         = { index }
+          pool        = { this.props.pool }
+          handlers    = { this.props.handlers }
+        />
+      );
+    } else if ( this.props.handlers.nameIsPermitted( dataset.name ) ) {
       const ACTIVE_SHARE = this.props.shares && dataset
                          ? this.props.shares.get( dataset.mountpoint )
                          : undefined;
@@ -47,9 +61,9 @@ export default class Dataset extends React.Component {
           handlers    = { this.props.handlers }
         />
       );
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   render () {
