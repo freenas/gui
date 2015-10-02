@@ -49,7 +49,7 @@ function handlePayload ( payload ) {
           }
         );
       }*/
-      this.emitChange();
+      this.emitChange( ACTION.dataSourceName + " received");
       break;
 
     // Not ready - check structure of event in more detail, and push the data
