@@ -94,13 +94,10 @@ const CPU = React.createClass(
                   }
                 )
               );
-
-      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , componentWillUnmount () {
       this.chart = null;
-      clearTimeout( this.timeout );
       SM.unsubscribeFromPulse( this.constructor.displayName, DATA_SOURCES );
       SS.removeChangeListener( this.tick );
     }
@@ -114,8 +111,6 @@ const CPU = React.createClass(
           }
         );
       }
-
-      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , render () {
