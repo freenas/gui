@@ -40,8 +40,6 @@ const FREQUENCY = 10;
 
 const CPU = React.createClass(
   { componentDidMount () {
-      let dataUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 31 ) );
-      let dataSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 31 ) );
       const now = moment().format();
       const startTime = moment( now ).subtract( FREQUENCY * 60, "seconds" ).format();
 
@@ -61,14 +59,26 @@ const CPU = React.createClass(
       SystemStore.addChangeListener( this.setYAxis );
       SystemMiddleware.requestSystemInfo( "hardware" );
 
+      var dataSystem = [ "System", [] ];
+      var dataUser = [ "User", [] ];
+      var dataNice = [ "Nice", [] ];
+      var dataIdle = [ "Idle", [] ];
+      var dataInterrupt = [ "Interrupt", [] ];
+
       this.chart = c3.generate(
         _.assign( {}
                 , c3Defaults
                 , { bindto: React.findDOMNode( this.refs.cpuChart )
                   , data:
-                    { columns: [ dataUser, dataSystem ]
+                    { columns: [ dataSystem
+                               , dataUser
+                               , dataNice
+                               , dataIdle
+                               , dataInterrupt
+                               ]
                     , type: "area"
-                    , groups: [[ "User", "System" ]]
+                    , groups: [[ "System", "User", "Nice", "Idle", "Interrupt" ]]
+                    , hide: [ "Nice", "Idle", "Interrupt" ]
                     }
                   , point:
                     { show: false
@@ -133,12 +143,23 @@ const CPU = React.createClass(
 
   , tick ( eventMask ) {
       if ( this.chart ) {
-        let newPointUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 1 ) );
-        let newPointSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 1 ) );
-        this.chart.flow(
-          { columns: [ newPointUser, newPointSystem ]
+        if ( eventMask.endsWith( "received" ) ) {
+          let updateReady = true;
+          DATA_SOURCES.forEach( function checkDataReadiness( dataSource ) {
+                                 if ( updateReady === true ) {
+                                   updateReady = SS.getStatdData( dataSource ) !== undefined;
+                                 }
+                               }
+                              );
+          if ( updateReady ) {
+            let columns = this.createColumns();
+            // console.log( columns );
+            this.chart.flow ( { columns: columns
+                              , length: 0
+                              }
+                            );
           }
-        );
+        }
       }
     }
 
