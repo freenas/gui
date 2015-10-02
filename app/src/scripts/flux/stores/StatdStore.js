@@ -9,7 +9,6 @@ import { STATS as STATS_LIMIT } from "../constants/StoreLimits";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 var _statdData = {};
-// var _dataUpdate = [];
 
 class StatdStore extends FluxBase {
 
@@ -48,16 +47,17 @@ function handlePayload ( payload ) {
       this.emitChange( ACTION.dataSourceName + " received");
       break;
 
-    // Not ready - check structure of event in more detail, and push the data
-    // to the appropriate source directly rather than requiring a new query
-    /*case ActionTypes.MIDDLEWARE_EVENT:
-      if ( ACTION.eventData.args && _.startsWith(
-        ACTION.eventData.args["name"], "statd." )
+    case ActionTypes.MIDDLEWARE_EVENT:
+    let args = ACTION.eventData.args
+      if ( args && _.startsWith(
+        args["name"], "statd." )
       ) {
-        _dataUpdate = ACTION.eventData.args;
-        this.emitChange();
+        // cut off the "statd." and ".pulse"
+        let dataSourceName = args["name"].substring( 6, args["name"].length - 6 );
+        _statdData[ dataSourceName ].push( [ args.args.timestamp, args.args.value ] );
+        this.emitChange( dataSourceName + " updated" );
       }
-      break;*/
+      break;
 
     default:
     // No action
