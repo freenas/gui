@@ -84,14 +84,12 @@ export default class Dataset extends React.Component {
 
         {/* DATASET TOOLBAR */}
         <div className="dataset-toolbar">
-          <div className="dataset-property dataset-name">
-            <span className="property-legend">
-              { PARENT_NAME }
-            </span>
-            <span className="property-content">
-              { DATASET_NAME }
-            </span>
-          </div>
+          <DatasetProperty
+            legend    = { PARENT_NAME }
+            className = "dataset-name"
+          >
+            { DATASET_NAME }
+          </DatasetProperty>
 
         {/* PROPERTIES OF DATASET AND OPTIONS */}
           <div className="dataset-properties">
