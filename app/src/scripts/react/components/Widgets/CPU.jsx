@@ -5,10 +5,13 @@
 
 import _ from "lodash";
 import React from "react";
+import moment from "moment";
 
 import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
 import c3Defaults from "../../../constants/c3Defaults";
+
+import SM from "../../../flux/middleware/StatdMiddleware";
 
 var c3;
 
@@ -20,10 +23,34 @@ if ( typeof window !== "undefined" ) {
   };
 }
 
+const dataSources =
+  [ "localhost.aggregation-cpu-sum.cpu-system.value"
+  , "localhost.aggregation-cpu-sum.cpu-user.value"
+  , "localhost.aggregation-cpu-sum.cpu-nice.value"
+  , "localhost.aggregation-cpu-sum.cpu-idle.value"
+  , "localhost.aggregation-cpu-sum.cpu-interrupt.value"
+  ];
+
+// request data every 10 seconds for now
+const frequency = 10;
+
 const CPU = React.createClass(
   { componentDidMount () {
       let dataUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 31 ) );
       let dataSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 31 ) );
+      const now = moment().format();
+      const startTime = moment( now ).subtract( frequency * 60, "seconds" ).format();
+
+      SM.subscribeToPulse( this.constructor.displayName, dataSources );
+      dataSources.forEach( function requestInitialData( dataSource ) {
+                             SM.requestWidgetData( dataSource
+                                                 // Get the first minute of data
+                                                 , startTime
+                                                 , now
+                                                 , frequency + "S"
+                                                 );
+                           }
+                         );
 
       this.chart = c3.generate(
         _.assign( {}
@@ -68,6 +95,8 @@ const CPU = React.createClass(
   , componentWillUnmount () {
       this.chart = null;
       clearTimeout( this.timeout );
+      SM.unsubscribeFromPulse( this.constructor.displayName, dataSources );
+      SS.removeChangeListener( this.tick );
     }
 
   , tick () {
