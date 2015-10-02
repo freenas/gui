@@ -46,9 +46,12 @@ export default class Dataset extends React.Component {
       return (
         <Dataset
           { ...dataset }
-          { ...this.props }
           key                 = { index }
+          shares              = { this.props.shares }
           activeShare         = { ACTIVE_SHARE }
+          onShareCreate       = { this.props.onShareCreate }
+          onShareDelete       = { this.props.onShareDelete }
+          onSharingTypeChange = { this.props.onSharingTypeChange }
         />
       );
     } else {
