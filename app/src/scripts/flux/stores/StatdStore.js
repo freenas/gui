@@ -5,6 +5,7 @@
 
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
+import { STATS as STATS_LIMIT } from "../constants/StoreLimits";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 var _statdData = {};
@@ -36,7 +37,11 @@ function handlePayload ( payload ) {
 
     case ActionTypes.RECEIVE_STATD_DATA:
       if ( ACTION.statdData.data !== undefined ) {
-        _statdData[ ACTION.dataSourceName ] = ACTION.statdData.data;
+        if ( ACTION.statdData.data.length <= STATS_LIMIT ) {
+          _statdData[ ACTION.dataSourceName ] = ACTION.statdData.data;
+        } else {
+          _statdData[ ACTION.dataSourceName ] = ACTION.statdData.data.slice( -STATS_LIMIT )
+        }
       }/* else {
         _statdData[ACTION.dataSourceName] = (
           { error: true
