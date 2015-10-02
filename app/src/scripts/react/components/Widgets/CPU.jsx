@@ -12,6 +12,7 @@ import ChartUtil from "../../../utility/ChartUtil";
 import c3Defaults from "../../../constants/c3Defaults";
 
 import SM from "../../../flux/middleware/StatdMiddleware";
+import SS from "../../../flux/stores/StatdStore";
 
 var c3;
 
@@ -42,6 +43,7 @@ const CPU = React.createClass(
       const startTime = moment( now ).subtract( FREQUENCY * 60, "seconds" ).format();
 
       SM.subscribeToPulse( this.constructor.displayName, DATA_SOURCES );
+      SS.addChangeListener( this.tick );
       DATA_SOURCES.forEach( function requestInitialData( dataSource ) {
                               SM.requestWidgetData( dataSource
                                                   // Get the first minute of data
