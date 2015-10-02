@@ -14,6 +14,9 @@ import c3Defaults from "../../../constants/c3Defaults";
 import SM from "../../../flux/middleware/StatdMiddleware";
 import SS from "../../../flux/stores/StatdStore";
 
+import SystemMiddleware from "../../../flux/middleware/SystemMiddleware";
+import SystemStore from "../../../flux/stores/SystemStore";
+
 var c3;
 
 if ( typeof window !== "undefined" ) {
@@ -53,6 +56,10 @@ const CPU = React.createClass(
                                                   );
                             }
                           );
+
+      SystemMiddleware.subscribe( this.constructor.displayName );
+      SystemStore.addChangeListener( this.setYAxis );
+      SystemMiddleware.requestSystemInfo( "hardware" );
 
       this.chart = c3.generate(
         _.assign( {}
@@ -98,6 +105,16 @@ const CPU = React.createClass(
       this.chart = null;
       SM.unsubscribeFromPulse( this.constructor.displayName, DATA_SOURCES );
       SS.removeChangeListener( this.tick );
+      SystemMiddleware.unsubscribe( this.constructor.displayName );
+      SystemStore.removeChangeListener( this.setYAxis );
+    }
+
+  , setYAxis () {
+      var cpuCores = SystemStore.getSystemInfo( "hardware" ).cpu_cores;
+      // TODO: Insure against race condition where this fires before the chart exists
+      if ( this.chart ) {
+        this.chart.axis.max( { y: 100 * cpuCores } );
+      }
     }
 
   , createColumnData ( statData ) {
