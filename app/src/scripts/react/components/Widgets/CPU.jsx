@@ -102,6 +102,20 @@ const CPU = React.createClass(
       SS.removeChangeListener( this.tick );
     }
 
+  , createColumnData ( statData ) {
+      return statData.map( function ( stat ) { return parseFloat( stat[1] ); } );
+    }
+
+  , createColumns () {
+      var columns = [];
+      columns.push( [ "System" ].concat( this.createColumnData( SS.getStatdData( "localhost.aggregation-cpu-sum.cpu-system.value" ) ) ) );
+      columns.push( [ "User" ].concat( this.createColumnData( SS.getStatdData( "localhost.aggregation-cpu-sum.cpu-user.value" ) ) ) );
+      columns.push( [ "Nice" ].concat( this.createColumnData( SS.getStatdData( "localhost.aggregation-cpu-sum.cpu-nice.value" ) ) ) );
+      columns.push( [ "Idle" ].concat( this.createColumnData( SS.getStatdData( "localhost.aggregation-cpu-sum.cpu-idle.value" ) ) ) );
+      columns.push( [ "Interrupt" ].concat( this.createColumnData( SS.getStatdData( "localhost.aggregation-cpu-sum.cpu-interrupt.value" ) ) ) );
+      return columns;
+    }
+
   , tick ( eventMask ) {
       if ( this.chart ) {
         let newPointUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 1 ) );
