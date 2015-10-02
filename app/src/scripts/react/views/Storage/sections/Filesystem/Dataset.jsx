@@ -11,11 +11,25 @@ import ByteCalc from "../../../../../utility/ByteCalc";
 
 import Icon from "../../../../components/Icon";
 import BreakdownChart from "../../common/BreakdownChart";
+import DatasetProperty from "./DatasetProperty";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
 
 export default class Dataset extends React.Component {
+  formatNewDataset () {
+    const NAME = "New Share";
+    const newDataset =
+      { pool_name  : this.props.pool
+      , mountpoint : this.props.mountpoint + "/" + NAME
+      , name       : this.props.name + "/" + NAME
+      , type       : "FILESYSTEM"
+      , newDataset : true
+      };
+
+    this.props.handlers.onDatasetChange( newDataset );
+  }
+
   handleShareToggle ( type ) {
     if ( this.props.activeShare ) {
       this.props.handlers.onShareDelete();
@@ -25,15 +39,6 @@ export default class Dataset extends React.Component {
       this.props.handlers.onSharingTypeChange();
       this.props.handlers.onShareCreate();
     }
-  }
-
-  createProperty ( legend, content ) {
-    return (
-      <div className="dataset-property">
-        <span className="property-legend">{ legend }</span>
-        <span className="property-content">{ content }</span>
-      </div>
-    );
   }
 
   createChild ( dataset, index ) {
@@ -47,6 +52,7 @@ export default class Dataset extends React.Component {
         <Dataset
           { ...dataset }
           key         = { index }
+          pool        = { this.props.pool }
           shares      = { this.props.shares }
           activeShare = { ACTIVE_SHARE }
           handlers    = { this.props.handlers }
@@ -61,12 +67,7 @@ export default class Dataset extends React.Component {
     const { name, children, activeShare } = this.props;
     const { used, available, compression } = this.props.properties;
 
-    const CHILDREN = children
-                   ? children.map( this.createChild.bind( this ) )
-                   : null;
-
-    let pathArray = name.split( "/" );
-    const DATASET_NAME = pathArray.pop();
+    const DATASET_NAME = name.split( "/" ).pop();
     const PARENT_NAME = this.props.root
                       ? "Top Level"
                       : "ZFS Dataset";
@@ -91,46 +92,49 @@ export default class Dataset extends React.Component {
 
         {/* PROPERTIES OF DATASET AND OPTIONS */}
           <div className="dataset-properties">
-            { this.createProperty( "Used", ByteCalc.humanize( used.rawvalue ) ) }
-            { this.createProperty( "Available", ByteCalc.humanize( available.rawvalue ) ) }
-            { this.createProperty( "Compression", compression.rawvalue ) }
+            <DatasetProperty legend="Used">
+              { ByteCalc.humanize( used.rawvalue ) }
+            </DatasetProperty>
+
+            <DatasetProperty legend="Available">
+              { ByteCalc.humanize( available.rawvalue ) }
+            </DatasetProperty>
+
+            <DatasetProperty legend="Compression">
+              { compression.rawvalue }
+            </DatasetProperty>
 
             {/* RADIO TOGGLES FOR CREATING SHARES */}
-            <div className="dataset-property">
-              <span className="property-legend">
-                { "File Sharing" }
-              </span>
-              <span className="property-content">
-                <ButtonGroup
-                  className = "btn-group-radio btn-group-radio-primary"
+            <DatasetProperty legend="File Sharing">
+              <ButtonGroup
+                className = "btn-group-radio btn-group-radio-primary"
+              >
+                <Button
+                  active = { !activeShare }
+                  onClick = { this.handleShareToggle.bind( this, "off" ) }
                 >
-                  <Button
-                    active = { !activeShare }
-                    onClick = { this.handleShareToggle.bind( this, "off" ) }
-                  >
-                    { "Off" }
-                  </Button>
-                  <Button
-                    active = { activeShare && activeShare.type === "nfs" }
-                    onClick = { this.handleShareToggle.bind( this, "nfs" ) }
-                  >
-                    { "NFS" }
-                  </Button>
-                  <Button
-                    active = { activeShare && activeShare.type === "cifs" }
-                    onClick = { this.handleShareToggle.bind( this, "cifs" ) }
-                  >
-                    { "CIFS" }
-                  </Button>
-                  <Button
-                    active = { activeShare && activeShare.type === "afp" }
-                    onClick = { this.handleShareToggle.bind( this, "afp" ) }
-                  >
-                    { "AFP" }
-                  </Button>
-                </ButtonGroup>
-              </span>
-            </div>
+                  { "Off" }
+                </Button>
+                <Button
+                  active = { activeShare && activeShare.type === "nfs" }
+                  onClick = { this.handleShareToggle.bind( this, "nfs" ) }
+                >
+                  { "NFS" }
+                </Button>
+                <Button
+                  active = { activeShare && activeShare.type === "cifs" }
+                  onClick = { this.handleShareToggle.bind( this, "cifs" ) }
+                >
+                  { "CIFS" }
+                </Button>
+                <Button
+                  active = { activeShare && activeShare.type === "afp" }
+                  onClick = { this.handleShareToggle.bind( this, "afp" ) }
+                >
+                  { "AFP" }
+                </Button>
+              </ButtonGroup>
+            </DatasetProperty>
 
             {/* "+" DROPDOWN BUTTON: ADD DATASETS AND ZVOLS */}
             <DropdownButton
@@ -141,7 +145,11 @@ export default class Dataset extends React.Component {
               id        = { this.props.name.replace( /\s/, "-" ) + "-add-btn" }
               title     = { <Icon glyph="icon-plus" /> }
             >
-              <MenuItem disabled>{ "Add Dataset..." }</MenuItem>
+              <MenuItem
+                onSelect = { this.formatNewDataset.bind( this ) }
+              >
+                { "Add Dataset..." }
+              </MenuItem>
               <MenuItem disabled>{ "Add ZVOL..." }</MenuItem>
             </DropdownButton>
           </div>
@@ -155,7 +163,7 @@ export default class Dataset extends React.Component {
 
         {/* CHILD DATASETS */}
         <div className="dataset-children">
-          { CHILDREN }
+          { children.map( this.createChild.bind( this ) ) }
         </div>
       </div>
     );
@@ -164,9 +172,11 @@ export default class Dataset extends React.Component {
 
 Dataset.propTypes =
   { name                : React.PropTypes.string.isRequired
+  , mountpoint          : React.PropTypes.string.isRequired
+  , pool                : React.PropTypes.string.isRequired
   , root                : React.PropTypes.bool
+  , newDataset          : React.PropTypes.bool
   , children            : React.PropTypes.array
-  , pool                : React.PropTypes.string
   , permissions_type    : React.PropTypes.oneOf([ "PERM", "ACL" ])
   , type                : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
   , share_type          : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
@@ -179,15 +189,18 @@ Dataset.propTypes =
       { onShareCreate       : React.PropTypes.func.isRequired
       , onShareDelete       : React.PropTypes.func.isRequired
       , onSharingTypeChange : React.PropTypes.func.isRequired
+      , onDatasetChange     : React.PropTypes.func.isRequired
       , nameIsPermitted     : React.PropTypes.func.isRequired
       }
     ).isRequired
   };
 
 Dataset.defaultProps =
-  { name: ""
+  { name     : ""
+  , children : []
   , properties:
-    { used      : { rawvalue: 0 }
-    , available : { rawvalue: 0 }
+    { used        : { rawvalue: 0 }
+    , available   : { rawvalue: 0 }
+    , compression : { rawvalue: "--" }
     }
   }
