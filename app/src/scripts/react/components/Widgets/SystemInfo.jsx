@@ -29,6 +29,7 @@ function getSystemInformation () {
   return { systemInformation:
            _.merge( SS.getSystemInfo( "hardware" )
                   , SS.systemGeneralConfig
+                  , { version: SS.version }
                   )
          };
 }
@@ -61,6 +62,7 @@ const Hardware = React.createClass(
       SS.addChangeListener( this.handleHardwareChange );
       SM.requestSystemInfo( "hardware" );
       SM.requestSystemGeneralConfig();
+      SM.requestVersion();
       SM.subscribe( this.constructor.displayName );
     }
 
@@ -114,7 +116,7 @@ const Hardware = React.createClass(
       }
 
       let device = "iXsystems FreeNAS Mini";
-      let version = "FreeNAS X v0.1";
+      let version = _.get( this.state, "systemInformation.version" );
 
       let cpuModel = _.get( this.state, "systemInformation.cpu_model" );
       let cpuCores = _.get( this.state, "systemInformation.cpu_cores" );
