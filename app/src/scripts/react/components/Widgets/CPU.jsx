@@ -23,7 +23,7 @@ if ( typeof window !== "undefined" ) {
   };
 }
 
-const dataSources =
+const DATA_SOURCES =
   [ "localhost.aggregation-cpu-sum.cpu-system.value"
   , "localhost.aggregation-cpu-sum.cpu-user.value"
   , "localhost.aggregation-cpu-sum.cpu-nice.value"
@@ -32,25 +32,25 @@ const dataSources =
   ];
 
 // request data every 10 seconds for now
-const frequency = 10;
+const FREQUENCY = 10;
 
 const CPU = React.createClass(
   { componentDidMount () {
       let dataUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 31 ) );
       let dataSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 31 ) );
       const now = moment().format();
-      const startTime = moment( now ).subtract( frequency * 60, "seconds" ).format();
+      const startTime = moment( now ).subtract( FREQUENCY * 60, "seconds" ).format();
 
-      SM.subscribeToPulse( this.constructor.displayName, dataSources );
-      dataSources.forEach( function requestInitialData( dataSource ) {
-                             SM.requestWidgetData( dataSource
-                                                 // Get the first minute of data
-                                                 , startTime
-                                                 , now
-                                                 , frequency + "S"
-                                                 );
-                           }
-                         );
+      SM.subscribeToPulse( this.constructor.displayName, DATA_SOURCES );
+      DATA_SOURCES.forEach( function requestInitialData( dataSource ) {
+                              SM.requestWidgetData( dataSource
+                                                  // Get the first minute of data
+                                                  , startTime
+                                                  , now
+                                                  , FREQUENCY + "S"
+                                                  );
+                            }
+                          );
 
       this.chart = c3.generate(
         _.assign( {}
@@ -95,7 +95,7 @@ const CPU = React.createClass(
   , componentWillUnmount () {
       this.chart = null;
       clearTimeout( this.timeout );
-      SM.unsubscribeFromPulse( this.constructor.displayName, dataSources );
+      SM.unsubscribeFromPulse( this.constructor.displayName, DATA_SOURCES );
       SS.removeChangeListener( this.tick );
     }
 
