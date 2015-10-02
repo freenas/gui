@@ -21,7 +21,7 @@ class StatdStore extends FluxBase {
   }
 
   getStatdData ( name ) {
-    return _statdData[name];
+    return _statdData[ name ];
   }
 
   /*get dataUpdate () {
@@ -35,12 +35,12 @@ function handlePayload ( payload ) {
   switch ( ACTION.type ) {
 
     case ActionTypes.RECEIVE_STATD_DATA:
-      if ( action.statdData.data !== undefined ) {
-        _statdData[action.dataSourceName] = action.statdData.data;
+      if ( ACTION.statdData.data !== undefined ) {
+        _statdData[ ACTION.dataSourceName ] = ACTION.statdData.data;
       }/* else {
-        _statdData[action.dataSourceName] = (
+        _statdData[ACTION.dataSourceName] = (
           { error: true
-          , msg: action.statdData.message
+          , msg: ACTION.statdData.message
           }
         );
       }*/
@@ -50,10 +50,10 @@ function handlePayload ( payload ) {
     // Not ready - check structure of event in more detail, and push the data
     // to the appropriate source directly rather than requiring a new query
     /*case ActionTypes.MIDDLEWARE_EVENT:
-      if ( action.eventData.args && _.startsWith(
-        action.eventData.args["name"], "statd." )
+      if ( ACTION.eventData.args && _.startsWith(
+        ACTION.eventData.args["name"], "statd." )
       ) {
-        _dataUpdate = action.eventData.args;
+        _dataUpdate = ACTION.eventData.args;
         this.emitChange();
       }
       break;*/
