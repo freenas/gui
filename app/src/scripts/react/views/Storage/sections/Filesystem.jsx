@@ -44,7 +44,4 @@ Filesystem.propTypes =
   { editing             : React.PropTypes.bool
   , datasets            : React.PropTypes.array
   , shares              : React.PropTypes.instanceOf( Map )
-  , onShareCreate       : React.PropTypes.func.isRequired
-  , onShareDelete       : React.PropTypes.func.isRequired
-  , onSharingTypeChange : React.PropTypes.func.isRequired
   };
