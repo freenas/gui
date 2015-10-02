@@ -20,9 +20,10 @@ export default class DatasetProperty extends React.Component {
 }
 
 DatasetProperty.propTypes =
-  { legend  : React.PropTypes.string.isRequired
+  { legend  : React.PropTypes.string
   };
 
 DatasetProperty.defaultProps =
-  { className : ""
+  { legend    : ""
+  , className : ""
   };
