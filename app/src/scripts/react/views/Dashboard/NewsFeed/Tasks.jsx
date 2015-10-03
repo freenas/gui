@@ -13,14 +13,21 @@ import Task from "./Task";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Tasks.less" );
 
-const EXPIRY = 5000;
-
 export default class Tasks extends React.Component {
   createTask ( task, index ) {
+    let hideAfter;
+
+    switch ( task.state ) {
+      case "FINISHED":
+        hideAfter = 10000;
+        break;
+    }
+
     return (
       <Task
         { ...task }
-        key = { index }
+        key       = { index }
+        hideAfter = { hideAfter }
       />
     );
   }
@@ -28,25 +35,35 @@ export default class Tasks extends React.Component {
   cullOlderThan ( tasksObject, age ) {
     // Reduce a collection of tasks to only those which happened after `age`
     return _.filter( tasksObject, ( task ) => {
-      return moment( task[ "updated-at" ] ).isAfter( age );
+      if ( task.finished_at ) {
+        return moment.utc( task.finished_at ).isAfter( age );
+      } else {
+        return false;
+      }
     });
   }
 
-  createTaskList ( taskCollection ) {
-    return _.chain( taskCollection )
+  createTaskList ( tasksCollection ) {
+    function sortTasks ( task ) {
+      return task[ "updated-at" ] || task.timestamp || 0;
+    }
+
+    return _.chain( tasksCollection )
+     .filter( ( collection ) => { return Object.keys( collection ).length } )
      .flatten()
-     .sortBy( "updated-at" )
-     .value()
-     .reverse();
+     // HACK: Empty objects seem to be finding their way in somehow
+     .filter( ( task ) => { return Boolean( task.id ) } )
+     .sortBy( sortTasks )
+     .value();
   }
 
   render () {
     let { CREATED, WAITING, EXECUTING, FINISHED, FAILED } = this.props.tasks;
     const TASK_LIST = this.createTaskList(
-      [ CREATED
-      , WAITING
-      , EXECUTING
-      , this.cullOlderThan( FINISHED, moment().subtract( 5, "minutes" ) )
+      [ _.values( CREATED )
+      , _.values( WAITING )
+      , _.values( EXECUTING )
+      , this.cullOlderThan( FINISHED, moment().subtract( 30, "minutes" ) )
       , this.cullOlderThan( FAILED, moment().subtract( 1, "days" ) )
       ]
     );
