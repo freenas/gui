@@ -68,7 +68,7 @@ class TasksStore extends FluxBase {
     let allTasks = [ _created, _waiting, _executing, _finished, _failed
                    , _aborted ];
     return _.find( allTasks, function ( task ) {
-      return task[ "id" ] === ID;
+      return task.id === ID;
     });
   }
 
@@ -126,78 +126,80 @@ function handlePayload ( payload ) {
       break;
 
     case ActionTypes.MIDDLEWARE_EVENT:
-      if ( action.eventData.args["name"].indexOf( "task." ) !== -1 ) {
+      if ( action.eventData.args.name.indexOf( "task." ) !== -1 ) {
         var taskArgs = action.eventData.args.args;
-        var CREATED   = _created[ taskArgs["id"] ]   || {};
-        var WAITING   = _waiting[ taskArgs["id"] ]   || {};
-        var EXECUTING = _executing[ taskArgs["id"] ] || {};
+        var CREATED   = _created[ taskArgs.id ]   || {};
+        var WAITING   = _waiting[ taskArgs.id ]   || {};
+        var EXECUTING = _executing[ taskArgs.id ] || {};
         let perct = 0;
 
-        switch ( action.eventData.args[ "name" ] ) {
+        switch ( action.eventData.args.name ) {
           case "task.created":
-            _created[ taskArgs[ "id" ] ] = taskArgs;
+            _created[ taskArgs.id ] = taskArgs;
             break;
 
           case "task.progress":
-            switch ( taskArgs[ "state" ] ) {
+            switch ( taskArgs.state ) {
 
               case "WAITING":
-                _waiting[ taskArgs[ "id" ] ] =
+                _waiting[ taskArgs.id ] =
                   _.merge( CREATED
                          , taskArgs );
 
-                delete _created[ taskArgs[ "id" ] ];
+                delete _created[ taskArgs.id ];
                 break;
 
               case "EXECUTING":
-                _executing[ taskArgs[ "id" ] ] =
+                _executing[ taskArgs.id ] =
                   _.merge( CREATED
                          , WAITING
                          , taskArgs );
 
-                delete _created[ taskArgs[ "id" ] ];
-                delete _waiting[ taskArgs[ "id" ] ];
+                delete _created[ taskArgs.id ];
+                delete _waiting[ taskArgs.id ];
                 break;
 
               case "FINISHED":
-                _finished[ taskArgs[ "id" ] ] =
+                _finished[ taskArgs.id ] =
                   _.merge( CREATED
                          , WAITING
                          , EXECUTING
                          , taskArgs
                          , { percentage: 100 } );
 
-                delete _created[ taskArgs[ "id" ] ];
-                delete _waiting[ taskArgs[ "id" ] ];
-                delete _executing[ taskArgs[ "id" ] ];
+                delete _created[ taskArgs.id ];
+                delete _waiting[ taskArgs.id ];
+                delete _executing[ taskArgs.id ];
                 break;
 
               case "ABORTED":
-                perct = taskArgs[ "percentage" ] === 0 ? 50 :
-                              taskArgs[ "percentage" ];
-                _aborted[ taskArgs["id"] ] =
+                perct = taskArgs.percentage === 0
+                      ? 50
+                      : taskArgs.percentage;
+                _aborted[ taskArgs.id ] =
                   _.merge( CREATED
                          , WAITING
                          , EXECUTING
                          , taskArgs
                          , { percentage: perct } );
-                delete _created[ taskArgs["id"] ];
-                delete _waiting[ taskArgs["id"] ];
-                delete _executing[ taskArgs["id"] ];
+                delete _created[ taskArgs.id ];
+                delete _waiting[ taskArgs.id ];
+                delete _executing[ taskArgs.id ];
                 break;
 
               case "FAILED":
-                perct = taskArgs[ "percentage" ] === 0 ? 50 :
-                              taskArgs[ "percentage" ];
-                _failed[ taskArgs["id"] ] =
+                perct = taskArgs.percentage === 0
+                      ? 50
+                      : taskArgs.percentage;
+                _failed[ taskArgs.id ] =
                   _.merge( CREATED
                          , WAITING
                          , EXECUTING
                          , taskArgs
                          , { percentage: perct } );
-                delete _created[ taskArgs["id"] ];
-                delete _waiting[ taskArgs["id"] ];
-                delete _executing[ taskArgs["id"] ];
+                delete _created[ taskArgs.id ];
+                delete _waiting[ taskArgs.id ];
+                delete _executing[ taskArgs.id ];
                 break;
             }
 
