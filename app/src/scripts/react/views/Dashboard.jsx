@@ -13,24 +13,21 @@ import Network from "../components/Widgets/Network";
 import Memory from "../components/Widgets/Memory";
 import DashboardContext from "./Dashboard/DashboardContext";
 
-const Dashboard = React.createClass(
-  { render () {
-      return (
-        <main className="full dashboard">
-          <div className="dashboard-widgets">
+export default class Dashboard extends React.Component {
+  render () {
+    return (
+      <main className="full dashboard">
+        <div className="dashboard-widgets">
 
-            <SystemInfo />
+          <SystemInfo />
 
-            <CPU />
+          <CPU />
 
-            <Network />
+          <Network />
 
-            <Memory />
-          </div>
-        </main>
-      );
-    }
+          <Memory />
+        </div>
+      </main>
+    );
   }
-);
-
-export default Dashboard;
+}
