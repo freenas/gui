@@ -11,11 +11,10 @@ import moment from "moment";
 
 import DiscTri from "../../../components/DiscTri";
 
-export default class TaskItem extends React.Component {
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Task.less" );
 
-  constructor ( props ) {
-    super( props );
-  }
+export default class Task extends React.Component {
 
   render () {
     var progressProps = { bsStyle: "primary" };
@@ -63,8 +62,8 @@ export default class TaskItem extends React.Component {
           <div className="task-details">
             <div className="clearfix">
               <h6 className="task-timestamp">
-                { moment( this.props.timestamp * 1000 )
-                        .format( "L, h:mm:ss a" )
+                { moment( this.props[ "updated-at" ] )
+                    .format( "L, h:mm:ss a" )
                 }
               </h6>
               <h6 className="task-timestamp" /*separate out style */>

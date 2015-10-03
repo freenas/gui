@@ -6,7 +6,6 @@
 
 import _ from "lodash";
 import React from "react";
-import moment from "moment";
 
 import Task from "./Task";
 
@@ -32,12 +31,6 @@ export default class Tasks extends React.Component {
            return task.parent === null;
          }
        )
-       .forEach( function addTimestampAndType ( task ) {
-                   task.timestamp =
-                     moment( task[ "updated-at" ] ).unix();
-                   task.type = "task";
-                 }
-               )
        .value();
 
     return (
@@ -50,5 +43,13 @@ export default class Tasks extends React.Component {
 };
 
 Tasks.propTypes =
-  { tasks: React.PropTypes.object
+  { tasks: React.PropTypes.shape(
+      { CREATED   : React.PropTypes.object
+      , WAITING   : React.PropTypes.object
+      , EXECUTING : React.PropTypes.object
+      , FINISHED  : React.PropTypes.object
+      , FAILED    : React.PropTypes.object
+      , ABORTED   : React.PropTypes.object
+      }
+    )
   };
