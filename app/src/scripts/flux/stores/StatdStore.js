@@ -24,9 +24,6 @@ class StatdStore extends FluxBase {
     return _statdData[ name ];
   }
 
-  /*get dataUpdate () {
-    return _dataUpdate;
-  }*/
 }
 
 function handlePayload ( payload ) {
