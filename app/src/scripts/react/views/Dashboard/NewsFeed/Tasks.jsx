@@ -35,36 +35,44 @@ export default class Tasks extends React.Component {
   cullOlderThan ( tasksObject, age ) {
     // Reduce a collection of tasks to only those which happened after `age`
     return _.filter( tasksObject, ( task ) => {
+
       if ( task.finished_at ) {
         return moment.utc( task.finished_at ).isAfter( age );
       } else {
-        return false;
+        return true;
       }
     });
   }
 
-  createTaskList ( tasksCollection ) {
+  processTasks ( collection ) {
     function sortTasks ( task ) {
       return task[ "updated-at" ] || task.timestamp || 0;
     }
-
-    return _.chain( tasksCollection )
-     .filter( ( collection ) => { return Object.keys( collection ).length } )
-     .flatten()
-     // HACK: Empty objects seem to be finding their way in somehow
-     .filter( ( task ) => { return Boolean( task.id ) } )
-     .sortBy( sortTasks )
-     .value();
+    if ( Object.keys( collection ).length ) {
+      return _.chain( collection )
+        .values()
+        // HACK: Empty objects seem to be finding their way in somehow
+        .filter( ( task ) => { return Boolean( task.id ) } )
+        .sortBy( sortTasks )
+        .value()
+        .reverse();
+    } else {
+      return [];
+    }
   }
 
   render () {
     let { CREATED, WAITING, EXECUTING, FINISHED, FAILED } = this.props.tasks;
-    const TASK_LIST = this.createTaskList(
-      [ _.values( CREATED )
-      , _.values( WAITING )
-      , _.values( EXECUTING )
-      , this.cullOlderThan( FINISHED, moment().subtract( 30, "minutes" ) )
-      , this.cullOlderThan( FAILED, moment().subtract( 1, "days" ) )
+    const TASK_LIST = _.flatten(
+      [ this.processTasks( EXECUTING )
+      , this.processTasks( WAITING )
+      , this.processTasks( CREATED )
+      , this.cullOlderThan( this.processTasks( FINISHED )
+                          , moment().subtract( 30, "minutes" )
+                          )
+      , this.cullOlderThan( this.processTasks( FAILED )
+                          , moment().subtract( 1, "days" )
+                          )
       ]
     );
 
