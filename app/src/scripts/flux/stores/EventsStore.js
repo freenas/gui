@@ -33,7 +33,7 @@ function handlePayload( payload ) {
 
   switch ( action.type ) {
     case ActionTypes.RECEIVE_EVENTS:
-      _events = action.events;
+      _events = _.take( action.events, EVENTS_LIMIT );
       this.emitChange( "events" );
       break;
   }
