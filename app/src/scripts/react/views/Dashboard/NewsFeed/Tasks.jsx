@@ -79,7 +79,9 @@ export default class Tasks extends React.Component {
     return (
       <div className="tasks-feed">
         <h4 className="news-feed-header">{ "Active Tasks" }</h4>
-        { TASK_LIST.map( this.createTask ) }
+        <div className="task-feed-content">
+          { TASK_LIST.map( this.createTask ) }
+        </div>
       </div>
     );
   }

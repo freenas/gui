@@ -55,7 +55,7 @@ export default class NewsFeed extends React.Component {
 
   render () {
     return (
-      <div className = "tasks-sidebar">
+      <div className = "news-feed">
         <Tasks tasks={ this.state.tasks } />
         <Events events={ this.state.events } />
       </div>

@@ -32,9 +32,11 @@ export default class Events extends React.Component {
     const EVENTS = this.props.events;
 
     return (
-      <div className="tasks-feed">
+      <div className="events-feed">
         <h4 className="news-feed-header">{ "System Events" }</h4>
-        { EVENTS.map( this.createEvent ) }
+        <div className="event-feed-content">
+          { EVENTS.map( this.createEvent ) }
+        </div>
       </div>
     );
   }

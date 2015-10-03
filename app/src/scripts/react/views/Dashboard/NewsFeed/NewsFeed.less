@@ -4,9 +4,20 @@
 @import ( optional, reference ) "@{styles-path}variables.less";
 @import ( optional, reference ) "@{styles-path}utility.less";
 
-.tasks-sidebar {
-  height: 67%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  margin-bottom: 5em;
+.news-feed {
+  .flex-display( flex );
+  .flex-flow( column );
+  .flex( 1 );
+  height: 0;
+  max-height: 60%;
+  overflow: auto;
+}
+
+.news-feed-header {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1em;
+  border-bottom: 1px solid #E1E1E1;
+  margin: 0.75em 2em 0;
+  padding-bottom: 0.5em;
 }

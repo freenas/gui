@@ -5,15 +5,34 @@
 @import ( optional, reference ) "@{styles-path}utility.less";
 
 .task-item {
-  .flex-display( flex );
+  padding: 4px 0 4px 4px;
+  margin: 0 4px;
+  .transition( all 0.25s );
 
-  .task-details {
-    .flex( 1 );
+  &:hover {
+    background-color: white;
+    box-shadow: 1px 2px 3px 1px rgba(0, 0, 0, 0.05);
+    .disc-title .icon {
+      color: @brand-primary;
+    }
   }
 
   .task-title {
-    text-transform: uppercase;
     margin: 5px 10px;
+  }
+
+  .disc-title {
+    .flex-display( flex );
+    .align-items( center );
+
+    .icon {
+      .flex( 0 );
+      color: @gray-light
+    }
+
+    .task-header {
+      .flex( 1 );
+    }
   }
 
   .task-timestamp {
@@ -30,34 +49,12 @@
 
   .progress {
     margin: 5px 10px;
+    height: 4px;
   }
+
   .task-abort {
     float: right;
     overflow: hidden;
     margin: 0 0 0 10px;
-  }
-
-  .task-finished {
-
-  }
-
-  .task-failed {
-
-  }
-
-  .task-waiting {
-
-  }
-
-  .task-executing {
-
-  }
-
-  .task-created {
-
-  }
-
-  .task-aborted {
-
   }
 }

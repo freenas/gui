@@ -45,6 +45,7 @@ export default class Task extends React.Component {
              , paddingTop    : 0
              , paddingBottom : 0
              , opacity       : 0
+             , display       : "none"
              , transform     : "translateY( 15px )"
              }
            , { duration : 250
@@ -63,40 +64,45 @@ export default class Task extends React.Component {
     switch ( this.props.state ) {
       case "CREATED":
         progressProps.active = true;
-        progressProps.label = "Created";
         progressProps.now = 100;
         break;
       case "WAITING":
         progressProps.active = true;
-        progressProps.label = "Waiting...";
         progressProps.now = 100;
         break;
       case "EXECUTING":
         progressProps.now = progressProps.now || 0;
         break;
       case "FINISHED":
-        progressProps.label = "Complete";
         progressProps.now = 100;
         break;
       case "FAILED":
         progressProps.bsStyle = "danger";
-        progressProps.label = "Failed";
         progressProps.now = 100;
         break;
       case "ABORTED":
-        progressProps.label = "Aborted";
+        progressProps.bsStyle = "warning";
         progressProps.now = 100;
         break;
     }
 
+    const HEADER = (
+      <div className="task-header">
+        <h5 className="task-title">{ this.props.name }</h5>
+        <ProgressBar { ...progressProps } />
+      </div>
+    );
+
     return (
-      <DiscTri
+      <div
         ref = "taskContent"
-        headerShow = { this.props.name }
-        headerHide = { this.props.name }
-        defaultExpanded = { true }
+        className = "task-item"
       >
-        <div className = "task-item">
+        <DiscTri
+          headerShow = { HEADER }
+          headerHide = { HEADER }
+          defaultExpanded = { false }
+        >
           <div className="task-details">
             <div className="clearfix">
               <h6 className="task-timestamp">
@@ -111,13 +117,9 @@ export default class Task extends React.Component {
                 }
               </h6>
             </div>
-            <div className = "clearfix">
-              { cancelBtn }
-              <ProgressBar { ...progressProps } />
-            </div>
           </div>
-        </div>
-      </DiscTri>
+        </DiscTri>
+      </div>
     );
   }
 }
