@@ -19,7 +19,7 @@ export default class Tasks extends React.Component {
 
     switch ( task.state ) {
       case "FINISHED":
-        hideAfter = 60000;
+        hideAfter = 20000;
         break;
     }
 
@@ -71,7 +71,7 @@ export default class Tasks extends React.Component {
                           , moment().subtract( 30, "minutes" )
                           )
       , this.cullOlderThan( this.processTasks( FAILED )
-                          , moment().subtract( 1, "days" )
+                          , moment().subtract( 1, "hours" )
                           )
       ]
     );
