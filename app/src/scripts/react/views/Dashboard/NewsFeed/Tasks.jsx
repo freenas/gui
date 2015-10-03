@@ -26,7 +26,7 @@ export default class Tasks extends React.Component {
     return (
       <Task
         { ...task }
-        key       = { index }
+        key       = { task.id + task.state }
         hideAfter = { hideAfter }
       />
     );
