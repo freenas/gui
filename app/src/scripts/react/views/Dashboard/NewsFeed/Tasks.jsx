@@ -19,7 +19,7 @@ export default class Tasks extends React.Component {
 
     switch ( task.state ) {
       case "FINISHED":
-        hideAfter = 10000;
+        hideAfter = 60000;
         break;
     }
 

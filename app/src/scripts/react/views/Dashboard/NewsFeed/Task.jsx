@@ -11,10 +11,47 @@ import moment from "moment";
 
 import DiscTri from "../../../components/DiscTri";
 
-// STYLESHEET
-if ( process.env.BROWSER ) require( "./Task.less" );
+var Velocity;
+
+// WEBPACK SHIMS
+if ( process.env.BROWSER ) {
+  require( "./Task.less" );
+  Velocity = require( "velocity-animate" );
+} else {
+  Velocity = () => { return Promise().resolve( true ); };
+}
 
 export default class Task extends React.Component {
+  componentDidMount () {
+    if ( this.props.hideAfter ) {
+      this.queueContentHide();
+    }
+  }
+
+  componentDidUpdate ( prevProps, prevState ) {
+    if ( this.props.hideAfter && !prevProps.hideAfter ) {
+      this.queueContentHide();
+    }
+  }
+
+  queueContentHide () {
+    // Make sure function can only be run once
+    this.queueContentHide = function () {};
+
+    Velocity( React.findDOMNode( this.refs.taskContent )
+           , { height        : 0
+             , marginTop     : 0
+             , marginBottom  : 0
+             , paddingTop    : 0
+             , paddingBottom : 0
+             , opacity       : 0
+             , transform     : "translateY( 15px )"
+             }
+           , { duration : 250
+             , delay    : this.props.hideAfter
+             }
+           );
+  }
 
   render () {
     var progressProps = { bsStyle: "primary" };
@@ -54,9 +91,10 @@ export default class Task extends React.Component {
 
     return (
       <DiscTri
+        ref = "taskContent"
         headerShow = { this.props.name }
         headerHide = { this.props.name }
-        defaultExpanded = { false }
+        defaultExpanded = { true }
       >
         <div className = "task-item">
           <div className="task-details">
@@ -83,3 +121,7 @@ export default class Task extends React.Component {
     );
   }
 }
+
+Task.propTypes =
+  { hideAfter: React.PropTypes.number
+  };
