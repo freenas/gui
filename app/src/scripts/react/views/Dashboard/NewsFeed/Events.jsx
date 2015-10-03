@@ -1,0 +1,45 @@
+// EVENTS FEED
+// ==========
+// Show recent system event history.
+
+"use strict";
+
+import React from "react";
+import moment from "moment";
+
+import DiscTri from "../../../components/DiscTri";
+
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Events.less" );
+
+export default class Events extends React.Component {
+  createEvent ( eventData, index ) {
+    return (
+      <DiscTri
+        key             = { index }
+        headerShow      = { eventData.name }
+        headerHide      = { eventData.name }
+        defaultExpanded = { false }
+      >
+        <div className = "event" >
+          { moment( eventData.timestamp * 1000 ).format( "L, h:mm:ss a" ) }
+        </div>
+      </DiscTri>
+    );
+  }
+
+  render () {
+    const EVENTS = this.props.events;
+
+    return (
+      <div className="tasks-feed">
+        <h4 className="news-feed-header">{ "System Events" }</h4>
+        { EVENTS.map( this.createEvent ) }
+      </div>
+    );
+  }
+};
+
+Events.propTypes =
+  { events: React.PropTypes.array
+  };

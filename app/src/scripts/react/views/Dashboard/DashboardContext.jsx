@@ -8,13 +8,13 @@ import React from "react";
 
 import MemoryMeter from "../../components/Widgets/MemoryMeter";
 import CPUMeter from "../../components/Widgets/CPUMeter";
-import TasksSidebar from "./TasksSidebar";
+import NewsFeed from "./NewsFeed";
 
 const DashboardContext = React.createClass(
   { render () {
     return (
       <div className="context-dashboard">
-        <TasksSidebar/>
+        <NewsFeed/>
         <CPUMeter/>
         <MemoryMeter/>
       </div>
