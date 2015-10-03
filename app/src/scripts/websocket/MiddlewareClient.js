@@ -333,16 +333,12 @@ class MiddlewareClient extends WebSocketClient {
       this.handleTimeout( reqID );
     };
 
-    // const newRequest =
     this.pendingRequests[ reqID ] =
       { successCallback: onSuccess
       , errorCallback: onError
       , origReq: origReq
       , timeout: setTimeout( requestTimeoutHandler.bind( this ), delay )
       };
-
-    // this.pendingRequests[ reqID ] = newRequest;
-
 
     if ( MCD.reports( "logging" ) ) {
       MCD.info( "Current pending requests:" );
