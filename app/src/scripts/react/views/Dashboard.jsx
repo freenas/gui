@@ -14,6 +14,10 @@ import Memory from "../components/Widgets/Memory";
 import DashboardContext from "./Dashboard/DashboardContext";
 
 export default class Dashboard extends React.Component {
+
+  constructor( props ) {
+    super( props );
+  }
   render () {
     return (
       <main className="full dashboard">
