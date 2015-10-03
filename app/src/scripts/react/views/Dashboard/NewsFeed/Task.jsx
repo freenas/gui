@@ -45,9 +45,9 @@ export default class Task extends React.Component {
              , paddingTop    : 0
              , paddingBottom : 0
              , opacity       : 0
-             , display       : "none"
              , transform     : "translateY( 15px )"
              }
+           , { display: "none" }
            , { duration : 250
              , delay    : this.props.hideAfter
              }
