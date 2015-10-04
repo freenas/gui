@@ -9,9 +9,12 @@
   .no-select();
 }
 
+// All input selection should be allowed, and this needs to be overridden to
+// prevent STUPID BROWSERS LIKE SAFARI from making it impossible to focus a text
+// input, because YES THANKS THAT'S EXACTLY WHAT I NEED
 // Paragraph text is relatively rare in this webapp, and generally will be used
 // in a context where selecting text would be sensible and applicable.
-p {
+p, .p, input, .radio, .checkbox {
   .allow-select();
 }
 
