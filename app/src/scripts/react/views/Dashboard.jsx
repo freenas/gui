@@ -32,6 +32,11 @@ export default class Dashboard extends React.Component {
     document.addEventListener( "visibilitychange"
                              , this.handleVisibilityChange.bind( this )
                              );
+    SS.addChangeListener( this.handleDataUpdate.bind( this ) );
+
+    SystemMiddleware.subscribe( this.displayName );
+    SystemStore.addChangeListener( this.handleStaticData.bind( this ) );
+    SystemMiddleware.requestSystemInfo( "hardware" );
   }
 
   componentWillUnmount () {
@@ -45,6 +50,10 @@ export default class Dashboard extends React.Component {
       SM.unsubscribeFromPulse( this.displayName, dataSourceGroup );
     }, this );
 
+    SS.removeChangeListener( this.handleDataUpdate.bind( this ) );
+
+    SystemMiddleware.unsubscribe( this.displayName );
+    SystemStore.removeChangeListener( this.handleStaticData.bind( this ) );
   }
 
   handleVisibilityChange ( event ) {
@@ -79,6 +88,14 @@ export default class Dashboard extends React.Component {
                                                  );
                             }
                          );
+  }
+
+  handleStaticData ( eventMask ) {
+
+  }
+
+  handleDataUpdate ( eventMask ) {
+
   }
 
   render () {
