@@ -21,6 +21,20 @@ export default class Dashboard extends React.Component {
     this.state = { dataSourceGroups: [] };
   }
 
+  handleVisibilityChange ( event ) {
+    if ( document.visibilityState ) {
+      this.state.dataSourceGroups.forEach( function subscribeAll ( dataSourceGroup ) {
+        SM.subscribeToPulse( this.displayName, dataSourceGroup );
+      }, this );
+      this.setState( { subscriptionsActive: true } );
+    } else {
+      this.state.dataSourceGroups.forEach( function unsubscribeAll( dataSourceGroup ) {
+        SM.unsubscribeFromPulse( this.displayName, dataSourceGroup );
+      }, this );
+      this.setState( { subscriptionsActive: false } );
+    }
+  }
+
   render () {
     return (
       <main className="full dashboard">
