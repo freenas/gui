@@ -11,12 +11,6 @@ import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
 import c3Defaults from "../../../constants/c3Defaults";
 
-import SM from "../../../flux/middleware/StatdMiddleware";
-import SS from "../../../flux/stores/StatdStore";
-
-import SystemMiddleware from "../../../flux/middleware/SystemMiddleware";
-import SystemStore from "../../../flux/stores/SystemStore";
-
 var c3;
 
 if ( typeof window !== "undefined" ) {
@@ -39,25 +33,13 @@ const DATA_SOURCES =
 const FREQUENCY = 10;
 
 const CPU = React.createClass(
-  { componentDidMount () {
-      const now = moment().format();
-      const startTime = moment( now ).subtract( FREQUENCY * 60, "seconds" ).format();
+  { propTypes: { subscribeToDataSources: React.PropTypes.func.isRequired
+               , cpuCores: React.PropTypes.number
+               }
 
-      SM.subscribeToPulse( this.constructor.displayName, DATA_SOURCES );
-      SS.addChangeListener( this.tick );
-      DATA_SOURCES.forEach( function requestInitialData( dataSource ) {
-                              SM.requestWidgetData( dataSource
-                                                  // Get the first minute of data
-                                                  , startTime
-                                                  , now
-                                                  , FREQUENCY + "S"
-                                                  );
-                            }
-                          );
+  , componentDidMount () {
 
-      SystemMiddleware.subscribe( this.constructor.displayName );
-      SystemStore.addChangeListener( this.setYAxis );
-      SystemMiddleware.requestSystemInfo( "hardware" );
+      this.props.subscribeToDataSources( DATA_SOURCES, FREQUENCY );
 
       var dataSystem = [ "System", [] ];
       var dataUser = [ "User", [] ];
@@ -113,10 +95,6 @@ const CPU = React.createClass(
 
   , componentWillUnmount () {
       this.chart = null;
-      SM.unsubscribeFromPulse( this.constructor.displayName, DATA_SOURCES );
-      SS.removeChangeListener( this.tick );
-      SystemMiddleware.unsubscribe( this.constructor.displayName );
-      SystemStore.removeChangeListener( this.setYAxis );
     }
 
   , setYAxis () {

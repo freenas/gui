@@ -105,7 +105,7 @@ export default class Dashboard extends React.Component {
 
           <SystemInfo />
 
-          <CPU />
+          <CPU subscribeToDataSources = { this.subscribeToDataSources.bind( this ) } />
 
           <Network />
 
