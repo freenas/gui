@@ -6,6 +6,13 @@
 "use strict";
 
 import React from "react";
+import moment from "moment";
+
+import SM from "../../flux/middleware/StatdMiddleware";
+import SS from "../../flux/stores/StatdStore";
+
+import SystemMiddleware from "../../flux/middleware/SystemMiddleware";
+import SystemStore from "../../flux/stores/SystemStore";
 
 import SystemInfo from "../components/Widgets/SystemInfo";
 import CPU from "../components/Widgets/CPU";
@@ -19,6 +26,25 @@ export default class Dashboard extends React.Component {
     super( props );
     this.displayName = "Dashboard";
     this.state = { dataSourceGroups: [] };
+  }
+
+  componentDidMount () {
+    document.addEventListener( "visibilitychange"
+                             , this.handleVisibilityChange.bind( this )
+                             );
+  }
+
+  componentWillUnmount () {
+    console.log( "componentWillUnmount" );
+    document.removeEventListener( "visibilitychange"
+                                , this.handleVisibilityChange.bind( this )
+                                );
+
+    // Unsubscribe from all data sources
+    this.state.dataSourceGroups.forEach( function unsubscribeAll( dataSourceGroup ) {
+      SM.unsubscribeFromPulse( this.displayName, dataSourceGroup );
+    }, this );
+
   }
 
   handleVisibilityChange ( event ) {
