@@ -14,8 +14,8 @@ import Icon from "./Icon";
 var DiscTri = React.createClass(
 
   { propTypes:
-    { headerShow      : React.PropTypes.string
-    , headerHide      : React.PropTypes.string
+    { headerShow      : React.PropTypes.node
+    , headerHide      : React.PropTypes.node
     , defaultExpanded : React.PropTypes.bool
     }
 
