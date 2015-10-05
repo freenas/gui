@@ -90,16 +90,10 @@ export default class Dashboard extends React.Component {
     this.setState( getSystemInformation() );
   }
 
-  handleVisibilityChange ( event ) {
+  handleVisibilityChange () {
     if ( document.visibilityState ) {
-      this.state.dataSourceGroups.forEach( function subscribeAll ( dataSourceGroup ) {
-        SM.subscribeToPulse( this.displayName, dataSourceGroup );
-      }, this );
       this.setState( { subscriptionsActive: true } );
     } else {
-      this.state.dataSourceGroups.forEach( function unsubscribeAll( dataSourceGroup ) {
-        SM.unsubscribeFromPulse( this.displayName, dataSourceGroup );
-      }, this );
       this.setState( { subscriptionsActive: false } );
     }
   }
