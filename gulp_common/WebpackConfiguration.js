@@ -83,7 +83,7 @@ var DEVELOPMENT_CONFIG =
         }
       ]
     }
-  , devtool: "eval-source-map"
+  , devtool: "#eval-source-map"
   , plugins:
     [ new webpack.HotModuleReplacementPlugin()
     , new webpack.NoErrorsPlugin()
