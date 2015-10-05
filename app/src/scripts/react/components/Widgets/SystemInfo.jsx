@@ -135,7 +135,6 @@ const SystemInfo = React.createClass(
 
       if ( memorySize ) {
         memorySize = ByteCalc.humanize( memorySize, { roundMode: "whole" } );
-        memoryType = "1866MHz ECC";
       }
 
       let diskLabel = _.get( this.state, "predominantDisks[0]" );
@@ -169,7 +168,7 @@ const SystemInfo = React.createClass(
           </div>
           <div className = "hardware-info">
             { this.createHardwareDetail( "CPU", cpuSpeed, cpuCores ) }
-            { this.createHardwareDetail( "Memory", memorySize, memoryType ) }
+            { this.createHardwareDetail( "Memory", memorySize ) }
             { this.createHardwareDetail( "Drives", diskCount, diskType ) }
           </div>
         </Widget>
