@@ -326,7 +326,7 @@ export default class Storage extends React.Component {
 
     return (
       <main>
-        <h1 className="section-heading type-line">
+        <h1 className="view-header section-heading type-line">
           <span className="text">Storage Volumes</span>
         </h1>
         { loading }

@@ -101,8 +101,8 @@ const System = React.createClass(
 
   , render () {
     return (
-      <Grid>
-        <Row>
+      <div className="view-content">
+        <section>
           <Col xs = {4}>
             <ConnectionSettings
             { ...this.state.ui }/>
@@ -122,8 +122,8 @@ const System = React.createClass(
               timezone = { this.state.general[ "timezone" ] }
               timezoneList = { this.state[ "timezoneList" ] }/>
           </Col>
-        </Row>
-        <Row>
+        </section>
+        <section>
           <Col xs = {4}>
             <Console
               console_screensaver = { this.state.advanced[ "console_screensaver" ] }
@@ -133,8 +133,8 @@ const System = React.createClass(
               console_keymap = { this.state.general[ "console_keymap" ] }
               keymapList = { this.state[ "keymapList" ] }/>
           </Col>
-        </Row>
-      </Grid>
+        </section>
+      </div>
     );
   }
 });

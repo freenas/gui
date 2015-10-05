@@ -3,45 +3,32 @@
 }
 
 .heading-with-nav {
-  padding: 0.45em 1em 0.25em;
-  margin: 0;
-  box-sizing: initial;
-  overflow: visible;
+  .clearfix();
   color: white;
-  text-align: center;
+  font-size: 30px;
+  padding: 0.75em 1em 0.25em;
   #gradient > .directional( @freenas-gray
                           , lighten( @freenas-gray, 5% )
                           , @golden-angle
                           );
   border-bottom: 2px solid lighten( @freenas-gray, 10% );
 
-  .text {
-    display: block;
-    text-align: left;
+  .section-heading {
+    font-size: 26px;
+    margin: 0;
+    height: auto;
+    width: auto;
+    float: left;
   }
 
   .section-nav {
-    display: inline-block;
-    margin: 0.25em auto 0;
-    position: relative;
-    z-index: 1;
-    .transform( translateY( -50% ) );
-
-    &:after {
-      content: "";
-      position: absolute;
-      top: -2px; right: -2px; bottom: -2px; left: -2px;
-      display: block;
-      background-color: lighten( @freenas-gray, 10% );
-      border-radius: 5px;
-      z-index: -1;
-    }
+    height: 30px; // HACK: Works around inline-block
 
     .btn {
-      font-size: 16px;
+      font-size: 14px;
     }
     .btn-group {
-      float: left; // HACK: Clears positioning error
+      vertical-align: top;
     }
   }
 }
