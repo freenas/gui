@@ -11,17 +11,21 @@ import ToggleSwitch from "../../components/ToggleSwitch";
 var Options = React.createClass({
 
   getInitialState: function () {
-      return {
-        MIDDLEWARE_CLIENT_DEBUG: {
-          connection     : false
+      return (
+        { MIDDLEWARE_CLIENT_DEBUG:
+          { connection     : false
           , authentication : false
           , packing        : false
           , logging        : false
           , queues         : false
           , subscriptions  : false
           , messages       : false
+          }
+        , REACT_ERRORS:
+          { setState: false
+          }
         }
-      };
+      );
     }
 
   , componentDidMount: function () {
@@ -34,6 +38,32 @@ var Options = React.createClass({
 
   , componentDidUpdate: function ( prevProps, prevState ) {
       window.DEBUG_FLAGS = this.state;
+    }
+
+  , toggleSetStateWarnings () {
+      let { REACT_ERRORS } = this.state;
+
+      if ( REACT_ERRORS.setState ) {
+        console.log( "DEBUG: Toggling setState shim not currently available. Please reload the page." );
+      } else {
+        let warn = console.warn;
+
+        console.warn = function( warning ) {
+          if ( /(setState)/.test( warning ) ) {
+            throw new Error( warning );
+          }
+          warn.apply( console, arguments );
+        };
+
+        REACT_ERRORS.setState = true;
+
+        console.log( "DEBUG: React setState violations have been shimmed." );
+      }
+
+      this.setState({ REACT_ERRORS });
+    }
+
+  , unshimSetStateWarnings () {
     }
 
   , handleFlagToggle: function ( flag ) {
@@ -120,8 +150,23 @@ var Options = React.createClass({
 
         <Col xs={6} className="debug-column" >
 
-          {/* TODO: Should something go here? */}
+          <h5 className="debug-heading">Webapp Debugging</h5>
+          <div className="debug-column-content well well-sm">
+            <Row>
+              <Col xs={3} className="text-center">
+                <h6>{"setState() no-ops"}</h6>
+                <ToggleSwitch
+                  sm
+                  toggled   = { this.state.REACT_ERRORS.setState }
+                  onChange  = { this.toggleSetStateWarnings } />
+              </Col>
 
+              <Col xs={9} className="debug-options-label">
+                <p>{"Force setState no-op warning to cause a stack trace"}</p>
+              </Col>
+            </Row>
+            <hr />
+          </div>
         </Col>
       </div>
     );
