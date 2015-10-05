@@ -97,6 +97,10 @@ const CPU = React.createClass(
       this.chart = null;
     }
 
+  , shouldComponentUpdate () {
+      return false;
+    }
+
   , setYAxis () {
       var cpuCores = SystemStore.getSystemInfo( "hardware" ).cpu_cores;
       // TODO: Insure against race condition where this fires before the chart exists
