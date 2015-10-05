@@ -82,6 +82,11 @@ export default class Dashboard extends React.Component {
     SystemMiddleware.unsubscribe( this.displayName );
   }
 
+  // Only send new props if the page is visible
+  shouldComponentUpdate( nextProps, nextState ) {
+    return nextState.subscriptionsActive || false;
+  }
+
   handleDisksChange () {
     this.setState( getPredominantDisks() );
   }
