@@ -124,10 +124,6 @@ export default class Dashboard extends React.Component {
                          );
   }
 
-  handleStaticData ( eventMask ) {
-
-  }
-
   handleDataUpdate ( eventMask ) {
 
   }
