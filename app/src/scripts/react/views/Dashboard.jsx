@@ -137,7 +137,7 @@ export default class Dashboard extends React.Component {
       <main className="full dashboard">
         <div className="dashboard-widgets">
 
-          <SystemInfo />
+          <SystemInfo { ...this.state } />
 
           <CPU subscribeToDataSources = { this.subscribeToDataSources.bind( this ) } />
 
