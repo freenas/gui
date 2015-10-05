@@ -115,7 +115,6 @@ const SystemInfo = React.createClass(
         hostname = <Throbber />;
       }
 
-      let device = "iXsystems FreeNAS Mini";
       let version = _.get( this.state, "systemInformation.version" );
 
       let cpuModel = _.get( this.state, "systemInformation.cpu_model" );
@@ -156,10 +155,6 @@ const SystemInfo = React.createClass(
           <div className="system-properties">
             <h2 className="hostname">{ hostname }</h2>
             <Table>
-              <tr>
-                <td className = "property-label">Platform</td>
-                <td className = "property device">{ device }</td>
-              </tr>
               <tr>
                 <td className = "property-label">OS Version</td>
                 <td className = "property version">{ version }</td>
