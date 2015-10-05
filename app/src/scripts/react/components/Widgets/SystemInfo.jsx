@@ -40,7 +40,7 @@ function getPredominantDisks () {
   return { predominantDisks: predominantDisks };
 }
 
-const Hardware = React.createClass(
+const SystemInfo = React.createClass(
   { displayName: "System Info Widget"
 
   , getInitialState () {
@@ -179,5 +179,4 @@ const Hardware = React.createClass(
   }
 );
 
-
-export default Hardware;
+export default SystemInfo;
