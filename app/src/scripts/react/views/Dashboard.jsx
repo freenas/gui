@@ -40,7 +40,6 @@ export default class Dashboard extends React.Component {
   }
 
   componentWillUnmount () {
-    console.log( "componentWillUnmount" );
     document.removeEventListener( "visibilitychange"
                                 , this.handleVisibilityChange.bind( this )
                                 );
