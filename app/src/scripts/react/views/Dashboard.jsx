@@ -41,7 +41,7 @@ export default class Dashboard extends React.Component {
   constructor( props ) {
     super( props );
     this.displayName = "Dashboard";
-    this.state = { dataSourceGroups: [] };
+    this.state = { statdData: [] };
   }
 
   componentDidMount () {
@@ -69,9 +69,8 @@ export default class Dashboard extends React.Component {
                                 );
 
     // Unsubscribe from all data sources
-    this.state.dataSourceGroups.forEach( function unsubscribeAll( dataSourceGroup ) {
-      SM.unsubscribeFromPulse( this.displayName, dataSourceGroup );
-    }, this );
+    var dataSources = _.keys[ this.state.statdData ];
+    SM.unsubscribeFromPulse( this.displayName, dataSources );
 
     DS.removeChangeListener( this.handleDisksChange.bind( this ) );
     DM.unsubscribe( this.displayName );
@@ -103,24 +102,28 @@ export default class Dashboard extends React.Component {
     }
   }
 
-  subscribeToDataSources ( dataSourceGroup, frequency ) {
-    var newDataSourceGroups = this.state.dataSourceGroups.slice();
-    newDataSourceGroups.push( dataSourceGroup );
-    this.setState( { dataSourceGroups: newDataSourceGroups } );
-    SM.subscribeToPulse( this.displayName, dataSourceGroup );
+  subscribeToDataSources ( newDataSources, frequency ) {
+    var newStatdData = this.state.statdData.slice();
+
+    SM.subscribeToPulse( this.displayName, newDataSources );
 
     const now = moment().format();
     // Hardcoded to the past 60 seconds of data.
     const startTime = moment( now ).subtract( frequency * 60, "seconds" ).format();
 
-    dataSourceGroup.forEach( function requestInitialData( dataSource ) {
-                             SM.requestWidgetData( dataSource
-                                                 , startTime
-                                                 , now
-                                                 , frequency + "S"
-                                                 );
+    newDataSources.forEach( function requestInitialData( dataSource ) {
+                               // Don't toss out old data if there is any
+                               if ( _.isEmpty( newStatdData[ dataSource ] ) ) {
+                                 newStatdData[ dataSource ] = [];
+                               }
+                               SM.requestWidgetData( dataSource
+                                                   , startTime
+                                                   , now
+                                                   , frequency + "S"
+                                                   );
                             }
                          );
+    this.setState( { statdData: newStatdData } );
   }
 
   handleDataUpdate ( eventMask ) {
