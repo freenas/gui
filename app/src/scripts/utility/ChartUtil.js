@@ -36,7 +36,7 @@ class WidgetUtil {
     // If all the timestamps are within half the period of each other, the
     // stats arrived close enough together to be valid.
     var timestampsInRange = ( _.max( timestamps ) - _.min( timestamps ) )
-                            < frequency * 1000 / 2;
+                            < frequency / 2;
 
     return allPopulated && timestampsInRange;
   }
