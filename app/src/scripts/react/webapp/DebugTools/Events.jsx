@@ -230,25 +230,26 @@ const Events = React.createClass(
                   wrapperClassName = "col-xs-10"
                   buttonBefore = {
                     <DropdownButton
+                      id       = "event-predicate-selector"
                       bsStyle  = "default"
                       title    = { this.state.predicateType }
                     >
                       <MenuItem
-                        onClick  = {
+                        onSelect = {
                           this.switchPredicateType.bind( null, "Object" )
                         }
                       >
                         {"Object"}
                       </MenuItem>
                       <MenuItem
-                        onClick  = {
+                        onSelect = {
                           this.switchPredicateType.bind( null, "String" )
                         }
                       >
                         {"String"}
                       </MenuItem>
                       <MenuItem
-                        onClick  = {
+                        onSelect = {
                           this.switchPredicateType.bind( null, "RegExp" )
                         }
                       >
