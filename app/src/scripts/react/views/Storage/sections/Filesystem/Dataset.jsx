@@ -127,8 +127,6 @@ export default class Dataset extends React.Component {
 
     if ( this.props.root ) classes.push( "root" );
 
-    console.log( DATASET_NAME, disallowSharing );
-
     return (
       <div className={ classes.join( " " ) }>
 
