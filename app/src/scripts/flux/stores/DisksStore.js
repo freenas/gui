@@ -33,15 +33,11 @@ const DISK_LABELS =
 var _disks = {};
 
 function createLabel ( disk ) {
-  var rpm = "";
-  if ( _.has( disk, [ "status", "max_rotation" ] ) ) {
-    rpm = disk.status.max_rotation;
-  }
   return (
     [ ByteCalc.humanize( disk.mediasize, { roundMode: "whole" } )
-    , rpm
-    ? ""
-    : rpm + "rpm"
+    , disk.status.max_rotation
+    ? disk.status.max_rotation + "rpm"
+    : ""
     ].join( " " )
   );
 }
