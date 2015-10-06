@@ -87,7 +87,7 @@ export default class Dashboard extends React.Component {
   }
 
   subscribeToDataSources ( newDataSources, frequency ) {
-    var newStatdData = this.state.statdData.slice();
+    var newStatdData = _.cloneDeep( this.state.statdData );
 
     SM.subscribeToPulse( this.displayName, newDataSources );
 
