@@ -12,7 +12,7 @@ import CM from "../../../../flux/middleware/CalendarMiddleware";
 import CS from "../../../../flux/stores/CalendarStore";
 
 import VS from "../../../../flux/stores/VolumeStore";
-import ZM from "../../../../flux/middleware/ZfsMiddleware";
+import VM from "../../../../flux/middleware/VolumeMiddleware";
 
 const ScrubModal = React.createClass(
   { propTypes: { tasks: React.PropTypes.array
@@ -41,14 +41,14 @@ const ScrubModal = React.createClass(
   , componentDidMount () {
     VS.addChangeListener( this.handleVolumes );
 
-    ZM.subscribe( this.constructor.displayName );
-    ZM.requestVolumes();
+    VM.subscribe( this.constructor.displayName );
+    VM.requestVolumes();
   }
 
   , componentWillUnmount () {
     VS.removeChangeListener( this.handleVolumes );
 
-    ZM.unsubscribe( this.constructor.displayName );
+    VM.unsubscribe( this.constructor.displayName );
   }
 
   , handleChange ( key, evt ) {

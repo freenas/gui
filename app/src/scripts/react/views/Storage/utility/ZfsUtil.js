@@ -9,7 +9,6 @@
 import _ from "lodash";
 
 import DS from "../../../../flux/stores/DisksStore";
-import ZAC from "../../../../flux/actions/ZfsActionCreators";
 
 import { VDEV_TYPES, DISK_CHUNKS } from "./ZfsConstants";
 

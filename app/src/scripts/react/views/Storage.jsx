@@ -11,7 +11,7 @@ import React from "react";
 import { Alert } from "react-bootstrap";
 
 import VS from "../../flux/stores/VolumeStore";
-import ZM from "../../flux/middleware/ZfsMiddleware";
+import VM from "../../flux/middleware/VolumeMiddleware";
 import DS from "../../flux/stores/DisksStore";
 import DM from "../../flux/middleware/DisksMiddleware";
 import SM from "../../flux/middleware/SharesMiddleware";
@@ -60,12 +60,12 @@ export default class Storage extends React.Component {
     SS.addChangeListener( this.onChangedSS );
 
     DM.subscribe( this.displayName );
-    ZM.subscribe( this.displayName );
+    VM.subscribe( this.displayName );
     SM.subscribe( this.displayName );
 
     DM.requestDisksOverview();
-    ZM.requestVolumes();
-    ZM.requestAvailableDisks();
+    VM.requestVolumes();
+    VM.requestAvailableDisks();
     SM.query();
   }
 
@@ -75,7 +75,7 @@ export default class Storage extends React.Component {
     SS.removeChangeListener( this.onChangedSS );
 
     DM.unsubscribe( this.displayName );
-    ZM.unsubscribe( this.displayName );
+    VM.unsubscribe( this.displayName );
     SM.unsubscribe( this.displayName );
   }
 
@@ -122,7 +122,7 @@ export default class Storage extends React.Component {
     // way, re-query available disks every time a disk changes. (This should
     // hopefully have the benefit of covering things like ejection, even if
     // it gets triggered by a lot of non-important stuff)
-    ZM.requestAvailableDisks();
+    VM.requestAvailableDisks();
   }
 
   handleUpdatedSS ( eventMask ) {
@@ -252,9 +252,9 @@ export default class Storage extends React.Component {
       , filesystemHandlers:
         { onShareCreate       : SM.create
         , onShareDelete       : SM.delete
-        , onDatasetCreate     : ZM.createDataset
-        , onDatasetUpdate     : ZM.updateDataset
-        , onDatasetDelete     : ZM.deleteDataset
+        , onDatasetCreate     : VM.createDataset
+        , onDatasetUpdate     : VM.updateDataset
+        , onDatasetDelete     : VM.deleteDataset
         , onDatasetChange     : this.handleNewDatasetChange.bind( this )
         , onDatasetCancel     : this.handleNewDatasetCancel.bind( this )
         , nameIsPermitted     : VS.isDatasetNamePermitted

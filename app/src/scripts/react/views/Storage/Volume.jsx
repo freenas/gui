@@ -10,8 +10,8 @@ import _ from "lodash";
 import React from "react";
 import { Button, ButtonToolbar, Input, Panel, Modal } from "react-bootstrap";
 
-import ZAC from "../../../flux/actions/ZfsActionCreators";
-import ZM from "../../../flux/middleware/ZfsMiddleware";
+import VAC from "../../../flux/actions/VolumeActionCreators";
+import VM from "../../../flux/middleware/VolumeMiddleware";
 
 import EventBus from "../../../utility/EventBus";
 import ByteCalc from "../../../utility/ByteCalc";
@@ -180,7 +180,7 @@ const Volume = React.createClass(
                               , preferences
                               );
 
-      ZAC.replaceDiskSelection( CREATOR_OUTPUT[1] );
+      VAC.replaceDiskSelection( CREATOR_OUTPUT[1] );
       this.setState({ topology: CREATOR_OUTPUT[0] });
     }
 
@@ -211,7 +211,7 @@ const Volume = React.createClass(
             break;
 
           case "nuke":
-            ZAC.deselectDisks( ZfsUtil.getMemberDiskPaths( targetVdev ) );
+            VAC.deselectDisks( ZfsUtil.getMemberDiskPaths( targetVdev ) );
             break;
 
           case "changeType":
@@ -231,12 +231,12 @@ const Volume = React.createClass(
     }
 
   , handleDiskAdd ( vdevKey, vdevPurpose, path ) {
-      ZAC.selectDisks( path );
+      VAC.selectDisks( path );
       this.vdevOperation( "add", vdevKey, vdevPurpose, { path: path } );
     }
 
   , handleDiskRemove ( vdevKey, vdevPurpose, path, event ) {
-      ZAC.deselectDisks( path );
+      VAC.deselectDisks( path );
       this.vdevOperation( "remove", vdevKey, vdevPurpose, { path: path } );
     }
 
@@ -249,7 +249,7 @@ const Volume = React.createClass(
     }
 
   , resetTopology () {
-      ZAC.replaceDiskSelection( [] );
+      VAC.replaceDiskSelection( [] );
       this.setState(
         { topology:
           { data  : []
@@ -298,12 +298,12 @@ const Volume = React.createClass(
               || "Volume" + ( this.props.volumeKey + 1 )
         };
 
-      ZM.submitVolume( newVolume );
+      VM.submitVolume( newVolume );
     }
 
   , destroyVolume () {
     if ( this.props.existsOnRemote ) {
-      ZM.destroyVolume( this.props.name );
+      VM.destroyVolume( this.props.name );
       this.setState({ showDestroyPoolModal: false });
     } else {
       throw new Error( "STORAGE: Somehow, the user tried to destroy a pool "
