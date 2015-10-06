@@ -131,27 +131,28 @@ const CPU = React.createClass(
   , tick ( newStatdData ) {
       var columns = [];
       var newData = {};
-      _.forOwn( newStatdData
-              , function compareData ( data, key ) {
-                  // Get only the actual data, not the timestamps
-                  let dataToUse = _.map( data
-                                       , function ( dataPoint ) {
-                                           return parseFloat( dataPoint[1] );
-                                         }
-                                       );
-                  if ( !_.isEmpty( this.state.lastTickData[ key ] ) ) {
-                    newData[ key ] = _.without( dataToUse
-                                              // Dangerous! Bad things happen if
-                                              // a previously seen value occurs
-                                              // again.
-                                              , ...this.state.lastTickData[ key ]
-                                              );
-                  } else {
-                    newData[ key ] = dataToUse;
-                  }
-                }
-              , this
-              );
+      var newUpdateAt = 0;
+
+      DATA_SOURCES.forEach(
+        function trimData ( dataSource ) {
+          let dataToUse = newStatdData[ dataSource ];
+          _.remove( dataToUse
+                  , function ( datapoint ) {
+                      return datapoint[0] < this.state.lastUpdateAt;
+                    }
+                  , this
+                  );
+          newData[ dataSource ] =
+            dataToUse.map( function ( datapoint ) {
+                             newUpdateAt = _.max( [ newUpdateAt
+                                                  , datapoint[0]
+                                                  ] );
+                             return parseFloat( datapoint[1] );
+                           }
+                         );
+        }
+      , this
+      );
 
       columns.push( [ "System" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-system.value" ] ) );
       columns.push( [ "User" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-user.value" ] ) );
@@ -166,15 +167,7 @@ const CPU = React.createClass(
         this.chart.flow( { columns: columns
                          , length: 0
                          } );
-        newTickData = {};
-        _.forOwn( this.state.lastTickData
-                , function ( column, key ) {
-                  newTickData[ key ] = this.state.lastTickData[ key ].slice( length );
-                  newTickData[ key ] = newTickData[ key ].concat( newData[ key ] );
-                }
-                , this
-                );
-        this.setState( { lastTickData: newTickData || this.state.lastTickData } );
+        this.setState( { lastUpdateAt: newUpdateAt } );
       }
     }
 
