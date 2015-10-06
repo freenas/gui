@@ -51,6 +51,9 @@ function handlePayload ( payload ) {
       ) {
         // cut off the "statd." and ".pulse"
         let dataSourceName = args.name.substring( 6, args.name.length - 6 );
+        if ( _statdData[ dataSourceName ] !== undefined ) {
+          _statdData[ dataSourceName ] = [];
+        }
         _statdData[ dataSourceName ].push( [ args.args.timestamp, args.args.value ] );
         this.emitChange( dataSourceName + " updated" );
       }
