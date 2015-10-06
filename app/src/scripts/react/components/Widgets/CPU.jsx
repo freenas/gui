@@ -38,13 +38,7 @@ const CPU = React.createClass(
                }
 
   , getInitialState () {
-      return { lastTickData: { "localhost.aggregation-cpu-sum.cpu-system.value": []
-                             , "localhost.aggregation-cpu-sum.cpu-user.value": []
-                             , "localhost.aggregation-cpu-sum.cpu-nice.value": []
-                             , "localhost.aggregation-cpu-sum.cpu-idle.value": []
-                             , "localhost.aggregation-cpu-sum.cpu-interrupt.value": []
-                             }
-             };
+      return { lastUpdateAt: 0 };
     }
 
   , componentDidMount () {
@@ -159,8 +153,6 @@ const CPU = React.createClass(
       columns.push( [ "Nice" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-nice.value" ] ) );
       columns.push( [ "Idle" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-idle.value" ] ) );
       columns.push( [ "Interrupt" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-interrupt.value" ] ) );
-
-      var newTickData = null;
 
       if ( _.all( columns, function ( column ) { return column.length > 1; } ) ) {
         let length = 0; // TODO: Make sure to choose this properly
