@@ -88,18 +88,25 @@ export default class Dataset extends React.Component {
         />
       );
     } else if ( this.props.handlers.nameIsPermitted( dataset.name ) ) {
-      const ACTIVE_SHARE = this.props.shares && dataset
-                         ? this.props.shares.get( dataset.mountpoint )
-                         : undefined;
+      let activeShare, disallowSharing;
+
+      if ( this.props.activeShare ) {
+        // If a parent dataset is shared, its children may not be shared, and
+        // their primary sharing type must not be changed
+        disallowSharing = true;
+      } else if ( this.props.shares ) {
+        activeShare = this.props.shares.get( dataset.mountpoint );
+      }
 
       return (
         <Dataset
           { ...dataset }
-          key         = { index }
-          pool        = { this.props.pool }
-          shares      = { this.props.shares }
-          activeShare = { ACTIVE_SHARE }
-          handlers    = { this.props.handlers }
+          key             = { index }
+          pool            = { this.props.pool }
+          shares          = { this.props.shares }
+          disallowSharing = { disallowSharing }
+          activeShare     = { activeShare }
+          handlers        = { this.props.handlers }
         />
       );
     }
@@ -108,7 +115,7 @@ export default class Dataset extends React.Component {
   }
 
   render () {
-    const { name, children, activeShare } = this.props;
+    const { name, children, activeShare, disallowSharing } = this.props;
     const { used, available, compression } = this.props.properties;
 
     const DATASET_NAME = name.split( "/" ).pop();
@@ -119,6 +126,8 @@ export default class Dataset extends React.Component {
     let classes = [ "dataset" ];
 
     if ( this.props.root ) classes.push( "root" );
+
+    console.log( DATASET_NAME, disallowSharing );
 
     return (
       <div className={ classes.join( " " ) }>
@@ -148,6 +157,7 @@ export default class Dataset extends React.Component {
 
             {/* RADIO TOGGLES FOR CREATING SHARES */}
             <DatasetShareToggles
+              disabled      = { disallowSharing }
               activeShare   = { activeShare }
               onShareToggle = { this.handleShareToggle.bind( this ) }
             />
@@ -198,8 +208,7 @@ Dataset.propTypes =
   , properties          : React.PropTypes.object // TODO: Get more specific
   , shares              : React.PropTypes.instanceOf( Map )
   , activeShare         : React.PropTypes.object
-  , disallowSharing     : React.PropTypes.bool // TODO: Not used... yet
-  , parentIsShared      : React.PropTypes.bool // TODO: Not used... yet
+  , disallowSharing     : React.PropTypes.bool
   , handlers : React.PropTypes.shape(
       { onShareCreate       : React.PropTypes.func.isRequired
       , onShareDelete       : React.PropTypes.func.isRequired

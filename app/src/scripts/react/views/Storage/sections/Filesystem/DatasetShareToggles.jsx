@@ -11,35 +11,51 @@ import DatasetProperty from "./DatasetProperty";
 
 
 export default class DatasetShareToggles extends React.Component {
+
+  handleShareClick ( shareType ) {
+    if ( this.props.disabled ) {
+      return;
+    } else {
+      this.props.onShareToggle( shareType );
+    }
+  }
+
   render () {
-    const { activeShare, onShareToggle } = this.props;
+    let classes = [ "btn-group-radio", "btn-group-radio-primary" ];
+    const { activeShare, disabled } = this.props;
+
+    if ( disabled ) classes.push( "disabled" );
 
     return (
       <DatasetProperty legend="File Sharing">
         <ButtonGroup
-          className = "btn-group-radio btn-group-radio-primary"
+          className = { classes.join( " " ) }
         >
           <Button
-            active = { !activeShare }
-            onClick = { onShareToggle.bind( this, "off" ) }
+            disabled  = { disabled }
+            active    = { !activeShare }
+            onClick   = { this.handleShareClick.bind( this, "off" ) }
           >
             { "Off" }
           </Button>
           <Button
-            active = { activeShare && activeShare.type === "nfs" }
-            onClick = { onShareToggle.bind( this, "nfs" ) }
+            disabled  = { disabled }
+            active    = { activeShare && activeShare.type === "nfs" }
+            onClick   = { this.handleShareClick.bind( this, "nfs" ) }
           >
             { "NFS" }
           </Button>
           <Button
-            active = { activeShare && activeShare.type === "cifs" }
-            onClick = { onShareToggle.bind( this, "cifs" ) }
+            disabled  = { disabled }
+            active    = { activeShare && activeShare.type === "cifs" }
+            onClick   = { this.handleShareClick.bind( this, "cifs" ) }
           >
             { "CIFS" }
           </Button>
           <Button
-            active = { activeShare && activeShare.type === "afp" }
-            onClick = { onShareToggle.bind( this, "afp" ) }
+            disabled  = { disabled }
+            active    = { activeShare && activeShare.type === "afp" }
+            onClick   = { this.handleShareClick.bind( this, "afp" ) }
           >
             { "AFP" }
           </Button>
