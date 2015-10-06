@@ -366,7 +366,10 @@ const Viewer = React.createClass(
       // Create "Show" Menu
       if ( this.props.filtersAllowed.size > 0 ) {
         showMenu = (
-          <NavDropdown title="Show">
+          <NavDropdown
+            id    = "filters-dropdown"
+            title = "Show"
+          >
             { Array.from( this.props.filtersAllowed )
                 .map( this.createFilterMenuOption )
             }
@@ -377,7 +380,10 @@ const Viewer = React.createClass(
       // Create "Group By" Menu
       if ( this.props.groupsAllowed.size > 0 ) {
         groupMenu = (
-          <NavDropdown title="Group">
+          <NavDropdown
+            id    = "groups-dropdown"
+            title = "Group"
+          >
             { Array.from( this.props.groupsAllowed )
                 .map( this.createGroupMenuOption )
             }
