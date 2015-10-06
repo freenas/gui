@@ -115,6 +115,7 @@ const Month = React.createClass(
     for ( let i = 0; i < activeDate.daysInMonth(); i++ ) {
       result.push(
         <Day
+          key = { i }
           handleTaskAdd = { this.props.handleTaskAdd.bind( null, _.cloneDeep ( date ) ) }
           handleTaskRemove = { this.props.handleTaskRemove }
           chooseDay = { this.props.chooseDay }
