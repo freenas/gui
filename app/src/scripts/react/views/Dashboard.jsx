@@ -129,10 +129,10 @@ export default class Dashboard extends React.Component {
             { ...this.state }
           />
 
-          <Network
+          {/*<Network
             subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
             { ...this.state }
-          />
+          />*/}
 
           <Memory
             subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
