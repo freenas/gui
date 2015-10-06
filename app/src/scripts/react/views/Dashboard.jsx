@@ -43,17 +43,21 @@ export default class Dashboard extends React.Component {
     super( props );
     this.displayName = "Dashboard";
     this.state = { statdData: {} };
+
+    this.onDisksChange = this.handleDisksChange.bind( this );
+    this.onHardwareChange = this.handleHardwareChange.bind( this );
+    this.onDataUpdate = this.handleDataUpdate.bind( this );
   }
 
   componentDidMount () {
-    DS.addChangeListener( this.handleDisksChange.bind( this ) );
+    DS.addChangeListener( this.onDisksChange );
     DM.requestDisksOverview();
     DM.subscribe( this.displayName );
 
-    SS.addChangeListener( this.handleDataUpdate.bind( this ) );
+    SS.addChangeListener( this.onDataUpdate );
 
     SystemMiddleware.subscribe( this.displayName );
-    SystemStore.addChangeListener( this.handleHardwareChange.bind( this ) );
+    SystemStore.addChangeListener( this.onHardwareChange );
     SystemMiddleware.requestSystemInfo( "hardware" );
     SystemMiddleware.requestSystemGeneralConfig();
     SystemMiddleware.requestVersion();
@@ -65,12 +69,12 @@ export default class Dashboard extends React.Component {
     var dataSources = _.keys( this.state.statdData );
     SM.unsubscribeFromPulse( this.displayName, dataSources );
 
-    DS.removeChangeListener( this.handleDisksChange.bind( this ) );
+    DS.removeChangeListener( this.onDisksChange );
     DM.unsubscribe( this.displayName );
 
-    SS.removeChangeListener( this.handleDataUpdate.bind( this ) );
+    SS.removeChangeListener( this.onDataUpdate );
 
-    SystemStore.removeChangeListener( this.handleHardwareChange.bind( this ) );
+    SystemStore.removeChangeListener( this.onHardwareChange );
     SystemMiddleware.unsubscribe( this.displayName );
   }
 
