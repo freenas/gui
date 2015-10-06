@@ -112,7 +112,9 @@ export default class Dashboard extends React.Component {
 
   handleDataUpdate ( eventMask ) {
     var dataSourceToUpdate = eventMask.split( " " )[0];
-    this.state.statdData[ dataSourceToUpdate ] = SS.getStatdData( dataSourceToUpdate );
+    var newStatdData = this.state.statdData;
+    newStatdData[ dataSourceToUpdate ] = SS.getStatdData( dataSourceToUpdate );
+    this.setState( { statdData: newStatdData } );
   }
 
   render () {
