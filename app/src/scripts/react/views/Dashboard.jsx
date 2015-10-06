@@ -7,6 +7,7 @@
 
 import React from "react";
 import moment from "moment";
+import _ from "lodash";
 
 import DM from "../../flux/middleware/DisksMiddleware";
 import DS from "../../flux/stores/DisksStore";
