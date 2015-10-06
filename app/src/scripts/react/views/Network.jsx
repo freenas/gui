@@ -80,22 +80,16 @@ export default class Network extends React.Component {
   }
 
   render () {
-    var networkConfig = null;
-
-    if ( _.has( this, [ "state", "networkConfig" ] )
-      && _.has( this, [ "state", "systemGeneralConfig" ] ) ) {
-      networkConfig = <NetworkConfig
-                        networkConfig = { this.state.networkConfig }
-                        systemGeneralConfig = { this.state.systemGeneralConfig } />
-    }
-
     return (
       <main>
         <h1 className="view-header section-heading type-line">
           <span className="text">Network</span>
         </h1>
         <div>
-          { networkConfig }
+        <NetworkConfig
+            networkConfig       = { this.state.networkConfig }
+            systemGeneralConfig = { this.state.systemGeneralConfig }
+        />
           <hr className = "network-divider" />
           <div className = "interface-item-container">
             { this.state.interfaces.map(
