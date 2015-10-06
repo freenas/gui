@@ -109,8 +109,8 @@ const CPU = React.createClass(
       }
     }
 
-  , createColumnData ( statData ) {
-      return statData.map( function ( stat ) { return parseFloat( stat[1] ); } );
+  , createColumnData ( statdData ) {
+      return statdData.map( function ( stat ) { return parseFloat( stat[1] ); } );
     }
 
   , createColumns () {
