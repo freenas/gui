@@ -10,6 +10,7 @@
 import React from "react";
 import Terminal from "term.js";
 
+import TargetHost from "../../websocket/TargetHost";
 import ShellMiddleware from "../../flux/middleware/ShellMiddleware";
 
 var Shell = React.createClass(
@@ -45,8 +46,8 @@ var Shell = React.createClass(
     }
 
   , createNewShell: function ( token ) {
-      var url = window.location.protocol === "https:" ? "wss://" : "ws://"
-              + document.domain + ":5000/shell";
+      let connection = TargetHost.connection();
+      let url = connection.protocol + connection.host + ":5000/shell";
 
       this.ws   = new WebSocket( url );
       this.term = new Terminal({ cols       : 80
