@@ -96,16 +96,16 @@ export default class Dashboard extends React.Component {
     const startTime = moment( now ).subtract( frequency * 60, "seconds" ).format();
 
     newDataSources.forEach( function requestInitialData( dataSource ) {
-                               // Don't toss out old data if there is any
-                               if ( _.isEmpty( newStatdData[ dataSource ] ) ) {
-                                 newStatdData[ dataSource ] = [];
-                               }
-                               SM.requestWidgetData( dataSource
-                                                   , startTime
-                                                   , now
-                                                   , frequency + "S"
-                                                   );
-                            }
+                              // Don't toss out old data if there is any
+                              if ( _.isEmpty( newStatdData[ dataSource ] ) ) {
+                                newStatdData[ dataSource ] = [];
+                              }
+                              SM.requestWidgetData( dataSource
+                                                  , startTime
+                                                  , now
+                                                  , frequency + "S"
+                                                  );
+                           }
                          );
     this.setState( { statdData: newStatdData } );
   }
@@ -124,11 +124,20 @@ export default class Dashboard extends React.Component {
 
           <SystemInfo { ...this.state } />
 
-          <CPU subscribeToDataSources = { this.subscribeToDataSources.bind( this ) } />
+          <CPU
+            subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
+            { ...this.state }
+          />
 
-          <Network />
+          <Network
+            subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
+            { ...this.state }
+          />
 
-          <Memory />
+          <Memory
+            subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
+            { ...this.state }
+          />
         </div>
       </main>
     );
