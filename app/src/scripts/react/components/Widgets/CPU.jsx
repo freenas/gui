@@ -24,9 +24,9 @@ if ( typeof window !== "undefined" ) {
 const DATA_SOURCES =
   [ "localhost.aggregation-cpu-sum.cpu-system.value"
   , "localhost.aggregation-cpu-sum.cpu-user.value"
-  , "localhost.aggregation-cpu-sum.cpu-nice.value"
-  , "localhost.aggregation-cpu-sum.cpu-idle.value"
-  , "localhost.aggregation-cpu-sum.cpu-interrupt.value"
+  // , "localhost.aggregation-cpu-sum.cpu-nice.value"
+  // , "localhost.aggregation-cpu-sum.cpu-idle.value"
+  // , "localhost.aggregation-cpu-sum.cpu-interrupt.value"
   ];
 
 // request data every 10 seconds for now
@@ -43,9 +43,9 @@ const CPU = React.createClass(
 
       var dataSystem = [ "System", [] ];
       var dataUser = [ "User", [] ];
-      var dataNice = [ "Nice", [] ];
-      var dataIdle = [ "Idle", [] ];
-      var dataInterrupt = [ "Interrupt", [] ];
+      // var dataNice = [ "Nice", [] ];
+      // var dataIdle = [ "Idle", [] ];
+      // var dataInterrupt = [ "Interrupt", [] ];
 
       this.chart = c3.generate(
         _.assign( {}
@@ -54,13 +54,13 @@ const CPU = React.createClass(
                   , data:
                     { columns: [ dataSystem
                                , dataUser
-                               , dataNice
-                               , dataIdle
-                               , dataInterrupt
+                               // , dataNice
+                               // , dataIdle
+                               // , dataInterrupt
                                ]
                     , type: "area"
-                    , groups: [[ "System", "User", "Nice", "Idle", "Interrupt" ]]
-                    , hide: [ "Nice", "Idle", "Interrupt" ]
+                    , groups: [[ "System", "User"/*, "Nice", "Idle", "Interrupt"*/ ]]
+                    // , hide: [ "Nice", "Idle", "Interrupt" ]
                     }
                   , point:
                     { show: false
