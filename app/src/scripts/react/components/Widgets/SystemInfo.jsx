@@ -16,9 +16,9 @@ const SystemInfo = React.createClass(
 
   , propTypes: { version: React.PropTypes.string
                , cpu_model: React.PropTypes.string
-               , cpu_cores: React.PropTypes.string
-               , memory_size: React.PropTypes.string
-               , predominantDisks: React.PropTypes.string
+               , cpu_cores: React.PropTypes.number
+               , memory_size: React.PropTypes.number
+               , predominantDisks: React.PropTypes.array
                }
 
   , createHardwareDetail ( name, value, detail ) {
