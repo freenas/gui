@@ -8,116 +8,103 @@ import _ from "lodash";
 
 import IM from "../../flux/middleware/InterfacesMiddleware";
 import IS from "../../flux/stores/InterfacesStore";
-
 import NM from "../../flux/middleware/NetworkConfigMiddleware";
 import NS from "../../flux/stores/NetworkConfigStore";
-
 import SM from "../../flux/middleware/SystemMiddleware";
 import SS from "../../flux/stores/SystemStore";
 
 import NetworkConfig from "./Network/NetworkConfig";
 import InterfaceItem from "./Network/InterfaceItem";
 
-function getInterfaces () {
-  var interfaces = IS.interfaces || [];
+export default class Network extends React.Component {
 
-  return interfaces;
-}
+  constructor ( props ) {
+    super( props );
 
-function getNetworkConfig () {
-  return NS.networkConfig;
+    this.displayName = "Network";
 
-}
+    this.onChangedIS = this.handleChangedIS.bind( this );
+    this.onChangedNS = this.handleChangedNS.bind( this );
+    this.onChangedSS = this.handleChangedSS.bind( this );
 
-function getSystemGeneralConfig () {
-  return SS.systemGeneralConfig;
-}
-
-const Network = React.createClass(
-  { getInitialState: function () {
-      return { interfaces: getInterfaces()
-             , networkConfig: getNetworkConfig()
-             , systemGeneralConfig: getSystemGeneralConfig()
-             };
-    }
-
-  , componentDidMount () {
-      IS.addChangeListener( this.handleInterfacesChange );
-      IM.requestInterfacesList();
-      IM.subscribe( this.constructor.displayName )
-
-      NS.addChangeListener( this.handleNetworkConfigChange );
-      NM.requestNetworkConfig();
-      NM.subscribe( this.constructor.displayName );
-
-      SS.addChangeListener( this.handleSystemGeneralConfigChange );
-      SM.requestSystemGeneralConfig();
-      SM.subscribe( this.constructor.displayName );
-    }
-
-  , componentWillUnmount () {
-      IS.removeChangeListener( this.handleInterfacesChange );
-      IM.unsubscribe( this.constructor.displayName );
-
-      NS.removeChangeListener( this.handleNetworkConfigChange );
-      NM.unsubscribe( this.constructor.displayName );
-
-      SS.removeChangeListener( this.handleSystemGeneralConfigChange );
-      SM.unsubscribe( this.constructor.displayName );
-    }
-
-  , handleInterfacesChange () {
-      this.setState( { interfaces: getInterfaces() } );
-    }
-
-  , handleNetworkConfigChange () {
-      this.setState( { networkConfig: getNetworkConfig() } );
-    }
-
-  , handleSystemGeneralConfigChange () {
-      this.setState( { systemGeneralConfig: getSystemGeneralConfig() } );
-    }
-
-  , render () {
-      var interfaces = [];
-      var networkConfig = null;
-
-      // Why is this necessary even though interfaces is returned in getInitialState?
-      if ( _.has( this, [ "state", "interfaces" ] ) ) {
-        interfaces = _.map( this.state.interfaces
-                          , function createInterfaceItems ( networkInterface, key ) {
-                            return (
-                              <InterfaceItem
-                                { ...networkInterface }
-                                key = { networkInterface.id }/>
-                            );
-                          }
-                          );
-      }
-
-      if ( _.has( this, [ "state", "networkConfig" ] )
-        && _.has( this, [ "state", "systemGeneralConfig" ] ) ) {
-        networkConfig = <NetworkConfig
-                          networkConfig = { this.state.networkConfig }
-                          systemGeneralConfig = { this.state.systemGeneralConfig } />
-      }
-
-      return (
-        <main>
-          <h1 className="view-header section-heading type-line">
-            <span className="text">Network</span>
-          </h1>
-          <div>
-            { networkConfig }
-            <hr className = "network-divider" />
-            <div className = "interface-item-container">
-              { interfaces }
-            </div>
-          </div>
-        </main>
-      );
-    }
+    this.state =
+      { interfaces          : IS.interfaces
+      , networkConfig       : NS.networkConfig
+      , systemGeneralConfig : SS.systemGeneralConfig
+      };
   }
-);
 
-export default Network;
+  componentDidMount () {
+    IS.addChangeListener( this.onChangedIS );
+    NS.addChangeListener( this.onChangedNS );
+    SS.addChangeListener( this.onChangedSS );
+
+    IM.subscribe( this.displayName );
+    NM.subscribe( this.displayName );
+    SM.subscribe( this.displayName );
+
+    IM.requestInterfacesList();
+    NM.requestNetworkConfig();
+    SM.requestSystemGeneralConfig();
+  }
+
+  componentWillUnmount () {
+    IS.removeChangeListener( this.onChangedIS );
+    NS.removeChangeListener( this.onChangedNS );
+    SS.removeChangeListener( this.onChangedSS );
+
+    IM.unsubscribe( this.displayName );
+    NM.unsubscribe( this.displayName );
+    SM.unsubscribe( this.displayName );
+  }
+
+  handleChangedIS () {
+    this.setState({ interfaces: IS.interfaces });
+  }
+
+  handleChangedNS () {
+    this.setState({ networkConfig: NS.networkConfig });
+  }
+
+  handleChangedSS () {
+    this.setState({ systemGeneralConfig: SS.systemGeneralConfig });
+  }
+
+  createInterfaceItems ( networkInterface, index ) {
+    return (
+      <InterfaceItem
+        { ...networkInterface }
+        key = { index }
+      />
+    );
+  }
+
+  render () {
+    var networkConfig = null;
+
+    if ( _.has( this, [ "state", "networkConfig" ] )
+      && _.has( this, [ "state", "systemGeneralConfig" ] ) ) {
+      networkConfig = <NetworkConfig
+                        networkConfig = { this.state.networkConfig }
+                        systemGeneralConfig = { this.state.systemGeneralConfig } />
+    }
+
+    return (
+      <main>
+        <h1 className="view-header section-heading type-line">
+          <span className="text">Network</span>
+        </h1>
+        <div>
+          { networkConfig }
+          <hr className = "network-divider" />
+          <div className = "interface-item-container">
+            { this.state.interfaces.map(
+                this.createInterfaceItems.bind( this )
+              )
+            }
+          </div>
+        </div>
+      </main>
+    );
+  }
+}
