@@ -37,6 +37,10 @@ export default class Storage extends React.Component {
 
     this.displayName = "Storage";
 
+    this.onChangedVS = this.handleUpdatedVS.bind( this );
+    this.onChangedDS = this.handleUpdatedDS.bind( this );
+    this.onChangedSS = this.handleUpdatedSS.bind( this );
+
     // SET INITIAL STATE
     this.state =
       { volumes             : VS.listVolumes()
@@ -48,9 +52,9 @@ export default class Storage extends React.Component {
   }
 
   componentDidMount () {
-    VS.addChangeListener( this.handleUpdatedVS.bind( this ) );
-    DS.addChangeListener( this.handleUpdatedDS.bind( this ) );
-    SS.addChangeListener( this.handleUpdatedSS.bind( this ) );
+    VS.addChangeListener( this.onChangedVS );
+    DS.addChangeListener( this.onChangedDS );
+    SS.addChangeListener( this.onChangedSS );
 
     DM.subscribe( this.displayName );
     ZM.subscribe( this.displayName );
@@ -63,9 +67,9 @@ export default class Storage extends React.Component {
   }
 
   componentWillUnmount () {
-    VS.removeChangeListener( this.handleUpdatedVS.bind( this ) );
-    DS.removeChangeListener( this.handleUpdatedDS.bind( this ) );
-    SS.removeChangeListener( this.handleUpdatedDS.bind( this ) );
+    VS.removeChangeListener( this.onChangedVS );
+    DS.removeChangeListener( this.onChangedDS );
+    SS.removeChangeListener( this.onChangedSS );
 
     DM.unsubscribe( this.displayName );
     ZM.unsubscribe( this.displayName );

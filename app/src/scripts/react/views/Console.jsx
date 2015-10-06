@@ -19,6 +19,8 @@ export default class Console extends React.Component {
   constructor ( props ) {
     super( props );
 
+    this.onChangedSS = this.handleChangedSS.bind( this );
+
     this.state =
       { currentShell : "/usr/local/bin/cli"
       , shells       : []
@@ -26,12 +28,12 @@ export default class Console extends React.Component {
   }
 
   componentDidMount () {
-    SS.addChangeListener( this.handleChangedSS.bind( this ) );
+    SS.addChangeListener( this.onChangedSS );
     SM.requestAvailableShells();
   }
 
   componentWillUnmount () {
-    SS.removeChangeListener( this.handleChangedSS.bind( this ) );
+    SS.removeChangeListener( this.onChangedSS );
   }
 
   handleChangedSS () {

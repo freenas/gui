@@ -16,6 +16,8 @@ export default class Terminal extends React.Component {
   constructor ( props ) {
     super( props );
 
+    this.onChangeSS = this.handleChangedSS.bind( this );
+
     this.state =
       { currentShell : "bin/sh"
       , shells       : []
@@ -23,12 +25,12 @@ export default class Terminal extends React.Component {
   }
 
   componentDidMount () {
-    SS.addChangeListener( this.handleChangedSS.bind( this ) );
+    SS.addChangeListener( this.onChangeSS );
     SM.requestAvailableShells();
   }
 
   componentWillUnmount () {
-    SS.removeChangeListener( this.handleChangedSS.bind( this ) );
+    SS.removeChangeListener( this.onChangeSS );
   }
 
   handleChangedSS () {

@@ -21,6 +21,9 @@ export default class NewsFeed extends React.Component {
   constructor ( props ) {
     super( props );
 
+    this.onChangeES = this.handleChangedES.bind( this );
+    this.onChangeTS = this.handleChangedTS.bind( this );
+
     this.displayName = "NewsFeed";
     this.state =
       { tasks  : TS.tasks
@@ -29,8 +32,8 @@ export default class NewsFeed extends React.Component {
   }
 
   componentDidMount () {
-    ES.addChangeListener( this.handleChangedES.bind( this ) );
-    TS.addChangeListener( this.handleChangedTS.bind( this ) );
+    ES.addChangeListener( this.onChangeES );
+    TS.addChangeListener( this.onChangeTS );
 
     TM.subscribe( this.displayName );
 
@@ -39,8 +42,8 @@ export default class NewsFeed extends React.Component {
   }
 
   componentWillUnmount () {
-    ES.removeChangeListener( this.handleChangedES.bind( this ) );
-    TS.removeChangeListener( this.handleChangedTS.bind( this ) );
+    ES.removeChangeListener( this.onChangeES );
+    TS.removeChangeListener( this.onChangeTS );
 
     TM.unsubscribe( this.displayName );
   }
