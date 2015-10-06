@@ -272,7 +272,7 @@ const ContextDisks = React.createClass(
             </span>
           </h5>
           <DropdownButton
-            block
+            id = "pool-topology-presets-dropdown"
             title = { this.state.preset }
             bsStyle = "primary"
           >
