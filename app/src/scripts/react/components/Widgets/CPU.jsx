@@ -101,11 +101,7 @@ const CPU = React.createClass(
       return false;
     }
 
-  , setYAxis () {
-      var cpuCores = SystemStore.getSystemInfo( "hardware" ).cpu_cores;
-      // TODO: Insure against race condition where this fires before the chart exists
       if ( this.chart ) {
-        this.chart.axis.max( { y: 100 * cpuCores } );
       }
     }
 
