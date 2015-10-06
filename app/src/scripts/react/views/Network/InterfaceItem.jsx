@@ -12,7 +12,7 @@ import { Button, ButtonGroup, Input, Panel, FormControls }
 import networkCommon from "./networkCommon";
 
 import ToggleSwitch from "../../components/ToggleSwitch";
-import DiscTri from "../../components/DiscTri";
+import Disclosure from "../../components/Disclosure";
 
 import IM from "../../../flux/middleware/InterfacesMiddleware";
 
@@ -375,12 +375,12 @@ const InterfaceItem = React.createClass(
 
         </form>
 
-        <DiscTri
+        <Disclosure
           headerShow = "Aliases"
           headerHide = "Aliases"
           defaultExpsnded = { true } >
           { this.showAliases( aliases ) }
-        </DiscTri>
+        </Disclosure>
       </Panel>
     );
   }

@@ -7,7 +7,7 @@
 import React from "react";
 import moment from "moment";
 
-import DiscTri from "../../../components/DiscTri";
+import Disclosure from "../../../components/Disclosure";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Events.less" );
@@ -15,7 +15,7 @@ if ( process.env.BROWSER ) require( "./Events.less" );
 export default class Events extends React.Component {
   createEvent ( eventData, index ) {
     return (
-      <DiscTri
+      <Disclosure
         key             = { index }
         headerShow      = { eventData.name }
         headerHide      = { eventData.name }
@@ -24,7 +24,7 @@ export default class Events extends React.Component {
         <div className = "event" >
           { moment( eventData.timestamp * 1000 ).format( "L, h:mm:ss a" ) }
         </div>
-      </DiscTri>
+      </Disclosure>
     );
   }
 

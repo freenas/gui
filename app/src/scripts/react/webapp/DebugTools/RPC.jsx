@@ -17,7 +17,7 @@ import freeNASUtil
   from "../../../utility/freeNASUtil";
 
 // Disclosure Triangles
-import DiscTri from "../../components/DiscTri";
+import Disclosure from "../../components/Disclosure";
 
 // Fuzzy TypeAhead
 import FuzzyTypeAhead from "../../components/FuzzyTypeAhead";
@@ -185,14 +185,14 @@ var RPC = React.createClass(
         );
 
         return (
-          <DiscTri headerShow={ service }
+          <Disclosure headerShow={ service }
                    headerHide={ service }
                    key={ index }
                    defaultExpanded={false}>
             <Panel bsStyle="info" key={ index }>
               { methods }
             </Panel>
-          </DiscTri>
+          </Disclosure>
         );
 
       } else { return null; }

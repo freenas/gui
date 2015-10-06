@@ -13,7 +13,7 @@ import { Alert, Button, DropdownButton, MenuItem, Well } from "react-bootstrap";
 import VS from "../../../../flux/stores/VolumeStore";
 import DS from "../../../../flux/stores/DisksStore";
 
-import DiscTri from "../../../components/DiscTri";
+import Disclosure from "../../../components/Disclosure";
 import DragTarget from "../../../components/DragTarget";
 import DropTarget from "../../../components/DropTarget";
 import Disk from "../../../components/items/Disk";
@@ -164,7 +164,7 @@ const ContextDisks = React.createClass(
       let headerText = key + " (" + available.length + ")";
 
       return (
-        <DiscTri
+        <Disclosure
           headerShow = { headerText }
           headerHide = { headerText }
           defaultExpanded = { available.length < 10 }
@@ -187,7 +187,7 @@ const ContextDisks = React.createClass(
               )
             }
           </span>
-        </DiscTri>
+        </Disclosure>
       );
     }
 

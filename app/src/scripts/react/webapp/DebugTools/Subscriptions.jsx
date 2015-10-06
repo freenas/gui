@@ -8,7 +8,7 @@ import React from "react";
 import { Button, Col, Input, Row, Table } from "react-bootstrap";
 
 // Disclosure Triangles
-import DiscTri from "../../components/DiscTri";
+import Disclosure from "../../components/Disclosure";
 
 // Middleware
 import SubscriptionsStore from "../../../flux/stores/SubscriptionsStore";
@@ -74,9 +74,9 @@ var Subscriptions = React.createClass(
           <td>{ namespace }</td>
           <td>{ _.sum( this.state.subscriptions[ namespace ] ) }</td>
           <td>
-            <DiscTri key={ index } defaultExpanded={false}>
+            <Disclosure key={ index } defaultExpanded={false}>
               <ul>{ listItems.map( this.createList ) }</ul>
-            </DiscTri>
+            </Disclosure>
           </td>
         </tr>
       );

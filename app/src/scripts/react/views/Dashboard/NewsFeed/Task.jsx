@@ -9,7 +9,7 @@ import { ProgressBar } from "react-bootstrap";
 import _ from "lodash";
 import moment from "moment";
 
-import DiscTri from "../../../components/DiscTri";
+import Disclosure from "../../../components/Disclosure";
 
 var Velocity;
 
@@ -98,7 +98,7 @@ export default class Task extends React.Component {
         ref = "taskContent"
         className = "task-item"
       >
-        <DiscTri
+        <Disclosure
           headerShow = { HEADER }
           headerHide = { HEADER }
           defaultExpanded = { false }
@@ -118,7 +118,7 @@ export default class Task extends React.Component {
               </h6>
             </div>
           </div>
-        </DiscTri>
+        </Disclosure>
       </div>
     );
   }

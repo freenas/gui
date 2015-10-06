@@ -7,7 +7,7 @@ import _ from "lodash";
 import React from "react";
 import { Well, Panel } from "react-bootstrap";
 
-import DiscTri from "../../components/DiscTri";
+import Disclosure from "../../components/Disclosure";
 import Disk from "../../components/items/Disk";
 
 const DiskSection = React.createClass(
@@ -49,12 +49,12 @@ const DiskSection = React.createClass(
                             );
 
       return (
-        <DiscTri headerShow = { "Disk Information" }
+        <Disclosure headerShow = { "Disk Information" }
                  headerHide = { "Disk Information" }
                  defaultExpanded = { true }
                  style = { { "overflowY": "auto" } }>
           { diskGroups }
-        </DiscTri>
+        </Disclosure>
       );
     }
 
