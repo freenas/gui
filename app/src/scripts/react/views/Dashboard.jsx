@@ -41,7 +41,7 @@ export default class Dashboard extends React.Component {
   constructor( props ) {
     super( props );
     this.displayName = "Dashboard";
-    this.state = { statdData: [] };
+    this.state = { statdData: {} };
   }
 
   componentDidMount () {
@@ -127,7 +127,8 @@ export default class Dashboard extends React.Component {
   }
 
   handleDataUpdate ( eventMask ) {
-
+    var dataSourceToUpdate = eventMask.split( " " )[0];
+    this.state.statdData[ dataSourceToUpdate ] = SS.getStatdData( dataSourceToUpdate );
   }
 
   render () {
