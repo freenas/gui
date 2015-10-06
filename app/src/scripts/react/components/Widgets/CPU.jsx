@@ -37,6 +37,16 @@ const CPU = React.createClass(
                , cpuCores: React.PropTypes.number
                }
 
+  , getInitialState () {
+      return { lastTickData: { "localhost.aggregation-cpu-sum.cpu-system.value": []
+                             , "localhost.aggregation-cpu-sum.cpu-user.value": []
+                             // , "localhost.aggregation-cpu-sum.cpu-nice.value": []
+                             // , "localhost.aggregation-cpu-sum.cpu-idle.value": []
+                             // , "localhost.aggregation-cpu-sum.cpu-interrupt.value": []
+                             }
+             };
+    }
+
   , componentDidMount () {
 
       this.props.subscribeToDataSources( DATA_SOURCES, FREQUENCY );
