@@ -62,7 +62,7 @@ export default class Dashboard extends React.Component {
 
   componentWillUnmount () {
     // Unsubscribe from all data sources
-    var dataSources = _.keys[ this.state.statdData ];
+    var dataSources = _.keys( this.state.statdData );
     SM.unsubscribeFromPulse( this.displayName, dataSources );
 
     DS.removeChangeListener( this.handleDisksChange.bind( this ) );
