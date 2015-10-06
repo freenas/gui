@@ -10,7 +10,7 @@ class StatdActionCreators {
 
   static receiveStatdData ( dataSourceName, statdData, timestamp ) {
     FreeNASDispatcher.handleMiddlewareAction(
-      { type: ActionTypes.RECEIVE_STATS_DATA
+      { type: ActionTypes.RECEIVE_STATD_DATA
       , dataSourceName
       , statdData
       , timestamp

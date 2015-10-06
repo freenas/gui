@@ -9,7 +9,7 @@ import AbstractBase from "./MIDDLEWARE_BASE_CLASS";
 import SAC from "../actions/StatdActionCreators";
 
 function createPulseSyntax ( dataSource ) {
-  return dataSource + ".pulse";
+  return "statd." + dataSource + ".pulse";
 };
 
 class StatdMiddleware extends AbstractBase {

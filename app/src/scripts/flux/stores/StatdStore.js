@@ -5,10 +5,10 @@
 
 import FreeNASDispatcher from "../dispatcher/FreeNASDispatcher";
 import { ActionTypes } from "../constants/FreeNASConstants";
+import { STATS as STATS_LIMIT } from "../constants/StoreLimits";
 import FluxBase from "./FLUX_STORE_BASE_CLASS";
 
 var _statdData = {};
-// var _dataUpdate = [];
 
 class StatdStore extends FluxBase {
 
@@ -21,12 +21,9 @@ class StatdStore extends FluxBase {
   }
 
   getStatdData ( name ) {
-    return _statdData[name];
+    return _statdData[ name ];
   }
 
-  /*get dataUpdate () {
-    return _dataUpdate;
-  }*/
 }
 
 function handlePayload ( payload ) {
@@ -35,28 +32,34 @@ function handlePayload ( payload ) {
   switch ( ACTION.type ) {
 
     case ActionTypes.RECEIVE_STATD_DATA:
-      if ( action.statdData.data !== undefined ) {
-        _statdData[action.dataSourceName] = action.statdData.data;
+      if ( ACTION.statdData.data !== undefined ) {
+        _statdData[ ACTION.dataSourceName ] = _.takeRight( ACTION.statdData.data
+                                                         , STATS_LIMIT
+                                                         );
       }/* else {
-        _statdData[action.dataSourceName] = (
+        _statdData[ACTION.dataSourceName] = (
           { error: true
-          , msg: action.statdData.message
+          , msg: ACTION.statdData.message
           }
         );
       }*/
-      this.emitChange();
+      this.emitChange( ACTION.dataSourceName + " received");
       break;
 
-    // Not ready - check structure of event in more detail, and push the data
-    // to the appropriate source directly rather than requiring a new query
-    /*case ActionTypes.MIDDLEWARE_EVENT:
-      if ( action.eventData.args && _.startsWith(
-        action.eventData.args["name"], "statd." )
+    case ActionTypes.MIDDLEWARE_EVENT:
+    let args = ACTION.eventData.args
+      if ( args && _.startsWith(
+        args.name, "statd." )
       ) {
-        _dataUpdate = action.eventData.args;
-        this.emitChange();
+        // cut off the "statd." and ".pulse"
+        let dataSourceName = args.name.substring( 6, args.name.length - 6 );
+        if ( _statdData[ dataSourceName ] === undefined ) {
+          _statdData[ dataSourceName ] = [];
+        }
+        _statdData[ dataSourceName ].push( [ args.args.timestamp, args.args.value ] );
+        this.emitChange( dataSourceName + " updated" );
       }
-      break;*/
+      break;
 
     default:
     // No action

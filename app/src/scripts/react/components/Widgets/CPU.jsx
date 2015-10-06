@@ -5,6 +5,7 @@
 
 import _ from "lodash";
 import React from "react";
+import moment from "moment";
 
 import Widget from "../Widget";
 import ChartUtil from "../../../utility/ChartUtil";
@@ -20,19 +21,50 @@ if ( typeof window !== "undefined" ) {
   };
 }
 
+const DATA_SOURCES =
+  [ "localhost.aggregation-cpu-sum.cpu-system.value"
+  , "localhost.aggregation-cpu-sum.cpu-user.value"
+  , "localhost.aggregation-cpu-sum.cpu-nice.value"
+  , "localhost.aggregation-cpu-sum.cpu-idle.value"
+  , "localhost.aggregation-cpu-sum.cpu-interrupt.value"
+  ];
+
+// request data every 10 seconds for now
+const FREQUENCY = 10;
+
 const CPU = React.createClass(
-  { componentDidMount () {
-      let dataUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 31 ) );
-      let dataSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 31 ) );
+  { propTypes: { subscribeToDataSources: React.PropTypes.func.isRequired
+               , cpuCores: React.PropTypes.number
+               }
+
+  , getInitialState () {
+      return { lastUpdateAt: 0 };
+    }
+
+  , componentDidMount () {
+
+      this.props.subscribeToDataSources( DATA_SOURCES, FREQUENCY );
+
+      var dataSystem = [ "System", [] ];
+      var dataUser = [ "User", [] ];
+      var dataNice = [ "Nice", [] ];
+      var dataIdle = [ "Idle", [] ];
+      var dataInterrupt = [ "Interrupt", [] ];
 
       this.chart = c3.generate(
         _.assign( {}
                 , c3Defaults
                 , { bindto: React.findDOMNode( this.refs.cpuChart )
                   , data:
-                    { columns: [ dataUser, dataSystem ]
+                    { columns: [ dataSystem
+                               , dataUser
+                               , dataNice
+                               , dataIdle
+                               , dataInterrupt
+                               ]
                     , type: "area"
-                    , groups: [[ "User", "System" ]]
+                    , groups: [[ "System", "User", "Nice", "Idle", "Interrupt" ]]
+                    , hide: [ "Nice", "Idle", "Interrupt" ]
                     }
                   , point:
                     { show: false
@@ -42,11 +74,13 @@ const CPU = React.createClass(
                       { show: false
                       }
                     , y:
+                      // the max and the tick values will be multiplied by the
+                      // number of CPU cores available to the system.
                       { max: 100
                       , min: 0
                       , padding: { top: 0, bottom: 0 }
                       , tick:
-                        { values: [ 0, 25, 50, 75, 100 ]
+                        { count: 5
                         , format: function ( x ) { return x + " %"; }
                         }
                       }
@@ -61,26 +95,72 @@ const CPU = React.createClass(
                   }
                 )
               );
-
-      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , componentWillUnmount () {
       this.chart = null;
-      clearTimeout( this.timeout );
     }
 
-  , tick () {
-      if ( this.chart ) {
-        let newPointUser = [ "User" ].concat( ChartUtil.rand( 4, 8, 1 ) );
-        let newPointSystem = [ "System" ].concat( ChartUtil.rand( 1, 5, 1 ) );
-        this.chart.flow(
-          { columns: [ newPointUser, newPointSystem ]
-          }
-        );
-      }
+  , shouldComponentUpdate () {
+      return false;
+    }
 
-      this.timeout = setTimeout( this.tick, 2000 );
+    // Rather than manipulating state, we're using componentWillReceiveProps to
+    // manipulate the chart ( if appropriate );
+  , componentWillReceiveProps ( newProps ) {
+      // Nothing happens without a chart
+      if ( this.chart ) {
+        this.chart.axis.max( { y: 100 * newProps.cpu_cores } );
+
+        // Only tick the graph if the data is complete
+        if ( ChartUtil.validateCompleteStats( newProps.statdData
+                                            , DATA_SOURCES
+                                            , FREQUENCY
+                                            ) ) {
+          this.tick( newProps.statdData );
+        }
+      }
+    }
+
+  , tick ( newStatdData ) {
+      var columns = [];
+      var newData = {};
+      var newUpdateAt = 0;
+
+      DATA_SOURCES.forEach(
+        function trimData ( dataSource ) {
+          let dataToUse = newStatdData[ dataSource ];
+          _.remove( dataToUse
+                  , function ( datapoint ) {
+                      return datapoint[0] < this.state.lastUpdateAt;
+                    }
+                  , this
+                  );
+          newData[ dataSource ] =
+            dataToUse.map( function ( datapoint ) {
+                             newUpdateAt = _.max( [ newUpdateAt
+                                                  , datapoint[0]
+                                                  ] );
+                             return parseFloat( datapoint[1] );
+                           }
+                         );
+        }
+      , this
+      );
+
+      columns.push( [ "System" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-system.value" ] ) );
+      columns.push( [ "User" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-user.value" ] ) );
+      columns.push( [ "Nice" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-nice.value" ] ) );
+      columns.push( [ "Idle" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-idle.value" ] ) );
+      columns.push( [ "Interrupt" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-interrupt.value" ] ) );
+
+      if ( _.all( columns, function ( column ) { return column.length > 1; } ) ) {
+        let length = 0; // TODO: Make sure to choose this properly
+        this.chart.flow( { columns: columns
+                         , length: 0
+                         } );
+        this.setState( { lastUpdateAt: newUpdateAt } );
+      }
     }
 
   , render () {

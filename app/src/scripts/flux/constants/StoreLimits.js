@@ -20,6 +20,7 @@ const STORE_LIMITS =
   , SERVICES: Infinity
   , TASKS: 200
   , USERS: Infinity
+  , STATS: 200
   };
 
 export default STORE_LIMITS;
