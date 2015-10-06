@@ -21,13 +21,32 @@ if ( typeof window !== "undefined" ) {
   };
 }
 
+const DATA_SOURCES =
+  [ "localhost.memory.memory-active.value"
+  , "localhost.memory.memory-cache.value"
+  , "localhost.memory.memory-wired.value"
+  , "localhost.memory.memory-inactive.value"
+  , "localhost.memory.memory-free.value"
+  ];
+
+// hardcoded to 10 seconds
+const FREQUENCY = 10;
+
 const Memory = React.createClass(
-  { componentDidMount () {
-      let active = [ "Active" ].concat( ChartUtil.rand( 400000000, 500000000, 31 ) );
-      let cache = [ "Cache" ].concat( ChartUtil.rand( 2000000, 3000000, 31 ) );
-      let wired = [ "Wired" ].concat( ChartUtil.rand( 1100000000, 1300000000, 31 ) );
-      let inactive = [ "Inactive" ].concat( ChartUtil.rand( 200000000, 250000000, 31 ) );
-      let free = this.calcFree( 31, active, cache, wired, inactive );
+  { propTypes: { subscribeToDataSources: React.PropTypes.func.isRequired }
+
+  , getInitialState () {
+      return { lastUpdateAt: 0 };
+    }
+
+  , componentDidMount () {
+      this.props.subscribeToDataSources( DATA_SOURCES, FREQUENCY );
+
+      let active = [ [ "Active" ], [] ];
+      let cache = [ [ "Cache" ], [] ];
+      let wired = [ [ "Wired" ], [] ];
+      let inactive = [ [ "Inactive" ], [] ];
+      let free = [ [ "Free" ], [] ];
 
       this.chart = c3.generate(
         _.assign( {}
@@ -36,7 +55,7 @@ const Memory = React.createClass(
                   , data:
                     { columns: [ free, active, cache, wired, inactive ]
                     , type: "area-step"
-                    , hide: [ "Free" ]
+                    , hide: [ "Free", "Inactive" ]
                     }
                   , point:
                     { show: false
@@ -63,41 +82,70 @@ const Memory = React.createClass(
                   }
                 )
               );
-
-      this.timeout = setTimeout( this.tick, 2000 );
     }
 
   , componentWillUnmount () {
       this.chart = null;
-      clearTimeout( this.timeout );
     }
 
-  , calcFree ( length, active, cache, wired, inactive ) {
-      let free = [ "Free" ];
-
-      // Start at 1 because the first value will be the category
-      for ( let i = 1; i < length + 1; i++ ) {
-        free.push( 32768000000 - active[i] - cache[i] - wired[i] - inactive[i] );
-      }
-
-      return free;
+  , shouldComponentUpdate () {
+      return false;
     }
 
-  , tick () {
+    // Rather than manipulating state, we're using componentWillReceiveProps to
+    // manipulate the chart ( if appropriate )
+  , componentWillReceiveProps ( newProps ) {
+      // Nothing happens without a chart
       if ( this.chart ) {
-        let active = [ "Active" ].concat( ChartUtil.rand( 400000000, 500000000, 1 ) );
-        let cache = [ "Cache" ].concat( ChartUtil.rand( 2000000, 3000000, 1 ) );
-        let wired = [ "Wired" ].concat( ChartUtil.rand( 1100000000, 1300000000, 1 ) );
-        let inactive = [ "Inactive" ].concat( ChartUtil.rand( 200000000, 250000000, 1 ) );
-        let free = this.calcFree( 1, active, cache, wired, inactive );
-
-        this.chart.flow(
-          { columns: [ free, active, cache, wired, inactive ]
-          }
-        );
+        // Only tick the graph if the data is complete
+        if ( ChartUtil.validateCompleteStats( newProps.statdData
+                                            , DATA_SOURCES
+                                            , FREQUENCY
+                                            ) ) {
+          this.tick( newProps.statdData );
+        }
       }
+    }
 
-      this.timeout = setTimeout( this.tick, 2000 );
+  , tick ( newStatdData ) {
+      var columns = [];
+      var newData = {};
+      var newUpdateAt = 0;
+
+      DATA_SOURCES.forEach(
+        function trimData ( dataSource ) {
+          let dataToUse = newStatdData[ dataSource ];
+          _.remove( dataToUse
+                  , function ( datapoint ) {
+                      return datapoint[0] < this.state.lastUpdateAt;
+                    }
+                  , this
+                  );
+          newData[ dataSource ] =
+            dataToUse.map( function ( datapoint ) {
+                             newUpdateAt = _.max( [ newUpdateAt
+                                                  , datapoint[0]
+                                                  ] );
+                             return parseInt( datapoint[1] );
+                           }
+                         );
+        }
+      , this
+      );
+
+      columns.push( [ "Active" ].concat( newData[ "localhost.memory.memory-active.value" ] ) );
+      columns.push( [ "Cache" ].concat( newData[ "localhost.memory.memory-cache.value" ] ) );
+      columns.push( [ "Wired" ].concat( newData[ "localhost.memory.memory-wired.value" ] ) );
+      columns.push( [ "Inactive" ].concat( newData[ "localhost.memory.memory-inactive.value" ] ) );
+      columns.push( [ "Free" ].concat( newData[ "localhost.memory.memory-free.value" ] ) );
+
+      if ( _.all( columns, function ( column ) { return column.length > 1; } ) ) {
+        let length = 0; // TODO: Make sure to choose this properly
+        this.chart.flow( { columns: columns
+                         , length: 0
+                         } );
+        this.setState( { lastUpdateAt: newUpdateAt } );
+      }
     }
 
   , render () {
