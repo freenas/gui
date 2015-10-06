@@ -90,7 +90,7 @@ export default class Dataset extends React.Component {
     } else if ( this.props.handlers.nameIsPermitted( dataset.name ) ) {
       let activeShare, disallowSharing;
 
-      if ( this.props.activeShare ) {
+      if ( this.props.disallowSharing || this.props.activeShare ) {
         // If a parent dataset is shared, its children may not be shared, and
         // their primary sharing type must not be changed
         disallowSharing = true;
