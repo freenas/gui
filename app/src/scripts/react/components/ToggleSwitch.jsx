@@ -36,7 +36,7 @@ export default class ToggleSwitch extends React.Component {
         className = { toggleClasses.join( " " ) }
         onClick   = { this.props.disabled
                     ? null
-                    : this.handleToggleClick
+                    : this.handleToggleClick.bind( this )
                     }
       />
     );
