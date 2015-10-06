@@ -45,10 +45,6 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidMount () {
-    document.addEventListener( "visibilitychange"
-                             , this.handleVisibilityChange.bind( this )
-                             );
-
     DS.addChangeListener( this.handleDisksChange.bind( this ) );
     DM.requestDisksOverview();
     DM.subscribe( this.displayName );
@@ -64,10 +60,6 @@ export default class Dashboard extends React.Component {
   }
 
   componentWillUnmount () {
-    document.removeEventListener( "visibilitychange"
-                                , this.handleVisibilityChange.bind( this )
-                                );
-
     // Unsubscribe from all data sources
     var dataSources = _.keys[ this.state.statdData ];
     SM.unsubscribeFromPulse( this.displayName, dataSources );
@@ -83,7 +75,7 @@ export default class Dashboard extends React.Component {
 
   // Only send new props if the page is visible
   shouldComponentUpdate( nextProps, nextState ) {
-    return nextState.subscriptionsActive || false;
+    return document.visibilityState === "visible";
   }
 
   handleDisksChange () {
@@ -92,14 +84,6 @@ export default class Dashboard extends React.Component {
 
   handleHardwareChange () {
     this.setState( getSystemInformation() );
-  }
-
-  handleVisibilityChange () {
-    if ( document.visibilityState ) {
-      this.setState( { subscriptionsActive: true } );
-    } else {
-      this.setState( { subscriptionsActive: false } );
-    }
   }
 
   subscribeToDataSources ( newDataSources, frequency ) {
