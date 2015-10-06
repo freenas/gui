@@ -110,6 +110,9 @@ const FREENAS_CONSTANTS =
 
     // STATD
     , RECEIVE_STATD_DATA: null
+
+    // Shells
+    , RECEIVE_SHELLS: null
     })
 
   , PayloadSources: keyMirror(

@@ -52,6 +52,12 @@ const paths =
     , status   : null
     , disabled : false
     }
+  , { path     : "console"
+    , icon     : "icon-console"
+    , label    : "Console"
+    , status   : null
+    , disabled : false
+    }
   , { path     : "hardware"
     , icon     : "icon-drive"
     , label    : "Hardware"

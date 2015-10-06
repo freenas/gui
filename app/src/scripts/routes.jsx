@@ -30,6 +30,8 @@ import Calendar from "./react/views/Calendar";
 
 import Network from "./react/views/Network";
 
+import Console from "./react/views/Console";
+
 import Hardware from "./react/views/Hardware";
 
 import Storage from "./react/views/Storage";
@@ -106,6 +108,12 @@ module.exports = (
       path    = "network"
       handler = { Network }/>
 
+
+    {/* CONSOLE */}
+    <Route
+      name    = "console"
+      path    = "console"
+      handler = { Console } />
 
     {/* HARDWARE */}
     <Route

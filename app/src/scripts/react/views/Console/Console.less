@@ -1,0 +1,19 @@
+@styles-path: "../../../../styles/";
+
+@import ( optional, reference ) "@{styles-path}bootstrap.less";
+@import ( optional, reference ) "@{styles-path}variables.less";
+@import ( optional, reference ) "@{styles-path}utility.less";
+
+.app-view > .console {
+  color: rgb( 240, 240, 240 );
+  background-color: @freenas-dark-gray;
+
+  .termFlex {
+    padding: 1em;
+  }
+  .terminal {
+    margin: 0;
+    padding: 0;
+    background: none !important;
+  }
+}
