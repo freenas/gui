@@ -111,30 +111,70 @@ const CPU = React.createClass(
       return false;
     }
 
+    // Rather than manipulating state, we're using componentWillReceiveProps to
+    // manipulate the chart ( if appropriate );
+  , componentWillReceiveProps ( newProps ) {
+      // Nothing happens without a chart
       if ( this.chart ) {
+        this.chart.axis.max( { y: 100 * newProps.cpu_cores } );
+
+        // Only tick the graph if the data is complete
+        if ( ChartUtil.validateCompleteStats( newProps.statdData
+                                            , DATA_SOURCES
+                                            , FREQUENCY
+                                            ) ) {
+          this.tick( newProps.statdData );
+        }
       }
     }
 
+  , tick ( newStatdData ) {
+      var columns = [];
+      var newData = {};
+      _.forOwn( newStatdData
+              , function compareData ( data, key ) {
+                  // Get only the actual data, not the timestamps
+                  let dataToUse = _.map( data
+                                       , function ( dataPoint ) {
+                                           return parseFloat( dataPoint[1] );
+                                         }
+                                       );
+                  if ( !_.isEmpty( this.state.lastTickData[ key ] ) ) {
+                    newData[ key ] = _.without( dataToUse
+                                              // Dangerous! Bad things happen if
+                                              // a previously seen value occurs
+                                              // again.
+                                              , ...this.state.lastTickData[ key ]
+                                              );
+                  } else {
+                    newData[ key ] = dataToUse;
+                  }
+                }
+              , this
+              );
 
-  , tick ( eventMask ) {
-      if ( this.chart ) {
-        if ( eventMask.endsWith( "received" ) ) {
-          let updateReady = true;
-          DATA_SOURCES.forEach( function checkDataReadiness( dataSource ) {
-                                 if ( updateReady === true ) {
-                                   updateReady = SS.getStatdData( dataSource ) !== undefined;
-                                 }
-                               }
-                              );
-          if ( updateReady ) {
-            let columns = this.createColumns();
-            // console.log( columns );
-            this.chart.flow ( { columns: columns
-                              , length: 0
-                              }
-                            );
-          }
-        }
+      columns.push( [ "System" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-system.value" ] ) );
+      columns.push( [ "User" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-user.value" ] ) );
+      // columns.push( [ "Nice" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-nice.value" ] ) );
+      // columns.push( [ "Idle" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-idle.value" ] ) );
+      // columns.push( [ "Interrupt" ].concat( newData[ "localhost.aggregation-cpu-sum.cpu-interrupt.value" ] ) );
+
+      var newTickData = null;
+
+      if ( _.all( columns, function ( column ) { return column.length > 1; } ) ) {
+        let length = 0; // TODO: Make sure to choose this properly
+        this.chart.flow( { columns: columns
+                         , length: 0
+                         } );
+        newTickData = {};
+        _.forOwn( this.state.lastTickData
+                , function ( column, key ) {
+                  newTickData[ key ] = this.state.lastTickData[ key ].slice( length );
+                  newTickData[ key ] = newTickData[ key ].concat( newData[ key ] );
+                }
+                , this
+                );
+        this.setState( { lastTickData: newTickData || this.state.lastTickData } );
       }
     }
 
