@@ -215,7 +215,7 @@ const InterfaceItem = React.createClass(
                          , newNetworkInterface );
   }
 
-  , createLinkSpeedToggles ( speed ) {
+  , createLinkSpeedToggles ( speed, index ) {
       let buttonClasses = [ "disabled" ];
 
       if ( speed === this.props.currentLinkSpeed ) {
@@ -224,6 +224,7 @@ const InterfaceItem = React.createClass(
 
       return (
         <Button
+          key = { index }
           className = { buttonClasses.join( " " ) }
         >
           { speed }
