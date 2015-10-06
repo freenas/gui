@@ -18,7 +18,7 @@ class WidgetUtil {
     // make sure all the dataSources are populated
     var allPopulated = _.all( dataSources
                             , function ( dataSource ) {
-                                return stats[ dataSource ];
+                                return !_.isEmpty( stats[ dataSource ] );
                               }
                             );
 
