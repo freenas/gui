@@ -19,9 +19,9 @@ import NewDataset from "./NewDataset";
 if ( process.env.BROWSER ) require( "./Dataset.less" );
 
 const SHARE_TYPES =
-  {"CIFS": "WINDOWS"
-  , "AFP": "MAC"
-  , "NFS": "UNIX"
+  { "CIFS" : "WINDOWS"
+  , "AFP"  : "MAC"
+  , "NFS"  : "UNIX"
   }
 export default class Dataset extends React.Component {
   handleShareToggle ( type ) {
