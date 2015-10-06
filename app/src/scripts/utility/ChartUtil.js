@@ -3,6 +3,8 @@
 
 "use strict";
 
+import _ from "lodash";
+
 class WidgetUtil {
   static rand ( min, max, num ) {
     let rtn = [];
