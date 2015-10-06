@@ -30,8 +30,9 @@ var Terminal = React.createClass(
   , createShellMenuItem: function ( shell, index ) {
       return (
         <MenuItem
-            onClick = { this.handleShellSelect.bind( null, shell ) }
-            key     = { index }>
+            key      = { index }
+            onSelect = { this.handleShellSelect.bind( null, shell ) }
+        >
           { shell }
         </MenuItem>
       );
@@ -43,8 +44,9 @@ var Terminal = React.createClass(
 
           <Col xs={6} className="debug-column" >
 
-            <h5 className="debug-heading">{"FreeNAS Shell: "
-                          + this.state.currentShell }</h5>
+            <h5 className="debug-heading">
+              { "FreeNAS Shell: " + this.state.currentShell }
+            </h5>
             <Shell shellType={ this.state.currentShell } />
 
           </Col>
@@ -55,8 +57,11 @@ var Terminal = React.createClass(
               <h5 className="debug-heading">Terminal Options</h5>
               <div>
                 <label style={{ marginRight: "10px" }}>Shell Type:</label>
-                <DropdownButton bsStyle="default"
-                                     title={ this.state.currentShell }>
+                <DropdownButton
+                  id      = "shell-selection-dropdown"
+                  bsStyle = "default"
+                  title   = { this.state.currentShell }
+                >
                   { this.state.shells.map( this.createShellMenuItem ) }
                 </DropdownButton>
               </div>
