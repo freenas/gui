@@ -47,6 +47,8 @@ export default class Storage extends React.Component {
       , shares           : SS.shares
       , SSDsAreAvailable : VS.SSDsAreAvailable
       , HDDsAreAvailable : VS.HDDsAreAvailable
+      , availableSSDs    : VS.availableSSDs
+      , availableHDDs    : VS.availableHDDs
       , activeVolume     : null
       , newDataset       : {}
       };
@@ -102,6 +104,8 @@ export default class Storage extends React.Component {
       case "availableDisks":
         newState.SSDsAreAvailable = VS.SSDsAreAvailable;
         newState.HDDsAreAvailable = VS.HDDsAreAvailable;
+        newState.availableSSDs    = VS.availableSSDs;
+        newState.availableHDDs    = VS.availableHDDs;
         break;
 
       case "volumes":
@@ -240,8 +244,10 @@ export default class Storage extends React.Component {
       , becomeInactive     : this.handleVolumeInactive.bind( this )
       , shares             : this.state.shares
       , diskData:
-        { SSDsAreAvailable : VS.SSDsAreAvailable
-        , HDDsAreAvailable : VS.HDDsAreAvailable
+        { SSDsAreAvailable : this.state.SSDsAreAvailable
+        , HDDsAreAvailable : this.state.HDDsAreAvailable
+        , availableSSDs    : this.state.availableSSDs
+        , availableHDDs    : this.state.availableHDDs
         }
       , filesystemHandlers:
         { onShareCreate       : SM.create

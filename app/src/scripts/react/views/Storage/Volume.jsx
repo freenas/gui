@@ -12,7 +12,6 @@ import { Button, ButtonToolbar, Input, Panel, Modal } from "react-bootstrap";
 
 import ZAC from "../../../flux/actions/ZfsActionCreators";
 import ZM from "../../../flux/middleware/ZfsMiddleware";
-import VS from "../../../flux/stores/VolumeStore";
 
 import EventBus from "../../../utility/EventBus";
 import ByteCalc from "../../../utility/ByteCalc";
@@ -59,6 +58,11 @@ const Volume = React.createClass(
     , active: React.PropTypes.bool.isRequired
     , existsOnRemote: React.PropTypes.bool
     , name: React.PropTypes.string
+    , diskData: React.PropTypes.shape(
+        { availableSSDs: React.PropTypes.array.isRequired
+        , availableHDDs: React.PropTypes.array.isRequired
+        }
+      )
     , topology: React.PropTypes.shape(
         { data  : React.PropTypes.array.isRequired
         , log   : React.PropTypes.array.isRequired
@@ -171,8 +175,8 @@ const Volume = React.createClass(
   // ======================
   , handleTopoRequest ( preferences ) {
       const CREATOR_OUTPUT =
-        ZfsUtil.createTopology( VS.availableSSDs
-                              , VS.availableHDDs
+        ZfsUtil.createTopology( this.props.diskData.availableSSDs
+                              , this.props.diskData.availableHDDs
                               , preferences
                               );
 
