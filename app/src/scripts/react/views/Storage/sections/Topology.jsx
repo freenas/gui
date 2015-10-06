@@ -19,6 +19,8 @@ var Topology = React.createClass(
     , onDiskRemove     : React.PropTypes.func.isRequired
     , onVdevNuke       : React.PropTypes.func.isRequired
     , onVdevTypeChange : React.PropTypes.func.isRequired
+    , SSDsAreAvailable : React.PropTypes.bool.isRequired
+    , HDDsAreAvailable : React.PropTypes.bool.isRequired
     , topology: React.PropTypes.shape(
         { data  : React.PropTypes.array.isRequired
         , log   : React.PropTypes.array.isRequired
@@ -33,6 +35,8 @@ var Topology = React.createClass(
       { purpose: purpose
       , cols: null
       , newVdevAllowed: false
+      , SSDsAreAvailable: this.props.SSDsAreAvailable
+      , HDDsAreAvailable: this.props.HDDsAreAvailable
       };
 
     switch ( purpose ) {

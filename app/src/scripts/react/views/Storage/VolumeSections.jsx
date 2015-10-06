@@ -93,6 +93,7 @@ export default class VolumeSections extends React.Component {
           eventKey = "topology"
         >
           <Topology
+            { ...this.props.diskData }
             { ...this.props.topologyHandlers }
             topology = { topology }
             editing  = { editing }
@@ -116,7 +117,8 @@ VolumeSections.propTypes =
   , filesystemHandlers : React.PropTypes.object.isRequired
 
   // TOPOLOGY ENTITIES
-  , topology: React.PropTypes.object.isRequired
+  , diskData : React.PropTypes.object.isRequired
+  , topology : React.PropTypes.object.isRequired
 
   // FILESYSTEM ENTITIES
   , datasets : React.PropTypes.array

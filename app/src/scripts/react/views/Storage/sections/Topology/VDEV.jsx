@@ -7,7 +7,6 @@
 import React from "react";
 import { Well, Col } from "react-bootstrap";
 
-import ZM from "../../../../../flux/middleware/ZfsMiddleware";
 import VS from "../../../../../flux/stores/VolumeStore";
 import DS from "../../../../../flux/stores/DisksStore";
 
@@ -28,6 +27,8 @@ const VDEV = React.createClass(
     , onDiskRemove: React.PropTypes.func.isRequired
     , onVdevNuke: React.PropTypes.func.isRequired
     , onTypeChange: React.PropTypes.func.isRequired
+    , SSDsAreAvailable : React.PropTypes.bool.isRequired
+    , HDDsAreAvailable : React.PropTypes.bool.isRequired
     , cols: React.PropTypes.number.isRequired
     , children: React.PropTypes.array
     , path: React.PropTypes.string
@@ -52,43 +53,8 @@ const VDEV = React.createClass(
       )
     }
 
-  , getInitialState () {
-      return { devicesAreAvailable: this.queryDeviceAvailability()
-             };
-    }
-
-  , componentDidMount () {
-      VS.addChangeListener( this.handleUpdatedVS );
-      ZM.subscribe( this.constructor.displayName );
-    }
-
-  , componentWillUnmount () {
-      VS.removeChangeListener( this.handleUpdatedVS );
-      ZM.unsubscribe( this.constructor.displayName );
-    }
-
   , requiresSSDs () {
       return this.props.purpose === "cache" || this.props.purpose === "log";
-    }
-
-  , queryDeviceAvailability () {
-      if ( this.requiresSSDs() ) {
-        return VS.SSDsAreAvailable;
-      } else {
-        return VS.HDDsAreAvailable;
-      }
-    }
-
-  , handleUpdatedVS ( eventMask ) {
-      let newState = {};
-
-      switch ( eventMask ) {
-        case "availableDisks":
-          newState.devicesAreAvailable = this.queryDeviceAvailability();
-          break;
-      }
-
-      this.setState( newState );
     }
 
   , preventHDDInSSDZone ( payload ) {
@@ -140,6 +106,10 @@ const VDEV = React.createClass(
     }
 
   , render () {
+    const DEVICES_AVAILABLE = this.requiresSSDs()
+                            ? this.props.SSDsAreAvailable
+                            : this.props.HDDsAreAvailable;
+
     let toolbar   = null;
     let vdevDisks = null;
     let addDisks  = null;
@@ -168,7 +138,7 @@ const VDEV = React.createClass(
     // "Spares" should not show the bar, as it will always be a collection of
     // "disk" VDEVs
     if ( this.props.purpose !== "spare"
-       && ( this.state.devicesAreAvailable || this.props.type )
+       && ( DEVICES_AVAILABLE || this.props.type )
        ) {
       let breakdown;
       let chart = null;
@@ -202,7 +172,7 @@ const VDEV = React.createClass(
     // ADD DISKS
     // FIXME: Right now, you can add disks if they're available.
     // TODO: Make this not a dropdown
-    if ( this.state.devicesAreAvailable && !vdevDisks ) {
+    if ( DEVICES_AVAILABLE && !vdevDisks ) {
       addDisks = (
         <h5 className="text-center text-muted">
           { `Drag and drop ${ this.requiresSSDs() ? "SSDs" : "disks" } to add `
@@ -215,7 +185,7 @@ const VDEV = React.createClass(
     // NO AVAILABLE DEVICES MESSAGE
     // There are no available devices, and nothing has been added to the VDEV
     // already - it's empty and nothing can be added.
-    if ( !this.state.devicesAreAvailable && !vdevDisks ) {
+    if ( !DEVICES_AVAILABLE && !vdevDisks ) {
       message = (
         <div className="text-center pool-vdev-message">
           { `No available ${ this.props.purpose } devices.` }
@@ -227,7 +197,7 @@ const VDEV = React.createClass(
       <Col xs={ this.props.cols }>
         <DropTarget
           namespace = "disk"
-          disabled = { this.state.devicesAreAvailable }
+          disabled = { DEVICES_AVAILABLE }
           preventDrop = { this.preventHDDInSSDZone }
           callback = { this.props.onDiskAdd }
           activeDrop

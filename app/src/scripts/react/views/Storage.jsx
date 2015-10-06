@@ -43,11 +43,12 @@ export default class Storage extends React.Component {
 
     // SET INITIAL STATE
     this.state =
-      { volumes             : VS.listVolumes()
-      , shares              : SS.shares
-      , devicesAreAvailable : VS.devicesAreAvailable
-      , activeVolume        : null
-      , newDataset          : {}
+      { volumes          : VS.listVolumes()
+      , shares           : SS.shares
+      , SSDsAreAvailable : VS.SSDsAreAvailable
+      , HDDsAreAvailable : VS.HDDsAreAvailable
+      , activeVolume     : null
+      , newDataset       : {}
       };
   }
 
@@ -99,7 +100,8 @@ export default class Storage extends React.Component {
 
     switch ( eventMask ) {
       case "availableDisks":
-        newState.devicesAreAvailable = VS.devicesAreAvailable;
+        newState.SSDsAreAvailable = VS.SSDsAreAvailable;
+        newState.HDDsAreAvailable = VS.HDDsAreAvailable;
         break;
 
       case "volumes":
@@ -237,6 +239,10 @@ export default class Storage extends React.Component {
       { becomeActive       : this.handleVolumeActive.bind( this )
       , becomeInactive     : this.handleVolumeInactive.bind( this )
       , shares             : this.state.shares
+      , diskData:
+        { SSDsAreAvailable : VS.SSDsAreAvailable
+        , HDDsAreAvailable : VS.HDDsAreAvailable
+        }
       , filesystemHandlers:
         { onShareCreate       : SM.create
         , onShareDelete       : SM.delete
@@ -264,7 +270,7 @@ export default class Storage extends React.Component {
         );
       });
 
-    if ( this.state.devicesAreAvailable ) {
+    if ( this.state.HDDsAreAvailable || this.state.SSDsAreAvailable ) {
       // If there are disks available, a new pool may be created. The Volume
       // component is responsible for displaying the correct "blank start"
       // behavior, depending on its knowledge of other pools.
