@@ -38,6 +38,7 @@ function createLabel ( disk ) {
     , disk.status.max_rotation
     ? disk.status.max_rotation + "rpm"
     : ""
+    , disk.status.is_ssd ? "SSD" : "HDD"
     ].join( " " )
   );
 }
