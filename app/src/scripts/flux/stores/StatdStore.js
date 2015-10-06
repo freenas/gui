@@ -33,7 +33,9 @@ function handlePayload ( payload ) {
 
     case ActionTypes.RECEIVE_STATD_DATA:
       if ( ACTION.statdData.data !== undefined ) {
-        _statdData[ ACTION.dataSourceName ] = ACTION.statdData.data.slice( -STATS_LIMIT )
+        _statdData[ ACTION.dataSourceName ] = _.takeRight( ACTION.statdData.data
+                                                         , STATS_LIMIT
+                                                         );
       }/* else {
         _statdData[ACTION.dataSourceName] = (
           { error: true
