@@ -87,6 +87,7 @@ const Calendar = React.createClass(
         , activeMonth: now.month()
         , selectedDate: now.date()
         , tasks: CS.tasks
+        , activeTask: null
         }
       );
     }
