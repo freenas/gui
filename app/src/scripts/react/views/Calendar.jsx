@@ -119,7 +119,7 @@ const Calendar = React.createClass(
         break;
 
       case "smart":
-        newTask.name = "disks.test";
+        newTask.name = "disks.parallel_test";
         newTask.schedule = { day_of_week: weekdays[ targetDate.getDay() ]
                            , day: "*"
                            , week: "*"
