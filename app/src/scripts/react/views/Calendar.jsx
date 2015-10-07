@@ -61,8 +61,9 @@ const Calendar = React.createClass(
   }
 
   , handlePage ( direction ) {
-      let now = moment().month( this.state.activeMonth );
-
+      let now = moment()
+               .year( this.state.activeYear )
+               .month( this.state.activeMonth );
       if ( direction === "prev" ) {
         now.subtract( 1, "months" );
       } else if ( direction === "next" ) {
@@ -70,7 +71,8 @@ const Calendar = React.createClass(
       }
 
       this.setState(
-        { activeMonth: now.month()
+        { activeYear: now.year()
+        , activeMonth: now.month()
         , selectedDate: now.startOf( "month" ).date()
         , tasks: CS.tasks
         }
@@ -81,7 +83,8 @@ const Calendar = React.createClass(
       let now = moment();
 
       this.setState(
-        { activeMonth: now.month()
+        { activeYear: now.year()
+        , activeMonth: now.month()
         , selectedDate: now.date()
         , tasks: CS.tasks
         }
@@ -156,9 +159,12 @@ const Calendar = React.createClass(
   }
 
   , render () {
-      let activeMoment = moment().month( this.state.activeMonth );
+      let activeMoment = moment()
+                        .year( this.state.activeYear )
+                        .month( this.state.activeMonth );
+
       let month = activeMoment.format( "MMMM" );
-      let year  = activeMoment.format( "YYYY" );
+      let year = activeMoment.format( "YYYY" );
 
       return (
         <main className="calendar">
