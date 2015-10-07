@@ -204,15 +204,11 @@ const Calendar = React.createClass(
           </div>
 
           <Month
-            tasks = { this.state.tasks }
-            activeYear = { this.state.activeYear }
-            activeMonth = { this.state.activeMonth }
-            selectedDate = { this.state.selectedDate }
             chooseDate = { this.chooseDate }
             handleTaskRemove = { this.handleTaskRemove }
             handleTaskAdd = { this.handleTaskAdd }
             chooseActiveTask = { this.chooseActiveTask }
-            activeTask = { this.state.activeTask }
+            { ...this.state }
           />
         </main>
       );
