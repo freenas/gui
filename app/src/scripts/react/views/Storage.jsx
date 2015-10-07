@@ -286,8 +286,9 @@ export default class Storage extends React.Component {
     });
   }
 
-  createVolumes () {
-    const { activeVolume, volumes, tasks, shares } = this.state;
+  createVolumes ( creationActive ) {
+    const { activeVolume, volumes, tasks, shares, SSDsAreAvailable
+          , HDDsAreAvailable, availableSSDs, availableHDDs } = this.state;
 
     let renderableVolumes = _.cloneDeep( volumes );
 
@@ -302,13 +303,13 @@ export default class Storage extends React.Component {
       , becomeInactive : this.handleVolumeInactive.bind( this )
       , onVolumeSubmit : this.handleVolumeSubmit.bind( this )
       , onVolumeDelete : this.handleVolumeDeleteConfirmation.bind( this )
-      , tasks          : tasks
-      , shares         : shares
+      , tasks
+      , shares
       , diskData:
-        { SSDsAreAvailable : this.state.SSDsAreAvailable
-        , HDDsAreAvailable : this.state.HDDsAreAvailable
-        , availableSSDs    : this.state.availableSSDs
-        , availableHDDs    : this.state.availableHDDs
+        { SSDsAreAvailable
+        , HDDsAreAvailable
+        , availableSSDs
+        , availableHDDs
         }
       , filesystemHandlers:
         { onShareCreate   : SM.create
@@ -337,7 +338,7 @@ export default class Storage extends React.Component {
         );
       });
 
-    if ( this.state.HDDsAreAvailable || this.state.SSDsAreAvailable ) {
+    if ( !creationActive && ( HDDsAreAvailable || SSDsAreAvailable ) ) {
       // If there are disks available, a new pool may be created. The Volume
       // component is responsible for displaying the correct "blank start"
       // behavior, depending on its knowledge of other pools.
@@ -384,7 +385,7 @@ export default class Storage extends React.Component {
           </div>
         );
       }
-      content = this.createVolumes();
+      content = this.createVolumes( Boolean( VOLUME_CREATE_TASK ) );
     } else {
       // TODO: Make this pretty
       loading = <h1 className="text-center">LOADING</h1>;
