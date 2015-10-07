@@ -324,7 +324,8 @@ const ScrubModal = React.createClass(
           }
           { this.props.taskID
           ? resetButton
-          : cancelButton }
+          : cancelButton
+          }
         </ButtonToolbar>
       </div>
     );
