@@ -130,9 +130,8 @@ const Calendar = React.createClass(
   , handleTaskAdd ( targetDate, taskType ) {
     var newTask = {};
 
-    // Create initial properties for each task type. For now, scrub and smart
-    // tasks have basically identical defaults of the day of week targeted at
-    // 2am, then every 35 days thereafter.
+    // Create initial properties for each task type. For now, all tasks start
+    // repeating weekly in the weekday they were dropped into.
     switch ( taskType ) {
       case "scrub":
         newTask.name = "zfs.pool.scrub";
