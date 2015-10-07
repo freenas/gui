@@ -367,6 +367,7 @@ const Volume = React.createClass(
 
         volumeHeader = (
           <NewVolume
+            disableSubmit      = { topology.data.length === 0 }
             onVolumeNameChange = { this.handleVolumeNameChange }
             onSubmitClick      = { this.submitVolume }
             onCancelClick      = { this.closeDrawer }

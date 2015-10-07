@@ -46,7 +46,7 @@ export default class NewVolume extends React.Component {
             {/* TODO: Logic for allowing submission should be more complex */}
             <Button
               bsStyle  = "primary"
-              disabled = { this.props.volumeName.length < 1 }
+              disabled = { this.props.disableSubmit || this.props.volumeName.length < 1 }
               onClick  = { this.props.onSubmitClick }
             >
               { "Submit" }
@@ -67,6 +67,7 @@ export default class NewVolume extends React.Component {
 
 NewVolume.propTypes =
   { onVolumeNameChange : React.PropTypes.func.isRequired
+  , disableSubmit      : React.PropTypes.bool
   , onSubmitClick      : React.PropTypes.func.isRequired
   , onCancelClick      : React.PropTypes.func.isRequired
   , volumeName         : React.PropTypes.string.isRequired
