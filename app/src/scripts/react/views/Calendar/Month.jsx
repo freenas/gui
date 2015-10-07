@@ -104,7 +104,9 @@ const Month = React.createClass(
 
   , createDays ( ) {
     const today = moment();
-    const activeDate = moment().month( this.props.activeMonth );
+    const activeDate = moment()
+                      .year( this.props.activeYear )
+                      .month( this.props.activeMonth );
     var date = new Date( activeDate.year()
                        , activeDate.month()
                        , 1
@@ -134,7 +136,9 @@ const Month = React.createClass(
   }
 
   , render () {
-    var activeMoment = moment().month( this.props.activeMonth );
+    var activeMoment = moment()
+                      .year( this.props.activeYear )
+                      .month( this.props.activeMonth );
 
     var start = activeMoment.startOf( "month" ).day();
     var end = ( 7 - ( ( start + activeMoment.daysInMonth() ) % 7 ) );
