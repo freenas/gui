@@ -8,10 +8,9 @@
 
 import _ from "lodash";
 import React from "react";
-import { Button, ButtonToolbar, Input, Panel, Modal } from "react-bootstrap";
+import { Button, ButtonToolbar, Input, Panel } from "react-bootstrap";
 
 import VAC from "../../../flux/actions/VolumeActionCreators";
-import VM from "../../../flux/middleware/VolumeMiddleware";
 
 import EventBus from "../../../utility/EventBus";
 import ByteCalc from "../../../utility/ByteCalc";
@@ -298,13 +297,12 @@ const Volume = React.createClass(
               || "Volume" + ( this.props.volumeKey + 1 )
         };
 
-      VM.submitVolume( newVolume );
+      this.props.onVolumeSubmit( newVolume );
     }
 
-  , destroyVolume () {
+  , onDeleteVolume () {
     if ( this.props.existsOnRemote ) {
-      VM.destroyVolume( this.props.name );
-      this.setState({ showDestroyPoolModal: false });
+      this.props.onVolumeDelete( this.props.name );
     } else {
       throw new Error( "STORAGE: Somehow, the user tried to destroy a pool "
                      + "that doesn't exist on the server: "
@@ -316,14 +314,6 @@ const Volume = React.createClass(
 
   // RENDER METHODS
   // ==============
-  , confirmPoolDestruction () {
-      this.setState({ showDestroyPoolModal: true });
-    }
-
-  , hideDestroyPoolModal () {
-      this.setState({ showDestroyPoolModal: false });
-    }
-
   , render () {
       let editing;
       let topology;
@@ -365,7 +355,7 @@ const Volume = React.createClass(
         volumeHeader = (
           <ExistingVolume
             volumeName        = { this.props.name }
-            onDestroyPool     = { this.confirmPoolDestruction }
+            onDestroyPool     = { this.onDeleteVolume }
             onClick           = { this.handleDrawerOpen }
             topologyBreakdown = { breakdown }
           />
@@ -423,41 +413,6 @@ const Volume = React.createClass(
             onSelect           = { this.handleDrawerChange }
             topologyHandlers   = { TOPOLOGY_HANDLERS }
           />
-
-          {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
-          <Modal
-            show   = { this.state.showDestroyPoolModal }
-            onHide = { this.hideDestroyPoolModal }
-          >
-            <Modal.Header closebutton>
-              <Modal.Title>
-                {"Confirm Destruction of " + this.props.name }
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-              <p>
-                { "Bro are you like, really really sure you want to do this? "
-                + "Once you destroy "}<b>{ this.props.name }</b>{" it's not "
-                + "coming back. (In other words, I hope you backed up your "
-                + "porn.)"
-                }
-              </p>
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button onClick={ this.hideDestroyPoolModal }>
-                {"Uhhh no"}
-              </Button>
-              <Button
-                bsStyle = { "danger" }
-                onClick = { this.destroyVolume }
-              >
-                {"Blow my pool up fam"}
-              </Button>
-            </Modal.Footer>
-
-          </Modal>
         </Panel>
       );
     }

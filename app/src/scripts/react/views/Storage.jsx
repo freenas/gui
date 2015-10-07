@@ -8,7 +8,7 @@
 "use strict";
 
 import React from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Modal, Button } from "react-bootstrap";
 
 import VS from "../../flux/stores/VolumeStore";
 import VM from "../../flux/middleware/VolumeMiddleware";
@@ -50,6 +50,7 @@ export default class Storage extends React.Component {
       , availableSSDs    : VS.availableSSDs
       , availableHDDs    : VS.availableHDDs
       , activeVolume     : null
+      , volumeToDelete   : null
       , newDataset       : {}
       };
   }
@@ -130,6 +131,21 @@ export default class Storage extends React.Component {
   }
 
 
+  // VOLUME MIDDLEWARE COMMUNICATION HANDLERS
+  handleVolumeSubmit ( newVolume ) {
+    VM.submitVolume( newVolume );
+  }
+
+  handleVolumeDelete ( name ) {
+    VM.destroyVolume( name );
+    this.setState({ volumeToDelete: null }); // TODO: temp workaround
+  }
+
+  cancelVolumeDelete () {
+    this.setState({ volumeToDelete: null });
+  }
+
+
   // VOLUME RENDER / VISIBILITY MANAGEMENT
   handleVolumeActive ( key ) {
     this.setState({ activeVolume: key });
@@ -137,6 +153,10 @@ export default class Storage extends React.Component {
 
   handleVolumeInactive () {
     this.setState({ activeVolume: null });
+  }
+
+  handleVolumeDeleteConfirmation ( name ) {
+    this.setState({ volumeToDelete: name });
   }
 
 
@@ -240,9 +260,11 @@ export default class Storage extends React.Component {
     }
 
     const COMMON_PROPS =
-      { becomeActive       : this.handleVolumeActive.bind( this )
-      , becomeInactive     : this.handleVolumeInactive.bind( this )
-      , shares             : this.state.shares
+      { becomeActive   : this.handleVolumeActive.bind( this )
+      , becomeInactive : this.handleVolumeInactive.bind( this )
+      , onVolumeSubmit : this.handleVolumeSubmit.bind( this )
+      , onVolumeDelete : this.handleVolumeDeleteConfirmation.bind( this )
+      , shares         : this.state.shares
       , diskData:
         { SSDsAreAvailable : this.state.SSDsAreAvailable
         , HDDsAreAvailable : this.state.HDDsAreAvailable
@@ -250,14 +272,14 @@ export default class Storage extends React.Component {
         , availableHDDs    : this.state.availableHDDs
         }
       , filesystemHandlers:
-        { onShareCreate       : SM.create
-        , onShareDelete       : SM.delete
-        , onDatasetCreate     : VM.createDataset
-        , onDatasetUpdate     : VM.updateDataset
-        , onDatasetDelete     : VM.deleteDataset
-        , onDatasetChange     : this.handleNewDatasetChange.bind( this )
-        , onDatasetCancel     : this.handleNewDatasetCancel.bind( this )
-        , nameIsPermitted     : VS.isDatasetNamePermitted
+        { onShareCreate   : SM.create
+        , onShareDelete   : SM.delete
+        , onDatasetCreate : VM.createDataset
+        , onDatasetUpdate : VM.updateDataset
+        , onDatasetDelete : VM.deleteDataset
+        , onDatasetChange : this.handleNewDatasetChange.bind( this )
+        , onDatasetCancel : this.handleNewDatasetCancel.bind( this )
+        , nameIsPermitted : VS.isDatasetNamePermitted
         }
       };
 
@@ -348,6 +370,41 @@ export default class Storage extends React.Component {
         { loading }
         { message }
         { content }
+
+        {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
+        <Modal
+          show   = { Boolean( this.state.volumeToDelete ) }
+          onHide = { this.cancelVolumeDelete.bind( this ) }
+        >
+          <Modal.Header closebutton>
+            <Modal.Title>
+              {"Confirm Destruction of " + this.state.volumeToDelete }
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>
+              { "Bro are you like, really really sure you want to do this? "
+              + "Once you destroy "}<b>{ this.state.volumeToDelete }</b>{" "
+              + "it's not coming back. (In other words, I hope you backed up "
+              + "your porn.)"
+              }
+            </p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={ this.cancelVolumeDelete.bind( this ) }>
+              {"Uhhh no"}
+            </Button>
+            <Button
+              bsStyle = { "danger" }
+              onClick = { this.handleVolumeDelete.bind( this, this.state.volumeToDelete ) }
+            >
+              {"Blow my pool up fam"}
+            </Button>
+          </Modal.Footer>
+
+        </Modal>
       </main>
     );
   }
