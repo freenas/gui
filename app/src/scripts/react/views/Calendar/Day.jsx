@@ -67,7 +67,7 @@ const Day = React.createClass (
                      />
                    </Popover>;
                  break;
-               case "disks.test":
+               case "disks.parallel_test":
                  break;
              }
 
