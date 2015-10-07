@@ -79,7 +79,7 @@ class DisksStore extends FluxBase {
   get predominantDisks () {
     let candidates = {};
 
-    _.forEach( _disks, disk => {
+    _.forEach( this.onlineDisks, disk => {
       let label = createLabel( disk );
 
       if ( _.isArray( candidates[ label ] ) ) {
