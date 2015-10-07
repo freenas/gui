@@ -64,7 +64,6 @@ const Day = React.createClass (
                        selectedVolume = { task.args[0] }
                        taskID = { task.id }
                        handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
-                       chooseActiveTask = { this.props.chooseActiveTask }
                        volumes = { this.props.volumes }
                        { ...task.schedule }
                      />
