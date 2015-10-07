@@ -215,7 +215,7 @@ export default class Storage extends React.Component {
   }
 
   handleDatasetDelete () {
-    const { pool, path } = this.state.datasetToDelete;
+    const { pool, path, params } = this.state.datasetToDelete;
 
     VM.deleteDataset( pool, path );
     this.setState({ datasetToDelete: { path: null, pool: null } });
@@ -273,10 +273,10 @@ export default class Storage extends React.Component {
     this.setState({ datasetToDelete: { path: null, pool: null } });
   }
 
-  confirmDatasetDelete ( pool, path ) {
+  confirmDatasetDelete ( pool, pathl, params = {} ) {
     if ( pool && path ) {
       this.setState(
-        { datasetToDelete: { pool, path }
+        { datasetToDelete: { pool, path, params }
         }
       );
     }
