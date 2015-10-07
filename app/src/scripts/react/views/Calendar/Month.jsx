@@ -114,7 +114,7 @@ const Month = React.createClass(
 
     var result = [];
 
-    for ( let i = 0; i < activeDate.daysInMonth(); i++ ) {
+    for ( let i = 1; i < activeDate.daysInMonth(); i++ ) {
       result.push(
         <Day
           key = { i }
@@ -122,8 +122,8 @@ const Month = React.createClass(
           handleTaskRemove = { this.props.handleTaskRemove }
           chooseDay = { this.props.chooseDay }
           isToday = { today.isSame( date, "day" ) }
-          isSelected = { i + 1 === this.props.selectedDay }
-          dayOfMonth = { i + 1 }
+          isSelected = { i === this.props.selectedDate }
+          dayOfMonth = { i }
           index = { i }
           tasks = { checkTaskDates( this.props.tasks, date ) }
           chooseActiveTask = { this.props.chooseActiveTask }
