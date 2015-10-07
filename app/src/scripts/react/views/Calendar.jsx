@@ -30,11 +30,12 @@ const Calendar = React.createClass(
       let now = moment();
 
       return (
-        { activeMonth  : now.month()
-        , selectedDay  : now.date()
-        , mode         : "month"
-        , tasks        : []
-        , activeTask   : null
+        { activeYear: now.year()
+        , activeMonth: now.month()
+        , selectedDate: now.date()
+        , mode: "month"
+        , tasks: []
+        , activeTask: null
         }
       );
     }
