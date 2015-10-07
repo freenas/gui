@@ -137,6 +137,22 @@ const ScrubModal = React.createClass(
     CM.updateCalendarTask( this.props.taskID, newTask );
   }
 
+  , resetTask () {
+    var newState = { selectedVolume: null
+                   , taskID: null
+                   , day_of_week: null
+                   , week: null
+                   , day: null
+                   , month: null
+                   , year: null
+                   // , second: null
+                   // , minute: null
+                   // , hour: null
+                   , coalesce: null
+                   };
+    this.setState( newState );
+  }
+
   , isTaskValid () {
 
     var taskIDToCheck = this.state.taskID || this.props.taskID;
@@ -215,7 +231,7 @@ const ScrubModal = React.createClass(
     // Used to unselect existing tasks
     const resetButton =
       <Button
-        onClick = { this.props.chooseActiveTask.bind( null, null ) }
+        onClick = { this.resetTask }
         bsStyle = "default"
       >
         { "Cancel" }
