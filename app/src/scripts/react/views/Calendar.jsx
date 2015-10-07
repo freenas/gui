@@ -144,7 +144,10 @@ const Calendar = React.createClass(
                            , year: "*"
                            , coalesce: true
                            };
-        newTask.args = [ null ];
+        newTask.args = [ this.state.volumes[0]
+                       ? this.state.volumes[0].name
+                       : ""
+                       ];
         break;
 
       case "smart":
