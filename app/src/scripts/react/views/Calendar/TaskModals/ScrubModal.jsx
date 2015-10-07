@@ -67,19 +67,17 @@ const ScrubModal = React.createClass(
   , createVolumeOptions () {
     var options = [];
 
-    if ( _.has( this, [ "state", "volumes" ] ) ) {
-      options = _.map( this.state.volumes
-                     , function mapVolumeNameOptions ( volume ) {
-                       return (
-                         <option
-                           value = { volume.name }
-                           key = { volume.name }>
-                           { volume.name }
-                         </option>
-                       );
-                     }
+    options = _.map( this.props.volumes
+                   , function mapVolumeNameOptions ( volume ) {
+                     return (
+                       <option
+                         value = { volume.name }
+                         key = { volume.name }>
+                         { volume.name }
+                       </option>
                      );
-    }
+                   }
+                   );
 
     return options;
   }
