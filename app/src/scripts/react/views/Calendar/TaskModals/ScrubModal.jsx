@@ -106,36 +106,29 @@ const ScrubModal = React.createClass(
                   , name: "zfs.pool.scrub"
                   };
 
-    if ( _.has( this.state, "selectedVolume" ) ) {
+    if ( this.state.selectedVolume ) {
       newTask.args = [ this.state.selectedVolume ];
     }
-    if ( _.has( this.state, "day_of_week" )
-      && this.state.day_of_week ) {
+    if ( this.state.day_of_week ) {
       newTask.schedule.day_of_week = this.state.day_of_week;
-    } else if ( _.has( this.props, "day_of_week" )
-      && this.props.day_of_week ) {
+    } else if ( this.props.day_of_week ) {
       // day_of_week is different because it can be present without any other
       // settings made
       newTask.schedule.day_of_week = this.props.day_of_week;
     }
-    if ( _.has( this.state, "day" )
-      && this.state.day ) {
+    if ( this.state.day ) {
       newTask.schedule.day = this.state.day;
     }
-    if ( _.has( this.state, "week" )
-      && this.state.week ) {
+    if ( this.state.week ) {
       newTask.schedule.week = this.state.week;
     }
-    if ( _.has( this.state, "month" )
-      && this.state.month ) {
+    if ( this.state.month ) {
       newTask.schedule.month = this.state.month;
     }
-    if ( _.has( this.state, "year" )
-      && this.state.year ) {
+    if ( this.state.year ) {
       newTask.schedule.year = this.state.year;
     }
-    if ( _.has( this.state, "coalesce" )
-      && this.state.coalesce ) {
+    if ( this.state.coalesce ) {
       newTask.schedule.coalesce = this.state.coalesce;
     }
 
@@ -148,51 +141,39 @@ const ScrubModal = React.createClass(
                   , name: "zfs.pool.scrub"
                   };
 
-    if ( _.has( this.state, "selectedVolume" ) ) {
+    if ( this.state.selectedVolume ) {
       newTask.args = [ this.state.selectedVolume ];
-    } else if ( _.has( this.props, "selectedVolume" ) ) {
+    } else if ( this.props.selectedVolume ) {
       newTask.args = [ this.props.selectedVolume ];
     }
-    if ( _.has( this.state, "day_of_week" )
-      && this.state.day_of_week ) {
+    if ( this.state.day_of_week ) {
       newTask.schedule.day_of_week = this.state.day_of_week;
-    } else if ( _.has( this.props, "day_of_week" )
-      && this.props.day_of_week ) {
+    } else if ( this.props.day_of_week ) {
       newTask.schedule.day_of_week = this.props.day_of_week;
     }
-    if ( _.has( this.state, "day" )
-      && this.state.day ) {
+    if ( this.state.day ) {
       newTask.schedule.day = this.state.day;
-    } else if ( _.has( this.props, "day" )
-      && this.state.day ) {
-      newTask.schedule.day = this.state.day;
+    } else if ( this.props.day ) {
+      newTask.schedule.day = this.props.day;
     }
-    if ( _.has( this.state, "week" )
-      && this.state.week ) {
+    if ( this.state.week ) {
       newTask.schedule.week = this.state.week;
-    } else if ( _.has( this.props, "week" )
-      && this.state.week ) {
-      newTask.schedule.week = this.state.week;
+    } else if ( this.props.week ) {
+      newTask.schedule.week = this.props.week;
     }
-    if ( _.has( this.state, "month" )
-      && this.state.month ) {
+    if ( this.state.month ) {
       newTask.schedule.month = this.state.month;
-    } else if ( _.has( this.props, "month" )
-      && this.state.month ) {
-      newTask.schedule.month = this.state.month;
+    } else if ( this.props.month ) {
+      newTask.schedule.month = this.props.month;
     }
-    if ( _.has( this.state, "year" )
-      && this.state.year ) {
+    if ( this.state.year ) {
       newTask.schedule.year = this.state.year;
-    } else if ( _.has( this.props, "year" )
-      && this.state.year ) {
-      newTask.schedule.year = this.state.year;
+    } else if ( this.props.year ) {
+      newTask.schedule.year = this.props.year;
     }
-    if ( _.has( this.state, "coalesce" )
-      && this.state.coalesce ) {
+    if ( this.state.coalesce ) {
       newTask.schedule.coalesce = this.state.coalesce;
-    } else if ( _.has( this.props, "coalesce" )
-      && this.props.coalesce ) {
+    } else if ( this.props.coalesce ) {
       newTask.schedule.coalesce = this.props.coalesce;
     }
     newTask.id = this.state.taskID || this.props.taskID;
