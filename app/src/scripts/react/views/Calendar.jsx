@@ -186,7 +186,6 @@ const Calendar = React.createClass(
   }
 
   , handleTaskRemove ( taskID ) {
-    console.log( newTasks );
     var newTasks = _.cloneDeep( this.state.tasks );
     if ( _.any( CS.tasks
               , { id: taskID }
