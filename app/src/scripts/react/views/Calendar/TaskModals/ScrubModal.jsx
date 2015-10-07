@@ -252,6 +252,9 @@ const ScrubModal = React.createClass(
   var yearValue = this.state.year
                || this.props.year
                || "*";
+  var coalesceValue = this.state.coalesce
+                   || this.props.coalesce
+                   || false;
 
     // Used to create new tasks
     const submitButton =
@@ -312,7 +315,7 @@ const ScrubModal = React.createClass(
           // second = { secondValue }
           // minute = { minuteValue }
           // hour = { hourValue }
-          // coalesce = { coalesceValue }
+          coalesce = { coalesceValue }
           handleChange = { this.handleChange }/>
         <ButtonToolbar>
           { this.props.taskID
