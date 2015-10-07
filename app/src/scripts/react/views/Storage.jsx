@@ -16,8 +16,10 @@ import DS from "../../flux/stores/DisksStore";
 import DM from "../../flux/middleware/DisksMiddleware";
 import SM from "../../flux/middleware/SharesMiddleware";
 import SS from "../../flux/stores/SharesStore";
+import TS from "../../flux/stores/TasksStore";
 
 import Volume from "./Storage/Volume";
+import VolumeTask from "./Storage/VolumeTask";
 
 var Velocity;
 
@@ -40,11 +42,17 @@ export default class Storage extends React.Component {
     this.onChangedVS = this.handleUpdatedVS.bind( this );
     this.onChangedDS = this.handleUpdatedDS.bind( this );
     this.onChangedSS = this.handleUpdatedSS.bind( this );
+    this.onChangedTS = this.handleUpdatedTS.bind( this );
 
     // SET INITIAL STATE
     this.state =
       { volumes          : VS.listVolumes()
       , shares           : SS.shares
+      , tasks:
+        { "volume.create"  : TS.getTasksByName( "volume.create" )
+        , "volume.destroy" : TS.getTasksByName( "volume.destroy" )
+        , "volume.update"  : TS.getTasksByName( "volume.update" )
+        }
       , SSDsAreAvailable : VS.SSDsAreAvailable
       , HDDsAreAvailable : VS.HDDsAreAvailable
       , availableSSDs    : VS.availableSSDs
@@ -59,6 +67,7 @@ export default class Storage extends React.Component {
     VS.addChangeListener( this.onChangedVS );
     DS.addChangeListener( this.onChangedDS );
     SS.addChangeListener( this.onChangedSS );
+    TS.addChangeListener( this.onChangedTS );
 
     DM.subscribe( this.displayName );
     VM.subscribe( this.displayName );
@@ -74,6 +83,7 @@ export default class Storage extends React.Component {
     VS.removeChangeListener( this.onChangedVS );
     DS.removeChangeListener( this.onChangedDS );
     SS.removeChangeListener( this.onChangedSS );
+    TS.removeChangeListener( this.onChangedTS );
 
     DM.unsubscribe( this.displayName );
     VM.unsubscribe( this.displayName );
@@ -128,6 +138,26 @@ export default class Storage extends React.Component {
 
   handleUpdatedSS ( eventMask ) {
     this.setState({ shares: SS.shares });
+  }
+
+  handleUpdatedTS ( taskNamespace ) {
+    let newTasks = this.state.tasks;
+
+    switch ( taskNamespace ) {
+      case "volume.create":
+        newTasks[ "volume.create" ] = TS.getTasksByName( "volume.create" );
+        break;
+
+      case "volume.destroy":
+        newTasks[ "volume.destroy" ] = TS.getTasksByName( "volume.destroy" );
+        break;
+
+      case "volume.update":
+        newTasks[ "volume.update" ] = TS.getTasksByName( "volume.update" );
+        break;
+    }
+
+    this.setState({ tasks: newTasks });
   }
 
 
@@ -249,7 +279,7 @@ export default class Storage extends React.Component {
 
   // RENDER METHODS
   createVolumes () {
-    const { activeVolume, volumes } = this.state;
+    const { activeVolume, volumes, tasks, shares } = this.state;
 
     let renderableVolumes = _.cloneDeep( volumes );
 
@@ -264,7 +294,8 @@ export default class Storage extends React.Component {
       , becomeInactive : this.handleVolumeInactive.bind( this )
       , onVolumeSubmit : this.handleVolumeSubmit.bind( this )
       , onVolumeDelete : this.handleVolumeDeleteConfirmation.bind( this )
-      , shares         : this.state.shares
+      , tasks          : tasks
+      , shares         : shares
       , diskData:
         { SSDsAreAvailable : this.state.SSDsAreAvailable
         , HDDsAreAvailable : this.state.HDDsAreAvailable
@@ -333,9 +364,12 @@ export default class Storage extends React.Component {
   }
 
   render () {
-    let loading = null;
-    let message = null;
-    let content = null;
+    const TASKS = this.state.tasks;
+
+    let activeTask = null;
+    let loading    = null;
+    let message    = null;
+    let content    = null;
 
     if ( VS.isInitialized ) {
       if ( this.state.volumes.length === 0 ) {
@@ -369,6 +403,8 @@ export default class Storage extends React.Component {
         </h1>
         { loading }
         { message }
+        <VolumeTask tasks={ TASKS["volume.create"] } />
+        <VolumeTask tasks={ TASKS["volume.destroy"] } />
         { content }
 
         {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}

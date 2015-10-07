@@ -68,7 +68,7 @@ class TasksStore extends FluxBase {
     let tasks = Object.assign( {}, _created, _waiting, _executing, _finished
                              , _failed, _aborted );
 
-    return _.where( tasks, { name: name });
+    return _.where( tasks, { name: name }) || [];
   }
 
   getTaskByID ( ID ) {
