@@ -27,23 +27,18 @@ export default class VolumeMiddleware extends MiddlewareAbstract {
 
 
   // VOLUME TASKS
-  static submitVolume ( volumeProps ) {
-    MC.submitTask( [ "volume.create", [ volumeProps ] ]
-                 , VAC.receiveVolumeCreateTask
-                 );
+  static submitVolume ( volumeProps, callback ) {
+    MC.submitTask( [ "volume.create", [ volumeProps ] ], callback );
   }
 
-  static updateVolume ( volumeProps ) {
-    MC.submitTask( [ "volume.create", [ volumeProps ] ]
-                 , VAC.receiveVolumeUpdateTask
-                 );
+  static updateVolume ( volumeProps, callback ) {
+    MC.submitTask( [ "volume.create", [ volumeProps ] ], callback );
   }
 
-  static destroyVolume ( volumeName ) {
-    MC.submitTask( [ "volume.destroy", [ volumeName ] ]
-                 , VAC.receiveVolumeDestroyTask
-                 );
+  static destroyVolume ( volumeName, callback ) {
+    MC.submitTask( [ "volume.destroy", [ volumeName ] ], callback );
   }
+
 
   // DATASET TASKS
   static createDataset ( pool_name, path, type, params ) {

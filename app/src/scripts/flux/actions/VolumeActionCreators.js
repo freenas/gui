@@ -27,33 +27,6 @@ export default class VolumeActionCreators {
     );
   }
 
-  static receiveVolumeCreateTask ( taskID, timestamp ) {
-    FreeNASDispatcher.handleClientAction(
-      { type: ActionTypes.RECEIVE_VOLUME_CREATE_TASK
-      , taskID
-      , timestamp
-      }
-    );
-  }
-
-  static receiveVolumeUpdateTask ( taskID, timestamp ) {
-    FreeNASDispatcher.handleClientAction(
-      { type: ActionTypes.RECEIVE_VOLUME_UPDATE_TASK
-      , taskID
-      , timestamp
-      }
-    );
-  }
-
-  static receiveVolumeDestroyTask ( taskID, timestamp ) {
-    FreeNASDispatcher.handleClientAction(
-      { type: ActionTypes.RECEIVE_VOLUME_DESTROY_TASK
-      , taskID
-      , timestamp
-      }
-    );
-  }
-
   // CLIENT METHODS
   static replaceDiskSelection ( disks ) {
     FreeNASDispatcher.handleClientAction(
