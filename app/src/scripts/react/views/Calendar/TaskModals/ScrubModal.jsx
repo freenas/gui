@@ -88,33 +88,22 @@ const ScrubModal = React.createClass(
                   , name: "zfs.pool.scrub"
                   };
 
-    if ( this.state.selectedVolume ) {
-      newTask.args = [ this.state.selectedVolume ];
-    }
-    if ( this.state.day_of_week ) {
-      newTask.schedule.day_of_week = this.state.day_of_week;
-    } else if ( this.props.day_of_week ) {
-      // day_of_week is different because it can be present without any other
-      // settings made
-      newTask.schedule.day_of_week = this.props.day_of_week;
-    }
-    if ( this.state.day ) {
-      newTask.schedule.day = this.state.day;
-    }
-    if ( this.state.week ) {
-      newTask.schedule.week = this.state.week;
-    }
-    if ( this.state.month ) {
-      newTask.schedule.month = this.state.month;
-    }
-    if ( this.state.year ) {
-      newTask.schedule.year = this.state.year;
-    }
-    if ( this.state.coalesce ) {
+    newTask.args = [ this.state.selectedVolume ]
+                || [ this.props.selectedVolume ];
+    newTask.schedule.day_of_week = this.state.day_of_week
+                                || this.props.day_of_week;
+    newTask.schedule.day = this.state.day || this.props.day;
+    newTask.schedule.week = this.state.week || this.props.week;
+    newTask.schedule.month = this.state.month || this.props.month;
+    newTask.schedule.year = this.state.year || this.props.year;
+    if ( this.state.coalesce !== undefined ) {
       newTask.schedule.coalesce = this.state.coalesce;
+    } else {
+      newTask.schedule.coalesce = this.props.coalesce;
     }
 
-    newTask.id = this.state.taskID;
+    newTask.id = this.state.taskID || this.props.taskID ;
+
     CM.createCalendarTask( newTask );
   }
 
