@@ -26,9 +26,6 @@ var _availableSSDs = new Set();
 var _availableHDDs = new Set();
 var _selectedSSDs = new Set();
 var _selectedHDDs = new Set();
-var _pendingVolumeCreateTasks = [];
-var _pendingVolumeUpdateTasks = [];
-var _pendingVolumeDestroyTasks = [];
 
 class VolumeStore extends FluxBase {
 
@@ -131,7 +128,6 @@ function handleDiskDeselect ( disk ) {
 // Handler for payloads from Flux Dispatcher
 function handlePayload ( payload ) {
   const ACTION = payload.action;
-  const eventData = ACTION.eventData;
 
   switch ( ACTION.type ) {
 
@@ -193,67 +189,28 @@ function handlePayload ( payload ) {
       this.emitChange( "availableDisks" );
       break;
 
-    case ActionTypes.RECEIVE_VOLUME_CREATE_TASK:
-      _pendingVolumeCreateTasks.push( ACTION.taskID );
-      this.emitChange( "volumeCreateTaskPending" );
-      break;
-
-    case ActionTypes.RECEIVE_VOLUME_UPDATE_TASK:
-      _pendingVolumeUpdateTasks.push( ACTION.taskID );
-      this.emitChange( "volumeUpdateTaskPending" );
-      break;
-
-    case ActionTypes.RECEIVE_VOLUME_DESTROY_TASK:
-      _pendingVolumeDestroyTasks.push( ACTION.taskID );
-      this.emitChange( "volumeDestroyTaskPending" );
-      break;
-
     case ActionTypes.MIDDLEWARE_EVENT:
-      handleMiddlewareEvent.call( this, payload );
+      if ( ACTION.eventData ) {
+        handleMiddlewareEvent.call( this, ACTION.eventData, ACTION );
+      }
       break;
   }
 }
 
-function handleMiddlewareEvent ( payload ) {
-  const args = payload.action.eventData.args;
+function handleMiddlewareEvent ( eventData, ACTION ) {
+  const ARGS = eventData.args.args;
+  const NAME = eventData.args.name;
 
-  switch ( args.name ) {
+  switch ( NAME ) {
     case "entity-subscriber.volumes.changed":
-      if ( args.args.operation === "create" ) {
-        _volumes[ args.args.entities[0].id ] = _.cloneDeep( args.args.entities[0] );
-        this.emitChange( "volumeCreated" );
-      } else if ( args.args.operation = "destroy" ) {
-        delete _volumes[ args.args.ids[0] ];
-        this.emitChange( "volumeDestroyed" );
+      if ( ARGS.operation === "create" ) {
+        _volumes[ ARGS.entities[0].id ] = ARGS.entities[0];
+        this.emitChange( "volumes" );
+      } else if ( ARGS.operation === "delete" ) {
+        delete _volumes[ ARGS.ids[0] ];
+        this.emitChange( "volumes" );
       }
       break;
-    case "task.progress":
-      switch ( args.args.name ) {
-        case "volume.create":
-          if ( args.args.state === "FINISHED" ) {
-            _.pull( _pendingVolumeCreateTasks
-                  , args.args.id
-                  );
-            this.emitChange( "createVolumeTaskFinished" );
-          }
-          break;
-        case "volume.update":
-          if ( args.args.state === "FINISHED" ) {
-            _.pull( _pendingVolumeUpdateTasks
-                  , args.args.id
-                  );
-            this.emitChange( "updateVolumeTaskFinished" );
-          }
-          break;
-        case "volume.destroy":
-          if ( args.args.state === "FINISHED" ) {
-            _.pull( _pendingVolumeDestroyTasks
-                  , args.args.id
-                  );
-            this.emitChange( "destroyVolumeTaskFinished" );
-          }
-          break;
-      }
   }
 }
 
