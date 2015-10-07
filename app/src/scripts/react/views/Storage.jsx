@@ -349,23 +349,6 @@ export default class Storage extends React.Component {
           active    = { pools.length === activeVolume }
         />
       );
-    } else if ( pools.length === 0 ) {
-      // There were no resources, AND no volumes exist on the server. This
-      // most likely indicates that the user's system has no disks, the disks
-      // are not connected, etc.
-
-      pools.push(
-        <Alert
-          bsStyle   = "warning"
-          className = "volume"
-          key = { pools.length }
-        >
-          { "No volumes were found on the server, and no disks are "
-          + "avaialable for inclusion in a new storage pool.\n\n Please shut "
-          + "down the system, check your hardware, and try again."
-          }
-        </Alert>
-      );
     }
 
     return pools;
@@ -373,11 +356,14 @@ export default class Storage extends React.Component {
 
   render () {
     const TASKS = this.state.tasks;
+    const VOLUME_CREATE_TASK = this.findActiveTask( TASKS["volume.create"] );
+    const VOLUME_DESTROY_TASK = this.findActiveTask( TASKS["volume.destroy"] );
 
     let activeTask = null;
     let loading    = null;
     let message    = null;
     let content    = null;
+    let warning    = null;
 
     if ( VS.isInitialized ) {
       if ( this.state.volumes.length === 0 ) {
@@ -404,6 +390,25 @@ export default class Storage extends React.Component {
       loading = <h1 className="text-center">LOADING</h1>;
     }
 
+    if ( false ) {
+      // TODO: Re-enable this when it makes sense
+      // There were no resources, AND no volumes exist on the server. This
+      // most likely indicates that the user's system has no disks, the disks
+      // are not connected, etc.
+      warning = (
+        <Alert
+          bsStyle   = "warning"
+          className = "volume"
+          key = { pools.length }
+        >
+          { "No volumes were found on the server, and no disks are "
+          + "avaialable for inclusion in a new storage pool.\n\n Please shut "
+          + "down the system, check your hardware, and try again."
+          }
+        </Alert>
+      );
+    }
+
     return (
       <main>
         <h1 className="view-header section-heading type-line">
@@ -414,9 +419,10 @@ export default class Storage extends React.Component {
         <div>
           { loading }
           { message }
-          <VolumeTask { ...this.findActiveTask( TASKS["volume.create"] ) } />
-          <VolumeTask { ...this.findActiveTask( TASKS["volume.destroy"] ) } />
+          <VolumeTask { ...VOLUME_CREATE_TASK } />
+          <VolumeTask { ...VOLUME_DESTROY_TASK } />
           { content }
+          { warning }
         </div>
 
         {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
