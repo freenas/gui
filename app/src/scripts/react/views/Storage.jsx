@@ -169,12 +169,17 @@ export default class Storage extends React.Component {
 
   // VOLUME MIDDLEWARE COMMUNICATION HANDLERS
   handleVolumeSubmit ( newVolume ) {
+    this.setState({ activeVolume: null });
     VM.submitVolume( newVolume );
   }
 
   handleVolumeDelete ( name ) {
     VM.destroyVolume( name );
-    this.setState({ volumeToDelete: null }); // TODO: temp workaround
+    this.setState(
+      { volumeToDelete : null // TODO: temp workaround
+      , activeVolume   : null
+      }
+    );
   }
 
   cancelVolumeDelete () {
