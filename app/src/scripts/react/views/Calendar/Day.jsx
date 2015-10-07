@@ -53,7 +53,8 @@ const Day = React.createClass (
                      volumeName = { task.args[0] || null }
                      chooseActiveTask = { this.props.chooseActiveTask.bind( null, task.id ) }
                      handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
-                     ref = { task.id }/>;
+                     ref = { task.id }
+                   />;
                  taskModal =
                    <Popover id = { task.id }>
                      <ScrubModal
@@ -62,7 +63,8 @@ const Day = React.createClass (
                        taskID = { task.id }
                        handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
                        chooseActiveTask = { this.props.chooseActiveTask }
-                       { ...task.schedule }/>
+                       { ...task.schedule }
+                     />
                    </Popover>;
                  break;
                case "disks.test":
@@ -81,7 +83,8 @@ const Day = React.createClass (
                          && this.props.isSelected
                           }
                    placement = "bottom"
-                   target = { ()=> React.findDOMNode( this.refs[ this.props.activeTask ] ) }>
+                   target = { ()=> React.findDOMNode( this.refs[ this.props.activeTask ] ) }
+                 >
                    { taskModal }
                  </Overlay>
                </div>
