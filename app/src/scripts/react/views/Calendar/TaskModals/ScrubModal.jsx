@@ -153,9 +153,9 @@ const ScrubModal = React.createClass(
     } else if ( this.props.year ) {
       newTask.schedule.year = this.props.year;
     }
-    if ( this.state.coalesce ) {
+    if ( this.state.coalesce !== undefined ) {
       newTask.schedule.coalesce = this.state.coalesce;
-    } else if ( this.props.coalesce ) {
+    } else {
       newTask.schedule.coalesce = this.props.coalesce;
     }
     newTask.id = this.state.taskID || this.props.taskID;
