@@ -32,6 +32,8 @@ if ( typeof window !== "undefined" ) {
   };
 }
 
+const ACTIVE_TASK_STATES = new Set([ "CREATED", "WAITING", "EXECUTING" ]);
+
 export default class Storage extends React.Component {
 
   constructor( props ) {
@@ -278,6 +280,12 @@ export default class Storage extends React.Component {
 
 
   // RENDER METHODS
+  findActiveTask( tasks ) {
+    return Array.find( tasks, ( task ) => {
+      return ACTIVE_TASK_STATES.has( task.state.toUpperCase() );
+    });
+  }
+
   createVolumes () {
     const { activeVolume, volumes, tasks, shares } = this.state;
 
@@ -403,8 +411,8 @@ export default class Storage extends React.Component {
         </h1>
         { loading }
         { message }
-        <VolumeTask tasks={ TASKS["volume.create"] } />
-        <VolumeTask tasks={ TASKS["volume.destroy"] } />
+        <VolumeTask { ...this.findActiveTask( TASKS["volume.create"] ) } />
+        <VolumeTask { ...this.findActiveTask( TASKS["volume.destroy"] ) } />
         { content }
 
         {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}

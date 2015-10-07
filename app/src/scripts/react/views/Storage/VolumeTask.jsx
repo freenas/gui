@@ -6,24 +6,63 @@
 
 import React from "react";
 
-const ACTIVE_STATES = new Set([ "CREATED", "WAITING", "EXECUTING" ]);
+import { ProgressBar } from "react-bootstrap";
+
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./VolumeTask.less" );
+
+const MESSAGES =
+  { "volume.create":
+    { CREATED: "Setting up volume creation task..."
+    , WAITING: "Waiting for resources..."
+    , EXECUTING: "Creating volume"
+    }
+  , "volume.destroy":
+    { CREATED: "Setting up volume destruction task..."
+    , WAITING: "Waiting for resources..."
+    , EXECUTING: "Destroying volume"
+    }
+  };
 
 export default class VolumeTask extends React.Component {
   render () {
-    let activeTask = Array.find( this.props.tasks, ( task ) => {
-      return ACTIVE_STATES.has( task.state.toUpperCase() );
-    });
+    let content = null;
+    const { name, percentage, state } = this.props;
 
-    if ( activeTask ) {
-      return (
-        <h1>{"SOMETHING IS HAPPENING TO A POOL OMG"}</h1>
+    if ( state ) {
+      let progressProps = {};
+
+      switch ( state ) {
+        case "EXECUTING":
+          progressProps.now = percentage;
+          break;
+
+        default:
+          progressProps.now    = 100;
+          progressProps.active = true;
+          break;
+      }
+
+      content = (
+        <div className="volume-task">
+          <h2 className="volume-task-message">
+            { MESSAGES[ name ][ state ] }
+          </h2>
+          <ProgressBar { ...progressProps } />
+        </div>
       );
-    } else {
-      return null;
     }
+
+    return content;
   }
 }
 
 VolumeTask.propTypes =
-  { tasks: React.PropTypes.array
+  { abortable  : React.PropTypes.bool
+  , id         : React.PropTypes.number
+  , message    : React.PropTypes.string
+  , name       : React.PropTypes.oneOf([ "volume.create", "volume.destroy" ])
+  , percentage : React.PropTypes.number
+  , state      : React.PropTypes.oneOf([ "CREATED", "WAITING", "EXECUTING" ])
+  , timestamp  : React.PropTypes.number
   };
