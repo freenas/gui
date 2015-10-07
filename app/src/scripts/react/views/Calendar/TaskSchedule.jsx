@@ -14,7 +14,8 @@ function generateDayOptions ( month, year ) {
   dayOptions.push(
     <option
       key = { "*" }
-      value = { "*" }>
+      value = { "*" }
+    >
       { "All" }
     </option>
   );
@@ -23,7 +24,8 @@ function generateDayOptions ( month, year ) {
     dayOptions.push(
       <option
         key = { i.toString() }
-        value = { i.toString() }>
+        value = { i.toString() }
+      >
         { i.toString() }
       </option>
     );
@@ -35,12 +37,14 @@ function generateDayOptions ( month, year ) {
     case "November":
     dayOptions.push( <option
                        key = { "29" }
-                       value = { "29" }>
+                       value = { "29" }
+                     >
                        { "29" }
                      </option>
                    , <option
                        key = { "30" }
-                       value = { "30" }>
+                       value = { "30" }
+                     >
                        { "30" }
                      </option>
                    );
@@ -54,17 +58,20 @@ function generateDayOptions ( month, year ) {
     case "December":
     dayOptions.push( <option
                        key = { "29" }
-                       value = { "29" }>
+                       value = { "29" }
+                     >
                        { "29" }
                      </option>
                    , <option
                        key = { "30" }
-                       value = { "30" }>
+                       value = { "30" }
+                     >
                        { "30" }
                      </option>
                    , <option
                        key = { "31" }
-                       value = { "31" }>
+                       value = { "31" }
+                     >
                        { "31" }
                      </option>
                    );
@@ -74,7 +81,8 @@ function generateDayOptions ( month, year ) {
     if ( year % 4 === 0 ) {
       dayOptions.push( <option
                          key = { "29" }
-                         value = { "29" }>
+                         value = { "29" }
+                       >
                          { "29" }
                        </option>
                      );
@@ -90,7 +98,8 @@ function generateYearOptions () {
   yearOptions.push(
     <option
       key = { "*" }
-      value = { "*" }>
+      value = { "*" }
+    >
       { "All" }
     </option>
   );
@@ -99,7 +108,8 @@ function generateYearOptions () {
     yearOptions.push(
       <option
         key = { i }
-        value = { i.toString() }>
+        value = { i.toString() }
+      >
         { i }
       </option>
     );
@@ -130,42 +140,50 @@ const TaskSchedule = React.createClass(
           label = "Weekday">
           <option
             value = { "*" }
-            key = { "*" }>
+            key = { "*" }
+          >
             { "All" }
           </option>
           <option
             value = { "sun" }
-            key = { "sun" }>
+            key = { "sun" }
+          >
             { "Sunday" }
           </option>
           <option
             value = { "mon" }
-            key = { "mon" }>
+            key = { "mon" }
+          >
             { "Monday" }
           </option>
           <option
             value = { "tue" }
-            key = { "tue" }>
+            key = { "tue" }
+          >
             { "Tuesday" }
           </option>
           <option
             value = { "wed" }
-            key = { "wed" }>
+            key = { "wed" }
+          >
             { "Wednesday" }
           </option>
           <option
             value = { "thu" }
-            key = { "thu" }>
+            key = { "thu" }
+          >
             { "Thursday" }
           </option>
           <option
             value = { "fri" }
-            key = { "fri" }>
+            key = { "fri" }
+          >
             { "Friday" }
           </option>
           <option
             value = { "sat" }
-            key = { "sat" }>
+            key = { "sat" }
+          >
             { "Saturday" }
           </option>
         </Input>
@@ -183,67 +201,80 @@ const TaskSchedule = React.createClass(
           label = "Month">
           <option
             value = { "*" }
-            key = { "*" }>
+            key = { "*" }
+          >
             { "All" }
           </option>
           <option
             value = { "0" }
-            key = { "January" }>
+            key = { "January" }
+          >
             { "January" }
           </option>
           <option
             value = { "1" }
-            key = { "February" }>
+            key = { "February" }
+          >
             { "February" }
           </option>
           <option
             value = { "2" }
-            key = { "March" }>
+            key = { "March" }
+          >
             { "March" }
           </option>
           <option
             value = { "3" }
-            key = { "April" }>
+            key = { "April" }
+          >
             { "April" }
           </option>
           <option
             value = { "4" }
-            key = { "May" }>
+            key = { "May" }
+          >
             { "May" }
           </option>
           <option
             value = { "5" }
-            key = { "June" }>
+            key = { "June" }
+          >
             { "June" }
           </option>
           <option
             value = { "6" }
-            key = { "July" }>
+            key = { "July" }
+          >
             { "July" }
           </option>
           <option
             value = { "7" }
-            key = { "August" }>
+            key = { "August" }
+          >
             { "August" }
           </option>
           <option
             value = { "8" }
-            key = { "September" }>
+            key = { "September" }
+          >
             { "September" }
           </option>
           <option
             value = { "9" }
-            key = { "October" }>
+            key = { "October" }
+          >
             { "October" }
           </option>
           <option
             value = { "10" }
-            key = { "November" }>
+            key = { "November" }
+          >
             { "November" }
           </option>
           <option
             value = { "11" }
-            key = { "December" }>
+            key = { "December" }
+          >
             { "December" }
           </option>
         </Input>
@@ -251,7 +282,8 @@ const TaskSchedule = React.createClass(
           type = "select"
           onChange = { this.props.handleChange.bind( null, "year" ) }
           value = { this.props.year }
-          label = "Year">
+          label = "Year"
+        >
           { generateYearOptions() }
         </Input>
       </div>
