@@ -127,7 +127,8 @@ const Month = React.createClass(
           index = { i }
           tasks = { checkTaskDates( this.props.tasks, date ) }
           chooseActiveTask = { this.props.chooseActiveTask }
-          activeTask = { this.props.activeTask }/>
+          activeTask = { this.props.activeTask }
+        />
       );
       date.setDate( date.getDate() + 1 );
     }
