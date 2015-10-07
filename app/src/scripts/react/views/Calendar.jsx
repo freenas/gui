@@ -116,8 +116,8 @@ const Calendar = React.createClass(
                            , week: "*"
                            , month: "*"
                            , year: "*"
+                           , coalesce: true
                            };
-        newTask.coalesce = true;
         newTask.args = [ null ];
         break;
 
@@ -128,8 +128,8 @@ const Calendar = React.createClass(
                            , week: "*"
                            , month: "*"
                            , year: "*"
+                           , coalesce: true
                            };
-        newTask.coalesce = true;
         newTask.args = [ null, "SHORT" ];
         break;
     }
