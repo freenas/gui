@@ -105,6 +105,7 @@ const Calendar = React.createClass(
         { activeYear: now.year()
         , activeMonth: now.month()
         , selectedDate: now.startOf( "month" ).date()
+        , activeTask: null
         , tasks: CS.tasks
         }
       );
