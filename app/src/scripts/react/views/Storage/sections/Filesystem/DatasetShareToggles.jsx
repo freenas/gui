@@ -36,7 +36,7 @@ export default class DatasetShareToggles extends React.Component {
     }
 
     return (
-      <DatasetProperty legend="File Sharing">
+      <DatasetProperty legend="Share Type">
         <ButtonGroup
           className = { classes.join( " " ) }
         >
