@@ -209,6 +209,10 @@ function handleMiddlewareEvent ( eventData, ACTION ) {
       } else if ( ARGS.operation === "delete" ) {
         delete _volumes[ ARGS.ids[0] ];
         this.emitChange( "volumes" );
+      } else if ( ARGS.operation === "update" ) {
+        _volumes[ ARGS.entities[0].id ] =
+          Object.assign({}, _volumes[ ARGS.entities[0].id ], ARGS.entities[0] );
+        this.emitChange( "volumes" );
       }
       break;
   }
