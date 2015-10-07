@@ -141,6 +141,14 @@ export default class Dataset extends React.Component {
 
         {/* PROPERTIES OF DATASET AND OPTIONS */}
           <div className="dataset-properties">
+
+            {/* RADIO TOGGLES FOR CREATING SHARES */}
+            <DatasetShareToggles
+              parentShared  = { parentShared }
+              activeShare   = { activeShare }
+              onShareToggle = { this.handleShareToggle.bind( this ) }
+            />
+
             <DatasetProperty legend="Used">
               { ByteCalc.humanize( used.rawvalue ) }
             </DatasetProperty>
@@ -152,13 +160,6 @@ export default class Dataset extends React.Component {
             <DatasetProperty legend="Compression">
               { compression.rawvalue }
             </DatasetProperty>
-
-            {/* RADIO TOGGLES FOR CREATING SHARES */}
-            <DatasetShareToggles
-              parentShared  = { parentShared }
-              activeShare   = { activeShare }
-              onShareToggle = { this.handleShareToggle.bind( this ) }
-            />
 
             {/* "+" DROPDOWN BUTTON: ADD DATASETS AND ZVOLS */}
             <DropdownButton
