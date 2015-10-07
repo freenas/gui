@@ -71,7 +71,7 @@ const Calendar = React.createClass(
 
       this.setState(
         { activeMonth: now.month()
-        , selectedDay: now.startOf( "month" ).date()
+        , selectedDate: now.startOf( "month" ).date()
         , tasks: CS.tasks
         }
       );
@@ -82,14 +82,14 @@ const Calendar = React.createClass(
 
       this.setState(
         { activeMonth: now.month()
-        , selectedDay: now.date()
+        , selectedDate: now.date()
         , tasks: CS.tasks
         }
       );
     }
 
   , chooseDay ( day ) {
-    var newState = { selectedDay: day
+    var newState = { selectedDate: day
                    , tasks: CS.tasks
                    };
 
@@ -135,7 +135,7 @@ const Calendar = React.createClass(
     newTasks.push( newTask );
     this.setState( { tasks: newTasks
                    , activeTask: ""
-                   , selectedDay: targetDate.getDate()
+                   , selectedDate: targetDate.getDate()
                    }
                  );
   }
@@ -191,7 +191,7 @@ const Calendar = React.createClass(
           <Month
             tasks = { this.state.tasks }
             activeMonth = { this.state.activeMonth }
-            selectedDay = { this.state.selectedDay }
+            selectedDate = { this.state.selectedDate }
             chooseDay = { this.chooseDay }
             handleTaskRemove = { this.handleTaskRemove }
             handleTaskAdd = { this.handleTaskAdd }
