@@ -60,7 +60,7 @@ function checkTaskDates ( tasks, date ) {
              if ( task.schedule.year === "*" ) {
                matchYear = true;
              } else if ( _.has( task.schedule, "year" ) ) {
-               matchYear = task.schedule.year === date.getYear().toString()
+               matchYear = task.schedule.year === date.getFullYear().toString()
                          ? true
                          : false;
              }
