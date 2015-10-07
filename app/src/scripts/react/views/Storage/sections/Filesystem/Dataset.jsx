@@ -73,6 +73,10 @@ export default class Dataset extends React.Component {
     this.props.handlers.onDatasetChange( newDataset );
   }
 
+  onDatasetDelete () {
+    this.props.handlers.onDatasetDelete( this.props.pool, this.props.name );
+  }
+
   createChild ( dataset, index ) {
     if ( !dataset ) {
       console.warn( "No dataset was passed in" );
@@ -129,7 +133,7 @@ export default class Dataset extends React.Component {
   }
 
   render () {
-    const { name, children, activeShare, parentShared } = this.props;
+    const { name, children, activeShare, parentShared, handlers } = this.props;
     const { used, available, compression } = this.props.properties;
 
     const DATASET_NAME = name.split( "/" ).pop();
@@ -175,14 +179,14 @@ export default class Dataset extends React.Component {
               { compression.rawvalue }
             </DatasetProperty>
 
-            {/* "+" DROPDOWN BUTTON: ADD DATASETS AND ZVOLS */}
+            {/* "COG" DROPDOWN BUTTON: SHARE OPTIONS */}
             <DropdownButton
               noCaret
               pullRight
               bsStyle   = "link"
-              className = "add-child"
-              id        = { this.props.name.replace( /\s/, "-" ) + "-add-btn" }
-              title     = { <Icon glyph="icon-plus" /> }
+              className = "options"
+              id        = { this.props.name.replace( /\s/, "-" ) + "-options-btn" }
+              title     = { <Icon glyph="icon-cog" /> }
             >
               <MenuItem
                 onSelect = { this.formatNewDataset.bind( this ) }
@@ -190,6 +194,14 @@ export default class Dataset extends React.Component {
                 { "New share..." }
               </MenuItem>
               <MenuItem disabled>{ "New block storage..." }</MenuItem>
+
+              <MenuItem divider />
+
+              <MenuItem
+                onSelect = { this.onDatasetDelete.bind( this ) }
+              >
+                { `Delete ${ DATASET_NAME }...` }
+              </MenuItem>
             </DropdownButton>
           </div>
         </div>
