@@ -61,6 +61,7 @@ export default class Storage extends React.Component {
       , availableHDDs    : VS.availableHDDs
       , activeVolume     : null
       , volumeToDelete   : null
+      , datasetToDelete  : { path: null, pool: null }
       , newDataset       : {}
       };
   }
@@ -213,6 +214,13 @@ export default class Storage extends React.Component {
     this.setState({ newDataset: {} });
   }
 
+  handleDatasetDelete () {
+    const { pool, path } = this.state.datasetToDelete;
+
+    VM.deleteDataset( pool, path );
+    this.setState({ datasetToDelete: { path: null, pool: null } });
+  }
+
   nestDatasets ( datasets ) {
     if ( !datasets ) {
       // Datasets was definitely not an array
@@ -260,6 +268,20 @@ export default class Storage extends React.Component {
         return [ hash[ poolName ] ];
     }
   }
+
+  cancelDatasetDelete () {
+    this.setState({ datasetToDelete: { path: null, pool: null } });
+  }
+
+  confirmDatasetDelete ( pool, path ) {
+    if ( pool && path ) {
+      this.setState(
+        { datasetToDelete: { pool, path }
+        }
+      );
+    }
+  }
+
 
 
   // LOCAL STATE PATCHING METHODS
@@ -325,7 +347,7 @@ export default class Storage extends React.Component {
         , onShareDelete   : SM.delete
         , onDatasetCreate : VM.createDataset
         , onDatasetUpdate : VM.updateDataset
-        , onDatasetDelete : VM.deleteDataset
+        , onDatasetDelete : this.confirmDatasetDelete.bind( this )
         , onDatasetChange : this.handleNewDatasetChange.bind( this )
         , onDatasetCancel : this.handleNewDatasetCancel.bind( this )
         , nameIsPermitted : VS.isDatasetNamePermitted
@@ -368,6 +390,9 @@ export default class Storage extends React.Component {
     const TASKS = this.state.tasks;
     const VOLUME_CREATE_TASK = this.findActiveTask( TASKS["volume.create"] );
     const VOLUME_DESTROY_TASK = this.findActiveTask( TASKS["volume.destroy"] );
+
+    const VOLUME_TO_DELETE = this.state.volumeToDelete;
+    const DATASET_TO_DELETE = this.state.datasetToDelete;
 
     let activeTask = null;
     let loading    = null;
@@ -437,19 +462,19 @@ export default class Storage extends React.Component {
 
         {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
         <Modal
-          show   = { Boolean( this.state.volumeToDelete ) }
+          show   = { Boolean( VOLUME_TO_DELETE ) }
           onHide = { this.cancelVolumeDelete.bind( this ) }
         >
           <Modal.Header closebutton>
             <Modal.Title>
-              {"Confirm Destruction of " + this.state.volumeToDelete }
+              {"Confirm Destruction of " + VOLUME_TO_DELETE }
             </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
             <p>
               { "Bro are you like, really really sure you want to do this? "
-              + "Once you destroy "}<b>{ this.state.volumeToDelete }</b>{" "
+              + "Once you destroy "}<b>{ VOLUME_TO_DELETE }</b>{" "
               + "it's not coming back. (In other words, I hope you backed up "
               + "your porn.)"
               }
@@ -462,9 +487,43 @@ export default class Storage extends React.Component {
             </Button>
             <Button
               bsStyle = { "danger" }
-              onClick = { this.handleVolumeDelete.bind( this, this.state.volumeToDelete ) }
+              onClick = { this.handleVolumeDelete.bind( this, VOLUME_TO_DELETE ) }
             >
               {"Blow my pool up fam"}
+            </Button>
+          </Modal.Footer>
+
+        </Modal>
+
+        {/* CONFIRMATION DIALOG - DATASET DELETION */}
+        <Modal
+          show   = { Boolean( DATASET_TO_DELETE.path ) }
+          onHide = { this.cancelDatasetDelete.bind( this ) }
+        >
+          <Modal.Header closebutton>
+            <Modal.Title>
+              {"Confirm Deletion of " + DATASET_TO_DELETE.path }
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>
+              { `Yo this is going to delete ${ DATASET_TO_DELETE.path } . All `
+              + `the data that was in it will go bye-bye, and nobody will be `
+              + `able to access it anymore. You sure that's what you want?`
+              }
+            </p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={ this.cancelDatasetDelete.bind( this ) }>
+              { "MY BABY" }
+            </Button>
+            <Button
+              bsStyle = { "danger" }
+              onClick = { this.handleDatasetDelete.bind( this ) }
+            >
+              { "I didn't like that share anyways" }
             </Button>
           </Modal.Footer>
 
