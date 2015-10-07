@@ -228,7 +228,7 @@ const ScrubModal = React.createClass(
         { "Cancel" }
       </Button>;
 
-    // Used to unselect existing tasks
+    // Used to reset changes to existing tasks
     const resetButton =
       <Button
         onClick = { this.resetTask }
