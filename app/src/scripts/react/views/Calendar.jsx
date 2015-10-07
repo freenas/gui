@@ -197,7 +197,8 @@ const Calendar = React.createClass(
             handleTaskRemove = { this.handleTaskRemove }
             handleTaskAdd = { this.handleTaskAdd }
             chooseActiveTask = { this.chooseActiveTask }
-            activeTask = { this.state.activeTask }/>
+            activeTask = { this.state.activeTask }
+          />
         </main>
       );
     }
