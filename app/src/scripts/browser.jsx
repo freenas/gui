@@ -21,6 +21,13 @@ if ( process.env.BROWSER ) {
   let { protocol, host, path, mode } = TargetHost.connection();
 
   MiddlewareClient.connect( protocol, host, path, mode );
+  MiddlewareClient.subscribe(
+    [ "task.created"
+    , "task.updated"
+    , "task.progress"
+    ]
+    , "WEBAPP"
+  );
 
   Router.run( Routes
             , HistoryLocation
