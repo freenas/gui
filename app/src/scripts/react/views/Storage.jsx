@@ -409,11 +409,15 @@ export default class Storage extends React.Component {
         <h1 className="view-header section-heading type-line">
           <span className="text">Storage Volumes</span>
         </h1>
-        { loading }
-        { message }
-        <VolumeTask { ...this.findActiveTask( TASKS["volume.create"] ) } />
-        <VolumeTask { ...this.findActiveTask( TASKS["volume.destroy"] ) } />
-        { content }
+
+        {/* VOLUMES */}
+        <div>
+          { loading }
+          { message }
+          <VolumeTask { ...this.findActiveTask( TASKS["volume.create"] ) } />
+          <VolumeTask { ...this.findActiveTask( TASKS["volume.destroy"] ) } />
+          { content }
+        </div>
 
         {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
         <Modal
