@@ -114,6 +114,20 @@ export default class Dataset extends React.Component {
     return null;
   }
 
+  formatShareName ( activeShare, parentShared ) {
+    let type;
+
+    if ( activeShare ) {
+      type = activeShare.type;
+    } else if ( parentShared ) {
+      type = parentShared;
+    } else {
+      type = "";
+    }
+
+    return type + " Share";
+  }
+
   render () {
     const { name, children, activeShare, parentShared } = this.props;
     const { used, available, compression } = this.props.properties;
@@ -121,7 +135,7 @@ export default class Dataset extends React.Component {
     const DATASET_NAME = name.split( "/" ).pop();
     const PARENT_NAME = this.props.root
                       ? "Top Level"
-                      : "ZFS Dataset";
+                      : this.formatShareName( activeShare, parentShared );
 
     let classes = [ "dataset" ];
 
@@ -173,9 +187,9 @@ export default class Dataset extends React.Component {
               <MenuItem
                 onSelect = { this.formatNewDataset.bind( this ) }
               >
-                { "Add Dataset..." }
+                { "New share..." }
               </MenuItem>
-              <MenuItem disabled>{ "Add ZVOL..." }</MenuItem>
+              <MenuItem disabled>{ "New block storage..." }</MenuItem>
             </DropdownButton>
           </div>
         </div>
