@@ -52,9 +52,10 @@ export default class Dataset extends React.Component {
 
       // Finally, create the share
       handlers.onShareCreate(
-        { id     : name.split( "/" ).pop()
-        , type   : type
-        , target : mountpoint
+        { id         : name.split( "/" ).pop()
+        , type       : type
+        , target     : mountpoint
+        , properties : {} // FIXME: This needs to be filled out
         }
       );
     }
