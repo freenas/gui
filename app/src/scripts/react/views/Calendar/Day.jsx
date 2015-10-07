@@ -18,7 +18,7 @@ import ScrubModal from "./TaskModals/ScrubModal";
 const Day = React.createClass (
   { propTypes: { handleTaskAdd: React.PropTypes.func.isRequired
                , handleTaskRemove: React.PropTypes.func.isRequired
-               , chooseDay: React.PropTypes.func.isRequired
+               , chooseDate: React.PropTypes.func.isRequired
                // Whether this is today's date
                , isToday: React.PropTypes.bool.isRequired
                // Whether this is the day selected by the user
@@ -110,7 +110,7 @@ const Day = React.createClass (
       <div
         key={ this.props.index }
         className= { dayClass.join( " " ) }
-        onClick = { this.props.chooseDay.bind( null, this.props.dayOfMonth ) }
+        onClick = { this.props.chooseDate }
       >
         <DropTarget
           className="day-content"

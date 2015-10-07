@@ -92,8 +92,8 @@ const Calendar = React.createClass(
       );
     }
 
-  , chooseDay ( day ) {
-    this.setState( { selectedDate: day } );
+  , chooseDate ( date ) {
+    this.setState( { selectedDate: date } );
   }
 
   , handleTaskAdd ( targetDate, taskType ) {
@@ -193,7 +193,7 @@ const Calendar = React.createClass(
             activeYear = { this.state.activeYear }
             activeMonth = { this.state.activeMonth }
             selectedDate = { this.state.selectedDate }
-            chooseDay = { this.chooseDay }
+            chooseDate = { this.chooseDate }
             handleTaskRemove = { this.handleTaskRemove }
             handleTaskAdd = { this.handleTaskAdd }
             chooseActiveTask = { this.chooseActiveTask }

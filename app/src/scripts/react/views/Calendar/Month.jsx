@@ -81,7 +81,7 @@ const Month = React.createClass(
   { getDefaultProps () {
     return { tasks: []
            , activeMonth: moment().month()
-           , selectedDay: moment().date()
+           , selectedDate: moment().date()
            , activeTask: ""
            };
   }
@@ -120,7 +120,7 @@ const Month = React.createClass(
           key = { i }
           handleTaskAdd = { this.props.handleTaskAdd.bind( null, _.cloneDeep ( date ) ) }
           handleTaskRemove = { this.props.handleTaskRemove }
-          chooseDay = { this.props.chooseDay }
+          chooseDate = { this.props.chooseDate.bind( null, i ) }
           isToday = { today.isSame( date, "day" ) }
           isSelected = { i === this.props.selectedDate }
           dayOfMonth = { i }
