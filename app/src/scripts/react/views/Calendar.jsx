@@ -105,6 +105,7 @@ const Calendar = React.createClass(
     switch ( taskType ) {
       case "scrub":
         newTask.name = "zfs.pool.scrub";
+        newTask.id = "new_scrub"
         newTask.schedule = { day_of_week: weekdays[ targetDate.getDay() ]
                            , day: "*"
                            , week: "*"
@@ -117,6 +118,7 @@ const Calendar = React.createClass(
 
       case "smart":
         newTask.name = "disks.parallel_test";
+        newTask.id = "new_SMART_test"
         newTask.schedule = { day_of_week: weekdays[ targetDate.getDay() ]
                            , day: "*"
                            , week: "*"
@@ -127,11 +129,24 @@ const Calendar = React.createClass(
         newTask.args = [ null, "SHORT" ];
         break;
     }
-    newTask.id = "";
+
+    // Check if the default task id is taken and replace it if necessary
+    // TODO: This is probably not very performant.
+    var taskIDAttempt = 1;
+    var newTaskID = newTask.id;
+    while ( _.contains( newTasks
+                      , { id: newTaskID }
+                      ) ) {
+      newTaskID = newTask.id + taskIDAttempt;
+      taskIDAttempt++;
+    }
+
+    newTask.id = newTaskID;
     var newTasks = _.cloneDeep( this.state.tasks );
     newTasks.push( newTask );
+
     this.setState( { tasks: newTasks
-                   , activeTask: ""
+                   , activeTask: newTask.id
                    , selectedDate: targetDate.getDate()
                    }
                  );
