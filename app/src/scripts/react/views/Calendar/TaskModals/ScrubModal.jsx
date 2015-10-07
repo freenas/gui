@@ -252,11 +252,11 @@ const ScrubModal = React.createClass(
           handleChange = { this.handleChange }
         />
         <ButtonToolbar>
-          { this.props.taskID
+          { existsOnServer
           ? changeButton
           : submitButton
           }
-          { this.props.taskID
+          { existsOnServer
           ? resetButton
           : cancelButton
           }
