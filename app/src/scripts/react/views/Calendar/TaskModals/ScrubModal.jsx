@@ -206,7 +206,7 @@ const ScrubModal = React.createClass(
     // Used to discard new tasks
     const cancelButton =
       <Button
-        onClick = { this.props.handleTaskRemove.bind( null, taskIDValue ) }
+        onClick = { this.props.handleTaskRemove }
         bsStyle = "default"
       >
         { "Cancel" }
