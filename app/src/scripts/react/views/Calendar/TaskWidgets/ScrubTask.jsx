@@ -12,11 +12,16 @@ const ScrubTask = React.createClass(
   { propTypes: { volumeName: React.PropTypes.string
                , chooseActiveTask: React.PropTypes.func
                , handleTaskRemove: React.PropTypes.func
+               , taskID: React.PropTypes.string
                }
 
   , getDefaultProps () { return { volumeName: null }; }
 
   , render () {
+    var taskTitleDisplay = this.props.taskID
+                         ? "ZFS Scrub" + " - " + this.props.taskID
+                         : "ZFS Scrub";
+
     var deleteButton = null;
     if ( this.props.handleTaskRemove ) {
       deleteButton =
@@ -25,12 +30,13 @@ const ScrubTask = React.createClass(
           onClick = { this.props.handleTaskRemove }
         />;
     }
+
     return (
       <Alert
         bsStyle = "info"
         bsSize = "small"
         onClick = { this.props.chooseActiveTask }>
-        <span>ZFS Scrub</span>
+        <span>{ taskTitleDisplay }</span>
         <p>{ this.props.volumeName }</p>
         { deleteButton }
       </Alert>

@@ -55,6 +55,7 @@ const Day = React.createClass (
                      volumeName = { task.args[0] || null }
                      chooseActiveTask = { this.props.chooseActiveTask.bind( null, task.id ) }
                      handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
+                     taskID = { task.id }
                      ref = { task.id }
                    />;
                  taskModal =
