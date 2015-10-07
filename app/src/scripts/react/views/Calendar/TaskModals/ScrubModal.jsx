@@ -88,8 +88,11 @@ const ScrubModal = React.createClass(
                   , name: "zfs.pool.scrub"
                   };
 
-    newTask.args = [ this.state.selectedVolume ]
-                || [ this.props.selectedVolume ];
+    if ( this.state.selectedVolume  ) {
+      newTask.args = [ this.state.selectedVolume ];
+    } else if ( this.props.selectedVolume ) {
+      newTask.args = [ this.props.selectedVolume ];
+    }
     newTask.schedule.day_of_week = this.state.day_of_week
                                 || this.props.day_of_week;
     newTask.schedule.day = this.state.day || this.props.day;
@@ -117,134 +120,68 @@ const ScrubModal = React.createClass(
     } else if ( this.props.selectedVolume ) {
       newTask.args = [ this.props.selectedVolume ];
     }
-    if ( this.state.day_of_week ) {
-      newTask.schedule.day_of_week = this.state.day_of_week;
-    } else if ( this.props.day_of_week ) {
-      newTask.schedule.day_of_week = this.props.day_of_week;
-    }
-    if ( this.state.day ) {
-      newTask.schedule.day = this.state.day;
-    } else if ( this.props.day ) {
-      newTask.schedule.day = this.props.day;
-    }
-    if ( this.state.week ) {
-      newTask.schedule.week = this.state.week;
-    } else if ( this.props.week ) {
-      newTask.schedule.week = this.props.week;
-    }
-    if ( this.state.month ) {
-      newTask.schedule.month = this.state.month;
-    } else if ( this.props.month ) {
-      newTask.schedule.month = this.props.month;
-    }
-    if ( this.state.year ) {
-      newTask.schedule.year = this.state.year;
-    } else if ( this.props.year ) {
-      newTask.schedule.year = this.props.year;
-    }
+    newTask.schedule.day_of_week = this.state.day_of_week
+                                || this.props.day_of_week;
+    newTask.schedule.day = this.state.day || this.props.day;
+    newTask.schedule.week = this.state.week || this.props.week;
+    newTask.schedule.month = this.state.month || this.props.month;
+    newTask.schedule.year = this.state.year || this.props.year;
     if ( this.state.coalesce !== undefined ) {
       newTask.schedule.coalesce = this.state.coalesce;
     } else {
       newTask.schedule.coalesce = this.props.coalesce;
     }
+
     newTask.id = this.state.taskID || this.props.taskID;
 
     CM.updateCalendarTask( this.props.taskID, newTask );
   }
 
   , isTaskValid () {
-    var taskIsValid;
-    var idValid;
-    if ( this.state.taskID ) {
-      if ( this.props.taskID === this.state.taskID ) {
-      // If you happen to have returned the task ID to its original state,
-      // it's valid, but the task may not be
-      idValid = true;
-      } else {
-        // otherwise check that it's not already taken. Changing the task name
-        // means the task is valid.
-        taskIsValid = ( _.find( CS.tasks
-                              , function checkTaskIdUnique ( task ) {
-                                return _.has( task, { id: this.state.taskID } );
-                              }
-                              , this
-                              )
-                    === undefined
-                      );
-      }
-    } else if ( this.props.taskID !== "" ) {
-      // It doesn't matter if there isn't an id in state if the task exists on
-      // the server already.
-      idValid = true;
-    } else {
-      // No new id and no prexisting id means the id is not valid. This fails
-      // the check overall.
-      idValid = false;
-      taskIsValid =  false;
-    }
 
-    // Only keep checking if task validity has not been determined.
-    if ( taskIsValid !== undefined ) {
+    var taskIDToCheck = this.state.taskID || this.props.taskID;
+    var validTaskID = taskIDToCheck !== ""
+                   && _.find( this.props.tasks
+                            , { id: taskIDToCheck }
+                            ) !== undefined;
 
       var volumeToCheck = this.state.selectedVolume || this.props.selectedVolume;
-      var volumeValid = _.any( this.state.volumes
-                             , function checkVolumeExists ( volume ) {
-                               return volume.name === volumeToCheck;
-                             }
-                             , this
-                             );
+      var validVolume = _.find( this.props.volumes
+                              , { name: volumeToCheck }
+                              ) !== undefined;
 
-      // FIXME: There should be invalid cases where some of these are true, such
-      // as days that don't exist (monday in the first week of a year that has
-      // no monday in the first week, for example).
-      // FIXME: it is probably possible to pass this check unintentionally by
-      // selecting the  wildcard option, putting that value in state. This will
-      // result in a task that runs every day. On the other hand, it is also
-      // possible to WANT a task to run every day.
-      var scheduleValid;
-      if ( this.props.taskID ) {
-          scheduleValid = this.state.day_of_week
-                       || this.state.day
-                       || this.state.week
-                       || this.state.month
-                       || this.state.year;
-          taskIsValid = scheduleValid || volumeValid;
-        } else {
-          scheduleValid = ( this.state.day_of_week || this.props.day_of_week)
-                       || ( this.state.day || this.props.day)
-                       || ( this.state.week || this.props.week)
-                       || ( this.state.month || this.props.month)
-                       || ( this.state.year || this.props.year);
-          taskIsValid = scheduleValid && volumeValid;
-        }
+      return validTaskID && validVolume;
     }
 
-    return taskIsValid;
-  }
-
   , render () {
-  var taskIDValue = this.state.taskID
-                 || this.props.taskID;
-  var selectedVolumeValue = this.state.selectedVolume
-                         || this.props.selectedVolume;
-  var day_of_weekValue = this.state.day_of_week
-                      || this.props.day_of_week
-                      || "*";
-  var dayValue = this.state.day
-              || this.props.day
-              || "*";
-  var weekValue = this.state.week
-               || this.props.week
-               || "*";
-  var monthValue = this.state.month
-                || this.props.month
+    var taskIDValue = this.state.taskID
+                   || this.props.taskID;
+    var selectedVolumeValue = this.state.selectedVolume
+                           || this.props.selectedVolume;
+    var day_of_weekValue = this.state.day_of_week
+                        || this.props.day_of_week
+                        || "*";
+    var dayValue = this.state.day
+                || this.props.day
                 || "*";
-  var yearValue = this.state.year
-               || this.props.year
-               || "*";
-  var coalesceValue = this.state.coalesce
-                   || this.props.coalesce
-                   || false;
+    var weekValue = this.state.week
+                 || this.props.week
+                 || "*";
+    var monthValue = this.state.month
+                  || this.props.month
+                  || "*";
+    var yearValue = this.state.year
+                 || this.props.year
+                 || "*";
+    var coalesceValue = this.state.coalesce
+                     || this.props.coalesce
+                     || false;
+
+    // Is it okay to use CS.tasks this way, since this will only render in the
+    // context of calendar, which already handles data for that?
+    var existsOnServer = _.find( CS.tasks
+                               , { id: this.props.taskID }
+                               ) !== undefined;
 
     // Used to create new tasks
     const submitButton =
