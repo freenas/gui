@@ -286,6 +286,12 @@ const TaskSchedule = React.createClass(
         >
           { generateYearOptions() }
         </Input>
+        <Input
+          type = "checkbox"
+          onChange = { this.props.handleChange.bind( null, "coalesce" ) }
+          value = { this.props.year }
+          label = "Coalesce Tasks"
+        />
       </div>
     );
   }
