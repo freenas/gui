@@ -123,6 +123,10 @@ export default class Storage extends React.Component {
 
       case "volumes":
       default:
+        // HACK: Events don't work right, this is required to make the page
+        // update properly, since all the new volume stuff is based on disk
+        // availability
+        VM.requestAvailableDisks();
         newState.volumes = VS.listVolumes();
         break;
     }
