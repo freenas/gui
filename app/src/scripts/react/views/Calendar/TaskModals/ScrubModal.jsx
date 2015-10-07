@@ -261,7 +261,8 @@ const ScrubModal = React.createClass(
       <Button
         onClick = { this.createTask }
         bsStyle = "primary"
-        disabled = { !this.isTaskValid() }>
+        disabled = { !this.isTaskValid() }
+      >
         { "Submit" }
       </Button>;
 
@@ -270,7 +271,8 @@ const ScrubModal = React.createClass(
       <Button
         onClick = { this.changeTask }
         bsStyle = "primary"
-        disabled = { !this.isTaskValid() }>
+        disabled = { !this.isTaskValid() }
+      >
         { "Submit" }
       </Button>;
 
@@ -278,7 +280,8 @@ const ScrubModal = React.createClass(
     const cancelButton =
       <Button
         onClick = { this.props.handleTaskRemove }
-        bsStyle = "default">
+        bsStyle = "default"
+      >
         { "Cancel" }
       </Button>;
 
@@ -286,7 +289,8 @@ const ScrubModal = React.createClass(
     const resetButton =
       <Button
         onClick = { this.props.chooseActiveTask.bind( null, null ) }
-        bsStyle = "default">
+        bsStyle = "default"
+      >
         { "Cancel" }
       </Button>;
 
@@ -298,12 +302,14 @@ const ScrubModal = React.createClass(
           type = "text"
           onChange = { this.handleChange.bind( null, "taskID" ) }
           value = { taskIDValue }
-          label = { "Name" } />
+          label = { "Name" }
+        />
         <Input
           type = "select"
           onChange = { this.handleChange.bind( null, "selectedVolume" ) }
           value = { selectedVolumeValue }
-          label = "Volume">
+          label = "Volume"
+        >
           { this.createVolumeOptions() }
         </Input>
         <TaskSchedule
@@ -316,7 +322,8 @@ const ScrubModal = React.createClass(
           // minute = { minuteValue }
           // hour = { hourValue }
           coalesce = { coalesceValue }
-          handleChange = { this.handleChange }/>
+          handleChange = { this.handleChange }
+        />
         <ButtonToolbar>
           { this.props.taskID
           ? changeButton
