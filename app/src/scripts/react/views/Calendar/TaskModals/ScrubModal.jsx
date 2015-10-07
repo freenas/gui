@@ -11,9 +11,6 @@ import TaskSchedule from "../TaskSchedule";
 import CM from "../../../../flux/middleware/CalendarMiddleware";
 import CS from "../../../../flux/stores/CalendarStore";
 
-import VS from "../../../../flux/stores/VolumeStore";
-import VM from "../../../../flux/middleware/VolumeMiddleware";
-
 const ScrubModal = React.createClass(
   { propTypes: { tasks: React.PropTypes.array
                , selectedVolume: React.PropTypes.string
@@ -28,27 +25,17 @@ const ScrubModal = React.createClass(
                // , hour: React.PropTypes.string
                , coalesce: React.PropTypes.bool
                , handleTaskRemove: React.PropTypes.func
+               , volumes: React.PropTypes.array
                }
 
-  , getDefaultProps () {
-    return { tasks: [] };
-  }
-
   , getInitialState () {
-    return { volumes: [] }
+    return {};
   }
 
-  , componentDidMount () {
-    VS.addChangeListener( this.handleVolumes );
-
-    VM.subscribe( this.constructor.displayName );
-    VM.requestVolumes();
-  }
-
-  , componentWillUnmount () {
-    VS.removeChangeListener( this.handleVolumes );
-
-    VM.unsubscribe( this.constructor.displayName );
+  , getDefaultProps () {
+    return { tasks: []
+           , volumes: []
+           };
   }
 
   , handleChange ( key, evt ) {
@@ -75,10 +62,6 @@ const ScrubModal = React.createClass(
         this.setState( { coalesce: evt.target.checked } );
         break;
     }
-  }
-
-  , handleVolumes () {
-    this.setState( { volumes: VS.listVolumes( "name" ) } );
   }
 
   , createVolumeOptions () {

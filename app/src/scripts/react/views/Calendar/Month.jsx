@@ -126,6 +126,8 @@ const Month = React.createClass(
           dayOfMonth = { i }
           index = { i }
           tasks = { checkTaskDates( this.props.tasks, date ) }
+          disks = { this.props.disks }
+          volumes = { this.props.volumes }
           chooseActiveTask = { this.props.chooseActiveTask }
           activeTask = { this.props.activeTask }
         />

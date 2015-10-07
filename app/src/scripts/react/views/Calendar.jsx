@@ -12,6 +12,12 @@ import moment from "moment";
 import CM from "../../flux/middleware/CalendarMiddleware";
 import CS from "../../flux/stores/CalendarStore";
 
+import DS from "../../flux/stores/DisksStore";
+import DM from "../../flux/middleware/DisksMiddleware";
+
+import VS from "../../flux/stores/VolumeStore";
+import VM from "../../flux/middleware/VolumeMiddleware";
+
 import Month from "./Calendar/Month";
 
 import EventBus from "../../utility/EventBus"
@@ -36,6 +42,8 @@ const Calendar = React.createClass(
         , mode: "month"
         , tasks: []
         , activeTask: null
+        , disks: []
+        , volumes: []
         }
       );
     }
@@ -45,6 +53,14 @@ const Calendar = React.createClass(
     CM.subscribe( this.constructor.displayName );
     CM.requestCalendar();
 
+    DS.addChangeListener( this.handleDisks );
+    DM.subscribe( this.constructor.displayName );
+    DM.requestDisksOverview();
+
+    VS.addChangeListener( this.handleVolumes );
+    VM.subscribe( this.constructor.displayName );
+    VM.requestVolumes();
+
     EventBus.emit( "showContextPanel", CalendarTasksContext );
   }
 
@@ -52,12 +68,27 @@ const Calendar = React.createClass(
     CS.removeChangeListener( this.handleTaskUpdate );
     CM.unsubscribe( this.constructor.displayName );
 
+    DS.removeChangeListener( this.handleDisks );
+    DM.unsubscribe( this.constructor.displayName );
+
+    VS.removeChangeListener( this.handleVolumes );
+    VM.unsubscribe( this.constructor.displayName );
+
     EventBus.emit( "hideContextPanel", CalendarTasksContext );
   }
 
   // This will be more sophisticated when task updates emit events.
   , handleTaskUpdate () {
     this.setState( { tasks: CS.tasks } );
+  }
+
+  // TODO: Check somewhere whether the disks are capable of running SMART tests
+  , handleDisks () {
+    this.setState( { disks: DS.onlineDisks } );
+  }
+
+  , handleVolumes () {
+    this.setState( { volumes: VS.listVolumes( "name" ) } );
   }
 
   , handlePage ( direction ) {

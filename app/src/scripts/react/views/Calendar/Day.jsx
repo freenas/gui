@@ -27,6 +27,8 @@ const Day = React.createClass (
                , dayOfMonth: React.PropTypes.number.isRequired
                , index: React.PropTypes.number.isRequired
                , tasks: React.PropTypes.array
+               , disks: React.PropTypes.array
+               , volumes: React.PropTypes.array
                , chooseActiveTask: React.PropTypes.func
                , activeTask: React.PropTypes.string
                }
@@ -63,6 +65,7 @@ const Day = React.createClass (
                        taskID = { task.id }
                        handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
                        chooseActiveTask = { this.props.chooseActiveTask }
+                       volumes = { this.props.volumes }
                        { ...task.schedule }
                      />
                    </Popover>;
