@@ -133,87 +133,89 @@ function handlePayload ( payload ) {
       break;
 
     case ActionTypes.MIDDLEWARE_EVENT:
-      if ( action.eventData.args.name.indexOf( "task." ) !== -1 ) {
-        var taskArgs = action.eventData.args.args;
-        var CREATED   = _created[ taskArgs.id ]   || {};
-        var WAITING   = _waiting[ taskArgs.id ]   || {};
-        var EXECUTING = _executing[ taskArgs.id ] || {};
+      const NAME = action.eventData.args.name;
+      const ARGS = action.eventData.args.args;
+
+      if ( NAME.indexOf( "task." ) !== -1 ) {
+        var CREATED   = _created[ ARGS.id ]   || {};
+        var WAITING   = _waiting[ ARGS.id ]   || {};
+        var EXECUTING = _executing[ ARGS.id ] || {};
         let perct = 0;
 
-        switch ( action.eventData.args.name ) {
+        switch ( NAME ) {
           case "task.created":
-            _created[ taskArgs.id ] = taskArgs;
+            _created[ ARGS.id ] = ARGS;
             break;
 
           case "task.progress":
-            switch ( taskArgs.state ) {
+            switch ( ARGS.state ) {
 
               case "WAITING":
-                _waiting[ taskArgs.id ] =
+                _waiting[ ARGS.id ] =
                   _.merge( CREATED
-                         , taskArgs );
+                         , ARGS );
 
-                delete _created[ taskArgs.id ];
+                delete _created[ ARGS.id ];
                 break;
 
               case "EXECUTING":
-                _executing[ taskArgs.id ] =
+                _executing[ ARGS.id ] =
                   _.merge( CREATED
                          , WAITING
-                         , taskArgs );
+                         , ARGS );
 
-                delete _created[ taskArgs.id ];
-                delete _waiting[ taskArgs.id ];
+                delete _created[ ARGS.id ];
+                delete _waiting[ ARGS.id ];
                 break;
 
               case "FINISHED":
-                _finished[ taskArgs.id ] =
+                _finished[ ARGS.id ] =
                   _.merge( CREATED
                          , WAITING
                          , EXECUTING
-                         , taskArgs
+                         , ARGS
                          , { percentage: 100 } );
 
-                delete _created[ taskArgs.id ];
-                delete _waiting[ taskArgs.id ];
-                delete _executing[ taskArgs.id ];
+                delete _created[ ARGS.id ];
+                delete _waiting[ ARGS.id ];
+                delete _executing[ ARGS.id ];
                 break;
 
               case "ABORTED":
-                perct = taskArgs.percentage === 0
+                perct = ARGS.percentage === 0
                       ? 50
-                      : taskArgs.percentage;
-                _aborted[ taskArgs.id ] =
+                      : ARGS.percentage;
+                _aborted[ ARGS.id ] =
                   _.merge( CREATED
                          , WAITING
                          , EXECUTING
-                         , taskArgs
+                         , ARGS
                          , { percentage: perct } );
-                delete _created[ taskArgs.id ];
-                delete _waiting[ taskArgs.id ];
-                delete _executing[ taskArgs.id ];
+                delete _created[ ARGS.id ];
+                delete _waiting[ ARGS.id ];
+                delete _executing[ ARGS.id ];
                 break;
 
               case "FAILED":
-                perct = taskArgs.percentage === 0
+                perct = ARGS.percentage === 0
                       ? 50
-                      : taskArgs.percentage;
-                _failed[ taskArgs.id ] =
+                      : ARGS.percentage;
+                _failed[ ARGS.id ] =
                   _.merge( CREATED
                          , WAITING
                          , EXECUTING
-                         , taskArgs
+                         , ARGS
                          , { percentage: perct } );
-                delete _created[ taskArgs.id ];
-                delete _waiting[ taskArgs.id ];
-                delete _executing[ taskArgs.id ];
+                delete _created[ ARGS.id ];
+                delete _waiting[ ARGS.id ];
+                delete _executing[ ARGS.id ];
                 break;
             }
 
             break;
         }
 
-        this.emitChange( "taskEvent" );
+        this.emitChange( ARGS.name );
       }
       break;
 
