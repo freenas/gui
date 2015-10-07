@@ -167,7 +167,7 @@ const Calendar = React.createClass(
     // TODO: This is probably not very performant.
     var taskIDAttempt = 1;
     var newTaskID = newTask.id;
-    while ( _.find( newTasks
+    while ( _.find( this.state.tasks
                   , { id: newTaskID }
                   ) !== undefined ) {
       newTaskID = newTask.id + taskIDAttempt;
