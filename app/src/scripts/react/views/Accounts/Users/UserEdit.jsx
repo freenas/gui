@@ -157,7 +157,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "id" ) }
         key              = "id"
         ref              = "id"
-        groupClassName   = { _.has( this.state.modifiedValues.id )
+        groupClassName   = { this.state.modifiedValues.id
                            ? "editor-was-modified"
                            : ""
                            }
@@ -173,7 +173,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "username" ) }
         key              = "username"
         ref              = "username"
-        groupClassName   = { _.has( this.state.modifiedValues.username )
+        groupClassName   = { this.state.modifiedValues.username
                            ? "editor-was-modified"
                            : ""
                            }
@@ -189,7 +189,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "full_name" ) }
         key              = "full_name"
         ref              = "full_name"
-        groupClassName   = { _.has( this.state.modifiedValues.full_name )
+        groupClassName   = { this.state.modifiedValues.full_name
                            ? "editor-was-modified"
                            : ""
                            }
@@ -205,7 +205,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "email" ) }
         key              = "email"
         ref              = "email"
-        groupClassName   = { _.has( this.state.modifiedValues.email )
+        groupClassName   = { this.state.modifiedValues.email
                            ? "editor-was-modified"
                            : ""
                            }
@@ -221,7 +221,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "shell" ) }
         key              = "shell"
         ref              = "shell"
-        groupClassName   = { _.has( this.state.modifiedValues.shell )
+        groupClassName   = { this.state.modifiedValues.shell
                            ? "editor-was-modified"
                            : ""
                            }
@@ -239,7 +239,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "group" ) }
         key              = "group"
         ref              = "group"
-        groupClassName   = { _.has( this.state.modifiedValues.group )
+        groupClassName   = { this.state.modifiedValues.group
                            ? "editor-was-modified"
                            : ""
                            }
@@ -273,7 +273,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "groups" ) }
         key              = "groups"
         ref              = "groups"
-        groupClassName   = { _.has( this.state.modifiedValues.groups )
+        groupClassName   = { this.state.modifiedValues.groups
                            ? "editor-was-modified"
                            : ""
                            }
