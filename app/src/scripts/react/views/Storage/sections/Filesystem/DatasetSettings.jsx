@@ -46,9 +46,11 @@ export default class DatasetSettings extends React.Component {
               wrapperClassName = "col-xs-10"
             />
             <Input
+              disabled
               type = "checkbox"
               label = "Allow Guest Access"
               wrapperClassName = "col-xs-offset-2 col-xs-10"
+              help = "Coming soon!"
             />
           </form>
         </section>
