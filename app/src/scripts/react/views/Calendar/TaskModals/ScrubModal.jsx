@@ -12,34 +12,15 @@ import TaskSchedule from "../TaskSchedule";
 import CM from "../../../../flux/middleware/CalendarMiddleware";
 import CS from "../../../../flux/stores/CalendarStore";
 
-const ScrubModal = React.createClass(
-  { propTypes: { tasks: React.PropTypes.array
-               , selectedVolume: React.PropTypes.string
-               , taskID: React.PropTypes.string
-               , day_of_week: React.PropTypes.string
-               , week: React.PropTypes.string
-               , day: React.PropTypes.string
-               , month: React.PropTypes.string
-               , year: React.PropTypes.string
-               // , second: React.PropTypes.string
-               // , minute: React.PropTypes.string
-               // , hour: React.PropTypes.string
-               , coalesce: React.PropTypes.bool
-               , handleTaskRemove: React.PropTypes.func
-               , volumes: React.PropTypes.array
-               }
+export default class ScrubModal extends React.Component {
+  constructor ( props ) {
+    super( props );
+    this.DisplayName = "ScrubModal";
 
-  , getInitialState () {
-    return {};
+    this.state = {};
   }
 
-  , getDefaultProps () {
-    return { tasks: []
-           , volumes: []
-           };
-  }
-
-  , handleChange ( key, evt ) {
+  handleChange ( key, evt ) {
     switch ( key ) {
       case "taskID":
         this.setState( { taskID: evt.target.value } );
@@ -65,7 +46,7 @@ const ScrubModal = React.createClass(
     }
   }
 
-  , createVolumeOptions () {
+  createVolumeOptions () {
     var options = [];
 
     options = _.map( this.props.volumes
@@ -83,7 +64,7 @@ const ScrubModal = React.createClass(
     return options;
   }
 
-  , createTask () {
+  createTask () {
     var newTask = { schedule: {}
                   , name: "zfs.pool.scrub"
                   };
@@ -110,7 +91,7 @@ const ScrubModal = React.createClass(
     CM.createCalendarTask( newTask );
   }
 
-  , changeTask () {
+  changeTask () {
     var newTask = { schedule: {}
                   , name: "zfs.pool.scrub"
                   };
@@ -137,7 +118,7 @@ const ScrubModal = React.createClass(
     CM.updateCalendarTask( this.props.taskID, newTask );
   }
 
-  , resetTask () {
+  resetTask () {
     var newState = { selectedVolume: null
                    , taskID: null
                    , day_of_week: null
@@ -153,7 +134,7 @@ const ScrubModal = React.createClass(
     this.setState( newState );
   }
 
-  , isTaskValid () {
+  isTaskValid () {
 
     var taskIDToCheck = this.state.taskID || this.props.taskID;
     var validTaskID = taskIDToCheck !== ""
@@ -169,7 +150,7 @@ const ScrubModal = React.createClass(
     return validTaskID && validVolume;
   }
 
-  , render () {
+  render () {
     var taskIDValue = this.state.taskID
                    || this.props.taskID;
     var selectedVolumeValue = this.state.selectedVolume
@@ -237,6 +218,24 @@ const ScrubModal = React.createClass(
       </div>
     );
   }
-});
+};
 
-export default ScrubModal;
+ScrubModal.propTypes = { tasks: React.PropTypes.array
+                       , selectedVolume: React.PropTypes.string
+                       , taskID: React.PropTypes.string
+                       , day_of_week: React.PropTypes.string
+                       , week: React.PropTypes.string
+                       , day: React.PropTypes.string
+                       , month: React.PropTypes.string
+                       , year: React.PropTypes.string
+                       // , second: React.PropTypes.string
+                       // , minute: React.PropTypes.string
+                       // , hour: React.PropTypes.string
+                       , coalesce: React.PropTypes.bool
+                       , handleTaskRemove: React.PropTypes.func
+                       , volumes: React.PropTypes.array
+                       };
+
+ScrubModal.defaultProps = { tasks: []
+                          , volumes: []
+                          };
