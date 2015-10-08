@@ -197,13 +197,13 @@ export default class Dataset extends React.Component {
               </MenuItem>
             </DropdownButton>
           </div>
-        </div>
 
-        {/* BREAKDOWN */}
-        <BreakdownChart
-          used = { ByteCalc.convertString( used.rawvalue ) }
-          free = { ByteCalc.convertString( available.rawvalue ) }
-        />
+          {/* BREAKDOWN */}
+          <BreakdownChart
+            used = { ByteCalc.convertString( used.rawvalue ) }
+            free = { ByteCalc.convertString( available.rawvalue ) }
+          />
+        </div>
 
         {/* CHILD DATASETS */}
         <div className="dataset-children">
