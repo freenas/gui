@@ -12,9 +12,21 @@ const CONTAINER_PADDING = 15;
 
 export default class DatasetSettings extends React.Component {
   render () {
-    let display = this.props.show
+    const { show, activeShare } = this.props;
+
+    let display = show
                 ? null
                 : "none";
+
+    let exportName;
+    let noActiveShare;
+
+    if ( activeShare ) {
+      exportName = activeShare.id;
+      noActiveShare = false;
+    } else {
+      noActiveShare = true;
+    }
 
     return (
       <div
@@ -35,13 +47,16 @@ export default class DatasetSettings extends React.Component {
           <form className="form-horizontal">
             <Input
               type = "text"
-              label = "Share Name"
+              label = "Name"
+              value = { this.props.name }
               labelClassName = "col-xs-2"
               wrapperClassName = "col-xs-10"
             />
             <Input
+              disabled = { noActiveShare }
               type = "text"
-              label = "Export Share As"
+              label = "Export As"
+              value = { exportName }
               labelClassName = "col-xs-2"
               wrapperClassName = "col-xs-10"
             />
@@ -77,18 +92,11 @@ export default class DatasetSettings extends React.Component {
 }
 
 DatasetSettings.propTypes =
-  { name             : React.PropTypes.string.isRequired
-  , mountpoint       : React.PropTypes.string.isRequired
-  , pool             : React.PropTypes.string.isRequired
-  , root             : React.PropTypes.bool
-  , children         : React.PropTypes.array
-  , permissions_type : React.PropTypes.oneOf([ "PERM", "ACL" ])
-  , type             : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
-  , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
-  , properties       : React.PropTypes.object // TODO: Get more specific
-  , shares           : React.PropTypes.instanceOf( Map )
-  , activeShare      : React.PropTypes.object
-  , parentShared     : React.PropTypes.string
+  { name        : React.PropTypes.string.isRequired
+  , show        : React.PropTypes.bool
+  , shiftLeft   : React.PropTypes.number.isRequired
+  , share_type  : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
+  , activeShare : React.PropTypes.object
   , handlers : React.PropTypes.shape(
       { onShareCreate     : React.PropTypes.func.isRequired
       , onShareDelete     : React.PropTypes.func.isRequired

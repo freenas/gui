@@ -160,7 +160,8 @@ export default class Dataset extends React.Component {
   }
 
   render () {
-    const { name, children, activeShare, parentShared, handlers } = this.props;
+    const { name, children, activeShare, parentShared, handlers, share_type
+          } = this.props;
     const { used, available, compression } = this.props.properties;
 
     let pathArray = name.split( "/" );
@@ -249,9 +250,12 @@ export default class Dataset extends React.Component {
 
         {/* DATASET AND SHARE SETTINGS */}
         <DatasetSettings
-          { ...this.props }
-          show      = { this.isActive() }
-          shiftLeft = { shiftLeft }
+          show        = { this.isActive() }
+          shiftLeft   = { shiftLeft }
+          handlers    = { handlers }
+          name        = { DATASET_NAME }
+          activeShare = { activeShare }
+          share_type = { share_type }
         />
 
         {/* CHILD DATASETS */}
