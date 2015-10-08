@@ -10,6 +10,7 @@ import DragTarget from "../../components/DragTarget";
 import DropTarget from "../../components/DropTarget";
 
 import ScrubTask from "./TaskWidgets/ScrubTask";
+import SmartTask from "./TaskWidgets/SmartTask";
 
 const CalendarTaskContext = React.createClass(
   { render() {
@@ -26,6 +27,14 @@ const CalendarTaskContext = React.createClass(
             namespace = "calendar"
             payload = "scrub">
             <ScrubTask/>
+          </DragTarget>
+        </DropTarget>
+        <DropTarget
+          namespace = "calendar">
+          <DragTarget
+            namespace = "calendar"
+            payload = "smart">
+            <SmartTask/>
           </DragTarget>
         </DropTarget>
       </div>

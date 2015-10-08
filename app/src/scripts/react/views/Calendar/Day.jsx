@@ -13,7 +13,8 @@ import DragTarget from "../../components/DragTarget";
 import DropTarget from "../../components/DropTarget";
 import ScrubTask from "./TaskWidgets/ScrubTask";
 import ScrubModal from "./TaskModals/ScrubModal";
-
+import SmartTask from "./TaskWidgets/SmartTask";
+import SmartModal from "./TaskModals/SmartModal";
 
 const Day = React.createClass (
   { propTypes: { handleTaskAdd: React.PropTypes.func.isRequired
@@ -71,6 +72,30 @@ const Day = React.createClass (
                    </Popover>;
                  break;
                case "disks.parallel_test":
+                 taskWidget =
+                   <SmartTask
+                     disks = { task.selectedDisks || null }
+                     chooseActiveTask = { this.props.chooseActiveTask.bind( null, task.id ) }
+                     handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
+                     taskID = { task.id }
+                     ref = { task.id }
+                   />;
+                 taskModal =
+                   <Popover id = { task.id }>
+                     <SmartModal
+                       tasks = { this.props.tasks }
+                       // This allows the more readable initialization in
+                       // Calendar and also handles the case received from the
+                       // middleware. It makes change handling in the modal
+                       // much easier as well.
+                       selectedDisks = { task.selectedDisks || task.args[0] }
+                       testType = { task.testType || task.args[0] }
+                       taskID = { task.id }
+                       handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
+                       disks = { this.props.disks }
+                       { ...task.schedule }
+                     />
+                   </Popover>;
                  break;
              }
 
