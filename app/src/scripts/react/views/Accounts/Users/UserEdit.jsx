@@ -59,6 +59,10 @@ const UserEdit = React.createClass(
     this.setState( { modifiedValues: newModifiedValues } );
   }
 
+  , validateUser () {
+    return true;
+  }
+
   , submitChanges: function () {
 
     let newUserProps = this.state.modifiedValues;
