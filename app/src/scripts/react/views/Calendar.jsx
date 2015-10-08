@@ -160,7 +160,7 @@ const Calendar = React.createClass(
                            , year: "*"
                            , coalesce: true
                            };
-        newTask.args = [ null, "SHORT" ];
+        newTask.args = [ [], "SHORT" ];
         break;
     }
 
