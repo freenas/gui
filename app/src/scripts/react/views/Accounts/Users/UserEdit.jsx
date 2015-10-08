@@ -179,6 +179,9 @@ const UserEdit = React.createClass(
                            }
       />;
 
+    let userPasswordField = null;
+    let userConfirmPasswordField = null;
+
     let userFullNameField =
       <Input
         type             = "text"
@@ -336,6 +339,8 @@ const UserEdit = React.createClass(
       <div>
         { userIdField }
         { userNameField }
+        { userPasswordField }
+        { userConfirmPasswordField }
         { userFullNameField }
         { userEmailField }
         { userShellField }
