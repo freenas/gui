@@ -160,7 +160,8 @@ const Calendar = React.createClass(
                            , year: "*"
                            , coalesce: true
                            };
-        newTask.args = [ [], "SHORT" ];
+        newTask.selectedDisks = [];
+        newTask.testType = "SHORT";
         break;
     }
 
