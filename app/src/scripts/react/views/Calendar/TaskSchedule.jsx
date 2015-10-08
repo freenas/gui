@@ -117,20 +117,14 @@ function generateYearOptions () {
   return yearOptions;
 }
 
-const TaskSchedule = React.createClass(
-  { propTypes: { day_of_week: React.PropTypes.string
-               , week: React.PropTypes.string
-               , day: React.PropTypes.string
-               , month: React.PropTypes.string
-               , year: React.PropTypes.string
-               // , second: React.PropTypes.string
-               // , minute: React.PropTypes.string
-               // , hour: React.PropTypes.string
-               , coalesce: React.PropTypes.bool
-               , handleChange: React.PropTypes.func.isRequired
-               }
+export default class TaskSchedule extends React.Component {
+  constructor ( props ) {
+    super();
+    this.displayName = "TaskSchedule";
+  }
 
-  , render () {
+  render () {
+
     return (
       <div>
         <Input
@@ -295,6 +289,16 @@ const TaskSchedule = React.createClass(
       </div>
     );
   }
-});
+};
 
-export default TaskSchedule;
+TaskSchedule.propTypes = { day_of_week: React.PropTypes.string
+                         , week: React.PropTypes.string
+                         , day: React.PropTypes.string
+                         , month: React.PropTypes.string
+                         , year: React.PropTypes.string
+                         // , second: React.PropTypes.string
+                         // , minute: React.PropTypes.string
+                         // , hour: React.PropTypes.string
+                         , coalesce: React.PropTypes.bool
+                         , handleChange: React.PropTypes.func.isRequired
+                         };
