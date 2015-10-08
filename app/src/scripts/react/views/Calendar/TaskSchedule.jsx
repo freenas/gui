@@ -5,8 +5,7 @@
 "use strict";
 
 import React from "react";
-import { Input } from "react-bootstrap";
-
+import { Input, Button, ButtonToolbar } from "react-bootstrap";
 
 function generateDayOptions ( month, year ) {
   var dayOptions = [];
@@ -124,6 +123,44 @@ export default class TaskSchedule extends React.Component {
   }
 
   render () {
+
+    // Used to create new tasks
+    const submitButton =
+      <Button
+        onClick = { this.props.createTask }
+        bsStyle = "primary"
+        disabled = { !this.props.isTaskValid() }
+      >
+        { "Submit" }
+      </Button>;
+
+    // Used to update existing tasks
+    const changeButton =
+      <Button
+        onClick = { this.props.changeTask }
+        bsStyle = "primary"
+        disabled = { !this.props.isTaskValid() }
+      >
+        { "Submit" }
+      </Button>;
+
+    // Used to discard new tasks
+    const cancelButton =
+      <Button
+        onClick = { this.props.handleTaskRemove }
+        bsStyle = "default"
+      >
+        { "Cancel" }
+      </Button>;
+
+    // Used to reset changes to existing tasks
+    const resetButton =
+      <Button
+        onClick = { this.props.resetTask }
+        bsStyle = "default"
+      >
+        { "Cancel" }
+      </Button>;
 
     return (
       <div>
@@ -286,6 +323,16 @@ export default class TaskSchedule extends React.Component {
           value = { this.props.year }
           label = "Coalesce Tasks"
         />
+        <ButtonToolbar>
+          { this.props.existsOnServer
+          ? changeButton
+          : submitButton
+          }
+          { this.props.existsOnServer
+          ? resetButton
+          : cancelButton
+          }
+        </ButtonToolbar>
       </div>
     );
   }
@@ -301,4 +348,9 @@ TaskSchedule.propTypes = { day_of_week: React.PropTypes.string
                          // , hour: React.PropTypes.string
                          , coalesce: React.PropTypes.bool
                          , handleChange: React.PropTypes.func.isRequired
+                         , createTask: React.PropTypes.func.isRequired
+                         , isTaskValid: React.PropTypes.func.isRequired
+                         , changeTask: React.PropTypes.func.isRequired
+                         , handleTaskRemove: React.PropTypes.func.isRequired
+                         , existsOnServer: React.PropTypes.bool.isRequired
                          };

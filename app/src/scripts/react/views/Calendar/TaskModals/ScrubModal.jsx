@@ -199,44 +199,6 @@ const ScrubModal = React.createClass(
                                , { id: this.props.taskID }
                                ) !== undefined;
 
-    // Used to create new tasks
-    const submitButton =
-      <Button
-        onClick = { this.createTask }
-        bsStyle = "primary"
-        disabled = { !this.isTaskValid() }
-      >
-        { "Submit" }
-      </Button>;
-
-    // Used to update existing tasks
-    const changeButton =
-      <Button
-        onClick = { this.changeTask }
-        bsStyle = "primary"
-        disabled = { !this.isTaskValid() }
-      >
-        { "Submit" }
-      </Button>;
-
-    // Used to discard new tasks
-    const cancelButton =
-      <Button
-        onClick = { this.props.handleTaskRemove }
-        bsStyle = "default"
-      >
-        { "Cancel" }
-      </Button>;
-
-    // Used to reset changes to existing tasks
-    const resetButton =
-      <Button
-        onClick = { this.resetTask }
-        bsStyle = "default"
-      >
-        { "Cancel" }
-      </Button>;
-
     return (
       <div>
         <h4>ZFS Scrub</h4>
@@ -266,17 +228,12 @@ const ScrubModal = React.createClass(
           // hour = { hourValue }
           coalesce = { coalesceValue }
           handleChange = { this.handleChange }
+          isTaskValid = { this.isTaskValid }
+          createTask = { this.createTask }
+          changeTask = { this.changeTask }
+          handleTaskRemove = { this.props.handleTaskRemove }
+          existsOnServer = { existsOnServer }
         />
-        <ButtonToolbar>
-          { existsOnServer
-          ? changeButton
-          : submitButton
-          }
-          { existsOnServer
-          ? resetButton
-          : cancelButton
-          }
-        </ButtonToolbar>
       </div>
     );
   }
