@@ -161,13 +161,13 @@ const ScrubModal = React.createClass(
                             , { id: taskIDToCheck }
                             ) !== undefined;
 
-      var volumeToCheck = this.state.selectedVolume || this.props.selectedVolume;
-      var validVolume = _.find( this.props.volumes
-                              , { name: volumeToCheck }
-                              ) !== undefined;
+    var volumeToCheck = this.state.selectedVolume || this.props.selectedVolume;
+    var validVolume = _.find( this.props.volumes
+                            , { name: volumeToCheck }
+                            ) !== undefined;
 
-      return validTaskID && validVolume;
-    }
+    return validTaskID && validVolume;
+  }
 
   , render () {
     var taskIDValue = this.state.taskID
