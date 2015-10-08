@@ -6,7 +6,7 @@
 
 import React from "react";
 import _ from "lodash";
-import { Button, ButtonToolbar, Input } from "react-bootstrap";
+import { Input } from "react-bootstrap";
 import TaskSchedule from "../TaskSchedule";
 
 import CM from "../../../../flux/middleware/CalendarMiddleware";
