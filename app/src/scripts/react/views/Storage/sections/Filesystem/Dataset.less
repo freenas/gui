@@ -167,6 +167,7 @@
 
 .dataset-settings {
   .flex-display( flex );
+  .flex-flow( column );
   padding: 15px;
   background-color: #F8F8F8;
   margin: 15px -15px 0;
@@ -183,5 +184,23 @@
     border-bottom: 12px solid #F8F8F8;
     font-size: 0;
     line-height: 0;
+  }
+
+  .form-section {
+    .flex( 1 1 50% );
+  }
+
+  .form-handlers {
+    .flex( 1 );
+    border-top: 1px solid #CFCFCF;
+    padding-top: 8px;
+    .btn-toolbar {
+      float: right;
+    }
+
+    .btn-sm {
+      padding: 2px 14px;
+      font-size: 13px;
+    }
   }
 }
