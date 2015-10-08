@@ -61,6 +61,10 @@ const UserAdd = React.createClass(
     this.setState( { newUser: newUser } );
   }
 
+  , validateUser () {
+    return true;
+  }
+
   , submitNewUser: function () {
     let params = {};
     let newUser = this.state.newUser;
