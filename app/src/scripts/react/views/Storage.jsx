@@ -282,12 +282,14 @@ export default class Storage extends React.Component {
     this.setState({ datasetToDelete: { path: null, pool: null } });
   }
 
-  confirmDatasetDelete ( pool, pathl, params = {} ) {
+  confirmDatasetDelete ( pool, path, params = {} ) {
     if ( pool && path ) {
       this.setState(
         { datasetToDelete: { pool, path, params }
         }
       );
+    } else {
+      console.warn( "Missing parameters", arguments );
     }
   }
 
