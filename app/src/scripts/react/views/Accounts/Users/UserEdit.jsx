@@ -68,22 +68,23 @@ const UserEdit = React.createClass(
     let newUserProps = this.state.modifiedValues;
 
     // Convert the array of strings provided by the form to an array of integers.
-    if ( !_.isEmpty( newUserProps[ "groups" ] ) ) {
-      newUserProps[ "groups" ] = this.parseGroupsArray( newUserProps[ "groups" ] );
+    if ( !_.isEmpty( newUserProps.groups ) ) {
+      newUserProps.groups = this.parseGroupsArray( newUserProps.groups );
     }
 
-    UM.updateUser( this.props.item[ "id" ], newUserProps );
+    UM.updateUser( this.props.item.id, newUserProps );
   }
 
   , render: function () {
     let builtInWarning  = null;
     let loggedInUserAlert = null;
 
-    if ( this.props.item[ "builtin" ] ) {
+    if ( this.props.item.builtin ) {
       builtInWarning =
         <Alert
-          bsStyle   = { "warning" }
-          className = { "text-center built-in-warning" } >
+          bsStyle   = "warning"
+          className = "text-center built-in-warning"
+        >
           {"This is a built in user account.  Only edit this account if you"
           + "know exactly what you're doing."}
         </Alert>;
@@ -91,8 +92,10 @@ const UserEdit = React.createClass(
 
     if ( this.props.item["logged-in"] ) {
       loggedInUserAlert = (
-        <Alert bsStyle   = "info"
-                    className = "text-center">
+        <Alert
+          bsStyle   = "info"
+          className = "text-center"
+        >
           <b>{"This user is currently logged in."}</b>
         </Alert>
       );
@@ -102,7 +105,8 @@ const UserEdit = React.createClass(
       <Button
         className = "pull-right"
         bsStyle = "warning"
-        onClick = { this.resetChanges } >
+        onClick = { this.resetChanges }
+      >
         { "Reset Changes" }
       </Button>;
 
@@ -118,7 +122,8 @@ const UserEdit = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "default"
-        onClick = { this.props.handleViewChange.bind( null, "view" ) } >
+        onClick = { this.props.handleViewChange.bind( null, "view" ) }
+      >
         { "Cancel Edit" }
       </Button>;
 
@@ -127,7 +132,8 @@ const UserEdit = React.createClass(
         className = "pull-left"
         bsStyle = "danger"
         onClick = { this.deleteUser }
-        disabled = { this.props.item[ "builtin" ] } >
+        disabled = { this.props.item.builtin }
+      >
         { "Delete User" }
       </Button>;
 
@@ -142,145 +148,187 @@ const UserEdit = React.createClass(
     let userIdField =
       <Input
         type             = "text"
-        label            = { "User ID" }
-        value            = { this.state.modifiedValues[ "id" ]
-          || this.props.item[ "id" ] }
+        label            = "User ID"
+        value            = { this.state.modifiedValues.id
+                          || this.props.item.id
+                           }
         onChange         = { this.handleChange.bind( null, "id" ) }
-        key              = { "id" }
+        key              = "id"
         ref              = "id"
-        groupClassName   = { _.has( this.state.modifiedValues["id"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.modifiedValues.id )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userNameField =
       <Input
         type             = "text"
-        label            = { "User Name" }
-        value            = { this.state.modifiedValues[ "username" ]
-          || this.props.item[ "username" ] }
+        label            = "User Name"
+        value            = { this.state.modifiedValues.username
+                          || this.props.item.username
+                           }
         onChange         = { this.handleChange.bind( null, "username" ) }
-        key              = { "username" }
+        key              = "username"
         ref              = "username"
-        groupClassName   = { _.has( this.state.modifiedValues["username"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.modifiedValues.username )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userFullNameField =
       <Input
         type             = "text"
-        label            = { "Full Name" }
-        value            = { this.state.modifiedValues[ "full_name" ]
-          || this.props.item[ "full_name" ] }
+        label            = "Full Name"
+        value            = { this.state.modifiedValues.full_name
+                          || this.props.item.full_name
+                           }
         onChange         = { this.handleChange.bind( null, "full_name" ) }
-        key              = { "full_name" }
+        key              = "full_name"
         ref              = "full_name"
-        groupClassName   = { _.has( this.state.modifiedValues["full_name"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.modifiedValues.full_name )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+    />;
 
     let userEmailField =
       <Input
         type             = "text"
-        label            = { "eMail" }
-        value            = { this.state.modifiedValues[ "email" ]
-          || this.props.item[ "email" ] }
+        label            = "email"
+        value            = { this.state.modifiedValues.email
+                          || this.props.item.email
+                           }
         onChange         = { this.handleChange.bind( null, "email" ) }
-        key              = { "email" }
+        key              = "email"
         ref              = "email"
-        groupClassName   = { _.has( this.state.modifiedValues["email"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.modifiedValues.email )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+    />;
 
     let userShellField =
       <Input
         type             = "select"
         label            = { "Shell" }
-        value     = { this.state.modifiedValues[ "shell" ]
-          || this.props.item[ "shell" ] }
+        value            = { this.state.modifiedValues.shell
+                          || this.props.item.shell
+                           }
         onChange         = { this.handleChange.bind( null, "shell" ) }
         key              = { "shell" }
         ref              = "shell"
-        groupClassName   = { _.has( this.state.modifiedValues["shell"] )
-          ? "editor-was-modified" : "" } >
+        groupClassName   = { _.has( this.state.modifiedValues.shell )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      >
         { this.generateOptionsList( this.state.shells, "name" ) }
       </Input>;
 
     let userPrimaryGroupField =
       <Input
         type             = "select"
-        label            = { "Primary Group" }
-        value            = { this.state.modifiedValues[ "group" ]
-          || this.props.item[ "group" ] }
+        label            = "Primary Group"
+        value            = { this.state.modifiedValues.group
+                          || this.props.item.group
+                           }
         onChange         = { this.handleChange.bind( null, "group" ) }
-        key              = { "group" }
+        key              = "group"
         ref              = "group"
-        groupClassName   = { _.has( this.state.modifiedValues["group"] )
-          ? "editor-was-modified" : "" } >
+        groupClassName   = { _.has( this.state.modifiedValues.group )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      >
         { this.generateOptionsList( GS.groups, "id", "name" ) }
       </Input>;
 
     let userSshPubKeyField =
       <Input
         type             = "textarea"
-        label            = { "Public Key" }
-        value            = { this.state.modifiedValues["sshpubkey" ]
-          || this.props.item[ "sshpubkey" ] }
+        label            = "Public Key"
+        value            = { this.state.modifiedValues.sshpubkey
+                          || this.props.item.sshpubkey }
         onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
-        key              = { "sshpubkey" }
+        key              = "sshpubkey"
         ref              = "sshpubkey"
-        groupClassName   = { _.has( this.state.modifiedValues["sshpubkey"] )
-          ? "editor-was-modified" : "" }
-        rows             = "10" />;
+        groupClassName   = { _.has( this.state.modifiedValues.sshpubkey )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        rows             = "10"
+      />;
 
     let userGroupsField =
       <Input
         type             = "select"
         label            = "Other Groups"
-        value            = { this.state.modifiedValues[ "groups" ]
-          || this.props.item[ "groups" ] }
+        value            = { this.state.modifiedValues.groups
+                          || this.props.item.groups
+                           }
         onChange         = { this.handleChange.bind( null, "groups" ) }
-        key              = { "groups" }
+        key              = "groups"
         ref              = "groups"
-        groupClassName   = { _.has( this.state.modifiedValues[ "groups" ] )
-          ? "editor-was-modified" : "" }
-        multiple >
-        this.state.modifiedValues[ "groups" ] = [];
+        groupClassName   = { _.has( this.state.modifiedValues.groups )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        multiple
+      >
+        this.state.modifiedValues.groups = [];
         { this.generateOptionsList( GS.groups, "id", "name" ) }
       </Input>;
 
     let userLockedField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.modifiedValues[ "locked" ]
-          || this.props.item["locked"] }
-        label            = { "Locked" }
-        defaultValue     = { this.props.item[ "locked" ] }
+        checked          = { this.state.modifiedValues.locked
+                          || this.props.item.locked
+                           }
+        label            = "Locked"
+        defaultValue     = { this.props.item.locked }
         onChange         = { this.handleChange.bind( null, "locked" ) }
-        key              = { "locked" }
+        key              = "locked"
         ref              = "locked"
-        groupClassName   = { _.has( this.state.modifiedValues["locked"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.modifiedValues.locked )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userSudoField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.modifiedValues[ "sudo" ]
-          || this.props.item["sudo"] }
+        checked          = { this.state.modifiedValues.sudo
+                          || this.props.item.sudo
+                           }
         label            = { "sudo" }
         onChange         = { this.handleChange.bind( null, "sudo" ) }
         key              = { "sudo" }
         ref              = "sudo"
-        groupClassName   = { _.has( this.state.modifiedValues[ "sudo" ] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.modifiedValues.sudo )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userPasswordDisabledField =
       <Input
         type             = "checkbox"
         label            = { "Password Disabled" }
-        checked          = { this.state.modifiedValues[ "password_disabled" ]
-          || this.props.item[ "password_disabled" ] }
+        checked          = { this.state.modifiedValues.password_disabled
+                          || this.props.item.password_disabled
+                           }
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = { "password_disabled" }
         ref              = "password_disabled"
-        groupClassName = {
-          _.has( this.state.modifiedValues[ "password_disabled" ] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName = { _.has( this.state.modifiedValues.password_disabled )
+                         ? "editor-was-modified"
+                         : ""
+                         }
+      />;
 
     let textEditForm =
       <div>
