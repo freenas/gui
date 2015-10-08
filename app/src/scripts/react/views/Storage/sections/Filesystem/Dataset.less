@@ -12,7 +12,7 @@
   }
 
   .dataset {
-    padding: @dataset-basis 0 0 32px;
+    padding: @dataset-basis 0 0 0;
 
     &:before,
     .dataset-toolbar:before {
@@ -163,4 +163,25 @@
 
 .dataset-name {
   text-align: left;
+}
+
+.dataset-settings {
+  .flex-display( flex );
+  padding: 15px;
+  background-color: #F8F8F8;
+  margin: 15px -15px 0;
+  position: relative;
+
+  .pointer {
+    position: absolute;
+    top: -8px;
+    width: 0;
+    height: 0;
+    margin-left: 32px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #F8F8F8;
+    font-size: 0;
+    line-height: 0;
+  }
 }

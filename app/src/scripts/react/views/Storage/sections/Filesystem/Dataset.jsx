@@ -13,6 +13,7 @@ import Icon from "../../../../components/Icon";
 import BreakdownChart from "../../common/BreakdownChart";
 import DatasetProperty from "./DatasetProperty";
 import DatasetShareToggles from "./DatasetShareToggles";
+import DatasetSettings from "./DatasetSettings";
 import NewDataset from "./NewDataset";
 
 // STYLESHEET
@@ -23,6 +24,9 @@ const SHARE_TYPES =
   , "AFP"  : "MAC"
   , "NFS"  : "UNIX"
   }
+
+const LEFT_PADDING = 32;
+
 export default class Dataset extends React.Component {
   handleShareToggle ( type ) {
     const { share_type, activeShare, handlers, name, mountpoint, pool }
@@ -137,17 +141,30 @@ export default class Dataset extends React.Component {
     const { name, children, activeShare, parentShared, handlers } = this.props;
     const { used, available, compression } = this.props.properties;
 
-    const DATASET_NAME = name.split( "/" ).pop();
+    let pathArray = name.split( "/" );
+
+    const DATASET_NAME = pathArray.pop();
+    const DATASET_DEPTH = pathArray.length;
     const PARENT_NAME = this.props.root
                       ? "Top Level"
                       : this.formatShareName( activeShare, parentShared );
 
+    let paddingLeft = 0;
+    let shiftLeft = 0;
     let classes = [ "dataset" ];
 
-    if ( this.props.root ) classes.push( "root" );
+    if ( this.props.root ) {
+      classes.push( "root" );
+    } else {
+      paddingLeft = LEFT_PADDING;
+      shiftLeft   = LEFT_PADDING * DATASET_DEPTH;
+    }
 
     return (
-      <div className={ classes.join( " " ) }>
+      <div
+        className = { classes.join( " " ) }
+        style     = {{ paddingLeft }}
+      >
 
         {/* DATASET TOOLBAR */}
         <div className="dataset-toolbar">
@@ -204,6 +221,11 @@ export default class Dataset extends React.Component {
             free = { ByteCalc.convertString( available.rawvalue ) }
           />
         </div>
+
+        {/* DATASET AND SHARE SETTINGS */}
+        <DatasetSettings
+          shiftLeft = { shiftLeft }
+        />
 
         {/* CHILD DATASETS */}
         <div className="dataset-children">
