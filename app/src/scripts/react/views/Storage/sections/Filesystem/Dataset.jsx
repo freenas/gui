@@ -168,14 +168,6 @@ export default class Dataset extends React.Component {
               onShareToggle = { this.handleShareToggle.bind( this ) }
             />
 
-            <DatasetProperty legend="Used">
-              { ByteCalc.humanize( used.rawvalue ) }
-            </DatasetProperty>
-
-            <DatasetProperty legend="Available">
-              { ByteCalc.humanize( available.rawvalue ) }
-            </DatasetProperty>
-
             <DatasetProperty legend="Compression">
               { compression.rawvalue }
             </DatasetProperty>
