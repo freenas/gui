@@ -70,6 +70,7 @@ export default class VolumeSections extends React.Component {
           disabled = { !datasets || datasets.length === 0 }
         >
           <Filesystem
+            { ...this.props.filesystemData }
             handlers = { this.props.filesystemHandlers }
             pool     = { this.props.name }
             editing  = { editing }
@@ -121,6 +122,7 @@ VolumeSections.propTypes =
   , topology : React.PropTypes.object.isRequired
 
   // FILESYSTEM ENTITIES
-  , datasets : React.PropTypes.array
-  , shares   : React.PropTypes.instanceOf( Map )
+  , filesystemData : React.PropTypes.object
+  , datasets       : React.PropTypes.array
+  , shares         : React.PropTypes.instanceOf( Map )
   };

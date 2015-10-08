@@ -28,6 +28,23 @@ const SHARE_TYPES =
 const LEFT_PADDING = 32;
 
 export default class Dataset extends React.Component {
+  toggleActive ( event ) {
+    if ( event.currentTarget === event.target ) {
+      event.stopPropagation();
+
+      if ( this.isActive() ) {
+        this.props.handlers.onDatasetInactive();
+      } else {
+        this.props.handlers.onDatasetActive( this.props.mountpoint );
+      }
+    }
+  }
+
+  isActive () {
+    // TODO: smh tbh this is p dumb thx fam
+    return this.props.activeDataset === this.props.mountpoint;
+  }
+
   handleShareToggle ( type ) {
     const { share_type, activeShare, handlers, name, mountpoint, pool }
       = this.props;
@@ -85,15 +102,21 @@ export default class Dataset extends React.Component {
   createChild ( dataset, index ) {
     if ( !dataset ) {
       console.warn( "No dataset was passed in" );
+      return;
     }
+
+    const COMMON_PROPS =
+      { pool     : this.props.pool
+      , shares   : this.props.shares
+      , handlers : this.props.handlers
+      }
 
     if ( dataset.newDataset ) {
       return (
         <NewDataset
           { ...dataset }
-          key         = { index }
-          pool        = { this.props.pool }
-          handlers    = { this.props.handlers }
+          { ...COMMON_PROPS }
+          key = { index }
         />
       );
     } else if ( this.props.handlers.nameIsPermitted( dataset.name ) ) {
@@ -110,12 +133,11 @@ export default class Dataset extends React.Component {
       return (
         <Dataset
           { ...dataset }
-          key          = { index }
-          pool         = { this.props.pool }
-          shares       = { this.props.shares }
-          parentShared = { parentShared }
-          activeShare  = { activeShare }
-          handlers     = { this.props.handlers }
+          { ...COMMON_PROPS }
+          key           = { index }
+          activeDataset = { this.props.activeDataset }
+          parentShared  = { parentShared }
+          activeShare   = { activeShare }
         />
       );
     }
@@ -167,7 +189,10 @@ export default class Dataset extends React.Component {
       >
 
         {/* DATASET TOOLBAR */}
-        <div className="dataset-toolbar">
+        <div
+          className = "dataset-toolbar"
+          onClick = { this.toggleActive.bind( this ) }
+        >
           <DatasetProperty
             legend    = { PARENT_NAME }
             className = "dataset-name"
@@ -225,6 +250,7 @@ export default class Dataset extends React.Component {
         {/* DATASET AND SHARE SETTINGS */}
         <DatasetSettings
           { ...this.props }
+          show      = { this.isActive() }
           shiftLeft = { shiftLeft }
         />
 

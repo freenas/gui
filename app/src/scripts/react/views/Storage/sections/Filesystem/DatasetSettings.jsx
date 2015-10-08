@@ -12,8 +12,8 @@ const CONTAINER_PADDING = 15;
 
 export default class DatasetSettings extends React.Component {
   render () {
-    let display = this.props.activeDataset === this.props.mountpoint
-                ? "initial"
+    let display = this.props.show
+                ? null
                 : "none";
 
     return (

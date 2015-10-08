@@ -327,8 +327,9 @@ export default class Storage extends React.Component {
   }
 
   createVolumes ( creationActive ) {
-    const { activeVolume, volumes, tasks, shares, SSDsAreAvailable
-          , HDDsAreAvailable, availableSSDs, availableHDDs } = this.state;
+    const { activeVolume, activeDataset, volumes, tasks, shares
+          , SSDsAreAvailable, HDDsAreAvailable, availableSSDs, availableHDDs
+          } = this.state;
 
     let renderableVolumes = _.cloneDeep( volumes );
 
@@ -351,11 +352,14 @@ export default class Storage extends React.Component {
         , availableSSDs
         , availableHDDs
         }
+      , filesystemData:
+        { activeDataset
+        }
       , filesystemHandlers:
         { onShareCreate     : SM.create
         , onShareDelete     : SM.delete
-        , onDatasetActive   : this.handleDatasetActive
-        , onDatasetInactive : this.handleDatasetInactive
+        , onDatasetActive   : this.handleDatasetActive.bind( this )
+        , onDatasetInactive : this.handleDatasetInactive.bind( this )
         , onDatasetCreate   : VM.createDataset
         , onDatasetUpdate   : VM.updateDataset
         , onDatasetDelete   : this.confirmDatasetDelete.bind( this )
