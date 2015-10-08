@@ -135,19 +135,53 @@ export default class ScrubModal extends React.Component {
   }
 
   isTaskValid () {
+    var taskValid;
 
     var taskIDToCheck = this.state.taskID || this.props.taskID;
-    var validTaskID = taskIDToCheck !== ""
-                   && _.find( CS.tasks
-                            , { id: taskIDToCheck }
-                            ) === undefined;
+    var validTaskID;
+
+    if ( this.props.existsOnServer ) {
+      if ( this.state.taskID
+        && this.state.taskID !== this.props.taskID
+         ) {
+      validTaskID = taskIDToCheck !== ""
+                 && _.find( CS.tasks
+                          , { id: taskIDToCheck }
+                          ) === undefined;
+      } else {
+        validTaskID = true;
+      }
+    } else {
+      validTaskID = taskIDToCheck !== ""
+                 && _.find( CS.tasks
+                          , { id: taskIDToCheck }
+                          ) === undefined;
+    }
 
     var volumeToCheck = this.state.selectedVolume || this.props.selectedVolume;
     var validVolume = _.find( this.props.volumes
                             , { name: volumeToCheck }
                             ) !== undefined;
 
-    return validTaskID && validVolume;
+    if ( this.props.existsOnServer ) {
+      let taskChanged = false;
+      if ( ( this.state.taskID !== undefined )
+        || ( this.state.selectedDisks !== undefined )
+        || ( this.state.testType !== undefined )
+        || ( this.state.day_of_week !== undefined )
+        || ( this.state.day !== undefined )
+        || ( this.state.month !== undefined )
+        || ( this.state.year !== undefined )
+        || ( this.state.coalesce !== undefined )
+         ) {
+        taskChanged = true;
+      }
+      taskValid = ( validTaskID || validVolume ) && taskChanged;
+    } else {
+      taskValid = validTaskID && validVolume;
+    }
+
+    return taskValid;
   }
 
   render () {
