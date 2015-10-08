@@ -49,9 +49,7 @@ export default class SmartModal extends React.Component {
         this.setState( { taskID: evt.target.value } );
         break;
       case "disks":
-        /*let targetNode = this.refs.disks.getInputDOMNode;*/
-        //console.log( this.refs.disks.getInputDOMNode.getValue() );
-        this.setState( { selectedDisks: evt.target.value /*targetNode.getValue()*/ } );
+        this.setState( { selectedDisks: this.refs.disks.getValue() } );
         break;
       case "testType":
         this.setState( { testType: evt.target.value } );
