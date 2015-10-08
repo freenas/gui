@@ -214,12 +214,12 @@ const UserEdit = React.createClass(
     let userShellField =
       <Input
         type             = "select"
-        label            = { "Shell" }
+        label            = "Shell"
         value            = { this.state.modifiedValues.shell
                           || this.props.item.shell
                            }
         onChange         = { this.handleChange.bind( null, "shell" ) }
-        key              = { "shell" }
+        key              = "shell"
         ref              = "shell"
         groupClassName   = { _.has( this.state.modifiedValues.shell )
                            ? "editor-was-modified"
@@ -306,9 +306,9 @@ const UserEdit = React.createClass(
         checked          = { this.state.modifiedValues.sudo
                           || this.props.item.sudo
                            }
-        label            = { "sudo" }
+        label            = "sudo"
         onChange         = { this.handleChange.bind( null, "sudo" ) }
-        key              = { "sudo" }
+        key              = "sudo"
         ref              = "sudo"
         groupClassName   = { _.has( this.state.modifiedValues.sudo )
                            ? "editor-was-modified"
@@ -319,12 +319,12 @@ const UserEdit = React.createClass(
     let userPasswordDisabledField =
       <Input
         type             = "checkbox"
-        label            = { "Password Disabled" }
+        label            = "Password Disabled"
         checked          = { this.state.modifiedValues.password_disabled
                           || this.props.item.password_disabled
                            }
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
-        key              = { "password_disabled" }
+        key              = "password_disabled"
         ref              = "password_disabled"
         groupClassName = { _.has( this.state.modifiedValues.password_disabled )
                          ? "editor-was-modified"
