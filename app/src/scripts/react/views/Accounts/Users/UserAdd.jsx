@@ -131,7 +131,7 @@ const UserAdd = React.createClass(
     let submitUserButton =
       <Button
         className = "pull-right"
-        disabled  = { _.isEmpty( this.state.newUser ) }
+        disabled  = { !this.validateUser }
         onClick   = { this.submitNewUser }
         bsStyle   = "info"
       >
