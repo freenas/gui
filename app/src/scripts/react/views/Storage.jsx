@@ -60,6 +60,7 @@ export default class Storage extends React.Component {
       , availableSSDs    : VS.availableSSDs
       , availableHDDs    : VS.availableHDDs
       , activeVolume     : null
+      , activeDataset    : null
       , volumeToDelete   : null
       , datasetToDelete  : { path: null, pool: null }
       , newDataset       : {}
@@ -203,6 +204,14 @@ export default class Storage extends React.Component {
 
 
   // FILESYSTEM AND SHARING HANDLERS
+  handleDatasetActive ( key ) {
+    this.setState({ activeDataset: key });
+  }
+
+  handleDatasetInactive () {
+    this.setState({ activeDataset: null });
+  }
+
   handleNewDatasetChange ( newAttributes ) {
     this.setState(
       { newDataset: Object.assign( {}, this.state.newDataset, newAttributes )
@@ -343,14 +352,16 @@ export default class Storage extends React.Component {
         , availableHDDs
         }
       , filesystemHandlers:
-        { onShareCreate   : SM.create
-        , onShareDelete   : SM.delete
-        , onDatasetCreate : VM.createDataset
-        , onDatasetUpdate : VM.updateDataset
-        , onDatasetDelete : this.confirmDatasetDelete.bind( this )
-        , onDatasetChange : this.handleNewDatasetChange.bind( this )
-        , onDatasetCancel : this.handleNewDatasetCancel.bind( this )
-        , nameIsPermitted : VS.isDatasetNamePermitted
+        { onShareCreate     : SM.create
+        , onShareDelete     : SM.delete
+        , onDatasetActive   : this.handleDatasetActive
+        , onDatasetInactive : this.handleDatasetInactive
+        , onDatasetCreate   : VM.createDataset
+        , onDatasetUpdate   : VM.updateDataset
+        , onDatasetDelete   : this.confirmDatasetDelete.bind( this )
+        , onDatasetChange   : this.handleNewDatasetChange.bind( this )
+        , onDatasetCancel   : this.handleNewDatasetCancel.bind( this )
+        , nameIsPermitted   : VS.isDatasetNamePermitted
         }
       };
 

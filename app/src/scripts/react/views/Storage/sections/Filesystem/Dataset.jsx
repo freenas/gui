@@ -224,6 +224,7 @@ export default class Dataset extends React.Component {
 
         {/* DATASET AND SHARE SETTINGS */}
         <DatasetSettings
+          { ...this.props }
           shiftLeft = { shiftLeft }
         />
 
@@ -248,13 +249,16 @@ Dataset.propTypes =
   , properties       : React.PropTypes.object // TODO: Get more specific
   , shares           : React.PropTypes.instanceOf( Map )
   , activeShare      : React.PropTypes.object
+  , activeDataset    : React.PropTypes.string
   , parentShared     : React.PropTypes.string
   , handlers : React.PropTypes.shape(
-      { onShareCreate       : React.PropTypes.func.isRequired
-      , onShareDelete       : React.PropTypes.func.isRequired
-      , onDatasetChange     : React.PropTypes.func.isRequired
-      , onDatasetUpdate     : React.PropTypes.func.isRequired
-      , nameIsPermitted     : React.PropTypes.func.isRequired
+      { onShareCreate     : React.PropTypes.func.isRequired
+      , onShareDelete     : React.PropTypes.func.isRequired
+      , onDatasetActive   : React.PropTypes.func.isRequired
+      , onDatasetInactive : React.PropTypes.func.isRequired
+      , onDatasetChange   : React.PropTypes.func.isRequired
+      , onDatasetUpdate   : React.PropTypes.func.isRequired
+      , nameIsPermitted   : React.PropTypes.func.isRequired
       }
     ).isRequired
   };

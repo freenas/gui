@@ -12,10 +12,18 @@ const CONTAINER_PADDING = 15;
 
 export default class DatasetSettings extends React.Component {
   render () {
+    let display = this.props.activeDataset === this.props.mountpoint
+                ? "initial"
+                : "none";
+
     return (
       <div
         className = "dataset-settings"
-        style     = {{ marginLeft: -this.props.shiftLeft - CONTAINER_PADDING }}
+        style = {
+          { marginLeft: -this.props.shiftLeft - CONTAINER_PADDING
+          , display
+          }
+        }
       >
         <span
           className = "pointer"
@@ -65,3 +73,28 @@ export default class DatasetSettings extends React.Component {
     );
   }
 }
+
+DatasetSettings.propTypes =
+  { name             : React.PropTypes.string.isRequired
+  , mountpoint       : React.PropTypes.string.isRequired
+  , pool             : React.PropTypes.string.isRequired
+  , root             : React.PropTypes.bool
+  , children         : React.PropTypes.array
+  , permissions_type : React.PropTypes.oneOf([ "PERM", "ACL" ])
+  , type             : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
+  , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
+  , properties       : React.PropTypes.object // TODO: Get more specific
+  , shares           : React.PropTypes.instanceOf( Map )
+  , activeShare      : React.PropTypes.object
+  , parentShared     : React.PropTypes.string
+  , handlers : React.PropTypes.shape(
+      { onShareCreate     : React.PropTypes.func.isRequired
+      , onShareDelete     : React.PropTypes.func.isRequired
+      , onDatasetActive   : React.PropTypes.func.isRequired
+      , onDatasetInactive : React.PropTypes.func.isRequired
+      , onDatasetChange   : React.PropTypes.func.isRequired
+      , onDatasetUpdate   : React.PropTypes.func.isRequired
+      , nameIsPermitted   : React.PropTypes.func.isRequired
+      }
+    ).isRequired
+  };
