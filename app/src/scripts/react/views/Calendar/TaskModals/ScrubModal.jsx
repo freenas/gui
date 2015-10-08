@@ -167,7 +167,6 @@ export default class ScrubModal extends React.Component {
       let taskChanged = false;
       if ( ( this.state.taskID !== undefined )
         || ( this.state.selectedVolume !== undefined )
-        || ( this.state.testType !== undefined )
         || ( this.state.day_of_week !== undefined )
         || ( this.state.day !== undefined )
         || ( this.state.month !== undefined )
