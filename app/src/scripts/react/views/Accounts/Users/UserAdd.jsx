@@ -156,7 +156,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "id" ) }
         key              = "id"
         ref              = "id"
-        groupClassName   = { _.has( this.state.newUser.id )
+        groupClassName   = { this.state.newUser.id
                            ? "editor-was-modified"
                            : ""
                            }
@@ -173,7 +173,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "username" ) }
         key              = "username"
         ref              = "username"
-        groupClassName   = { _.has( this.state.newUser.username )
+        groupClassName   = { this.state.newUser.username
                            ? "editor-was-modified"
                            : ""
                            }
@@ -190,7 +190,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "full_name" ) }
         key              = "full_name"
         ref              = "full_name"
-        groupClassName   = { _.has( this.state.newUser.full_name )
+        groupClassName   = { this.state.newUser.full_name
                            ? "editor-was-modified"
                            : ""
                            }
@@ -207,7 +207,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "email" ) }
         key              = "email"
         ref              = "email"
-        groupClassName   = { _.has( this.state.newUser.email )
+        groupClassName   = { this.state.newUser.email
                            ? "editor-was-modified"
                            : ""
                            }
@@ -224,7 +224,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "shell" ) }
         key              = "shell"
         ref              = "shell"
-        groupClassName   = { _.has( this.state.newUser.shell )
+        groupClassName   = { this.state.newUser.shell
                            ? "editor-was-modified"
                            : ""
                            }
@@ -343,7 +343,7 @@ const UserAdd = React.createClass(
           onChange         = { this.handleChange.bind( null, "group" ) }
           key              = "group"
           ref              = "group"
-          groupClassName   = { _.has( this.state.newUser.group )
+          groupClassName   = { this.state.newUser.group
                              ? "editor-was-modified"
                              : ""
                              }
