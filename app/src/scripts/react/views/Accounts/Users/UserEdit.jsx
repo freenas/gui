@@ -96,7 +96,7 @@ const UserEdit = React.createClass(
           bsStyle   = "info"
           className = "text-center"
         >
-          <b>{"This user is currently logged in."}</b>
+          <b>{ "This user is currently logged in." }</b>
         </Alert>
       );
     }
@@ -259,7 +259,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
         key              = "sshpubkey"
         ref              = "sshpubkey"
-        groupClassName   = { _.has( this.state.modifiedValues.sshpubkey )
+        groupClassName   = { this.state.modifiedValues.sshpubkey
                            ? "editor-was-modified"
                            : ""
                            }
@@ -297,7 +297,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "locked" ) }
         key              = "locked"
         ref              = "locked"
-        groupClassName   = { _.has( this.state.modifiedValues.locked )
+        groupClassName   = { this.state.modifiedValues.locked !== undefined
                            ? "editor-was-modified"
                            : ""
                            }
@@ -313,7 +313,7 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "sudo" ) }
         key              = "sudo"
         ref              = "sudo"
-        groupClassName   = { _.has( this.state.modifiedValues.sudo )
+        groupClassName   = { this.state.modifiedValues.sudo !== undefined
                            ? "editor-was-modified"
                            : ""
                            }
@@ -329,7 +329,8 @@ const UserEdit = React.createClass(
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = "password_disabled"
         ref              = "password_disabled"
-        groupClassName = { _.has( this.state.modifiedValues.password_disabled )
+        groupClassName = { this.state.modifiedValues.password_disabled
+                       !== undefined
                          ? "editor-was-modified"
                          : ""
                          }
