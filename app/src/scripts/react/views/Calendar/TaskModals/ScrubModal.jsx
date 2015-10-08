@@ -166,7 +166,7 @@ export default class ScrubModal extends React.Component {
     if ( this.props.existsOnServer ) {
       let taskChanged = false;
       if ( ( this.state.taskID !== undefined )
-        || ( this.state.selectedDisks !== undefined )
+        || ( this.state.selectedVolume !== undefined )
         || ( this.state.testType !== undefined )
         || ( this.state.day_of_week !== undefined )
         || ( this.state.day !== undefined )
