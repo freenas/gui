@@ -89,7 +89,7 @@ const Day = React.createClass (
                        // middleware. It makes change handling in the modal
                        // much easier as well.
                        selectedDisks = { task.selectedDisks || task.args[0] }
-                       testType = { task.testType || task.args[0] }
+                       testType = { task.testType || task.args[1] }
                        taskID = { task.id }
                        handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
                        disks = { this.props.disks }
