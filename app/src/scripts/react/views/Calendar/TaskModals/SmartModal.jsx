@@ -159,13 +159,19 @@ export default class SmartModal extends React.Component {
                             , { id: taskIDToCheck }
                             ) === undefined;
 
-    var disks = this.state.selectedDisks || this.props.selectedDisks;
+
+    var selectedDisks ;
+    if ( !_.isEmpty( this.state.selectedDisks ) ) {
+      selectedDisks = this.state.selectedDisks;
+    } else {
+      selectedDisks = this.props.selectedDisks;
+    }
     // There must be a faster way to do this
-    var validDisks = _.all( disks
+    var validDisks = _.all( selectedDisks
                           , function checkDisk ( disk ) {
-                              _.find( this.props.disks
-                                    , { id: disk.id }
-                                    ) !== undefined;
+                              return _.find( this.props.disks
+                                           , { id: disk }
+                                           ) !== undefined;
                             }
                           , this
                           );
