@@ -186,13 +186,13 @@ export default class ScrubModal extends React.Component {
         { /* TODO: Add a warning when the task id is taken */ }
         <Input
           type = "text"
-          onChange = { this.handleChange.bind( null, "taskID" ) }
+          onChange = { this.handleChange.bind( this, "taskID" ) }
           value = { taskIDValue }
           label = { "Name" }
         />
         <Input
           type = "select"
-          onChange = { this.handleChange.bind( null, "selectedVolume" ) }
+          onChange = { this.handleChange.bind( this, "selectedVolume" ) }
           value = { selectedVolumeValue }
           label = "Volume"
         >
@@ -208,10 +208,10 @@ export default class ScrubModal extends React.Component {
           // minute = { minuteValue }
           // hour = { hourValue }
           coalesce = { coalesceValue }
-          handleChange = { this.handleChange }
-          isTaskValid = { this.isTaskValid }
-          createTask = { this.createTask }
-          changeTask = { this.changeTask }
+          handleChange = { this.handleChange.bind( this ) }
+          isTaskValid = { this.isTaskValid.bind( this ) }
+          createTask = { this.createTask.bind( this ) }
+          changeTask = { this.changeTask.bind( this ) }
           handleTaskRemove = { this.props.handleTaskRemove }
           existsOnServer = { existsOnServer }
         />
