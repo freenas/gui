@@ -1,14 +1,14 @@
-@import ( optional, reference ) "../../../../../../styles/bootstrap.less";
-@import ( optional, reference ) "../../../../../../styles/variables.less";
+@import ( reference ) "../../../../../../styles/bootstrap.less";
+@import ( reference ) "../../../../../../styles/variables.less";
+@import ( reference ) "../../../../../../styles/utility.less";
 
 @dataset-basis: 8px;
 
 .dataset {
-  background-color: #F8F8F8;
   position: relative;
 
   .dataset {
-    padding-left: 32px;
+    padding: @dataset-basis 0 0 32px;
 
     &:before,
     .dataset-toolbar:before {
@@ -55,14 +55,56 @@
   }
 
   .progress {
-    height: 8px;
-    margin: 0;
+    margin: @dataset-basis -@dataset-basis -@dataset-basis;
+    height: @dataset-basis;
+    border-radius : 0;
+    background-color: #E6E6E6;
+    .transition( all 0.6s );
+  }
+
+  .progress-bar {
+    min-width   : 0;
+    color       : transparent;
+    font-weight : 900;
+    overflow    : hidden;
+    text-align  : left;
+    .transition( all 0.6s );
+    & > span {
+      margin: 0 @panel-body-padding;
+    }
+  }
+
+  .progress-bar-info    { .spotlight( @brand-info ); }
+  .progress-bar-success { .spotlight( @brand-success ); }
+  .progress-bar-danger  { .spotlight( @brand-danger ); }
+  .progress-bar-primary { .spotlight( @brand-primary ); }
+  .progress-bar-warning { .spotlight( @brand-warning ); }
+
+  .free-space {
+    background: none;
+    background-image: none;
+    background-color: transparent;
+    .box-shadow( none );
+  }
+
+  .dataset-toolbar:hover,
+  &.active .dataset-toolbar {
+    & > .progress {
+      height: 25px;
+
+      .progress-bar {
+        line-height : 25px;
+        color       : rgba( 50, 50, 50, 0.85 );
+      }
+    }
   }
 }
 
 .dataset-toolbar {
   padding: @dataset-basis;
   position: relative;
+  background-color: #F8F8F8;
+  .box-shadow( @card-shadow );
 }
 
 .dataset-properties {
