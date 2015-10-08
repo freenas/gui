@@ -205,12 +205,6 @@ export default class SmartModal extends React.Component {
                      || this.props.coalesce
                      || false;
 
-    // Is it okay to use CS.tasks this way, since this will only render in the
-    // context of calendar, which already handles data for that?
-    var existsOnServer = _.find( CS.tasks
-                               , { id: this.props.taskID }
-                               ) !== undefined;
-
     return (
       <div>
         <h4>S.M.A.R.T. Test</h4>
@@ -254,7 +248,7 @@ export default class SmartModal extends React.Component {
           createTask = { this.createTask.bind( this ) }
           changeTask = { this.changeTask.bind( this ) }
           handleTaskRemove = { this.props.handleTaskRemove }
-          existsOnServer = { existsOnServer }
+          existsOnServer = { this.props.existsOnServer }
         />
       </div>
     );
@@ -274,7 +268,8 @@ SmartModal.propTypes = { tasks: React.PropTypes.array
                        // , minute: React.PropTypes.string
                        // , hour: React.PropTypes.string
                        , coalesce: React.PropTypes.bool
-                       , handleTaskRemove: React.PropTypes.func
+                       , existsOnServer: React.PropTypes.bool.isRequired
+                       , handleTaskRemove: React.PropTypes.func.isRequired
                        };
 
 SmartModal.defaultProps = { tasks: []

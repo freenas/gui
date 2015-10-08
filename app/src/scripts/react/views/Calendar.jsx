@@ -79,7 +79,12 @@ const Calendar = React.createClass(
 
   // This will be more sophisticated when task updates emit events.
   , handleTaskUpdate () {
-    this.setState( { tasks: CS.tasks } );
+    var tasks = CS.tasks.map( function markExists ( task ) {
+                                task.existsOnServer = true;
+                                return task;
+                              }
+                            );
+    this.setState( { tasks: tasks } );
   }
 
   , handleDisks () {
@@ -152,6 +157,7 @@ const Calendar = React.createClass(
                        ? this.state.volumes[0].name
                        : ""
                        ];
+        newTask.existsOnServer = false;
         break;
 
       case "smart":
@@ -166,6 +172,7 @@ const Calendar = React.createClass(
                            };
         newTask.selectedDisks = [];
         newTask.testType = "SHORT";
+        newTask.existsOnServer = false;
         break;
     }
 

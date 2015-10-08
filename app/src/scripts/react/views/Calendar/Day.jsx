@@ -67,6 +67,7 @@ const Day = React.createClass (
                        taskID = { task.id }
                        handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
                        volumes = { this.props.volumes }
+                       existsOnServer = { task.existsOnServer }
                        { ...task.schedule }
                      />
                    </Popover>;
@@ -93,6 +94,7 @@ const Day = React.createClass (
                        taskID = { task.id }
                        handleTaskRemove = { this.props.handleTaskRemove.bind( null, task.id ) }
                        disks = { this.props.disks }
+                       existsOnServer = { task.existsOnServer }
                        { ...task.schedule }
                      />
                    </Popover>;
