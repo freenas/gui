@@ -70,7 +70,7 @@ const UserAdd = React.createClass(
     let params = {};
     let newUser = this.state.newUser;
 
-    if ( _.has( newUser, "id" ) ) {
+    if ( newUser.id !== undefined ) ) {
       newUser.id = _.parseInt( newUser.id );
     } else {
       newUser.id = this.state.nextUID;
@@ -281,7 +281,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "locked" ) }
         key              = "locked"
         ref              = "locked"
-        groupClassName   = { _.has( this.state.newUser.locked )
+        groupClassName   = { this.state.newUser.locked !== undefined
                            ? "editor-was-modified"
                            : ""
                            }
@@ -298,10 +298,10 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "sudo" ) }
         key              = "sudo"
         ref              = "sudo"
-        groupClassName   = { _.has( this.state.newUser.sudo )
-                         ? "editor-was-modified"
-                         : ""
-                         }
+        groupClassName   = { this.state.newUser.sudo !== undefined
+                           ? "editor-was-modified"
+                           : ""
+                           }
       />;
 
     let userPasswordDisabledField =
@@ -309,13 +309,13 @@ const UserAdd = React.createClass(
         type             = "checkbox"
         label            = "Password Disabled"
         checked          = { this.state.newUser.password_disabled
-                         ? this.state.newUser.password_disabled
-                         : null
-                         }
+                           ? this.state.newUser.password_disabled
+                           : null
+                           }
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = "password_disabled"
         ref              = "password_disabled"
-        groupClassName = { _.has( this.state.newUser.password_disabled )
+        groupClassName = { this.state.newUser.password_disabled !== undefined
                          ? "editor-was-modified"
                          : ""
                          }
