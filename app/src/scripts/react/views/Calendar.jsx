@@ -82,9 +82,13 @@ const Calendar = React.createClass(
     this.setState( { tasks: CS.tasks } );
   }
 
-  // TODO: Check somewhere whether the disks are capable of running SMART tests
   , handleDisks () {
-    this.setState( { disks: DS.onlineDisks } );
+    var disks = _.filter( DS.onlineDisks
+                        , function checkSMART ( disk ) {
+                            return disk.status.smart_enabled;
+                          }
+                        );
+    this.setState( { disks: disks } );
   }
 
   , handleVolumes () {
