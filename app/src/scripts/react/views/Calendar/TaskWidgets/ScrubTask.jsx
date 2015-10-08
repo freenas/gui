@@ -8,19 +8,17 @@
 import React from "react";
 import { Alert } from "react-bootstrap";
 
-const ScrubTask = React.createClass(
-  { propTypes: { volumeName: React.PropTypes.string
-               , chooseActiveTask: React.PropTypes.func
-               , handleTaskRemove: React.PropTypes.func
-               , taskID: React.PropTypes.string
-               }
+export default class ScrubTask extends React.Component {
 
-  , getDefaultProps () { return { volumeName: null }; }
+  constructor ( props ) {
+    super( props );
+    this.displayName = ScrubTask;
+  }
 
-  , render () {
-    var taskTitleDisplay = this.props.taskID
-                         ? "ZFS Scrub" + " - " + this.props.taskID
-                         : "ZFS Scrub";
+  render () {
+    var taskTitle = this.props.taskID
+                  ? "ZFS Scrub" + " - " + this.props.taskID
+                  : "ZFS Scrub";
 
     var deleteButton = null;
     if ( this.props.handleTaskRemove ) {
@@ -36,12 +34,18 @@ const ScrubTask = React.createClass(
         bsStyle = "info"
         bsSize = "small"
         onClick = { this.props.chooseActiveTask }>
-        <span>{ taskTitleDisplay }</span>
+        <span>{ taskTitle }</span>
         <p>{ this.props.volumeName }</p>
         { deleteButton }
       </Alert>
     );
   }
-});
+};
 
-export default ScrubTask;
+ScrubTask.propTypes = { volumeName: React.PropTypes.string
+                      , chooseActiveTask: React.PropTypes.func
+                      , handleTaskRemove: React.PropTypes.func
+                      , taskID: React.PropTypes.string
+                      };
+
+ScrubTask.defaultProps = { volumeName: null };
