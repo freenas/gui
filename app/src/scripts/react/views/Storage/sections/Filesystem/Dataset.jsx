@@ -136,6 +136,7 @@ export default class Dataset extends React.Component {
           { ...COMMON_PROPS }
           key           = { index }
           activeDataset = { this.props.activeDataset }
+          updateDataset = { this.props.updateDataset }
           parentShared  = { parentShared }
           activeShare   = { activeShare }
         />
@@ -161,7 +162,7 @@ export default class Dataset extends React.Component {
 
   render () {
     const { name, children, activeShare, parentShared, handlers, share_type
-          } = this.props;
+          , pool } = this.props;
     const { used, available, compression } = this.props.properties;
 
     let pathArray = name.split( "/" );
@@ -251,11 +252,13 @@ export default class Dataset extends React.Component {
         {/* DATASET AND SHARE SETTINGS */}
         <DatasetSettings
           show        = { this.isActive() }
+          pool        = { pool }
           shiftLeft   = { shiftLeft }
           handlers    = { handlers }
-          name        = { DATASET_NAME }
+          name        = { name }
           activeShare = { activeShare }
           share_type = { share_type }
+          updateDataset = { this.props.updateDataset }
         />
 
         {/* CHILD DATASETS */}
@@ -280,6 +283,7 @@ Dataset.propTypes =
   , shares           : React.PropTypes.instanceOf( Map )
   , activeShare      : React.PropTypes.object
   , activeDataset    : React.PropTypes.string
+  , updateDataset    : React.PropTypes.object
   , parentShared     : React.PropTypes.string
   , handlers : React.PropTypes.shape(
       { onShareCreate     : React.PropTypes.func.isRequired
@@ -287,7 +291,7 @@ Dataset.propTypes =
       , onDatasetActive   : React.PropTypes.func.isRequired
       , onDatasetInactive : React.PropTypes.func.isRequired
       , onDatasetChange   : React.PropTypes.func.isRequired
-      , onDatasetUpdate   : React.PropTypes.func.isRequired
+      , datasetUpdate   : React.PropTypes.object.isRequired
       , nameIsPermitted   : React.PropTypes.func.isRequired
       }
     ).isRequired

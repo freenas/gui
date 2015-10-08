@@ -11,22 +11,49 @@ import { Button, ButtonToolbar, Input } from "react-bootstrap";
 const CONTAINER_PADDING = 15;
 
 export default class DatasetSettings extends React.Component {
+  onDatasetNameChange ( event ) {
+    const NAME = event.target.value;
+
+    const newDataset =
+      { pool_name : this.props.pool
+      , path      : this.props.name
+      , params:
+        { name: this.props.name.replace( /([^\/]*$)/i, NAME )
+        }
+      };
+
+    this.props.handlers.datasetUpdate.onChange( newDataset );
+  }
+
+  assignValues () {
+    const { updateDataset, activeShare } = this.props;
+    let datasetParams = {};
+    let shareParams = {};
+
+    if ( updateDataset && updateDataset.params ) {
+      datasetParams.name = updateDataset.params.name;
+    }
+
+    if ( activeShare ) {
+      shareParams.exportName = activeShare.id;
+    }
+
+    return Object.assign(
+      { name       : this.props.name
+      , exportName : ""
+      }
+      , datasetParams
+      , shareParams
+    );
+  }
+
   render () {
-    const { show, activeShare } = this.props;
+    const { name, show, activeShare } = this.props;
+    const VALUES = this.assignValues();
 
     let display = show
                 ? null
                 : "none";
-
-    let exportName;
-    let noActiveShare;
-
-    if ( activeShare ) {
-      exportName = activeShare.id;
-      noActiveShare = false;
-    } else {
-      noActiveShare = true;
-    }
 
     return (
       <div
@@ -48,15 +75,16 @@ export default class DatasetSettings extends React.Component {
             <Input
               type = "text"
               label = "Name"
-              value = { this.props.name }
+              value = { VALUES.name.split( "/" ).pop() }
+              onChange = { this.onDatasetNameChange.bind( this ) }
               labelClassName = "col-xs-2"
               wrapperClassName = "col-xs-10"
             />
             <Input
-              disabled = { noActiveShare }
+              disabled = { !activeShare }
               type = "text"
               label = "Export As"
-              value = { exportName }
+              value = { VALUES.exportName }
               labelClassName = "col-xs-2"
               wrapperClassName = "col-xs-10"
             />
@@ -81,6 +109,7 @@ export default class DatasetSettings extends React.Component {
             <Button
               bsStyle = "primary"
               bsSize  = "small"
+              onClick = { this.props.handlers.datasetUpdate.onSubmit }
             >
               { "Submit" }
             </Button>
@@ -92,18 +121,24 @@ export default class DatasetSettings extends React.Component {
 }
 
 DatasetSettings.propTypes =
-  { name        : React.PropTypes.string.isRequired
-  , show        : React.PropTypes.bool
-  , shiftLeft   : React.PropTypes.number.isRequired
-  , share_type  : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
-  , activeShare : React.PropTypes.object
+  { name          : React.PropTypes.string.isRequired
+  , show          : React.PropTypes.bool
+  , shiftLeft     : React.PropTypes.number.isRequired
+  , share_type    : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
+  , activeShare   : React.PropTypes.object
+  , updateDataset : React.PropTypes.object
   , handlers : React.PropTypes.shape(
       { onShareCreate     : React.PropTypes.func.isRequired
       , onShareDelete     : React.PropTypes.func.isRequired
       , onDatasetActive   : React.PropTypes.func.isRequired
       , onDatasetInactive : React.PropTypes.func.isRequired
       , onDatasetChange   : React.PropTypes.func.isRequired
-      , onDatasetUpdate   : React.PropTypes.func.isRequired
+      , datasetUpdate: React.PropTypes.shape(
+          { onChange: React.PropTypes.func.isRequired
+          , onSubmit: React.PropTypes.func.isRequired
+          , onRevert: React.PropTypes.func.isRequired
+          }
+        )
       , nameIsPermitted   : React.PropTypes.func.isRequired
       }
     ).isRequired

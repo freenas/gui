@@ -64,6 +64,7 @@ export default class Storage extends React.Component {
       , volumeToDelete   : null
       , datasetToDelete  : { path: null, pool: null }
       , newDataset       : {}
+      , updateDataset    : {}
       };
   }
 
@@ -223,6 +224,23 @@ export default class Storage extends React.Component {
     this.setState({ newDataset: {} });
   }
 
+  changeDatasetUpdate ( newDataset ) {
+    this.setState(
+      { updateDataset: Object.assign({}, this.state.newDataset, newDataset )
+      }
+    );
+  }
+
+  submitDatasetUpdate () {
+    const { pool_name, path, params } = this.state.updateDataset;
+
+    VM.updateDataset( pool_name, path, params );
+  }
+
+  revertDatasetUpdate () {
+    this.setState({ updateDataset: {} });
+  }
+
   handleDatasetDelete () {
     const { pool, path, params } = this.state.datasetToDelete;
 
@@ -356,6 +374,7 @@ export default class Storage extends React.Component {
         }
       , filesystemData:
         { activeDataset
+        , updateDataset: this.state.updateDataset
         }
       , filesystemHandlers:
         { onShareCreate     : SM.create
@@ -363,7 +382,11 @@ export default class Storage extends React.Component {
         , onDatasetActive   : this.handleDatasetActive.bind( this )
         , onDatasetInactive : this.handleDatasetInactive.bind( this )
         , onDatasetCreate   : VM.createDataset
-        , onDatasetUpdate   : VM.updateDataset
+        , datasetUpdate:
+          { onChange: this.changeDatasetUpdate.bind( this )
+          , onSubmit: this.submitDatasetUpdate.bind( this )
+          , onRevert: this.revertDatasetUpdate.bind( this )
+          }
         , onDatasetDelete   : this.confirmDatasetDelete.bind( this )
         , onDatasetChange   : this.handleNewDatasetChange.bind( this )
         , onDatasetCancel   : this.handleNewDatasetCancel.bind( this )
