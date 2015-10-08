@@ -35,7 +35,8 @@ const UserAdd = React.createClass(
   , getInitialState: function () {
     return { nextUID: US.nextUID
            , newUser: {}
-           , pleaseCreatePrimaryGroup : true };
+           , pleaseCreatePrimaryGroup : true
+           };
   }
 
   , handleChange: function ( field, event ) {
@@ -70,9 +71,9 @@ const UserAdd = React.createClass(
     let newUser = this.state.newUser;
 
     if ( _.has( newUser, "id" ) ) {
-      newUser[ "id" ] = _.parseInt( newUser[ "id" ] );
+      newUser.id = _.parseInt( newUser.id );
     } else {
-      newUser[ "id" ] = this.state.nextUID;
+      newUser.id = this.state.nextUID;
     }
 
     // If the user requests a new group, make one with the next
@@ -80,13 +81,14 @@ const UserAdd = React.createClass(
     if ( this.state.pleaseCreatePrimaryGroup ) {
       let newGID = GS.nextGID;
       GM.createGroup( { id   : newGID
-                      , name : newUser[ "username" ] } );
-      newUser[ "group" ] = newGID;
+                      , name : newUser.username
+                      } );
+      newUser.group = newGID;
     }
 
     // Convert the array of strings provided by the form to an array of integers.
-    if ( !_.isEmpty( newUser[ "groups" ] ) ) {
-      newUser[ "groups" ] = this.parseGroupsArray( newUser[ "groups" ] );
+    if ( !_.isEmpty( newUser.groups ) ) {
+      newUser.groups = this.parseGroupsArray( newUser.groups );
     }
 
     UM.createUser( newUser );
@@ -97,7 +99,7 @@ const UserAdd = React.createClass(
   }
 
   , reset: function () {
-    this.setState( {newUser: {} } );
+    this.setState( { newUser: {} } );
   }
 
   , primaryGroupToggle: function ( event ) {
@@ -112,7 +114,8 @@ const UserAdd = React.createClass(
       <Button
         className = "pull-left"
         onClick   = { this.cancel }
-        bsStyle   = "default" >
+        bsStyle   = "default"
+      >
         { "Cancel" }
       </Button>;
 
@@ -120,7 +123,8 @@ const UserAdd = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "warning"
-        onClick = { this.reset } >
+        onClick = { this.reset }
+      >
         { "Reset Changes" }
       </Button>;
 
@@ -129,7 +133,8 @@ const UserAdd = React.createClass(
         className = "pull-right"
         disabled  = { _.isEmpty( this.state.newUser ) }
         onClick   = { this.submitNewUser }
-        bsStyle   = "info" >
+        bsStyle   = "info"
+      >
         { "Create New User" }
       </Button>;
 
@@ -143,146 +148,187 @@ const UserAdd = React.createClass(
     let userIdField =
       <Input
         type             = "text"
-        label            = { "User ID" }
-        value            = { this.state.newUser[ "id" ]
-          ? this.state.newUser[ "id" ]
-          : this.state.nextUID }
+        label            = "User ID"
+        value            = { this.state.newUser.id
+                           ? this.state.newUser.id
+                           : this.state.nextUID
+                           }
         onChange         = { this.handleChange.bind( null, "id" ) }
-        key              = { "id" }
+        key              = "id"
         ref              = "id"
-        groupClassName   = { _.has( this.state.newUser["id"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.newUser.id )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userNameField =
       <Input
         type             = "text"
-        label            = { "User Name" }
-        value            = { this.state.newUser[ "username" ]
-          ? this.state.newUser[ "username" ]
-          : null }
+        label            = "User Name"
+        value            = { this.state.newUser.username
+                           ? this.state.newUser.username
+                           : null
+                           }
         onChange         = { this.handleChange.bind( null, "username" ) }
-        key              = { "username" }
+        key              = "username"
         ref              = "username"
-        groupClassName   = { _.has( this.state.newUser["username"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.newUser.username )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userFullNameField =
       <Input
         type             = "text"
-        label            = { "Full Name" }
-        value            = { this.state.newUser[ "full_name" ]
-          ? this.state.newUser[ "full_name" ]
-          : null }
+        label            = "Full Name"
+        value            = { this.state.newUser.full_name
+                           ? this.state.newUser.full_name
+                           : null
+                           }
         onChange         = { this.handleChange.bind( null, "full_name" ) }
-        key              = { "full_name" }
+        key              = "full_name"
         ref              = "full_name"
-        groupClassName   = { _.has( this.state.newUser["full_name"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.newUser.full_name )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userEmailField =
       <Input
         type             = "text"
-        label            = { "eMail" }
-        value            = { this.state.newUser[ "email" ]
-          ? this.state.newUser[ "email" ]
-          : null }
+        label            = "email"
+        value            = { this.state.newUser.email
+                           ? this.state.newUser.email
+                           : null
+                           }
         onChange         = { this.handleChange.bind( null, "email" ) }
-        key              = { "email" }
+        key              = "email"
         ref              = "email"
-        groupClassName   = { _.has( this.state.newUser["email"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.newUser.email )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userShellField =
       <Input
         type             = "select"
-        label            = { "Shell" }
-        value     = { this.state.newUser[ "shell" ]
-          ? this.state.newUser[ "shell" ]
-          : null }
+        label            = "Shell"
+        value            = { this.state.newUser.shell
+                           ? this.state.newUser.shell
+                           : null
+                           }
         onChange         = { this.handleChange.bind( null, "shell" ) }
-        key              = { "shell" }
+        key              = "shell"
         ref              = "shell"
-        groupClassName   = { _.has( this.state.newUser["shell"] )
-          ? "editor-was-modified" : "" } >
+        groupClassName   = { _.has( this.state.newUser.shell )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      >
         { this.generateOptionsList( this.state.shells, "name" ) }
       </Input>;
 
     let userSshPubKeyField =
       <Input
         type             = "textarea"
-        label            = { "Public Key" }
-        value            = { this.state.newUser["sshpubkey" ]
-          ? this.state.newUser[ "sshpubkey" ]
-          : null }
+        label            = "Public Key"
+        value            = { this.state.newUser.sshpubkey
+                           ? this.state.newUser.sshpubkey
+                           : null
+                           }
         onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
-        key              = { "sshpubkey" }
+        key              = "sshpubkey"
         ref              = "sshpubkey"
-        groupClassName   = { _.has( this.state.newUser["sshpubkey"] )
-          ? "editor-was-modified" : "" }
-        rows             = "10" />;
+        groupClassName   = { this.state.newUser.sshpubkey
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        rows             = "10"
+      />;
 
     let userGroupsField =
       <Input
         type             = "select"
         label            = "Other Groups"
-        value            = { this.state.newUser[ "groups" ]
-          ? this.state.newUser[ "groups" ]
-          : null }
+        value            = { this.state.newUser.groups
+                           ? this.state.newUser.groups
+                           : null
+                           }
         onChange         = { this.handleChange.bind( null, "groups" ) }
-        key              = { "groups" }
+        key              = "groups"
         ref              = "groups"
-        groupClassName   = { _.has( this.state.newUser[ "groups" ] )
-          ? "editor-was-modified" : "" }
-        multiple >
+        groupClassName   = { !_.isEmpty( this.state.newUser.groups )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        multiple
+      >
         { this.generateOptionsList( GS.groups, "id", "name" ) }
       </Input>;
 
     let userLockedField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.newUser[ "locked" ]
-          ? this.state.newUser["locked"]
-          : null }
-        label            = { "Locked" }
+        checked          = { this.state.newUser.locked
+                           ? this.state.newUser.locked
+                           : null
+                           }
+        label            = "Locked"
         onChange         = { this.handleChange.bind( null, "locked" ) }
-        key              = { "locked" }
+        key              = "locked"
         ref              = "locked"
-        groupClassName   = { _.has( this.state.newUser["locked"] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.newUser.locked )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+      />;
 
     let userSudoField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.newUser[ "sudo" ]
-          ? this.state.newUser[ "sudo" ]
-          : null }
-        label            = { "sudo" }
+        checked          = { this.state.newUser.sudo
+                           ? this.state.newUser.sudo
+                           : null
+                           }
+        label            = "sudo"
         onChange         = { this.handleChange.bind( null, "sudo" ) }
-        key              = { "sudo" }
+        key              = "sudo"
         ref              = "sudo"
-        groupClassName   = { _.has( this.state.newUser[ "sudo" ] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName   = { _.has( this.state.newUser.sudo )
+                         ? "editor-was-modified"
+                         : ""
+                         }
+      />;
 
     let userPasswordDisabledField =
       <Input
         type             = "checkbox"
-        label            = { "Password Disabled" }
-        checked          = { this.state.newUser[ "password_disabled" ]
-          ? this.state.newUser[ "password_disabled" ]
-          : null }
+        label            = "Password Disabled"
+        checked          = { this.state.newUser.password_disabled
+                         ? this.state.newUser.password_disabled
+                         : null
+                         }
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
-        key              = { "password_disabled" }
+        key              = "password_disabled"
         ref              = "password_disabled"
-        groupClassName = {
-          _.has( this.state.newUser[ "password_disabled" ] )
-          ? "editor-was-modified" : "" } />;
+        groupClassName = { _.has( this.state.newUser.password_disabled )
+                         ? "editor-was-modified"
+                         : ""
+                         }
+      />;
 
     let userAutoPrimaryGroupField =
-      <Input type             = "checkbox"
+      <Input
+        type             = "checkbox"
         label            = "Automatically Create Primary Group"
         ref              = "createPrimaryGroup"
         onChange         = { this.primaryGroupToggle }
-        checked          = { this.state.pleaseCreatePrimaryGroup } />;
+        checked          = { this.state.pleaseCreatePrimaryGroup }
+      />;
 
     let userPrimaryGroupField;
 
@@ -290,15 +336,18 @@ const UserAdd = React.createClass(
       userPrimaryGroupField =
         <Input
           type             = "select"
-          label            = { "Primary Group" }
-          value            = { this.state.newUser[ "group" ]
-                           ? this.state.newUser[ "group" ]
+          label            = "Primary Group"
+          value            = { this.state.newUser.group
+                           ? this.state.newUser.group
                            : null }
           onChange         = { this.handleChange.bind( null, "group" ) }
-          key              = { "group" }
+          key              = "group"
           ref              = "group"
-          groupClassName   = { _.has( this.state.newUser[ "group" ] )
-            ? "editor-was-modified" : "" } >
+          groupClassName   = { _.has( this.state.newUser.group )
+                             ? "editor-was-modified"
+                             : ""
+                             }
+        >
           { this.generateOptionsList( GS.groups, "id", "name" ) }
         </Input>;
     }
