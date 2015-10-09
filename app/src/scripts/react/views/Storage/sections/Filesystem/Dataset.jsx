@@ -176,12 +176,20 @@ export default class Dataset extends React.Component {
     let paddingLeft = 0;
     let shiftLeft = 0;
     let classes = [ "dataset" ];
+    let ShareToggles = null;
 
     if ( this.props.root ) {
       classes.push( "root" );
     } else {
       paddingLeft = LEFT_PADDING;
       shiftLeft   = LEFT_PADDING * DATASET_DEPTH;
+      ShareToggles = (
+        <DatasetShareToggles
+          parentShared  = { parentShared }
+          activeShare   = { activeShare }
+          onShareToggle = { this.handleShareToggle.bind( this ) }
+        />
+      );
     }
 
     return (
@@ -206,11 +214,7 @@ export default class Dataset extends React.Component {
           <div className="dataset-properties">
 
             {/* RADIO TOGGLES FOR CREATING SHARES */}
-            <DatasetShareToggles
-              parentShared  = { parentShared }
-              activeShare   = { activeShare }
-              onShareToggle = { this.handleShareToggle.bind( this ) }
-            />
+            { ShareToggles }
 
             <DatasetProperty legend="Compression">
               { compression.rawvalue }
