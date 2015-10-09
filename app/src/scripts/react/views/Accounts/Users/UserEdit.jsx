@@ -85,12 +85,13 @@ const UserEdit = React.createClass(
           bsStyle   = "warning"
           className = "text-center built-in-warning"
         >
-          {"This is a built in user account.  Only edit this account if you"
-          + "know exactly what you're doing."}
+          { "This is a built in user account. Only edit this account if you"
+          + "know exactly what you're doing."
+          }
         </Alert>;
     }
 
-    if ( this.props.item["logged-in"] ) {
+    if ( this.props.item[ "logged-in" ] ) {
       loggedInUserAlert = (
         <Alert
           bsStyle   = "info"
