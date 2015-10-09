@@ -166,7 +166,7 @@ const UserAdd = React.createClass(
       <Input
         type             = "text"
         label            = "User Name"
-        value            = { this.state.newUser.username
+        value            = { typeof this.state.newUser.username === "string"
                            ? this.state.newUser.username
                            : null
                            }
@@ -189,7 +189,7 @@ const UserAdd = React.createClass(
       <Input
         type             = "text"
         label            = "Full Name"
-        value            = { this.state.newUser.full_name
+        value            = { typeof this.state.newUser.full_name === "string"
                            ? this.state.newUser.full_name
                            : null
                            }
@@ -207,7 +207,7 @@ const UserAdd = React.createClass(
       <Input
         type             = "text"
         label            = "email"
-        value            = { this.state.newUser.email
+        value            = { typeof this.state.newUser.email === "string"
                            ? this.state.newUser.email
                            : null
                            }
@@ -244,7 +244,7 @@ const UserAdd = React.createClass(
       <Input
         type             = "textarea"
         label            = "Public Key"
-        value            = { this.state.newUser.sshpubkey
+        value            = { typeof this.state.newUser.sshpubkey === "string"
                            ? this.state.newUser.sshpubkey
                            : null
                            }
@@ -283,7 +283,7 @@ const UserAdd = React.createClass(
     let userLockedField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.newUser.locked
+        checked          = { typeof this.state.newUser.locked === "boolean"
                            ? this.state.newUser.locked
                            : null
                            }
@@ -300,7 +300,7 @@ const UserAdd = React.createClass(
     let userSudoField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.newUser.sudo
+        checked          = { typeof this.state.newUser.sudo === "boolean"
                            ? this.state.newUser.sudo
                            : null
                            }
