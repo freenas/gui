@@ -173,12 +173,13 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "username" ) }
         key              = "username"
         ref              = "username"
-        groupClassName   = { this.state.newUser.username
         bsStyle          = { typeof this.state.newUser.username === "string"
                           && this.state.newUser.username !== ""
                            ? ""
                            : "error"
                            }
+        groupClassName   = { typeof this.state.newUser.username === "string"
+                          && this.state.newUser.username !== ""
                            ? "editor-was-modified"
                            : ""
                            }
@@ -195,7 +196,8 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "full_name" ) }
         key              = "full_name"
         ref              = "full_name"
-        groupClassName   = { this.state.newUser.full_name
+        groupClassName   = { typeof this.state.newUser.full_name === "string"
+                          && this.state.newUser.full_name !== ""
                            ? "editor-was-modified"
                            : ""
                            }
@@ -212,7 +214,8 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "email" ) }
         key              = "email"
         ref              = "email"
-        groupClassName   = { this.state.newUser.email
+        groupClassName   = { typeof this.state.newUser.email === "string"
+                          && this.state.newUser.email !== ""
                            ? "editor-was-modified"
                            : ""
                            }
@@ -248,7 +251,8 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
         key              = "sshpubkey"
         ref              = "sshpubkey"
-        groupClassName   = { this.state.newUser.sshpubkey
+        groupClassName   = { typeof this.state.newUser.sshpubkey === "string"
+                          && this.state.newUser.sshpubkey !== ""
                            ? "editor-was-modified"
                            : ""
                            }
@@ -266,7 +270,8 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "groups" ) }
         key              = "groups"
         ref              = "groups"
-        groupClassName   = { !_.isEmpty( this.state.newUser.groups )
+        groupClassName   = { Array.isArray( this.state.newUser.groups )
+                          && !_.isEmpty( this.state.newUser.groups )
                            ? "editor-was-modified"
                            : ""
                            }
@@ -286,7 +291,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "locked" ) }
         key              = "locked"
         ref              = "locked"
-        groupClassName   = { this.state.newUser.locked !== undefined
+        groupClassName   = { typeof this.state.newUser.locked === "boolean"
                            ? "editor-was-modified"
                            : ""
                            }
@@ -303,7 +308,7 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "sudo" ) }
         key              = "sudo"
         ref              = "sudo"
-        groupClassName   = { this.state.newUser.sudo !== undefined
+        groupClassName   = { typeof this.state.newUser.sudo === "boolean"
                            ? "editor-was-modified"
                            : ""
                            }
