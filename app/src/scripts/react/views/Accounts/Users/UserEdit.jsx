@@ -168,8 +168,10 @@ const UserEdit = React.createClass(
       <Input
         type             = "text"
         label            = "User Name"
-        value            = { this.state.modifiedValues.username
-                          || this.props.item.username
+        value            = { typeof this.state.modifiedValues.username
+                         === "string"
+                           ? this.state.modifiedValues.username
+                           : this.props.item.username
                            }
         onChange         = { this.handleChange.bind( null, "username" ) }
         key              = "username"
@@ -190,8 +192,10 @@ const UserEdit = React.createClass(
       <Input
         type             = "text"
         label            = "Full Name"
-        value            = { this.state.modifiedValues.full_name
-                          || this.props.item.full_name
+        value            = { typeof this.state.modifiedValues.full_name
+                         === "string"
+                           ? this.state.modifiedValues.full_name
+                           : this.props.item.full_name
                            }
         onChange         = { this.handleChange.bind( null, "full_name" ) }
         key              = "full_name"
@@ -209,8 +213,9 @@ const UserEdit = React.createClass(
       <Input
         type             = "text"
         label            = "email"
-        value            = { this.state.modifiedValues.email
-                          || this.props.item.email
+        value            = { typeof this.state.modifiedValues.email === "string"
+                           ? this.state.modifiedValues.email
+                           : this.props.item.email
                            }
         onChange         = { this.handleChange.bind( null, "email" ) }
         key              = "email"
@@ -263,8 +268,10 @@ const UserEdit = React.createClass(
       <Input
         type             = "textarea"
         label            = "Public Key"
-        value            = { this.state.modifiedValues.sshpubkey
-                          || this.props.item.sshpubkey }
+        value            = { typeof this.state.modifiedValues.sshpubkey
+                         === "string"
+                           ? this.state.modifiedValues.sshpubkey
+                           : this.props.item.sshpubkey }
         onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
         key              = "sshpubkey"
         ref              = "sshpubkey"
@@ -335,8 +342,10 @@ const UserEdit = React.createClass(
       <Input
         type             = "checkbox"
         label            = "Password Disabled"
-        checked          = { this.state.modifiedValues.password_disabled
-                          || this.props.item.password_disabled
+        checked          = {typeof this.state.modifiedValues.password_disabled
+                       === "boolean"
+                           ? this.state.modifiedValues.password_disabled
+                           : this.props.item.password_disabled
                            }
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = "password_disabled"
