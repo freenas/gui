@@ -173,7 +173,10 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "username" ) }
         key              = "username"
         ref              = "username"
-        groupClassName   = { this.state.modifiedValues.username
+        groupClassName   = { typeof this.state.modifiedValues.username
+                         === "string"
+                          && this.state.modifiedValues.username
+                         !== this.props.item.username
                            ? "editor-was-modified"
                            : ""
                            }
@@ -192,7 +195,10 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "full_name" ) }
         key              = "full_name"
         ref              = "full_name"
-        groupClassName   = { this.state.modifiedValues.full_name
+        groupClassName   = { typeof this.state.modifiedValues.full_name
+                         === "string"
+                          && this.state.modifiedValues.full_name
+                         !== this.props.item.full_name
                            ? "editor-was-modified"
                            : ""
                            }
@@ -208,7 +214,9 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "email" ) }
         key              = "email"
         ref              = "email"
-        groupClassName   = { this.state.modifiedValues.email
+        groupClassName   = { typeof this.state.modifiedValues.email === "string"
+                          && this.state.modifiedValues.email
+                         !== this.props.item.email
                            ? "editor-was-modified"
                            : ""
                            }
@@ -259,7 +267,10 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
         key              = "sshpubkey"
         ref              = "sshpubkey"
-        groupClassName   = { this.state.modifiedValues.sshpubkey
+        groupClassName   = { typeof this.state.modifiedValues.sshpubkey
+                         === "string"
+                          && this.state.modifiedValues.sshpubkey
+                         !== this.props.item.sshpubkey
                            ? "editor-was-modified"
                            : ""
                            }
@@ -329,8 +340,10 @@ const UserEdit = React.createClass(
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = "password_disabled"
         ref              = "password_disabled"
-        groupClassName = { this.state.modifiedValues.password_disabled
-                       !== undefined
+        groupClassName = { typeof this.state.modifiedValues.password_disabled
+                       === "boolean"
+                        && this.state.modifiedValues.password_disabled
+                       !== this.props.item.password_disabled
                          ? "editor-was-modified"
                          : ""
                          }
