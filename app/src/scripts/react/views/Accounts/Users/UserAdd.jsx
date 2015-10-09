@@ -70,7 +70,7 @@ const UserAdd = React.createClass(
     let params = {};
     let newUser = this.state.newUser;
 
-    if ( newUser.id !== undefined ) ) {
+    if ( newUser.id !== undefined ) {
       newUser.id = _.parseInt( newUser.id );
     } else {
       newUser.id = this.state.nextUID;
