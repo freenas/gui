@@ -15,6 +15,9 @@ import MiddlewareClient from "../../websocket/MiddlewareClient";
 import SS from "../../flux/stores/SessionStore";
 import MS from "../../flux/stores/MiddlewareStore";
 
+import UM from "../../flux/middleware/UsersMiddleware";
+import US from "../../flux/stores/UsersStore";
+
 import ItemIcon from "../components/items/ItemIcon";
 import Icon from "../components/Icon";
 
@@ -91,6 +94,11 @@ const PrimaryNavigation = React.createClass(
   , componentDidMount () {
       SS.addChangeListener( this.updateCurrentUser );
       MS.addChangeListener( this.updateHost );
+
+      US.addChangeListener( this.updateCurrentUser );
+      UM.subscribe( this.constructor.displayName );
+      UM.requestUsersList();
+
       // After the component has a real DOM representation, store the auto width
       // value of the navbar
       this.setState(
@@ -101,10 +109,21 @@ const PrimaryNavigation = React.createClass(
   , componentWillUnmount () {
       SS.removeChangeListener( this.updateCurrentUser );
       MS.removeChangeListener( this.updateHost );
+
+      US.removeChangeListener( this.updateCurrentUser );
+      UM.unsubscribe( this.constructor.displayName );
     }
 
   , updateCurrentUser ( event ) {
-      this.setState({ currentUser: SS.getCurrentUser() });
+      var newState = { currentUser: SS.getCurrentUser() };
+      var currentUserData = US.findUserByKeyValue( "username"
+                                                 , SS.getCurrentUser()
+                                                 );
+      if ( typeof currentUserData === "object" ) {
+        newState.currentUserFullname = currentUserData.full_name;
+      }
+
+      this.setState( newState );
     }
 
   , updateHost ( event ) {
@@ -180,7 +199,10 @@ const PrimaryNavigation = React.createClass(
             { this.state.currentUser }
           </span>
           <span className="fullname">
-            { "Full Name" }
+            { typeof this.state.currentUserFullname === "string"
+            ? this.state.currentUserFullname
+            : ""
+            }
           </span>
         </div>
       );
