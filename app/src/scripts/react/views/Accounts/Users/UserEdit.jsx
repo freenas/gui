@@ -23,7 +23,6 @@ const UserEdit = React.createClass(
 
   , propTypes: { item: React.PropTypes.object.isRequired
                , itemSchema: React.PropTypes.object.isRequired
-               , itemLabels: React.PropTypes.object.isRequired
                }
 
   , getInitialState: function () {
