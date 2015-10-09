@@ -55,7 +55,6 @@ const UserView = React.createClass(
 
   , render: function () {
       var builtInUserAlert = null;
-      var loggedInUserAlert = null;
       var editButtons      = null;
 
       if ( this.props.item["builtin"] ) {
@@ -63,15 +62,6 @@ const UserView = React.createClass(
           <Alert bsStyle   = "info"
                       className = "text-center">
             <b>{"This is a built-in FreeNAS user account."}</b>
-          </Alert>
-        );
-      }
-
-      if ( this.props.item["logged-in"] ) {
-        loggedInUserAlert = (
-          <Alert bsStyle   = "info"
-                      className = "text-center">
-            <b>{"This user is currently logged in."}</b>
           </Alert>
         );
       }
@@ -149,8 +139,6 @@ const UserView = React.createClass(
               </ListGroup>
             </Col>
           </Row>
-
-          { loggedInUserAlert }
 
         </Grid>
       );

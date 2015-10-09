@@ -77,7 +77,6 @@ const UserEdit = React.createClass(
 
   , render: function () {
     let builtInWarning  = null;
-    let loggedInUserAlert = null;
 
     if ( this.props.item.builtin ) {
       builtInWarning =
@@ -89,17 +88,6 @@ const UserEdit = React.createClass(
           + "know exactly what you're doing."
           }
         </Alert>;
-    }
-
-    if ( this.props.item[ "logged-in" ] ) {
-      loggedInUserAlert = (
-        <Alert
-          bsStyle   = "info"
-          className = "text-center"
-        >
-          <b>{ "This user is currently logged in." }</b>
-        </Alert>
-      );
     }
 
     let resetButton =
@@ -390,7 +378,6 @@ const UserEdit = React.createClass(
         <Row>
           <Col xs = {12} >
             { builtInWarning }
-            { loggedInUserAlert }
           </Col>
           <Col xs = {8} >
             { textEditForm }
