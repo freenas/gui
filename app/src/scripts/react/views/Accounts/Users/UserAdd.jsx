@@ -174,6 +174,11 @@ const UserAdd = React.createClass(
         key              = "username"
         ref              = "username"
         groupClassName   = { this.state.newUser.username
+        bsStyle          = { typeof this.state.newUser.username === "string"
+                          && this.state.newUser.username !== ""
+                           ? ""
+                           : "error"
+                           }
                            ? "editor-was-modified"
                            : ""
                            }
