@@ -18,6 +18,15 @@ class GroupsActionCreators {
     );
   }
 
+  static receiveNextGID ( nextGID, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_NEXT_GID
+      , timestamp
+      , nextGID
+      }
+    );
+  }
+
   static receiveGroupUpdateTask ( groupID, taskID, timestamp ) {
     FreeNASDispatcher.handleMiddlewareAction(
       { type: ActionTypes.RECEIVE_GROUP_UPDATE_TASK

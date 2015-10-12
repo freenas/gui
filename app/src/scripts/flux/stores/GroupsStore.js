@@ -19,6 +19,7 @@ var PRIMARY_KEY  = "id";
 var _localUpdatePending = {};
 var _updatedOnServer    = [];
 var _groups = {};
+var _nextGID = null;
 
 const GROUP_SCHEMA =
   { type: "object"
@@ -61,6 +62,10 @@ class GroupsStore extends FluxBase {
 
   get groups () {
     return _.values( _groups );
+  }
+
+  get nextGID () {
+    return _nextGID ;
   }
 
   getGroup ( groupID ) {
@@ -141,6 +146,11 @@ function handlePayload ( payload ) {
                 && updateData["state"] === "FINISHED" ) {
         delete _localUpdatePending[ updateData["id"] ];
       }
+      break;
+
+    case ActionTypes.RECEIVE_NEXT_GID:
+      _nextGID = action.nextGID;
+      this.emitChange( "nextGID" );
       break;
 
     case ActionTypes.RECEIVE_GROUP_UPDATE_TASK:

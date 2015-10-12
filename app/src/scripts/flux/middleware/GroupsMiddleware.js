@@ -34,6 +34,13 @@ class GroupsMiddleware extends AbstractBase {
               );
   }
 
+  static requestNextGID () {
+    MC.request( "groups.next_gid"
+              , []
+              , GAC.receiveNextGID
+              );
+  }
+
   static createGroup ( newGroupProps ) {
     MC.request( "task.submit"
               , [ "groups.create" , [ newGroupProps ] ]
