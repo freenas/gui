@@ -166,7 +166,7 @@ function handlePayload ( payload ) {
         _users[ user [ PRIMARY_KEY ] ] = user;
       });
 
-      this.emitChange();
+      this.emitChange( "usersList" );
       break;
 
     case ActionTypes.RECEIVE_NEXT_UID:
