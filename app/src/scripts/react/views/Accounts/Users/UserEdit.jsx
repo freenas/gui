@@ -146,7 +146,9 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "id" ) }
         key              = "id"
         ref              = "id"
-        groupClassName   = { this.state.modifiedValues.id
+        groupClassName   = { typeof this.state.modifiedValues.id === "string"
+                          && this.state.modifiedValues.id
+                         !== this.props.item.id
                            ? "editor-was-modified"
                            : ""
                            }
@@ -247,7 +249,9 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "group" ) }
         key              = "group"
         ref              = "group"
-        groupClassName   = { this.state.modifiedValues.group
+        groupClassName   = { typeof this.state.modifiedValues.group === "string"
+                          && this.state.modifiedValues.group
+                         !== this.props.item.group
                            ? "editor-was-modified"
                            : ""
                            }
@@ -286,7 +290,10 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "groups" ) }
         key              = "groups"
         ref              = "groups"
-        groupClassName   = { this.state.modifiedValues.groups
+        groupClassName   = { Array.isArray( this.state.modifiedValues.groups )
+                          && !_.isEqual( this.state.modifiedValues.groups
+                                       , this.props.item.groups
+                                       )
                            ? "editor-was-modified"
                            : ""
                            }
@@ -307,7 +314,10 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "locked" ) }
         key              = "locked"
         ref              = "locked"
-        groupClassName   = { this.state.modifiedValues.locked !== undefined
+        groupClassName   = { typeof this.state.modifiedValues.locked
+                         === "boolean"
+                          && this.state.modifiedValues.locked
+                         !== this.props.item.locked
                            ? "editor-was-modified"
                            : ""
                            }
@@ -323,7 +333,9 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "sudo" ) }
         key              = "sudo"
         ref              = "sudo"
-        groupClassName   = { this.state.modifiedValues.sudo !== undefined
+        groupClassName   = { typeof this.state.modifiedValues.sudo === "boolean"
+                          && this.state.modifiedValues.sudo
+                         !== this.props.item.sudo
                            ? "editor-was-modified"
                            : ""
                            }
