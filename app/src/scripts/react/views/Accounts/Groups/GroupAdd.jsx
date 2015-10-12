@@ -107,11 +107,6 @@ const AddGroup = React.createClass({
                                }
             placeholder = { this.props.nextGID }
             onChange         = { this.handleChange.bind( null, "id" ) }
-            className        = { typeof this.state.newGroup.id === "string"
-                              && this.state.newGroup.id !== ""
-                               ? "editor-was-modified"
-                               : ""
-                               }
           />
         </Col>
         <Col xs = {8}>
@@ -130,11 +125,6 @@ const AddGroup = React.createClass({
                       ? null
                       : "error"
                       }
-            className = { typeof this.state.newGroup.name === "string"
-                       && this.state.newGroup.name !== ""
-                        ? "editor-was-modified"
-                        : ""
-                        }
           />
         </Col>
       </Row>;
