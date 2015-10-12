@@ -32,10 +32,12 @@ const FREENAS_CONSTANTS =
 
     // Users
     , RECEIVE_RAW_USERS: null
+    , RECEIVE_NEXT_UID: null
     , RECEIVE_USER_UPDATE_TASK: null
 
     // Groups
     , RECEIVE_GROUPS_LIST: null
+    , RECEIVE_NEXT_GID: null
     , RECEIVE_GROUP_UPDATE_TASK: null
 
     // Services
