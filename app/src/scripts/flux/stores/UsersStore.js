@@ -176,19 +176,19 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = action.eventData.args;
-      let updateData = args[ "args" ];
+      let updateData = args.args;
 
-      if ( args[ "name" ] === "entity-subscriber.users.changed" ) {
-        if ( updateData[ "operation" ] === "delete" ) {
-          _users = _.omit( _users, updateData[ "ids" ] );
+      if ( args.name === "entity-subscriber.users.changed" ) {
+        if ( updateData.operation === "delete" ) {
+          _users = _.omit( _users, updateData.ids );
           this.emitChange( "userDeleted" );
-        } else if ( updateData[ "operation" ] === "update" ) {
+        } else if ( updateData.operation === "update" ) {
           updateData.entities.forEach( function addNewUsers ( user ) {
                                          _users[ user.id ] = user;
                                        }
                                      );
           this.emitChange( "userCreated" );
-        } else if ( updateData[ "operation" ] === "create" ) {
+        } else if ( updateData.operation === "create" ) {
           updateData.entities.forEach( function updateUser ( user ) {
                                          _users[ user.id ] = user;
                                        }
@@ -199,10 +199,10 @@ function handlePayload ( payload ) {
       // TODO: Make this more generic,
       // triage it earlier, create ActionTypes for it
       } else if (
-        args[ "name" ] === "task.progress"
-        && args.args["state"] === "FINISHED"
+        args.name === "task.progress"
+        && args.args.state === "FINISHED"
       ) {
-        delete _localUpdatePending[ args.args["id"] ];
+        delete _localUpdatePending[ args.args.id ];
       }
 
       break;
