@@ -25,7 +25,8 @@ const AddGroup = React.createClass({
 
   , getInitialState: function () {
     return { nextGID: GS.nextGID
-           , newGroup: {} };
+           , newGroup: {}
+           };
   }
 
   , handleChange: function ( field, event ) {
@@ -38,10 +39,10 @@ const AddGroup = React.createClass({
 
     let newGroup = this.state.newGroup;
 
-    if ( _.has( newGroup, "id" ) ) {
-      newGroup[ "id" ] = _.parseInt( newGroup[ "id" ] );
+    if ( typeof newGroup.id === "string" ) {
+      newGroup.id = _.parseInt( newGroup.id );
     } else {
-      newGroup[ "id" ] = this.state.nextGID;
+      newGroup.id = this.state.nextGID;
     }
 
     GM.createGroup( newGroup );
@@ -61,7 +62,8 @@ const AddGroup = React.createClass({
       <Button
         className = "pull-left"
         onClick   = { this.cancel }
-        bsStyle   = "default" >
+        bsStyle   = "default"
+      >
         { "Cancel" }
       </Button>;
 
@@ -69,7 +71,8 @@ const AddGroup = React.createClass({
       <Button
         className = "pull-left"
         bsStyle = "warning"
-        onClick = { this.reset } >
+        onClick = { this.reset }
+      >
         { "Reset Changes" }
       </Button>;
 
@@ -78,7 +81,8 @@ const AddGroup = React.createClass({
         className = "pull-right"
         disabled  = { _.isEmpty( this.state.newGroup ) }
         onClick   = { this.submitNewGroup }
-        bsStyle   = "info" >
+        bsStyle   = "info"
+      >
         { "Create New Group" }
       </Button>;
 
@@ -96,29 +100,37 @@ const AddGroup = React.createClass({
           <Input
             type             = "text"
             min              = { 1000 }
-            label            = { this.props.itemLabels[ "id" ] }
-            value            = { this.state.newGroup[ "id" ]
-                               ? this.state.newGroup[ "id" ]
-                               : this.state.nextGID }
+            label            = { this.props.itemLabels.id }
+            value            = { typeof this.state.newGroup.id === "string"
+                              && this.state.newGroup.id !== ""
+                               ? this.state.newGroup.id
+                               : null
+                               }
             onChange         = { this.handleChange.bind( null, "id" ) }
-            className        = { _.has( this.state.newGroup, "id" )
-                              && !_.isEmpty( this.state.newGroup[ "id" ] )
+            className        = { typeof this.state.newGroup.id === "string"
+                              && this.state.newGroup.id !== ""
                                ? "editor-was-modified"
-                               : "" } />
+                               : ""
+                               }
+          />
         </Col>
         <Col xs = {8}>
           {/* username */}
           <Input
             type             = "text"
-            label            = { this.props.itemLabels[ "name" ] }
-            value            = { this.state.newGroup[ "name" ]
-                               ? this.state.newGroup[ "name" ]
-                               : null }
+            label            = { this.props.itemLabels.name }
+            value            = { this.state.newGroup.name
+                              && this.state.newGroup.name !== ""
+                               ? this.state.newGroup.name
+                               : null
+                               }
             onChange         = { this.handleChange.bind( null, "name" ) }
-            className   = { _.has( this.state.newGroup, "name" )
-                              && !_.isEmpty( this.state.newGroup[ "name" ] )
-                               ? "editor-was-modified"
-                               : "" } />
+            className = { typeof this.state.newGroup.name === "string"
+                       && this.state.newGroup.name !== ""
+                        ? "editor-was-modified"
+                        : ""
+                        }
+          />
         </Col>
       </Row>;
 
