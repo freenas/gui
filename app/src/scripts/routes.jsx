@@ -6,11 +6,7 @@
 import React from "react";
 
 // Routing
-import Router from "react-router";
-const Route         = Router.Route;
-const Redirect      = Router.Redirect;
-const DefaultRoute  = Router.DefaultRoute;
-const NotFoundRoute = Router.NotFoundRoute;
+import { Router, IndexRoute, Route } from "react-router";
 
 // STATIC ROUTES
 import Root from "./react/webapp/FreeNASWebApp";
@@ -43,121 +39,77 @@ import Security from "./react/views/Settings/Security";
 import Alerts from "./react/views/Settings/Alerts";
 import Support from "./react/views/Settings/Support";
 
-module.exports = (
-  <Route
-    path    = "/"
-    handler = { Root } >
+export default (
+  <Router>
+    <Route path="/" component={ Root } >
 
-    <DefaultRoute handler={ Dashboard } />
+      {/* DASHBOARD */}
+      <Route path="*" component={ Dashboard } />
+      <Route path="dashboard" component={ Dashboard } />
 
-    {/* DASHBOARD */}
-    <Route
-      name    = "dashboard"
-      path    = "dashboard"
-      handler = { Dashboard }
-    />
 
-    {/* ACCOUNTS */}
-    <Route
-      name    = "accounts"
-      path    = "accounts"
-      handler = { Accounts }>
-      <DefaultRoute handler={ Users } />
+      {/* ACCOUNTS */}
+      <Route path="accounts" component={ Accounts } >
+        <IndexRoute component={ Users } />
 
-      {/* USERS */}
-      <Route
-        name    = "users"
-        path    = "users"
-        handler = { Users } >
-        <Route
-          name    = "add-user"
-          path    = "add-user"
-          handler = { UserAdd } />
-        <Route
-          name    = "users-editor"
-          path    = ":userID"
-          handler = { UserItem } />
+
+        {/* USERS */}
+        <Route path="users" component={ Users } >
+          <Route path="add-user" component={ UserAdd } />
+
+          <Route
+            name      = "users-editor"
+            path      = ":userID"
+            component = { UserItem }
+          />
+        </Route>
+
+
+        {/* GROUPS */}
+        <Route path="groups" component={ Groups } >
+
+          <Route path="add-group" component={ GroupAdd } />
+
+          <Route
+            name      = "groups-editor"
+            path      = ":groupID"
+            component = { GroupItem }
+          />
+        </Route>
       </Route>
 
-      {/* GROUPS */}
-      <Route
-        name    = "groups"
-        path    = "groups"
-        handler = { Groups } >
-        <Route
-          name    = "add-group"
-          path    = "add-group"
-          handler = { GroupAdd } />
-        <Route
-          name    = "groups-editor"
-          path    = ":groupID"
-          handler = { GroupItem } />
+
+      {/* CALENDAR */}
+      <Route route="calendar" component={ Calendar } />
+
+
+      {/* NETWORK */}
+      <Route path="network" component={ Network } />
+
+
+      {/* CONSOLE */}
+      <Route path="console" component={ Console } />
+
+
+      {/* HARDWARE */}
+      <Route path="hardware" component={ Hardware } />
+
+
+      {/* STORAGE */}
+      <Route route="storage" component={ Storage } />
+
+
+      { /* Settings */ }
+      <Route route="settings" component={ Settings } >
+        <IndexRoute component={ System } />
+
+        <Route route="system" component={ System } />
+        <Route route="update" component={ Update } />
+        <Route route="security" component={ Security } />
+        <Route route="alerts" component={ Alerts } />
+        <Route route="support" component={ Support } />
       </Route>
+
     </Route>
-
-    {/* CALENDAR */}
-    <Route
-      name    = "calendar"
-      route   = "calendar"
-      handler = { Calendar } />
-
-
-    {/* NETWORK */}
-    <Route
-      name    = "network"
-      path    = "network"
-      handler = { Network }/>
-
-
-    {/* CONSOLE */}
-    <Route
-      name    = "console"
-      path    = "console"
-      handler = { Console } />
-
-    {/* HARDWARE */}
-    <Route
-      name    = "hardware"
-      path    = "hardware"
-      handler = { Hardware } />
-
-    {/* STORAGE */}
-    <Route
-      name    = "storage"
-      route   = "storage"
-      handler = { Storage } />
-
-    { /* Settings */ }
-    <Route
-      name = "settings"
-      route = "settings"
-      handler = { Settings }>
-
-      <DefaultRoute handler = { System } />
-
-      <Route
-        name = "system"
-        route = "system"
-        handler = { System }/>
-      <Route
-        name = "update"
-        route = "update"
-        handler = { Update }/>
-      <Route
-        name = "security"
-        route = "security"
-        handler = { Security }/>
-      <Route
-        name = "alerts"
-        route = "alerts"
-        handler = { Alerts }/>
-      <Route
-        name = "support"
-        route = "support"
-        handler = { Support }/>
-    </Route>
-
-    <NotFoundRoute handler={ Dashboard } />
-
-  </Route>
+  </Router>
 );
