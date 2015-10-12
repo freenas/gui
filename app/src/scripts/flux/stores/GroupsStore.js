@@ -117,7 +117,7 @@ function handlePayload ( payload ) {
         , this
       );
 
-      this.emitChange();
+      this.emitChange( "groupsList" );
       break;
 
     case ActionTypes.MIDDLEWARE_EVENT:
