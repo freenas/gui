@@ -19,6 +19,9 @@ import MS from "../../../flux/stores/MiddlewareStore";
 
 import SS from "../../../flux/stores/SessionStore";
 
+import ShellMiddleware from "../../../flux/middleware/ShellMiddleware";
+import ShellStore from "../../../flux/stores/ShellStore";
+
 function testCurrentUser ( user ) {
   return user.username === SS.getCurrentUser();
 }
@@ -85,6 +88,7 @@ const Users = React.createClass(
   , getInitialState: function () {
     return { usersList: []
            , groupsList: []
+           , shells: []
            , nextUID: null
            };
   }
@@ -100,6 +104,9 @@ const Users = React.createClass(
     GM.subscribe( this.constructor.displayName );
 
     MS.addChangeListener( this.handleModeSwap );
+
+    ShellStore.addChangeListener( this.populateShells );
+    ShellMiddleware.requestAvailableShells();
   }
 
   , componentWillUnmount: function () {
@@ -116,6 +123,10 @@ const Users = React.createClass(
     if ( _.startsWith( eventMask, "group" ) ) {
       this.setState( { groupsList: GS.groups } );
     }
+  }
+
+  , populateShells () {
+      this.setState( { shells: ShellStore.shells } );
   }
 
   , handleUsersChange: function ( eventMask ) {
@@ -135,6 +146,7 @@ const Users = React.createClass(
     return <Viewer
              itemData = { this.state.usersList }
              nextUID = { this.state.nextUID }
+             shells = { this.state.shells }
              { ...VIEWER_DATA } />;
   }
 

@@ -23,6 +23,7 @@ const UserEdit = React.createClass(
 
   , propTypes: { item: React.PropTypes.object.isRequired
                , itemSchema: React.PropTypes.object.isRequired
+               , shells: React.PropTypes.array
                }
 
   , getInitialState: function () {
@@ -219,18 +220,21 @@ const UserEdit = React.createClass(
       <Input
         type             = "select"
         label            = "Shell"
-        value            = { this.state.modifiedValues.shell
-                          || this.props.item.shell
+        value            = { typeof this.state.modifiedValues.shell === "string"
+                           ? this.state.modifiedValues.shell
+                           : this.props.item.shell
                            }
         onChange         = { this.handleChange.bind( null, "shell" ) }
         key              = "shell"
         ref              = "shell"
-        groupClassName   = { this.state.modifiedValues.shell
+        groupClassName   = { typeof this.state.modifiedValues.shell === "string"
+                          && this.state.modifiedValues.shell
+                         !== this.props.item.shell
                            ? "editor-was-modified"
                            : ""
                            }
       >
-        { this.generateOptionsList( this.state.shells, "name" ) }
+        { this.createSimpleOptions( this.props.shells ) }
       </Input>;
 
     let userPrimaryGroupField =

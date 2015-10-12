@@ -31,6 +31,7 @@ const UserAdd = React.createClass(
     { itemSchema: React.PropTypes.object.isRequired
     , itemLabels: React.PropTypes.object.isRequired
     , nextUID: React.PropTypes.number
+    , shells: React.PropTypes.array
     }
 
   , getInitialState: function () {
@@ -227,19 +228,20 @@ const UserAdd = React.createClass(
       <Input
         type             = "select"
         label            = "Shell"
-        value            = { this.state.newUser.shell
+        value            = { typeof this.state.newUser.shell === "string"
                            ? this.state.newUser.shell
                            : null
                            }
+        placeholder      = "/bin/sh"
         onChange         = { this.handleChange.bind( null, "shell" ) }
         key              = "shell"
         ref              = "shell"
-        groupClassName   = { this.state.newUser.shell
+        groupClassName   = { typeof this.state.newUser.shell === "string"
                            ? "editor-was-modified"
                            : ""
                            }
       >
-        { this.generateOptionsList( this.state.shells, "name" ) }
+        { this.createSimpleOptions( this.props.shells ) }
       </Input>;
 
     let userSshPubKeyField =
