@@ -67,7 +67,6 @@ const UserAdd = React.createClass(
   }
 
   , submitNewUser: function () {
-    let params = {};
     let newUser = this.state.newUser;
 
     if ( newUser.id !== undefined ) {
