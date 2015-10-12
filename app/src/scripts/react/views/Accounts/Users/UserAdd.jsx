@@ -159,10 +159,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "id" ) }
         key              = "id"
         ref              = "id"
-        groupClassName   = { this.state.newUser.id
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userNameField =
@@ -181,11 +177,6 @@ const UserAdd = React.createClass(
                            ? null
                            : "error"
                            }
-        groupClassName   = { typeof this.state.newUser.username === "string"
-                          && this.state.newUser.username !== ""
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userFullNameField =
@@ -199,11 +190,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "full_name" ) }
         key              = "full_name"
         ref              = "full_name"
-        groupClassName   = { typeof this.state.newUser.full_name === "string"
-                          && this.state.newUser.full_name !== ""
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userEmailField =
@@ -217,11 +203,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "email" ) }
         key              = "email"
         ref              = "email"
-        groupClassName   = { typeof this.state.newUser.email === "string"
-                          && this.state.newUser.email !== ""
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userShellField =
@@ -236,10 +217,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "shell" ) }
         key              = "shell"
         ref              = "shell"
-        groupClassName   = { typeof this.state.newUser.shell === "string"
-                           ? "editor-was-modified"
-                           : ""
-                           }
       >
         { this.createSimpleOptions( this.props.shells ) }
       </Input>;
@@ -255,11 +232,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
         key              = "sshpubkey"
         ref              = "sshpubkey"
-        groupClassName   = { typeof this.state.newUser.sshpubkey === "string"
-                          && this.state.newUser.sshpubkey !== ""
-                           ? "editor-was-modified"
-                           : ""
-                           }
         rows             = "10"
       />;
 
@@ -274,11 +246,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "groups" ) }
         key              = "groups"
         ref              = "groups"
-        groupClassName   = { Array.isArray( this.state.newUser.groups )
-                          && !_.isEmpty( this.state.newUser.groups )
-                           ? "editor-was-modified"
-                           : ""
-                           }
         multiple
       >
         { this.generateOptionsList( GS.groups, "id", "name" ) }
