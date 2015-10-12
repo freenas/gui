@@ -92,6 +92,7 @@ const Users = React.createClass(
   , componentDidMount: function () {
     US.addChangeListener( this.handleUsersChange );
     UM.requestUsersList();
+    UM.requestNextUID();
     UM.subscribe( this.constructor.displayName );
 
     GS.addChangeListener( this.handleGroupsChange );
@@ -133,6 +134,7 @@ const Users = React.createClass(
   , render: function () {
     return <Viewer
              itemData = { this.state.usersList }
+             nextUID = { this.state.nextUID }
              { ...VIEWER_DATA } />;
   }
 

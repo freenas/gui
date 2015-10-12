@@ -30,6 +30,7 @@ const UserAdd = React.createClass(
   , propTypes:
     { itemSchema: React.PropTypes.object.isRequired
     , itemLabels: React.PropTypes.object.isRequired
+    , nextUID: React.PropTypes.number
     }
 
   , getInitialState: function () {
@@ -148,10 +149,12 @@ const UserAdd = React.createClass(
       <Input
         type             = "text"
         label            = "User ID"
-        value            = { this.state.newUser.id
+        value            = { typeof this.state.newUser.id === "string"
+                          && this.state.newUser.id !== ""
                            ? this.state.newUser.id
-                           : this.state.nextUID
+                           : null
                            }
+        placeholder      = { this.props.nextUID }
         onChange         = { this.handleChange.bind( null, "id" ) }
         key              = "id"
         ref              = "id"
