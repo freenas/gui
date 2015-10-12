@@ -134,7 +134,7 @@ function handlePayload ( payload ) {
       break;
 
     case ActionTypes.RECEIVE_NEXT_GID:
-      _nextGID = action.nextGID;
+      _nextGID = ACTION.nextGID;
       this.emitChange( "nextGID" );
       break;
 
