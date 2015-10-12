@@ -320,14 +320,16 @@ const UserAdd = React.createClass(
       <Input
         type             = "checkbox"
         label            = "Password Disabled"
-        checked          = { this.state.newUser.password_disabled
+        checked          = { typeof this.state.newUser.password_disabled
+                         === "boolean"
                            ? this.state.newUser.password_disabled
                            : null
                            }
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = "password_disabled"
         ref              = "password_disabled"
-        groupClassName = { this.state.newUser.password_disabled !== undefined
+        groupClassName = { typeof this.state.newUser.password_disabled
+                       === "boolean"
                          ? "editor-was-modified"
                          : ""
                          }
