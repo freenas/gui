@@ -125,6 +125,11 @@ const AddGroup = React.createClass({
                                : null
                                }
             onChange         = { this.handleChange.bind( null, "name" ) }
+            bsStyle = { typeof this.state.newGroup.id === "string"
+                     && this.state.newGroup.id !== ""
+                      ? null
+                      : "error"
+                      }
             className = { typeof this.state.newGroup.name === "string"
                        && this.state.newGroup.name !== ""
                         ? "editor-was-modified"
