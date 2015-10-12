@@ -19,6 +19,7 @@ var PRIMARY_KEY  = "id";
 var _updatedOnServer    = [];
 var _localUpdatePending = {};
 var _users              = {};
+var _nextUID = null;
 
 const USER_SCHEMA =
   { type: "object"
@@ -101,6 +102,10 @@ class UsersStore extends FluxBase {
     return _.values( _users );
   }
 
+  get nextUID () {
+    return _nextUID ;
+  }
+
   findUserByKeyValue ( key, value ) {
     var predicate = {};
     predicate[ key ] = value;
@@ -162,6 +167,11 @@ function handlePayload ( payload ) {
       });
 
       this.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_NEXT_UID:
+      _nextUID = action.nextUID;
+      this.emitChange( "nextUID" );
       break;
 
     case ActionTypes.MIDDLEWARE_EVENT:

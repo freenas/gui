@@ -37,6 +37,13 @@ class UsersMiddleware extends AbstractBase {
               );
   }
 
+  static requestNextUID () {
+    MC.request( "users.next_uid"
+              , []
+              , UAC.receiveNextUID
+              );
+  }
+
   static createUser ( newUserProps ) {
     MC.request( "task.submit"
               , [ "users.create" , [ newUserProps ] ]

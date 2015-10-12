@@ -18,6 +18,15 @@ class UsersActionCreators {
     );
   }
 
+  static receiveNextUID ( nextUID, timestamp ) {
+    FreeNASDispatcher.handleMiddlewareAction(
+      { type: ActionTypes.RECEIVE_NEXT_UID
+      , timestamp
+      , nextUID
+      }
+    );
+  }
+
   static receiveUserUpdateTask ( userID, taskID, timestamp ) {
     FreeNASDispatcher.handleClientAction(
       { type: ActionTypes.RECEIVE_USER_UPDATE_TASK
