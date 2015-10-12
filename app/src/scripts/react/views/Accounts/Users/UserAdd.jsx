@@ -36,7 +36,7 @@ const UserAdd = React.createClass(
   , getInitialState: function () {
     return { nextUID: US.nextUID
            , newUser: {}
-           , pleaseCreatePrimaryGroup : true
+           , pleaseCreatePrimaryGroup: true
            };
   }
 
