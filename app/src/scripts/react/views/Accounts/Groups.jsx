@@ -5,6 +5,7 @@
 "use strict";
 
 import React from "react";
+import _ from "lodash";
 
 import Viewer from "../../components/Viewer";
 
@@ -76,7 +77,9 @@ const Groups = React.createClass(
   { displayName: "Groups Viewer"
 
   , getInitialState: function () {
-    return { groupsList: GS.groups };
+    return { groupsList: GS.groups
+           , nextGID: null
+           };
   }
 
   , componentDidMount: function () {
@@ -101,12 +104,18 @@ const Groups = React.createClass(
     MS.removeChangeListener( this.handleModeSwap );
   }
 
-  , handleGroupsChange: function () {
-    this.setState( { groupsList: GS.groups } );
+  , handleGroupsChange: function ( eventMask ) {
+    if ( _.startsWith( eventMask, "group" ) ) {
+      this.setState( { groupsList: GS.groups } );
+    } else if ( eventMask === "nextGID" ){
+      this.setState( { nextGID: GS.nextGID } );
+    }
   }
 
   , handleUsersChange: function () {
-    this.setState( { usersList: US.users } );
+    if ( eventMask === "users" ) {
+      this.setState( { usersList: US.users } );
+    }
   }
 
   , handleModeSwap: function () {
