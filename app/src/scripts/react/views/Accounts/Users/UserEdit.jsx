@@ -140,8 +140,9 @@ const UserEdit = React.createClass(
       <Input
         type             = "text"
         label            = "User ID"
-        value            = { this.state.modifiedValues.id
-                          || this.props.item.id
+        value            = { typeof this.state.modifiedValues.id === "string"
+                           ? this.state.modifiedValues.id
+                           : this.props.item.id
                            }
         onChange         = { this.handleChange.bind( null, "id" ) }
         key              = "id"
@@ -243,8 +244,9 @@ const UserEdit = React.createClass(
       <Input
         type             = "select"
         label            = "Primary Group"
-        value            = { this.state.modifiedValues.group
-                          || this.props.item.group
+        value            = { typeof this.state.modifiedValues.group === "string"
+                           ? this.state.modifiedValues.group
+                           : this.props.item.group
                            }
         onChange         = { this.handleChange.bind( null, "group" ) }
         key              = "group"
@@ -284,8 +286,9 @@ const UserEdit = React.createClass(
       <Input
         type             = "select"
         label            = "Other Groups"
-        value            = { this.state.modifiedValues.groups
-                          || this.props.item.groups
+        value            = { Array.isArray( this.state.modifiedValues.groups )
+                           ? this.state.modifiedValues.groups
+                           : this.props.item.groups
                            }
         onChange         = { this.handleChange.bind( null, "groups" ) }
         key              = "groups"
@@ -306,11 +309,12 @@ const UserEdit = React.createClass(
     let userLockedField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.modifiedValues.locked
-                          || this.props.item.locked
+        checked          = { typeof this.state.modifiedValues.locked
+                         === "boolean"
+                           ? this.state.modifiedValues.locked
+                           : this.props.item.locked
                            }
         label            = "Locked"
-        defaultValue     = { this.props.item.locked }
         onChange         = { this.handleChange.bind( null, "locked" ) }
         key              = "locked"
         ref              = "locked"
@@ -326,8 +330,9 @@ const UserEdit = React.createClass(
     let userSudoField =
       <Input
         type             = "checkbox"
-        checked          = { this.state.modifiedValues.sudo
-                          || this.props.item.sudo
+        checked          = { typeof this.state.modifiedValues.sudo === "boolean"
+                           ? this.state.modifiedValues.sudo
+                           : this.props.item.sudo
                            }
         label            = "sudo"
         onChange         = { this.handleChange.bind( null, "sudo" ) }
