@@ -31,8 +31,8 @@ gulp.task( "package-src"
 gulp.task( "package-server"
          , [ "make-output-dir" ]
          , function () {
-  return gulp.src( "./app/server.js" )
-    .pipe( gulp.dest( path.join( argv.output, "app" ) ) );
+  return gulp.src( "./app/server/**" )
+    .pipe( gulp.dest( path.join( argv.output, "app", "server" ) ) );
 });
 
 gulp.task( "package-node-modules"
