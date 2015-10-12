@@ -82,6 +82,7 @@ const GroupItem = React.createClass({
       let childProps = { handleViewChange : this.handleViewChange
                        , item             : this.state.targetGroup
                        , itemLabels       : this.props.itemLabels
+                       , nextGID          : this.props.nextGID
                        };
 
       switch ( this.state.currentMode ) {

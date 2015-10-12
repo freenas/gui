@@ -21,12 +21,11 @@ const AddGroup = React.createClass({
   , propTypes:
     { itemSchema: React.PropTypes.object.isRequired
     , itemLabels: React.PropTypes.object.isRequired
+    , nextGID: React.PropTypes.number
     }
 
   , getInitialState: function () {
-    return { nextGID: GS.nextGID
-           , newGroup: {}
-           };
+    return { newGroup: {} };
   }
 
   , handleChange: function ( field, event ) {
@@ -106,6 +105,7 @@ const AddGroup = React.createClass({
                                ? this.state.newGroup.id
                                : null
                                }
+            placeholder = { this.props.nextGID }
             onChange         = { this.handleChange.bind( null, "id" ) }
             className        = { typeof this.state.newGroup.id === "string"
                               && this.state.newGroup.id !== ""

@@ -85,6 +85,7 @@ const Groups = React.createClass(
   , componentDidMount: function () {
     GS.addChangeListener( this.handleGroupsChange );
     GM.requestGroupsList();
+    GM.requestNextGID();
     GM.subscribe( this.constructor.displayName );
 
     US.addChangeListener( this.handleUsersChange );
@@ -126,6 +127,7 @@ const Groups = React.createClass(
   , render: function () {
     return <Viewer
              itemData = { this.state.groupsList }
+             nextGID = { this.state.nextGID }
              { ...VIEWER_DATA } />;
   }
 });
