@@ -79,6 +79,7 @@ const UserItem = React.createClass(
           , item             : this.state.targetUser
           , itemLabels       : this.props.itemLabels
           , itemSchema       : this.props.itemSchema
+          , shells           : this.props.shells
         };
 
         switch ( this.state.currentMode ) {
