@@ -112,7 +112,7 @@ const Groups = React.createClass(
     }
   }
 
-  , handleUsersChange: function () {
+  , handleUsersChange: function ( eventMask ) {
     if ( eventMask === "users" ) {
       this.setState( { usersList: US.users } );
     }
