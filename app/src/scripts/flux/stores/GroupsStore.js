@@ -128,13 +128,13 @@ function handlePayload ( payload ) {
                                          _groups[ group.id ] = group;
                                        }
                                      );
-          this.emitChange( "groupCreated" );
+          this.emitChange( "groupUpdated" );
         } else if ( updateData[ "operation" ] === "create" ) {
           updateData.entities.forEach( function updateGroup ( group ) {
                                          _groups[ group.id ] = group;
                                        }
                                      );
-          this.emitChange( "groupUpdated" );
+          this.emitChange( "groupCreated" );
         }
 
       } else if ( args[ "name" ] === "task.progress"
