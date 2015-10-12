@@ -295,10 +295,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "locked" ) }
         key              = "locked"
         ref              = "locked"
-        groupClassName   = { typeof this.state.newUser.locked === "boolean"
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userSudoField =
@@ -312,10 +308,6 @@ const UserAdd = React.createClass(
         onChange         = { this.handleChange.bind( null, "sudo" ) }
         key              = "sudo"
         ref              = "sudo"
-        groupClassName   = { typeof this.state.newUser.sudo === "boolean"
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userPasswordDisabledField =
@@ -330,11 +322,6 @@ const UserAdd = React.createClass(
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = "password_disabled"
         ref              = "password_disabled"
-        groupClassName = { typeof this.state.newUser.password_disabled
-                       === "boolean"
-                         ? "editor-was-modified"
-                         : ""
-                         }
       />;
 
     let userAutoPrimaryGroupField =
