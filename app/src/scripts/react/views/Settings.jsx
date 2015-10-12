@@ -53,7 +53,7 @@ const Settings = React.createClass(
             views = { sections }
           />
         </div>
-        <RouteHandler />
+        { this.props.children }
       </main>
     );
   }

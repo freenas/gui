@@ -22,9 +22,7 @@ if ( process.env.BROWSER ) {
 }
 
 const FreeNASWebApp = React.createClass(
-  { mixins: [ routerShim ]
-
-  , getInitialState () {
+  { getInitialState () {
       return { cssBust: ""
              };
     }
@@ -109,7 +107,7 @@ const FreeNASWebApp = React.createClass(
 
           <div className="app-view">
             {/* Primary view */}
-            <RouteHandler />
+            { this.props.children }
 
             <footer className="app-footer">
               {/* TODO? */}

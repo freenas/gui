@@ -45,7 +45,7 @@ const Accounts = React.createClass({
             views = { sections }
           />
         </div>
-          <RouteHandler />
+          { this.props.children }
         </main>
       );
     }
