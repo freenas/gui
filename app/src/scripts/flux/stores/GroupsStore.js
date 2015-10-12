@@ -122,7 +122,7 @@ function handlePayload ( payload ) {
       if ( args[ "name" ] === "entity-subscriber.groups.changed" ) {
         if ( updateData[ "operation" ] === "delete" ) {
           _groups = _.omit( _groups, updateData[ "ids" ] );
-          this.emitChange( "userDeleted" );
+          this.emitChange( "groupsDeleted" );
         } else if ( updateData[ "operation" ] === "update" ) {
           updateData.entities.forEach( function addNewGroup ( group ) {
                                          _groups[ group.id ] = group;
