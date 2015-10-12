@@ -65,7 +65,7 @@ class GroupsStore extends FluxBase {
   }
 
   get nextGID () {
-    return _nextGID ;
+    return _nextGID;
   }
 
   getGroup ( groupID ) {
@@ -91,14 +91,13 @@ class GroupsStore extends FluxBase {
 
 function handlePayload ( payload ) {
   const ACTION = payload.action;
-
   switch ( ACTION.type ) {
 
     case ActionTypes.RECEIVE_GROUPS_LIST:
 
       ACTION.groupsList.forEach(
         function convertGroups ( group ) {
-          _groups[ group[ "id" ] ] = group;
+          _groups[ group.id ] = group;
         }
         , this
       );
@@ -108,19 +107,19 @@ function handlePayload ( payload ) {
 
     case ActionTypes.MIDDLEWARE_EVENT:
       let args = ACTION.eventData.args;
-      let updateData = args[ "args" ];
+      let updateData = args.args;
 
-      if ( args[ "name" ] === "entity-subscriber.groups.changed" ) {
-        if ( updateData[ "operation" ] === "delete" ) {
-          _groups = _.omit( _groups, updateData[ "ids" ] );
+      if ( args.name === "entity-subscriber.groups.changed" ) {
+        if ( updateData.operation === "delete" ) {
+          _groups = _.omit( _groups, updateData.ids );
           this.emitChange( "groupsDeleted" );
-        } else if ( updateData[ "operation" ] === "update" ) {
+        } else if ( updateData.operation === "update" ) {
           updateData.entities.forEach( function addNewGroup ( group ) {
                                          _groups[ group.id ] = group;
                                        }
                                      );
           this.emitChange( "groupUpdated" );
-        } else if ( updateData[ "operation" ] === "create" ) {
+        } else if ( updateData.operation === "create" ) {
           updateData.entities.forEach( function updateGroup ( group ) {
                                          _groups[ group.id ] = group;
                                        }
@@ -128,9 +127,9 @@ function handlePayload ( payload ) {
           this.emitChange( "groupCreated" );
         }
 
-      } else if ( args[ "name" ] === "task.progress"
-                && updateData["state"] === "FINISHED" ) {
-        delete _localUpdatePending[ updateData["id"] ];
+      } else if ( args.name === "task.progress"
+                && updateData.state === "FINISHED" ) {
+        delete _localUpdatePending[ updateData.id ];
       }
       break;
 
