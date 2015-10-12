@@ -117,6 +117,8 @@ const Users = React.createClass(
     GM.unsubscribe( this.constructor.displayName );
 
     MS.removeChangeListener( this.handleModeSwap );
+
+    ShellStore.removeChangeListener( this.populateShells );
   }
 
   , handleGroupsChange: function ( eventMask ) {
