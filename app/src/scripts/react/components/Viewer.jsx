@@ -327,7 +327,6 @@ const Viewer = React.createClass(
       let ViewerContent = null;
       const commonProps =
         { handleItemSelect : this.handleItemSelect
-
         , columnsEnabled   : this.state.columnsEnabled
         , selectedItem     : this.state.selectedItem
         , searchString     : this.state.searchString
