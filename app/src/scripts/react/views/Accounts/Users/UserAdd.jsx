@@ -177,7 +177,7 @@ const UserAdd = React.createClass(
         ref              = "username"
         bsStyle          = { typeof this.state.newUser.username === "string"
                           && this.state.newUser.username !== ""
-                           ? ""
+                           ? null
                            : "error"
                            }
         groupClassName   = { typeof this.state.newUser.username === "string"
