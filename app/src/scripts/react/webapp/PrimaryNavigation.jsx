@@ -195,7 +195,10 @@ const PrimaryNavigation = React.createClass(
       let activeUser = (
         <div className="user-info">
           <ItemIcon
-            primaryString = "Foo"
+            primaryString = { typeof this.state.currentUserFullname === "string"
+                            ? this.state.currentUserFullname
+                            : ""
+                            }
             fallbackString = { this.state.currentUser }
           />
           <span className="username">
