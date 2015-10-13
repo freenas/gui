@@ -15,34 +15,9 @@ import UsersMiddleware from "../../flux/middleware/UsersMiddleware";
 import viewerCommon from "../components/Viewer/mixins/viewerCommon";
 
 module.exports = (
-  { mixins: [ viewerCommon ]
-
-  , componentDidMount: function () {
-      ShellMiddleware.requestAvailableShells( function ( shells ) {
-        var systemShells = _.map( shells, function ( shell ) {
-          return ( { name: shell }
-          );
-        }, this );
-        // Manually add nologin
-        systemShells.push( { name: "/usr/sbin/nologin" } );
-        this.setState({ shells: systemShells });
-      }.bind( this ) );
-
-      UsersStore.addChangeListener( this.updateUsersInState );
-    }
-
-  , componentWillUnmount: function () {
-      UsersStore.removeChangeListener( this.updateUsersInState );
-    }
-
-  , updateUsersInState: function () {
-      var usersList = UsersStore.users;
-      this.setState( { usersList: usersList } );
-    }
-
-    // Converts an array of strings into an array of integers. Intended solely
+  { // Converts an array of strings into an array of integers. Intended solely
     // for use when submitting groups lists to the middleware.
-  , parseGroupsArray: function ( groupsArray ) {
+    parseGroupsArray: function ( groupsArray ) {
       var integerArray = [];
 
       integerArray = _.map( groupsArray, function ( group ) {
