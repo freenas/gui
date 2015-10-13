@@ -22,7 +22,7 @@ import TS from "../../flux/stores/TasksStore";
 import Volume from "./Storage/Volume";
 import VolumeTask from "./Storage/VolumeTask";
 
-import { Animate, Velocity } from "../../utility/Animate";
+import { Animate } from "../../utility/Animate";
 
 const ACTIVE_TASK_STATES = new Set([ "CREATED", "WAITING", "EXECUTING" ]);
 
