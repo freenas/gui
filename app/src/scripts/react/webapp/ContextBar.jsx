@@ -9,37 +9,38 @@
 import React from "react";
 
 import EventBus from "../../utility/EventBus";
-
 import DashboardContext from "../../react/views/Dashboard/DashboardContext";
 
-const ContextBar = React.createClass(
+export default class ContextBar extends React.Component {
+  constructor ( props ) {
+    super( props );
+    this.displayName = "Context Sidebar";
 
-  { displayName: "Context Sidebar"
+    this.onShow = this.showContext.bind( this );
+    this.onUpdate = this.updateContext.bind( this );
+    this.onHide = this.hideContext.bind( this );
 
-  , componentWillMount () {
-    EventBus.on( "showContextPanel", this.showContext );
-    EventBus.on( "updateContextPanel", this.updateContext );
-    EventBus.on( "hideContextPanel", this.hideContext );
+    this.state =
+      { activeComponent: DashboardContext
+      , activeProps: {}
+      , lastComponent: null
+      , lastProps: {}
+      };
   }
 
-  , componentWillUnmount () {
-    EventBus.removeListener( "showContextPanel", this.showContext );
-    EventBus.removeListener( "updateContextPanel", this.updateContext );
-    EventBus.removeListener( "hideContextPanel", this.hideContext );
+  componentWillMount () {
+    EventBus.on( "showContextPanel", this.onShow );
+    EventBus.on( "updateContextPanel", this.onUpdate );
+    EventBus.on( "hideContextPanel", this.onHide );
   }
 
-  , getInitialState () {
-    return { activeComponent: DashboardContext
-           , activeProps: {}
-           , lastComponent: null
-           , lastProps: {}
-           };
+  componentWillUnmount () {
+    EventBus.removeListener( "showContextPanel", this.onShow );
+    EventBus.removeListener( "updateContextPanel", this.onUpdate );
+    EventBus.removeListener( "hideContextPanel", this.onHide );
   }
 
-  , componentDidUpdate: function(prevProps, prevState) {
-    }
-
-  , showContext ( reactElement, props ) {
+  showContext ( reactElement, props ) {
     if ( reactElement.displayName ) {
       this.setState(
         { activeComponent: reactElement
@@ -54,30 +55,30 @@ const ContextBar = React.createClass(
     }
   }
 
-  , updateContext ( reactElement, props ) {
-      if ( this.state.activeComponent
-        && this.state.activeComponent.displayName === reactElement.displayName ) {
-        this.setState(
-          { activeProps: props
-          }
-        );
-      }
+  updateContext ( reactElement, props ) {
+    if ( this.state.activeComponent
+      && this.state.activeComponent.displayName === reactElement.displayName ) {
+      this.setState(
+        { activeProps: props
+        }
+      );
     }
+  }
 
-  , hideContext ( reactElement ) {
-      if ( this.state.activeComponent
-        && this.state.activeComponent.displayName === reactElement.displayName ) {
-        this.setState(
-          { activeComponent : this.state.lastComponent
-          , activeProps: this.state.lastProps
-          , lastComponent: null
-          , lastProps: {}
-          }
-        );
-      }
+  hideContext ( reactElement ) {
+    if ( this.state.activeComponent
+      && this.state.activeComponent.displayName === reactElement.displayName ) {
+      this.setState(
+        { activeComponent : this.state.lastComponent
+        , activeProps: this.state.lastProps
+        , lastComponent: null
+        , lastProps: {}
+        }
+      );
     }
+  }
 
-  , render () {
+  render () {
     let asideClass = [ "app-sidebar" ];
     let activeComponent = null;
 
@@ -93,13 +94,9 @@ const ContextBar = React.createClass(
                    );
 
     return (
-      <aside
-        className = { asideClass.join( " " ) }
-      >
+      <aside className={ asideClass.join( " " ) } >
         { activeComponent }
       </aside>
     );
   }
-});
-
-export default ContextBar;
+}
