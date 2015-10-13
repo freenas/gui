@@ -30,7 +30,7 @@ module.exports = (
   , deleteUser: function () {
       UsersMiddleware.deleteUser(
         this.props.item.id
-      , function leaveGroupItem () {
+      , function leaveUserItem () {
         let newPath =
           this.context.location.pathname.replace( "/"
                                                 + this.props.params[ this.props.routeParam ]
