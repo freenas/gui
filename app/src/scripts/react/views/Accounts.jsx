@@ -12,10 +12,10 @@ import routerShim from "../mixins/routerShim";
 
 import SectionNav from "../components/SectionNav";
 
-var sections = [ { route : "users"
+var sections = [ { route : "/accounts/users"
                  , display : "Users"
                  }
-               , { route : "groups"
+               , { route : "/accounts/groups"
                  , display : "Groups"
                  } ];
 
