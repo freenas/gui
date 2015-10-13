@@ -241,8 +241,7 @@ const Viewer = React.createClass(
 
       // When changing viewer modes, close any previously open items.
       // TODO: This may need to change with single-click select functionality.
-      this.returnToViewerRoot();
-
+      this.history.pushState( null, `${ this.context.location.pathname }` );
       return newMode;
     }
 
