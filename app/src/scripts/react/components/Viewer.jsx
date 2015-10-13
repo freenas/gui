@@ -38,7 +38,6 @@ const Viewer = React.createClass(
         , itemSchema       : null
         , itemLabels       : null
 
-        , routeName        : ""
         , routeParam       : ""
         , routeNewItem     : ""
 
