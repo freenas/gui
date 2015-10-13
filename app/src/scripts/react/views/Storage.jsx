@@ -434,18 +434,37 @@ export default class Storage extends React.Component {
     const VOLUME_TO_DELETE = this.state.volumeToDelete;
     const DATASET_TO_DELETE = this.state.datasetToDelete;
 
-    let activeTask = null;
-    let loading    = null;
-    let message    = null;
-    let content    = null;
-    let warning    = null;
+    return (
+      <main>
+        <h1 className="view-header section-heading type-line">
+          <span className="text">Storage Volumes</span>
+        </h1>
 
-    if ( VS.isInitialized ) {
-      if ( this.state.volumes.length === 0 ) {
-        message = (
+        {/* VOLUMES */}
+        <div>
+
+          {/* LOADING SPINNER */}
+          <h1
+            className = "text-center"
+            style =
+              { ( VS.isInitialized )
+              ? { display: "none" }
+              : {}
+              }
+          >
+            { "LOADING" }
+          </h1>
+
+
+          {/* INTRODUCTORY MESSAGE */}
           <div
             ref       = "newPoolMessage"
             className = "clearfix storage-first-pool"
+            style =
+              { ( VS.isInitialized && this.state.volumes.length === 0 )
+              ? {}
+              : { display: "none" }
+              }
           >
             <img src="/images/hdd.png" />
             <h3>Creating Storage</h3>
@@ -457,48 +476,15 @@ export default class Storage extends React.Component {
               }
             </p>
           </div>
-        );
-      }
-      content = this.createVolumes( Boolean( VOLUME_CREATE_TASK ) );
-    } else {
-      // TODO: Make this pretty
-      loading = <h1 className="text-center">LOADING</h1>;
-    }
 
-    if ( false ) {
-      // TODO: Re-enable this when it makes sense
-      // There were no resources, AND no volumes exist on the server. This
-      // most likely indicates that the user's system has no disks, the disks
-      // are not connected, etc.
-      warning = (
-        <Alert
-          bsStyle   = "warning"
-          className = "volume"
-          key = { pools.length }
-        >
-          { "No volumes were found on the server, and no disks are "
-          + "avaialable for inclusion in a new storage pool.\n\n Please shut "
-          + "down the system, check your hardware, and try again."
-          }
-        </Alert>
-      );
-    }
-
-    return (
-      <main>
-        <h1 className="view-header section-heading type-line">
-          <span className="text">Storage Volumes</span>
-        </h1>
-
-        {/* VOLUMES */}
-        <div>
-          { loading }
-          { message }
+          {/* ONGOING TASKS */}
           <VolumeTask { ...VOLUME_CREATE_TASK } />
           <VolumeTask { ...VOLUME_DESTROY_TASK } />
-          { content }
-          { warning }
+
+          {/* CREATED VOLUMES */}
+          { this.createVolumes( Boolean( VOLUME_CREATE_TASK ) ) }
         </div>
+
 
         {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
         <Modal
@@ -534,6 +520,7 @@ export default class Storage extends React.Component {
           </Modal.Footer>
 
         </Modal>
+
 
         {/* CONFIRMATION DIALOG - DATASET DELETION */}
         <Modal
