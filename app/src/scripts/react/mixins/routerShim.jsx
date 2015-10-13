@@ -14,13 +14,13 @@ const RouterShim =
   { contextTypes: { router: React.PropTypes.func }
 
   , routeEndsWith: function ( route ) {
-      return _.endsWith( this.context.router.getCurrentPathname()
+      return _.endsWith( this.context.pathname
                        , route
                        );
     }
 
   , routeIs: function ( route ) {
-      return this.context.router.getCurrentPathname() === route;
+      return this.context.pathname === route;
     }
 
   , calculateDefaultRoute: function ( testRoute, target, testType ) {
@@ -49,7 +49,7 @@ const RouterShim =
     }
 
   , getDynamicRoute: function () {
-      return this.context.router.getCurrentParams()[ this.props.routeParam ];
+      return this.props.params[ this.props.routeParam ];
     }
 
 };

@@ -128,6 +128,8 @@ const Groups = React.createClass(
     return <Viewer
              itemData = { this.state.groupsList }
              nextGID = { this.state.nextGID }
+             params = { this.props.params }
+             children = { this.props.children }
              { ...VIEWER_DATA } />;
   }
 });

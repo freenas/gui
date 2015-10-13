@@ -6,7 +6,7 @@ import _ from "lodash";
 import React from "react";
 import { Nav, Button } from "react-bootstrap";
 
-import { Link, RouteHandler } from "react-router";
+import { Link } from "react-router";
 
 import viewerMode from "./mixins/viewerMode";
 import viewerCommon from "./mixins/viewerCommon";
@@ -103,7 +103,7 @@ const DetailNavSection = React.createClass(
           className = "disclosure-target"
         >
           <Link
-            to      = { `${ this.props.routeName }/${ selectionValue }` }
+            to      = { `/accounts/users/${ selectionValue }` }
             onClick = { this.props.handleItemSelect
                                   .bind( null, selectionValue )
                       }
@@ -159,7 +159,7 @@ const DetailViewer = React.createClass(
 
       if ( this.props.textNewItem && this.props.routeNewItem ) {
         addEntityButton = (
-          <Link to        = { this.props.routeNewItem }
+          <Link to        = { "/accounts/users/" + this.props.routeNewItem }
                 className = "viewer-detail-add-entity">
             <Button bsStyle   = "default"
                          className = "viewer-detail-add-entity">
@@ -209,26 +209,26 @@ const DetailViewer = React.createClass(
         }.bind( this ) );
       }
 
-      if ( FILTERED_DATA["remaining"].entries.length ) {
+      if ( FILTERED_DATA.remaining.entries.length ) {
         remainingNavItems = (
           <DetailNavSection { ...this.getRequiredProps() }
             handleItemSelect  = { this.props.handleItemSelect }
             initialDisclosure = "closed"
-            sectionName       = { FILTERED_DATA["remaining"].name }
-            entries           = { FILTERED_DATA["remaining"].entries } />
+            sectionName       = { FILTERED_DATA.remaining.name }
+            entries           = { FILTERED_DATA.remaining.entries } />
         );
       }
 
       if ( this.addingEntity() ) {
-        editorContent = (
-          <RouteHandler { ...this.props }/>
-        );
+        editorContent = React.cloneElement( this.props.children
+                                          , this.props
+                                          );
       } else if ( this.dynamicPathIsActive() ) {
-        editorContent = (
-          <RouteHandler { ...this.getRequiredProps() }
-            inputData = { this.props.inputData }
-          />
-        );
+        editorContent = React.cloneElement( this.props.children
+                                          , _.assign( { inputData: this.props.input }
+                                                    , this.getRequiredProps()
+                                                    )
+                                          );
       } else {
         editorContent = (
           <div className="viewer-item-info">

@@ -73,8 +73,7 @@ const Viewer = React.createClass(
       // its internal structure by looping through the returned data from the
       // middleware and creating cells. Also useful for getting human-friendly
       // names out of the translation key.
-      let currentParams = this.context.router.getCurrentParams();
-      let selectedItem = currentParams[ this.props.routeParam ];
+      let selectedItem = this.props.params[ this.props.routeParam ];
 
       return (
         { modeActive: this.changeViewerMode( this.props.modeInitial )

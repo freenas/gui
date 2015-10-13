@@ -69,12 +69,12 @@ const ViewerCommon =
     }
 
   , addingEntity: function () {
-      return _.endsWith( this.context.router.getCurrentPathname()
+      return _.endsWith( this.context.path
                        , this.props.routeNewItem );
     }
 
   , dynamicPathIsActive: function () {
-      if ( this.context.router.getCurrentParams()[ this.props.routeParam ] ) {
+      if ( this.props.params[ this.props.routeParam ] ) {
         return true;
       } else {
         return false;
