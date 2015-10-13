@@ -110,9 +110,7 @@ const InterfaceItem = React.createClass(
                        )
                      } );
 
-    return (
-      { aliasList }
-    );
+    return aliasList;
   }
 
   , toggleInterface () {
