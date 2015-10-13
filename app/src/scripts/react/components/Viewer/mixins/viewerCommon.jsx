@@ -66,11 +66,6 @@ const ViewerCommon =
                    );
     }
 
-  , addingEntity: function () {
-      return _.endsWith( this.context.path
-                       , this.props.routeNewItem );
-    }
-
   , dynamicPathIsActive: function () {
       if ( this.props.params[ this.props.routeParam ] ) {
         return true;
