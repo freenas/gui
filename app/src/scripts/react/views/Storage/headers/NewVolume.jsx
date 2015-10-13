@@ -11,12 +11,6 @@ import { Button, ButtonToolbar, Input } from "react-bootstrap";
 import BreakdownChart from "../common/BreakdownChart";
 
 export default class NewVolume extends React.Component {
-  componentDidMount () {
-    this.refs.volumeNameInput
-         .getElementsByTagName( "INPUT" )[0]
-         .focus();
-  }
-
   render () {
     return (
       <div className="volume-info">
@@ -25,7 +19,11 @@ export default class NewVolume extends React.Component {
           {/* VOLUME NAME INPUT */}
           <div className="volume-name-input">
             <Input
-              ref         = "volumeNameInput"
+              ref = { ( ref ) => {
+                if ( ref !== null ) {
+                  ref.getInputDOMNode().focus()
+                }
+              }}
               type        = "text"
               placeholder = "Volume Name"
               onClick     = { event => event.stopPropagation() }
