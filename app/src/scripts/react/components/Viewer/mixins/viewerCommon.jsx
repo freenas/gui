@@ -35,7 +35,6 @@ const ViewerCommon =
     , itemSchema          : React.PropTypes.object.isRequired
     , itemLabels          : React.PropTypes.object.isRequired
 
-    , routeName           : React.PropTypes.string.isRequired
     , routeParam          : React.PropTypes.string.isRequired
     , routeNewItem        : React.PropTypes.string
 
@@ -58,7 +57,6 @@ const ViewerCommon =
                      , "itemSchema"
                      , "itemLabels"
 
-                     , "routeName"
                      , "routeParam"
 
                      , "textNewItem"

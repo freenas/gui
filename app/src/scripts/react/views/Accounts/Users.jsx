@@ -34,7 +34,6 @@ const VIEWER_DATA =
   , itemSchema    : US.itemSchema
   , itemLabels    : US.itemLabels
 
-  , routeName     : "users-editor"
   , routeParam    : "userID"
   , routeNewItem  : "add-user"
 

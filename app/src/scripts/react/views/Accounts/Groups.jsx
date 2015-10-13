@@ -25,7 +25,6 @@ const VIEWER_DATA =
   , itemSchema    : GS.itemSchema
   , itemLabels    : GS.itemLabels
 
-  , routeName     : "groups-editor"
   , routeParam    : "groupID"
   , routeNewItem  : "add-group"
 
