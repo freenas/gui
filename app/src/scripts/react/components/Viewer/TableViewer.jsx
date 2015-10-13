@@ -46,7 +46,9 @@ const TableViewer = React.createClass(
           break;
 
         case "dblclick":
-          this.context.router.transitionTo( this.props.routeName, params );
+          this.history.pushState( null
+                                , `${ this.context.location.pathname }/${ params[ this.props.routeParam ] }`
+                                );
           break;
       }
     }
