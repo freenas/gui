@@ -14,23 +14,7 @@ import GroupsMiddleware from "../../flux/middleware/GroupsMiddleware";
 import viewerCommon from "../components/Viewer/mixins/viewerCommon";
 
 module.exports = {
-
-  mixins: [ viewerCommon ]
-
-  , componentDidMount: function () {
-    GroupsStore.addChangeListener( this.updateGroupsListInState );
-  }
-
-  , componentWillUnMount: function () {
-    GroupsStore.removeChangeListener( this.updateGroupsListInState );
-  }
-
-  , updateGroupsListInState: function () {
-    var groupsList = GroupsStore.groups;
-    this.setState({ groupsList: groupsList});
-  }
-
-  , deleteGroup: function () {
+  deleteGroup: function () {
     GroupsMiddleware.deleteGroup(
       this.props.item.id
     , function leaveGroupItem () {
