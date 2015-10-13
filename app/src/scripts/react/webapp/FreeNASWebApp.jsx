@@ -21,8 +21,10 @@ export default class FreeNASWebApp extends React.Component {
 
   constructor ( props ) {
     super( props );
+    this.displayName = "FreeNAS Webapp Root Component";
 
     this.onHMRChange = this.cssBust.bind( this );
+
     this.state =
       { cssBust: ""
       };
