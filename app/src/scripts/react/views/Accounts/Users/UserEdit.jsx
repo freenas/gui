@@ -9,6 +9,7 @@ import _ from "lodash";
 import React from "react";
 import { Alert, Button, ButtonToolbar, Input, Grid, Row, Col }
   from "react-bootstrap";
+import { History, RouteContext } from "react-router";
 
 import inputHelpers from "../../../mixins/inputHelpers";
 import userMixins from "../../../mixins/userMixins";
@@ -19,7 +20,7 @@ import US from "../../../../flux/stores/UsersStore";
 import GS from "../../../../flux/stores/GroupsStore";
 
 const UserEdit = React.createClass(
-  { mixins: [ inputHelpers, userMixins ]
+  { mixins: [ inputHelpers, userMixins, History, RouteContext ]
 
   , propTypes: { item: React.PropTypes.object.isRequired
                , itemSchema: React.PropTypes.object.isRequired

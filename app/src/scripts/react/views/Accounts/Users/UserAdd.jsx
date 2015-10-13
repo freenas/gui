@@ -7,6 +7,7 @@
 
 import _ from "lodash";
 import React from "react";
+import { History, RouteContext } from "react-router";
 import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
 import US from "../../../../flux/stores/UsersStore";
@@ -21,11 +22,9 @@ import groupMixins from "../../../mixins/groupMixins";
 
 
 const UserAdd = React.createClass(
-  { mixins: [ inputHelpers, userMixins ]
+  { mixins: [ inputHelpers, userMixins, History, RouteContext ]
 
-  , contextTypes: {
-    router: React.PropTypes.func
-  }
+  , contextTypes: { location: React.PropTypes.object }
 
   , propTypes:
     { itemSchema: React.PropTypes.object.isRequired
