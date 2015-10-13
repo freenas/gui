@@ -22,16 +22,7 @@ import TS from "../../flux/stores/TasksStore";
 import Volume from "./Storage/Volume";
 import VolumeTask from "./Storage/VolumeTask";
 
-var Velocity;
-
-if ( typeof window !== "undefined" ) {
-  Velocity = require( "velocity-animate" );
-} else {
-  // mocked velocity library
-  Velocity = function() {
-    return Promise().resolve( true );
-  };
-}
+import { Animate, Velocity } from "../../utility/Animate";
 
 const ACTIVE_TASK_STATES = new Set([ "CREATED", "WAITING", "EXECUTING" ]);
 
@@ -97,18 +88,15 @@ export default class Storage extends React.Component {
   }
 
   componentDidUpdate ( prevProps, prevState ) {
-    if ( ( this.state.volumes.length === 0 )
-      && ( this.state.activeVolume !== prevState.activeVolume )
-       ) {
-      Velocity( this.refs.newPoolMessage
-        , { opacity       : 0
-          , height        : 0
-          , paddingTop    : 0
-          , paddingBottom : 0
-          }
-        , { display: "none" }
-        , 500
-        );
+    if ( VS.isInitialized ) {
+      Animate.ghostVertical( this.refs.LOADING, "out" );
+      if ( this.state.volumes.length ) {
+        Animate.ghostVertical( this.refs.INTRO_MESSAGE, "out" );
+      } else {
+        Animate.ghostVertical( this.refs.INTRO_MESSAGE, "in" );
+      }
+    } else {
+      Animate.ghostVertical( this.refs.LOADING, "out" );
     }
   }
 
@@ -446,12 +434,8 @@ export default class Storage extends React.Component {
 
           {/* LOADING SPINNER */}
           <h1
+            ref       = "LOADING"
             className = "text-center"
-            style =
-              { ( VS.isInitialized )
-              ? { display: "none" }
-              : {}
-              }
           >
             { "LOADING" }
           </h1>
@@ -459,13 +443,8 @@ export default class Storage extends React.Component {
 
           {/* INTRODUCTORY MESSAGE */}
           <div
-            ref       = "newPoolMessage"
+            ref       = "INTRO_MESSAGE"
             className = "clearfix storage-first-pool"
-            style =
-              { ( VS.isInitialized && this.state.volumes.length === 0 )
-              ? {}
-              : { display: "none" }
-              }
           >
             <img src="/images/hdd.png" />
             <h3>Creating Storage</h3>
