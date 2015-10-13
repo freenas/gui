@@ -36,7 +36,6 @@ const DetailNavSection = React.createClass(
       , keyPrimary          : React.PropTypes.string.isRequired
       , keySecondary        : React.PropTypes.string.isRequired
 
-      , routeName           : React.PropTypes.string.isRequired
       , routeParam          : React.PropTypes.string.isRequired
       , routeNewItem        : React.PropTypes.string
       }
