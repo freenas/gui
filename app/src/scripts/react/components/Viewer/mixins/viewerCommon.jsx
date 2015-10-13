@@ -7,10 +7,13 @@
 
 import _ from "lodash";
 import React from "react";
+import { History, RouteContext } from "react-router";
 
 const ViewerCommon =
 
-  { contextTypes: { router: React.PropTypes.func }
+  { contextTypes: { location: React.PropTypes.object }
+
+  , mixins: [ History, RouteContext ]
 
   , propTypes:
     { keyUnique           : React.PropTypes.string.isRequired
