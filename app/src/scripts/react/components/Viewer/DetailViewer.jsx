@@ -17,9 +17,7 @@ import ToggleSwitch from "../ToggleSwitch";
 
 const DetailNavSection = React.createClass(
 
-  { contextTypes: { router: React.PropTypes.func }
-
-  , propTypes:
+  { propTypes:
       { selectedItem: React.PropTypes.oneOfType(
                         [ React.PropTypes.number
                         , React.PropTypes.string
