@@ -7,6 +7,7 @@
 
 "use strict";
 
+import _ from "lodash";
 import React from "react";
 import { Alert, Modal, Button } from "react-bootstrap";
 
