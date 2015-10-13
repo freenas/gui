@@ -5,26 +5,25 @@
 "use strict";
 
 import React from "react";
-import { RouteHandler } from "react-router";
 
 import routerShim from "../mixins/routerShim";
 import SectionNav from "../components/SectionNav";
 
-const sections = [ { route: "system"
+const sections = [ { route: "/settings/system"
                    , display: "System"
                    }
-                 , { route: "update"
+                 , { route: "/settings/update"
                    , display: "Updates"
                    }
-                 , { route: "security"
+                 , { route: "/settings/security"
                    , display: "Security"
                    , disabled: true
                    }
-                 , { route: "alerts"
+                 , { route: "/settings/alerts"
                    , display: "Alerts"
                    , disabled: true
                    }
-                 , { route: "support"
+                 , { route: "/settings/support"
                    , display: "Support"
                    , disabled: true
                    }
