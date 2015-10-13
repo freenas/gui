@@ -40,7 +40,7 @@ import Alerts from "./react/views/Settings/Alerts";
 import Support from "./react/views/Settings/Support";
 
 export default (
-  <Route component={ Root } >
+  <Route path="/" component={ Root } >
 
     {/* DASHBOARD */}
     <IndexRoute component={ Dashboard } />
@@ -79,7 +79,7 @@ export default (
 
 
     {/* CALENDAR */}
-    <Route route="calendar" component={ Calendar } />
+    <Route path="calendar" component={ Calendar } />
 
 
     {/* NETWORK */}
@@ -95,18 +95,18 @@ export default (
 
 
     {/* STORAGE */}
-    <Route route="storage" component={ Storage } />
+    <Route path="storage" component={ Storage } />
 
 
     { /* Settings */ }
-    <Route route="settings" component={ Settings } >
+    <Route path="settings" component={ Settings } >
       <IndexRoute component={ System } />
 
-      <Route route="system" component={ System } />
-      <Route route="update" component={ Update } />
-      <Route route="security" component={ Security } />
-      <Route route="alerts" component={ Alerts } />
-      <Route route="support" component={ Support } />
+      <Route path="system" component={ System } />
+      <Route path="update" component={ Update } />
+      <Route path="security" component={ Security } />
+      <Route path="alerts" component={ Alerts } />
+      <Route path="support" component={ Support } />
     </Route>
 
   </Route>
