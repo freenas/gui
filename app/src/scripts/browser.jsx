@@ -8,17 +8,18 @@
 require( "babel/polyfill" );
 
 import React from "react";
+import ReactDOM from "react-dom";
+import { Router } from "react-router";
+import createBrowserHistory from "history/lib/createBrowserHistory";
 
-// Routing
-import Router, { HistoryLocation } from "react-router";
-import Routes from "./routes.jsx";
-
+import routes from "./routes.jsx";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";
 import MiddlewareClient from "./websocket/MiddlewareClient";
 
 if ( process.env.BROWSER ) {
   let { protocol, host, path, mode } = TargetHost.connection();
+  let history = createBrowserHistory();
 
   MiddlewareClient.connect( protocol, host, path, mode );
   MiddlewareClient.subscribe(
@@ -29,10 +30,5 @@ if ( process.env.BROWSER ) {
     , "WEBAPP"
   );
 
-  Router.run( Routes
-            , HistoryLocation
-            , function ( Handler, state ) {
-                React.render( <Handler />, document );
-              }
-            );
+  ReactDOM.render( <Router history={ history } routes={ routes } />, document );
 }

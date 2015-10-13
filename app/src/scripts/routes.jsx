@@ -40,76 +40,74 @@ import Alerts from "./react/views/Settings/Alerts";
 import Support from "./react/views/Settings/Support";
 
 export default (
-  <Router>
-    <Route path="/" component={ Root } >
+  <Route component={ Root } >
 
-      {/* DASHBOARD */}
-      <Route path="*" component={ Dashboard } />
-      <Route path="dashboard" component={ Dashboard } />
-
-
-      {/* ACCOUNTS */}
-      <Route path="accounts" component={ Accounts } >
-        <IndexRoute component={ Users } />
+    {/* DASHBOARD */}
+    <Route path="*" component={ Dashboard } />
+    <Route path="dashboard" component={ Dashboard } />
 
 
-        {/* USERS */}
-        <Route path="users" component={ Users } >
-          <Route path="add-user" component={ UserAdd } />
-
-          <Route
-            name      = "users-editor"
-            path      = ":userID"
-            component = { UserItem }
-          />
-        </Route>
+    {/* ACCOUNTS */}
+    <Route path="accounts" component={ Accounts } >
+      <IndexRoute component={ Users } />
 
 
-        {/* GROUPS */}
-        <Route path="groups" component={ Groups } >
+      {/* USERS */}
+      <Route path="users" component={ Users } >
+        <Route path="add-user" component={ UserAdd } />
 
-          <Route path="add-group" component={ GroupAdd } />
-
-          <Route
-            name      = "groups-editor"
-            path      = ":groupID"
-            component = { GroupItem }
-          />
-        </Route>
+        <Route
+          name      = "users-editor"
+          path      = ":userID"
+          component = { UserItem }
+        />
       </Route>
 
 
-      {/* CALENDAR */}
-      <Route route="calendar" component={ Calendar } />
+      {/* GROUPS */}
+      <Route path="groups" component={ Groups } >
 
+        <Route path="add-group" component={ GroupAdd } />
 
-      {/* NETWORK */}
-      <Route path="network" component={ Network } />
-
-
-      {/* CONSOLE */}
-      <Route path="console" component={ Console } />
-
-
-      {/* HARDWARE */}
-      <Route path="hardware" component={ Hardware } />
-
-
-      {/* STORAGE */}
-      <Route route="storage" component={ Storage } />
-
-
-      { /* Settings */ }
-      <Route route="settings" component={ Settings } >
-        <IndexRoute component={ System } />
-
-        <Route route="system" component={ System } />
-        <Route route="update" component={ Update } />
-        <Route route="security" component={ Security } />
-        <Route route="alerts" component={ Alerts } />
-        <Route route="support" component={ Support } />
+        <Route
+          name      = "groups-editor"
+          path      = ":groupID"
+          component = { GroupItem }
+        />
       </Route>
-
     </Route>
-  </Router>
+
+
+    {/* CALENDAR */}
+    <Route route="calendar" component={ Calendar } />
+
+
+    {/* NETWORK */}
+    <Route path="network" component={ Network } />
+
+
+    {/* CONSOLE */}
+    <Route path="console" component={ Console } />
+
+
+    {/* HARDWARE */}
+    <Route path="hardware" component={ Hardware } />
+
+
+    {/* STORAGE */}
+    <Route route="storage" component={ Storage } />
+
+
+    { /* Settings */ }
+    <Route route="settings" component={ Settings } >
+      <IndexRoute component={ System } />
+
+      <Route route="system" component={ System } />
+      <Route route="update" component={ Update } />
+      <Route route="security" component={ Security } />
+      <Route route="alerts" component={ Alerts } />
+      <Route route="support" component={ Support } />
+    </Route>
+
+  </Route>
 );
