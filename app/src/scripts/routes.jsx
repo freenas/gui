@@ -6,7 +6,7 @@
 import React from "react";
 
 // Routing
-import { Router, IndexRoute, Route } from "react-router";
+import { Router, IndexRoute, IndexRedirect, Route } from "react-router";
 
 // STATIC ROUTES
 import Root from "./react/webapp/FreeNASWebApp";
@@ -48,7 +48,7 @@ export default (
 
     {/* ACCOUNTS */}
     <Route path="accounts" component={ Accounts } >
-      <IndexRoute component={ Users } />
+      <IndexRedirect to = "/accounts/users" />
 
 
       {/* USERS */}
@@ -91,7 +91,7 @@ export default (
 
     { /* Settings */ }
     <Route path="settings" component={ Settings } >
-      <IndexRoute component={ System } />
+      <IndexRedirect to = "/settings/system" />
 
       <Route path="system" component={ System } />
       <Route path="update" component={ Update } />
