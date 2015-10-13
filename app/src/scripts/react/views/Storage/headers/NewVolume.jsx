@@ -12,7 +12,7 @@ import BreakdownChart from "../common/BreakdownChart";
 
 export default class NewVolume extends React.Component {
   componentDidMount () {
-    React.findDOMNode( this.refs.volumeNameInput )
+    this.refs.volumeNameInput
          .getElementsByTagName( "INPUT" )[0]
          .focus();
   }

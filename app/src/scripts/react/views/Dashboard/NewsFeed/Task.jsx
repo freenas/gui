@@ -38,7 +38,7 @@ export default class Task extends React.Component {
     // Make sure function can only be run once
     this.queueContentHide = function () {};
 
-    Velocity( React.findDOMNode( this.refs.taskContent )
+    Velocity( this.refs.taskContent
            , { height        : 0
              , marginTop     : 0
              , marginBottom  : 0

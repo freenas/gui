@@ -97,14 +97,14 @@ var BusyBox = React.createClass(
         , passText: ""
         }
       );
-      Velocity( React.findDOMNode( this.refs.Busy )
+      Velocity( this.refs.Busy
              , "fadeIn"
              , { duration: this.props.animDuration } );
     }
 
   , hideBusyBox: function () {
       this.setState({ boxIsVisible: false });
-      Velocity( React.findDOMNode( this.refs.Busy )
+      Velocity( this.refs.Busy
              , "fadeOut"
              , { duration : this.props.animDuration
                , delay    : this.props.animDelay }

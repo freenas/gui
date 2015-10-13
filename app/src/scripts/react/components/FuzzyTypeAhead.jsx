@@ -339,7 +339,7 @@ var FuzzyTypeAhead = React.createClass(
   }
 
   , _onOptionSelected: function ( option, event ) {
-      let nEntry = React.findDOMNode( this.refs.entry );
+      let nEntry = this.refs.entry;
       nEntry.focus();
       nEntry.value = option;
       this.setState({ visible: this.getOptionsForValue( option

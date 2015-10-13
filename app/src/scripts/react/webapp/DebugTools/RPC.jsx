@@ -60,7 +60,7 @@ var RPC = React.createClass(
   , componentDidUpdate: function ( prevProps, prevState ) {
       if ( ( this.state.submissionPending !== prevState.submissionPending ) &&
            window ) {
-        let progressNode = React.findDOMNode( this.refs.pendingProgressBar );
+        let progressNode = this.refs.pendingProgressBar;
         if ( this.state.submissionPending ) {
           this.progressDisplayTimeout = setTimeout( function ( ) {
             Velocity( progressNode

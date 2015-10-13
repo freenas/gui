@@ -99,7 +99,7 @@ export default class Storage extends React.Component {
     if ( ( this.state.volumes.length === 0 )
       && ( this.state.activeVolume !== prevState.activeVolume )
        ) {
-      Velocity( React.findDOMNode( this.refs.newPoolMessage )
+      Velocity( this.refs.newPoolMessage
         , { opacity       : 0
           , height        : 0
           , paddingTop    : 0

@@ -292,7 +292,7 @@ const NetworkConfig = React.createClass(
       this.setState( { dnsAddressInProgress: ""
                      , networkConfig: newNetworkConfig }
                    , function scrollDNSList () {
-                     React.findDOMNode( this.refs["dns-server-list"] ).scrollTop = 1000000;
+                     this.refs["dns-server-list"].scrollTop = 1000000;
                    } );
     }
   }

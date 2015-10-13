@@ -37,14 +37,14 @@ export default class VolumeSections extends React.Component {
   }
 
   slideDownDrawer () {
-    Velocity( React.findDOMNode( this.refs.drawer )
+    Velocity( this.refs.drawer
             , "slideDown"
             , { duration: SLIDE_DURATION }
             );
   }
 
   slideUpDrawer () {
-    Velocity( React.findDOMNode( this.refs.drawer )
+    Velocity( this.refs.drawer
             , "slideUp"
             , { duration: SLIDE_DURATION }
             );

@@ -113,7 +113,7 @@ const Day = React.createClass (
                          && this.props.isSelected
                           }
                    placement = "bottom"
-                   target = { ()=> React.findDOMNode( this.refs[ this.props.activeTask ] ) }
+                   target = { () => this.refs[ this.props.activeTask ] }
                  >
                    { taskModal }
                  </Overlay>

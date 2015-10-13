@@ -54,7 +54,7 @@ const CPU = React.createClass(
       this.chart = c3.generate(
         _.assign( {}
                 , c3Defaults
-                , { bindto: React.findDOMNode( this.refs.cpuChart )
+                , { bindto: this.refs.cpuChart
                   , data:
                     { columns: [ dataSystem
                                , dataUser

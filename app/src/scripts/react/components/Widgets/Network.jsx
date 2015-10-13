@@ -29,7 +29,7 @@ const Network = React.createClass(
       this.chart = c3.generate(
         _.assign( {}
                 , c3Defaults
-                , { bindto: React.findDOMNode( this.refs.networkChart )
+                , { bindto: this.refs.networkChart
                   , data:
                     { columns: [ dataIn, dataOut ]
                     , type: "line"

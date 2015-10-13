@@ -32,8 +32,7 @@ const Topologizer = React.createClass(
     }
 
   , componentDidMount () {
-      let rect = React.findDOMNode( this.refs.bounding )
-                      .getBoundingClientRect();
+      let rect = this.refs.bounding.getBoundingClientRect();
 
       let A = [ 0, rect.height ];
       let B = [ rect.width / 2, 0 ];
