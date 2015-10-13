@@ -25,49 +25,49 @@ import Icon from "../components/Icon";
 // Path definitions
 // TODO: Convert to Flux or other external file
 const paths =
-  [ { path     : "dashboard"
+  [ { path     : "/dashboard"
     , icon     : "icon-datareport"
     , label    : "Dashboard"
     , status   : null
     , disabled : false
     }
-  , { path     : "storage"
+  , { path     : "/storage"
     , icon     : "icon-cloud-alt"
     , label    : "Storage"
     , status   : null
     , disabled : false
     }
-  , { path     : "network"
+  , { path     : "/network"
     , icon     : "icon-flowchart"
     , label    : "Network"
     , status   : null
     , disabled : false
     }
-  , { path     : "accounts"
+  , { path     : "/accounts"
     , icon     : "icon-id"
     , label    : "Accounts"
     , status   : null
     , disabled : false
     }
-  , { path     : "calendar"
+  , { path     : "/calendar"
     , icon     : "icon-calendar"
     , label    : "Calendar"
     , status   : null
     , disabled : false
     }
-  , { path     : "console"
+  , { path     : "/console"
     , icon     : "icon-console"
     , label    : "Console"
     , status   : null
     , disabled : false
     }
-  , { path     : "hardware"
+  , { path     : "/hardware"
     , icon     : "icon-drive"
     , label    : "Hardware"
     , status   : null
     , disabled : false
     }
-  , { path     : "settings"
+  , { path     : "/settings"
     , icon     : "icon-adjust-horiz"
     , label    : "Settings"
     , status   : null
@@ -175,7 +175,10 @@ const PrimaryNavigation = React.createClass(
             role = "presentation"
             className = "nav-item"
             key = { index } >
-            <Link to = { rawItem.path } >
+            <Link
+              to = { rawItem.path }
+              activeClassName = "active"
+            >
               <Icon glyph = { rawItem.icon } />
               <span className = "nav-item-label" >{ rawItem.label }</span>
             </Link>
