@@ -33,6 +33,13 @@ module.exports = {
   , deleteGroup: function () {
     GroupsMiddleware.deleteGroup(
       this.props.item.id
-    , this.returnToViewerRoot() );
+    , function leaveGroupItem () {
+      let newPath =
+        this.context.location.pathname.replace( "/"
+                                              + this.props.params[ this.props.routeParam ]
+                                              , ""
+                                              );
+      this.history.pushState( null, newPath );
+    } );
   }
 };

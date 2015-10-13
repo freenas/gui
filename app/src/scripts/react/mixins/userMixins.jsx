@@ -54,9 +54,15 @@ module.exports = (
 
   , deleteUser: function () {
       UsersMiddleware.deleteUser(
-        this.props.item["id"]
-        , this.returnToViewerRoot()
-      );
+        this.props.item.id
+      , function leaveGroupItem () {
+        let newPath =
+          this.context.location.pathname.replace( "/"
+                                                + this.props.params[ this.props.routeParam ]
+                                                , ""
+                                                );
+        this.history.pushState( null, newPath );
+      } );
     }
   }
 );
