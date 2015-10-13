@@ -31,11 +31,6 @@ const FreeNASWebApp = React.createClass(
       if ( module.hot ) {
         module.hot.addStatusHandler( this.cssBust );
       }
-      this.calculateDefaultRoute( "/", "dashboard", "is" );
-    }
-
-  , componentDidUpdate ( prevProps, prevState ) {
-      this.calculateDefaultRoute( "/", "dashboard", "is" );
     }
 
   , componentWillUnmount () {
