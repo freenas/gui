@@ -445,6 +445,7 @@ export default class Storage extends React.Component {
           <div
             ref       = "INTRO_MESSAGE"
             className = "clearfix storage-first-pool"
+            style     = {{ display: "none" }}
           >
             <img src="/images/hdd.png" />
             <h3>Creating Storage</h3>
