@@ -69,12 +69,6 @@ const Viewer = React.createClass(
     }
 
   , getInitialState: function () {
-      // Generate an array of keys which TableViewer can use to quickly generate
-      // its internal structure by looping through the returned data from the
-      // middleware and creating cells. Also useful for getting human-friendly
-      // names out of the translation key.
-      let selectedItem = this.props.params[ this.props.routeParam ];
-
       return (
         { modeActive: this.props.modeInitial
         , columnsEnabled: this.props.columnsInitial
@@ -86,7 +80,7 @@ const Viewer = React.createClass(
                         , rawList: []
                         }
         , searchString: ""
-        , selectedItem: selectedItem
+        , selectedItem: this.props.params[ this.props.routeParam ]
         }
       );
     }
