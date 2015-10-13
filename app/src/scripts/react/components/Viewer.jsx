@@ -76,7 +76,7 @@ const Viewer = React.createClass(
       let selectedItem = this.props.params[ this.props.routeParam ];
 
       return (
-        { modeActive: this.changeViewerMode( this.props.modeInitial )
+        { modeActive: this.props.modeInitial
         , columnsEnabled: this.props.columnsInitial
         , groupsEnabled: this.props.groupsInitial
         , filtersEnabled: this.props.filtersInitial
