@@ -102,7 +102,7 @@ const PrimaryNavigation = React.createClass(
       // After the component has a real DOM representation, store the auto width
       // value of the navbar
       this.setState(
-        { fullNavWidth: this.refs.navRoot.getDOMNode().offsetWidth + "px" }
+        { fullNavWidth: this.refs.navRoot.offsetWidth + "px" }
       );
     }
 

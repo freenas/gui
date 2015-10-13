@@ -39,9 +39,9 @@ var Shell = React.createClass(
         this.isAuthenticated = false;
         ShellMiddleware.spawnShell( this.props.shellType, this.createNewShell );
       }
-      if ( this.term && this.refs.termTarget.getDOMNode().clientHeight !== 0 ) {
+      if ( this.term && this.refs.termTarget.clientHeight !== 0 ) {
         this.term.resize( 80
-                        , this.refs.termTarget.getDOMNode().clientHeight * 0.05 );
+                        , this.refs.termTarget.clientHeight * 0.05 );
       }
     }
 
@@ -75,7 +75,7 @@ var Shell = React.createClass(
         this.ws.send( data );
       }.bind( this ) );
 
-      this.term.open( this.refs.termTarget.getDOMNode() );
+      this.term.open( this.refs.termTarget );
       this.forceUpdate();
     }
 

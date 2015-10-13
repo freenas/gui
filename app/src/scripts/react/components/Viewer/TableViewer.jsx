@@ -95,10 +95,10 @@ const TableViewer = React.createClass(
 
   , getUpdatedColWidths: function ( columnSet ) {
       var tempWidths  = {};
-      var viewerWidth = this.refs[ "TABLE_VIEWER" ].getDOMNode().offsetWidth;
+      var viewerWidth = this.refs[ "TABLE_VIEWER" ].offsetWidth;
 
       columnSet.map( column => {
-        let colWidth = this.refs[ "COL_" + column ].getDOMNode().offsetWidth;
+        let colWidth = this.refs[ "COL_" + column ].offsetWidth;
 
         tempWidths[ column ] =
           Math.round( colWidth / viewerWidth * 10000 ) / 100 + "%";
