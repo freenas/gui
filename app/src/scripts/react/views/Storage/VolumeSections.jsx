@@ -5,21 +5,12 @@
 "use strict";
 
 import React from "react";
+import ReactDOM from "react-dom";
 import { Tabs, Tab } from "react-bootstrap";
 
 import Topology from "./sections/Topology";
 import Filesystem from "./sections/Filesystem";
-
-var Velocity;
-
-if ( typeof window !== "undefined" ) {
-  Velocity = require( "velocity-animate" );
-} else {
-  // mocked velocity library
-  Velocity = function() {
-    return Promise().resolve( true );
-  };
-}
+import { Animate, Velocity } from "../../../utility/Animate";
 
 const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
 const SLIDE_DURATION = 350;
@@ -29,25 +20,17 @@ export default class VolumeSections extends React.Component {
   componentDidUpdate ( prevProps, prevState ) {
     if ( this.props.active && !prevProps.active ) {
       // The volume has become active, and the drawer should slide down
-      this.slideDownDrawer();
-    } else if ( !this.props.active && prevProps.active ) {
-      // The volume has become inactive, and the drawer should slide up
-      this.slideUpDrawer();
-    }
-  }
-
-  slideDownDrawer () {
-    Velocity( this.refs.drawer
+    Velocity( ReactDOM.findDOMNode( this.refs.TABS )
             , "slideDown"
             , { duration: SLIDE_DURATION }
             );
-  }
-
-  slideUpDrawer () {
-    Velocity( this.refs.drawer
+    } else if ( !this.props.active && prevProps.active ) {
+      // The volume has become inactive, and the drawer should slide up
+    Velocity( ReactDOM.findDOMNode( this.refs.TABS )
             , "slideUp"
             , { duration: SLIDE_DURATION }
             );
+    }
   }
 
   render () {
@@ -55,7 +38,7 @@ export default class VolumeSections extends React.Component {
 
     return (
       <Tabs
-        ref       = "drawer"
+        ref = "TABS"
         className = "volume-nav"
         style     = {{ display: "none" }}
         bsStyle   = "pills"
