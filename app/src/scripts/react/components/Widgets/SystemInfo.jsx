@@ -87,10 +87,12 @@ const SystemInfo = React.createClass(
           <div className="system-properties">
             <h2 className="hostname">{ hostname }</h2>
             <Table>
-              <tr>
-                <td className = "property-label">OS Version</td>
-                <td className = "property version">{ version }</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td className = "property-label">OS Version</td>
+                  <td className = "property version">{ version }</td>
+                </tr>
+              </tbody>
             </Table>
           </div>
           <div className = "hardware-info">
