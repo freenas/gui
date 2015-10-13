@@ -6,7 +6,7 @@ import React from "react";
 import _ from "lodash";
 import { Table } from "react-bootstrap";
 
-import { Link, RouteHandler } from "react-router";
+import { Link } from "react-router";
 
 import Icon from "../Icon";
 
@@ -183,9 +183,14 @@ const TableViewer = React.createClass(
                   icoClass = "editor-close"
                   onClick  = { this.handleClickOut } />
               </span>
-              <RouteHandler { ...this.getRequiredProps() }
-                inputData = { this.props.inputData }
-                activeKey = { this.props.selectedKey } />
+              { React.cloneElement( this.props.children
+                                  , Object.assign ( this.getRequiredProps()
+                                                  , { inputData: this.props.inputData
+                                                    , activeKey: this.props.selectedKey
+                                                    }
+                                                  )
+                                  )
+              }
             </div>
           </div>
         );
