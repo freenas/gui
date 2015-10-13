@@ -22,6 +22,7 @@ const GroupEdit = React.createClass(
     { itemSchema: React.PropTypes.object.isRequired
     , itemLabels: React.PropTypes.object.isRequired
     , item: React.PropTypes.object.isRequired
+    , handleViewChange: React.PropTypes.func.isRequired
     }
 
   , mixins: [ groupMixins ]

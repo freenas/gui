@@ -148,6 +148,7 @@ const Users = React.createClass(
              itemData = { this.state.usersList }
              nextUID = { this.state.nextUID }
              shells = { this.state.shells }
+             route = { this.props.route }
              params = { this.props.params }
              children = { this.props.children }
              { ...VIEWER_DATA }

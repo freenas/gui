@@ -28,7 +28,6 @@ const UserAdd = React.createClass(
 
   , propTypes:
     { itemSchema: React.PropTypes.object.isRequired
-    , itemLabels: React.PropTypes.object.isRequired
     , nextUID: React.PropTypes.number
     , shells: React.PropTypes.array
     }
