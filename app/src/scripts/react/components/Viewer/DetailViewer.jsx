@@ -61,8 +61,6 @@ const DetailNavSection = React.createClass(
 
       const searchString   = this.props.searchString;
       const selectionValue = rawItem[ this.props.keyUnique ];
-      var params = {};
-      params[ this.props.routeParam ] = selectionValue;
 
       var primaryText   = rawItem[ this.props.keyPrimary ];
       var secondaryText = rawItem[ this.props.keySecondary ];
@@ -105,8 +103,7 @@ const DetailNavSection = React.createClass(
           className = "disclosure-target"
         >
           <Link
-            to      = { this.props.routeName }
-            params  = { params }
+            to      = { `${ this.props.routeName }/${ selectionValue }` }
             onClick = { this.props.handleItemSelect
                                   .bind( null, selectionValue )
                       }
@@ -155,15 +152,6 @@ const DetailViewer = React.createClass(
 
   , propTypes:
     { collapsedInitial: React.PropTypes.instanceOf( Set ).isRequired
-    }
-
-  , componentDidMount: function () {
-      // TODO: This will be an array once we implement multi-select
-      if ( this.props.selectedItem ) {
-        let params = {};
-        params[ this.props.routeParam ] = this.props.selectedItem;
-        this.context.router.replaceWith( this.props.routeName, params );
-      }
     }
 
   , createAddEntityButton: function () {
