@@ -56,7 +56,6 @@ export class Animate {
                    : "block";
       computedValues.opacity = [1,0]
       computedValues.translateY = [0, 40];
-      afterStyles.display = "";
     } else {
       opts.display = "none";
       computedValues.opacity = 0
