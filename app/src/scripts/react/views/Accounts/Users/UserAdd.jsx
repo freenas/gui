@@ -37,27 +37,50 @@ const UserAdd = React.createClass(
            };
   }
 
-  , handleChange: function ( field, event ) {
-    let newUser = this.state.newUser;
-
-    if ( event.target.type == "checkbox" ) {
-      newUser[ field ] = event.target.checked;
-    } else {
-      // TODO: using refs is bad, try to find a better way to get the
-      // input out of a multi select if it exists
-      switch ( this.props.itemSchema.properties[ field ].type ) {
-        case "array":
-          newUser[ field ] = this.refs[ field ].getValue();
-          break;
-        case "integer":
-        case "number":
-          newUser[ field ] = _.parseInt( event.target.value );
-          break;
-        default:
-          newUser[ field ] = event.target.value;
-      }
+  , handleChange ( key, event ) {
+    var newUser = _.cloneDeep( this.state.newUser );
+    switch ( key ) {
+      case "username":
+        newUser.username = event.target.value;
+        break;
+      case "password":
+        newUser.password = event.target.value;
+        break;
+      case "confirmPassword":
+        this.setState( { confirmPassword: event.target.value } );
+        break;
+      case "full_name":
+        newUser.full_name = event.target.value;
+        break;
+      case "email":
+        newUser.email = event.target.value;
+        break;
+      case "shell":
+        newUser.shell = event.target.value;
+        break;
+      case "group":
+        newUser.group = event.target.value;
+        break;
+      case "sshpubkey":
+        newUser.sshpubkey = event.target.value;
+        break;
+      case "groups":
+        newUser.groups = this.refs.groups.getValue();
+        break;
+      case "locked":
+        newUser.locked = event.target.checked;
+        break;
+      case "sudo":
+        newUser.sudo = event.target.checked;
+        break;
+      case "password_disabled":
+        newUser.password_disabled = event.target.checked;
+        break;
     }
-    this.setState( { newUser: newUser } );
+
+    if ( !_.isEqual( newUser, this.state.newUser) ) {
+      this.setState( { newUser: newUser } );
+    }
   }
 
   , validateUser () {
