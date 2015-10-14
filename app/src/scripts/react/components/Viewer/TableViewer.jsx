@@ -5,8 +5,7 @@
 import React from "react";
 import _ from "lodash";
 import { Table } from "react-bootstrap";
-
-import { Link } from "react-router";
+import { History, RouteContext } from "react-router";
 
 import Icon from "../Icon";
 
@@ -18,7 +17,9 @@ import viewerUtil from "./viewerUtil";
 // Table Viewer
 const TableViewer = React.createClass(
 
-  { mixins: [ viewerOverlay, viewerMode, viewerCommon ]
+  { contextTypes: { location: React.PropTypes.object }
+
+  , mixins: [ viewerCommon, viewerOverlay, viewerMode, History, RouteContext ]
 
   , propTypes: { keyUnique: React.PropTypes.string.isRequired
 
