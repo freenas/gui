@@ -228,7 +228,7 @@ const DetailViewer = React.createClass(
       }
 
       // Check if we're adding an entity
-      if ( _.endsWith( this.context.path , this.props.routeNewItem ) ) {
+      if ( _.endsWith( this.context.path, this.props.routeNewItem ) ) {
         editorContent = React.cloneElement( this.props.children
                                           , this.props
                                           );
