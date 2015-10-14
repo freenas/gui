@@ -65,7 +65,7 @@ const UserEdit = React.createClass(
         newModifiedValues.sshpubkey = event.target.value;
         break;
       case "groups":
-        newModifiedValues.groups = this.refs[ field ].getValue();
+        newModifiedValues.groups = this.refs.groups.getValue();
         break;
       case "locked":
         newModifiedValues.locked = event.target.checked;
