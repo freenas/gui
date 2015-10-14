@@ -37,27 +37,50 @@ const UserEdit = React.createClass(
     this.setState( { modifiedValues: {} } );
   }
 
-  , handleChange: function ( field, event ) {
-    let newModifiedValues = this.state.modifiedValues;
-
-    if ( event.target.type == "checkbox" ) {
-      newModifiedValues[ field ] = event.target.checked;
-    } else {
-      // TODO: using refs is bad, try to find a better way to get the
-      // input out of a multi select if it exists
-      switch ( this.props.itemSchema.properties[ field ].type ) {
-        case "array":
-          newModifiedValues[ field ] = this.refs[ field ].getValue();
-          break;
-        case "integer":
-        case "number":
-          newModifiedValues[ field ] = _.parseInt( event.target.value );
-          break;
-        default:
-          newModifiedValues[ field ] = event.target.value;
-      }
+  , handleChange ( key, event ) {
+    var newModifiedValues = _.cloneDeep( this.state.modifiedValues );
+    switch ( key ) {
+      case "username":
+        newModifiedValues.username = event.target.value;
+        break;
+      case "password":
+        newModifiedValues.password = event.target.value;
+        break;
+      case "confirmPassword":
+        newModifiedValues.confirmPassword = event.target.value;
+        break;
+      case "full_name":
+        newModifiedValues.full_name = event.target.value;
+        break;
+      case "email":
+        newModifiedValues.email = event.target.value;
+        break;
+      case "shell":
+        newModifiedValues.shell = event.target.value;
+        break;
+      case "group":
+        newModifiedValues.group = event.target.value;
+        break;
+      case "sshpubkey":
+        newModifiedValues.sshpubkey = event.target.value;
+        break;
+      case "groups":
+        newModifiedValues.groups = this.refs[ field ].getValue();
+        break;
+      case "locked":
+        newModifiedValues.locked = event.target.checked;
+        break;
+      case "sudo":
+        newModifiedValues.sudo = event.target.checked;
+        break;
+      case "password_disabled":
+        newModifiedValues.password_disabled = event.target.checked;
+        break;
     }
-    this.setState( { modifiedValues: newModifiedValues } );
+
+    if ( !_.isEqual( newModifiedValues, this.state.modifiedValues) ) {
+      this.setState( { modifiedValues: newModifiedValues } );
+    }
   }
 
   , validateUser () {
