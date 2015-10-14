@@ -16,10 +16,10 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { match, RoutingContext } from "react-router";
 
-import routes from "./../src/scripts/routes";
+import routes from "../routes";
 
 // Content
-const BUNDLE = fs.readFileSync( path.normalize( __dirname + "./../build/app.js" ) );
+const BUNDLE = fs.readFileSync( path.normalize( __dirname + "./../../build/app.js" ) );
 
 var app = mach.stack();
 
@@ -61,7 +61,7 @@ if ( isDevMode() ) {
 }
 
 app.use( mach.favicon );
-app.use( mach.file, { root: path.normalize( __dirname + "./../build/" ) } );
+app.use( mach.file, { root: path.normalize( __dirname + "./../../build/" ) } );
 
 // Routes
 app.get( "/js/app.js", ( request ) => { return BUNDLE; } );
