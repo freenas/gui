@@ -17,7 +17,7 @@ USE_XZ=		yes
 USE_PYTHON=	yes
 EXTRACT_ONLY=
 
-RUN_DEPENDS=	node:${PORTSDIR}/www/node
+RUN_DEPENDS=	node:${PORTSDIR}/www/node012
 
 WRKSRC=		/usr/freenas_gui_src
 WRKDEPLOY=	/usr/freenas_gui
