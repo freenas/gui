@@ -61,7 +61,28 @@ const UserAdd = React.createClass(
   }
 
   , validateUser () {
-    return true;
+    var userValid;
+
+    const usernameValid = typeof this.state.newUser.username === "string"
+                       && this.state.newUser.username !== "";
+
+    var groupValid;
+
+    if ( this.state.pleaseCreatePrimaryGroup ) {
+      groupValid = true;
+    } else if ( typeof this.state.newUser.group === "string" ) {
+      userValid = _.find( GS.groups, { name: this.state.newUser.group } )
+              !== undefined;
+    } else {
+      groupValid = false;
+    }
+
+    userValid = usernameValid
+             && groupValid
+             && validatePassword()
+             && validateConfirmPassword();
+
+    return userValid;
   }
 
   , submitNewUser: function () {
@@ -90,7 +111,6 @@ const UserAdd = React.createClass(
 
     UM.createUser( newUser );
   }
-
 
   , validatePassword () {
     var passwordValid;
