@@ -248,6 +248,41 @@ const UserAdd = React.createClass(
                            }
       />;
 
+    let passwordField =
+      <Input
+        type             = "password"
+        label            = "Enter Password"
+        value            = { typeof this.state.newUser.password
+                         === "string"
+                           ? this.state.newUser.password
+                           : ""
+                           }
+        onChange         = { this.handleChange.bind( null, "password" ) }
+        key              = "password"
+        ref              = "password"
+        bsStyle          = { this.validatePassword()
+                           ? null
+                           : "error"
+                           }
+      />;
+
+    let confirmPasswordField =
+      <Input
+        type             = "password"
+        label            = "Confirm Password"
+        value            = { typeof this.state.confirmPassword === "string"
+                           ? this.state.confirmPassword
+                           : ""
+                           }
+        onChange         = { this.handleChange.bind( null, "confirmPassword" ) }
+        key              = "confirmPassword"
+        ref              = "confirmPassword"
+        bsStyle          = { this.validateConfirmPassword()
+                           ? null
+                           : "error"
+                           }
+      />;
+
     let userFullNameField =
       <Input
         type             = "text"
@@ -395,6 +430,8 @@ const UserAdd = React.createClass(
       <div>
         { userIdField }
         { userNameField }
+        { passwordField }
+        { confirmPasswordField }
         { userFullNameField }
         { userEmailField }
         { userShellField }
