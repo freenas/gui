@@ -15,18 +15,12 @@ const ViewerCommon =
     }
 
   , returnToViewerRoot: function () {
-      if ( this.isMounted() && this.dynamicPathIsActive() ) {
-        var currentRoutes = this.context.router.getCurrentRoutes();
-        var currentIndex = _.findIndex( currentRoutes, function ( routeData ) {
-          return _.contains( routeData["paramNames"], this.props.routeParam );
-        }, this );
-
-        this.context.router.transitionTo(
-          currentRoutes[ currentIndex - 1 ]["path"]
-        );
-      }
+      var newPath =
+        this.context.location.pathname.replace( "/"
+                                      + this.props.params[ this.props.routeParam ]
+                                      , "" );
+      this.history.pushState( null, newPath );
     }
-
-};
+  };
 
 export default ViewerCommon;
