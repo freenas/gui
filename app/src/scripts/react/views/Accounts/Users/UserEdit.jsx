@@ -242,8 +242,41 @@ const UserEdit = React.createClass(
                            }
       />;
 
-    let userPasswordField = null;
-    let userConfirmPasswordField = null;
+    let passwordField =
+      <Input
+        type             = "password"
+        label            = "Enter Password"
+        value            = { typeof this.state.modifiedValues.password
+                         === "string"
+                           ? this.state.modifiedValues.password
+                           : ""
+                           }
+        onChange         = { this.handleChange.bind( null, "password" ) }
+        key              = "password"
+        ref              = "password"
+        bsStyle          = { this.validatePassword()
+                           ? null
+                           : "error"
+                           }
+      />;
+
+    let confirmPasswordField =
+      <Input
+        type             = "password"
+        label            = "Confirm Password"
+        value            = { typeof this.state.modifiedValues.confirmPassword
+                         === "string"
+                           ? this.state.modifiedValues.confirmPassword
+                           : ""
+                           }
+        onChange         = { this.handleChange.bind( null, "confirmPassword" ) }
+        key              = "confirmPassword"
+        ref              = "confirmPassword"
+        bsStyle          = { this.validateConfirmPassword()
+                           ? null
+                           : "error"
+                           }
+      />;
 
     let userFullNameField =
       <Input
@@ -417,8 +450,8 @@ const UserEdit = React.createClass(
       <div>
         { userIdField }
         { userNameField }
-        { userPasswordField }
-        { userConfirmPasswordField }
+        { passwordField }
+        { confirmPasswordField }
         { userFullNameField }
         { userEmailField }
         { userShellField }
