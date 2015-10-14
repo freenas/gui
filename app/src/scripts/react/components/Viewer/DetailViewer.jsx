@@ -17,7 +17,9 @@ import ToggleSwitch from "../ToggleSwitch";
 
 const DetailNavSection = React.createClass(
 
-  { propTypes:
+  { contextTypes: { location: React.PropTypes.object }
+
+  , propTypes:
       { selectedItem: React.PropTypes.oneOfType(
                         [ React.PropTypes.number
                         , React.PropTypes.string
