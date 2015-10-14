@@ -91,6 +91,36 @@ const UserAdd = React.createClass(
     UM.createUser( newUser );
   }
 
+
+  , validatePassword () {
+    var passwordValid;
+
+    if ( this.state.password_disabled ) {
+      passwordValid = true;
+    } else {
+      passwordValid = typeof this.state.newUser.password === "string"
+                   && this.state.newUser.password !== "";
+    }
+
+    return passwordValid;
+  }
+
+  , validateConfirmPassword () {
+    var confirmPasswordValid;
+
+    if ( typeof this.state.newUser.password !== "string"
+      || this.state.newUser.password === ""
+       ) {
+      // if there isn't a password yet, don't bother validating confirmPassword
+      confirmPasswordValid = true;
+    } else {
+      confirmPasswordValid = this.state.confirmPassword
+                         === this.state.newUser.password;
+    }
+
+    return confirmPasswordValid;
+  }
+
   , cancel: function () {
     this.history.pushState( null, "/accounts/users" );
   }
