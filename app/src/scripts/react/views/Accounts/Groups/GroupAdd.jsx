@@ -6,17 +6,15 @@
 
 import _ from "lodash";
 import React from "react";
+import { History, RouteContext } from "react-router";
 import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
 import GS from "../../../../flux/stores/GroupsStore";
 import GM from "../../../../flux/middleware/GroupsMiddleware";
 
 
-const AddGroup = React.createClass({
-
-  contextTypes: {
-      router: React.PropTypes.func
-    }
+const AddGroup = React.createClass(
+  { mixins: [ History, RouteContext ]
 
   , propTypes:
     { itemSchema: React.PropTypes.object.isRequired
@@ -48,7 +46,7 @@ const AddGroup = React.createClass({
   }
 
   , cancel: function () {
-    this.context.router.transitionTo( "groups" );
+    this.history.pushState( null, "/accounts/groups" );
   }
 
   , reset: function () {
