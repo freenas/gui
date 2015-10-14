@@ -24,7 +24,7 @@ import TableViewer from "./Viewer/TableViewer";
 // Main Viewer Wrapper Component
 const Viewer = React.createClass(
 
-  { contextTypes: { location: React.PropTypes.Object }
+  { contextTypes: { location: React.PropTypes.object }
 
   , mixins: [ viewerCommon, History, RouteContext ]
 
