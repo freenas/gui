@@ -47,7 +47,7 @@ const UserEdit = React.createClass(
         newModifiedValues.password = event.target.value;
         break;
       case "confirmPassword":
-        newModifiedValues.confirmPassword = event.target.value;
+        this.setState( {confirmPassword: event.target.value } );
         break;
       case "full_name":
         newModifiedValues.full_name = event.target.value;
@@ -90,8 +90,6 @@ const UserEdit = React.createClass(
   , submitChanges: function () {
 
     let newUserProps = this.state.modifiedValues;
-
-    delete newUserProps.confirmPassword;
 
     // Convert the array of strings provided by the form to an array of integers.
     if ( !_.isEmpty( newUserProps.groups ) ) {
@@ -136,7 +134,7 @@ const UserEdit = React.createClass(
       // if there isn't a password yet, don't bother validating confirmPassword
       confirmPasswordValid = true;
     } else {
-      confirmPasswordValid = this.state.modifiedValues.confirmPassword
+      confirmPasswordValid = this.state.confirmPassword
                          === this.state.modifiedValues.password;
     }
 
@@ -266,9 +264,8 @@ const UserEdit = React.createClass(
       <Input
         type             = "password"
         label            = "Confirm Password"
-        value            = { typeof this.state.modifiedValues.confirmPassword
-                         === "string"
-                           ? this.state.modifiedValues.confirmPassword
+        value            = { typeof this.state.confirmPassword === "string"
+                           ? this.state.confirmPassword
                            : ""
                            }
         onChange         = { this.handleChange.bind( null, "confirmPassword" ) }
