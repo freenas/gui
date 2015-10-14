@@ -20,6 +20,29 @@ var IconViewer = React.createClass(
 
   { mixins: [ viewerOverlay, viewerMode, viewerCommon ]
 
+  , propTypes: { keyUnique: React.PropTypes.string.isRequired
+               , keyPrimary: React.PropTypes.oneOfType(
+                               [ React.PropTypes.number
+                               , React.PropTypes.string
+                               ]
+                             )
+               , keySecondary: React.PropTypes.oneOfType(
+                                 [ React.PropTypes.number
+                                 , React.PropTypes.string
+                                 ]
+                               )
+
+               , searchString: React.PropTypes.string
+               , selectedItem: React.PropTypes.string
+               , selectedKey: React.PropTypes.string
+
+               , filteredData: React.PropTypes.object
+
+               , itemIconTemplate: React.PropTypes.element
+
+               , children: React.PropTypes.element
+               }
+
   , handleItemClick: function ( params, selectionValue, event ) {
       switch ( event.type ) {
         case "click":
