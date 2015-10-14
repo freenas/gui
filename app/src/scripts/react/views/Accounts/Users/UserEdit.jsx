@@ -99,6 +99,48 @@ const UserEdit = React.createClass(
     UM.updateUser( this.props.item.id, newUserProps );
   }
 
+  , validatePassword () {
+    var passwordValid;
+
+    const password_disabled = typeof this.state.modifiedValues.password_disabled
+                        === "boolean"
+                          ? this.state.modifiedValues.password_disabled
+                          : this.props.item.password_disabled;
+    const hasUnixPassword = typeof this.props.item.unixhash === "string"
+                         && this.props.item.unixhash !== "*";
+    const hasSmbHash = typeof this.props.item.smbHash === "string"
+                    && this.props.item.smbHash !== "*";
+
+    if ( password_disabled ) {
+      passwordValid = true;
+    } else if ( !hasUnixPassword && !hasSmbHash ) {
+      passwordValid = typeof this.state.modifiedValues.password === "string"
+                   && this.state.modifiedValues.password !== "";
+    } else if ( hasUnixPassword || hasSmbHash ) {
+      passwordValid = true;
+    } else {
+      passwordValid = false;
+    }
+
+    return passwordValid;
+  }
+
+  , validateConfirmPassword () {
+    var confirmPasswordValid;
+
+    if ( typeof this.state.modifiedValues.password !== "string"
+      || this.state.modifiedValues.password === ""
+       ) {
+      // if there isn't a password yet, don't bother validating confirmPassword
+      confirmPasswordValid = true;
+    } else {
+      confirmPasswordValid = this.state.modifiedValues.confirmPassword
+                         === this.state.modifiedValues.password;
+    }
+
+    return confirmPasswordValid;
+  }
+
   , render: function () {
     let builtInWarning  = null;
 
