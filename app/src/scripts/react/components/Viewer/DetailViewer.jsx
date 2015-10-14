@@ -6,7 +6,7 @@ import _ from "lodash";
 import React from "react";
 import { Nav, Button } from "react-bootstrap";
 
-import { Link } from "react-router";
+import { Link, History, RouteContext } from "react-router";
 
 import viewerMode from "./mixins/viewerMode";
 import viewerCommon from "./mixins/viewerCommon";
@@ -37,6 +37,8 @@ const DetailNavSection = React.createClass(
       , routeParam          : React.PropTypes.string.isRequired
       , routeNewItem        : React.PropTypes.string
       }
+
+  , mixins: [ History, RouteContext ]
 
   , getDefaultProps: function () {
       return { disclosureThreshold: 1
@@ -145,10 +147,18 @@ const DetailNavSection = React.createClass(
 // Detail Viewer
 const DetailViewer = React.createClass(
 
-  { mixins: [ viewerMode, viewerCommon ]
+  { contextTypes: { location: React.PropTypes.object }
+
+  , mixins: [ viewerMode, History, RouteContext ]
 
   , propTypes:
-    { collapsedInitial: React.PropTypes.instanceOf( Set ).isRequired
+    { collapsedInitial: React.PropTypes.instanceOf( Set )
+    , routeNewItem: React.PropTypes.string
+    , textNewItem: React.PropTypes.string
+    }
+
+  , getDefaultProps () {
+      return { collapsedInitial: new Set() }
     }
 
   , createAddEntityButton: function () {
