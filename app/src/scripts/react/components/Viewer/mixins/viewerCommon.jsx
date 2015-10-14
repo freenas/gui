@@ -15,40 +15,6 @@ const ViewerCommon =
 
   , mixins: [ History, RouteContext ]
 
-  , propTypes:
-    { keyUnique           : React.PropTypes.string.isRequired
-    , keyPrimary          : React.PropTypes.oneOfType(
-                              [ React.PropTypes.number
-                              , React.PropTypes.string
-                              ]
-                            )
-    , keySecondary        : React.PropTypes.oneOfType(
-                              [ React.PropTypes.number
-                              , React.PropTypes.string
-                              ]
-                            )
-
-    , searchKeys          : React.PropTypes.instanceOf( Set )
-
-    , itemData            : React.PropTypes.oneOfType(
-                              [ React.PropTypes.object
-                              , React.PropTypes.array
-                              ]
-                            )
-    , itemSchema          : React.PropTypes.object.isRequired
-    , itemLabels          : React.PropTypes.object.isRequired
-
-    , routeParam          : React.PropTypes.string.isRequired
-    , routeNewItem        : React.PropTypes.string
-
-    , textNewItem         : React.PropTypes.string.isRequired
-    , textRemaining       : React.PropTypes.string.isRequired
-    , textUngrouped       : React.PropTypes.string.isRequired
-
-    , customDetailNavItem : React.PropTypes.func
-    , customIconNavItem   : React.PropTypes.func
-    }
-
   , getRequiredProps: function () {
       return _.pick( this.props
                    , [ "searchString"
