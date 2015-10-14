@@ -96,7 +96,13 @@ const DetailNavSection = React.createClass(
           </div>
         </div>;
       }
-
+      var itemPath =
+        this.context.location.pathname.replace( "/"
+                                              + this.props.params[ this.props.routeParam ]
+                                              , ""
+                                              )
+                                              + "/"
+                                              + selectionValue;
       return (
         <li
           role      = "presentation"
@@ -104,7 +110,7 @@ const DetailNavSection = React.createClass(
           className = "disclosure-target"
         >
           <Link
-            to      = { `/accounts/users/${ selectionValue }` }
+            to      = { itemPath }
             onClick = { this.props.handleItemSelect
                                   .bind( null, selectionValue )
                       }
@@ -165,10 +171,18 @@ const DetailViewer = React.createClass(
 
   , createAddEntityButton: function () {
       let addEntityButton = null;
+      let addEntityPath =
+        this.context.location.pathname.replace( "/"
+                                              + this.props.params[ this.props.routeParam ]
+                                              , ""
+                                              )
+                                              + "/"
+                                              + this.props.routeNewItem;
+
 
       if ( this.props.textNewItem && this.props.routeNewItem ) {
         addEntityButton = (
-          <Link to        = { "/accounts/users/" + this.props.routeNewItem }
+          <Link to        = { addEntityPath }
                 className = "viewer-detail-add-entity">
             <Button bsStyle   = "default"
                          className = "viewer-detail-add-entity">
