@@ -149,7 +149,7 @@ const DetailViewer = React.createClass(
 
   { contextTypes: { location: React.PropTypes.object }
 
-  , mixins: [ viewerMode, History, RouteContext ]
+  , mixins: [ viewerCommon, viewerMode, History, RouteContext ]
 
   , propTypes:
     { collapsedInitial: React.PropTypes.instanceOf( Set )
