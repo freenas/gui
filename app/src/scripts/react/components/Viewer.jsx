@@ -57,20 +57,12 @@ const Viewer = React.createClass(
   // LIFECYCLE
   , getDefaultProps: function () {
       return (
-        { keyUnique        : ""
-        , keyPrimary       : ""
-        , keySecondary     : ""
-
-        , searchKeys       : new Set()
+        { searchKeys       : new Set()
 
         , itemData         : {}
-        , itemSchema       : null
-        , itemLabels       : null
 
         , routeParam       : ""
-        , routeNewItem     : ""
 
-        , textNewItem      : ""
         , textRemaining    : ""
         , textUngrouped    : ""
 
@@ -80,9 +72,6 @@ const Viewer = React.createClass(
         , groupsInitial    : new Set()
         , groupsAllowed    : new Set()
 
-        , collapsedInitial : new Set()
-        , collapsedAllowed : new Set()
-
         , columnsInitial   : new Set()
         , columnsAllowed   : new Set()
 
@@ -90,8 +79,6 @@ const Viewer = React.createClass(
         , modesAllowed     : new Set( [ "detail", "icon", "table" ] )
 
         , groupBy: {}
-
-        , itemIconTemplate: null
         }
       );
     }
