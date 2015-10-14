@@ -11,11 +11,7 @@ import React from "react";
 const ViewerCommon =
 
   { dynamicPathIsActive: function () {
-      if ( this.props.params[ this.props.routeParam ] ) {
-        return true;
-      } else {
-        return false;
-      }
+      return typeof this.props.params[ this.props.routeParam ] === "string";
     }
 
   , returnToViewerRoot: function () {
