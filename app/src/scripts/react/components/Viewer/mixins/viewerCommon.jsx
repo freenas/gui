@@ -15,26 +15,6 @@ const ViewerCommon =
 
   , mixins: [ History, RouteContext ]
 
-  , getRequiredProps: function () {
-      return _.pick( this.props
-                   , [ "searchString"
-
-                     , "keyUnique"
-                     , "keyPrimary"
-                     , "keySecondary"
-
-                     , "itemSchema"
-                     , "itemLabels"
-
-                     , "routeParam"
-
-                     , "textNewItem"
-                     , "textRemaining"
-                     , "textUngrouped"
-                     ]
-                   );
-    }
-
   , dynamicPathIsActive: function () {
       if ( this.props.params[ this.props.routeParam ] ) {
         return true;
