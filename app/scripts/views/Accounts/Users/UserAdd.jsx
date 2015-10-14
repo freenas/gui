@@ -25,8 +25,7 @@ const UserAdd = React.createClass(
   { mixins: [ inputHelpers, userMixins, History, RouteContext ]
 
   , propTypes:
-    { itemSchema: React.PropTypes.object.isRequired
-    , nextUID: React.PropTypes.number
+    { nextUID: React.PropTypes.number
     , shells: React.PropTypes.array
     }
 
