@@ -32,7 +32,7 @@ const Viewer = React.createClass(
 
                , searchKeys: React.PropTypes.instanceOf( Set )
 
-               , itemData: React.PropTypes.object
+               , itemData: React.PropTypes.array
 
                , routeParam: React.PropTypes.string
 
