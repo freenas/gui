@@ -111,10 +111,12 @@ const UserAdd = React.createClass(
   , submitNewUser: function () {
     let newUser = this.state.newUser;
 
-    if ( typeof newUser.id === "string" ) {
+    if ( typeof newUser.id === "string"
+      && newUser.id === ""
+       ) {
       newUser.id = _.parseInt( newUser.id );
     } else {
-      newUser.id = this.state.nextUID;
+      newUser.id = US.nextUID;
     }
 
     // If the user requests a new group, make one with the next
