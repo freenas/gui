@@ -20,6 +20,24 @@ const TableViewer = React.createClass(
 
   { mixins: [ viewerOverlay, viewerMode, viewerCommon ]
 
+  , propTypes: { keyUnique: React.PropTypes.string.isRequired
+
+               , itemLabels: React.PropTypes.object.isRequired
+
+               , selectedItem: React.PropTypes.string
+               , selectedKey: React.PropTypes.string
+
+               , filteredData: React.PropTypes.object
+
+               , routeParam: React.PropTypes.string
+
+               , columnsInitial: React.PropTypes.instanceOf( Set )
+
+               , handleItemSelect: React.PropTypes.func.isRequired
+
+               , children: React.PropTypes.element
+               }
+
   , getInitialState: function () {
       // TODO: User preferences will rescue this
       const columnArray = Array.from( this.props.columnsInitial );
