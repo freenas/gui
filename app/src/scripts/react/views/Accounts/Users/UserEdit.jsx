@@ -403,7 +403,6 @@ const UserEdit = React.createClass(
                            }
         multiple
       >
-        this.state.modifiedValues.groups = [];
         { this.generateOptionsList( GS.groups, "id", "name" ) }
       </Input>;
 
