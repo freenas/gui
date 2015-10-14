@@ -319,13 +319,6 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "locked" ) }
         key              = "locked"
         ref              = "locked"
-        groupClassName   = { typeof this.state.modifiedValues.locked
-                         === "boolean"
-                          && this.state.modifiedValues.locked
-                         !== this.props.item.locked
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userSudoField =
@@ -339,12 +332,6 @@ const UserEdit = React.createClass(
         onChange         = { this.handleChange.bind( null, "sudo" ) }
         key              = "sudo"
         ref              = "sudo"
-        groupClassName   = { typeof this.state.modifiedValues.sudo === "boolean"
-                          && this.state.modifiedValues.sudo
-                         !== this.props.item.sudo
-                           ? "editor-was-modified"
-                           : ""
-                           }
       />;
 
     let userPasswordDisabledField =
@@ -359,13 +346,6 @@ const UserEdit = React.createClass(
         onChange = { this.handleChange.bind( null, "password_disabled" ) }
         key              = "password_disabled"
         ref              = "password_disabled"
-        groupClassName = { typeof this.state.modifiedValues.password_disabled
-                       === "boolean"
-                        && this.state.modifiedValues.password_disabled
-                       !== this.props.item.password_disabled
-                         ? "editor-was-modified"
-                         : ""
-                         }
       />;
 
     let textEditForm =
