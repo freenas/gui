@@ -11,6 +11,7 @@ import React from "react";
 import _ from "lodash";
 import { MenuItem, Button, NavDropdown, ButtonGroup, Nav, Navbar, Input }
   from "react-bootstrap";
+import { History, RouteContext } from "react-router";
 
 import viewerCommon from "./Viewer/mixins/viewerCommon";
 
@@ -23,7 +24,9 @@ import TableViewer from "./Viewer/TableViewer";
 // Main Viewer Wrapper Component
 const Viewer = React.createClass(
 
-  { mixins: [ viewerCommon ]
+  { contextTypes: { location: React.PropTypes.Object }
+
+  , mixins: [ viewerCommon, History, RouteContext ]
 
   // LIFECYCLE
   , getDefaultProps: function () {
