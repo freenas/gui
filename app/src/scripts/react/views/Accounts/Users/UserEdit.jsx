@@ -47,7 +47,7 @@ const UserEdit = React.createClass(
         newModifiedValues.password = event.target.value;
         break;
       case "confirmPassword":
-        this.setState( {confirmPassword: event.target.value } );
+        this.setState( { confirmPassword: event.target.value } );
         break;
       case "full_name":
         newModifiedValues.full_name = event.target.value;
