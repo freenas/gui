@@ -1,0 +1,142 @@
+.dashboard {
+}
+
+.dashboard-widgets {
+  .flex-display( flex );
+  .flex-flow( row wrap );
+
+  .widget {
+    .flex( 1 );
+    height: 240px;
+    min-width: 400px;
+    margin: 4px;
+    padding: 8px 12px;
+    background-color: white;
+    .box-shadow(~"-1px -1px 2px 0 rgba(0, 0, 0, 0.1)
+                 , 0 0 1px 0 #AEAEAE
+                 "
+               );
+  }
+
+  .widget-toolbar {
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #B0B0B0;
+    margin-bottom: 4px;
+  }
+
+  .system-info {
+    .flex( none );
+    .flex-display( flex );
+    .flex-flow( row wrap );
+    background: url("../../assets/images/underwater.jpg") center/cover;
+    color: white;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+    height: auto;
+    min-height: 130px;
+
+    .table {
+      margin: 0;
+
+      & > thead > tr > th,
+      & > tbody > tr > th,
+      & > tfoot > tr > th,
+      & > thead > tr > td,
+      & > tbody > tr > td,
+      & > tfoot > tr > td {
+        border-top: none;
+        padding: 0;
+        vertical-align: baseline;
+      }
+    }
+
+    .property {
+      display: block;
+      font-weight: 300;
+      margin-left: 15px;
+    }
+
+    .property-label {
+      color: @gray-lighter;
+      font-weight: 200;
+      text-transform: uppercase;
+      text-align: right;
+      font-size: 0.85em;
+      width: 20%;
+    }
+
+    .hostname {
+      font-weight: 800;
+      margin-left: 15px;
+    }
+
+    .system-properties {
+      .flex( 1 1 350px );
+    }
+
+    .hardware-info {
+      .flex( 4 1 380px );
+      .flex-display( flex );
+      .flex-flow( row wrap );
+      .align-self( flex-end );
+      .justify-content( center );
+      margin-top: 25px;
+
+      .hardware-item {
+        .flex( 1 );
+        padding: 5px 0 20px;
+        margin: 0 2.5%;
+        border-top-width: 5px;
+        border-top-style: solid;
+        max-width: 150px;
+
+        &:nth-child(1) {
+          border-top-color: fade( @brand-primary, 90% );
+          #gradient > .vertical( fade( @brand-primary, 60% )
+                               , fade( @brand-primary, 10% )
+                               );
+        }
+        &:nth-child(2) {
+          border-top-color: fade( @brand-danger, 90% );
+          #gradient > .vertical( fade( @brand-danger, 60% )
+                               , fade( @brand-danger, 10% )
+                               );
+        }
+        &:nth-child(3) {
+          border-top-color: fade( @brand-success, 90% );
+          #gradient > .vertical( fade( @brand-success, 60% )
+                               , fade( @brand-success, 10% )
+                               );
+        }
+      }
+
+      .hardware-name,
+      .hardware-value,
+      .hardware-detail {
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-weight: 200;
+      }
+
+      .hardware-name {
+        text-transform: uppercase;
+        color: @gray-lighter;
+      }
+
+      .hardware-value {
+        font-size: 1.5em;
+      }
+
+      .hardware-detail {
+        font-weight: 300;
+        font-size: 0.85em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

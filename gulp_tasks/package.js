@@ -21,18 +21,11 @@ gulp.task( "package-build"
     .pipe( gulp.dest( path.join( argv.output, "app", "build" ) ) );
 });
 
-gulp.task( "package-src"
+gulp.task( "package-scripts"
          , [ "make-output-dir" ]
          , function () {
-  return gulp.src( "./app/src/**" )
-    .pipe( gulp.dest( path.join( argv.output, "app", "src" ) ) );
-});
-
-gulp.task( "package-server"
-         , [ "make-output-dir" ]
-         , function () {
-  return gulp.src( "./app/server/**" )
-    .pipe( gulp.dest( path.join( argv.output, "app", "server" ) ) );
+  return gulp.src( "./app/scripts/**" )
+    .pipe( gulp.dest( path.join( argv.output, "app", "scripts" ) ) );
 });
 
 gulp.task( "package-node-modules"

@@ -13,7 +13,7 @@ var chalk = require( "chalk" );
 
 gulp.task( "images"
          , function () {
-  return gulp.src( "app/src/images/**/*" )
+  return gulp.src( "app/assets/images/**/*" )
              // TODO: Process images appropriately
              .pipe( gulp.dest( "app/build/images" ) );
 });

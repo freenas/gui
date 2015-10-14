@@ -31,7 +31,7 @@ var COMMON_CONFIG =
 
 var PRODUCTION_CONFIG =
   { entry:
-    [ "./src/scripts/browser.jsx"
+    [ "./scripts/browser.jsx"
     ]
   , module:
     { loaders:
@@ -66,7 +66,7 @@ var DEVELOPMENT_CONFIG =
   { entry:
     [ "webpack-dev-server/client?http://0.0.0.0:9999"
     , "webpack/hot/only-dev-server"
-    , "./src/scripts/browser.jsx"
+    , "./scripts/browser.jsx"
     ]
   , module:
     { loaders:

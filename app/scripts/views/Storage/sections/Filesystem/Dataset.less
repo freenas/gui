@@ -1,0 +1,208 @@
+@styles-path: "../../../../../styles/";
+
+@import ( reference ) "@{styles-path}styles/bootstrap.less";
+@import ( reference ) "@{styles-path}styles/variables.less";
+@import ( reference ) "@{styles-path}styles/utility.less";
+
+@dataset-basis: 8px;
+
+.dataset {
+  position: relative;
+
+  &.root {
+    margin-bottom: 15px;
+  }
+
+  .dataset {
+    padding: @dataset-basis 0 0 0;
+
+    &:before,
+    .dataset-toolbar:before {
+      // Create a "|-" separator for each child dataset to show its relationship
+      // with parent datasets
+      content: "";
+      display: block;
+      position: absolute;
+      height: 50%;
+      width: 10px;
+      left: -20px;
+      box-sizing: initial;
+      border: #999999 solid 0;
+      border-left-width: 1px;
+    }
+
+    .dataset-toolbar:before {
+      // Creates the top half of the "|" and the "_"
+      padding-top: @dataset-basis;
+      border-bottom-width: 1px;
+      top: 0;
+    }
+
+    &:before {
+      // Creates the bottom half of the "|"
+      right: auto;
+      left: 10px;
+      height: 100%;
+      margin-top: @dataset-basis;;
+      margin-left: 2px; // Not sure why this is needed, but it is
+    }
+
+    &:last-child:before {
+      // Don't show the bottom part of the "|" for the last child, since there's
+      // no "next" child dataset
+      display: none;
+    }
+
+    &:first-child > .dataset-toolbar:before {
+      // Show a small gap before the first "|-"
+      margin-top: @dataset-basis;
+      padding-top: 0;
+    }
+  }
+
+  .progress {
+    margin: @dataset-basis -@dataset-basis -@dataset-basis;
+    height: @dataset-basis;
+    border-radius : 0;
+    background-color: #E6E6E6;
+    .transition( all 0.6s );
+  }
+
+  .progress-bar {
+    min-width   : 0;
+    color       : transparent;
+    font-weight : 900;
+    overflow    : hidden;
+    text-align  : left;
+    .transition( all 0.6s );
+    & > span {
+      margin: 0 @panel-body-padding;
+    }
+  }
+
+  .progress-bar-info    { .spotlight( @brand-info ); }
+  .progress-bar-success { .spotlight( @brand-success ); }
+  .progress-bar-danger  { .spotlight( @brand-danger ); }
+  .progress-bar-primary { .spotlight( @brand-primary ); }
+  .progress-bar-warning { .spotlight( @brand-warning ); }
+
+  .free-space {
+    background: none;
+    background-image: none;
+    background-color: transparent;
+    .box-shadow( none );
+  }
+
+  .dataset-toolbar:hover,
+  &.active .dataset-toolbar {
+    & > .progress {
+      height: 25px;
+
+      .progress-bar {
+        line-height : 25px;
+        color       : rgba( 50, 50, 50, 0.85 );
+      }
+    }
+  }
+}
+
+.dataset-toolbar {
+  padding: @dataset-basis;
+  position: relative;
+  background-color: #F8F8F8;
+  .box-shadow( @card-shadow );
+}
+
+.dataset-properties {
+  float: right;
+
+  .btn-link {
+    color: @gray-light;
+    &:hover {
+      color: @brand-primary;
+    }
+  }
+
+  .options {
+    font-size: 16px;
+    margin: 0 4px 0 12px;
+  }
+
+  .btn-group-radio {
+    vertical-align: bottom;
+
+    & > .btn {
+      padding: 0 12px;
+      font-size: 0.75em;
+    }
+  }
+}
+
+.dataset-property {
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 8px;
+
+  & + .dataset-property {
+    margin-left: 25px;
+  }
+
+  .property-content {
+    display: block;
+    font-size: 1.15em;
+    font-weight: 300;
+  }
+
+  .property-legend {
+    display: block;
+    font-size: 0.65em;
+    display: inline-block;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.dataset-name {
+  text-align: left;
+}
+
+.dataset-settings {
+  .flex-display( flex );
+  .flex-flow( column );
+  padding: 15px;
+  background-color: #F8F8F8;
+  margin: 15px -15px 0;
+  position: relative;
+
+  .pointer {
+    position: absolute;
+    top: -8px;
+    width: 0;
+    height: 0;
+    margin-left: 32px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #F8F8F8;
+    font-size: 0;
+    line-height: 0;
+  }
+
+  .form-section {
+    .flex( 1 1 50% );
+  }
+
+  .form-handlers {
+    .flex( 1 );
+    border-top: 1px solid #CFCFCF;
+    padding-top: 8px;
+    .btn-toolbar {
+      float: right;
+    }
+
+    .btn-sm {
+      padding: 2px 14px;
+      font-size: 13px;
+    }
+  }
+}
