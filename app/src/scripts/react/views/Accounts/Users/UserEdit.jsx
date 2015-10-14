@@ -91,6 +91,8 @@ const UserEdit = React.createClass(
 
     let newUserProps = this.state.modifiedValues;
 
+    delete newUserProps.confirmPassword;
+
     // Convert the array of strings provided by the form to an array of integers.
     if ( !_.isEmpty( newUserProps.groups ) ) {
       newUserProps.groups = this.parseGroupsArray( newUserProps.groups );
