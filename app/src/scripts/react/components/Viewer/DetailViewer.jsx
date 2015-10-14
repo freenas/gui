@@ -202,13 +202,13 @@ const DetailViewer = React.createClass(
 
           if ( group.entries.length ) {
             return (
-              <DetailNavSection { ...this.getRequiredProps() }
-                handleItemSelect  = { this.props.handleItemSelect }
+              <DetailNavSection
                 key               = { index }
                 initialDisclosure = { disclosureState }
                 sectionName       = { group.name }
                 entries           = { group.entries }
-                itemIconTemplate = { this.props.itemIconTemplate } />
+                { ...this.props }
+              />
             );
           } else {
             return null;
@@ -218,11 +218,12 @@ const DetailViewer = React.createClass(
 
       if ( FILTERED_DATA.remaining.entries.length ) {
         remainingNavItems = (
-          <DetailNavSection { ...this.getRequiredProps() }
-            handleItemSelect  = { this.props.handleItemSelect }
+          <DetailNavSection
             initialDisclosure = "closed"
             sectionName       = { FILTERED_DATA.remaining.name }
-            entries           = { FILTERED_DATA.remaining.entries } />
+            entries           = { FILTERED_DATA.remaining.entries }
+            { ...this.props }
+          />
         );
       }
 
