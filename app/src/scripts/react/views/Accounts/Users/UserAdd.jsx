@@ -24,8 +24,6 @@ import groupMixins from "../../../mixins/groupMixins";
 const UserAdd = React.createClass(
   { mixins: [ inputHelpers, userMixins, History, RouteContext ]
 
-  , contextTypes: { location: React.PropTypes.object }
-
   , propTypes:
     { itemSchema: React.PropTypes.object.isRequired
     , nextUID: React.PropTypes.number
@@ -94,7 +92,7 @@ const UserAdd = React.createClass(
   }
 
   , cancel: function () {
-    this.context.router.transitionTo( "users" );
+    this.history.pushState( null, "/accounts/users" );
   }
 
   , reset: function () {
