@@ -28,6 +28,32 @@ const Viewer = React.createClass(
 
   , mixins: [ viewerCommon, History, RouteContext ]
 
+  , propTypes: { keyUnique: React.PropTypes.string.isRequired
+
+               , searchKeys: React.PropTypes.instanceOf( Set )
+
+               , itemData: React.PropTypes.object
+
+               , routeParam: React.PropTypes.string
+
+               , textRemaining: React.PropTypes.string
+               , textUngrouped: React.PropTypes.string
+
+               , filtersInitial: React.PropTypes.instanceOf( Set )
+               , filtersAllowed: React.PropTypes.instanceOf( Set )
+
+               , groupsInitial: React.PropTypes.instanceOf( Set )
+               , groupsAllowed: React.PropTypes.instanceOf( Set )
+
+               , columnsInitial: React.PropTypes.instanceOf( Set )
+               , columnsAllowed: React.PropTypes.instanceOf( Set )
+
+               , modeInitial: React.PropTypes.string
+               , modesAllowed: React.PropTypes.instanceOf( Set )
+
+               , groupBy: React.PropTypes.object
+               }
+
   // LIFECYCLE
   , getDefaultProps: function () {
       return (
