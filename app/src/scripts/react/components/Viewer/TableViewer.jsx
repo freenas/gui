@@ -204,11 +204,7 @@ const TableViewer = React.createClass(
                   onClick  = { this.handleClickOut } />
               </span>
               { React.cloneElement( this.props.children
-                                  , Object.assign ( this.getRequiredProps()
-                                                  , { inputData: this.props.inputData
-                                                    , activeKey: this.props.selectedKey
-                                                    }
-                                                  )
+                                  , this.props
                                   )
               }
             </div>
