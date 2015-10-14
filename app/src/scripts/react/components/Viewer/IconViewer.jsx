@@ -4,7 +4,7 @@
 
 import React from "react";
 
-import { Link, RouteHandler } from "react-router";
+import { History, RouteContext } from "react-router";
 
 import Icon from "../Icon";
 
@@ -18,7 +18,9 @@ import ToggleSwitch from "../ToggleSwitch";
 // Icon Viewer
 var IconViewer = React.createClass(
 
-  { mixins: [ viewerOverlay, viewerMode, viewerCommon ]
+  { contextTypes: { location: React.PropTypes.object }
+
+  , mixins: [ viewerCommon, viewerOverlay, viewerMode, History, RouteContext ]
 
   , propTypes: { keyUnique: React.PropTypes.string.isRequired
                , keyPrimary: React.PropTypes.oneOfType(
@@ -50,7 +52,9 @@ var IconViewer = React.createClass(
           break;
 
         case "dblclick":
-          this.context.router.transitionTo( this.props.routeName, params );
+          this.history.pushState( null
+                                , `${ this.context.location.pathname }/${ params[ this.props.routeParam ] }`
+                                );
           break;
       }
     }
@@ -145,9 +149,10 @@ var IconViewer = React.createClass(
                   icoClass = "editor-close"
                   onClick  = { this.handleClickOut } />
               </span>
-              <RouteHandler { ...this.getRequiredProps() }
-                inputData = { this.props.inputData }
-                activeKey = { this.props.selectedKey } />
+              { React.cloneElement( this.props.children
+                                  , this.props
+                                  )
+              }
             </div>
           </div>
         );
