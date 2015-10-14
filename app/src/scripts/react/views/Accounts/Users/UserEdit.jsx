@@ -84,7 +84,24 @@ const UserEdit = React.createClass(
   }
 
   , validateUser () {
-    return true;
+    const usernameToCheck = typeof this.state.modifiedValues.username === "string"
+                          ? this.state.modifiedValues.username
+                          : this.props.item.username;
+    const usernameValid = usernameToCheck !== "";
+
+    const groupToCheck = typeof this.state.modifiedValues.group === "string"
+                       ? this.state.modifiedValues.group
+                       : this.props.item.group;
+
+    const groupValid = groupToCheck !== "";
+
+    const userValid = usernameValid
+                   && groupValid
+                   && this.validatePassword()
+                   && this.validateConfirmPassword()
+                   && !_.isEmpty( this.state.modifiedValues );
+
+    return userValid;
   }
 
   , submitChanges: function () {
