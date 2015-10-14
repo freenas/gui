@@ -235,7 +235,7 @@ const DetailViewer = React.createClass(
       } else if ( this.dynamicPathIsActive() ) {
         editorContent = React.cloneElement( this.props.children
                                           , _.assign( { inputData: this.props.input }
-                                                    , this.getRequiredProps()
+                                                    , this.props
                                                     )
                                           );
       } else {
