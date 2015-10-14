@@ -4,7 +4,7 @@
 
 "use strict";
 
-import { Component } from "react";
+import React from "react";
 import { RouteHandler } from "react-router";
 
 import BusyBox from "../components/BusyBox";
@@ -17,7 +17,7 @@ if ( process.env.BROWSER ) {
   require( "../../styles/core.less" );
 }
 
-export default class App extends Component {
+export default class App extends React.Component {
 
   constructor ( props ) {
     super( props );
