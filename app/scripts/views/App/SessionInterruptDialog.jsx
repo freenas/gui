@@ -11,7 +11,7 @@ import React from "react";
 import Login from "./SessionInterruptDialog/Login";
 
 // STYLESHEET
-if ( process.env.BROWSER ) require( "./PrimaryNavigation.less" );
+if ( process.env.BROWSER ) require( "./SessionInterruptDialog.less" );
 
 
 export default class SessionInterruptDialog extends React.Component {

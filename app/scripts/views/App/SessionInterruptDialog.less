@@ -4,3 +4,31 @@
 @styles-path: "../../../styles/";
 
 @import ( reference ) "@{styles-path}core.less";
+
+.sid {
+  &.overlay-dark {
+    background: fade( darken( @brand-primary, 35% ), 84% );
+  }
+
+  .overlay-window {
+    .box-shadow( none );
+    background: none;
+    border: none;
+
+    color: white;
+    text-align: center;
+  }
+
+  & + .app-content {
+    .force-hardware-accel();
+    .transition(         filter 0.3s );
+    .transition(      -o-filter 0.3s );
+    .transition(     -ms-filter 0.3s );
+    .transition(    -moz-filter 0.3s );
+    .transition( -webkit-filter 0.3s );
+  }
+
+  &.active + .app-content {
+    .blur( 100px );
+  }
+}
