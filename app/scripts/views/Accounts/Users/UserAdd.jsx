@@ -434,9 +434,10 @@ const UserAdd = React.createClass(
           onChange         = { this.handleChange.bind( null, "group" ) }
           key              = "group"
           ref              = "group"
-          groupClassName   = { this.state.newUser.group
-                             ? "editor-was-modified"
-                             : ""
+          bsStyle          = { typeof this.state.newUser.group === "string"
+                            && this.state.newUser.group !== ""
+                             ? null
+                             : "error"
                              }
         >
           { this.generateOptionsList( GS.groups, "id", "name" ) }
