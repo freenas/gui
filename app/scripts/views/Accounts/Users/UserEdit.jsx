@@ -187,7 +187,7 @@ const UserEdit = React.createClass(
         className = "pull-right"
         bsStyle = "success"
         onClick = { this.submitChanges }
-        disabled = { !this.validateUser }
+        disabled = { !this.validateUser() }
       >
         { "Submit Changes" }
       </Button>;
