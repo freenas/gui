@@ -8,6 +8,7 @@
 "use strict";
 
 import React from "react";
+import Spinner from "./SessionInterruptDialog/Spinner";
 import Login from "./SessionInterruptDialog/Login";
 
 // STYLESHEET
@@ -15,14 +16,12 @@ if ( process.env.BROWSER ) require( "./SessionInterruptDialog.less" );
 
 
 export default class SessionInterruptDialog extends React.Component {
-
   render () {
     const { auth } = this.props;
 
-    console.dir( this.props );
-
     return (
-      <div className="overlay-dark" >
+      <div className="overlay-dark sid" >
+        <Spinner message = "Waiting for GUI to not suck..." />
         <Login
           username = { auth.username }
           password = { auth.password }
