@@ -15,15 +15,14 @@ import { argv } from "yargs";
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { match, RoutingContext } from "react-router";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
 
-import rootReducer from "../reducers";
+import configureStore from "../store/configureStore";
 import routes from "../routes";
 
 // Content
 const BUNDLE = fs.readFileSync( path.normalize( __dirname + "./../../build/app.js" ) );
-let store = createStore( rootReducer );
+let store = configureStore();
 var app = mach.stack();
 
 function isDevMode () {

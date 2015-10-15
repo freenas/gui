@@ -10,18 +10,17 @@ require( "babel/polyfill" );
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
-import rootReducer from "./reducers";
+import configureStore from "./store/configureStore";
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";
 import MiddlewareClient from "./websocket/MiddlewareClient";
 
 if ( process.env.BROWSER ) {
-  let store = createStore( rootReducer );
+  let store = configureStore();
   let { protocol, host, path, mode } = TargetHost.connection();
   let history = createBrowserHistory();
 
