@@ -32,6 +32,24 @@ const AddGroup = React.createClass(
     this.setState( { newGroup: newGroup } );
   }
 
+  , validateGroup () {
+    const nameValid = typeof this.state.newGroup.name === "string"
+                        && this.state.newGroup.name !== "";
+
+    var idValid;
+
+    if ( typeof this.state.newGroup.id !== "string"
+      || this.state.newGroup.id === ""
+       ) {
+      idValid = true
+    } else {
+      let idValue = parseInt( this.state.newGroup.id );
+      idValid = Number.isInteger( idValue );
+    }
+
+    return nameValid && idValid;
+  }
+
   , submitNewGroup: function () {
 
     let newGroup = this.state.newGroup;
@@ -76,8 +94,8 @@ const AddGroup = React.createClass(
     let submitGroupButton =
       <Button
         className = "pull-right"
-        disabled  = { _.isEmpty( this.state.newGroup ) }
         onClick   = { this.submitNewGroup }
+        disabled = { !this.validateGroup() }
         bsStyle   = "info"
       >
         { "Create New Group" }
