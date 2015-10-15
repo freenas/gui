@@ -421,9 +421,17 @@ const UserAdd = React.createClass(
         checked          = { this.state.pleaseCreatePrimaryGroup }
       />;
 
-    let userPrimaryGroupField;
+    let userPrimaryGroupField = null;
 
     if ( !this.state.pleaseCreatePrimaryGroup ) {
+      let primaryGroupOptions = generateGroupsOptions( GS.groups );
+      primaryGroupOptions.unshift( <option
+                                     key = { "" }
+                                     value = { null }
+                                   >
+                                     { "" }
+                                   </option>
+                                 );
       userPrimaryGroupField =
         <Input
           type             = "select"
@@ -441,7 +449,7 @@ const UserAdd = React.createClass(
                              : "error"
                              }
         >
-          { this.generateOptionsList( GS.groups, "id", "name" ) }
+          { primaryGroupOptions }
         </Input>;
     }
 
