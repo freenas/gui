@@ -30,16 +30,6 @@ export default class Rsync extends React.Component {
         value = { this.props.port }
       />
     );
-
-    const extraOptions = (
-      <Input
-        type = "textarea"
-        label = "Auxiliary parameters"
-        value = { this.props.auxiliary }
-        rows = { 5 }
-      />
-    );
-
     const formControlButtons = (
       <ButtonToolbar className = "pull-right">
         <Button
@@ -61,7 +51,6 @@ export default class Rsync extends React.Component {
         { toggleService }
         <form className = "settings-config-form">
           { tcpPort }
-          { extraOptions }
           { formControlButtons }
         </form>
       </Panel>
@@ -69,6 +58,4 @@ export default class Rsync extends React.Component {
   }
 };
 
-Rsync.propTypes = { port: React.PropTypes.number
-                  , auxiliary: React.PropTypes.string
-                  };
+Rsync.propTypes = { port: React.PropTypes.number };

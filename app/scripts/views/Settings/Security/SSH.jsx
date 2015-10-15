@@ -121,16 +121,6 @@ export default class SSH extends React.Component {
       </Input>
     );
 
-    // Spooky. Put this behind a warning.
-    const extraOptions = (
-      <Input
-        type = "textarea"
-        label = "Extra Options"
-        value = { this.props.auxiliary }
-        rows = { 5 }
-      />
-    );
-
     const formControlButtons = (
       <ButtonToolbar className = "pull-right">
         <Button
@@ -158,7 +148,6 @@ export default class SSH extends React.Component {
           { compressConnection }
           { stfpLogLevel }
           { stfpLogFacility }
-          { extraOptions }
           { formControlButtons }
         </form>
       </Panel>
@@ -173,5 +162,4 @@ SSH.propTypes = { sftp_log_facility: React.PropTypes.string
                 , allow_password_auth: React.PropTypes.bool
                 , allow_port_forwarding: React.PropTypes.bool
                 , port: React.PropTypes.number
-                , auxiliary: React.PropTypes.string
                 };
