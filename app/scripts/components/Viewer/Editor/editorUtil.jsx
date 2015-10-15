@@ -9,17 +9,7 @@ import _ from "lodash";
 import React from "react";
 
 import Throbber from "../../Throbber";
-
-var Velocity;
-
-if ( typeof window !== "undefined" ) {
-  Velocity = require( "velocity-animate" );
-} else {
-  // mocked velocity library
-  Velocity = function() {
-    return Promise().resolve( true );
-  };
-}
+import { Velocity } from "../../../utility/Animate";
 
 var editorUtil = exports;
 

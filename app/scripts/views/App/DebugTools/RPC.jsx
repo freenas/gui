@@ -21,17 +21,7 @@ import Disclosure from "../../../components/Disclosure";
 
 // Fuzzy TypeAhead
 import FuzzyTypeAhead from "../../../components/FuzzyTypeAhead";
-
-var Velocity;
-
-if ( typeof window !== "undefined" ) {
-  Velocity = require( "velocity-animate" );
-} else {
-  // mocked velocity library
-  Velocity = function() {
-    return Promise().resolve( true );
-  };
-}
+import { Velocity } from "../../../utility/Animate";
 
 
 var RPC = React.createClass(

@@ -9,17 +9,12 @@ import { ProgressBar } from "react-bootstrap";
 import _ from "lodash";
 import moment from "moment";
 
+import { Velocity } from "../../../utility/Animate";
 import Disclosure from "../../../components/Disclosure";
 
-var Velocity;
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Task.less" );
 
-// WEBPACK SHIMS
-if ( process.env.BROWSER ) {
-  require( "./Task.less" );
-  Velocity = require( "velocity-animate" );
-} else {
-  Velocity = () => { return Promise().resolve( true ); };
-}
 
 export default class Task extends React.Component {
   componentDidMount () {

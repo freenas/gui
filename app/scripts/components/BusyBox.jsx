@@ -7,27 +7,15 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-import CH from "../websocket/ConnectionHandler";
-import MiddlewareClient from "../websocket/MiddlewareClient";
 import MiddlewareStore from "../flux/stores/MiddlewareStore";
-
 import SessionStore from "../flux/stores/SessionStore";
-
 import PowerMiddleware from "../flux/middleware/PowerMiddleware";
 import PowerStore from "../flux/stores/PowerStore";
+import { Velocity } from "../utility/Animate";
+import CH from "../websocket/ConnectionHandler";
+import MiddlewareClient from "../websocket/MiddlewareClient";
 
 import Throbber from "./Throbber";
-
-var Velocity;
-
-if ( typeof window !== "undefined" ) {
-  Velocity = require( "velocity-animate" );
-} else {
-  // mocked velocity library
-  Velocity = function() {
-    return Promise().resolve( true );
-  };
-}
 
 var BusyBox = React.createClass(
 
