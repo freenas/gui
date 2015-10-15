@@ -49,7 +49,6 @@ class App extends React.Component {
   }
 
   getBlurStyle ( radius ) {
-    console.log( radius );
     if ( radius ) {
       return (
         { WebkitFilter: `blur( ${ radius }px )`
@@ -67,7 +66,6 @@ class App extends React.Component {
   }
 
   render () {
-    console.log( this.props );
     return (
       <html>
         <head>
