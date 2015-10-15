@@ -140,6 +140,8 @@ const UserAdd = React.createClass(
                       , name : newUser.username
                       } );
       newUser.group = newGID;
+    } else {
+      newUser.group = parseInt( newUser.group )
     }
 
     // Convert the array of strings provided by the form to an array of integers.
