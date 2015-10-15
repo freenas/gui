@@ -7,6 +7,9 @@
 
 import React from "react";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./ToggleSwitch.less" );
+
 export default class ToggleSwitch extends React.Component {
 
   handleToggleClick ( event, reactID ) {
