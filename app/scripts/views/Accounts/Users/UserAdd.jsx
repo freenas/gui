@@ -127,7 +127,7 @@ const UserAdd = React.createClass(
     if ( typeof newUser.id === "string"
       && newUser.id === ""
        ) {
-      newUser.id = _.parseInt( newUser.id );
+      newUser.id = parseInt( newUser.id );
     } else {
       newUser.id = US.nextUID;
     }
