@@ -6,11 +6,16 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const INITIAL_STATE =
-  { isFetching: false
-  , didInvalidate: false
-  , badCombo: false
-  , username: ""
-  , password: ""
+  { isFetching    : false
+  , didInvalidate : false
+  , badCombo      : false
+  , message       : "Welcome to FreeNAS X"
+  , username      : ""
+  , password      : ""
+  , cookieContent : null
+  , cookieExpiry  : null
+  , token         : null
+  , showSID       : true
   };
 
 export default function auth ( state = INITIAL_STATE, action ) {
@@ -18,25 +23,41 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
   switch ( type ) {
     case actionTypes.UPDATE_USERNAME:
-      return Object.assign( {}, state, { username: payload.username });
+      return Object.assign( {}, state,
+        { username: payload.username
+        , badCombo: false
+        }
+      );
 
     case actionTypes.UPDATE_PASSWORD:
-      return Object.assign( {}, state, { password: payload.password });
+      return Object.assign( {}, state,
+        { password: payload.password
+        , badCombo: false
+        }
+      );
 
     case actionTypes.LOGIN_SUBMIT:
-      return Object.assign( {}, state, { isFetching: true });
+      return Object.assign( {}, state,
+        { isFetching : true
+        , badCombo   : false
+        , message    : "Logging you in..."
+        }
+      );
 
     case actionTypes.LOGIN_SUCCESS:
       return Object.assign( {}, state,
-        { isFetching: false
-        , password: ""
+        { isFetching : false
+        , badCombo   : false
+        , password   : ""
+        , message    : "Login successful"
+        , showSID    : false
         });
 
     case actionTypes.LOGIN_FAILURE:
       return Object.assign( {}, state,
-        { isFetching: false
-        , badCombo: true
-        , password: ""
+        { isFetching : false
+        , badCombo   : true
+        , message    : "The username or password was incorrect"
         });
 
     default:
