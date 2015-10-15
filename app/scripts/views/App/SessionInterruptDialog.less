@@ -18,17 +18,4 @@
     color: white;
     text-align: center;
   }
-
-  & + .app-content {
-    .force-hardware-accel();
-    .transition(         filter 0.3s );
-    .transition(      -o-filter 0.3s );
-    .transition(     -ms-filter 0.3s );
-    .transition(    -moz-filter 0.3s );
-    .transition( -webkit-filter 0.3s );
-  }
-
-  &.active + .app-content {
-    .blur( 100px );
-  }
 }

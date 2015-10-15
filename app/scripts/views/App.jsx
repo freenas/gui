@@ -6,8 +6,11 @@
 
 import React from "react";
 import { RouteHandler } from "react-router";
+import { connect } from "react-redux";
+import { Motion, spring } from "react-motion";
 
-import BusyBox from "../components/BusyBox";
+import * as actions from "../actions/auth";
+
 import ContextBar from "./App/ContextBar";
 import PrimaryNavigation from "./App/PrimaryNavigation";
 import DebugTools from "./App/DebugTools";
@@ -17,7 +20,8 @@ import SessionInterruptDialog from "./App/SessionInterruptDialog";
 if ( process.env.BROWSER ) require( "../../styles/core.less" );
 
 
-export default class App extends React.Component {
+// REACT
+class App extends React.Component {
 
   constructor ( props ) {
     super( props );
@@ -44,7 +48,26 @@ export default class App extends React.Component {
     }
   }
 
+  getBlurStyle ( radius ) {
+    console.log( radius );
+    if ( radius ) {
+      return (
+        { WebkitFilter: `blur( ${ radius }px )`
+        , MozFilter: `blur( ${ radius }px )`
+        // TODO: Explorer sucks and doesn't have this functionality. Needs a
+        // nice looking workaround.
+        // , msFilter: `blur( ${ radius }px )`
+        , OFilter: `blur( ${ radius }px )`
+        , filter: `blur( ${ radius }px )`
+        }
+      );
+    } else {
+      return {};
+    }
+  }
+
   render () {
+    console.log( this.props );
     return (
       <html>
         <head>
@@ -81,22 +104,33 @@ export default class App extends React.Component {
           {/* Modal windows for busy spinner and/or FreeNAS login. */}
           <SessionInterruptDialog />
 
-          <div className="app-content">
-            {/* Primary navigation menu */}
-            <PrimaryNavigation />
+            <Motion
+              defaultStyle = {{ blur: 0 }}
+              style = {{ blur: spring( this.props.showSID ? 100 : 0 )}}
+            >
+              { ({ blur }) =>
 
-            <div className="app-view">
-              {/* Primary view */}
-              { this.props.children }
+                <div
+                  className="app-content"
+                  style = { this.getBlurStyle( blur ) }
+                >
+                  {/* Primary navigation menu */}
+                  <PrimaryNavigation />
 
-              <footer className="app-footer">
-                {/* TODO? */}
-              </footer>
-            </div>
+                  <div className="app-view">
+                    {/* Primary view */}
+                    { this.props.children }
 
-            {/* User-customizable component showing system events */}
-            <ContextBar />
-          </div>
+                    <footer className="app-footer">
+                      {/* TODO? */}
+                    </footer>
+                  </div>
+
+                {/* User-customizable component showing system events */}
+                <ContextBar />
+              </div>
+            }
+          </Motion>
 
           {/* Hidden, user-callable developer tools */}
           <DebugTools />
@@ -108,3 +142,12 @@ export default class App extends React.Component {
     );
   }
 }
+
+
+// REDUX
+function mapStateToProps ( state ) {
+  return { showSID: state.auth.showSID };
+}
+
+
+export default connect( mapStateToProps )( App );
