@@ -37,7 +37,7 @@ const AddGroup = React.createClass(
     let newGroup = this.state.newGroup;
 
     if ( typeof newGroup.id === "string" ) {
-      newGroup.id = _.parseInt( newGroup.id );
+      newGroup.id = parseInt( newGroup.id );
     } else {
       newGroup.id = this.state.nextGID;
     }
