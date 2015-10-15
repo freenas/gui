@@ -115,8 +115,8 @@ const UserAdd = React.createClass(
 
     userValid = usernameValid
              && groupValid
-             && validatePassword()
-             && validateConfirmPassword();
+             && this.validatePassword()
+             && this.validateConfirmPassword();
 
     return userValid;
   }
