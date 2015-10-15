@@ -4,15 +4,31 @@
 
 "use strict";
 
-import { LOGIN_SUBMIT, LOGIN_SUCCESS, LOGIN_FAILURE } from "./actionTypes";
+import * as actionTypes from "./actionTypes";
+
+export function updateUsername ( username ) {
+  return (
+    { type: actionTypes.UPDATE_USERNAME
+    , payload: { username }
+    }
+  );
+}
+
+export function updatePassword ( password ) {
+  return (
+    { type: actionTypes.UPDATE_PASSWORD
+    , payload: { password }
+    }
+  );
+}
 
 export function loginSubmit () {
-  return { type: LOGIN_SUBMIT }
+  return { type: actionTypes.LOGIN_SUBMIT }
 }
 
 export function loginSuccess ( response ) {
   return (
-    { type: LOGIN_SUCCESS
+    { type: actionTypes.LOGIN_SUCCESS
     , payload:
       { cookieContent : response[0]
       , cookieExpiry  : response[1]
@@ -24,7 +40,7 @@ export function loginSuccess ( response ) {
 
 export function loginFailure ( errorMessage ) {
   return (
-    { type: LOGIN_FAILURE
+    { type: actionTypes.LOGIN_FAILURE
     , error: true
     , payload: new Error( errorMessage || "Login failed" )
     }

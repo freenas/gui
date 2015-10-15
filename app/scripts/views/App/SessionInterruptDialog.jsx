@@ -8,14 +8,37 @@
 "use strict";
 
 import React from "react";
+import { Input } from "react-bootstrap";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./PrimaryNavigation.less" );
 
 
 export default class SessionInteruptDialog extends React.Component {
+
   render () {
-    console.log( this.props );
-    return <div>POOP</div>
+    const { auth } = this.props;
+
+    console.dir( this.props );
+
+    return (
+      <div className="overlay-dark" >
+        <div className="overlay-window">
+          <Input
+            type        = "text"
+            placeholder = "Username"
+            value       = { auth.username }
+            onChange    = { (e) => this.props.onUsernameChange( e.target.value ) }
+          />
+
+          <Input
+            type        = "password"
+            placeholder = "Password"
+            value       = { auth.password }
+            onChange    = { (e) => this.props.onPasswordChange( e.target.value ) }
+          />
+        </div>
+      </div>
+    );
   }
 }

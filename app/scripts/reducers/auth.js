@@ -3,32 +3,39 @@
 
 "use strict";
 
-import { LOGIN_SUBMIT, LOGIN_SUCCESS, LOGIN_FAILURE }
-  from "../actions/actionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 const INITIAL_STATE =
   { isFetching: false
   , didInvalidate: false
+  , badCombo: false
   , username: ""
   , password: ""
   };
 
-export default function authentication ( state = INITIAL_STATE, action ) {
+export default function auth ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
   switch ( type ) {
-    case LOGIN_SUBMIT:
+    case actionTypes.UPDATE_USERNAME:
+      return Object.assign( {}, state, { username: payload.username });
+
+    case actionTypes.UPDATE_PASSWORD:
+      return Object.assign( {}, state, { password: payload.password });
+
+    case actionTypes.LOGIN_SUBMIT:
       return Object.assign( {}, state, { isFetching: true });
 
-    case LOGIN_SUCCESS:
+    case actionTypes.LOGIN_SUCCESS:
       return Object.assign( {}, state,
         { isFetching: false
         , password: ""
         });
 
-    case LOGIN_FAILURE:
+    case actionTypes.LOGIN_FAILURE:
       return Object.assign( {}, state,
         { isFetching: false
+        , badCombo: true
         , password: ""
         });
 

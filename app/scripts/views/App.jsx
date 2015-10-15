@@ -79,7 +79,7 @@ export default class App extends React.Component {
         </head>
         <body>
           {/* Modal windows for busy spinner and/or FreeNAS login. */}
-          <BusyBox />
+          <SessionInterruptDialog />
 
           <div className="app-content">
             {/* Primary navigation menu */}
@@ -91,7 +91,6 @@ export default class App extends React.Component {
 
               <footer className="app-footer">
                 {/* TODO? */}
-                <SessionInterruptDialog />
               </footer>
             </div>
 

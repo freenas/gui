@@ -7,6 +7,8 @@
 
 // RPC ACTIONS
 // auth
+export const UPDATE_USERNAME = "UPDATE_USERNAME";
+export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
 export const LOGIN_SUBMIT = "LOGIN_SUBMIT";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
