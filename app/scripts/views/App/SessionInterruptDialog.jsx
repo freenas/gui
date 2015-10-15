@@ -8,6 +8,9 @@
 "use strict";
 
 import React from "react";
+import { connect } from "react-redux";
+
+import * as actions from "../../actions/auth";
 import Spinner from "./SessionInterruptDialog/Spinner";
 import Login from "./SessionInterruptDialog/Login";
 
@@ -15,7 +18,8 @@ import Login from "./SessionInterruptDialog/Login";
 if ( process.env.BROWSER ) require( "./SessionInterruptDialog.less" );
 
 
-export default class SessionInterruptDialog extends React.Component {
+// REACT
+class SessionInterruptDialog extends React.Component {
   render () {
     const { auth } = this.props;
 
@@ -32,3 +36,20 @@ export default class SessionInterruptDialog extends React.Component {
     );
   }
 }
+
+
+// REDUX
+function mapStateToProps ( state ) {
+  console.log( state );
+  return { auth: state.auth };
+}
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    { onUsernameChange: ( username ) => dispatch( actions.updateUsername( username ) )
+    , onPasswordChange: ( password ) => dispatch( actions.updatePassword( password ) )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( SessionInterruptDialog );

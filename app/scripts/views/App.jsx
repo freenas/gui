@@ -11,7 +11,7 @@ import BusyBox from "../components/BusyBox";
 import ContextBar from "./App/ContextBar";
 import PrimaryNavigation from "./App/PrimaryNavigation";
 import DebugTools from "./App/DebugTools";
-import SessionInterruptDialog from "../containers/SessionInterruptDialog";
+import SessionInterruptDialog from "./App/SessionInterruptDialog";
 
 // PRIMARY STYLESHEET
 if ( process.env.BROWSER ) require( "../../styles/core.less" );
