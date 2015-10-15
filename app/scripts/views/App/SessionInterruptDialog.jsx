@@ -39,10 +39,19 @@ class SessionInterruptDialog extends React.Component {
             }
           >
             <div className="overlay-window">
+
+              <div className="logo-wrapper">
+                <img className="logo-image" src="/images/freenas-icon.png" />
+                <img className="logo-wordmark" src="/images/freenas-logotype.png" />
+                <img className="logo-x" src="/images/X.png" />
+              </div>
+
               <h3>{ "Foo" }</h3>
+
               <Throbber
                 size = { 60 }
               />
+
               <Login
                 username = { this.props.username }
                 password = { this.props.password }
