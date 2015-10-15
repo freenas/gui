@@ -25,6 +25,10 @@ import Icon from "../components/Icon";
 
 import CalendarTasksContext from "./Calendar/CalendarTasksContext";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Calendar.less" );
+
+
 // Be careful - in the actual scheduler the week starts with monday at index 0.
 // https://apscheduler.readthedocs.org/en/latest/modules/triggers/cron.html#module-apscheduler.triggers.cron
 const weekdays = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];

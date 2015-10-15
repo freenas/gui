@@ -24,6 +24,10 @@ import VolumeTask from "./Storage/VolumeTask";
 
 import { Animate } from "../utility/Animate";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Storage.less" );
+
+
 const ACTIVE_TASK_STATES = new Set([ "CREATED", "WAITING", "EXECUTING" ]);
 
 export default class Storage extends React.Component {

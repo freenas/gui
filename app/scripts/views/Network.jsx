@@ -16,6 +16,10 @@ import SS from "../flux/stores/SystemStore";
 import NetworkConfig from "./Network/NetworkConfig";
 import InterfaceItem from "./Network/InterfaceItem";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Network.less" );
+
+
 export default class Network extends React.Component {
 
   constructor ( props ) {

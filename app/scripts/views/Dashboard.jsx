@@ -24,6 +24,10 @@ import Network from "../components/Widgets/Network";
 import Memory from "../components/Widgets/Memory";
 import DashboardContext from "./Dashboard/DashboardContext";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Dashboard.less" );
+
+
 function getSystemInformation () {
   return _.merge( SystemStore.getSystemInfo( "hardware" )
                 , SystemStore.systemGeneralConfig

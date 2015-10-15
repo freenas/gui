@@ -20,6 +20,10 @@ import ByteCalc from "../utility/ByteCalc";
 
 import DiskSection from "./Hardware/DiskSection";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Hardware.less" );
+
+
 function getSystemInformation () {
   return { systemInformation: SS.getSystemInfo( "hardware" ) };
 }
