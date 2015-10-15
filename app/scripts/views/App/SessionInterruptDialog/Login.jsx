@@ -7,7 +7,7 @@
 import React from "react";
 import { Input } from "react-bootstrap";
 
-export default ({ username, password, onUsernameChange, onPasswordChange }) => (
+const Login = ({ username, password, onUsernameChange, onPasswordChange }) => (
   <div className="overlay-window">
     <Input
       type        = "text"
@@ -24,3 +24,12 @@ export default ({ username, password, onUsernameChange, onPasswordChange }) => (
     />
   </div>
 );
+
+Login.propTypes =
+  { username: React.PropTypes.string
+  , password: React.PropTypes.string
+  , onUsernameChange: React.PropTypes.func.isRequired
+  , onPasswordChange: React.PropTypes.func.isRequired
+  }
+
+export default Login;
