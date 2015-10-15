@@ -6,15 +6,20 @@
 @import ( reference ) "@{styles-path}core.less";
 
 .sid {
-  &.overlay-dark {
-    background: fade( darken( @brand-primary, 35% ), 84% );
-  }
+  .flex-display( flex );
+  .align-items( center );
+  .justify-content( center );
+  .flex-flow( row nowrap );
+  background: fade( darken( @brand-primary, 35% ), 84% );
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  z-index: 2000;
 
-  .overlay-window {
-    .box-shadow( none );
-    background: none;
-    border: none;
-
+  .sid-content {
+    .flex( 0 1 450px );
     color: white;
     text-align: center;
   }

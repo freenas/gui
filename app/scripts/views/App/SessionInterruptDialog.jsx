@@ -29,7 +29,7 @@ class SessionInterruptDialog extends React.Component {
       >
         { ({ mainOpacity }) =>
           <div
-            className = "overlay-dark sid"
+            className = "sid"
             style = {
               { opacity: mainOpacity
               , display: mainOpacity === 0
@@ -38,7 +38,7 @@ class SessionInterruptDialog extends React.Component {
               }
             }
           >
-            <div className="overlay-window">
+            <div className="sid-content">
 
               <div className="logo-wrapper">
                 <img className="logo-image" src="/images/freenas-icon.png" />
