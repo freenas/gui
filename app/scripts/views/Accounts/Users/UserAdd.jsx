@@ -428,9 +428,10 @@ const UserAdd = React.createClass(
         <Input
           type             = "select"
           label            = "Primary Group"
-          value            = { this.state.newUser.group
-                           ? this.state.newUser.group
-                           : null }
+          value            = { typeof this.state.newUser.group === "string"
+                             ? this.state.newUser.group
+                             : null
+                             }
           onChange         = { this.handleChange.bind( null, "group" ) }
           key              = "group"
           ref              = "group"
