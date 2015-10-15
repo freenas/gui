@@ -13,6 +13,7 @@ import Icon from "./Icon";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Disclosure.less" );
 
+
 export default class Disclosure extends React.Component {
 
   constructor ( props ) {

@@ -11,6 +11,10 @@ import React from "react";
 import EventBus from "../../utility/EventBus";
 import DashboardContext from "../Dashboard/DashboardContext";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./ContextBar.less" );
+
+
 export default class ContextBar extends React.Component {
   constructor ( props ) {
     super( props );

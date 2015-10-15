@@ -5,6 +5,10 @@
 
 import React from "react";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Throbber.less" );
+
+
 var Throbber = React.createClass(
 
   { propTypes: { bsStyle   : React.PropTypes.oneOf( [ "primary"

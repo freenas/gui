@@ -20,6 +20,10 @@ import Tasks from "./DebugTools/Tasks";
 import Options from "./DebugTools/Options";
 import Terminal from "./DebugTools/Terminal";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./DebugTools.less" );
+
+
 // Local variables
 var initialPanelHeight;
 var initialY;

@@ -22,6 +22,11 @@ import React from "react";
 import fuzzy from "fuzzy";
 import classNames from "classnames";
 import { Input } from "react-bootstrap";
+
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./TypeAhead.less" );
+
+
 /**
  * PolyFills make me(The author Peter Ruibal) sad
  */

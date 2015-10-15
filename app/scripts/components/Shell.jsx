@@ -13,6 +13,10 @@ import Terminal from "term.js";
 import TargetHost from "../websocket/TargetHost";
 import ShellMiddleware from "../flux/middleware/ShellMiddleware";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Shell.less" );
+
+
 var Shell = React.createClass(
   {  ws             : null
   , term            : null

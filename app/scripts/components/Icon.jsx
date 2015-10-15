@@ -6,6 +6,10 @@
 
 import React from "react";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Icon.less" );
+
+
 const Icon = React.createClass(
   { propTypes:
     { glyph: React.PropTypes.string.isRequired

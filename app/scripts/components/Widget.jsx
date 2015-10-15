@@ -6,6 +6,10 @@
 
 import React from "react";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Widget.less" );
+
+
 const Widget = React.createClass(
   { propTypes:
     { title: React.PropTypes.string

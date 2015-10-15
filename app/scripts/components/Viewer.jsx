@@ -21,6 +21,10 @@ import DetailViewer from "./Viewer/DetailViewer";
 import IconViewer from "./Viewer/IconViewer";
 import TableViewer from "./Viewer/TableViewer";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Viewer.less" );
+
+
 // Main Viewer Wrapper Component
 const Viewer = React.createClass(
 

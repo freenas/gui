@@ -21,6 +21,9 @@ import US from "../../flux/stores/UsersStore";
 import ItemIcon from "../../components/items/ItemIcon";
 import Icon from "../../components/Icon";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./PrimaryNavigation.less" );
+
 
 // Path definitions
 // TODO: Convert to Flux or other external file

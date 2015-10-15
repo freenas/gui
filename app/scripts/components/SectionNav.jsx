@@ -9,6 +9,10 @@ import { Grid, Row, ButtonGroup } from "react-bootstrap";
 
 import { Link } from "react-router";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./SectionNav.less" );
+
+
 const SectionNav = React.createClass(
 
   { propTypes:
