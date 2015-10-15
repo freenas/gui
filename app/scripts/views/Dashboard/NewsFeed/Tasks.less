@@ -1,0 +1,20 @@
+@styles-path: "../../../../styles/";
+
+@import ( optional, reference ) "@{styles-path}bootstrap.less";
+@import ( optional, reference ) "@{styles-path}variables.less";
+@import ( optional, reference ) "@{styles-path}utility.less";
+
+.tasks-feed {
+  .flex-display( flex );
+  .flex-flow( column );
+  .flex( 1 );
+  overflow: auto;
+
+  .news-feed-header {
+    .flex( 0 0 );
+  }
+  .task-feed-content {
+    .flex( 1 );
+    overflow: auto;
+  }
+}

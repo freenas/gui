@@ -1,0 +1,189 @@
+@styles-path: "../../../styles/";
+
+@import ( reference ) "@{styles-path}core.less";
+
+.debug-nav {
+  .flex( 0 0 auto );
+  background : #F1F1F1;
+  cursor     : ns-resize;
+}
+
+.debug-panel {
+  .flex-flow( column nowrap );
+  .flex-display( flex );
+  height     : 350px;
+  font-size  : 9.5pt;
+  z-index    : 2000;
+  background : white;
+
+  // TODO: #7908
+  & > div {
+    .flex-flow( column nowrap );
+    .flex-display( flex );
+    .flex(1);
+  }
+
+  .tab-content {
+    .flex( 1 );
+    .flex-flow( row nowrap );
+    .flex-display( flex );
+  }
+
+  .tab-pane {
+    .flex( 1 0 100% );
+    display : none;
+    padding : 5px;
+
+    &.active {
+      .flex-display( flex );
+    }
+  }
+
+
+  .panel-body { padding: 10px 0; }
+
+  .nav-tabs > li > a {
+    border-radius : 0;
+    padding       : 5px 15px;
+  }
+
+
+  .nav-tabs > li.active > a {
+    border-bottom : none;
+    background    : rgb(224, 224, 224)
+  }
+}
+
+.debug-content-flex-wrapper {
+    .flex( 1 );
+    .flex-display( flex );
+}
+
+.debug-heading {
+  .flex( 0 0 auto );
+  text-transform : uppercase;
+  color          : rgb(175, 175, 175);
+  padding        : 0;
+  font-size      : 9pt;
+}
+
+.debug-column {
+  .flex-flow( column nowrap );
+  .flex-display( flex );
+}
+
+.termFlex {
+  .flex ( 1 );
+}
+
+.debug-column-content {
+  .flex( 1 );
+  overflow-y : auto;
+  overflow-x : hidden;
+  margin     : 0;
+}
+
+.debug-monospace-content {
+  background: rgb(62, 62, 62);
+  color: rgb(215, 215, 215);
+  font-weight: 200;
+  font-family: "Source Code Pro", "Menlo", monospace;
+}
+
+.debug-list-item {
+  display: block;
+  cursor: default;
+  padding: 4px 25px;
+  color: #333;
+
+  &:hover {
+    background: #F1F1F1;
+    text-decoration: none;
+    color: darken( @brand-info, 10% );
+  }
+}
+
+.debug-callout {
+  border     : 1px solid rgb(243, 243, 243);
+  .box-shadow( -16px 0 0 0 @brand-info );
+  margin     : 0 0 8px 16px;
+  padding    : 2px 24px;
+  position   : relative;
+
+  & > label {
+    width          : 14px;
+    padding        : 0 2px;
+    position       : absolute;
+    top            : 5px;
+    text-align     : center;
+    left           : -16px;
+    color          : white;
+    text-transform : uppercase;
+    font-weight    : 100;
+    font-size      : 10px;
+    word-break     : break-all;
+    letter-spacing : 0;
+  }
+}
+
+.debug-task-item {
+  .flex-display( flex );
+
+  .debug-task-id {
+    .flex( 0 0 auto );
+    .align-self( center );
+    background    : @brand-info;
+    width         : 50px;
+    height        : 50px;
+    color         : white;
+    line-height   : 50px;
+    text-align    : center;
+    font-size     : 1.15em;
+    margin-right  : 5px;
+    border-radius : 50%;
+  }
+
+  .debug-task-details {
+    .flex( 1 );
+  }
+
+  .debug-task-title {
+    text-transform : uppercase;
+    margin         : 5px 10px;
+  }
+  .debug-task-timestamp {
+    float   : left;
+    width   : 50%;
+    margin  : 0;
+    padding : 0 10px;
+  }
+
+  hr {
+    margin-top   : 10px;
+    margin-bottom: 10px;
+  }
+  .progress {
+    margin: 5px 10px;
+  }
+  .debug-task-abort {
+    float    : right;
+    overflow : hidden;
+    margin   : 0 0 0 10px;
+  }
+}
+
+.debug-options {
+  hr {
+    margin-top    : 5px;
+    margin-bottom : 5px;
+  }
+}
+
+.debug-options-label {
+  .flex-display(flex);
+  .align-items( center );
+  p {
+    font-size : 0.9em;
+    color     : @gray-dark;
+  }
+}

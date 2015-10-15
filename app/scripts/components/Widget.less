@@ -1,0 +1,26 @@
+@styles-path: "../../styles/";
+
+@import ( reference ) "@{styles-path}core.less";
+
+.widget {
+  .flex-display( flex );
+  .flex-flow( column wrap );
+
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.widget-toolbar {
+}
+
+.widget-chart {
+  .flex( 1 );
+}
+
+.network-widget-dual {
+  .flex( 1 );
+  .flex-display( flex );
+  .flex-flow( column wrap );
+}

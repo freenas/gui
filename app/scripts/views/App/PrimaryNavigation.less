@@ -1,0 +1,198 @@
+@styles-path: "../../../styles/";
+
+@import ( reference ) "@{styles-path}core.less";
+
+// TODO: Revert changes made for #7908 once externally resolved.
+nav.primary-nav {
+  #gradient > .vertical( @freenas-gray, darken( @freenas-gray, 10% ) );
+  background-color   : @freenas-gray;
+  overflow-x         : hidden;
+  overflow-y         : auto;
+  position           : relative;
+  min-width: 150px;
+  .flex( 0 0 auto );
+
+  .logo-wrapper {
+    height: 45px;
+    padding: 2px 20px 4px 25px;
+    box-sizing: initial;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .logo-image,
+  .logo-wordmark,
+  .logo-x {
+    height: inherit;
+    float: left;
+  }
+
+  .logo-image {
+    padding: 8px 10px 8px 0;
+  }
+
+  .logo-wordmark {
+    padding: 15px 0;
+  }
+
+  .logo-x {
+    padding: 8px 0;
+    margin-left: -5px;
+  }
+
+  .hostname {
+    color: white;
+    display: block;
+    margin: 0;
+    font-weight: 200;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    line-height: 1.25em;
+    padding-bottom: 0.85em;
+    text-align: center;
+    text-transform: uppercase;
+    .box-shadow( inset 0 2px 12px -6px rgba( 0, 0, 0, 0.4 ) );
+    background-color: rgba( 0, 0, 0, 0.25 );
+    .transition( ease-in-out 0.25s );
+
+    &.connected {
+      .glowlight( @brand-success );
+      border-bottom-width: 2px;
+    }
+    &.disconnected {
+      .glowlight( @gray );
+      border-bottom-width: 2px;
+    }
+    &.simulation {
+      .glowlight( @brand-warning );
+      border-bottom-width: 2px;
+    }
+  }
+
+  .user-info {
+    color: #f3f3f3;
+    padding: 5px 30px 5px 5px;
+
+    .item-graphic {
+      float: left;
+      margin: 0 0.66em 0 0.33em;
+    }
+
+    .username, .fullname {
+      display: block;
+      white-space: pre;
+      height: 1em;
+      line-height: 1em;
+      margin: 0 0.25em;
+    }
+    .username {
+      font-weight: 500;
+    }
+    .fullname {
+      color: @gray-lighter;
+      font-weight: 200;
+      margin-top: 0.25em;
+      font-size: 0.85em;
+    }
+  }
+
+  .caret {
+    color: fade( white, 90% );
+    position: absolute;
+    top: 50%;
+    right: 20px;
+  }
+
+  .btn-group {
+    height         : 100%;
+    vertical-align : top;
+
+    &:hover {
+      background: darken( @freenas-dark-gray, 10% );
+    }
+  }
+
+  .btn {
+    color           : inherit;
+    background      : none;
+    border          : none;
+    height          : inherit;
+    text-decoration : none;
+  }
+
+  .user {
+    margin: 0 15px;
+  }
+
+  .icon {
+    font-size      : 1.1em;
+    width          : 2em;
+    text-align     : center;
+    position       : relative;
+    vertical-align : inherit;
+    line-height    : normal;
+    margin         : 0 1em;
+  }
+
+  .nav-item,
+  .dropdown {
+    & > a {
+      padding: 0.75em;
+      padding-right: 0;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 300;
+      vertical-align : middle;
+      .transition( all 0.1s ease-out );
+    }
+
+    &:not(.disabled) {
+      & > a {
+        color: rgba( 255, 255, 255, 0.85 );
+        &:hover {
+          color: white;
+          background-color : rgba( 255, 255, 255, 0.15 );
+        }
+      }
+
+      & > a.active {
+        #gradient > .horizontal( rgba( 0, 0, 0, 0.25 ), fade( @brand-primary, 30% ) );
+        background-color : rgba( 0, 0, 0, 0.25 );
+        color            : white;
+        border-right     : 8px solid @brand-primary;
+      }
+    }
+  }
+
+  .dropdown.open > a {
+    #gradient > .vertical( rgba( 0, 0, 0, 0.25 ), fade( @brand-primary, 30% ) );
+    background-color : rgba( 0, 0, 0, 0.25 );
+    color            : white;
+  }
+
+  .nav-item-label {
+    padding-right  : 0.75em;
+    vertical-align : inherit;
+    font-weight: 100;
+    text-transform: uppercase;
+    font-size: 0.75em;
+    letter-spacing: 0.15em;
+  }
+}
+
+.primary-nav-debug-button {
+  position : absolute;
+  bottom   : 0;
+  width    : 90%;
+  margin   : 5%;
+  z-index  : 2000;
+}
+
+.primary-nav-label-toggle {
+  width         : 100%;
+  color         : #f3f3f3;
+  font-size     : 125%;
+  font-weight   : 700;
+  padding-right : 5px;
+  text-align    : right;
+  cursor        : pointer;
+}
