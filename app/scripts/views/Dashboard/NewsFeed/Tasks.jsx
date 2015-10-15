@@ -13,6 +13,7 @@ import Task from "./Task";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Tasks.less" );
 
+
 export default class Tasks extends React.Component {
   createTask ( task, index ) {
     let hideAfter;

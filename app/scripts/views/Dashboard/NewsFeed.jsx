@@ -17,6 +17,7 @@ import Events from "./NewsFeed/Events";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./NewsFeed/NewsFeed.less" );
 
+
 export default class NewsFeed extends React.Component {
   constructor ( props ) {
     super( props );

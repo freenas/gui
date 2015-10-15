@@ -12,6 +12,7 @@ import Disclosure from "../../../components/Disclosure";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Events.less" );
 
+
 export default class Events extends React.Component {
   createEvent ( eventData, index ) {
     return (

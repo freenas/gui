@@ -14,6 +14,7 @@ import Shell from "../components/Shell";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Console/Console.less" );
 
+
 export default class Console extends React.Component {
 
   constructor ( props ) {

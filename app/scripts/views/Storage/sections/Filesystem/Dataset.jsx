@@ -19,6 +19,7 @@ import NewDataset from "./NewDataset";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dataset.less" );
 
+
 const SHARE_TYPES =
   { "CIFS" : "WINDOWS"
   , "AFP"  : "MAC"

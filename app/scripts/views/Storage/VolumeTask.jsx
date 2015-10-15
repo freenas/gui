@@ -11,6 +11,7 @@ import { ProgressBar } from "react-bootstrap";
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./VolumeTask.less" );
 
+
 const MESSAGES =
   { "volume.create":
     { CREATED: "Setting up volume creation task..."

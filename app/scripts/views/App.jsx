@@ -12,10 +12,9 @@ import ContextBar from "./App/ContextBar";
 import PrimaryNavigation from "./App/PrimaryNavigation";
 import DebugTools from "./App/DebugTools";
 
-// WEBPACK RESOURCES
-if ( process.env.BROWSER ) {
-  require( "../../styles/core.less" );
-}
+// PRIMARY STYLESHEET
+if ( process.env.BROWSER ) require( "../../styles/core.less" );
+
 
 export default class App extends React.Component {
 
