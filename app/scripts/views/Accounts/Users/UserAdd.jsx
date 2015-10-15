@@ -20,6 +20,20 @@ import inputHelpers from "../../../mixins/inputHelpers";
 import userMixins from "../../../mixins/userMixins";
 import groupMixins from "../../../mixins/groupMixins";
 
+function generateGroupsOptions ( groups ) {
+  var optionList = groups.map( function createGroupOption ( group ) {
+                                 return (
+                                   <option
+                                     key = { group.name }
+                                     value = { group.id }
+                                   >
+                                     { group.name }
+                                   </option>
+                                 );
+                               }
+                             );
+  return optionList;
+}
 
 const UserAdd = React.createClass(
   { mixins: [ inputHelpers, userMixins, History, RouteContext ]
