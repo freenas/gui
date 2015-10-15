@@ -8,7 +8,7 @@ import React from "react";
 import { Input } from "react-bootstrap";
 
 const Login = ({ username, password, onUsernameChange, onPasswordChange }) => (
-  <div className="overlay-window">
+  <form>
     <Input
       type        = "text"
       placeholder = "Username"
@@ -22,7 +22,7 @@ const Login = ({ username, password, onUsernameChange, onPasswordChange }) => (
       value       = { password }
       onChange    = { (e) => onPasswordChange( e.target.value ) }
     />
-  </div>
+  </form>
 );
 
 Login.propTypes =

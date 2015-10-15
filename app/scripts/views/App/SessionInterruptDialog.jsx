@@ -38,14 +38,18 @@ class SessionInterruptDialog extends React.Component {
               }
             }
           >
-            <h3>{ "Foo" }</h3>
-            <Throbber />
-            <Login
-              username = { this.props.username }
-              password = { this.props.password }
-              onUsernameChange = { this.props.onUsernameChange }
-              onPasswordChange = { this.props.onPasswordChange }
-            />
+            <div className="overlay-window">
+              <h3>{ "Foo" }</h3>
+              <Throbber
+                size = { 60 }
+              />
+              <Login
+                username = { this.props.username }
+                password = { this.props.password }
+                onUsernameChange = { this.props.onUsernameChange }
+                onPasswordChange = { this.props.onPasswordChange }
+              />
+            </div>
           </div>
         }
       </Motion>
