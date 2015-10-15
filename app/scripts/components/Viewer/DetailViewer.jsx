@@ -96,13 +96,18 @@ const DetailNavSection = React.createClass(
           </div>
         </div>;
       }
-      var itemPath =
+      var basePath =
         this.context.location.pathname.replace( "/"
                                               + this.props.params[ this.props.routeParam ]
                                               , ""
                                               )
-                                              + "/"
-                                              + selectionValue;
+                                      // remove the routeNewItem in case you're
+                                      // clicking from there.
+                                      .replace( "/"
+                                              + this.props.routeNewItem
+                                              , ""
+                                              );
+      var itemPath = basePath + "/" + selectionValue;
       return (
         <li
           role      = "presentation"
@@ -171,14 +176,19 @@ const DetailViewer = React.createClass(
 
   , createAddEntityButton: function () {
       let addEntityButton = null;
-      let addEntityPath =
+      let basePath =
         this.context.location.pathname.replace( "/"
                                               + this.props.params[ this.props.routeParam ]
                                               , ""
                                               )
-                                              + "/"
-                                              + this.props.routeNewItem;
+                                      // remove the routeNewItem in case you're
+                                      // already there
+                                      .replace( "/"
+                                              + this.props.routeNewItem
+                                              , ""
+                                              );
 
+      let addEntityPath = basePath + "/" + this.props.routeNewItem;
 
       if ( this.props.textNewItem && this.props.routeNewItem ) {
         addEntityButton = (
