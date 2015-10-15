@@ -173,6 +173,4 @@ SSH.propTypes = { sftp_log_facility: React.PropTypes.string
                 , allow_port_forwarding: React.PropTypes.bool
                 , port: React.PropTypes.number
                 , auxiliary: React.PropTypes.string
-                }
-
-
+                };
