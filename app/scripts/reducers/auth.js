@@ -3,7 +3,8 @@
 
 "use strict";
 
-import { LOGIN_SUBMIT, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actionTypes";
+import { LOGIN_SUBMIT, LOGIN_SUCCESS, LOGIN_FAILURE }
+  from "../actions/actionTypes";
 
 const INITIAL_STATE =
   { isFetching: false

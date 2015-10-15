@@ -11,6 +11,7 @@ import BusyBox from "../components/BusyBox";
 import ContextBar from "./App/ContextBar";
 import PrimaryNavigation from "./App/PrimaryNavigation";
 import DebugTools from "./App/DebugTools";
+import SessionInterruptDialog from "../containers/SessionInterruptDialog";
 
 // PRIMARY STYLESHEET
 if ( process.env.BROWSER ) require( "../../styles/core.less" );
@@ -90,6 +91,7 @@ export default class App extends React.Component {
 
               <footer className="app-footer">
                 {/* TODO? */}
+                <SessionInterruptDialog />
               </footer>
             </div>
 

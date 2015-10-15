@@ -14,7 +14,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
-import rootReducer from "./redux/rootReducer";
+import rootReducer from "./reducers";
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";

@@ -4,7 +4,7 @@
 
 "use strict";
 
-import { LOGIN_SUBMIT, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actionTypes";
+import { LOGIN_SUBMIT, LOGIN_SUCCESS, LOGIN_FAILURE } from "./actionTypes";
 
 export function loginSubmit () {
   return { type: LOGIN_SUBMIT }
