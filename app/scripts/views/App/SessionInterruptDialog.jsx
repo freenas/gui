@@ -8,13 +8,13 @@
 "use strict";
 
 import React from "react";
-import { Input } from "react-bootstrap";
+import Login from "./SessionInterruptDialog/Login";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./PrimaryNavigation.less" );
 
 
-export default class SessionInteruptDialog extends React.Component {
+export default class SessionInterruptDialog extends React.Component {
 
   render () {
     const { auth } = this.props;
@@ -23,21 +23,12 @@ export default class SessionInteruptDialog extends React.Component {
 
     return (
       <div className="overlay-dark" >
-        <div className="overlay-window">
-          <Input
-            type        = "text"
-            placeholder = "Username"
-            value       = { auth.username }
-            onChange    = { (e) => this.props.onUsernameChange( e.target.value ) }
-          />
-
-          <Input
-            type        = "password"
-            placeholder = "Password"
-            value       = { auth.password }
-            onChange    = { (e) => this.props.onPasswordChange( e.target.value ) }
-          />
-        </div>
+        <Login
+          username = { auth.username }
+          password = { auth.password }
+          onUsernameChange = { this.props.onUsernameChange }
+          onPasswordChange = { this.props.onPasswordChange }
+        />
       </div>
     );
   }
