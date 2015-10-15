@@ -127,6 +127,7 @@ export default class SSH extends React.Component {
         type = "textarea"
         label = "Extra Options"
         value = { this.props.auxiliary }
+        rows = { 5 }
       />
     );
 
