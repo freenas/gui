@@ -111,6 +111,7 @@ export default class SSH extends React.Component {
         { createDropdownOptions( LOG_LEVELS ) }
       </Input>
     );
+
     const stfpLogFacility = (
       <Input
         type = "select"
@@ -155,10 +156,10 @@ export default class SSH extends React.Component {
   }
 };
 
-SSH.propTypes = { sftp_log_facility: React.PropTypes.string
+SSH.propTypes = { sftp_log_facility: React.PropTypes.oneOf( LOG_FACILITIES )
                 , permit_root_login: React.PropTypes.bool
                 , compression: React.PropTypes.bool
-                , sftp_log_level: React.PropTypes.string
+                , sftp_log_level: React.PropTypes.oneOf( LOG_LEVELS )
                 , allow_password_auth: React.PropTypes.bool
                 , allow_port_forwarding: React.PropTypes.bool
                 , port: React.PropTypes.number
