@@ -55,7 +55,7 @@ export default class SSH extends React.Component {
   render() {
 
     const toggleService = (
-      <div className = "pull-left" >
+      <div className = "pull-right" >
         <ToggleSwitch
           toggled = { true }
         />
@@ -149,6 +149,7 @@ export default class SSH extends React.Component {
     return (
       <Panel>
         <h4>SSH</h4>
+        { toggleService }
         <form className = "settings-config-form">
           { tcpPort }
           { portForwarding }
@@ -158,7 +159,6 @@ export default class SSH extends React.Component {
           { stfpLogLevel }
           { stfpLogFacility }
           { extraOptions }
-          { toggleService }
           { formControlButtons }
         </form>
       </Panel>
