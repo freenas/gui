@@ -297,17 +297,17 @@ export default class CIFS extends React.Component {
         <h4>CIFS</h4>
         { toggleService }
         <form className = "settings-config-form">
-          { netbiosName }
-          { workgroup }
-          { description }
-          { dosCharset }
-          { unixCharset }
+          { netbiosName /* Basic Field*/ }
+          { workgroup /* Basic Field*/ }
+          { description /* Basic Field*/ }
+          { dosCharset /* Basic Field*/ }
+          { unixCharset /* Basic Field*/ }
           { logLevel }
           { syslog }
           { localMaster }
           { domainLogons }
           { timeServer }
-          { guestUser }
+          { guestUser /* Basic Field*/ }
           { filemask }
           { dirMask }
           { emptyPassword }
