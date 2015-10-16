@@ -6,7 +6,7 @@
 
 import React from "react";
 import { Motion, spring } from "react-motion";
-import { Input } from "react-bootstrap";
+import { Button, Input } from "react-bootstrap";
 
 import { ghost } from "../../../utility/motions";
 
@@ -39,6 +39,15 @@ const Login = ( props ) => (
           value       = { props.password }
           onChange    = { (e) => props.onPasswordChange( e.target.value ) }
         />
+
+        <Button
+          block
+          bsStyle  = "primary"
+          disabled = { props.username.length < 1 }
+          onClick  = { props.onLoginSubmit }
+        >
+          {"Sign In"}
+        </Button>
       </form>
     }
   </Motion>
@@ -50,6 +59,7 @@ Login.propTypes =
   , password: React.PropTypes.string
   , onUsernameChange: React.PropTypes.func.isRequired
   , onPasswordChange: React.PropTypes.func.isRequired
+  , onLoginSubmit: React.PropTypes.func.isRequired
   }
 
 export default Login;

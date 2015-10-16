@@ -59,6 +59,7 @@ class SessionInterruptDialog extends React.Component {
                 password = { this.props.password }
                 onUsernameChange = { this.props.onUsernameChange }
                 onPasswordChange = { this.props.onPasswordChange }
+                onLoginSubmit = { this.props.onLoginSubmit }
               />
 
               <Spinner visible={ VISIBLE === "SPINNER" } />
@@ -72,7 +73,6 @@ class SessionInterruptDialog extends React.Component {
 
 
 // REDUX
-
 function mapStateToProps ( state ) {
   return (
     { ...state.auth }
@@ -83,6 +83,7 @@ function mapDispatchToProps ( dispatch ) {
   return (
     { onUsernameChange: ( username ) => dispatch( actions.updateUsername( username ) )
     , onPasswordChange: ( password ) => dispatch( actions.updatePassword( password ) )
+    , onLoginSubmit: () => { console.log( "fart sound" ) }
     }
   );
 }
