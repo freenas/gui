@@ -14,6 +14,7 @@ import { Motion, spring } from "react-motion";
 import * as actions from "../../actions/auth";
 import Throbber from "../../components/Throbber";
 import Login from "./SessionInterruptDialog/Login";
+import Spinner from "./SessionInterruptDialog/Spinner";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./SessionInterruptDialog.less" );
@@ -22,6 +23,10 @@ if ( process.env.BROWSER ) require( "./SessionInterruptDialog.less" );
 // REACT
 class SessionInterruptDialog extends React.Component {
   render () {
+    // TODO: The logic for this will need to be more complicated at some point
+    const VISIBLE = this.props.isFetching
+                  ? "SPINNER"
+                  : "LOGIN";
     return (
       <Motion
         defaultStyle = {{ mainOpacity: 0 }}
@@ -46,18 +51,17 @@ class SessionInterruptDialog extends React.Component {
                 <img className="logo-x" src="/images/X.png" />
               </div>
 
-              <h3>{ "Foo" }</h3>
-
-              <Throbber
-                size = { 60 }
-              />
+              <h3>{ this.props.message }</h3>
 
               <Login
+                visible = { VISIBLE === "LOGIN" }
                 username = { this.props.username }
                 password = { this.props.password }
                 onUsernameChange = { this.props.onUsernameChange }
                 onPasswordChange = { this.props.onPasswordChange }
               />
+
+              <Spinner visible={ VISIBLE === "SPINNER" } />
             </div>
           </div>
         }
