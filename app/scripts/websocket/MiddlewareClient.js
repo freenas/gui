@@ -424,37 +424,9 @@ class MiddlewareClient extends WebSocketClient {
 
   // Authenticate a user to the middleware. Basically a specialized version of
   // the `request` function with a different payload.
-  login ( authType, credentials ) {
-    let reqID = freeNASUtil.generateUUID();
-    let rpcName = "auth";
-    let payload;
-
-    if ( authType === "userpass" ) {
-      payload = { username : credentials[0]
-                , password : credentials[1]
-                };
-    } else if ( authType === "token" ) {
-      payload = { token: credentials };
-      rpcName = rpcName + "_token";
-    }
-
-    const onSuccess = function ( response ) {
-      // Making a Cookie for token based login for the next time
-      // and setting its max-age to the TTL (in seconds) specified by the
-      // middleware response. The token value is stored in the Cookie.
-      sessionCookies.add( "auth", response[0], response[1] );
-      MiddlewareActionCreators.receiveAuthenticationChange( response[2], true );
-
-      // Actions to be performed on every successful login event
-      this.getSchemas();
-    }.bind( this );
-
-    const onError = function ( args ) {
-      // TODO: Make LoginBox aware of a failed user/pass error.
-      MiddlewareActionCreators.receiveAuthenticationChange( "", false );
-    };
-
-    const action = this.pack( "rpc", rpcName, payload, reqID );
+  login ( namespace, payload, success, failure ) {
+    const reqID = freeNASUtil.generateUUID();
+    const action = this.pack( "rpc", namespace, payload, reqID );
 
     if ( this.socket.readyState === 1 ) {
 
@@ -462,9 +434,8 @@ class MiddlewareClient extends WebSocketClient {
         MCD.info( "Socket is ready: Sending login request." );
       }
 
-      this.logPendingRequest( reqID, onSuccess, onError, action, null );
+      this.logPendingRequest( reqID, success, failure, action, null );
       this.socket.send( action );
-
     } else {
 
       if ( MCD.reports( "authentication" ) ) {
@@ -472,12 +443,11 @@ class MiddlewareClient extends WebSocketClient {
       }
 
       this.queuedLogin = { action: action
-                         , successCallback: onSuccess
-                         , errorCallback: onerror
+                         , successCallback: success
+                         , errorCallback: failure
                          , id: reqID
                          };
     }
-
   }
 
   logout () {

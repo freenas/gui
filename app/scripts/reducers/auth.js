@@ -8,13 +8,14 @@ import * as actionTypes from "../actions/actionTypes";
 const INITIAL_STATE =
   { isFetching    : false
   , didInvalidate : false
+  , loggedIn      : false
   , badCombo      : false
   , message       : "Welcome to FreeNAS X"
   , username      : ""
   , password      : ""
-  , cookieContent : null
-  , cookieExpiry  : null
   , token         : null
+  , tokenExpiry   : null
+  , activeUser    : null
   , showSID       : true
   };
 
@@ -46,11 +47,15 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
     case actionTypes.LOGIN_SUCCESS:
       return Object.assign( {}, state,
-        { isFetching : false
-        , badCombo   : false
-        , password   : ""
-        , message    : "Login successful"
-        , showSID    : false
+        { isFetching  : false
+        , loggedIn    : true
+        , badCombo    : false
+        , password    : ""
+        , message     : "Login successful"
+        , showSID     : false
+        , token       : payload.token
+        , tokenExpiry : payload.tokenExpiry
+        , activeUser  : payload.activeUser
         });
 
     case actionTypes.LOGIN_FAILURE:

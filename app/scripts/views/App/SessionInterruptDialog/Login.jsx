@@ -43,8 +43,8 @@ const Login = ( props ) => (
         <Button
           block
           bsStyle  = "primary"
-          disabled = { props.username.length < 1 }
-          onClick  = { props.onLoginSubmit }
+          disabled = { props.username.length < 1 || !props.visible }
+          onClick  = { (e) => props.onLoginSubmit() }
         >
           {"Sign In"}
         </Button>

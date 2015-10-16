@@ -83,7 +83,7 @@ function mapDispatchToProps ( dispatch ) {
   return (
     { onUsernameChange: ( username ) => dispatch( actions.updateUsername( username ) )
     , onPasswordChange: ( password ) => dispatch( actions.updatePassword( password ) )
-    , onLoginSubmit: () => { console.log( "fart sound" ) }
+    , onLoginSubmit: () => dispatch( actions.authRPC() )
     }
   );
 }
