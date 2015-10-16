@@ -10,17 +10,14 @@
 
 import _ from "lodash";
 
-import WebSocketClient from "./WebSocketClient";
 import freeNASUtil from "../utility/freeNASUtil";
 import MCD from "./MiddlewareClientDebug";
 
 import SubscriptionsStore from "../flux/stores/SubscriptionsStore";
 import SubscriptionsActionCreators from "../flux/actions/SubscriptionsActionCreators";
 
-import MiddlewareStore from "../flux/stores/MiddlewareStore";
 import MiddlewareActionCreators from "../flux/actions/MiddlewareActionCreators";
 
-import SessionStore from "../flux/stores/SessionStore";
 import SAC from "../flux/actions/SessionActionCreators";
 
 import sessionCookies from "../utility/cookies";
@@ -28,32 +25,67 @@ import sessionCookies from "../utility/cookies";
 
 const defaultTimeoutDelay = 10000;
 
-class MiddlewareClient extends WebSocketClient {
+class MiddlewareClient {
 
   constructor () {
-    super();
-
+    this.socket = null;
     this.queuedLogin = null;
     this.queuedActions = [];
     this.pendingRequests = {};
+    this.isAuthenticated = false;
 
-    // On a successful login, dequeue any actions which may have been requested
-    // either before the connection was made, or before the authentication was
-    // complete.
-    SessionStore.addChangeListener( this.dequeueActions.bind( this ) );
+    this.store = null;
+    this.onSockStateChange = () =>
+      console.warn( "MiddlewareClient.onSockStateChange was not bound.");
+    this.onSockTargetChange = () =>
+      console.warn( "MiddlewareClient.onSockTargetChange was not bound.");
   }
 
-  connect ( protocol, host, path, mode ) {
-    super.connect( protocol, host, path );
-    MiddlewareActionCreators.updateSocketState(
-      { status: "CONNECTING"
-      , protocol
-      , host
-      , path
-      , mode
+  // HACK: Workaround to avoid disrupting current logic flow, but this should
+  // probably come from the store instead of being hammered in by the action
+  changeAuth ( bool ) {
+    this.isAuthenticated = bool;
+  }
+
+  bindHandlers ( store, handlers ) {
+    Object.assign( this, { store, ...handlers } );
+  }
+
+  connect ( protocol = "ws://", host = "", path = "", mode = "" ) {
+    if ( "WebSocket" in window ) {
+      let target = protocol + host + path;
+
+      if ( MCD.reports( "connection" ) ) {
+        MCD.info( "Creating WebSocket connection to " + target );
       }
-    );
+
+      this.socket = new WebSocket( target );
+
+      if ( this.socket instanceof WebSocket) {
+        Object.assign( this.socket
+          , { onopen: this.handleOpen.bind( this )
+            , onmessage: this.handleMessage.bind( this )
+            , onerror: this.handleError.bind( this )
+            , onclose: this.handleClose.bind( this )
+            }
+          , this
+          );
+      } else {
+        throw new Error( "Was unable to create a WebSocket instance" );
+      }
+    } else {
+      // TODO: Visual error for legacy browsers with links to download others
+      MCD.error( "This environment doesn't support WebSockets." );
+    }
+
+    this.onSockStateChange( this.socket.readyState );
+    this.onSockTargetChange({ protocol, host, path, mode });
   }
+
+  // Shortcut method for closing the WebSocket connection.
+  disconnect ( code, reason ) {
+    this.socket.close( code, reason );
+  };
 
 
   // WEBSOCKET DATA HANDLERS
@@ -63,48 +95,36 @@ class MiddlewareClient extends WebSocketClient {
 
   // Triggered by the WebSocket's onopen event.
   handleOpen () {
-    super.handleOpen();
-
-    // Dispatch message stating that we have just connected
-    MiddlewareActionCreators.updateSocketState({ status: "CONNECTED" });
-
     // Re-subscribe to any namespaces that may have been active during the
     // session. On the first login, this will do nothing.
     this.renewSubscriptions();
 
-    if ( SessionStore.getLoginStatus() === false ) {
-      // Dummy out cookie authentication. It's causing an issue where the login
-      // box appears twice, and it's not worth the time to debug.
-      /*if ( sessionCookies.obtain( "auth" ) !== null ) {
-        // If our cookies contain a usable auth token, attempt a login
-        this.login( "token", sessionCookies.obtain( "auth" ) );
-      } else*/ if ( this.queuedLogin ) {
-        // If the connection opens and we aren't authenticated, but we have a
-        // queued login, dispatch the login and reset its variable.
-        this.logPendingRequest( this.queuedLogin.id
-                              , this.queuedLogin.successCallback
-                              , this.queuedLogin.errorCallback
-                              , null
-                              );
-        this.socket.send( this.queuedLogin.action );
-        this.queuedLogin = null;
+    if ( this.queuedLogin ) {
+      // If the connection opens and we aren't authenticated, but we have a
+      // queued login, dispatch the login and reset its variable.
+      this.logPendingRequest( this.queuedLogin.id
+                            , this.queuedLogin.successCallback
+                            , this.queuedLogin.errorCallback
+                            , null
+                            );
+      this.socket.send( this.queuedLogin.action );
+      this.queuedLogin = null;
 
-        if ( MCD.reports( "queues" ) ) {
-          MCD.info( `Resolving queued login %c${ this.queuedLogin.id }`
-                  , [ "uuid" ]
-                  );
-          MCD.dir( this.queuedLogin.action );
-        }
+      if ( MCD.reports( "queues" ) ) {
+        MCD.info( `Resolving queued login %c${ this.queuedLogin.id }`
+                , [ "uuid" ]
+                );
+        MCD.dir( this.queuedLogin.action );
       }
-    } else {
-      MiddlewareActionCreators.receiveAuthenticationChange( "", false );
     }
+
+    // Dispatch message stating that we have just connected
+    this.onSockStateChange( this.socket.readyState );
   }
 
   // Triggered by the WebSocket's `onclose` event. Performs any cleanup
   // necessary to allow for a clean session end and prepares for a new session.
   handleClose () {
-    super.handleClose();
     this.queuedLogin = null;
     this.queuedActions = [];
 
@@ -112,16 +132,13 @@ class MiddlewareClient extends WebSocketClient {
       MCD.info( "WebSocket connection closed" );
     }
 
-    // Dispatch logout status
-    MiddlewareActionCreators.receiveAuthenticationChange( "", false );
-    MiddlewareActionCreators.updateSocketState({ status: "DISCONNECTED" });
+    this.onSockStateChange( this.socket.readyState );
   }
 
   // Triggered by the WebSocket's `onmessage` event. Parses the JSON from the
   // middleware's response, and then performs followup tasks depending on the
   // message's namespace.
   handleMessage ( message ) {
-    super.handleMessage();
 
     let data;
     // TODO: The timestamp should come from the server, so we can use it for
@@ -201,7 +218,6 @@ class MiddlewareClient extends WebSocketClient {
   // Triggered by the WebSocket's `onerror` event. Handles errors
   // With the client connection to the middleware.
   handleError ( error ) {
-    super.handleError();
     if ( MCD.reports( "connection" ) ) {
       MCD.error( "The WebSocket connection to the Middleware encountered " +
                  "an error:"
@@ -254,7 +270,7 @@ class MiddlewareClient extends WebSocketClient {
   // state, either logs and sends an action, or enqueues it until it can be sent
   processNewRequest ( action, onSuccess, onError, id, timeout ) {
     if ( this.socket ) {
-      if ( this.socket.readyState === 1 && SessionStore.getLoginStatus() ) {
+      if ( this.socket.readyState === 1 && this.isAuthenticated ) {
 
         if ( MCD.reports( "logging" ) ) {
           MCD.info( `Logging and sending request %c'${ id }'`
@@ -295,28 +311,23 @@ class MiddlewareClient extends WebSocketClient {
   // enqueued by the `login` and `request` functions into the `queuedActions`
   // object and `queuedLogin`, and then are dequeued by this function.
   dequeueActions () {
-
     if ( MCD.reports( "queues" ) && this.queuedActions.length ) {
       MCD.log( "Attempting to dequeue actions" );
     }
 
-    if ( SessionStore.getLoginStatus() ) {
-      while ( this.queuedActions.length ) {
-        let request = this.queuedActions.shift();
+    while ( this.queuedActions.length ) {
+      let request = this.queuedActions.shift();
 
-        if ( MCD.reports( "queues" ) ) {
-          MCD.log( `Dequeueing %c'${ request.id }'`, [ "uuid" ] );
-        }
-
-        this.processNewRequest( request.action
-                              , request.successCallback
-                              , request.errorCallback
-                              , request.id
-                              , request.timeout
-                              );
+      if ( MCD.reports( "queues" ) ) {
+        MCD.log( `Dequeueing %c'${ request.id }'`, [ "uuid" ] );
       }
-    } else if ( MCD.reports( "queues" ) && this.queuedActions.length ) {
-      MCD.info( "Cannot dequeue actions: Client is not authenticated" );
+
+      this.processNewRequest( request.action
+                            , request.successCallback
+                            , request.errorCallback
+                            , request.id
+                            , request.timeout
+                            );
     }
   }
 

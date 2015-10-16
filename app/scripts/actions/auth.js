@@ -60,6 +60,28 @@ function allowAuthRPC ( auth ) {
   }
 }
 
+function handleSuccess ( response ) {
+  return ( dispatch, getState ) => {
+
+    // On a successful login, dequeue any actions which may have been requested
+    // either before the connection was made, or before the authentication was
+    // complete.
+    MiddlewareClient.changeAuth( true );
+    MiddlewareClient.dequeueActions();
+
+    return dispatch( loginSuccess( response ) );
+  }
+}
+
+function handleFailure ( response ) {
+  return ( dispatch, getState ) => {
+    MiddlewareClient.changeAuth( false );
+
+    return dispatch( loginFailure( response ) );
+  }
+}
+
+
 export function authRPC () {
   return ( dispatch, getState ) => {
     const state = getState();
@@ -79,8 +101,8 @@ export function authRPC () {
 
       MiddlewareClient.login( namespace
                             , payload
-                            , ( response ) => dispatch( loginSuccess( response ) )
-                            , ( response ) => dispatch( loginFailure( response ) )
+                            , ( response ) => dispatch( handleSuccess( response ) )
+                            , ( response ) => dispatch( handleFailure( response ) )
                             );
 
       return dispatch( loginSubmit() );

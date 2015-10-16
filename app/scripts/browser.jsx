@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import configureStore from "./store/configureStore";
+import * as actions from "./actions/middleware";
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";
@@ -21,8 +22,16 @@ import MiddlewareClient from "./websocket/MiddlewareClient";
 
 if ( process.env.BROWSER ) {
   let store = configureStore();
-  let { protocol, host, path, mode } = TargetHost.connection();
   let history = createBrowserHistory();
+  let { protocol, host, path, mode } = TargetHost.connection();
+
+  MiddlewareClient.bindHandlers( store
+    , { onSockStateChange: ( state ) =>
+          store.dispatch( actions.changeSockState( state ) )
+      , onSockTargetChange: ( targetData ) =>
+          store.dispatch( actions.changeSockTarget( targetData ) )
+      }
+    );
 
   MiddlewareClient.connect( protocol, host, path, mode );
   MiddlewareClient.subscribe(
