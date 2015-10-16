@@ -103,7 +103,7 @@ class App extends React.Component {
           <SessionInterruptDialog />
 
             <Motion
-              defaultStyle = {{ blur: 0 }}
+              defaultStyle = {{ blur: 100 }}
               style = {{ blur: spring( this.props.showSID ? 100 : 0 )}}
             >
               { ({ blur }) =>

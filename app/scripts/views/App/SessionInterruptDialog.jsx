@@ -29,7 +29,7 @@ class SessionInterruptDialog extends React.Component {
                   : "LOGIN";
     return (
       <Motion
-        defaultStyle = {{ mainOpacity: 0 }}
+        defaultStyle = {{ mainOpacity: 1 }}
         style = {{ mainOpacity: spring( this.props.showSID ? 1 : 0 ) }}
       >
         { ({ mainOpacity }) =>
