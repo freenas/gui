@@ -74,7 +74,7 @@ export default class SSH extends React.Component {
       <Input
         type = "checkbox"
         label = "TCP Port Forwarding"
-        value = { this.props.allow_port_forwarding }
+        checked = { this.props.allow_port_forwarding }
       />
     );
 
@@ -82,7 +82,7 @@ export default class SSH extends React.Component {
       <Input
         type = "checkbox"
         label = "Login as root with password"
-        value = { this.props.permit_root_login }
+        checked = { this.props.permit_root_login }
       />
     );
 
@@ -90,7 +90,7 @@ export default class SSH extends React.Component {
       <Input
         type = "checkbox"
         label = "Allow Password Authentication"
-        value = { this.props.allow_password_auth }
+        checked = { this.props.allow_password_auth }
       />
     );
 
@@ -98,7 +98,7 @@ export default class SSH extends React.Component {
       <Input
         type = "checkbox"
         label = "Compress Connection"
-        value = { this.props.compression }
+        checked = { this.props.compression }
       />
     );
 
