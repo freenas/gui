@@ -15,8 +15,6 @@ import GS from "../../flux/stores/GroupsStore";
 import UM from "../../flux/middleware/UsersMiddleware";
 import US from "../../flux/stores/UsersStore";
 
-import MS from "../../flux/stores/MiddlewareStore";
-
 const VIEWER_DATA =
   { keyUnique     : GS.uniqueKey
   , keyPrimary    : "name"
@@ -90,8 +88,6 @@ const Groups = React.createClass(
     US.addChangeListener( this.handleUsersChange );
     UM.requestUsersList();
     UM.subscribe( this.constructor.displayName );
-
-    MS.addChangeListener( this.handleModeSwap );
   }
 
   , componentWillUnmount: function () {
@@ -100,8 +96,6 @@ const Groups = React.createClass(
 
     US.removeChangeListener( this.handleUsersChange );
     UM.unsubscribe( this.constructor.displayName );
-
-    MS.removeChangeListener( this.handleModeSwap );
   }
 
   , handleGroupsChange: function ( eventMask ) {
@@ -116,11 +110,6 @@ const Groups = React.createClass(
     if ( eventMask === "users" ) {
       this.setState( { usersList: US.users } );
     }
-  }
-
-  , handleModeSwap: function () {
-    this.handleUsersChange();
-    this.handleGroupsChange();
   }
 
   , render: function () {
