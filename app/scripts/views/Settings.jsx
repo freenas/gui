@@ -16,6 +16,10 @@ if ( process.env.BROWSER ) require( "./Settings.less" );
 const sections = [ { route: "/settings/system"
                    , display: "System"
                    }
+                 , { route: "/settings/sharing"
+                   , display: "Sharing"
+                   , disabled: true
+                   }
                  , { route: "/settings/update"
                    , display: "Updates"
                    }

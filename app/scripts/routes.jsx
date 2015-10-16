@@ -25,6 +25,7 @@ import Console from "./views/Console";
 import Hardware from "./views/Hardware";
 import Settings from "./views/Settings";
   import System from "./views/Settings/System";
+  import Sharing from "./views/Settings/Sharing";
   import Update from "./views/Settings/Update";
   import Security from "./views/Settings/Security";
   import Alerts from "./views/Settings/Alerts";
@@ -94,6 +95,7 @@ export default (
       <IndexRedirect to = "/settings/system" />
 
       <Route path="system" component={ System } />
+      <Route path="sharing" component={ Sharing } />
       <Route path="update" component={ Update } />
       <Route path="security" component={ Security } />
       <Route path="alerts" component={ Alerts } />
