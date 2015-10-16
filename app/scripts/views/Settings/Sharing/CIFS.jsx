@@ -339,7 +339,6 @@ CIFS.propTypes = { dos_charset: React.PropTypes.string
                  , min_protocol: React.PropTypes.oneOf( PROTOCOLS )
                  , obey_pam_restrictions: React.PropTypes.bool
                  , workgroup: React.PropTypes.string
-                 , sid: React.PropTypes.string // I have no idea what this is
                  , time_server: React.PropTypes.bool
                  , guest_user: React.PropTypes.string
                  , local_master: React.PropTypes.bool
