@@ -15,10 +15,10 @@ const READY_STATE =
 const INITIAL_STATE =
   { isConnecting : false
   , readyState   : null
-  , protocol     : null
-  , host         : null
-  , path         : null
-  , mode         : null
+  , protocol     : ""
+  , host         : ""
+  , path         : ""
+  , mode         : ""
   };
 
 

@@ -15,7 +15,7 @@ const INITIAL_STATE =
   , password      : ""
   , token         : null
   , tokenExpiry   : null
-  , activeUser    : null
+  , activeUser    : ""
   , showSID       : true
   };
 
