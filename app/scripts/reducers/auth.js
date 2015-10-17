@@ -10,13 +10,13 @@ const INITIAL_STATE =
   , didInvalidate : false
   , loggedIn      : false
   , badCombo      : false
-  , message       : "Welcome to FreeNAS X"
+  , SIDShow       : true
+  , SIDMessage    : "Welcome to FreeNAS X"
   , username      : ""
   , password      : ""
   , token         : null
   , tokenExpiry   : null
   , activeUser    : ""
-  , showSID       : true
   };
 
 export default function auth ( state = INITIAL_STATE, action ) {
@@ -41,18 +41,18 @@ export default function auth ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state,
         { isFetching : true
         , badCombo   : false
-        , message    : "Logging you in..."
+        , SIDMessage : "Logging you in..."
         }
       );
 
     case actionTypes.LOGIN_SUCCESS:
       return Object.assign( {}, state,
         { isFetching  : false
+        , SIDShow     : false
+        , SIDMessage  : "Login successful"
         , loggedIn    : true
         , badCombo    : false
         , password    : ""
-        , message     : "Login successful"
-        , showSID     : false
         , token       : payload.token
         , tokenExpiry : payload.tokenExpiry
         , activeUser  : payload.activeUser
@@ -61,8 +61,17 @@ export default function auth ( state = INITIAL_STATE, action ) {
     case actionTypes.LOGIN_FAILURE:
       return Object.assign( {}, state,
         { isFetching : false
+        , SIDShow    : true
+        , SIDMessage : "The username or password was incorrect"
         , badCombo   : true
-        , message    : "The username or password was incorrect"
+        });
+
+    case actionTypes.LOGOUT:
+      return Object.assign( {}, state,
+        { isFetching : false
+        , SIDShow    : true
+        , SIDMessage : "You have logged out"
+        , loggedIn   : false
         });
 
     default:

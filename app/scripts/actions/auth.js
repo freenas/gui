@@ -41,7 +41,14 @@ function loginSuccess ( response ) {
   );
 }
 
-function loginFailure ( errorMessage ) {
+export function handleLoginSuccess ( response ) {
+  return ( dispatch, getState ) => {
+    MiddlewareClient.dequeueActions();
+    return dispatch( loginSuccess( response ) );
+  }
+}
+
+export function loginFailure ( errorMessage ) {
   return (
     { type: actionTypes.LOGIN_FAILURE
     , error: true
@@ -49,6 +56,11 @@ function loginFailure ( errorMessage ) {
     }
   );
 }
+
+export function logout () {
+  return { type: actionTypes.LOGOUT };
+}
+
 
 function allowAuthRPC ( auth ) {
   if ( auth.loggedIn || auth.isFetching ) {

@@ -104,7 +104,7 @@ class App extends React.Component {
 
             <Motion
               defaultStyle = {{ blur: 100 }}
-              style = {{ blur: spring( this.props.showSID ? 100 : 0 )}}
+              style = {{ blur: spring( this.props.shouldBlur ? 100 : 0 )}}
             >
               { ({ blur }) =>
 
@@ -144,7 +144,7 @@ class App extends React.Component {
 
 // REDUX
 function mapStateToProps ( state ) {
-  return { showSID: state.auth.showSID };
+  return { shouldBlur: state.auth.SIDShow || state.middleware.SIDShow };
 }
 
 

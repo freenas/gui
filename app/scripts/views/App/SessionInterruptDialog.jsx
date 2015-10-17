@@ -23,14 +23,13 @@ if ( process.env.BROWSER ) require( "./SessionInterruptDialog.less" );
 // REACT
 class SessionInterruptDialog extends React.Component {
   render () {
-    // TODO: The logic for this will need to be more complicated at some point
-    const VISIBLE = this.props.isFetching
-                  ? "SPINNER"
-                  : "LOGIN";
+    const { auth, middleware, message, visible, ...handlers } = this.props;
+
+
     return (
       <Motion
         defaultStyle = {{ mainOpacity: 1 }}
-        style = {{ mainOpacity: spring( this.props.showSID ? 1 : 0 ) }}
+        style = {{ mainOpacity: spring( visible ? 1 : 0 ) }}
       >
         { ({ mainOpacity }) =>
           <div
@@ -51,18 +50,18 @@ class SessionInterruptDialog extends React.Component {
                 <img className="logo-x" src="/images/X.png" />
               </div>
 
-              <h3>{ this.props.message }</h3>
+              <h3>{ message }</h3>
 
               <Login
-                visible = { VISIBLE === "LOGIN" }
-                username = { this.props.username }
-                password = { this.props.password }
-                onUsernameChange = { this.props.onUsernameChange }
-                onPasswordChange = { this.props.onPasswordChange }
-                onLoginSubmit = { this.props.onLoginSubmit }
+                visible = { visible === "LOGIN" }
+                username = { auth.username }
+                password = { auth.password }
+                onUsernameChange = { handlers.onUsernameChange }
+                onPasswordChange = { handlers.onPasswordChange }
+                onLoginSubmit = { handlers.onLoginSubmit }
               />
 
-              <Spinner visible={ VISIBLE === "SPINNER" } />
+              <Spinner visible={ visible === "SPINNER" } />
             </div>
           </div>
         }
@@ -74,9 +73,23 @@ class SessionInterruptDialog extends React.Component {
 
 // REDUX
 function mapStateToProps ( state ) {
-  return (
-    { ...state.auth }
-  );
+  const { auth, middleware } = state;
+
+  let message = "";
+  let visible = false;
+
+  if ( middleware.isChanging ) {
+    visible = "SPINNER";
+    message = middleware.SIDMessage;
+  } else if ( auth.isChanging ) {
+    visible = "SPINNER";
+    message = auth.SIDMessage;
+  } else if ( auth.loggedIn === false ) {
+    visible = "LOGIN";
+    message = auth.SIDMessage;
+  }
+
+  return ({ auth, middleware, message, visible });
 }
 
 function mapDispatchToProps ( dispatch ) {

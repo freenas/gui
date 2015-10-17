@@ -13,14 +13,31 @@ const READY_STATE =
   };
 
 const INITIAL_STATE =
-  { isConnecting : false
-  , readyState   : null
-  , protocol     : ""
-  , host         : ""
-  , path         : ""
-  , mode         : ""
+  { isChanging : true
+  , SIDShow    : true
+  , SIDMessage : ""
+  , readyState : null
+  , protocol   : ""
+  , host       : ""
+  , path       : ""
+  , mode       : ""
   };
 
+function getSIDMessage ( state, readyState ) {
+  switch ( readyState ) {
+    case 0:
+      return `Connecting`;
+
+    case 2:
+      return `Disconnected`;
+
+    case 3:
+      return `Re-establishing connection`;
+
+    default:
+      return "";
+  }
+}
 
 export default function auth ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
@@ -28,7 +45,11 @@ export default function auth ( state = INITIAL_STATE, action ) {
   switch( type ) {
     case actionTypes.WS_STATE_CHANGED:
       return Object.assign( {}, state,
-        { readyState: READY_STATE[ payload.readyState ] }
+        { isChanging : payload.readyState === 0 || payload.readyState === 2
+        , SIDShow    : payload.readyState === 0 || payload.readyState === 2
+        , readyState : READY_STATE[ payload.readyState ]
+        , SIDMessage : getSIDMessage( state, payload.readyState )
+        }
       );
 
     case actionTypes.WS_TARGET_CHANGED:

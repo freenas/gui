@@ -14,7 +14,8 @@ import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import configureStore from "./store/configureStore";
-import * as actions from "./actions/middleware";
+import * as middlewareActions from "./actions/middleware";
+import * as authActions from "./actions/auth";
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";
@@ -27,13 +28,14 @@ if ( process.env.BROWSER ) {
 
   MiddlewareClient.bindHandlers( store
     , { onSockStateChange: ( state ) =>
-          store.dispatch( actions.changeSockState( state ) )
+          store.dispatch( middlewareActions.changeSockState( state ) )
       , onSockTargetChange: ( targetData ) =>
-          store.dispatch( actions.changeSockTarget( targetData ) )
+          store.dispatch( middlewareActions.changeSockTarget( targetData ) )
+      , onLogout: () =>
+          store.dispatch( authActions.logout() )
       }
     );
 
-  MiddlewareClient.connect( protocol, host, path, mode );
   MiddlewareClient.subscribe(
     [ "task.created"
     , "task.updated"
@@ -49,4 +51,8 @@ if ( process.env.BROWSER ) {
     , document
   );
 
+  // Connecting the middleware client must be the last action taken. Because of
+  // the way it mutates the global state, we need to ensure that the app is
+  // rendered at least once with initial (isomorphic) values before any changes.
+  MiddlewareClient.connect( protocol, host, path, mode );
 }

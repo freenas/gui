@@ -25,6 +25,10 @@ import sessionCookies from "../utility/cookies";
 
 const defaultTimeoutDelay = 10000;
 
+function notBoundWarn ( name ) {
+  MCD.warn( `MiddlewareClient.${ name } was not bound.` );
+}
+
 class MiddlewareClient {
 
   constructor () {
@@ -35,10 +39,9 @@ class MiddlewareClient {
     this.isAuthenticated = false;
 
     this.store = null;
-    this.onSockStateChange = () =>
-      console.warn( "MiddlewareClient.onSockStateChange was not bound.");
-    this.onSockTargetChange = () =>
-      console.warn( "MiddlewareClient.onSockTargetChange was not bound.");
+    this.onSockStateChange  = () => notBoundWarn( "onSockStateChange" );
+    this.onSockTargetChange = () => notBoundWarn( "onSockTargetChange" );
+    this.onLogout           = () => notBoundWarn( "onLogout" );
   }
 
   // HACK: Workaround to avoid disrupting current logic flow, but this should
@@ -269,41 +272,34 @@ class MiddlewareClient {
   // Based on the status of the WebSocket connection and the authentication
   // state, either logs and sends an action, or enqueues it until it can be sent
   processNewRequest ( action, onSuccess, onError, id, timeout ) {
-    if ( this.socket ) {
-      if ( this.socket.readyState === 1 && this.isAuthenticated ) {
+    if ( this.socket && this.socket.readyState === 1 && this.isAuthenticated ) {
 
-        if ( MCD.reports( "logging" ) ) {
-          MCD.info( `Logging and sending request %c'${ id }'`
-                  , [ "uuid" ]
-                  );
-          MCD.dir( action );
-        }
-
-        this.logPendingRequest( id, onSuccess, onError, action, timeout );
-        this.socket.send( action );
-
-      } else {
-
-        if ( MCD.reports( "queues" ) ) {
-          MCD.info( `Enqueueing request %c'${ id }'`, [ "uuid" ] );
-        }
-
-        this.queuedActions.push(
-          { action: action
-          , id: id
-          , successCallback: onSuccess
-          , errorCallback: onError
-          , timeout: timeout
-          }
-        );
-
+      if ( MCD.reports( "logging" ) ) {
+        MCD.info( `Logging and sending request %c'${ id }'`
+                , [ "uuid" ]
+                );
+        MCD.dir( action );
       }
-    } else {
-      MCD.error(
-        "Tried to process a request without an active WebSocket connection"
-      );
-    }
 
+      this.logPendingRequest( id, onSuccess, onError, action, timeout );
+      this.socket.send( action );
+
+    } else {
+
+      if ( MCD.reports( "queues" ) ) {
+        MCD.info( `Enqueueing request %c'${ id }'`, [ "uuid" ] );
+      }
+
+      this.queuedActions.push(
+        { action: action
+        , id: id
+        , successCallback: onSuccess
+        , errorCallback: onError
+        , timeout: timeout
+        }
+      );
+
+    }
   }
 
   // Many views' lifecycle will make a request before the connection is made,
@@ -466,6 +462,8 @@ class MiddlewareClient {
     // connection
     sessionCookies.delete( "auth" );
     this.disconnect( 1000, "User logged out" );
+    this.changeAuth( false );
+    this.onLogout();
   }
 
   // CHANNELS AND REQUESTS
