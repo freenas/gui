@@ -40,7 +40,6 @@ class MiddlewareClient {
 
     this.store = null;
     this.onSockStateChange  = () => notBoundWarn( "onSockStateChange" );
-    this.onSockTargetChange = () => notBoundWarn( "onSockTargetChange" );
     this.onLogout           = () => notBoundWarn( "onLogout" );
   }
 
@@ -82,7 +81,6 @@ class MiddlewareClient {
     }
 
     this.onSockStateChange( this.socket.readyState );
-    this.onSockTargetChange({ protocol, host, path, mode });
   }
 
   // Shortcut method for closing the WebSocket connection.

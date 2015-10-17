@@ -21,3 +21,11 @@ export function changeSockTarget ( targetData ) {
     }
   )
 }
+
+export function attemptConnection () {
+  return { type: actionTypes.ATTEMPT_CONNECTION }
+}
+
+export function reconnectTick () {
+  return { type: actionTypes.RECONNECT_TICK }
+}

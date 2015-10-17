@@ -22,15 +22,16 @@ import ConnectionHandler from "./websocket/ConnectionHandler";
 import MiddlewareClient from "./websocket/MiddlewareClient";
 
 if ( process.env.BROWSER ) {
-  let store = configureStore();
-  let history = createBrowserHistory();
-  let { protocol, host, path, mode } = TargetHost.connection();
+  const store = configureStore();
+  const reconnect = new ConnectionHandler( store );
+  const history = createBrowserHistory();
+  const { protocol, host, path, mode } = TargetHost.connection();
+
+  store.dispatch( middlewareActions.changeSockTarget({ protocol, host, path, mode }) );
 
   MiddlewareClient.bindHandlers( store
     , { onSockStateChange: ( state ) =>
           store.dispatch( middlewareActions.changeSockState( state ) )
-      , onSockTargetChange: ( targetData ) =>
-          store.dispatch( middlewareActions.changeSockTarget( targetData ) )
       , onLogout: () =>
           store.dispatch( authActions.logout() )
       }
