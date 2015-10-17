@@ -18,6 +18,7 @@ const sections = [ { route: "/settings/system"
                    }
                  , { route: "/settings/sharing"
                    , display: "Sharing"
+                   , disabled: true
                    }
                  , { route: "/settings/update"
                    , display: "Updates"
