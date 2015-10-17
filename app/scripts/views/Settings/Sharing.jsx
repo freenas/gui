@@ -22,28 +22,24 @@ export default class Sharing extends React.Component {
   render () {
     return (
       <div className="view-content">
-        <section>
-          <Col xs = {4}>
-            <CIFS />
-          </Col>
-          <Col xs = {4}>
-            <NFS />
-          </Col>
-          <Col xs = {4}>
-            <AFP />
-          </Col>
-        </section>
-        <section>
-          <Col xs = {4}>
-            <WebDav />
-          </Col>
-          <Col xs = {4}>
-            <FTP />
-          </Col>
-          <Col xs = {4}>
-            <TFTP />
-          </Col>
-        </section>
+        <Col xs = {4}>
+          <FTP />
+        </Col>
+        <Col xs = {4}>
+          <CIFS />
+        </Col>
+        <Col xs = {4}>
+          <NFS />
+        </Col>
+        <Col xs = {4}>
+          <AFP />
+        </Col>
+        <Col xs = {4}>
+          <WebDav />
+        </Col>
+        <Col xs = {4}>
+          <TFTP />
+        </Col>
       </div>
     );
   }
