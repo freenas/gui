@@ -6,76 +6,45 @@
 "use strict";
 
 import MiddlewareClient from "./MiddlewareClient";
-
-import MS from "../flux/stores/MiddlewareStore";
-import MAC from "../flux/actions/MiddlewareActionCreators";
+import * as actions from "../actions/middleware";
 
 // Time in ms before a reconnect is attempted
 const RECONNECT_INTERVALS = [ 5000, 8000, 13000, 21000, 34000 ];
 
 class ConnectionHandler {
-  constructor () {
+  constructor ( store ) {
     this.timeout = null;
-    this.remainingTime = 0;
-    this.reconnectAttempts = 0;
-    this.lastKnownStatus = null;
+    this.shouldReconnect = false;
+    this.store = store;
 
-    MS.addChangeListener( this.handleSocketStateChange.bind( this ) );
+    this.store.subscribe( this.handleSocketStateChange.bind( this ) );
   }
 
-  handleSocketStateChange ( changeMask ) {
-    if ( changeMask === "SOCKET_STATE" && MS.status !== this.lastKnownStatus ) {
-      clearTimeout( this.timeout );
-      this.timeout = null;
-      this.lastKnownStatus = MS.status;
+  handleSocketStateChange () {
+    const { middleware } = this.store.getState();
+    // Cache and compare last state value to determine if timeout should be run
+    let prevShouldReconnect = this.shouldReconnect;
+    this.shouldReconnect = middleware.shouldReconnect;
 
-      switch ( MS.status ) {
-        case "DISCONNECTED":
-          if ( this.reconnectAttempts === 0 ) {
-            this.attemptConnection();
-          } else {
-            this.connectionTimeout();
-          }
-          break;
-
-        case "CONNECTING":
-          let lastReconnectIndex = RECONNECT_INTERVALS.length - 1;
-          this.remainingTime = ( this.reconnectAttempts < lastReconnectIndex )
-                             ? RECONNECT_INTERVALS[ this.reconnectAttempts ]
-                             : RECONNECT_INTERVALS[ lastReconnectIndex ];
-          this.reconnectAttempts++;
-          break;
-
-        case "CONNECTED":
-          this.remainingTime = 0;
-          this.reconnectAttempts = 0;
-          break;
-      }
+    if ( this.shouldReconnect
+      && this.shouldReconnect !== prevShouldReconnect ) {
+      this.connectionTimeout();
     }
   }
 
   connectionTimeout () {
-    if ( this.remainingTime === 0 ) {
-      this.attemptConnection();
-    } else {
-      this.remainingTime = Math.max( 0, this.remainingTime - 1000 );
-      MAC.updateReconnectTime( this.remainingTime );
-      this.timeout = setTimeout( this.connectionTimeout.bind( this ), 1000 );
-    }
-  }
+    const { middleware } = this.store.getState();
+    clearTimeout( this.timeout );
+    this.timeout = null;
 
-  attemptConnection () {
-    let { protocol, host, path } = MS;
-
-    if ( protocol && host && path ) {
-      MiddlewareClient.connect( protocol, host, path );
+    if ( middleware.reconnectTime === 0 ) {
+      this.store.dispatch( actions.attemptConnection() );
+      MiddlewareClient.connect( middleware.protocol, middleware.host, middleware.path );
     } else {
-      console.warn( "Could not create connect to FreeNAS Middleware with the "
-                  + "supplied parameters:"
-                  );
-      console.dir({ protocol, host, path });
+      this.store.dispatch( actions.reconnectTick() );
+      this.timeout = setTimeout( () => { this.connectionTimeout() }, 1000 );
     }
   }
 };
 
-export default new ConnectionHandler();
+export default ConnectionHandler;

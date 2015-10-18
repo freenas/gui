@@ -15,8 +15,6 @@ import US from "../../flux/stores/UsersStore";
 import GM from "../../flux/middleware/GroupsMiddleware";
 import GS from "../../flux/stores/GroupsStore";
 
-import MS from "../../flux/stores/MiddlewareStore";
-
 import SS from "../../flux/stores/SessionStore";
 
 import ShellMiddleware from "../../flux/middleware/ShellMiddleware";
@@ -102,8 +100,6 @@ const Users = React.createClass(
     GM.requestGroupsList();
     GM.subscribe( this.constructor.displayName );
 
-    MS.addChangeListener( this.handleModeSwap );
-
     ShellStore.addChangeListener( this.populateShells );
     ShellMiddleware.requestAvailableShells();
   }
@@ -114,8 +110,6 @@ const Users = React.createClass(
 
     GS.removeChangeListener( this.handleGroupsChange );
     GM.unsubscribe( this.constructor.displayName );
-
-    MS.removeChangeListener( this.handleModeSwap );
 
     ShellStore.removeChangeListener( this.populateShells );
   }
@@ -136,11 +130,6 @@ const Users = React.createClass(
     } else if ( eventMask === "nextUID" ) {
       this.setState( { nextUID: US.nextUID } );
     }
-  }
-
-  , handleModeSwap: function () {
-    this.handleUsersChange();
-    this.handleGroupsChange();
   }
 
   , render: function () {

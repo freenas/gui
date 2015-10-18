@@ -15,16 +15,26 @@ import { argv } from "yargs";
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { match, RoutingContext } from "react-router";
+import { Provider } from "react-redux";
 
+import configureStore from "../store/configureStore";
 import routes from "../routes";
 
 // Content
 const BUNDLE = fs.readFileSync( path.normalize( __dirname + "./../../build/app.js" ) );
-
+let store = configureStore();
 var app = mach.stack();
 
 function isDevMode () {
   return Boolean( argv.connect || argv.simulation );
+}
+
+function getAppHTML ( renderProps ) {
+  return renderToString(
+    <Provider store={ store } >
+      <RoutingContext { ...renderProps } />
+    </Provider>
+  );
 }
 
 // Mach server helpers
@@ -36,7 +46,7 @@ function renderApp ( path ) {
       } else if ( redirectLocation ) {
         resolve( redirectLocation.pathname + redirectLocation.search );
       } else if ( renderProps ) {
-        resolve( renderToString( <RoutingContext { ...renderProps } /> ) );
+        resolve( getAppHTML( renderProps ) );
       } else {
         reject( new Error( "Route not found" ) );
       }
