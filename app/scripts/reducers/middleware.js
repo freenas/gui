@@ -15,7 +15,7 @@ const READY_STATE =
   };
 
 const INITIAL_STATE =
-  { connectionFailed: false
+  { shouldReconnect: false
   , SIDShow: true
   , SIDMessage: ""
   , readyState: null
@@ -51,25 +51,17 @@ function determineInterval ( attempts ) {
     || RECONNECT_INTERVALS[ RECONNECT_INTERVALS.length - 1 ];
 }
 
-function didConnectionFail ( payload, state ) {
-  if ( payload.readyState === 3 && state.readyState === 0 ) {
-
-  }
-}
-
 export default function auth ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
   switch( type ) {
     case actionTypes.ATTEMPT_CONNECTION:
-      const attempts = state.connectionAttempts + 1;
-
       return Object.assign( {}, state,
-        { connectionAttempts: attempts
+        { connectionAttempts: state.connectionAttempts + 1
         // Reset this flag when a connection is being attempted - avoids
         // flapping any listeners or handlers that depend on its value
-        , connectionFailed: false
-        , reconnectTime: determineInterval( attempts )
+        , shouldReconnect: false
+        , reconnectTime: determineInterval( state.connectionAttempts )
         }
       );
 
@@ -78,7 +70,7 @@ export default function auth ( state = INITIAL_STATE, action ) {
         { reconnectTime: Math.max( 0, state.reconnectTime - 1000 )
         // Reset this flag when a connection is being attempted - avoids
         // flapping any listeners or handlers that depend on its value
-        , connectionFailed: false
+        , shouldReconnect: false
         , SIDShow: true
         , SIDMessage: `Reconnecting to ${ state.host } in ${ state.reconnectTime / 1000 } seconds...`
         }
@@ -86,11 +78,14 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
     case actionTypes.WS_STATE_CHANGED:
       const NEW_READY_STATE = READY_STATE[ payload.readyState ];
+      // The previous state was connecting, and the new state is closed - this
+      // means either a timeout or other failure.
+      const CONNECTION_FAILED = state.readyState === "CONNECTING" && NEW_READY_STATE === "CLOSED";
 
       return Object.assign( {}, state,
-        // The previous state was connecting, and the new state is closed - this
-        // means either a timeout or other failure.
-        { connectionFailed: state.readyState === "CONNECTING" && NEW_READY_STATE === "CLOSED"
+        // If the connection failed, set the reconnection flag. Otherwise,
+        // retain the previous value
+        { shouldReconnect: CONNECTION_FAILED || state.shouldReconnect
         , SIDShow: NEW_READY_STATE !== "OPEN"
         , SIDMessage: getSIDMessage( state, payload.readyState )
         , readyState: NEW_READY_STATE
@@ -106,6 +101,15 @@ export default function auth ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state,
         { ...payload }
       );
+
+
+    case actionTypes.LOGOUT:
+      // TODO: Later on, we'll have to change this to allow connecting to
+      // different hosts
+      return Object.assign( {}, state,
+        { shouldReconnect: true }
+      );
+
 
     default:
       return state;

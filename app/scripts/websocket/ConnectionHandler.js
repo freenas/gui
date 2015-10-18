@@ -14,7 +14,7 @@ const RECONNECT_INTERVALS = [ 5000, 8000, 13000, 21000, 34000 ];
 class ConnectionHandler {
   constructor ( store ) {
     this.timeout = null;
-    this.connectionFailed = false;
+    this.shouldReconnect = false;
     this.store = store;
 
     this.store.subscribe( this.handleSocketStateChange.bind( this ) );
@@ -23,11 +23,11 @@ class ConnectionHandler {
   handleSocketStateChange () {
     const { middleware } = this.store.getState();
     // Cache and compare last state value to determine if timeout should be run
-    let prevConnectionFailed = this.connectionFailed;
-    this.connectionFailed = middleware.connectionFailed;
+    let prevShouldReconnect = this.shouldReconnect;
+    this.shouldReconnect = middleware.shouldReconnect;
 
-    if ( this.connectionFailed
-      && this.connectionFailed !== prevConnectionFailed ) {
+    if ( this.shouldReconnect
+      && this.shouldReconnect !== prevShouldReconnect ) {
       this.connectionTimeout();
     }
   }
