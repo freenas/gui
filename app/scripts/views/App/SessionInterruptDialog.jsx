@@ -78,15 +78,16 @@ function mapStateToProps ( state ) {
   let message = "";
   let visible = false;
 
-  if ( middleware.isChanging ) {
+  if ( middleware.SIDShow ) {
     visible = "SPINNER";
     message = middleware.SIDMessage;
-  } else if ( auth.isChanging ) {
-    visible = "SPINNER";
+  } else if ( auth.SIDShow ) {
     message = auth.SIDMessage;
-  } else if ( auth.loggedIn === false ) {
-    visible = "LOGIN";
-    message = auth.SIDMessage;
+    if ( auth.loggedIn === false ) {
+      visible = "SPINNER";
+    } else {
+      visible = "LOGIN";
+    }
   }
 
   return ({ auth, middleware, message, visible });

@@ -14,7 +14,7 @@ const RECONNECT_INTERVALS = [ 5000, 8000, 13000, 21000, 34000 ];
 class ConnectionHandler {
   constructor ( store ) {
     this.timeout = null;
-    this.lastState = null;
+    this.connectionFailed = false;
     this.store = store;
 
     this.store.subscribe( this.handleSocketStateChange.bind( this ) );
@@ -22,45 +22,27 @@ class ConnectionHandler {
 
   handleSocketStateChange () {
     const { middleware } = this.store.getState();
+    // Cache and compare last state value to determine if timeout should be run
+    let prevConnectionFailed = this.connectionFailed;
+    this.connectionFailed = middleware.connectionFailed;
 
-    if ( middleware.readyState !== this.lastState
-      && middleware.readyState === "CLOSED" ) {
-      this.lastState = middleware.readyState;
-      clearTimeout( this.timeout );
-
-      if ( middleware.connectionAttempts === 0 ) {
-        this.attemptConnection();
-      } else {
-        this.connectionTimeout();
-      }
+    if ( this.connectionFailed
+      && this.connectionFailed !== prevConnectionFailed ) {
+      this.connectionTimeout();
     }
-
-    // Cache the current state for comparison purposes in the future
-    this.lastState = middleware.readyState;
   }
 
   connectionTimeout () {
-    const { reconnectTime } = this.store.getState().middleware;
+    const { middleware } = this.store.getState();
+    clearTimeout( this.timeout );
+    this.timeout = null;
 
-    if ( reconnectTime === 0 ) {
-      this.attemptConnection();
+    if ( middleware.reconnectTime === 0 ) {
+      this.store.dispatch( actions.attemptConnection() );
+      MiddlewareClient.connect( middleware.protocol, middleware.host, middleware.path );
     } else {
       this.store.dispatch( actions.reconnectTick() );
-      this.timeout = setTimeout( () => this.connectionTimeout, 1000 );
-    }
-  }
-
-  attemptConnection () {
-    const { protocol, host, path } = this.store.getState().middleware;
-
-    if ( protocol && host && path ) {
-      this.store.dispatch( actions.attemptConnection() );
-      MiddlewareClient.connect( protocol, host, path );
-    } else {
-      console.warn( "Could not create connect to FreeNAS Middleware with the "
-                  + "supplied parameters:"
-                  );
-      console.dir({ protocol, host, path });
+      this.timeout = setTimeout( () => { this.connectionTimeout() }, 1000 );
     }
   }
 };

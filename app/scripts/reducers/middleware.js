@@ -15,12 +15,12 @@ const READY_STATE =
   };
 
 const INITIAL_STATE =
-  { isChanging: true
+  { connectionFailed: false
   , SIDShow: true
   , SIDMessage: ""
   , readyState: null
   , connectionAttempts: 0
-  , reconnectTime: 0
+  , reconnectTime: RECONNECT_INTERVALS[0]
   , protocol: ""
   , host: ""
   , path: ""
@@ -51,6 +51,12 @@ function determineInterval ( attempts ) {
     || RECONNECT_INTERVALS[ RECONNECT_INTERVALS.length - 1 ];
 }
 
+function didConnectionFail ( payload, state ) {
+  if ( payload.readyState === 3 && state.readyState === 0 ) {
+
+  }
+}
+
 export default function auth ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
@@ -60,23 +66,38 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
       return Object.assign( {}, state,
         { connectionAttempts: attempts
+        // Reset this flag when a connection is being attempted - avoids
+        // flapping any listeners or handlers that depend on its value
+        , connectionFailed: false
         , reconnectTime: determineInterval( attempts )
         }
       );
 
     case actionTypes.RECONNECT_TICK:
+      const remaining = Math.max( 0, state.reconnectTime - 1000 )
       return Object.assign( {}, state,
-        { reconnectTime: Math.max( 0, state.reconnectTime - 1000 )
+        { reconnectTime: remaining
+        // Reset this flag when a connection is being attempted - avoids
+        // flapping any listeners or handlers that depend on its value
+        , connectionFailed: false
+        , SIDShow: true
+        , SIDMessage: `Reconnecting to ${ state.host } in ${ remaining / 1000 } seconds...`
         }
       );
 
     case actionTypes.WS_STATE_CHANGED:
+      const NEW_READY_STATE = READY_STATE[ payload.readyState ];
+
       return Object.assign( {}, state,
-        { isChanging: payload.readyState === 0 || payload.readyState === 2
-        , SIDShow: payload.readyState === 0 || payload.readyState === 2
+        // The previous state was connecting, and the new state is closed - this
+        // means either a timeout or other failure.
+        { connectionFailed: state.readyState === "CONNECTING" && NEW_READY_STATE === "CLOSED"
+        , SIDShow: NEW_READY_STATE !== "OPEN"
         , SIDMessage: getSIDMessage( state, payload.readyState )
-        , readyState: READY_STATE[ payload.readyState ]
-        , connectionAttempts: payload.readyState === 1
+        , readyState: NEW_READY_STATE
+        // When the connection opens, reset the connection attempts counter. If
+        // the connection is in another state, preserve the previous value.
+        , connectionAttempts:  NEW_READY_STATE === "OPEN"
                             ? 0
                             : state.connectionAttempts
         }
