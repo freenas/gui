@@ -74,14 +74,13 @@ export default function auth ( state = INITIAL_STATE, action ) {
       );
 
     case actionTypes.RECONNECT_TICK:
-      const remaining = Math.max( 0, state.reconnectTime - 1000 )
       return Object.assign( {}, state,
-        { reconnectTime: remaining
+        { reconnectTime: Math.max( 0, state.reconnectTime - 1000 )
         // Reset this flag when a connection is being attempted - avoids
         // flapping any listeners or handlers that depend on its value
         , connectionFailed: false
         , SIDShow: true
-        , SIDMessage: `Reconnecting to ${ state.host } in ${ remaining / 1000 } seconds...`
+        , SIDMessage: `Reconnecting to ${ state.host } in ${ state.reconnectTime / 1000 } seconds...`
         }
       );
 
