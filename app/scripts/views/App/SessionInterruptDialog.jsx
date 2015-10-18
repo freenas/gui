@@ -83,7 +83,7 @@ function mapStateToProps ( state ) {
     message = middleware.SIDMessage;
   } else if ( auth.SIDShow ) {
     message = auth.SIDMessage;
-    if ( auth.loggedIn === false ) {
+    if ( auth.isFetching ) {
       visible = "SPINNER";
     } else {
       visible = "LOGIN";
