@@ -49,7 +49,7 @@ export default (
 
     {/* ACCOUNTS */}
     <Route path="accounts" component={ Accounts } >
-      <IndexRedirect to = "/accounts/users" />
+      <IndexRoute component={ Users } />
 
 
       {/* USERS */}
@@ -92,7 +92,8 @@ export default (
 
     { /* Settings */ }
     <Route path="settings" component={ Settings } >
-      <IndexRedirect to = "/settings/system" />
+      <IndexRoute component={ System } />
+
 
       <Route path="system" component={ System } />
       <Route path="sharing" component={ Sharing } />
