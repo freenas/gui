@@ -76,7 +76,7 @@ const GroupItem = React.createClass({
     var DisplayComponent = null;
     var processingText = "";
 
-    if ( this.state.SESSION_AUTHENTICATED && this.state.targetGroup ) {
+    if ( this.state.targetGroup ) {
 
       // DISPLAY COMPONENT
       let childProps = { handleViewChange : this.handleViewChange

@@ -71,7 +71,7 @@ const UserItem = React.createClass(
       var DisplayComponent = null;
       var processingText   = "";
 
-      if ( this.state.SESSION_AUTHENTICATED && this.state.targetUser ) {
+      if ( this.state.targetUser ) {
 
         // DISPLAY COMPONENT
         var childProps =
