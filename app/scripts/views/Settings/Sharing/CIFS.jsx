@@ -326,9 +326,9 @@ export default class CIFS extends React.Component {
   }
 };
 
-CIFS.propTypes = { dos_charset: React.PropTypes.string
+CIFS.propTypes = { dos_charset: React.PropTypes.oneOf( DOS_CHARSETS)
                  , filemask: React.PropTypes.string
-                 , unix_charset: React.PropTypes.string
+                 , unix_charset: React.PropTypes.oneOf( UNIX_CHARSETS )
                  , domain_logons: React.PropTypes.bool
                  , max_protocol: React.PropTypes.oneOf( PROTOCOLS )
                  , netbiosname: React.PropTypes.arrayOf( React.PropTypes.string )
