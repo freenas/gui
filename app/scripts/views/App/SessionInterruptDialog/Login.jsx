@@ -31,6 +31,7 @@ const Login = ( props ) => {
           }
         >
           <Input
+            autoFocus
             type        = "text"
             placeholder = "Username"
             className   = "form-overlay"

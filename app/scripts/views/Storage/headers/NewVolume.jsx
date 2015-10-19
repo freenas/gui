@@ -19,11 +19,7 @@ export default class NewVolume extends React.Component {
           {/* VOLUME NAME INPUT */}
           <div className="volume-name-input">
             <Input
-              ref = { ( ref ) => {
-                if ( ref !== null ) {
-                  ref.getInputDOMNode().focus()
-                }
-              }}
+              autoFocus
               type        = "text"
               placeholder = "Volume Name"
               onClick     = { event => event.stopPropagation() }
