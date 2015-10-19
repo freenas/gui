@@ -11,6 +11,9 @@ import React from "react";
 import ZfsUtil from "../utility/ZfsUtil";
 import Coords from "../../../utility/Coords";
 
+// STYLESHEET
+if ( process.env.BROWSER ) require( "./Topologizer.less" );
+
 const Topologizer = React.createClass(
   { propTypes:
       { handleTopoRequest: React.PropTypes.func.isRequired
