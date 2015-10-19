@@ -43,16 +43,13 @@ var PRODUCTION_CONFIG =
         , loader: ExtractTextPlugin.extract( "css!less" )
         }
       , { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)/
-        , loader: "url-loader?limit=30000&name=[name]-[hash].[ext]"
+        , loader: "url?limit=30000&name=[name]-[hash].[ext]"
         }
       ]
     }
   , plugins:
     [ new webpack.NoErrorsPlugin()
-    , new ExtractTextPlugin( "extract.css"
-                           , { allChunks: true
-                             }
-                           )
+    , new ExtractTextPlugin( "extract.css", { allChunks: true } )
     , new webpack.DefinePlugin(
         { "process.env":
           { BROWSER: JSON.stringify( true )
@@ -76,10 +73,10 @@ var DEVELOPMENT_CONFIG =
         }
       , { test: /\.less$/
           // Activate source maps via loader query
-        , loader: ExtractTextPlugin.extract( "css?sourceMap!less?sourceMap" )
+        , loader: ExtractTextPlugin.extract( "css!less" )
         }
       , { test: /\.(eot|woff|woff2|ttf|svg|png|jpg)/
-        , loader: "url-loader?limit=30000&name=[name]-[hash].[ext]"
+        , loader: "file?name=[name]-[hash].[ext]"
         }
       ]
     }
@@ -87,10 +84,7 @@ var DEVELOPMENT_CONFIG =
   , plugins:
     [ new webpack.HotModuleReplacementPlugin()
     , new webpack.NoErrorsPlugin()
-    , new ExtractTextPlugin( "extract.css"
-                           , { allChunks: true
-                             }
-                           )
+    , new ExtractTextPlugin( "extract.css", { allChunks: true } )
     , new webpack.DefinePlugin(
         { "process.env":
           { BROWSER: JSON.stringify( true )
