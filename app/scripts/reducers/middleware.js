@@ -99,7 +99,10 @@ export default function auth ( state = INITIAL_STATE, action ) {
         , readyState: "CLOSED"
         // If the socket generated a normal closure, we return false. Otherwise,
         // we assume that the closure was undesirable and attempt to reconnect.
-        , reconnectNow: !isClosureNormal( payload.code )
+        // HACK: This needs to get changed in the future to accomodate
+        // changing the connection to another host
+        // , reconnectNow: !isClosureNormal( payload.code )
+        , reconnectNow: true
         }
       );
 
