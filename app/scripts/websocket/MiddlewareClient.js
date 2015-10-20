@@ -38,9 +38,19 @@ class MiddlewareClient {
     this.pendingRequests = {};
     this.isAuthenticated = false;
 
-    this.store = null;
-    this.onSockStateChange  = () => notBoundWarn( "onSockStateChange" );
-    this.onLogout           = () => notBoundWarn( "onLogout" );
+    // WEBSOCKET HANDLERS
+    this.onSockStateChange = () => notBoundWarn( "onSockStateChange" );
+    this.onLogout          = () => notBoundWarn( "onLogout" );
+
+    // TASK SUBMISSION HANDLERS
+    this.onTaskSubmitRequest = () => notBoundWarn( "onTaskSubmitRequest" );
+    this.onTaskSubmitFailure = () => notBoundWarn( "onTaskSubmitFailure" );
+    this.onTaskSubmitSuccess = () => notBoundWarn( "onTaskSubmitSuccess" );
+
+    // TASK UPDATE HANDLERS
+    this.onTaskCreated  = () => notBoundWarn( "onTaskCreated" );
+    this.onTaskUpdated  = () => notBoundWarn( "onTaskUpdated" );
+    this.onTaskProgress = () => notBoundWarn( "onTaskProgress" );
   }
 
   // HACK: Workaround to avoid disrupting current logic flow, but this should
@@ -49,8 +59,8 @@ class MiddlewareClient {
     this.isAuthenticated = bool;
   }
 
-  bindHandlers ( store, handlers ) {
-    Object.assign( this, { store, ...handlers } );
+  bindHandlers ( handlers ) {
+    Object.assign( this, { ...handlers } );
   }
 
   connect ( protocol = "ws://", host = "", path = "", mode = "" ) {
@@ -160,14 +170,24 @@ class MiddlewareClient {
 
       // A FreeNAS event has occurred
       case "events":
-        if ( MCD.reports( "messages" ) ) {
-          MCD.log( "Message contained event data" );
-        }
-        if ( data.name !== undefined && data.name === "logout" ) {
-          SAC.forceLogout( data.args, timestamp );
-          sessionCookies.delete( "auth" );
-        } else {
-          MiddlewareActionCreators.receiveEventData( data, timestamp );
+        const eventName = data.name.split( "." );
+
+        switch ( eventName[0] ) {
+          case "task":
+            handleTaskResponse( eventName[1], data.args.args );
+            break;
+
+          case "logout":
+            sessionCookies.delete( "auth" );
+            SAC.forceLogout( data.args, timestamp );
+            break;
+
+          default:
+            if ( MCD.reports( "messages" ) ) {
+              MCD.log( "Message contained event data" );
+            }
+            MiddlewareActionCreators.receiveEventData( data, timestamp );
+            break;
         }
         break;
 
@@ -200,9 +220,7 @@ class MiddlewareClient {
 
       // There was an error with a request or with its execution on FreeNAS
       case "error":
-        if ( MCD.reports( "messages" ) ) {
-          MCD.error( [ "Middleware has indicated an error:", data.args ] );
-        }
+        MCD.warn( [ "Middleware has indicated an error:", data.args ] );
         break;
 
       // A reply was sent from the middleware with no recognizable namespace
@@ -213,6 +231,23 @@ class MiddlewareClient {
         break;
     }
   };
+
+
+  handleTaskResponse ( state, data ) {
+    switch ( state.toUpperCase() ) {
+      case "CREATED":
+      this.onTaskCreated( data );
+      break;
+
+      case "UPDATED":
+      this.onTaskUpdated( data );
+      break;
+
+      case "PROGRESS":
+      this.onTaskProgress( data );
+      break;
+    }
+  }
 
   // CONNECTION ERRORS
   // Triggered by the WebSocket's `onerror` event. Handles errors
@@ -382,7 +417,7 @@ class MiddlewareClient {
                    );
         }
 
-        this.executeRequestErrorCallback( reqID, args );
+        this.executeRequestErrorCallback( reqID, args, timestamp );
 
         if ( args.message && _.startsWith( args.message, "Traceback" ) ) {
           MCD.logPythonTraceback( reqID, args, origReq );
@@ -394,11 +429,9 @@ class MiddlewareClient {
         break;
 
       case "timeout":
-        if ( MCD.reports( "messages" ) ) {
-          MCD.warn( `TIMEOUT: Stopped waiting for request %c'${ reqID }'`
-                  , [ "uuid" ]
-                  );
-        }
+        MCD.warn( `TIMEOUT: Stopped waiting for request %c'${ reqID }'`
+                , [ "uuid" ]
+                );
         this.executeRequestErrorCallback( reqID, args );
         break;
 
@@ -469,11 +502,9 @@ class MiddlewareClient {
   // `this.logPendingRequest` as a lookup key for resolving or timing out the
   // Request.
   request ( method, args, onSuccess, onError, timeoutDelay ) {
-    var reqID = freeNASUtil.generateUUID();
-    var payload = { method : method
-                  , args   : args
-                  };
-    var packedAction = this.pack( "rpc", "call", payload, reqID );
+    const reqID = freeNASUtil.generateUUID();
+    const payload = { method, args };
+    const packedAction = this.pack( "rpc", "call", payload, reqID );
 
     this.processNewRequest( packedAction
                           , onSuccess
@@ -483,11 +514,21 @@ class MiddlewareClient {
                           );
   }
 
-  // Shorthand for task submission - takes the same arguments as `request()`
-  submitTask () {
-    this.request.apply( this
-                      , [ "task.submit" ].concat( Array.from( arguments ) )
-                      );
+  // TASK SUBMISSION
+  submitTask ( args ) {
+    if ( !UUID ) {
+      console.warn( "A UUID must be provided for submitTask" );
+      return;
+    }
+
+    const PAYLOAD = { method: [ "task.submit" ], args };
+
+    this.onTaskSubmitRequest( UUID, args );
+
+    this.processNewRequest( this.pack( "rpc", "call", PAYLOAD, UUID )
+                          , this.onTaskSubmitSuccess.bind( this )
+                          , this.onTaskSubmitFailure.bind( this )
+                          );
   }
 
 

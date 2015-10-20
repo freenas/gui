@@ -14,8 +14,10 @@ import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import configureStore from "./store/configureStore";
-import * as middlewareActions from "./actions/middleware";
 import * as authActions from "./actions/auth";
+import * as middlewareActions from "./actions/middleware";
+import * as tasksActions from "./actions/tasks";
+
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";
@@ -29,13 +31,34 @@ if ( process.env.BROWSER ) {
 
   store.dispatch( middlewareActions.changeSockTarget({ protocol, host, path, mode }) );
 
-  MiddlewareClient.bindHandlers( store
-    , { onSockStateChange: ( state, closeEvent ) =>
-          store.dispatch( middlewareActions.changeSockState( state, closeEvent ) )
-      , onLogout: () =>
-          store.dispatch( authActions.logout() )
-      }
-    );
+  MiddlewareClient.bindHandlers(
+    { onSockStateChange: ( state, closeEvent ) =>
+        store.dispatch( middlewareActions.changeSockState( state, closeEvent ) )
+    , onLogout: () =>
+        store.dispatch( authActions.logout() )
+
+
+    // TASK SUBMISSION HANDLERS
+    , onTaskSubmitRequest: ( UUID, args ) =>
+        store.dispatch( tasksActions.taskSubmitRequest( UUID, args ) )
+    , onTaskSubmitSuccess: ( UUID, taskID, timestamp ) =>
+        store.dispatch( tasksActions.taskSubmitSuccess( UUID, taskID, timestamp ) )
+    , onTaskSubmitFailure: ( UUID, args, timestamp ) =>
+        store.dispatch( tasksActions.taskSubmitFailure( UUID, args, timestamp ) )
+    // TODO: lol implying
+    // , onTaskSubmitTimeout: () =>
+    //     store.dispatch( tasksActions.onTaskSubmitTimeout() )
+
+
+    // TASK UPDATE HANDLERS
+    , onTaskCreated : () =>
+        store.dispatch( tasksActions.taskCreated( data ) )
+    , onTaskUpdated : () =>
+        store.dispatch( tasksActions.taskUpdated( data ) )
+    , onTaskProgress: () =>
+        store.dispatch( tasksActions.taskProgress( data ) )
+    }
+  );
 
   MiddlewareClient.subscribe(
     [ "task.created"
