@@ -26,7 +26,7 @@ const Login = ( props ) => {
           style = {
             { transform: `translateY( ${ y }px )`
             , opacity
-            , display: y === -100 ? "none" : ""
+            , display: ( y === -100 ) ? "none" : ""
             }
           }
         >

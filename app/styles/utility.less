@@ -261,6 +261,15 @@
           filter: blur( @size );
 }
 
+.backface-visibility( @visibility ) {
+  -webkit-backface-visibility: @visibility;
+     -moz-backface-visibility: @visibility;
+      -ms-backface-visibility: @visibility;
+       -o-backface-visibility: @visibility;
+          backface-visibility: @visibility;
+}
+
 .force-hardware-accel {
+  .backface-visibility( hidden );
   .transform( translate3d(0,0,0) );
 }

@@ -25,7 +25,8 @@ function determineInterval ( attempts ) {
   // Return the stepped interval in miliseconds appropriate for the number of
   // attempted reconnects. If there have been more reconnects than defined
   // intervals, return the last available interval.
-  if ( attempts <= RECONNECT_INTERVALS.length ) {
+
+  if ( attempts < RECONNECT_INTERVALS.length ) {
     return RECONNECT_INTERVALS[ attempts ];
   } else {
     return RECONNECT_INTERVALS[ RECONNECT_INTERVALS.length - 1 ];
@@ -99,7 +100,10 @@ export default function auth ( state = INITIAL_STATE, action ) {
         , readyState: "CLOSED"
         // If the socket generated a normal closure, we return false. Otherwise,
         // we assume that the closure was undesirable and attempt to reconnect.
-        , reconnectNow: !isClosureNormal( payload.code )
+        // HACK: This needs to get changed in the future to accomodate
+        // changing the connection to another host
+        // , reconnectNow: !isClosureNormal( payload.code )
+        , reconnectNow: true
         }
       );
 
