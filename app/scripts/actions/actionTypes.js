@@ -17,6 +17,9 @@ export const LOGOUT_FORCE = "LOGOUT_FORCE";
 
 // middleware
 export const WS_TARGET_CHANGED = "WS_TARGET_CHANGED";
-export const WS_STATE_CHANGED = "WS_STATE_CHANGED";
+export const WS_CONNECTING = "WS_CONNECTING";
+export const WS_OPEN = "WS_OPEN";
+export const WS_CLOSING = "WS_CLOSING";
+export const WS_CLOSED = "WS_CLOSED";
 export const ATTEMPT_CONNECTION = "ATTEMPT_CONNECTION";
 export const RECONNECT_TICK = "RECONNECT_TICK";

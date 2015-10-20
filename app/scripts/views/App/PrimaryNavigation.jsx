@@ -35,12 +35,12 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "/storage"
-    , icon     : "icon-cloud-alt"
-    , label    : "Storage"
-    , status   : null
-    , disabled : false
-    }
+  // , { path     : "/storage"
+  //   , icon     : "icon-cloud-alt"
+  //   , label    : "Storage"
+  //   , status   : null
+  //   , disabled : false
+  //   }
   , { path     : "/network"
     , icon     : "icon-flowchart"
     , label    : "Network"
@@ -178,7 +178,20 @@ class PrimaryNavigation extends React.Component {
           </MenuItem>
         </NavDropdown>
 
-        { paths.map( this.createNavItem ) }
+        <li
+          role = "presentation"
+          className = "nav-item"
+        >
+          <Link
+            to = "/storage"
+            activeClassName = "active"
+          >
+            <Icon glyph = "icon-cloud-alt" />
+            <span className = "nav-item-label" >Storage</span>
+          </Link>
+        </li>
+
+        { paths.map( ( item, key ) => this.createNavItem( item, key ) ) }
 
       </Nav>
     );

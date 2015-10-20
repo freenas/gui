@@ -6,12 +6,24 @@
 import * as actionTypes from "./actionTypes";
 import MiddlewareClient from "../websocket/MiddlewareClient";
 
-export function changeSockState ( readyState ) {
-  return (
-    { type: actionTypes.WS_STATE_CHANGED
-    , payload: { readyState }
-    }
-  )
+export function changeSockState ( readyState, closeEvent ) {
+  switch ( readyState ) {
+    case 0:
+      return { type: actionTypes.WS_CONNECTING };
+
+    case 1:
+      return { type: actionTypes.WS_OPEN };
+
+    case 2:
+      return { type: actionTypes.WS_CLOSING };
+
+    case 3:
+      return (
+        { type: actionTypes.WS_CLOSED
+        , payload: { code: closeEvent.code }
+        }
+      );
+  }
 }
 
 export function changeSockTarget ( targetData ) {

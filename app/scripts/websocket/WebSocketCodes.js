@@ -3,7 +3,7 @@
 
 "use strict";
 
-const CODE_EXPLANATIONS =
+export const CODE_EXPLANATIONS =
   { 1000: "Normal closure; the connection successfully completed whatever "
         + "purpose for which it was created."
   , 1001: "The endpoint is going away, either because of a server failure "
@@ -30,19 +30,13 @@ const CODE_EXPLANATIONS =
         + "request."
 };
 
-class WebSocketCodes {
+export function isClosureNormal ( code ) {
+  switch ( code ) {
+    case 1000:
+    // TODO: Other codes and cases we will consider as a "normal" close event
+      return true;
 
-  static isClosureNormal ( code ) {
-    switch ( code ) {
-      case 1000:
-      // TODO: Other codes and cases we will consider as a "normal" close event
-        return true;
-
-      default:
-        return false;
-    }
+    default:
+      return false;
   }
-
-};
-
-export default WebSocketCodes
+}

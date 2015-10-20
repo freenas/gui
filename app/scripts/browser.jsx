@@ -30,8 +30,8 @@ if ( process.env.BROWSER ) {
   store.dispatch( middlewareActions.changeSockTarget({ protocol, host, path, mode }) );
 
   MiddlewareClient.bindHandlers( store
-    , { onSockStateChange: ( state ) =>
-          store.dispatch( middlewareActions.changeSockState( state ) )
+    , { onSockStateChange: ( state, closeEvent ) =>
+          store.dispatch( middlewareActions.changeSockState( state, closeEvent ) )
       , onLogout: () =>
           store.dispatch( authActions.logout() )
       }

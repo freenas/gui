@@ -3,19 +3,13 @@
 
 "use strict";
 
+import { isClosureNormal } from "../websocket/WebSocketCodes";
 import * as actionTypes from "../actions/actionTypes";
 
 const RECONNECT_INTERVALS = [ 0, 5000, 8000, 13000, 21000, 34000 ];
 
-const READY_STATE =
-  { 0: "CONNECTING"
-  , 1: "OPEN"
-  , 2: "CLOSING"
-  , 3: "CLOSED"
-  };
-
 const INITIAL_STATE =
-  { shouldReconnect: false
+  { reconnectNow: false
   , SIDShow: true
   , SIDMessage: ""
   , readyState: null
@@ -26,22 +20,6 @@ const INITIAL_STATE =
   , path: ""
   , mode: ""
   };
-
-function getSIDMessage ( state, readyState ) {
-  switch ( readyState ) {
-    case 0:
-      return `Connecting`;
-
-    case 2:
-      return `Disconnected`;
-
-    case 3:
-      return `Re-establishing connection`;
-
-    default:
-      return "";
-  }
-}
 
 function determineInterval ( attempts ) {
   // Return the stepped interval in miliseconds appropriate for the number of
@@ -58,12 +36,15 @@ export default function auth ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
   switch( type ) {
+
+    // CONNECTION / RECONNECT HANDLING
+    // ===============================
     case actionTypes.ATTEMPT_CONNECTION:
       return Object.assign( {}, state,
         { connectionAttempts: state.connectionAttempts + 1
         // Reset this flag when a connection is being attempted - avoids
         // flapping any listeners or handlers that depend on its value
-        , shouldReconnect: false
+        , reconnectNow: false
         , reconnectTime: determineInterval( state.connectionAttempts )
         }
       );
@@ -73,32 +54,55 @@ export default function auth ( state = INITIAL_STATE, action ) {
         { reconnectTime: Math.max( 0, state.reconnectTime - 1000 )
         // Reset this flag when a connection is being attempted - avoids
         // flapping any listeners or handlers that depend on its value
-        , shouldReconnect: false
+        , reconnectNow: false
         , SIDShow: true
         , SIDMessage: `Reconnecting to ${ state.host } in ${ state.reconnectTime / 1000 } seconds...`
         }
       );
 
-    case actionTypes.WS_STATE_CHANGED:
-      const NEW_READY_STATE = READY_STATE[ payload.readyState ];
-      // The previous state was connecting, and the new state is closed - this
-      // means either a timeout or other failure.
-      const CONNECTION_FAILED = state.readyState === "CONNECTING" && NEW_READY_STATE === "CLOSED";
 
+    // WEBSOCKET CONNECTION STATES
+    // ===========================
+    case actionTypes.WS_CONNECTING:
       return Object.assign( {}, state,
-        // If the connection failed, set the reconnection flag. Otherwise,
-        // retain the previous value
-        { shouldReconnect: CONNECTION_FAILED || state.shouldReconnect
-        , SIDShow: NEW_READY_STATE !== "OPEN"
-        , SIDMessage: getSIDMessage( state, payload.readyState )
-        , readyState: NEW_READY_STATE
-        // When the connection opens, reset the connection attempts counter. If
-        // the connection is in another state, preserve the previous value.
-        , connectionAttempts:  NEW_READY_STATE === "OPEN"
-                            ? 0
-                            : state.connectionAttempts
+        { SIDShow: true
+        , SIDMessage: `Connecting to ${ state.host }`
+        , readyState: "CONNECTING"
+        , reconnectNow: false
         }
       );
+
+    case actionTypes.WS_OPEN:
+      return Object.assign( {}, state,
+        { SIDShow: false
+        , SIDMessage: "Connected"
+        // When the connection opens, reset the connection attempts counter.
+        , connectionAttempts: 0
+        , readyState: "OPEN"
+        , reconnectNow: false
+        }
+      );
+
+    case actionTypes.WS_CLOSING:
+      return Object.assign( {}, state,
+        { SIDShow: true
+        , SIDMessage: `Disconnected from ${ state.host }`
+        , readyState: "CLOSING"
+        , reconnectNow: false
+        }
+      );
+
+    case actionTypes.WS_CLOSED:
+      return Object.assign( {}, state,
+        { SIDShow: true
+        , SIDMessage: `Connection to ${ state.host } is closed`
+        , readyState: "CLOSED"
+        // If the socket generated a normal closure, we return false. Otherwise,
+        // we assume that the closure was undesirable and attempt to reconnect.
+        , reconnectNow: !isClosureNormal( payload.code )
+        }
+      );
+
 
     case actionTypes.WS_TARGET_CHANGED:
       return Object.assign( {}, state,
@@ -110,7 +114,7 @@ export default function auth ( state = INITIAL_STATE, action ) {
       // TODO: Later on, we'll have to change this to allow connecting to
       // different hosts
       return Object.assign( {}, state,
-        { shouldReconnect: true }
+        { reconnectNow: true }
       );
 
 

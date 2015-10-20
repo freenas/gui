@@ -84,8 +84,8 @@ class MiddlewareClient {
   }
 
   // Shortcut method for closing the WebSocket connection.
-  disconnect ( code, reason ) {
-    this.socket.close( code, reason );
+  disconnect () {
+    this.socket.close();
   };
 
 
@@ -125,15 +125,14 @@ class MiddlewareClient {
 
   // Triggered by the WebSocket's `onclose` event. Performs any cleanup
   // necessary to allow for a clean session end and prepares for a new session.
-  handleClose () {
+  handleClose ( closeEvent ) {
     this.queuedLogin = null;
     this.queuedActions = [];
 
     if ( MCD.reports( "connection" ) ) {
       MCD.info( "WebSocket connection closed" );
     }
-
-    this.onSockStateChange( this.socket.readyState );
+    this.onSockStateChange( this.socket.readyState, closeEvent );
   }
 
   // Triggered by the WebSocket's `onmessage` event. Parses the JSON from the
