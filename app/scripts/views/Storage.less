@@ -1,0 +1,369 @@
+@styles-path: "../../styles/";
+
+@import ( reference ) "@{styles-path}core.less";
+
+.storage-first-pool {
+  margin: 15px auto 25px;
+  max-width: 550px;
+  overflow: hidden;
+  color: #626262;
+
+  & > img {
+    height: 130px;
+    margin: 15px;
+    float: left;
+  }
+}
+
+.volume {
+  // Based on TWBS .panel
+  margin     : 25px;
+  border     : none;
+  .box-shadow( @card-shadow );
+  .transition( all 0.25S );
+
+  .panel-body {
+    padding-bottom: 0;
+  }
+
+  .progress {
+    border-radius : 0;
+    background-color: #E6E6E6;
+    .transition( all 0.6s );
+  }
+
+  .progress-bar {
+    min-width   : 0;
+    color       : transparent;
+    font-weight : 900;
+    overflow    : hidden;
+    text-align  : left;
+    .transition( all 0.6s );
+    & > span {
+      margin: 0 @panel-body-padding;
+    }
+  }
+
+  .progress-bar-info    { .spotlight( @brand-info ); }
+  .progress-bar-success { .spotlight( @brand-success ); }
+  .progress-bar-danger  { .spotlight( @brand-danger ); }
+  .progress-bar-primary { .spotlight( @brand-primary ); }
+  .progress-bar-warning { .spotlight( @brand-warning ); }
+
+  .free-space {
+    background: none;
+    background-image: none;
+    background-color: transparent;
+    .box-shadow( none );
+  }
+
+  .panel-body:hover,
+  &.active,
+  &.editing {
+    .volume-info {
+      .progress {
+        height: 25px;
+      }
+      .progress-bar {
+        line-height : 25px;
+        color       : rgba( 50, 50, 50, 0.85 );
+      }
+    }
+  }
+
+
+  &.awaiting-init {
+    background-color : #fbfbfb;
+    margin           : 0 25px;
+    .panel-body {
+      padding: @panel-body-padding;
+    }
+    .box-shadow( none );
+  }
+
+  .disk-wrapper {
+    position: relative;
+    float: left;
+    width: 6em;
+  }
+}
+
+.volume-nav {
+  nav {
+    text-align       : center;
+    border-bottom    : 1px solid @gray-lighter;
+    padding          : 4px 0;
+    margin           : 0 -@panel-body-padding @panel-body-padding;
+    background-color : rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-pills {
+    .flex-display( flex );
+    .justify-content( center );
+    & > li > a {
+      padding: 4px 16px;
+    }
+  }
+
+  .nav-pills > li.active > a,
+  .nav-pills > li.active > a:hover,
+  .nav-pills > li.active > a:focus {
+    color            : darken( @brand-primary, 10% );
+    background-color : fade( @brand-primary, 20% );
+  }
+}
+
+.volume-name-input {
+  .pull-left();
+  width: 20%;
+}
+
+.volume-info {
+  #gradient > .directional( lighten( @freenas-gray, 5% )
+                          , @freenas-gray
+                          , @golden-angle
+                          );
+  background-color : @freenas-gray;
+  color            : white;
+  padding          : @panel-body-padding;
+  padding-bottom   : 0;
+  margin           : -@panel-body-padding;
+  margin-bottom    : 0;
+
+  .progress {
+    margin: @panel-body-padding -@panel-body-padding 0;
+    height: 10px;
+  }
+
+  .progress-bar {
+    line-height : 10px;
+  }
+}
+
+.volume-name,
+.volume-name-input,
+.volume-capacity {
+  margin: 0;
+  line-height: 40px;
+}
+
+.volume-name {
+  font-size: 25px;
+}
+
+.volume-name-input {
+  min-width: 260px;
+  width: 30%;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+  .form-control {
+    font-size: 25px;
+    height: 40px;
+    margin: 0;
+  }
+}
+
+.volume-capacity {
+  font-size: 30px;
+  font-weight: 100;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.volume-options-dropdown {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 20px;
+
+  .btn-link {
+    color: #858585;
+    border: none;
+    padding: 0;
+    font-size: 20px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+      color: @brand-primary;
+    }
+  }
+}
+
+.pool-topology {
+  padding: 10px 0;
+}
+
+.pool-topology-section {
+  min-height: 100px;
+}
+
+.volume-drawer {
+  margin: @panel-body-padding 0;
+}
+
+.pool-topology-header {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+  color: #AAAAAA;
+}
+
+.pool-vdev-message {
+  .text-muted();
+  font-style  : italic;
+  font-size   : 14px;
+  font-weight : 100;
+  margin      : @panel-body-padding 0;
+}
+
+.vdev-bucket {
+  padding: 9px;
+
+  .toolbar {
+    margin: -9px -9px 5px -9px;
+    padding: 5px 10px;
+    border-bottom: inherit;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .progress {
+    margin: 5px -10px -5px;
+    height: 4px;
+  }
+
+  .progress-bar {
+    line-height : 4px;
+    color       : transparent;
+  }
+
+  &:hover {
+    .progress {
+      height: 20px;
+    }
+
+    .progress-bar {
+      line-height: 20px;
+      font-size: 12px;
+      color: fade(black, 85%);
+    }
+  }
+
+  .vdev-type {
+    color: #555;
+
+    &.btn {
+      padding: 2px 4px;
+      border: none;
+      background: none;
+
+      &:active {
+        background-color: rgba(0, 0, 0, 0.075);
+      }
+    }
+  }
+
+  .open .vdev-type {
+    color: @brand-primary;
+  .box-shadow( none );
+  }
+}
+
+.disk-icon {
+  text-align: center;
+  margin: 0.25em;
+  position: relative;
+
+  & > img {
+    width: 3.5em;
+  }
+
+  .primary-text {
+    display: block;
+  }
+  .secondary-text {
+    display: block;
+    font-size: 0.8em
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    margin-left: -2.5em;
+    top: 0.2em;
+    height: 0.75em;
+    width: 0.75em;
+    border-radius: 50%;
+  }
+
+  &.smart-pass:before {
+    background: @brand-success;
+  }
+
+  &.smart-warn:before {
+    background: orange;
+  }
+
+  &.smart-fail:before {
+    background: red;
+  }
+
+}
+.disk-remove,
+.vdev-remove {
+  height           : 14px;
+  width            : 14px;
+  line-height      : 14px;
+  display          : block;
+  position         : absolute;
+  right            : 0;
+  top              : 0;
+  color            : black;
+  background-color : fade(black, 10%);
+  border-radius    : 50%;
+  font-size        : 14px;
+  text-align       : center;
+  font-style       : normal;
+  font-weight      : 100;
+  .transition( all 0.25s );
+  z-index: 1;
+
+  &:before {
+    content: "×";
+    display: block;
+  }
+
+  &:hover {
+    color: white;
+    background-color: @brand-danger;
+    border-color: @brand-danger;
+  }
+}
+
+.vdev-remove {
+  margin: 10px;
+}
+
+.dragging .disk-remove {
+  .transition( none );
+  display: none;
+}
+
+.context-disks {
+  .disk-container {
+    .flex-display( flex );
+    .flex-flow( row wrap );
+    .justify-content( space-around );
+
+    .disk-wrapper {
+      margin: 0.25em
+    }
+  }
+
+  .topologizer {
+    width: 90%;
+  }
+}

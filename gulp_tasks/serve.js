@@ -58,7 +58,7 @@ function startFreeNASApp ( mode ) {
                  );
 
   localServer =
-    new Monitor( "app/server.js"
+    new Monitor( "app/scripts/server"
                , { silent   : true
                  , args     : appMonitorArgs
                  , killtree : true
@@ -186,7 +186,7 @@ gulp.task( "serve"
   var host;
 
   watch( [ "app/build/app.js"
-         , "app/server.js"
+         , "app/scripts/server/server.js"
          ]
        , _.debounce( buildChangeHandler, 3000 ) );
 

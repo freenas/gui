@@ -1,0 +1,112 @@
+// User Item Template
+// ==================
+// Handles the viewing and editing of individual user items. Shows a non-editable
+// overview of the user account, and mode-switches to a more standard editor
+// panel. User is set by providing a route parameter.
+
+"use strict";
+
+import _ from "lodash";
+import React from "react";
+
+import routerShim from "../../../mixins/routerShim";
+import clientStatus from "../../../mixins/clientStatus";
+
+import editorUtil from "../../../components/Viewer/Editor/editorUtil";
+
+import UsersStore from "../../../flux/stores/UsersStore";
+import GroupsStore from "../../../flux/stores/GroupsStore";
+
+import UserView from "./UserView";
+import UserEdit from "./UserEdit";
+
+// CONTROLLER-VIEW
+const UserItem = React.createClass(
+  { mixins: [ routerShim, clientStatus ]
+
+  , getInitialState: function () {
+      return (
+        { targetUser  : this.getUserFromStore()
+        , currentMode : "view"
+        , activeRoute : this.getDynamicRoute()
+        }
+      );
+    }
+
+  , componentDidUpdate: function ( prevProps, prevState ) {
+      var activeRoute = this.getDynamicRoute();
+
+      if ( activeRoute !== prevState.activeRoute ) {
+        this.setState(
+          { targetUser  : this.getUserFromStore()
+          , currentMode : "view"
+          , activeRoute : activeRoute
+          }
+        );
+      }
+    }
+
+  , componentDidMount: function () {
+      UsersStore.addChangeListener( this.updateUserInState );
+    }
+
+  , componentWillUnmount: function () {
+      UsersStore.removeChangeListener( this.updateUserInState );
+    }
+
+  , getUserFromStore: function () {
+      return UsersStore.findUserByKeyValue( this.props.keyUnique
+                                          , this.getDynamicRoute() );
+    }
+
+  , updateUserInState: function () {
+      this.setState({ targetUser: this.getUserFromStore() });
+    }
+
+  , handleViewChange: function ( nextMode, event ) {
+      this.setState({ currentMode: nextMode });
+    }
+
+  , render: function () {
+      var DisplayComponent = null;
+      var processingText   = "";
+
+      if ( this.state.targetUser ) {
+
+        // DISPLAY COMPONENT
+        var childProps =
+          { handleViewChange : this.handleViewChange
+          , item             : this.state.targetUser
+          , itemLabels       : this.props.itemLabels
+          , itemSchema       : this.props.itemSchema
+          , shells           : this.props.shells
+        };
+
+        switch ( this.state.currentMode ) {
+          default:
+          case "view":
+            DisplayComponent = <UserView { ...childProps } />;
+            break;
+
+          case "edit":
+            DisplayComponent = <UserEdit { ...childProps } />;
+            break;
+        }
+      }
+
+      return (
+        <div className="viewer-item-info">
+
+          {/* Overlay to block interaction while tasks or updates are
+              processing */}
+          <editorUtil.updateOverlay updateString={ processingText } />
+
+          { DisplayComponent }
+
+        </div>
+      );
+    }
+
+});
+
+export default UserItem;

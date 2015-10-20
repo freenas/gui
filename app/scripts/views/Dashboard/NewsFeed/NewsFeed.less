@@ -1,0 +1,21 @@
+@styles-path: "../../../../styles/";
+
+@import ( optional, reference ) "@{styles-path}bootstrap.less";
+@import ( optional, reference ) "@{styles-path}variables.less";
+@import ( optional, reference ) "@{styles-path}utility.less";
+
+.news-feed {
+  .flex-display( flex );
+  .flex-flow( column );
+  .flex( 1 );
+  overflow: auto;
+}
+
+.news-feed-header {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1em;
+  border-bottom: 1px solid #E1E1E1;
+  margin: 0.75em 2em 0;
+  padding-bottom: 0.5em;
+}
