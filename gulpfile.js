@@ -42,7 +42,7 @@ gulp.task( "deploy", function ( callback ) {
                  + path.join( __dirname, argv.output )
                  );
   runSequence( [ "clean", "install-packages" ]
-             , [ "package-src"
+             , [ "package-scripts"
                , "package-build"
                ]
              , "package-node-modules"
