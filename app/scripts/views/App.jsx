@@ -51,13 +51,14 @@ class App extends React.Component {
   getBlurStyle ( radius ) {
     if ( radius ) {
       return (
-        { WebkitFilter: `blur( ${ radius }px )`
-        , MozFilter: `blur( ${ radius }px )`
         // TODO: Explorer sucks and doesn't have this functionality. Needs a
         // nice looking workaround.
-        // , msFilter: `blur( ${ radius }px )`
-        , OFilter: `blur( ${ radius }px )`
+        { WebkitFilter: `blur( ${ radius }px )`
         , filter: `blur( ${ radius }px )`
+        , willChange: ( radius !== 0 && radius !== 100
+                      ? "-webkit-filter, filter"
+                      : ""
+                      )
         }
       );
     } else {
@@ -104,12 +105,20 @@ class App extends React.Component {
 
             <Motion
               defaultStyle = {{ blur: 100 }}
-              style = {{ blur: spring( this.props.shouldBlur ? 100 : 0 )}}
+              style = {
+                { blur: spring( this.props.shouldBlur ? 100 : 0 )
+                }
+              }
             >
               { ({ blur }) =>
 
                 <div
-                  className="app-content"
+                  className={ "app-content"
+                            + ( blur !== 0 && blur !== 100
+                              ? " force-hardware-accel"
+                              : ""
+                              )
+                            }
                   style = { this.getBlurStyle( blur ) }
                 >
                   {/* Primary navigation menu */}
