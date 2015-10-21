@@ -1,5 +1,5 @@
-// FREENAS MIDDLEWARE CONNECTION - ACTION CREATORS
-// ===============================================
+// FREENAS WEBSOCKET CONNECTION - ACTION CREATORS
+// ==============================================
 
 "use strict";
 
@@ -35,9 +35,9 @@ export function changeSockTarget ( targetData ) {
 }
 
 export function attemptConnection () {
-  return { type: actionTypes.ATTEMPT_CONNECTION }
+  return { type: actionTypes.WS_ATTEMPT_CONNECTION }
 }
 
 export function reconnectTick () {
-  return { type: actionTypes.RECONNECT_TICK }
+  return { type: actionTypes.WS_RECONNECT_TICK }
 }

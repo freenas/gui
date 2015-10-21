@@ -5,14 +5,14 @@ import { combineReducers } from "redux";
 
 import auth from "./auth";
 import disks from "./disks";
-import middleware from "./middleware";
+import websocket from "./websocket";
 import tasks from "./tasks";
 import volumes from "./volumes";
 
 const rootReducer = combineReducers(
   { auth
   , disks
-  , middleware
+  , websocket
   , tasks
   , volumes
   }

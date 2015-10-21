@@ -14,9 +14,9 @@ import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import configureStore from "./store/configureStore";
-import * as authActions from "./actions/auth";
-import * as middlewareActions from "./actions/middleware";
-import * as tasksActions from "./actions/tasks";
+import * as AA from "./actions/auth";
+import * as WA from "./actions/websocket";
+import * as TA from "./actions/tasks";
 
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
@@ -29,34 +29,34 @@ if ( process.env.BROWSER ) {
   const history = createBrowserHistory();
   const { protocol, host, path, mode } = TargetHost.connection();
 
-  store.dispatch( middlewareActions.changeSockTarget({ protocol, host, path, mode }) );
+  store.dispatch( WA.changeSockTarget({ protocol, host, path, mode }) );
 
   MiddlewareClient.bindHandlers(
     { onSockStateChange: ( state, closeEvent ) =>
-        store.dispatch( middlewareActions.changeSockState( state, closeEvent ) )
+        store.dispatch( WA.changeSockState( state, closeEvent ) )
     , onLogout: () =>
-        store.dispatch( authActions.logout() )
+        store.dispatch( AA.logout() )
 
 
     // TASK SUBMISSION HANDLERS
     , onTaskSubmitRequest: ( UUID, args ) =>
-        store.dispatch( tasksActions.taskSubmitRequest( UUID, args ) )
+        store.dispatch( TA.taskSubmitRequest( UUID, args ) )
     , onTaskSubmitSuccess: ( UUID, taskID, timestamp ) =>
-        store.dispatch( tasksActions.taskSubmitSuccess( UUID, taskID, timestamp ) )
+        store.dispatch( TA.taskSubmitSuccess( UUID, taskID, timestamp ) )
     , onTaskSubmitFailure: ( UUID, args, timestamp ) =>
-        store.dispatch( tasksActions.taskSubmitFailure( UUID, args, timestamp ) )
+        store.dispatch( TA.taskSubmitFailure( UUID, args, timestamp ) )
     // TODO: lol implying
     // , onTaskSubmitTimeout: () =>
-    //     store.dispatch( tasksActions.onTaskSubmitTimeout() )
+    //     store.dispatch( TA.onTaskSubmitTimeout() )
 
 
     // TASK UPDATE HANDLERS
     , onTaskCreated : () =>
-        store.dispatch( tasksActions.taskCreated( data ) )
+        store.dispatch( TA.taskCreated( data ) )
     , onTaskUpdated : () =>
-        store.dispatch( tasksActions.taskUpdated( data ) )
+        store.dispatch( TA.taskUpdated( data ) )
     , onTaskProgress: () =>
-        store.dispatch( tasksActions.taskProgress( data ) )
+        store.dispatch( TA.taskProgress( data ) )
     }
   );
 
