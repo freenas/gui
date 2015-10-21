@@ -448,14 +448,18 @@ class MiddlewareClient {
   // function when the server returns an error could cause strange results.
   // Use the errorCallback for that case.
   executeRequestSuccessCallback ( reqID, args, timestamp ) {
-    if ( _.isFunction( this.pendingRequests[ reqID ].successCallback ) ) {
-      this.pendingRequests[ reqID ].successCallback( args, timestamp );
+    const onSuccess = this.pendingRequests[ reqID ].successCallback;
+
+    if ( typeof onSuccess === "function" ) {
+      onSuccess( args, timestamp );
     }
   }
 
   executeRequestErrorCallback ( reqID, args ) {
-    if ( _.isFunction( this.pendingRequests[ reqID ].errorCallback ) ) {
-      this.pendingRequests[ reqID ].errorCallback( args );
+    const onFailure = this.pendingRequests[ reqID ].errorCallback;
+
+    if ( typeof onFailure === "function" ) {
+      onFailure( args );
     }
   }
 
