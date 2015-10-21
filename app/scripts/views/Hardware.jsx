@@ -4,19 +4,14 @@
 
 "use strict";
 
-import React from "react";
-import { Panel, Well, ListGroup, ListGroupItem } from "react-bootstrap";
 import _ from "lodash";
+import React from "react";
+import { connect } from "react-redux";
+import { Panel, Well, ListGroup, ListGroupItem } from "react-bootstrap";
 
-import routerShim from "../mixins/routerShim";
-
-import SM from "../flux/middleware/SystemMiddleware";
-import SS from "../flux/stores/SystemStore";
-
-import DM from "../flux/middleware/DisksMiddleware";
-import DS from "../flux/stores/DisksStore";
-
+import * as actions from "../actions/disks";
 import ByteCalc from "../utility/ByteCalc";
+import DiskUtilities from "../utility/DiskUtilities";
 
 import DiskSection from "./Hardware/DiskSection";
 
@@ -24,65 +19,37 @@ import DiskSection from "./Hardware/DiskSection";
 if ( process.env.BROWSER ) require( "./Hardware.less" );
 
 
-function getSystemInformation () {
-  return { systemInformation: SS.getSystemInfo( "hardware" ) };
-}
+// REACT
+class Hardware extends React.Component {
 
-function getDiskGroups () {
-  return { diskGroups: DS.similarDisks };
-}
+  constructor ( props ) {
+    super( props );
 
-const Hardware = React.createClass({
-
-  displayName: "Hardware"
-
-  , mixins: [ routerShim ]
-
-  , getInitialState () {
-    return _.merge( getSystemInformation()
-                  , getDiskGroups()
-                  );
+    this.displayName = "Hardware"
   }
 
-  , componentDidMount () {
-    DS.addChangeListener( this.handleDisksChange );
-    DM.requestDisksOverview();
-    DM.subscribe( this.constructor.displayName );
-
-    SS.addChangeListener( this.handleHardwareChange );
-    SM.requestSystemInfo( "hardware" );
-    SM.subscribe( this.constructor.displayName );
+  componentDidMount () {
+    this.props.fetchDisks();
+    this.props.subscribe( this.displayName );
   }
 
-  , componentWillUnmount () {
-    DS.removeChangeListener( this.handleDisksChange );
-    DM.unsubscribe( this.constructor.displayName );
-
-    SS.removeChangeListener( this.handleHardwareChange );
-    SM.unsubscribe( this.constructor.displayName );
+  componentWillUnmount () {
+    this.props.unsubscribe( this.displayName );
   }
 
-  , handleDisksChange () {
-    this.setState( getDiskGroups() );
-  }
+  render () {
+    // let cpuModel = this.state.systemInformation
+    //              ? this.state.systemInformation[ "cpu_model" ]
+    //              : null;
 
-  , handleHardwareChange () {
-    this.setState( getSystemInformation() );
-  }
+    // let cpuCores = this.state.systemInformation
+    //              ? this.state.systemInformation[ "cpu_cores" ]
+    //              : null;
 
-  , render () {
-
-    let cpuModel = this.state.systemInformation
-                 ? this.state.systemInformation[ "cpu_model" ]
-                 : null;
-
-    let cpuCores = this.state.systemInformation
-                 ? this.state.systemInformation[ "cpu_cores" ]
-                 : null;
-
-    let memorySize = this.state.systemInformation
-                   ? this.state.systemInformation[ "memory_size" ]
-                   : null;
+    // let memorySize = this.state.systemInformation
+    //                ? this.state.systemInformation[ "memory_size" ]
+    //                : null;
+    const { disks, diskGroups } = this.props;
 
     return (
       <main className = { "hardware-wrapper" }>
@@ -90,25 +57,45 @@ const Hardware = React.createClass({
           <Panel header = "System Information" /*TODO: split panel out into its own component when appropriate*/ >
             <ListGroup fill>
               <ListGroupItem>
-                { "CPU: " + cpuModel }
+                { "CPU: " + 0 }
               </ListGroupItem>
               <ListGroupItem>
-                { "CPU Cores: " + cpuCores }
+                { "CPU Cores: " + 0 }
               </ListGroupItem>
               <ListGroupItem>
-                { "Memory: " + ByteCalc.humanize( memorySize ) }
+                { "Memory: " + ByteCalc.humanize( 0 ) }
               </ListGroupItem>
             </ListGroup>
           </Panel>
         </div>
         <div className = { "disclosures" } >
-          <DiskSection diskGroups = { this.state.diskGroups } />
+          <DiskSection disks={ disks } diskGroups={ diskGroups } />
         </div>
       </main>
     );
   }
 
-});
+}
 
 
-export default Hardware;
+// REDUX
+function mapStateToProps ( state ) {
+  const { disks } = state;
+
+  return (
+    { disks: disks.disks
+    , diskGroups: DiskUtilities.similarDisks( disks.disks )
+    }
+  );
+}
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    { subscribe: ( id ) => dispatch( actions.subscribe( id ) )
+    , unsubscribe: ( id ) => dispatch( actions.unsubscribe( id ) )
+    , fetchDisks: () => dispatch( actions.requestDiskOverview() )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Hardware );

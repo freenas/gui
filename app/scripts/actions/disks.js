@@ -9,11 +9,15 @@ import MC from "../websocket/MiddlewareClient";
 
 // SUBSCRIPTION
 export function subscribe ( componentID ) {
-  MC.subscribe( [ "entity-subscriber.disks.changed" ], componentID );
+  return ( dispatch, getState ) => {
+    MC.subscribe( [ "entity-subscriber.disks.changed" ], componentID );
+  }
 }
 
 export function unsubscribe ( componentID ) {
-  MC.unsubscribe( [ "entity-subscriber.disks.changed" ], componentID );
+  return ( dispatch, getState ) => {
+    MC.unsubscribe( [ "entity-subscriber.disks.changed" ], componentID );
+  }
 }
 
 
@@ -22,7 +26,7 @@ function diskOverviewRequest () {
   return { type: actionTypes.DISK_OVERVIEW_REQUEST };
 }
 
-function diskOverviewSuccess ( reqID, args, timestamp ) {
+function diskOverviewSuccess ( args, timestamp ) {
   return (
     { type: actionTypes.DISK_OVERVIEW_SUCCESS
     , payload: { disks: args }
@@ -30,7 +34,7 @@ function diskOverviewSuccess ( reqID, args, timestamp ) {
   );
 }
 
-function diskOverviewFailure ( reqID, args, timestamp ) {
+function diskOverviewFailure ( args, timestamp ) {
   return (
     { type: actionTypes.DISK_OVERVIEW_FAILURE
     , error: true
@@ -41,8 +45,8 @@ function diskOverviewFailure ( reqID, args, timestamp ) {
 
 export function requestDiskOverview () {
   return ( dispatch, getState ) => {
-    MC.request( "disks.get_disk_config"
-              , [ diskPath ]
+    MC.request( "disks.query"
+              , []
               , ( reqID, args, timestamp ) =>
                 dispatch( diskOverviewSuccess( reqID, args, timestamp ) )
               , ( reqID, args, timestamp ) =>
