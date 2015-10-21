@@ -15,6 +15,13 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_FORCE = "LOGOUT_FORCE";
 
+
+// disks
+export const DISK_OVERVIEW_REQUEST = "DISK_OVERVIEW_REQUEST";
+export const DISK_OVERVIEW_SUCCESS = "DISK_OVERVIEW_SUCCESS";
+export const DISK_OVERVIEW_FAILURE = "DISK_OVERVIEW_FAILURE";
+
+
 // middleware
 export const WS_TARGET_CHANGED = "WS_TARGET_CHANGED";
 export const WS_CONNECTING = "WS_CONNECTING";
