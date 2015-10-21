@@ -1,6 +1,6 @@
 // Sharing Service Settings
 // ========================
-// Settings for services directly related to shares: CIFS, NFS, AFP, WebDav, FTP, TFTP
+// Settings for services directly related to shares: CIFS, NFS, AFP, WebDAV, FTP, TFTP
 
 "use strict";
 
@@ -10,7 +10,7 @@ import { Col } from "react-bootstrap";
 import CIFS from "./Sharing/CIFS";
 import NFS from "./Sharing/NFS";
 import AFP from "./Sharing/AFP";
-import WebDav from "./Sharing/WebDav";
+import WebDAV from "./Sharing/WebDAV";
 import FTP from "./Sharing/FTP";
 import TFTP from "./Sharing/TFTP";
 
@@ -35,7 +35,7 @@ export default class Sharing extends React.Component {
           <AFP />
         </Col>
         <Col xs = {4}>
-          <WebDav />
+          <WebDAV />
         </Col>
         <Col xs = {4}>
           <TFTP />
