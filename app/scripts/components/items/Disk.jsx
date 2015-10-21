@@ -4,7 +4,6 @@
 
 import React from "react";
 
-import DS from "../../flux/stores/DisksStore";
 import ByteCalc from "../../utility/ByteCalc";
 
 

@@ -31,7 +31,7 @@ const INITIAL_STATE =
 function destructureDisks ( client, server ) {
   let destructured = {};
 
-  server.map( disk => destructured[ disk.path ] = disk );
+  server.forEach( disk => destructured[ disk.path ] = disk );
 
   return Object.assign( {}, client, destructured );
 }

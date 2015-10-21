@@ -26,10 +26,10 @@ function diskOverviewRequest () {
   return { type: actionTypes.DISK_OVERVIEW_REQUEST };
 }
 
-function diskOverviewSuccess ( args, timestamp ) {
+function diskOverviewSuccess ( disks, timestamp ) {
   return (
     { type: actionTypes.DISK_OVERVIEW_SUCCESS
-    , payload: { disks: args }
+    , payload: { disks }
     }
   );
 }
@@ -47,10 +47,10 @@ export function requestDiskOverview () {
   return ( dispatch, getState ) => {
     MC.request( "disks.query"
               , []
-              , ( reqID, args, timestamp ) =>
-                dispatch( diskOverviewSuccess( reqID, args, timestamp ) )
-              , ( reqID, args, timestamp ) =>
-                dispatch( diskOverviewFailure( reqID, args, timestamp ) )
+              , ( args, timestamp ) =>
+                dispatch( diskOverviewSuccess( args, timestamp ) )
+              , ( args, timestamp ) =>
+                dispatch( diskOverviewFailure( args, timestamp ) )
               );
 
     return dispatch( diskOverviewRequest() );
