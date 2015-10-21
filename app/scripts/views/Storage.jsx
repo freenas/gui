@@ -9,12 +9,12 @@
 
 import _ from "lodash";
 import React from "react";
+import { connect } from "react-redux";
 import { Alert, Modal, Button } from "react-bootstrap";
 
-import VS from "../flux/stores/VolumeStore";
-import VM from "../flux/middleware/VolumeMiddleware";
-import DS from "../flux/stores/DisksStore";
-import DM from "../flux/middleware/DisksMiddleware";
+import * as DisksActions from "../actions/disks";
+import * as VolumesActions from "../actions/volumes";
+
 import SM from "../flux/middleware/SharesMiddleware";
 import SS from "../flux/stores/SharesStore";
 import TS from "../flux/stores/TasksStore";
@@ -23,6 +23,7 @@ import Volume from "./Storage/Volume";
 import VolumeTask from "./Storage/VolumeTask";
 
 import { Animate } from "../utility/Animate";
+import VolumeUtilities from "../utility/VolumeUtilities";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Storage.less" );
@@ -37,24 +38,17 @@ export default class Storage extends React.Component {
 
     this.displayName = "Storage";
 
-    this.onChangedVS = this.handleUpdatedVS.bind( this );
-    this.onChangedDS = this.handleUpdatedDS.bind( this );
     this.onChangedSS = this.handleUpdatedSS.bind( this );
     this.onChangedTS = this.handleUpdatedTS.bind( this );
 
     // SET INITIAL STATE
     this.state =
-      { volumes          : VS.listVolumes()
-      , shares           : SS.shares
+      { shares           : SS.shares
       , tasks:
         { "volume.create"  : TS.getTasksByName( "volume.create" )
         , "volume.destroy" : TS.getTasksByName( "volume.destroy" )
         , "volume.update"  : TS.getTasksByName( "volume.update" )
         }
-      , SSDsAreAvailable : VS.SSDsAreAvailable
-      , HDDsAreAvailable : VS.HDDsAreAvailable
-      , availableSSDs    : VS.availableSSDs
-      , availableHDDs    : VS.availableHDDs
       , activeVolume     : null
       , activeDataset    : null
       , volumeToDelete   : null
@@ -65,78 +59,70 @@ export default class Storage extends React.Component {
   }
 
   componentDidMount () {
-    VS.addChangeListener( this.onChangedVS );
-    DS.addChangeListener( this.onChangedDS );
+
     SS.addChangeListener( this.onChangedSS );
     TS.addChangeListener( this.onChangedTS );
 
-    DM.subscribe( this.displayName );
-    VM.subscribe( this.displayName );
     SM.subscribe( this.displayName );
 
-    DM.requestDisksOverview();
-    VM.requestVolumes();
-    VM.requestAvailableDisks();
     SM.query();
+
+    this.props.disksSubscribe();
+
+    this.props.fetchDisks();
+    this.props.fetchVolumes();
+    this.props.fetchAvailableDisks();
   }
 
   componentWillUnmount () {
-    VS.removeChangeListener( this.onChangedVS );
-    DS.removeChangeListener( this.onChangedDS );
+
     SS.removeChangeListener( this.onChangedSS );
     TS.removeChangeListener( this.onChangedTS );
 
-    DM.unsubscribe( this.displayName );
-    VM.unsubscribe( this.displayName );
     SM.unsubscribe( this.displayName );
+
+    this.props.disksUnsubscribe();
+    this.props.volumesUnsubscribe();
   }
 
   componentDidUpdate ( prevProps, prevState ) {
-    if ( VS.isInitialized ) {
+    if ( this.props.volumes.isFetchingVolumes ) {
+      Animate.ghostVertical( this.refs.LOADING, "in" );
+    } else {
       Animate.ghostVertical( this.refs.LOADING, "out" );
-      if ( this.state.volumes.length ) {
+      if ( Object.keys( this.props.volumes ).length ) {
         Animate.ghostVertical( this.refs.INTRO_MESSAGE, "out" );
       } else {
         Animate.ghostVertical( this.refs.INTRO_MESSAGE, "in" );
       }
-    } else {
-      Animate.ghostVertical( this.refs.LOADING, "out" );
     }
   }
 
 
   // FLUX STORE UPDATE HANDLERS
-  handleUpdatedVS ( eventMask ) {
-    let newState = {};
+  // handleUpdatedVS ( eventMask ) {
+  //   let newState = {};
 
-    switch ( eventMask ) {
-      case "availableDisks":
-        newState.SSDsAreAvailable = VS.SSDsAreAvailable;
-        newState.HDDsAreAvailable = VS.HDDsAreAvailable;
-        newState.availableSSDs    = VS.availableSSDs;
-        newState.availableHDDs    = VS.availableHDDs;
-        break;
+  //   switch ( eventMask ) {
+  //     case "availableDisks":
+  //       newState.SSDsAreAvailable = VS.SSDsAreAvailable;
+  //       newState.HDDsAreAvailable = VS.HDDsAreAvailable;
+  //       newState.availableSSDs    = VS.availableSSDs;
+  //       newState.availableHDDs    = VS.availableHDDs;
+  //       break;
 
-      case "volumes":
-      default:
-        // HACK: Events don't work right, this is required to make the page
-        // update properly, since all the new volume stuff is based on disk
-        // availability
-        VM.requestAvailableDisks();
-        newState.volumes = VS.listVolumes();
-        break;
-    }
+  //     case "volumes":
+  //     default:
+  //       // HACK: Events don't work right, this is required to make the page
+  //       // update properly, since all the new volume stuff is based on disk
+  //       // availability
+        // VM.requestAvailableDisks();
+  //       newState.volumes = VS.listVolumes();
+  //       break;
+  //   }
 
-    this.setState( newState );
-  }
-
-  handleUpdatedDS ( eventMask ) {
-    // FIXME: Until there's some way to get this information in a more direct
-    // way, re-query available disks every time a disk changes. (This should
-    // hopefully have the benefit of covering things like ejection, even if
-    // it gets triggered by a lot of non-important stuff)
-    VM.requestAvailableDisks();
-  }
+  //   this.setState( newState );
+  // }
 
   handleUpdatedSS ( eventMask ) {
     this.setState({ shares: SS.shares });
@@ -166,11 +152,11 @@ export default class Storage extends React.Component {
   // VOLUME MIDDLEWARE COMMUNICATION HANDLERS
   handleVolumeSubmit ( newVolume ) {
     this.setState({ activeVolume: null });
-    VM.submitVolume( newVolume );
+    // VM.submitVolume( newVolume );
   }
 
   handleVolumeDelete ( name ) {
-    VM.destroyVolume( name );
+    // VM.destroyVolume( name );
     this.setState(
       { volumeToDelete : null // TODO: temp workaround
       , activeVolume   : null
@@ -227,7 +213,7 @@ export default class Storage extends React.Component {
   submitDatasetUpdate () {
     const { pool_name, path, params } = this.state.updateDataset;
 
-    VM.updateDataset( pool_name, path, params );
+    // VM.updateDataset( pool_name, path, params );
   }
 
   revertDatasetUpdate () {
@@ -237,56 +223,8 @@ export default class Storage extends React.Component {
   handleDatasetDelete () {
     const { pool, path, params } = this.state.datasetToDelete;
 
-    VM.deleteDataset( pool, path );
+    // VM.deleteDataset( pool, path );
     this.setState({ datasetToDelete: { path: null, pool: null } });
-  }
-
-  nestDatasets ( datasets ) {
-    if ( !datasets ) {
-      // Datasets was definitely not an array
-      console.warn( "Expected `datasets` to be an array" );
-      return [];
-    }
-
-    switch ( datasets.length ) {
-      case 0:
-        // There are no datasets, return early.
-        return [];
-
-      case 1:
-        // The only dataset is the root datset, return early.
-        return datasets;
-
-      default:
-        let poolName;
-        let hash  = _.indexBy( datasets, "name" );
-        let names = _.pluck( datasets, "name" );
-
-        _.sortBy( names, ( name ) => {
-            // Create sorted list of dataset names in accordance of their path
-            // lengths, starting with the longest (most nested) paths.
-            let slashes = name.match( /\//gi );
-            return ( slashes
-                   ? ( -1 * slashes.length )
-                   : 0
-                   );
-          })
-         .forEach( ( name, index ) => {
-            let parentPath = name.replace( /(\/[^\/]*$)/i, "" );
-
-            if ( parentPath === name ) {
-              poolName = name;
-            } else {
-              if ( hash[ parentPath ].children ) {
-                hash[ parentPath ].children.push( hash[ name ] );
-              } else {
-                hash[ parentPath ].children = [ hash[ name ] ];
-              }
-            }
-          });
-
-        return [ hash[ poolName ] ];
-    }
   }
 
   cancelDatasetDelete () {
@@ -307,29 +245,29 @@ export default class Storage extends React.Component {
 
 
   // LOCAL STATE PATCHING METHODS
-  patchDatasetInto ( volumes, target ) {
-    var { pool_name, mountpoint } = target;
+  // patchDatasetInto ( volumes, target ) {
+  //   var { pool_name, mountpoint } = target;
 
-    if ( volumes.length === 0 ) {
-      console.warn( "Can't patch dataset into volumes: No volumes exist");
-    } else if ( !pool_name || typeof mountpoint !== "string" ) {
-      console.log( "Both `pool_name` and `mountpoint` must be properties of "
-                 + "target when patching"
-                 );
-    } else {
-      let targetVolume = _.findWhere( volumes, { "name": pool_name } );
+  //   if ( volumes.length === 0 ) {
+  //     console.warn( "Can't patch dataset into volumes: No volumes exist");
+  //   } else if ( !pool_name || typeof mountpoint !== "string" ) {
+  //     console.log( "Both `pool_name` and `mountpoint` must be properties of "
+  //                + "target when patching"
+  //                );
+  //   } else {
+  //     let targetVolume = _.findWhere( volumes, { "name": pool_name } );
 
-      if ( !targetVolume ) {
-        console.warn( `${ pool_name } could not be found in provided volumes` );
-        console.dir( "volumes", volumes );
-      } else if ( targetVolume.datasets.length === 0 ) {
-        console.warn( `${ pool_name } doesn't have any datasets` );
-        console.dir( pool_name, targetVolume );
-      } else {
-        targetVolume.datasets.push( target );
-      }
-    }
-  }
+  //     if ( !targetVolume ) {
+  //       console.warn( `${ pool_name } could not be found in provided volumes` );
+  //       console.dir( "volumes", volumes );
+  //     } else if ( targetVolume.datasets.length === 0 ) {
+  //       console.warn( `${ pool_name } doesn't have any datasets` );
+  //       console.dir( pool_name, targetVolume );
+  //     } else {
+  //       targetVolume.datasets.push( target );
+  //     }
+  //   }
+  // }
 
 
   // RENDER METHODS
@@ -340,17 +278,18 @@ export default class Storage extends React.Component {
   }
 
   createVolumes ( creationActive ) {
-    const { activeVolume, activeDataset, volumes, tasks, shares
-          , SSDsAreAvailable, HDDsAreAvailable, availableSSDs, availableHDDs
-          } = this.state;
+    const { volumes } = this.props.volumes;
+    const volumeIDs = Object.keys( volumes );
 
-    let renderableVolumes = _.cloneDeep( volumes );
+    const { activeVolume, activeDataset, tasks, shares } = this.state;
 
-    if ( Object.keys( this.state.newDataset ).length ) {
-      // There's content in the newDataset state, so we should patch it in to
-      // what we've got from the store
-      this.patchDatasetInto( renderableVolumes, this.state.newDataset );
-    }
+    // let renderableVolumes = _.cloneDeep( volumes );
+
+    // if ( Object.keys( this.state.newDataset ).length ) {
+    //   // There's content in the newDataset state, so we should patch it in to
+    //   // what we've got from the store
+    //   this.patchDatasetInto( renderableVolumes, this.state.newDataset );
+    // }
 
     const COMMON_PROPS =
       { becomeActive   : this.handleVolumeActive.bind( this )
@@ -359,12 +298,6 @@ export default class Storage extends React.Component {
       , onVolumeDelete : this.handleVolumeDeleteConfirmation.bind( this )
       , tasks
       , shares
-      , diskData:
-        { SSDsAreAvailable
-        , HDDsAreAvailable
-        , availableSSDs
-        , availableHDDs
-        }
       , filesystemData:
         { activeDataset
         , updateDataset: this.state.updateDataset
@@ -374,7 +307,7 @@ export default class Storage extends React.Component {
         , onShareDelete     : SM.delete
         , onDatasetActive   : this.handleDatasetActive.bind( this )
         , onDatasetInactive : this.handleDatasetInactive.bind( this )
-        , onDatasetCreate   : VM.createDataset
+        // , onDatasetCreate   : VM.createDataset
         , datasetUpdate:
           { onChange: this.changeDatasetUpdate.bind( this )
           , onSubmit: this.submitDatasetUpdate.bind( this )
@@ -383,17 +316,16 @@ export default class Storage extends React.Component {
         , onDatasetDelete   : this.confirmDatasetDelete.bind( this )
         , onDatasetChange   : this.handleNewDatasetChange.bind( this )
         , onDatasetCancel   : this.handleNewDatasetCancel.bind( this )
-        , nameIsPermitted   : VS.isDatasetNamePermitted
         }
       };
 
     let pools =
-      renderableVolumes.map( ( volume, index ) => {
-        volume.datasets = this.nestDatasets( volume.datasets );
+      volumeIDs.map( ( id, index ) => {
+        // volume.datasets = VolumeUtilities.nestDatasets( volume.datasets );
         return (
           <Volume
             { ...COMMON_PROPS }
-            { ...volume }
+            { ...volumes[ id ] }
             existsOnRemote
             key       = { index }
             volumeKey = { index }
@@ -402,7 +334,7 @@ export default class Storage extends React.Component {
         );
       });
 
-    if ( !creationActive && ( HDDsAreAvailable || SSDsAreAvailable ) ) {
+    if ( !creationActive && ( this.props.volumes.availableDisks.size ) ) {
       // If there are disks available, a new pool may be created. The Volume
       // component is responsible for displaying the correct "blank start"
       // behavior, depending on its knowledge of other pools.
@@ -420,6 +352,7 @@ export default class Storage extends React.Component {
   }
 
   render () {
+    console.log( this.props );
     const TASKS = this.state.tasks;
     const VOLUME_CREATE_TASK = this.findActiveTask( TASKS["volume.create"] );
     const VOLUME_DESTROY_TASK = this.findActiveTask( TASKS["volume.destroy"] );
@@ -545,3 +478,34 @@ export default class Storage extends React.Component {
   }
 
 }
+
+
+// REDUX
+function mapStateToProps ( state ) {
+  const { disks, volumes } = state;
+
+  return (
+    { disks
+    , volumes
+    }
+  );
+}
+
+function mapDispatchToProps ( dispatch ) {
+  console.log( DisksActions );
+  return (
+    // DISKS
+    { disksSubscribe   : ( id ) => dispatch( DisksActions.subscribe( id ) )
+    , disksUnsubscribe : ( id ) => dispatch( DisksActions.unsubscribe( id ) )
+    , fetchDisks       : () => dispatch( DisksActions.requestDiskOverview() )
+
+    // VOLUMES
+    , volumesSubscribe    : ( id ) => dispatch( VolumesActions.subscribe( id ) )
+    , volumesUnsubscribe  : ( id ) => dispatch( VolumesActions.unsubscribe( id ) )
+    , fetchVolumes        : () => dispatch( VolumesActions.fetchVolumes() )
+    , fetchAvailableDisks : () => dispatch( VolumesActions.fetchAvailableDisks() )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Storage );
