@@ -22,8 +22,8 @@ export default class NewsFeed extends React.Component {
   constructor ( props ) {
     super( props );
 
-    this.onChangeES = this.handleChangedES.bind( this );
-    this.onChangeTS = this.handleChangedTS.bind( this );
+    // this.onChangeES = this.handleChangedES.bind( this );
+    // this.onChangeTS = this.handleChangedTS.bind( this );
 
     this.displayName = "NewsFeed";
     this.state =
@@ -32,30 +32,30 @@ export default class NewsFeed extends React.Component {
       };
   }
 
-  componentDidMount () {
-    ES.addChangeListener( this.onChangeES );
-    TS.addChangeListener( this.onChangeTS );
+  // componentDidMount () {
+  //   ES.addChangeListener( this.onChangeES );
+  //   TS.addChangeListener( this.onChangeTS );
 
-    TM.subscribe( this.displayName );
+  //   TM.subscribe( this.displayName );
 
-    EM.requestEvents();
-    TM.requestAllTasks();
-  }
+  //   EM.requestEvents();
+  //   TM.requestAllTasks();
+  // }
 
-  componentWillUnmount () {
-    ES.removeChangeListener( this.onChangeES );
-    TS.removeChangeListener( this.onChangeTS );
+  // componentWillUnmount () {
+  //   ES.removeChangeListener( this.onChangeES );
+  //   TS.removeChangeListener( this.onChangeTS );
 
-    TM.unsubscribe( this.displayName );
-  }
+  //   TM.unsubscribe( this.displayName );
+  // }
 
-  handleChangedES () {
-    this.setState({ events: ES.events });
-  }
+  // handleChangedES () {
+  //   this.setState({ events: ES.events });
+  // }
 
-  handleChangedTS () {
-    this.setState({ tasks: TS.tasks });
-  }
+  // handleChangedTS () {
+  //   this.setState({ tasks: TS.tasks });
+  // }
 
   render () {
     return (
