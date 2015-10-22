@@ -132,13 +132,13 @@ class PrimaryNavigation extends React.Component {
       </div>
     );
 
-    if ( this.props.middleware.readyState === "OPEN" ) {
-      if ( this.props.middleware.mode === "SIMULATION_MODE" ) {
+    if ( this.props.websocket.readyState === "OPEN" ) {
+      if ( this.props.websocket.mode === "SIMULATION_MODE" ) {
         hostDisplay = "Simulation Mode";
         hostValue = "!!SIM";
         hostClass.push( "simulation" );
       } else {
-        hostDisplay = this.props.middleware.host;
+        hostDisplay = this.props.websocket.host;
         hostValue = hostDisplay;
         hostClass.push( "connected" );
       }
@@ -188,7 +188,7 @@ class PrimaryNavigation extends React.Component {
 // REDUX
 function mapStateToProps ( state ) {
   return (
-    { middleware: state.middleware
+    { websocket: state.websocket
     , auth: state.auth
     }
   );

@@ -153,7 +153,7 @@ class App extends React.Component {
 
 // REDUX
 function mapStateToProps ( state ) {
-  return { shouldBlur: state.auth.SIDShow || state.middleware.SIDShow };
+  return { shouldBlur: state.auth.SIDShow || state.websocket.SIDShow };
 }
 
 

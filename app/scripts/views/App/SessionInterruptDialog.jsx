@@ -23,7 +23,7 @@ if ( process.env.BROWSER ) require( "./SessionInterruptDialog.less" );
 // REACT
 class SessionInterruptDialog extends React.Component {
   render () {
-    const { auth, middleware, message, visible, ...handlers } = this.props;
+    const { auth, websocket, message, visible, ...handlers } = this.props;
 
 
     return (
@@ -73,14 +73,14 @@ class SessionInterruptDialog extends React.Component {
 
 // REDUX
 function mapStateToProps ( state ) {
-  const { auth, middleware } = state;
+  const { auth, websocket } = state;
 
   let message = "";
   let visible = false;
 
-  if ( middleware.SIDShow ) {
+  if ( websocket.SIDShow ) {
     visible = "SPINNER";
-    message = middleware.SIDMessage;
+    message = websocket.SIDMessage;
   } else if ( auth.SIDShow ) {
     message = auth.SIDMessage;
     if ( auth.isFetching ) {
@@ -90,7 +90,7 @@ function mapStateToProps ( state ) {
     }
   }
 
-  return ({ auth, middleware, message, visible });
+  return ({ auth, websocket, message, visible });
 }
 
 function mapDispatchToProps ( dispatch ) {
