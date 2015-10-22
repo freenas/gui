@@ -6,17 +6,17 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const INITIAL_STATE =
-  { isFetching    : false
-  , didInvalidate : false
-  , loggedIn      : false
-  , badCombo      : false
-  , SIDShow       : true
-  , SIDMessage    : "Welcome to FreeNAS X"
-  , username      : ""
-  , password      : ""
-  , token         : null
-  , tokenExpiry   : null
-  , activeUser    : ""
+  { isWaiting: false
+  , loginUUID: null
+  , loggedIn: false
+  , badCombo: false
+  , SIDShow: true
+  , SIDMessage: "Welcome to FreeNAS X"
+  , username: ""
+  , password: ""
+  , token: null
+  , tokenExpiry: null
+  , activeUser: ""
   };
 
 export default function auth ( state = INITIAL_STATE, action ) {
@@ -37,38 +37,66 @@ export default function auth ( state = INITIAL_STATE, action ) {
         }
       );
 
-    case actionTypes.LOGIN_SUBMIT:
+    case actionTypes.LOGIN_SUBMIT_REQUEST:
       return Object.assign( {}, state,
-        { isFetching : true
-        , badCombo   : false
-        , SIDMessage : "Logging you in..."
+        { isWaiting: true
+        , loginUUID: payload.UUID
+        , badCombo: false
+        , SIDMessage: "Logging you in..."
         }
       );
 
-    case actionTypes.LOGIN_SUCCESS:
-      return Object.assign( {}, state,
-        { isFetching  : false
-        , SIDShow     : false
-        , SIDMessage  : "Login successful"
-        , loggedIn    : true
-        , badCombo    : false
-        , password    : ""
-        , token       : payload.token
-        , tokenExpiry : payload.tokenExpiry
-        , activeUser  : payload.activeUser
-        });
 
-    case actionTypes.LOGIN_FAILURE:
-      return Object.assign( {}, state,
-        { isFetching : false
-        , SIDShow    : true
-        , SIDMessage : "The username or password was incorrect"
-        , badCombo   : true
-        });
+    // LOGIN REQUEST SUCCESS
+    case actionTypes.RPC_SUCCESS:
+      if ( state.loginUUID === payload.UUID ) {
+        return Object.assign( {}, state,
+          { isWaiting: false
+          , loginUUID: null
+          , SIDShow: false
+          , SIDMessage: "Login successful"
+          , loggedIn: true
+          , badCombo: false
+          , password: ""
+          , token: payload.data[0]
+          , tokenExpiry: payload.data[1]
+          , activeUser: payload.data[2]
+          });
+      } else {
+        return state;
+      }
+
+    // LOGIN FAILED (BAD COMBO)
+    case actionTypes.RPC_FAILURE:
+      if ( state.loginUUID === payload.UUID ) {
+        return Object.assign( {}, state,
+          { isWaiting: false
+          , loginUUID: null
+          , SIDShow: true
+          , SIDMessage: "The username or password was incorrect"
+          , badCombo: true
+          });
+      } else {
+        return state;
+      }
+
+    // LOGIN FAILED (BAD COMBO)
+    case actionTypes.RPC_TIMEOUT:
+      if ( state.loginUUID === payload.UUID ) {
+        return Object.assign( {}, state,
+          { isWaiting: false
+          , loginUUID: null
+          , SIDShow: true
+          , SIDMessage: "The login request timed out"
+          , badCombo: false
+          });
+      } else {
+        return state;
+      }
 
     case actionTypes.LOGOUT:
       return Object.assign( {}, state,
-        { isFetching : false
+        { isWaiting : false
         , SIDShow    : true
         , SIDMessage : "You have logged out"
         , loggedIn   : false

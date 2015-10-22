@@ -23,7 +23,7 @@ import SAC from "../flux/actions/SessionActionCreators";
 import sessionCookies from "../utility/cookies";
 
 
-const defaultTimeoutDelay = 10000;
+const DEFAULT_TIMEOUT = 30000;
 
 function notBoundWarn ( name ) {
   MCD.warn( `MiddlewareClient.${ name } was not bound.` );
@@ -34,18 +34,32 @@ class MiddlewareClient {
   constructor () {
     this.socket = null;
     this.queuedLogin = null;
-    this.queuedActions = [];
-    this.pendingRequests = {};
-    this.isAuthenticated = false;
+    this.requestTimeouts = {};
+
+    this.store = null;
+    this.state =
+      { auth: {}
+      , rpc: {}
+      , websocket: {}
+      };
 
     // WEBSOCKET HANDLERS
     this.onSockStateChange = () => notBoundWarn( "onSockStateChange" );
     this.onLogout          = () => notBoundWarn( "onLogout" );
 
+    // RPC HANDLERS
+    this.onRPCEnqueue = () => notBoundWarn( "onRPCEnqueue" );
+    this.onRPCDequeue = () => notBoundWarn( "onRPCDequeue" );
+    this.onRPCRequest = () => notBoundWarn( "onRPCRequest" );
+    this.onRPCFailure = () => notBoundWarn( "onRPCFailure" );
+    this.onRPCSuccess = () => notBoundWarn( "onRPCSuccess" );
+    this.onRPCTimeout = () => notBoundWarn( "onRPCTimeout" );
+
     // TASK SUBMISSION HANDLERS
     this.onTaskSubmitRequest = () => notBoundWarn( "onTaskSubmitRequest" );
     this.onTaskSubmitFailure = () => notBoundWarn( "onTaskSubmitFailure" );
     this.onTaskSubmitSuccess = () => notBoundWarn( "onTaskSubmitSuccess" );
+    this.onTaskSubmitTimeout = () => notBoundWarn( "onTaskSubmitTimeout" );
 
     // TASK UPDATE HANDLERS
     this.onTaskCreated  = () => notBoundWarn( "onTaskCreated" );
@@ -53,14 +67,32 @@ class MiddlewareClient {
     this.onTaskProgress = () => notBoundWarn( "onTaskProgress" );
   }
 
-  // HACK: Workaround to avoid disrupting current logic flow, but this should
-  // probably come from the store instead of being hammered in by the action
-  changeAuth ( bool ) {
-    this.isAuthenticated = bool;
+  bindStore ( store ) {
+    this.store = store;
+
+    this.store.subscribe( this.handleStoreChange.bind( this ) );
   }
 
   bindHandlers ( handlers ) {
     Object.assign( this, { ...handlers } );
+  }
+
+  handleStoreChange () {
+    const { websocket, auth, rpc } = this.store.getState();
+    const prevState = this.state;
+    this.state = Object.assign( {}, { websocket, auth, rpc } );
+
+    const loggedIn = this.state.auth.loggedIn;
+    const wasLoggedIn = prevState.auth.loggedIn;
+    const queue = rpc.queued;
+
+    // On a successful login, dequeue any actions which may have been requested
+    // either before the connection was made, or before the authentication was
+    // complete.
+    if ( loggedIn && queue.length && ( loggedIn !== wasLoggedIn ) ) {
+      this.onRPCDequeue();
+      this.dequeueActions( queue );
+    }
   }
 
   connect ( protocol = "ws://", host = "", path = "", mode = "" ) {
@@ -111,21 +143,16 @@ class MiddlewareClient {
     this.renewSubscriptions();
 
     if ( this.queuedLogin ) {
-      // If the connection opens and we aren't authenticated, but we have a
-      // queued login, dispatch the login and reset its variable.
-      this.logPendingRequest( this.queuedLogin.id
-                            , this.queuedLogin.successCallback
-                            , this.queuedLogin.errorCallback
-                            , null
-                            );
-      this.socket.send( this.queuedLogin.action );
+      const { UUID, action, onRequest } = this.queuedLogin;
       this.queuedLogin = null;
 
+      // If the connection opens and we aren't authenticated, but we have a
+      // queued login, dispatch the login and reset its variable.
+      this.sendRequest( UUID, action, onRequest );
+
       if ( MCD.reports( "queues" ) ) {
-        MCD.info( `Resolving queued login %c${ this.queuedLogin.id }`
-                , [ "uuid" ]
-                );
-        MCD.dir( this.queuedLogin.action );
+        MCD.info( `Resolving queued login %c${ UUID }`, [ "uuid" ] );
+        MCD.dir( action );
       }
     }
 
@@ -137,7 +164,6 @@ class MiddlewareClient {
   // necessary to allow for a clean session end and prepares for a new session.
   handleClose ( closeEvent ) {
     this.queuedLogin = null;
-    this.queuedActions = [];
 
     if ( MCD.reports( "connection" ) ) {
       MCD.info( "WebSocket connection closed" );
@@ -149,6 +175,7 @@ class MiddlewareClient {
   // middleware's response, and then performs followup tasks depending on the
   // message's namespace.
   handleMessage ( message ) {
+
 
     let data;
     // TODO: The timestamp should come from the server, so we can use it for
@@ -264,16 +291,15 @@ class MiddlewareClient {
   // REQUEST TIMEOUTS
   // Called by a request function without a matching response. Automatically
   // triggers resolution of the request with a "timeout" status.
-  handleTimeout ( reqID ) {
-
+  handleTimeout ( UUID ) {
     if ( MCD.reports( "messages" ) ) {
-      MCD.warn( `Request %c'${ reqID }'%c timed out without a response from ` +
+      MCD.warn( `Request %c'${ UUID }'%c timed out without a response from ` +
                 `the middleware`
               , [ "uuid", "normal" ]
               );
     }
 
-    this.resolvePendingRequest( reqID, null, null, "timeout" );
+    this.resolvePendingRequest( UUID, null, null, "timeout" );
   };
 
   // DATA AND REQUEST HANDLING
@@ -291,183 +317,118 @@ class MiddlewareClient {
   pack ( namespace, name, args, id ) {
     if ( MCD.reports( "packing" ) ) { MCD.logPack( ...arguments ); }
 
-    return JSON.stringify(
-      { namespace: namespace
-      , name: name
-      , id: id
-      , args: args
-      }
-    );
+    return JSON.stringify({ namespace, name, id, args });
+  }
 
+  sendRequest( UUID, action, onRequest, timeout ) {
+    // Send the request
+    this.socket.send( action );
+
+    if ( typeof onRequest === "function" ) {
+      // Send the UUID to the action's callback, if provided
+      onRequest( UUID );
+    }
+
+    // Record the pending request
+    this.onRPCRequest( UUID, action );
+
+    // Start a timeout for the request
+    this.requestTimeouts[ UUID ] =
+      setTimeout( () => { this.handleTimeout( UUID ) }
+                , timeout || DEFAULT_TIMEOUT
+                );
   }
 
   // Based on the status of the WebSocket connection and the authentication
   // state, either logs and sends an action, or enqueues it until it can be sent
-  processNewRequest ( action, onSuccess, onError, id, timeout ) {
-    if ( this.socket && this.socket.readyState === 1 && this.isAuthenticated ) {
+  processNewRequest ( action, UUID, onRequest, timeout ) {
+    const { auth, websocket } = this.state;
+
+    if ( websocket.readyState === "OPEN" && auth.loggedIn ) {
 
       if ( MCD.reports( "logging" ) ) {
-        MCD.info( `Logging and sending request %c'${ id }'`
-                , [ "uuid" ]
-                );
+        MCD.info( `Logging and sending request %c'${ UUID }'`, [ "uuid" ] );
         MCD.dir( action );
       }
 
-      this.logPendingRequest( id, onSuccess, onError, action, timeout );
-      this.socket.send( action );
-
+      this.sendRequest( UUID, action, onRequest, timeout )
     } else {
-
       if ( MCD.reports( "queues" ) ) {
-        MCD.info( `Enqueueing request %c'${ id }'`, [ "uuid" ] );
+        MCD.info( `Enqueueing request %c'${ UUID }'`, [ "uuid" ] );
       }
 
-      this.queuedActions.push(
-        { action: action
-        , id: id
-        , successCallback: onSuccess
-        , errorCallback: onError
-        , timeout: timeout
-        }
-      );
-
+      this.onRPCEnqueue({ action, UUID, onRequest, timeout });
     }
   }
 
-  // Many views' lifecycle will make a request before the connection is made,
-  // and before the login credentials have been accepted. These requests are
-  // enqueued by the `login` and `request` functions into the `queuedActions`
-  // object and `queuedLogin`, and then are dequeued by this function.
-  dequeueActions () {
-    if ( MCD.reports( "queues" ) && this.queuedActions.length ) {
+  // Dequeue all stored actions
+  dequeueActions ( queue ) {
+    if ( MCD.reports( "queues" ) ) {
       MCD.log( "Attempting to dequeue actions" );
     }
 
-    while ( this.queuedActions.length ) {
-      let request = this.queuedActions.shift();
-
+    queue.forEach( request => {
       if ( MCD.reports( "queues" ) ) {
-        MCD.log( `Dequeueing %c'${ request.id }'`, [ "uuid" ] );
+        MCD.log( `Dequeueing %c'${ request.UUID }'`, [ "uuid" ] );
       }
 
       this.processNewRequest( request.action
-                            , request.successCallback
-                            , request.errorCallback
-                            , request.id
+                            , request.UUID
+                            , request.onRequest
                             , request.timeout
                             );
-    }
-  }
-
-  // Records a middleware request that was sent to the server, stored in the
-  // constructor's `pendingRequests` object. These are eventually resolved and
-  // removed, either by a response from the server, or the timeout set here.
-  // If `timeoutDelay` is provided, its value will be used for the timeout.
-  // Otherwise, the default timeout (10s) is used.
-  logPendingRequest ( reqID, onSuccess, onError, origReq, timeoutDelay ) {
-
-    const delay = timeoutDelay || defaultTimeoutDelay;
-
-    function requestTimeoutHandler () {
-      this.handleTimeout( reqID );
-    };
-
-    this.pendingRequests[ reqID ] =
-      { successCallback: onSuccess
-      , errorCallback: onError
-      , origReq: origReq
-      , timeout: setTimeout( requestTimeoutHandler.bind( this ), delay )
-      };
-
-    if ( MCD.reports( "logging" ) ) {
-      MCD.info( "Current pending requests:" );
-      MCD.dir( this.pendingRequests );
-    }
+    });
   }
 
   // Resolve a middleware request by clearing its timeout, and optionally
   // calling its callback. Callbacks should not be called if the function timed
   // out before a response was received.
-  resolvePendingRequest ( reqID, args, timestamp, outcome ) {
+  resolvePendingRequest ( UUID, args, timestamp, outcome ) {
 
-    // The server side dispatcher will send a None in the reqID when returing
+    // The server side dispatcher will send a None in the UUID when returing
     // error (code 22): 'Request is not valid JSON'
-    if ( reqID && this.pendingRequests[ reqID ] ) {
-      clearTimeout( this.pendingRequests[ reqID ].timeout );
+    if ( UUID && this.requestTimeouts[ UUID ] ) {
+      clearTimeout( this.requestTimeouts[ UUID ] );
+      delete this.requestTimeouts[ UUID ];
     }
 
-    switch ( outcome ) {
-      case "success":
+    switch ( outcome.toUpperCase() ) {
+      case "SUCCESS":
         if ( MCD.reports( "messages" ) ) {
-          MCD.info( `SUCCESS: Resolving request %c'${ reqID }'`, [ "uuid" ] );
+          MCD.info( `SUCCESS: Resolving request %c'${ UUID }'`, [ "uuid" ] );
         }
-        this.executeRequestSuccessCallback( reqID, args, timestamp );
+
+        this.onRPCSuccess( UUID, args );
         break;
 
-      case "error":
-        let origReq;
-
-        try {
-          origReq = JSON.parse( this.pendingRequests[ reqID ]["origReq"] );
-        } catch ( err ) {
-          MCD.error( [ `Could not parse JSON from request %c'${ reqID }'`
-                     , this.pendingRequests[ reqID ]["origReq"]
-                     ]
-                   , [ "uuid" ]
-                   );
-        }
-
-        this.executeRequestErrorCallback( reqID, args, timestamp );
-
+      case "ERROR":
         if ( args.message && _.startsWith( args.message, "Traceback" ) ) {
-          MCD.logPythonTraceback( reqID, args, origReq );
+          MCD.logPythonTraceback( UUID, args );
         } else if ( args.code && args.message ) {
-          MCD.logErrorWithCode( reqID, args, origReq );
+          MCD.logErrorWithCode( UUID, args );
         } else {
-          MCD.logErrorResponse( reqID, args, origReq );
+          MCD.logErrorResponse( UUID, args );
         }
+
+        this.onRPCFailure( UUID, args );
         break;
 
-      case "timeout":
-        MCD.warn( `TIMEOUT: Stopped waiting for request %c'${ reqID }'`
-                , [ "uuid" ]
-                );
-        this.executeRequestErrorCallback( reqID, args );
+      case "TIMEOUT":
+        MCD.warn( `TIMEOUT: Stopped waiting for request %c'${ UUID }'`, [ "uuid" ] );
+
+        this.onRPCTimeout( UUID, args );
         break;
 
       default:
         break;
     }
-
-    delete this.pendingRequests[ reqID ];
-  }
-
-  // Executes the specified request's successCallback with the provided
-  // arguments. Should only be used in cases where a response has come from the
-  // server, and the status is successful in one way or another. Calling this
-  // function when the server returns an error could cause strange results.
-  // Use the errorCallback for that case.
-  executeRequestSuccessCallback ( reqID, args, timestamp ) {
-    const onSuccess = this.pendingRequests[ reqID ].successCallback;
-
-    if ( typeof onSuccess === "function" ) {
-      onSuccess( args, timestamp );
-    }
-  }
-
-  executeRequestErrorCallback ( reqID, args ) {
-    const onFailure = this.pendingRequests[ reqID ].errorCallback;
-
-    if ( typeof onFailure === "function" ) {
-      onFailure( args );
-    }
   }
 
   // Authenticate a user to the middleware. Basically a specialized version of
   // the `request` function with a different payload.
-  login ( namespace, payload, success, failure ) {
-    const reqID = freeNASUtil.generateUUID();
-    const action = this.pack( "rpc", namespace, payload, reqID );
+  login ( namespace, payload, onRequest ) {
+    const UUID = freeNASUtil.generateUUID();
+    const action = this.pack( "rpc", namespace, payload, UUID );
 
     if ( this.socket.readyState === 1 ) {
 
@@ -475,19 +436,14 @@ class MiddlewareClient {
         MCD.info( "Socket is ready: Sending login request." );
       }
 
-      this.logPendingRequest( reqID, success, failure, action, null );
-      this.socket.send( action );
+      this.sendRequest( UUID, action, onRequest )
     } else {
 
       if ( MCD.reports( "authentication" ) ) {
         MCD.info( "Socket is not ready: Deferring login request." );
       }
 
-      this.queuedLogin = { action: action
-                         , successCallback: success
-                         , errorCallback: failure
-                         , id: reqID
-                         };
+      this.queuedLogin = { action, UUID, onRequest };
     }
   }
 
@@ -496,7 +452,6 @@ class MiddlewareClient {
     // connection
     sessionCookies.delete( "auth" );
     this.disconnect( 1000, "User logged out" );
-    this.changeAuth( false );
     this.onLogout();
   }
 
@@ -505,34 +460,17 @@ class MiddlewareClient {
   // unique UUID is generated for each request, and is supplied to
   // `this.logPendingRequest` as a lookup key for resolving or timing out the
   // Request.
-  request ( method, args, onSuccess, onError, timeoutDelay ) {
-    const reqID = freeNASUtil.generateUUID();
-    const payload = { method, args };
-    const packedAction = this.pack( "rpc", "call", payload, reqID );
+  request ( method, args, onRequest, timeoutDelay ) {
+    const UUID = freeNASUtil.generateUUID();
+    const PAYLOAD = { method, args };
+    const packedAction = this.pack( "rpc", "call", PAYLOAD, UUID );
 
-    this.processNewRequest( packedAction
-                          , onSuccess
-                          , onError
-                          , reqID
-                          , timeoutDelay
-                          );
+    this.processNewRequest( packedAction, UUID, onRequest, timeoutDelay );
   }
 
   // TASK SUBMISSION
-  submitTask ( args ) {
-    if ( !UUID ) {
-      console.warn( "A UUID must be provided for submitTask" );
-      return;
-    }
-
-    const PAYLOAD = { method: [ "task.submit" ], args };
-
-    this.onTaskSubmitRequest( UUID, args );
-
-    this.processNewRequest( this.pack( "rpc", "call", PAYLOAD, UUID )
-                          , this.onTaskSubmitSuccess.bind( this )
-                          , this.onTaskSubmitFailure.bind( this )
-                          );
+  submitTask ( args, onRequest, timeoutDelay ) {
+    request.call( this, "task.submit", args, onRequest, timeoutDelay );
   }
 
 
@@ -582,10 +520,10 @@ class MiddlewareClient {
       }
 
       if ( subCount < 1 ) {
-        const reqID = freeNASUtil.generateUUID();
-        const action = this.pack( "events", "subscribe", [ mask ], reqID );
+        const UUID = freeNASUtil.generateUUID();
+        const action = this.pack( "events", "subscribe", [ mask ], UUID );
 
-        this.processNewRequest( action, null, null, reqID, null );
+        this.processNewRequest( action, UUID );
       }
     }, this );
 
@@ -626,10 +564,10 @@ class MiddlewareClient {
       let subCount = SubscriptionsStore.getNumberOfSubscriptionsForMask( mask );
 
       if ( subCount === 1 ) {
-        const reqID = freeNASUtil.generateUUID();
-        const action = this.pack( "events", "unsubscribe", [ mask ], reqID );
+        const UUID = freeNASUtil.generateUUID();
+        const action = this.pack( "events", "unsubscribe", [ mask ], UUID );
 
-        this.processNewRequest( action, null, null, reqID, null );
+        this.processNewRequest( action, UUID );
       }
     }, this );
 
@@ -647,10 +585,10 @@ class MiddlewareClient {
                );
       }
 
-      const reqID = freeNASUtil.generateUUID();
-      const action = this.pack( "events", "subscribe", [ mask ], reqID );
+      const UUID = freeNASUtil.generateUUID();
+      const action = this.pack( "events", "subscribe", [ mask ], UUID );
 
-      this.processNewRequest( action, null, null, reqID, null );
+      this.processNewRequest( action, UUID );
     }, this );
   }
 
@@ -663,10 +601,10 @@ class MiddlewareClient {
                );
       }
 
-      const reqID = freeNASUtil.generateUUID();
-      const action = this.pack( "events", "unsubscribe", [ mask ], reqID );
+      const UUID = freeNASUtil.generateUUID();
+      const action = this.pack( "events", "unsubscribe", [ mask ], UUID );
 
-      this.processNewRequest( action, null, null, reqID, null );
+      this.processNewRequest( action, UUID );
     }, this );
 
     SubscriptionsActionCreators.deleteAllSubscriptions();

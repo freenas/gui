@@ -4,12 +4,12 @@
 
 "use strict";
 
-import * as actionTypes from "./actionTypes";
+import * as TYPES from "./actionTypes";
 import MiddlewareClient from "../websocket/MiddlewareClient";
 
 export function updateUsername ( username ) {
   return (
-    { type: actionTypes.UPDATE_USERNAME
+    { type: TYPES.UPDATE_USERNAME
     , payload: { username }
     }
   );
@@ -17,7 +17,7 @@ export function updateUsername ( username ) {
 
 export function updatePassword ( password ) {
   return (
-    { type: actionTypes.UPDATE_PASSWORD
+    { type: TYPES.UPDATE_PASSWORD
     , payload: { password }
     }
   );
@@ -25,42 +25,11 @@ export function updatePassword ( password ) {
 
 
 // LOGIN ACTIONS
-function loginSubmit () {
-  return { type: actionTypes.LOGIN_SUBMIT }
+function loginSubmit ( UUID ) {
+  return { type: TYPES.LOGIN_SUBMIT_REQUEST
+         , payload: { UUID }
+         }
 }
-
-function loginSuccess ( response ) {
-  return (
-    { type: actionTypes.LOGIN_SUCCESS
-    , payload:
-      { token       : response[0]
-      , tokenExpiry : response[1]
-      , activeUser  : response[2]
-      }
-    }
-  );
-}
-
-export function handleLoginSuccess ( response ) {
-  return ( dispatch, getState ) => {
-    MiddlewareClient.dequeueActions();
-    return dispatch( loginSuccess( response ) );
-  }
-}
-
-export function loginFailure ( errorMessage ) {
-  return (
-    { type: actionTypes.LOGIN_FAILURE
-    , error: true
-    , payload: new Error( errorMessage || "Login failed" )
-    }
-  );
-}
-
-export function logout () {
-  return { type: actionTypes.LOGOUT };
-}
-
 
 function allowAuthRPC ( auth ) {
   if ( auth.loggedIn || auth.isFetching ) {
@@ -71,28 +40,6 @@ function allowAuthRPC ( auth ) {
     return false;
   }
 }
-
-function handleSuccess ( response ) {
-  return ( dispatch, getState ) => {
-
-    // On a successful login, dequeue any actions which may have been requested
-    // either before the connection was made, or before the authentication was
-    // complete.
-    MiddlewareClient.changeAuth( true );
-    MiddlewareClient.dequeueActions();
-
-    return dispatch( loginSuccess( response ) );
-  }
-}
-
-function handleFailure ( response ) {
-  return ( dispatch, getState ) => {
-    MiddlewareClient.changeAuth( false );
-
-    return dispatch( loginFailure( response ) );
-  }
-}
-
 
 export function authRPC () {
   return ( dispatch, getState ) => {
@@ -113,11 +60,13 @@ export function authRPC () {
 
       MiddlewareClient.login( namespace
                             , payload
-                            , ( response ) => dispatch( handleSuccess( response ) )
-                            , ( response ) => dispatch( handleFailure( response ) )
+                            , ( UUID ) => dispatch( loginSubmit( UUID ) )
                             );
-
-      return dispatch( loginSubmit() );
     }
   }
+}
+
+// LOGOUT
+export function logout () {
+  return { type: TYPES.LOGOUT };
 }

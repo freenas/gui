@@ -14,14 +14,17 @@ import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import configureStore from "./store/configureStore";
-import * as AA from "./actions/auth";
-import * as WA from "./actions/websocket";
-import * as TA from "./actions/tasks";
+import * as auth from "./actions/auth";
+import * as websocket from "./actions/websocket";
+import * as rpc from "./actions/rpc";
+import * as tasks from "./actions/tasks";
 
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";
 import MiddlewareClient from "./websocket/MiddlewareClient";
+
+const ACTIONS = { ...auth, ...websocket, ...rpc, ...tasks };
 
 if ( process.env.BROWSER ) {
   const store = configureStore();
@@ -29,34 +32,41 @@ if ( process.env.BROWSER ) {
   const history = createBrowserHistory();
   const { protocol, host, path, mode } = TargetHost.connection();
 
-  store.dispatch( WA.changeSockTarget({ protocol, host, path, mode }) );
+  store.dispatch( ACTIONS.changeSockTarget({ protocol, host, path, mode }) );
+
+  MiddlewareClient.bindStore( store );
 
   MiddlewareClient.bindHandlers(
     { onSockStateChange: ( state, closeEvent ) =>
-        store.dispatch( WA.changeSockState( state, closeEvent ) )
+        store.dispatch( ACTIONS.changeSockState( state, closeEvent ) )
     , onLogout: () =>
-        store.dispatch( AA.logout() )
+        store.dispatch( ACTIONS.logout() )
 
 
-    // TASK SUBMISSION HANDLERS
-    , onTaskSubmitRequest: ( UUID, args ) =>
-        store.dispatch( TA.taskSubmitRequest( UUID, args ) )
-    , onTaskSubmitSuccess: ( UUID, taskID, timestamp ) =>
-        store.dispatch( TA.taskSubmitSuccess( UUID, taskID, timestamp ) )
-    , onTaskSubmitFailure: ( UUID, args, timestamp ) =>
-        store.dispatch( TA.taskSubmitFailure( UUID, args, timestamp ) )
-    // TODO: lol implying
-    // , onTaskSubmitTimeout: () =>
-    //     store.dispatch( TA.onTaskSubmitTimeout() )
+    // RPC QUEUE
+    , onRPCEnqueue: ( request ) =>
+        store.dispatch( ACTIONS.enqueueRPCRequest( request ) )
+    , onRPCDequeue: () =>
+        store.dispatch( ACTIONS.dequeueRPCRequests() )
+
+    // RPC LIFECYCLE
+    , onRPCRequest: ( UUID, params ) =>
+        store.dispatch( ACTIONS.submitRPCRequest( UUID, params ) )
+    , onRPCSuccess: ( UUID, data ) =>
+        store.dispatch( ACTIONS.submitRPCSuccess( UUID, data ) )
+    , onRPCFailure: ( UUID, error ) =>
+        store.dispatch( ACTIONS.submitRPCFailure( UUID, error ) )
+    , onRPCTimeout: ( UUID, error ) =>
+        store.dispatch( ACTIONS.submitRPCTimeout( UUID, error ) )
 
 
     // TASK UPDATE HANDLERS
     , onTaskCreated : () =>
-        store.dispatch( TA.taskCreated( data ) )
+        store.dispatch( ACTIONS.taskCreated( data ) )
     , onTaskUpdated : () =>
-        store.dispatch( TA.taskUpdated( data ) )
+        store.dispatch( ACTIONS.taskUpdated( data ) )
     , onTaskProgress: () =>
-        store.dispatch( TA.taskProgress( data ) )
+        store.dispatch( ACTIONS.taskProgress( data ) )
     }
   );
 
