@@ -34,12 +34,15 @@ export default class Shell extends React.Component {
     this.destroyShell();
   }
 
-  componentWillReceiveProps ( nextProps ) {
-    if ( this.props.shellType !== nextProps.shellType ) {
+  componentDidUpdate ( prevProps, prevState ) {
+    const TOKEN_CHANGED = this.props.token !== prevProps.token;
+    const SHELL_CHANGED = this.props.shellType !== prevProps.shellType;
+
+    if ( SHELL_CHANGED ) {
       this.props.spawnShell( this.props.shellType );
     }
 
-    if ( this.props.token && this.props.token !== nextProps.token ) {
+    if ( this.props.token && ( !this.ws || !this.term || TOKEN_CHANGED ) ) {
       this.createNewShell();
     }
   }
