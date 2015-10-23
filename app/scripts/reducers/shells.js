@@ -13,7 +13,7 @@ const INITIAL_STATE =
   , token: ""
   };
 
-export default function auth ( state = INITIAL_STATE, action ) {
+export default function shells ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let spawnRequests, fetchRequests;
 
