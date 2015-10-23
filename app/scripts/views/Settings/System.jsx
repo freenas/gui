@@ -78,21 +78,20 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
   return (
+    // OS FORM
     { updateOSForm: ( field, value ) => dispatch( systemActions.updateOSForm( field, value ) )
     , resetOSForm: () => dispatch( systemActions.resetOSForm() )
-    // , submitOSForm: () => dispatch( systemActions.submitOSForm() )
-    // Connection Form
+    // CONNECTION FORM
     // , updateConnectionForm: ( field, value ) => dispatch( systemActions.updateConnectionForm( field, value ) )
     // , resetConnectionForm: () => dispatch( systemActions.resetConnectionForm() )
-    // , submitConnectionForm: () => dispatch( systemActions.submitConnectionForm() )
-    // Localization Form
+    // LOCALIZATION FORM
     , updateLocalizationForm: ( field, value ) => dispatch( systemActions.updateLocalizationForm( field, value ) )
     , resetLocalizationForm: () => dispatch( systemActions.resetLocalizationForm() )
-    // , submitLocalizationForm: () => dispatch( systemActions.submitLocalizationForm() )
-    // Console Form
+    // CONSOLE FORM
     , updateConsoleForm: ( field, value ) => dispatch( systemActions.updateConsoleForm( field, value ) )
     , resetConsoleForm: () => dispatch( systemActions.resetConsoleForm() )
-    // , submitConsoleForm: () => dispatch( systemActions.submitConsoleForm() )
+
+    // QUERIES
     , requestGeneralConfig: () => dispatch( systemActions.requestGeneralConfig() )
     , requestTimezones: () => dispatch( systemActions.requestTimezones() )
     , requestKeymaps: () => dispatch( systemActions.requestKeymaps() )
@@ -103,6 +102,12 @@ function mapDispatchToProps ( dispatch ) {
     , requestTime: () => dispatch( systemActions.requestTime() )
     , requestUnameFull: () => dispatch( systemActions.requestUnameFull() )
     , requestVersion: () => dispatch( systemActions.requestVersion() )
+
+    // TASKS
+    // , submitOSForm: () => dispatch( systemActions.submitOSForm() )
+    // , submitConnectionForm: () => dispatch( systemActions.submitConnectionForm() )
+    // , submitLocalizationForm: () => dispatch( systemActions.submitLocalizationForm() )
+    // , submitConsoleForm: () => dispatch( systemActions.submitConsoleForm() )
     }
   );
 };
