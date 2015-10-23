@@ -11,85 +11,108 @@ import React from "react";
 import Terminal from "term.js";
 
 import TargetHost from "../websocket/TargetHost";
-import ShellMiddleware from "../flux/middleware/ShellMiddleware";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Shell.less" );
 
 
-var Shell = React.createClass(
-  {  ws             : null
-  , term            : null
-  , isAuthenticated : false
+// REACT
+export default class Shell extends React.Component {
 
-  , propTypes: {
-      shellType: React.PropTypes.string
+  constructor ( props ) {
+    super( props );
+
+    this.ws = null;
+    this.term = null;
+  }
+
+  componentDidMount () {
+    this.props.spawnShell( this.props.shellType );
+  }
+
+  componentWillUnmount () {
+    this.destroyShell();
+  }
+
+  componentWillReceiveProps ( nextProps ) {
+    if ( this.props.shellType !== nextProps.shellType ) {
+      this.props.spawnShell( this.props.shellType );
     }
 
-  , getDefaultProps: function () {
-      return {
-        shellType: "/bin/sh"
-      };
+    if ( this.props.token && this.props.token !== nextProps.token ) {
+      this.createNewShell();
+    }
+  }
+
+  destroyShell () {
+    if ( this.ws ) this.ws.close();
+    if ( this.term ) this.term.destroy();
+
+    this.ws = null;
+    this.term = null;
+  }
+
+  createNewShell () {
+    let connection = TargetHost.connection();
+    let url = connection.protocol + connection.host + ":5000/shell";
+
+    // Clean up any previous shells
+    this.destroyShell();
+
+    this.ws = new WebSocket( url );
+    this.term = new Terminal({ cols       : 80
+                             , rows       : 14
+                             , screenKeys : true
+    });
+
+    this.ws.onopen = ( event ) => {
+      this.ws.send( JSON.stringify({ token: this.props.token }) );
     }
 
-  , componentDidMount: function () {
-      ShellMiddleware.spawnShell( this.props.shellType, this.createNewShell );
-    }
+    this.ws.onmessage = ( event ) => {
+      let eventData;
 
-  , componentDidUpdate: function ( prevProps, prevState ) {
-      if ( this.props.shellType !== prevProps.shellType ) {
-        this.ws.close();
-        this.term.destroy();
-        this.isAuthenticated = false;
-        ShellMiddleware.spawnShell( this.props.shellType, this.createNewShell );
-      }
-      if ( this.term && this.refs.termTarget.clientHeight !== 0 ) {
-        this.term.resize( 80
-                        , this.refs.termTarget.clientHeight * 0.05 );
-      }
-    }
+      try {
+        eventData = JSON.parse( event.data );
 
-  , createNewShell: function ( token ) {
-      let connection = TargetHost.connection();
-      let url = connection.protocol + connection.host + ":5000/shell";
-
-      this.ws   = new WebSocket( url );
-      this.term = new Terminal({ cols       : 80
-                               , rows       : 14
-                               , screenKeys : true
-      });
-
-      this.ws.onopen = function ( event ) {
-        this.ws.send( JSON.stringify({ token: token }) );
-      }.bind( this );
-
-      this.ws.onmessage = function ( event ) {
-        if ( !this.isAuthenticated ) {
-          if ( JSON.parse( event.data )["status"] === "ok" ) {
-            this.isAuthenticated = true;
-          }
-
+        if ( eventData ) {
+          console.log( "Shell WebSocket:", eventData );
           return;
         }
+      } catch ( error ) {
+        // This is only here to make sure that no JSON information is
+        // inadvertently rendered into the terminal.
+      }
 
-        this.term.write( event.data );
-      }.bind( this );
-
-      this.term.on( "data", function ( data ) {
-        this.ws.send( data );
-      }.bind( this ) );
-
-      this.term.open( this.refs.termTarget );
-      this.forceUpdate();
+      this.term.write( event.data );
     }
 
-  , render: function () {
-      return (
-        <div className="termFlex" ref="termTarget" />
-      );
-    }
+    this.term.on( "data", ( data ) => this.ws.send( data ) );
 
+    this.term.open( this.refs.termTarget );
+    this.forceUpdate();
   }
-);
 
-module.exports = Shell;
+  render () {
+    const termNode = this.refs.termTarget;
+
+    if ( this.term && termNode.clientHeight !== 0 ) {
+      this.term.resize( 80, termNode.clientHeight * 0.05 );
+    }
+
+    return (
+      <div className="termFlex" ref="termTarget" />
+    );
+  }
+
+}
+
+Shell.propTypes =
+  { shellType: React.PropTypes.string
+  , token: React.PropTypes.string
+  , spawnShell: React.PropTypes.func.isRequired
+  };
+
+Shell.defaultProps =
+  { shellType: "/bin/sh"
+  };
