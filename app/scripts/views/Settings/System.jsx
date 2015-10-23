@@ -26,11 +26,16 @@ class System extends React.Component {
 
   componentDidMount () {
     // IM.requestInterfacesList();
-    // `this.props.requestGeneralConfig();
-    // `this.props.requestTimezones();
-    // `this.props.requestKeymaps();
-    // `this.props.requestAdvancedConfig();
-    // `this.props.requestSerialPorts();
+    this.props.requestGeneralConfig();
+    this.props.requestTimezones();
+    this.props.requestKeymaps();
+    this.props.requestAdvancedConfig();
+    this.props.requestSerialPorts();
+    this.props.requestHardware();
+    this.props.requestLoadAvg();
+    this.props.requestTime();
+    this.props.requestUnameFull();
+    this.props.requestVersion();
   }
 
   render () {
@@ -88,11 +93,16 @@ function mapDispatchToProps ( dispatch ) {
     , updateConsoleForm: ( field, value ) => dispatch( systemActions.updateConsoleForm( field, value ) )
     , resetConsoleForm: () => dispatch( systemActions.resetConsoleForm() )
     // , submitConsoleForm: () => dispatch( systemActions.submitConsoleForm() )
-    // , requestGeneralConfig: () => dispatch( systemActions.requestGeneralConfig() )
-    // , requestTimezones: () => dispatch( systemActions.requestTimezones() )
-    // , requestKeymaps: () => dispatch( systemActions.requestKeymaps() )
-    // , requestAdvancedConfig: () => dispatch( systemActions.requestAdvancedConfig() )
-    // , requestSerialPorts: () => dispatch( systemActions.requestSerialPorts() )
+    , requestGeneralConfig: () => dispatch( systemActions.requestGeneralConfig() )
+    , requestTimezones: () => dispatch( systemActions.requestTimezones() )
+    , requestKeymaps: () => dispatch( systemActions.requestKeymaps() )
+    , requestAdvancedConfig: () => dispatch( systemActions.requestAdvancedConfig() )
+    , requestSerialPorts: () => dispatch( systemActions.requestSerialPorts() )
+    , requestHardware: () => dispatch( systemActions.requestHardware() )
+    , requestLoadAvg: () => dispatch( systemActions.requestLoadAvg() )
+    , requestTime: () => dispatch( systemActions.requestTime() )
+    , requestUnameFull: () => dispatch( systemActions.requestUnameFull() )
+    , requestVersion: () => dispatch( systemActions.requestVersion() )
     }
   );
 };
