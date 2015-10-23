@@ -13,9 +13,6 @@ import _ from "lodash";
 import freeNASUtil from "../utility/freeNASUtil";
 import MCD from "./MiddlewareClientDebug";
 
-import SubscriptionsStore from "../flux/stores/SubscriptionsStore";
-import SubscriptionsActionCreators from "../flux/actions/SubscriptionsActionCreators";
-
 import MiddlewareActionCreators from "../flux/actions/MiddlewareActionCreators";
 
 import SAC from "../flux/actions/SessionActionCreators";
@@ -40,6 +37,7 @@ class MiddlewareClient {
     this.state =
       { auth: {}
       , rpc: {}
+      , subscriptions: {}
       , websocket: {}
       };
 
@@ -78,9 +76,9 @@ class MiddlewareClient {
   }
 
   handleStoreChange () {
-    const { websocket, auth, rpc } = this.store.getState();
+    const { auth, rpc, subscriptions, websocket } = this.store.getState();
     const prevState = this.state;
-    this.state = Object.assign( {}, { websocket, auth, rpc } );
+    this.state = Object.assign( {}, { auth, rpc, subscriptions, websocket } );
 
     const loggedIn = this.state.auth.loggedIn;
     const wasLoggedIn = prevState.auth.loggedIn;
@@ -475,139 +473,27 @@ class MiddlewareClient {
 
 
   // SUBSCRIPTION INTERFACES
-  // Generic interface for subscribing to Middleware namespaces. The Middleware
-  // Flux store records the number of React components which have required a
-  // subscription to a Middleware namespace. This allows the Middleware Client
-  // to make intelligent decisions about whether to query a namespace for fresh
-  // data, begin or end a subscription, or even garbage collect a Flux store
-  // which is no longer being used.
+  subscribe ( masks, onRequest ) {
+    const UUID = freeNASUtil.generateUUID();
+    const action = this.pack( "events", "subscribe", masks, UUID );
 
-  subscribe ( masks, componentID ) {
-
-    if ( !_.isArray( masks ) ) {
-      MCD.error( "The first argument in MiddlewareClient.subscribe() must " +
-                 "be an array of FreeNAS RPC namespaces."
-                 );
-      return false;
-    } else if ( _.isEmpty( masks ) ) {
-      MCD.warn( "The array of masks to subscribe to must have at least one "
-              + "element. The componentID making this mistake is "
-              + componentID
-              );
-      return false;
-    }
-
-    if ( !_.isString( componentID ) ) {
-      MCD.error( "The second argument in MiddlewareClient.subscribe() must " +
-                 "be a string (usually the name of the React component " +
-                 "calling it)."
-                 );
-      return false;
-    }
-
-    if ( MCD.reports( "subscriptions" ) ) {
-      MCD.logNewSubscriptionMasks( masks );
-    }
-
-    _.forEach( masks, function ( mask ) {
-      if ( mask === "" ) {
-        MCD.warn( componentID + " tried to subscribe to an empty mask." );
-      }
-      let subCount = SubscriptionsStore.getNumberOfSubscriptionsForMask( mask );
-
-      if ( MCD.reports( "subscriptions" ) ) {
-        MCD.logSubscription( subCount, mask );
-      }
-
-      if ( subCount < 1 ) {
-        const UUID = freeNASUtil.generateUUID();
-        const action = this.pack( "events", "subscribe", [ mask ], UUID );
-
-        this.processNewRequest( action, UUID );
-      }
-    }, this );
-
-    SubscriptionsActionCreators.recordNewSubscriptions( masks, componentID );
+    this.processNewRequest( action, UUID, onRequest );
   }
 
-  unsubscribe ( masks, componentID ) {
+  unsubscribe ( masks, onRequest ) {
+    const UUID = freeNASUtil.generateUUID();
+    const action = this.pack( "events", "unsubscribe", masks, UUID );
 
-    if ( !_.isArray( masks ) ) {
-      MCD.warn( "The first argument in MiddlewareClient.unsubscribe() must " +
-                "be an array of FreeNAS RPC namespaces."
-              );
-      return;
-    } else if ( _.isEmpty( masks ) ) {
-      MCD.warn( "The array of masks to unsubscribe from must have at least one "
-              + "element. The componentID making this mistake is "
-              + componentID
-              );
-      return;
-    }
-
-    if ( !_.isString( componentID ) ) {
-      MCD.warn( "The second argument in MiddlewareClient.unsubscribe() must " +
-                "be a string (usually the name of the React component " +
-                "calling it)."
-              );
-      return;
-    }
-
-    if ( MCD.reports( "subscriptions" ) ) {
-      MCD.logUnsubscribeMasks( masks );
-    }
-
-    _.forEach( masks, function ( mask ) {
-      if ( mask === "" ) {
-        MCD.warn( componentID + " tried to unsubscribe from an empty mask." );
-      }
-      let subCount = SubscriptionsStore.getNumberOfSubscriptionsForMask( mask );
-
-      if ( subCount === 1 ) {
-        const UUID = freeNASUtil.generateUUID();
-        const action = this.pack( "events", "unsubscribe", [ mask ], UUID );
-
-        this.processNewRequest( action, UUID );
-      }
-    }, this );
-
-    SubscriptionsActionCreators.deleteCurrentSubscriptions( masks
-                                                          , componentID
-                                                          );
+    this.processNewRequest( action, UUID, onRequest );
   }
 
+  // Called in the event of a re-authentication. The subscriptions will have
+  // been dropped by the middleware, so we grab all the masks for all the active
+  // subscriptions currently recorded in app state and re-subscribe.
   renewSubscriptions () {
-    const masks = _.keys( SubscriptionsStore.getAllSubscriptions() );
-    _.forEach( masks, function ( mask ) {
-      if ( MCD.reports( "subscriptions" ) ) {
-        MCD.log( `Renewing subscription request for %c'${ mask }' `
-               , [ "args", "normal" ]
-               );
-      }
-
-      const UUID = freeNASUtil.generateUUID();
-      const action = this.pack( "events", "subscribe", [ mask ], UUID );
-
-      this.processNewRequest( action, UUID );
-    }, this );
-  }
-
-  unsubscribeALL () {
-    const masks = _.keys( SubscriptionsStore.getAllSubscriptions() );
-    _.forEach( masks, function ( mask ) {
-      if ( MCD.reports( "subscriptions" ) ) {
-        MCD.log( `Requested: Unsubscribe to %c'${ mask }'%c events`
-               , [ "args", "normal" ]
-               );
-      }
-
-      const UUID = freeNASUtil.generateUUID();
-      const action = this.pack( "events", "unsubscribe", [ mask ], UUID );
-
-      this.processNewRequest( action, UUID );
-    }, this );
-
-    SubscriptionsActionCreators.deleteAllSubscriptions();
+    if ( this.state.subscriptions.active ) {
+      this.subscribe( Object.keys( this.state.subscriptions.active ) );
+    }
   }
 
   // MIDDLEWARE DISCOVERY METHODS

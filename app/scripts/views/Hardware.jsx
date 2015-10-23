@@ -10,6 +10,8 @@ import { connect } from "react-redux";
 import { Panel, Well, ListGroup, ListGroupItem } from "react-bootstrap";
 
 import * as actions from "../actions/disks";
+import * as SUBSCRIPTIONS from "../actions/subscriptions";
+
 import ByteCalc from "../utility/ByteCalc";
 import DiskUtilities from "../utility/DiskUtilities";
 
@@ -29,7 +31,7 @@ class Hardware extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchDisks();
+    // this.props.fetchDisks();
     this.props.subscribe( this.displayName );
   }
 
@@ -91,8 +93,10 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
   return (
-    { subscribe: ( id ) => dispatch( actions.subscribe( id ) )
-    , unsubscribe: ( id ) => dispatch( actions.unsubscribe( id ) )
+    { subscribe: ( id ) =>
+        dispatch( SUBSCRIPTIONS.add( [ "entity-subscriber.disks.changed" ], id ) )
+    , unsubscribe: ( id ) =>
+        dispatch( SUBSCRIPTIONS.remove( [ "entity-subscriber.disks.changed" ], id ) )
     , fetchDisks: () => dispatch( actions.requestDiskOverview() )
     }
   );

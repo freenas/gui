@@ -4,7 +4,6 @@
 "use strict";
 
 import * as TYPES from "../actions/actionTypes";
-import MC from "../websocket/MiddlewareClient";
 
 const INITIAL_STATE =
   { spawnRequests: new Set()

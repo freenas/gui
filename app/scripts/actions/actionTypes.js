@@ -14,6 +14,7 @@ export const WS_ATTEMPT_CONNECTION = "WS_ATTEMPT_CONNECTION";
 export const WS_RECONNECT_TICK = "WS_RECONNECT_TICK";
 
 
+
 // RPC
 export const RPC_ENQUEUE = "RPC_ENQUEUE";
 export const RPC_DEQUEUE = "RPC_DEQUEUE";
@@ -22,6 +23,13 @@ export const RPC_SUCCESS = "RPC_SUCCESS";
 export const RPC_FAILURE = "RPC_FAILURE";
 export const RPC_TIMEOUT = "RPC_TIMEOUT";
 export const RPC_RESOLVE = "RPC_RESOLVE";
+
+
+
+// SUBSCRIPTION
+export const SUBSCRIBE = "SUBSCRIBE";
+export const UNSUBSCRIBE = "UNSUBSCRIBE";
+
 
 
 // TASKS

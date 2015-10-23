@@ -84,7 +84,8 @@ var Subscriptions = React.createClass(
 
   , render: function () {
       var subscriptionsContent = null;
-      var removeALL = MiddlewareClient.unsubscribeALL;
+      // TODO: Object.keys( state subscriptions blab blah )
+      // var removeALL = MiddlewareClient.unsubscribeALL;
 
       if ( _.isEmpty( this.state.subscriptions ) ) {
         subscriptionsContent = <h3 className="text-center">No log content</h3>;
