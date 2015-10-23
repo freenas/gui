@@ -92,7 +92,7 @@ export function remove ( masks, componentID ) {
     }
 
     const { subscriptions } = getState();
-    console.log( ACTION );
+
     let unSubs = [];
 
     masks.forEach( mask => {
