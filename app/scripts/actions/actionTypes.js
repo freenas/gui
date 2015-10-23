@@ -73,6 +73,17 @@ export const GET_SHELLS_REQUEST = "GET_SHELLS_REQUEST";
 export const SPAWN_SHELL_REQUEST = "SPAWN_SHELL_REQUEST";
 
 
+// SERVICES
+
+// SSH
+export const UPDATE_SSH_FORM = "UPDATE_SSH_FORM";
+export const RESET_SSH_FORM = "RESET_SSH_FORM";
+export const SUBMIT_SSH_FORM = "SUBMIT_SSH_FORM";
+export const DISABLE_SSH = "DISABLE_SSH";
+export const ENABLE_SSH = "ENABLE_SSH";
+export const SSH_CONFIG_REQUEST = "SSH_CONFIG_REQUEST";
+
+
 // SYSTEM
 // user actions
 // OS FORM
