@@ -46,7 +46,7 @@ export default function shells ( state = INITIAL_STATE, action ) {
     case TYPES.RPC_FAILURE:
     case TYPES.RPC_SUCCESS:
       if ( state.fetchRequests.has( payload.UUID ) ) {
-        fetchRequests = state.fetchRequests;
+        fetchRequests = new Set( state.fetchRequests );
 
         fetchRequests.delete( payload.UUID );
 
@@ -56,7 +56,7 @@ export default function shells ( state = INITIAL_STATE, action ) {
           }
         );
       } else if ( state.spawnRequests.has( payload.UUID ) ) {
-        spawnRequests = state.spawnRequests;
+        spawnRequests = new Set( state.spawnRequests );
 
         spawnRequests.delete( payload.UUID );
 
