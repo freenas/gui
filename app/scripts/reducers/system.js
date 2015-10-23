@@ -30,7 +30,19 @@ const INITIAL_STATE =
               , serial_ports: []
               }
   // , ui: {}
-  , info: {}
+  , info: { hardware: { memory_size: null
+                      , cpu_model: ""
+                      , cpu_cores: null
+                      }
+          , load_avg: [ 0, 0, 0 ]
+          , time: { timezone: ""
+                  , system_time: ""
+                  , boot_time: ""
+                  , uptime: ""
+                  }
+          , uname_full: ""
+          , version: ""
+          }
   // , connectionForm: {}
   , osForm: {}
   , localizationForm: {}
