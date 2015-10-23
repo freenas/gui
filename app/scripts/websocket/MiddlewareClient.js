@@ -460,7 +460,7 @@ class MiddlewareClient {
   // unique UUID is generated for each request, and is supplied to
   // `this.logPendingRequest` as a lookup key for resolving or timing out the
   // Request.
-  request ( method, args, onRequest, timeoutDelay ) {
+  request ( method, args = [], onRequest, timeoutDelay ) {
     const UUID = freeNASUtil.generateUUID();
     const PAYLOAD = { method, args };
     const packedAction = this.pack( "rpc", "call", PAYLOAD, UUID );
