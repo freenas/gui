@@ -10,6 +10,7 @@ import shells from "./shells";
 import tasks from "./tasks";
 import volumes from "./volumes";
 import websocket from "./websocket";
+import system from "./system";
 
 const rootReducer = combineReducers(
   { auth
@@ -19,6 +20,7 @@ const rootReducer = combineReducers(
   , tasks
   , volumes
   , websocket
+  , system
   }
 );
 
