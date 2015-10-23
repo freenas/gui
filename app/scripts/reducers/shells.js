@@ -20,7 +20,6 @@ export default function auth ( state = INITIAL_STATE, action ) {
   switch ( type ) {
 
     case TYPES.GET_SHELLS_REQUEST:
-      console.log( payload );
       fetchRequests = state.fetchRequests;
 
       fetchRequests.add( payload.UUID );
@@ -32,7 +31,6 @@ export default function auth ( state = INITIAL_STATE, action ) {
       );
 
     case TYPES.SPAWN_SHELL_REQUEST:
-      console.log( payload );
       spawnRequests = state.spawnRequests;
 
       spawnRequests.add( payload.UUID );
@@ -62,9 +60,7 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
         spawnRequests.delete( payload.UUID );
 
-        console.log( payload );
-        return Object.assign( {}, state, { token: payload.data }
-        );
+        return Object.assign( {}, state, { token: payload.data });
       } else {
         return state;
       }
