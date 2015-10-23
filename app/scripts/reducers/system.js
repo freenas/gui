@@ -35,25 +35,15 @@ const INITIAL_STATE =
   , osForm: {}
   , localizationForm: {}
   , consoleForm: {}
-  , generalConfigWaiting: false
   , generalConfigRequests: new Set()
-  , timezonesWaiting: false
   , timezonesRequests: new Set()
-  , keymapsWaiting: false
   , keymapsRequests: new Set()
-  , advancedConfigWaiting: false
   , advancedConfigRequests: new Set()
-  , serialPortsWaiting: false
   , serialPortsRequests: new Set()
-  , hardwareWaiting: false
   , hardwareRequests: new Set()
-  , loadAvgWaiting: false
   , loadAvgRequests: new Set()
-  , timeWaiting: false
   , timeRequests: new Set()
-  , unameFullWaiting: false
   , unameFullRequests: new Set()
-  , versionWaiting: false
   , versionRequests: new Set()
   };
 
@@ -124,76 +114,56 @@ export default function system ( state = INITIAL_STATE, action ) {
     case TYPES.SYSTEM_GENERAL_CONFIG_REQUEST:
       generalConfigRequests = new Set( state.generalConfigRequests );
       generalConfigRequests.add( payload.UUID );
-      return Object.assign( {}, state, { generalConfigWaiting: true
-                                       , generalConfigRequests
-                                       }
+      return Object.assign( {}, state, { generalConfigRequests }
                           );
     case TYPES.SYSTEM_GENERAL_TIMEZONES_REQUEST:
       timezonesRequests = new Set( state.timezonesRequests );
       timezonesRequests.add( payload.UUID );
-      return Object.assign( {}, state, { timezonesWaiting: true
-                                       , timezonesRequests
-                                       }
+      return Object.assign( {}, state, { timezonesRequests }
                           );
     case TYPES.KEYMAPS_REQUEST:
       keymapsRequests = new Set( state.keymapsRequests );
       keymapsRequests.add( payload.UUID );
-      return Object.assign( {}, state, { keymapsWaiting: true
-                                       , keymapsRequests
-                                       }
+      return Object.assign( {}, state, { keymapsRequests }
                           );
 
     // ADVANCED QUERIES
     case TYPES.SYSTEM_ADVANCED_CONFIG_REQUEST:
       advancedConfigRequests = new Set( state.advancedConfigRequests );
       advancedConfigRequests.add( payload.UUID );
-      return Object.assign( {}, state, { advancedConfigWaiting: true
-                                       , advancedConfigRequests
-                                       }
+      return Object.assign( {}, state, { advancedConfigRequests }
                           );
     case TYPES.SERIAL_PORTS_REQUEST:
       serialPortsRequests = new Set( state.serialPortsRequests );
       serialPortsRequests.add( payload.UUID );
-      return Object.assign( {}, state, { serialPortsWaiting: true
-                                       , serialPortsRequests
-                                       }
+      return Object.assign( {}, state, { serialPortsRequests }
                           );
 
     // INFO QUERIES
     case TYPES.SYSTEM_INFO_HARDWARE_REQUEST:
       hardwareRequests = new Set( state.hardwareRequests );
       hardwareRequests.add( payload.UUID );
-      return Object.assign( {}, state, { hardwareWaiting: true
-                                       , hardwareRequests
-                                       }
+      return Object.assign( {}, state, { hardwareRequests }
                           );
     case TYPES.SYSTEM_INFO_LOAD_AVG_REQUEST:
       loadAvgRequests = new Set( state.loadAvgRequests );
       loadAvgRequests.add( payload.UUID );
-      return Object.assign( {}, state, { loadAvgWaiting: true
-                                       , loadAvgRequests
-                                       }
+      return Object.assign( {}, state, { loadAvgRequests }
                           );
     case TYPES.SYSTEM_INFO_TIME_REQUEST:
       timeRequests = new Set( state.timeRequests );
       timeRequests.add( payload.UUID );
-      return Object.assign( {}, state, { timeWaiting: true
-                                       , timeRequests
-                                       }
+      return Object.assign( {}, state, { timeRequests }
                           );
     case TYPES.SYSTEM_INFO_UNAME_FULL_REQUEST:
       unameFullRequests = new Set( state.unameFullRequests );
       unameFullRequests.add( payload.UUID );
-      return Object.assign( {}, state, { unameFullWaiting: true
-                                       , unameFullRequests
-                                       }
+      return Object.assign( {}, state, { unameFullRequests }
                           );
     case TYPES.SYSTEM_INFO_VERSION_REQUEST:
       versionRequests = new Set( state.versionRequests );
       versionRequests.add( payload.UUID );
-      return Object.assign( {}, state, { versionWaiting: true
-                                       , versionRequests
-                                       }
+      return Object.assign( {}, state, { versionRequests }
                           );
 
     // RPC Handling
@@ -208,7 +178,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         generalConfigRequests = new Set( state.generalConfigRequests );
         generalConfigRequests.delete( payload.UUID );
         return Object.assign( {}, state, { general
-                                         , generalConfigWaiting: false
                                          , generalConfigRequests
                                          }
                             );
@@ -218,7 +187,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         timezonesRequests = new Set( state.timezonesRequests );
         timezonesRequests.delete( payload.UUID );
         return Object.assign( {}, state, { general
-                                         , timezonesWaiting: false
                                          , timezonesRequests
                                          }
                             );
@@ -228,7 +196,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         keymapsRequests = new Set( state.keymapsRequests );
         keymapsRequests.delete( payload.UUID );
         return Object.assign( {}, state, { general
-                                         , keymapsWaiting: false
                                          , keymapsRequests
                                          }
                             );
@@ -239,7 +206,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         advancedConfigRequests = new Set( state.advancedConfigRequests );
         advancedConfigRequests.delete( payload.UUID );
         return Object.assign( {}, state, { advanced
-                                         , advancedConfigWaiting: false
                                          , advancedConfigRequests
                                          }
                             );
@@ -249,7 +215,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         serialPortsRequests = new Set( state.serialPortsRequests );
         serialPortsRequests.delete( payload.UUID );
         return Object.assign( {}, state, { advanced
-                                         , serialPortsWaiting: false
                                          , serialPortsRequests
                                          }
                             );
@@ -261,7 +226,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         hardwareRequests = new Set( state.hardwareRequests );
         hardwareRequests.delete( payload.UUID );
         return Object.assign( {}, state, { info
-                                         , hardwareWaiting: false
                                          , hardwareRequests
                                          }
                             );
@@ -271,7 +235,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         loadAvgRequests = new Set( state.loadAvgRequests );
         loadAvgRequests.delete( payload.UUID );
         return Object.assign( {}, state, { info
-                                         , loadAvgWaiting: false
                                          , loadAvgRequests
                                          }
                             );
@@ -281,7 +244,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         timeRequests = new Set( state.timeRequests );
         timeRequests.delete( payload.UUID );
         return Object.assign( {}, state, { info
-                                         , timeWaiting: false
                                          , timeRequests
                                          }
                             );
@@ -291,7 +253,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         unameFullRequests = new Set( state.unameFullRequests );
         unameFullRequests.delete( payload.UUID );
         return Object.assign( {}, state, { info
-                                         , unameFullWaiting: false
                                          , unameFullRequests
                                          }
                             );
@@ -301,7 +262,6 @@ export default function system ( state = INITIAL_STATE, action ) {
         versionRequests = new Set( state.versionRequests );
         versionRequests.delete( payload.UUID );
         return Object.assign( {}, state, { info
-                                         , versionWaiting: false
                                          , versionRequests
                                          }
                             )
