@@ -63,29 +63,29 @@ class Storage extends React.Component {
     return VOLUME_IDS.map( ( id, index ) => {
       return (
         <Volume
-          { ...COMMON_PROPS }
           { ...ALL_VOLUMES[ id ] }
           key = { index }
           active = { id === volumes.activeVolume }
           existsOnRemote = { Boolean( volumes.serverVolumes[ id ] ) }
 
-          // VOLUMES
           onDiskSelect = { this.props.onDiskSelect }
           onDiskDeselect = { this.props.onDiskDeselect }
-          onCreateVolume = { this.props.onCreateVolume }
-          onRevertVolume = { this.props.onRevertVolume }
-          onUpdateVolume = { this.props.onUpdateVolume }
-          onRequestDeleteVolume = { this.props.onRequestDeleteVolume }
+
+          // VOLUMES
+          onUpdateVolume = { this.props.onUpdateVolume.bind( this, id ) }
+          onRevertVolume = { this.props.onRevertVolume.bind( this, id ) }
+          onSubmitVolume = { this.props.onSubmitVolume.bind( this, id ) }
+          onRequestDeleteVolume = { this.props.onRequestDeleteVolume.bind( this, id ) }
 
           // SHARES
-          onCreateShare = { this.props.onCreateShare }
-          onRevertShare = { this.props.onRevertShare }
-          onUpdateShare = { this.props.onUpdateShare }
-          onRequestDeleteShare = { this.props.onRequestDeleteShare }
+          onUpdateShare = { this.props.onUpdateShare.bind( this, id ) }
+          onRevertShare = { this.props.onRevertShare.bind( this, id ) }
+          onSubmitShare = { this.props.onSubmitShare.bind( this, id ) }
+          onRequestDeleteShare = { this.props.onRequestDeleteShare.bind( this, id ) }
 
           // GUI
-          onToggleVolumeFocus = { this.props.onToggleVolumeFocus }
-          onToggleShareFocus = { this.props.onToggleShareFocus }
+          onToggleVolumeFocus = { this.props.onToggleVolumeFocus.bind( this, id ) }
+          onToggleShareFocus = { this.props.onToggleShareFocus.bind( this, id ) }
         />
       );
     });
@@ -260,30 +260,31 @@ function mapDispatchToProps ( dispatch ) {
     , onDiskDeselect: () => console.log( "fart" )
 
     // SUBMIT VOLUME
-    , onUpdateVolume: () => console.log( "fart" )
-    , onSubmitVolume: () => console.log( "fart" )
-    , onRevertVolume: () => console.log( "fart" )
+    , onUpdateVolume: ( volumeID, patch ) =>
+      dispatch( VOLUMES.updateVolume( volumeID, patch ) )
+    , onRevertVolume: ( volumeID ) => console.log( "fart" )
+    , onSubmitVolume: ( volumeID ) => console.log( "fart" )
 
     // DESTROY VOLUME
-    , onRequestDeleteVolume: () => console.log( "fart" )
-    , onConfirmDeleteVolume: () => console.log( "fart" )
-    , onCancelDeleteVolume: () => console.log( "fart" )
+    , onRequestDeleteVolume: ( volumeID ) => console.log( "fart" )
+    , onConfirmDeleteVolume: ( volumeID ) => console.log( "fart" )
+    , onCancelDeleteVolume: ( volumeID ) => console.log( "fart" )
 
 
     // CREATE SHARE
-    , onUpdateShare: () => console.log( "fart" )
-    , onSubmitShare: () => console.log( "fart" )
-    , onRevertShare: () => console.log( "fart" )
+    , onUpdateShare: ( volumeID ) => console.log( "fart" )
+    , onRevertShare: ( volumeID ) => console.log( "fart" )
+    , onSubmitShare: ( volumeID ) => console.log( "fart" )
 
     // DELETE SHARE
-    , onRequestDeleteShare: () => console.log( "fart" )
-    , onConfirmDeleteShare: () => console.log( "fart" )
-    , onCancelDeleteShare: () => console.log( "fart" )
+    , onRequestDeleteShare: ( volumeID ) => console.log( "fart" )
+    , onConfirmDeleteShare: ( volumeID ) => console.log( "fart" )
+    , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
 
 
     // GUI
-    , onToggleVolumeFocus: () => console.log( "fart" )
-    , onToggleShareFocus: () => console.log( "fart" )
+    , onToggleVolumeFocus: ( volumeID ) => console.log( "fart" )
+    , onToggleShareFocus: ( volumeID ) => console.log( "fart" )
     }
   );
 }

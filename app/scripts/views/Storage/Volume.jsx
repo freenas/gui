@@ -8,22 +8,18 @@
 
 import _ from "lodash";
 import React from "react";
-import { Panel } from "react-bootstrap";
+import { Panel, Tabs, Tab } from "react-bootstrap";
 
 import EventBus from "../../utility/EventBus";
 import ByteCalc from "../../utility/ByteCalc";
-
 import ZfsUtil from "./utility/ZfsUtil";
 
 import NewVolume from "./headers/NewVolume";
 import ExistingVolume from "./headers/ExistingVolume";
-import VolumeSections from "./VolumeSections";
-
-import TopologyEditContext from "./contexts/TopologyEditContext";
+import Topology from "./sections/Topology";
+import Filesystem from "./sections/Filesystem";
 
 const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
-
-
 
 export default class Volume extends React.Component {
 
@@ -33,44 +29,30 @@ export default class Volume extends React.Component {
     this.displayName = "Volume";
   }
 
-  // DRAWER MANAGEMENT
-  // =================
-  // Helper methods to mange the state of the Volume's drawer, including
-  // communicating its active status to Storage.
-handleDrawerOpen ( event ) {
-      this.setState(
-        { activeSection: this.state.activeSection || null
-        }
-        , this.props.becomeActive.bind( null, this.props.volumeKey )
-      );
+  getAllowedSections () {
+    let allowedSections = new Set([ "topology" ]);
+
+    if ( this.props.existsOnRemote ) {
+      allowedSections.add( "filesystem" );
+      // TODO: More logic for other sections (later!)
     }
 
-  closeDrawer () {
-      this.props.becomeInactive();
-    }
+    return allowedSections;
+  }
 
-  handleDrawerChange ( keyName ) {
-      this.setState({ activeSection: keyName });
-    }
-
-  getActiveSection ( allowedSections ) {
-      if ( allowedSections.has( this.state.activeSection ) ) {
-        // If the requested section is allowed, use it
-        return this.state.activeSection;
-      } else {
-        // If the requested section was not allowed, iterate over all sections in
-        // order, and make active whichever one is first found to be allowed
-        SECTIONS.forEach( ( section ) => {
-          if ( allowedSections.has( section ) ) {
-            return section;
-          }
-        });
-
-        // If no sections were allowed, use the last one in the line, which should
-        // theoretically be the most fundamental
-        return SECTIONS[ SECTIONS.length - 1 ];
+  getDefaultSection ( allowedSections ) {
+    // If the requested section was not allowed, iterate over all sections in
+    // order, and make active whichever one is first found to be allowed
+    SECTIONS.forEach( ( section ) => {
+      if ( allowedSections.has( section ) ) {
+        return section;
       }
-    }
+    });
+
+    // If no sections were allowed, use the last one in the line, which should
+    // theoretically be the most fundamental
+    return SECTIONS[ SECTIONS.length - 1 ];
+  }
 
 
   // ZFS TOPOLOGY FUNCTIONS
@@ -203,106 +185,110 @@ handleDrawerOpen ( event ) {
       this.props.onVolumeSubmit( newVolume );
     }
 
-  onDeleteVolume () {
-    if ( this.props.existsOnRemote ) {
-      this.props.onVolumeDelete( this.props.name );
+  breakdownFromRootDataset () {
+    let breakdown;
+
+    if ( this.props.datasets.length ) {
+      let rootDataset = _.find( this.props.datasets
+                              , { name: this.props.name }
+                              ).properties;
+      breakdown =
+        { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
+        , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
+        , parity : ZfsUtil.calculateBreakdown( topology.data ).parity
+      }
     } else {
-      throw new Error( "STORAGE: Somehow, the user tried to destroy a pool "
-                     + "that doesn't exist on the server: "
-                     + this.props.name
-                     );
+      breakdown = { used: 0, avail: 0, parity: 0 };
+      console.warn( `The root dataset for ${ this.props.name } does not `
+                  + `seem to exist`
+                  );
     }
+
+    return breakdown;
   }
+
+  toggleUnlessActive () {
+    if ( !this.props.active ) this.props.onToggleVolumeFocus();
+  }
+
+  isSubmissionDisabled () {
+    if ( this.props.topology.data.length === 0 ) return true;
+    if ( this.props.name.length === 0 ) return true;
+  }
+
+
 
 
   // RENDER METHODS
   // ==============
   render () {
-      let editing;
-      let topology;
-      let allowedSections;
+    const ALLOWED_SECTIONS = this.getAllowedSections();
+    const DEFAULT_SECTION = this.getDefaultSection( ALLOWED_SECTIONS );
 
-      let volumeHeader = null;
-      let panelClass   = [ "volume" ];
+    let panelClass = [ "volume" ];
 
-      const TOPOLOGY_HANDLERS =
-        { onDiskAdd        : this.handleDiskAdd
-        , onDiskRemove     : this.handleDiskRemove
-        , onVdevNuke       : this.handleVdevNuke
-        , onVdevTypeChange : this.handleVdevTypeChange
-        };
+    if ( this.props.active ) { panelClass.push( "active" ); }
 
-      if ( this.props.existsOnRemote ) {
-        editing         = false;
-        topology        = this.props.topology;
-        allowedSections = new Set(["filesystem", "topology"]);
+    return (
+      <Panel className = { panelClass.join( " " ) } >
 
-        let breakdown;
-
-        if ( this.props.datasets.length ) {
-          let rootDataset = _.find( this.props.datasets
-                                  , { name: this.props.name }
-                                  ).properties;
-          breakdown =
-            { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
-            , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
-            , parity : ZfsUtil.calculateBreakdown( topology.data ).parity
-          }
-        } else {
-          breakdown = { used: 0, avail: 0, parity: 0 };
-          console.warn( `The root dataset for ${ this.props.name } does not `
-                      + `seem to exist`
-                      );
-        }
-
-        volumeHeader = (
+        {/* VOLUME HEADER */}
+        { this.props.existsOnRemote ? (
           <ExistingVolume
-            volumeName        = { this.props.name }
-            onDestroyPool     = { this.onDeleteVolume }
-            onClick           = { this.handleDrawerOpen }
-            topologyBreakdown = { breakdown }
+            volumeName = { this.props.name }
+            onClick = { this.toggleUnlessActive }
+            onDestroyPool = { this.onRequestDeleteVolume }
+            topologyBreakdown = { this.breakdownFromRootDataset() }
           />
-        );
-      } else if ( this.props.active ) {
-        editing         = true;
-        topology        = this.state.topology;
-        allowedSections = new Set(["topology"]);
-
-        volumeHeader = (
+        ) : (
           <NewVolume
-            disableSubmit      = { topology.data.length === 0 }
-            onVolumeNameChange = { this.handleVolumeNameChange }
-            onSubmitClick      = { this.submitVolume }
-            onCancelClick      = { this.closeDrawer }
-            volumeName         = { this.state.name }
-            topologyBreakdown =
-              { ZfsUtil.calculateBreakdown( topology.data ) }
+            volumeName = { this.props.name }
+            disableSubmit = { this.isSubmissionDisabled() }
+            topologyBreakdown = { ZfsUtil.calculateBreakdown( this.props.topology.data ) }
+            onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
+            onSubmitClick = { this.props.onSubmitVolume }
+            onCancelClick = { this.props.onToggleVolumeFocus }
           />
-        );
-        panelClass.push( "editing" );
-      }
+        ) }
 
-      if ( this.props.active ) { panelClass.push( "active" ); }
-
-      return (
-        <Panel
-          className = { panelClass.join( " " ) }
+        <Tabs
+          className = "volume-nav"
+          bsStyle = "pills"
+          defaultActiveKey = { DEFAULT_SECTION }
         >
-          { volumeHeader }
 
-          {/* VOLUME SUB-SECTIONS */}
-          <VolumeSections
-            { ...this.props }
-            activeSection      = { this.getActiveSection( allowedSections ) }
-            editing            = { editing }
-            topology           = { topology }
-            onSelect           = { this.handleDrawerChange }
-            topologyHandlers   = { TOPOLOGY_HANDLERS }
-          />
-        </Panel>
-      );
-    }
+          {/* DATASETS, ZVOLS, AND SHARES */}
+          <Tab
+            title    = "Shares"
+            eventKey = "filesystem"
+            disabled = { !ALLOWED_SECTIONS.has( "filesystem" ) }
+          >
+
+          </Tab>
+
+          {/* ZFS SNAPSHOTS */}
+          <Tab
+            title    = "Snapshots"
+            eventKey = "snapshots"
+            disabled = { !ALLOWED_SECTIONS.has( "snapshots" ) }
+            >
+            {/* TODO */}
+          </Tab>
+
+          {/* POOL TOPOLOGY */}
+          <Tab
+            title    = "Pool"
+            eventKey = "topology"
+            disabled = { !ALLOWED_SECTIONS.has( "topology" ) }
+          >
+
+          </Tab>
+        </Tabs>
+
+      </Panel>
+    );
   }
+}
 
 const RAW_VALUE_PROPTYPE = {
   rawvalue:
@@ -316,18 +302,19 @@ const RAW_VALUE_PROPTYPE = {
 Volume.propTypes =
   { existsOnRemote: React.PropTypes.bool.isRequired
 
-  // VOLUMES HANDLERS
   , onDiskSelect : React.PropTypes.func.isRequired
   , onDiskDeselect : React.PropTypes.func.isRequired
-  , onCreateVolume : React.PropTypes.func.isRequired
-  , onRevertVolume : React.PropTypes.func.isRequired
+
+  // VOLUMES HANDLERS
   , onUpdateVolume : React.PropTypes.func.isRequired
+  , onRevertVolume : React.PropTypes.func.isRequired
+  , onSubmitVolume : React.PropTypes.func.isRequired
   , onRequestDeleteVolume : React.PropTypes.func.isRequired
 
   // SHARES HANDLERS
-  , onCreateShare : React.PropTypes.func.isRequired
-  , onRevertShare : React.PropTypes.func.isRequired
   , onUpdateShare : React.PropTypes.func.isRequired
+  , onRevertShare : React.PropTypes.func.isRequired
+  , onSubmitShare : React.PropTypes.func.isRequired
   , onRequestDeleteShare : React.PropTypes.func.isRequired
 
   // GUI HANDLERS

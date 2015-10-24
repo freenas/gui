@@ -15,6 +15,24 @@ const DATASET_NAME_BLACKLIST = new Set(
   ]
 );
 
+// NEW VOLUME
+// Used to initialize the required property values for a new volume
+const NEW_VOLUME =
+  { name: ""
+  , topology:
+    { data  : []
+    , log   : []
+    , cache : []
+    , spare : []
+    }
+  , datasets: []
+  , properties:
+    { free      : { rawvalue: 0 }
+    , allocated : { rawvalue: 0 }
+    , size      : { rawvalue: 0 }
+    }
+  };
+
 const INITIAL_STATE =
   { volumesRequests: new Set()
   , availableDisksRequests: new Set()
@@ -40,10 +58,39 @@ function normalizeVolumes ( volumes ) {
 
 export default function auth ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
-  let newState;
+  let newState, clientVolumes, initData;
 
   switch ( type ) {
-    // VOLUMES
+
+    // UPDATE CLIENT CHANGES
+    case TYPES.UPDATE_VOLUME:
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+
+      // If the volume has no record on the client or server, initialize it
+      if ( !( clientVolumes[ payload.volumeID ] && state.serverVolumes[ payload.volumeID ] ) ) {
+        initData = NEW_VOLUME
+      }
+
+      clientVolumes[ payload.volumeID ] =
+        Object.assign( {}, initData, clientVolumes[ payload.volumeID ], payload.patch );
+
+      return Object.assign( {}, state, { clientVolumes } );
+
+    // DISCARD CLIENT CHANGES
+    case TYPES.REVERT_VOLUME:
+      let clientVolumes = Object.assign( {}, state.clientVolumes );
+
+      delete clientVolumes[ payload.volumeID ];
+
+    console.log( clientVolumes );
+      return Object.assign( {}, state, { clientVolumes } );
+
+
+    // SUBMIT VOLUME TO SERVER
+    case TYPES.SUBMIT_VOLUME:
+      return;
+
+    // GET VOLUMES ON SERVER
     case TYPES.VOLUMES_RPC_REQUEST:
       return Object.assign( {}
                           , state
@@ -87,7 +134,6 @@ export default function auth ( state = INITIAL_STATE, action ) {
                             , newState
                             );
       }
-
 
     default:
       return state;

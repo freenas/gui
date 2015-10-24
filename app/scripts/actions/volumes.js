@@ -3,8 +3,7 @@
 
 "use strict";
 
-import { VOLUMES_RPC_REQUEST, AVAILABLE_DISKS_RPC_REQUEST }
-  from "./actionTypes";
+import * as TYPES from "./actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
@@ -15,7 +14,7 @@ export function fetchVolumes () {
     MC.request( "volumes.query"
               , []
               , ( UUID ) =>
-                dispatch( watchRequest( UUID, VOLUMES_RPC_REQUEST ) )
+                dispatch( watchRequest( UUID, TYPES.VOLUMES_RPC_REQUEST ) )
               );
   }
 }
@@ -26,8 +25,21 @@ export function fetchAvailableDisks () {
     MC.request( "volumes.get_available_disks"
               , []
               , ( UUID ) =>
-                dispatch( watchRequest( UUID, AVAILABLE_DISKS_RPC_REQUEST ) )
+                dispatch( watchRequest( UUID, TYPES.AVAILABLE_DISKS_RPC_REQUEST ) )
               );
   }
 }
 
+// UPDATE CLIENT VOLUME DATA
+export function updateVolume ( volumeID, patch ) {
+  return { type: TYPES.UPDATE_VOLUME
+         , payload: { volumeID, patch }
+         };
+}
+
+// REVERT CLIENT CHANGES TO VOLUME
+export function revertVolume ( volumeID ) {
+  return { type: TYPES.REVERT_VOLUME
+         , payload: { volumeID }
+         }
+}
