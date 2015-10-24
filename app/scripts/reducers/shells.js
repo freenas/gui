@@ -34,6 +34,7 @@ export default function shells ( state = INITIAL_STATE, action ) {
     case TYPES.RPC_SUCCESS:
       if ( state.fetchRequests.has( payload.UUID ) ) {
         return Object.assign( {}, state
+          , { available: payload.data }
           , resolveUUID( payload.UUID, state, "fetchRequests" )
         );
       } else if ( state.spawnRequests.has( payload.UUID ) ) {
