@@ -5,20 +5,18 @@
 "use strict";
 
 import React from "react";
+import { connect }  from "react-redux";
 import _ from "lodash";
+
+import * as USER_ACTIONS from "../../actions/users";
+import * as GROUP_ACTIONS from "../../actions/groups";
+import * as SHELL_ACTIONS from "../../actions/shells";
 
 import Viewer from "../../components/Viewer";
 
-import UM from "../../flux/middleware/UsersMiddleware";
 import US from "../../flux/stores/UsersStore";
 
-import GM from "../../flux/middleware/GroupsMiddleware";
-import GS from "../../flux/stores/GroupsStore";
-
 import SS from "../../flux/stores/SessionStore";
-
-import ShellMiddleware from "../../flux/middleware/ShellMiddleware";
-import ShellStore from "../../flux/stores/ShellStore";
 
 function testCurrentUser ( user ) {
   return user.username === SS.getCurrentUser();
@@ -78,72 +76,64 @@ const VIEWER_DATA =
    }
   };
 
-const Users = React.createClass(
-
-  { displayName: "Users Viewer"
-
-  , getInitialState: function () {
-    return { usersList: []
-           , groupsList: []
-           , shells: []
-           , nextUID: null
-           };
+class Users extends React.Component {
+  constructor ( props ) {
+    super( props );
+    this.displayName = "Users Viewer";
   }
 
-  , componentDidMount: function () {
-    US.addChangeListener( this.handleUsersChange );
-    UM.requestUsersList();
-    UM.requestNextUID();
-    UM.subscribe( this.constructor.displayName );
+  componentDidMount () {
+    this.props.requestUsers();
+    this.props.requestNextUID();
+    // UM.subscribe( this.constructor.displayName );
 
-    GS.addChangeListener( this.handleGroupsChange );
-    GM.requestGroupsList();
-    GM.subscribe( this.constructor.displayName );
+    this.props.requestGroups();
+    this.props.requestNextGID();
+    // GM.subscribe( this.constructor.displayName );
 
-    ShellStore.addChangeListener( this.populateShells );
-    ShellMiddleware.requestAvailableShells();
+    this.props.fetchShells();
   }
 
-  , componentWillUnmount: function () {
-    US.removeChangeListener( this.handleUsersChange );
-    UM.unsubscribe( this.constructor.displayName );
+  componentWillUnmount () {
+    // UM.unsubscribe( this.constructor.displayName );
 
-    GS.removeChangeListener( this.handleGroupsChange );
-    GM.unsubscribe( this.constructor.displayName );
-
-    ShellStore.removeChangeListener( this.populateShells );
+    // GM.unsubscribe( this.constructor.displayName );
   }
 
-  , handleGroupsChange: function ( eventMask ) {
-    if ( _.startsWith( eventMask, "group" ) ) {
-      this.setState( { groupsList: GS.groups } );
-    }
-  }
-
-  , populateShells () {
-      this.setState( { shells: ShellStore.shells } );
-  }
-
-  , handleUsersChange: function ( eventMask ) {
-    if ( _.startsWith( eventMask, "user" ) ) {
-      this.setState( { usersList: US.users } );
-    } else if ( eventMask === "nextUID" ) {
-      this.setState( { nextUID: US.nextUID } );
-    }
-  }
-
-  , render: function () {
+  render () {
     return <Viewer
-             itemData = { this.state.usersList }
-             nextUID = { this.state.nextUID }
-             shells = { this.state.shells }
-             route = { this.props.route }
-             params = { this.props.params }
-             children = { this.props.children }
+             { ...this.props }
              { ...VIEWER_DATA }
            />;
   }
+};
 
-});
 
-export default Users;
+// REDUX
+function mapStateToProps ( state ) {
+  return (
+    { shells: state.shells
+    , itemData: state.users.users
+    , itemForm: state.users.userForm
+    , nextUID: state.users.nextUID
+    , groups: state.groups.groups
+    , nextGID: state.groups.nextGID
+    // requests
+    , queryUsersRequests: state.users.queryUsersRequests
+    , queryGroupsRequests: state.groups.queryGroupsRequests
+    }
+  );
+}
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    { fetchShells: () => dispatch( SHELL_ACTIONS.fetchShells() )
+    , requestUsers: () => dispatch( USER_ACTIONS.requestUsers() )
+    , requestNextUID: () => dispatch( USER_ACTIONS.requestNextUID() )
+    , requestGroups: () => dispatch( GROUP_ACTIONS.requestGroups() )
+    , requestNextGID: () => dispatch( GROUP_ACTIONS.requestNextGID() )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Users );
