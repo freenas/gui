@@ -23,6 +23,7 @@ import VolumeUtilities from "../utility/VolumeUtilities";
 
 // COMPONENTS
 import ConfirmationDialog from "../components/ConfirmationDialog";
+import CreateStorage from "./Storage/CreateStorage";
 import Volume from "./Storage/Volume";
 import VolumeTask from "./Storage/VolumeTask";
 
@@ -59,54 +60,35 @@ class Storage extends React.Component {
     const ALL_VOLUMES = Object.assign( {}, volumes.serverVolumes, volumes.clientVolumes );
     const VOLUME_IDS = Object.keys( ALL_VOLUMES );
 
-    const COMMON_PROPS =
-      { onDiskSelect : this.props.onDiskSelect
-      , onDiskDeselect : this.props.onDiskDeselect
-      , onCreateVolume : this.props.onCreateVolume
-      , onRevertVolume : this.props.onRevertVolume
-      , onUpdateVolume : this.props.onUpdateVolume
-      , onRequestDeleteVolume : this.props.onRequestDeleteVolume
-
-      // SHARES
-      , onCreateShare : this.props.onCreateShare
-      , onRevertShare : this.props.onRevertShare
-      , onUpdateShare : this.props.onUpdateShare
-      , onRequestDeleteShare : this.props.onRequestDeleteShare
-
-      // GUI
-      , onToggleVolumeFocus : this.props.onToggleVolumeFocus
-      , onToggleShareFocus : this.props.onToggleShareFocus
-      };
-
-    let pools =
-      VOLUME_IDS.map( ( id, index ) => {
-        return (
-          <Volume
-            { ...COMMON_PROPS }
-            { ...ALL_VOLUMES[ id ] }
-            existsOnRemote = { Boolean( volumes.serverVolumes[ id ] ) }
-            key = { index }
-            active = { id === volumes.activeVolume }
-          />
-        );
-      });
-
-    if ( Object.keys( volumes.clientVolumes ).length === 0
-      && volumes.availableDisks.size ) {
-      // If there are disks available, a new pool may be created. The Volume
-      // component is responsible for displaying the correct "blank start"
-      // behavior, depending on its knowledge of other pools.
-      pools.push(
+    return VOLUME_IDS.map( ( id, index ) => {
+      return (
         <Volume
           { ...COMMON_PROPS }
-          key       = { pools.length }
-          volumeKey = { pools.length }
-          active    = { pools.length === volumes.activeVolume }
+          { ...ALL_VOLUMES[ id ] }
+          key = { index }
+          active = { id === volumes.activeVolume }
+          existsOnRemote = { Boolean( volumes.serverVolumes[ id ] ) }
+
+          // VOLUMES
+          onDiskSelect = { this.props.onDiskSelect }
+          onDiskDeselect = { this.props.onDiskDeselect }
+          onCreateVolume = { this.props.onCreateVolume }
+          onRevertVolume = { this.props.onRevertVolume }
+          onUpdateVolume = { this.props.onUpdateVolume }
+          onRequestDeleteVolume = { this.props.onRequestDeleteVolume }
+
+          // SHARES
+          onCreateShare = { this.props.onCreateShare }
+          onRevertShare = { this.props.onRevertShare }
+          onUpdateShare = { this.props.onUpdateShare }
+          onRequestDeleteShare = { this.props.onRequestDeleteShare }
+
+          // GUI
+          onToggleVolumeFocus = { this.props.onToggleVolumeFocus }
+          onToggleShareFocus = { this.props.onToggleShareFocus }
         />
       );
-    }
-
-    return pools;
+    });
   }
 
   render () {
@@ -116,7 +98,11 @@ class Storage extends React.Component {
       Boolean( Object.keys( this.props.volumes.clientVolumes ).length );
 
     const LOADING = Boolean( this.props.volumes.volumesRequests.size );
-    const SHOW_INTRO = ( !( LOADING && SERVER_VOLUMES_EXIST && CLIENT_VOLUMES_EXIST ) );
+    const SHOW_INTRO = !( LOADING && SERVER_VOLUMES_EXIST && CLIENT_VOLUMES_EXIST );
+    // In the case that no volumes are being edited or created, and disks are
+    // available for inclusion in a new pool, the user has the option to
+    // create a new pool.
+    const SHOW_NEW = !LOADING && !CLIENT_VOLUMES_EXIST && this.props.volumes.availableDisks.size;
 
     return (
       <main>
@@ -163,8 +149,16 @@ class Storage extends React.Component {
           }
         </Motion>
 
+
         {/* VOLUMES */}
         { this.renderVolumes() }
+
+
+        {/* CREATE NEW POOL */}
+        <CreateStorage
+          style = { SHOW_NEW ? {} : { display: "none" } }
+          onClick = { () => this.props.onUpdateVolume( "NEW" ) }
+        />
 
 
         {/* CONFIRMATION - POOL DESTRUCTION */}

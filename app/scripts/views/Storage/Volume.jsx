@@ -8,7 +8,7 @@
 
 import _ from "lodash";
 import React from "react";
-import { Button, ButtonToolbar, Input, Panel } from "react-bootstrap";
+import { Panel } from "react-bootstrap";
 
 import EventBus from "../../utility/EventBus";
 import ByteCalc from "../../utility/ByteCalc";
@@ -280,24 +280,6 @@ handleDrawerOpen ( event ) {
           />
         );
         panelClass.push( "editing" );
-      } else {
-        // We can deduce that this Volume is the "blank" one, and that it has
-        // not yet been interacted with. We use this state information to
-        // display an initialization message.
-
-        editing         = false;
-        topology        = this.state.topology;
-        allowedSections = new Set();
-
-        volumeHeader = (
-          <Button
-            bsStyle = "primary"
-            onClick = { this.handleDrawerOpen }
-          >
-            { "Create new storage pool" }
-          </Button>
-        );
-        panelClass.push( "awaiting-init", "text-center" );
       }
 
       if ( this.props.active ) { panelClass.push( "active" ); }
