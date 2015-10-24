@@ -11,7 +11,6 @@ import _ from "lodash";
 import React from "react";
 import { connect } from "react-redux";
 import { Motion, spring } from "react-motion";
-import { Alert, Modal, Button } from "react-bootstrap";
 
 // ACTIONS
 import * as DISKS from "../actions/disks";
@@ -23,6 +22,7 @@ import { ghost, ghostUpdate } from "../utility/motions";
 import VolumeUtilities from "../utility/VolumeUtilities";
 
 // COMPONENTS
+import ConfirmationDialog from "../components/ConfirmationDialog";
 import Volume from "./Storage/Volume";
 import VolumeTask from "./Storage/VolumeTask";
 
@@ -124,9 +124,6 @@ class Storage extends React.Component {
           <span className="text">Storage Volumes</span>
         </h1>
 
-        {/* VOLUMES */}
-        <div>
-
           {/* LOADING SPINNER */}
           <Motion
             defaultStyle = { LOADING ? ghost.defaultIn : ghost.defaultOut }
@@ -166,80 +163,50 @@ class Storage extends React.Component {
             }
           </Motion>
 
-          {/* CREATED VOLUMES */}
+          {/* VOLUMES */}
           { this.renderVolumes() }
-        </div>
 
 
-        {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
-        <Modal
-          show   = { Boolean( this.props.volumeToDelete ) }
-          onHide = { this.props.onCancelDeleteVolume }
-        >
-          <Modal.Header closebutton>
-            <Modal.Title>
-              { "Confirm Destruction of " + this.props.volumeToDelete }
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <p>
+        {/* CONFIRMATION - POOL DESTRUCTION */}
+        <ConfirmationDialog
+          show = { Boolean( this.props.volumeToDelete ) }
+          onCancel = { this.props.onCancelDeleteVolume }
+          onConfirm = { this.props.onConfirmDeleteVolume }
+          confirmStyle = { "danger" }
+          title = { "Confirm Destruction of " + this.props.volumeToDelete }
+          body = {
+            <span>
               { "Bro are you like, really really sure you want to do this? "
               + "Once you destroy "}<b>{ this.props.volumeToDelete }</b>{" "
               + "it's not coming back. (In other words, I hope you backed up "
               + "your porn.)"
               }
-            </p>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button onClick={ this.props.onCancelDeleteVolume }>
-              Uhhh no
-            </Button>
-            <Button
-              bsStyle = { "danger" }
-              onClick = { this.props.onConfirmDeleteVolume }
-            >
-              Blow my pool up fam
-            </Button>
-          </Modal.Footer>
-
-        </Modal>
+            </span>
+          }
+          cancel = { "Uhhh no" }
+          confirm = { "Blow my pool up fam" }
+        />
 
 
-        {/* CONFIRMATION DIALOG - SHARE DELETION */}
-        <Modal
-          show   = { Boolean( this.props.shareToDelete ) }
-          onHide = { this.props.onCancelDeleteShare }
-        >
-          <Modal.Header closebutton>
-            <Modal.Title>
-              { "Confirm Deletion of " + this.props.shareToDelete }
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <p>
+        {/* CONFIRMATION - SHARE DELETION */}
+        <ConfirmationDialog
+          show = { Boolean( this.props.shareToDelete ) }
+          onCancel = { this.props.onCancelDeleteShare }
+          onConfirm = { this.props.onConfirmDeleteShare }
+          confirmStyle = { "danger" }
+          title = { "Confirm Deletion of " + this.props.shareToDelete }
+          body = {
+            <span>
               { `Yo this is going to delete ${ this.props.shareToDelete } . All `
               + `the data that was in it will go bye-bye, and nobody will be `
               + `able to access it anymore. You sure that's what you want?`
               }
-            </p>
-          </Modal.Body>
+            </span>
+          }
+          cancel = { "MY BABY" }
+          confirm = { "I didn't like that share anyways" }
+        />
 
-          <Modal.Footer>
-            <Button onClick={ this.props.onCancelDeleteShare }>
-              MY BABY
-            </Button>
-            <Button
-              bsStyle = { "danger" }
-              onClick = { this.props.onConfirmDeleteShare }
-            >
-              I didn't like that share anyways
-            </Button>
-          </Modal.Footer>
-
-        </Modal>
       </main>
     );
   }
@@ -292,24 +259,29 @@ function mapDispatchToProps ( dispatch ) {
     // DISKS
     , fetchDisks: () => dispatch( DISKS.requestDiskOverview() )
 
-    // VOLUMES
+    // VOLUMES DATA
     , fetchVolumes: () => dispatch( VOLUMES.fetchVolumes() )
     , fetchAvailableDisks: () => dispatch( VOLUMES.fetchAvailableDisks() )
     , onDiskSelect: () => console.log( "fart" )
     , onDiskDeselect: () => console.log( "fart" )
 
+    // SUBMIT VOLUME
+    , onUpdateVolume: () => console.log( "fart" )
     , onSubmitVolume: () => console.log( "fart" )
     , onRevertVolume: () => console.log( "fart" )
 
+    // DESTROY VOLUME
     , onRequestDeleteVolume: () => console.log( "fart" )
     , onConfirmDeleteVolume: () => console.log( "fart" )
     , onCancelDeleteVolume: () => console.log( "fart" )
 
 
-    // SHARES
+    // CREATE SHARE
+    , onUpdateShare: () => console.log( "fart" )
     , onSubmitShare: () => console.log( "fart" )
     , onRevertShare: () => console.log( "fart" )
 
+    // DELETE SHARE
     , onRequestDeleteShare: () => console.log( "fart" )
     , onConfirmDeleteShare: () => console.log( "fart" )
     , onCancelDeleteShare: () => console.log( "fart" )
