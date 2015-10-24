@@ -124,47 +124,47 @@ class Storage extends React.Component {
           <span className="text">Storage Volumes</span>
         </h1>
 
-          {/* LOADING SPINNER */}
-          <Motion
-            defaultStyle = { LOADING ? ghost.defaultIn : ghost.defaultOut }
-            style        = { LOADING ? ghost.in : ghost.out }
-          >
-            { ({ y, opacity }) =>
-              <h1
-                className = "text-center"
-                style = { ghost.update( y, opacity ) }
-              >
-                LOADING VOLUMES
-              </h1>
-            }
-          </Motion>
+        {/* LOADING SPINNER */}
+        <Motion
+          defaultStyle = { LOADING ? ghost.defaultIn : ghost.defaultOut }
+          style        = { LOADING ? ghost.in : ghost.out }
+        >
+          { ({ y, opacity }) =>
+            <h1
+              className = "text-center"
+              style = { ghost.update( y, opacity ) }
+            >
+              LOADING VOLUMES
+            </h1>
+          }
+        </Motion>
 
 
-          {/* INTRODUCTORY MESSAGE */}
-          <Motion
-            defaultStyle = { SHOW_INTRO ? ghost.defaultIn : ghost.defaultOut }
-            style        = { SHOW_INTRO ? ghost.in : ghost.out }
-          >
-            { ({ y, opacity }) =>
-              <div
-                className = "clearfix storage-first-pool"
-                style = { ghost.update( y, opacity ) }
-              >
-                <img src="/images/hdd.png" />
-                <h3>Creating Storage</h3>
-                <p>
-                  { "This is the place where you create ZFS pools and stuff. "
-                  + "Someday, this text will be very helpful and everyone will "
-                  + "like what it says. Today it just says this, so maybe create "
-                  + "a pool or something, maaaaaan."
-                  }
-                </p>
-              </div>
-            }
-          </Motion>
+        {/* INTRODUCTORY MESSAGE */}
+        <Motion
+          defaultStyle = { SHOW_INTRO ? ghost.defaultIn : ghost.defaultOut }
+          style        = { SHOW_INTRO ? ghost.in : ghost.out }
+        >
+          { ({ y, opacity }) =>
+            <div
+              className = "clearfix storage-first-pool"
+              style = { ghost.update( y, opacity ) }
+            >
+              <img src="/images/hdd.png" />
+              <h3>Creating Storage</h3>
+              <p>
+                { "This is the place where you create ZFS pools and stuff. "
+                + "Someday, this text will be very helpful and everyone will "
+                + "like what it says. Today it just says this, so maybe create "
+                + "a pool or something, maaaaaan."
+                }
+              </p>
+            </div>
+          }
+        </Motion>
 
-          {/* VOLUMES */}
-          { this.renderVolumes() }
+        {/* VOLUMES */}
+        { this.renderVolumes() }
 
 
         {/* CONFIRMATION - POOL DESTRUCTION */}
