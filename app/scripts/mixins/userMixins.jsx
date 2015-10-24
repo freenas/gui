@@ -7,8 +7,6 @@
 
 import _ from "lodash";
 
-import ShellMiddleware from "../flux/middleware/ShellMiddleware";
-
 import UsersStore from "../flux/stores/UsersStore";
 import UsersMiddleware from "../flux/middleware/UsersMiddleware";
 
