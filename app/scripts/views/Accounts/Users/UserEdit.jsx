@@ -167,7 +167,7 @@ const UserEdit = React.createClass(
           bsStyle   = "warning"
           className = "text-center built-in-warning"
         >
-          { "This is a built in user account. Only edit this account if you"
+          { "This is a built-in user account. Only edit this account if you "
           + "know exactly what you're doing."
           }
         </Alert>;
