@@ -112,7 +112,7 @@ class Users extends React.Component {
 // REDUX
 function mapStateToProps ( state ) {
   return (
-    { shells: state.shells
+    { shells: state.shells.available
     , itemData: state.users.users
     , itemForm: state.users.userForm
     , nextUID: state.users.nextUID
