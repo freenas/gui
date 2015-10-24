@@ -79,7 +79,6 @@ export default class Shell extends React.Component {
         eventData = JSON.parse( event.data );
 
         if ( eventData ) {
-          console.log( "Shell WebSocket:", eventData );
           return;
         }
       } catch ( error ) {
