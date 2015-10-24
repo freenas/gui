@@ -10,8 +10,6 @@ import _ from "lodash";
 import React from "react";
 import { Button, ButtonToolbar, Input, Panel } from "react-bootstrap";
 
-import VAC from "../../flux/actions/VolumeActionCreators";
-
 import EventBus from "../../utility/EventBus";
 import ByteCalc from "../../utility/ByteCalc";
 
@@ -25,116 +23,21 @@ import TopologyEditContext from "./contexts/TopologyEditContext";
 
 const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
 
-// VOLUME EDITING
-// ==============
-// The editing reconciliation model for Volume relies on the difference
-// between state and props. As with a simple form, the intial values are set
-// by props. Subsequent modifications to these occur in state, until an
-// update task is performed, at which time the new props will be assigned, and
-// each mutable value in state is exactly equal to its counterpart in props.
-// This pattern is also used to compare user-submitted values to upstream
-// changes. In componentWillUpdate, if we can see that the current props and
-// state have the same value for a given key, we can update the entry in the
-// client's representation without conflict. In the case that these values are
-// unequal, we can choose instead to display a warning, indicate that another
-// user has modified that field, etc. As always, the last change "wins".
 
-const RAW_VALUE_PROPTYPE = {
-  rawvalue:
-    React.PropTypes.oneOfType(
-      [ React.PropTypes.string
-      , React.PropTypes.number
-      ]
-    ).isRequired
-};
 
-const Volume = React.createClass(
-  { displayName: "Volume"
+export default class Volume extends React.Component {
 
-  , propTypes:
-    { becomeActive: React.PropTypes.func.isRequired
-    , becomeInactive: React.PropTypes.func.isRequired
-    , active: React.PropTypes.bool.isRequired
-    , existsOnRemote: React.PropTypes.bool
-    , name: React.PropTypes.string
-    , diskData: React.PropTypes.shape(
-        { availableSSDs: React.PropTypes.array.isRequired
-        , availableHDDs: React.PropTypes.array.isRequired
-        }
-      )
-    , topology: React.PropTypes.shape(
-        { data  : React.PropTypes.array.isRequired
-        , log   : React.PropTypes.array.isRequired
-        , cache : React.PropTypes.array.isRequired
-        , spare : React.PropTypes.array.isRequired
-        }
-      )
-    , datasets: React.PropTypes.array
-    , shares: React.PropTypes.instanceOf( Map )
-    , properties: React.PropTypes.shape(
-        { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
-        , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
-        , size      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
-        }
-      )
-    , filesystemHandlers: React.PropTypes.object.isRequired
+  constructor( props ) {
+    super( props );
+
+    this.displayName = "Volume";
   }
-
-
-  // REACT COMPONENT MANAGEMENT LIFECYCLE
-  // ====================================
-  , getDefaultProps () {
-      return { existsOnRemote : false
-             };
-    }
-
-  , getInitialState () {
-      return (
-        { activeSection : null
-        , name          : ""
-        , topology:
-          { data  : []
-          , log   : []
-          , cache : []
-          , spare : []
-          }
-        , properties:
-          { free      : { rawvalue: 0 }
-          , allocated : { rawvalue: 0 }
-          , size      : { rawvalue: 0 }
-          }
-        }
-      );
-    }
-
-  , componentDidUpdate ( prevProps, prevState ) {
-      const topologyContextProps =
-        { handleReset: this.resetTopology
-        , handleTopoRequest: this.handleTopoRequest
-        };
-
-      if ( prevProps.active !== this.props.active ) {
-        if ( this.props.existsOnRemote ) {
-          EventBus.emit( "hideContextPanel", TopologyEditContext );
-        } else {
-          EventBus.emit( "showContextPanel"
-                       , TopologyEditContext
-                       , topologyContextProps
-                       );
-        }
-      }
-    }
-
-  , componentWillUnmount () {
-      EventBus.emit( "hideContextPanel", TopologyEditContext );
-    }
-
 
   // DRAWER MANAGEMENT
   // =================
   // Helper methods to mange the state of the Volume's drawer, including
   // communicating its active status to Storage.
-  , handleDrawerOpen ( event ) {
+handleDrawerOpen ( event ) {
       this.setState(
         { activeSection: this.state.activeSection || null
         }
@@ -142,15 +45,15 @@ const Volume = React.createClass(
       );
     }
 
-  , closeDrawer () {
+  closeDrawer () {
       this.props.becomeInactive();
     }
 
-  , handleDrawerChange ( keyName ) {
+  handleDrawerChange ( keyName ) {
       this.setState({ activeSection: keyName });
     }
 
-  , getActiveSection ( allowedSections ) {
+  getActiveSection ( allowedSections ) {
       if ( allowedSections.has( this.state.activeSection ) ) {
         // If the requested section is allowed, use it
         return this.state.activeSection;
@@ -172,7 +75,7 @@ const Volume = React.createClass(
 
   // ZFS TOPOLOGY FUNCTIONS
   // ======================
-  , handleTopoRequest ( preferences ) {
+  handleTopoRequest ( preferences ) {
       const CREATOR_OUTPUT =
         ZfsUtil.createTopology( this.props.diskData.availableSSDs
                               , this.props.diskData.availableHDDs
@@ -183,7 +86,7 @@ const Volume = React.createClass(
       this.setState({ topology: CREATOR_OUTPUT[0] });
     }
 
-  , vdevOperation( opType, key, purpose, options = {} ) {
+  vdevOperation( opType, key, purpose, options = {} ) {
       let collection  = this.state.topology[ purpose ];
       let targetVdev  = collection[ key ];
       let currentType = null;
@@ -229,25 +132,25 @@ const Volume = React.createClass(
       );
     }
 
-  , handleDiskAdd ( vdevKey, vdevPurpose, path ) {
+  handleDiskAdd ( vdevKey, vdevPurpose, path ) {
       VAC.selectDisks( path );
       this.vdevOperation( "add", vdevKey, vdevPurpose, { path: path } );
     }
 
-  , handleDiskRemove ( vdevKey, vdevPurpose, path, event ) {
+  handleDiskRemove ( vdevKey, vdevPurpose, path, event ) {
       VAC.deselectDisks( path );
       this.vdevOperation( "remove", vdevKey, vdevPurpose, { path: path } );
     }
 
-  , handleVdevNuke ( vdevKey, vdevPurpose, event ) {
+  handleVdevNuke ( vdevKey, vdevPurpose, event ) {
       this.vdevOperation( "nuke", vdevKey, vdevPurpose );
     }
 
-  , handleVdevTypeChange ( vdevKey, vdevPurpose, vdevType, event ) {
+  handleVdevTypeChange ( vdevKey, vdevPurpose, vdevType, event ) {
       this.vdevOperation( "changeType", vdevKey, vdevPurpose, { type: vdevType } );
     }
 
-  , resetTopology () {
+  resetTopology () {
       VAC.replaceDiskSelection( [] );
       this.setState(
         { topology:
@@ -266,14 +169,14 @@ const Volume = React.createClass(
 
   // GENERAL HANDLERS
   // ================
-  , handleVolumeNameChange ( event ) {
+  handleVolumeNameChange ( event ) {
       this.setState({ name: event.target.value });
     }
 
 
   // MIDDLEWARE COMMUNICATION
   // ========================
-  , submitVolume () {
+  submitVolume () {
       let { log, cache, data, spare } = this.state.topology;
 
       let newVolume =
@@ -300,7 +203,7 @@ const Volume = React.createClass(
       this.props.onVolumeSubmit( newVolume );
     }
 
-  , onDeleteVolume () {
+  onDeleteVolume () {
     if ( this.props.existsOnRemote ) {
       this.props.onVolumeDelete( this.props.name );
     } else {
@@ -314,7 +217,7 @@ const Volume = React.createClass(
 
   // RENDER METHODS
   // ==============
-  , render () {
+  render () {
       let editing;
       let topology;
       let allowedSections;
@@ -418,6 +321,56 @@ const Volume = React.createClass(
       );
     }
   }
-);
 
-export default Volume;
+const RAW_VALUE_PROPTYPE = {
+  rawvalue:
+    React.PropTypes.oneOfType(
+      [ React.PropTypes.string
+      , React.PropTypes.number
+      ]
+    ).isRequired
+};
+
+Volume.propTypes =
+  { existsOnRemote: React.PropTypes.bool.isRequired
+
+  // VOLUMES HANDLERS
+  , onDiskSelect : React.PropTypes.func.isRequired
+  , onDiskDeselect : React.PropTypes.func.isRequired
+  , onCreateVolume : React.PropTypes.func.isRequired
+  , onRevertVolume : React.PropTypes.func.isRequired
+  , onUpdateVolume : React.PropTypes.func.isRequired
+  , onRequestDeleteVolume : React.PropTypes.func.isRequired
+
+  // SHARES HANDLERS
+  , onCreateShare : React.PropTypes.func.isRequired
+  , onRevertShare : React.PropTypes.func.isRequired
+  , onUpdateShare : React.PropTypes.func.isRequired
+  , onRequestDeleteShare : React.PropTypes.func.isRequired
+
+  // GUI HANDLERS
+  , onToggleVolumeFocus : React.PropTypes.func.isRequired
+  , onToggleShareFocus : React.PropTypes.func.isRequired
+
+  // DATA
+  , name: React.PropTypes.string
+  , diskData: React.PropTypes.shape(
+      { availableSSDs: React.PropTypes.array.isRequired
+      , availableHDDs: React.PropTypes.array.isRequired
+      }
+    )
+  , topology: React.PropTypes.shape(
+      { data  : React.PropTypes.array.isRequired
+      , log   : React.PropTypes.array.isRequired
+      , cache : React.PropTypes.array.isRequired
+      , spare : React.PropTypes.array.isRequired
+      }
+    )
+  , datasets: React.PropTypes.array
+  , properties: React.PropTypes.shape(
+      { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
+      , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
+      , size      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
+      }
+    )
+  }
