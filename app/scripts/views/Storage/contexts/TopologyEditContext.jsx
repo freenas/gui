@@ -39,29 +39,6 @@ const PRESET_NAMES =
   , "Media"
   ];
 
-const PRESET_VALUES =
-  { "Optimal":
-      { desired: [ "raidz1", "mirror" ]
-      , highest: 1
-      , priority: "storage"
-      }
-  , "Virtualization":
-      { desired: [ "mirror" ]
-      , highest: 1
-      , priority: "speed"
-      }
-  , "Backups":
-      { desired: [ "raidz2", "raidz1", "mirror" ]
-      , highest: 1
-      , priority: "safety"
-      }
-  , "Media":
-      { desired: [ "raidz1", "mirror" ]
-      , highest: 1
-      , priority: "speed"
-      }
-  };
-
 const PRESET_DESCS =
   { "None":
       ( "Select a ZFS topology layout to automatically assign drives to your, "
@@ -174,7 +151,9 @@ class ContextDisks extends React.Component {
           key = { index }
           eventKey = { preset }
           active = { preset === this.props.preset }
-          onSelect = { this.handlePresetChange }
+          onSelect = { ( event, preset ) =>
+            this.props.onSelectPresetTopology( this.props.activeVolume, preset )
+          }
         >
           { preset }
         </MenuItem>
@@ -271,15 +250,24 @@ ContextDisks.propTypes =
 
 // REDUX
 function mapStateToProps ( state ) {
-  const { disks } = state;
+  const { disks, volumes } = state;
 
   const SIMILAR = DiskUtilities.similarDisks( disks.disks );
+  const ACTIVE = Object.assign( {}
+                              , volumes.serverVolumes[ volumes.activeVolume ]
+                              , volumes.clientVolumes[ volumes.activeVolume ]
+                              );
+
+  if ( Object.keys( ACTIVE ).length === 0 ) {
+    console.warn( "TopologyEditContext has no volume associated with it" );
+  }
 
   return (
     { disks: disks.disks
+    , activeVolume: volumes.activeVolume
+    , preset: ACTIVE.preset
     , groupedSSDs: SIMILAR[0]
     , groupedHDDs: SIMILAR[1]
-    , preset: "None"
     }
   );
 }
@@ -302,6 +290,9 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.updateTopology( volumeID, preferences ) )
     , onRevertTopology: ( volumeID ) =>
       dispatch( VOLUMES.revertTopology( volumeID ) )
+
+    , onSelectPresetTopology: ( volumeID, preset ) =>
+      dispatch( VOLUMES.selectPresetTopology( volumeID, preset ) )
     }
   );
 }

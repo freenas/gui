@@ -24,4 +24,32 @@ export const NEW_VOLUME =
     , allocated : { rawvalue: 0 }
     , size      : { rawvalue: 0 }
     }
+
+  // WEBAPP ONLY
+  , preset: "None"
+  };
+
+// TOPOLOGY PRESETS
+// Use in conjunction with
+export const PRESET_VALUES =
+  { "Optimal":
+      { desired: [ "raidz1", "mirror" ]
+      , highest: 1
+      , priority: "storage"
+      }
+  , "Virtualization":
+      { desired: [ "mirror" ]
+      , highest: 1
+      , priority: "speed"
+      }
+  , "Backups":
+      { desired: [ "raidz2", "raidz1", "mirror" ]
+      , highest: 1
+      , priority: "safety"
+      }
+  , "Media":
+      { desired: [ "raidz1", "mirror" ]
+      , highest: 1
+      , priority: "speed"
+      }
   };

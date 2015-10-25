@@ -76,7 +76,7 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
     // DISCARD CLIENT CHANGES
     case TYPES.REVERT_VOLUME:
-      let clientVolumes = Object.assign( {}, state.clientVolumes );
+      clientVolumes = Object.assign( {}, state.clientVolumes );
 
       if ( clientVolumes.hasOwnProperty( payload.volumeID ) ) {
         delete clientVolumes[ payload.volumeID ];
@@ -117,8 +117,38 @@ export default function auth ( state = INITIAL_STATE, action ) {
                     + `but ${ state.activeVolume } is the active volume!`
                     );
         return state;
+      } else {
+        return Object.assign( {}, state, { activeVolume: "" } );
       }
-      return Object.assign( {}, state, { activeVolume: "" } );
+
+    case TYPES.SELECT_PRESET_TOPOLOGY:
+      if ( state.serverVolumes.hasOwnProperty( payload.volumeID ) ) {
+        console.warn( `Cannot apply preset to ${ payload.volumeID }, `
+                    + `since it exists on the server. ( What are you doing? )`
+                    );
+        return state;
+      }
+
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+      if ( clientVolumes.hasOwnProperty( payload.volumeID ) ) {
+        if ( payload.preset.toUpperCase() === "NONE" ) {
+          clientVolumes[ payload.volumeID ].preset = "None";
+        } else if ( ZFSConstants.PRESET_VALUES.hasOwnProperty( payload.preset ) ) {
+          clientVolumes[ payload.volumeID ].preset = payload.preset;
+          // TODO: Actually do the topology
+        } else {
+          console.warn( `The preset "${ payload.preset }" doesn't exist.` );
+          return state;
+        }
+
+        return Object.assign( {}, state, clientVolumes );
+      } else {
+        console.warn( `Cannot apply preset to ${ payload.volumeID }, `
+                    + `since does not exist on the client ( New volume not `
+                    + `initialized?`
+                    );
+        return state;
+      }
 
 
     // RPC REQUEST RESOLUTION

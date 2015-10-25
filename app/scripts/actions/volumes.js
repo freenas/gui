@@ -67,3 +67,9 @@ export function blurVolume ( volumeID ) {
          , payload: { volumeID }
          };
 }
+
+export function selectPresetTopology ( volumeID, preset ) {
+  return { type: TYPES.SELECT_PRESET_TOPOLOGY
+         , payload: { volumeID, preset }
+         };
+}
