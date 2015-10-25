@@ -97,36 +97,25 @@ class ContextDisks extends React.Component {
     }
   }
 
-  createPaletteSection ( type, disks, key ) {
-    let available;
+  renderDiskGroup ( diskPaths, indexInCollection, groupName ) {
+    let showDisks = diskPaths.map( path => {
+      // Filter out any disks which have been selected already
+      if ( this.props.selectedDisks.has( path ) ) return;
 
-    switch ( type.toUpperCase() ) {
-      case "SSDS":
-        available = _.chain( disks )
-                     .difference( this.state.selectedSSDs )
-                     .intersection( this.state.availableSSDs )
-                     .value();
-        break;
+      // Only show the disk if it's marked as available by the system
+      if ( this.props.availableDisks.has( path ) ) return path;
+    })
 
-      case "HDDS":
-        available = _.chain( disks )
-                     .difference( this.state.selectedHDDs )
-                     .intersection( this.state.availableHDDs )
-                     .value();
-        break;
-    }
-
-    let headerText = key + " (" + available.length + ")";
+    let headerText = groupName + " (" + showDisks.length + ")";
 
     return (
       <Disclosure
-        headerShow = { headerText }
-        headerHide = { headerText }
-        defaultExpanded = { available.length < 10 }
-        key = { key }
+        header = { headerText }
+        defaultExpanded = { showDisks.length < 24 }
+        key = { indexInCollection }
       >
         <span className="disk-container">
-          { available.map( ( path, index ) =>
+          { showDisks.map( ( path, index ) =>
             <div
               key = { index }
               className = "disk-wrapper"
@@ -135,7 +124,7 @@ class ContextDisks extends React.Component {
                 namespace = "disk"
                 payload = { path }
               >
-                <Disk path={ path } />
+                <Disk disk={ this.props.disks[ path ] } />
               </DragTarget>
             </div>
           )}
@@ -144,32 +133,17 @@ class ContextDisks extends React.Component {
     );
   }
 
-  createPresetMenuItems () {
-    return PRESET_NAMES.map( ( preset, index ) => {
-      return (
-        <MenuItem
-          key = { index }
-          eventKey = { preset }
-          active = { preset === this.props.preset }
-          onSelect = { ( event, preset ) =>
-            this.props.onSelectPresetTopology( this.props.activeVolume, preset )
-          }
-        >
-          { preset }
-        </MenuItem>
-      );
-    });
-  }
+  renderDiskPalette ( collection, type ) {
+    const KEYS = Object.keys( collection );
 
-  createDiskPalette ( collection, type ) {
-    if ( _.isEmpty( collection ) ) {
+    if ( KEYS.length === 0 ) {
       return null;
     } else {
-      let paletteSection = _.map( collection
-                                , this.createPaletteSection.bind( null, type )
-                                );
+      let paletteSection = KEYS.map( ( key, index ) =>
+        this.renderDiskGroup( collection[ key ], index, key )
+      );
 
-      if ( paletteSection.length > 0 && paletteSection[0] ) {
+      if ( paletteSection.length ) {
         return (
           <div>
             <h5 className="context-section-header type-line">
@@ -192,6 +166,23 @@ class ContextDisks extends React.Component {
         return null;
       }
     }
+  }
+
+  createPresetMenuItems () {
+    return PRESET_NAMES.map( ( preset, index ) => {
+      return (
+        <MenuItem
+          key = { index }
+          eventKey = { preset }
+          active = { preset === this.props.preset }
+          onSelect = { ( event, preset ) =>
+            this.props.onSelectPresetTopology( this.props.activeVolume, preset )
+          }
+        >
+          { preset }
+        </MenuItem>
+      );
+    });
   }
 
   render () {
@@ -238,6 +229,8 @@ class ContextDisks extends React.Component {
         </Alert>
 
         {/* AVAILABLE DEVICES */}
+        { this.renderDiskPalette( this.props.groupedSSDs, "SSDs" ) }
+        { this.renderDiskPalette( this.props.groupedHDDs, "HDDs" ) }
       </div>
     );
   }
@@ -246,7 +239,19 @@ class ContextDisks extends React.Component {
 ContextDisks.propTypes =
   { subscribe: React.PropTypes.func.isRequired
   , unsubscribe: React.PropTypes.func.isRequired
+  , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , selectedDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , activeVolume: React.PropTypes.string.isRequired
+  , preset: React.PropTypes.oneOf(
+      [ "None"
+      , "Optimal"
+      , "Virtualization"
+      , "Backups"
+      , "Media"
+      ]
+    ).isRequired
   };
+
 
 // REDUX
 function mapStateToProps ( state ) {
@@ -264,6 +269,8 @@ function mapStateToProps ( state ) {
 
   return (
     { disks: disks.disks
+    , availableDisks: volumes.availableDisks
+    , selectedDisks: volumes.selectedDisks
     , activeVolume: volumes.activeVolume
     , preset: ACTIVE.preset
     , groupedSSDs: SIMILAR[0]
