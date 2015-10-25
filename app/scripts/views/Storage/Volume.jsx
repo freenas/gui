@@ -199,7 +199,10 @@ export default class Volume extends React.Component {
             topologyBreakdown = { ZfsUtil.calculateBreakdown( this.props.topology.data ) }
             onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
             onSubmitClick = { this.props.onSubmitVolume }
-            onCancelClick = { this.props.onBlurVolume }
+            onCancelClick = { () => {
+              this.props.onBlurVolume();
+              this.props.onRevertVolume();
+            }}
           />
         ) }
 

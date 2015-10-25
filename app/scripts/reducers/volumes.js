@@ -78,9 +78,16 @@ export default function auth ( state = INITIAL_STATE, action ) {
     case TYPES.REVERT_VOLUME:
       let clientVolumes = Object.assign( {}, state.clientVolumes );
 
-      delete clientVolumes[ payload.volumeID ];
+      if ( clientVolumes.hasOwnProperty( payload.volumeID ) ) {
+        delete clientVolumes[ payload.volumeID ];
+        return Object.assign( {}, state, { clientVolumes } );
+      } else {
+        console.warn( `Could not revert ${ payload.volumeID } because it does `
+                    + `not exist in state.`
+                    );
+        return state;
+      }
 
-      return Object.assign( {}, state, { clientVolumes } );
 
 
     // SUBMIT VOLUME TO SERVER
