@@ -161,31 +161,38 @@ export default function auth ( state = INITIAL_STATE, action ) {
           serverVolumes = normalizeVolumes( payload.data );
           newState =
             { serverVolumes
-            , activeVolume: getActiveVolume( state.activeVolume
-                                           , state.clientVolumes
-                                           , serverVolumes
-                                           )
+            , activeVolume:
+              getActiveVolume( state.activeVolume
+                             , state.clientVolumes
+                             , serverVolumes
+                             )
             };
+
+          return Object.assign( {}
+                              , state
+                              , resolveUUID( payload.UUID, state, "volumesRequests" )
+                              , newState
+                              );
+        } else {
+          console.warn( "Volumes query did not return any data" );
         }
 
-        return Object.assign( {}
-                            , state
-                            , resolveUUID( payload.UUID, state, "volumesRequests" )
-                            , newState
-                            );
+        return state;
       }
 
       // HANDLE AVAILABLE DISKS
       if ( state.availableDisksRequests.has( payload.UUID ) ) {
         if ( payload.data ) {
-          newState = { availableDisks: new Set( payload.data ) };
+          return Object.assign( {}
+                              , state
+                              , resolveUUID( payload.UUID, state, "availableDisksRequests" )
+                              , { availableDisks: new Set( payload.data ) }
+                              );
+        } else {
+          console.warn( "Available disks query did not return any data" );
         }
 
-        return Object.assign( {}
-                            , state
-                            , resolveUUID( payload.UUID, state, "availableDisksRequests" )
-                            , newState
-                            );
+        return state;
       }
 
     default:
