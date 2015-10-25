@@ -3,14 +3,19 @@
 // ssh namespace
 
 "use strict";
-
-import * as TYPES from "./actionTypes";
+import { UPDATE_SSH_FORM
+       , RESET_SSH_FORM
+       , SSH_CONFIG_REQUEST
+       , SUBMIT_SSH_FORM
+     }
+  from "./actionTypes";
+import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
 
 // FORM
 export function updateSSHForm ( field, value ) {
-  return ( { type: TYPES.UPDATE_SSH_FORM
+  return ( { type: UPDATE_SSH_FORM
            , payload: { field: field
                       , value: value
                       }
@@ -19,22 +24,15 @@ export function updateSSHForm ( field, value ) {
 };
 
 export function resetSSHForm () {
-  return ( { type: TYPES.RESET_SSH_FORM } );
+  return ( { type: RESET_SSH_FORM } );
 };
-
 
 // QUERY
-function sshConfigRequest ( UUID ) {
-  return { type: TYPES.SSH_CONFIG_REQUEST
-         , payload: { UUID }
-         };
-};
-
 export function requestSSHConfig () {
   return ( dispatch ) => {
     MC.request( "service.ssh.get_config"
               , []
-              , ( UUID ) => dispatch( sshConfigRequest( UUID ) )
+              , ( UUID ) => dispatch( watchRequest( UUID, SSH_CONFIG_REQUEST ) )
               );
   };
 };
@@ -42,7 +40,7 @@ export function requestSSHConfig () {
 
 // TASKS
 export function submitSSHForm () {
-  return ( { type: TYPES.SUBMIT_SSH_FORM
+  return ( { type: SUBMIT_SSH_FORM
            , payload: {}
            }
          );

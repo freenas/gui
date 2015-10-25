@@ -4,6 +4,7 @@
 "use strict";
 
 import * as TYPES from "../actions/actionTypes";
+import { recordUUID, resolveUUID } from "../utility/Reducer";
 
 const INITIAL_STATE =
   { sshServerState:
@@ -58,11 +59,11 @@ export default function ssh ( state = INITIAL_STATE, action ) {
                                       , state.sshServerState
                                       , payload.data
                                       );
-        sshConfigRequests = new Set( state.sshConfigRequests );
-        sshConfigRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { sshServerState
-                                         , sshConfigRequests
-                                         }
+        return Object.assign( {}, state, { sshServerState }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "sshConfigRequests"
+                                         )
                             );
       } else {
         return state;
