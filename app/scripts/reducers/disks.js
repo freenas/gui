@@ -3,8 +3,8 @@
 
 "use strict";
 
-import * as actionTypes from "../actions/actionTypes";
-import ByteCalc from "../utility/ByteCalc";
+import * as TYPES from "../actions/actionTypes";
+import { recordUUID, resolveUUID } from "../utility/Reducer";
 
 const DISK_LABELS =
   { serial: "Serial"
@@ -20,7 +20,7 @@ const DISK_LABELS =
   };
 
 const INITIAL_STATE =
-  { isFetching: false
+  { disksOverviewRequests: new Set()
   , fetchError: false
   , disks: {}
   , selectedDisks: new Set()
@@ -41,21 +41,29 @@ export default function disks ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
   switch( type ) {
-    case actionTypes.DISK_OVERVIEW_REQUEST:
-      return Object.assign( {}, state, { isFetching: true } );
+    case TYPES.DISK_OVERVIEW_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID, state, "disksOverviewRequests" )
+                          );
 
-    case actionTypes.DISK_OVERVIEW_SUCCESS:
-      return Object.assign( {}, state,
-        { isFetching: false
-        , disks: destructureDisks( state.disks, payload.disks )
+    // RPC REQUEST RESOLUTION
+    case TYPES.RPC_SUCCESS:
+    case TYPES.RPC_FAILURE:
+    case TYPES.RPC_TIMEOUT:
+      // HANDLE VOLUMES DATA
+      if ( state.disksOverviewRequests.has( payload.UUID ) ) {
+        if ( payload.data ) {
+          return Object.assign( {}
+                              , state
+                              , resolveUUID( payload.UUID, state, "volumesRequests" )
+                              , { disks: destructureDisks( null, payload.data ) }
+                              );
+        } else {
+          console.warn( "Disks overview query did not return any data" );
         }
-      );
-
-    case actionTypes.DISK_OVERVIEW_FAILURE:
-      return Object.assign( {}, state,
-        { isFetching: false
-        , fetchError: payload
-        } );
+        return state;
+      }
 
     default:
       return state;
