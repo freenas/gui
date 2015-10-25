@@ -166,10 +166,6 @@ export default class Volume extends React.Component {
     return breakdown;
   }
 
-  toggleUnlessActive () {
-    if ( !this.props.active ) this.props.onToggleVolumeFocus();
-  }
-
   isSubmissionDisabled () {
     if ( this.props.topology.data.length === 0 ) return true;
     if ( this.props.name.length === 0 ) return true;
@@ -192,7 +188,7 @@ export default class Volume extends React.Component {
         { this.props.existsOnRemote ? (
           <ExistingVolume
             volumeName = { this.props.name }
-            onClick = { this.toggleUnlessActive }
+            onClick = { this.onFocusVolume }
             onDestroyPool = { this.onRequestDeleteVolume }
             topologyBreakdown = { this.breakdownFromRootDataset() }
           />
@@ -203,7 +199,7 @@ export default class Volume extends React.Component {
             topologyBreakdown = { ZfsUtil.calculateBreakdown( this.props.topology.data ) }
             onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
             onSubmitClick = { this.props.onSubmitVolume }
-            onCancelClick = { this.props.onToggleVolumeFocus }
+            onCancelClick = { this.props.onBlurVolume }
           />
         ) }
 
@@ -282,7 +278,8 @@ Volume.propTypes =
   , onRequestDeleteShare : React.PropTypes.func.isRequired
 
   // GUI HANDLERS
-  , onToggleVolumeFocus : React.PropTypes.func.isRequired
+  , onFocusVolume : React.PropTypes.func.isRequired
+  , onBlurVolume : React.PropTypes.func.isRequired
   , onToggleShareFocus : React.PropTypes.func.isRequired
 
   // DATA

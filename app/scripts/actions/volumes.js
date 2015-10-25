@@ -55,3 +55,15 @@ export function revertTopology ( volumeID ) {
          , payload: { volumeID }
          };
 }
+
+export function focusVolume ( volumeID ) {
+  return { type: TYPES.FOCUS_VOLUME
+         , payload: { volumeID }
+         };
+}
+
+export function blurVolume ( volumeID ) {
+  return { type: TYPES.BLUR_VOLUME
+         , payload: { volumeID }
+         };
+}

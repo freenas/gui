@@ -30,9 +30,33 @@ function normalizeVolumes ( volumes ) {
   return normalized;
 }
 
+function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
+  const CLIENT = new Set( Object.keys( clientVolumes ) );
+  const SERVER = new Set( Object.keys( serverVolumes ) );
+
+  if ( CLIENT.has( activeVolume ) || SERVER.has( activeVolume ) ) {
+    return activeVolume;
+  } else if ( CLIENT.size ) {
+    console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
+                + `Falling back to first value in clientVolumes`
+                );
+    return CLIENT.values()[0];
+  } else if ( SERVER.size ) {
+    console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
+                + `Falling back to first value in serverVolumes`
+                );
+    return SERVER.values()[0];
+  } else {
+    return "";
+  }
+}
+
 export default function auth ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
-  let newState, clientVolumes, initData;
+  let newState;
+  let clientVolumes;
+  let serverVolumes;
+  let initData;
 
   switch ( type ) {
 
@@ -77,6 +101,18 @@ export default function auth ( state = INITIAL_STATE, action ) {
                           , recordUUID( payload.UUID, state, "availableDisksRequests" )
                           );
 
+    case TYPES.FOCUS_VOLUME:
+      return Object.assign( {}, state, { activeVolume: payload.volumeID } );
+
+    case TYPES.BLUR_VOLUME:
+      if ( payload.volumeID !== state.activeVolume ) {
+        console.warn( `Tried to blur ${ payload.volumeID }, `
+                    + `but ${ state.activeVolume } is the active volume!`
+                    );
+        return state;
+      }
+      return Object.assign( {}, state, { activeVolume: "" } );
+
 
     // RPC REQUEST RESOLUTION
     case TYPES.RPC_SUCCESS:
@@ -85,7 +121,14 @@ export default function auth ( state = INITIAL_STATE, action ) {
       // HANDLE VOLUMES DATA
       if ( state.volumesRequests.has( payload.UUID ) ) {
         if ( payload.data ) {
-          newState = { serverVolumes: normalizeVolumes( payload.data ) };
+          serverVolumes = normalizeVolumes( payload.data );
+          newState =
+            { serverVolumes
+            , activeVolume: getActiveVolume( state.activeVolume
+                                           , state.clientVolumes
+                                           , serverVolumes
+                                           )
+            };
         }
 
         return Object.assign( {}

@@ -84,7 +84,8 @@ class Storage extends React.Component {
           onRequestDeleteShare = { this.props.onRequestDeleteShare.bind( this, id ) }
 
           // GUI
-          onToggleVolumeFocus = { this.props.onToggleVolumeFocus.bind( this, id ) }
+          onFocusVolume = { this.props.onFocusVolume.bind( this, id ) }
+          onBlurVolume = { this.props.onBlurVolume.bind( this, id ) }
           onToggleShareFocus = { this.props.onToggleShareFocus.bind( this, id ) }
         />
       );
@@ -157,7 +158,10 @@ class Storage extends React.Component {
         {/* CREATE NEW POOL */}
         <CreateStorage
           style = { SHOW_NEW ? {} : { display: "none" } }
-          onClick = { () => this.props.onUpdateVolume( "NEW" ) }
+          onClick = { () => {
+            this.props.onUpdateVolume( "NEW" );
+            this.props.onFocusVolume( "NEW" );
+          }}
         />
 
 
@@ -283,7 +287,10 @@ function mapDispatchToProps ( dispatch ) {
 
 
     // GUI
-    , onToggleVolumeFocus: ( volumeID ) => console.log( "fart" )
+    , onFocusVolume: ( volumeID ) =>
+      dispatch( VOLUMES.focusVolume( volumeID ) )
+    , onBlurVolume: ( volumeID ) =>
+      dispatch( VOLUMES.blurVolume( volumeID ) )
     , onToggleShareFocus: ( volumeID ) => console.log( "fart" )
     }
   );
