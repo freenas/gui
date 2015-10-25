@@ -22,14 +22,33 @@ function testCurrentUser ( user ) {
   return user.username === SS.getCurrentUser();
 }
 
+const USER_LABELS =
+  { username          : "Username"
+  , sshpubkey         : "SSH Public Key"
+  , shell             : "Shell"
+  , locked            : "Locked Account"
+  , groups            : "Group Membership"
+  , sessions          : "Sessions"
+  , unixhash          : "UNIX Hash"
+  , sudo              : "sudo Access"
+  , smbhash           : "SMB Hash"
+  , email             : "email Address"
+  , builtin           : "Built-In User"
+  , loggedin          : "Online"
+  , full_name         : "Full Name"
+  , home              : "Home Directory"
+  , group             : "Primary Group"
+  , id                : "User ID"
+  , password_disabled : "Password Disabled"
+  };
+
 const VIEWER_DATA =
-  { keyUnique     : US.uniqueKey
+  { keyUnique     : "username"
   , keyPrimary    : "username"
   , keySecondary  : "full_name"
 
   , itemSchema    : US.itemSchema
-  , itemLabels    : US.itemLabels
-
+  , itemLabels    : USER_LABELS
   , routeParam    : "userID"
   , routeNewItem  : "add-user"
 

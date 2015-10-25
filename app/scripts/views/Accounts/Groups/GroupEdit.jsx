@@ -9,18 +9,12 @@ import React from "react";
 import { Input, Button, ButtonToolbar, Alert, Grid, Row, Col }
   from "react-bootstrap";
 
-import GM from "../../../flux/middleware/GroupsMiddleware";
-import GS from "../../../flux/stores/GroupsStore";
-
-import US from "../../../flux/stores/UsersStore";
-
 import groupMixins from "../../../mixins/groupMixins";
 
 const GroupEdit = React.createClass(
 
   { propTypes:
     { itemSchema: React.PropTypes.object.isRequired
-    , itemLabels: React.PropTypes.object.isRequired
     , item: React.PropTypes.object.isRequired
     , handleViewChange: React.PropTypes.func.isRequired
     }
@@ -74,7 +68,7 @@ const GroupEdit = React.createClass(
       <Input
         className = { groupNameClass }
         type = "text"
-        label = { this.props.itemLabels.name }
+        label = { "Group Name" }
         value = { groupNameValue }
         onChange = { this.handleChange.bind( null, "name" ) }
       />;
@@ -132,7 +126,7 @@ const GroupEdit = React.createClass(
     let groupIDDisplay =
       <div>
         <strong>
-          { this.props.itemLabels.id + ": " }
+          { "Group ID: " }
         </strong>
         { this.props.item.id }
       </div>;

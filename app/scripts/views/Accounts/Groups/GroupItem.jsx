@@ -81,7 +81,6 @@ const GroupItem = React.createClass({
       // DISPLAY COMPONENT
       let childProps = { handleViewChange : this.handleViewChange
                        , item             : this.state.targetGroup
-                       , itemLabels       : this.props.itemLabels
                        , nextGID          : this.props.nextGID
                        };
 

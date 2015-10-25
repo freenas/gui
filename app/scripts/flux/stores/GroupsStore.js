@@ -31,13 +31,6 @@ const GROUP_SCHEMA =
     }
   };
 
-const GROUP_LABELS =
-  { name: "Group Name"
-  , id: "Group ID"
-  , builtin: "Built-in System Group"
-  , sudo: "sudo access"
-  };
-
 class GroupsStore extends FluxBase {
 
   constructor () {
@@ -49,7 +42,6 @@ class GroupsStore extends FluxBase {
 
     this.KEY_UNIQUE = "name";
     this.ITEM_SCHEMA = GROUP_SCHEMA;
-    this.ITEM_LABELS = GROUP_LABELS;
   }
 
   get updateMask () {

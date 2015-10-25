@@ -14,14 +14,20 @@ import GS from "../../flux/stores/GroupsStore";
 
 import UM from "../../flux/middleware/UsersMiddleware";
 import US from "../../flux/stores/UsersStore";
+const GROUP_LABELS =
+  { name: "Group Name"
+  , id: "Group ID"
+  , builtin: "Built-in System Group"
+  , sudo: "sudo access"
+  };
 
 const VIEWER_DATA =
-  { keyUnique     : GS.uniqueKey
+  { keyUnique     : "name"
   , keyPrimary    : "name"
   , keySecondary  : "id"
 
   , itemSchema    : GS.itemSchema
-  , itemLabels    : GS.itemLabels
+  , itemLabels    : GROUP_LABELS
 
   , routeParam    : "groupID"
   , routeNewItem  : "add-group"

@@ -18,7 +18,6 @@ const AddGroup = React.createClass(
 
   , propTypes:
     { itemSchema: React.PropTypes.object.isRequired
-    , itemLabels: React.PropTypes.object.isRequired
     , nextGID: React.PropTypes.number
     }
 
@@ -115,7 +114,7 @@ const AddGroup = React.createClass(
           <Input
             type             = "text"
             min              = { 1000 }
-            label            = { this.props.itemLabels.id }
+            label            = { "id" }
             value            = { typeof this.state.newGroup.id === "string"
                               && this.state.newGroup.id !== ""
                                ? this.state.newGroup.id
@@ -129,7 +128,7 @@ const AddGroup = React.createClass(
           {/* username */}
           <Input
             type             = "text"
-            label            = { this.props.itemLabels.name }
+            label            = { "Group Name" }
             value            = { this.state.newGroup.name
                               && this.state.newGroup.name !== ""
                                ? this.state.newGroup.name

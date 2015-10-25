@@ -56,25 +56,6 @@ const USER_SCHEMA =
   }
 };
 
-const USER_LABELS =
-    { username          : "Username"
-    , sshpubkey         : "SSH Public Key"
-    , shell             : "Shell"
-    , locked            : "Locked Account"
-    , groups            : "Group Membership"
-    , sessions          : "Sessions"
-    , unixhash          : "UNIX Hash"
-    , sudo              : "sudo Access"
-    , smbhash           : "SMB Hash"
-    , email             : "email Address"
-    , builtin           : "Built-In User"
-    , loggedin          : "Online"
-    , full_name         : "Full Name"
-    , home              : "Home Directory"
-    , group             : "Primary Group"
-    , id                : "User ID"
-    , password_disabled : "Password Disabled"
-  };
 
 class UsersStore extends FluxBase {
 
@@ -85,9 +66,7 @@ class UsersStore extends FluxBase {
       handlePayload.bind( this )
     );
 
-    this.KEY_UNIQUE = "username";
     this.ITEM_SCHEMA = USER_SCHEMA;
-    this.ITEM_LABELS = USER_LABELS;
   }
 
   get updateMask () {
