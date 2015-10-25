@@ -134,7 +134,10 @@ class App extends React.Component {
                   </div>
 
                 {/* User-customizable component showing system events */}
-                <ContextBar location={ this.props.location } />
+                <ContextBar
+                  location = { this.props.location }
+                  volumes  = { this.props.state.volumes }
+                />
               </div>
             }
           </Motion>
@@ -153,7 +156,9 @@ class App extends React.Component {
 
 // REDUX
 function mapStateToProps ( state ) {
-  return { shouldBlur: state.auth.SIDShow || state.websocket.SIDShow };
+  return { shouldBlur: state.auth.SIDShow || state.websocket.SIDShow
+         , state
+         };
 }
 
 

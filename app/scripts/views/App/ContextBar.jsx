@@ -22,7 +22,14 @@ const ContextBar = ( props ) => {
     if ( props.location ) {
       switch ( props.location.pathname ) {
         case "/storage":
-          return <TopologyEditContext />;
+          if ( props.volumes.activeVolume ) {
+            if ( props.volumes.clientVolumes.hasOwnProperty( props.volumes.activeVolume ) ) {
+              return <TopologyEditContext />;
+            } else if ( props.volumes.serverVolumes.hasOwnProperty( props.volumes.activeVolume ) ) {
+              // TODO: The thing for volumes that exist
+            }
+          }
+
       }
     }
 
@@ -35,5 +42,10 @@ const ContextBar = ( props ) => {
     </aside>
   );
 }
+
+ContextBar.propTypes =
+  { location: React.PropTypes.object
+  , volumes: React.PropTypes.object // TODO: Ahahahaha, good grief. :(
+  }
 
 export default ContextBar;
