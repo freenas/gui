@@ -5,15 +5,17 @@
 "use strict";
 
 import React from "react";
+import { connect }  from "react-redux";
 import _ from "lodash";
+
+import * as USER_ACTIONS from "../../actions/users";
+import * as GROUP_ACTIONS from "../../actions/groups";
+import * as SHELL_ACTIONS from "../../actions/shells";
 
 import Viewer from "../../components/Viewer";
 
-import GM from "../../flux/middleware/GroupsMiddleware";
 import GS from "../../flux/stores/GroupsStore";
 
-import UM from "../../flux/middleware/UsersMiddleware";
-import US from "../../flux/stores/UsersStore";
 const GROUP_LABELS =
   { name: "Group Name"
   , id: "Group ID"
@@ -75,57 +77,55 @@ const VIEWER_DATA =
     }
   };
 
-const Groups = React.createClass(
-
-  { displayName: "Groups Viewer"
-
-  , getInitialState: function () {
-    return { groupsList: GS.groups
-           , nextGID: null
-           };
+class Groups extends React.Component{
+  constructor ( props ) {
+    super( props );
+    this.displayName = "Groups Viewer"
   }
 
-  , componentDidMount: function () {
-    GS.addChangeListener( this.handleGroupsChange );
-    GM.requestGroupsList();
-    GM.requestNextGID();
-    GM.subscribe( this.constructor.displayName );
+  componentDidMount () {
+    this.props.requestGroups();
+    this.props.requestNextGID();
+    // GM.subscribe( this.constructor.displayName );
 
-    US.addChangeListener( this.handleUsersChange );
-    UM.requestUsersList();
-    UM.subscribe( this.constructor.displayName );
+    this.props.requestUsers();
+    // UM.subscribe( this.constructor.displayName );
   }
 
-  , componentWillUnmount: function () {
-    GS.removeChangeListener( this.handleGroupsChange );
-    GM.unsubscribe( this.constructor.displayName );
+  componentWillUnmount () {
+    // GM.unsubscribe( this.constructor.displayName );
 
-    US.removeChangeListener( this.handleUsersChange );
-    UM.unsubscribe( this.constructor.displayName );
+    // UM.unsubscribe( this.constructor.displayName );
   }
 
-  , handleGroupsChange: function ( eventMask ) {
-    if ( _.startsWith( eventMask, "group" ) ) {
-      this.setState( { groupsList: GS.groups } );
-    } else if ( eventMask === "nextGID" ){
-      this.setState( { nextGID: GS.nextGID } );
-    }
-  }
-
-  , handleUsersChange: function ( eventMask ) {
-    if ( eventMask === "users" ) {
-      this.setState( { usersList: US.users } );
-    }
-  }
-
-  , render: function () {
+  render () {
     return <Viewer
-             itemData = { this.state.groupsList }
-             nextGID = { this.state.nextGID }
-             params = { this.props.params }
-             children = { this.props.children }
-             { ...VIEWER_DATA } />;
+             { ...this.props }
+             { ...VIEWER_DATA }
+           />;
   }
-});
+};
 
-export default Groups;
+function mapStateToProps ( state ) {
+  return (
+    { itemData: state.groups.groups
+    , itemForm: state.groups.groupForm
+    , nextGID: state.groups.nextGID
+    , users: state.users.users
+    // requests
+    , queryGroupsRequests: state.groups.queryGroupsRequests
+    , queryUsersRequests: state.users.queryUsersRequests
+    }
+  );
+}
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    { requestGroups: () => dispatch( GROUP_ACTIONS.requestGroups() )
+    , requestNextGID: () => dispatch( GROUP_ACTIONS.requestNextGID() )
+    , requestUsers: () => dispatch( USER_ACTIONS.requestUsers() )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Groups );
