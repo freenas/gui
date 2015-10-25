@@ -108,29 +108,29 @@ export default class Volume extends React.Component {
       newTopologySection =
         ZfsUtil.reconstructVdev( key, purpose, collection, disks, currentType );
 
-      this.setState(
+      this.props.onUpdateVolume(
         { topology: Object.assign( this.state.topology, newTopologySection )
         }
       );
     }
 
   handleDiskAdd ( vdevKey, vdevPurpose, path ) {
-      VAC.selectDisks( path );
-      this.vdevOperation( "add", vdevKey, vdevPurpose, { path: path } );
-    }
+    this.props.onDiskSelect( path );
+    this.vdevOperation( "add", vdevKey, vdevPurpose, { path: path } );
+  }
 
   handleDiskRemove ( vdevKey, vdevPurpose, path, event ) {
-      VAC.deselectDisks( path );
-      this.vdevOperation( "remove", vdevKey, vdevPurpose, { path: path } );
-    }
+    this.props.onDiskDeselect( path );
+    this.vdevOperation( "remove", vdevKey, vdevPurpose, { path: path } );
+  }
 
   handleVdevNuke ( vdevKey, vdevPurpose, event ) {
-      this.vdevOperation( "nuke", vdevKey, vdevPurpose );
-    }
+    this.vdevOperation( "nuke", vdevKey, vdevPurpose );
+  }
 
   handleVdevTypeChange ( vdevKey, vdevPurpose, vdevType, event ) {
-      this.vdevOperation( "changeType", vdevKey, vdevPurpose, { type: vdevType } );
-    }
+    this.vdevOperation( "changeType", vdevKey, vdevPurpose, { type: vdevType } );
+  }
 
   resetTopology () {
       VAC.replaceDiskSelection( [] );
@@ -153,36 +153,6 @@ export default class Volume extends React.Component {
   // ================
   handleVolumeNameChange ( event ) {
       this.setState({ name: event.target.value });
-    }
-
-
-  // MIDDLEWARE COMMUNICATION
-  // ========================
-  submitVolume () {
-      let { log, cache, data, spare } = this.state.topology;
-
-      let newVolume =
-        { topology:
-          { log: log
-               ? ZfsUtil.unwrapStripe( log )
-               : this.props.topology.log
-          , cache: cache
-                 ? ZfsUtil.unwrapStripe( cache )
-                 : this.props.topology.cache
-          , data: data
-                ? ZfsUtil.unwrapStripe( data )
-                : this.props.topology.data
-          , spare: spare
-                  ? ZfsUtil.unwrapStripe( spare )
-                  : this.props.topology.spare
-          }
-        , type: "zfs"
-        , name: this.state.name
-              || this.props.name
-              || "Volume" + ( this.props.volumeKey + 1 )
-        };
-
-      this.props.onVolumeSubmit( newVolume );
     }
 
   breakdownFromRootDataset () {
@@ -215,9 +185,6 @@ export default class Volume extends React.Component {
     if ( this.props.topology.data.length === 0 ) return true;
     if ( this.props.name.length === 0 ) return true;
   }
-
-
-
 
   // RENDER METHODS
   // ==============
@@ -281,7 +248,15 @@ export default class Volume extends React.Component {
             eventKey = "topology"
             disabled = { !ALLOWED_SECTIONS.has( "topology" ) }
           >
-
+            <Topology
+              onDiskAdd = { this.handleDiskAdd }
+              onDiskRemove = { this.handleDiskRemove }
+              onVdevNuke = { this.handleVdevNuke }
+              onVdevTypeChange = { this.handleVdevTypeChange }
+              SSDsAreAvailable = { true }
+              HDDsAreAvailable = { true }
+              topology = { this.props.topology }
+            />
           </Tab>
         </Tabs>
 

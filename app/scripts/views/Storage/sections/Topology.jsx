@@ -12,25 +12,9 @@ import ZfsUtil from "../utility/ZfsUtil";
 
 import VDEV from "./Topology/VDEV";
 
-var Topology = React.createClass(
+export default class Topology extends React.Component {
 
-  { propTypes:
-    { onDiskAdd        : React.PropTypes.func.isRequired
-    , onDiskRemove     : React.PropTypes.func.isRequired
-    , onVdevNuke       : React.PropTypes.func.isRequired
-    , onVdevTypeChange : React.PropTypes.func.isRequired
-    , SSDsAreAvailable : React.PropTypes.bool.isRequired
-    , HDDsAreAvailable : React.PropTypes.bool.isRequired
-    , topology: React.PropTypes.shape(
-        { data  : React.PropTypes.array.isRequired
-        , log   : React.PropTypes.array.isRequired
-        , cache : React.PropTypes.array.isRequired
-        , spare : React.PropTypes.array.isRequired
-        }
-      )
-    }
-
-  , createVdevs ( purpose ) {
+  renderVdevs ( purpose ) {
     let sharedProps =
       { purpose: purpose
       , cols: null
@@ -119,7 +103,7 @@ var Topology = React.createClass(
     return vdevs;
   }
 
-  , render () {
+  render () {
     return (
       <div
         style = { this.props.style }
@@ -128,44 +112,45 @@ var Topology = React.createClass(
 
         <Row>
           {/* LOG AND CACHE DEVICES */}
-          <Col
-            xs = { 6 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 6 } className="pool-topology-section">
             <h4 className="pool-topology-header">Cache</h4>
-            { this.createVdevs( "cache" ) }
+            { this.renderVdevs( "cache" ) }
           </Col>
-          <Col
-            xs = { 6 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 6 } className="pool-topology-section">
             <h4 className="pool-topology-header">Log</h4>
-            { this.createVdevs( "log" ) }
+            { this.renderVdevs( "log" ) }
           </Col>
 
           {/* STORAGE VDEVS */}
-          <Col
-            xs={ 12 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 12 } className="pool-topology-section">
             <h4 className="pool-topology-header">Storage</h4>
-            { this.createVdevs( "data" ) }
+            { this.renderVdevs( "data" ) }
           </Col>
 
           {/* SPARE DISKS */}
-          <Col
-            xs={ 12 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 12 } className="pool-topology-section">
             <h4 className="pool-topology-header">Spares</h4>
-            { this.createVdevs( "spare" ) }
+            { this.renderVdevs( "spare" ) }
           </Col>
         </Row>
       </div>
     );
   }
 
-  }
-);
+}
 
-export default Topology;
+Topology.propTypes =
+  { onDiskAdd        : React.PropTypes.func.isRequired
+  , onDiskRemove     : React.PropTypes.func.isRequired
+  , onVdevNuke       : React.PropTypes.func.isRequired
+  , onVdevTypeChange : React.PropTypes.func.isRequired
+  , SSDsAreAvailable : React.PropTypes.bool.isRequired
+  , HDDsAreAvailable : React.PropTypes.bool.isRequired
+  , topology: React.PropTypes.shape(
+      { data  : React.PropTypes.array.isRequired
+      , log   : React.PropTypes.array.isRequired
+      , cache : React.PropTypes.array.isRequired
+      , spare : React.PropTypes.array.isRequired
+      }
+    )
+  };
