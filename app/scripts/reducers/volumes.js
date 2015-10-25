@@ -5,33 +5,8 @@
 
 import * as TYPES from "../actions/actionTypes";
 import { recordUUID, resolveUUID } from "../utility/Reducer";
-
-// DATASET NAME BLACKLIST
-// This set represents all of the strings and regexps that should be blacklisted
-// by the GUI in most situations
-const DATASET_NAME_BLACKLIST = new Set(
-  [ "iocage"
-  , /^\./
-  ]
-);
-
-// NEW VOLUME
-// Used to initialize the required property values for a new volume
-const NEW_VOLUME =
-  { name: ""
-  , topology:
-    { data  : []
-    , log   : []
-    , cache : []
-    , spare : []
-    }
-  , datasets: []
-  , properties:
-    { free      : { rawvalue: 0 }
-    , allocated : { rawvalue: 0 }
-    , size      : { rawvalue: 0 }
-    }
-  };
+import * as ZFSConstants from "../constants/ZFSConstants";
+import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
 const INITIAL_STATE =
   { volumesRequests: new Set()
@@ -44,7 +19,6 @@ const INITIAL_STATE =
   , shareToDelete: { path: null, pool: null }
   , availableDisks: new Set()
   , selectedDisks: new Set()
-  , DATASET_NAME_BLACKLIST
   };
 
 
@@ -68,7 +42,7 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
       // If the volume has no record on the client or server, initialize it
       if ( !( clientVolumes[ payload.volumeID ] && state.serverVolumes[ payload.volumeID ] ) ) {
-        initData = NEW_VOLUME
+        initData = ZFSConstants.NEW_VOLUME
       }
 
       clientVolumes[ payload.volumeID ] =
@@ -82,7 +56,6 @@ export default function auth ( state = INITIAL_STATE, action ) {
 
       delete clientVolumes[ payload.volumeID ];
 
-    console.log( clientVolumes );
       return Object.assign( {}, state, { clientVolumes } );
 
 

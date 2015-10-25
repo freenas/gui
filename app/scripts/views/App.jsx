@@ -134,7 +134,7 @@ class App extends React.Component {
                   </div>
 
                 {/* User-customizable component showing system events */}
-                <ContextBar />
+                <ContextBar location={ this.props.location } />
               </div>
             }
           </Motion>

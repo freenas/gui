@@ -57,17 +57,6 @@ export default class Volume extends React.Component {
 
   // ZFS TOPOLOGY FUNCTIONS
   // ======================
-  handleTopoRequest ( preferences ) {
-      const CREATOR_OUTPUT =
-        ZfsUtil.createTopology( this.props.diskData.availableSSDs
-                              , this.props.diskData.availableHDDs
-                              , preferences
-                              );
-
-      VAC.replaceDiskSelection( CREATOR_OUTPUT[1] );
-      this.setState({ topology: CREATOR_OUTPUT[0] });
-    }
-
   vdevOperation( opType, key, purpose, options = {} ) {
       let collection  = this.state.topology[ purpose ];
       let targetVdev  = collection[ key ];

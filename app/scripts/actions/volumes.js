@@ -43,3 +43,15 @@ export function revertVolume ( volumeID ) {
          , payload: { volumeID }
          }
 }
+
+export function updateTopology ( volumeID, preferences ) {
+  return { type: TYPES.UPDATE_VOLUME_TOPOLOGY
+         , payload: { volumeID, preferences }
+         };
+}
+
+export function revertTopology ( volumeID ) {
+  return { type: TYPES.REVERT_VOLUME_TOPOLOGY
+         , payload: { volumeID }
+         };
+}
