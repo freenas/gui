@@ -9,58 +9,30 @@
 import _ from "lodash";
 import React from "react";
 
-import routerShim from "../../../mixins/routerShim";
-import clientStatus from "../../../mixins/clientStatus";
-
 import editorUtil from "../../../components/Viewer/Editor/editorUtil";
-
-import UsersStore from "../../../flux/stores/UsersStore";
-import GroupsStore from "../../../flux/stores/GroupsStore";
 
 import UserView from "./UserView";
 import UserEdit from "./UserEdit";
 
 // CONTROLLER-VIEW
 const UserItem = React.createClass(
-  { mixins: [ routerShim, clientStatus ]
+  { propTypes: { keyUnique: React.PropTypes.string
+               , params: React.PropTypes.object
+               , routeParam: React.PropTypes.string
+               }
 
   , getInitialState: function () {
       return (
-        { targetUser  : this.getUserFromStore()
-        , currentMode : "view"
-        , activeRoute : this.getDynamicRoute()
-        }
+        { currentMode : "view" }
       );
     }
 
   , componentDidUpdate: function ( prevProps, prevState ) {
-      var activeRoute = this.getDynamicRoute();
-
-      if ( activeRoute !== prevState.activeRoute ) {
-        this.setState(
-          { targetUser  : this.getUserFromStore()
-          , currentMode : "view"
-          , activeRoute : activeRoute
-          }
-        );
+      if ( prevProps.params[ this.props.routeParam ]
+       !== this.props.params[ this.props.routeParam ]
+         ) {
+        this.setState( { currentMode : "view" } );
       }
-    }
-
-  , componentDidMount: function () {
-      UsersStore.addChangeListener( this.updateUserInState );
-    }
-
-  , componentWillUnmount: function () {
-      UsersStore.removeChangeListener( this.updateUserInState );
-    }
-
-  , getUserFromStore: function () {
-      return UsersStore.findUserByKeyValue( this.props.keyUnique
-                                          , this.getDynamicRoute() );
-    }
-
-  , updateUserInState: function () {
-      this.setState({ targetUser: this.getUserFromStore() });
     }
 
   , handleViewChange: function ( nextMode, event ) {
@@ -69,27 +41,34 @@ const UserItem = React.createClass(
 
   , render: function () {
       var DisplayComponent = null;
-      var processingText   = "";
+      var processingText = "";
+      const item = this.props.itemData.find(
+                   function findSelectedUser ( user ) {
+                     return user[ this.props.keyUnique ]
+                        === this.props.params[ this.props.routeParam ];
+                }
+                , this
+                );
 
-      if ( this.state.targetUser ) {
+      if ( this.props.params[ this.props.routeParam ] ) {
 
         // DISPLAY COMPONENT
-        var childProps =
-          { handleViewChange : this.handleViewChange
-          , item             : this.state.targetUser
-          , itemLabels       : this.props.itemLabels
-          , itemSchema       : this.props.itemSchema
-          , shells           : this.props.shells
-        };
-
         switch ( this.state.currentMode ) {
           default:
           case "view":
-            DisplayComponent = <UserView { ...childProps } />;
+            DisplayComponent = <UserView
+                                 handleViewChange = { this.handleViewChange }
+                                 item = { item }
+                                 { ...this.props }
+                               />;
             break;
 
           case "edit":
-            DisplayComponent = <UserEdit { ...childProps } />;
+            DisplayComponent = <UserEdit
+                                 handleViewChange = { this.handleViewChange }
+                                 item = { item }
+                                 { ...this.props }
+                               />;
             break;
         }
       }
@@ -106,7 +85,6 @@ const UserItem = React.createClass(
         </div>
       );
     }
-
 });
 
 export default UserItem;
