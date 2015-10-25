@@ -81,18 +81,18 @@ const VIEWER_DATA =
 
   , groupBy:
     { current:
-     { name: "current user account"
-     , testProp: testCurrentUser
-     }
+      { name: "current user account"
+      , testProp: testCurrentUser
+      }
     , userCreated:
-     { name: "local user accounts"
-     , testProp: { builtin: false }
-     }
+      { name: "local user accounts"
+      , testProp: { builtin: false }
+      }
     , builtIn:
-     { name: "built-in system accounts"
-     , testProp: { builtin: true }
-     }
-   }
+      { name: "built-in system accounts"
+      , testProp: { builtin: true }
+      }
+    }
   };
 
 class Users extends React.Component {
