@@ -70,10 +70,13 @@ Disk.propTypes =
 
 Disk.defaultProps =
   { roundMode: "whole"
-  , status:
-    { is_ssd: false
-    // TODO: I mean, obviously
-    , smart_status: "LOL"
+  , disk:
+    { status:
+      { is_ssd: false
+      // TODO: I mean, obviously
+      , smart_status: "LOL"
+      }
+    , mediasize: 0
     }
   };
 
