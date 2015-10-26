@@ -83,49 +83,49 @@ const Console = ( props ) => {
   const serialPortSpeedOptions = createSimpleOptions( serialPortSpeeds ) ;
 
   const consoleScreensaver =
-     <Input
-       type = "checkbox"
-       label = "Enable Console Screensaver"
-       checked = { consoleScreensaverValue }
+    <Input
+      type = "checkbox"
+      label = "Enable Console Screensaver"
+      checked = { consoleScreensaverValue }
       onChange = { ( e ) => props.updateConsoleForm( "console_screensaver"
-                                                      , e.target.checked
-                                                      )
+                                                   , e.target.checked
+                                                   )
                  }
     />;
 
   const serialConsole =
-     <Input
-       type = "checkbox"
-       label = "Enable Serial Console"
-       checked = { serialConsoleValue }
+    <Input
+      type = "checkbox"
+      label = "Enable Serial Console"
+      checked = { serialConsoleValue }
       onChange = { ( e ) => props.updateConsoleForm( "serial_console"
-                                                      , e.target.checked
-                                                      )
+                                                   , e.target.checked
+                                                   )
                  }
     />;
 
   // Make sure the port is valid
   const serialPort =
-     <Input
-       type = "select"
-       label = "Serial Console Port"
-       value = { serialPortValue }
+    <Input
+      type = "select"
+      label = "Serial Console Port"
+      value = { serialPortValue }
       onChange = { ( e ) => props.updateConsoleForm( "serial_port"
-                                                      , e.target.value
-                                                      )
+                                                   , e.target.value
+                                                   )
                  }
     >
       { serialPortOptions }
      </Input>;
 
   const serialSpeed =
-     <Input
-       type = "select"
-       label = "Serial Port Speed"
-       value = { serialSpeedValue }
+    <Input
+      type = "select"
+      label = "Serial Port Speed"
+      value = { serialSpeedValue }
       onChange = { ( e ) => props.updateConsoleForm( "serial_speed"
-                                                      , e.target.value
-                                                      )
+                                                   , e.target.value
+                                                   )
                  }
     >
       { serialPortSpeedOptions }
@@ -137,8 +137,8 @@ const Console = ( props ) => {
       label = "Console Keymap"
       value = { consoleKeymapValue }
       onChange = { ( e ) => props.updateConsoleForm( "console_keymap"
-                                                      , e.target.value
-                                                      )
+                                                   , e.target.value
+                                                   )
                 }
     >
       { keymapOptions }
