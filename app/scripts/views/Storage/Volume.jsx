@@ -32,7 +32,7 @@ export default class Volume extends React.Component {
   getAllowedSections () {
     let allowedSections = new Set([ "topology" ]);
 
-    if ( this.props.existsOnRemote ) {
+    if ( this.props.existsOnServer ) {
       allowedSections.add( "filesystem" );
       // TODO: More logic for other sections (later!)
     }
@@ -185,7 +185,7 @@ export default class Volume extends React.Component {
       <Panel className = { panelClass.join( " " ) } >
 
         {/* VOLUME HEADER */}
-        { this.props.existsOnRemote ? (
+        { this.props.existsOnServer ? (
           <ExistingVolume
             volumeName = { this.props.name }
             onClick = { this.onFocusVolume }
@@ -237,12 +237,16 @@ export default class Volume extends React.Component {
             disabled = { !ALLOWED_SECTIONS.has( "topology" ) }
           >
             <Topology
+              existsOnServer = { this.props.existsOnServer }
+              existsOnClient = { this.props.existsOnClient }
               onDiskAdd = { this.handleDiskAdd }
               onDiskRemove = { this.handleDiskRemove }
               onVdevNuke = { this.handleVdevNuke }
               onVdevTypeChange = { this.handleVdevTypeChange }
               disks = { this.props.disks }
               availableDisks = { this.props.availableDisks }
+              SSDs = { this.props.SSDs }
+              HDDs = { this.props.HDDs }
               availableSSDs = { this.props.availableSSDs }
               availableHDDs = { this.props.availableHDDs }
               topology = { this.props.topology }
@@ -265,7 +269,8 @@ const RAW_VALUE_PROPTYPE = {
 };
 
 Volume.propTypes =
-  { existsOnRemote: React.PropTypes.bool.isRequired
+  { existsOnServer: React.PropTypes.bool.isRequired
+  , existsOnClient: React.PropTypes.bool.isRequired
 
   , onDiskSelect : React.PropTypes.func.isRequired
   , onDiskDeselect : React.PropTypes.func.isRequired
@@ -273,6 +278,8 @@ Volume.propTypes =
   // DISKS
   , disks: React.PropTypes.object.isRequired
   , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , SSDs: React.PropTypes.instanceOf( Set ).isRequired
+  , HDDs: React.PropTypes.instanceOf( Set ).isRequired
   , availableSSDs: React.PropTypes.array.isRequired
   , availableHDDs: React.PropTypes.array.isRequired
 

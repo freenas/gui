@@ -17,10 +17,11 @@ export default class Topology extends React.Component {
   renderVdevs ( purpose ) {
     let sharedProps =
       { purpose: purpose
-      , cols: null
       , newVdevAllowed: false
       , disks: this.props.disks
       , availableDisks: this.props.availableDisks
+      , SSDs: this.props.SSDs
+      , HDDs: this.props.HDDs
       , availableSSDs: this.props.availableSSDs
       , availableHDDs: this.props.availableHDDs
       };
@@ -28,23 +29,21 @@ export default class Topology extends React.Component {
     switch ( purpose ) {
       case "log":
       case "cache":
-        sharedProps.cols             = 12;
         // Log and Cache currently only allow a single VDEV.
-        if ( this.props.topology[ purpose ].length < 1 ) {
+        if ( this.props.topology[ purpose ].length === 0 ) {
           sharedProps.newVdevAllowed = true;
         }
         break;
 
       case "spare":
-        sharedProps.cols             = 12;
-        if ( this.props.topology[ purpose ].length < 1 ) {
+        if ( this.props.topology[ purpose ].length === 0 ) {
           sharedProps.newVdevAllowed = true;
         }
         break;
+
       case "data":
       default:
-        sharedProps.cols             = 12;
-        sharedProps.newVdevAllowed   = true;
+        sharedProps.newVdevAllowed = true;
         break;
     }
 
@@ -55,29 +54,37 @@ export default class Topology extends React.Component {
 
         let members = ZfsUtil.getMemberDiskPaths({ type, path, children });
 
-        let allowedTypes = this.props.editing
+        let allowedTypes = this.props.existsOnClient
                          ? ZfsUtil.getAllowedVdevTypes( members, purpose )
                          : [ type ];
-        const boundArgs = [ null, index, purpose ];
 
         return (
-          <VDEV { ...sharedProps }
+          <VDEV
+            { ...sharedProps }
             allowedTypes = { allowedTypes }
             children     = { children }
             type         = { type }
             path         = { path }
             vdevKey      = { index }
             key          = { index }
-            onDiskAdd    = { this.props.onDiskAdd.bind( ...boundArgs ) }
-            onDiskRemove = { this.props.onDiskRemove.bind( ...boundArgs ) }
-            onVdevNuke   = { this.props.onVdevNuke.bind( ...boundArgs ) }
-            onTypeChange = { this.props.onVdevTypeChange.bind( ...boundArgs ) }
+            onDiskAdd = { () =>
+              this.props.onDiskAdd( index, purpose )
+            }
+            onDiskRemove = { () =>
+              this.props.onDiskRemove( index, purpose )
+            }
+            onVdevNuke = { () =>
+              this.props.onVdevNuke( index, purpose )
+            }
+            onTypeChange = { () =>
+              this.props.onVdevTypeChange( index, purpose )
+            }
           />
         );
       }
     );
 
-    if ( ( this.props.editing && sharedProps.newVdevAllowed )
+    if ( ( this.props.existsOnClient && sharedProps.newVdevAllowed )
          || vdevs.length === 0
        ) {
       // If there are available devices, and the category in question allows the
@@ -89,7 +96,8 @@ export default class Topology extends React.Component {
       // just going to render a message about "you can't do anything with me".
       const boundArgs = [ null, vdevs.length, purpose ];
       vdevs.push(
-        <VDEV { ...sharedProps }
+        <VDEV
+          { ...sharedProps }
           allowedTypes = { [] }
           type         = { null }
           vdevKey      = { vdevs.length }
@@ -142,12 +150,17 @@ export default class Topology extends React.Component {
 }
 
 Topology.propTypes =
-  { onDiskAdd        : React.PropTypes.func.isRequired
+  { existsOnServer: React.PropTypes.bool.isRequired
+  , existsOnClient: React.PropTypes.bool.isRequired
+
+  , onDiskAdd        : React.PropTypes.func.isRequired
   , onDiskRemove     : React.PropTypes.func.isRequired
   , onVdevNuke       : React.PropTypes.func.isRequired
   , onVdevTypeChange : React.PropTypes.func.isRequired
   , disks: React.PropTypes.object.isRequired
   , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , SSDs: React.PropTypes.instanceOf( Set ).isRequired
+  , HDDs: React.PropTypes.instanceOf( Set ).isRequired
   , availableSSDs: React.PropTypes.array.isRequired
   , availableHDDs: React.PropTypes.array.isRequired
   , topology: React.PropTypes.shape(

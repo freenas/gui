@@ -77,10 +77,10 @@ class ContextDisks extends React.Component {
 
     switch ( allowedType.toUpperCase() ) {
       case "SSDS":
-        return this.props.disks[ path ] && !this.props.disks[ path ].status.is_ssd;
+        return this.props.HDDs.has( path );
 
       case "HDDS":
-        return this.props.disks[ path ] && this.props.disks[ path ].status.is_ssd;
+        return this.props.SSDs.has( path );
 
       default:
         return false;
@@ -151,7 +151,7 @@ class ContextDisks extends React.Component {
         </h5>
         <DropTarget
           namespace = "disk"
-          preventDrop = { this.ensureHomogeneity.bind( null, type ) }
+          preventDrop = { () => this.ensureHomogeneity( type ) }
           activeDrop
         >
           <Well bsSize="small">
@@ -275,6 +275,8 @@ function mapStateToProps ( state ) {
     , selectedDisks: volumes.selectedDisks
     , activeVolume: volumes.activeVolume
     , preset: ACTIVE.preset
+    , SSDs: state.disks.SSDs
+    , HDDs: state.disks.HDDs
     , groupedSSDs: SIMILAR[0]
     , groupedHDDs: SIMILAR[1]
     }

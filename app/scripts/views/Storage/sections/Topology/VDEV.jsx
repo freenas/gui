@@ -18,93 +18,61 @@ import DropTarget from "../../../../components/DropTarget";
 import VDEVInfo from "./VDEV/VDEVInfo";
 import BreakdownChart from "../../common/BreakdownChart";
 
-const VDEV = React.createClass(
-  { displayName: "VDEV"
+const REQUIRE_SSDS =
+  { "data"  : false
+  , "log"   : true
+  , "cache" : true
+  , "spare" : false
+  };
 
-  , propTypes:
-    { onDiskAdd: React.PropTypes.func.isRequired
-    , onDiskRemove: React.PropTypes.func.isRequired
-    , onVdevNuke: React.PropTypes.func.isRequired
-    , onTypeChange: React.PropTypes.func.isRequired
-    , disks: React.PropTypes.object.isRequired
-    , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
-    , availableSSDs: React.PropTypes.array.isRequired
-    , availableHDDs: React.PropTypes.array.isRequired
-    , cols: React.PropTypes.number.isRequired
-    , children: React.PropTypes.array
-    , path: React.PropTypes.string
-    , purpose: React.PropTypes.oneOf(
-        [ "data"
-        , "log"
-        , "cache"
-        , "spare"
-        ]
-      ).isRequired
-    , type: React.PropTypes.oneOf(
-        // null is used for new vdevs. Such a vdev should have a falsy path, no
-        // children, and a falsy existsOnServer.
-        [ null
-        , "disk"
-        , "stripe"
-        , "mirror"
-        , "raidz1"
-        , "raidz2"
-        , "raidz3"
-        ]
-      )
-    }
+export default class VDEV extends React.Component {
 
-  , requiresSSDs () {
-      return this.props.purpose === "cache" || this.props.purpose === "log";
-    }
+  constructor ( props ) {
+    super( props );
 
-  , preventHDDInSSDZone ( payload ) {
-      if ( this.requiresSSDs() ) {
-        return DS.isHDD( payload );
-      }
-      return false;
-    }
+    this.displayName = "VDEV";
+  }
 
-  , createDiskItem ( path, key ) {
-      let content;
-      let mutable = this.props.availableDisks.has( path );
+  createDiskItem ( path, key ) {
+    let content;
+    let mutable = this.props.availableDisks.has( path );
 
-      let disk = (
-        <Disk disk = { this.props.disks[ path ] } />
-      );
+    let disk = (
+      <Disk disk = { this.props.disks[ path ] } />
+    );
 
-      if ( mutable ) {
-        content = (
-          <DragTarget
-            namespace = "disk"
-            payload = { path }
-            callback = { this.props.onDiskRemove.bind( null, path ) }
-          >
-            { disk }
-            <span
-              className = "disk-remove"
-              onClick = { this.props.onDiskRemove.bind( null, path ) }
-              onMouseDown = { event => event.stopPropagation() }
-            />
-          </DragTarget>
-        );
-      } else {
-        content = disk;
-      }
-
-      return (
-        <div
-          className="disk-wrapper"
-          key = { key }
+    if ( mutable ) {
+      content = (
+        <DragTarget
+          namespace = "disk"
+          payload = { path }
+          callback = { this.props.onDiskRemove.bind( null, path ) }
         >
-          { content }
-        </div>
+          { disk }
+          <span
+            className = "disk-remove"
+            onClick = { this.props.onDiskRemove.bind( null, path ) }
+            onMouseDown = { event => event.stopPropagation() }
+          />
+        </DragTarget>
       );
+    } else {
+      content = disk;
     }
 
-  , render () {
+    return (
+      <div
+        className="disk-wrapper"
+        key = { key }
+      >
+        { content }
+      </div>
+    );
+  }
+
+  render () {
     const DEVICES_AVAILABLE =
-      Boolean( this.requiresSSDs()
+      Boolean( REQUIRE_SSDS[ this.props.purpose ]
              ? this.props.availableSSDs.length
              : this.props.availableHDDs.length
              );
@@ -174,7 +142,7 @@ const VDEV = React.createClass(
     if ( DEVICES_AVAILABLE && !vdevDisks ) {
       addDisks = (
         <h5 className="text-center text-muted">
-          { `Drag and drop ${ this.requiresSSDs() ? "SSDs" : "disks" } to add `
+          { `Drag and drop ${ REQUIRE_SSDS[ this.props.purpose ] ? "SSDs" : "disks" } to add `
           + `${ this.props.purpose }`
           }
         </h5>
@@ -193,11 +161,13 @@ const VDEV = React.createClass(
     }
 
     return (
-      <Col xs={ this.props.cols }>
+      <Col xs={ 12 }>
         <DropTarget
           namespace = "disk"
           disabled = { DEVICES_AVAILABLE }
-          preventDrop = { this.preventHDDInSSDZone }
+          preventDrop = { ( payload ) =>
+            REQUIRE_SSDS[ this.props.purpose ] && this.props.SSDs.has( payload )
+          }
           callback = { this.props.onDiskAdd }
           activeDrop
         >
@@ -212,7 +182,38 @@ const VDEV = React.createClass(
     );
   }
 
-  }
-);
+}
 
-export default VDEV;
+VDEV.propTypes =
+  { onDiskAdd: React.PropTypes.func.isRequired
+  , onDiskRemove: React.PropTypes.func.isRequired
+  , onVdevNuke: React.PropTypes.func.isRequired
+  , onTypeChange: React.PropTypes.func.isRequired
+  , disks: React.PropTypes.object.isRequired
+  , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , SSDs: React.PropTypes.instanceOf( Set ).isRequired
+  , HDDs: React.PropTypes.instanceOf( Set ).isRequired
+  , availableSSDs: React.PropTypes.array.isRequired
+  , availableHDDs: React.PropTypes.array.isRequired
+  , children: React.PropTypes.array
+  , path: React.PropTypes.string
+  , purpose: React.PropTypes.oneOf(
+      [ "data"
+      , "log"
+      , "cache"
+      , "spare"
+      ]
+    ).isRequired
+  , type: React.PropTypes.oneOf(
+      // null is used for new vdevs. Such a vdev should have a falsy path, no
+      // children, and a falsy existsOnServer.
+      [ null
+      , "disk"
+      , "stripe"
+      , "mirror"
+      , "raidz1"
+      , "raidz2"
+      , "raidz3"
+      ]
+    )
+  };

@@ -66,7 +66,8 @@ class Storage extends React.Component {
           { ...ALL_VOLUMES[ id ] }
           key = { index }
           active = { id === volumes.activeVolume }
-          existsOnRemote = { Boolean( volumes.serverVolumes[ id ] ) }
+          existsOnServer = { Boolean( volumes.serverVolumes[ id ] ) }
+          existsOnClient = { Boolean( volumes.clientVolumes[ id ] ) }
 
           onDiskSelect = { this.props.onDiskSelect }
           onDiskDeselect = { this.props.onDiskDeselect }
@@ -74,6 +75,8 @@ class Storage extends React.Component {
           // DISKS
           disks = { this.props.disks }
           availableDisks = { this.props.availableDisks }
+          SSDs = { this.props.SSDs }
+          HDDs = { this.props.HDDs }
           availableSSDs = { this.props.availableSSDs }
           availableHDDs = { this.props.availableHDDs }
 
@@ -222,6 +225,9 @@ Storage.propTypes =
   , disks: React.PropTypes.object
   , tasks: React.PropTypes.object
 
+  , SSDs: React.PropTypes.instanceOf( Set ).isRequired
+  , HDDs: React.PropTypes.instanceOf( Set ).isRequired
+
   // SUBSCRIPTIONS
   , subscribe: React.PropTypes.func.isRequired
   , unsubscribe: React.PropTypes.func.isRequired
@@ -251,6 +257,8 @@ function mapStateToProps ( state ) {
     , volumes: state.volumes
     , tasks: state.tasks
     , availableDisks: state.volumes.availableDisks
+    , SSDs: state.disks.SSDs
+    , HDDs: state.disks.HDDs
     , availableSSDs:
       Array.from( state.disks.SSDs )
            .filter( path => state.volumes.availableDisks.has( path ) )
