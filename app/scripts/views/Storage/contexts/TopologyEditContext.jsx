@@ -86,10 +86,10 @@ class ContextDisks extends React.Component {
     // uses the known type to check if the payload belongs to another group.
 
     switch ( allowedType.toUpperCase() ) {
-      case "ssds":
+      case "SSDS":
         return this.props.disks[ path ] && !this.props.disks[ path ].status.is_ssd;
 
-      case "hdds":
+      case "HDDS":
         return this.props.disks[ path ] && this.props.disks[ path ].status.is_ssd;
 
       default:
