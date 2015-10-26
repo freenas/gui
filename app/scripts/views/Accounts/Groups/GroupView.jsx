@@ -63,10 +63,12 @@ const GroupView = React.createClass({
     var builtInGroupAlert = null;
     var editButtons = null;
 
-    if ( this.props.item["builtin"] ) {
+    if ( this.props.item.builtin ) {
       builtInGroupAlert = (
-        <Alert bsStyle   = "info"
-                    className = "text-center">
+        <Alert
+          bsStyle = "info"
+          className = "text-center"
+        >
           <b>{"This is a built-in FreeNAS group."}</b>
         </Alert>
       );
@@ -76,15 +78,17 @@ const GroupView = React.createClass({
       <ButtonToolbar>
         <Button
           className = "pull-left"
-          disabled  = { this.props.item[ "builtin" ] }
-          onClick   = { this.deleteGroup }
-          bsStyle   = "danger" >
+          disabled = { this.props.item.builtin }
+          onClick = { this.deleteGroup }
+          bsStyle = "danger"
+        >
           { "Delete Group" }
         </Button>
         <Button
           className = "pull-right"
-          onClick   = { this.props.handleViewChange.bind( null, "edit" ) }
-          bsStyle   = "info" >
+          onClick = { this.props.handleViewChange.bind( null, "edit" ) }
+          bsStyle = "info"
+        >
           { "Edit Group" }
         </Button>
       </ButtonToolbar>
@@ -100,13 +104,14 @@ const GroupView = React.createClass({
             xs={3}
             className="text-center">
             <viewerUtil.ItemIcon
-              primaryString  = { this.props.item[ "name" ] }
-              fallbackString = { this.props.item[ "id" ] }
-              seedNumber     = { this.props.item[ "id" ] } />
+              primaryString = { this.props.item.name }
+              fallbackString = { this.props.item.id }
+              seedNumber = { this.props.item.id }
+            />
           </Col>
           <Col xs={9}>
             <h3>
-              { this.props.item[ "name" ] }
+              { this.props.item.name }
             </h3>
             <hr />
           </Col>
@@ -119,7 +124,7 @@ const GroupView = React.createClass({
 
         <Row>
           <Col
-            xs      = {2}
+            xs = {2}
             className = "text-muted" >
             <h4 className = "text-muted" >
               { "Group Name" }
@@ -127,19 +132,19 @@ const GroupView = React.createClass({
           </Col>
           <Col xs = {10}>
             <h3>
-              { this.props.item[ "id" ] }
+              { this.props.item.id }
             </h3>
           </Col>
         </Row>
         <Row>
           <Col
-            xs      = {12}
+            xs = {12}
             className = "text-muted" >
             <h4 className = "text-muted" >
               { "Users" }
             </h4>
             <ListGroup>
-              { this.createUserDisplayList( this.props.item[ "id" ] ) }
+              { this.createUserDisplayList( this.props.item.id ) }
             </ListGroup>
           </Col>
         </Row>
