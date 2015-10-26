@@ -13,7 +13,7 @@ import GS from "../../../flux/stores/GroupsStore";
 import GM from "../../../flux/middleware/GroupsMiddleware";
 
 
-const AddGroup = React.createClass(
+const GroupAdd = React.createClass(
   { mixins: [ History, RouteContext ]
 
   , propTypes:
@@ -160,4 +160,4 @@ const AddGroup = React.createClass(
   }
 });
 
-export default AddGroup;
+export default GroupAdd;
