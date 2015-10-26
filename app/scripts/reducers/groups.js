@@ -11,7 +11,7 @@ const INITIAL_STATE =
   , getNextGIDRequests: new Set()
   , groups: []
   , groupForm:
-    { name: ""
+    { name: null
     , id: null
     , sudo: false
     }
@@ -22,6 +22,15 @@ export default function groups ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
   switch ( type ) {
+    // FORM
+    case TYPES.UPDATE_GROUP_FORM:
+      var groupForm = Object.assign( {}, state.groupForm );
+      groupForm[ payload.field ] = payload.value;
+      return Object.assign( {}, state, { groupForm } );
+    case TYPES.RESET_GROUP_FORM:
+      return Object.assign( {}, state, { groupForm: {} } );
+
+    // QUERIES
     case TYPES.QUERY_GROUPS_REQUEST:
       return Object.assign( {}, state,
         recordUUID( payload.UUID, state, "queryGroupsRequests" )
