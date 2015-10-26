@@ -202,7 +202,9 @@ class ContextDisks extends React.Component {
         <Button
           block
           bsStyle = "default"
-          onClick = { this.props.onRevertTopology }
+          onClick = { () =>
+            this.props.onRevertTopology( this.props.activeVolume )
+          }
         >
           {"Reset Pool Topology"}
         </Button>

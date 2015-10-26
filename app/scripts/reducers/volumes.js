@@ -109,6 +109,17 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state, { clientVolumes, selectedDisks } );
 
 
+    case TYPES.REVERT_VOLUME_TOPOLOGY:
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+
+      clientVolumes[ payload.volumeID ].preset = "None";
+      clientVolumes[ payload.volumeID ].topology = ZFSConstants.BLANK_TOPOLOGY;
+      selectedDisks = new Set();
+
+      return Object.assign( {}, state, { clientVolumes, selectedDisks } );
+
+
+
     // SUBMIT VOLUME TO SERVER
     case TYPES.SUBMIT_VOLUME:
       return;

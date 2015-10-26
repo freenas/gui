@@ -8,23 +8,25 @@ export const DATASET_NAME_BLACKLIST = new Set(
   ]
 );
 
+
+export const BLANK_TOPOLOGY =
+  { data  : []
+  , log   : []
+  , cache : []
+  , spare : []
+  };
+
 // NEW VOLUME
 // Used to initialize the required property values for a new volume
 export const NEW_VOLUME =
   { name: ""
-  , topology:
-    { data  : []
-    , log   : []
-    , cache : []
-    , spare : []
-    }
+  , topology: BLANK_TOPOLOGY
   , datasets: []
   , properties:
     { free      : { rawvalue: 0 }
     , allocated : { rawvalue: 0 }
     , size      : { rawvalue: 0 }
     }
-
   // WEBAPP ONLY
   , preset: "None"
   };
