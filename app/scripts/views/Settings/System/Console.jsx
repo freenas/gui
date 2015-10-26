@@ -190,7 +190,12 @@ Console.propTypes =
     }
   )
   , general: React.PropTypes.shape(
-    { keymaps: React.PropTypes.arrayOf( React.PropTypes.string ) }
+    { keymaps: React.PropTypes.arrayOf(
+                 React.PropTypes.arrayOf(
+                   React.PropTypes.string
+                 )
+               )
+    }
   )
   , consoleForm: React.PropTypes.shape(
     { console_screensaver: React.PropTypes.bool
