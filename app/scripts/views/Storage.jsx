@@ -71,6 +71,12 @@ class Storage extends React.Component {
           onDiskSelect = { this.props.onDiskSelect }
           onDiskDeselect = { this.props.onDiskDeselect }
 
+          // DISKS
+          disks = { this.props.disks }
+          availableDisks = { this.props.availableDisks }
+          availableSSDs = { this.props.availableSSDs }
+          availableHDDs = { this.props.availableHDDs }
+
           // VOLUMES
           onUpdateVolume = { this.props.onUpdateVolume.bind( this, id ) }
           onRevertVolume = { this.props.onRevertVolume.bind( this, id ) }
@@ -103,7 +109,7 @@ class Storage extends React.Component {
     // In the case that no volumes are being edited or created, and disks are
     // available for inclusion in a new pool, the user has the option to
     // create a new pool.
-    const SHOW_NEW = !LOADING && !CLIENT_VOLUMES_EXIST && this.props.volumes.availableDisks.size;
+    const SHOW_NEW = !LOADING && !CLIENT_VOLUMES_EXIST && this.props.availableDisks.size;
 
     return (
       <main>
@@ -241,9 +247,16 @@ const SUB_MASKS =
 
 function mapStateToProps ( state ) {
   return (
-    { disks: state.disks
+    { disks: state.disks.disks
     , volumes: state.volumes
     , tasks: state.tasks
+    , availableDisks: state.volumes.availableDisks
+    , availableSSDs:
+      Array.from( state.disks.SSDs )
+           .filter( path => state.volumes.availableDisks.has( path ) )
+    , availableHDDs:
+      Array.from( state.disks.HDDs )
+           .filter( path => state.volumes.availableDisks.has( path ) )
     }
   );
 }

@@ -241,8 +241,10 @@ export default class Volume extends React.Component {
               onDiskRemove = { this.handleDiskRemove }
               onVdevNuke = { this.handleVdevNuke }
               onVdevTypeChange = { this.handleVdevTypeChange }
-              SSDsAreAvailable = { true }
-              HDDsAreAvailable = { true }
+              disks = { this.props.disks }
+              availableDisks = { this.props.availableDisks }
+              availableSSDs = { this.props.availableSSDs }
+              availableHDDs = { this.props.availableHDDs }
               topology = { this.props.topology }
             />
           </Tab>
@@ -268,6 +270,12 @@ Volume.propTypes =
   , onDiskSelect : React.PropTypes.func.isRequired
   , onDiskDeselect : React.PropTypes.func.isRequired
 
+  // DISKS
+  , disks: React.PropTypes.object.isRequired
+  , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , availableSSDs: React.PropTypes.array.isRequired
+  , availableHDDs: React.PropTypes.array.isRequired
+
   // VOLUMES HANDLERS
   , onUpdateVolume : React.PropTypes.func.isRequired
   , onRevertVolume : React.PropTypes.func.isRequired
@@ -287,11 +295,6 @@ Volume.propTypes =
 
   // DATA
   , name: React.PropTypes.string
-  , diskData: React.PropTypes.shape(
-      { availableSSDs: React.PropTypes.array.isRequired
-      , availableHDDs: React.PropTypes.array.isRequired
-      }
-    )
   , topology: React.PropTypes.shape(
       { data  : React.PropTypes.array.isRequired
       , log   : React.PropTypes.array.isRequired

@@ -7,7 +7,6 @@
 import React from "react";
 import { Well, Col } from "react-bootstrap";
 
-import VS from "../../../../flux/stores/VolumeStore";
 import DS from "../../../../flux/stores/DisksStore";
 
 import ZfsUtil from "../../utility/ZfsUtil";
@@ -27,8 +26,10 @@ const VDEV = React.createClass(
     , onDiskRemove: React.PropTypes.func.isRequired
     , onVdevNuke: React.PropTypes.func.isRequired
     , onTypeChange: React.PropTypes.func.isRequired
-    , SSDsAreAvailable : React.PropTypes.bool.isRequired
-    , HDDsAreAvailable : React.PropTypes.bool.isRequired
+    , disks: React.PropTypes.object.isRequired
+    , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+    , availableSSDs: React.PropTypes.array.isRequired
+    , availableHDDs: React.PropTypes.array.isRequired
     , cols: React.PropTypes.number.isRequired
     , children: React.PropTypes.array
     , path: React.PropTypes.string
@@ -66,14 +67,10 @@ const VDEV = React.createClass(
 
   , createDiskItem ( path, key ) {
       let content;
-      let mutable = VS.isDeviceAvailable( path );
+      let mutable = this.props.availableDisks.has( path );
 
       let disk = (
-        <Disk
-          handleDiskRemove = { this.props.onDiskRemove }
-          existsOnServer = { mutable }
-          path = { path }
-        />
+        <Disk disk = { this.props.disks[ path ] } />
       );
 
       if ( mutable ) {
@@ -106,9 +103,11 @@ const VDEV = React.createClass(
     }
 
   , render () {
-    const DEVICES_AVAILABLE = this.requiresSSDs()
-                            ? this.props.SSDsAreAvailable
-                            : this.props.HDDsAreAvailable;
+    const DEVICES_AVAILABLE =
+      Boolean( this.requiresSSDs()
+             ? this.props.availableSSDs.length
+             : this.props.availableHDDs.length
+             );
 
     let toolbar   = null;
     let vdevDisks = null;

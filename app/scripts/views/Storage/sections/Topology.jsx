@@ -19,8 +19,10 @@ export default class Topology extends React.Component {
       { purpose: purpose
       , cols: null
       , newVdevAllowed: false
-      , SSDsAreAvailable: this.props.SSDsAreAvailable
-      , HDDsAreAvailable: this.props.HDDsAreAvailable
+      , disks: this.props.disks
+      , availableDisks: this.props.availableDisks
+      , availableSSDs: this.props.availableSSDs
+      , availableHDDs: this.props.availableHDDs
       };
 
     switch ( purpose ) {
@@ -144,8 +146,10 @@ Topology.propTypes =
   , onDiskRemove     : React.PropTypes.func.isRequired
   , onVdevNuke       : React.PropTypes.func.isRequired
   , onVdevTypeChange : React.PropTypes.func.isRequired
-  , SSDsAreAvailable : React.PropTypes.bool.isRequired
-  , HDDsAreAvailable : React.PropTypes.bool.isRequired
+  , disks: React.PropTypes.object.isRequired
+  , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , availableSSDs: React.PropTypes.array.isRequired
+  , availableHDDs: React.PropTypes.array.isRequired
   , topology: React.PropTypes.shape(
       { data  : React.PropTypes.array.isRequired
       , log   : React.PropTypes.array.isRequired
