@@ -30,11 +30,8 @@ the FreeNAS 10 GUI, run:
 
 from the root of where you cloned the repo first.
 
-You will need to choose whether to target a real FreeNAS instance in order to
-interact with the middleware, or to operate in "dumb mode", in which case it
-will run a local copy of the GUI webapp that simulates interaction with real
-data. `gulp --connect FreeNASIPorHostname` will start you in live development
-mode with a real connection.
+Once you're ready, run `gulp --connect FreeNASIPorHostname` and connect to
+`localhost:9999`.
 
 Once the app is running, it will monitor your source files and automatically
 rebuild and restart the GUI every time a file changes.
