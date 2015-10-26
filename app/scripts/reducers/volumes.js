@@ -5,6 +5,7 @@
 
 import * as TYPES from "../actions/actionTypes";
 import { recordUUID, resolveUUID } from "../utility/Reducer";
+import DiskUtilities from "../utility/DiskUtilities";
 import * as ZFSConstants from "../constants/ZFSConstants";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
@@ -57,6 +58,9 @@ export default function auth ( state = INITIAL_STATE, action ) {
   let clientVolumes;
   let serverVolumes;
   let initData;
+  let diskPathsByType;
+  let topologyData;
+  let selectedDisks;
 
   switch ( type ) {
 
@@ -88,6 +92,21 @@ export default function auth ( state = INITIAL_STATE, action ) {
         return state;
       }
 
+
+    case TYPES.UPDATE_VOLUME_TOPOLOGY:
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+
+      topologyData =
+        ZfsUtil.createTopology( payload.availableHDDs
+                              , payload.availableSSDs
+                              , payload.preferences
+                              );
+
+      clientVolumes[ payload.volumeID ].preset = "None";
+      clientVolumes[ payload.volumeID ].topology = topologyData[0];
+      selectedDisks = new Set( topologyData[1] );
+
+      return Object.assign( {}, state, { clientVolumes, selectedDisks } );
 
 
     // SUBMIT VOLUME TO SERVER
@@ -134,8 +153,17 @@ export default function auth ( state = INITIAL_STATE, action ) {
         if ( payload.preset.toUpperCase() === "NONE" ) {
           clientVolumes[ payload.volumeID ].preset = "None";
         } else if ( ZFSConstants.PRESET_VALUES.hasOwnProperty( payload.preset ) ) {
+          topologyData =
+            ZfsUtil.createTopology( payload.availableHDDs
+                                  , payload.availableSSDs
+                                  , ZFSConstants.PRESET_VALUES[ payload.preset ]
+                                  );
+
           clientVolumes[ payload.volumeID ].preset = payload.preset;
-          // TODO: Actually do the topology
+          clientVolumes[ payload.volumeID ].topology = topologyData[0];
+          selectedDisks = new Set( topologyData[1] );
+
+          return Object.assign( {}, state, { clientVolumes, selectedDisks } );
         } else {
           console.warn( `The preset "${ payload.preset }" doesn't exist.` );
           return state;

@@ -7,6 +7,13 @@ import * as TYPES from "./actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
+function getAvailableDisks ( state ) {
+  return [ Array.from( state.disks.SSDs )
+                .filter( path => state.volumes.availableDisks.has( path ) )
+         , Array.from( state.disks.HDDs )
+                .filter( path => state.volumes.availableDisks.has( path ) )
+         ]
+}
 
 // VOLUMES REQUEST
 export function fetchVolumes () {
@@ -44,10 +51,23 @@ export function revertVolume ( volumeID ) {
          }
 }
 
+
 export function updateTopology ( volumeID, preferences ) {
-  return { type: TYPES.UPDATE_VOLUME_TOPOLOGY
-         , payload: { volumeID, preferences }
-         };
+  return ( dispatch, getState ) => {
+    let state = getState();
+    let availableDisks = getAvailableDisks( state );
+
+    dispatch(
+      { type: TYPES.UPDATE_VOLUME_TOPOLOGY
+      , payload:
+        { volumeID
+        , preferences
+        , availableSSDs: availableDisks[0]
+        , availableHDDs: availableDisks[1]
+        }
+      }
+    );
+  }
 }
 
 export function revertTopology ( volumeID ) {
@@ -69,7 +89,19 @@ export function blurVolume ( volumeID ) {
 }
 
 export function selectPresetTopology ( volumeID, preset ) {
-  return { type: TYPES.SELECT_PRESET_TOPOLOGY
-         , payload: { volumeID, preset }
-         };
+  return ( dispatch, getState ) => {
+    let state = getState();
+    let availableDisks = getAvailableDisks( state );
+
+    dispatch(
+      { type: TYPES.SELECT_PRESET_TOPOLOGY
+      , payload:
+        { volumeID
+        , preset
+        , availableSSDs: availableDisks[0]
+        , availableHDDs: availableDisks[1]
+        }
+      }
+    );
+  }
 }
