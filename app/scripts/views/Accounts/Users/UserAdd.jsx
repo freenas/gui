@@ -16,7 +16,6 @@ import UM from "../../../flux/middleware/UsersMiddleware";
 import GS from "../../../flux/stores/GroupsStore";
 import GM from "../../../flux/middleware/GroupsMiddleware";
 
-import inputHelpers from "../../../mixins/inputHelpers";
 import userMixins from "../../../mixins/userMixins";
 import groupMixins from "../../../mixins/groupMixins";
 
@@ -35,8 +34,24 @@ function generateGroupsOptions ( groups ) {
   return optionList;
 }
 
+function createShellOptions ( shellsArray ) {
+  var shellOptions =
+    shellsArray.map(
+       function mapShellOption ( shellString, index ) {
+         return (
+           <option
+             value = { shellString }
+             key = { index }>
+             { shellString }
+           </option>
+         );
+       }
+    );
+  return shellOptions;
+}
+
 const UserAdd = React.createClass(
-  { mixins: [ inputHelpers, userMixins, History, RouteContext ]
+  { mixins: [ userMixins, History, RouteContext ]
 
   , propTypes:
     { nextUID: React.PropTypes.number
@@ -302,7 +317,7 @@ const UserAdd = React.createClass(
         key = "shell"
         ref = "shell"
       >
-        { this.createSimpleOptions( this.props.shells ) }
+        { createShellOptions( this.props.shells ) }
       </Input>;
 
     let userSshPubKeyField =
@@ -396,7 +411,7 @@ const UserAdd = React.createClass(
     let userPrimaryGroupField = null;
 
     if ( !this.state.pleaseCreatePrimaryGroup ) {
-      let primaryGroupOptions = generateGroupsOptions( GS.groups );
+      let primaryGroupOptions = generateGroupsOptions( this.props.groups );
       primaryGroupOptions.unshift( <option
                                      key = { "" }
                                      value = { null }

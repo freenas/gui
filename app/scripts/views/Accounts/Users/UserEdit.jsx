@@ -11,13 +11,42 @@ import { Alert, Button, ButtonToolbar, Input, Grid, Row, Col }
   from "react-bootstrap";
 import { History, RouteContext } from "react-router";
 
-import inputHelpers from "../../../mixins/inputHelpers";
 import userMixins from "../../../mixins/userMixins";
 
 import UM from "../../../flux/middleware/UsersMiddleware";
+function generateGroupsOptions ( groups ) {
+  var optionList = groups.map( function createGroupOption ( group ) {
+                                 return (
+                                   <option
+                                     key = { group.name }
+                                     value = { group.id }
+                                   >
+                                     { group.name }
+                                   </option>
+                                 );
+                               }
+                             );
+  return optionList;
+}
+
+function createShellOptions ( shellsArray ) {
+  var shellOptions =
+    shellsArray.map(
+       function mapShellOption ( shellString, index ) {
+         return (
+           <option
+             value = { shellString }
+             key = { index }>
+             { shellString }
+           </option>
+         );
+       }
+    );
+  return shellOptions;
+}
 
 const UserEdit = React.createClass(
-  { mixins: [ inputHelpers, userMixins, History, RouteContext ]
+  { mixins: [ userMixins, History, RouteContext ]
 
   , propTypes: { item: React.PropTypes.object.isRequired
                , itemSchema: React.PropTypes.object.isRequired
@@ -150,7 +179,7 @@ const UserEdit = React.createClass(
                                === "boolean"
                                  ? this.props.userForm.password_disabled
                                  : this.props.item.password_disabled;
-
+    const groupOptions = generateGroupsOptions( this.props.groups );
     var builtInWarning  = null;
 
     if ( this.props.item.builtin ) {
@@ -338,7 +367,7 @@ const UserEdit = React.createClass(
                          : ""
                          }
       >
-        { this.createSimpleOptions( this.props.shells ) }
+        { createShellOptions( this.props.shells ) }
       </Input>;
 
     const userPrimaryGroupField =
@@ -358,7 +387,7 @@ const UserEdit = React.createClass(
                          : ""
                          }
       >
-        { this.generateOptionsList( this.props.groups, "id", "name" ) }
+        { groupOptions }
       </Input>;
 
     const userSshPubKeyField =
@@ -404,7 +433,7 @@ const UserEdit = React.createClass(
                          }
         multiple
       >
-        { this.generateOptionsList( this.props.groups, "id", "name" ) }
+        { groupOptions }
       </Input>;
 
     const userLockedField =

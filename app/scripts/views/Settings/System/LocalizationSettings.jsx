@@ -10,8 +10,6 @@ import _ from "lodash";
 
 import SM from "../../../flux/middleware/SystemMiddleware";
 
-import inputHelpers from "../../../mixins/inputHelpers";
-
 const languageChoices =
   [ "English"
   , "Afrikaans"
