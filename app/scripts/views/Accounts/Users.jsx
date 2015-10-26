@@ -133,7 +133,7 @@ function mapStateToProps ( state ) {
   return (
     { shells: state.shells.available
     , itemData: state.users.users
-    , itemForm: state.users.userForm
+    , userForm: state.users.userForm
     , nextUID: state.users.nextUID
     , groups: state.groups.groups
     , nextGID: state.groups.nextGID
@@ -146,7 +146,12 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
   return (
-    { fetchShells: () => dispatch( SHELL_ACTIONS.fetchShells() )
+    // FORM
+    { updateUserForm: ( field, value ) =>
+        dispatch( USER_ACTIONS.updateUserForm( field, value ) )
+    , resetUserForm: () => dispatch( USER_ACTIONS.resetUserForm() )
+    // QUERIES
+    , fetchShells: () => dispatch( SHELL_ACTIONS.fetchShells() )
     , requestUsers: () => dispatch( USER_ACTIONS.requestUsers() )
     , requestNextUID: () => dispatch( USER_ACTIONS.requestNextUID() )
     , requestGroups: () => dispatch( GROUP_ACTIONS.requestGroups() )

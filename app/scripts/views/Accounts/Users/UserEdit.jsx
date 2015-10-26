@@ -15,9 +15,6 @@ import inputHelpers from "../../../mixins/inputHelpers";
 import userMixins from "../../../mixins/userMixins";
 
 import UM from "../../../flux/middleware/UsersMiddleware";
-import US from "../../../flux/stores/UsersStore";
-
-import GS from "../../../flux/stores/GroupsStore";
 
 const UserEdit = React.createClass(
   { mixins: [ inputHelpers, userMixins, History, RouteContext ]
@@ -25,72 +22,20 @@ const UserEdit = React.createClass(
   , propTypes: { item: React.PropTypes.object.isRequired
                , itemSchema: React.PropTypes.object.isRequired
                , shells: React.PropTypes.array
+               , userForm: React.PropTypes.object.isRequired
+               , handleViewChange: React.PropTypes.func.isRequired
+               , updateUserForm: React.PropTypes.func.isRequired
+               , resetUserForm: React.PropTypes.func.isRequired
                }
 
-  , getInitialState: function () {
-      return { modifiedValues: {} };
-    }
-
-  , contextTypes: { router: React.PropTypes.func }
-
-  , resetChanges: function () {
-    this.setState( { modifiedValues: {} } );
-  }
-
-  , handleChange ( key, event ) {
-    var newModifiedValues = _.cloneDeep( this.state.modifiedValues );
-    switch ( key ) {
-      case "username":
-        newModifiedValues.username = event.target.value;
-        break;
-      case "password":
-        newModifiedValues.password = event.target.value;
-        break;
-      case "confirmPassword":
-        this.setState( { confirmPassword: event.target.value } );
-        break;
-      case "full_name":
-        newModifiedValues.full_name = event.target.value;
-        break;
-      case "email":
-        newModifiedValues.email = event.target.value;
-        break;
-      case "shell":
-        newModifiedValues.shell = event.target.value;
-        break;
-      case "group":
-        newModifiedValues.group = event.target.value;
-        break;
-      case "sshpubkey":
-        newModifiedValues.sshpubkey = event.target.value;
-        break;
-      case "groups":
-        newModifiedValues.groups = this.refs.groups.getValue();
-        break;
-      case "locked":
-        newModifiedValues.locked = event.target.checked;
-        break;
-      case "sudo":
-        newModifiedValues.sudo = event.target.checked;
-        break;
-      case "password_disabled":
-        newModifiedValues.password_disabled = event.target.checked;
-        break;
-    }
-
-    if ( !_.isEqual( newModifiedValues, this.state.modifiedValues) ) {
-      this.setState( { modifiedValues: newModifiedValues } );
-    }
-  }
-
   , validateUser () {
-    const usernameToCheck = typeof this.state.modifiedValues.username === "string"
-                          ? this.state.modifiedValues.username
+    const usernameToCheck = typeof this.props.userForm.username === "string"
+                          ? this.props.userForm.username
                           : this.props.item.username;
     const usernameValid = usernameToCheck !== "";
 
-    const groupToCheck = typeof this.state.modifiedValues.group === "string"
-                       ? this.state.modifiedValues.group
+    const groupToCheck = typeof this.props.userForm.group === "string"
+                       ? this.props.userForm.group
                        : this.props.item.group;
 
     const groupValid = groupToCheck !== "";
@@ -99,7 +44,7 @@ const UserEdit = React.createClass(
                    && groupValid
                    && this.validatePassword()
                    && this.validateConfirmPassword()
-                   && !_.isEmpty( this.state.modifiedValues );
+                   && !_.isEmpty( this.props.userForm );
 
     return userValid;
   }
@@ -119,20 +64,25 @@ const UserEdit = React.createClass(
   , validatePassword () {
     var passwordValid;
 
-    const password_disabled = typeof this.state.modifiedValues.password_disabled
-                        === "boolean"
-                          ? this.state.modifiedValues.password_disabled
-                          : this.props.item.password_disabled;
+    const password_disabled = typeof this.props.userForm.password_disabled
+                          === "boolean"
+                            ? this.props.userForm.password_disabled
+                            : this.props.item.password_disabled;
     const hasUnixPassword = typeof this.props.item.unixhash === "string"
                          && this.props.item.unixhash !== "*";
     const hasSmbHash = typeof this.props.item.smbHash === "string"
                     && this.props.item.smbHash !== "*";
 
-    if ( password_disabled ) {
+    // Don't bother validating the password if none has been entered
+    if ( typeof this.props.userForm.password !== "string"
+      || this.props.userForm.password === ""
+       ) {
+      passwordValid = true;
+    } else if ( password_disabled ) {
       passwordValid = true;
     } else if ( !hasUnixPassword && !hasSmbHash ) {
-      passwordValid = typeof this.state.modifiedValues.password === "string"
-                   && this.state.modifiedValues.password !== "";
+      passwordValid = typeof this.props.userForm.password === "string"
+                   && this.props.userForm.password !== "";
     } else if ( hasUnixPassword || hasSmbHash ) {
       passwordValid = true;
     } else {
@@ -143,28 +93,70 @@ const UserEdit = React.createClass(
   }
 
   , validateConfirmPassword () {
-    var confirmPasswordValid;
+    var confirmPasswordValid = false;
 
-    if ( typeof this.state.modifiedValues.password !== "string"
-      || this.state.modifiedValues.password === ""
+    if ( typeof this.props.userForm.password !== "string"
+      || this.props.userForm.password === ""
        ) {
       // if there isn't a password yet, don't bother validating confirmPassword
       confirmPasswordValid = true;
     } else {
-      confirmPasswordValid = this.state.confirmPassword
-                         === this.state.modifiedValues.password;
+      confirmPasswordValid = this.props.userForm.confirmPassword
+                         === this.props.userForm.password;
     }
 
     return confirmPasswordValid;
   }
 
   , render: function () {
-    let builtInWarning  = null;
+    const usernameValue = typeof this.props.userForm.username === "string"
+                        ? this.props.userForm.username
+                        : this.props.item.username;
+    const idValue = typeof this.props.userForm.id === "number"
+                  ? this.props.userForm.id
+                  : this.props.item.id;
+    const passwordValue = typeof this.props.userForm.password === "string"
+                        ? this.props.userForm.password
+                        : null;
+    const confirmPasswordValue = typeof this.props.userForm.confirmPassword
+                             === "string"
+                               ? this.props.userForm.confirmPassword
+                               : null;
+    const full_nameValue = typeof this.props.userForm.full_name === "string"
+                         ? this.props.userForm.full_name
+                         : this.props.item.full_name;
+    const emailValue = typeof this.props.userForm.email === "string"
+                     ? this.props.userForm.email
+                     : this.props.item.email;
+    const shellValue = typeof this.props.userForm.shell === "string"
+                     ? this.props.userForm.shell
+                     : this.props.item.shell;
+    const groupValue = typeof this.props.userForm.group === "string"
+                     ? this.props.userForm.group
+                     : this.props.item.group;
+    const sshpubkeyValue = typeof this.props.userForm.sshpubkey === "string"
+                         ? this.props.userForm.sshpubkey
+                         : this.props.item.sshpubkey;
+    const groupsValue = typeof this.props.userForm.groups === "array"
+                      ? this.props.userForm.groups
+                      : this.props.item.groups;
+    const lockedValue = typeof this.props.userForm.locked === "boolean"
+                      ? this.props.userForm.locked
+                      : this.props.item.locked;
+    const sudoValue = typeof this.props.userForm.sudo === "boolean"
+                    ? this.props.userForm.sudo
+                    : this.props.item.sudo;
+    const password_disabledValue = typeof this.props.userForm.password_disabled
+                               === "boolean"
+                                 ? this.props.userForm.password_disabled
+                                 : this.props.item.password_disabled;
+
+    var builtInWarning  = null;
 
     if ( this.props.item.builtin ) {
       builtInWarning =
         <Alert
-          bsStyle   = "warning"
+          bsStyle = "warning"
           className = "text-center built-in-warning"
         >
           { "This is a built-in user account. Only edit this account if you "
@@ -173,11 +165,12 @@ const UserEdit = React.createClass(
         </Alert>;
     }
 
-    let resetButton =
+    const resetButton =
       <Button
         className = "pull-right"
-        bsStyle = "warning"
-        onClick = { this.resetChanges }
+        bsStyle = "default"
+        onClick = { this.props.resetUserForm }
+        disabled = { Object.keys( this.props.userForm ).length === 0 }
       >
         { "Reset Changes" }
       </Button>;
@@ -192,7 +185,7 @@ const UserEdit = React.createClass(
         { "Submit Changes" }
       </Button>;
 
-    let cancelButton =
+    const cancelButton =
       <Button
         className = "pull-left"
         bsStyle = "default"
@@ -201,7 +194,7 @@ const UserEdit = React.createClass(
         { "Cancel Edit" }
       </Button>;
 
-    let deletebutton =
+    const deletebutton =
       <Button
         className = "pull-left"
         bsStyle = "danger"
@@ -211,7 +204,7 @@ const UserEdit = React.createClass(
         { "Delete User" }
       </Button>;
 
-    let buttonToolbar =
+    const buttonToolbar =
         <ButtonToolbar>
           { cancelButton }
           { deletebutton }
@@ -219,249 +212,238 @@ const UserEdit = React.createClass(
           { submitButton }
         </ButtonToolbar>;
 
-    let userIdField =
+    const userIdField =
       <Input
-        type             = "text"
-        label            = "User ID"
-        value            = { typeof this.state.modifiedValues.id === "string"
-                           ? this.state.modifiedValues.id
-                           : this.props.item.id
-                           }
-        onChange         = { this.handleChange.bind( null, "id" ) }
-        key              = "id"
-        ref              = "id"
-        groupClassName   = { typeof this.state.modifiedValues.id === "string"
-                          && this.state.modifiedValues.id
-                         !== this.props.item.id
-                           ? "editor-was-modified"
-                           : ""
-                           }
+        type = "text"
+        label = "User ID"
+        value = { idValue }
+        onChange = { ( e ) => this.props.updateUserForm( "id"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "id"
+        groupClassName = { typeof this.props.userForm.id === "string"
+                        && this.props.userForm.id
+                       !== this.props.item.id
+                         ? "editor-was-modified"
+                         : ""
+                         }
       />;
 
-    let userNameField =
+    const userNameField =
       <Input
-        type             = "text"
-        label            = "User Name"
-        value            = { typeof this.state.modifiedValues.username
-                         === "string"
-                           ? this.state.modifiedValues.username
-                           : this.props.item.username
-                           }
-        onChange         = { this.handleChange.bind( null, "username" ) }
-        key              = "username"
-        ref              = "username"
-        groupClassName   = { typeof this.state.modifiedValues.username
-                         === "string"
-                          && this.state.modifiedValues.username
-                         !== this.props.item.username
-                           ? "editor-was-modified"
-                           : ""
-                           }
+        type = "text"
+        label = "User Name"
+        value = { usernameValue }
+        onChange = { ( e ) => this.props.updateUserForm( "username"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "username"
+        groupClassName = { typeof this.props.userForm.username
+                       === "string"
+                        && this.props.userForm.username
+                       !== this.props.item.username
+                         ? "editor-was-modified"
+                         : ""
+                         }
       />;
 
-    let passwordField =
+    const passwordField =
       <Input
-        type             = "password"
-        label            = "Enter Password"
-        value            = { typeof this.state.modifiedValues.password
-                         === "string"
-                           ? this.state.modifiedValues.password
-                           : ""
-                           }
-        onChange         = { this.handleChange.bind( null, "password" ) }
-        key              = "password"
-        ref              = "password"
-        bsStyle          = { this.validatePassword()
-                           ? null
-                           : "error"
-                           }
+        type = "password"
+        label = "Enter Password"
+        value = { passwordValue }
+        onChange = { ( e ) => this.props.updateUserForm( "password"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "password"
+        bsStyle = { this.validatePassword()
+                  ? null
+                  : "error"
+                  }
       />;
 
-    let confirmPasswordField =
+    const confirmPasswordField =
       <Input
-        type             = "password"
-        label            = "Confirm Password"
-        value            = { typeof this.state.confirmPassword === "string"
-                           ? this.state.confirmPassword
-                           : ""
-                           }
-        onChange         = { this.handleChange.bind( null, "confirmPassword" ) }
-        key              = "confirmPassword"
-        ref              = "confirmPassword"
-        bsStyle          = { this.validateConfirmPassword()
-                           ? null
-                           : "error"
-                           }
+        type = "password"
+        label = "Confirm Password"
+        value = { typeof this.props.userForm.confirmPassword === "string"
+                ? this.props.userForm.confirmPassword
+                : ""
+                }
+        onChange = { ( e ) => this.props.updateUserForm( "confirmPassword"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "confirmPassword"
+        bsStyle = { this.validateConfirmPassword()
+                ? null
+                : "error"
+                }
       />;
 
-    let userFullNameField =
+    const userFullNameField =
       <Input
-        type             = "text"
-        label            = "Full Name"
-        value            = { typeof this.state.modifiedValues.full_name
-                         === "string"
-                           ? this.state.modifiedValues.full_name
-                           : this.props.item.full_name
-                           }
-        onChange         = { this.handleChange.bind( null, "full_name" ) }
-        key              = "full_name"
-        ref              = "full_name"
-        groupClassName   = { typeof this.state.modifiedValues.full_name
-                         === "string"
-                          && this.state.modifiedValues.full_name
-                         !== this.props.item.full_name
-                           ? "editor-was-modified"
-                           : ""
-                           }
-    />;
+        type = "text"
+        label = "Full Name"
+        value = { full_nameValue }
+        onChange = { ( e ) => this.props.updateUserForm( "full_name"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "full_name"
+        groupClassName = { typeof this.props.userForm.full_name
+                       === "string"
+                        && this.props.userForm.full_name
+                       !== this.props.item.full_name
+                         ? "editor-was-modified"
+                         : ""
+                         }
+      />;
 
-    let userEmailField =
+    const userEmailField =
       <Input
-        type             = "text"
-        label            = "email"
-        value            = { typeof this.state.modifiedValues.email === "string"
-                           ? this.state.modifiedValues.email
-                           : this.props.item.email
-                           }
-        onChange         = { this.handleChange.bind( null, "email" ) }
-        key              = "email"
-        ref              = "email"
-        groupClassName   = { typeof this.state.modifiedValues.email === "string"
-                          && this.state.modifiedValues.email
-                         !== this.props.item.email
-                           ? "editor-was-modified"
-                           : ""
-                           }
-    />;
+        type = "text"
+        label = "email"
+        value = { emailValue }
+        onChange = { ( e ) => this.props.updateUserForm( "email"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "email"
+        groupClassName = { typeof this.props.userForm.email === "string"
+                        && this.props.userForm.email
+                       !== this.props.item.email
+                         ? "editor-was-modified"
+                         : ""
+                         }
+  />;
 
-    let userShellField =
+    const userShellField =
       <Input
-        type             = "select"
-        label            = "Shell"
-        value            = { typeof this.state.modifiedValues.shell === "string"
-                           ? this.state.modifiedValues.shell
-                           : this.props.item.shell
-                           }
-        onChange         = { this.handleChange.bind( null, "shell" ) }
-        key              = "shell"
-        ref              = "shell"
-        groupClassName   = { typeof this.state.modifiedValues.shell === "string"
-                          && this.state.modifiedValues.shell
-                         !== this.props.item.shell
-                           ? "editor-was-modified"
-                           : ""
-                           }
+        type = "select"
+        label = "Shell"
+        value = { shellValue }
+        onChange = { ( e ) => this.props.updateUserForm( "shell"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "shell"
+        groupClassName = { typeof this.props.userForm.shell === "string"
+                        && this.props.userForm.shell
+                       !== this.props.item.shell
+                         ? "editor-was-modified"
+                         : ""
+                         }
       >
         { this.createSimpleOptions( this.props.shells ) }
       </Input>;
 
-    let userPrimaryGroupField =
+    const userPrimaryGroupField =
       <Input
-        type             = "select"
-        label            = "Primary Group"
-        value            = { typeof this.state.modifiedValues.group === "string"
-                           ? this.state.modifiedValues.group
-                           : this.props.item.group
-                           }
-        onChange         = { this.handleChange.bind( null, "group" ) }
-        key              = "group"
-        ref              = "group"
-        groupClassName   = { typeof this.state.modifiedValues.group === "string"
-                          && this.state.modifiedValues.group
-                         !== this.props.item.group
-                           ? "editor-was-modified"
-                           : ""
-                           }
+        type = "select"
+        label = "Primary Group"
+        value = { groupValue }
+        onChange = { ( e ) => this.props.updateUserForm( "group"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "group"
+        groupClassName = { typeof this.props.userForm.group === "string"
+                        && this.props.userForm.group
+                       !== this.props.item.group
+                         ? "editor-was-modified"
+                         : ""
+                         }
       >
-        { this.generateOptionsList( GS.groups, "id", "name" ) }
+        { this.generateOptionsList( this.props.groups, "id", "name" ) }
       </Input>;
 
-    let userSshPubKeyField =
+    const userSshPubKeyField =
       <Input
-        type             = "textarea"
-        label            = "Public Key"
-        value            = { typeof this.state.modifiedValues.sshpubkey
-                         === "string"
-                           ? this.state.modifiedValues.sshpubkey
-                           : this.props.item.sshpubkey }
-        onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
-        key              = "sshpubkey"
-        ref              = "sshpubkey"
-        groupClassName   = { typeof this.state.modifiedValues.sshpubkey
-                         === "string"
-                          && this.state.modifiedValues.sshpubkey
-                         !== this.props.item.sshpubkey
-                           ? "editor-was-modified"
-                           : ""
-                           }
+        type = "textarea"
+        label = "Public Key"
+        value = { sshpubkeyValue }
+        onChange = { ( e ) => this.props.updateUserForm( "sshpubkey"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "sshpubkey"
+        groupClassName = { typeof this.props.userForm.sshpubkey
+                       === "string"
+                        && this.props.userForm.sshpubkey
+                       !== this.props.item.sshpubkey
+                         ? "editor-was-modified"
+                         : ""
+                         }
         rows             = "10"
       />;
 
-    let userGroupsField =
+    const userGroupsField =
       <Input
-        type             = "select"
-        label            = "Other Groups"
-        value            = { Array.isArray( this.state.modifiedValues.groups )
-                           ? this.state.modifiedValues.groups
-                           : this.props.item.groups
-                           }
-        onChange         = { this.handleChange.bind( null, "groups" ) }
-        key              = "groups"
-        ref              = "groups"
-        groupClassName   = { Array.isArray( this.state.modifiedValues.groups )
-                          && !_.isEqual( this.state.modifiedValues.groups
-                                       , this.props.item.groups
-                                       )
-                           ? "editor-was-modified"
-                           : ""
-                           }
+        type = "select"
+        label = "Other Groups"
+        value = { Array.isArray( this.props.userForm.groups )
+                               ? this.props.userForm.groups
+                               : this.props.item.groups
+                               }
+        onChange = { ( e ) => this.props.updateUserForm( "groups"
+                                                       , e.target.value
+                                                       )
+                   }
+        key = "groups"
+        ref = "groups"
+        groupClassName = { Array.isArray( this.props.userForm.groups )
+                        && !_.isEqual( this.props.userForm.groups
+                                     , this.props.item.groups
+                                     )
+                         ? "editor-was-modified"
+                         : ""
+                         }
         multiple
       >
-        { this.generateOptionsList( GS.groups, "id", "name" ) }
+        { this.generateOptionsList( this.props.groups, "id", "name" ) }
       </Input>;
 
-    let userLockedField =
+    const userLockedField =
       <Input
-        type             = "checkbox"
-        checked          = { typeof this.state.modifiedValues.locked
-                         === "boolean"
-                           ? this.state.modifiedValues.locked
-                           : this.props.item.locked
-                           }
-        label            = "Locked"
-        onChange         = { this.handleChange.bind( null, "locked" ) }
-        key              = "locked"
-        ref              = "locked"
+        type = "checkbox"
+        checked = { lockedValue }
+        label = "Locked"
+        onChange = { ( e ) => this.props.updateUserForm( "locked"
+                                                       , e.target.checked
+                                                       )
+                   }
+        key = "locked"
       />;
 
-    let userSudoField =
+    const userSudoField =
       <Input
-        type             = "checkbox"
-        checked          = { typeof this.state.modifiedValues.sudo === "boolean"
-                           ? this.state.modifiedValues.sudo
-                           : this.props.item.sudo
-                           }
-        label            = "sudo"
-        onChange         = { this.handleChange.bind( null, "sudo" ) }
-        key              = "sudo"
-        ref              = "sudo"
+        type = "checkbox"
+        checked = { sudoValue }
+        label = "sudo"
+        onChange = { ( e ) => this.props.updateUserForm( "sudo"
+                                                       , e.target.checked
+                                                       )
+                   }
+        key = "sudo"
       />;
 
-    let userPasswordDisabledField =
+    const userPasswordDisabledField =
       <Input
-        type             = "checkbox"
-        label            = "Password Disabled"
-        checked          = {typeof this.state.modifiedValues.password_disabled
-                       === "boolean"
-                           ? this.state.modifiedValues.password_disabled
-                           : this.props.item.password_disabled
-                           }
-        onChange = { this.handleChange.bind( null, "password_disabled" ) }
-        key              = "password_disabled"
-        ref              = "password_disabled"
+        type = "checkbox"
+        checked = { password_disabledValue }
+        label = "Password Disabled"
+        onChange = { ( e ) => this.props.updateUserForm( "password_disabled"
+                                                       , e.target.checked
+                                                       )
+                   }
+        key = "password_disabled"
       />;
 
-    let textEditForm =
+    const textEditForm =
       <div>
         { userIdField }
         { userNameField }
@@ -475,7 +457,7 @@ const UserEdit = React.createClass(
         { userGroupsField }
       </div>;
 
-    let checkboxEditForm =
+    const checkboxEditForm =
       <div>
         { userLockedField }
         { userSudoField }
@@ -503,7 +485,6 @@ const UserEdit = React.createClass(
       </Grid>
     );
   }
-
 });
 
 export default UserEdit;
