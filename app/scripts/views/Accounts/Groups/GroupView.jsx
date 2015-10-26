@@ -13,16 +13,11 @@ import { Alert, ListGroup, ListGroupItem, Grid, Row, Col, Button
        }
   from "react-bootstrap";
 
-import routerShim from "../../../mixins/routerShim";
-import clientStatus from "../../../mixins/clientStatus";
-
 import viewerUtil from "../../../components/Viewer/viewerUtil";
 
 import UsersStore from "../../../flux/stores/UsersStore";
 
 import groupMixins from "../../../mixins/groupMixins";
-import inputHelpers from "../../../mixins/inputHelpers";
-
 
 const GroupView = React.createClass({
 

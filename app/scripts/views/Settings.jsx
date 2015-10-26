@@ -6,7 +6,9 @@
 
 import React from "react";
 
-import routerShim from "../mixins/routerShim";
+// Commented per note below
+// import { History } from "react-router";
+
 import SectionNav from "../components/SectionNav";
 
 // STYLESHEET
@@ -38,17 +40,30 @@ const sections = [ { route: "/settings/system"
                  ];
 
 const Settings = React.createClass(
-  { mixins: [ routerShim ]
+  { // Commented this all out because it's fixing a problem with no immediate
+    // harm. Leaving it here in case we decide to give a shit and there turn out
+    // not to be serious side effects. Warning: code copy-pasted from Accounts.
+  /*mixins: [ History ]
 
   , componentDidMount () {
-    this.calculateDefaultRoute( "settings", "system", "endsWith" );
-  }
+      this.redirectToSystem();
+    }
 
   , componentWillUpdate ( prevProps, prevState ) {
-    this.calculateDefaultRoute( "settings", "system", "endsWith" );
+      this.redirectToSystem();
+    }
+
+    // This is dumb. Stupid "temporary" (hah) hack because we updated
+    // react-router too soon. And yet still better than the old thing.
+  , redirectToSystem () {
+    if ( this.props.location.pathname.endsWith( "settings" )
+      || this.props.location.pathname.endsWith( "settings/" )
+       ) {
+      this.history.pushState( null, "/settings/system" );
+    }
   }
 
-  , render () {
+  ,*/ render () {
     return (
       <main>
         <div className="view-header heading-with-nav">
