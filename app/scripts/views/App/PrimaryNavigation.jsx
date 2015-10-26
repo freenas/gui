@@ -47,7 +47,7 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "/accounts"
+  , { path     : "/accounts/users"
     , icon     : "icon-id"
     , label    : "Accounts"
     , status   : null
@@ -71,7 +71,7 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "/settings"
+  , { path     : "/settings/system"
     , icon     : "icon-adjust-horiz"
     , label    : "Settings"
     , status   : null
