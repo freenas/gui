@@ -52,7 +52,7 @@ function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
   }
 }
 
-export default function auth ( state = INITIAL_STATE, action ) {
+export default function volumes ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let newState;
   let clientVolumes;

@@ -33,7 +33,7 @@ function determineInterval ( attempts ) {
   }
 }
 
-export default function auth ( state = INITIAL_STATE, action ) {
+export default function websocket ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
   switch( type ) {
