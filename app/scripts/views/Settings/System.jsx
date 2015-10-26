@@ -49,7 +49,7 @@ class System extends React.Component {
             <OSSettings {...this.props }/>
           </Col>
           <Col xs = {4}>
-            <LocalizationSettings {...this.props} />
+            <LocalizationSettings {...this.props } />
           </Col>
         </section>
         <section>
