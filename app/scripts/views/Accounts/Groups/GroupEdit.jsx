@@ -16,26 +16,13 @@ const GroupEdit = React.createClass(
   { propTypes:
     { itemSchema: React.PropTypes.object.isRequired
     , item: React.PropTypes.object.isRequired
+    , groupForm: React.PropTypes.object.isRequired
     , handleViewChange: React.PropTypes.func.isRequired
+    , updateGroupForm: React.PropTypes.func.isRequired
+    , resetGroupForm: React.PropTypes.func.isRequired
     }
 
   , mixins: [ groupMixins ]
-
-  , contextTypes: { router: React.PropTypes.func }
-
-  , getInitialState: function () {
-    return { modifiedValues: {} };
-  }
-
-  , resetChanges: function () {
-    this.setState( { modifiedValues: {} } );
-  }
-
-  , handleChange: function ( field, event ) {
-    let newModifiedValues = this.state.modifiedValues;
-    newModifiedValues[ field ] = event.target.value;
-    this.setState( { modifiedValues: newModifiedValues } );
-  }
 
   , submitChanges: function () {
 
@@ -57,10 +44,11 @@ const GroupEdit = React.createClass(
         </Alert>;
     }
 
-    let groupNameValue = this.state.modifiedValues.name
-                      || this.props.item.name;
+    let groupNameValue = typeof this.props.groupForm.name === "string"
+                       ? this.props.groupForm.name
+                       : this.props.item.name;
 
-    let groupNameClass = this.state.modifiedValues.name
+    let groupNameClass = typeof this.props.groupForm.name === "string"
                        ? "editor-was-modified"
                        : "";
 
@@ -70,14 +58,17 @@ const GroupEdit = React.createClass(
         type = "text"
         label = { "Group Name" }
         value = { groupNameValue }
-        onChange = { this.handleChange.bind( null, "name" ) }
+        onChange = { ( e ) => this.props.updateGroupForm( "name"
+                                                        , e.target.value
+                                                        )
+                   }
       />;
 
     let resetButton =
       <Button
         className = "pull-right"
         bsStyle = "warning"
-        onClick = { this.resetChanges }
+        onClick = { this.props.resetGroupForm }
       >
         { "Reset Changes" }
       </Button>;

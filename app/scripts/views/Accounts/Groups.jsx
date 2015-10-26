@@ -109,7 +109,7 @@ class Groups extends React.Component{
 function mapStateToProps ( state ) {
   return (
     { itemData: state.groups.groups
-    , itemForm: state.groups.groupForm
+    , groupForm: state.groups.groupForm
     , nextGID: state.groups.nextGID
     , users: state.users.users
     // requests
@@ -121,7 +121,12 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
   return (
-    { requestGroups: () => dispatch( GROUP_ACTIONS.requestGroups() )
+    // FORM
+    { updateGroupForm: ( field, value ) =>
+        dispatch( GROUP_ACTIONS.updateGroupForm( field, value ) )
+    , resetGroupForm: () => dispatch( GROUP_ACTIONS.resetGroupForm() )
+    // QUERIES
+    , requestGroups: () => dispatch( GROUP_ACTIONS.requestGroups() )
     , requestNextGID: () => dispatch( GROUP_ACTIONS.requestNextGID() )
     , requestUsers: () => dispatch( USER_ACTIONS.requestUsers() )
     }
