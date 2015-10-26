@@ -3,11 +3,30 @@
 
 "use strict";
 
-import { QUERY_USERS_REQUEST, GET_NEXT_UID_REQUEST }
+import { UPDATE_USER_FORM
+       , RESET_USER_FORM
+       , QUERY_USERS_REQUEST
+       , GET_NEXT_UID_REQUEST
+       }
   from "../actions/actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
+// FORM
+export function updateUserForm ( field, value ) {
+  return ( { type: UPDATE_USER_FORM
+           , payload: { field: field
+                      , value: value
+                      }
+           }
+         );
+};
+
+export function resetUserForm () {
+  return ( { type: RESET_USER_FORM } );
+};
+
+// QUERIES
 export function requestUsers () {
   return ( dispatch ) => {
     MC.request( "users.query"

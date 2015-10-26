@@ -11,20 +11,21 @@ const INITIAL_STATE =
   , getNextUIDRequests: new Set()
   , users: []
   , userForm:
-    { username: ""
+    { username: null
     , sshpubkey: null
-    , shell: ""
+    , shell: null
     , locked: false
-    , groups: []
-    , attributes: {}
+    , groups: null
+    // , attributes: null // Not for use at this time.
     , unixhash: null
     , sudo: false
     , smbhash: null
     , email: null
     , full_name: null
-    , home: ""
+    , home: null
     , group: null
     , password: null
+    , confirmPassword: null // Careful with this! Do not submit to middleware.
     , id: null
     , password_disabled: false
     }
@@ -35,6 +36,15 @@ export default function users ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
 
   switch ( type ) {
+    // FORM
+    case TYPES.UPDATE_USER_FORM:
+      var userForm = Object.assign( {}, state.userForm );
+      userForm[ payload.field ] = payload.value;
+      return Object.assign( {}, state, { userForm } );
+    case TYPES.RESET_USER_FORM:
+      return Object.assign( {}, state, { userForm: {} } );
+
+    // QUERIES
     case TYPES.QUERY_USERS_REQUEST:
       return Object.assign( {}, state,
         recordUUID( payload.UUID, state, "queryUsersRequests" )
