@@ -20,7 +20,8 @@ const INITIAL_STATE =
 
 export default function tasks ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
-  let { userSubmitted, userActive } = state;
+  let userSubmitted;
+  let userActive;
 
   switch ( type ) {
 
@@ -32,8 +33,10 @@ export default function tasks ( state = INITIAL_STATE, action ) {
     // Record the arguments for the task, and wait for the success callback
     // to resolve and remove the key.
     case actionTypes.TASK_SUBMIT_REQUEST:
-
-      userSubmitted[ payload.UUID ] = payload.args;
+      userSubmitted = Object.assign( {}
+                                   , state.userSubmitted
+                                   , { [ payload.UUID ]: payload.args }
+                                   );
 
       return Object.assign( {}, state, { userSubmitted } );
 
@@ -43,8 +46,12 @@ export default function tasks ( state = INITIAL_STATE, action ) {
     // Move the arguments to userActive and re-key by task ID, then delete
     // the original key in userSubmitted.
     case actionTypes.TASK_SUBMIT_SUCCESS:
+      userSubmitted = Object.assign( {}, state.userSubmitted );
+      userActive = Object.assign( {}
+                                , state.userActive
+                                , { [ payload.taskID ]: userSubmitted[ payload.UUID ] }
+                                );
 
-      userActive[ payload.taskID ] = userSubmitted[ payload.UUID ];
       delete userSubmitted[ payload.UUID ];
 
       return Object.assign( {}, state, { userSubmitted, userActive } );
@@ -56,6 +63,7 @@ export default function tasks ( state = INITIAL_STATE, action ) {
     // error. Either there's a bug in the middleware itself, or (much more
     // likely) the task name or args were malformed.
     case actionTypes.TASK_SUBMIT_FAILURE:
+      userSubmitted = Object.assign( {}, state.userSubmitted );
 
       delete userSubmitted[ payload.UUID ];
 
