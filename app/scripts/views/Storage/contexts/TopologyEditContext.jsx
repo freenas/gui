@@ -71,16 +71,6 @@ class ContextDisks extends React.Component {
     this.displayName = "Pool Topology Context Drawer";
   }
 
-  onUpdateTopology ( preferences ) {
-    this.props.onUpdateTopology( this.props.activeVolume, preferences )
-  }
-
-  handlePresetChange ( event, preset ) {
-    if ( preset !== "None" ) {
-      this.onUpdateTopology( PRESET_VALUES[ preset ] );
-    }
-  }
-
   ensureHomogeneity ( allowedType, path ) {
     // If this function returns `true`, dropping will be prevented. The test
     // uses the known type to check if the payload belongs to another group.
@@ -202,7 +192,11 @@ class ContextDisks extends React.Component {
         </h5>
 
         {/* TOPOLOGY TOOL */}
-        <Topologizer handleTopoRequest = { this.onUpdateTopology } />
+        <Topologizer
+          handleTopoRequest = { preferences =>
+            this.props.onUpdateTopology( this.props.activeVolume, preferences )
+          }
+          />
 
         {/* RESET BUTTON */}
         <Button
@@ -297,8 +291,6 @@ function mapDispatchToProps ( dispatch ) {
     , onDiskSelect: () => console.log( "fart" )
     , onDiskDeselect: () => console.log( "fart" )
 
-    , onUpdateVolume: ( volumeID, patch ) =>
-      dispatch( VOLUMES.updateVolume( volumeID, patch ) )
     , onUpdateTopology: ( volumeID, preferences ) =>
       dispatch( VOLUMES.updateTopology( volumeID, preferences ) )
     , onRevertTopology: ( volumeID ) =>
