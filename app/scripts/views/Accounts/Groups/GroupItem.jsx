@@ -26,10 +26,10 @@ const GroupItem = React.createClass(
   }
 
   , componentDidUpdate: function ( prevProps, prevState ) {
-    if ( activeRoute !== prevState.activeRoute ) {
-      this.setState(
-        { currentMode : "view" }
-      );
+    if ( prevProps.params[ this.props.routeParam ]
+     !== this.props.params[ this.props.routeParam ]
+       ) {
+      this.setState( { currentMode : "view" } );
     }
   }
 
