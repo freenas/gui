@@ -135,7 +135,10 @@ const UserView = React.createClass(
             <viewerUtil.DataCell
               title = { "Primary Group" }
               colNum = { 3 }
-              entry = { this.getGroupName( this.props.item.group ) }
+              entry = { _.find( this.props.groups
+                              , { id: this.props.item.group }
+                              ).name
+                      }
             />
             <viewerUtil.DataCell
               title = { "Shell" }
