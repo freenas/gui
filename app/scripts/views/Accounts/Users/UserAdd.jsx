@@ -128,7 +128,7 @@ const UserAdd = React.createClass(
       // if there isn't a password yet, don't bother validating confirmPassword
       confirmPasswordValid = true;
     } else {
-      confirmPasswordValid = this.state.confirmPassword
+      confirmPasswordValid = this.props.userForm.confirmPassword
                          === this.props.userForm.password;
     }
 
@@ -242,8 +242,8 @@ const UserAdd = React.createClass(
       <Input
         type = "password"
         label = "Confirm Password"
-        value = { typeof this.state.confirmPassword === "string"
-                       ? this.state.confirmPassword
+        value = { typeof this.props.userForm.confirmPassword === "string"
+                       ? this.props.userForm.confirmPassword
                        : ""
                 }
         onChange = { ( e ) => this.props.updateUserForm( "confirmPassword"
