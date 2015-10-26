@@ -156,7 +156,7 @@ class ContextDisks extends React.Component {
         >
           <Well bsSize="small">
             { KEYS.map( ( key, index ) =>
-              this.renderDiskGroup( collection[ key ], index, key )
+              this.renderDiskGroup( renderableGroups[ key ], index, key )
             )}
           </Well>
         </DropTarget>
