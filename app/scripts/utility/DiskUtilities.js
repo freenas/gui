@@ -45,4 +45,23 @@ export default class DiskUtilities {
 
     return [ SSDs, HDDs ];
   }
+
+  static splitDiskTypes ( disks ) {
+    let SSDs = [];
+    let HDDs = [];
+
+    // Returns a nested array of disk paths [ [ SSDs ], [ HDDs ] ]
+    if ( _.isObject( disks ) ) {
+      Object.keys( disks ).forEach( path => {
+        if ( disks[ path ].status.is_ssd ) {
+          SSDs.push( path );
+        } else {
+          HDDs.push( path );
+        }
+      });
+    } else {
+      console.warn( "Expected disks to be an object:", disks );
+    }
+    return [ SSDs, HDDs ];
+  }
 }
