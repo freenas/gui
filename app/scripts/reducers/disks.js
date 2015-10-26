@@ -4,6 +4,7 @@
 "use strict";
 
 import * as TYPES from "../actions/actionTypes";
+import DiskUtilities from "../utility/DiskUtilities";
 import { recordUUID, resolveUUID } from "../utility/Reducer";
 
 const DISK_LABELS =
@@ -23,6 +24,8 @@ const INITIAL_STATE =
   { disksOverviewRequests: new Set()
   , fetchError: false
   , disks: {}
+  , SSDs: new Set()
+  , HDDs: new Set()
   , selectedDisks: new Set()
   , DISK_LABELS
   };
@@ -39,6 +42,8 @@ function destructureDisks ( client, server ) {
 
 export default function disks ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
+  let disks;
+  let pathsByType;
 
   switch( type ) {
     case TYPES.DISK_OVERVIEW_REQUEST:
@@ -54,10 +59,16 @@ export default function disks ( state = INITIAL_STATE, action ) {
       // HANDLE VOLUMES DATA
       if ( state.disksOverviewRequests.has( payload.UUID ) ) {
         if ( payload.data ) {
+          disks = destructureDisks( null, payload.data );
+          pathsByType = DiskUtilities.splitDiskTypes( disks );
+
           return Object.assign( {}
                               , state
                               , resolveUUID( payload.UUID, state, "volumesRequests" )
-                              , { disks: destructureDisks( null, payload.data ) }
+                              , { disks
+                                , SSDs: new Set( pathsByType[0] )
+                                , HDDs: new Set( pathsByType[1] )
+                                }
                               );
         } else {
           console.warn( "Disks overview query did not return any data" );
