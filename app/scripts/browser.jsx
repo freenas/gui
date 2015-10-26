@@ -61,11 +61,11 @@ if ( process.env.BROWSER ) {
 
 
     // TASK UPDATE HANDLERS
-    , onTaskCreated : () =>
+    , onTaskCreated: ( data ) =>
         store.dispatch( ACTIONS.taskCreated( data ) )
-    , onTaskUpdated : () =>
+    , onTaskUpdated: ( data ) =>
         store.dispatch( ACTIONS.taskUpdated( data ) )
-    , onTaskProgress: () =>
+    , onTaskProgress: ( data ) =>
         store.dispatch( ACTIONS.taskProgress( data ) )
     }
   );

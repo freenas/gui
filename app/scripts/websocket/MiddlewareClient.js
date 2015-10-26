@@ -195,11 +195,19 @@ class MiddlewareClient {
 
       // A FreeNAS event has occurred
       case "events":
-        const eventName = data.name.split( "." );
+        let eventName;
+
+        if ( data.args.name ) {
+          eventName = data.args.name.split( "." );
+        } else {
+          MCD.warn( "That event sure didn't have a name." );
+          MCD.dir( data );
+          return;
+        }
 
         switch ( eventName[0] ) {
           case "task":
-            handleTaskResponse( eventName[1], data.args.args );
+            this.handleTaskResponse( eventName[1], data.args.args );
             break;
 
           case "logout":

@@ -42,6 +42,8 @@ export const TASK_SUBMIT_RESOLVE = "TASK_SUBMIT_RESOLVE";
 export const TASK_CREATED = "TASK_CREATED";
 export const TASK_UPDATED = "TASK_UPDATED";
 export const TASK_PROGRESS = "TASK_PROGRESS";
+export const TASK_FINISHED = "TASK_FINISHED";
+export const TASK_FAILED = "TASK_FAILED";
 
 
 

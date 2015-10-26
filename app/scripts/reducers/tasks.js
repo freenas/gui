@@ -22,6 +22,7 @@ export default function tasks ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let userSubmitted;
   let userActive;
+  let tasks;
 
   switch ( type ) {
 
@@ -68,6 +69,23 @@ export default function tasks ( state = INITIAL_STATE, action ) {
       delete userSubmitted[ payload.UUID ];
 
       return Object.assign( {}, state, { userSubmitted } );
+
+
+    case actionTypes.TASK_CREATED:
+    case actionTypes.TASK_UPDATED:
+    case actionTypes.TASK_PROGRESS:
+    case actionTypes.TASK_FINISHED:
+    case actionTypes.TASK_FAILED:
+      tasks = Object.assign( {}, state.tasks );
+
+      if ( tasks[ payload.data.id ] ) {
+        tasks[ payload.data.id ] =
+          Object.assign( tasks[ payload.data.id ], payload.data );
+      } else {
+        tasks[ payload.data.id ] = payload.data;
+      }
+
+      return Object.assign( {}, state, { tasks } );
 
     default:
       return state;
