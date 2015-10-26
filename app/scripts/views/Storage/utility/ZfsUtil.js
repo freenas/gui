@@ -294,7 +294,7 @@ class ZfsUtil {
     // will try to use these to create an even VDEV topology.
     chunks = _.chunk( dataDisks, chunkSize );
 
-    if ( _.last( chunks ).length === chunkSize ) {
+    if ( chunks.length && _.last( chunks ).length === chunkSize ) {
       // If the last chunk is the right size, all chunks are of even size and we
       // have no edge cases. The VDEVs are created according to the sizes of the
       // chunks, with one for each chunk.
