@@ -97,25 +97,35 @@ class ContextDisks extends React.Component {
     }
   }
 
-  renderDiskGroup ( diskPaths, indexInCollection, groupName ) {
-    let showDisks = diskPaths.map( path => {
+  removeUsedDisks ( paths ) {
+    let unusedDisks = [];
+
+    paths.forEach( path => {
       // Filter out any disks which have been selected already
       if ( this.props.selectedDisks.has( path ) ) return;
 
       // Only show the disk if it's marked as available by the system
-      if ( this.props.availableDisks.has( path ) ) return path;
-    })
+      if ( this.props.availableDisks.has( path ) ) {
+        unusedDisks.push( path );
+        return;
+      }
+    });
 
-    let headerText = groupName + " (" + showDisks.length + ")";
+    return unusedDisks;
+  }
+
+  renderDiskGroup ( diskPaths, indexInCollection, groupName ) {
+    let headerText = groupName + " (" + diskPaths.length + ")";
 
     return (
       <Disclosure
         header = { headerText }
-        defaultExpanded = { showDisks.length < 24 }
+        defaultExpanded = { diskPaths.length < 24 }
         key = { indexInCollection }
+        style = { diskPaths.length ? {} : { display: "none" } }
       >
         <span className="disk-container">
-          { showDisks.map( ( path, index ) =>
+          { diskPaths.map( ( path, index ) =>
             <div
               key = { index }
               className = "disk-wrapper"
@@ -134,38 +144,34 @@ class ContextDisks extends React.Component {
   }
 
   renderDiskPalette ( collection, type ) {
-    const KEYS = Object.keys( collection );
+    let renderableGroups = {};
 
-    if ( KEYS.length === 0 ) {
-      return null;
-    } else {
-      let paletteSection = KEYS.map( ( key, index ) =>
-        this.renderDiskGroup( collection[ key ], index, key )
-      );
+    Object.keys( collection ).forEach( key => {
+      renderableGroups[ key ] = this.removeUsedDisks( collection[ key ] )
+    });
 
-      if ( paletteSection.length ) {
-        return (
-          <div>
-            <h5 className="context-section-header type-line">
-              <span className="text">
-                { "Available " + TERMS[ type.toUpperCase() ] }
-              </span>
-            </h5>
-            <DropTarget
-              namespace = "disk"
-              preventDrop = { this.ensureHomogeneity.bind( null, type ) }
-              activeDrop
-            >
-              <Well bsSize="small">
-                { paletteSection }
-              </Well>
-            </DropTarget>
-          </div>
-        );
-      } else {
-        return null;
-      }
-    }
+    const KEYS = Object.keys( renderableGroups );
+
+    return (
+      <div style={ KEYS.length ? {} : { display: "none" } }>
+        <h5 className="context-section-header type-line">
+          <span className="text">
+            { "Available " + TERMS[ type.toUpperCase() ] }
+          </span>
+        </h5>
+        <DropTarget
+          namespace = "disk"
+          preventDrop = { this.ensureHomogeneity.bind( null, type ) }
+          activeDrop
+        >
+          <Well bsSize="small">
+            { KEYS.map( ( key, index ) =>
+              this.renderDiskGroup( collection[ key ], index, key )
+            )}
+          </Well>
+        </DropTarget>
+      </div>
+    );
   }
 
   createPresetMenuItems () {
