@@ -87,7 +87,7 @@ const UserView = React.createClass(
               onClick = { this.props.handleViewChange.bind( null, "edit" ) }
               bsStyle = "info"
             >
-              {"Edit User"}
+              { "Edit User" }
             </Button>
         </ButtonToolbar>
       );
@@ -148,17 +148,26 @@ const UserView = React.createClass(
             <viewerUtil.DataCell
               title = { "Locked Account" }
               colNum = { 3 }
-              entry = { this.props.item.locked ? this.props.item.locked : false }
+              entry = { this.props.item.locked
+                      ? this.props.item.locked
+                      : false
+                      }
             />
             <viewerUtil.DataCell
               title = { "Sudo Access" }
               colNum = { 3 }
-              entry = { this.props.item.sudo ? this.props.item.sudo: false }
+              entry = { this.props.item.sudo
+                      ? this.props.item.sudo
+                      : false
+                      }
             />
             <viewerUtil.DataCell
               title = { "Password Disabled" }
               colNum = { 3 }
-              entry = { this.props.item.password_disabled ? this.props.item.password_disabled: false }
+              entry = { this.props.item.password_disabled
+                      ? this.props.item.password_disabled
+                      : false
+                      }
             />
             <viewerUtil.DataCell
               title = { "Home Directory" }
@@ -168,7 +177,10 @@ const UserView = React.createClass(
             <viewerUtil.DataCell
               title = { "email" }
               colNum = { 3 }
-              entry = { this.props.item.email ? this.props.item.email: "" }
+              entry = { this.props.item.email
+                      ? this.props.item.email
+                      : ""
+                      }
             />
             <Col
               xs = {12}
