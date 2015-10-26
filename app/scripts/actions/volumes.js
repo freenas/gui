@@ -15,6 +15,34 @@ function getAvailableDisks ( state ) {
          ]
 }
 
+function volumeExistsOnClient ( volumeID, state ) {
+  if ( state.volumes.clientVolumes.hasOwnProperty( volumeID ) ) {
+    return true;
+  } else {
+    console.warn( `Volume "${ volumeID } doesn't exist on the client` );
+    return false;
+  }
+}
+
+function volumeExistsOnServer ( volumeID, state ) {
+  if ( state.volumes.serverVolumes.hasOwnProperty( volumeID ) ) {
+    return true;
+  } else {
+    console.warn( `Volume "${ volumeID } doesn't exist on the server` );
+    return false;
+  }
+}
+
+function volumeExists ( volumeID, state ) {
+  if ( state.volumes.serverVolumes.hasOwnProperty( volumeID )
+    || state.volumes.clientVolumes.hasOwnProperty( volumeID ) ) {
+    return true;
+  } else {
+    console.warn( `Volume "${ volumeID } doesn't exist on the client or server` );
+    return false;
+  }
+}
+
 // VOLUMES REQUEST
 export function fetchVolumes () {
   return ( dispatch, getState ) => {
@@ -71,9 +99,17 @@ export function updateTopology ( volumeID, preferences ) {
 }
 
 export function revertTopology ( volumeID ) {
-  return { type: TYPES.REVERT_VOLUME_TOPOLOGY
-         , payload: { volumeID }
-         };
+  return ( dispatch, getState ) => {
+    let state = getState();
+
+    if ( volumeExistsOnClient( volumeID, state ) ) {
+      dispatch(
+        { type: TYPES.REVERT_VOLUME_TOPOLOGY
+        , payload: { volumeID }
+        }
+      );
+    }
+  }
 }
 
 export function focusVolume ( volumeID ) {
@@ -93,15 +129,17 @@ export function selectPresetTopology ( volumeID, preset ) {
     let state = getState();
     let availableDisks = getAvailableDisks( state );
 
-    dispatch(
-      { type: TYPES.SELECT_PRESET_TOPOLOGY
-      , payload:
-        { volumeID
-        , preset
-        , availableSSDs: availableDisks[0]
-        , availableHDDs: availableDisks[1]
+    if ( volumeExistsOnClient( volumeID, state ) ) {
+      dispatch(
+        { type: TYPES.SELECT_PRESET_TOPOLOGY
+        , payload:
+          { volumeID
+          , preset
+          , availableSSDs: availableDisks[0]
+          , availableHDDs: availableDisks[1]
+          }
         }
-      }
-    );
+      );
+    }
   }
 }
