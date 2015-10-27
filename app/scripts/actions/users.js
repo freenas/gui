@@ -90,7 +90,7 @@ export function createUser () {
          )
        ) {
       throw new Error( "Attempted to create a user with a missing or invalid"
-                     + "password."
+                     + " password."
                      );
     }
 
