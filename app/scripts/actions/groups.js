@@ -8,6 +8,7 @@ import { UPDATE_GROUP_FORM
        , QUERY_GROUPS_REQUEST
        , GET_NEXT_GID_REQUEST
        , GROUP_CREATE_TASK
+       , GROUP_UPDATE_TASK
        , GROUP_DELETE_TASK
        }
   from "../actions/actionTypes";
@@ -119,6 +120,39 @@ export function createGroup () {
     MC.request( "task.submit"
               , [ "groups.create", [ newGroupProps ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_CREATE_TASK ) )
+              );
+  }
+};
+
+export function updateGroup ( groupName ) {
+  return ( dispatch, getState ) => {
+    const state = getState();
+    var newGroupProps = Object.assign( {}, state.groups.groupForm );
+
+    _.forOwn( newGroupProps
+            , function processProperties ( property, key, newGroupProps ) {
+              if ( property === null ) {
+                delete newGroupProps[ key ];
+              }
+              if ( key === "id" ) {
+                if ( property !== null && typeof property !== "undefined" ) {
+                  throw new Error( "Attempted to edit a group id." );
+                }
+              }
+            }
+            );
+
+    if ( newGroupProps.name && _.find( state.groups.groups
+                                     , { name: newGroupProps.name }
+                                     )
+       ) {
+      throw new Error( "Attempted to rename a group with a group name that is already in use." );
+    }
+    console.log( groupName, newGroupProps );
+
+    MC.request( "task.submit"
+              , [ "groups.update", [ groupName, newGroupProps ] ]
+              , UUID => dispatch( watchRequest( UUID, GROUP_UPDATE_TASK ) )
               );
   }
 };
