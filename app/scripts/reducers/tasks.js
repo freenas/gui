@@ -71,21 +71,26 @@ export default function tasks ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state, { userSubmitted } );
 
 
+    case actionTypes.TASK_FAILED:
+      // This isn't grouped with finished because the assumption is that the
+      // user (or the stupid developer) will see the error and manually clear it
+      console.error( "ERROR: Task failure" );
+      console.log( "Task payload:", payload );
     case actionTypes.TASK_CREATED:
     case actionTypes.TASK_UPDATED:
     case actionTypes.TASK_PROGRESS:
-    case actionTypes.TASK_FINISHED:
-    case actionTypes.TASK_FAILED:
       tasks = Object.assign( {}, state.tasks );
 
-      if ( tasks[ payload.data.id ] ) {
-        tasks[ payload.data.id ] =
-          Object.assign( tasks[ payload.data.id ], payload.data );
-      } else {
-        tasks[ payload.data.id ] = payload.data;
-      }
+      tasks[ payload.data.id ] =
+        Object.assign( {}, tasks[ payload.data.id ], payload.data );
 
       return Object.assign( {}, state, { tasks } );
+
+    case actionTypes.TASK_FINISHED:
+      tasks = Object.assign( {}, state.tasks );
+      delete tasks[ payload.data.id ];
+      return Object.assign( {}, state, { tasks } );
+
 
     default:
       return state;
