@@ -40,12 +40,12 @@ function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
 
   if ( CLIENT.has( activeVolume ) || SERVER.has( activeVolume ) ) {
     return activeVolume;
-  } else if ( CLIENT.size ) {
+  } else if ( activeVolume && CLIENT.size ) {
     console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
                 + `Falling back to first value in clientVolumes`
                 );
     return CLIENT.values()[0];
-  } else if ( SERVER.size ) {
+  } else if ( activeVolume && SERVER.size ) {
     console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
                 + `Falling back to first value in serverVolumes`
                 );
