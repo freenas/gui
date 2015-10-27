@@ -15,7 +15,14 @@ import { Alert, ListGroup, ListGroupItem, Grid, Row, Col, Button
 
 import viewerUtil from "../../../components/Viewer/viewerUtil";
 
-import UsersStore from "../../../flux/stores/UsersStore";
+function getGroupUsers ( groupID, userList ) {
+  return _.filter( userList, function checkUserGroup( user ) {
+      if ( user.group === groupID || _.contains( user.groups, groupID ) ) {
+        return true;
+      }
+    }
+  );
+}
 
 const GroupView = React.createClass({
 
@@ -28,25 +35,18 @@ const GroupView = React.createClass({
     , deleteGroup: React.PropTypes.func.isRequired
     }
 
-  , getMembers: function ( groupid ) {
-    if ( UsersStore.getUsersByGroup( groupid ) ) {
-      return UsersStore.getUsersByGroup( groupid );
-    } else {
-      return [];
-    }
-  }
-
-  , createUserDisplayList: function ( groupid ) {
-    var listUserItemArray = [];
-    var users = this.getMembers( groupid );
-
-    for ( var i = 0; i < users.length; i++ ) {
-      listUserItemArray.push(
-        <ListGroupItem>
-          { users[i].username }
-        </ListGroupItem>
-      );
-    }
+  , createUserDisplayList: function ( groupID ) {
+    const users = getGroupUsers( groupID, this.props.users );
+    var listUserItemArray = users.map( function createListGroupItems ( user
+                                                                     , index
+                                                                     ) {
+        return (
+          <ListGroupItem key = { index } >
+            { user.username }
+          </ListGroupItem>
+        );
+      }
+    );
 
     return listUserItemArray;
   }
