@@ -58,50 +58,53 @@ export default class Volume extends React.Component {
   // ZFS TOPOLOGY FUNCTIONS
   // ======================
   vdevOperation( opType, key, purpose, options = {} ) {
-      let collection  = this.props.topology[ purpose ];
-      let targetVdev  = collection[ key ];
-      let currentType = null;
-      let disks       = opType === "add" && options.path
-                      ? [ options.path ]
-                      : [];
-      let newTopologySection;
+    let collection  = this.props.topology[ purpose ];
+    let targetVdev  = collection[ key ];
+    let currentType = null;
+    let disks       = opType === "add" && options.path
+                    ? [ options.path ]
+                    : [];
+    const diskPaths = ZfsUtil.getMemberDiskPaths( targetVdev );
+    let newTopologySection;
 
-      if ( targetVdev ) {
+    if ( targetVdev ) {
 
-        switch ( opType ) {
-          case "add":
-            currentType = targetVdev.type;
-            disks.push( ...ZfsUtil.getMemberDiskPaths( targetVdev ) );
-            break;
+      switch ( opType ) {
+        case "add":
+          currentType = targetVdev.type;
+          disks.push( ...ZfsUtil.getMemberDiskPaths( targetVdev ) );
+          break;
 
-          case "remove":
-            currentType = targetVdev.type;
-            disks.push(
-              ..._.without( ZfsUtil.getMemberDiskPaths( targetVdev )
-                          , options.path
-                          )
-            );
-            break;
+        case "remove":
+          currentType = targetVdev.type;
+          disks.push(
+            ..._.without( ZfsUtil.getMemberDiskPaths( targetVdev )
+                        , options.path
+                        )
+          );
+          break;
 
-          case "nuke":
-            VAC.deselectDisks( ZfsUtil.getMemberDiskPaths( targetVdev ) );
-            break;
+        case "nuke":
+          diskPaths.forEach( path => {
+            this.props.onDiskDeselect( path );
+          });
+          break;
 
-          case "changeType":
-            currentType = options.type;
-            disks.push( ...ZfsUtil.getMemberDiskPaths( targetVdev ) );
-            break;
-        }
+        case "changeType":
+          currentType = options.type;
+          disks.push( ...ZfsUtil.getMemberDiskPaths( targetVdev ) );
+          break;
       }
-
-      newTopologySection =
-        ZfsUtil.reconstructVdev( key, purpose, collection, disks, currentType );
-
-      this.props.onUpdateVolume(
-        { topology: Object.assign( {}, this.props.topology, newTopologySection )
-        }
-      );
     }
+
+    newTopologySection =
+      ZfsUtil.reconstructVdev( key, purpose, collection, disks, currentType );
+
+    this.props.onUpdateVolume(
+      { topology: Object.assign( {}, this.props.topology, newTopologySection )
+      }
+    );
+  }
 
   handleDiskAdd ( vdevKey, vdevPurpose, path ) {
     this.props.onDiskSelect( path );
