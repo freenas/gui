@@ -102,6 +102,14 @@ export default function auth ( state = INITIAL_STATE, action ) {
         , loggedIn   : false
         });
 
+    case actionTypes.WS_CLOSED:
+      return Object.assign( {}, state,
+        { isWaiting  : false
+        , SIDShow    : true
+        , SIDMessage : "Welcome to FreeNAS X"
+        , loggedIn   : false
+        });
+
     default:
       return state;
   }

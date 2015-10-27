@@ -109,6 +109,7 @@ class MiddlewareClient {
       this.socket = new WebSocket( target );
 
       if ( this.socket instanceof WebSocket) {
+        this.onSockStateChange( this.socket.readyState );
         Object.assign( this.socket
           , { onopen: this.handleOpen.bind( this )
             , onmessage: this.handleMessage.bind( this )
@@ -119,13 +120,12 @@ class MiddlewareClient {
           );
       } else {
         throw new Error( "Was unable to create a WebSocket instance" );
+        this.onSockStateChange( 3 );
       }
     } else {
       // TODO: Visual error for legacy browsers with links to download others
       MCD.error( "This environment doesn't support WebSockets." );
     }
-
-    this.onSockStateChange( this.socket.readyState );
   }
 
   // Shortcut method for closing the WebSocket connection.
