@@ -10,16 +10,20 @@ import * as ZFSConstants from "../constants/ZFSConstants";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
 const INITIAL_STATE =
+  // RPC REQUEST TRACKING
   { volumesRequests: new Set()
-  , userSubmitTasks: new Set()
   , availableDisksRequests: new Set()
-  , submitRequests: new Set()
+  , createRequests: new Set()
+  , destroyRequests: new Set()
+
+  // TASK TRACKING
   , activeTasks: new Set()
+
   , serverVolumes: {}
   , clientVolumes: {}
   , activeVolume: ""
   , activeShare: ""
-  , volumeToDelete: ""
+  , volumeToDestroy: ""
   , shareToDelete: { path: null, pool: null }
   , availableDisks: new Set()
   , selectedDisks: new Set()
@@ -193,6 +197,13 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state, { selectedDisks } );
 
 
+    case TYPES.INTEND_DESTROY_VOLUME:
+      return Object.assign( {}, state, { volumeToDestroy: payload.volumeID } );
+
+    case TYPES.CANCEL_DESTROY_VOLUME:
+      return Object.assign( {}, state, { volumeToDestroy: "" } );
+
+
 
   // RPC AND TASK ACTIONS
   // ====================
@@ -211,11 +222,18 @@ export default function volumes ( state = INITIAL_STATE, action ) {
                           , recordUUID( payload.UUID, state, "availableDisksRequests" )
                           );
 
-    // GET VOLUMES ON SERVER
+    // SUBMIT NEW VOLUME
     case TYPES.CREATE_VOLUME_TASK_SUBMIT_REQUEST:
       return Object.assign( {}
                           , state
-                          , recordUUID( payload.UUID, state, "submitRequests" )
+                          , recordUUID( payload.UUID, state, "createRequests" )
+                          );
+
+    // SUBMIT NEW VOLUME
+    case TYPES.DESTROY_VOLUME_TASK_SUBMIT_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID, state, "destroyRequests" )
                           );
 
     // RPC REQUEST RESOLUTION
@@ -261,14 +279,28 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       }
 
       // VOLUME SUBMIT TASK
-      if ( state.submitRequests.has( payload.UUID ) ) {
+      if ( state.createRequests.has( payload.UUID ) ) {
         if ( payload.data ) {
           return Object.assign( {}
                               , state
-                              , resolveUUID( payload.UUID, state, "submitRequests" )
+                              , resolveUUID( payload.UUID, state, "createRequests" )
                               );
         } else {
           console.warn( "Volume Submit task did not return a task ID" );
+          return state;
+        }
+      }
+
+      // VOLUME DESTROY TASK
+      if ( state.destroyRequests.has( payload.UUID ) ) {
+        if ( payload.data ) {
+          return Object.assign( {}
+                              , state
+                              , resolveUUID( payload.UUID, state, "destroyRequests" )
+                              , { volumeToDestroy: "" }
+                              );
+        } else {
+          console.warn( "Volume Destroy task did not return a task ID" );
           return state;
         }
       }

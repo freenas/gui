@@ -170,7 +170,7 @@ export default class Volume extends React.Component {
           <ExistingVolume
             volumeName = { this.props.name }
             onClick = { this.props.onFocusVolume }
-            onDestroyPool = { this.onRequestDeleteVolume }
+            onDestroyPool = { this.props.onRequestDestroyVolume }
             topologyBreakdown = { this.breakdownFromRootDataset() }
           />
         ) : (
@@ -274,7 +274,7 @@ Volume.propTypes =
   , onUpdateVolume : React.PropTypes.func.isRequired
   , onRevertVolume : React.PropTypes.func.isRequired
   , onSubmitVolume : React.PropTypes.func.isRequired
-  , onRequestDeleteVolume : React.PropTypes.func.isRequired
+  , onRequestDestroyVolume : React.PropTypes.func.isRequired
 
   // SHARES HANDLERS
   , onUpdateShare : React.PropTypes.func.isRequired

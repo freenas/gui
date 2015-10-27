@@ -225,3 +225,39 @@ export function submitVolume ( volumeID ) {
     }
   }
 }
+
+export function intendDestroyVolume ( volumeID ) {
+  return ( dispatch, getState ) => {
+    const state = getState();
+    if ( volumeExistsOnServer( volumeID, state ) ) {
+      dispatch(
+        { type: TYPES.INTEND_DESTROY_VOLUME
+        , payload: { volumeID }
+        }
+      );
+    }
+  }
+}
+
+export function cancelDestroyVolume () {
+  return { type: TYPES.CANCEL_DESTROY_VOLUME }
+}
+
+function volumeDestroyAC ( UUID ) {
+  return { type: TYPES.DESTROY_VOLUME_TASK_SUBMIT_REQUEST
+         , payload: { UUID }
+         }
+}
+
+export function confirmDestroyVolume () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    if ( volumeExistsOnServer( state.volumes.volumeToDestroy, state ) ) {
+      const NAME = state.volumes.serverVolumes[ state.volumes.volumeToDestroy ].name;
+      MC.submitTask( [ "volume.destroy", [ NAME ] ]
+                   , ( UUID ) => dispatch( volumeDestroyAC( UUID ) )
+                   );
+    }
+  }
+}

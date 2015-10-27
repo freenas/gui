@@ -90,7 +90,7 @@ class Storage extends React.Component {
           onUpdateVolume = { this.props.onUpdateVolume.bind( this, id ) }
           onRevertVolume = { this.props.onRevertVolume.bind( this, id ) }
           onSubmitVolume = { this.props.onSubmitVolume.bind( this, id ) }
-          onRequestDeleteVolume = { this.props.onRequestDeleteVolume.bind( this, id ) }
+          onRequestDestroyVolume = { this.props.onRequestDestroyVolume.bind( this, id ) }
 
           // SHARES
           onUpdateShare = { this.props.onUpdateShare.bind( this, id ) }
@@ -119,6 +119,10 @@ class Storage extends React.Component {
     // available for inclusion in a new pool, the user has the option to
     // create a new pool.
     const SHOW_NEW = !LOADING && !CLIENT_VOLUMES_EXIST && this.props.availableDisks.size;
+
+    const TO_DESTROY = this.props.volumeToDestroy
+                     ? this.props.volumes.serverVolumes[ this.props.volumeToDestroy ]
+                     : "";
 
     return (
       <main>
@@ -184,15 +188,15 @@ class Storage extends React.Component {
 
         {/* CONFIRMATION - POOL DESTRUCTION */}
         <ConfirmationDialog
-          show = { Boolean( this.props.volumeToDelete ) }
-          onCancel = { this.props.onCancelDeleteVolume }
-          onConfirm = { this.props.onConfirmDeleteVolume }
+          show = { Boolean( this.props.volumeToDestroy ) }
+          onCancel = { this.props.onCancelDestroyVolume }
+          onConfirm = { this.props.onConfirmDestroyVolume }
           confirmStyle = { "danger" }
-          title = { "Confirm Destruction of " + this.props.volumeToDelete }
+          title = { "Confirm Destruction of " + TO_DESTROY.name }
           body = {
             <span>
               { "Bro are you like, really really sure you want to do this? "
-              + "Once you destroy "}<b>{ this.props.volumeToDelete }</b>{" "
+              + "Once you destroy "}<b>{ TO_DESTROY.name }</b>{" "
               + "it's not coming back. (In other words, I hope you backed up "
               + "your porn.)"
               }
@@ -246,8 +250,8 @@ Storage.propTypes =
   , fetchAvailableDisks: React.PropTypes.func.isRequired
 
   // HANDLERS
-  , onConfirmDeleteVolume: React.PropTypes.func.isRequired
-  , onCancelDeleteVolume: React.PropTypes.func.isRequired
+  , onConfirmDestroyVolume: React.PropTypes.func.isRequired
+  , onCancelDestroyVolume: React.PropTypes.func.isRequired
   , onConfirmDeleteShare: React.PropTypes.func.isRequired
   , onCancelDeleteShare: React.PropTypes.func.isRequired
   };
@@ -263,6 +267,7 @@ function mapStateToProps ( state ) {
   return (
     { disks: state.disks.disks
     , volumes: state.volumes
+    , volumeToDestroy: state.volumes.volumeToDestroy
     , activeTasks: state.volumes.activeTasks
     , tasks: state.tasks.tasks
     , availableDisks: state.volumes.availableDisks
@@ -309,9 +314,12 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.submitVolume( volumeID ) )
 
     // DESTROY VOLUME
-    , onRequestDeleteVolume: ( volumeID ) => console.log( "fart" )
-    , onConfirmDeleteVolume: ( volumeID ) => console.log( "fart" )
-    , onCancelDeleteVolume: ( volumeID ) => console.log( "fart" )
+    , onRequestDestroyVolume: ( volumeID ) =>
+      dispatch( VOLUMES.intendDestroyVolume( volumeID ) )
+    , onConfirmDestroyVolume: () =>
+      dispatch( VOLUMES.confirmDestroyVolume() )
+    , onCancelDestroyVolume: () =>
+      dispatch( VOLUMES.cancelDestroyVolume() )
 
     // CREATE SHARE
     , onUpdateShare: ( volumeID ) => console.log( "fart" )
