@@ -71,8 +71,7 @@ const UserAdd = React.createClass(
     if ( this.state.pleaseCreatePrimaryGroup ) {
       groupValid = true;
     } else if ( typeof this.props.userForm.group === "string" ) {
-      userValid = _.find( GS.groups, { name: this.props.userForm.group } )
-              !== undefined;
+      groupValid = true;
     } else {
       groupValid = false;
     }
