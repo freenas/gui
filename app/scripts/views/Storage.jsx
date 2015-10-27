@@ -53,8 +53,14 @@ class Storage extends React.Component {
     this.props.unsubscribe( this.displayName );
   }
 
+  renderTasks () {
+    return Array.from( this.props.activeTasks ).map( ( id, index ) => {
+      return <VolumeTask key={ index } { ...this.props.tasks[ id ] } />
+    });
+  }
+
   // RENDER METHODS
-  renderVolumes ( volumeProps ) {
+  renderVolumes () {
     const { volumes } = this.props;
 
     const ALL_VOLUMES = Object.assign( {}, volumes.serverVolumes, volumes.clientVolumes );
@@ -159,6 +165,8 @@ class Storage extends React.Component {
           }
         </Motion>
 
+        {/* ACTIVE TASKS */}
+        { this.renderTasks() }
 
         {/* VOLUMES */}
         { this.renderVolumes() }
@@ -255,7 +263,8 @@ function mapStateToProps ( state ) {
   return (
     { disks: state.disks.disks
     , volumes: state.volumes
-    , tasks: state.tasks
+    , activeTasks: state.volumes.activeTasks
+    , tasks: state.tasks.tasks
     , availableDisks: state.volumes.availableDisks
     , SSDs: state.disks.SSDs
     , HDDs: state.disks.HDDs

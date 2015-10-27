@@ -58,6 +58,7 @@ function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
 export default function volumes ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let newState;
+  let activeTasks;
   let clientVolumes;
   let serverVolumes;
   let initData;
@@ -272,13 +273,32 @@ export default function volumes ( state = INITIAL_STATE, action ) {
         }
       }
 
+    // TRACK ACTIVE TASKS
     case TYPES.TASK_CREATED:
     case TYPES.TASK_UPDATED:
     case TYPES.TASK_PROGRESS:
+      if ( typeof payload.data === "object"
+        && payload.data.hasOwnProperty( "name" )
+        && payload.data.name.startsWith( "volume" )
+        ) {
+        activeTasks = new Set( state.activeTasks );
+        activeTasks.add( payload.data.id );
+        return Object.assign( {}, state, { activeTasks } );
+      }
+      return state;
+
     case TYPES.TASK_FINISHED:
     case TYPES.TASK_FAILED:
-      // TODO
+      if ( typeof payload.data === "object"
+        && payload.data.hasOwnProperty( "name" )
+        && payload.data.name.startsWith( "volume" )
+        ) {
+        activeTasks = new Set( state.activeTasks );
+        activeTasks.delete( payload.data.id );
+        return Object.assign( {}, state, { activeTasks } );
+      }
       return state;
+
 
     case TYPES.ENTITY_CHANGED:
       if ( payload.mask === "volumes.changed" ) {
