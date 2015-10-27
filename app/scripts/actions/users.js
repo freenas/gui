@@ -10,6 +10,7 @@ import { UPDATE_USER_FORM
        , QUERY_USERS_REQUEST
        , GET_NEXT_UID_REQUEST
        , USER_CREATE_TASK
+       , USER_UPDATE_TASK
        }
   from "../actions/actionTypes";
 import { watchRequest } from "../utility/Action";
@@ -97,6 +98,45 @@ export function createUser () {
     MC.request( "task.submit"
               , [ "users.create", [ newUserProps ] ]
               , UUID => dispatch( watchRequest( UUID, USER_CREATE_TASK ) )
+              );
+  }
+};
+
+export function updateUser ( userName ) {
+  return ( dispatch, getState ) => {
+    const state = getState();
+    var updatedUserProps = Object.assign( {}, state.users.userForm );
+
+    _.forOwn( updatedUserProps
+            , function processProperties ( property, key, updatedUserProps ) {
+              if ( property === null ) {
+                delete updatedUserProps[ key ];
+              }
+              if ( key === "confirmPassword" ) {
+                delete updatedUserProps[ key ];
+              }
+              if ( key === "group"
+                && property !== undefined
+                && property !== null
+                 ) {
+                updatedUserProps[ key ] = Number.parseInt( property );
+              }
+            }
+            );
+
+    if ( typeof updatedUserProps.name === "string"
+      && _.find( state.users.users
+               , { userName: updatedUserProps.userName }
+               )
+       ) {
+      throw new Error( "Attempted to change a username to one which is already"
+                     + "in use."
+                     );
+    }
+
+    MC.request( "task.submit"
+              , [ "users.update", [ userName, updatedUserProps ] ]
+              , UUID => dispatch( watchRequest( UUID, USER_UPDATE_TASK ) )
               );
   }
 };
