@@ -28,6 +28,7 @@ const INITIAL_STATE =
     , password_disabled: false
     }
   , nextUID: null
+  , usersTasks: new Set()
   };
 
 export default function users ( state = INITIAL_STATE, action ) {
@@ -67,6 +68,30 @@ export default function users ( state = INITIAL_STATE, action ) {
           , { nextUID: payload.data }
           , resolveUUID( payload.UUID, state, "getNextUIDRequests" )
         );
+      } else {
+        return state;
+      }
+
+    // TASKS
+    case TYPES.TASK_CREATED:
+      if ( payload.data.name.startsWith( "user" ) ) {
+        return Object.assign( {}, state
+          , recordUUID( payload.data.id, state, "usersTasks" )
+        );
+      } else {
+        return state;
+      }
+    case TYPES.TASK_UPDATED:
+      if ( payload.data.name.startsWith( "user" ) ) {
+        if ( payload.data.state === "FINISHED" ) {
+          return Object.assign( {}, state
+            , resolveUUID( payload.data.id, state, "usersTasks" )
+          );
+        } else {
+          return Object.assign( {}, state
+            , recordUUID( payload.data.id, state, "usersTasks" )
+          );
+        }
       } else {
         return state;
       }
