@@ -7,43 +7,48 @@ import * as TYPES from "../actions/actionTypes";
 import { recordUUID, resolveUUID } from "../utility/Reducer";
 
 const INITIAL_STATE =
-  { general: { timezone: ""
-             , hostname: ""
-             , syslog_server: ""
-             , language: ""
-             , console_keymap: ""
-             , keymaps: []
-             , timezones: []
-             }
-  , advanced: { boot_scrub_internal: null
-              , motd: ""
-              , serial_console: false
-              , serial_port: ""
-              , uploadcrash: false
-              , console_screensaver: false
-              , swapondrive: null
-              , debugkernel: false
-              , serial_speed: null
-              , powerd: false
-              , console_cli: false
-              , autotune: false
-              , periodic_notify_user: null
-              , serial_ports: []
-              }
+  { general:
+    { timezone: ""
+    , hostname: ""
+    , syslog_server: ""
+    , language: ""
+    , console_keymap: ""
+    , keymaps: []
+    , timezones: []
+    }
+  , advanced:
+    { boot_scrub_internal: null
+    , motd: ""
+    , serial_console: false
+    , serial_port: ""
+    , uploadcrash: false
+    , console_screensaver: false
+    , swapondrive: null
+    , debugkernel: false
+    , serial_speed: null
+    , powerd: false
+    , console_cli: false
+    , autotune: false
+    , periodic_notify_user: null
+    , serial_ports: []
+    }
   // , ui: {}
-  , info: { hardware: { memory_size: null
-                      , cpu_model: ""
-                      , cpu_cores: null
-                      }
-          , load_avg: [ 0, 0, 0 ]
-          , time: { timezone: ""
-                  , system_time: ""
-                  , boot_time: ""
-                  , uptime: ""
-                  }
-          , uname_full: ""
-          , version: ""
-          }
+  , info:
+    { hardware:
+      { memory_size: null
+      , cpu_model: ""
+      , cpu_cores: null
+      }
+      , load_avg: [ 0, 0, 0 ]
+      , time:
+        { timezone: ""
+        , system_time: ""
+        , boot_time: ""
+        , uptime: ""
+        }
+      , uname_full: ""
+      , version: ""
+    }
   // , connectionForm: {}
   , osForm: {}
   , localizationForm: {}
