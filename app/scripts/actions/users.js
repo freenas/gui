@@ -103,11 +103,14 @@ export function createUser () {
   }
 };
 
-export function updateUser ( userName ) {
+export function updateUser ( userID ) {
   return ( dispatch, getState ) => {
     const state = getState();
+    const userToUpdate = _.find( state.users.users, { id: userID } );
+    if ( userToUpdate === undefined ) {
+      throw new Error( "Attempted to update a nonexistant user." );
+    }
     var updatedUserProps = Object.assign( {}, state.users.userForm );
-
     _.forOwn( updatedUserProps
             , function processProperties ( property, key, updatedUserProps ) {
               if ( property === null ) {
@@ -125,6 +128,35 @@ export function updateUser ( userName ) {
             }
             );
 
+    // Check for restrictions on root and other system users
+    if ( userToUpdate.id === 0 || userToUpdate.id === "0" ) {
+      if ( updatedUserProps.id !== "undefined" ) {
+        throw new Error( "Attempted to change root's user id." );
+      }
+      if ( updatedUserProps.builtin !== "undefined" ) {
+        throw new Error( "Attempted to update a built-in system user." );
+      }
+      if ( updatedUserProps.home !== "undefined" ) {
+        throw new Error( "Attempted to change root's home directory." );
+      }
+      if ( typeof updatedUserProps.locked !== "undefined"
+        || typeof updatedUserProps.password_disabled !== "undefined" ) {
+        throw new Error( "Attempted to change root's login capabilities." );
+      }
+      if ( typeof updatedUserProps.sudo !== "undefined" ) {
+        throw new Error( "Attempted to change root's sudoer status. (Why?)" );
+      }
+      if ( typeof updatedUserProps.userName !== "undefined" ) {
+        throw new Error( "Attempted to change root's username." );
+      }
+      if ( typeof updatedUserProps.group !== "undefined"
+        || typeof updatedUserProps.groups !== "undefined" ) {
+        throw new Error( "Attempted to change root's group membership." );
+      }
+    } else if ( userToUpdate.builtin ) {
+      throw new Error( "Attempted to update a system user." );
+    }
+
     if ( typeof updatedUserProps.name === "string"
       && _.find( state.users.users
                , { userName: updatedUserProps.userName }
@@ -136,16 +168,24 @@ export function updateUser ( userName ) {
     }
 
     MC.request( "task.submit"
-              , [ "users.update", [ userName, updatedUserProps ] ]
+              , [ "users.update", [ userID, updatedUserProps ] ]
               , UUID => dispatch( watchRequest( UUID, USER_UPDATE_TASK ) )
               );
   }
 };
 
-export function deleteUser ( userName ) {
-  return ( dispatch ) => {
+export function deleteUser ( userID ) {
+  return ( dispatch, getState ) => {
+    const state = getState();
+    const userToDelete = _.find( state.users.users, { id: userID } );
+    if ( userToDelete === "undefined" ) {
+      throw new Error( "Attempted to delete a nonexistant user." );
+    }
+    if ( userToDelete.builtin ) {
+      throw new Error( "Attempted to delete a built-in system user." );
+    }
     MC.request( "task.submit"
-              , [ "users.delete", [ userName ] ]
+              , [ "users.delete", [ userID ] ]
               , UUID => dispatch( watchRequest( UUID, USER_DELETE_TASK ) )
               );
   }
