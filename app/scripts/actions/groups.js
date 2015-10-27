@@ -127,6 +127,7 @@ export function createGroup () {
 export function updateGroup ( groupID ) {
   return ( dispatch, getState ) => {
     const state = getState();
+    var groupToUpdate = _.find(state.groups.groups, { id: groupID } );
     var newGroupProps = Object.assign( {}, state.groups.groupForm );
 
     _.forOwn( newGroupProps
@@ -142,11 +143,17 @@ export function updateGroup ( groupID ) {
             }
             );
 
+    if ( groupToUpdate.builtin ) {
+      throw new Error( "Attempted to update a built-in system group." );
+    }
+
     if ( newGroupProps.name && _.find( state.groups.groups
                                      , { name: newGroupProps.name }
                                      )
        ) {
-      throw new Error( "Attempted to rename a group with a group name that is already in use." );
+      throw new Error( "Attempted to rename a group with a group name that is "
+                     + "already in use."
+                     );
     }
 
     MC.request( "task.submit"
@@ -157,7 +164,12 @@ export function updateGroup ( groupID ) {
 };
 
 export function deleteGroup ( groupID ) {
-  return ( dispatch ) => {
+  return ( dispatch, getState ) => {
+    const state = getState();
+    var groupToDelete = _.find(state.groups.groups, { id: groupID } );
+    if ( groupToDelete.builtin ) {
+      throw new Error( "Attempted to delete a built-in system group." );
+    }
     MC.request( "task.submit"
               , [ "groups.delete", [ groupID ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_DELETE_TASK ) )
