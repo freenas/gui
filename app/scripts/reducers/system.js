@@ -35,9 +35,9 @@ const INITIAL_STATE =
   // , ui: {}
   , info:
     { hardware:
-      { memory_size: null
+      { memory_size: 0
       , cpu_model: ""
-      , cpu_cores: null
+      , cpu_cores: 0
       }
       , load_avg: [ 0, 0, 0 ]
       , time:
