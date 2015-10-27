@@ -9,16 +9,13 @@ import React from "react";
 import { History, RouteContext } from "react-router";
 import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
-import GS from "../../../flux/stores/GroupsStore";
-import GM from "../../../flux/middleware/GroupsMiddleware";
-
-
 const GroupAdd = React.createClass(
   { mixins: [ History, RouteContext ]
 
   , propTypes:
     { nextGID: React.PropTypes.number
     , groupForm: React.PropTypes.object.isRequired
+    , createGroup: React.PropTypes.func.isRequired
     , updateGroupForm: React.PropTypes.func.isRequired
     , resetGroupForm: React.PropTypes.func.isRequired
     }
@@ -39,19 +36,6 @@ const GroupAdd = React.createClass(
     }
 
     return nameValid && idValid;
-  }
-
-  , submitNewGroup: function () {
-
-    let newGroup = this.state.newGroup;
-
-    if ( typeof newGroup.id === "string" ) {
-      newGroup.id = parseInt( newGroup.id );
-    } else {
-      newGroup.id = this.state.nextGID;
-    }
-
-    GM.createGroup( newGroup );
   }
 
   , cancel: function () {
@@ -81,7 +65,7 @@ const GroupAdd = React.createClass(
     let submitGroupButton =
       <Button
         className = "pull-right"
-        onClick   = { this.submitNewGroup }
+        onClick   = { this.props.createGroup }
         disabled = { !this.validateGroup() }
         bsStyle = "info"
       >
