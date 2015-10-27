@@ -102,7 +102,7 @@ const GroupAdd = React.createClass(
           <Input
             type = "text"
             min = { 1000 }
-            label = { "id" }
+            label = { "Group ID" }
             value = { typeof this.props.groupForm.id === "string"
                    && this.props.groupForm.id !== ""
                     ? this.props.groupForm.id
@@ -115,7 +115,7 @@ const GroupAdd = React.createClass(
                        }
           />
         </Col>
-        <Col xs = {8}>
+        <Col xs = {4}>
           {/* username */}
           <Input
             type = "text"
@@ -135,9 +135,23 @@ const GroupAdd = React.createClass(
                       : "error"
                       }
           />
+          {/* sudo */ }
+        </Col>
+        <Col xs = {4}>
+          <Input
+            type = "checkbox"
+            label = "sudo"
+            value = { typeof this.props.groupForm === "boolean"
+                    ? this.props.groupForm.sudo
+                    : null
+                    }
+            onChange = { ( e ) => this.props.updateGroupForm( "sudo"
+                                                            , e.target.checked
+                                                            )
+                       }
+          />
         </Col>
       </Row>;
-
 
     return (
       <div className="viewer-item-info">
