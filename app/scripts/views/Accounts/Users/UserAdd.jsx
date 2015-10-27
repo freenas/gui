@@ -10,10 +10,6 @@ import React from "react";
 import { History, RouteContext } from "react-router";
 import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
-import US from "../../../flux/stores/UsersStore";
-import UM from "../../../flux/middleware/UsersMiddleware";
-
-import userMixins from "../../../mixins/userMixins";
 function generateGroupsOptions ( groups ) {
   var optionList = groups.map( function createGroupOption ( group ) {
                                  return (
@@ -46,7 +42,7 @@ function createShellOptions ( shellsArray ) {
 }
 
 const UserAdd = React.createClass(
-  { mixins: [ userMixins, History, RouteContext ]
+  { mixins: [ History, RouteContext ]
 
   , propTypes:
     { nextUID: React.PropTypes.number
@@ -54,6 +50,7 @@ const UserAdd = React.createClass(
     , userForm: React.PropTypes.object.isRequired
     , updateUserForm: React.PropTypes.func.isRequired
     , resetUserForm: React.PropTypes.func.isRequired
+    , createUser: React.PropTypes.func.isRequired
     }
 
   , getInitialState: function () {
@@ -82,37 +79,6 @@ const UserAdd = React.createClass(
              && this.validateConfirmPassword();
 
     return userValid;
-  }
-
-  , submitNewUser: function () {
-    let newUser = this.state.newUser;
-
-    if ( typeof newUser.id === "string"
-      && newUser.id === ""
-       ) {
-      newUser.id = parseInt( newUser.id );
-    } else {
-      newUser.id = US.nextUID;
-    }
-
-    // If the user requests a new group, make one with the next
-    // available GID and the username.
-    if ( this.state.pleaseCreatePrimaryGroup ) {
-      let newGID = GS.nextGID;
-      GM.createGroup( { id   : newGID
-                      , name : newUser.username
-                      } );
-      newUser.group = newGID;
-    } else {
-      newUser.group = parseInt( newUser.group )
-    }
-
-    // Convert the array of strings provided by the form to an array of integers.
-    if ( !_.isEmpty( newUser.groups ) ) {
-      newUser.groups = this.parseGroupsArray( newUser.groups );
-    }
-
-    UM.createUser( newUser );
   }
 
   , validatePassword () {
@@ -178,7 +144,7 @@ const UserAdd = React.createClass(
       <Button
         className = "pull-right"
         disabled = { !this.validateUser() }
-        onClick = { this.submitNewUser }
+        onClick = { this.props.createUser }
         bsStyle = "info"
       >
         { "Create New User" }
