@@ -11,6 +11,7 @@ import { UPDATE_USER_FORM
        , GET_NEXT_UID_REQUEST
        , USER_CREATE_TASK
        , USER_UPDATE_TASK
+       , USER_DELETE_TASK
        }
   from "../actions/actionTypes";
 import { watchRequest } from "../utility/Action";
@@ -137,6 +138,15 @@ export function updateUser ( userName ) {
     MC.request( "task.submit"
               , [ "users.update", [ userName, updatedUserProps ] ]
               , UUID => dispatch( watchRequest( UUID, USER_UPDATE_TASK ) )
+              );
+  }
+};
+
+export function deleteUser ( userName ) {
+  return ( dispatch ) => {
+    MC.request( "task.submit"
+              , [ "users.delete", [ userName ] ]
+              , UUID => dispatch( watchRequest( UUID, USER_DELETE_TASK ) )
               );
   }
 };
