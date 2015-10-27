@@ -53,3 +53,19 @@ export function taskProgress ( data ) {
     }
   );
 }
+
+export function taskFinished ( data ) {
+  return (
+    { type: actionTypes.TASK_FINISHED
+    , payload: { data }
+    }
+  );
+}
+
+export function taskFailed ( data ) {
+  return (
+    { type: actionTypes.TASK_FAILED
+    , payload: { data }
+    }
+  );
+}

@@ -67,6 +67,10 @@ if ( process.env.BROWSER ) {
       store.dispatch( TASKS.taskUpdated( data ) )
     , onTaskProgress: ( data ) =>
       store.dispatch( TASKS.taskProgress( data ) )
+    , onTaskFinished: ( data ) =>
+      store.dispatch( TASKS.taskFinished( data ) )
+    , onTaskFailed: ( data ) =>
+      store.dispatch( TASKS.taskFailed( data ) )
 
     // ENTITY-SUBSCRIBER HANDLERS
     , onEntityChanged: ( mask, data ) =>

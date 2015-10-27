@@ -63,6 +63,8 @@ class MiddlewareClient {
     this.onTaskCreated  = () => notBoundWarn( "onTaskCreated" );
     this.onTaskUpdated  = () => notBoundWarn( "onTaskUpdated" );
     this.onTaskProgress = () => notBoundWarn( "onTaskProgress" );
+    this.onTaskFinished = () => notBoundWarn( "onTaskFinished" );
+    this.onTaskFailed = () => notBoundWarn( "onTaskFailed" );
 
     // SUBSCRIPTIONS
     this.onEntityChanged = () => notBoundWarn( "onEntityChanged" );
@@ -277,6 +279,16 @@ class MiddlewareClient {
 
 
   handleTaskResponse ( state, data ) {
+    // These two states don't exist in the middleware properly, so we coerce
+    // them on this end.
+    if ( data.state === "FINISHED" || data.perentage === 100 ) {
+      this.onTaskFinished( data );
+      return;
+    } else if ( data.state === "FAILED" ) {
+      this.onTaskFailed( data );
+      return;
+    }
+
     switch ( state.toUpperCase() ) {
       case "CREATED":
       this.onTaskCreated( data );
