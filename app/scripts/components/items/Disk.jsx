@@ -8,10 +8,9 @@ import ByteCalc from "../../utility/ByteCalc";
 
 
 const Disk = ( props ) => {
-  const { disk } = props;
   let diskClasses = [ "disk-icon" ];
 
-  switch ( disk.status.smart_status ) {
+  switch ( props.disk.status.smart_status ) {
     case "PASS":
       diskClasses.push( "smart-pass" );
       break;
@@ -32,18 +31,18 @@ const Disk = ( props ) => {
   return (
     <div className= { diskClasses.join( " " ) } >
       <img
-        src = { disk.status.is_ssd
+        src = { props.disk.status.is_ssd
               ? "/images/ssd.png"
               : "/images/hdd.png"
               }
       />
       <strong className="primary-text">
-        { ByteCalc.humanize( disk.mediasize
+        { ByteCalc.humanize( props.disk.mediasize
                            , { roundMode: props.roundMode }
                            )
         }
       </strong>
-      <span className="secondary-text">{ disk.path }</span>
+      <span className="secondary-text">{ props.disk.path }</span>
     </div>
   );
 }
@@ -77,6 +76,7 @@ Disk.defaultProps =
       , smart_status: "LOL"
       }
     , mediasize: 0
+    , path: ""
     }
   };
 
