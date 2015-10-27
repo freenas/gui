@@ -134,7 +134,7 @@ export default class Volume extends React.Component {
       breakdown =
         { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
         , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
-        , parity : ZfsUtil.calculateBreakdown( topology.data ).parity
+        , parity : ZfsUtil.calculateBreakdown( this.props.topology.data ).parity
       }
     } else {
       breakdown = { used: 0, avail: 0, parity: 0 };
