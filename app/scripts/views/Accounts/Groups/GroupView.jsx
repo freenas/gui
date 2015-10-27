@@ -78,6 +78,7 @@ const GroupView = React.createClass({
         </Button>
         <Button
           className = "pull-right"
+          disabled = { this.props.item.builtin }
           onClick = { this.props.handleViewChange.bind( null, "edit" ) }
           bsStyle = "info"
         >
