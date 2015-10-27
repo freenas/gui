@@ -16,6 +16,7 @@ const INITIAL_STATE =
     , sudo: false
     }
   , nextGID: null
+  , groupsTasks: new Set()
   };
 
 export default function groups ( state = INITIAL_STATE, action ) {
@@ -58,6 +59,35 @@ export default function groups ( state = INITIAL_STATE, action ) {
       } else {
         return state;
       }
+
+    // TASKS
+    case TYPES.TASK_CREATED:
+      if ( payload.data.name.startsWith( "group" ) ) {
+        return Object.assign( {}, state
+          , recordUUID( payload.data.id, state, "groupsTasks" )
+        );
+      } else {
+        return state;
+      }
+    case TYPES.TASK_UPDATED:
+      if ( payload.data.name.startsWith( "group" ) ) {
+        if ( payload.data.state === "FINISHED" ) {
+          return Object.assign( {}, state
+            , resolveUUID( payload.data.id, state, "groupsTasks" )
+          );
+        } else {
+          return Object.assign( {}, state
+            , recordUUID( payload.data.id, state, "groupsTasks" )
+          );
+        }
+      } else {
+        return state;
+      }
+    // This field intentionally left blank. It's redundant with UPDATED since
+    // all this reducer cares about is the taskID. The other important stuff is
+    // handled by the tasks reducer.
+    // case TYPES.TASK_PROGRESS:
+    //   return state;
 
     default:
       return state;
