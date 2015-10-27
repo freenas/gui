@@ -82,6 +82,10 @@ const UserView = React.createClass(
               className = "pull-right"
               onClick = { this.props.handleViewChange.bind( null, "edit" ) }
               bsStyle = "info"
+              disabled = { this.props.item.builtin
+                        && this.props.item.id !== 0
+                        && this.props.item.id !== "0"
+                         }
             >
               { "Edit User" }
             </Button>
