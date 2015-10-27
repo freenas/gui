@@ -18,15 +18,9 @@ const GroupEdit = React.createClass(
     , handleViewChange: React.PropTypes.func.isRequired
     , updateGroupForm: React.PropTypes.func.isRequired
     , resetGroupForm: React.PropTypes.func.isRequired
+    , updateGroup: React.PropTypes.func.isRequired
     , deleteGroup: React.PropTypes.func.isRequired
     }
-
-  , submitChanges: function () {
-
-    let newGroupProps = this.state.modifiedValues;
-
-    GM.updateGroup( this.props.item.id, newGroupProps );
-  }
 
   , render: function () {
     let builtinWarning = null;
@@ -88,7 +82,7 @@ const GroupEdit = React.createClass(
       <Button
         className = "pull-right"
         bsStyle = "success"
-        onClick = { this.submitChanges }
+        onClick = { () => this.props.updateGroup( this.props.item.id ) }
       >
         { "Submit Changes" }
       </Button>;
