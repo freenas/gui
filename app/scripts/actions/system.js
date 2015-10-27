@@ -98,7 +98,7 @@ export function resetConsoleForm () {
 // GENERAL QUERIES
 
 export function requestGeneralConfig () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.general.get_config"
               , []
               , ( UUID ) =>
@@ -108,7 +108,7 @@ export function requestGeneralConfig () {
 };
 
 export function requestTimezones () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.general.timezones"
               , []
               , ( UUID ) =>
@@ -118,7 +118,7 @@ export function requestTimezones () {
 };
 
 export function requestKeymaps () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.general.keymaps"
               , []
               , ( UUID ) =>
@@ -131,7 +131,7 @@ export function requestKeymaps () {
 // ADVANCED QUERIES
 
 export function requestAdvancedConfig () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.advanced.get_config"
               , []
               , ( UUID ) =>
@@ -141,7 +141,7 @@ export function requestAdvancedConfig () {
 };
 
 export function requestSerialPorts () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.advanced.serial_ports"
               , []
               , ( UUID ) =>
@@ -154,7 +154,7 @@ export function requestSerialPorts () {
 // INFO QUERIES
 
 export function requestHardware () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.info.hardware"
               , []
               , ( UUID ) =>
@@ -164,7 +164,7 @@ export function requestHardware () {
 };
 
 export function requestLoadAvg () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.info.load_avg"
               , []
               , ( UUID ) =>
@@ -174,7 +174,7 @@ export function requestLoadAvg () {
 };
 
 export function requestTime () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.info.time"
               , []
               , ( UUID ) =>
@@ -184,7 +184,7 @@ export function requestTime () {
 };
 
 export function requestUnameFull () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.info.uname_full"
               , []
               , ( UUID ) =>
@@ -194,7 +194,7 @@ export function requestUnameFull () {
 };
 
 export function requestVersion () {
-  return ( dispatch, getState ) => {
+  return ( dispatch ) => {
     MC.request( "system.info.version"
               , []
               , ( UUID ) =>
