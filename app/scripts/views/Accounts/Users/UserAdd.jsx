@@ -13,12 +13,7 @@ import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 import US from "../../../flux/stores/UsersStore";
 import UM from "../../../flux/middleware/UsersMiddleware";
 
-import GS from "../../../flux/stores/GroupsStore";
-import GM from "../../../flux/middleware/GroupsMiddleware";
-
 import userMixins from "../../../mixins/userMixins";
-import groupMixins from "../../../mixins/groupMixins";
-
 function generateGroupsOptions ( groups ) {
   var optionList = groups.map( function createGroupOption ( group ) {
                                  return (
