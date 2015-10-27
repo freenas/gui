@@ -57,6 +57,7 @@ const VDEVInfo = React.createClass(
           <DropdownButton
             buttonClassName = "vdev-type"
             title = { typeName }
+            id = { `VDEV-Type-Dropdown-${ this.props.type }` }
           >
             { this.props.allowedTypes.map( this.createMenuItems ) }
           </DropdownButton>
