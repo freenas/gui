@@ -75,6 +75,8 @@ export default function auth ( state = INITIAL_STATE, action ) {
           , SIDShow: true
           , SIDMessage: "The username or password was incorrect"
           , badCombo: true
+          , token: null
+          , tokenExpiry: null
           });
       } else {
         return state;
@@ -89,6 +91,8 @@ export default function auth ( state = INITIAL_STATE, action ) {
           , SIDShow: true
           , SIDMessage: "The login request timed out"
           , badCombo: false
+          , token: null
+          , tokenExpiry: null
           });
       } else {
         return state;
@@ -100,8 +104,13 @@ export default function auth ( state = INITIAL_STATE, action ) {
         , SIDShow    : true
         , SIDMessage : "You have logged out"
         , loggedIn   : false
+        , token: null
+        , tokenExpiry: null
         });
 
+    // TODO: Need to handle the case where the socket closes, you have a token
+    // you try to use the token, and the token is bad. Right now, that probably
+    // coerves to "The username or password was incorrect"
     case actionTypes.WS_CLOSED:
       return Object.assign( {}, state,
         { isWaiting  : false
