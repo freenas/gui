@@ -480,7 +480,7 @@ class MiddlewareClient {
 
   // TASK SUBMISSION
   submitTask ( args, onRequest, timeoutDelay ) {
-    request.call( this, "task.submit", args, onRequest, timeoutDelay );
+    this.request.call( this, "task.submit", args, onRequest, timeoutDelay );
   }
 
 
