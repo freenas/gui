@@ -277,7 +277,6 @@ export default function volumes ( state = INITIAL_STATE, action ) {
     case TYPES.TASK_PROGRESS:
     case TYPES.TASK_FINISHED:
     case TYPES.TASK_FAILED:
-      console.log( payload );
       return state;
 
 
