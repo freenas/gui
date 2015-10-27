@@ -26,16 +26,7 @@ class System extends React.Component {
 
   componentDidMount () {
     // IM.requestInterfacesList();
-    this.props.requestGeneralConfig();
-    this.props.requestTimezones();
-    this.props.requestKeymaps();
-    this.props.requestAdvancedConfig();
-    this.props.requestSerialPorts();
-    this.props.requestHardware();
-    this.props.requestLoadAvg();
-    this.props.requestTime();
-    this.props.requestUnameFull();
-    this.props.requestVersion();
+    this.props.fetchData();
   }
 
   render () {
@@ -92,16 +83,18 @@ function mapDispatchToProps ( dispatch ) {
     , resetConsoleForm: () => dispatch( systemActions.resetConsoleForm() )
 
     // QUERIES
-    , requestGeneralConfig: () => dispatch( systemActions.requestGeneralConfig() )
-    , requestTimezones: () => dispatch( systemActions.requestTimezones() )
-    , requestKeymaps: () => dispatch( systemActions.requestKeymaps() )
-    , requestAdvancedConfig: () => dispatch( systemActions.requestAdvancedConfig() )
-    , requestSerialPorts: () => dispatch( systemActions.requestSerialPorts() )
-    , requestHardware: () => dispatch( systemActions.requestHardware() )
-    , requestLoadAvg: () => dispatch( systemActions.requestLoadAvg() )
-    , requestTime: () => dispatch( systemActions.requestTime() )
-    , requestUnameFull: () => dispatch( systemActions.requestUnameFull() )
-    , requestVersion: () => dispatch( systemActions.requestVersion() )
+    , fetchData: () => {
+      dispatch( systemActions.requestGeneralConfig() );
+      dispatch( systemActions.requestTimezones() );
+      dispatch( systemActions.requestKeymaps() );
+      dispatch( systemActions.requestAdvancedConfig() );
+      dispatch( systemActions.requestSerialPorts() );
+      dispatch( systemActions.requestHardware() );
+      dispatch( systemActions.requestLoadAvg() );
+      dispatch( systemActions.requestTime() );
+      dispatch( systemActions.requestUnameFull() );
+      dispatch( systemActions.requestVersion() );
+    }
 
     // TASKS
     // , submitOSForm: () => dispatch( systemActions.submitOSForm() )
