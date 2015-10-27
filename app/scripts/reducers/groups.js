@@ -12,7 +12,7 @@ const INITIAL_STATE =
   , groups: []
   , groupForm:
     { name: null
-    , id: null
+    , id: null // Only editable during creation!
     , sudo: false
     }
   , nextGID: null
