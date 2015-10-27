@@ -17,18 +17,15 @@ import viewerUtil from "../../../components/Viewer/viewerUtil";
 
 import UsersStore from "../../../flux/stores/UsersStore";
 
-import groupMixins from "../../../mixins/groupMixins";
-
 const GroupView = React.createClass({
 
-  mixins: [ groupMixins ]
-
-  , contextTypes: {
+  contextTypes: {
     router: React.PropTypes.func
   }
 
-  , propTypes: {
-      item: React.PropTypes.object.isRequired
+  , propTypes:
+    { item: React.PropTypes.object.isRequired
+    , deleteGroup: React.PropTypes.func.isRequired
     }
 
   , getMembers: function ( groupid ) {
@@ -74,7 +71,7 @@ const GroupView = React.createClass({
         <Button
           className = "pull-left"
           disabled = { this.props.item.builtin }
-          onClick = { this.deleteGroup }
+          onClick = { () => this.props.deleteGroup( this.props.item.id ) }
           bsStyle = "danger"
         >
           { "Delete Group" }

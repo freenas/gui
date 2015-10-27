@@ -9,8 +9,6 @@ import React from "react";
 import { Input, Button, ButtonToolbar, Alert, Grid, Row, Col }
   from "react-bootstrap";
 
-import groupMixins from "../../../mixins/groupMixins";
-
 const GroupEdit = React.createClass(
 
   { propTypes:
@@ -20,9 +18,8 @@ const GroupEdit = React.createClass(
     , handleViewChange: React.PropTypes.func.isRequired
     , updateGroupForm: React.PropTypes.func.isRequired
     , resetGroupForm: React.PropTypes.func.isRequired
+    , deleteGroup: React.PropTypes.func.isRequired
     }
-
-  , mixins: [ groupMixins ]
 
   , submitChanges: function () {
 
@@ -109,7 +106,7 @@ const GroupEdit = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "danger"
-        onClick = { this.deleteGroup.bind( this ) }
+        onClick = { () => this.props.deleteGroup( this.props.item.id ) }
         disabled = { this.props.item.builtin }
       >
         { "Delete Group" }
