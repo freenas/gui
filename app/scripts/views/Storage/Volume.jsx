@@ -169,7 +169,7 @@ export default class Volume extends React.Component {
         { this.props.existsOnServer ? (
           <ExistingVolume
             volumeName = { this.props.name }
-            onClick = { this.onFocusVolume }
+            onClick = { this.props.onFocusVolume }
             onDestroyPool = { this.onRequestDeleteVolume }
             topologyBreakdown = { this.breakdownFromRootDataset() }
           />
@@ -191,6 +191,7 @@ export default class Volume extends React.Component {
           className = "volume-nav"
           bsStyle = "pills"
           defaultActiveKey = { DEFAULT_SECTION }
+          style = { this.props.active ? {} : { display: "none" } }
         >
 
           {/* DATASETS, ZVOLS, AND SHARES */}
@@ -253,7 +254,9 @@ const RAW_VALUE_PROPTYPE = {
 };
 
 Volume.propTypes =
-  { existsOnServer: React.PropTypes.bool.isRequired
+  { active: React.PropTypes.bool.isRequired
+
+  , existsOnServer: React.PropTypes.bool.isRequired
   , existsOnClient: React.PropTypes.bool.isRequired
 
   , onDiskSelect : React.PropTypes.func.isRequired
