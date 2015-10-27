@@ -83,11 +83,6 @@ export default function groups ( state = INITIAL_STATE, action ) {
       } else {
         return state;
       }
-    // This field intentionally left blank. It's redundant with UPDATED since
-    // all this reducer cares about is the taskID. The other important stuff is
-    // handled by the tasks reducer.
-    // case TYPES.TASK_PROGRESS:
-    //   return state;
 
     default:
       return state;
