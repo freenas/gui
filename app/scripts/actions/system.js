@@ -3,14 +3,38 @@
 
 "use strict";
 
-import * as TYPES from "./actionTypes";
+import { UPDATE_OS_FORM
+       , RESET_OS_FORM
+       , UPDATE_CONNECTION_FORM
+       , RESET_CONNECTION_FORM
+       , UPDATE_LOCALIZATION_FORM
+       , RESET_LOCALIZATION_FORM
+       , UPDATE_CONSOLE_FORM
+       , RESET_CONSOLE_FORM
+       , SYSTEM_GENERAL_CONFIG_REQUEST
+       , SYSTEM_GENERAL_TIMEZONES_REQUEST
+       , KEYMAPS_REQUEST
+       , SYSTEM_ADVANCED_CONFIG_REQUEST
+       , SERIAL_PORTS_REQUEST
+       , SYSTEM_INFO_HARDWARE_REQUEST
+       , SYSTEM_INFO_LOAD_AVG_REQUEST
+       , SYSTEM_INFO_TIME_REQUEST
+       , SYSTEM_INFO_UNAME_FULL_REQUEST
+       , SYSTEM_INFO_VERSION_REQUEST
+       , SUBMIT_OS_TASK_REQUEST
+       , SUBMIT_LOCALIZATION_TASK_REQUEST
+       , SUBMIT_CONSOLE_TASK_REQUEST
+       }
+  from "./actionTypes";
+
+import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
 
 // OS FORM
 export function updateOSForm ( field, value ) {
   return (
-    { type: TYPES.UPDATE_OS_FORM
+    { type: UPDATE_OS_FORM
     , payload: { field: field
                , value: value
                }
@@ -19,7 +43,7 @@ export function updateOSForm ( field, value ) {
 };
 
 export function resetOSForm () {
-  return ( { type: TYPES.RESET_OS_FORM } );
+  return ( { type: RESET_OS_FORM } );
 };
 
 
@@ -27,7 +51,7 @@ export function resetOSForm () {
 /*
 export function updateConnectionForm ( field, value ) {
   return (
-    { type: TYPES.UPDATE_CONNECTION_FORM
+    { type: UPDATE_CONNECTION_FORM
     , payload: { field: field
                , value: value
                }
@@ -36,14 +60,14 @@ export function updateConnectionForm ( field, value ) {
 };
 
 export function resetConnectionForm () {
-  return ( { type: TYPES.RESET_CONNECTION_FORM } );
+  return ( { type: RESET_CONNECTION_FORM } );
 };
 */
 
 // LOCALIZATION FORM
 export function updateLocalizationForm ( field, value ) {
   return (
-    { type: TYPES.UPDATE_LOCALIZATION_FORM
+    { type: UPDATE_LOCALIZATION_FORM
     , payload: { field: field
                , value: value
                }
@@ -52,14 +76,14 @@ export function updateLocalizationForm ( field, value ) {
 };
 
 export function resetLocalizationForm () {
-  return ( { type: TYPES.RESET_LOCALIZATION_FORM } );
+  return ( { type: RESET_LOCALIZATION_FORM } );
 };
 
 
 // CONSOLE FORM
 export function updateConsoleForm ( field, value ) {
   return (
-    { type: TYPES.UPDATE_CONSOLE_FORM
+    { type: UPDATE_CONSOLE_FORM
     , payload: { field: field
                , value: value
                }
@@ -68,165 +92,113 @@ export function updateConsoleForm ( field, value ) {
 };
 
 export function resetConsoleForm () {
-  return ( { type: TYPES.RESET_CONSOLE_FORM } );
+  return ( { type: RESET_CONSOLE_FORM } );
 };
-
-export function resetConsoleForm () {
-  return ( { type: TYPES.RESET_CONSOLE_FORM } );
-};
-
 
 // GENERAL QUERIES
-function generalConfigRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_GENERAL_CONFIG_REQUEST
-         , payload: { UUID }
-         };
-};
 
 export function requestGeneralConfig () {
   return ( dispatch, getState ) => {
     MC.request( "system.general.get_config"
               , []
-              , ( UUID ) => dispatch( generalConfigRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_GENERAL_CONFIG_REQUEST ) )
               );
   };
-};
-
-function timezonesRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_GENERAL_TIMEZONES_REQUEST
-         , payload: { UUID }
-         };
 };
 
 export function requestTimezones () {
   return ( dispatch, getState ) => {
     MC.request( "system.general.timezones"
               , []
-              , ( UUID ) => dispatch( timezonesRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_GENERAL_TIMEZONES_REQUEST ) )
               );
   };
-};
-
-function keymapsRequest ( UUID ) {
-  return { type: TYPES.KEYMAPS_REQUEST
-         , payload: { UUID }
-         };
 };
 
 export function requestKeymaps () {
   return ( dispatch, getState ) => {
     MC.request( "system.general.keymaps"
               , []
-              , ( UUID ) => dispatch( keymapsRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, KEYMAPS_REQUEST ) )
               );
   };
 };
 
 
 // ADVANCED QUERIES
-function advancedConfigRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_ADVANCED_CONFIG_REQUEST
-         , payload: { UUID }
-         };
-};
 
 export function requestAdvancedConfig () {
   return ( dispatch, getState ) => {
     MC.request( "system.advanced.get_config"
               , []
-              , ( UUID ) => dispatch( advancedConfigRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_ADVANCED_CONFIG_REQUEST ) )
               );
   };
-};
-
-function serialPortsRequest ( UUID ) {
-  return { type: TYPES.SERIAL_PORTS_REQUEST
-         , payload: { UUID }
-         }
 };
 
 export function requestSerialPorts () {
   return ( dispatch, getState ) => {
     MC.request( "system.advanced.serial_ports"
               , []
-              , ( UUID ) => dispatch( serialPortsRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SERIAL_PORTS_REQUEST ) )
               );
   };
 };
 
 
 // INFO QUERIES
-function systemInfoHardwareRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_INFO_HARDWARE_REQUEST
-         , payload: { UUID }
-         };
-};
 
 export function requestHardware () {
   return ( dispatch, getState ) => {
     MC.request( "system.info.hardware"
               , []
-              , ( UUID ) => dispatch( systemInfoHardwareRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_INFO_HARDWARE_REQUEST ) )
               );
   }
-};
-
-function systemInfoLoadAvgRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_INFO_LOAD_AVG_REQUEST
-         , payload: { UUID }
-         };
 };
 
 export function requestLoadAvg () {
   return ( dispatch, getState ) => {
     MC.request( "system.info.load_avg"
               , []
-              , ( UUID ) => dispatch( systemInfoLoadAvgRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_INFO_LOAD_AVG_REQUEST ) )
               );
   };
-};
-
-function systemInfoTimeRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_INFO_TIME_REQUEST
-         , payload: { UUID }
-         };
 };
 
 export function requestTime () {
   return ( dispatch, getState ) => {
     MC.request( "system.info.time"
               , []
-              , ( UUID ) => dispatch( systemInfoTimeRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_INFO_TIME_REQUEST ) )
               );
   };
-};
-
-function systemInfoUnameFullRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_INFO_UNAME_FULL_REQUEST
-         , payload: { UUID }
-         };
 };
 
 export function requestUnameFull () {
   return ( dispatch, getState ) => {
     MC.request( "system.info.uname_full"
               , []
-              , ( UUID ) => dispatch( systemInfoUnameFullRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_INFO_UNAME_FULL_REQUEST ) )
               );
   };
-};
-
-function systemInfoVersionRequest ( UUID ) {
-  return { type: TYPES.SYSTEM_INFO_VERSION_REQUEST
-         , payload: { UUID }
-         };
 };
 
 export function requestVersion () {
   return ( dispatch, getState ) => {
     MC.request( "system.info.version"
               , []
-              , ( UUID ) => dispatch( systemInfoVersionRequest( UUID ) )
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, SYSTEM_INFO_VERSION_REQUEST ) )
               );
   };
 };
