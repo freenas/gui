@@ -63,6 +63,10 @@ const INITIAL_STATE =
   , timeRequests: new Set()
   , unameFullRequests: new Set()
   , versionRequests: new Set()
+  , generalConfigTasks: new Set()
+  , advancedConfigTasks: new Set()
+  , rebootTasks: new Set()
+  , shutdownTasks: new Set()
   };
 
 export default function system ( state = INITIAL_STATE, action ) {
@@ -275,6 +279,76 @@ export default function system ( state = INITIAL_STATE, action ) {
       } else {
         return state;
       }
+
+    // TASKS
+    case TYPES.TASK_CREATED:
+      if ( payload.data.name === "system.general.configure" ) {
+        return Object.assign( {}, state
+          , recordUUID( payload.data.id, state, "generalConfigTasks" )
+        );
+      } else if ( payload.data.name === "system.advanced.configure" ) {
+        return Object.assign( {}, state
+          , recordUUID( payload.data.id, state, "advancedConfigTasks" )
+        );
+      } else if ( payload.data.name === "system.reboot" ) {
+        return Object.assign( {}, state
+          , recordUUID( payload.data.id, state, "rebootTasks" )
+        );
+      } else if ( payload.data.name === "system.shutdown" ) {
+        return Object.assign( {}, state
+          , recordUUID( payload.data.id, state, "shutdownTasks" )
+        );
+      }
+      else {
+        return state;
+      }
+    case TYPES.TASK_UPDATED:
+      if ( payload.data.name.startsWith( "group" ) ) {
+        if ( payload.data.state === "FINISHED" ) {
+          if ( payload.data.name === "system.general.configure" ) {
+            return Object.assign( {}, state
+              , resolveUUID( payload.data.id, state, "generalConfigTasks" )
+            );
+          } else if ( payload.data.name === "system.advanced.configure" ) {
+            return Object.assign( {}, state
+              , resolveUUID( payload.data.id, state, "advancedConfigTasks" )
+            );
+          } else if ( payload.data.name === "system.reboot" ) {
+            return Object.assign( {}, state
+              , resolveUUID( payload.data.id, state, "rebootTasks" )
+            );
+          } else if ( payload.data.name === "system.shutdown" ) {
+            return Object.assign( {}, state
+              , resolveUUID( payload.data.id, state, "shutdownTasks" )
+            );
+          } else {
+            return state;
+          }
+        } else {
+          if ( payload.data.name === "system.general.configure" ) {
+            return Object.assign( {}, state
+              , recordUUID( payload.data.id, state, "generalConfigTasks" )
+            );
+          } else if ( payload.data.name === "system.advanced.configure" ) {
+            return Object.assign( {}, state
+              , recordUUID( payload.data.id, state, "advancedConfigTasks" )
+            );
+          } else if ( payload.data.name === "system.reboot" ) {
+            return Object.assign( {}, state
+              , recordUUID( payload.data.id, state, "rebootTasks" )
+            );
+          } else if ( payload.data.name === "system.shutdown" ) {
+            return Object.assign( {}, state
+              , recordUUID( payload.data.id, state, "shutdownTasks" )
+            );
+          } else {
+            return state;
+          }
+        }
+      } else {
+        return state;
+      }
+
 
     default:
       return state;
