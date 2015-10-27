@@ -108,7 +108,7 @@ class Storage extends React.Component {
       Boolean( Object.keys( this.props.volumes.clientVolumes ).length );
 
     const LOADING = Boolean( this.props.volumes.volumesRequests.size );
-    const SHOW_INTRO = !( LOADING && SERVER_VOLUMES_EXIST && CLIENT_VOLUMES_EXIST );
+    const SHOW_INTRO = !LOADING && !SERVER_VOLUMES_EXIST && !CLIENT_VOLUMES_EXIST;
     // In the case that no volumes are being edited or created, and disks are
     // available for inclusion in a new pool, the user has the option to
     // create a new pool.
