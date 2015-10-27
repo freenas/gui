@@ -23,7 +23,9 @@ export default class NewVolume extends React.Component {
               type        = "text"
               placeholder = "Volume Name"
               onClick     = { event => event.stopPropagation() }
-              onChange    = { this.props.onVolumeNameChange }
+              onChange    = { event =>
+                this.props.onVolumeNameChange( event.target.value )
+              }
               className   = "form-overlay"
               value       = { this.props.volumeName }
             />
