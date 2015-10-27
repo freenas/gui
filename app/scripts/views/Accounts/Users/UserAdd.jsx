@@ -337,7 +337,7 @@ const UserAdd = React.createClass(
         key = "groups"
         multiple
       >
-        { generateGroupsOptions( GS.groups ) }
+        { generateGroupsOptions( this.props.groups ) }
       </Input>;
 
     let userLockedField =
