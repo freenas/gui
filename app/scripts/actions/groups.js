@@ -124,7 +124,7 @@ export function createGroup () {
   }
 };
 
-export function updateGroup ( groupName ) {
+export function updateGroup ( groupID ) {
   return ( dispatch, getState ) => {
     const state = getState();
     var newGroupProps = Object.assign( {}, state.groups.groupForm );
@@ -150,16 +150,16 @@ export function updateGroup ( groupName ) {
     }
 
     MC.request( "task.submit"
-              , [ "groups.update", [ groupName, newGroupProps ] ]
+              , [ "groups.update", [ groupID, newGroupProps ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_UPDATE_TASK ) )
               );
   }
 };
 
-export function deleteGroup ( groupName ) {
+export function deleteGroup ( groupID ) {
   return ( dispatch ) => {
     MC.request( "task.submit"
-              , [ "groups.delete", [ groupName ] ]
+              , [ "groups.delete", [ groupID ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_DELETE_TASK ) )
               );
   }

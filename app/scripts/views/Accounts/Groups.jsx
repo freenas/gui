@@ -132,10 +132,10 @@ function mapDispatchToProps ( dispatch ) {
     // TASKS
     , createGroup: () =>
         dispatch( GROUP_ACTIONS.createGroup() )
-    , updateGroup: ( groupName ) =>
-        dispatch( GROUP_ACTIONS.updateGroup( groupName ) )
-    , deleteGroup: ( groupName ) =>
-        dispatch( GROUP_ACTIONS.deleteGroup( groupName ) )
+    , updateGroup: ( groupID ) =>
+        dispatch( GROUP_ACTIONS.updateGroup( groupID ) )
+    , deleteGroup: ( groupID ) =>
+        dispatch( GROUP_ACTIONS.deleteGroup( groupID ) )
     }
   );
 }
