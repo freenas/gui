@@ -7,6 +7,7 @@ import { UPDATE_GROUP_FORM
        , RESET_GROUP_FORM
        , QUERY_GROUPS_REQUEST
        , GET_NEXT_GID_REQUEST
+       , GROUP_CREATE_TASK
        }
   from "../actions/actionTypes";
 import { watchRequest } from "../utility/Action";
@@ -43,6 +44,40 @@ export function requestNextGID () {
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, GET_NEXT_GID_REQUEST ) )
+              );
+  }
+};
+
+// TASKS
+export function createGroup () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+    var newGroupProps = Object.assign( {}, state.groups.groupForm );
+
+    _.forOwn( newGroupProps
+            , function processProperties ( property, key, newGroupProps ) {
+              if ( property === null ) {
+                delete newGroupProps[ key ];
+              }
+            }
+            );
+
+    if ( _.find( state.groups.groups
+               , { name: newGroupProps.name }
+               )
+       ) {
+      throw new Error( "Attempted to create a group with an existing name." );
+    }
+
+    if ( _.find( state.groups.groups
+               , { id: newGroupProps.id }
+               )
+       ) {
+      throw new Error( "Attempted to create a group with an existing group id." );
+    }
+    MC.request( "task.submit"
+              , [ "groups.create", [ newGroupProps ] ]
+              , UUID => dispatch( watchRequest( UUID, GROUP_CREATE_TASK ) )
               );
   }
 };
