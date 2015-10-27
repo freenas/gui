@@ -14,17 +14,16 @@ import { Provider } from "react-redux";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import configureStore from "./store/configureStore";
-import * as auth from "./actions/auth";
-import * as websocket from "./actions/websocket";
-import * as rpc from "./actions/rpc";
-import * as tasks from "./actions/tasks";
+import * as AUTH from "./actions/auth";
+import * as SUBSCRIPTIONS from "./actions/subscriptions";
+import * as RPC from "./actions/rpc";
+import * as TASKS from "./actions/tasks";
+import * as WEBSOCKET from "./actions/websocket";
 
 import routes from "./routes";
 import TargetHost from "./websocket/TargetHost";
 import ConnectionHandler from "./websocket/ConnectionHandler";
 import MiddlewareClient from "./websocket/MiddlewareClient";
-
-const ACTIONS = { ...auth, ...websocket, ...rpc, ...tasks };
 
 if ( process.env.BROWSER ) {
   const store = configureStore();
@@ -32,41 +31,46 @@ if ( process.env.BROWSER ) {
   const history = createBrowserHistory();
   const { protocol, host, path, mode } = TargetHost.connection();
 
-  store.dispatch( ACTIONS.changeSockTarget({ protocol, host, path, mode }) );
+  store.dispatch( WEBSOCKET.changeSockTarget({ protocol, host, path, mode }) );
 
   MiddlewareClient.bindStore( store );
 
   MiddlewareClient.bindHandlers(
     { onSockStateChange: ( state, closeEvent ) =>
-        store.dispatch( ACTIONS.changeSockState( state, closeEvent ) )
+      store.dispatch( WEBSOCKET.changeSockState( state, closeEvent ) )
+
     , onLogout: () =>
-        store.dispatch( ACTIONS.logout() )
+      store.dispatch( AUTH.logout() )
 
 
     // RPC QUEUE
     , onRPCEnqueue: ( request ) =>
-        store.dispatch( ACTIONS.enqueueRPCRequest( request ) )
+      store.dispatch( RPC.enqueueRPCRequest( request ) )
     , onRPCDequeue: () =>
-        store.dispatch( ACTIONS.dequeueRPCRequests() )
+      store.dispatch( RPC.dequeueRPCRequests() )
 
     // RPC LIFECYCLE
     , onRPCRequest: ( UUID, params ) =>
-        store.dispatch( ACTIONS.submitRPCRequest( UUID, params ) )
+      store.dispatch( RPC.submitRPCRequest( UUID, params ) )
     , onRPCSuccess: ( UUID, data ) =>
-        store.dispatch( ACTIONS.submitRPCSuccess( UUID, data ) )
+      store.dispatch( RPC.submitRPCSuccess( UUID, data ) )
     , onRPCFailure: ( UUID, error ) =>
-        store.dispatch( ACTIONS.submitRPCFailure( UUID, error ) )
+      store.dispatch( RPC.submitRPCFailure( UUID, error ) )
     , onRPCTimeout: ( UUID, error ) =>
-        store.dispatch( ACTIONS.submitRPCTimeout( UUID, error ) )
+      store.dispatch( RPC.submitRPCTimeout( UUID, error ) )
 
 
     // TASK UPDATE HANDLERS
     , onTaskCreated: ( data ) =>
-        store.dispatch( ACTIONS.taskCreated( data ) )
+      store.dispatch( TASKS.taskCreated( data ) )
     , onTaskUpdated: ( data ) =>
-        store.dispatch( ACTIONS.taskUpdated( data ) )
+      store.dispatch( TASKS.taskUpdated( data ) )
     , onTaskProgress: ( data ) =>
-        store.dispatch( ACTIONS.taskProgress( data ) )
+      store.dispatch( TASKS.taskProgress( data ) )
+
+    // ENTITY-SUBSCRIBER HANDLERS
+    , onEntityChanged: ( mask, data ) =>
+      store.dispatch( SUBSCRIPTIONS.entityChanged( mask, data ) )
     }
   );
 

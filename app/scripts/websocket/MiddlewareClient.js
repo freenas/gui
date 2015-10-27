@@ -63,6 +63,9 @@ class MiddlewareClient {
     this.onTaskCreated  = () => notBoundWarn( "onTaskCreated" );
     this.onTaskUpdated  = () => notBoundWarn( "onTaskUpdated" );
     this.onTaskProgress = () => notBoundWarn( "onTaskProgress" );
+
+    // SUBSCRIPTIONS
+    this.onEntityChanged = () => notBoundWarn( "onEntityChanged" );
   }
 
   bindStore ( store ) {
@@ -173,8 +176,6 @@ class MiddlewareClient {
   // middleware's response, and then performs followup tasks depending on the
   // message's namespace.
   handleMessage ( message ) {
-
-
     let data;
     // TODO: The timestamp should come from the server, so we can use it for
     // reconciliation and patches.
@@ -208,6 +209,15 @@ class MiddlewareClient {
         switch ( eventName[0] ) {
           case "task":
             this.handleTaskResponse( eventName[1], data.args.args );
+            break;
+
+          case "entity-subscriber":
+            // Because we expect these to look like "volumes.changed" in the
+            // reducers, it's necessary to rejoin the array, dropping only the
+            // "entity-subscriber" from the start.
+            eventName.shift();
+            eventName = eventName.join( "." );
+            this.onEntityChanged( eventName, data.args.args );
             break;
 
           case "logout":

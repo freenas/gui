@@ -30,6 +30,8 @@ export const RPC_RESOLVE = "RPC_RESOLVE";
 export const SUBSCRIBE = "SUBSCRIBE";
 export const UNSUBSCRIBE = "UNSUBSCRIBE";
 
+export const ENTITY_CHANGED = "ENTITY_CHANGED";
+
 
 
 // TASKS

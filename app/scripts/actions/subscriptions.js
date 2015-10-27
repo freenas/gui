@@ -124,3 +124,9 @@ export function remove ( masks, componentID ) {
     }
   }
 }
+
+export function entityChanged ( mask, data ) {
+  return { type: TYPES.ENTITY_CHANGED
+         , payload: { mask, data }
+         };
+}

@@ -64,6 +64,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
   let diskPathsByType;
   let topologyData;
   let selectedDisks;
+  let changedVolumes;
 
   switch ( type ) {
 
@@ -227,11 +228,10 @@ export default function volumes ( state = INITIAL_STATE, action ) {
           serverVolumes = normalizeVolumes( payload.data );
           newState =
             { serverVolumes
-            , activeVolume:
-              getActiveVolume( state.activeVolume
-                             , state.clientVolumes
-                             , serverVolumes
-                             )
+            , activeVolume: getActiveVolume( state.activeVolume
+                                           , state.clientVolumes
+                                           , serverVolumes
+                                           )
             };
 
           return Object.assign( {}
@@ -277,6 +277,52 @@ export default function volumes ( state = INITIAL_STATE, action ) {
     case TYPES.TASK_PROGRESS:
     case TYPES.TASK_FINISHED:
     case TYPES.TASK_FAILED:
+      // TODO
+      return state;
+
+    case TYPES.ENTITY_CHANGED:
+      if ( payload.mask === "volumes.changed" ) {
+        serverVolumes = Object.assign( {}, state.serverVolumes );
+
+        switch ( payload.data.operation ) {
+          case "create":
+            payload.data.entities.forEach( volume => {
+              serverVolumes[ volume.id ] = volume;
+            });
+            break;
+
+          case "delete":
+            payload.data.ids.forEach( id => {
+              delete serverVolumes[ id ];
+            });
+            break;
+
+          case "update":
+            payload.data.entities.forEach( volume => {
+              serverVolumes[ volume.id ] =
+                Object.assign( {}
+                             , state.serverVolumes[ volume.id ]
+                             , volume
+                             );
+            });
+            break;
+
+          default:
+            console.warn( `Unrecognized operation "${ payload.data.operation }".` );
+            console.dir( "Payload:", payload );
+            break;
+        }
+
+        newState =
+          { serverVolumes
+          , activeVolume: getActiveVolume( state.activeVolume
+                                         , state.clientVolumes
+                                         , serverVolumes
+                                         )
+          };
+
+        return Object.assign( {}, state, newState );
+      }
       return state;
 
 
