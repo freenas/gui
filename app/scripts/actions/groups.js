@@ -57,7 +57,46 @@ export function createGroup () {
 
     _.forOwn( newGroupProps
             , function processProperties ( property, key, newGroupProps ) {
-              if ( property === null ) {
+              if ( key === "id" ) {
+                let newID;
+                // The expected case. Parse a string into an integer, use that.
+                if ( typeof property === "string" ) {
+                  // First check if the field is empty. If so, use the fallback,
+                  // which is the nextGID.
+                  if ( property === "" ) {
+                    newID = state.groups.nextGID;
+                  } else {
+                    // Now we parse the string into an integer
+                    newID = Number.parseInt( property, 10 );
+                    // If the string was anything but an integer, throw.
+                    if ( Number.isNaN( newID ) ) {
+                      throw new Error( "Attempted to create a group with a non-"
+                                     + "integer id."
+                                     );
+                    }
+                  }
+                  // If the field was a number (a possible choice), check that
+                  // it's an integer and use it if so
+                } else if ( typeof property === "number"
+                         && Number.isInteger( property )
+                          ) {
+                  newID = property;
+                  // In the standard fallback case where the field was never
+                  // edited, use the nextGID.
+                } else if ( property === null
+                         || typeof property === "undefined"
+                          ) {
+                  newID = state.groups.nextGID;
+                } else {
+                  // If all of the above fail, mistakes were made, throw.
+                  throw new Error( "Attempted to create a group with a non-"
+                                 + "integer id."
+                                 );
+                }
+                newGroupProps.id = newID;
+              } else if ( property === null ) {
+                // Honestly this is just for sudo, to avoid middleware complaint
+                // if the value we submit is bad.
                 delete newGroupProps[ key ];
               }
             }
@@ -70,6 +109,7 @@ export function createGroup () {
       throw new Error( "Attempted to create a group with an existing name." );
     }
 
+    // One more id failure case: the form was legit, but the id is in use.
     if ( _.find( state.groups.groups
                , { id: newGroupProps.id }
                )
