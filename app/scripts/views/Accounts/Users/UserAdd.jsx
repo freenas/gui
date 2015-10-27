@@ -206,7 +206,6 @@ const UserAdd = React.createClass(
                                                        , e.target.value
                                                        ) }
         key = "id"
-        ref = "id"
       />;
 
     let userNameField =
@@ -221,7 +220,6 @@ const UserAdd = React.createClass(
                                                        , e.target.value
                                                        ) }
         key = "username"
-        ref = "username"
         bsStyle = { typeof this.props.userForm.username === "string"
                         && this.props.userForm.username !== ""
                          ? null
@@ -241,7 +239,6 @@ const UserAdd = React.createClass(
                                                        , e.target.value
                                                        ) }
         key = "password"
-        ref = "password"
         bsStyle = { this.validatePassword()
                   ? null
                   : "error"
@@ -260,7 +257,6 @@ const UserAdd = React.createClass(
                                                        , e.target.value
                                                        ) }
         key = "confirmPassword"
-        ref = "confirmPassword"
         bsStyle = { this.validateConfirmPassword()
                   ? null
                   : "error"
@@ -279,7 +275,6 @@ const UserAdd = React.createClass(
                                                        , e.target.value
                                                        ) }
         key = "full_name"
-        ref = "full_name"
       />;
 
     let userEmailField =
@@ -294,7 +289,6 @@ const UserAdd = React.createClass(
                                                        , e.target.value
                                                        ) }
         key = "email"
-        ref = "email"
       />;
 
     let userShellField =
@@ -310,7 +304,6 @@ const UserAdd = React.createClass(
                                                        , e.target
                                                        ) }
         key = "shell"
-        ref = "shell"
       >
         { createShellOptions( this.props.shells ) }
       </Input>;
@@ -327,7 +320,6 @@ const UserAdd = React.createClass(
                                                        , e.target.value
                                                        ) }
         key = "sshpubkey"
-        ref = "sshpubkey"
         rows = "10"
       />;
 
@@ -343,7 +335,6 @@ const UserAdd = React.createClass(
                                                        , e.target.checked
                                                        ) }
         key = "groups"
-        ref = "groups"
         multiple
       >
         { generateGroupsOptions( GS.groups ) }
@@ -361,7 +352,6 @@ const UserAdd = React.createClass(
                                                        , e.target.checked
                                                        ) }
         key = "locked"
-        ref = "locked"
       />;
 
     let userSudoField =
@@ -376,7 +366,6 @@ const UserAdd = React.createClass(
                                                        , e.target.checked
                                                        ) }
         key = "sudo"
-        ref = "sudo"
       />;
 
     let userPasswordDisabledField =
@@ -391,14 +380,12 @@ const UserAdd = React.createClass(
                                                        , e.target.checked
                                                        ) }
         key = "password_disabled"
-        ref = "password_disabled"
       />;
 
     let userAutoPrimaryGroupField =
       <Input
         type = "checkbox"
         label = "Automatically Create Primary Group"
-        ref = "createPrimaryGroup"
         onChange = { this.primaryGroupToggle }
         checked = { this.state.pleaseCreatePrimaryGroup }
       />;
@@ -427,7 +414,6 @@ const UserAdd = React.createClass(
                                                          )
                      }
           key = "group"
-          ref = "group"
           bsStyle = { typeof this.props.userForm.group === "string"
                           && this.props.userForm.group !== ""
                            ? null
