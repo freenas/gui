@@ -48,6 +48,10 @@ const GroupEdit = React.createClass(
                        ? this.props.groupForm.name
                        : this.props.item.name;
 
+    let sudoValue = typeof this.props.groupForm.sudo === "boolean"
+                       ? this.props.groupForm.sudo
+                       : this.props.item.sudo;
+
     let groupNameClass = typeof this.props.groupForm.name === "string"
                        ? "editor-was-modified"
                        : "";
@@ -63,6 +67,16 @@ const GroupEdit = React.createClass(
                                                         )
                    }
       />;
+      let sudoField =
+        <Input
+          type = "checkbox"
+          label = "sudo"
+          value = { sudoValue }
+          onChange = { ( e ) => this.props.updateGroupForm( "sudo"
+                                                          , e.target.checked
+                                                          )
+                     }
+        />;
 
     let resetButton =
       <Button
@@ -112,6 +126,7 @@ const GroupEdit = React.createClass(
     let editForm =
       <div>
         { groupNameField }
+        { sudoField }
       </div>;
 
     let groupIDDisplay =
