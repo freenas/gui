@@ -56,6 +56,7 @@ const UserEdit = React.createClass(
                , deleteUser: React.PropTypes.func.isRequired
                }
 
+  // TODO: Enforce limited editing here, as well.
   , validateUser () {
     const usernameToCheck = typeof this.props.userForm.username === "string"
                           ? this.props.userForm.username
@@ -129,6 +130,7 @@ const UserEdit = React.createClass(
                         ? this.props.userForm.username
                         : this.props.item.username;
     const idValue = typeof this.props.userForm.id === "number"
+                 || typeof this.props.userForm.id === "string"
                   ? this.props.userForm.id
                   : this.props.item.id;
     const passwordValue = typeof this.props.userForm.password === "string"
@@ -138,7 +140,7 @@ const UserEdit = React.createClass(
                              === "string"
                                ? this.props.userForm.confirmPassword
                                : null;
-    const full_nameValue = typeof this.props.userForm.full_name === "string"
+    const fullNameValue = typeof this.props.userForm.full_name === "string"
                          ? this.props.userForm.full_name
                          : this.props.item.full_name;
     const emailValue = typeof this.props.userForm.email === "string"
@@ -167,17 +169,41 @@ const UserEdit = React.createClass(
                                  ? this.props.userForm.password_disabled
                                  : this.props.item.password_disabled;
     const groupOptions = generateGroupsOptions( this.props.groups );
+    // const groupDisplay = generateGroupsDisplay( this.props.item.groups
+    //                                           , this.props.groups
+    //                                           );
     var builtInWarning  = null;
+    var userIdField = null;
+    var userNameField = null;
+    var passwordField = null;
+    var confirmPasswordField = null;
+    var userFullNameField = null;
+    var userEmailField = null;
+    var userShellField = null;
+    var userPrimaryGroupField = null;
+    var userSshPubKeyField = null;
+    var userGroupsField = null;
+    var userLockedField = null;
+    var userSudoField = null;
+    var userPasswordDisabledField = null;
 
-    if ( this.props.item.builtin ) {
+    if ( this.props.item.id === 0 || this.props.item.id === "0" ) {
       builtInWarning =
         <Alert
           bsStyle = "warning"
           className = "text-center built-in-warning"
         >
-          { "This is a built-in user account. Only edit this account if you "
-          + "know exactly what you're doing."
+          { "This is the root user account, so editing is limited. Only edit "
+          + "this account if you know exactly what you're doing."
           }
+        </Alert>;
+    } else if ( this.props.item.builtin ) {
+      builtInWarning =
+        <Alert
+          bsStyle = "warning"
+          className = "text-center built-in-warning"
+        >
+          { "This is a built-in user account and may not be edited." }
         </Alert>;
     }
 
@@ -228,44 +254,70 @@ const UserEdit = React.createClass(
           { submitButton }
         </ButtonToolbar>;
 
-    const userIdField =
-      <Input
-        type = "text"
-        label = "User ID"
-        value = { idValue }
-        onChange = { ( e ) => this.props.updateUserForm( "id"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "id"
-        groupClassName = { typeof this.props.userForm.id === "string"
-                        && this.props.userForm.id
-                       !== this.props.item.id
-                         ? "editor-was-modified"
-                         : ""
-                         }
-      />;
+    if ( this.props.item.builtin ) {
+      userIdField =
+        <div>
+          <strong>
+            { "User ID: " }
+          </strong>
+          { this.props.item.id }
+        </div>;
+    } else {
+      userIdField =
+        <Input
+          type = "text"
+          label = "User ID"
+          value = { idValue }
+          onChange = { ( e ) => this.props.updateUserForm( "id"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "id"
+          groupClassName = { typeof this.props.userForm.id === "string"
+                          && this.props.userForm.id
+                         !== this.props.item.id
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        />;
+    }
 
-    const userNameField =
-      <Input
-        type = "text"
-        label = "User Name"
-        value = { usernameValue }
-        onChange = { ( e ) => this.props.updateUserForm( "username"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "username"
-        groupClassName = { typeof this.props.userForm.username
-                       === "string"
-                        && this.props.userForm.username
-                       !== this.props.item.username
-                         ? "editor-was-modified"
-                         : ""
-                         }
-      />;
+    if ( this.props.item.builtin ) {
+      userNameField =
+        <div>
+          <strong>
+            { "Username: " }
+          </strong>
+          { this.props.item.username }
+        </div>;
+    } else {
+      userNameField =
+        <Input
+          type = "text"
+          label = "User Name"
+          value = { usernameValue }
+          onChange = { ( e ) => this.props.updateUserForm( "username"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "username"
+          groupClassName = { typeof this.props.userForm.username
+                         === "string"
+                          && this.props.userForm.username
+                         !== this.props.item.username
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        />;
+    }
 
-    const passwordField =
+  if ( this.props.item.id !== 0
+    && this.props.item.id !== "0"
+    && this.props.item.builtin
+     ) {
+    // Do nothing, I guess.
+  } else {
+    passwordField =
       <Input
         type = "password"
         label = "Enter Password"
@@ -280,184 +332,270 @@ const UserEdit = React.createClass(
                   : "error"
                   }
       />;
+    }
 
-    const confirmPasswordField =
-      <Input
-        type = "password"
-        label = "Confirm Password"
-        value = { typeof this.props.userForm.confirmPassword === "string"
-                ? this.props.userForm.confirmPassword
-                : ""
-                }
-        onChange = { ( e ) => this.props.updateUserForm( "confirmPassword"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "confirmPassword"
-        bsStyle = { this.validateConfirmPassword()
-                ? null
-                : "error"
-                }
-      />;
+    if ( this.props.item.id !== 0
+    && this.props.item.id !== "0"
+    && this.props.item.builtin
+     ) {
+      // Do nothing, I guess.
+    } else {
+      confirmPasswordField =
+        <Input
+          type = "password"
+          label = "Confirm Password"
+          value = { typeof this.props.userForm.confirmPassword === "string"
+                  ? this.props.userForm.confirmPassword
+                  : ""
+                  }
+          onChange = { ( e ) => this.props.updateUserForm( "confirmPassword"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "confirmPassword"
+          bsStyle = { this.validateConfirmPassword()
+                  ? null
+                  : "error"
+                  }
+        />;
+    }
 
-    const userFullNameField =
-      <Input
-        type = "text"
-        label = "Full Name"
-        value = { full_nameValue }
-        onChange = { ( e ) => this.props.updateUserForm( "full_name"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "full_name"
-        groupClassName = { typeof this.props.userForm.full_name
-                       === "string"
-                        && this.props.userForm.full_name
-                       !== this.props.item.full_name
-                         ? "editor-was-modified"
-                         : ""
-                         }
-      />;
+    if ( this.props.item.id !== 0
+    && this.props.item.id !== "0"
+    && this.props.item.builtin
+     ) {
+      userFullNameField =
+        <div>
+          <strong>
+            { "Full Name: " }
+          </strong>
+          { this.props.item.full_name }
+        </div>;
+    } else {
+      userFullNameField =
+        <Input
+          type = "text"
+          label = "Full Name"
+          value = { fullNameValue }
+          onChange = { ( e ) => this.props.updateUserForm( "full_name"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "full_name"
+          groupClassName = { typeof this.props.userForm.full_name
+                         === "string"
+                          && this.props.userForm.full_name
+                         !== this.props.item.full_name
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        />;
+    }
 
-    const userEmailField =
-      <Input
-        type = "text"
-        label = "email"
-        value = { emailValue }
-        onChange = { ( e ) => this.props.updateUserForm( "email"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "email"
-        groupClassName = { typeof this.props.userForm.email === "string"
-                        && this.props.userForm.email
-                       !== this.props.item.email
-                         ? "editor-was-modified"
-                         : ""
-                         }
-  />;
+    if ( this.props.item.id !== 0
+    && this.props.item.id !== "0"
+    && this.props.item.builtin
+     ) {
+      userEmailField =
+        <div>
+          <strong>
+            { "Username: " }
+          </strong>
+          { this.props.item.email }
+        </div>;
+    } else {
+      userEmailField =
+        <Input
+          type = "text"
+          label = "email"
+          value = { emailValue }
+          onChange = { ( e ) => this.props.updateUserForm( "email"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "email"
+          groupClassName = { typeof this.props.userForm.email === "string"
+                          && this.props.userForm.email
+                         !== this.props.item.email
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        />;
+    }
 
-    const userShellField =
-      <Input
-        type = "select"
-        label = "Shell"
-        value = { shellValue }
-        onChange = { ( e ) => this.props.updateUserForm( "shell"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "shell"
-        groupClassName = { typeof this.props.userForm.shell === "string"
-                        && this.props.userForm.shell
-                       !== this.props.item.shell
-                         ? "editor-was-modified"
-                         : ""
-                         }
-      >
-        { createShellOptions( this.props.shells ) }
-      </Input>;
+    if ( this.props.item.id !== 0
+    && this.props.item.id !== "0"
+    && this.props.item.builtin
+     ) {
+      userShellField =
+        <div>
+          <strong>
+            { "Shell: " }
+          </strong>
+          { this.props.item.shell }
+        </div>;
+    } else {
+      userShellField =
+        <Input
+          type = "select"
+          label = "Shell"
+          value = { shellValue }
+          onChange = { ( e ) => this.props.updateUserForm( "shell"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "shell"
+          groupClassName = { typeof this.props.userForm.shell === "string"
+                          && this.props.userForm.shell
+                         !== this.props.item.shell
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        >
+          { createShellOptions( this.props.shells ) }
+        </Input>;
+    }
 
-    const userPrimaryGroupField =
-      <Input
-        type = "select"
-        label = "Primary Group"
-        value = { groupValue }
-        onChange = { ( e ) => this.props.updateUserForm( "group"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "group"
-        groupClassName = { typeof this.props.userForm.group === "string"
-                        && this.props.userForm.group
-                       !== this.props.item.group
-                         ? "editor-was-modified"
-                         : ""
-                         }
-      >
-        { groupOptions }
-      </Input>;
+    if ( this.props.item.builtin ) {
+      userPrimaryGroupField =
+        <div>
+          <strong>
+            { "Primary Group: " }
+          </strong>
+          { this.props.item.group /*get group name for this*/ }
+        </div>;
+    } else {
+      userPrimaryGroupField =
+        <Input
+          type = "select"
+          label = "Primary Group"
+          value = { groupValue }
+          onChange = { ( e ) => this.props.updateUserForm( "group"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "group"
+          groupClassName = { typeof this.props.userForm.group === "string"
+                          && this.props.userForm.group
+                         !== this.props.item.group
+                           ? "editor-was-modified"
+                           : ""
+                           }
+        >
+          { groupOptions }
+        </Input>;
+    }
 
-    const userSshPubKeyField =
-      <Input
-        type = "textarea"
-        label = "Public Key"
-        value = { sshpubkeyValue }
-        onChange = { ( e ) => this.props.updateUserForm( "sshpubkey"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "sshpubkey"
-        groupClassName = { typeof this.props.userForm.sshpubkey
-                       === "string"
-                        && this.props.userForm.sshpubkey
-                       !== this.props.item.sshpubkey
-                         ? "editor-was-modified"
-                         : ""
-                         }
-        rows             = "10"
-      />;
+    if ( this.props.item.id !== 0
+    && this.props.item.id !== "0"
+    && this.props.item.builtin
+     ) {
+      // Do nothing, I guess.
+    } else {
+      userSshPubKeyField =
+        <Input
+          type = "textarea"
+          label = "Public Key"
+          value = { sshpubkeyValue }
+          onChange = { ( e ) => this.props.updateUserForm( "sshpubkey"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "sshpubkey"
+          groupClassName = { typeof this.props.userForm.sshpubkey
+                         === "string"
+                          && this.props.userForm.sshpubkey
+                         !== this.props.item.sshpubkey
+                           ? "editor-was-modified"
+                           : ""
+                           }
+          rows             = "10"
+        />;
+    }
 
-    const userGroupsField =
-      <Input
-        type = "select"
-        label = "Other Groups"
-        value = { Array.isArray( this.props.userForm.groups )
-                               ? this.props.userForm.groups
-                               : this.props.item.groups
-                               }
-        onChange = { ( e ) => this.props.updateUserForm( "groups"
-                                                       , e.target.value
-                                                       )
-                   }
-        key = "groups"
-        ref = "groups"
-        groupClassName = { Array.isArray( this.props.userForm.groups )
-                        && !_.isEqual( this.props.userForm.groups
-                                     , this.props.item.groups
-                                     )
-                         ? "editor-was-modified"
-                         : ""
-                         }
-        multiple
-      >
-        { groupOptions }
-      </Input>;
+    if ( this.props.item.builtin ) {
+      userGroupsField =
+        <div>
+          <strong>
+            { "Other Groups: " }
+          </strong>
+          { /*TODO: Create a groups list*/ }
+        </div>;
+    } else {
+      userGroupsField =
+        <Input
+          type = "select"
+          label = "Other Groups"
+          value = { Array.isArray( this.props.userForm.groups )
+                                 ? this.props.userForm.groups
+                                 : this.props.item.groups
+                                 }
+          onChange = { ( e ) => this.props.updateUserForm( "groups"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "groups"
+          ref = "groups"
+          groupClassName = { Array.isArray( this.props.userForm.groups )
+                          && !_.isEqual( this.props.userForm.groups
+                                       , this.props.item.groups
+                                       )
+                           ? "editor-was-modified"
+                           : ""
+                           }
+          multiple
+        >
+          { groupOptions }
+        </Input>;
+    }
 
-    const userLockedField =
-      <Input
-        type = "checkbox"
-        checked = { lockedValue }
-        label = "Locked"
-        onChange = { ( e ) => this.props.updateUserForm( "locked"
-                                                       , e.target.checked
-                                                       )
-                   }
-        key = "locked"
-      />;
+    if ( this.props.item.builtin ) {
+      // Do nothing, I guess.
+    } else {
+      userLockedField =
+        <Input
+          type = "checkbox"
+          checked = { lockedValue }
+          label = "Locked"
+          onChange = { ( e ) => this.props.updateUserForm( "locked"
+                                                         , e.target.checked
+                                                         )
+                     }
+          key = "locked"
+        />;
+    }
 
-    const userSudoField =
-      <Input
-        type = "checkbox"
-        checked = { sudoValue }
-        label = "sudo"
-        onChange = { ( e ) => this.props.updateUserForm( "sudo"
-                                                       , e.target.checked
-                                                       )
-                   }
-        key = "sudo"
-      />;
+    if ( this.props.item.builtin ) {
+      // Do nothing, I guess.
+    } else {
+      userSudoField =
+        <Input
+          type = "checkbox"
+          checked = { sudoValue }
+          label = "sudo"
+          onChange = { ( e ) => this.props.updateUserForm( "sudo"
+                                                         , e.target.checked
+                                                         )
+                     }
+          key = "sudo"
+        />;
+    }
 
-    const userPasswordDisabledField =
-      <Input
-        type = "checkbox"
-        checked = { password_disabledValue }
-        label = "Password Disabled"
-        onChange = { ( e ) => this.props.updateUserForm( "password_disabled"
-                                                       , e.target.checked
-                                                       )
-                   }
-        key = "password_disabled"
-      />;
+    if ( this.props.item.builtin ) {
+      // Do nothing, I guess.
+    } else {
+      userPasswordDisabledField =
+        <Input
+          type = "checkbox"
+          checked = { password_disabledValue }
+          label = "Password Disabled"
+          onChange = { ( e ) => this.props.updateUserForm( "password_disabled"
+                                                         , e.target.checked
+                                                         )
+                     }
+          key = "password_disabled"
+        />;
+    }
 
     const textEditForm =
       <div>
