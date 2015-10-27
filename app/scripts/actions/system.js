@@ -202,3 +202,41 @@ export function requestVersion () {
               );
   };
 };
+
+// TASKS
+// These tasks are different from some other views, because there is not a 1:1
+// relationship between a form an a single task submission or query source.
+// Therefore, these are organized by form, not task.
+
+export function submitOSTask () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    MC.request( "task.submit"
+              , [ "system.advanced.configure", [ state.system.osForm ] ]
+              , UUID => dispatch( watchRequest( UUID, SUBMIT_OS_TASK_REQUEST ) )
+              );
+  }
+};
+
+export function submitLocalizationTask () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    MC.request( "task.submit"
+              , [ "system.general.configure", [ state.system.localizationForm]  ]
+              , UUID => dispatch( watchRequest( UUID, SUBMIT_LOCALIZATION_TASK_REQUEST ) )
+              );
+  }
+};
+
+export function submitConsoleTask () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    MC.request( "task.submit"
+              , [ "system.advanced.configure", [ state.system.consoleForm ] ]
+              , UUID => dispatch( watchRequest( UUID, SUBMIT_CONSOLE_TASK_REQUEST ) )
+              );
+  }
+};
