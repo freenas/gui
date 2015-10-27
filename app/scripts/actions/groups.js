@@ -148,7 +148,6 @@ export function updateGroup ( groupName ) {
        ) {
       throw new Error( "Attempted to rename a group with a group name that is already in use." );
     }
-    console.log( groupName, newGroupProps );
 
     MC.request( "task.submit"
               , [ "groups.update", [ groupName, newGroupProps ] ]
