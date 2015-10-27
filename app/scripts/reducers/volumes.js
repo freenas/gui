@@ -70,7 +70,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
       // If the volume has no record on the client or server, initialize it
       if ( !( clientVolumes[ payload.volumeID ] && state.serverVolumes[ payload.volumeID ] ) ) {
-        initData = ZFSConstants.NEW_VOLUME
+        initData = Object.assign( {}, ZFSConstants.NEW_VOLUME );
       }
 
       clientVolumes[ payload.volumeID ] =
@@ -104,6 +104,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
       clientVolumes[ payload.volumeID ].preset = "None";
       clientVolumes[ payload.volumeID ].topology = topologyData[0];
+
       selectedDisks = new Set( topologyData[1] );
 
       return Object.assign( {}, state, { clientVolumes, selectedDisks } );
@@ -113,7 +114,9 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       clientVolumes = Object.assign( {}, state.clientVolumes );
 
       clientVolumes[ payload.volumeID ].preset = "None";
-      clientVolumes[ payload.volumeID ].topology = ZFSConstants.BLANK_TOPOLOGY;
+      clientVolumes[ payload.volumeID ].topology =
+        Object.assign( {}, ZFSConstants.BLANK_TOPOLOGY );
+
       selectedDisks = new Set();
 
       return Object.assign( {}, state, { clientVolumes, selectedDisks } );
@@ -188,6 +191,16 @@ export default function volumes ( state = INITIAL_STATE, action ) {
                     );
         return state;
       }
+
+    case TYPES.SELECT_DISK:
+      selectedDisks = new Set( state.selectedDisks );
+      selectedDisks.add( payload.path );
+      return Object.assign( {}, state, { selectedDisks } );
+
+    case TYPES.DESELECT_DISK:
+      selectedDisks = new Set( state.selectedDisks );
+      selectedDisks.delete( payload.path );
+      return Object.assign( {}, state, { selectedDisks } );
 
 
     // RPC REQUEST RESOLUTION

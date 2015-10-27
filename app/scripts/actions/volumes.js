@@ -143,3 +143,40 @@ export function selectPresetTopology ( volumeID, preset ) {
     }
   }
 }
+
+export function selectDisk ( path ) {
+  return ( dispatch, getState ) => {
+    let state = getState();
+
+    if ( state.volumes.availableDisks.has( path ) ) {
+      dispatch(
+        { type: TYPES.SELECT_DISK
+        , payload: { path }
+        }
+      );
+    } else {
+      console.warn( `Tried to select ${ path }, but it is marked as unavailable.` );
+
+    }
+  }
+}
+
+export function deselectDisk ( path ) {
+  return ( dispatch, getState ) => {
+    let state = getState();
+
+    if ( !state.volumes.availableDisks.has( path ) ) {
+      console.warn( `Deselecting ${ path }, but it is marked as unavailable. `
+                  + `This means it should never have been selected in the `
+                  + `first place.`
+                  );
+    }
+
+    dispatch(
+      { type: TYPES.DESELECT_DISK
+      , payload: { path }
+      }
+    );
+
+  }
+}

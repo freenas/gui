@@ -58,7 +58,7 @@ export default class Volume extends React.Component {
   // ZFS TOPOLOGY FUNCTIONS
   // ======================
   vdevOperation( opType, key, purpose, options = {} ) {
-      let collection  = this.state.topology[ purpose ];
+      let collection  = this.props.topology[ purpose ];
       let targetVdev  = collection[ key ];
       let currentType = null;
       let disks       = opType === "add" && options.path
@@ -98,7 +98,7 @@ export default class Volume extends React.Component {
         ZfsUtil.reconstructVdev( key, purpose, collection, disks, currentType );
 
       this.props.onUpdateVolume(
-        { topology: Object.assign( this.state.topology, newTopologySection )
+        { topology: Object.assign( {}, this.props.topology, newTopologySection )
         }
       );
     }
@@ -120,29 +120,6 @@ export default class Volume extends React.Component {
   handleVdevTypeChange ( vdevKey, vdevPurpose, vdevType, event ) {
     this.vdevOperation( "changeType", vdevKey, vdevPurpose, { type: vdevType } );
   }
-
-  resetTopology () {
-      VAC.replaceDiskSelection( [] );
-      this.setState(
-        { topology:
-          { data  : []
-          , log   : []
-          , cache : []
-          , spare : []
-          }
-        , properties:
-          { free: { rawvalue: 0 }
-          }
-        }
-      );
-    }
-
-
-  // GENERAL HANDLERS
-  // ================
-  handleVolumeNameChange ( event ) {
-      this.setState({ name: event.target.value });
-    }
 
   breakdownFromRootDataset () {
     let breakdown;
@@ -170,6 +147,7 @@ export default class Volume extends React.Component {
     if ( this.props.topology.data.length === 0 ) return true;
     if ( this.props.name.length === 0 ) return true;
   }
+
 
   // RENDER METHODS
   // ==============
@@ -239,16 +217,19 @@ export default class Volume extends React.Component {
             <Topology
               existsOnServer = { this.props.existsOnServer }
               existsOnClient = { this.props.existsOnClient }
-              onDiskAdd = { this.handleDiskAdd }
-              onDiskRemove = { this.handleDiskRemove }
-              onVdevNuke = { this.handleVdevNuke }
-              onVdevTypeChange = { this.handleVdevTypeChange }
+
+              onDiskAdd = { this.handleDiskAdd.bind( this ) }
+              onDiskRemove = { this.handleDiskRemove.bind( this ) }
+              onVdevNuke = { this.handleVdevNuke.bind( this ) }
+              onVdevTypeChange = { this.handleVdevTypeChange.bind( this ) }
+
               disks = { this.props.disks }
               availableDisks = { this.props.availableDisks }
               SSDs = { this.props.SSDs }
               HDDs = { this.props.HDDs }
               availableSSDs = { this.props.availableSSDs }
               availableHDDs = { this.props.availableHDDs }
+
               topology = { this.props.topology }
             />
           </Tab>

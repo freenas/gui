@@ -272,17 +272,24 @@ function mapStateToProps ( state ) {
 function mapDispatchToProps ( dispatch ) {
   return (
     // SUBSCRIPTIONS
-    { subscribe: ( id ) => dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
-    , unsubscribe: ( id ) => dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
+    { subscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
+    , unsubscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
 
     // DISKS
-    , fetchDisks: () => dispatch( DISKS.requestDiskOverview() )
+    , fetchDisks: () =>
+      dispatch( DISKS.requestDiskOverview() )
 
     // VOLUMES DATA
-    , fetchVolumes: () => dispatch( VOLUMES.fetchVolumes() )
-    , fetchAvailableDisks: () => dispatch( VOLUMES.fetchAvailableDisks() )
-    , onDiskSelect: () => console.log( "fart" )
-    , onDiskDeselect: () => console.log( "fart" )
+    , fetchVolumes: () =>
+      dispatch( VOLUMES.fetchVolumes() )
+    , fetchAvailableDisks: () =>
+      dispatch( VOLUMES.fetchAvailableDisks() )
+    , onDiskSelect: ( path ) =>
+      dispatch( VOLUMES.selectDisk( path ) )
+    , onDiskDeselect: ( path ) =>
+      dispatch( VOLUMES.deselectDisk( path ) )
 
     // SUBMIT VOLUME
     , onUpdateVolume: ( volumeID, patch ) =>
@@ -296,7 +303,6 @@ function mapDispatchToProps ( dispatch ) {
     , onConfirmDeleteVolume: ( volumeID ) => console.log( "fart" )
     , onCancelDeleteVolume: ( volumeID ) => console.log( "fart" )
 
-
     // CREATE SHARE
     , onUpdateShare: ( volumeID ) => console.log( "fart" )
     , onRevertShare: ( volumeID ) => console.log( "fart" )
@@ -306,7 +312,6 @@ function mapDispatchToProps ( dispatch ) {
     , onRequestDeleteShare: ( volumeID ) => console.log( "fart" )
     , onConfirmDeleteShare: ( volumeID ) => console.log( "fart" )
     , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
-
 
     // GUI
     , onFocusVolume: ( volumeID ) =>

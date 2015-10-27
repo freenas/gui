@@ -67,11 +67,11 @@ export default class Topology extends React.Component {
             path         = { path }
             vdevKey      = { index }
             key          = { index }
-            onDiskAdd = { () =>
-              this.props.onDiskAdd( index, purpose )
+            onDiskAdd = { ( path ) =>
+              this.props.onDiskAdd( index, purpose, path )
             }
-            onDiskRemove = { () =>
-              this.props.onDiskRemove( index, purpose )
+            onDiskRemove = { ( path ) =>
+              this.props.onDiskRemove( index, purpose, path )
             }
             onVdevNuke = { () =>
               this.props.onVdevNuke( index, purpose )
@@ -94,7 +94,6 @@ export default class Topology extends React.Component {
       // which there are no devices available and no VDEVs of that type in
       // props. There must always be a VDEV in Winterfell, however, even if it's
       // just going to render a message about "you can't do anything with me".
-      const boundArgs = [ null, vdevs.length, purpose ];
       vdevs.push(
         <VDEV
           { ...sharedProps }
@@ -102,10 +101,18 @@ export default class Topology extends React.Component {
           type         = { null }
           vdevKey      = { vdevs.length }
           key          = { vdevs.length }
-          onDiskAdd    = { this.props.onDiskAdd.bind( ...boundArgs ) }
-          onDiskRemove = { this.props.onDiskRemove.bind( ...boundArgs ) }
-          onVdevNuke   = { this.props.onVdevNuke.bind( ...boundArgs ) }
-          onTypeChange = { this.props.onVdevTypeChange.bind( ...boundArgs ) }
+          onDiskAdd = { ( path ) =>
+            this.props.onDiskAdd( vdevs.length, purpose, path )
+          }
+          onDiskRemove = { ( path ) =>
+            this.props.onDiskRemove( vdevs.length, purpose, path )
+          }
+          onVdevNuke = { () =>
+            this.props.onVdevNuke( vdevs.length, purpose )
+          }
+          onTypeChange = { () =>
+            this.props.onVdevTypeChange( vdevs.length, purpose )
+          }
         />
       );
     }
