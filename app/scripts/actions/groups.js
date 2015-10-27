@@ -8,6 +8,7 @@ import { UPDATE_GROUP_FORM
        , QUERY_GROUPS_REQUEST
        , GET_NEXT_GID_REQUEST
        , GROUP_CREATE_TASK
+       , GROUP_DELETE_TASK
        }
   from "../actions/actionTypes";
 import { watchRequest } from "../utility/Action";
@@ -78,6 +79,15 @@ export function createGroup () {
     MC.request( "task.submit"
               , [ "groups.create", [ newGroupProps ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_CREATE_TASK ) )
+              );
+  }
+};
+
+export function deleteGroup ( groupName ) {
+  return ( dispatch ) => {
+    MC.request( "task.submit"
+              , [ "groups.delete", [ groupName ] ]
+              , UUID => dispatch( watchRequest( UUID, GROUP_DELETE_TASK ) )
               );
   }
 };
