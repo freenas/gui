@@ -156,6 +156,13 @@ function mapDispatchToProps ( dispatch ) {
     , requestNextUID: () => dispatch( USER_ACTIONS.requestNextUID() )
     , requestGroups: () => dispatch( GROUP_ACTIONS.requestGroups() )
     , requestNextGID: () => dispatch( GROUP_ACTIONS.requestNextGID() )
+    // TASKS
+    , createUser: () =>
+        dispatch( USER_ACTIONS.createUser() )
+    , updateUser: ( userID ) =>
+        dispatch( USER_ACTIONS.updateUser( userID ) )
+    , deleteUser: ( userID ) =>
+        dispatch( USER_ACTIONS.deleteUser( userID ) )
     }
   );
 }
