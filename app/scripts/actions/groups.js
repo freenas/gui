@@ -11,7 +11,7 @@ import { UPDATE_GROUP_FORM
        , GROUP_UPDATE_TASK
        , GROUP_DELETE_TASK
        }
-  from "../actions/actionTypes";
+  from "./actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
