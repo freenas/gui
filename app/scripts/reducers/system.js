@@ -4,6 +4,7 @@
 "use strict";
 
 import * as TYPES from "../actions/actionTypes";
+import { recordUUID, resolveUUID } from "../utility/Reducer";
 
 const INITIAL_STATE =
   { general: { timezone: ""
@@ -124,158 +125,147 @@ export default function system ( state = INITIAL_STATE, action ) {
 
     // GENERAL QUERIES
     case TYPES.SYSTEM_GENERAL_CONFIG_REQUEST:
-      generalConfigRequests = new Set( state.generalConfigRequests );
-      generalConfigRequests.add( payload.UUID );
-      return Object.assign( {}, state, { generalConfigRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "generalConfigRequests" )
+      );
     case TYPES.SYSTEM_GENERAL_TIMEZONES_REQUEST:
-      timezonesRequests = new Set( state.timezonesRequests );
-      timezonesRequests.add( payload.UUID );
-      return Object.assign( {}, state, { timezonesRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "timezonesRequests" )
+      );
     case TYPES.KEYMAPS_REQUEST:
-      keymapsRequests = new Set( state.keymapsRequests );
-      keymapsRequests.add( payload.UUID );
-      return Object.assign( {}, state, { keymapsRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "keymapsRequests" )
+      );
 
     // ADVANCED QUERIES
     case TYPES.SYSTEM_ADVANCED_CONFIG_REQUEST:
-      advancedConfigRequests = new Set( state.advancedConfigRequests );
-      advancedConfigRequests.add( payload.UUID );
-      return Object.assign( {}, state, { advancedConfigRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "advancedConfigRequests" )
+      );
     case TYPES.SERIAL_PORTS_REQUEST:
-      serialPortsRequests = new Set( state.serialPortsRequests );
-      serialPortsRequests.add( payload.UUID );
-      return Object.assign( {}, state, { serialPortsRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "serialPortsRequests" )
+      );
 
     // INFO QUERIES
     case TYPES.SYSTEM_INFO_HARDWARE_REQUEST:
-      hardwareRequests = new Set( state.hardwareRequests );
-      hardwareRequests.add( payload.UUID );
-      return Object.assign( {}, state, { hardwareRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "hardwareRequests" )
+      );
     case TYPES.SYSTEM_INFO_LOAD_AVG_REQUEST:
-      loadAvgRequests = new Set( state.loadAvgRequests );
-      loadAvgRequests.add( payload.UUID );
-      return Object.assign( {}, state, { loadAvgRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "loadAvgRequests" )
+      );
     case TYPES.SYSTEM_INFO_TIME_REQUEST:
-      timeRequests = new Set( state.timeRequests );
-      timeRequests.add( payload.UUID );
-      return Object.assign( {}, state, { timeRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "timeRequests" )
+      );
     case TYPES.SYSTEM_INFO_UNAME_FULL_REQUEST:
-      unameFullRequests = new Set( state.unameFullRequests );
-      unameFullRequests.add( payload.UUID );
-      return Object.assign( {}, state, { unameFullRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "unameFullRequests" )
+      );
     case TYPES.SYSTEM_INFO_VERSION_REQUEST:
-      versionRequests = new Set( state.versionRequests );
-      versionRequests.add( payload.UUID );
-      return Object.assign( {}, state, { versionRequests }
-                          );
+      return Object.assign( {}, state,
+        recordUUID( payload.UUID, state, "versionRequests" )
+      );
 
     // RPC Handling
     case TYPES.RPC_TIMEOUT:
     case TYPES.RPC_FAILURE:
     case TYPES.RPC_SUCCESS:
 
-      // Serious TODO: Is there a way to make this less repetitive?
       // GENERAL
       if ( state.generalConfigRequests.has( payload.UUID ) ) {
         general = Object.assign( {}, state.general, payload.data );
-        generalConfigRequests = new Set( state.generalConfigRequests );
-        generalConfigRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { general
-                                         , generalConfigRequests
-                                         }
+        return Object.assign( {}, state, { general }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "generalConfigRequests"
+                                         )
                             );
       } else if ( state.timezonesRequests.has( payload.UUID ) ) {
         general = Object.assign( {}, state.general );
         general.timezones = payload.data;
-        timezonesRequests = new Set( state.timezonesRequests );
-        timezonesRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { general
-                                         , timezonesRequests
-                                         }
+        return Object.assign( {}, state, { general }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "timezonesRequests"
+                                         )
                             );
       } else if ( state.keymapsRequests.has( payload.UUID ) ) {
         general = Object.assign( state.general );
         general.keymaps = payload.data;
-        keymapsRequests = new Set( state.keymapsRequests );
-        keymapsRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { general
-                                         , keymapsRequests
-                                         }
+        return Object.assign( {}, state, { general }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "keymapsRequests"
+                                         )
                             );
 
       // ADVANCED
       } else if ( state.advancedConfigRequests.has( payload.UUID ) ) {
         advanced = Object.assign( {}, state.advanced, payload.data );
-        advancedConfigRequests = new Set( state.advancedConfigRequests );
-        advancedConfigRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { advanced
-                                         , advancedConfigRequests
-                                         }
+        return Object.assign( {}, state, { advanced }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "advancedConfigRequests"
+                                         )
                             );
       } else if ( state.serialPortsRequests.has( payload.UUID ) ) {
         advanced = Object.assign( {}, state.advanced );
         advanced.serial_ports = payload.data;
-        serialPortsRequests = new Set( state.serialPortsRequests );
-        serialPortsRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { advanced
-                                         , serialPortsRequests
-                                         }
+        return Object.assign( {}, state, { advanced }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "serialPortsRequests"
+                                         )
                             );
 
       // INFO
       } else if ( state.hardwareRequests.has( payload.UUID ) ) {
         info = Object.assign( {}, state.info );
         info.hardware = payload.data;
-        hardwareRequests = new Set( state.hardwareRequests );
-        hardwareRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { info
-                                         , hardwareRequests
-                                         }
+        return Object.assign( {}, state, { info }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "hardwareRequests"
+                                         )
                             );
       } else if ( state.loadAvgRequests.has( payload.UUID ) ) {
         info = Object.assign( {}, state.info );
         info.load_avg = payload.data;
-        loadAvgRequests = new Set( state.loadAvgRequests );
-        loadAvgRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { info
-                                         , loadAvgRequests
-                                         }
+        return Object.assign( {}, state, { info }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "loadAvgRequests"
+                                         )
                             );
       } else if ( state.timeRequests.has( payload.UUID ) ) {
         info = Object.assign( {}, state.info );
         info.time = payload.data;
-        timeRequests = new Set( state.timeRequests );
-        timeRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { info
-                                         , timeRequests
-                                         }
+        return Object.assign( {}, state, { info }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "timeRequests"
+                                         )
                             );
       } else if ( state.unameFullRequests.has( payload.UUID ) ) {
         info = Object.assign( {}, state.info );
         info.uname_full = payload.data;
-        unameFullRequests = new Set( state.unameFullRequests );
-        unameFullRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { info
-                                         , unameFullRequests
-                                         }
+        return Object.assign( {}, state, { info }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "unameFullRequests"
+                                         )
                             );
       } else if ( state.versionRequests.has( payload.UUID ) ) {
         info = Object.assign( {}, state.info );
         info.version = payload.data;
-        versionRequests = new Set( state.versionRequests );
-        versionRequests.delete( payload.UUID );
-        return Object.assign( {}, state, { info
-                                         , versionRequests
-                                         }
+        return Object.assign( {}, state, { info }
+                            , resolveUUID( payload.UUID
+                                         , state
+                                         , "versionRequests"
+                                         )
                             )
       } else {
         return state;
