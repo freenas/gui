@@ -17,9 +17,7 @@ const INITIAL_STATE =
     , locked: false
     , groups: null
     // , attributes: null // Not for use at this time.
-    , unixhash: null
     , sudo: false
-    , smbhash: null
     , email: null
     , full_name: null
     , home: null
