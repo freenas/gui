@@ -11,7 +11,6 @@ import { Alert, Button, ButtonToolbar, Input, Grid, Row, Col }
   from "react-bootstrap";
 import { History, RouteContext } from "react-router";
 
-import UM from "../../../flux/middleware/UsersMiddleware";
 function generateGroupsOptions ( groups ) {
   var optionList = groups.map( function createGroupOption ( group ) {
                                  return (
@@ -53,6 +52,7 @@ const UserEdit = React.createClass(
                , handleViewChange: React.PropTypes.func.isRequired
                , updateUserForm: React.PropTypes.func.isRequired
                , resetUserForm: React.PropTypes.func.isRequired
+               , updateUser: React.PropTypes.func.isRequired
                , deleteUser: React.PropTypes.func.isRequired
                }
 
@@ -75,18 +75,6 @@ const UserEdit = React.createClass(
                    && !_.isEmpty( this.props.userForm );
 
     return userValid;
-  }
-
-  , submitChanges: function () {
-
-    let newUserProps = this.state.modifiedValues;
-
-    // Convert the array of strings provided by the form to an array of integers.
-    if ( !_.isEmpty( newUserProps.groups ) ) {
-      newUserProps.groups = this.parseGroupsArray( newUserProps.groups );
-    }
-
-    UM.updateUser( this.props.item.id, newUserProps );
   }
 
   , validatePassword () {
@@ -198,16 +186,16 @@ const UserEdit = React.createClass(
         className = "pull-right"
         bsStyle = "default"
         onClick = { this.props.resetUserForm }
-        disabled = { Object.keys( this.props.userForm ).length === 0 }
+        // disabled = { /* Need a check for this */ }
       >
         { "Reset Changes" }
       </Button>;
 
-    let submitButton =
+    const submitButton =
       <Button
         className = "pull-right"
         bsStyle = "success"
-        onClick = { this.submitChanges }
+        onClick = { () => this.props.updateUser( this.props.item.id ) }
         disabled = { !this.validateUser() }
       >
         { "Submit Changes" }
