@@ -11,16 +11,12 @@ import { ListGroupItem, Alert, ButtonToolbar, Button, Grid, Row, Col
        }
   from "react-bootstrap";
 
-import userMixins from "../../../mixins/userMixins";
-
 import viewerUtil from "../../../components/Viewer/viewerUtil";
 
 import GroupsStore from "../../../flux/stores/GroupsStore";
 
 const UserView = React.createClass(
-  { mixins: [ userMixins ]
-
-  , propTypes: { item: React.PropTypes.object.isRequired }
+  { propTypes: { item: React.PropTypes.object.isRequired }
 
   , getGroupName: function ( groupID ) {
       var group = GroupsStore.getGroup( groupID );
@@ -77,7 +73,7 @@ const UserView = React.createClass(
             <Button
               className = "pull-left"
               disabled = { this.props.item.builtin }
-              onClick = { this.deleteUser }
+              onClick = { () => this.props.deleteUser( this.props.item.id ) }
               bsStyle = "danger"
             >
               {"Delete User"}

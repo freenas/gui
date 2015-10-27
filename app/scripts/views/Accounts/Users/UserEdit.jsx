@@ -11,8 +11,6 @@ import { Alert, Button, ButtonToolbar, Input, Grid, Row, Col }
   from "react-bootstrap";
 import { History, RouteContext } from "react-router";
 
-import userMixins from "../../../mixins/userMixins";
-
 import UM from "../../../flux/middleware/UsersMiddleware";
 function generateGroupsOptions ( groups ) {
   var optionList = groups.map( function createGroupOption ( group ) {
@@ -46,7 +44,7 @@ function createShellOptions ( shellsArray ) {
 }
 
 const UserEdit = React.createClass(
-  { mixins: [ userMixins, History, RouteContext ]
+  { mixins: [ History, RouteContext ]
 
   , propTypes: { item: React.PropTypes.object.isRequired
                , itemSchema: React.PropTypes.object.isRequired
@@ -55,6 +53,7 @@ const UserEdit = React.createClass(
                , handleViewChange: React.PropTypes.func.isRequired
                , updateUserForm: React.PropTypes.func.isRequired
                , resetUserForm: React.PropTypes.func.isRequired
+               , deleteUser: React.PropTypes.func.isRequired
                }
 
   , validateUser () {
@@ -227,7 +226,7 @@ const UserEdit = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "danger"
-        onClick = { this.deleteUser }
+        onClick = { () => this.props.deleteUser( this.props.item.id ) }
         disabled = { this.props.item.builtin }
       >
         { "Delete User" }
