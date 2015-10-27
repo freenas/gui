@@ -11,7 +11,10 @@ import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
 const INITIAL_STATE =
   { volumesRequests: new Set()
+  , userSubmitTasks: new Set()
   , availableDisksRequests: new Set()
+  , submitRequests: new Set()
+  , activeTasks: new Set()
   , serverVolumes: {}
   , clientVolumes: {}
   , activeVolume: ""
@@ -64,6 +67,9 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
   switch ( type ) {
 
+  // CLIENT ACTIONS
+  // ==============
+
     // UPDATE CLIENT CHANGES
     case TYPES.UPDATE_VOLUME:
       clientVolumes = Object.assign( {}, state.clientVolumes );
@@ -109,7 +115,6 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
       return Object.assign( {}, state, { clientVolumes, selectedDisks } );
 
-
     case TYPES.REVERT_VOLUME_TOPOLOGY:
       clientVolumes = Object.assign( {}, state.clientVolumes );
 
@@ -121,25 +126,6 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
       return Object.assign( {}, state, { clientVolumes, selectedDisks } );
 
-
-
-    // SUBMIT VOLUME TO SERVER
-    case TYPES.SUBMIT_VOLUME:
-      return;
-
-    // GET VOLUMES ON SERVER
-    case TYPES.VOLUMES_RPC_REQUEST:
-      return Object.assign( {}
-                          , state
-                          , recordUUID( payload.UUID, state, "volumesRequests" )
-                          );
-
-    // AVAILABLE DISKS
-    case TYPES.AVAILABLE_DISKS_RPC_REQUEST:
-      return Object.assign( {}
-                          , state
-                          , recordUUID( payload.UUID, state, "availableDisksRequests" )
-                          );
 
     case TYPES.FOCUS_VOLUME:
       return Object.assign( {}, state, { activeVolume: payload.volumeID } );
@@ -153,6 +139,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       } else {
         return Object.assign( {}, state, { activeVolume: "" } );
       }
+
 
     case TYPES.SELECT_PRESET_TOPOLOGY:
       if ( state.serverVolumes.hasOwnProperty( payload.volumeID ) ) {
@@ -192,6 +179,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
         return state;
       }
 
+
     case TYPES.SELECT_DISK:
       selectedDisks = new Set( state.selectedDisks );
       selectedDisks.add( payload.path );
@@ -203,10 +191,36 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state, { selectedDisks } );
 
 
+
+  // RPC AND TASK ACTIONS
+  // ====================
+
+    // GET VOLUMES ON SERVER
+    case TYPES.VOLUMES_RPC_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID, state, "volumesRequests" )
+                          );
+
+    // AVAILABLE DISKS
+    case TYPES.AVAILABLE_DISKS_RPC_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID, state, "availableDisksRequests" )
+                          );
+
+    // GET VOLUMES ON SERVER
+    case TYPES.CREATE_VOLUME_TASK_SUBMIT_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID, state, "submitRequests" )
+                          );
+
     // RPC REQUEST RESOLUTION
     case TYPES.RPC_SUCCESS:
     case TYPES.RPC_FAILURE:
     case TYPES.RPC_TIMEOUT:
+
       // HANDLE VOLUMES DATA
       if ( state.volumesRequests.has( payload.UUID ) ) {
         if ( payload.data ) {
@@ -227,9 +241,8 @@ export default function volumes ( state = INITIAL_STATE, action ) {
                               );
         } else {
           console.warn( "Volumes query did not return any data" );
+          return state;
         }
-
-        return state;
       }
 
       // HANDLE AVAILABLE DISKS
@@ -242,10 +255,31 @@ export default function volumes ( state = INITIAL_STATE, action ) {
                               );
         } else {
           console.warn( "Available disks query did not return any data" );
+          return state;
         }
-
-        return state;
       }
+
+      // VOLUME SUBMIT TASK
+      if ( state.submitRequests.has( payload.UUID ) ) {
+        if ( payload.data ) {
+          return Object.assign( {}
+                              , state
+                              , resolveUUID( payload.UUID, state, "submitRequests" )
+                              );
+        } else {
+          console.warn( "Volume Submit task did not return a task ID" );
+          return state;
+        }
+      }
+
+    case TYPES.TASK_CREATED:
+    case TYPES.TASK_UPDATED:
+    case TYPES.TASK_PROGRESS:
+    case TYPES.TASK_FINISHED:
+    case TYPES.TASK_FAILED:
+      console.log( payload );
+      return state;
+
 
     default:
       return state;

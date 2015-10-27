@@ -296,7 +296,8 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.updateVolume( volumeID, patch ) )
     , onRevertVolume: ( volumeID ) =>
       dispatch( VOLUMES.revertVolume( volumeID ) )
-    , onSubmitVolume: ( volumeID ) => console.log( "fart" )
+    , onSubmitVolume: ( volumeID ) =>
+      dispatch( VOLUMES.submitVolume( volumeID ) )
 
     // DESTROY VOLUME
     , onRequestDeleteVolume: ( volumeID ) => console.log( "fart" )

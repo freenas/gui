@@ -6,6 +6,7 @@
 import * as TYPES from "./actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
+import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
 function getAvailableDisks ( state ) {
   return [ Array.from( state.disks.SSDs )
@@ -178,5 +179,49 @@ export function deselectDisk ( path ) {
       }
     );
 
+  }
+}
+
+function volumeCreateAC ( UUID ) {
+  return { type: TYPES.CREATE_VOLUME_TASK_SUBMIT_REQUEST
+         , payload: { UUID }
+         }
+}
+
+export function submitVolume ( volumeID ) {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    if ( volumeExistsOnClient( volumeID, state ) ) {
+      let merged = Object.assign( {}
+                                , state.volumes.serverVolumes[ volumeID ]
+                                , state.volumes.clientVolumes[ volumeID ]
+                                );
+
+      const VOLUME =
+        { name: merged.name
+        , topology:
+          { log   : ZfsUtil.unwrapStripe( merged.topology.log )
+          , cache : ZfsUtil.unwrapStripe( merged.topology.cache )
+          , data  : ZfsUtil.unwrapStripe( merged.topology.data )
+          , spare : ZfsUtil.unwrapStripe( merged.topology.spare )
+          }
+        , type: "zfs"
+        };
+
+      if ( VOLUME.name.length === 0 ) {
+        console.warn( `Cannot submit ${ volumeID }: It has an empty name.` );
+        return;
+      }
+
+      if ( VOLUME.topology.data.length === 0 ) {
+        console.warn( `Cannot submit ${ volumeID }: No data VDEVs.` );
+        return;
+      }
+
+      MC.submitTask( [ "volume.create", [ VOLUME ] ]
+                   , ( UUID ) => dispatch( volumeCreateAC( UUID ) )
+                   );
+    }
   }
 }
