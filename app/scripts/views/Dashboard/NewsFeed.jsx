@@ -6,13 +6,10 @@
 
 import React from "react";
 
-import EM from "../../flux/middleware/EventsMiddleware";
 import TM from "../../flux/middleware/TasksMiddleware";
-import ES from "../../flux/stores/EventsStore";
 import TS from "../../flux/stores/TasksStore";
 
 import Tasks from "./NewsFeed/Tasks";
-import Events from "./NewsFeed/Events";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./NewsFeed/NewsFeed.less" );
@@ -61,7 +58,6 @@ export default class NewsFeed extends React.Component {
     return (
       <div className = "news-feed">
         <Tasks tasks={ this.state.tasks } />
-        <Events events={ this.state.events } />
       </div>
     );
   }
