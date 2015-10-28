@@ -51,7 +51,7 @@ export function submitNetworkConfig () {
     const state = getState();
 
     if ( Object.keys( state.network.clientConfig ).length ) {
-      MC.submitTask( [ "volume.create", [ state.network.clientConfig ] ]
+      MC.submitTask( [ "network.configure", [ state.network.clientConfig ] ]
                    , ( UUID ) => dispatch( networkConfigAC( UUID ) )
                    );
     } else {

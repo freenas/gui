@@ -37,6 +37,7 @@ const INITIAL_STATE =
 export default function disks ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let clientConfig;
+  let activeConfigTasks;
 
   switch( type ) {
     case TYPES.NETWORK_CONFIGURE_TASK:
@@ -118,7 +119,6 @@ export default function disks ( state = INITIAL_STATE, action ) {
         ) {
         activeConfigTasks = new Set( state.activeConfigTasks );
         activeConfigTasks.delete( payload.data.id );
-        console.log( payload );
         return Object.assign( {}, state, { activeConfigTasks } );
       }
       return state;
