@@ -45,7 +45,7 @@ export default class DiskUtilities {
       if ( Array.isArray( candidates[ LABEL ] ) ) {
         candidates[ LABEL ].push( disks[ path ] );
       } else {
-        candidates[ LABEL ] = disks[ path ];
+        candidates[ LABEL ] = [ disks[ path ] ];
       }
 
       if ( winner.length === 0
