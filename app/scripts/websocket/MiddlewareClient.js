@@ -254,7 +254,7 @@ class MiddlewareClient {
             if ( MCD.reports( "messages" ) ) {
               MCD.log( "Message contained event data" );
             }
-            MiddlewareActionCreators.receiveEventData( data, timestamp );
+            this.onSystemEvent( data, timestamp );
             break;
         }
         break;

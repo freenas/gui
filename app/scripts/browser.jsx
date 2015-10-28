@@ -15,6 +15,7 @@ import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import configureStore from "./store/configureStore";
 import * as AUTH from "./actions/auth";
+import * as EVENTS from "./actions/events";
 import * as SUBSCRIPTIONS from "./actions/subscriptions";
 import * as RPC from "./actions/rpc";
 import * as STATD from "./actions/statd";
@@ -60,6 +61,9 @@ if ( process.env.BROWSER ) {
     , onRPCTimeout: ( UUID, error ) =>
       store.dispatch( RPC.submitRPCTimeout( UUID, error ) )
 
+    // GENERIC EVENTS
+    , onSystemEvent: ( data, timestamp ) =>
+      store.dispatch( EVENTS.systemEvent( data, timestamp ) )
 
     // TASK UPDATE HANDLERS
     , onTaskCreated: ( data ) =>

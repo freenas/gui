@@ -26,6 +26,11 @@ export const RPC_RESOLVE = "RPC_RESOLVE";
 
 
 
+// EVENTS
+export const SYSTEM_EVENT = "SYSTEM_EVENT"
+
+
+
 // SUBSCRIPTION
 export const SUBSCRIBE = "SUBSCRIBE";
 export const UNSUBSCRIBE = "UNSUBSCRIBE";
