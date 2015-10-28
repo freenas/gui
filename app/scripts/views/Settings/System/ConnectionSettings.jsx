@@ -8,8 +8,6 @@ import React from "react";
 import { Input, Panel, Button, ButtonToolbar } from "react-bootstrap";
 import _ from "lodash";
 
-import SM from "../../../flux/middleware/SystemMiddleware"
-
 import networkCommon from "../../Network/networkCommon";
 
 const ConnectionSettings = React.createClass(
@@ -94,7 +92,7 @@ const ConnectionSettings = React.createClass(
       newConfig.webui_listen = this.state.webui_listen;
     }
     if ( !_.isEmpty( newConfig ) ) {
-      SM.updateSystemUIConfig( newConfig );
+      //SM.updateSystemUIConfig( newConfig );
     }
   }
 
