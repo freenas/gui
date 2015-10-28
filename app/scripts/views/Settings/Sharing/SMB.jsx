@@ -1,5 +1,5 @@
-// CIFS Configuration
-// ==================
+// SMB Configuration
+// =================
 
 "use strict";
 
@@ -67,7 +67,7 @@ function createDropdownOptions ( optionArray ) {
   return options;
 }
 
-export default class CIFS extends React.Component {
+export default class SMB extends React.Component {
   constructor ( props ) {
     super( props );
   }
@@ -294,7 +294,7 @@ export default class CIFS extends React.Component {
 
     return (
       <Panel>
-        <h4>CIFS</h4>
+        <h4>{ "SMB" }</h4>
         { toggleService }
         <form className = "settings-config-form">
           { netbiosName /* Basic Field*/ }
@@ -326,7 +326,7 @@ export default class CIFS extends React.Component {
   }
 };
 
-CIFS.propTypes = { dos_charset: React.PropTypes.oneOf( DOS_CHARSETS)
+SMB.propTypes = { dos_charset: React.PropTypes.oneOf( DOS_CHARSETS)
                  , filemask: React.PropTypes.string
                  , unix_charset: React.PropTypes.oneOf( UNIX_CHARSETS )
                  , domain_logons: React.PropTypes.bool
