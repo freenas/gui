@@ -66,7 +66,10 @@ class MiddlewareClient {
     this.onTaskFinished = () => notBoundWarn( "onTaskFinished" );
     this.onTaskFailed = () => notBoundWarn( "onTaskFailed" );
 
-    // SUBSCRIPTIONS
+    // STATD PULSE HANDLERS
+    this.onStatdPulse = () => notBoundWarn( "onStatdPulse" );
+
+    // ENTITY-SUBSCRIBER HANDLERS
     this.onEntityChanged = () => notBoundWarn( "onEntityChanged" );
   }
 
@@ -211,6 +214,26 @@ class MiddlewareClient {
         switch ( eventName[0] ) {
           case "task":
             this.handleTaskResponse( eventName[1], data.args.args );
+            break;
+
+          case "statd":
+            if ( eventName[ eventName.length -1 ] === "pulse" ) {
+              // Anything listening for statd pulses will use a mask that looks
+              // like "localhost.memory.memory-free.value". The responses from
+              // the middleware will contain that mask, with a leading "statd"
+              // and trailing "pulse". We beat up the array here to get a mask
+              // that looks like what we started with elsewhere.
+              eventName.shift();
+              eventName.pop();
+              eventName = eventName.join( "." );
+              this.onStatdPulse( eventName, data.args.args );
+            } else {
+              console.warn( "Middleware Client is not yet set up to handle "
+                          + "this type of statd event:"
+                          , eventName.join( "." )
+                          , data
+                          );
+            }
             break;
 
           case "entity-subscriber":

@@ -16,16 +16,36 @@ const INITIAL_STATE =
 export default function system ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let data;
+  let newPulse;
   let historyRequests;
 
   switch ( type ) {
     case TYPES.STATD_HISTORY_REQUEST:
       historyRequests = new Map( state.historyRequests );
       historyRequests.set( payload.UUID, payload.source );
-      return Object.assign( {}
-                          , state
-                          , { historyRequests }
-                          );
+      return Object.assign( {}, state, { historyRequests } );
+
+
+    // NEW DATA PULSE
+    case TYPES.STATD_PULSE:
+      if ( payload.pulse.hasOwnProperty( "timestamp" )
+        && payload.pulse.hasOwnProperty( "value" ) ) {
+        data = Object.assign( {}, state.data );
+        newPulse = [ payload.pulse.timestamp, payload.pulse.value ];
+
+        if ( Array.isArray( data[ payload.source ] ) ) {
+          data[ payload.source ].push( newPulse );
+          data[ payload.source ] = _.takeRight( data[ payload.source ], STATS_LIMIT );
+        } else {
+          data[ payload.source ] = [ newPulse ];
+        }
+
+        return Object.assign( {}, state, { data } );
+      } else {
+        console.warn( "Bad pulse:", payload );
+        return state;
+      }
+
 
     // RPC REQUEST RESOLUTION
     case TYPES.RPC_SUCCESS:
@@ -43,15 +63,13 @@ export default function system ( state = INITIAL_STATE, action ) {
 
           historyRequests.delete( payload.UUID );
 
-          return Object.assign( {}
-                              , state
-                              , { data, historyRequests }
-                              );
+          return Object.assign( {}, state, { data, historyRequests } );
         } else {
           console.warn( "statd history query did not return any data" );
         }
         return state;
       }
+
 
     default:
       return state;

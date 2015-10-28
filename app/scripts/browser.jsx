@@ -17,6 +17,7 @@ import configureStore from "./store/configureStore";
 import * as AUTH from "./actions/auth";
 import * as SUBSCRIPTIONS from "./actions/subscriptions";
 import * as RPC from "./actions/rpc";
+import * as STATD from "./actions/statd";
 import * as TASKS from "./actions/tasks";
 import * as WEBSOCKET from "./actions/websocket";
 
@@ -71,6 +72,10 @@ if ( process.env.BROWSER ) {
       store.dispatch( TASKS.taskFinished( data ) )
     , onTaskFailed: ( data ) =>
       store.dispatch( TASKS.taskFailed( data ) )
+
+    // STATD PULSE HANDLERS
+    , onStatdPulse: ( source, pulse ) =>
+      store.dispatch( STATD.pulse( source, pulse ) )
 
     // ENTITY-SUBSCRIBER HANDLERS
     , onEntityChanged: ( mask, data ) =>

@@ -48,3 +48,9 @@ export function pulseSubscribe ( sources, id ) {
 export function pulseUnsubscribe ( sources, id ) {
   return dispatch => dispatch( unsubscribe( sources.map( pulseSyntax ), id ) );
 }
+
+export function pulse ( source, pulse ) {
+  return { type: TYPES.STATD_PULSE
+         , payload: { source, pulse }
+         };
+}
