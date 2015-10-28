@@ -7,6 +7,7 @@ import auth from "./auth";
 import disks from "./disks";
 import rpc from "./rpc";
 import shells from "./shells";
+import statd from "./statd";
 import subscriptions from "./subscriptions";
 import system from "./system";
 import tasks from "./tasks";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers(
   , disks
   , rpc
   , shells
+  , statd
   , subscriptions
   , system
   , tasks

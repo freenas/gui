@@ -29,21 +29,26 @@ const DATA_SOURCES =
   , "localhost.aggregation-cpu-sum.cpu-interrupt.value"
   ];
 
-// request data every 10 seconds for now
 const FREQUENCY = 10;
 
 const CPU = React.createClass(
-  { propTypes: { subscribeToDataSources: React.PropTypes.func.isRequired
+  { propTypes: { subscribe: React.PropTypes.func.isRequired
                , cpuCores: React.PropTypes.number
                }
+
+  , getDefaultProps () {
+      return { cpuCores: 0
+             , statdData: {}
+             }
+    }
 
   , getInitialState () {
       return { lastUpdateAt: 0 };
     }
 
   , componentDidMount () {
-
-      this.props.subscribeToDataSources( DATA_SOURCES, FREQUENCY );
+      this.props.fetchHistory( DATA_SOURCES );
+      this.props.subscribe( DATA_SOURCES, "CPU Widget" );
 
       var dataSystem = [ "System", [] ];
       var dataUser = [ "User", [] ];
@@ -98,6 +103,7 @@ const CPU = React.createClass(
     }
 
   , componentWillUnmount () {
+      this.props.unsubscribe( DATA_SOURCES, "CPU Widget" );
       this.chart = null;
     }
 

@@ -6,17 +6,15 @@
 "use strict";
 
 import React from "react";
+import { connect } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
 
-import DM from "../flux/middleware/DisksMiddleware";
-import DS from "../flux/stores/DisksStore";
-
-import SM from "../flux/middleware/StatdMiddleware";
-import SS from "../flux/stores/StatdStore";
-
-import SystemMiddleware from "../flux/middleware/SystemMiddleware";
-import SystemStore from "../flux/stores/SystemStore";
+import * as DISKS from "../actions/disks";
+import * as SUBSCRIPTIONS from "../actions/subscriptions";
+import * as STATD from "../actions/statd";
+import * as SYSTEM from "../actions/system";
+import DiskUtilities from "../utility/DiskUtilities";
 
 import SystemInfo from "../components/Widgets/SystemInfo";
 import CPU from "../components/Widgets/CPU";
@@ -24,62 +22,26 @@ import Network from "../components/Widgets/Network";
 import Memory from "../components/Widgets/Memory";
 import DashboardContext from "./Dashboard/DashboardContext";
 
+
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Dashboard.less" );
 
 
-function getSystemInformation () {
-  return _.merge( SystemStore.getSystemInfo( "hardware" )
-                , SystemStore.systemGeneralConfig
-                , { version: SystemStore.version }
-                );
-}
-
-function getPredominantDisks () {
-  let predominantDisks = DS.predominantDisks;
-
-  return { predominantDisks: predominantDisks };
-}
-
-export default class Dashboard extends React.Component {
+// REACT
+class Dashboard extends React.Component {
 
   constructor( props ) {
     super( props );
     this.displayName = "Dashboard";
-    this.state = { statdData: {} };
-
-    this.onDisksChange = this.handleDisksChange.bind( this );
-    this.onHardwareChange = this.handleHardwareChange.bind( this );
-    this.onDataUpdate = this.handleDataUpdate.bind( this );
   }
 
   componentDidMount () {
-    DS.addChangeListener( this.onDisksChange );
-    DM.requestDisksOverview();
-    DM.subscribe( this.displayName );
-
-    SS.addChangeListener( this.onDataUpdate );
-
-    SystemMiddleware.subscribe( this.displayName );
-    SystemStore.addChangeListener( this.onHardwareChange );
-    SystemMiddleware.requestSystemInfo( "hardware" );
-    SystemMiddleware.requestSystemGeneralConfig();
-    SystemMiddleware.requestVersion();
-
+    this.props.subscribe( this.displayName );
+    this.props.fetchData();
   }
 
   componentWillUnmount () {
-    // Unsubscribe from all data sources
-    var dataSources = _.keys( this.state.statdData );
-    SM.unsubscribeFromPulse( this.displayName, dataSources );
-
-    DS.removeChangeListener( this.onDisksChange );
-    DM.unsubscribe( this.displayName );
-
-    SS.removeChangeListener( this.onDataUpdate );
-
-    SystemStore.removeChangeListener( this.onHardwareChange );
-    SystemMiddleware.unsubscribe( this.displayName );
+    this.props.unsubscribe( this.displayName );
   }
 
   // Only send new props if the page is visible
@@ -87,68 +49,79 @@ export default class Dashboard extends React.Component {
     return document.visibilityState === "visible";
   }
 
-  handleDisksChange () {
-    this.setState( getPredominantDisks() );
-  }
-
-  handleHardwareChange () {
-    this.setState( getSystemInformation() );
-  }
-
-  subscribeToDataSources ( newDataSources, frequency ) {
-    var newStatdData = _.cloneDeep( this.state.statdData );
-
-    SM.subscribeToPulse( this.displayName, newDataSources );
-
-    const now = moment().format();
-    // Hardcoded to the past 60 seconds of data.
-    const startTime = moment( now ).subtract( frequency * 60, "seconds" ).format();
-
-    newDataSources.forEach( function requestInitialData( dataSource ) {
-                              // Don't toss out old data if there is any
-                              if ( _.isEmpty( newStatdData[ dataSource ] ) ) {
-                                newStatdData[ dataSource ] = [];
-                              }
-                              SM.requestWidgetData( dataSource
-                                                  , startTime
-                                                  , now
-                                                  , frequency + "S"
-                                                  );
-                           }
-                         );
-    this.setState( { statdData: newStatdData } );
-  }
-
-  handleDataUpdate ( eventMask ) {
-    var dataSourceToUpdate = eventMask.split( " " )[0];
-    var newStatdData = this.state.statdData;
-    newStatdData[ dataSourceToUpdate ] = SS.getStatdData( dataSourceToUpdate );
-    this.setState( { statdData: newStatdData } );
-  }
-
   render () {
     return (
       <main className="full dashboard">
         <div className="dashboard-widgets">
 
-          <SystemInfo { ...this.state } />
-
-          <CPU
-            subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
-            { ...this.state }
+          <SystemInfo
+            version = { this.props.version }
+            cpu_model = { this.props.hardware.cpu_model }
+            cpu_cores = { this.props.hardware.cpu_cores }
+            memory_size = { this.props.hardware.memory_size }
+            predominantDisks = { this.props.predominantDisks }
           />
 
-          {/*<Network
-            subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
-            { ...this.state }
-          />*/}
+          <CPU
+            fetchHistory = { ( sources, frequency ) => this.props.fetchHistory( sources, frequency ) }
+            subscribe = { ( sources, id ) => this.props.pulseSubscribe( sources, id ) }
+            unsubscribe = { ( sources, id ) => this.props.pulseUnsubscribe( sources, id ) }
+            cpuCores = { this.props.hardware.cpu_cores }
+            statdData = { this.props.statd }
+          />
 
           <Memory
-            subscribeToDataSources = { this.subscribeToDataSources.bind( this ) }
-            { ...this.state }
+            fetchHistory = { ( sources, frequency ) => this.props.fetchHistory( sources, frequency ) }
+            subscribe = { ( sources, id ) => this.props.pulseSubscribe( sources, id ) }
+            unsubscribe = { ( sources, id ) => this.props.pulseUnsubscribe( sources, id ) }
+            statdData = { this.props.statd }
           />
         </div>
       </main>
     );
   }
 }
+
+
+// REDUX
+function mapStateToProps ( state ) {
+  const { disks } = state;
+
+  return (
+    { predominantDisks: DiskUtilities.predominantDisks( disks.disks )
+    , hardware: state.system.info.hardware
+    , version: state.system.info.version
+    , statd: state.statd.data
+    }
+  );
+}
+
+const SUB_MASKS = [ "entity-subscriber.disks.changed" ];
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    { subscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
+    , unsubscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
+
+    // STATD DATA
+    , fetchHistory: ( sources ) =>
+      dispatch( STATD.fetchHistory( sources ) )
+    , pulseSubscribe: ( sources, id ) =>
+      dispatch( STATD.pulseSubscribe( sources, id ) )
+    , pulseUnsubscribe: ( sources, id ) =>
+      dispatch( STATD.pulseUnsubscribe( sources, id ) )
+
+    // GET INITIAL DATA
+    , fetchData: () => {
+        dispatch( DISKS.requestDiskOverview() );
+        dispatch( SYSTEM.requestHardware() );
+        dispatch( SYSTEM.requestGeneralConfig() );
+        dispatch( SYSTEM.requestVersion() );
+      }
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Dashboard );
