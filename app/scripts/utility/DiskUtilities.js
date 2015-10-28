@@ -18,6 +18,46 @@ export default class DiskUtilities {
     return capacity + maxRPM + type;
   }
 
+  static predominantDisks ( disks, filterSet ) {
+    let paths;
+
+    if ( typeof disks !== "object" ) {
+      console.warn( `The first argument in predominantDisks must be an object`
+                  + `containing disk records`
+                  );
+      return;
+    }
+
+    if ( filterSet instanceof Set ) {
+      paths = Array.from( filterSet );
+    } else if ( Array.isArray( filterSet ) ) {
+      paths = filterSet
+    } else {
+      paths = Object.keys( disks );
+    }
+
+    let candidates = {};
+    let winner = "";
+
+    paths.forEach( path => {
+      const LABEL = DiskUtilities.createLabel( disks[ path ] );
+
+      if ( Array.isArray( candidates[ LABEL ] ) ) {
+        candidates[ LABEL ].push( disks[ path ] );
+      } else {
+        candidates[ LABEL ] = disks[ path ];
+      }
+
+      if ( winner.length === 0
+        || candidates[ LABEL ].length > candidates[ winner ].length
+        ) {
+        winner = LABEL;
+      }
+    });
+
+    return [ winner, candidates[ winner ] ];
+  }
+
   static similarDisks ( disks ) {
     // Returns arrays of disks based on their self-similarity - determined as
     // the combination of RPM, capacity, type, and manufacturer.
