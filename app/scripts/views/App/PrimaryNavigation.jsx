@@ -13,11 +13,6 @@ import { OverlayTrigger, Popover, Input, Nav, MenuItem, NavDropdown
 import { Link } from "react-router";
 
 import MiddlewareClient from "../../websocket/MiddlewareClient";
-import SS from "../../flux/stores/SessionStore";
-import MS from "../../flux/stores/MiddlewareStore";
-
-import UM from "../../flux/middleware/UsersMiddleware";
-import US from "../../flux/stores/UsersStore";
 
 import ItemIcon from "../../components/items/ItemIcon";
 import Icon from "../../components/Icon";
