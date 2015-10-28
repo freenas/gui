@@ -552,34 +552,6 @@ class MiddlewareClient {
       this.subscribe( Object.keys( this.state.subscriptions.active ) );
     }
   }
-
-  // MIDDLEWARE DISCOVERY METHODS
-  // These are instance methods used to request information about the
-  // Middleware server's capabilities and overall state. These can be used to
-  // return a list of services supported by your connection to the middleware,
-  // and methods supported by each service.
-
-  getSchemas () {
-    this.request( "discovery.get_schema"
-                , []
-                , MiddlewareActionCreators.receiveSchemas
-                );
-  };
-
-  getServices () {
-    this.request( "discovery.get_services"
-                , []
-                , MiddlewareActionCreators.receiveServices
-                );
-  };
-
-  getMethods ( service ) {
-    this.request( "discovery.get_methods"
-                , [ service ]
-                , MiddlewareActionCreators.receiveMethods.bind( null, service )
-                );
-  };
-
 }
 
 export default new MiddlewareClient();
