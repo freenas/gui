@@ -9,46 +9,18 @@ import React from "react";
 import { Input, Button, ButtonToolbar, Alert, Grid, Row, Col }
   from "react-bootstrap";
 
-import GM from "../../../flux/middleware/GroupsMiddleware";
-import GS from "../../../flux/stores/GroupsStore";
-
-import US from "../../../flux/stores/UsersStore";
-
-import groupMixins from "../../../mixins/groupMixins";
-
 const GroupEdit = React.createClass(
 
   { propTypes:
     { itemSchema: React.PropTypes.object.isRequired
-    , itemLabels: React.PropTypes.object.isRequired
     , item: React.PropTypes.object.isRequired
+    , groupForm: React.PropTypes.object.isRequired
     , handleViewChange: React.PropTypes.func.isRequired
+    , updateGroupForm: React.PropTypes.func.isRequired
+    , resetGroupForm: React.PropTypes.func.isRequired
+    , updateGroup: React.PropTypes.func.isRequired
+    , deleteGroup: React.PropTypes.func.isRequired
     }
-
-  , mixins: [ groupMixins ]
-
-  , contextTypes: { router: React.PropTypes.func }
-
-  , getInitialState: function () {
-    return { modifiedValues: {} };
-  }
-
-  , resetChanges: function () {
-    this.setState( { modifiedValues: {} } );
-  }
-
-  , handleChange: function ( field, event ) {
-    let newModifiedValues = this.state.modifiedValues;
-    newModifiedValues[ field ] = event.target.value;
-    this.setState( { modifiedValues: newModifiedValues } );
-  }
-
-  , submitChanges: function () {
-
-    let newGroupProps = this.state.modifiedValues;
-
-    GM.updateGroup( this.props.item.id, newGroupProps );
-  }
 
   , render: function () {
     let builtinWarning = null;
@@ -63,10 +35,15 @@ const GroupEdit = React.createClass(
         </Alert>;
     }
 
-    let groupNameValue = this.state.modifiedValues.name
-                      || this.props.item.name;
+    let groupNameValue = typeof this.props.groupForm.name === "string"
+                       ? this.props.groupForm.name
+                       : this.props.item.name;
 
-    let groupNameClass = this.state.modifiedValues.name
+    let sudoValue = typeof this.props.groupForm.sudo === "boolean"
+                       ? this.props.groupForm.sudo
+                       : this.props.item.sudo;
+
+    let groupNameClass = typeof this.props.groupForm.name === "string"
                        ? "editor-was-modified"
                        : "";
 
@@ -74,16 +51,29 @@ const GroupEdit = React.createClass(
       <Input
         className = { groupNameClass }
         type = "text"
-        label = { this.props.itemLabels.name }
+        label = { "Group Name" }
         value = { groupNameValue }
-        onChange = { this.handleChange.bind( null, "name" ) }
+        onChange = { ( e ) => this.props.updateGroupForm( "name"
+                                                        , e.target.value
+                                                        )
+                   }
       />;
+      let sudoField =
+        <Input
+          type = "checkbox"
+          label = "sudo"
+          value = { sudoValue }
+          onChange = { ( e ) => this.props.updateGroupForm( "sudo"
+                                                          , e.target.checked
+                                                          )
+                     }
+        />;
 
     let resetButton =
       <Button
         className = "pull-right"
         bsStyle = "warning"
-        onClick = { this.resetChanges }
+        onClick = { this.props.resetGroupForm }
       >
         { "Reset Changes" }
       </Button>;
@@ -92,7 +82,7 @@ const GroupEdit = React.createClass(
       <Button
         className = "pull-right"
         bsStyle = "success"
-        onClick = { this.submitChanges }
+        onClick = { () => this.props.updateGroup( this.props.item.id ) }
       >
         { "Submit Changes" }
       </Button>;
@@ -110,7 +100,7 @@ const GroupEdit = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "danger"
-        onClick = { this.deleteGroup.bind( this ) }
+        onClick = { () => this.props.deleteGroup( this.props.item.id ) }
         disabled = { this.props.item.builtin }
       >
         { "Delete Group" }
@@ -127,12 +117,13 @@ const GroupEdit = React.createClass(
     let editForm =
       <div>
         { groupNameField }
+        { sudoField }
       </div>;
 
     let groupIDDisplay =
       <div>
         <strong>
-          { this.props.itemLabels.id + ": " }
+          { "Group ID: " }
         </strong>
         { this.props.item.id }
       </div>;

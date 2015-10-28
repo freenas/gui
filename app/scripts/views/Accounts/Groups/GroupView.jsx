@@ -13,48 +13,40 @@ import { Alert, ListGroup, ListGroupItem, Grid, Row, Col, Button
        }
   from "react-bootstrap";
 
-import routerShim from "../../../mixins/routerShim";
-import clientStatus from "../../../mixins/clientStatus";
-
 import viewerUtil from "../../../components/Viewer/viewerUtil";
 
-import UsersStore from "../../../flux/stores/UsersStore";
-
-import groupMixins from "../../../mixins/groupMixins";
-import inputHelpers from "../../../mixins/inputHelpers";
-
+function getGroupUsers ( groupID, userList ) {
+  return _.filter( userList, function checkUserGroup( user ) {
+      if ( user.group === groupID || _.contains( user.groups, groupID ) ) {
+        return true;
+      }
+    }
+  );
+}
 
 const GroupView = React.createClass({
 
-  mixins: [ groupMixins ]
-
-  , contextTypes: {
+  contextTypes: {
     router: React.PropTypes.func
   }
 
-  , propTypes: {
-      item: React.PropTypes.object.isRequired
+  , propTypes:
+    { item: React.PropTypes.object.isRequired
+    , deleteGroup: React.PropTypes.func.isRequired
     }
 
-  , getMembers: function ( groupid ) {
-    if ( UsersStore.getUsersByGroup( groupid ) ) {
-      return UsersStore.getUsersByGroup( groupid );
-    } else {
-      return [];
-    }
-  }
-
-  , createUserDisplayList: function ( groupid ) {
-    var listUserItemArray = [];
-    var users = this.getMembers( groupid );
-
-    for ( var i = 0; i < users.length; i++ ) {
-      listUserItemArray.push(
-        <ListGroupItem>
-          { users[i].username }
-        </ListGroupItem>
-      );
-    }
+  , createUserDisplayList: function ( groupID ) {
+    const users = getGroupUsers( groupID, this.props.users );
+    var listUserItemArray = users.map( function createListGroupItems ( user
+                                                                     , index
+                                                                     ) {
+        return (
+          <ListGroupItem key = { index } >
+            { user.username }
+          </ListGroupItem>
+        );
+      }
+    );
 
     return listUserItemArray;
   }
@@ -63,10 +55,12 @@ const GroupView = React.createClass({
     var builtInGroupAlert = null;
     var editButtons = null;
 
-    if ( this.props.item["builtin"] ) {
+    if ( this.props.item.builtin ) {
       builtInGroupAlert = (
-        <Alert bsStyle   = "info"
-                    className = "text-center">
+        <Alert
+          bsStyle = "info"
+          className = "text-center"
+        >
           <b>{"This is a built-in FreeNAS group."}</b>
         </Alert>
       );
@@ -76,15 +70,18 @@ const GroupView = React.createClass({
       <ButtonToolbar>
         <Button
           className = "pull-left"
-          disabled  = { this.props.item[ "builtin" ] }
-          onClick   = { this.deleteGroup }
-          bsStyle   = "danger" >
+          disabled = { this.props.item.builtin }
+          onClick = { () => this.props.deleteGroup( this.props.item.id ) }
+          bsStyle = "danger"
+        >
           { "Delete Group" }
         </Button>
         <Button
           className = "pull-right"
-          onClick   = { this.props.handleViewChange.bind( null, "edit" ) }
-          bsStyle   = "info" >
+          disabled = { this.props.item.builtin }
+          onClick = { this.props.handleViewChange.bind( null, "edit" ) }
+          bsStyle = "info"
+        >
           { "Edit Group" }
         </Button>
       </ButtonToolbar>
@@ -100,13 +97,14 @@ const GroupView = React.createClass({
             xs={3}
             className="text-center">
             <viewerUtil.ItemIcon
-              primaryString  = { this.props.item[ "name" ] }
-              fallbackString = { this.props.item[ "id" ] }
-              seedNumber     = { this.props.item[ "id" ] } />
+              primaryString = { this.props.item.name }
+              fallbackString = { this.props.item.id }
+              seedNumber = { this.props.item.id }
+            />
           </Col>
           <Col xs={9}>
             <h3>
-              { this.props.item[ "name" ] }
+              { this.props.item.name }
             </h3>
             <hr />
           </Col>
@@ -119,27 +117,27 @@ const GroupView = React.createClass({
 
         <Row>
           <Col
-            xs      = {2}
+            xs = {2}
             className = "text-muted" >
             <h4 className = "text-muted" >
-              { this.props.itemLabels[ "id" ] }
+              { "Group Name" }
             </h4>
           </Col>
           <Col xs = {10}>
             <h3>
-              { this.props.item[ "id" ] }
+              { this.props.item.id }
             </h3>
           </Col>
         </Row>
         <Row>
           <Col
-            xs      = {12}
+            xs = {12}
             className = "text-muted" >
             <h4 className = "text-muted" >
               { "Users" }
             </h4>
             <ListGroup>
-              { this.createUserDisplayList( this.props.item[ "id" ] ) }
+              { this.createUserDisplayList( this.props.item.id ) }
             </ListGroup>
           </Col>
         </Row>

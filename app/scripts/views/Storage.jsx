@@ -9,423 +9,120 @@
 
 import _ from "lodash";
 import React from "react";
-import { Alert, Modal, Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import { Motion, spring } from "react-motion";
 
-import VS from "../flux/stores/VolumeStore";
-import VM from "../flux/middleware/VolumeMiddleware";
-import DS from "../flux/stores/DisksStore";
-import DM from "../flux/middleware/DisksMiddleware";
-import SM from "../flux/middleware/SharesMiddleware";
-import SS from "../flux/stores/SharesStore";
-import TS from "../flux/stores/TasksStore";
+// ACTIONS
+import * as DISKS from "../actions/disks";
+import * as VOLUMES from "../actions/volumes";
+import * as SUBSCRIPTIONS from "../actions/subscriptions";
 
+// UTILITY
+import { ghost, ghostUpdate } from "../utility/motions";
+import VolumeUtilities from "../utility/VolumeUtilities";
+
+// COMPONENTS
+import ConfirmationDialog from "../components/ConfirmationDialog";
+import CreateStorage from "./Storage/CreateStorage";
 import Volume from "./Storage/Volume";
 import VolumeTask from "./Storage/VolumeTask";
 
-import { Animate } from "../utility/Animate";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Storage.less" );
 
 
-const ACTIVE_TASK_STATES = new Set([ "CREATED", "WAITING", "EXECUTING" ]);
-
-export default class Storage extends React.Component {
+// REACT
+class Storage extends React.Component {
 
   constructor( props ) {
     super( props );
 
     this.displayName = "Storage";
-
-    this.onChangedVS = this.handleUpdatedVS.bind( this );
-    this.onChangedDS = this.handleUpdatedDS.bind( this );
-    this.onChangedSS = this.handleUpdatedSS.bind( this );
-    this.onChangedTS = this.handleUpdatedTS.bind( this );
-
-    // SET INITIAL STATE
-    this.state =
-      { volumes          : VS.listVolumes()
-      , shares           : SS.shares
-      , tasks:
-        { "volume.create"  : TS.getTasksByName( "volume.create" )
-        , "volume.destroy" : TS.getTasksByName( "volume.destroy" )
-        , "volume.update"  : TS.getTasksByName( "volume.update" )
-        }
-      , SSDsAreAvailable : VS.SSDsAreAvailable
-      , HDDsAreAvailable : VS.HDDsAreAvailable
-      , availableSSDs    : VS.availableSSDs
-      , availableHDDs    : VS.availableHDDs
-      , activeVolume     : null
-      , activeDataset    : null
-      , volumeToDelete   : null
-      , datasetToDelete  : { path: null, pool: null }
-      , newDataset       : {}
-      , updateDataset    : {}
-      };
   }
 
   componentDidMount () {
-    VS.addChangeListener( this.onChangedVS );
-    DS.addChangeListener( this.onChangedDS );
-    SS.addChangeListener( this.onChangedSS );
-    TS.addChangeListener( this.onChangedTS );
+    this.props.subscribe( this.displayName );
 
-    DM.subscribe( this.displayName );
-    VM.subscribe( this.displayName );
-    SM.subscribe( this.displayName );
-
-    DM.requestDisksOverview();
-    VM.requestVolumes();
-    VM.requestAvailableDisks();
-    SM.query();
+    this.props.fetchDisks();
+    this.props.fetchVolumes();
+    this.props.fetchAvailableDisks();
   }
 
   componentWillUnmount () {
-    VS.removeChangeListener( this.onChangedVS );
-    DS.removeChangeListener( this.onChangedDS );
-    SS.removeChangeListener( this.onChangedSS );
-    TS.removeChangeListener( this.onChangedTS );
-
-    DM.unsubscribe( this.displayName );
-    VM.unsubscribe( this.displayName );
-    SM.unsubscribe( this.displayName );
+    this.props.unsubscribe( this.displayName );
   }
 
-  componentDidUpdate ( prevProps, prevState ) {
-    if ( VS.isInitialized ) {
-      Animate.ghostVertical( this.refs.LOADING, "out" );
-      if ( this.state.volumes.length ) {
-        Animate.ghostVertical( this.refs.INTRO_MESSAGE, "out" );
-      } else {
-        Animate.ghostVertical( this.refs.INTRO_MESSAGE, "in" );
-      }
-    } else {
-      Animate.ghostVertical( this.refs.LOADING, "out" );
-    }
-  }
-
-
-  // FLUX STORE UPDATE HANDLERS
-  handleUpdatedVS ( eventMask ) {
-    let newState = {};
-
-    switch ( eventMask ) {
-      case "availableDisks":
-        newState.SSDsAreAvailable = VS.SSDsAreAvailable;
-        newState.HDDsAreAvailable = VS.HDDsAreAvailable;
-        newState.availableSSDs    = VS.availableSSDs;
-        newState.availableHDDs    = VS.availableHDDs;
-        break;
-
-      case "volumes":
-      default:
-        // HACK: Events don't work right, this is required to make the page
-        // update properly, since all the new volume stuff is based on disk
-        // availability
-        VM.requestAvailableDisks();
-        newState.volumes = VS.listVolumes();
-        break;
-    }
-
-    this.setState( newState );
-  }
-
-  handleUpdatedDS ( eventMask ) {
-    // FIXME: Until there's some way to get this information in a more direct
-    // way, re-query available disks every time a disk changes. (This should
-    // hopefully have the benefit of covering things like ejection, even if
-    // it gets triggered by a lot of non-important stuff)
-    VM.requestAvailableDisks();
-  }
-
-  handleUpdatedSS ( eventMask ) {
-    this.setState({ shares: SS.shares });
-  }
-
-  handleUpdatedTS ( taskNamespace ) {
-    let newTasks = this.state.tasks;
-
-    switch ( taskNamespace ) {
-      case "volume.create":
-        newTasks[ "volume.create" ] = TS.getTasksByName( "volume.create" );
-        break;
-
-      case "volume.destroy":
-        newTasks[ "volume.destroy" ] = TS.getTasksByName( "volume.destroy" );
-        break;
-
-      case "volume.update":
-        newTasks[ "volume.update" ] = TS.getTasksByName( "volume.update" );
-        break;
-    }
-
-    this.setState({ tasks: newTasks });
-  }
-
-
-  // VOLUME MIDDLEWARE COMMUNICATION HANDLERS
-  handleVolumeSubmit ( newVolume ) {
-    this.setState({ activeVolume: null });
-    VM.submitVolume( newVolume );
-  }
-
-  handleVolumeDelete ( name ) {
-    VM.destroyVolume( name );
-    this.setState(
-      { volumeToDelete : null // TODO: temp workaround
-      , activeVolume   : null
-      }
-    );
-  }
-
-  cancelVolumeDelete () {
-    this.setState({ volumeToDelete: null });
-  }
-
-
-  // VOLUME RENDER / VISIBILITY MANAGEMENT
-  handleVolumeActive ( key ) {
-    this.setState({ activeVolume: key });
-  }
-
-  handleVolumeInactive () {
-    this.setState({ activeVolume: null });
-  }
-
-  handleVolumeDeleteConfirmation ( name ) {
-    this.setState({ volumeToDelete: name });
-  }
-
-
-  // FILESYSTEM AND SHARING HANDLERS
-  handleDatasetActive ( key ) {
-    this.setState({ activeDataset: key });
-  }
-
-  handleDatasetInactive () {
-    this.setState({ activeDataset: null });
-  }
-
-  handleNewDatasetChange ( newAttributes ) {
-    this.setState(
-      { newDataset: Object.assign( {}, this.state.newDataset, newAttributes )
-      }
-    );
-  }
-
-  handleNewDatasetCancel () {
-    this.setState({ newDataset: {} });
-  }
-
-  changeDatasetUpdate ( newDataset ) {
-    this.setState(
-      { updateDataset: Object.assign({}, this.state.newDataset, newDataset )
-      }
-    );
-  }
-
-  submitDatasetUpdate () {
-    const { pool_name, path, params } = this.state.updateDataset;
-
-    VM.updateDataset( pool_name, path, params );
-  }
-
-  revertDatasetUpdate () {
-    this.setState({ updateDataset: {} });
-  }
-
-  handleDatasetDelete () {
-    const { pool, path, params } = this.state.datasetToDelete;
-
-    VM.deleteDataset( pool, path );
-    this.setState({ datasetToDelete: { path: null, pool: null } });
-  }
-
-  nestDatasets ( datasets ) {
-    if ( !datasets ) {
-      // Datasets was definitely not an array
-      console.warn( "Expected `datasets` to be an array" );
-      return [];
-    }
-
-    switch ( datasets.length ) {
-      case 0:
-        // There are no datasets, return early.
-        return [];
-
-      case 1:
-        // The only dataset is the root datset, return early.
-        return datasets;
-
-      default:
-        let poolName;
-        let hash  = _.indexBy( datasets, "name" );
-        let names = _.pluck( datasets, "name" );
-
-        _.sortBy( names, ( name ) => {
-            // Create sorted list of dataset names in accordance of their path
-            // lengths, starting with the longest (most nested) paths.
-            let slashes = name.match( /\//gi );
-            return ( slashes
-                   ? ( -1 * slashes.length )
-                   : 0
-                   );
-          })
-         .forEach( ( name, index ) => {
-            let parentPath = name.replace( /(\/[^\/]*$)/i, "" );
-
-            if ( parentPath === name ) {
-              poolName = name;
-            } else {
-              if ( hash[ parentPath ].children ) {
-                hash[ parentPath ].children.push( hash[ name ] );
-              } else {
-                hash[ parentPath ].children = [ hash[ name ] ];
-              }
-            }
-          });
-
-        return [ hash[ poolName ] ];
-    }
-  }
-
-  cancelDatasetDelete () {
-    this.setState({ datasetToDelete: { path: null, pool: null } });
-  }
-
-  confirmDatasetDelete ( pool, path, params = {} ) {
-    if ( pool && path ) {
-      this.setState(
-        { datasetToDelete: { pool, path, params }
-        }
-      );
-    } else {
-      console.warn( "Missing parameters", arguments );
-    }
-  }
-
-
-
-  // LOCAL STATE PATCHING METHODS
-  patchDatasetInto ( volumes, target ) {
-    var { pool_name, mountpoint } = target;
-
-    if ( volumes.length === 0 ) {
-      console.warn( "Can't patch dataset into volumes: No volumes exist");
-    } else if ( !pool_name || typeof mountpoint !== "string" ) {
-      console.log( "Both `pool_name` and `mountpoint` must be properties of "
-                 + "target when patching"
-                 );
-    } else {
-      let targetVolume = _.findWhere( volumes, { "name": pool_name } );
-
-      if ( !targetVolume ) {
-        console.warn( `${ pool_name } could not be found in provided volumes` );
-        console.dir( "volumes", volumes );
-      } else if ( targetVolume.datasets.length === 0 ) {
-        console.warn( `${ pool_name } doesn't have any datasets` );
-        console.dir( pool_name, targetVolume );
-      } else {
-        targetVolume.datasets.push( target );
-      }
-    }
-  }
-
-
-  // RENDER METHODS
-  findActiveTask( tasks ) {
-    return Array.find( tasks, ( task ) => {
-      return ACTIVE_TASK_STATES.has( task.state.toUpperCase() );
+  renderTasks () {
+    return Array.from( this.props.activeTasks ).map( ( id, index ) => {
+      return <VolumeTask key={ index } { ...this.props.tasks[ id ] } />
     });
   }
 
-  createVolumes ( creationActive ) {
-    const { activeVolume, activeDataset, volumes, tasks, shares
-          , SSDsAreAvailable, HDDsAreAvailable, availableSSDs, availableHDDs
-          } = this.state;
+  // RENDER METHODS
+  renderVolumes () {
+    const { volumes } = this.props;
 
-    let renderableVolumes = _.cloneDeep( volumes );
+    const ALL_VOLUMES = Object.assign( {}, volumes.serverVolumes, volumes.clientVolumes );
+    const VOLUME_IDS = Object.keys( ALL_VOLUMES );
 
-    if ( Object.keys( this.state.newDataset ).length ) {
-      // There's content in the newDataset state, so we should patch it in to
-      // what we've got from the store
-      this.patchDatasetInto( renderableVolumes, this.state.newDataset );
-    }
-
-    const COMMON_PROPS =
-      { becomeActive   : this.handleVolumeActive.bind( this )
-      , becomeInactive : this.handleVolumeInactive.bind( this )
-      , onVolumeSubmit : this.handleVolumeSubmit.bind( this )
-      , onVolumeDelete : this.handleVolumeDeleteConfirmation.bind( this )
-      , tasks
-      , shares
-      , diskData:
-        { SSDsAreAvailable
-        , HDDsAreAvailable
-        , availableSSDs
-        , availableHDDs
-        }
-      , filesystemData:
-        { activeDataset
-        , updateDataset: this.state.updateDataset
-        }
-      , filesystemHandlers:
-        { onShareCreate     : SM.create
-        , onShareDelete     : SM.delete
-        , onDatasetActive   : this.handleDatasetActive.bind( this )
-        , onDatasetInactive : this.handleDatasetInactive.bind( this )
-        , onDatasetCreate   : VM.createDataset
-        , datasetUpdate:
-          { onChange: this.changeDatasetUpdate.bind( this )
-          , onSubmit: this.submitDatasetUpdate.bind( this )
-          , onRevert: this.revertDatasetUpdate.bind( this )
-          }
-        , onDatasetDelete   : this.confirmDatasetDelete.bind( this )
-        , onDatasetChange   : this.handleNewDatasetChange.bind( this )
-        , onDatasetCancel   : this.handleNewDatasetCancel.bind( this )
-        , nameIsPermitted   : VS.isDatasetNamePermitted
-        }
-      };
-
-    let pools =
-      renderableVolumes.map( ( volume, index ) => {
-        volume.datasets = this.nestDatasets( volume.datasets );
-        return (
-          <Volume
-            { ...COMMON_PROPS }
-            { ...volume }
-            existsOnRemote
-            key       = { index }
-            volumeKey = { index }
-            active    = { index === activeVolume }
-          />
-        );
-      });
-
-    if ( !creationActive && ( HDDsAreAvailable || SSDsAreAvailable ) ) {
-      // If there are disks available, a new pool may be created. The Volume
-      // component is responsible for displaying the correct "blank start"
-      // behavior, depending on its knowledge of other pools.
-      pools.push(
+    return VOLUME_IDS.map( ( id, index ) => {
+      return (
         <Volume
-          { ...COMMON_PROPS }
-          key       = { pools.length }
-          volumeKey = { pools.length }
-          active    = { pools.length === activeVolume }
+          { ...ALL_VOLUMES[ id ] }
+          key = { index }
+          active = { id === volumes.activeVolume }
+          existsOnServer = { Boolean( volumes.serverVolumes[ id ] ) }
+          existsOnClient = { Boolean( volumes.clientVolumes[ id ] ) }
+
+          onDiskSelect = { this.props.onDiskSelect }
+          onDiskDeselect = { this.props.onDiskDeselect }
+
+          // DISKS
+          disks = { this.props.disks }
+          availableDisks = { this.props.availableDisks }
+          SSDs = { this.props.SSDs }
+          HDDs = { this.props.HDDs }
+          availableSSDs = { this.props.availableSSDs }
+          availableHDDs = { this.props.availableHDDs }
+
+          // VOLUMES
+          onUpdateVolume = { this.props.onUpdateVolume.bind( this, id ) }
+          onRevertVolume = { this.props.onRevertVolume.bind( this, id ) }
+          onSubmitVolume = { this.props.onSubmitVolume.bind( this, id ) }
+          onRequestDestroyVolume = { this.props.onRequestDestroyVolume.bind( this, id ) }
+
+          // SHARES
+          onUpdateShare = { this.props.onUpdateShare.bind( this, id ) }
+          onRevertShare = { this.props.onRevertShare.bind( this, id ) }
+          onSubmitShare = { this.props.onSubmitShare.bind( this, id ) }
+          onRequestDeleteShare = { this.props.onRequestDeleteShare.bind( this, id ) }
+
+          // GUI
+          onFocusVolume = { this.props.onFocusVolume.bind( this, id ) }
+          onBlurVolume = { this.props.onBlurVolume.bind( this, id ) }
+          onToggleShareFocus = { this.props.onToggleShareFocus.bind( this, id ) }
         />
       );
-    }
-
-    return pools;
+    });
   }
 
   render () {
-    const TASKS = this.state.tasks;
-    const VOLUME_CREATE_TASK = this.findActiveTask( TASKS["volume.create"] );
-    const VOLUME_DESTROY_TASK = this.findActiveTask( TASKS["volume.destroy"] );
+    const SERVER_VOLUMES_EXIST =
+      Boolean( Object.keys( this.props.volumes.serverVolumes ).length );
+    const CLIENT_VOLUMES_EXIST =
+      Boolean( Object.keys( this.props.volumes.clientVolumes ).length );
 
-    const VOLUME_TO_DELETE = this.state.volumeToDelete;
-    const DATASET_TO_DELETE = this.state.datasetToDelete;
+    const LOADING = Boolean( this.props.volumes.volumesRequests.size );
+    const SHOW_INTRO = !LOADING && !SERVER_VOLUMES_EXIST && !CLIENT_VOLUMES_EXIST;
+    // In the case that no volumes are being edited or created, and disks are
+    // available for inclusion in a new pool, the user has the option to
+    // create a new pool.
+    const SHOW_NEW = !LOADING && !CLIENT_VOLUMES_EXIST && this.props.availableDisks.size;
+
+    const TO_DESTROY = this.props.volumeToDestroy
+                     ? this.props.volumes.serverVolumes[ this.props.volumeToDestroy ]
+                     : "";
 
     return (
       <main>
@@ -433,115 +130,215 @@ export default class Storage extends React.Component {
           <span className="text">Storage Volumes</span>
         </h1>
 
-        {/* VOLUMES */}
-        <div>
-
-          {/* LOADING SPINNER */}
-          <h1
-            ref       = "LOADING"
-            className = "text-center"
-          >
-            { "LOADING" }
-          </h1>
-
-
-          {/* INTRODUCTORY MESSAGE */}
-          <div
-            ref       = "INTRO_MESSAGE"
-            className = "clearfix storage-first-pool"
-            style     = {{ display: "none" }}
-          >
-            <img src="/images/hdd.png" />
-            <h3>Creating Storage</h3>
-            <p>
-              { "This is the place where you create ZFS pools and stuff. "
-              + "Someday, this text will be very helpful and everyone will "
-              + "like what it says. Today it just says this, so maybe create "
-              + "a pool or something, maaaaaan."
-              }
-            </p>
-          </div>
-
-          {/* ONGOING TASKS */}
-          <VolumeTask { ...VOLUME_CREATE_TASK } />
-          <VolumeTask { ...VOLUME_DESTROY_TASK } />
-
-          {/* CREATED VOLUMES */}
-          { this.createVolumes( Boolean( VOLUME_CREATE_TASK ) ) }
-        </div>
-
-
-        {/* CONFIRMATION DIALOG - POOL DESTRUCTION */}
-        <Modal
-          show   = { Boolean( VOLUME_TO_DELETE ) }
-          onHide = { this.cancelVolumeDelete.bind( this ) }
+        {/* LOADING SPINNER */}
+        <Motion
+          defaultStyle = { LOADING ? ghost.defaultIn : ghost.defaultOut }
+          style        = { LOADING ? ghost.in : ghost.out }
         >
-          <Modal.Header closebutton>
-            <Modal.Title>
-              {"Confirm Destruction of " + VOLUME_TO_DELETE }
-            </Modal.Title>
-          </Modal.Header>
+          { ({ y, opacity }) =>
+            <h1
+              className = "text-center"
+              style = { ghost.update( y, opacity ) }
+            >
+              LOADING VOLUMES
+            </h1>
+          }
+        </Motion>
 
-          <Modal.Body>
-            <p>
+
+        {/* INTRODUCTORY MESSAGE */}
+        <Motion
+          defaultStyle = { SHOW_INTRO ? ghost.defaultIn : ghost.defaultOut }
+          style        = { SHOW_INTRO ? ghost.in : ghost.out }
+        >
+          { ({ y, opacity }) =>
+            <div
+              className = "clearfix storage-first-pool"
+              style = { ghost.update( y, opacity ) }
+            >
+              <img src="/images/hdd.png" />
+              <h3>Creating Storage</h3>
+              <p>
+                { "This is the place where you create ZFS pools and stuff. "
+                + "Someday, this text will be very helpful and everyone will "
+                + "like what it says. Today it just says this, so maybe create "
+                + "a pool or something, maaaaaan."
+                }
+              </p>
+            </div>
+          }
+        </Motion>
+
+        {/* ACTIVE TASKS */}
+        { this.renderTasks() }
+
+        {/* VOLUMES */}
+        { this.renderVolumes() }
+
+
+        {/* CREATE NEW POOL */}
+        <CreateStorage
+          style = { SHOW_NEW ? {} : { display: "none" } }
+          onClick = { () => {
+            this.props.onUpdateVolume( "NEW" );
+            this.props.onFocusVolume( "NEW" );
+          }}
+        />
+
+
+        {/* CONFIRMATION - POOL DESTRUCTION */}
+        <ConfirmationDialog
+          show = { Boolean( this.props.volumeToDestroy ) }
+          onCancel = { this.props.onCancelDestroyVolume }
+          onConfirm = { this.props.onConfirmDestroyVolume }
+          confirmStyle = { "danger" }
+          title = { "Confirm Destruction of " + TO_DESTROY.name }
+          body = {
+            <span>
               { "Bro are you like, really really sure you want to do this? "
-              + "Once you destroy "}<b>{ VOLUME_TO_DELETE }</b>{" "
+              + "Once you destroy "}<b>{ TO_DESTROY.name }</b>{" "
               + "it's not coming back. (In other words, I hope you backed up "
               + "your porn.)"
               }
-            </p>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button onClick={ this.cancelVolumeDelete.bind( this ) }>
-              {"Uhhh no"}
-            </Button>
-            <Button
-              bsStyle = { "danger" }
-              onClick = { this.handleVolumeDelete.bind( this, VOLUME_TO_DELETE ) }
-            >
-              {"Blow my pool up fam"}
-            </Button>
-          </Modal.Footer>
-
-        </Modal>
+            </span>
+          }
+          cancel = { "Uhhh no" }
+          confirm = { "Blow my pool up fam" }
+        />
 
 
-        {/* CONFIRMATION DIALOG - DATASET DELETION */}
-        <Modal
-          show   = { Boolean( DATASET_TO_DELETE.path ) }
-          onHide = { this.cancelDatasetDelete.bind( this ) }
-        >
-          <Modal.Header closebutton>
-            <Modal.Title>
-              {"Confirm Deletion of " + DATASET_TO_DELETE.path }
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <p>
-              { `Yo this is going to delete ${ DATASET_TO_DELETE.path } . All `
+        {/* CONFIRMATION - SHARE DELETION */}
+        <ConfirmationDialog
+          show = { Boolean( this.props.shareToDelete ) }
+          onCancel = { this.props.onCancelDeleteShare }
+          onConfirm = { this.props.onConfirmDeleteShare }
+          confirmStyle = { "danger" }
+          title = { "Confirm Deletion of " + this.props.shareToDelete }
+          body = {
+            <span>
+              { `Yo this is going to delete ${ this.props.shareToDelete } . All `
               + `the data that was in it will go bye-bye, and nobody will be `
               + `able to access it anymore. You sure that's what you want?`
               }
-            </p>
-          </Modal.Body>
+            </span>
+          }
+          cancel = { "MY BABY" }
+          confirm = { "I didn't like that share anyways" }
+        />
 
-          <Modal.Footer>
-            <Button onClick={ this.cancelDatasetDelete.bind( this ) }>
-              { "MY BABY" }
-            </Button>
-            <Button
-              bsStyle = { "danger" }
-              onClick = { this.handleDatasetDelete.bind( this ) }
-            >
-              { "I didn't like that share anyways" }
-            </Button>
-          </Modal.Footer>
-
-        </Modal>
       </main>
     );
   }
 
 }
+
+Storage.propTypes =
+  { volumes: React.PropTypes.object
+  , disks: React.PropTypes.object
+  , tasks: React.PropTypes.object
+
+  , SSDs: React.PropTypes.instanceOf( Set ).isRequired
+  , HDDs: React.PropTypes.instanceOf( Set ).isRequired
+
+  // SUBSCRIPTIONS
+  , subscribe: React.PropTypes.func.isRequired
+  , unsubscribe: React.PropTypes.func.isRequired
+
+  // REQUESTS
+  , fetchDisks: React.PropTypes.func.isRequired
+  , fetchVolumes: React.PropTypes.func.isRequired
+  , fetchAvailableDisks: React.PropTypes.func.isRequired
+
+  // HANDLERS
+  , onConfirmDestroyVolume: React.PropTypes.func.isRequired
+  , onCancelDestroyVolume: React.PropTypes.func.isRequired
+  , onConfirmDeleteShare: React.PropTypes.func.isRequired
+  , onCancelDeleteShare: React.PropTypes.func.isRequired
+  };
+
+
+// REDUX
+const SUB_MASKS =
+  [ "entity-subscriber.volumes.changed"
+  , "entity-subscriber.disks.changed"
+  ];
+
+function mapStateToProps ( state ) {
+  return (
+    { disks: state.disks.disks
+    , volumes: state.volumes
+    , volumeToDestroy: state.volumes.volumeToDestroy
+    , activeTasks: state.volumes.activeTasks
+    , tasks: state.tasks.tasks
+    , availableDisks: state.volumes.availableDisks
+    , SSDs: state.disks.SSDs
+    , HDDs: state.disks.HDDs
+    , availableSSDs:
+      Array.from( state.disks.SSDs )
+           .filter( path => state.volumes.availableDisks.has( path ) )
+    , availableHDDs:
+      Array.from( state.disks.HDDs )
+           .filter( path => state.volumes.availableDisks.has( path ) )
+    }
+  );
+}
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    // SUBSCRIPTIONS
+    { subscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
+    , unsubscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
+
+    // DISKS
+    , fetchDisks: () =>
+      dispatch( DISKS.requestDiskOverview() )
+
+    // VOLUMES DATA
+    , fetchVolumes: () =>
+      dispatch( VOLUMES.fetchVolumes() )
+    , fetchAvailableDisks: () =>
+      dispatch( VOLUMES.fetchAvailableDisks() )
+    , onDiskSelect: ( path ) =>
+      dispatch( VOLUMES.selectDisk( path ) )
+    , onDiskDeselect: ( path ) =>
+      dispatch( VOLUMES.deselectDisk( path ) )
+
+    // SUBMIT VOLUME
+    , onUpdateVolume: ( volumeID, patch ) =>
+      dispatch( VOLUMES.updateVolume( volumeID, patch ) )
+    , onRevertVolume: ( volumeID ) =>
+      dispatch( VOLUMES.revertVolume( volumeID ) )
+    , onSubmitVolume: ( volumeID ) =>
+      dispatch( VOLUMES.submitVolume( volumeID ) )
+
+    // DESTROY VOLUME
+    , onRequestDestroyVolume: ( volumeID ) =>
+      dispatch( VOLUMES.intendDestroyVolume( volumeID ) )
+    , onConfirmDestroyVolume: () =>
+      dispatch( VOLUMES.confirmDestroyVolume() )
+    , onCancelDestroyVolume: () =>
+      dispatch( VOLUMES.cancelDestroyVolume() )
+
+    // CREATE SHARE
+    , onUpdateShare: ( volumeID ) => console.log( "fart" )
+    , onRevertShare: ( volumeID ) => console.log( "fart" )
+    , onSubmitShare: ( volumeID ) => console.log( "fart" )
+
+    // DELETE SHARE
+    , onRequestDeleteShare: ( volumeID ) => console.log( "fart" )
+    , onConfirmDeleteShare: ( volumeID ) => console.log( "fart" )
+    , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
+
+    // GUI
+    , onFocusVolume: ( volumeID ) =>
+      dispatch( VOLUMES.focusVolume( volumeID ) )
+    , onBlurVolume: ( volumeID ) =>
+      dispatch( VOLUMES.blurVolume( volumeID ) )
+    , onToggleShareFocus: ( volumeID ) => console.log( "fart" )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Storage );

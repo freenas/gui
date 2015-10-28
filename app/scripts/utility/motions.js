@@ -12,4 +12,12 @@ export const ghost =
   , out : { y: spring( -100 ), opacity: spring( 0 ), marginTop: spring( -100 ) }
   , defaultIn : { y: 0, opacity: 1, marginTop: 0 }
   , defaultOut : { y: -100, opacity: 0, marginTop: -100 }
+  , update: function ( y, opacity ) {
+      return (
+        { transform: `translateY( ${ y }px )`
+        , opacity
+        , display: ( y === -100 ) ? "none" : ""
+        }
+      );
+    }
   };

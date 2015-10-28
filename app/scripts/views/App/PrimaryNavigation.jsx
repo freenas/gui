@@ -13,11 +13,6 @@ import { OverlayTrigger, Popover, Input, Nav, MenuItem, NavDropdown
 import { Link } from "react-router";
 
 import MiddlewareClient from "../../websocket/MiddlewareClient";
-import SS from "../../flux/stores/SessionStore";
-import MS from "../../flux/stores/MiddlewareStore";
-
-import UM from "../../flux/middleware/UsersMiddleware";
-import US from "../../flux/stores/UsersStore";
 
 import ItemIcon from "../../components/items/ItemIcon";
 import Icon from "../../components/Icon";
@@ -47,7 +42,7 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "/accounts"
+  , { path     : "/accounts/users"
     , icon     : "icon-id"
     , label    : "Accounts"
     , status   : null
@@ -57,7 +52,7 @@ const paths =
     , icon     : "icon-calendar"
     , label    : "Calendar"
     , status   : null
-    , disabled : false
+    , disabled : true
     }
   , { path     : "/console"
     , icon     : "icon-console"
@@ -71,7 +66,7 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "/settings"
+  , { path     : "/settings/system"
     , icon     : "icon-adjust-horiz"
     , label    : "Settings"
     , status   : null
@@ -132,13 +127,13 @@ class PrimaryNavigation extends React.Component {
       </div>
     );
 
-    if ( this.props.middleware.readyState === "OPEN" ) {
-      if ( this.props.middleware.mode === "SIMULATION_MODE" ) {
+    if ( this.props.websocket.readyState === "OPEN" ) {
+      if ( this.props.websocket.mode === "SIMULATION_MODE" ) {
         hostDisplay = "Simulation Mode";
         hostValue = "!!SIM";
         hostClass.push( "simulation" );
       } else {
-        hostDisplay = this.props.middleware.host;
+        hostDisplay = this.props.websocket.host;
         hostValue = hostDisplay;
         hostClass.push( "connected" );
       }
@@ -188,7 +183,7 @@ class PrimaryNavigation extends React.Component {
 // REDUX
 function mapStateToProps ( state ) {
   return (
-    { middleware: state.middleware
+    { websocket: state.websocket
     , auth: state.auth
     }
   );

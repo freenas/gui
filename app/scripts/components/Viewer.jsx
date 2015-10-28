@@ -63,7 +63,7 @@ const Viewer = React.createClass(
       return (
         { searchKeys       : new Set()
 
-        , itemData         : {}
+        , itemData         : []
 
         , routeParam       : ""
 

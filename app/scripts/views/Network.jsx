@@ -4,86 +4,42 @@
 "use strict";
 
 import React from "react";
+import { connect } from "react-redux";
 import _ from "lodash";
 
-import IM from "../flux/middleware/InterfacesMiddleware";
-import IS from "../flux/stores/InterfacesStore";
-import NM from "../flux/middleware/NetworkConfigMiddleware";
-import NS from "../flux/stores/NetworkConfigStore";
-import SM from "../flux/middleware/SystemMiddleware";
-import SS from "../flux/stores/SystemStore";
+import * as SUBSCRIPTIONS from "../actions/subscriptions";
+import * as NETWORK from "../actions/network";
+import * as SYSTEM from "../actions/system";
 
 import NetworkConfig from "./Network/NetworkConfig";
 import InterfaceItem from "./Network/InterfaceItem";
+
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Network.less" );
 
 
-export default class Network extends React.Component {
+// REACT
+class Network extends React.Component {
 
   constructor ( props ) {
     super( props );
 
     this.displayName = "Network";
-
-    this.onChangedIS = this.handleChangedIS.bind( this );
-    this.onChangedNS = this.handleChangedNS.bind( this );
-    this.onChangedSS = this.handleChangedSS.bind( this );
-
-    this.state =
-      { interfaces          : IS.interfaces
-      , networkConfig       : NS.networkConfig
-      , systemGeneralConfig : SS.systemGeneralConfig
-      };
   }
 
   componentDidMount () {
-    IS.addChangeListener( this.onChangedIS );
-    NS.addChangeListener( this.onChangedNS );
-    SS.addChangeListener( this.onChangedSS );
-
-    IM.subscribe( this.displayName );
-    NM.subscribe( this.displayName );
-    SM.subscribe( this.displayName );
-
-    IM.requestInterfacesList();
-    NM.requestNetworkConfig();
-    SM.requestSystemGeneralConfig();
+    this.props.subscribe( this.displayName );
+    this.props.fetchData();
   }
 
   componentWillUnmount () {
-    IS.removeChangeListener( this.onChangedIS );
-    NS.removeChangeListener( this.onChangedNS );
-    SS.removeChangeListener( this.onChangedSS );
-
-    IM.unsubscribe( this.displayName );
-    NM.unsubscribe( this.displayName );
-    SM.unsubscribe( this.displayName );
-  }
-
-  handleChangedIS () {
-    this.setState({ interfaces: IS.interfaces });
-  }
-
-  handleChangedNS () {
-    this.setState({ networkConfig: NS.networkConfig });
-  }
-
-  handleChangedSS () {
-    this.setState({ systemGeneralConfig: SS.systemGeneralConfig });
-  }
-
-  createInterfaceItems ( networkInterface, index ) {
-    return (
-      <InterfaceItem
-        { ...networkInterface }
-        key = { index }
-      />
-    );
+    this.props.unsubscribe( this.displayName );
   }
 
   render () {
+    const INTERFACE_IDS = Object.keys( this.props.interfaces );
+
     return (
       <main>
         <h1 className="view-header section-heading type-line">
@@ -91,13 +47,22 @@ export default class Network extends React.Component {
         </h1>
         <div>
         <NetworkConfig
-            networkConfig       = { this.state.networkConfig }
-            systemGeneralConfig = { this.state.systemGeneralConfig }
+          { ...this.props.serverConfig }
+          hostname = { this.props.hostname }
+
+          onUpdate = { this.props.updateNetworkConfig }
+          onRevert = { this.props.revertNetworkConfig }
+          onSubmit = { this.props.submitNetworkConfig }
+          submitDisabled = { this.props.submitConfigDisabled }
+          revertDisabled = { this.props.revertConfigDisabled }
         />
           <hr className = "network-divider" />
           <div className = "interface-item-container">
-            { this.state.interfaces.map(
-                this.createInterfaceItems.bind( this )
+            { INTERFACE_IDS.map( ( id, index ) =>
+                <InterfaceItem
+                  { ...this.props.interfaces[ id ] }
+                  key = { index }
+                />
               )
             }
           </div>
@@ -106,3 +71,52 @@ export default class Network extends React.Component {
     );
   }
 }
+
+
+// REDUX
+function mapStateToProps ( state ) {
+  return (
+    { systemGeneral: state.system.general
+    , hostname: state.system.general.hostname
+    , interfaces: state.network.interfaces
+    // TODO
+    , serverConfig: Object.assign( {}
+                                 , state.network.serverConfig
+                                 , state.network.clientConfig
+                                 )
+    , submitConfigDisabled: Boolean( Object.keys( state.network.clientConfig ).length === 0 )
+    , revertConfigDisabled: Boolean( Object.keys( state.network.clientConfig ).length === 0 )
+    }
+  );
+}
+
+const SUB_MASKS =
+  [ "entity-subscriber.network.interfaces.changed"
+  , "network.changed"
+  ];
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    { subscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
+    , unsubscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
+
+    , updateNetworkConfig: ( path, value ) =>
+      dispatch( NETWORK.updateNetworkConfig( path, value ) )
+    , revertNetworkConfig: () =>
+      dispatch( NETWORK.revertNetworkConfig() )
+    , submitNetworkConfig: () =>
+      dispatch( NETWORK.submitNetworkConfig() )
+
+    // GET INITIAL DATA
+    , fetchData: () => {
+        dispatch( SYSTEM.requestGeneralConfig() );
+        dispatch( NETWORK.requestNetworkConfig() );
+        dispatch( NETWORK.requestInterfaces() );
+      }
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Network );

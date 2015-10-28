@@ -11,7 +11,6 @@ import { Button, Col, Input, Row, Table } from "react-bootstrap";
 import Disclosure from "../../../components/Disclosure";
 
 // Middleware
-import SubscriptionsStore from "../../../flux/stores/SubscriptionsStore";
 import MiddlewareClient from "../../../websocket/MiddlewareClient";
 
 
@@ -21,23 +20,23 @@ var Subscriptions = React.createClass(
 
   , getInitialState: function () {
       return {
-        subscriptions : SubscriptionsStore.getAllSubscriptions()
+        subscriptions : {}
         , subsMasks     : ""
       };
     }
 
   , componentDidMount: function () {
-      SubscriptionsStore.addChangeListener( this.handleMiddlewareChange );
+      // SubscriptionsStore.addChangeListener( this.handleMiddlewareChange );
     }
 
   , componentWillUnmount: function () {
-      SubscriptionsStore.removeChangeListener( this.handleMiddlewareChange );
+      // SubscriptionsStore.removeChangeListener( this.handleMiddlewareChange );
     }
 
   , handleMiddlewareChange: function () {
       this.setState(
         {
-          subscriptions : SubscriptionsStore.getAllSubscriptions()
+          subscriptions : {}
         }
       );
     }
@@ -84,7 +83,8 @@ var Subscriptions = React.createClass(
 
   , render: function () {
       var subscriptionsContent = null;
-      var removeALL = MiddlewareClient.unsubscribeALL;
+      // TODO: Object.keys( state subscriptions blab blah )
+      // var removeALL = MiddlewareClient.unsubscribeALL;
 
       if ( _.isEmpty( this.state.subscriptions ) ) {
         subscriptionsContent = <h3 className="text-center">No log content</h3>;

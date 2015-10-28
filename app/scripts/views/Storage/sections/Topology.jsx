@@ -12,53 +12,38 @@ import ZfsUtil from "../utility/ZfsUtil";
 
 import VDEV from "./Topology/VDEV";
 
-var Topology = React.createClass(
+export default class Topology extends React.Component {
 
-  { propTypes:
-    { onDiskAdd        : React.PropTypes.func.isRequired
-    , onDiskRemove     : React.PropTypes.func.isRequired
-    , onVdevNuke       : React.PropTypes.func.isRequired
-    , onVdevTypeChange : React.PropTypes.func.isRequired
-    , SSDsAreAvailable : React.PropTypes.bool.isRequired
-    , HDDsAreAvailable : React.PropTypes.bool.isRequired
-    , topology: React.PropTypes.shape(
-        { data  : React.PropTypes.array.isRequired
-        , log   : React.PropTypes.array.isRequired
-        , cache : React.PropTypes.array.isRequired
-        , spare : React.PropTypes.array.isRequired
-        }
-      )
-    }
-
-  , createVdevs ( purpose ) {
+  renderVdevs ( purpose ) {
     let sharedProps =
       { purpose: purpose
-      , cols: null
       , newVdevAllowed: false
-      , SSDsAreAvailable: this.props.SSDsAreAvailable
-      , HDDsAreAvailable: this.props.HDDsAreAvailable
+      , disks: this.props.disks
+      , availableDisks: this.props.availableDisks
+      , SSDs: this.props.SSDs
+      , HDDs: this.props.HDDs
+      , availableSSDs: this.props.availableSSDs
+      , availableHDDs: this.props.availableHDDs
       };
 
     switch ( purpose ) {
       case "log":
       case "cache":
-        sharedProps.cols             = 12;
         // Log and Cache currently only allow a single VDEV.
-        if ( this.props.topology[ purpose ].length < 1 ) {
+        if ( this.props.topology[ purpose ].length === 0 ) {
           sharedProps.newVdevAllowed = true;
         }
         break;
 
       case "spare":
-        sharedProps.cols             = 12;
-        if ( this.props.topology[ purpose ].length < 1 ) {
+        if ( this.props.topology[ purpose ].length === 0 ) {
           sharedProps.newVdevAllowed = true;
         }
         break;
+
       case "data":
       default:
-        sharedProps.cols             = 12;
-        sharedProps.newVdevAllowed   = true;
+        sharedProps.newVdevAllowed = true;
         break;
     }
 
@@ -69,29 +54,37 @@ var Topology = React.createClass(
 
         let members = ZfsUtil.getMemberDiskPaths({ type, path, children });
 
-        let allowedTypes = this.props.editing
+        let allowedTypes = this.props.existsOnClient
                          ? ZfsUtil.getAllowedVdevTypes( members, purpose )
                          : [ type ];
-        const boundArgs = [ null, index, purpose ];
 
         return (
-          <VDEV { ...sharedProps }
+          <VDEV
+            { ...sharedProps }
             allowedTypes = { allowedTypes }
             children     = { children }
             type         = { type }
             path         = { path }
             vdevKey      = { index }
             key          = { index }
-            onDiskAdd    = { this.props.onDiskAdd.bind( ...boundArgs ) }
-            onDiskRemove = { this.props.onDiskRemove.bind( ...boundArgs ) }
-            onVdevNuke   = { this.props.onVdevNuke.bind( ...boundArgs ) }
-            onTypeChange = { this.props.onVdevTypeChange.bind( ...boundArgs ) }
+            onDiskAdd = { ( path ) =>
+              this.props.onDiskAdd( index, purpose, path )
+            }
+            onDiskRemove = { ( path ) =>
+              this.props.onDiskRemove( index, purpose, path )
+            }
+            onVdevNuke = { () =>
+              this.props.onVdevNuke( index, purpose )
+            }
+            onTypeChange = { () =>
+              this.props.onVdevTypeChange( index, purpose )
+            }
           />
         );
       }
     );
 
-    if ( ( this.props.editing && sharedProps.newVdevAllowed )
+    if ( ( this.props.existsOnClient && sharedProps.newVdevAllowed )
          || vdevs.length === 0
        ) {
       // If there are available devices, and the category in question allows the
@@ -101,17 +94,25 @@ var Topology = React.createClass(
       // which there are no devices available and no VDEVs of that type in
       // props. There must always be a VDEV in Winterfell, however, even if it's
       // just going to render a message about "you can't do anything with me".
-      const boundArgs = [ null, vdevs.length, purpose ];
       vdevs.push(
-        <VDEV { ...sharedProps }
+        <VDEV
+          { ...sharedProps }
           allowedTypes = { [] }
           type         = { null }
           vdevKey      = { vdevs.length }
           key          = { vdevs.length }
-          onDiskAdd    = { this.props.onDiskAdd.bind( ...boundArgs ) }
-          onDiskRemove = { this.props.onDiskRemove.bind( ...boundArgs ) }
-          onVdevNuke   = { this.props.onVdevNuke.bind( ...boundArgs ) }
-          onTypeChange = { this.props.onVdevTypeChange.bind( ...boundArgs ) }
+          onDiskAdd = { ( path ) =>
+            this.props.onDiskAdd( vdevs.length, purpose, path )
+          }
+          onDiskRemove = { ( path ) =>
+            this.props.onDiskRemove( vdevs.length, purpose, path )
+          }
+          onVdevNuke = { () =>
+            this.props.onVdevNuke( vdevs.length, purpose )
+          }
+          onTypeChange = { () =>
+            this.props.onVdevTypeChange( vdevs.length, purpose )
+          }
         />
       );
     }
@@ -119,7 +120,7 @@ var Topology = React.createClass(
     return vdevs;
   }
 
-  , render () {
+  render () {
     return (
       <div
         style = { this.props.style }
@@ -128,44 +129,52 @@ var Topology = React.createClass(
 
         <Row>
           {/* LOG AND CACHE DEVICES */}
-          <Col
-            xs = { 6 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 6 } className="pool-topology-section">
             <h4 className="pool-topology-header">Cache</h4>
-            { this.createVdevs( "cache" ) }
+            { this.renderVdevs( "cache" ) }
           </Col>
-          <Col
-            xs = { 6 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 6 } className="pool-topology-section">
             <h4 className="pool-topology-header">Log</h4>
-            { this.createVdevs( "log" ) }
+            { this.renderVdevs( "log" ) }
           </Col>
 
           {/* STORAGE VDEVS */}
-          <Col
-            xs={ 12 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 12 } className="pool-topology-section">
             <h4 className="pool-topology-header">Storage</h4>
-            { this.createVdevs( "data" ) }
+            { this.renderVdevs( "data" ) }
           </Col>
 
           {/* SPARE DISKS */}
-          <Col
-            xs={ 12 }
-            className = "pool-topology-section"
-          >
+          <Col xs={ 12 } className="pool-topology-section">
             <h4 className="pool-topology-header">Spares</h4>
-            { this.createVdevs( "spare" ) }
+            { this.renderVdevs( "spare" ) }
           </Col>
         </Row>
       </div>
     );
   }
 
-  }
-);
+}
 
-export default Topology;
+Topology.propTypes =
+  { existsOnServer: React.PropTypes.bool.isRequired
+  , existsOnClient: React.PropTypes.bool.isRequired
+
+  , onDiskAdd        : React.PropTypes.func.isRequired
+  , onDiskRemove     : React.PropTypes.func.isRequired
+  , onVdevNuke       : React.PropTypes.func.isRequired
+  , onVdevTypeChange : React.PropTypes.func.isRequired
+  , disks: React.PropTypes.object.isRequired
+  , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , SSDs: React.PropTypes.instanceOf( Set ).isRequired
+  , HDDs: React.PropTypes.instanceOf( Set ).isRequired
+  , availableSSDs: React.PropTypes.array.isRequired
+  , availableHDDs: React.PropTypes.array.isRequired
+  , topology: React.PropTypes.shape(
+      { data  : React.PropTypes.array.isRequired
+      , log   : React.PropTypes.array.isRequired
+      , cache : React.PropTypes.array.isRequired
+      , spare : React.PropTypes.array.isRequired
+      }
+    )
+  };

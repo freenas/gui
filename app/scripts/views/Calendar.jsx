@@ -9,14 +9,14 @@ import _ from "lodash";
 import { Button, ButtonGroup } from "react-bootstrap";
 import moment from "moment";
 
-import CM from "../flux/middleware/CalendarMiddleware";
-import CS from "../flux/stores/CalendarStore";
+// import CM from "../flux/middleware/CalendarMiddleware";
+// import CS from "../flux/stores/CalendarStore";
 
-import DS from "../flux/stores/DisksStore";
-import DM from "../flux/middleware/DisksMiddleware";
+// import DS from "../flux/stores/DisksStore";
+// import DM from "../flux/middleware/DisksMiddleware";
 
-import VS from "../flux/stores/VolumeStore";
-import VM from "../flux/middleware/VolumeMiddleware";
+// import VS from "../flux/stores/VolumeStore";
+// import VM from "../flux/middleware/VolumeMiddleware";
 
 import Month from "./Calendar/Month";
 
@@ -52,57 +52,57 @@ const Calendar = React.createClass(
       );
     }
 
-  , componentDidMount () {
-    CS.addChangeListener( this.handleTaskUpdate );
-    CM.subscribe( this.constructor.displayName );
-    CM.requestCalendar();
+  // , componentDidMount () {
+  //   CS.addChangeListener( this.handleTaskUpdate );
+  //   CM.subscribe( this.constructor.displayName );
+  //   CM.requestCalendar();
 
-    DS.addChangeListener( this.handleDisks );
-    DM.subscribe( this.constructor.displayName );
-    DM.requestDisksOverview();
+  //   DS.addChangeListener( this.handleDisks );
+  //   DM.subscribe( this.constructor.displayName );
+  //   DM.requestDisksOverview();
 
-    VS.addChangeListener( this.handleVolumes );
-    VM.subscribe( this.constructor.displayName );
-    VM.requestVolumes();
+  //   VS.addChangeListener( this.handleVolumes );
+  //   VM.subscribe( this.constructor.displayName );
+  //   VM.requestVolumes();
 
-    EventBus.emit( "showContextPanel", CalendarTasksContext );
-  }
+  //   EventBus.emit( "showContextPanel", CalendarTasksContext );
+  // }
 
-  , componentWillUnmount () {
-    CS.removeChangeListener( this.handleTaskUpdate );
-    CM.unsubscribe( this.constructor.displayName );
+  // , componentWillUnmount () {
+  //   CS.removeChangeListener( this.handleTaskUpdate );
+  //   CM.unsubscribe( this.constructor.displayName );
 
-    DS.removeChangeListener( this.handleDisks );
-    DM.unsubscribe( this.constructor.displayName );
+  //   DS.removeChangeListener( this.handleDisks );
+  //   DM.unsubscribe( this.constructor.displayName );
 
-    VS.removeChangeListener( this.handleVolumes );
-    VM.unsubscribe( this.constructor.displayName );
+  //   VS.removeChangeListener( this.handleVolumes );
+  //   VM.unsubscribe( this.constructor.displayName );
 
-    EventBus.emit( "hideContextPanel", CalendarTasksContext );
-  }
+  //   EventBus.emit( "hideContextPanel", CalendarTasksContext );
+  // }
 
-  // This will be more sophisticated when task updates emit events.
-  , handleTaskUpdate () {
-    var tasks = CS.tasks.map( function markExists ( task ) {
-                                task.existsOnServer = true;
-                                return task;
-                              }
-                            );
-    this.setState( { tasks: tasks } );
-  }
+  // // This will be more sophisticated when task updates emit events.
+  // , handleTaskUpdate () {
+  //   var tasks = CS.tasks.map( function markExists ( task ) {
+  //                               task.existsOnServer = true;
+  //                               return task;
+  //                             }
+  //                           );
+  //   this.setState( { tasks: tasks } );
+  // }
 
-  , handleDisks () {
-    var disks = _.filter( DS.onlineDisks
-                        , function checkSMART ( disk ) {
-                            return disk.status.smart_enabled;
-                          }
-                        );
-    this.setState( { disks: disks } );
-  }
+  // , handleDisks () {
+  //   var disks = _.filter( DS.onlineDisks
+  //                       , function checkSMART ( disk ) {
+  //                           return disk.status.smart_enabled;
+  //                         }
+  //                       );
+  //   this.setState( { disks: disks } );
+  // }
 
-  , handleVolumes () {
-    this.setState( { volumes: VS.listVolumes( "name" ) } );
-  }
+  // , handleVolumes () {
+  //   this.setState( { volumes: VS.listVolumes( "name" ) } );
+  // }
 
   , handlePage ( direction ) {
       let now = moment()

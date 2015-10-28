@@ -13,7 +13,8 @@ import * as actions from "../actions/auth";
 
 import ContextBar from "./App/ContextBar";
 import PrimaryNavigation from "./App/PrimaryNavigation";
-import DebugTools from "./App/DebugTools";
+// TODO: Convert to Redux and reenable
+// import DebugTools from "./App/DebugTools";
 import SessionInterruptDialog from "./App/SessionInterruptDialog";
 
 // PRIMARY STYLESHEET
@@ -134,13 +135,17 @@ class App extends React.Component {
                   </div>
 
                 {/* User-customizable component showing system events */}
-                <ContextBar />
+                <ContextBar
+                  location = { this.props.location }
+                  volumes  = { this.props.state.volumes }
+                />
               </div>
             }
           </Motion>
 
           {/* Hidden, user-callable developer tools */}
-          <DebugTools />
+          {/* TODO: Convert to Redux and reenable */}
+          {/* <DebugTools /> */}
 
           {/* Main app code */}
           <script type="text/javascript" src="/js/app.js"></script>
@@ -153,7 +158,9 @@ class App extends React.Component {
 
 // REDUX
 function mapStateToProps ( state ) {
-  return { shouldBlur: state.auth.SIDShow || state.middleware.SIDShow };
+  return { shouldBlur: state.auth.SIDShow || state.websocket.SIDShow
+         , state
+         };
 }
 
 

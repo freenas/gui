@@ -7,12 +7,19 @@
 "use strict";
 
 import React from "react";
+import { connect } from "react-redux";
 import _ from "lodash";
 import { Alert, Button, DropdownButton, MenuItem, Well } from "react-bootstrap";
 
-import VS from "../../../flux/stores/VolumeStore";
-import DS from "../../../flux/stores/DisksStore";
+// ACTIONS
+import * as DISKS from "../../../actions/disks";
+import * as VOLUMES from "../../../actions/volumes";
+import * as SUBSCRIPTIONS from "../../../actions/subscriptions";
 
+// UTILITY
+import DiskUtilities from "../../../utility/DiskUtilities";
+
+// COMPONENTS
 import Disclosure from "../../../components/Disclosure";
 import DragTarget from "../../../components/DragTarget";
 import DropTarget from "../../../components/DropTarget";
@@ -20,8 +27,8 @@ import Disk from "../../../components/items/Disk";
 import Topologizer from "../common/Topologizer";
 
 const TERMS =
-  { hdds: "Disks"
-  , ssds: "SSDs"
+  { HDDS: "Disks"
+  , SSDS: "SSDs"
   };
 
 const PRESET_NAMES =
@@ -31,29 +38,6 @@ const PRESET_NAMES =
   , "Backups"
   , "Media"
   ];
-
-const PRESET_VALUES =
-  { "Optimal":
-      { desired: [ "raidz1", "mirror" ]
-      , highest: 1
-      , priority: "storage"
-      }
-  , "Virtualization":
-      { desired: [ "mirror" ]
-      , highest: 1
-      , priority: "speed"
-      }
-  , "Backups":
-      { desired: [ "raidz2", "raidz1", "mirror" ]
-      , highest: 1
-      , priority: "safety"
-      }
-  , "Media":
-      { desired: [ "raidz1", "mirror" ]
-      , highest: 1
-      , priority: "speed"
-      }
-  };
 
 const PRESET_DESCS =
   { "None":
@@ -80,220 +64,246 @@ const PRESET_DESCS =
       )
   };
 
-const ContextDisks = React.createClass(
-  { displayName: "Pool Topology Context Drawer"
+class ContextDisks extends React.Component {
+  constructor ( props ) {
+    super( props );
 
-  , propTypes:
-    { handleReset: React.PropTypes.func.isRequired
-    , handleTopoRequest: React.PropTypes.func.isRequired
-    }
-
-  , getInitialState () {
-    let newState = this.getUpdatedDiskInfo();
-
-    newState.preset = "None";
-
-    return newState;
+    this.displayName = "Pool Topology Context Drawer";
   }
 
-  , componentDidMount () {
-      VS.addChangeListener( this.handleUpdatedVS );
-    }
+  ensureHomogeneity ( allowedType, path ) {
+    // If this function returns `true`, dropping will be prevented. The test
+    // uses the known type to check if the payload belongs to another group.
 
-  , componentWillUnmount () {
-      VS.removeChangeListener( this.handleUpdatedVS );
-    }
+    switch ( allowedType.toUpperCase() ) {
+      case "SSDS":
+        return this.props.HDDs.has( path );
 
-  , getUpdatedDiskInfo () {
-      return { availableSSDs: VS.availableSSDs
-             , selectedSSDs: VS.selectedSSDs
-             , availableHDDs: VS.availableHDDs
-             , selectedHDDs: VS.selectedHDDs
-             };
-    }
+      case "HDDS":
+        return this.props.SSDs.has( path );
 
-  , handleUpdatedVS () {
-      this.setState( this.getUpdatedDiskInfo() );
+      default:
+        return false;
     }
+  }
 
-  , handlePresetChange ( event, preset ) {
-      if ( preset === "None" ) {
-        // TODO: We might want to re-enable this later
-        // this.props.handleReset();
-      } else {
-        this.props.handleTopoRequest( PRESET_VALUES[ preset ] );
+  removeUsedDisks ( paths ) {
+    let unusedDisks = [];
+
+    paths.forEach( path => {
+      // Filter out any disks which have been selected already
+      if ( this.props.selectedDisks.has( path ) ) return;
+
+      // Only show the disk if it's marked as available by the system
+      if ( this.props.availableDisks.has( path ) ) {
+        unusedDisks.push( path );
+        return;
       }
-      this.setState({ preset });
-    }
+    });
 
-  , ensureHomogeneity ( allowedType, payload ) {
-      // If this function returns `true`, dropping will be prevented. The test
-      // uses the known type to check if the payload belongs to another group.
+    return unusedDisks;
+  }
 
-      switch ( allowedType.toLowerCase() ) {
-        case "ssds":
-          return DS.isHDD( payload );
+  renderDiskGroup ( diskPaths, indexInCollection, groupName ) {
+    let headerText = groupName + " (" + diskPaths.length + ")";
 
-        case "hdds":
-          return DS.isSSD( payload );
-
-        default:
-          return false;
-      }
-    }
-
-  , createPaletteSection ( type, disks, key ) {
-      let available;
-
-      switch ( type.toLowerCase() ) {
-        case "ssds":
-          available = _.chain( disks )
-                       .difference( this.state.selectedSSDs )
-                       .intersection( this.state.availableSSDs )
-                       .value();
-          break;
-
-        case "hdds":
-          available = _.chain( disks )
-                       .difference( this.state.selectedHDDs )
-                       .intersection( this.state.availableHDDs )
-                       .value();
-          break;
-      }
-
-      let headerText = key + " (" + available.length + ")";
-
-      return (
-        <Disclosure
-          headerShow = { headerText }
-          headerHide = { headerText }
-          defaultExpanded = { available.length < 10 }
-          key = { key }
-        >
-          <span className="disk-container">
-            { available.map( ( path, index ) => (
-                  <div
-                    className = "disk-wrapper"
-                    key = { index }
-                  >
-                    <DragTarget
-                      namespace = "disk"
-                      payload = { path }
-                    >
-                      <Disk path={ path } />
-                    </DragTarget>
-                  </div>
-                )
-              )
-            }
-          </span>
-        </Disclosure>
-      );
-    }
-
-  , createPresetMenuItems () {
-      return PRESET_NAMES.map( ( preset, index ) => {
-        return (
-          <MenuItem
-            onSelect = { this.handlePresetChange }
-            eventKey = { preset }
-            active = { preset === this.state.preset }
-            key = { index }
-          >
-            { preset }
-          </MenuItem>
-        );
-      });
-    }
-
-  , createDiskPalette ( collection, type ) {
-      if ( _.isEmpty( collection ) ) {
-        return null;
-      } else {
-        let paletteSection = _.map( collection
-                                  , this.createPaletteSection.bind( null, type )
-                                  );
-
-        if ( paletteSection.length > 0 && paletteSection[0] ) {
-          return (
-            <div>
-              <h5 className="context-section-header type-line">
-                <span className="text">
-                  { "Available " + TERMS[ type.toLowerCase() ] }
-                </span>
-              </h5>
-              <DropTarget
+    return (
+      <Disclosure
+        header = { headerText }
+        defaultExpanded = { diskPaths.length < 24 }
+        key = { indexInCollection }
+        style = { diskPaths.length ? {} : { display: "none" } }
+      >
+        <span className="disk-container">
+          { diskPaths.map( ( path, index ) =>
+            <div
+              key = { index }
+              className = "disk-wrapper"
+            >
+              <DragTarget
                 namespace = "disk"
-                preventDrop = { this.ensureHomogeneity.bind( null, type ) }
-                activeDrop
+                payload = { path }
               >
-                <Well bsSize="small">
-                  { paletteSection }
-                </Well>
-              </DropTarget>
+                <Disk disk={ this.props.disks[ path ] } />
+              </DragTarget>
             </div>
-          );
-        } else {
-          return null;
-        }
-      }
-    }
+          )}
+        </span>
+      </Disclosure>
+    );
+  }
 
-  , render () {
-      let groupedDisks = DS.similarDisks;
+  renderDiskPalette ( collection, type ) {
+    let renderableGroups = {};
 
+    Object.keys( collection ).forEach( key => {
+      renderableGroups[ key ] = this.removeUsedDisks( collection[ key ] )
+    });
+
+    const KEYS = Object.keys( renderableGroups );
+
+    return (
+      <div style={ KEYS.length ? {} : { display: "none" } }>
+        <h5 className="context-section-header type-line">
+          <span className="text">
+            { "Available " + TERMS[ type.toUpperCase() ] }
+          </span>
+        </h5>
+        <DropTarget
+          namespace = "disk"
+          preventDrop = { () => this.ensureHomogeneity( type ) }
+          activeDrop
+        >
+          <Well bsSize="small">
+            { KEYS.map( ( key, index ) =>
+              this.renderDiskGroup( renderableGroups[ key ], index, key )
+            )}
+          </Well>
+        </DropTarget>
+      </div>
+    );
+  }
+
+  createPresetMenuItems () {
+    return PRESET_NAMES.map( ( preset, index ) => {
       return (
-        <div className="context-content context-disks">
+        <MenuItem
+          key = { index }
+          eventKey = { preset }
+          active = { preset === this.props.preset }
+          onSelect = { ( event, preset ) =>
+            this.props.onSelectPresetTopology( this.props.activeVolume, preset )
+          }
+        >
+          { preset }
+        </MenuItem>
+      );
+    });
+  }
 
-          <h5 className="context-section-header type-line">
-            <span className="text">
-              { "Modify Pool Topology" }
-            </span>
-          </h5>
+  render () {
+    return (
+      <div className="context-content context-disks">
 
-          {/* TOPOLOGY TOOL */}
-          <Topologizer
-            handleTopoRequest = { this.props.handleTopoRequest }
+        <h5 className="context-section-header type-line">
+          <span className="text">
+            { "Modify Pool Topology" }
+          </span>
+        </h5>
+
+        {/* TOPOLOGY TOOL */}
+        <Topologizer
+          handleTopoRequest = { preferences =>
+            this.props.onUpdateTopology( this.props.activeVolume, preferences )
+          }
           />
 
-          {/* RESET BUTTON */}
-          <Button
-            block
-            bsStyle = "default"
-            onClick = { this.props.handleReset }
-          >
-            {"Reset Pool Topology"}
-          </Button>
+        {/* RESET BUTTON */}
+        <Button
+          block
+          bsStyle = "default"
+          onClick = { () =>
+            this.props.onRevertTopology( this.props.activeVolume )
+          }
+        >
+          {"Reset Pool Topology"}
+        </Button>
 
-          {/* PRESET SELECTOR */}
-          <h5 className="context-section-header type-line">
-            <span className="text">
-              { "Preset Configuration" }
-            </span>
-          </h5>
-          <DropdownButton
-            block
-            vertical
-            id = "pool-topology-presets-dropdown"
-            title = { this.state.preset }
-            bsStyle = "primary"
-          >
-            { this.createPresetMenuItems() }
-          </DropdownButton>
-          <Alert
-            bsStyle = "default"
-          >
-            { PRESET_DESCS[ this.state.preset ] }
-          </Alert>
+        {/* PRESET SELECTOR */}
+        <h5 className="context-section-header type-line">
+          <span className="text">
+            { "Preset Configuration" }
+          </span>
+        </h5>
+        <DropdownButton
+          block
+          vertical
+          id = "pool-topology-presets-dropdown"
+          title = { this.props.preset }
+          bsStyle = "primary"
+        >
+          { this.createPresetMenuItems() }
+        </DropdownButton>
+        <Alert
+          bsStyle = "default"
+        >
+          { PRESET_DESCS[ this.props.preset ] }
+        </Alert>
 
-          {/* AVAILABLE DEVICES */}
-          { this.createDiskPalette( groupedDisks[0], "SSDs" ) }
-          { this.createDiskPalette( groupedDisks[1], "HDDs" ) }
-        </div>
-      );
-    }
-
+        {/* AVAILABLE DEVICES */}
+        { this.renderDiskPalette( this.props.groupedSSDs, "SSDs" ) }
+        { this.renderDiskPalette( this.props.groupedHDDs, "HDDs" ) }
+      </div>
+    );
   }
-);
+}
 
-export default ContextDisks;
+ContextDisks.propTypes =
+  { subscribe: React.PropTypes.func.isRequired
+  , unsubscribe: React.PropTypes.func.isRequired
+  , availableDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , selectedDisks: React.PropTypes.instanceOf( Set ).isRequired
+  , activeVolume: React.PropTypes.string.isRequired
+  , preset: React.PropTypes.oneOf(
+      [ "None"
+      , "Optimal"
+      , "Virtualization"
+      , "Backups"
+      , "Media"
+      ]
+    ).isRequired
+  };
+
+
+// REDUX
+function mapStateToProps ( state ) {
+  const { disks, volumes } = state;
+
+  const SIMILAR = DiskUtilities.similarDisks( disks.disks );
+  const ACTIVE = Object.assign( {}
+                              , volumes.serverVolumes[ volumes.activeVolume ]
+                              , volumes.clientVolumes[ volumes.activeVolume ]
+                              );
+
+  if ( Object.keys( ACTIVE ).length === 0 ) {
+    console.warn( "TopologyEditContext has no volume associated with it" );
+  }
+
+  return (
+    { disks: disks.disks
+    , availableDisks: volumes.availableDisks
+    , selectedDisks: volumes.selectedDisks
+    , activeVolume: volumes.activeVolume
+    , preset: ACTIVE.preset
+    , SSDs: state.disks.SSDs
+    , HDDs: state.disks.HDDs
+    , groupedSSDs: SIMILAR[0]
+    , groupedHDDs: SIMILAR[1]
+    }
+  );
+}
+
+const SUB_MASKS = [ "entity-subscriber.disks.changed" ];
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    // SUBSCRIPTIONS
+    { subscribe: ( id ) => dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
+    , unsubscribe: ( id ) => dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
+
+    , fetchAvailableDisks: () => dispatch( VOLUMES.fetchAvailableDisks() )
+    , onDiskSelect: () => console.log( "fart" )
+    , onDiskDeselect: () => console.log( "fart" )
+
+    , onUpdateTopology: ( volumeID, preferences ) =>
+      dispatch( VOLUMES.updateTopology( volumeID, preferences ) )
+    , onRevertTopology: ( volumeID ) =>
+      dispatch( VOLUMES.revertTopology( volumeID ) )
+
+    , onSelectPresetTopology: ( volumeID, preset ) =>
+      dispatch( VOLUMES.selectPresetTopology( volumeID, preset ) )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( ContextDisks );

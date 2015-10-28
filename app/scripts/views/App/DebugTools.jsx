@@ -18,7 +18,6 @@ import Events from "./DebugTools/Events";
 import Subscriptions from "./DebugTools/Subscriptions";
 import Tasks from "./DebugTools/Tasks";
 import Options from "./DebugTools/Options";
-import Terminal from "./DebugTools/Terminal";
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./DebugTools.less" );
@@ -122,11 +121,6 @@ var DebugTools = React.createClass(
               {/* Debugging Options */}
               <Tab eventKey={6} title="Options">
                 <Options />
-              </Tab>
-
-              {/* Web Console */}
-              <Tab eventKey={7} title="Terminal">
-                <Terminal />
               </Tab>
 
             </Tabs>

@@ -290,16 +290,11 @@ Dataset.propTypes =
   , activeDataset    : React.PropTypes.string
   , updateDataset    : React.PropTypes.object
   , parentShared     : React.PropTypes.string
-  , handlers : React.PropTypes.shape(
-      { onShareCreate     : React.PropTypes.func.isRequired
-      , onShareDelete     : React.PropTypes.func.isRequired
-      , onDatasetActive   : React.PropTypes.func.isRequired
-      , onDatasetInactive : React.PropTypes.func.isRequired
-      , onDatasetChange   : React.PropTypes.func.isRequired
-      , datasetUpdate   : React.PropTypes.object.isRequired
-      , nameIsPermitted   : React.PropTypes.func.isRequired
-      }
-    ).isRequired
+
+  , onUpdateShare : React.PropTypes.func.isRequired
+  , onRevertShare : React.PropTypes.func.isRequired
+  , onSubmitShare : React.PropTypes.func.isRequired
+  , onRequestDeleteShare : React.PropTypes.func.isRequired
   };
 
 Dataset.defaultProps =

@@ -10,16 +10,6 @@ import React from "react";
 import { History, RouteContext } from "react-router";
 import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
-import US from "../../../flux/stores/UsersStore";
-import UM from "../../../flux/middleware/UsersMiddleware";
-
-import GS from "../../../flux/stores/GroupsStore";
-import GM from "../../../flux/middleware/GroupsMiddleware";
-
-import inputHelpers from "../../../mixins/inputHelpers";
-import userMixins from "../../../mixins/userMixins";
-import groupMixins from "../../../mixins/groupMixins";
-
 function generateGroupsOptions ( groups ) {
   var optionList = groups.map( function createGroupOption ( group ) {
                                  return (
@@ -35,80 +25,50 @@ function generateGroupsOptions ( groups ) {
   return optionList;
 }
 
+function createShellOptions ( shellsArray ) {
+  var shellOptions =
+    shellsArray.map(
+       function mapShellOption ( shellString, index ) {
+         return (
+           <option
+             value = { shellString }
+             key = { index }>
+             { shellString }
+           </option>
+         );
+       }
+    );
+  return shellOptions;
+}
+
 const UserAdd = React.createClass(
-  { mixins: [ inputHelpers, userMixins, History, RouteContext ]
+  { mixins: [ History, RouteContext ]
 
   , propTypes:
     { nextUID: React.PropTypes.number
     , shells: React.PropTypes.array
+    , userForm: React.PropTypes.object.isRequired
+    , updateUserForm: React.PropTypes.func.isRequired
+    , resetUserForm: React.PropTypes.func.isRequired
+    , createUser: React.PropTypes.func.isRequired
     }
 
   , getInitialState: function () {
-    return { nextUID: US.nextUID
-           , newUser: {}
-           , pleaseCreatePrimaryGroup: true
-           };
-  }
-
-  , handleChange ( key, event ) {
-    var newUser = _.cloneDeep( this.state.newUser );
-    switch ( key ) {
-      case "username":
-        newUser.username = event.target.value;
-        break;
-      case "password":
-        newUser.password = event.target.value;
-        break;
-      case "confirmPassword":
-        this.setState( { confirmPassword: event.target.value } );
-        break;
-      case "full_name":
-        newUser.full_name = event.target.value;
-        break;
-      case "email":
-        newUser.email = event.target.value;
-        break;
-      case "shell":
-        newUser.shell = event.target.value;
-        break;
-      case "group":
-        newUser.group = event.target.value;
-        break;
-      case "sshpubkey":
-        newUser.sshpubkey = event.target.value;
-        break;
-      case "groups":
-        newUser.groups = this.refs.groups.getValue();
-        break;
-      case "locked":
-        newUser.locked = event.target.checked;
-        break;
-      case "sudo":
-        newUser.sudo = event.target.checked;
-        break;
-      case "password_disabled":
-        newUser.password_disabled = event.target.checked;
-        break;
-    }
-
-    if ( !_.isEqual( newUser, this.state.newUser) ) {
-      this.setState( { newUser: newUser } );
-    }
+    return { pleaseCreatePrimaryGroup: true };
   }
 
   , validateUser () {
     var userValid;
 
-    const usernameValid = typeof this.state.newUser.username === "string"
-                       && this.state.newUser.username !== "";
+    const usernameValid = typeof this.props.userForm.username === "string"
+                       && this.props.userForm.username !== "";
 
     var groupValid;
 
     if ( this.state.pleaseCreatePrimaryGroup ) {
       groupValid = true;
-    } else if ( typeof this.state.newUser.group === "string" ) {
-      userValid = _.find( GS.groups, { name: this.state.newUser.group } )
-              !== undefined;
+    } else if ( typeof this.props.userForm.group === "string" ) {
+      groupValid = true;
     } else {
       groupValid = false;
     }
@@ -121,45 +81,14 @@ const UserAdd = React.createClass(
     return userValid;
   }
 
-  , submitNewUser: function () {
-    let newUser = this.state.newUser;
-
-    if ( typeof newUser.id === "string"
-      && newUser.id === ""
-       ) {
-      newUser.id = parseInt( newUser.id );
-    } else {
-      newUser.id = US.nextUID;
-    }
-
-    // If the user requests a new group, make one with the next
-    // available GID and the username.
-    if ( this.state.pleaseCreatePrimaryGroup ) {
-      let newGID = GS.nextGID;
-      GM.createGroup( { id   : newGID
-                      , name : newUser.username
-                      } );
-      newUser.group = newGID;
-    } else {
-      newUser.group = parseInt( newUser.group )
-    }
-
-    // Convert the array of strings provided by the form to an array of integers.
-    if ( !_.isEmpty( newUser.groups ) ) {
-      newUser.groups = this.parseGroupsArray( newUser.groups );
-    }
-
-    UM.createUser( newUser );
-  }
-
   , validatePassword () {
     var passwordValid;
 
     if ( this.state.password_disabled ) {
       passwordValid = true;
     } else {
-      passwordValid = typeof this.state.newUser.password === "string"
-                   && this.state.newUser.password !== "";
+      passwordValid = typeof this.props.userForm.password === "string"
+                   && this.props.userForm.password !== "";
     }
 
     return passwordValid;
@@ -168,14 +97,14 @@ const UserAdd = React.createClass(
   , validateConfirmPassword () {
     var confirmPasswordValid;
 
-    if ( typeof this.state.newUser.password !== "string"
-      || this.state.newUser.password === ""
+    if ( typeof this.props.userForm.password !== "string"
+      || this.props.userForm.password === ""
        ) {
       // if there isn't a password yet, don't bother validating confirmPassword
       confirmPasswordValid = true;
     } else {
-      confirmPasswordValid = this.state.confirmPassword
-                         === this.state.newUser.password;
+      confirmPasswordValid = this.props.userForm.confirmPassword
+                         === this.props.userForm.password;
     }
 
     return confirmPasswordValid;
@@ -183,10 +112,6 @@ const UserAdd = React.createClass(
 
   , cancel: function () {
     this.history.pushState( null, "/accounts/users" );
-  }
-
-  , reset: function () {
-    this.setState( { newUser: {} } );
   }
 
   , primaryGroupToggle: function ( event ) {
@@ -200,8 +125,8 @@ const UserAdd = React.createClass(
     let cancelButton =
       <Button
         className = "pull-left"
-        onClick   = { this.cancel }
-        bsStyle   = "default"
+        onClick = { this.cancel }
+        bsStyle = "default"
       >
         { "Cancel" }
       </Button>;
@@ -210,7 +135,7 @@ const UserAdd = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "warning"
-        onClick = { this.reset }
+        onClick = { this.props.resetUserForm }
       >
         { "Reset Changes" }
       </Button>;
@@ -218,9 +143,9 @@ const UserAdd = React.createClass(
     let submitUserButton =
       <Button
         className = "pull-right"
-        disabled  = { !this.validateUser() }
-        onClick   = { this.submitNewUser }
-        bsStyle   = "info"
+        disabled = { !this.validateUser() }
+        onClick = { this.props.createUser }
+        bsStyle = "info"
       >
         { "Create New User" }
       </Button>;
@@ -234,197 +159,206 @@ const UserAdd = React.createClass(
 
     let userIdField =
       <Input
-        type             = "text"
-        label            = "User ID"
-        value            = { typeof this.state.newUser.id === "string"
-                          && this.state.newUser.id !== ""
-                           ? this.state.newUser.id
-                           : null
-                           }
-        placeholder      = { this.props.nextUID }
-        onChange         = { this.handleChange.bind( null, "id" ) }
-        key              = "id"
-        ref              = "id"
+        type = "text"
+        label = "User ID"
+        value = { typeof this.props.userForm.id === "string"
+                      && this.props.userForm.id !== ""
+                       ? this.props.userForm.id
+                       : null
+                }
+        placeholder = { this.props.nextUID }
+        onChange = { ( e ) => this.props.updateUserForm( "id"
+                                                       , e.target.value
+                                                       ) }
+        key = "id"
       />;
 
     let userNameField =
       <Input
-        type             = "text"
-        label            = "User Name"
-        value            = { typeof this.state.newUser.username === "string"
-                           ? this.state.newUser.username
-                           : null
-                           }
-        onChange         = { this.handleChange.bind( null, "username" ) }
-        key              = "username"
-        ref              = "username"
-        bsStyle          = { typeof this.state.newUser.username === "string"
-                          && this.state.newUser.username !== ""
-                           ? null
-                           : "error"
-                           }
+        type = "text"
+        label = "User Name"
+        value = { typeof this.props.userForm.username === "string"
+                       ? this.props.userForm.username
+                       : null
+                }
+        onChange = { ( e ) => this.props.updateUserForm( "username"
+                                                       , e.target.value
+                                                       ) }
+        key = "username"
+        bsStyle = { typeof this.props.userForm.username === "string"
+                        && this.props.userForm.username !== ""
+                         ? null
+                         : "error"
+                  }
       />;
 
     let passwordField =
       <Input
-        type             = "password"
-        label            = "Enter Password"
-        value            = { typeof this.state.newUser.password
-                         === "string"
-                           ? this.state.newUser.password
-                           : ""
-                           }
-        onChange         = { this.handleChange.bind( null, "password" ) }
-        key              = "password"
-        ref              = "password"
-        bsStyle          = { this.validatePassword()
-                           ? null
-                           : "error"
-                           }
+        type = "password"
+        label = "Enter Password"
+        value = { typeof this.props.userForm.password === "string"
+                       ? this.props.userForm.password
+                       : ""
+                }
+        onChange = { ( e ) => this.props.updateUserForm( "password"
+                                                       , e.target.value
+                                                       ) }
+        key = "password"
+        bsStyle = { this.validatePassword()
+                  ? null
+                  : "error"
+                  }
       />;
 
     let confirmPasswordField =
       <Input
-        type             = "password"
-        label            = "Confirm Password"
-        value            = { typeof this.state.confirmPassword === "string"
-                           ? this.state.confirmPassword
-                           : ""
-                           }
-        onChange         = { this.handleChange.bind( null, "confirmPassword" ) }
-        key              = "confirmPassword"
-        ref              = "confirmPassword"
-        bsStyle          = { this.validateConfirmPassword()
-                           ? null
-                           : "error"
-                           }
+        type = "password"
+        label = "Confirm Password"
+        value = { typeof this.props.userForm.confirmPassword === "string"
+                       ? this.props.userForm.confirmPassword
+                       : ""
+                }
+        onChange = { ( e ) => this.props.updateUserForm( "confirmPassword"
+                                                       , e.target.value
+                                                       ) }
+        key = "confirmPassword"
+        bsStyle = { this.validateConfirmPassword()
+                  ? null
+                  : "error"
+                  }
       />;
 
     let userFullNameField =
       <Input
-        type             = "text"
-        label            = "Full Name"
-        value            = { typeof this.state.newUser.full_name === "string"
-                           ? this.state.newUser.full_name
-                           : null
-                           }
-        onChange         = { this.handleChange.bind( null, "full_name" ) }
-        key              = "full_name"
-        ref              = "full_name"
+        type = "text"
+        label = "Full Name"
+        value = { typeof this.props.userForm.full_name === "string"
+                       ? this.props.userForm.full_name
+                       : null
+                       }
+        onChange = { ( e ) => this.props.updateUserForm( "full_name"
+                                                       , e.target.value
+                                                       ) }
+        key = "full_name"
       />;
 
     let userEmailField =
       <Input
-        type             = "text"
-        label            = "email"
-        value            = { typeof this.state.newUser.email === "string"
-                           ? this.state.newUser.email
-                           : null
-                           }
-        onChange         = { this.handleChange.bind( null, "email" ) }
-        key              = "email"
-        ref              = "email"
+        type = "text"
+        label = "email"
+        value = { typeof this.props.userForm.email === "string"
+                       ? this.props.userForm.email
+                       : null
+                       }
+        onChange = { ( e ) => this.props.updateUserForm( "email"
+                                                       , e.target.value
+                                                       ) }
+        key = "email"
       />;
 
     let userShellField =
       <Input
-        type             = "select"
-        label            = "Shell"
-        value            = { typeof this.state.newUser.shell === "string"
-                           ? this.state.newUser.shell
-                           : null
-                           }
-        placeholder      = "/bin/sh"
-        onChange         = { this.handleChange.bind( null, "shell" ) }
-        key              = "shell"
-        ref              = "shell"
+        type = "select"
+        label = "Shell"
+        value = { typeof this.props.userForm.shell === "string"
+                       ? this.props.userForm.shell
+                       : null
+                       }
+        placeholder = "/bin/sh"
+        onChange = { ( e ) => this.props.updateUserForm( "shell".value
+                                                       , e.target
+                                                       ) }
+        key = "shell"
       >
-        { this.createSimpleOptions( this.props.shells ) }
+        { createShellOptions( this.props.shells ) }
       </Input>;
 
     let userSshPubKeyField =
       <Input
-        type             = "textarea"
-        label            = "Public Key"
-        value            = { typeof this.state.newUser.sshpubkey === "string"
-                           ? this.state.newUser.sshpubkey
+        type = "textarea"
+        label = "Public Key"
+        value = { typeof this.props.userForm.sshpubkey === "string"
+                           ? this.props.userForm.sshpubkey
                            : null
                            }
-        onChange         = { this.handleChange.bind( null, "sshpubkey" ) }
-        key              = "sshpubkey"
-        ref              = "sshpubkey"
-        rows             = "10"
+        onChange = { ( e ) => this.props.updateUserForm( "sshpubkey"
+                                                       , e.target.value
+                                                       ) }
+        key = "sshpubkey"
+        rows = "10"
       />;
 
     let userGroupsField =
       <Input
-        type             = "select"
-        label            = "Other Groups"
-        value            = { this.state.newUser.groups
-                           ? this.state.newUser.groups
+        type = "select"
+        label = "Other Groups"
+        value = { this.props.userForm.groups
+                           ? this.props.userForm.groups
                            : null
                            }
-        onChange         = { this.handleChange.bind( null, "groups" ) }
-        key              = "groups"
-        ref              = "groups"
+        onChange = { ( e ) => this.props.updateUserForm( "groups"
+                                                       , e.target.checked
+                                                       ) }
+        key = "groups"
         multiple
       >
-        { generateGroupsOptions( GS.groups ) }
+        { generateGroupsOptions( this.props.groups ) }
       </Input>;
 
     let userLockedField =
       <Input
-        type             = "checkbox"
-        checked          = { typeof this.state.newUser.locked === "boolean"
-                           ? this.state.newUser.locked
+        type = "checkbox"
+        checked = { typeof this.props.userForm.locked === "boolean"
+                           ? this.props.userForm.locked
                            : null
                            }
-        label            = "Locked"
-        onChange         = { this.handleChange.bind( null, "locked" ) }
-        key              = "locked"
-        ref              = "locked"
+        label = "Locked"
+        onChange = { ( e ) => this.props.updateUserForm( "locked"
+                                                       , e.target.checked
+                                                       ) }
+        key = "locked"
       />;
 
     let userSudoField =
       <Input
-        type             = "checkbox"
-        checked          = { typeof this.state.newUser.sudo === "boolean"
-                           ? this.state.newUser.sudo
+        type = "checkbox"
+        checked = { typeof this.props.userForm.sudo === "boolean"
+                           ? this.props.userForm.sudo
                            : null
                            }
-        label            = "sudo"
-        onChange         = { this.handleChange.bind( null, "sudo" ) }
-        key              = "sudo"
-        ref              = "sudo"
+        label = "sudo"
+        onChange = { ( e ) => this.props.updateUserForm( "sudo"
+                                                       , e.target.checked
+                                                       ) }
+        key = "sudo"
       />;
 
     let userPasswordDisabledField =
       <Input
-        type             = "checkbox"
-        label            = "Password Disabled"
-        checked          = { typeof this.state.newUser.password_disabled
-                         === "boolean"
-                           ? this.state.newUser.password_disabled
-                           : null
-                           }
-        onChange = { this.handleChange.bind( null, "password_disabled" ) }
-        key              = "password_disabled"
-        ref              = "password_disabled"
+        type = "checkbox"
+        label = "Password Disabled"
+        checked = { typeof this.props.userForm.password_disabled === "boolean"
+                         ? this.props.userForm.password_disabled
+                         : null
+                         }
+        onChange = { ( e ) => this.props.updateUserForm( "password_disabled"
+                                                       , e.target.checked
+                                                       ) }
+        key = "password_disabled"
       />;
 
     let userAutoPrimaryGroupField =
       <Input
-        type             = "checkbox"
-        label            = "Automatically Create Primary Group"
-        ref              = "createPrimaryGroup"
-        onChange         = { this.primaryGroupToggle }
-        checked          = { this.state.pleaseCreatePrimaryGroup }
+        type = "checkbox"
+        label = "Automatically Create Primary Group"
+        onChange = { this.primaryGroupToggle }
+        checked = { this.state.pleaseCreatePrimaryGroup }
       />;
 
     let userPrimaryGroupField = null;
 
     if ( !this.state.pleaseCreatePrimaryGroup ) {
-      let primaryGroupOptions = generateGroupsOptions( GS.groups );
+      let primaryGroupOptions = generateGroupsOptions( this.props.groups );
       primaryGroupOptions.unshift( <option
                                      key = { "" }
                                      value = { null }
@@ -434,20 +368,22 @@ const UserAdd = React.createClass(
                                  );
       userPrimaryGroupField =
         <Input
-          type             = "select"
-          label            = "Primary Group"
-          value            = { typeof this.state.newUser.group === "string"
-                             ? this.state.newUser.group
-                             : null
-                             }
-          onChange         = { this.handleChange.bind( null, "group" ) }
-          key              = "group"
-          ref              = "group"
-          bsStyle          = { typeof this.state.newUser.group === "string"
-                            && this.state.newUser.group !== ""
-                             ? null
-                             : "error"
-                             }
+          type = "select"
+          label = "Primary Group"
+          value = { typeof this.props.userForm.group === "string"
+                         ? this.props.userForm.group
+                         : null
+                  }
+          onChange = { ( e ) => this.props.updateUserForm( "group"
+                                                         , e.target.value
+                                                         )
+                     }
+          key = "group"
+          bsStyle = { typeof this.props.userForm.group === "string"
+                          && this.props.userForm.group !== ""
+                           ? null
+                           : "error"
+                    }
         >
           { primaryGroupOptions }
         </Input>;

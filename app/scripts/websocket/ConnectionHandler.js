@@ -6,7 +6,7 @@
 "use strict";
 
 import MiddlewareClient from "./MiddlewareClient";
-import * as actions from "../actions/middleware";
+import * as ACTIONS from "../actions/websocket";
 
 // Time in ms before a reconnect is attempted
 const RECONNECT_INTERVALS = [ 5000, 8000, 13000, 21000, 34000 ];
@@ -21,10 +21,10 @@ class ConnectionHandler {
   }
 
   handleSocketStateChange () {
-    const { middleware } = this.store.getState();
+    const { websocket } = this.store.getState();
     // Cache and compare last state value to determine if timeout should be run
     let prevReconnectNow = this.reconnectNow;
-    this.reconnectNow = middleware.reconnectNow;
+    this.reconnectNow = websocket.reconnectNow;
 
     if ( this.reconnectNow
       && this.reconnectNow !== prevReconnectNow ) {
@@ -33,15 +33,15 @@ class ConnectionHandler {
   }
 
   connectionTimeout () {
-    const { middleware } = this.store.getState();
+    const { websocket } = this.store.getState();
     clearTimeout( this.timeout );
     this.timeout = null;
 
-    if ( middleware.reconnectTime === 0 ) {
-      this.store.dispatch( actions.attemptConnection() );
-      MiddlewareClient.connect( middleware.protocol, middleware.host, middleware.path );
+    if ( websocket.reconnectTime === 0 ) {
+      this.store.dispatch( ACTIONS.attemptConnection() );
+      MiddlewareClient.connect( websocket.protocol, websocket.host, websocket.path );
     } else {
-      this.store.dispatch( actions.reconnectTick() );
+      this.store.dispatch( ACTIONS.reconnectTick() );
       this.timeout = setTimeout( () => { this.connectionTimeout() }, 1000 );
     }
   }

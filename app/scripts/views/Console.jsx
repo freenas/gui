@@ -5,9 +5,9 @@
 "use strict";
 
 import React from "react";
+import { connect } from "react-redux";
 
-import SS from "../flux/stores/ShellStore";
-import SM from "../flux/middleware/ShellMiddleware";
+import * as ACTIONS from "../actions/shells";
 
 import Shell from "../components/Shell";
 
@@ -15,32 +15,7 @@ import Shell from "../components/Shell";
 if ( process.env.BROWSER ) require( "./Console/Console.less" );
 
 
-export default class Console extends React.Component {
-
-  constructor ( props ) {
-    super( props );
-
-    this.onChangedSS = this.handleChangedSS.bind( this );
-
-    this.state =
-      { currentShell : "/usr/local/bin/cli"
-      , shells       : []
-      }
-  }
-
-  componentDidMount () {
-    SS.addChangeListener( this.onChangedSS );
-    SM.requestAvailableShells();
-  }
-
-  componentWillUnmount () {
-    SS.removeChangeListener( this.onChangedSS );
-  }
-
-  handleChangedSS () {
-    this.setState({ shells: SS.shells });
-  }
-
+class Console extends React.Component {
   render () {
     return (
       <main className="console">
@@ -48,10 +23,30 @@ export default class Console extends React.Component {
           <span className="text">FreeNAS Console</span>
         </h1>
 
-        <Shell shellType={ this.state.currentShell } />
+        <Shell
+          spawnShell = { this.props.spawnShell }
+          token = { this.props.shells.token }
+          shellType  = "/usr/local/bin/cli"
+        />
 
       </main>
     );
   }
 
 }
+
+
+// REDUX
+function mapStateToProps ( state ) {
+  return ({ shells: state.shells });
+}
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    { fetchShells: () => dispatch( ACTIONS.fetchShells() )
+    , spawnShell: ( shellType ) => dispatch( ACTIONS.spawnShell( shellType ) )
+    }
+  );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( Console );

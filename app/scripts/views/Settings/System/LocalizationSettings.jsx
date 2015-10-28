@@ -6,11 +6,6 @@
 
 import React from "react";
 import { Input, Panel, Button, ButtonToolbar } from "react-bootstrap";
-import _ from "lodash";
-
-import SM from "../../../flux/middleware/SystemMiddleware";
-
-import inputHelpers from "../../../mixins/inputHelpers";
 
 const languageChoices =
   [ "English"
@@ -92,105 +87,102 @@ const languageChoices =
   , "Traditional Chinese"
   ];
 
-const LocalizationSettings = React.createClass(
-  { mixins: [ inputHelpers ]
+function createSimpleOptions ( optionArray ) {
+  var options =
+    optionArray.map(
+      function mapOptions ( option, index ) {
+        return (
+          <option
+            value = { option }
+            key = { index }
+          >
+           { option }
+          </option>
+        );
+      }
+   );
+  return options;
+}
 
-  , getDefaultProps () {
-    return { language: ""
-           , timezone: ""
-           , timezoneList: []
-           , debug: null
-           };
-  }
+const LocalizationSettings = (props) => {
+  const languageValue = typeof props.localizationForm.language !== "undefined"
+                      ? props.localizationForm.language
+                      : props.general.language;
+  const timezoneValue = typeof props.localizationForm.timezone !== "undefined"
+                      ? props.localizationForm.timezone
+                      : props.general.timezone;
 
-  , handleChange( key, event ) {
-    switch ( key ) {
-      case "language":
-        this.setState( { language: event.target.value } );
-        break;
-      case "timezone":
-        this.setState( { timezone: event.target.value } );
-        break;
+  const language =
+    <Input
+      type = "select"
+      label = "Language"
+      value = { languageValue }
+      onChange = { ( e ) => props.updateLocalizationForm( "language"
+                                                        , e.target.value
+                                                        )
+                 }
+    >
+      { createSimpleOptions( languageChoices ) }
+    </Input>;
+
+  const timezone =
+    <Input
+      type = "select"
+      label = "Timezone"
+      value = { timezoneValue }
+      onChange = { ( e ) => props.updateLocalizationForm( "timezone"
+                                                        , e.target.value
+                                                        )
+                 }
+    >
+      { createSimpleOptions( props.general.timezones ) }
+    </Input>;
+
+  const formControlButtons =
+    <ButtonToolbar className = "pull-right">
+      <Button
+        bsStyle = "default"
+        onClick = { props.resetLocalizationForm }
+        // disabled = {/* need test for this*/ }
+      >
+        { "Reset" }
+      </Button>
+      <Button
+        bsStyle = "primary"
+        onClick = { props.submitLocalizationTask  }
+        // disabled = {/* need test for this*/ }
+      >
+        { "Apply" }
+      </Button>
+    </ButtonToolbar>;
+
+  return (
+    <Panel>
+      <h4>Localization</h4>
+      <form className = "settings-config-form">
+        { language }
+        { timezone }
+        { formControlButtons }
+      </form>
+    </Panel>
+  );
+};
+
+LocalizationSettings.propTypes =
+  { general: React.PropTypes.shape(
+    { language: React.PropTypes.string
+    , timezone: React.PropTypes.string
+    , timezones: React.PropTypes.arrayOf( React.PropTypes.string )
     }
-  }
-
-  , submit () {
-    var newConfig = {};
-
-    if ( _.has( this, [ "state", "language" ] ) ) {
-      newConfig.language = this.state.language
+  )
+  , localizationForm: React.PropTypes.shape(
+    { language: React.PropTypes.string
+    , timezone: React.PropTypes.string
     }
-    if ( _.has( this, [ "state", "timezone" ] ) ) {
-      newConfig.timezone = this.state.timezone
-    }
-
-    if ( !_.isEmpty( newConfig ) ) {
-      SM.updateSystemGeneralConfig( newConfig );
-    }
-  }
-
-  , resetAll () {
-    this.replaceState( null );
-  }
-
-  , render () {
-    var language = null;
-    var languageValue = this.props[ "language" ];
-    var timezone = null;
-    var timezoneValue = this.props[ "timezone" ];
-    var formControlButtons = null;
-
-    if ( _.has( this, [ "state", "language" ] ) ) {
-      languageValue = this.state.language;
-    }
-    language =
-      <Input
-        type = "select"
-        label = "Language"
-        value = { languageValue }
-        onChange = { this.handleChange.bind( this, "language" ) }>
-        { this.createSimpleOptions( languageChoices ) }
-      </Input>;
-
-    if ( _.has( this, [ "state", "timezone" ] ) ) {
-      timezoneValue = this.state.language;
-    }
-    timezone =
-      <Input
-        type = "select"
-        label = "Timezone"
-        value = { timezoneValue }
-        onChange = { this.handleChange.bind( this, "timezone" ) }>
-        { this.createSimpleOptions( this.props.timezoneList ) }
-      </Input>;
-
-    formControlButtons =
-      <ButtonToolbar className = "pull-right">
-        <Button
-          bsStyle = "default"
-          onClick = { this.resetAll }
-          disabled = { _.isEmpty( this.state ) }>
-          { "Reset" }
-        </Button>
-        <Button
-          bsStyle = "primary"
-          onClick = { this.submit  }
-          disabled = { _.isEmpty( this.state ) }>
-          { "Apply" }
-        </Button>
-      </ButtonToolbar>;
-
-    return (
-      <Panel>
-        <h4>Localization</h4>
-        <form className = "settings-config-form">
-          { language }
-          { timezone }
-          { formControlButtons }
-        </form>
-      </Panel>
-    );
-  }
-});
+  )
+  , updateLocalizationForm: React.PropTypes.func
+  , resetLocalizationForm: React.PropTypes.func
+  , submitLocalizationTask: React.PropTypes.func
+  };
 
 export default LocalizationSettings;

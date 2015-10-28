@@ -9,63 +9,28 @@
 import _ from "lodash";
 import React from "react";
 
-import routerShim from "../../../mixins/routerShim";
-import clientStatus from "../../../mixins/clientStatus";
-
 import editorUtil from "../../../components/Viewer/Editor/editorUtil";
-
-import GroupsMiddleware from "../../../flux/middleware/GroupsMiddleware";
-import GroupsStore from "../../../flux/stores/GroupsStore";
-
-import UsersStore from "../../../flux/stores/UsersStore";
-
-import groupMixins from "../../../mixins/groupMixins";
-import inputHelpers from "../../../mixins/inputHelpers";
 
 import GroupView from "./GroupView";
 import GroupEdit from "./GroupEdit";
 
 // CONTROLLER-VIEW
-const GroupItem = React.createClass({
-
-  mixins: [ routerShim, clientStatus ]
+const GroupItem = React.createClass(
+  { propTypes: { keyUnique: React.PropTypes.string
+               , params: React.PropTypes.object
+               , routeParam: React.PropTypes.string
+               }
 
   , getInitialState: function () {
-    return { targetGroup : this.getGroupFromStore()
-           , currentMode : "view"
-           , activeRoute : this.getDynamicRoute()
-           };
+    return { currentMode : "view" };
   }
 
   , componentDidUpdate: function ( prevProps, prevState ) {
-    var activeRoute = this.getDynamicRoute();
-
-    if ( activeRoute !== prevState.activeRoute ) {
-      this.setState(
-        { targetGroup  : this.getGroupFromStore()
-        , currentMode : "view"
-        , activeRoute : activeRoute
-        }
-      );
+    if ( prevProps.params[ this.props.routeParam ]
+     !== this.props.params[ this.props.routeParam ]
+       ) {
+      this.setState( { currentMode : "view" } );
     }
-  }
-
-  , componentDidMount: function () {
-    GroupsStore.addChangeListener( this.updateGroupInState );
-  }
-
-  , componentWillUnmount: function () {
-    GroupsStore.removeChangeListener( this.updateGroupInState );
-  }
-
-  , getGroupFromStore: function () {
-    return GroupsStore.findGroupByKeyValue( this.props.keyUnique
-                                          , this.getDynamicRoute()
-                                          );
-  }
-
-  , updateGroupInState: function () {
-    this.setState({ targetGroup: this.getGroupFromStore() });
   }
 
   , handleViewChange: function ( nextMode, event ) {
@@ -75,23 +40,31 @@ const GroupItem = React.createClass({
   , render: function () {
     var DisplayComponent = null;
     var processingText = "";
+    const item = this.props.itemData.find(
+                   function findSelectedGroup ( group ) {
+                     return group[ this.props.keyUnique ]
+                        === this.props.params[ this.props.routeParam ];
+                 }
+                 , this
+                 );
 
-    if ( this.state.targetGroup ) {
-
-      // DISPLAY COMPONENT
-      let childProps = { handleViewChange : this.handleViewChange
-                       , item             : this.state.targetGroup
-                       , itemLabels       : this.props.itemLabels
-                       , nextGID          : this.props.nextGID
-                       };
+    if ( this.props.params[ this.props.routeParam ] ) {
 
       switch ( this.state.currentMode ) {
         default:
         case "view":
-          DisplayComponent = <GroupView { ...childProps } />;
+          DisplayComponent = <GroupView
+                               handleViewChange = { this.handleViewChange }
+                               item = { item }
+                               { ...this.props }
+                             />;
           break;
         case "edit":
-          DisplayComponent = <GroupEdit { ...childProps } />;
+          DisplayComponent = <GroupEdit
+                               handleViewChange = { this.handleViewChange }
+                               item = { item }
+                               { ...this.props }
+                             />;
           break;
       }
     }

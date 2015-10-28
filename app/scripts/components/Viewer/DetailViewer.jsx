@@ -253,16 +253,12 @@ const DetailViewer = React.createClass(
         );
       }
 
-      // Check if we're adding an entity
-      if ( _.endsWith( this.context.location.pathname, this.props.routeNewItem ) ) {
+      // Check if we're adding or editing an entity
+      if ( this.context.location.pathname.endsWith( this.props.routeNewItem )
+        || typeof this.props.params[ this.props.routeParam ] !== "undefined"
+         ) {
         editorContent = React.cloneElement( this.props.children
                                           , this.props
-                                          );
-      } else if ( this.dynamicPathIsActive() ) {
-        editorContent = React.cloneElement( this.props.children
-                                          , _.assign( { inputData: this.props.input }
-                                                    , this.props
-                                                    )
                                           );
       } else {
         editorContent = (

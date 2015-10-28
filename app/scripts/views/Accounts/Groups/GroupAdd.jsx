@@ -9,66 +9,37 @@ import React from "react";
 import { History, RouteContext } from "react-router";
 import { Button, ButtonToolbar, Grid, Row, Col, Input } from "react-bootstrap";
 
-import GS from "../../../flux/stores/GroupsStore";
-import GM from "../../../flux/middleware/GroupsMiddleware";
-
-
-const AddGroup = React.createClass(
+const GroupAdd = React.createClass(
   { mixins: [ History, RouteContext ]
 
   , propTypes:
-    { itemSchema: React.PropTypes.object.isRequired
-    , itemLabels: React.PropTypes.object.isRequired
-    , nextGID: React.PropTypes.number
+    { nextGID: React.PropTypes.number
+    , groupForm: React.PropTypes.object.isRequired
+    , createGroup: React.PropTypes.func.isRequired
+    , updateGroupForm: React.PropTypes.func.isRequired
+    , resetGroupForm: React.PropTypes.func.isRequired
     }
 
-  , getInitialState: function () {
-    return { newGroup: {} };
-  }
-
-  , handleChange: function ( field, event ) {
-    let newGroup = this.state.newGroup;
-    newGroup[ field ] = event.target.value;
-    this.setState( { newGroup: newGroup } );
-  }
-
   , validateGroup () {
-    const nameValid = typeof this.state.newGroup.name === "string"
-                        && this.state.newGroup.name !== "";
+    const nameValid = typeof this.props.groupForm.name === "string"
+                        && this.props.groupForm.name !== "";
 
     var idValid;
 
-    if ( typeof this.state.newGroup.id !== "string"
-      || this.state.newGroup.id === ""
+    if ( typeof this.props.groupForm.id !== "string"
+      || this.props.groupForm.id === ""
        ) {
       idValid = true
     } else {
-      let idValue = parseInt( this.state.newGroup.id );
+      let idValue = parseInt( this.props.groupForm.id );
       idValid = Number.isInteger( idValue );
     }
 
     return nameValid && idValid;
   }
 
-  , submitNewGroup: function () {
-
-    let newGroup = this.state.newGroup;
-
-    if ( typeof newGroup.id === "string" ) {
-      newGroup.id = parseInt( newGroup.id );
-    } else {
-      newGroup.id = this.state.nextGID;
-    }
-
-    GM.createGroup( newGroup );
-  }
-
   , cancel: function () {
     this.history.pushState( null, "/accounts/groups" );
-  }
-
-  , reset: function () {
-    this.setState( { newGroup: {} } );
   }
 
   , render: function () {
@@ -76,8 +47,8 @@ const AddGroup = React.createClass(
     let cancelButton =
       <Button
         className = "pull-left"
-        onClick   = { this.cancel }
-        bsStyle   = "default"
+        onClick = { this.cancel }
+        bsStyle = "default"
       >
         { "Cancel" }
       </Button>;
@@ -86,7 +57,7 @@ const AddGroup = React.createClass(
       <Button
         className = "pull-left"
         bsStyle = "warning"
-        onClick = { this.reset }
+        onClick = { this.props.resetGroupForm }
       >
         { "Reset Changes" }
       </Button>;
@@ -94,9 +65,9 @@ const AddGroup = React.createClass(
     let submitGroupButton =
       <Button
         className = "pull-right"
-        onClick   = { this.submitNewGroup }
+        onClick   = { this.props.createGroup }
         disabled = { !this.validateGroup() }
-        bsStyle   = "info"
+        bsStyle = "info"
       >
         { "Create New Group" }
       </Button>;
@@ -113,38 +84,58 @@ const AddGroup = React.createClass(
         <Col xs = {4}>
           {/* Group id */}
           <Input
-            type             = "text"
-            min              = { 1000 }
-            label            = { this.props.itemLabels.id }
-            value            = { typeof this.state.newGroup.id === "string"
-                              && this.state.newGroup.id !== ""
-                               ? this.state.newGroup.id
-                               : null
-                               }
+            type = "text"
+            min = { 1000 }
+            label = { "Group ID" }
+            value = { typeof this.props.groupForm.id === "string"
+                   && this.props.groupForm.id !== ""
+                    ? this.props.groupForm.id
+                    : null
+                    }
             placeholder = { this.props.nextGID }
-            onChange         = { this.handleChange.bind( null, "id" ) }
+            onChange = { ( e ) => this.props.updateGroupForm( "id"
+                                                            , e.target.value
+                                                            )
+                       }
           />
         </Col>
-        <Col xs = {8}>
+        <Col xs = {4}>
           {/* username */}
           <Input
-            type             = "text"
-            label            = { this.props.itemLabels.name }
-            value            = { this.state.newGroup.name
-                              && this.state.newGroup.name !== ""
-                               ? this.state.newGroup.name
-                               : null
-                               }
-            onChange         = { this.handleChange.bind( null, "name" ) }
-            bsStyle = { typeof this.state.newGroup.id === "string"
-                     && this.state.newGroup.id !== ""
+            type = "text"
+            label = { "Group Name" }
+            value = { this.props.groupForm.name
+                   && this.props.groupForm.name !== ""
+                    ? this.props.groupForm.name
+                    : null
+                    }
+            onChange = { ( e ) => this.props.updateGroupForm( "name"
+                                                            , e.target.value
+                                                            )
+                       }
+            bsStyle = { typeof this.props.groupForm.name === "string"
+                     && this.props.groupForm.name !== ""
                       ? null
                       : "error"
                       }
           />
+          {/* sudo */ }
+        </Col>
+        <Col xs = {4}>
+          <Input
+            type = "checkbox"
+            label = "sudo"
+            value = { typeof this.props.groupForm === "boolean"
+                    ? this.props.groupForm.sudo
+                    : null
+                    }
+            onChange = { ( e ) => this.props.updateGroupForm( "sudo"
+                                                            , e.target.checked
+                                                            )
+                       }
+          />
         </Col>
       </Row>;
-
 
     return (
       <div className="viewer-item-info">
@@ -161,4 +152,4 @@ const AddGroup = React.createClass(
   }
 });
 
-export default AddGroup;
+export default GroupAdd;

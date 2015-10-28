@@ -6,9 +6,7 @@
 
 import React from "react";
 
-import { RouteHandler } from "react-router";
-
-import routerShim from "../mixins/routerShim";
+import { History } from "react-router";
 
 import SectionNav from "../components/SectionNav";
 
@@ -17,21 +15,33 @@ var sections = [ { route : "/accounts/users"
                  }
                , { route : "/accounts/groups"
                  , display : "Groups"
-                 } ];
+                 }
+               ];
 
 const Accounts = React.createClass({
 
   displayName: "Accounts"
 
-  ,  mixins: [ routerShim ]
+  , mixins: [ History ]
 
   , componentDidMount () {
-      this.calculateDefaultRoute( "accounts", "users", "endsWith" );
+      this.redirectToUsers();
     }
 
+    // I don't remember why we're doing this here, too, but I'm scared not to.
   , componentWillUpdate ( prevProps, prevState ) {
-      this.calculateDefaultRoute( "accounts", "users", "endsWith" );
+      this.redirectToUsers();
     }
+
+    // This is dumb. Stupid "temporary" (hah) hack because we updated
+    // react-router too soon. And yet still better than the old thing.
+  , redirectToUsers () {
+    if ( this.props.location.pathname.endsWith( "accounts" )
+      || this.props.location.pathname.endsWith( "accounts/" )
+       ) {
+      this.history.pushState( null, "/accounts/users" );
+    }
+  }
 
   , render () {
       return (

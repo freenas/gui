@@ -29,18 +29,23 @@ const DATA_SOURCES =
   , "localhost.memory.memory-free.value"
   ];
 
-// hardcoded to 10 seconds
 const FREQUENCY = 10;
 
 const Memory = React.createClass(
-  { propTypes: { subscribeToDataSources: React.PropTypes.func.isRequired }
+  { propTypes: { subscribe: React.PropTypes.func.isRequired }
+
+  , getDefaultProps () {
+      return { statdData: {}
+             }
+    }
 
   , getInitialState () {
       return { lastUpdateAt: 0 };
     }
 
   , componentDidMount () {
-      this.props.subscribeToDataSources( DATA_SOURCES, FREQUENCY );
+      this.props.fetchHistory( DATA_SOURCES );
+      this.props.subscribe( DATA_SOURCES, "Memory Widget" );
 
       let active = [ [ "Active" ], [] ];
       let cache = [ [ "Cache" ], [] ];
@@ -85,6 +90,7 @@ const Memory = React.createClass(
     }
 
   , componentWillUnmount () {
+      this.props.unsubscribe( DATA_SOURCES, "Memory Widget" );
       this.chart = null;
     }
 

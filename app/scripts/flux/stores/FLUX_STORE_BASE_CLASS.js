@@ -16,8 +16,6 @@ class FluxBaseClass extends EventEmitter {
     super();
 
     this.CHANGE_EVENT   = "change";
-    this.KEY_UNIQUE     = null;
-    this.ITEM_LABELS    = null;
     this.ITEM_SCHEMA    = null;
 
     this.lastFullUpdate = 0;
@@ -29,26 +27,6 @@ class FluxBaseClass extends EventEmitter {
 
   set fullUpdateAt ( timestamp ) {
     this.lastFullUpdate = timestamp;
-  }
-
-  get uniqueKey () {
-    if ( this.KEY_UNIQUE ) {
-      return this.KEY_UNIQUE;
-    } else {
-      throw new Error( "The KEY_UNIQUE for this Flux store was not set:" );
-      DL.dir( this );
-      return false;
-    }
-  }
-
-  get itemLabels () {
-    if ( this.ITEM_LABELS ) {
-      return this.ITEM_LABELS;
-    } else {
-      throw new Error( "The ITEM_LABELS for this Flux store were not set:" );
-      DL.dir( this );
-      return false;
-    }
   }
 
   get itemSchema () {
@@ -72,31 +50,6 @@ class FluxBaseClass extends EventEmitter {
   removeChangeListener ( callback ) {
     this.removeListener( this.CHANGE_EVENT, callback );
   }
-
-  static rekeyForClient ( targetObject, keyHash ) {
-    // Clone target object with all properties, including those we won't keep
-    let newObject = _.clone( targetObject );
-
-    for ( let prop in newObject ) {
-      // Iterate over the enumerable properties of the target object
-      if ( keyHash.hasOwnProperty( prop ) ) {
-        // One of the desired properties exists on the object
-        if ( prop === keyHash[ prop ] ) {
-          // The new key and old key are the same
-          continue;
-        } else {
-          // Reassign the value to the new key
-          newObject[ keyHash[ prop ] ] = newObject[ prop ];
-        }
-      }
-      // Either the prop wasn't found in the hash, so it's implicitly ignored
-      // OR
-      // The key has changed, and we're deleting the old one
-      delete newObject[ prop ];
-    }
-    return newObject;
-  }
-
 };
 
 export default FluxBaseClass;
