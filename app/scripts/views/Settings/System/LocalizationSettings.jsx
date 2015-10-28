@@ -146,14 +146,14 @@ const LocalizationSettings = (props) => {
       <Button
         bsStyle = "default"
         onClick = { props.resetLocalizationForm }
-        // disabled = { _.isEmpty( this.state ) }
+        // disabled = {/* need test for this*/ }
       >
         { "Reset" }
       </Button>
       <Button
         bsStyle = "primary"
-        // onClick = { props.submitLocalizationForm  }
-        // disabled = { _.isEmpty( this.state ) }
+        onClick = { props.submitLocalizationTask  }
+        // disabled = {/* need test for this*/ }
       >
         { "Apply" }
       </Button>
@@ -185,7 +185,7 @@ LocalizationSettings.propTypes =
   )
   , updateLocalizationForm: React.PropTypes.func
   , resetLocalizationForm: React.PropTypes.func
-  // , submitLocalizationForm: React.PropTypes.func
+  , submitLocalizationTask: React.PropTypes.func
   };
 
 export default LocalizationSettings;
