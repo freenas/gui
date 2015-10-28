@@ -24,6 +24,8 @@ import { UPDATE_OS_FORM
        , SUBMIT_OS_TASK_REQUEST
        , SUBMIT_LOCALIZATION_TASK_REQUEST
        , SUBMIT_CONSOLE_TASK_REQUEST
+       , SUBMIT_REBOOT_TASK_REQUEST
+       , SUBMIT_SHUTDOWN_TASK_REQUEST
        }
   from "./actionTypes";
 
@@ -224,7 +226,7 @@ export function submitLocalizationTask () {
     const state = getState();
 
     MC.request( "task.submit"
-              , [ "system.general.configure", [ state.system.localizationForm]  ]
+              , [ "system.general.configure", [ state.system.localizationForm ] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_LOCALIZATION_TASK_REQUEST ) )
               );
   }
@@ -240,3 +242,24 @@ export function submitConsoleTask () {
               );
   }
 };
+
+export function rebootTask () {
+  return ( dispatch ) => {
+
+    MC.request( "task.submit"
+              , [ "system.reboot", [] ]
+              , UUID => dispatch( watchRequest( UUID, SUBMIT_REBOOT_TASK_REQUEST ) )
+              );
+  }
+};
+
+export function shutdownTask () {
+  return ( dispatch ) => {
+
+    MC.request( "task.submit"
+              , [ "system.shutdown", [] ]
+              , UUID => dispatch( watchRequest( UUID, SUBMIT_SHUTDOWN_TASK_REQUEST ) )
+              );
+  }
+};
+
