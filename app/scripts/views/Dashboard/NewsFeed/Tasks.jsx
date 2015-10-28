@@ -63,25 +63,16 @@ export default class Tasks extends React.Component {
   }
 
   render () {
-    let { CREATED, WAITING, EXECUTING, FINISHED, FAILED } = this.props.tasks;
-    const TASK_LIST = _.flatten(
-      [ this.processTasks( EXECUTING )
-      , this.processTasks( WAITING )
-      , this.processTasks( CREATED )
-      , this.cullOlderThan( this.processTasks( FINISHED )
-                          , moment().subtract( 30, "minutes" )
-                          )
-      , this.cullOlderThan( this.processTasks( FAILED )
-                          , moment().subtract( 1, "hours" )
-                          )
-      ]
-    );
+    const TASK_IDS = Object.keys( this.props.tasks );
 
     return (
       <div className="tasks-feed">
         <h4 className="news-feed-header">{ "Active Tasks" }</h4>
         <div className="task-feed-content">
-          { TASK_LIST.map( this.createTask ) }
+          { TASK_IDS.map( id => {
+              return this.createTask( this.props.tasks[ id ] )
+            })
+          }
         </div>
       </div>
     );
@@ -89,13 +80,5 @@ export default class Tasks extends React.Component {
 };
 
 Tasks.propTypes =
-  { tasks: React.PropTypes.shape(
-      { CREATED   : React.PropTypes.object
-      , WAITING   : React.PropTypes.object
-      , EXECUTING : React.PropTypes.object
-      , FINISHED  : React.PropTypes.object
-      , FAILED    : React.PropTypes.object
-      , ABORTED   : React.PropTypes.object
-      }
-    )
+  { tasks: React.PropTypes.object
   };
