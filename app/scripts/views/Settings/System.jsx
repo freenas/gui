@@ -97,10 +97,10 @@ function mapDispatchToProps ( dispatch ) {
     }
 
     // TASKS
-    // , submitOSForm: () => dispatch( systemActions.submitOSForm() )
+    , submitOSTask: () => dispatch( systemActions.submitOSTask() )
     // , submitConnectionForm: () => dispatch( systemActions.submitConnectionForm() )
-    // , submitLocalizationForm: () => dispatch( systemActions.submitLocalizationForm() )
-    // , submitConsoleForm: () => dispatch( systemActions.submitConsoleForm() )
+    , submitLocalizationTask: () => dispatch( systemActions.submitLocalizationTask() )
+    , submitConsoleTask: () => dispatch( systemActions.submitConsoleTask() )
     }
   );
 };
