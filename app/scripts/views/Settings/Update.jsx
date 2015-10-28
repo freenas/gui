@@ -5,6 +5,7 @@
 "use strict";
 
 import React from "react";
+import { connect } from "react-redux";
 import _ from "lodash";
 import { Button
        , Input
@@ -14,160 +15,65 @@ import { Button
        , ProgressBar
        } from "react-bootstrap";
 
+import * as systemActions from "../../actions/system";
+import * as updateActions from "../../actions/update";
 
-import UM from "../../flux/middleware/UpdateMiddleware";
-import US from "../../flux/stores/UpdateStore";
-
-const Update = React.createClass(
-  { getInitialState () {
-    return { version: "" // from system.info.version
-           // from update.get_config:
-           , check_auto: false
-           , update_server: "" // read-only
-           , train: "" // the server-side target train
-           , targetTrain: "" // The target train being configured
-           // from update.get_current_train
-           // This is the train that the current OS is from
-           , current_train: ""
-           // from update.is_update_available:
-           , updateAvailable: false // contradicts the schema?
-           // from update.update_info:
-           , changelog: [] // Array of strings
-           , notes: "" // Human-readable notes, usually links to a README or such
-           , operations: [] // Changes that will be made. Pretty much just a package list
-           , downloaded: false // The update in question is downloaded and ready to install
-           // from update.trains:
-           , trains: []
-           // from an ongoing download task
-           , downloadPercentage: 0
-           // from an ongoing update task
-           , updatePercentage: 0
-           };
+// TODO: Connection with calendar tasks to schedule update check
+// TODO: Manual update
+class Update extends React.Component{
+  constructor( props ) {
+    super( props );
   }
 
-  , componentDidMount () {
-    UM.subscribe( this.constructor.displayName );
-    US.addChangeListener( this.handleChanges );
-
-    UM.getUpdateConfig();
-    UM.getCurrentTrain();
-    UM.getUpdateInfo();
-    UM.isUpdateAvailable();
-    UM.getUpdateTrains();
+  componentDidMount () {
+    this.props.fetchData();
+    this.props.updateConfigRequest();
+    this.props.isUpdateAvailableRequest();
+    this.props.updateInfoRequest();
   }
 
-  , componentWillUnmount () {
-
-    UM.unsubscribe( this.constructor.displayName );
-    US.removeChangeListener( this.handleChanges );
-  }
-
-  , handleChanges ( eventMask ) {
-    switch ( eventMask ) {
-      case "updateConfig":
-        let newUpdateState = _.cloneDeep( US.updateConfig );
-        newUpdateState.targetTrain = "";
-        this.setState( newUpdateState );
-        break;
-
-      case "currentTrain":
-        this.setState( { current_train: US.currentTrain } );
-        break;
-
-      case "updateInfo":
-        this.setState( US.updateInfo );
-        if ( !_.isEmpty( US.updateInfo ) && !this.state.updateAvailable ) {
-          UM.isUpdateAvailable();
-        }
-        break;
-
-      case "updateAvailable":
-        this.setState( { updateAvailable: US.updateAvailable } );
-        break;
-
-      case "trains":
-        this.setState( { trains: US.trains } );
-        break;
-      // These cases are for showing task processing, eg with spinners or
-      // progress bars
-      case "configureUpdateTask":
-        break;
-
-      case "updateTask":
-        let newPercentageState = { updatePercentage: US.updateTask.percentage };
-        if ( this.state.downloadPercentage ) {
-          newPercentageState.downloadPercentage = 0;
-        }
-        this.setState( newPercentageState );
-        break;
-
-      case "downloadUpdateTask":
-        this.setState( { downloadPercentage: US.downloadUpdateTask.percentage } );
-        if ( US.downloadUpdateTask.percentage === 100 ) {
-          UM.getUpdateInfo();
-        }
-        break;
-
-      case "verifyInstallTask":
-        break;
-
-      case "updateCheckFinished":
-        UM.getUpdateInfo();
-        break;
-    }
-  }
-
-  , acceptChange ( tag, evt ) {
-    switch ( tag ) {
-      case "train":
-        // TODO: Make this more forgiving by using the upcoming version of
-        // the update info queries that takes a train name
-        this.setState( { targetTrain: evt.target.value } );
-        UM.configureUpdates( { train: evt.target.value } );
-        break;
-    }
-  }
-
-  // TODO: Connection with tasks to schedule update check
-  , render () {
+  render () {
 
     const currentVersion = (
       <span>
         { "Installed Version: "
-        + this.state.version
+        + this.props.version
         + " on update train "
-        + this.state.current_train
+        + this.props.current_train
         }
       </span>
     );
 
     const updateServer = (
       <span>
-        { "Update Server: " + this.state.update_server }
+        { "Update Server: " + this.props.update_server }
       </span>
     );
 
     var updateTrainChoices = null;
 
-    if ( _.isArray ( this.state.trains ) ) {
+    if ( _.isArray ( this.props.trains ) ) {
       updateTrainChoices =
-        this.state.trains.map( function createUpdateTrainChoices ( train ) {
+        this.props.trains.map( function createUpdateTrainChoices ( train ) {
                                return (
                                  <option
                                    key = { train.name }
                                    value = { train.name }
-                                   label = { train.name }
-                                 />
+                                 >
+                                   { train.name }
+                                 </option>
                                );
                                }
                              );
     } else {
       updateTrainChoices = [
         (<option
-          key = { this.state.current_train }
-          value = { this.state.current_train }
-          label = { this.state.current_train }
-        />)
+          key = { this.props.current_train }
+          value = { this.props.current_train }
+        >
+          { this.props.current_train }
+        </option>
+        )
       ];
     }
 
@@ -175,8 +81,11 @@ const Update = React.createClass(
       <Input
         type = "select"
         label = "Update Train"
-        value = { this.state.targetTrain || this.state.train }
-        onChange = { this.acceptChange.bind( null, "train" ) }
+        value = { this.props.targetTrain || this.props.train }
+        onChange = { ( e ) => this.props.updateUpdateSettings( "train"
+                                                             , e.target.value
+                                                             )
+                   }
       >
         { updateTrainChoices }
       </Input>
@@ -185,7 +94,7 @@ const Update = React.createClass(
     const checkForUpdatesButton = (
       <Button
         bsStyle = "default"
-        onClick = { UM.checkForUpdate }
+        onClick = { this.props.checkTaskRequest }
       >
         { "Check for Updates" }
       </Button>
@@ -194,8 +103,8 @@ const Update = React.createClass(
     const downloadUpdateButton = (
       <Button
         bsStyle = "info"
-        onClick = { UM.downloadUpdate }
-        disabled = { !this.state.updateAvailable || this.state.downloaded }
+        onClick = { this.props.downloadUpdateTaskRequest }
+        disabled = { !this.props.updateAvailable || this.props.downloaded }
       >
         { "Download Update" }
       </Button>
@@ -206,8 +115,8 @@ const Update = React.createClass(
     const updateNowButton = (
       <Button
         bsStyle = "success"
-        onClick = { UM.updateNow }
-        disabled = { !this.state.downloaded }
+        onClick = { this.props.updateTaskRequest }
+        disabled = { !this.props.downloaded }
       >
         { "Update Now" }
       </Button>
@@ -219,12 +128,14 @@ const Update = React.createClass(
       </Panel>
     );
 
-    if ( this.state.changelog.length > 1 ) {
+    if ( this.props.changelog.length > 1 ) {
       let changelog = (
         <div>
           { "Pending Changes:"}
           <ListGroup>
-            { this.state.changelog.map( function makeChangelogList ( item, index ) {
+            { this.props.changelog.map( function makeChangelogList ( item
+                                                                   , index
+                                                                   ) {
                 return (
                   <ListGroupItem key = { index }>
                     { item }
@@ -244,23 +155,23 @@ const Update = React.createClass(
 
     var downloadProgressBar = null;
 
-    if ( this.state.downloadPercentage ) {
+    if ( this.props.downloadPercentage ) {
       downloadProgressBar = (
-        <ProgressBar now = { this.state.downloadPercentage }/>
+        <ProgressBar now = { this.props.downloadPercentage }/>
       );
     }
 
     var upgradeProgressBar = null;
 
-    if ( this.state.updatePercentage ) {
+    if ( this.props.updatePercentage ) {
       upgradeProgressBar = (
-        <ProgressBar now = { this.state.updatePercentage }/>
+        <ProgressBar now = { this.props.updatePercentage }/>
       );
     }
 
     return (
       <div>
-        <h2>Update FreeNAS</h2>
+        <h2>{ "Update FreeNAS" }</h2>
         { currentVersion }
         <br/>
         { updateServer }
@@ -274,7 +185,115 @@ const Update = React.createClass(
         { upgradeProgressBar }
       </div>
     );
+    return null;
   }
-});
+};
 
-export default Update;
+Update.propTypes =
+  { version: React.PropTypes.string
+  // , check_auto: React.PropTypes.bool
+  , update_server: React.PropTypes.string
+  , train: React.PropTypes.string
+  , targetTrain: React.PropTypes.string
+  , current_train: React.PropTypes.string
+  , updateAvailable: React.PropTypes.bool
+  , changelog: React.PropTypes.arrayOf( React.PropTypes.string )
+  , notes: React.PropTypes.string
+  , operations: React.PropTypes.shape(
+                  { new_name: React.PropTypes.string
+                  , new_version: React.PropTypes.string
+                  , previous_name: React.PropTypes.string
+                  , previous_version: React.PropTypes.string
+                  , operation: React.PropTypes.oneOf( [ "delete"
+                                                      , "install"
+                                                      , "upgrade"
+                                                      ]
+                                                    )
+                  }
+                )
+  , downloaded: React.PropTypes.bool
+  , trains: React.PropTypes.arrayOf(
+              React.PropTypes.shape(
+                { current: React.PropTypes.bool
+                , sequence: React.PropTypes.string
+                , name: React.PropTypes.string
+                , description: React.PropTypes.string
+                }
+              )
+            )
+  , downloadPercentage: React.PropTypes.number
+  , updatePercentage: React.PropTypes.number
+  , updateConfigSettings: React.PropTypes.object
+  , updateUpdateSettings: React.PropTypes.func.isRequired
+  , resetUpdateSettings: React.PropTypes.func.isRequired
+  , fetchData: React.PropTypes.func.isRequired
+  , updateConfigRequest: React.PropTypes.func.isRequired
+  , isUpdateAvailableRequest: React.PropTypes.func.isRequired
+  , updateInfoRequest: React.PropTypes.func.isRequired
+  , checkTaskRequest: React.PropTypes.func.isRequired
+  , checkFetchTaskRequest: React.PropTypes.func.isRequired
+  , updateConfigTaskRequest: React.PropTypes.func.isRequired
+  , downloadUpdateTaskRequest: React.PropTypes.func.isRequired
+//  , manualUpdateTaskRequest: React.PropTypes.func.isRequired
+  , updateTaskRequest: React.PropTypes.func.isRequired
+  , verifyTaskRequest: React.PropTypes.func.isRequired
+  };
+
+// REDUX
+function mapStateToProps ( state ) {
+  return ( { version: state.system.info.version
+           , check_auto: state.update.check_auto
+           , update_server: state.update.update_server
+           , train: state.update.train
+           , targetTrain: state.update.targetTrain
+           , current_train: state.update.current_train
+           , updateAvailable: state.update.updateAvailable
+           , changelog: state.update.changelog
+           , notes: state.update.notes
+           , operations: state.update.operations
+           , downloaded: state.update.downloaded
+           , trains: state.update.trains
+           , downloadPercentage: state.update.downloadPercentage
+           , updatePercentage: state.update.updatePercentage
+           , updateConfigSettings: state.update.updateConfigSettings
+           }
+         );
+};
+
+function mapDispatchToProps ( dispatch ) {
+  return (
+    // OS FORM
+    { updateUpdateSettings: ( field, value ) =>
+        dispatch( updateActions.updateUpdateSettings( field, value ) )
+    , resetUpdateSettings: () =>
+        dispatch( systemActions.resetUpdateSettings() )
+
+    // QUERIES
+    , fetchData: () => {
+      // One-Time Queries
+      dispatch( systemActions.requestVersion() );
+      dispatch( updateActions.updateTrainsRequest() );
+      dispatch( updateActions.currentTrainRequest() );
+    }
+    , updateConfigRequest: () =>
+        dispatch( updateActions.updateConfigRequest() )
+    , isUpdateAvailableRequest: () =>
+        dispatch( updateActions.isUpdateAvailableRequest() )
+    , updateInfoRequest: () => dispatch( updateActions.updateInfoRequest() )
+
+    // TASKS
+    , checkTaskRequest: () => dispatch( updateActions.checkTaskRequest() )
+    , checkFetchTaskRequest: () =>
+        dispatch( updateActions.checkFetchTaskRequest() )
+    , updateConfigTaskRequest: () =>
+        dispatch( updateActions.updateConfigTaskRequest() )
+    , downloadUpdateTaskRequest: () =>
+        dispatch( updateActions.downloadUpdateTaskRequest() )
+    // , manualUpdateTaskRequest: () => dispatch( updateActions.manualUpdate() )
+    , updateTaskRequest: () => dispatch( updateActions.updateTaskRequest() )
+    , verifyTaskRequest: () => dispatch( updateActions.verifyTaskRequest() )
+    }
+  );
+};
+
+export default connect( mapStateToProps, mapDispatchToProps )( Update );
