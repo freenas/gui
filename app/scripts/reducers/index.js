@@ -6,6 +6,7 @@ import { combineReducers } from "redux";
 import auth from "./auth";
 import disks from "./disks";
 import events from "./events";
+import network from "./network";
 import rpc from "./rpc";
 import shells from "./shells";
 import statd from "./statd";
@@ -22,6 +23,7 @@ const rootReducer = combineReducers(
   { auth
   , disks
   , events
+  , network
   , rpc
   , shells
   , statd
