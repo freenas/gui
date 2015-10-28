@@ -14,8 +14,6 @@ import { Button
        , ProgressBar
        } from "react-bootstrap";
 
-import SM from "../../flux/middleware/SystemMiddleware";
-import SS from "../../flux/stores/SystemStore";
 
 import UM from "../../flux/middleware/UpdateMiddleware";
 import US from "../../flux/stores/UpdateStore";
@@ -48,13 +46,9 @@ const Update = React.createClass(
   }
 
   , componentDidMount () {
-    SM.subscribe( this.constructor.displayName);
-    SS.addChangeListener( this.handleChanges );
-
     UM.subscribe( this.constructor.displayName );
     US.addChangeListener( this.handleChanges );
 
-    SM.requestVersion();
     UM.getUpdateConfig();
     UM.getCurrentTrain();
     UM.getUpdateInfo();
@@ -63,8 +57,6 @@ const Update = React.createClass(
   }
 
   , componentWillUnmount () {
-    SM.unsubscribe( this.constructor.displayName );
-    SS.removeChangeListener( this.handleChanges );
 
     UM.unsubscribe( this.constructor.displayName );
     US.removeChangeListener( this.handleChanges );
@@ -96,10 +88,6 @@ const Update = React.createClass(
       case "trains":
         this.setState( { trains: US.trains } );
         break;
-
-      case "version":
-        this.setState( { version: SS.version } );
-
       // These cases are for showing task processing, eg with spinners or
       // progress bars
       case "configureUpdateTask":
