@@ -13,14 +13,11 @@ import { ListGroupItem, Alert, ButtonToolbar, Button, Grid, Row, Col
 
 import viewerUtil from "../../../components/Viewer/viewerUtil";
 
-import GroupsStore from "../../../flux/stores/GroupsStore";
-
 const UserView = React.createClass(
   { propTypes: { item: React.PropTypes.object.isRequired }
 
   , getGroupName: function ( groupID ) {
-      var group = GroupsStore.getGroup( groupID );
-
+      var group = _.find( this.props.groups, { id: groupID } )
       if ( group ) {
         return group.name;
       } else {
@@ -33,23 +30,22 @@ const UserView = React.createClass(
   , createGroupDisplayList: function () {
       var listGroupItemArray = [] ;
 
-      listGroupItemArray = this.props.item.groups.map(
-                             function ( groupID ) {
-                               var displayItem = null;
-                               var group = GroupsStore.getGroup( groupID );
-
-                               if ( group ) {
-                                 displayItem =
-                                   <ListGroupItem>
-                                     { group.name }
-                                   </ListGroupItem>;
-                               }
-
-                               return displayItem;
-                             }
-                           , this
-                           );
-
+      this.props.item.groups.forEach(
+        function ( groupID ) {
+          var displayItem = null;
+          var group = _.find( this.props.groups
+                            , { id: groupID }
+                            );
+          if ( group ) {
+            listGroupItemArray.push(
+              <ListGroupItem key = { groupID } >
+                { group.name }
+              </ListGroupItem>
+            );
+          }
+        }
+      , this
+      );
       return listGroupItemArray;
     }
 

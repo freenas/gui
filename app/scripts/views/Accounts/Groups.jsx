@@ -14,7 +14,15 @@ import * as SHELL_ACTIONS from "../../actions/shells";
 
 import Viewer from "../../components/Viewer";
 
-import GS from "../../flux/stores/GroupsStore";
+const GROUP_SCHEMA =
+  { type: "object"
+  , properties:
+    { name: { type: "string" }
+    , id: { type: "number" }
+    , builtin: { type: [ "boolean", "null" ] }
+    , sudo: { type: "boolean" }
+    }
+  };
 
 const GROUP_LABELS =
   { name: "Group Name"
@@ -28,7 +36,7 @@ const VIEWER_DATA =
   , keyPrimary    : "name"
   , keySecondary  : "id"
 
-  , itemSchema    : GS.itemSchema
+  , itemSchema    : GROUP_SCHEMA
   , itemLabels    : GROUP_LABELS
 
   , routeParam    : "groupID"
