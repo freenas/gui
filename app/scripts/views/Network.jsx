@@ -78,7 +78,7 @@ function mapStateToProps ( state ) {
   return (
     { systemGeneral: state.system.general
     , hostname: state.system.general.hostname
-    , interfaces: {}
+    , interfaces: state.network.interfaces
     // TODO
     , serverConfig: Object.assign( {}
                                  , state.network.serverConfig
@@ -90,7 +90,10 @@ function mapStateToProps ( state ) {
   );
 }
 
-const SUB_MASKS = [ "network.changed" ];
+const SUB_MASKS =
+  [ "entity-subscriber.network.interfaces.changed"
+  , "network.changed"
+  ];
 
 function mapDispatchToProps ( dispatch ) {
   return (
@@ -110,6 +113,7 @@ function mapDispatchToProps ( dispatch ) {
     , fetchData: () => {
         dispatch( SYSTEM.requestGeneralConfig() );
         dispatch( NETWORK.requestNetworkConfig() );
+        dispatch( NETWORK.requestInterfaces() );
       }
     }
   );

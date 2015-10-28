@@ -59,3 +59,13 @@ export function submitNetworkConfig () {
     }
   }
 }
+
+export function requestInterfaces () {
+  return ( dispatch, getState ) => {
+    MC.request( "network.interfaces.query"
+              , null
+              , ( UUID ) =>
+                dispatch( watchRequest( UUID, TYPES.INTERFACES_REQUEST ) )
+              );
+  }
+}
