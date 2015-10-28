@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
             fetchHistory = { ( sources, frequency ) => this.props.fetchHistory( sources, frequency ) }
             subscribe = { ( sources, id ) => this.props.pulseSubscribe( sources, id ) }
             unsubscribe = { ( sources, id ) => this.props.pulseUnsubscribe( sources, id ) }
-            cpuCores = { this.props.hardware.cpu_cores }
+            cpu_cores = { this.props.hardware.cpu_cores }
             statdData = { this.props.statd }
           />
 

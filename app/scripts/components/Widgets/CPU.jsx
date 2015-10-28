@@ -33,11 +33,11 @@ const FREQUENCY = 10;
 
 const CPU = React.createClass(
   { propTypes: { subscribe: React.PropTypes.func.isRequired
-               , cpuCores: React.PropTypes.number
+               , cpu_cores: React.PropTypes.number
                }
 
   , getDefaultProps () {
-      return { cpuCores: 0
+      return { cpu_cores: 1
              , statdData: {}
              }
     }
