@@ -18,6 +18,7 @@ import websocket from "./websocket";
 import ssh from "./ssh";
 import users from "./users";
 import groups from "./groups";
+import update from "./update";
 
 const rootReducer = combineReducers(
   { auth
@@ -34,6 +35,7 @@ const rootReducer = combineReducers(
   , websocket
   , users
   , groups
+  , update
 
   // SERVICES
   , ssh
