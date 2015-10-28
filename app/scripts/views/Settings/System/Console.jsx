@@ -6,13 +6,9 @@
 
 import React from "react";
 import { Input, Panel, Button, ButtonToolbar } from "react-bootstrap";
-import _ from "lodash";
-
-import SM from "../../../flux/middleware/SystemMiddleware";
 
 // This *might* be bad.
 // TODO: Find out if this is bad.
-
 const serialPortSpeeds =
   [ 9600
   , 19200
@@ -148,15 +144,15 @@ const Console = ( props ) => {
     <ButtonToolbar className = "pull-right">
       <Button
         bsStyle = "default"
-        onClick = { props.resetConsoleForm }
-        // disabled = { _.isEmpty( this.state ) }
+        onClick = { props.submitConsoleTask }
+        // disabled = {/* need test for this*/ }
       >
         { "Reset" }
       </Button>
       <Button
         bsStyle = "primary"
-        // onClick = { this.submit  }
-        // disabled = { _.isEmpty( this.state ) }
+        onClick = { props.submitConsoleTask  }
+        // disabled = {/* need test for this*/ }
       >
         { "Apply" }
       </Button>
@@ -207,7 +203,7 @@ Console.propTypes =
   )
   , updateConsoleForm: React.PropTypes.func
   , resetConsoleForm: React.PropTypes.func
-  // , submitConsoleForm: React.PropTypes.func
+  , submitConsoleTask: React.PropTypes.func
   };
 
 export default Console;
