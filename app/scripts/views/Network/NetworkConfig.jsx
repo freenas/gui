@@ -10,7 +10,6 @@ import { Col, Input, Button, ButtonToolbar, Grid, Row } from "react-bootstrap";
 import _ from "lodash";
 
 import NM from "../../flux/middleware/NetworkConfigMiddleware";
-import SM from "../../flux/middleware/SystemMiddleware";
 
 import networkCommon from "./networkCommon";
 
@@ -41,11 +40,7 @@ const NetworkConfig = React.createClass(
                }
              }
            , systemGeneralConfig:
-             { timezone: ""
-             , hostname: ""
-             , language: ""
-             , console_keymap: ""
-             }
+             { hostname: "" }
            };
   }
 
@@ -230,10 +225,6 @@ const NetworkConfig = React.createClass(
 
     if ( !_.isEmpty( newNetworkConfig ) ) {
       NM.updateNetworkConfig( newNetworkConfig );
-    }
-
-    if ( !_.isEmpty( newSystemGeneralConfig ) ) {
-      SM.updateSystemGeneralConfig( newSystemGeneralConfig );
     }
   }
 /*
