@@ -134,7 +134,9 @@ export default class Volume extends React.Component {
       breakdown =
         { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
         , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
-        , parity : ZfsUtil.calculateBreakdown( this.props.topology.data ).parity
+        , parity : ZfsUtil.calculateBreakdown( this.props.topology.data
+                                             , this.props.disks
+                                             ).parity
       }
     } else {
       breakdown = { used: 0, avail: 0, parity: 0 };
@@ -177,7 +179,11 @@ export default class Volume extends React.Component {
           <NewVolume
             volumeName = { this.props.name }
             disableSubmit = { this.isSubmissionDisabled() }
-            topologyBreakdown = { ZfsUtil.calculateBreakdown( this.props.topology.data ) }
+            topologyBreakdown = {
+              ZfsUtil.calculateBreakdown( this.props.topology.data
+                                        , this.props.disks
+                                        )
+            }
             onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
             onSubmitClick = { this.props.onSubmitVolume }
             onCancelClick = { () => {

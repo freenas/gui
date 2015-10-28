@@ -7,14 +7,11 @@
 import React from "react";
 import { Well, Col } from "react-bootstrap";
 
-import DS from "../../../../flux/stores/DisksStore";
-
 import ZfsUtil from "../../utility/ZfsUtil";
 
 import Disk from "../../../../components/items/Disk";
 import DragTarget from "../../../../components/DragTarget";
 import DropTarget from "../../../../components/DropTarget";
-
 import VDEVInfo from "./VDEV/VDEVInfo";
 import BreakdownChart from "../../common/BreakdownChart";
 
@@ -113,7 +110,7 @@ export default class VDEV extends React.Component {
       if ( this.props.purpose === "data"
         && ( this.props.path || this.props.children )
         ) {
-        breakdown = ZfsUtil.calculateBreakdown( [ this.props ] );
+        breakdown = ZfsUtil.calculateBreakdown( [ this.props ], this.props.disks );
         chart = (
           <BreakdownChart
             total  = { breakdown.avail + breakdown.parity }

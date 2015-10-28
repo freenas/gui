@@ -8,8 +8,6 @@
 
 import _ from "lodash";
 
-import DS from "../../../flux/stores/DisksStore";
-
 import { VDEV_TYPES, DISK_CHUNKS } from "./ZfsConstants";
 
 class ZfsUtil {
@@ -28,7 +26,45 @@ class ZfsUtil {
     return paths;
   }
 
-  static calculateBreakdown ( collection ) {
+  static getSmallestDisk ( paths, disks ) {
+    let smallest = null;
+
+    if ( !Array.isArray( paths ) ) {
+      console.warn( "The first argument to getSmallestDisk must be an array of "
+                  + "disk paths"
+                  );
+      return;
+    }
+
+    if ( !disks || typeof disks !== "object" ) {
+      console.warn( "The second argument to getSmallestDisk must be an object "
+                  + "keyed by disk path"
+                  );
+      return;
+    } else if ( Object.keys( disks ).length === 0 ) {
+      console.warn( "Disks object must not be empty" );
+      return;
+    }
+
+    paths.forEach( path => {
+      if ( disks[ path ] && disks[ path ].mediasize ) {
+        if ( smallest ) {
+          if ( disks[ path ].mediasize < smallest.mediasize ) {
+            smallest = disks[ path ];
+          }
+        } else {
+          smallest = disks[ path ];
+        }
+      } else {
+        console.warn( `Could not read mediasize of ${ path }`, disks[ path ] );
+        return;
+      }
+    });
+
+    return smallest;
+  }
+
+  static calculateBreakdown ( collection, disks ) {
     let breakdown =
       { parity : 0
       , avail  : 0
@@ -36,9 +72,8 @@ class ZfsUtil {
 
     collection.forEach( vdev => {
       if ( vdev.type ) {
-        let smallestDisk = DS.getSmallestDisk(
-          this.getMemberDiskPaths( vdev )
-        );
+        let smallestDisk =
+          ZfsUtil.getSmallestDisk( ZfsUtil.getMemberDiskPaths( vdev ), disks );
 
         let baseSize = _.has( smallestDisk, "mediasize" )
                      ? smallestDisk.mediasize
