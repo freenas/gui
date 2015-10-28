@@ -13,8 +13,6 @@ import _ from "lodash";
 import freeNASUtil from "../utility/freeNASUtil";
 import MCD from "./MiddlewareClientDebug";
 
-import MiddlewareActionCreators from "../flux/actions/MiddlewareActionCreators";
-
 import SAC from "../flux/actions/SessionActionCreators";
 
 import sessionCookies from "../utility/cookies";

@@ -13,7 +13,8 @@ import * as actions from "../actions/auth";
 
 import ContextBar from "./App/ContextBar";
 import PrimaryNavigation from "./App/PrimaryNavigation";
-import DebugTools from "./App/DebugTools";
+// TODO: Convert to Redux and reenable
+// import DebugTools from "./App/DebugTools";
 import SessionInterruptDialog from "./App/SessionInterruptDialog";
 
 // PRIMARY STYLESHEET
@@ -143,7 +144,8 @@ class App extends React.Component {
           </Motion>
 
           {/* Hidden, user-callable developer tools */}
-          <DebugTools />
+          {/* TODO: Convert to Redux and reenable */}
+          {/* <DebugTools /> */}
 
           {/* Main app code */}
           <script type="text/javascript" src="/js/app.js"></script>
