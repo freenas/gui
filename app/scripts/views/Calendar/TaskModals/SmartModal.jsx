@@ -9,8 +9,8 @@ import _ from "lodash";
 import { Input } from "react-bootstrap";
 import TaskSchedule from "../TaskSchedule";
 
-import CM from "../../../flux/middleware/CalendarMiddleware";
-import CS from "../../../flux/stores/CalendarStore";
+// import CM from "../../../flux/middleware/CalendarMiddleware";
+// import CS from "../../../flux/stores/CalendarStore";
 
 const testTypes =
   [ "CONVEYANCE"
