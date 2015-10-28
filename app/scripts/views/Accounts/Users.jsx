@@ -14,12 +14,6 @@ import * as SHELL_ACTIONS from "../../actions/shells";
 
 import Viewer from "../../components/Viewer";
 
-import SS from "../../flux/stores/SessionStore";
-
-function testCurrentUser ( user ) {
-  return user.username === SS.getCurrentUser();
-}
-
 const USER_SCHEMA =
   { type: "object"
   , properties:
@@ -75,59 +69,6 @@ const USER_LABELS =
   , password_disabled : "Password Disabled"
   };
 
-const VIEWER_DATA =
-  { keyUnique     : "username"
-  , keyPrimary    : "username"
-  , keySecondary  : "full_name"
-
-  , itemSchema    : USER_SCHEMA
-  , itemLabels    : USER_LABELS
-  , routeParam    : "userID"
-  , routeNewItem  : "add-user"
-
-  , textNewItem   : "Add User"
-  , textRemaining : "other user accounts"
-  , textUngrouped : "all user accounts"
-
-  , groupsInitial : new Set( [ "current", "userCreated", "builtIn" ] )
-  , groupsAllowed : new Set( [ "userCreated", "builtIn" ] )
-
-  , filtersInitial : new Set( )
-  , filtersAllowed : new Set( [ "builtIn" ] )
-
-  , columnsInitial : new Set(
-                       [ "id"
-                       , "builtin"
-                       , "username"
-                       , "full_name"
-                       ]
-                     )
-  , columnsAllowed : new Set(
-                     [ "id"
-                     , "builtin"
-                     , "username"
-                     , "full_name"
-                     ]
-                     )
-
-  , modesAllowed: new Set( [ "detail", "table" ] )
-
-  , groupBy:
-    { current:
-      { name: "current user account"
-      , testProp: testCurrentUser
-      }
-    , userCreated:
-      { name: "local user accounts"
-      , testProp: { builtin: false }
-      }
-    , builtIn:
-      { name: "built-in system accounts"
-      , testProp: { builtin: true }
-      }
-    }
-  };
-
 class Users extends React.Component {
   constructor ( props ) {
     super( props );
@@ -153,10 +94,53 @@ class Users extends React.Component {
   }
 
   render () {
-    return <Viewer
-             { ...this.props }
-             { ...VIEWER_DATA }
-           />;
+    return (
+      <Viewer
+        { ...this.props }
+
+        keyUnique = { "username" }
+        keyPrimary = { "username" }
+        keySecondary = { "full_name" }
+
+        itemSchema = { USER_SCHEMA }
+        itemLabels = { USER_LABELS }
+        routeParam = { "userID" }
+        routeNewItem = { "add-user" }
+
+        textNewItem = { "Add User" }
+        textRemaining = { "other user accounts" }
+        textUngrouped = { "all user accounts" }
+
+        groupsInitial = { new Set( [ "current", "userCreated", "builtIn" ] ) }
+        groupsAllowed = { new Set( [ "userCreated", "builtIn" ] ) }
+
+        filtersInitial = { new Set() }
+        filtersAllowed = { new Set( [ "builtIn" ] ) }
+
+        columnsInitial = { new Set([ "id", "builtin", "username", "full_name" ]) }
+        columnsAllowed = { new Set([ "id", "builtin", "username", "full_name" ]) }
+
+        modesAllowed = { new Set( [ "detail", "table" ] ) }
+
+        groupBy = {
+          { current:
+            { name: "current user account"
+            , testProp: ( user ) => {
+                return user.username === this.props.activeUser
+              }
+            }
+          , userCreated:
+            { name: "local user accounts"
+            , testProp: { builtin: false }
+            }
+          , builtIn:
+            { name: "built-in system accounts"
+            , testProp: { builtin: true }
+            }
+          }
+        }
+      />
+    );
   }
 };
 
@@ -170,6 +154,7 @@ function mapStateToProps ( state ) {
     , nextUID: state.users.nextUID
     , groups: state.groups.groups
     , nextGID: state.groups.nextGID
+    , activeUser: state.auth.activeUser
     // requests
     , queryUsersRequests: state.users.queryUsersRequests
     , queryGroupsRequests: state.groups.queryGroupsRequests
