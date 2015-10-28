@@ -14,13 +14,46 @@ import * as SHELL_ACTIONS from "../../actions/shells";
 
 import Viewer from "../../components/Viewer";
 
-import US from "../../flux/stores/UsersStore";
-
 import SS from "../../flux/stores/SessionStore";
 
 function testCurrentUser ( user ) {
   return user.username === SS.getCurrentUser();
 }
+
+const USER_SCHEMA =
+  { type: "object"
+  , properties:
+    { username:          { type: "string" }
+    , sshpubkey:         { type: [ "string", "null" ] }
+    , shell:             { type: "string" }
+    , locked:            { type: "boolean" }
+    , full_name:         { type: [ "string", "null" ] }
+    , home:              { type: "string" }
+    , group:             { type: "integer" }
+    , id:                { type: "number" }
+    , password_disabled: { type: "boolean" }
+    , unixhash:          { type: [ "string", "null" ] }
+    , sudo:              { type: "boolean" }
+    , smbhash:           { type: [ "string", "null" ] }
+    , email:             { type: [ "string", "null" ] }
+    , groups:
+      { items: { type: "integer" }
+      , type: "array"
+      }
+    , sessions:
+      { readOnly: true
+      , type: "array"
+      }
+    , builtin:
+      { readOnly: true
+      , type: "boolean"
+      }
+    , loggedin:
+      { readOnly: true
+      , type: "boolean"
+      }
+    }
+  };
 
 const USER_LABELS =
   { username          : "Username"
@@ -47,7 +80,7 @@ const VIEWER_DATA =
   , keyPrimary    : "username"
   , keySecondary  : "full_name"
 
-  , itemSchema    : US.itemSchema
+  , itemSchema    : USER_SCHEMA
   , itemLabels    : USER_LABELS
   , routeParam    : "userID"
   , routeNewItem  : "add-user"
