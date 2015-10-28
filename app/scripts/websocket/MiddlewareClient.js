@@ -247,7 +247,7 @@ class MiddlewareClient {
 
           case "logout":
             sessionCookies.delete( "auth" );
-            SAC.forceLogout( data.args, timestamp );
+            this.onLogout();
             break;
 
           default:
