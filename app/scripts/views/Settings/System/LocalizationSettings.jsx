@@ -6,9 +6,6 @@
 
 import React from "react";
 import { Input, Panel, Button, ButtonToolbar } from "react-bootstrap";
-import _ from "lodash";
-
-import SM from "../../../flux/middleware/SystemMiddleware";
 
 const languageChoices =
   [ "English"
