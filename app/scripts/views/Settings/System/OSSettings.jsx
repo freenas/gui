@@ -110,15 +110,15 @@ const OSSettings = ( props ) => {
     <ButtonToolbar className = "pull-right">
       <Button
         bsStyle = "default"
-        onClick = { props.resetosForm }
-        // disabled = { _.isEmpty( this.state ) }
+        onClick = { props.resetOSForm }
+        // disabled = {/* need test for this*/ }
       >
         { "Reset" }
       </Button>
       <Button
         bsStyle = "primary"
-        // onClick = { props.submitOSForm  }
-        // disabled = { _.isEmpty( this.state ) }
+        onClick = { props.submitOSTask }
+        // disabled = {/* need test for this*/ }
       >
         { "Apply" }
       </Button>
@@ -161,7 +161,7 @@ OSSettings.propTypes =
   )
   , updateOSForm: React.PropTypes.func
   , resetOSForm: React.PropTypes.func
-  // , submitOSForm: React.PropTypes.func
+  , submitOSTask: React.PropTypes.func
   };
 
 export default OSSettings;
