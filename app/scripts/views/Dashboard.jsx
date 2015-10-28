@@ -55,6 +55,7 @@ class Dashboard extends React.Component {
         <div className="dashboard-widgets">
 
           <SystemInfo
+            hostname = { this.props.hostname }
             version = { this.props.version }
             cpu_model = { this.props.hardware.cpu_model }
             cpu_cores = { this.props.hardware.cpu_cores }
@@ -89,6 +90,7 @@ function mapStateToProps ( state ) {
 
   return (
     { predominantDisks: DiskUtilities.predominantDisks( disks.disks )
+    , hostname: state.system.general.hostname
     , hardware: state.system.info.hardware
     , version: state.system.info.version
     , statd: state.statd.data
