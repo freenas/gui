@@ -310,6 +310,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
     case TYPES.TASK_UPDATED:
     case TYPES.TASK_PROGRESS:
       if ( typeof payload.data === "object"
+        && payload.data !== null
         && payload.data.hasOwnProperty( "name" )
         && payload.data.name.startsWith( "volume" )
         ) {
