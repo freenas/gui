@@ -1,6 +1,6 @@
-// DATASET SETTINGS
-// ================
-// Display the available settings for a dataset
+// SHARE SETTINGS
+// ==============
+// Display the available settings for a share and its dataset
 
 "use strict";
 
@@ -10,7 +10,7 @@ import { Button, ButtonToolbar, Input } from "react-bootstrap";
 // TODO: Find a better way to source this
 const CONTAINER_PADDING = 15;
 
-export default class DatasetSettings extends React.Component {
+export default class ShareSettings extends React.Component {
   onDatasetNameChange ( event ) {
     const NAME = event.target.value;
 
@@ -120,7 +120,7 @@ export default class DatasetSettings extends React.Component {
   }
 }
 
-DatasetSettings.propTypes =
+ShareSettings.propTypes =
   { name          : React.PropTypes.string.isRequired
   , show          : React.PropTypes.bool
   , shiftLeft     : React.PropTypes.number.isRequired

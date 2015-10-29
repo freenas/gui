@@ -1,16 +1,16 @@
-// DATASET PROPERTY
+// SHARING TOGGLES
 // ==================
-// Display properties of the dataset in a similar format
+// Radio set for selecting share type
 
 "use strict";
 
 import React from "react";
 import { ButtonGroup, Button } from "react-bootstrap";
 
-import DatasetProperty from "./DatasetProperty";
+import ShareProperty from "./ShareProperty";
 
 
-export default class DatasetShareToggles extends React.Component {
+export default class ShareToggles extends React.Component {
 
   handleShareClick ( shareType ) {
     if ( this.props.disabled ) {
@@ -36,7 +36,7 @@ export default class DatasetShareToggles extends React.Component {
     }
 
     return (
-      <DatasetProperty legend="Share Type">
+      <ShareProperty legend="Share Type">
         <ButtonGroup
           className = { classes.join( " " ) }
         >
@@ -69,12 +69,12 @@ export default class DatasetShareToggles extends React.Component {
             { "AFP" }
           </Button>
         </ButtonGroup>
-      </DatasetProperty>
+      </ShareProperty>
     );
   }
 }
 
-DatasetShareToggles.propTypes =
+ShareToggles.propTypes =
   { onShareToggle : React.PropTypes.func.isRequired
   , parentShared  : React.PropTypes.string
   , activeShare   : React.PropTypes.object

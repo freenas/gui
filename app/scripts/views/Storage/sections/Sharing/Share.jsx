@@ -1,6 +1,6 @@
-// DATASET
-// =======
-// Display and edit constituent datset for a ZFS pool
+// SHARE
+// =====
+// Display and edit shares associated with a ZFS pool
 
 "use strict";
 
@@ -11,13 +11,13 @@ import ByteCalc from "../../../../utility/ByteCalc";
 
 import Icon from "../../../../components/Icon";
 import BreakdownChart from "../../common/BreakdownChart";
-import DatasetProperty from "./DatasetProperty";
-import DatasetShareToggles from "./DatasetShareToggles";
-import DatasetSettings from "./DatasetSettings";
-import NewDataset from "./NewDataset";
+import ShareProperty from "./ShareProperty";
+import ShareToggles from "./ShareToggles";
+import ShareSettings from "./ShareSettings";
+import NewShare from "./NewShare";
 
 // STYLESHEET
-if ( process.env.BROWSER ) require( "./Dataset.less" );
+if ( process.env.BROWSER ) require( "./Share.less" );
 
 
 const SHARE_TYPES =
@@ -28,7 +28,7 @@ const SHARE_TYPES =
 
 const LEFT_PADDING = 32;
 
-export default class Dataset extends React.Component {
+export default class Share extends React.Component {
   toggleActive ( event ) {
     if ( event.currentTarget === event.target ) {
       event.stopPropagation();
@@ -114,7 +114,7 @@ export default class Dataset extends React.Component {
 
     if ( dataset.newDataset ) {
       return (
-        <NewDataset
+        <NewShare
           { ...dataset }
           { ...COMMON_PROPS }
           key = { index }
@@ -185,7 +185,7 @@ export default class Dataset extends React.Component {
       paddingLeft = LEFT_PADDING;
       shiftLeft   = LEFT_PADDING * DATASET_DEPTH;
       ShareToggles = (
-        <DatasetShareToggles
+        <ShareToggles
           parentShared  = { parentShared }
           activeShare   = { activeShare }
           onShareToggle = { this.handleShareToggle.bind( this ) }
@@ -204,12 +204,12 @@ export default class Dataset extends React.Component {
           className = "dataset-toolbar"
           onClick = { this.toggleActive.bind( this ) }
         >
-          <DatasetProperty
+          <ShareProperty
             legend    = { PARENT_NAME }
             className = "dataset-name"
           >
             { DATASET_NAME }
-          </DatasetProperty>
+          </ShareProperty>
 
         {/* PROPERTIES OF DATASET AND OPTIONS */}
           <div className="dataset-properties">
@@ -217,9 +217,9 @@ export default class Dataset extends React.Component {
             {/* RADIO TOGGLES FOR CREATING SHARES */}
             { ShareToggles }
 
-            <DatasetProperty legend="Compression">
+            <ShareProperty legend="Compression">
               { compression.rawvalue }
-            </DatasetProperty>
+            </ShareProperty>
 
             {/* "COG" DROPDOWN BUTTON: SHARE OPTIONS */}
             <DropdownButton
@@ -255,7 +255,7 @@ export default class Dataset extends React.Component {
         </div>
 
         {/* DATASET AND SHARE SETTINGS */}
-        <DatasetSettings
+        <ShareSettings
           show        = { this.isActive() }
           pool        = { pool }
           shiftLeft   = { shiftLeft }
@@ -275,7 +275,7 @@ export default class Dataset extends React.Component {
   }
 }
 
-Dataset.propTypes =
+Share.propTypes =
   { name             : React.PropTypes.string.isRequired
   , mountpoint       : React.PropTypes.string.isRequired
   , pool             : React.PropTypes.string.isRequired
@@ -297,7 +297,7 @@ Dataset.propTypes =
   , onRequestDeleteShare : React.PropTypes.func.isRequired
   };
 
-Dataset.defaultProps =
+Share.defaultProps =
   { name     : ""
   , children : []
   , properties:

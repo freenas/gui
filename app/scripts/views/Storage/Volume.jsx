@@ -17,9 +17,9 @@ import ZfsUtil from "./utility/ZfsUtil";
 import NewVolume from "./headers/NewVolume";
 import ExistingVolume from "./headers/ExistingVolume";
 import Topology from "./sections/Topology";
-import Filesystem from "./sections/Filesystem";
+import Sharing from "./sections/Sharing";
 
-const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
+const SECTIONS = [ "files", "shares", "snapshots", "topology" ];
 
 export default class Volume extends React.Component {
 
@@ -33,7 +33,7 @@ export default class Volume extends React.Component {
     let allowedSections = new Set([ "topology" ]);
 
     if ( this.props.existsOnServer ) {
-      allowedSections.add( "filesystem" );
+      allowedSections.add( "shares" );
       // TODO: More logic for other sections (later!)
     }
 
@@ -203,8 +203,8 @@ export default class Volume extends React.Component {
           {/* DATASETS, ZVOLS, AND SHARES */}
           <Tab
             title    = "Shares"
-            eventKey = "filesystem"
-            disabled = { !ALLOWED_SECTIONS.has( "filesystem" ) }
+            eventKey = "shares"
+            disabled = { !ALLOWED_SECTIONS.has( "shares" ) }
           >
 
           </Tab>

@@ -7,9 +7,9 @@
 
 import React from "react";
 
-import Dataset from "./Filesystem/Dataset";
+import Share from "./Sharing/Share";
 
-export default class Filesystem extends React.Component {
+export default class Sharing extends React.Component {
 
   render () {
     const { datasets, shares, ...other } = this.props;
@@ -24,7 +24,7 @@ export default class Filesystem extends React.Component {
 
     if ( ROOT_DATASET ) {
       return (
-        <Dataset
+        <Share
           root
           { ...other }
           { ...ROOT_DATASET }
@@ -40,7 +40,7 @@ export default class Filesystem extends React.Component {
   }
 }
 
-Filesystem.propTypes =
+Sharing.propTypes =
   { datasets      : React.PropTypes.array
   , shares        : React.PropTypes.instanceOf( Map )
   , handlers      : React.PropTypes.object.isRequired

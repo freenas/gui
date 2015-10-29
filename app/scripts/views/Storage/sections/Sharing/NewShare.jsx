@@ -1,25 +1,25 @@
-// NEW DATASET
+// NEW SHARE
 // ===========
-// UI to be show during the creation of a new dataset
+// UI to be show during the creation of a new SHARE
 
 "use strict";
 
 import React from "react";
 import { Input, Button, ButtonToolbar } from "react-bootstrap";
 
-import DatasetProperty from "./DatasetProperty";
+import ShareProperty from "./ShareProperty";
 
 // TODO: Check potential names against blacklist
 
-export default class NewDataset extends React.Component {
+export default class NewShare extends React.Component {
   handleNameChange ( event ) {
     const NAME = event.target.value;
 
-    const newDataset =
+    const normalizedName =
       { name: this.props.name.replace( /([^\/]*$)/i, NAME )
       };
 
-    this.props.handlers.onDatasetChange( newDataset );
+    this.props.handlers.onDatasetChange( normalizedName );
   }
 
   handleCreateDataset ( event ) {
@@ -37,7 +37,7 @@ export default class NewDataset extends React.Component {
       <div className="dataset">
         {/* DATASET TOOLBAR */}
         <div className="dataset-toolbar">
-          <DatasetProperty
+          <ShareProperty
             legend    = "Share Name"
             className = "dataset-name"
           >
@@ -46,10 +46,10 @@ export default class NewDataset extends React.Component {
               onChange = { this.handleNameChange.bind( this ) }
               value    = { NAME }
             />
-          </DatasetProperty>
+          </ShareProperty>
 
           <div className="dataset-properties">
-            <DatasetProperty>
+            <ShareProperty>
               <ButtonToolbar>
                 <Button
                   bsStyle = "default"
@@ -65,7 +65,7 @@ export default class NewDataset extends React.Component {
                   { "Submit" }
                 </Button>
               </ButtonToolbar>
-            </DatasetProperty>
+            </ShareProperty>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default class NewDataset extends React.Component {
   }
 }
 
-NewDataset.propTypes =
+NewShare.propTypes =
   { name             : React.PropTypes.string.isRequired
   , mountpoint       : React.PropTypes.string
   , pool             : React.PropTypes.string.isRequired

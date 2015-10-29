@@ -1,12 +1,12 @@
-// DATASET PROPERTY
-// ==================
+// SHARE PROPERTY
+// ==============
 // Display properties of the dataset in a similar format
 
 "use strict";
 
 import React from "react";
 
-export default class DatasetProperty extends React.Component {
+export default class ShareProperty extends React.Component {
   render () {
     const { legend, children, className, ...other } = this.props;
 
@@ -19,11 +19,11 @@ export default class DatasetProperty extends React.Component {
   }
 }
 
-DatasetProperty.propTypes =
+ShareProperty.propTypes =
   { legend  : React.PropTypes.string
   };
 
-DatasetProperty.defaultProps =
+ShareProperty.defaultProps =
   { legend    : ""
   , className : ""
   };
