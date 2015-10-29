@@ -141,7 +141,8 @@ export default function disks ( state = INITIAL_STATE, action ) {
 
     case TYPES.TASK_FINISHED:
     case TYPES.TASK_FAILED:
-      if ( typeof payload.data === "object"
+      if ( payload.data // check for null before checking for typeof is "object"
+        && typeof payload.data === "object"
         && payload.data.hasOwnProperty( "name" )
         && payload.data.name === "network.configure"
         ) {
