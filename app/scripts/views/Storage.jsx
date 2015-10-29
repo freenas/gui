@@ -15,6 +15,7 @@ import { Motion, spring } from "react-motion";
 // ACTIONS
 import * as DISKS from "../actions/disks";
 import * as VOLUMES from "../actions/volumes";
+import * as SHARES from "../actions/shares";
 import * as SUBSCRIPTIONS from "../actions/subscriptions";
 
 // UTILITY
@@ -44,9 +45,7 @@ class Storage extends React.Component {
   componentDidMount () {
     this.props.subscribe( this.displayName );
 
-    this.props.fetchDisks();
-    this.props.fetchVolumes();
-    this.props.fetchAvailableDisks();
+    this.props.fetchData();
   }
 
   componentWillUnmount () {
@@ -245,9 +244,7 @@ Storage.propTypes =
   , unsubscribe: React.PropTypes.func.isRequired
 
   // REQUESTS
-  , fetchDisks: React.PropTypes.func.isRequired
-  , fetchVolumes: React.PropTypes.func.isRequired
-  , fetchAvailableDisks: React.PropTypes.func.isRequired
+  , fetchData: React.PropTypes.func.isRequired
 
   // HANDLERS
   , onConfirmDestroyVolume: React.PropTypes.func.isRequired
@@ -268,6 +265,7 @@ function mapStateToProps ( state ) {
     { disks: state.disks.disks
     , volumes: state.volumes
     , volumeToDestroy: state.volumes.volumeToDestroy
+    , shares: state.shares.shares
     , activeTasks: state.volumes.activeTasks
     , tasks: state.tasks.tasks
     , availableDisks: state.volumes.availableDisks
@@ -291,19 +289,13 @@ function mapDispatchToProps ( dispatch ) {
     , unsubscribe: ( id ) =>
       dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
 
-    // DISKS
-    , fetchDisks: () =>
-      dispatch( DISKS.requestDiskOverview() )
-
-    // VOLUMES DATA
-    , fetchVolumes: () =>
-      dispatch( VOLUMES.fetchVolumes() )
-    , fetchAvailableDisks: () =>
-      dispatch( VOLUMES.fetchAvailableDisks() )
-    , onDiskSelect: ( path ) =>
-      dispatch( VOLUMES.selectDisk( path ) )
-    , onDiskDeselect: ( path ) =>
-      dispatch( VOLUMES.deselectDisk( path ) )
+    // INITIAL DATA REQUEST
+    , fetchData: () => {
+        dispatch( DISKS.requestDiskOverview() )
+        dispatch( VOLUMES.fetchVolumes() )
+        dispatch( VOLUMES.fetchAvailableDisks() )
+        dispatch( SHARES.fetchShares() )
+      }
 
     // SUBMIT VOLUME
     , onUpdateVolume: ( volumeID, patch ) =>
@@ -332,6 +324,10 @@ function mapDispatchToProps ( dispatch ) {
     , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
 
     // GUI
+    , onDiskSelect: ( path ) =>
+      dispatch( VOLUMES.selectDisk( path ) )
+    , onDiskDeselect: ( path ) =>
+      dispatch( VOLUMES.deselectDisk( path ) )
     , onFocusVolume: ( volumeID ) =>
       dispatch( VOLUMES.focusVolume( volumeID ) )
     , onBlurVolume: ( volumeID ) =>
