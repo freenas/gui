@@ -133,6 +133,9 @@ export const SELECT_PRESET_TOPOLOGY = "SELECT_PRESET_TOPOLOGY";
 export const SELECT_DISK = "SELECT_DISK";
 export const DESELECT_DISK = "DESELECT_DISK";
 
+// shares
+export const SHARES_RPC_REQUEST = "SHARES_RPC_REQUEST";
+
 
 // shells
 export const GET_SHELLS_REQUEST = "GET_SHELLS_REQUEST";

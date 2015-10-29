@@ -8,6 +8,7 @@ import disks from "./disks";
 import events from "./events";
 import network from "./network";
 import rpc from "./rpc";
+import shares from "./shares";
 import shells from "./shells";
 import statd from "./statd";
 import subscriptions from "./subscriptions";
@@ -26,6 +27,7 @@ const rootReducer = combineReducers(
   , events
   , network
   , rpc
+  , shares
   , shells
   , statd
   , subscriptions
