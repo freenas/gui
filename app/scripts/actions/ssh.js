@@ -43,7 +43,17 @@ export function requestSSHConfig () {
 export function configureSSHTaskRequest () {
   return ( dispatch, getState ) => {
     const state = getState();
-    MC.submitTask( [ "service.ssh.configure", [ state.ssh.sshForm ] ]
+    var formToSubmit = Object.assign( {}, state.ssh.sshForm );
+    var port = formToSubmit.port;
+    if ( typeof port === "string" ) {
+      port = Number.parseInt( port );
+      if ( !Number.isInteger( port ) ) {
+        throw new Error( "Attempted to submit an invalid TCP port for SSH." );
+      } else {
+        formToSubmit.port = port;
+      }
+    }
+    MC.submitTask( [ "service.configure", [ "sshd", formToSubmit ] ]
                  , ( UUID ) => dispatch( watchRequest
                                        , CONFIGURE_SSH_TASK_REQUEST
                                        )
