@@ -42,7 +42,11 @@ export default class Sharing extends React.Component {
 
 Sharing.propTypes =
   { datasets      : React.PropTypes.array
-  , shares        : React.PropTypes.instanceOf( Map )
-  , handlers      : React.PropTypes.object.isRequired
-  , activeDataset : React.PropTypes.string
+  , pool          : React.PropTypes.string
+  , activeShare   : React.PropTypes.string
+  , shares        : React.PropTypes.object
+  , onUpdateShare : React.PropTypes.func.isRequired
+  , onRevertShare : React.PropTypes.func.isRequired
+  , onSubmitShare : React.PropTypes.func.isRequired
+  , onRequestDeleteShare : React.PropTypes.func.isRequired
   };

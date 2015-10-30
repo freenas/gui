@@ -255,6 +255,7 @@ export default class Share extends React.Component {
         </div>
 
         {/* DATASET AND SHARE SETTINGS */}
+        {/*
         <ShareSettings
           show        = { this.isActive() }
           pool        = { pool }
@@ -265,6 +266,7 @@ export default class Share extends React.Component {
           share_type = { share_type }
           updateDataset = { this.props.updateDataset }
         />
+        */}
 
         {/* CHILD DATASETS */}
         <div className="dataset-children">
@@ -285,12 +287,15 @@ Share.propTypes =
   , type             : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
   , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
   , properties       : React.PropTypes.object // TODO: Get more specific
-  , shares           : React.PropTypes.instanceOf( Map )
+
+  // DATA
+  , shares           : React.PropTypes.object
+
+  // GUI META
   , activeShare      : React.PropTypes.object
-  , activeDataset    : React.PropTypes.string
-  , updateDataset    : React.PropTypes.object
   , parentShared     : React.PropTypes.string
 
+  // HANDLERS
   , onUpdateShare : React.PropTypes.func.isRequired
   , onRevertShare : React.PropTypes.func.isRequired
   , onSubmitShare : React.PropTypes.func.isRequired

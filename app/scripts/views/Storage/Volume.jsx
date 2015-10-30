@@ -206,7 +206,14 @@ export default class Volume extends React.Component {
             eventKey = "shares"
             disabled = { !ALLOWED_SECTIONS.has( "shares" ) }
           >
-
+            <Sharing
+              pool = { this.props.id }
+              datasets = { this.props.datasets }
+              onUpdateShare = { this.props.onUpdateShare }
+              onRevertShare = { this.props.onRevertShare }
+              onSubmitShare = { this.props.onSubmitShare }
+              onRequestDeleteShare = { this.props.onRequestDeleteShare }
+            />
           </Tab>
 
           {/* ZFS SNAPSHOTS */}
