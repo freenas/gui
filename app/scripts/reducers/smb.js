@@ -56,6 +56,7 @@ export default function smb ( state = INITIAL_STATE, action ) {
       } else {
         smbForm[ payload.field ] = payload.value;
       }
+      return Object.assign( {}, state, { smbForm } );
 
     case TYPES.RESET_SMB_FORM:
       return Object.assign( {}, state, { smbForm: {} } );
