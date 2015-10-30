@@ -197,8 +197,8 @@ const SMB = ( props ) => {
       label = "DOS Character Set"
       value = { dos_charsetValue }
       onChange = { ( e ) => props.updateSMBForm( "dos_charset"
-                                                   , e.target.value
-                                                   )
+                                               , e.target.value
+                                               )
                      }
     >
       { createDropdownOptions( DOS_CHARSETS ) }
@@ -211,8 +211,8 @@ const SMB = ( props ) => {
       label = "Unix Character Set"
       value = { unix_charsetValue }
       onChange = { ( e ) => props.updateSMBForm( "unix_charset"
-                                                   , e.target.value
-                                                   )
+                                               , e.target.value
+                                               )
                      }
     >
       { createDropdownOptions( UNIX_CHARSETS ) }
@@ -225,8 +225,8 @@ const SMB = ( props ) => {
       label = "Log Level"
       value = { log_levelValue }
       onChange = { ( e ) => props.updateSMBForm( "log_level"
-                                                   , e.target.value
-                                                   )
+                                               , e.target.value
+                                               )
                      }
     >
       { createDropdownOptions( LOG_LEVELS ) }
@@ -287,8 +287,8 @@ const SMB = ( props ) => {
       label = "Guest User"
       value = { guest_userValue }
       onChange = { ( e ) => props.updateSMBForm( "guest_user"
-                                                   , e.target.value
-                                                   )
+                                               , e.target.value
+                                               )
                      }
       disabled  // Need to be plumbed up to users
     >
@@ -380,8 +380,8 @@ const SMB = ( props ) => {
       label = "Minimum Protocol"
       value = { minProtocolValue }
       onChange = { ( e ) => props.updateSMBForm( "min_protocol"
-                                                   , e.target.value
-                                                   )
+                                               , e.target.value
+                                               )
                      }
     >
       { createDropdownOptions( MIN_PROTOCOL_CHOICES) }
@@ -394,8 +394,8 @@ const SMB = ( props ) => {
       label = "Maximum Protocol"
       value = { maxProtocolValue }
       onChange = { ( e ) => props.updateSMBForm( "max_protocol"
-                                                   , e.target.value
-                                                   )
+                                               , e.target.value
+                                               )
                      }
     >
       { createDropdownOptions( PROTOCOLS ) }
@@ -432,8 +432,8 @@ const SMB = ( props ) => {
       label = "Bind IP Addresses"
       value = { bindAddressesValue }
       onChange = { ( e ) => props.updateSMBForm( "bind_addresses"
-                                                   , e.target.value
-                                                   )
+                                               , e.target.value
+                                               )
                      }
       multiple
     >
