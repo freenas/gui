@@ -27,7 +27,6 @@ const sections = [ { route: "/settings/system"
                    }
                  , { route: "/settings/security"
                    , display: "Security"
-                   , disabled: true
                    }
                  , { route: "/settings/alerts"
                    , display: "Alerts"
