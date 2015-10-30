@@ -41,11 +41,11 @@ class Sharing extends React.Component {
         <Col xs = {4}>
           <SMB { ...this.props }/>
         </Col>
-        {/*<Col xs = {4}>
-          <FTP { ...this.props }/>
-        </Col>
         <Col xs = {4}>
           <NFS { ...this.props }/>
+        </Col>
+        {/*<Col xs = {4}>
+          <FTP { ...this.props }/>
         </Col>
         <Col xs = {4}>
           <AFP { ...this.props }/>
