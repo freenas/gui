@@ -15,6 +15,7 @@ const INITIAL_STATE =
     , allow_password_auth: false
     , allow_port_forwarding: false
     , port: null
+    , enable: false
     }
   , sshForm: {}
   , sshConfigRequests: new Set()
