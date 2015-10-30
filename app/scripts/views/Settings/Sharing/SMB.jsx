@@ -436,6 +436,7 @@ const SMB = ( props ) => {
                                                )
                      }
       multiple
+      disabled
     >
       { /* createDropdownOptions( available IP addresses ) */ }
     </Input>
