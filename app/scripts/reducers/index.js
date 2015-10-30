@@ -21,6 +21,7 @@ import users from "./users";
 import groups from "./groups";
 import update from "./update";
 import smb from "./smb";
+import nfs from "./nfs";
 
 const rootReducer = combineReducers(
   { auth
@@ -41,6 +42,7 @@ const rootReducer = combineReducers(
   , update
 
   // SERVICES
+  , nfs
   , smb
   , ssh
   }
