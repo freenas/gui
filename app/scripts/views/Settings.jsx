@@ -28,14 +28,6 @@ const sections = [ { route: "/settings/system"
                  , { route: "/settings/security"
                    , display: "Security"
                    }
-                 , { route: "/settings/alerts"
-                   , display: "Alerts"
-                   , disabled: true
-                   }
-                 , { route: "/settings/support"
-                   , display: "Support"
-                   , disabled: true
-                   }
                  ];
 
 const Settings = React.createClass(

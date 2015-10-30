@@ -28,8 +28,6 @@ import Settings from "./views/Settings";
   import Sharing from "./views/Settings/Sharing";
   import Update from "./views/Settings/Update";
   import Security from "./views/Settings/Security";
-  import Alerts from "./views/Settings/Alerts";
-  import Support from "./views/Settings/Support";
 
 export default (
   <Route path="/" component={ Root } >
@@ -99,8 +97,6 @@ export default (
       <Route path="sharing" component={ Sharing } />
       <Route path="update" component={ Update } />
       <Route path="security" component={ Security } />
-      <Route path="alerts" component={ Alerts } />
-      <Route path="support" component={ Support } />
     </Route>
 
   </Route>
