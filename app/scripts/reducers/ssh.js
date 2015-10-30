@@ -109,7 +109,6 @@ export default function ssh ( state = INITIAL_STATE, action ) {
         && payload.data.name.startsWith( "service" )
         ) {
         if ( payload.data.name === "service.ssh.configure" ) {
-          console.log( "PROGRESS", payload )
           return Object.assign( {}, state
             , recordUUID( payload.data.id, state, "configureSSHTasks" )
           );
@@ -123,7 +122,6 @@ export default function ssh ( state = INITIAL_STATE, action ) {
         && payload.data.name.startsWith( "service" )
         ) {
         if ( payload.data.name === "service.ssh.configure" ) {
-          console.log( "FINISHED", payload )
           return Object.assign( {}, state
             , resolveUUID( payload.data.id, state, "configureSSHTasks" )
           );
@@ -137,7 +135,6 @@ export default function ssh ( state = INITIAL_STATE, action ) {
         && payload.data.name.startsWith( "service" )
         ) {
         if ( payload.data.name === "service.ssh.configure" ) {
-          console.log( "FAILED", payload )
           return Object.assign( {}, state
             , resolveUUID( payload.data.id, state, "configureSSHTasks" )
           );
