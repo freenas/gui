@@ -23,23 +23,23 @@ export default class Sharing extends React.Component {
     return (
       <div className="view-content">
         <Col xs = {4}>
-          <FTP />
+          <SMB { ...this.props }/>
+        </Col>
+        {/*<Col xs = {4}>
+          <FTP { ...this.props }/>
         </Col>
         <Col xs = {4}>
-          <SMB />
+          <NFS { ...this.props }/>
         </Col>
         <Col xs = {4}>
-          <NFS />
+          <AFP { ...this.props }/>
         </Col>
         <Col xs = {4}>
-          <AFP />
+          <WebDAV { ...this.props }/>
         </Col>
         <Col xs = {4}>
-          <WebDAV />
-        </Col>
-        <Col xs = {4}>
-          <TFTP />
-        </Col>
+          <TFTP { ...this.props }/>
+        </Col>*/}
       </div>
     );
   }
