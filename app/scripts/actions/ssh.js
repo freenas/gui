@@ -50,8 +50,6 @@ export function configureSSHTaskRequest () {
       port = Number.parseInt( port );
       if ( !Number.isInteger( port ) ) {
         throw new Error( "Attempted to submit an invalid TCP port for SSH." );
-      } else {
-        formToSubmit.port = port;
       }
     }
     MC.submitTask( [ "service.configure", [ "sshd", formToSubmit ] ]
