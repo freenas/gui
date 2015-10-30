@@ -4,7 +4,7 @@
 "use strict";
 
 import * as TYPES from "../actions/actionTypes";
-import { recordUUID, resolveUUID } from "../utility/Reducer";
+import { recordUUID, resolveUUID, handleChangedEntities } from "../utility/Reducer";
 import DiskUtilities from "../utility/DiskUtilities";
 import * as ZFSConstants from "../constants/ZFSConstants";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
@@ -335,37 +335,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
     case TYPES.ENTITY_CHANGED:
       if ( payload.mask === "volumes.changed" ) {
-        serverVolumes = Object.assign( {}, state.serverVolumes );
-
-        switch ( payload.data.operation ) {
-          case "create":
-            payload.data.entities.forEach( volume => {
-              serverVolumes[ volume.id ] = volume;
-            });
-            break;
-
-          case "delete":
-            payload.data.ids.forEach( id => {
-              delete serverVolumes[ id ];
-            });
-            break;
-
-          case "update":
-            payload.data.entities.forEach( volume => {
-              serverVolumes[ volume.id ] =
-                Object.assign( {}
-                             , state.serverVolumes[ volume.id ]
-                             , volume
-                             );
-            });
-            break;
-
-          default:
-            console.warn( `Unrecognized operation "${ payload.data.operation }".` );
-            console.dir( "Payload:", payload );
-            break;
-        }
-
+        serverVolumes = handleChangedEntities( payload, state.serverVolumes );
         newState =
           { serverVolumes
           , activeVolume: getActiveVolume( state.activeVolume
