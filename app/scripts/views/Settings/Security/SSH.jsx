@@ -81,7 +81,8 @@ const SSH = ( props ) => {
   const toggleService = (
     <div className = "pull-right" >
       <ToggleSwitch
-        toggled = { true }
+        toggled = { props.sshServerState.enable }
+        onChange = { props.toggleSSHTaskRequest }
       />
     </div>
   );
@@ -182,7 +183,7 @@ const SSH = ( props ) => {
       </Button>
       <Button
         bsStyle = "primary"
-        onClick = { props.submitSSHForm }
+        onClick = { props.configureSSHTaskRequest }
         disabled = { Object.keys( props.sshForm ).length === 0 }
       >
         { "Apply" }
@@ -216,6 +217,7 @@ SSH.propTypes = { sshServerState: React.PropTypes.shape(
                   , allow_password_auth: React.PropTypes.bool
                   , allow_port_forwarding: React.PropTypes.bool
                   , port: React.PropTypes.number
+                  , enable: React.PropTypes.enable
                   }
                 )
                 , sshForm: React.PropTypes.shape(
@@ -225,13 +227,17 @@ SSH.propTypes = { sshServerState: React.PropTypes.shape(
                   , sftp_log_level: React.PropTypes.oneOf( LOG_LEVELS )
                   , allow_password_auth: React.PropTypes.bool
                   , allow_port_forwarding: React.PropTypes.bool
-                  , port: React.PropTypes.number
+                  , port: React.PropTypes.oneOfType( [ React.PropTypes.number
+                                                     , React.PropTypes.string
+                                                     ]
+                                                   )
                   }
                 )
                 , sshConfigRequests: React.PropTypes.instanceOf( Set )
                 , updateSSHForm: React.PropTypes.func.isRequired
-                , resetSSHForm: React.PropTypes.func
-                // , submitSSHForm: React.PropTypes.func
+                , resetSSHForm: React.PropTypes.func.isRequired
+                , configureSSHTaskRequest: React.PropTypes.func.isRequired
+                , toggleSSHTaskRequest: React.PropTypes.func.isRequired
                 };
 
 export default SSH;

@@ -15,10 +15,14 @@ const INITIAL_STATE =
     , allow_password_auth: false
     , allow_port_forwarding: false
     , port: null
+    , enable: false
     }
   , sshForm: {}
   , sshConfigRequests: new Set()
-  , sshManageRequests: new Set()
+  , configureSSHTaskRequests: new Set()
+  , toggleSSHTaskRequests: new Set()
+  , configureSSHTasks: new Set()
+  , toggleSSHTasks: new Set()
   };
 
 export default function ssh ( state = INITIAL_STATE, action ) {
@@ -29,7 +33,7 @@ export default function ssh ( state = INITIAL_STATE, action ) {
   switch ( type ) {
     // FORM
     case TYPES.UPDATE_SSH_FORM:
-      var sshForm = Object.assign( {}, state.sshForm );
+      sshForm = Object.assign( {}, state.sshForm );
       sshForm[ payload.field ] = payload.value;
       return Object.assign( {}, state, { sshForm } );
     case TYPES.RESET_SSH_FORM:
@@ -37,17 +41,31 @@ export default function ssh ( state = INITIAL_STATE, action ) {
 
     // QUERIES
     case TYPES.SSH_CONFIG_REQUEST:
-      sshConfigRequests = new Set( state.sshConfigRequests );
-      sshConfigRequests.add( payload.UUID );
-      return Object.assign( {}, state, { sshConfigRequests } );
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID
+                                      , state
+                                      , "sshConfigRequests"
+                                      )
+                          );
 
     // TASKS
-    case TYPES.SUBMIT_SSH_FORM:
-      return state;
-    case TYPES.DISABLE_SSH:
-      return state;
-    case TYPES.ENABLE_SSH:
-      return state;
+    case TYPES.CONFIGURE_SSH_TASK_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID
+                                      , state
+                                      , "configureSSHTaskRequests"
+                                      )
+                          );
+    case TYPES.TOGGLE_SSH_TASK_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID
+                                      , state
+                                      , "toggleSSHTaskRequests"
+                                      )
+                          );
 
     // RPC Handling
     case TYPES.RPC_TIMEOUT:
@@ -68,6 +86,62 @@ export default function ssh ( state = INITIAL_STATE, action ) {
       } else {
         return state;
       }
+
+    case TYPES.ENTITY_CHANGED:
+      if ( payload.mask === "services.changed"
+        && payload.data.entities[0].name === "sshd"
+         ) {
+        sshServerState = Object.assign( {}
+                                      , state.sshServerState
+                                      , payload.data.entities[0].config
+                                      );
+        return Object.assign( {} , state , { sshServerState } );
+      } else {
+        return state;
+      }
+
+    // TASK HANDLING
+    case TYPES.TASK_CREATED:
+    case TYPES.TASK_UPDATED:
+    case TYPES.TASK_PROGRESS:
+      if ( typeof payload.data === "object"
+        && payload.data !== null
+        && payload.data.hasOwnProperty( "name" )
+        && payload.data.name.startsWith( "service" )
+        ) {
+        if ( payload.data.name === "service.ssh.configure" ) {
+          return Object.assign( {}, state
+            , recordUUID( payload.data.id, state, "configureSSHTasks" )
+          );
+        }
+      }
+      return state;
+    case TYPES.TASK_FINISHED:
+      if ( typeof payload.data === "object"
+        && payload.data !== null
+        && payload.data.hasOwnProperty( "name" )
+        && payload.data.name.startsWith( "service" )
+        ) {
+        if ( payload.data.name === "service.ssh.configure" ) {
+          return Object.assign( {}, state
+            , resolveUUID( payload.data.id, state, "configureSSHTasks" )
+          );
+        }
+      }
+      return state;
+    case TYPES.TASK_FAILED:
+      if ( typeof payload.data === "object"
+        && payload.data !== null
+        && payload.data.hasOwnProperty( "name" )
+        && payload.data.name.startsWith( "service" )
+        ) {
+        if ( payload.data.name === "service.ssh.configure" ) {
+          return Object.assign( {}, state
+            , resolveUUID( payload.data.id, state, "configureSSHTasks" )
+          );
+        }
+      }
+      return state;
 
     default:
       return state;

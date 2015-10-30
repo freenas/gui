@@ -3,6 +3,16 @@
 
 "use strict";
 
+function pathDepth ( path ) {
+  // Create sorted list of dataset names in accordance of their path
+  // lengths, starting with the longest (most nested) paths.
+  const slashes = name.match( /\//gi );
+  return ( slashes
+         ? ( -1 * slashes.length )
+         : 0
+         );
+}
+
 export default class VolumeUtilities {
   static isDatasetNameBlacklisted ( name, blacklist ) {
     if ( !blacklist ) {
@@ -32,6 +42,74 @@ export default class VolumeUtilities {
     return false;
   }
 
+  static nestShares ( shares, rootPath ) {
+    if ( !shares || typeof shares !== "object" ) {
+      console.warn( "Expected `shares` to be an object" );
+      return;
+    }
+
+    if ( typeof rootPath !== "string" ) {
+      console.warn( "Expected `rootPath` to be a string" );
+      return;
+    }
+
+
+    const KEYS = Object.keys( shares );
+
+    if ( KEYS.length ) {
+      let keyPath = {};
+      let output = {};
+
+      KEYS.forEach( id => {
+        keyPath[ shares[ id ].target ] = id;
+        output[ id ] = [];
+      });
+
+      KEYS.forEach( id => {
+        // Strip off the last path segment, returning the parent's path
+        const TARGET_PATH = shares[ id ].target;
+        const PARENT_PATH = TARGET_PATH.replace( /(\/[^\/]*$)/i, "" );
+
+        if ( PARENT_PATH === rootPath || !PARENT_PATH.startsWith( rootPath ) ) {
+          // This is a child of the root dataset, or does not belong to this
+          // pool at all.
+          return;
+        } else {
+          // Add this id to the array keyed to its parent
+          output[ keyPath[ PARENT_PATH ] ].push( id );
+        }
+      });
+
+      return output;
+    } else {
+      // There are no shares, return early.
+      return {};
+    }
+  }
+
+  static getRootDataset ( datasets, poolName ) {
+    let rootDataset;
+
+    for ( let i = 0; i < datasets.length; i++ ) {
+      if ( datasets[i].name === poolName ) {
+        rootDataset = datasets[i];
+        break;
+      }
+    }
+
+    return rootDataset;
+  }
+
+  static normalizeDatasets ( datasets ) {
+    let normalized = {};
+
+    datasets.forEach( dataset => {
+      normalized[ dataset.mountpoint ] = dataset;
+    });
+
+    return normalized;
+  }
+
   static nestDatasets ( datasets ) {
     if ( !datasets ) {
       // Datasets was definitely not an array
@@ -53,15 +131,7 @@ export default class VolumeUtilities {
         let hash  = _.indexBy( datasets, "name" );
         let names = _.pluck( datasets, "name" );
 
-        _.sortBy( names, ( name ) => {
-            // Create sorted list of dataset names in accordance of their path
-            // lengths, starting with the longest (most nested) paths.
-            let slashes = name.match( /\//gi );
-            return ( slashes
-                   ? ( -1 * slashes.length )
-                   : 0
-                   );
-          })
+        _.sortBy( names, pathDepth )
          .forEach( ( name, index ) => {
             let parentPath = name.replace( /(\/[^\/]*$)/i, "" );
 

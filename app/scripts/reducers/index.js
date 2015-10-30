@@ -8,6 +8,7 @@ import disks from "./disks";
 import events from "./events";
 import network from "./network";
 import rpc from "./rpc";
+import shares from "./shares";
 import shells from "./shells";
 import statd from "./statd";
 import subscriptions from "./subscriptions";
@@ -19,6 +20,8 @@ import ssh from "./ssh";
 import users from "./users";
 import groups from "./groups";
 import update from "./update";
+import smb from "./smb";
+import nfs from "./nfs";
 
 const rootReducer = combineReducers(
   { auth
@@ -26,6 +29,7 @@ const rootReducer = combineReducers(
   , events
   , network
   , rpc
+  , shares
   , shells
   , statd
   , subscriptions
@@ -38,6 +42,8 @@ const rootReducer = combineReducers(
   , update
 
   // SERVICES
+  , nfs
+  , smb
   , ssh
   }
 );

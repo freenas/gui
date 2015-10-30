@@ -20,22 +20,12 @@ const sections = [ { route: "/settings/system"
                    }
                  , { route: "/settings/sharing"
                    , display: "Sharing"
-                   , disabled: true
                    }
                  , { route: "/settings/update"
                    , display: "Updates"
                    }
                  , { route: "/settings/security"
                    , display: "Security"
-                   , disabled: true
-                   }
-                 , { route: "/settings/alerts"
-                   , display: "Alerts"
-                   , disabled: true
-                   }
-                 , { route: "/settings/support"
-                   , display: "Support"
-                   , disabled: true
                    }
                  ];
 

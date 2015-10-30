@@ -17,9 +17,9 @@ import ZfsUtil from "./utility/ZfsUtil";
 import NewVolume from "./headers/NewVolume";
 import ExistingVolume from "./headers/ExistingVolume";
 import Topology from "./sections/Topology";
-import Filesystem from "./sections/Filesystem";
+import Sharing from "./sections/Sharing";
 
-const SECTIONS = [ "files", "filesystem", "snapshots", "topology" ];
+const SECTIONS = [ "files", "shares", "snapshots", "topology" ];
 
 export default class Volume extends React.Component {
 
@@ -33,7 +33,7 @@ export default class Volume extends React.Component {
     let allowedSections = new Set([ "topology" ]);
 
     if ( this.props.existsOnServer ) {
-      allowedSections.add( "filesystem" );
+      allowedSections.add( "shares" );
       // TODO: More logic for other sections (later!)
     }
 
@@ -127,13 +127,12 @@ export default class Volume extends React.Component {
   breakdownFromRootDataset () {
     let breakdown;
 
-    if ( this.props.datasets.length ) {
-      let rootDataset = _.find( this.props.datasets
-                              , { name: this.props.name }
-                              ).properties;
+    if ( this.props.rootDataset ) {
+      const PROPERTIES = this.props.rootDataset.properties;
+
       breakdown =
-        { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
-        , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
+        { used   : ByteCalc.convertString( PROPERTIES.used.rawvalue )
+        , avail  : ByteCalc.convertString( PROPERTIES.available.rawvalue )
         , parity : ZfsUtil.calculateBreakdown( this.props.topology.data
                                              , this.props.disks
                                              ).parity
@@ -203,10 +202,20 @@ export default class Volume extends React.Component {
           {/* DATASETS, ZVOLS, AND SHARES */}
           <Tab
             title    = "Shares"
-            eventKey = "filesystem"
-            disabled = { !ALLOWED_SECTIONS.has( "filesystem" ) }
+            eventKey = "shares"
+            disabled = { !ALLOWED_SECTIONS.has( "shares" ) }
           >
-
+            <Sharing
+              datasets = { this.props.datasets }
+              shares = { this.props.shares }
+              rootDataset = { this.props.rootDataset }
+              onFocusShare = { this.props.onFocusShare }
+              onBlurShare = { this.props.onBlurShare }
+              onUpdateShare = { this.props.onUpdateShare }
+              onRevertShare = { this.props.onRevertShare }
+              onSubmitShare = { this.props.onSubmitShare }
+              onRequestDeleteShare = { this.props.onRequestDeleteShare }
+            />
           </Tab>
 
           {/* ZFS SNAPSHOTS */}
@@ -289,6 +298,8 @@ Volume.propTypes =
   , onRequestDeleteShare : React.PropTypes.func.isRequired
 
   // GUI HANDLERS
+  , onFocusShare : React.PropTypes.func.isRequired
+  , onBlurShare : React.PropTypes.func.isRequired
   , onFocusVolume : React.PropTypes.func.isRequired
   , onBlurVolume : React.PropTypes.func.isRequired
   , onToggleShareFocus : React.PropTypes.func.isRequired
@@ -302,7 +313,7 @@ Volume.propTypes =
       , spare : React.PropTypes.array.isRequired
       }
     )
-  , datasets: React.PropTypes.array
+  , datasets: React.PropTypes.object
   , properties: React.PropTypes.shape(
       { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
       , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
