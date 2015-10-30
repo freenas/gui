@@ -32,7 +32,7 @@ export default function ssh ( state = INITIAL_STATE, action ) {
   switch ( type ) {
     // FORM
     case TYPES.UPDATE_SSH_FORM:
-      var sshForm = Object.assign( {}, state.sshForm );
+      sshForm = Object.assign( {}, state.sshForm );
       sshForm[ payload.field ] = payload.value;
       return Object.assign( {}, state, { sshForm } );
     case TYPES.RESET_SSH_FORM:
