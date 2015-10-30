@@ -129,7 +129,8 @@ export default function disks ( state = INITIAL_STATE, action ) {
     case TYPES.TASK_CREATED:
     case TYPES.TASK_UPDATED:
     case TYPES.TASK_PROGRESS:
-      if ( typeof payload.data === "object"
+      if ( payload.data // another truthiness check
+        && typeof payload.data === "object"
         && payload.data.hasOwnProperty( "name" )
         && payload.data.name === "network.configure"
         ) {
