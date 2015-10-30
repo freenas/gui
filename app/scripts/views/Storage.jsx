@@ -66,9 +66,11 @@ class Storage extends React.Component {
     const VOLUME_IDS = Object.keys( ALL_VOLUMES );
 
     return VOLUME_IDS.map( ( id, index ) => {
+      const { datasets, ...volumeData } = ALL_VOLUMES[ id ];
+
       return (
         <Volume
-          { ...ALL_VOLUMES[ id ] }
+          { ...volumeData }
           key = { index }
           active = { id === volumes.activeVolume }
           existsOnServer = { Boolean( volumes.serverVolumes[ id ] ) }
@@ -76,6 +78,9 @@ class Storage extends React.Component {
 
           onDiskSelect = { this.props.onDiskSelect }
           onDiskDeselect = { this.props.onDiskDeselect }
+
+          // DATASETS
+          datasets = { VolumeUtilities.nestDatasets( datasets ) }
 
           // DISKS
           disks = { this.props.disks }

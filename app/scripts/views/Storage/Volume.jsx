@@ -127,13 +127,12 @@ export default class Volume extends React.Component {
   breakdownFromRootDataset () {
     let breakdown;
 
-    if ( this.props.datasets.length ) {
-      let rootDataset = _.find( this.props.datasets
-                              , { name: this.props.name }
-                              ).properties;
+    if ( this.props.datasets[0] ) {
+      const PROPERTIES = this.props.datasets[0].properties;
+
       breakdown =
-        { used   : ByteCalc.convertString( rootDataset.used.rawvalue )
-        , avail  : ByteCalc.convertString( rootDataset.available.rawvalue )
+        { used   : ByteCalc.convertString( PROPERTIES.used.rawvalue )
+        , avail  : ByteCalc.convertString( PROPERTIES.available.rawvalue )
         , parity : ZfsUtil.calculateBreakdown( this.props.topology.data
                                              , this.props.disks
                                              ).parity
