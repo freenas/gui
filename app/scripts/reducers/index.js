@@ -20,6 +20,7 @@ import ssh from "./ssh";
 import users from "./users";
 import groups from "./groups";
 import update from "./update";
+import smb from "./smb";
 
 const rootReducer = combineReducers(
   { auth
@@ -40,6 +41,7 @@ const rootReducer = combineReducers(
   , update
 
   // SERVICES
+  , smb
   , ssh
   }
 );
