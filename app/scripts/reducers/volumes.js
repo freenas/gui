@@ -4,7 +4,8 @@
 "use strict";
 
 import * as TYPES from "../actions/actionTypes";
-import { recordUUID, resolveUUID, handleChangedEntities } from "../utility/Reducer";
+import { recordUUID, resolveUUID, handleChangedEntities, payloadIsType }
+  from "../utility/Reducer";
 import DiskUtilities from "../utility/DiskUtilities";
 import * as ZFSConstants from "../constants/ZFSConstants";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
@@ -309,11 +310,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
     case TYPES.TASK_CREATED:
     case TYPES.TASK_UPDATED:
     case TYPES.TASK_PROGRESS:
-      if ( typeof payload.data === "object"
-        && payload.data !== null
-        && payload.data.hasOwnProperty( "name" )
-        && payload.data.name.startsWith( "volume" )
-        ) {
+      if ( payloadIsType( "volume" ) ) {
         activeTasks = new Set( state.activeTasks );
         activeTasks.add( payload.data.id );
         return Object.assign( {}, state, { activeTasks } );
@@ -322,10 +319,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
     case TYPES.TASK_FINISHED:
     case TYPES.TASK_FAILED:
-      if ( typeof payload.data === "object"
-        && payload.data.hasOwnProperty( "name" )
-        && payload.data.name.startsWith( "volume" )
-        ) {
+      if ( payloadIsType( "volume" ) ) {
         activeTasks = new Set( state.activeTasks );
         activeTasks.delete( payload.data.id );
         return Object.assign( {}, state, { activeTasks } );
