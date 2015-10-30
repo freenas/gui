@@ -10,16 +10,24 @@ import { connect } from "react-redux";
 import { Col } from "react-bootstrap";
 
 import * as sshActions from "../../actions/ssh";
+import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
 import SSH from "./Security/SSH";
 
 class Security extends React.Component{
   constructor ( props ) {
     super( props );
+
+    this.displayName = "Security Settings";
   }
 
   componentDidMount () {
+    this.props.subscribe( this.displayName );
     this.props.requestSSHConfig();
+  }
+
+  componentWillUnmount () {
+    this.props.unsubscribe( this.displayName );
   }
 
   render () {
@@ -44,17 +52,28 @@ function mapStateToProps ( state ) {
          );
 };
 
+const SUB_MASKS = [ "entity-subscriber.services.changed" ];
+
 function mapDispatchToProps ( dispatch ) {
   return (
+    // SUBSCRIPTIONS
+    { subscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
+    , unsubscribe: ( id ) =>
+      dispatch( SUBSCRIPTIONS.remove( SUB_MASKS, id ) )
+
     // SSH FORM
-    { updateSSHForm: ( field, value ) => dispatch( sshActions.updateSSHForm( field, value ) )
+    , updateSSHForm: ( field, value ) => dispatch( sshActions.updateSSHForm( field, value ) )
     , resetSSHForm: () => dispatch( sshActions.resetSSHForm() )
 
     // QUERIES
     , requestSSHConfig: () => dispatch( sshActions.requestSSHConfig() )
 
     // TASKS
-    // , submitSSHForm: () => dispatch( sshActions.submitSSHForm() )
+    , configureSSHTaskRequest: () =>
+        dispatch( sshActions.configureSSHTaskRequest() )
+    , toggleSSHTaskRequest: () =>
+        dispatch( sshActions.toggleSSHTaskRequest() )
     }
   );
 };
