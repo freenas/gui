@@ -8,86 +8,94 @@ import React from "react";
 import { Input, Button, ButtonToolbar } from "react-bootstrap";
 
 import ShareProperty from "./ShareProperty";
+import ShareToggles from "./ShareToggles";
 
 // TODO: Check potential names against blacklist
 
-export default class NewShare extends React.Component {
-  handleNameChange ( event ) {
-    const NAME = event.target.value;
+const NewShare = ( props ) => (
+  <div
+    className="dataset"
+    style = {{ marginLeft: `${ props.depth * props.indent }px` }}
+  >
+    {/* DATASET TOOLBAR */}
+    <div
+      className = "dataset-toolbar"
+      onClick = { () => props.onFocusShare( props.id ) }
+    >
+      <ShareProperty
+        legend = "Share Name"
+        className = "dataset-name"
+      >
+        <Input
+          type = "text"
+          placeholder = "New Share"
+          onChange = { event =>
+            props.onUpdateShare( props.id, { name: event.target.value } )
+          }
+          value = { props.name }
+        />
+      </ShareProperty>
 
-    const normalizedName =
-      { name: this.props.name.replace( /([^\/]*$)/i, NAME )
-      };
+      {/* RADIO TOGGLES FOR CREATING SHARES */}
+      <ShareToggles
+        parentShared  = { props.parentShared }
+        type = { props.type }
+        onUpdateShare = { props.onUpdateShare.bind( null, props.id ) }
+      />
 
-    this.props.handlers.onDatasetChange( normalizedName );
-  }
-
-  handleCreateDataset ( event ) {
-    this.props.handlers.onDatasetCreate( this.props.pool
-                                       , this.props.name
-                                       , this.props.type
-                                       );
-    this.props.handlers.onDatasetCancel();
-  }
-
-  render () {
-    const NAME = this.props.name.split( "/" ).pop();
-
-    return (
-      <div className="dataset">
-        {/* DATASET TOOLBAR */}
-        <div className="dataset-toolbar">
-          <ShareProperty
-            legend    = "Share Name"
-            className = "dataset-name"
-          >
-            <Input
-              type     = "text"
-              onChange = { this.handleNameChange.bind( this ) }
-              value    = { NAME }
-            />
-          </ShareProperty>
-
-          <div className="dataset-properties">
-            <ShareProperty>
-              <ButtonToolbar>
-                <Button
-                  bsStyle = "default"
-                  onClick  = { this.props.handlers.onDatasetCancel }
-                >
-                  { "Cancel" }
-                </Button>
-                <Button
-                  bsStyle  = "primary"
-                  disabled = { NAME.length === 0 }
-                  onClick  = { this.handleCreateDataset.bind( this ) }
-                >
-                  { "Submit" }
-                </Button>
-              </ButtonToolbar>
-            </ShareProperty>
-          </div>
-        </div>
+      <div className="dataset-properties">
+        <ShareProperty>
+          <ButtonToolbar>
+            <Button
+              bsStyle = "default"
+              onClick  = { () => props.onRevertShare( props.id ) }
+            >
+              { "Cancel" }
+            </Button>
+            <Button
+              bsStyle  = "primary"
+              disabled = { props.name.length === 0 }
+              onClick  = { () => props.onSubmitShare( props.id ) }
+            >
+              { "Submit" }
+            </Button>
+          </ButtonToolbar>
+        </ShareProperty>
       </div>
-    );
-  }
-}
+    </div>
+  </div>
+);
 
 NewShare.propTypes =
-  { name             : React.PropTypes.string.isRequired
-  , mountpoint       : React.PropTypes.string
-  , pool             : React.PropTypes.string.isRequired
-  , root             : React.PropTypes.bool
-  , children         : React.PropTypes.array
-  , permissions_type : React.PropTypes.oneOf([ "PERM", "ACL" ])
-  , type             : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ]).isRequired
-  , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
-  , properties       : React.PropTypes.object // TODO: Get more specific
-  , handlers : React.PropTypes.shape(
-      { onDatasetChange : React.PropTypes.func.isRequired
-      , onDatasetCreate : React.PropTypes.func.isRequired
-      , onDatasetCancel : React.PropTypes.func.isRequired
-      , nameIsPermitted : React.PropTypes.func.isRequired
-      }
-    ).isRequired
+  // DATA FROM MIDDLEWARE
+  { properties      : React.PropTypes.object.isRequired
+  , name            : React.PropTypes.string.isRequired
+  , target          : React.PropTypes.string.isRequired
+  , type            : React.PropTypes.string.isRequired
+  , filesystem_path : React.PropTypes.string
+  , enabled         : React.PropTypes.bool
+  , id              : React.PropTypes.string.isRequired
+  , dataset_path    : React.PropTypes.string
+  , description     : React.PropTypes.string
+
+  // DATA
+  , children    : React.PropTypes.array
+  , childShares : React.PropTypes.object
+  , shares      : React.PropTypes.object
+  , isRoot      : React.PropTypes.bool
+
+  // GUI META
+  , activeShare  : React.PropTypes.string
+  , parentShared : React.PropTypes.bool
+  , depth        : React.PropTypes.number.isRequired
+  , indent       : React.PropTypes.number.isRequired
+
+  // HANDLERS
+  , onFocusShare         : React.PropTypes.func.isRequired
+  , onBlurShare          : React.PropTypes.func.isRequired
+  , onUpdateShare        : React.PropTypes.func.isRequired
+  , onRevertShare        : React.PropTypes.func.isRequired
+  , onSubmitShare        : React.PropTypes.func.isRequired
   };
+
+export default NewShare;

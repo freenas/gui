@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import { DropdownButton, MenuItem } from "react-bootstrap";
+import { Button, MenuItem } from "react-bootstrap";
 
 import ByteCalc from "../../../../utility/ByteCalc";
 
@@ -16,179 +16,80 @@ import ShareToggles from "./ShareToggles";
 import ShareSettings from "./ShareSettings";
 import NewShare from "./NewShare";
 
+
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./Share.less" );
 
 
-const SHARE_TYPES =
-  { "CIFS" : "WINDOWS"
-  , "AFP"  : "MAC"
-  , "NFS"  : "UNIX"
-  }
-
-const LEFT_PADDING = 32;
-
+// REACT
 export default class Share extends React.Component {
-  toggleActive ( event ) {
-    if ( event.currentTarget === event.target ) {
-      event.stopPropagation();
 
-      if ( this.isActive() ) {
-        this.props.handlers.onDatasetInactive();
-      } else {
-        this.props.handlers.onDatasetActive( this.props.mountpoint );
-      }
-    }
-  }
+  renderChild ( id, index ) {
+    const ON_SERVER = this.props.shares.serverShares[ id ];
+    const ON_CLIENT = this.props.shares.clientShares[ id ];
 
-  isActive () {
-    // TODO: smh tbh this is p dumb thx fam
-    return this.props.activeDataset === this.props.mountpoint;
-  }
+    const SHARE = Object.assign( {}, ON_SERVER, ON_CLIENT );
 
-  handleShareToggle ( type ) {
-    const { share_type, activeShare, handlers, name, mountpoint, pool }
-      = this.props;
+    // HANDLERS
+    const COMMON_PROPS =
+      { depth  : this.props.depth + 1
+      , indent : this.props.indent
 
-    if ( activeShare ) {
-      if ( activeShare.type === type ) {
-        // Early exit so that we don't do a whole ton of churn if the user
-        // clicks on the toggle that's already selected.
-        return;
-      }
+      , onFocusShare  : this.props.onFocusShare
+      , onBlurShare   : this.props.onBlurShare
 
-      // Delete the existing active share (this won't be triggered if 'off' is
-      // clicked, so it's always safe)
-      handlers.onShareDelete( activeShare.id );
-    }
-
-    if ( type !== "off" ) {
-      // The user selected some share type that wasn't off, which means the
-      // first task is converting the dataset to use the appropriate share_type
-      let newShareType = SHARE_TYPES[ type.toUpperCase() ] || "UNIX";
-
-      if ( newShareType !== share_type ) {
-        // Of course, if the share_type is already correct, no need to update
-        handlers.onDatasetUpdate( pool, name, { share_type: newShareType } );
-      }
-
-      // Finally, create the share
-      handlers.onShareCreate(
-        { id         : name.split( "/" ).pop()
-        , type       : type
-        , target     : mountpoint
-        , properties : {} // FIXME: This needs to be filled out
-        }
-      );
-    }
-  }
-
-  formatNewDataset () {
-    const NAME = "New Share";
-    const newDataset =
-      { pool_name  : this.props.pool
-      , mountpoint : this.props.mountpoint + "/" + NAME
-      , name       : this.props.name + "/" + NAME
-      , type       : "FILESYSTEM"
-      , newDataset : true
+      , onUpdateShare : this.props.onUpdateShare
+      , onRevertShare : this.props.onRevertShare
+      , onSubmitShare : this.props.onSubmitShare
       };
 
-    this.props.handlers.onDatasetChange( newDataset );
-  }
-
-  onDatasetDelete () {
-    this.props.handlers.onDatasetDelete( this.props.pool, this.props.name );
-  }
-
-  createChild ( dataset, index ) {
-    if ( !dataset ) {
-      console.warn( "No dataset was passed in" );
-      return;
-    }
-
-    const COMMON_PROPS =
-      { pool     : this.props.pool
-      , shares   : this.props.shares
-      , handlers : this.props.handlers
-      }
-
-    if ( dataset.newDataset ) {
+    if ( Boolean( ON_SERVER ) ) {
+      // If a parent dataset is shared, its children may not be shared, and
+      // their primary sharing type must not be changed
+      return (
+        <Share
+          { ...SHARE }
+          { ...COMMON_PROPS }
+          key = { index }
+          shares = { this.props.shares }
+          parentShared = { this.props.enabled ? this.props.type : "" }
+          activeShare = { this.props.activeShare }
+          childShares = { this.props.childShares }
+          children = { this.props.childShares[ SHARE.id ] }
+          onRequestDeleteShare = { this.props.onRequestDeleteShare }
+        />
+      );
+    } else if ( Boolean( ON_CLIENT ) ) {
       return (
         <NewShare
-          { ...dataset }
+          { ...SHARE }
           { ...COMMON_PROPS }
           key = { index }
         />
       );
-    } else if ( this.props.handlers.nameIsPermitted( dataset.name ) ) {
-      let activeShare, parentShared;
-
-      if ( this.props.parentShared || this.props.activeShare ) {
-        // If a parent dataset is shared, its children may not be shared, and
-        // their primary sharing type must not be changed
-        parentShared = this.props.parentShared || this.props.activeShare.type;
-      } else if ( this.props.shares ) {
-        activeShare = this.props.shares.get( dataset.mountpoint );
-      }
-
-      return (
-        <Dataset
-          { ...dataset }
-          { ...COMMON_PROPS }
-          key           = { index }
-          activeDataset = { this.props.activeDataset }
-          updateDataset = { this.props.updateDataset }
-          parentShared  = { parentShared }
-          activeShare   = { activeShare }
-        />
-      );
-    }
-
-    return null;
-  }
-
-  formatShareName ( activeShare, parentShared ) {
-    let type;
-
-    if ( activeShare ) {
-      type = activeShare.type;
-    } else if ( parentShared ) {
-      type = parentShared;
     } else {
-      type = "";
+      console.warn( `The share "${ id }" does not seem to exist` );
+      return;
     }
-
-    return type + " Share";
   }
 
   render () {
-    const { name, children, activeShare, parentShared, handlers, share_type
-          , pool } = this.props;
-    const { used, available, compression } = this.props.properties;
+    const { used, available, compression } = this.props.datasetProperties;
 
-    let pathArray = name.split( "/" );
-
-    const DATASET_NAME = pathArray.pop();
-    const DATASET_DEPTH = pathArray.length;
-    const PARENT_NAME = this.props.root
-                      ? "Top Level"
-                      : this.formatShareName( activeShare, parentShared );
-
-    let paddingLeft = 0;
-    let shiftLeft = 0;
+    let nameLegend;
     let classes = [ "dataset" ];
-    let ShareToggles = null;
+    let toggles;
 
-    if ( this.props.root ) {
+    if ( this.props.isRoot ) {
+      nameLegend = "Top Level";
       classes.push( "root" );
+      toggles = null;
     } else {
-      paddingLeft = LEFT_PADDING;
-      shiftLeft   = LEFT_PADDING * DATASET_DEPTH;
-      ShareToggles = (
+      nameLegend = `${ this.props.type } Share`;
+      toggles = (
         <ShareToggles
-          parentShared  = { parentShared }
-          activeShare   = { activeShare }
-          onShareToggle = { this.handleShareToggle.bind( this ) }
+          parentShared  = { this.props.parentShared }
+          onUpdateShare = { this.props.onUpdateShare.bind( null, this.props.id ) }
         />
       );
     }
@@ -196,55 +97,43 @@ export default class Share extends React.Component {
     return (
       <div
         className = { classes.join( " " ) }
-        style     = {{ paddingLeft }}
+        style = {{ paddingLeft: `${ this.props.depth * this.props.indent }px` }}
       >
 
         {/* DATASET TOOLBAR */}
         <div
           className = "dataset-toolbar"
-          onClick = { this.toggleActive.bind( this ) }
+          onClick = { () => this.props.onFocusShare( this.props.id ) }
         >
           <ShareProperty
-            legend    = { PARENT_NAME }
+            legend    = { nameLegend }
             className = "dataset-name"
           >
-            { DATASET_NAME }
+            { this.props.name }
           </ShareProperty>
 
         {/* PROPERTIES OF DATASET AND OPTIONS */}
           <div className="dataset-properties">
 
             {/* RADIO TOGGLES FOR CREATING SHARES */}
-            { ShareToggles }
 
             <ShareProperty legend="Compression">
               { compression.rawvalue }
             </ShareProperty>
 
-            {/* "COG" DROPDOWN BUTTON: SHARE OPTIONS */}
-            <DropdownButton
+            <Button
               noCaret
               pullRight
               bsStyle   = "link"
-              className = "options"
-              id        = { this.props.name.replace( /\s/, "-" ) + "-options-btn" }
-              title     = { <Icon glyph="icon-cog" /> }
+              className = "add"
+              onClick = { () =>
+                this.props.onUpdateShare( "NEW"
+                                        , { target: `${ this.props.mountpoint }/NEW` }
+                                        )
+              }
             >
-              <MenuItem
-                onSelect = { this.formatNewDataset.bind( this ) }
-              >
-                { "New share..." }
-              </MenuItem>
-              <MenuItem disabled>{ "New block storage..." }</MenuItem>
-
-              <MenuItem divider />
-
-              <MenuItem
-                onSelect = { this.onDatasetDelete.bind( this ) }
-              >
-                { `Delete ${ DATASET_NAME }...` }
-              </MenuItem>
-            </DropdownButton>
+              {"+"}
+            </Button>
           </div>
 
           {/* BREAKDOWN */}
@@ -270,7 +159,7 @@ export default class Share extends React.Component {
 
         {/* CHILD DATASETS */}
         <div className="dataset-children">
-          { children.map( this.createChild.bind( this ) ) }
+          { this.props.children.map( this.renderChild.bind( this ) ) }
         </div>
       </div>
     );
@@ -278,34 +167,41 @@ export default class Share extends React.Component {
 }
 
 Share.propTypes =
-  { name             : React.PropTypes.string.isRequired
-  , mountpoint       : React.PropTypes.string.isRequired
-  , pool             : React.PropTypes.string.isRequired
-  , root             : React.PropTypes.bool
-  , children         : React.PropTypes.array
-  , permissions_type : React.PropTypes.oneOf([ "PERM", "ACL" ])
-  , type             : React.PropTypes.oneOf([ "FILESYSTEM", "VOLUME" ])
-  , share_type       : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
-  , properties       : React.PropTypes.object // TODO: Get more specific
+  // DATA FROM MIDDLEWARE
+  { properties      : React.PropTypes.object.isRequired
+  , name            : React.PropTypes.string.isRequired
+  , target          : React.PropTypes.string.isRequired
+  , type            : React.PropTypes.string.isRequired
+  , filesystem_path : React.PropTypes.string
+  , enabled         : React.PropTypes.bool
+  , id              : React.PropTypes.string.isRequired
+  , dataset_path    : React.PropTypes.string
+  , description     : React.PropTypes.string
 
   // DATA
-  , shares           : React.PropTypes.object
+  , children    : React.PropTypes.array
+  , childShares : React.PropTypes.object
+  , shares      : React.PropTypes.object
+  , isRoot      : React.PropTypes.bool
 
   // GUI META
-  , activeShare      : React.PropTypes.object
-  , parentShared     : React.PropTypes.string
+  , activeShare  : React.PropTypes.string
+  , parentShared : React.PropTypes.string
+  , depth        : React.PropTypes.number.isRequired
+  , indent       : React.PropTypes.number.isRequired
 
   // HANDLERS
-  , onUpdateShare : React.PropTypes.func.isRequired
-  , onRevertShare : React.PropTypes.func.isRequired
-  , onSubmitShare : React.PropTypes.func.isRequired
+  , onFocusShare         : React.PropTypes.func.isRequired
+  , onBlurShare          : React.PropTypes.func.isRequired
+  , onUpdateShare        : React.PropTypes.func.isRequired
+  , onRevertShare        : React.PropTypes.func.isRequired
+  , onSubmitShare        : React.PropTypes.func.isRequired
   , onRequestDeleteShare : React.PropTypes.func.isRequired
   };
 
 Share.defaultProps =
-  { name     : ""
-  , children : []
-  , properties:
+  { children : []
+  , datasetProperties:
     { used        : { rawvalue: 0 }
     , available   : { rawvalue: 0 }
     , compression : { rawvalue: "--" }

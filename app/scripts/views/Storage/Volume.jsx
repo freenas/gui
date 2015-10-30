@@ -127,8 +127,8 @@ export default class Volume extends React.Component {
   breakdownFromRootDataset () {
     let breakdown;
 
-    if ( this.props.datasets[0] ) {
-      const PROPERTIES = this.props.datasets[0].properties;
+    if ( this.props.rootDataset ) {
+      const PROPERTIES = this.props.rootDataset.properties;
 
       breakdown =
         { used   : ByteCalc.convertString( PROPERTIES.used.rawvalue )
@@ -206,8 +206,11 @@ export default class Volume extends React.Component {
             disabled = { !ALLOWED_SECTIONS.has( "shares" ) }
           >
             <Sharing
-              pool = { this.props.id }
               datasets = { this.props.datasets }
+              shares = { this.props.shares }
+              rootDataset = { this.props.rootDataset }
+              onFocusShare = { this.props.onFocusShare }
+              onBlurShare = { this.props.onBlurShare }
               onUpdateShare = { this.props.onUpdateShare }
               onRevertShare = { this.props.onRevertShare }
               onSubmitShare = { this.props.onSubmitShare }
@@ -295,6 +298,8 @@ Volume.propTypes =
   , onRequestDeleteShare : React.PropTypes.func.isRequired
 
   // GUI HANDLERS
+  , onFocusShare : React.PropTypes.func.isRequired
+  , onBlurShare : React.PropTypes.func.isRequired
   , onFocusVolume : React.PropTypes.func.isRequired
   , onBlurVolume : React.PropTypes.func.isRequired
   , onToggleShareFocus : React.PropTypes.func.isRequired
@@ -308,7 +313,7 @@ Volume.propTypes =
       , spare : React.PropTypes.array.isRequired
       }
     )
-  , datasets: React.PropTypes.array
+  , datasets: React.PropTypes.object
   , properties: React.PropTypes.shape(
       { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
       , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )

@@ -10,72 +10,90 @@ import { ButtonGroup, Button } from "react-bootstrap";
 import ShareProperty from "./ShareProperty";
 
 
-export default class ShareToggles extends React.Component {
+const ShareToggles = ( props ) => {
+  let classes = [ "btn-group-radio", "btn-group-radio-primary" ];
+  let activeType;
+  let disabled;
 
-  handleShareClick ( shareType ) {
-    if ( this.props.disabled ) {
-      return;
-    } else {
-      this.props.onShareToggle( shareType );
-    }
+  if ( props.parentShared ) {
+    classes.push( "disabled" );
+    disabled = true;
+    activeType = props.parentShared;
+  } else {
+    activeType = props.type;
   }
 
-  render () {
-    const { activeShare, parentShared } = this.props;
-    let classes = [ "btn-group-radio", "btn-group-radio-primary" ];
-    let activeType, disabled;
-
-    if ( parentShared ) {
-      classes.push( "disabled" );
-      disabled = true;
-      activeType = parentShared;
-    } else {
-      activeType = activeShare
-                 ? activeShare.type
-                 : "off";
-    }
-
-    return (
-      <ShareProperty legend="Share Type">
+  return (
+    <span>
+      <ShareProperty legend="File Sharing">
         <ButtonGroup
           className = { classes.join( " " ) }
         >
           <Button
             disabled  = { disabled }
-            active    = { activeType === "off" }
-            onClick   = { this.handleShareClick.bind( this, "off" ) }
-          >
-            { "Off" }
-          </Button>
-          <Button
-            disabled  = { disabled }
             active    = { activeType === "nfs" }
-            onClick   = { this.handleShareClick.bind( this, "nfs" ) }
+            onClick   = { () =>
+              { disabled
+              ? null
+              : props.onUpdateShare({ type: "nfs" })
+              }
+            }
           >
             { "NFS" }
           </Button>
           <Button
             disabled  = { disabled }
             active    = { activeType === "cifs" }
-            onClick   = { this.handleShareClick.bind( this, "cifs" ) }
+            onClick   = { () =>
+              { disabled
+              ? null
+              : props.onUpdateShare({ type: "cifs" })
+              }
+            }
           >
-            { "CIFS" }
+            { "SMB" }
           </Button>
           <Button
             disabled  = { disabled }
             active    = { activeType === "afp" }
-            onClick   = { this.handleShareClick.bind( this, "afp" ) }
+            onClick   = { () =>
+              { disabled
+              ? null
+              : props.onUpdateShare({ type: "afp" })
+              }
+            }
           >
             { "AFP" }
           </Button>
         </ButtonGroup>
       </ShareProperty>
-    );
-  }
+
+      <ShareProperty legend="Block Storage">
+        <ButtonGroup
+          className = { classes.join( " " ) }
+        >
+          <Button
+            disabled  = { disabled }
+            active    = { activeType === "iscsi" }
+            onClick   = { () =>
+              { disabled
+              ? null
+              : props.onUpdateShare({ type: "iscsi" })
+              }
+            }
+          >
+            { "iSCSI" }
+          </Button>
+        </ButtonGroup>
+      </ShareProperty>
+    </span>
+  );
 }
 
 ShareToggles.propTypes =
-  { onShareToggle : React.PropTypes.func.isRequired
+  { onUpdateShare : React.PropTypes.func.isRequired
   , parentShared  : React.PropTypes.string
-  , activeShare   : React.PropTypes.object
+  , type : React.PropTypes.string
   };
+
+export default ShareToggles;

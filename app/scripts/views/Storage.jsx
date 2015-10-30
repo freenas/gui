@@ -66,7 +66,7 @@ class Storage extends React.Component {
     const VOLUME_IDS = Object.keys( ALL_VOLUMES );
 
     return VOLUME_IDS.map( ( id, index ) => {
-      const { datasets, ...volumeData } = ALL_VOLUMES[ id ];
+      const { datasets, shares, ...volumeData } = ALL_VOLUMES[ id ];
 
       return (
         <Volume
@@ -80,7 +80,9 @@ class Storage extends React.Component {
           onDiskDeselect = { this.props.onDiskDeselect }
 
           // DATASETS
-          datasets = { VolumeUtilities.nestDatasets( datasets ) }
+          shares = { this.props.shares }
+          datasets = { VolumeUtilities.normalizeDatasets( datasets ) }
+          rootDataset = { VolumeUtilities.getRootDataset( datasets, volumeData.name ) }
 
           // DISKS
           disks = { this.props.disks }
@@ -104,6 +106,8 @@ class Storage extends React.Component {
 
           // GUI
           onFocusVolume = { this.props.onFocusVolume.bind( this, id ) }
+          onFocusShare = { this.props.onFocusShare }
+          onBlurShare = { this.props.onBlurShare }
           onBlurVolume = { this.props.onBlurVolume.bind( this, id ) }
           onToggleShareFocus = { this.props.onToggleShareFocus.bind( this, id ) }
         />
@@ -263,6 +267,7 @@ Storage.propTypes =
 const SUB_MASKS =
   [ "entity-subscriber.volumes.changed"
   , "entity-subscriber.disks.changed"
+  , "entity-subscriber.shares.changed"
   ];
 
 function mapStateToProps ( state ) {
@@ -270,7 +275,7 @@ function mapStateToProps ( state ) {
     { disks: state.disks.disks
     , volumes: state.volumes
     , volumeToDestroy: state.volumes.volumeToDestroy
-    , shares: state.shares.shares
+    , shares: state.shares
     , activeTasks: state.volumes.activeTasks
     , tasks: state.tasks.tasks
     , availableDisks: state.volumes.availableDisks
@@ -319,12 +324,15 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.cancelDestroyVolume() )
 
     // CREATE SHARE
-    , onUpdateShare: ( volumeID ) => console.log( "fart" )
-    , onRevertShare: ( volumeID ) => console.log( "fart" )
-    , onSubmitShare: ( volumeID ) => console.log( "fart" )
+    , onUpdateShare: ( volumeID, shareID, patch ) =>
+      dispatch( SHARES.updateShare( volumeID, shareID, patch ) )
+    , onRevertShare: ( volumeID, shareID ) =>
+      dispatch( SHARES.revertShare( volumeID, shareID ) )
+    , onSubmitShare: ( volumeID, shareID ) =>
+      dispatch( SHARES.submitShare( volumeID, shareID ) )
 
     // DELETE SHARE
-    , onRequestDeleteShare: ( volumeID ) => console.log( "fart" )
+    , onRequestDeleteShare: ( volumeID, shareID ) => console.log( "fart" )
     , onConfirmDeleteShare: ( volumeID ) => console.log( "fart" )
     , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
 
@@ -333,6 +341,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.selectDisk( path ) )
     , onDiskDeselect: ( path ) =>
       dispatch( VOLUMES.deselectDisk( path ) )
+    , onFocusShare: ( shareID ) =>
+      dispatch( SHARES.focusShare( shareID ) )
+    , onBlurShare: () =>
+      dispatch( SHARES.blurShare() )
     , onFocusVolume: ( volumeID ) =>
       dispatch( VOLUMES.focusVolume( volumeID ) )
     , onBlurVolume: ( volumeID ) =>
