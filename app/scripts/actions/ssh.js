@@ -3,12 +3,13 @@
 // ssh namespace
 
 "use strict";
+
 import { UPDATE_SSH_FORM
        , RESET_SSH_FORM
        , SSH_CONFIG_REQUEST
        , CONFIGURE_SSH_TASK_REQUEST
        , TOGGLE_SSH_TASK_REQUEST
-     }
+       }
   from "./actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
@@ -72,6 +73,6 @@ export function toggleSSHTaskRequest () {
                    , ( UUID ) => dispatch( watchRequest
                                         , TOGGLE_SSH_TASK_REQUEST
                                         )
-                   )
+                   );
   }
-}
+};
