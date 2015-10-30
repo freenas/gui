@@ -494,7 +494,7 @@ const SMB = ( props ) => {
   );
 };
 
-SMB.propTypes = { sshServerState: React.PropTypes.shape(
+SMB.propTypes = { smbServerState: React.PropTypes.shape(
                   { enable: React.PropTypes.bool
                   , dos_charset: React.PropTypes.oneOf( DOS_CHARSETS )
                   , filemask: React.PropTypes.string
