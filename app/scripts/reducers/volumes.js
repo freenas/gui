@@ -310,7 +310,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
     case TYPES.TASK_CREATED:
     case TYPES.TASK_UPDATED:
     case TYPES.TASK_PROGRESS:
-      if ( payloadIsType( "volume" ) ) {
+      if ( payloadIsType( payload, "volume" ) ) {
         activeTasks = new Set( state.activeTasks );
         activeTasks.add( payload.data.id );
         return Object.assign( {}, state, { activeTasks } );
@@ -319,7 +319,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
     case TYPES.TASK_FINISHED:
     case TYPES.TASK_FAILED:
-      if ( payloadIsType( "volume" ) ) {
+      if ( payloadIsType( payload, "volume" ) ) {
         activeTasks = new Set( state.activeTasks );
         activeTasks.delete( payload.data.id );
         return Object.assign( {}, state, { activeTasks } );
