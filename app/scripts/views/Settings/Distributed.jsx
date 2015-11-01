@@ -10,11 +10,13 @@ import { connect } from "react-redux";
 
 import * as ipfsActions from "../../actions/ipfs";
 import * as riakActions from "../../actions/riak";
+import * as riakCSActions from "../../actions/riakcs";
 
 import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
 import IPFS from "./Distributed/IPFS";
 import Riak from "./Distributed/Riak";
+import RiakCS from "./Distributed/RiakCS";
 
 class Distributed extends React.Component {
   constructor ( props ) {
@@ -40,6 +42,9 @@ class Distributed extends React.Component {
         </Col>
         <Col xs = {4}>
           <Riak { ...this.props }/>
+        </Col>
+        <Col xs = {4}>
+          <RiakCS { ...this.props }/>
         </Col>
       </div>
     );
@@ -71,6 +76,23 @@ function mapStateToProps ( state ) {
              , object_size_maximum: state.riak.riakServerState.object_size_maximum
              }
            , riakForm: state.riak.riakForm
+           , riakCSServerState:
+             { enable: state.riakcs.riakCSServerState.enable
+             , admin_secret: state.riakcs.riakCSServerState.admin_secret
+             , nodename: state.riakcs.riakCSServerState.nodename
+             , node_ip: state.riakcs.riakCSServerState.node_ip
+             , stanchion_host_port: state.riakcs.riakCSServerState.stanchion_host_port
+             , admin_key: state.riakcs.riakCSServerState.admin_key
+             , listener_port: state.riakcs.riakCSServerState.listener_port
+             , riak_host_ip: state.riakcs.riakCSServerState.riak_host_ip
+             , riak_host_port: state.riakcs.riakCSServerState.riak_host_port
+             , anonymous_user_creation: state.riakcs.riakCSServerState.anonymous_user_creation
+             , max_buckets_per_user: state.riakcs.riakCSServerState.max_buckets_per_user
+             , log_console_level: state.riakcs.riakCSServerState.log_console_level
+             , stanchion_host_ip: state.riakcs.riakCSServerState.stanchion_host_ip
+             , listener_ip: state.riakcs.riakCSServerState.listener_ip
+             }
+           , riakCSForm: state.riakcs.riakCSForm
            }
          );
 };
@@ -92,11 +114,15 @@ function mapDispatchToProps ( dispatch ) {
     , updateRiakForm: ( field, value ) =>
         dispatch( riakActions.updateRiakForm( field, value ) )
     , resetRiakForm: () => dispatch( riakActions.resetRiakForm() )
+    , updateRiakCSForm: ( field, value ) =>
+        dispatch( riakCSActions.updateRiakCSForm( field, value ) )
+    , resetRiakCSForm: () => dispatch( riakCSActions.resetRiakCSForm() )
 
     // QUERIES
     , fetchData: () => {
       dispatch( ipfsActions.requestIPFSConfig() );
       dispatch( riakActions.requestRiakConfig() );
+      dispatch( riakCSActions.requestRiakCSConfig() );
     }
 
     // TASKS
@@ -106,6 +132,9 @@ function mapDispatchToProps ( dispatch ) {
     , configureRiakTaskRequest: () =>
         dispatch( riakActions.configureRiakTaskRequest() )
     , toggleRiakTaskRequest: () => dispatch( riakActions.toggleRiakTaskRequest() )
+    , configureRiakCSTaskRequest: () =>
+        dispatch( riakCSActions.configureRiakCSTaskRequest() )
+    , toggleRiakCSTaskRequest: () => dispatch( riakCSActions.toggleRiakCSTaskRequest() )
     }
   );
 };
