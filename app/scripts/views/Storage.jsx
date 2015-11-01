@@ -26,7 +26,6 @@ import VolumeUtilities from "../utility/VolumeUtilities";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import CreateStorage from "./Storage/CreateStorage";
 import Volume from "./Storage/Volume";
-import VolumeTask from "./Storage/VolumeTask";
 
 
 // STYLESHEET
@@ -50,12 +49,6 @@ class Storage extends React.Component {
 
   componentWillUnmount () {
     this.props.unsubscribe( this.displayName );
-  }
-
-  renderTasks () {
-    return Array.from( this.props.activeTasks ).map( ( id, index ) => {
-      return <VolumeTask key={ index } { ...this.props.tasks[ id ] } />
-    });
   }
 
   // RENDER METHODS
@@ -177,8 +170,6 @@ class Storage extends React.Component {
           }
         </Motion>
 
-        {/* ACTIVE TASKS */}
-        { this.renderTasks() }
 
         {/* VOLUMES */}
         { this.renderVolumes() }
