@@ -178,10 +178,7 @@ class Storage extends React.Component {
         {/* CREATE NEW POOL */}
         <CreateStorage
           style = { SHOW_NEW ? {} : { display: "none" } }
-          onClick = { () => {
-            this.props.onUpdateVolume( "NEW" );
-            this.props.onFocusVolume( "NEW" );
-          }}
+          onClick = { this.props.onInitNewVolume }
         />
 
 
@@ -298,11 +295,15 @@ function mapDispatchToProps ( dispatch ) {
         dispatch( SHARES.fetchShares() )
       }
 
-    // SUBMIT VOLUME
+    // MODIFY VOLUME ON GUI
+    , onInitNewVolume: () =>
+      dispatch( VOLUMES.initNewVolume() )
     , onUpdateVolume: ( volumeID, patch ) =>
       dispatch( VOLUMES.updateVolume( volumeID, patch ) )
     , onRevertVolume: ( volumeID ) =>
       dispatch( VOLUMES.revertVolume( volumeID ) )
+
+    // SUBMIT VOLUME
     , onSubmitVolume: ( volumeID ) =>
       dispatch( VOLUMES.submitVolume( volumeID ) )
 

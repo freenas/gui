@@ -7,6 +7,7 @@ import * as TYPES from "../actions/actionTypes";
 import { recordUUID, resolveUUID, handleChangedEntities, payloadIsType }
   from "../utility/Reducer";
 import DiskUtilities from "../utility/DiskUtilities";
+import FreeNASUtil from "../utility/freeNASUtil";
 import * as ZFSConstants from "../constants/ZFSConstants";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
@@ -22,6 +23,7 @@ const INITIAL_STATE =
 
   , serverVolumes: {}
   , clientVolumes: {}
+
   , activeVolume: ""
   , activeShare: ""
   , volumeToDestroy: ""
@@ -70,7 +72,6 @@ export default function volumes ( state = INITIAL_STATE, action ) {
   let activeTasks;
   let clientVolumes;
   let serverVolumes;
-  let initData;
   let diskPathsByType;
   let topologyData;
   let selectedDisks;
@@ -81,19 +82,29 @@ export default function volumes ( state = INITIAL_STATE, action ) {
   // CLIENT ACTIONS
   // ==============
 
+    // INITIALIZE A NEW VOLUME
+    case TYPES.INIT_NEW_VOLUME:
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+
+      clientVolumes[ payload.volumeID ] = payload.newVolume;
+
+      return Object.assign( {}
+                          , state
+                          , { clientVolumes
+                            , activeVolume: payload.volumeID
+                            }
+                          );
+
+
     // UPDATE CLIENT CHANGES
     case TYPES.UPDATE_VOLUME:
       clientVolumes = Object.assign( {}, state.clientVolumes );
 
-      // If the volume has no record on the client or server, initialize it
-      if ( !( clientVolumes[ payload.volumeID ] && state.serverVolumes[ payload.volumeID ] ) ) {
-        initData = Object.assign( {}, ZFSConstants.NEW_VOLUME );
-      }
-
       clientVolumes[ payload.volumeID ] =
-        Object.assign( {}, initData, clientVolumes[ payload.volumeID ], payload.patch );
+        Object.assign( {}, clientVolumes[ payload.volumeID ], payload.patch );
 
       return Object.assign( {}, state, { clientVolumes } );
+
 
     // DISCARD CLIENT CHANGES
     case TYPES.REVERT_VOLUME:

@@ -5,6 +5,8 @@
 
 import * as TYPES from "./actionTypes";
 import { watchRequest } from "../utility/Action";
+import FreeNASUtil from "../utility/freeNASUtil";
+import * as ZFSConstants from "../constants/ZFSConstants";
 import MC from "../websocket/MiddlewareClient";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
@@ -64,6 +66,16 @@ export function fetchAvailableDisks () {
                 dispatch( watchRequest( UUID, TYPES.AVAILABLE_DISKS_RPC_REQUEST ) )
               );
   }
+}
+
+// INIT NEW VOLUME ON CLIENT
+export function initNewVolume () {
+  let volumeID = FreeNASUtil.generateUUID();
+  let newVolume = Object.assign( {}, ZFSConstants.NEW_VOLUME, { volumeID } );
+
+  return { type: TYPES.INIT_NEW_VOLUME
+         , payload: { volumeID, newVolume }
+         };
 }
 
 // UPDATE CLIENT VOLUME DATA
