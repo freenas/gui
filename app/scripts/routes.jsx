@@ -26,6 +26,7 @@ import Hardware from "./views/Hardware";
 import Settings from "./views/Settings";
   import System from "./views/Settings/System";
   import Sharing from "./views/Settings/Sharing";
+  import Distributed from "./views/Settings/Distributed";
   import Update from "./views/Settings/Update";
   import Security from "./views/Settings/Security";
 
@@ -95,6 +96,7 @@ export default (
 
       <Route path="system" component={ System } />
       <Route path="sharing" component={ Sharing } />
+      <Route path="distributed" component={ Distributed } />
       <Route path="update" component={ Update } />
       <Route path="security" component={ Security } />
     </Route>
