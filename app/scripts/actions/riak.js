@@ -58,7 +58,7 @@ export function configureRiakTaskRequest () {
       } else {
         listener_protobuf_internal_port = Number.parseInt( listener_protobuf_internal_port );
         if ( !Number.isInteger( listener_protobuf_internal_port ) ) {
-          throw new Error( "Attempted to submit an invalid value for "
+          throw new Error( "Attempted to submit an invalid value for"
                          + " listener_protobuf_internal_port to Riak."
                          );
         } else {
@@ -72,7 +72,7 @@ export function configureRiakTaskRequest () {
       } else {
         listener_http_internal_port = Number.parseInt( listener_http_internal_port );
         if ( !Number.isInteger( listener_http_internal_port ) ) {
-          throw new Error( "Attempted to submit an invalid value for "
+          throw new Error( "Attempted to submit an invalid value for"
                          + " listener_http_internal_port to Riak."
                          );
         } else {
@@ -86,7 +86,7 @@ export function configureRiakTaskRequest () {
       } else {
         listener_https_internal_port = Number.parseInt( listener_https_internal_port );
         if ( !Number.isInteger( listener_https_internal_port ) ) {
-          throw new Error( "Attempted to submit an invalid value for "
+          throw new Error( "Attempted to submit an invalid value for"
                          + " listener_https_internal_port to Riak."
                          );;
         } else {

@@ -120,4 +120,3 @@ export default function riak ( state = INITIAL_STATE, action ) {
       return state;
   }
 };
-

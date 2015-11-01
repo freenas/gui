@@ -330,7 +330,6 @@ const Riak = ( props ) => {
       </form>
     </Panel>
   );
-
 };
 
 
