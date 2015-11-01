@@ -19,7 +19,6 @@ import ExistingVolume from "./headers/ExistingVolume";
 import Topology from "./sections/Topology";
 import Sharing from "./sections/Sharing";
 
-const SECTIONS = [ "files", "shares", "snapshots", "topology" ];
 
 export default class Volume extends React.Component {
 
@@ -30,28 +29,26 @@ export default class Volume extends React.Component {
   }
 
   getAllowedSections () {
-    let allowedSections = new Set([ "topology" ]);
+    let allowedSections = new Set();
+
+    // TODO
+    if ( false ) {
+      allowedSections.add( "files" );
+    }
 
     if ( this.props.existsOnServer ) {
       allowedSections.add( "shares" );
-      // TODO: More logic for other sections (later!)
     }
 
+    // TODO
+    if ( false ) {
+      allowedSections.add( "snapshots" );
+    }
+
+    // Topology is always allowed
+    allowedSections.add( "topology" );
+
     return allowedSections;
-  }
-
-  getDefaultSection ( allowedSections ) {
-    // If the requested section was not allowed, iterate over all sections in
-    // order, and make active whichever one is first found to be allowed
-    SECTIONS.forEach( ( section ) => {
-      if ( allowedSections.has( section ) ) {
-        return section;
-      }
-    });
-
-    // If no sections were allowed, use the last one in the line, which should
-    // theoretically be the most fundamental
-    return SECTIONS[ SECTIONS.length - 1 ];
   }
 
 
@@ -157,7 +154,7 @@ export default class Volume extends React.Component {
   // ==============
   render () {
     const ALLOWED_SECTIONS = this.getAllowedSections();
-    const DEFAULT_SECTION = this.getDefaultSection( ALLOWED_SECTIONS );
+    const DEFAULT_SECTION = ALLOWED_SECTIONS.values().next().value;
 
     let panelClass = [ "volume" ];
 
