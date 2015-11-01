@@ -205,33 +205,39 @@ export function submitVolume ( volumeID ) {
     const state = getState();
 
     if ( volumeExistsOnClient( volumeID, state ) ) {
-      let merged = Object.assign( {}
-                                , state.volumes.serverVolumes[ volumeID ]
-                                , state.volumes.clientVolumes[ volumeID ]
-                                );
+      const TARGET = state.volumes.clientVolumes[ volumeID ];
 
-      const VOLUME =
-        { name: merged.name
+      let newVolume =
+        { name: TARGET.name
         , topology:
-          { log   : ZfsUtil.unwrapStripe( merged.topology.log )
-          , cache : ZfsUtil.unwrapStripe( merged.topology.cache )
-          , data  : ZfsUtil.unwrapStripe( merged.topology.data )
-          , spare : ZfsUtil.unwrapStripe( merged.topology.spare )
+          { log   : ZfsUtil.unwrapStripe( TARGET.topology.log )
+          , cache : ZfsUtil.unwrapStripe( TARGET.topology.cache )
+          , data  : ZfsUtil.unwrapStripe( TARGET.topology.data )
+          , spare : ZfsUtil.unwrapStripe( TARGET.topology.spare )
           }
         , type: "zfs"
+        , attributes: Object.assign( {}, TARGET.attributes )
         };
 
-      if ( VOLUME.name.length === 0 ) {
+      if ( !volumeExistsOnServer( volumeID, state ) ) {
+        // The volume only exists on the client, so we cache its UUID in the
+        // "attributes" property of the volume we're creating. This lets us
+        // reconcile it later on.
+
+        newVolume.attributes.GUI_UUID = volumeID;
+      }
+
+      if ( newVolume.name.length === 0 ) {
         console.warn( `Cannot submit ${ volumeID }: It has an empty name.` );
         return;
       }
 
-      if ( VOLUME.topology.data.length === 0 ) {
+      if ( newVolume.topology.data.length === 0 ) {
         console.warn( `Cannot submit ${ volumeID }: No data VDEVs.` );
         return;
       }
 
-      MC.submitTask( [ "volume.create", [ VOLUME ] ]
+      MC.submitTask( [ "volume.create", [ newVolume ] ]
                    , ( UUID ) => dispatch( volumeCreateAC( UUID ) )
                    );
     }
