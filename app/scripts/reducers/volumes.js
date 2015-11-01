@@ -43,18 +43,22 @@ function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
   const CLIENT = new Set( Object.keys( clientVolumes ) );
   const SERVER = new Set( Object.keys( serverVolumes ) );
 
-  if ( CLIENT.has( activeVolume ) || SERVER.has( activeVolume ) ) {
+  if ( activeVolume && CLIENT.has( activeVolume ) || SERVER.has( activeVolume ) ) {
     return activeVolume;
-  } else if ( activeVolume && CLIENT.size ) {
-    console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
-                + `Falling back to first value in clientVolumes`
-                );
-    return CLIENT.values()[0];
-  } else if ( activeVolume && SERVER.size ) {
-    console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
-                + `Falling back to first value in serverVolumes`
-                );
-    return SERVER.values()[0];
+  } else if ( SERVER.size ) {
+    if ( activeVolume ) {
+      console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
+                  + `Falling back to first value in serverVolumes`
+                  );
+    }
+    return SERVER.values().next().value;
+  } else if ( CLIENT.size ) {
+    if ( activeVolume ) {
+      console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
+                  + `Falling back to first value in clientVolumes`
+                  );
+    }
+    return CLIENT.values().next().value;
   } else {
     return "";
   }
