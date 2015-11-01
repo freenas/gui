@@ -23,7 +23,7 @@ class Sharing extends React.Component {
   constructor ( props ) {
     super( props );
 
-    this.displayName = "SharingSettings"
+    this.displayName = "Sharing Settings";
   }
 
   componentDidMount () {

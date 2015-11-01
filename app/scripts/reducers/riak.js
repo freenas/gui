@@ -89,9 +89,9 @@ export default function riak ( state = INITIAL_STATE, action ) {
 
       if ( state.riakConfigRequests.has( payload.UUID ) ) {
         riakServerState = Object.assign( {}
-                                      , state.riakServerState
-                                      , payload.data
-                                      );
+                                       , state.riakServerState
+                                       , payload.data
+                                       );
         return Object.assign( {}, state, { riakServerState }
                             , resolveUUID( payload.UUID
                                          , state
