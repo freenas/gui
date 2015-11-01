@@ -23,6 +23,7 @@ import update from "./update";
 import smb from "./smb";
 import nfs from "./nfs";
 import ipfs from "./ipfs";
+import riak from "./riak";
 
 const rootReducer = combineReducers(
   { auth
@@ -45,6 +46,7 @@ const rootReducer = combineReducers(
   // SERVICES
   , ipfs
   , nfs
+  , riak
   , smb
   , ssh
   }
