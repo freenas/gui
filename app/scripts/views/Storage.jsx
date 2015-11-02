@@ -61,6 +61,12 @@ class Storage extends React.Component {
     const { volumes } = this.props;
 
     const VOLUME_IDS = Object.keys( ALL_VOLUMES );
+    const ALL_SHARES =
+      Object.assign( {}
+                   , this.props.shares.serverShares
+                   , this.props.shares.clientShares
+                   );
+    const NESTED_SHARES = VolumeUtilities.getNestedSharesByVolume( ALL_SHARES );
 
     return VOLUME_IDS.map( ( id, index ) => {
       const { datasets, shares, ...volumeData } = ALL_VOLUMES[ id ];
@@ -76,8 +82,9 @@ class Storage extends React.Component {
           onDiskSelect = { this.props.onDiskSelect.bind( this, id ) }
           onDiskDeselect = { this.props.onDiskDeselect.bind( this, id ) }
 
-          // DATASETS
+          // DATASETS AND SHARES
           shares = { this.props.shares }
+          volumeShares = { NESTED_SHARES[ volumeData.name ] }
           datasets = { VolumeUtilities.normalizeDatasets( datasets ) }
           rootDataset = { VolumeUtilities.getRootDataset( datasets, volumeData.name ) }
 

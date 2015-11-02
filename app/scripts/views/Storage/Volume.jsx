@@ -37,7 +37,8 @@ export default class Volume extends React.Component {
         allowedSections.add( "files" );
       }
 
-      if ( this.props.existsOnServer ) {
+      // TODO: Hahaha oh wow
+      if ( !this.props.volumeState || this.props.volumeState === "CREATING" ) {
         allowedSections.add( "shares" );
       }
 
@@ -208,6 +209,8 @@ export default class Volume extends React.Component {
               <Sharing
                 datasets = { this.props.datasets }
                 shares = { this.props.shares }
+                volumeShares = { this.props.volumeShares }
+                volumeName = { this.props.name }
                 rootDataset = { this.props.rootDataset }
                 onFocusShare = { this.props.onFocusShare }
                 onBlurShare = { this.props.onBlurShare }
@@ -341,6 +344,8 @@ Volume.propTypes =
       }
     )
   , datasets: React.PropTypes.object
+  , shares: React.PropTypes.object
+  , volumeShares: React.PropTypes.object
   , properties: React.PropTypes.shape(
       { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
       , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )

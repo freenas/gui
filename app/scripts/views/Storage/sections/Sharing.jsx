@@ -7,8 +7,6 @@
 
 import React from "react";
 
-import VolumeUtilities from "../../../utility/VolumeUtilities";
-
 import Share from "./Sharing/Share";
 
 
@@ -16,22 +14,20 @@ const LEFT_PADDING = 32;
 
 const Sharing = ( props ) => {
   const { rootDataset, ...other } = props;
+  const CHILDREN = ( props.volumeShares && props.volumeShares.ROOT_DATASET )
+                 ? props.volumeShares.ROOT_DATASET
+                 : [];
 
-  if ( props.rootDataset ) {
-    const combinedShares = Object.assign( {}
-                                        , props.shares.serverShares
-                                        , props.shares.clientShares
-                                        );
-    const childShares = VolumeUtilities.nestShares( combinedShares, rootDataset.mountpoint );
+  if ( CHILDREN ) {
     return (
       <Share
-        isRoot
         { ...other }
-        { ...props.rootDataset }
+        isRoot
+        name = { props.volumeName }
         target = ""
         id     = "ROOT_DATASET"
-        childShares = { childShares }
-        children = { Object.keys( childShares ) }
+        childShares = { props.volumeShares }
+        children = { CHILDREN }
         depth = { 0 }
         indent = { LEFT_PADDING }
       />
@@ -44,15 +40,21 @@ const Sharing = ( props ) => {
 }
 
 Sharing.propTypes =
-  { datasets      : React.PropTypes.object
-  , rootDataset   : React.PropTypes.object
-  , activeShare   : React.PropTypes.string
-  , shares        : React.PropTypes.object
-  , onBlurShare : React.PropTypes.func.isRequired
-  , onFocusShare : React.PropTypes.func.isRequired
-  , onUpdateShare : React.PropTypes.func.isRequired
-  , onRevertShare : React.PropTypes.func.isRequired
-  , onSubmitShare : React.PropTypes.func.isRequired
+  { volumeName    : React.PropTypes.string
+
+  // DATA
+  , volumeShares  : React.PropTypes.object
+  , shares      : React.PropTypes.object
+
+  // GUI META
+  , activeShare  : React.PropTypes.string
+
+  // HANDLERS
+  , onFocusShare         : React.PropTypes.func.isRequired
+  , onBlurShare          : React.PropTypes.func.isRequired
+  , onUpdateShare        : React.PropTypes.func.isRequired
+  , onRevertShare        : React.PropTypes.func.isRequired
+  , onSubmitShare        : React.PropTypes.func.isRequired
   , onRequestDeleteShare : React.PropTypes.func.isRequired
   };
 

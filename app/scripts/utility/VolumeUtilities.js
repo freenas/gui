@@ -42,49 +42,50 @@ export default class VolumeUtilities {
     return false;
   }
 
-  static nestShares ( shares, rootPath ) {
+  static getNestedSharesByVolume ( shares ) {
     if ( !shares || typeof shares !== "object" ) {
       console.warn( "Expected `shares` to be an object" );
       return;
     }
 
-    if ( typeof rootPath !== "string" ) {
-      console.warn( "Expected `rootPath` to be a string" );
-      return;
-    }
-
-
     const KEYS = Object.keys( shares );
+    let output = {};
 
-    if ( KEYS.length ) {
-      let keyPath = {};
-      let output = {};
-
+    if ( KEYS.length > 0 ) {
+      let nameToID = {};
       KEYS.forEach( id => {
-        keyPath[ shares[ id ].target ] = id;
-        output[ id ] = [];
+        nameToID[ shares[ id ].name ] = id;
       });
 
       KEYS.forEach( id => {
-        // Strip off the last path segment, returning the parent's path
-        const TARGET_PATH = shares[ id ].target;
-        const PARENT_PATH = TARGET_PATH.replace( /(\/[^\/]*$)/i, "" );
+        const TARGET_VOLUME = shares[ id ].target;
+        const NAME_PATH = shares[ id ].name.split( "/" );
+        let parentID;
 
-        if ( PARENT_PATH === rootPath || !PARENT_PATH.startsWith( rootPath ) ) {
-          // This is a child of the root dataset, or does not belong to this
-          // pool at all.
+        if ( !TARGET_VOLUME || NAME_PATH.length === 0 ) {
+          console.warn( `Could not nest share "${ id }"` );
           return;
+        }
+
+        if ( !output[ TARGET_VOLUME ] ) output[ TARGET_VOLUME ] = {};
+
+        if ( NAME_PATH.length === 1 ) {
+          parentID = "ROOT_DATASET";
+        } else if ( NAME_PATH.length > 1 ) {
+          parentID = nameToID[ NAME_PATH[ NAME_PATH.length - 2 ] ];
+        }
+
+        if ( output[ TARGET_VOLUME ][ parentID ] ) {
+          output[ TARGET_VOLUME ][ parentID ].push( id );
         } else {
-          // Add this id to the array keyed to its parent
-          output[ keyPath[ PARENT_PATH ] ].push( id );
+          output[ TARGET_VOLUME ][ parentID ] = [ id ];
         }
       });
 
-      return output;
-    } else {
-      // There are no shares, return early.
-      return {};
     }
+
+    // If there are no shares, output will remain an empty object
+    return output;
   }
 
   static getRootDataset ( datasets, poolName ) {
