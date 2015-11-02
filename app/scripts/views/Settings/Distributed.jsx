@@ -11,12 +11,14 @@ import { connect } from "react-redux";
 import * as ipfsActions from "../../actions/ipfs";
 import * as riakActions from "../../actions/riak";
 import * as riakCSActions from "../../actions/riakcs";
+import * as stanchionActions from "../../actions/stanchion";
 
 import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
 import IPFS from "./Distributed/IPFS";
 import Riak from "./Distributed/Riak";
 import RiakCS from "./Distributed/RiakCS";
+import Stanchion from "./Distributed/Stanchion";
 
 class Distributed extends React.Component {
   constructor ( props ) {
@@ -38,13 +40,16 @@ class Distributed extends React.Component {
     return (
       <div className="view-content">
         <Col xs = {4}>
-          <IPFS { ...this.props }/>
-        </Col>
-        <Col xs = {4}>
           <Riak { ...this.props }/>
         </Col>
         <Col xs = {4}>
           <RiakCS { ...this.props }/>
+        </Col>
+        <Col xs = {4}>
+          <Stanchion { ...this.props }/>
+        </Col>
+        <Col xs = {4}>
+          <IPFS { ...this.props }/>
         </Col>
       </div>
     );
@@ -58,6 +63,8 @@ function mapStateToProps ( state ) {
            , riakForm: state.riak.riakForm
            , riakCSServerState: state.riakcs.riakCSServerState
            , riakCSForm: state.riakcs.riakCSForm
+           , stanchionServerState: state.stanchion.stanchionServerState
+           , stanchionForm: state.stanchion.stanchionForm
            }
          );
 };
@@ -82,12 +89,17 @@ function mapDispatchToProps ( dispatch ) {
     , updateRiakCSForm: ( field, value ) =>
       dispatch( riakCSActions.updateRiakCSForm( field, value ) )
     , resetRiakCSForm: () => dispatch( riakCSActions.resetRiakCSForm() )
+    , updateStanchionForm: ( field, value ) =>
+      dispatch( stanchionActions.updateStanchionForm( field, value ) )
+    , resetStanchionForm: () =>
+      dispatch( stanchionActions.resetStanchionForm() )
 
     // QUERIES
     , fetchData: () => {
       dispatch( ipfsActions.requestIPFSConfig() );
       dispatch( riakActions.requestRiakConfig() );
       dispatch( riakCSActions.requestRiakCSConfig() );
+      dispatch( stanchionActions.requestStanchionConfig() );
     }
 
     // TASKS
@@ -103,6 +115,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( riakCSActions.configureRiakCSTaskRequest() )
     , toggleRiakCSTaskRequest: () =>
       dispatch( riakCSActions.toggleRiakCSTaskRequest() )
+    , configureStanchionTaskRequest: () =>
+      dispatch( stanchionActions.configureStanchionTaskRequest() )
+    , toggleStanchionTaskRequest: () =>
+      dispatch( stanchionActions.toggleStanchionTaskRequest() )
     }
   );
 };
