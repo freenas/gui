@@ -4,19 +4,19 @@
 
 // TODO: Revert changes made for #7908 once externally resolved.
 nav.primary-nav {
-  #gradient > .vertical( @freenas-gray, darken( @freenas-gray, 10% ) );
+  // #gradient > .vertical( @freenas-gray, darken( @freenas-gray, 10% ) );
   background-color   : @freenas-gray;
   overflow-x         : hidden;
   overflow-y         : auto;
   position           : relative;
-  min-width: 150px;
+  min-width: 192px;
   .flex( 0 0 auto );
 
   .logo-wrapper {
-    height: 45px;
-    padding: 2px 20px 4px 25px;
+    padding: 24px 20px 8px 20px;
     box-sizing: initial;
-    background-color: rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    // background-color: rgba(0, 0, 0, 0.1);
   }
 
   .logo-image,
@@ -27,65 +27,73 @@ nav.primary-nav {
   }
 
   .logo-image {
-    padding: 8px 10px 8px 0;
+    margin-right: 10px;
   }
 
   .logo-wordmark {
-    padding: 15px 0;
   }
 
   .logo-x {
-    padding: 8px 0;
-    margin-left: -5px;
   }
 
   .hostname {
-    color: white;
+    color: #8c95a3;
     display: block;
     margin: 0;
-    font-weight: 200;
+    font-weight: 500;
     font-size: 0.85em;
     letter-spacing: 0.1em;
     line-height: 1.25em;
-    padding-bottom: 0.85em;
-    text-align: center;
+    padding-bottom: 24px;
+    text-align: left;
+    text-indent: 56px;
     text-transform: uppercase;
     .box-shadow( inset 0 2px 12px -6px rgba( 0, 0, 0, 0.4 ) );
-    background-color: rgba( 0, 0, 0, 0.25 );
+    background-color: rgba( 250, 250, 250, 0.08 );
     .transition( ease-in-out 0.25s );
 
     &.connected {
-      .glowlight( @brand-success );
-      border-bottom-width: 2px;
+      //.glowlight( @brand-success );
+      border-bottom: 2px @brand-success solid;
     }
     &.disconnected {
-      .glowlight( @gray );
-      border-bottom-width: 2px;
+      //.glowlight( @gray );
+      border-bottom: 2px @gray solid;
     }
     &.simulation {
-      .glowlight( @brand-warning );
-      border-bottom-width: 2px;
+      //.glowlight( @brand-warning );
+      border-bottom: 2px @brand-warning solid;
+    }
+    .host-display{
+      margin-left: 56px;
     }
   }
 
   .user-info {
     color: #f3f3f3;
-    padding: 5px 30px 5px 5px;
 
     .item-graphic {
       float: left;
-      margin: 0 0.66em 0 0.33em;
+      margin-right: 16px;
+      width: 24px;
+      height: 24px;
+      border-radius: 2px;
     }
 
     .username, .fullname {
       display: block;
       white-space: pre;
       height: 1em;
-      line-height: 1em;
+      line-height: 24px;
       margin: 0 0.25em;
     }
     .username {
-      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #8c95a3;
+      font-weight: 400;
+      text-transform: uppercase;
+
     }
     .fullname {
       color: @gray-lighter;
@@ -96,10 +104,10 @@ nav.primary-nav {
   }
 
   .caret {
-    color: fade( white, 90% );
+    color: fade( white, 50% );
     position: absolute;
-    top: 50%;
-    right: 20px;
+    top: 45%;
+    right: 16px;
   }
 
   .btn-group {
@@ -130,13 +138,14 @@ nav.primary-nav {
     position       : relative;
     vertical-align : inherit;
     line-height    : normal;
-    margin         : 0 1em;
+    margin         : 0 16px 0 8px;
   }
 
   .nav-item,
   .dropdown {
     & > a {
-      padding: 0.75em;
+      margin-top: 0px;
+      padding: 15px 16px;
       padding-right: 0;
       white-space: nowrap;
       font-size: 14px;
@@ -147,7 +156,7 @@ nav.primary-nav {
 
     &:not(.disabled) {
       & > a {
-        color: rgba( 255, 255, 255, 0.85 );
+        color: #8c95a3;
         &:hover {
           color: white;
           background-color : rgba( 255, 255, 255, 0.15 );
@@ -155,27 +164,47 @@ nav.primary-nav {
       }
 
       & > a.active {
-        #gradient > .horizontal( rgba( 0, 0, 0, 0.25 ), fade( @brand-primary, 30% ) );
-        background-color : rgba( 0, 0, 0, 0.25 );
+        // #gradient > .horizontal( rgba( 0, 0, 0, 0.25 ), fade( @brand-primary, 30% ) );
+        background-color : #1f2229;
         color            : white;
-        border-right     : 8px solid @brand-primary;
+        // border-right     : 8px solid @brand-primary;
       }
     }
   }
 
+  .dropdown{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(250, 250, 250, 0.08);
+    
+    & > a{
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    .dropdown-menu{
+      top: -40px;
+      width: 100%;
+    }
+  }
+
   .dropdown.open > a {
-    #gradient > .vertical( rgba( 0, 0, 0, 0.25 ), fade( @brand-primary, 30% ) );
-    background-color : rgba( 0, 0, 0, 0.25 );
+    // #gradient > .vertical( rgba( 0, 0, 0, 0.25 ), fade( @brand-primary, 30% ) );
+    background-color : rgba( 250, 250, 250, 0.25 );
     color            : white;
   }
 
   .nav-item-label {
-    padding-right  : 0.75em;
     vertical-align : inherit;
-    font-weight: 100;
+    font-weight: 400;
     text-transform: uppercase;
-    font-size: 0.75em;
-    letter-spacing: 0.15em;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  li.nav-item{
+    margin-top: 0px;
   }
 }
 

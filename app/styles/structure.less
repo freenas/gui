@@ -55,15 +55,20 @@ html, body {
       }
     }
   }
+  background: #f3f6f9;
+  padding: 40px;
 }
 
 .app-sidebar {
   .flex-display(flex);
-  .flex(0 0 20em);
-  background-color: @contrast-bg-color;
+  .flex(0 0 240px);
+  background-color: white;
   height     : inherit;
   overflow-x : hidden;
   overflow-y : auto;
+  -webkit-box-shadow: -1px 0px 0px 0px rgba(233,236,239,1);
+  -moz-box-shadow: -1px 0px 0px 0px rgba(233,236,239,1);
+  box-shadow: -1px 0px 0px 0px rgba(233,236,239,1);
 }
 
 .app-header {
@@ -72,7 +77,7 @@ html, body {
 
 .app-footer {
   .flex( 0 0 20px );
-  background-color : @freenas-dark-gray;
+  background-color : #f3f6f9;
 }
 
 .view-header {
