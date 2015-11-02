@@ -69,6 +69,7 @@ function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
 export default function volumes ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let newState;
+  let activeVolume;
   let activeTasks;
   let clientVolumes;
   let serverVolumes;
@@ -345,10 +346,29 @@ export default function volumes ( state = INITIAL_STATE, action ) {
     case TYPES.ENTITY_CHANGED:
       if ( payload.mask === "volumes.changed" ) {
         serverVolumes = handleChangedEntities( payload, state.serverVolumes );
+        clientVolumes = Object.assign( {}, state.clientVolumes );
+        activeVolume = state.activeVolume;
+
+        // TODO: This is pretty hand-wavey. If we want to preserve edits the
+        // user has made on the system, we're going to need to be more selective
+        // about what we retain here.
+        payload.data.entities.forEach( entity => {
+          if ( entity.attributes && entity.attributes.GUI_UUID ) {
+            delete clientVolumes[ entity.attributes.GUI_UUID ];
+
+            // If the active volume was held by the GUI_UUID, transition it to
+            // the new id we've just got from the server
+            if ( activeVolume === entity.attributes.GUI_UUID ) {
+              activeVolume = entity.id;
+            }
+          }
+        });
+
         newState =
           { serverVolumes
-          , activeVolume: getActiveVolume( state.activeVolume
-                                         , state.clientVolumes
+          , clientVolumes
+          , activeVolume: getActiveVolume( activeVolume
+                                         , clientVolumes
                                          , serverVolumes
                                          )
           };
