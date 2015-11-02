@@ -20,7 +20,12 @@ export const BLANK_TOPOLOGY =
 // Used to initialize the required property values for a new volume
 export const NEW_VOLUME =
   { name: ""
-  , topology: BLANK_TOPOLOGY
+  , topology:
+    { data  : []
+    , log   : []
+    , cache : []
+    , spare : []
+    }
   , datasets: []
   , properties:
     { free      : { rawvalue: 0 }
