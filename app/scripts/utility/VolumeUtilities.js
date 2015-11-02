@@ -90,22 +90,31 @@ export default class VolumeUtilities {
   static getRootDataset ( datasets, poolName ) {
     let rootDataset;
 
-    for ( let i = 0; i < datasets.length; i++ ) {
-      if ( datasets[i].name === poolName ) {
-        rootDataset = datasets[i];
-        break;
+    if ( Array.isArray( datasets ) ) {
+      for ( let i = 0; i < datasets.length; i++ ) {
+        if ( datasets[i].name === poolName ) {
+          rootDataset = datasets[i];
+          break;
+        }
       }
-    }
 
-    return rootDataset;
+      return rootDataset;
+    } else {
+      console.warn( "Expected `datasets` to be an array" );
+      return null;
+    }
   }
 
   static normalizeDatasets ( datasets ) {
     let normalized = {};
 
-    datasets.forEach( dataset => {
-      normalized[ dataset.mountpoint ] = dataset;
-    });
+    if ( Array.isArray( datasets ) ) {
+      datasets.forEach( dataset => {
+        normalized[ dataset.mountpoint ] = dataset;
+      });
+    } else {
+      console.warn( "Expected `datasets` to be an array" );
+    }
 
     return normalized;
   }
