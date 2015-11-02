@@ -51,6 +51,11 @@ class Storage extends React.Component {
     this.props.unsubscribe( this.displayName );
   }
 
+  componentDidUpdate () {
+    // FIXME: Oh god, it burns, it burrrrns
+    this.props.fetchAvailableDisksIfNeeded()
+  }
+
   // RENDER METHODS
   renderVolumes () {
     const { volumes } = this.props;
@@ -294,6 +299,10 @@ function mapDispatchToProps ( dispatch ) {
         dispatch( VOLUMES.fetchAvailableDisks() )
         dispatch( SHARES.fetchShares() )
       }
+
+    // FIXME: *wet farting noises*
+    , fetchAvailableDisksIfNeeded: () =>
+      dispatch( VOLUMES.fetchAvailableDisksIfNeeded() )
 
     // MODIFY VOLUME ON GUI
     , onInitNewVolume: () =>

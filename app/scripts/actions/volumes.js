@@ -68,6 +68,17 @@ export function fetchAvailableDisks () {
   }
 }
 
+export function fetchAvailableDisksIfNeeded () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    if ( state.volumes.availableDisksRequests.size === 0
+      && state.volumes.availableDisksInvalid ) {
+      dispatch( fetchAvailableDisks() );
+    }
+  }
+}
+
 // INIT NEW VOLUME ON CLIENT
 export function initNewVolume () {
   let volumeID = FreeNASUtil.generateUUID();

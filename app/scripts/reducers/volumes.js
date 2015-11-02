@@ -17,6 +17,7 @@ const INITIAL_STATE =
   , availableDisksRequests: new Set()
   , createRequests: new Set()
   , destroyRequests: new Set()
+  , availableDisksInvalid: false
 
   // TASK TRACKING
   , activeTasks: new Set()
@@ -287,7 +288,9 @@ export default function volumes ( state = INITIAL_STATE, action ) {
           return Object.assign( {}
                               , state
                               , resolveUUID( payload.UUID, state, "availableDisksRequests" )
-                              , { availableDisks: new Set( payload.data ) }
+                              , { availableDisks: new Set( payload.data )
+                                , availableDisksInvalid: false
+                                }
                               );
         } else {
           console.warn( "Available disks query did not return any data" );
@@ -344,6 +347,10 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
 
     case TYPES.ENTITY_CHANGED:
+      if ( payload.mask === "disks.changed" ) {
+        return Object.assign( {}, state, { availableDisksInvalid: true } );
+      }
+
       if ( payload.mask === "volumes.changed" ) {
         serverVolumes = handleChangedEntities( payload, state.serverVolumes );
         clientVolumes = Object.assign( {}, state.clientVolumes );
@@ -352,17 +359,28 @@ export default function volumes ( state = INITIAL_STATE, action ) {
         // TODO: This is pretty hand-wavey. If we want to preserve edits the
         // user has made on the system, we're going to need to be more selective
         // about what we retain here.
-        payload.data.entities.forEach( entity => {
-          if ( entity.attributes && entity.attributes.GUI_UUID ) {
-            delete clientVolumes[ entity.attributes.GUI_UUID ];
+        switch ( payload.data.operation ) {
+          case "create":
+          case "update":
+            payload.data.entities.forEach( entity => {
+              if ( entity.attributes && entity.attributes.GUI_UUID ) {
+                delete clientVolumes[ entity.attributes.GUI_UUID ];
 
-            // If the active volume was held by the GUI_UUID, transition it to
-            // the new id we've just got from the server
-            if ( activeVolume === entity.attributes.GUI_UUID ) {
-              activeVolume = entity.id;
-            }
-          }
-        });
+                // If the active volume was held by the GUI_UUID, transition
+                // it to the new id we've just got from the server
+                if ( activeVolume === entity.attributes.GUI_UUID ) {
+                  activeVolume = entity.id;
+                }
+              }
+            });
+            break;
+
+          case "delete":
+            payload.data.ids.forEach( id => {
+              delete clientVolumes[ id ];
+            });
+            break;
+        }
 
         newState =
           { serverVolumes
