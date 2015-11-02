@@ -60,9 +60,9 @@ const paths =
     , status   : null
     , disabled : false
     }
-  , { path     : "/hardware"
+  , { path     : "/system"
     , icon     : "icon-drive"
-    , label    : "Hardware"
+    , label    : "System"
     , status   : null
     , disabled : false
     }

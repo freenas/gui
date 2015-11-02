@@ -272,7 +272,7 @@ function mapStateToProps ( state ) {
   return (
     { disks: disks.disks
     , availableDisks: volumes.availableDisks
-    , selectedDisks: volumes.selectedDisks
+    , selectedDisks: ACTIVE.selectedDisks
     , activeVolume: volumes.activeVolume
     , preset: ACTIVE.preset
     , SSDs: state.disks.SSDs

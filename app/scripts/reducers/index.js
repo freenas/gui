@@ -16,12 +16,21 @@ import system from "./system";
 import tasks from "./tasks";
 import volumes from "./volumes";
 import websocket from "./websocket";
-import ssh from "./ssh";
 import users from "./users";
 import groups from "./groups";
 import update from "./update";
-import smb from "./smb";
+
+// SERVICES
+import afp from "./afp";
+import gluster from "./gluster";
+import ipfs from "./ipfs";
 import nfs from "./nfs";
+import riak from "./riak";
+import riakcs from "./riakcs";
+import smb from "./smb";
+import ssh from "./ssh";
+import stanchion from "./stanchion";
+import swift from "./swift";
 
 const rootReducer = combineReducers(
   { auth
@@ -42,9 +51,16 @@ const rootReducer = combineReducers(
   , update
 
   // SERVICES
+  , afp
+  , gluster
+  , ipfs
   , nfs
+  , riak
+  , riakcs
   , smb
   , ssh
+  , stanchion
+  , swift
   }
 );
 

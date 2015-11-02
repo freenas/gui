@@ -15,7 +15,7 @@ import ShareToggles from "./ShareToggles";
 const NewShare = ( props ) => (
   <div
     className="dataset"
-    style = {{ marginLeft: `${ props.depth * props.indent }px` }}
+    style = {{ marginLeft: `${ props.indent }px` }}
   >
     {/* DATASET TOOLBAR */}
     <div

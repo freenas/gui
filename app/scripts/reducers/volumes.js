@@ -7,6 +7,7 @@ import * as TYPES from "../actions/actionTypes";
 import { recordUUID, resolveUUID, handleChangedEntities, payloadIsType }
   from "../utility/Reducer";
 import DiskUtilities from "../utility/DiskUtilities";
+import FreeNASUtil from "../utility/freeNASUtil";
 import * as ZFSConstants from "../constants/ZFSConstants";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
@@ -14,14 +15,16 @@ const INITIAL_STATE =
   // RPC REQUEST TRACKING
   { volumesRequests: new Set()
   , availableDisksRequests: new Set()
-  , createRequests: new Set()
+  , createRequests: new Map()
   , destroyRequests: new Set()
+  , availableDisksInvalid: false
 
   // TASK TRACKING
   , activeTasks: new Set()
 
   , serverVolumes: {}
   , clientVolumes: {}
+
   , activeVolume: ""
   , activeShare: ""
   , volumeToDestroy: ""
@@ -43,18 +46,22 @@ function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
   const CLIENT = new Set( Object.keys( clientVolumes ) );
   const SERVER = new Set( Object.keys( serverVolumes ) );
 
-  if ( CLIENT.has( activeVolume ) || SERVER.has( activeVolume ) ) {
+  if ( activeVolume && CLIENT.has( activeVolume ) || SERVER.has( activeVolume ) ) {
     return activeVolume;
-  } else if ( activeVolume && CLIENT.size ) {
-    console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
-                + `Falling back to first value in clientVolumes`
-                );
-    return CLIENT.values()[0];
-  } else if ( activeVolume && SERVER.size ) {
-    console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
-                + `Falling back to first value in serverVolumes`
-                );
-    return SERVER.values()[0];
+  } else if ( SERVER.size ) {
+    if ( activeVolume ) {
+      console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
+                  + `Falling back to first value in serverVolumes`
+                  );
+    }
+    return SERVER.values().next().value;
+  } else if ( CLIENT.size ) {
+    if ( activeVolume ) {
+      console.warn( `activeVolume "${ activeVolume }" was not present in state.\n`
+                  + `Falling back to first value in clientVolumes`
+                  );
+    }
+    return CLIENT.values().next().value;
   } else {
     return "";
   }
@@ -63,10 +70,10 @@ function getActiveVolume ( activeVolume, clientVolumes, serverVolumes ) {
 export default function volumes ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let newState;
+  let activeVolume;
   let activeTasks;
   let clientVolumes;
   let serverVolumes;
-  let initData;
   let diskPathsByType;
   let topologyData;
   let selectedDisks;
@@ -77,19 +84,30 @@ export default function volumes ( state = INITIAL_STATE, action ) {
   // CLIENT ACTIONS
   // ==============
 
+    // INITIALIZE A NEW VOLUME
+    case TYPES.INIT_NEW_VOLUME:
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+
+      clientVolumes[ payload.volumeID ] = payload.newVolume;
+      clientVolumes[ payload.volumeID ].volumeState = "NEW_ON_CLIENT";
+
+      return Object.assign( {}
+                          , state
+                          , { clientVolumes
+                            , activeVolume: payload.volumeID
+                            }
+                          );
+
+
     // UPDATE CLIENT CHANGES
     case TYPES.UPDATE_VOLUME:
       clientVolumes = Object.assign( {}, state.clientVolumes );
 
-      // If the volume has no record on the client or server, initialize it
-      if ( !( clientVolumes[ payload.volumeID ] && state.serverVolumes[ payload.volumeID ] ) ) {
-        initData = Object.assign( {}, ZFSConstants.NEW_VOLUME );
-      }
-
       clientVolumes[ payload.volumeID ] =
-        Object.assign( {}, initData, clientVolumes[ payload.volumeID ], payload.patch );
+        Object.assign( {}, clientVolumes[ payload.volumeID ], payload.patch );
 
       return Object.assign( {}, state, { clientVolumes } );
+
 
     // DISCARD CLIENT CHANGES
     case TYPES.REVERT_VOLUME:
@@ -117,21 +135,19 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
       clientVolumes[ payload.volumeID ].preset = "None";
       clientVolumes[ payload.volumeID ].topology = topologyData[0];
+      clientVolumes[ payload.volumeID ].selectedDisks = new Set( topologyData[1] );
 
-      selectedDisks = new Set( topologyData[1] );
-
-      return Object.assign( {}, state, { clientVolumes, selectedDisks } );
+      return Object.assign( {}, state, { clientVolumes } );
 
     case TYPES.REVERT_VOLUME_TOPOLOGY:
       clientVolumes = Object.assign( {}, state.clientVolumes );
 
       clientVolumes[ payload.volumeID ].preset = "None";
       clientVolumes[ payload.volumeID ].topology =
-        Object.assign( {}, ZFSConstants.BLANK_TOPOLOGY );
+        ZFSConstants.createBlankTopology();
+      clientVolumes[ payload.volumeID ].selectedDisks = new Set();
 
-      selectedDisks = new Set();
-
-      return Object.assign( {}, state, { clientVolumes, selectedDisks } );
+      return Object.assign( {}, state, { clientVolumes } );
 
 
     case TYPES.FOCUS_VOLUME:
@@ -169,9 +185,9 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
           clientVolumes[ payload.volumeID ].preset = payload.preset;
           clientVolumes[ payload.volumeID ].topology = topologyData[0];
-          selectedDisks = new Set( topologyData[1] );
+          clientVolumes[ payload.volumeID ].selectedDisks = new Set( topologyData[1] );
 
-          return Object.assign( {}, state, { clientVolumes, selectedDisks } );
+          return Object.assign( {}, state, { clientVolumes } );
         } else {
           console.warn( `The preset "${ payload.preset }" doesn't exist.` );
           return state;
@@ -188,14 +204,18 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
 
     case TYPES.SELECT_DISK:
-      selectedDisks = new Set( state.selectedDisks );
-      selectedDisks.add( payload.path );
-      return Object.assign( {}, state, { selectedDisks } );
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+      clientVolumes[ payload.volumeID ].selectedDisks =
+        new Set( clientVolumes[ payload.volumeID ].selectedDisks );
+      clientVolumes[ payload.volumeID ].selectedDisks.add( payload.path );
+      return Object.assign( {}, state, { clientVolumes } );
 
     case TYPES.DESELECT_DISK:
-      selectedDisks = new Set( state.selectedDisks );
-      selectedDisks.delete( payload.path );
-      return Object.assign( {}, state, { selectedDisks } );
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+      clientVolumes[ payload.volumeID ].selectedDisks =
+        new Set( clientVolumes[ payload.volumeID ].selectedDisks );
+      clientVolumes[ payload.volumeID ].selectedDisks.delete( payload.path );
+      return Object.assign( {}, state, { clientVolumes } );
 
 
     case TYPES.INTEND_DESTROY_VOLUME:
@@ -225,12 +245,16 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
     // SUBMIT NEW VOLUME
     case TYPES.CREATE_VOLUME_TASK_SUBMIT_REQUEST:
-      return Object.assign( {}
-                          , state
-                          , recordUUID( payload.UUID, state, "createRequests" )
-                          );
+      var createRequests = new Map( state.createRequests );
+      createRequests.set( payload.UUID, payload.volumeID );
 
-    // SUBMIT NEW VOLUME
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+      clientVolumes[ payload.volumeID ] =
+        Object.assign( {}, clientVolumes[ payload.volumeID ], { volumeState: "SUBMITTING" } );
+
+      return Object.assign( {}, state, { createRequests, clientVolumes });
+
+    // DESTROY VOLUME
     case TYPES.DESTROY_VOLUME_TASK_SUBMIT_REQUEST:
       return Object.assign( {}
                           , state
@@ -271,7 +295,9 @@ export default function volumes ( state = INITIAL_STATE, action ) {
           return Object.assign( {}
                               , state
                               , resolveUUID( payload.UUID, state, "availableDisksRequests" )
-                              , { availableDisks: new Set( payload.data ) }
+                              , { availableDisks: new Set( payload.data )
+                                , availableDisksInvalid: false
+                                }
                               );
         } else {
           console.warn( "Available disks query did not return any data" );
@@ -282,10 +308,18 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       // VOLUME SUBMIT TASK
       if ( state.createRequests.has( payload.UUID ) ) {
         if ( payload.data ) {
-          return Object.assign( {}
-                              , state
-                              , resolveUUID( payload.UUID, state, "createRequests" )
-                              );
+          var createRequests = new Map( state.createRequests );
+          var volumeID = createRequests.get( payload.UUID );
+
+          // TODO: What if the task fails or times out...?
+          if ( state.clientVolumes[ volumeID ] ) {
+            clientVolumes = Object.assign( {}, state.clientVolumes );
+            clientVolumes[ volumeID ].volumeState = "CREATING";
+          } else {
+            console.warn( `Did not find volume "${ volumeID }" in state` );
+          }
+
+          return Object.assign( {}, state, { createRequests, clientVolumes } );
         } else {
           console.warn( "Volume Submit task did not return a task ID" );
           return state;
@@ -310,7 +344,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
     case TYPES.TASK_CREATED:
     case TYPES.TASK_UPDATED:
     case TYPES.TASK_PROGRESS:
-      if ( payloadIsType( "volume" ) ) {
+      if ( payloadIsType( payload, "volume" ) ) {
         activeTasks = new Set( state.activeTasks );
         activeTasks.add( payload.data.id );
         return Object.assign( {}, state, { activeTasks } );
@@ -319,7 +353,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
     case TYPES.TASK_FINISHED:
     case TYPES.TASK_FAILED:
-      if ( payloadIsType( "volume" ) ) {
+      if ( payloadIsType( payload, "volume" ) ) {
         activeTasks = new Set( state.activeTasks );
         activeTasks.delete( payload.data.id );
         return Object.assign( {}, state, { activeTasks } );
@@ -328,12 +362,46 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
 
     case TYPES.ENTITY_CHANGED:
+      if ( payload.mask === "disks.changed" ) {
+        return Object.assign( {}, state, { availableDisksInvalid: true } );
+      }
+
       if ( payload.mask === "volumes.changed" ) {
         serverVolumes = handleChangedEntities( payload, state.serverVolumes );
+        clientVolumes = Object.assign( {}, state.clientVolumes );
+        activeVolume = state.activeVolume;
+
+        // TODO: This is pretty hand-wavey. If we want to preserve edits the
+        // user has made on the system, we're going to need to be more selective
+        // about what we retain here.
+        switch ( payload.data.operation ) {
+          case "create":
+          case "update":
+            payload.data.entities.forEach( entity => {
+              if ( entity.attributes && entity.attributes.GUI_UUID ) {
+                delete clientVolumes[ entity.attributes.GUI_UUID ];
+
+                // If the active volume was held by the GUI_UUID, transition
+                // it to the new id we've just got from the server
+                if ( activeVolume === entity.attributes.GUI_UUID ) {
+                  activeVolume = entity.id;
+                }
+              }
+            });
+            break;
+
+          case "delete":
+            payload.data.ids.forEach( id => {
+              delete clientVolumes[ id ];
+            });
+            break;
+        }
+
         newState =
           { serverVolumes
-          , activeVolume: getActiveVolume( state.activeVolume
-                                         , state.clientVolumes
+          , clientVolumes
+          , activeVolume: getActiveVolume( activeVolume
+                                         , clientVolumes
                                          , serverVolumes
                                          )
           };

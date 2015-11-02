@@ -26,7 +26,6 @@ import VolumeUtilities from "../utility/VolumeUtilities";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import CreateStorage from "./Storage/CreateStorage";
 import Volume from "./Storage/Volume";
-import VolumeTask from "./Storage/VolumeTask";
 
 
 // STYLESHEET
@@ -52,18 +51,22 @@ class Storage extends React.Component {
     this.props.unsubscribe( this.displayName );
   }
 
-  renderTasks () {
-    return Array.from( this.props.activeTasks ).map( ( id, index ) => {
-      return <VolumeTask key={ index } { ...this.props.tasks[ id ] } />
-    });
+  componentDidUpdate () {
+    // FIXME: Oh god, it burns, it burrrrns
+    this.props.fetchAvailableDisksIfNeeded()
   }
 
   // RENDER METHODS
-  renderVolumes () {
+  renderVolumes ( ALL_VOLUMES ) {
     const { volumes } = this.props;
 
-    const ALL_VOLUMES = Object.assign( {}, volumes.serverVolumes, volumes.clientVolumes );
     const VOLUME_IDS = Object.keys( ALL_VOLUMES );
+    const ALL_SHARES =
+      Object.assign( {}
+                   , this.props.shares.serverShares
+                   , this.props.shares.clientShares
+                   );
+    const NESTED_SHARES = VolumeUtilities.getNestedSharesByVolume( ALL_SHARES );
 
     return VOLUME_IDS.map( ( id, index ) => {
       const { datasets, shares, ...volumeData } = ALL_VOLUMES[ id ];
@@ -76,11 +79,12 @@ class Storage extends React.Component {
           existsOnServer = { Boolean( volumes.serverVolumes[ id ] ) }
           existsOnClient = { Boolean( volumes.clientVolumes[ id ] ) }
 
-          onDiskSelect = { this.props.onDiskSelect }
-          onDiskDeselect = { this.props.onDiskDeselect }
+          onDiskSelect = { this.props.onDiskSelect.bind( this, id ) }
+          onDiskDeselect = { this.props.onDiskDeselect.bind( this, id ) }
 
-          // DATASETS
+          // DATASETS AND SHARES
           shares = { this.props.shares }
+          volumeShares = { NESTED_SHARES[ volumeData.name ] }
           datasets = { VolumeUtilities.normalizeDatasets( datasets ) }
           rootDataset = { VolumeUtilities.getRootDataset( datasets, volumeData.name ) }
 
@@ -120,6 +124,8 @@ class Storage extends React.Component {
       Boolean( Object.keys( this.props.volumes.serverVolumes ).length );
     const CLIENT_VOLUMES_EXIST =
       Boolean( Object.keys( this.props.volumes.clientVolumes ).length );
+    const ALL_VOLUMES =
+      Object.assign( {}, this.props.volumes.serverVolumes, this.props.volumes.clientVolumes );
 
     const LOADING = Boolean( this.props.volumes.volumesRequests.size );
     const SHOW_INTRO = !LOADING && !SERVER_VOLUMES_EXIST && !CLIENT_VOLUMES_EXIST;
@@ -128,9 +134,11 @@ class Storage extends React.Component {
     // create a new pool.
     const SHOW_NEW = !LOADING && !CLIENT_VOLUMES_EXIST && this.props.availableDisks.size;
 
-    const TO_DESTROY = this.props.volumeToDestroy
-                     ? this.props.volumes.serverVolumes[ this.props.volumeToDestroy ]
-                     : "";
+    const VOLUME_TO_DESTROY = (
+      ( this.props.volumeToDestroy && ALL_VOLUMES[ this.props.volumeToDestroy ] )
+      ? ALL_VOLUMES[ this.props.volumeToDestroy ].name
+      : ""
+    );
 
     return (
       <main>
@@ -177,20 +185,15 @@ class Storage extends React.Component {
           }
         </Motion>
 
-        {/* ACTIVE TASKS */}
-        { this.renderTasks() }
 
         {/* VOLUMES */}
-        { this.renderVolumes() }
+        { this.renderVolumes( ALL_VOLUMES ) }
 
 
         {/* CREATE NEW POOL */}
         <CreateStorage
           style = { SHOW_NEW ? {} : { display: "none" } }
-          onClick = { () => {
-            this.props.onUpdateVolume( "NEW" );
-            this.props.onFocusVolume( "NEW" );
-          }}
+          onClick = { this.props.onInitNewVolume }
         />
 
 
@@ -200,11 +203,11 @@ class Storage extends React.Component {
           onCancel = { this.props.onCancelDestroyVolume }
           onConfirm = { this.props.onConfirmDestroyVolume }
           confirmStyle = { "danger" }
-          title = { "Confirm Destruction of " + TO_DESTROY.name }
+          title = { "Confirm Destruction of " + VOLUME_TO_DESTROY }
           body = {
             <span>
               { "Bro are you like, really really sure you want to do this? "
-              + "Once you destroy "}<b>{ TO_DESTROY.name }</b>{" "
+              + "Once you destroy "}<b>{ VOLUME_TO_DESTROY }</b>{" "
               + "it's not coming back. (In other words, I hope you backed up "
               + "your porn.)"
               }
@@ -307,11 +310,19 @@ function mapDispatchToProps ( dispatch ) {
         dispatch( SHARES.fetchShares() )
       }
 
-    // SUBMIT VOLUME
+    // FIXME: *wet farting noises*
+    , fetchAvailableDisksIfNeeded: () =>
+      dispatch( VOLUMES.fetchAvailableDisksIfNeeded() )
+
+    // MODIFY VOLUME ON GUI
+    , onInitNewVolume: () =>
+      dispatch( VOLUMES.initNewVolume() )
     , onUpdateVolume: ( volumeID, patch ) =>
       dispatch( VOLUMES.updateVolume( volumeID, patch ) )
     , onRevertVolume: ( volumeID ) =>
       dispatch( VOLUMES.revertVolume( volumeID ) )
+
+    // SUBMIT VOLUME
     , onSubmitVolume: ( volumeID ) =>
       dispatch( VOLUMES.submitVolume( volumeID ) )
 
@@ -337,10 +348,10 @@ function mapDispatchToProps ( dispatch ) {
     , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
 
     // GUI
-    , onDiskSelect: ( path ) =>
-      dispatch( VOLUMES.selectDisk( path ) )
-    , onDiskDeselect: ( path ) =>
-      dispatch( VOLUMES.deselectDisk( path ) )
+    , onDiskSelect: ( volumeID, path ) =>
+      dispatch( VOLUMES.selectDisk( volumeID, path ) )
+    , onDiskDeselect: ( volumeID, path ) =>
+      dispatch( VOLUMES.deselectDisk( volumeID, path ) )
     , onFocusShare: ( shareID ) =>
       dispatch( SHARES.focusShare( shareID ) )
     , onBlurShare: () =>

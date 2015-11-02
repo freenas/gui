@@ -5,6 +5,8 @@
 
 import * as TYPES from "./actionTypes";
 import { watchRequest } from "../utility/Action";
+import FreeNASUtil from "../utility/freeNASUtil";
+import * as ZFSConstants from "../constants/ZFSConstants";
 import MC from "../websocket/MiddlewareClient";
 import ZfsUtil from "../views/Storage/utility/ZfsUtil"; // TODO: UGH SERIOUSLY?
 
@@ -64,6 +66,27 @@ export function fetchAvailableDisks () {
                 dispatch( watchRequest( UUID, TYPES.AVAILABLE_DISKS_RPC_REQUEST ) )
               );
   }
+}
+
+export function fetchAvailableDisksIfNeeded () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    if ( state.volumes.availableDisksRequests.size === 0
+      && state.volumes.availableDisksInvalid ) {
+      dispatch( fetchAvailableDisks() );
+    }
+  }
+}
+
+// INIT NEW VOLUME ON CLIENT
+export function initNewVolume () {
+  const volumeID = FreeNASUtil.generateUUID();
+  const newVolume = Object.assign( ZFSConstants.createVolumeInitialValues(), { volumeID } );
+
+  return { type: TYPES.INIT_NEW_VOLUME
+         , payload: { volumeID, newVolume }
+         };
 }
 
 // UPDATE CLIENT VOLUME DATA
@@ -145,24 +168,23 @@ export function selectPresetTopology ( volumeID, preset ) {
   }
 }
 
-export function selectDisk ( path ) {
+export function selectDisk ( volumeID, path ) {
   return ( dispatch, getState ) => {
     let state = getState();
 
     if ( state.volumes.availableDisks.has( path ) ) {
       dispatch(
         { type: TYPES.SELECT_DISK
-        , payload: { path }
+        , payload: { volumeID, path }
         }
       );
     } else {
       console.warn( `Tried to select ${ path }, but it is marked as unavailable.` );
-
     }
   }
 }
 
-export function deselectDisk ( path ) {
+export function deselectDisk ( volumeID, path ) {
   return ( dispatch, getState ) => {
     let state = getState();
 
@@ -175,16 +197,16 @@ export function deselectDisk ( path ) {
 
     dispatch(
       { type: TYPES.DESELECT_DISK
-      , payload: { path }
+      , payload: { volumeID, path }
       }
     );
 
   }
 }
 
-function volumeCreateAC ( UUID ) {
+function volumeCreateAC ( UUID, volumeID ) {
   return { type: TYPES.CREATE_VOLUME_TASK_SUBMIT_REQUEST
-         , payload: { UUID }
+         , payload: { UUID, volumeID }
          }
 }
 
@@ -193,34 +215,40 @@ export function submitVolume ( volumeID ) {
     const state = getState();
 
     if ( volumeExistsOnClient( volumeID, state ) ) {
-      let merged = Object.assign( {}
-                                , state.volumes.serverVolumes[ volumeID ]
-                                , state.volumes.clientVolumes[ volumeID ]
-                                );
+      const TARGET = state.volumes.clientVolumes[ volumeID ];
 
-      const VOLUME =
-        { name: merged.name
+      let newVolume =
+        { name: TARGET.name
         , topology:
-          { log   : ZfsUtil.unwrapStripe( merged.topology.log )
-          , cache : ZfsUtil.unwrapStripe( merged.topology.cache )
-          , data  : ZfsUtil.unwrapStripe( merged.topology.data )
-          , spare : ZfsUtil.unwrapStripe( merged.topology.spare )
+          { log   : ZfsUtil.unwrapStripe( TARGET.topology.log )
+          , cache : ZfsUtil.unwrapStripe( TARGET.topology.cache )
+          , data  : ZfsUtil.unwrapStripe( TARGET.topology.data )
+          , spare : ZfsUtil.unwrapStripe( TARGET.topology.spare )
           }
         , type: "zfs"
+        , attributes: Object.assign( {}, TARGET.attributes )
         };
 
-      if ( VOLUME.name.length === 0 ) {
+      if ( !volumeExistsOnServer( volumeID, state ) ) {
+        // The volume only exists on the client, so we cache its UUID in the
+        // "attributes" property of the volume we're creating. This lets us
+        // reconcile it later on.
+
+        newVolume.attributes.GUI_UUID = volumeID;
+      }
+
+      if ( newVolume.name.length === 0 ) {
         console.warn( `Cannot submit ${ volumeID }: It has an empty name.` );
         return;
       }
 
-      if ( VOLUME.topology.data.length === 0 ) {
+      if ( newVolume.topology.data.length === 0 ) {
         console.warn( `Cannot submit ${ volumeID }: No data VDEVs.` );
         return;
       }
 
-      MC.submitTask( [ "volume.create", [ VOLUME ] ]
-                   , ( UUID ) => dispatch( volumeCreateAC( UUID ) )
+      MC.submitTask( [ "volume.create", [ newVolume ] ]
+                   , ( UUID ) => dispatch( volumeCreateAC( UUID, volumeID ) )
                    );
     }
   }
@@ -229,7 +257,7 @@ export function submitVolume ( volumeID ) {
 export function intendDestroyVolume ( volumeID ) {
   return ( dispatch, getState ) => {
     const state = getState();
-    if ( volumeExistsOnServer( volumeID, state ) ) {
+    if ( volumeExists( volumeID, state ) ) {
       dispatch(
         { type: TYPES.INTEND_DESTROY_VOLUME
         , payload: { volumeID }
@@ -253,8 +281,14 @@ export function confirmDestroyVolume () {
   return ( dispatch, getState ) => {
     const state = getState();
 
-    if ( volumeExistsOnServer( state.volumes.volumeToDestroy, state ) ) {
-      const NAME = state.volumes.serverVolumes[ state.volumes.volumeToDestroy ].name;
+
+    if ( volumeExists( state.volumes.volumeToDestroy, state ) ) {
+      const ALL_VOLUMES =
+        Object.assign( {}
+                     , state.volumes.serverVolumes
+                     , state.volumes.clientVolumes
+                     );
+      const NAME = ALL_VOLUMES[ state.volumes.volumeToDestroy ].name;
       MC.submitTask( [ "volume.destroy", [ NAME ] ]
                    , ( UUID ) => dispatch( volumeDestroyAC( UUID ) )
                    );

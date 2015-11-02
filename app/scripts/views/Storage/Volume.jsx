@@ -8,18 +8,16 @@
 
 import _ from "lodash";
 import React from "react";
-import { Panel, Tabs, Tab } from "react-bootstrap";
+import { Panel, Tabs, Tab, Alert } from "react-bootstrap";
 
 import EventBus from "../../utility/EventBus";
 import ByteCalc from "../../utility/ByteCalc";
 import ZfsUtil from "./utility/ZfsUtil";
 
-import NewVolume from "./headers/NewVolume";
-import ExistingVolume from "./headers/ExistingVolume";
+import VolumeHeader from "./VolumeHeader";
 import Topology from "./sections/Topology";
 import Sharing from "./sections/Sharing";
 
-const SECTIONS = [ "files", "shares", "snapshots", "topology" ];
 
 export default class Volume extends React.Component {
 
@@ -30,28 +28,29 @@ export default class Volume extends React.Component {
   }
 
   getAllowedSections () {
-    let allowedSections = new Set([ "topology" ]);
+    let allowedSections = new Set();
 
-    if ( this.props.existsOnServer ) {
-      allowedSections.add( "shares" );
-      // TODO: More logic for other sections (later!)
+    // Prerequisites for a healthy pool
+    if ( this.props.topology && this.props.datasets ) {
+      // TODO
+      if ( false ) {
+        allowedSections.add( "files" );
+      }
+
+      // TODO: Hahaha oh wow
+      if ( !this.props.volumeState || this.props.volumeState === "CREATING" ) {
+        allowedSections.add( "shares" );
+      }
+
+      // TODO
+      if ( false ) {
+        allowedSections.add( "snapshots" );
+      }
+
+      allowedSections.add( "topology" );
     }
 
     return allowedSections;
-  }
-
-  getDefaultSection ( allowedSections ) {
-    // If the requested section was not allowed, iterate over all sections in
-    // order, and make active whichever one is first found to be allowed
-    SECTIONS.forEach( ( section ) => {
-      if ( allowedSections.has( section ) ) {
-        return section;
-      }
-    });
-
-    // If no sections were allowed, use the last one in the line, which should
-    // theoretically be the most fundamental
-    return SECTIONS[ SECTIONS.length - 1 ];
   }
 
 
@@ -148,6 +147,7 @@ export default class Volume extends React.Component {
   }
 
   isSubmissionDisabled () {
+    if ( !this.props.topology ) return true;
     if ( this.props.topology.data.length === 0 ) return true;
     if ( this.props.name.length === 0 ) return true;
   }
@@ -157,7 +157,14 @@ export default class Volume extends React.Component {
   // ==============
   render () {
     const ALLOWED_SECTIONS = this.getAllowedSections();
-    const DEFAULT_SECTION = this.getDefaultSection( ALLOWED_SECTIONS );
+    const DEFAULT_SECTION = ALLOWED_SECTIONS.values().next().value;
+    let breakdown;
+
+    if ( this.props.rootDataset ) {
+      breakdown = this.breakdownFromRootDataset();
+    } else if ( this.props.topology ) {
+      breakdown = ZfsUtil.calculateBreakdown( this.props.topology.data, this.props.disks );
+    }
 
     let panelClass = [ "volume" ];
 
@@ -167,36 +174,29 @@ export default class Volume extends React.Component {
       <Panel className = { panelClass.join( " " ) } >
 
         {/* VOLUME HEADER */}
-        { this.props.existsOnServer ? (
-          <ExistingVolume
-            volumeName = { this.props.name }
-            onClick = { this.props.onFocusVolume }
-            onDestroyPool = { this.props.onRequestDestroyVolume }
-            topologyBreakdown = { this.breakdownFromRootDataset() }
-          />
-        ) : (
-          <NewVolume
-            volumeName = { this.props.name }
-            disableSubmit = { this.isSubmissionDisabled() }
-            topologyBreakdown = {
-              ZfsUtil.calculateBreakdown( this.props.topology.data
-                                        , this.props.disks
-                                        )
-            }
-            onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
-            onSubmitClick = { this.props.onSubmitVolume }
-            onCancelClick = { () => {
-              this.props.onBlurVolume();
-              this.props.onRevertVolume();
-            }}
-          />
-        ) }
+        <VolumeHeader
+          volumeName = { this.props.name }
+          disableSubmit = { this.isSubmissionDisabled() }
+          volumeState = { this.props.volumeState }
+          topologyBreakdown = { breakdown }
+          onClick = { this.props.onFocusVolume }
+          onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
+          onCancelClick = { () => {
+            this.props.onBlurVolume();
+            this.props.onRevertVolume();
+          }}
+          onSubmitClick = { this.props.onSubmitVolume }
+          onDestroyPool = { this.props.onRequestDestroyVolume }
+        />
 
         <Tabs
           className = "volume-nav"
           bsStyle = "pills"
           defaultActiveKey = { DEFAULT_SECTION }
-          style = { this.props.active ? {} : { display: "none" } }
+          style = { ( this.props.active && ALLOWED_SECTIONS.size )
+                  ? {}
+                  : { display: "none" }
+                  }
         >
 
           {/* DATASETS, ZVOLS, AND SHARES */}
@@ -205,17 +205,23 @@ export default class Volume extends React.Component {
             eventKey = "shares"
             disabled = { !ALLOWED_SECTIONS.has( "shares" ) }
           >
-            <Sharing
-              datasets = { this.props.datasets }
-              shares = { this.props.shares }
-              rootDataset = { this.props.rootDataset }
-              onFocusShare = { this.props.onFocusShare }
-              onBlurShare = { this.props.onBlurShare }
-              onUpdateShare = { this.props.onUpdateShare }
-              onRevertShare = { this.props.onRevertShare }
-              onSubmitShare = { this.props.onSubmitShare }
-              onRequestDeleteShare = { this.props.onRequestDeleteShare }
-            />
+            { ALLOWED_SECTIONS.has( "shares" ) ? (
+              <Sharing
+                datasets = { this.props.datasets }
+                shares = { this.props.shares }
+                volumeShares = { this.props.volumeShares }
+                volumeName = { this.props.name }
+                rootDataset = { this.props.rootDataset }
+                onFocusShare = { this.props.onFocusShare }
+                onBlurShare = { this.props.onBlurShare }
+                onUpdateShare = { this.props.onUpdateShare }
+                onRevertShare = { this.props.onRevertShare }
+                onSubmitShare = { this.props.onSubmitShare }
+                onRequestDeleteShare = { this.props.onRequestDeleteShare }
+              />
+            ) : (
+              <noscript />
+            )}
           </Tab>
 
           {/* ZFS SNAPSHOTS */}
@@ -233,26 +239,43 @@ export default class Volume extends React.Component {
             eventKey = "topology"
             disabled = { !ALLOWED_SECTIONS.has( "topology" ) }
           >
-            <Topology
-              existsOnServer = { this.props.existsOnServer }
-              existsOnClient = { this.props.existsOnClient }
+            { ALLOWED_SECTIONS.has( "topology" ) ? (
+              <Topology
+                existsOnServer = { this.props.existsOnServer }
+                existsOnClient = { this.props.existsOnClient }
 
-              onDiskAdd = { this.handleDiskAdd.bind( this ) }
-              onDiskRemove = { this.handleDiskRemove.bind( this ) }
-              onVdevNuke = { this.handleVdevNuke.bind( this ) }
-              onVdevTypeChange = { this.handleVdevTypeChange.bind( this ) }
+                onDiskAdd = { this.handleDiskAdd.bind( this ) }
+                onDiskRemove = { this.handleDiskRemove.bind( this ) }
+                onVdevNuke = { this.handleVdevNuke.bind( this ) }
+                onVdevTypeChange = { this.handleVdevTypeChange.bind( this ) }
 
-              disks = { this.props.disks }
-              availableDisks = { this.props.availableDisks }
-              SSDs = { this.props.SSDs }
-              HDDs = { this.props.HDDs }
-              availableSSDs = { this.props.availableSSDs }
-              availableHDDs = { this.props.availableHDDs }
+                disks = { this.props.disks }
+                availableDisks = { this.props.availableDisks }
+                SSDs = { this.props.SSDs }
+                HDDs = { this.props.HDDs }
+                availableSSDs = { this.props.availableSSDs }
+                availableHDDs = { this.props.availableHDDs }
 
-              topology = { this.props.topology }
-            />
+                topology = { this.props.topology }
+              />
+            ) : (
+              <noscript />
+            )}
           </Tab>
         </Tabs>
+
+
+        { ALLOWED_SECTIONS.size === 0 ? (
+          <Alert
+            bsStyle="danger"
+            className="volume-error"
+          >
+            <h4>Critical Pool Error</h4>
+            <p>Something is very wrong with your pool. No topology data could be found.</p>
+          </Alert>
+        ) : (
+          <noscript />
+        )}
 
       </Panel>
     );
@@ -273,6 +296,13 @@ Volume.propTypes =
 
   , existsOnServer: React.PropTypes.bool.isRequired
   , existsOnClient: React.PropTypes.bool.isRequired
+  , volumeState: React.PropTypes.oneOf(
+      [ "NEW_ON_CLIENT"
+      , "SUBMITTING"
+      , "CREATING"
+      , "DELETING"
+      ]
+    )
 
   , onDiskSelect : React.PropTypes.func.isRequired
   , onDiskDeselect : React.PropTypes.func.isRequired
@@ -314,6 +344,8 @@ Volume.propTypes =
       }
     )
   , datasets: React.PropTypes.object
+  , shares: React.PropTypes.object
+  , volumeShares: React.PropTypes.object
   , properties: React.PropTypes.shape(
       { free      : React.PropTypes.shape( RAW_VALUE_PROPTYPE )
       , allocated : React.PropTypes.shape( RAW_VALUE_PROPTYPE )

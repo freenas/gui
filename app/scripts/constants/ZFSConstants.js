@@ -9,31 +9,38 @@ export const DATASET_NAME_BLACKLIST = new Set(
 );
 
 
-export const BLANK_TOPOLOGY =
-  { data  : []
-  , log   : []
-  , cache : []
-  , spare : []
-  };
+export function createBlankTopology () {
+  return (
+    { data  : []
+    , log   : []
+    , cache : []
+    , spare : []
+    }
+  );
+}
 
 // NEW VOLUME
 // Used to initialize the required property values for a new volume
-export const NEW_VOLUME =
-  { name: ""
-  , topology: BLANK_TOPOLOGY
-  , datasets: []
-  , properties:
-    { free      : { rawvalue: 0 }
-    , allocated : { rawvalue: 0 }
-    , size      : { rawvalue: 0 }
+export function createVolumeInitialValues () {
+  return (
+    { name: ""
+    , topology: createBlankTopology()
+    , datasets: []
+    , properties:
+      { free      : { rawvalue: 0 }
+      , allocated : { rawvalue: 0 }
+      , size      : { rawvalue: 0 }
+      }
+    // WEBAPP ONLY
+    , preset: "None"
+    , selectedDisks: new Set()
     }
-  // WEBAPP ONLY
-  , preset: "None"
-  };
+  );
+}
 
 // TOPOLOGY PRESETS
 // Use in conjunction with
-export const PRESET_VALUES =
+export const PRESET_VALUES = Object.freeze(
   { "Optimal":
       { desired: [ "raidz1", "mirror" ]
       , highest: 1
@@ -54,4 +61,5 @@ export const PRESET_VALUES =
       , highest: 1
       , priority: "speed"
       }
-  };
+  }
+);

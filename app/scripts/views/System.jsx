@@ -1,4 +1,4 @@
- // Hardware Information
+ // System Information
 // ====================
 // Displays information about system hardware
 
@@ -16,19 +16,19 @@ import * as SUBSCRIPTIONS from "../actions/subscriptions";
 import ByteCalc from "../utility/ByteCalc";
 import DiskUtilities from "../utility/DiskUtilities";
 
-import DiskSection from "./Hardware/DiskSection";
+import DiskSection from "./System/DiskSection";
 
 // STYLESHEET
-if ( process.env.BROWSER ) require( "./Hardware.less" );
+if ( process.env.BROWSER ) require( "./System.less" );
 
 
 // REACT
-class Hardware extends React.Component {
+class System extends React.Component {
 
   constructor ( props ) {
     super( props );
 
-    this.displayName = "Hardware"
+    this.displayName = "System"
   }
 
   componentDidMount () {
@@ -43,7 +43,7 @@ class Hardware extends React.Component {
 
   render () {
     return (
-      <main className = { "hardware-wrapper" }>
+      <main className = { "system-wrapper" }>
         <div className ={ "statics" }>
           <Panel header = "System Information" /*TODO: split panel out into its own component when appropriate*/ >
             <ListGroup fill>
@@ -98,4 +98,4 @@ function mapDispatchToProps ( dispatch ) {
   );
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( Hardware );
+export default connect( mapStateToProps, mapDispatchToProps )( System );

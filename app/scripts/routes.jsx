@@ -22,10 +22,11 @@ import Accounts from "./views/Accounts";
     import GroupAdd from "./views/Accounts/Groups/GroupAdd";
 import Calendar from "./views/Calendar";
 import Console from "./views/Console";
-import Hardware from "./views/Hardware";
+import System from "./views/System";
 import Settings from "./views/Settings";
-  import System from "./views/Settings/System";
+  import SystemSettings from "./views/Settings/SystemSettings";
   import Sharing from "./views/Settings/Sharing";
+  import Distributed from "./views/Settings/Distributed";
   import Update from "./views/Settings/Update";
   import Security from "./views/Settings/Security";
 
@@ -84,17 +85,18 @@ export default (
     <Route path="console" component={ Console } />
 
 
-    {/* HARDWARE */}
-    <Route path="hardware" component={ Hardware } />
+    {/* System */}
+    <Route path="system" component={ System } />
 
 
     { /* Settings */ }
     <Route path="settings" component={ Settings } >
-      <IndexRoute component={ System } />
+      <IndexRoute component={ SystemSettings } />
 
 
-      <Route path="system" component={ System } />
+      <Route path="system" component={ SystemSettings } />
       <Route path="sharing" component={ Sharing } />
+      <Route path="distributed" component={ Distributed } />
       <Route path="update" component={ Update } />
       <Route path="security" component={ Security } />
     </Route>

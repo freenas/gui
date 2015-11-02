@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 
 import * as smbActions from "../../actions/smb";
 import * as nfsActions from "../../actions/nfs";
+import * as afpActions from "../../actions/afp";
 import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
 import SMB from "./Sharing/SMB";
@@ -23,7 +24,7 @@ class Sharing extends React.Component {
   constructor ( props ) {
     super( props );
 
-    this.displayName = "SharingSettings"
+    this.displayName = "Sharing Settings";
   }
 
   componentDidMount () {
@@ -44,11 +45,11 @@ class Sharing extends React.Component {
         <Col xs = {4}>
           <NFS { ...this.props }/>
         </Col>
-        {/*<Col xs = {4}>
-          <FTP { ...this.props }/>
-        </Col>
         <Col xs = {4}>
           <AFP { ...this.props }/>
+        </Col>
+        {/*<Col xs = {4}>
+          <FTP { ...this.props }/>
         </Col>
         <Col xs = {4}>
           <WebDAV { ...this.props }/>
@@ -63,45 +64,12 @@ class Sharing extends React.Component {
 
 // REDUX
 function mapStateToProps ( state ) {
-  return ( { smbServerState:
-             { enable: state.smb.smbServerState.enable
-             , dos_charset: state.smb.smbServerState.dos_charset
-             , filemask: state.smb.smbServerState.filemask
-             , unix_charset: state.smb.smbServerState.unix_charset
-             , domain_logons: state.smb.smbServerState.domain_logons
-             , max_protocol: state.smb.smbServerState.max_protocol
-             , netbiosname: state.smb.smbServerState.netbiosname
-             , empty_password: state.smb.smbServerState.empty_password
-             , dirmask: state.smb.smbServerState.dirmask
-             , description: state.smb.smbServerState.description
-             , log_level: state.smb.smbServerState.log_level
-             , min_protocol: state.smb.smbServerState.min_protocol
-             , obey_pam_restrictions: state.smb.smbServerState.obey_pam_restrictions
-             , workgroup: state.smb.smbServerState.workgroup
-             , time_server: state.smb.smbServerState.time_server
-             , guest_user: state.smb.smbServerState.guest_user
-             , local_master: state.smb.smbServerState.local_master
-             , hostlookup: state.smb.smbServerState.hostlookup
-             , syslog: state.smb.smbServerState.syslog
-             , zeroconf: state.smb.smbServerState.zeroconf
-             , execute_always: state.smb.smbServerState.execute_always
-             , unixext: state.smb.smbServerState.unixext
-             , bind_addresses: state.smb.smbServerState.bind_addresses
-             }
+  return ( { smbServerState: state.smb.smbServerState
            , smbForm: state.smb.smbForm
-           , nfsServerState:
-             { enable: state.nfs.nfsServerState.enable
-             , udp: state.nfs.nfsServerState.udp
-             , v4: state.nfs.nfsServerState.v4
-             , v4_kerberos: state.nfs.nfsServerState.v4_kerberos
-             , mountd_port: state.nfs.nfsServerState.mountd_port
-             , bind_addresses: state.nfs.nfsServerState.bind_addresses
-             , rpclockd_port: state.nfs.nfsServerState.rpclockd_port
-             , rpcstatd_port: state.nfs.nfsServerState.rpcstatd_port
-             , nonroot: state.nfs.nfsServerState.nonroot
-             , servers: state.nfs.nfsServerState.servers
-             }
+           , nfsServerState: state.nfs.nfsServerState
            , nfsForm: state.nfs.nfsForm
+           , afpServerState: state.afp.afpServerState
+           , afpForm: state.afp.afpForm
            }
          );
 }
@@ -123,11 +91,15 @@ function mapDispatchToProps ( dispatch ) {
     , updateNFSForm: ( field, value ) =>
         dispatch( nfsActions.updateNFSForm( field, value ) )
     , resetNFSForm: () => dispatch( nfsActions.resetNFSForm() )
+    , updateAFPForm: ( field, value ) =>
+        dispatch( afpActions.updateAFPForm( field, value ) )
+    , resetAFPForm: () => dispatch( afpActions.resetAFPForm() )
 
     // QUERIES
     , fetchData: () => {
       dispatch( smbActions.requestSMBConfig() );
       dispatch( nfsActions.requestNFSConfig() );
+      dispatch( afpActions.requestAFPConfig() );
     }
 
     // TASKS
@@ -139,6 +111,9 @@ function mapDispatchToProps ( dispatch ) {
     , toggleNFSTaskRequest: () => dispatch( nfsActions.toggleNFSTaskRequest() )
     , toggleNFSv4TaskRequest: () =>
         dispatch( nfsActions.toggleNFSv4TaskRequest() )
+    , configureAFPTaskRequest: () =>
+        dispatch( afpActions.configureAFPTaskRequest() )
+    , toggleAFPTaskRequest: () => dispatch( afpActions.toggleAFPTaskRequest() )
 
     }
   );

@@ -88,8 +88,7 @@ if ( process.env.BROWSER ) {
   );
 
   MiddlewareClient.subscribe(
-    [ "task.created"
-    , "task.updated"
+    [ "entity-subscriber.task.changed"
     , "task.progress"
     ]
     , "WEBAPP"

@@ -29,6 +29,44 @@ export function payloadIsType ( payload, testString ) {
   }
 }
 
+
+export function handleUpdateSingle ( payload, state, key ) {
+  if ( !payload.data ) {
+    console.warn( "Cannot update a record without new data:" );
+    console.log( payload );
+    return state;
+  }
+
+  if ( !payload.data.id ) {
+    console.warn( "Cannot update a record without an ID:" );
+    console.log( payload );
+    return state;
+  }
+
+  return Object.assign( {}, state,
+    { [ key ]: { [ payload.data.id ]: payload.data } }
+  );
+}
+
+export function handleDeleteSingle ( payload, state, key ) {
+  if ( !payload.data ) {
+    console.warn( "Cannot delete a record without new data:" );
+    console.log( payload );
+    return state;
+  }
+
+  if ( !payload.data.id ) {
+    console.warn( "Cannot delete a record without an ID:" );
+    console.log( payload );
+    return state;
+  }
+
+  let newCollection = Object.assign( {}, state[ key ] );
+  delete newCollection[ payload.data.id ];
+  return Object.assign( {}, state, { [ key ]: newCollection } );
+}
+
+
 export function handleChangedEntities ( payload, stateCollection ) {
   let newCollection = Object.assign( {}, stateCollection );
 

@@ -3,7 +3,9 @@
 
 "use strict";
 
-import * as actionTypes from "../actions/actionTypes";
+import * as TYPES from "../actions/actionTypes";
+import { handleChangedEntities, handleUpdateSingle, handleDeleteSingle }
+  from "../utility/Reducer";
 
 const INITIAL_STATE =
   // userSubmitted stores the UUID and original arguments supplied by the user.
@@ -33,7 +35,7 @@ export default function tasks ( state = INITIAL_STATE, action ) {
     // ==============================
     // Record the arguments for the task, and wait for the success callback
     // to resolve and remove the key.
-    case actionTypes.TASK_SUBMIT_REQUEST:
+    case TYPES.TASK_SUBMIT_REQUEST:
       userSubmitted = Object.assign( {}
                                    , state.userSubmitted
                                    , { [ payload.UUID ]: payload.args }
@@ -46,7 +48,7 @@ export default function tasks ( state = INITIAL_STATE, action ) {
     // =====================
     // Move the arguments to userActive and re-key by task ID, then delete
     // the original key in userSubmitted.
-    case actionTypes.TASK_SUBMIT_SUCCESS:
+    case TYPES.TASK_SUBMIT_SUCCESS:
       userSubmitted = Object.assign( {}, state.userSubmitted );
       userActive = Object.assign( {}
                                 , state.userActive
@@ -63,7 +65,7 @@ export default function tasks ( state = INITIAL_STATE, action ) {
     // This case is only triggered when the actual submission encounters an
     // error. Either there's a bug in the middleware itself, or (much more
     // likely) the task name or args were malformed.
-    case actionTypes.TASK_SUBMIT_FAILURE:
+    case TYPES.TASK_SUBMIT_FAILURE:
       userSubmitted = Object.assign( {}, state.userSubmitted );
 
       delete userSubmitted[ payload.UUID ];
@@ -71,26 +73,26 @@ export default function tasks ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state, { userSubmitted } );
 
 
-    case actionTypes.TASK_FAILED:
+    case TYPES.TASK_FAILED:
       // This isn't grouped with finished because the assumption is that the
       // user (or the stupid developer) will see the error and manually clear it
       console.error( "ERROR: Task failure" );
       console.log( "Task payload:", payload );
-    case actionTypes.TASK_CREATED:
-    case actionTypes.TASK_UPDATED:
-    case actionTypes.TASK_PROGRESS:
-      tasks = Object.assign( {}, state.tasks );
+    case TYPES.TASK_CREATED:
+    case TYPES.TASK_UPDATED:
+    case TYPES.TASK_PROGRESS:
+      return handleUpdateSingle( payload, state, "tasks" );
 
-      tasks[ payload.data.id ] =
-        Object.assign( {}, tasks[ payload.data.id ], payload.data );
+    case TYPES.TASK_FINISHED:
+      return handleDeleteSingle( payload, state, "tasks" );
 
-      return Object.assign( {}, state, { tasks } );
 
-    case actionTypes.TASK_FINISHED:
-      tasks = Object.assign( {}, state.tasks );
-      delete tasks[ payload.data.id ];
-      return Object.assign( {}, state, { tasks } );
-
+    case TYPES.ENTITY_CHANGED:
+      if ( payload.mask === "task.changed" ) {
+        tasks = handleChangedEntities( payload, state.tasks );
+        return Object.assign( {}, state, { tasks } );
+      }
+      return state;
 
     default:
       return state;
