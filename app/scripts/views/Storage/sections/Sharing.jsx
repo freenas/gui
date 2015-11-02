@@ -24,7 +24,7 @@ const Sharing = ( props ) => {
         { ...other }
         isRoot
         name = { props.volumeName }
-        target = ""
+        target = { props.volumeName }
         id     = "ROOT_DATASET"
         childShares = { props.volumeShares }
         children = { CHILDREN }

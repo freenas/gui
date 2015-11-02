@@ -131,7 +131,7 @@ export default class Share extends React.Component {
               className = "add"
               onClick = { () =>
                 this.props.onUpdateShare( "NEW"
-                                        , { target: `${ this.props.mountpoint }/NEW` }
+                                        , { target: this.props.target }
                                         )
               }
             >
