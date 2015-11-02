@@ -81,8 +81,8 @@ export function fetchAvailableDisksIfNeeded () {
 
 // INIT NEW VOLUME ON CLIENT
 export function initNewVolume () {
-  let volumeID = FreeNASUtil.generateUUID();
-  let newVolume = Object.assign( {}, ZFSConstants.NEW_VOLUME, { volumeID } );
+  const volumeID = FreeNASUtil.generateUUID();
+  const newVolume = Object.assign( ZFSConstants.createVolumeInitialValues(), { volumeID } );
 
   return { type: TYPES.INIT_NEW_VOLUME
          , payload: { volumeID, newVolume }
@@ -168,24 +168,23 @@ export function selectPresetTopology ( volumeID, preset ) {
   }
 }
 
-export function selectDisk ( path ) {
+export function selectDisk ( volumeID, path ) {
   return ( dispatch, getState ) => {
     let state = getState();
 
     if ( state.volumes.availableDisks.has( path ) ) {
       dispatch(
         { type: TYPES.SELECT_DISK
-        , payload: { path }
+        , payload: { volumeID, path }
         }
       );
     } else {
       console.warn( `Tried to select ${ path }, but it is marked as unavailable.` );
-
     }
   }
 }
 
-export function deselectDisk ( path ) {
+export function deselectDisk ( volumeID, path ) {
   return ( dispatch, getState ) => {
     let state = getState();
 
@@ -198,7 +197,7 @@ export function deselectDisk ( path ) {
 
     dispatch(
       { type: TYPES.DESELECT_DISK
-      , payload: { path }
+      , payload: { volumeID, path }
       }
     );
 

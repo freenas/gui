@@ -74,8 +74,8 @@ class Storage extends React.Component {
           existsOnServer = { Boolean( volumes.serverVolumes[ id ] ) }
           existsOnClient = { Boolean( volumes.clientVolumes[ id ] ) }
 
-          onDiskSelect = { this.props.onDiskSelect }
-          onDiskDeselect = { this.props.onDiskDeselect }
+          onDiskSelect = { this.props.onDiskSelect.bind( this, id ) }
+          onDiskDeselect = { this.props.onDiskDeselect.bind( this, id ) }
 
           // DATASETS
           shares = { this.props.shares }
@@ -338,10 +338,10 @@ function mapDispatchToProps ( dispatch ) {
     , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
 
     // GUI
-    , onDiskSelect: ( path ) =>
-      dispatch( VOLUMES.selectDisk( path ) )
-    , onDiskDeselect: ( path ) =>
-      dispatch( VOLUMES.deselectDisk( path ) )
+    , onDiskSelect: ( volumeID, path ) =>
+      dispatch( VOLUMES.selectDisk( volumeID, path ) )
+    , onDiskDeselect: ( volumeID, path ) =>
+      dispatch( VOLUMES.deselectDisk( volumeID, path ) )
     , onFocusShare: ( shareID ) =>
       dispatch( SHARES.focusShare( shareID ) )
     , onBlurShare: () =>

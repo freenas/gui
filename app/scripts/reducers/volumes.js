@@ -134,21 +134,19 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
       clientVolumes[ payload.volumeID ].preset = "None";
       clientVolumes[ payload.volumeID ].topology = topologyData[0];
+      clientVolumes[ payload.volumeID ].selectedDisks = new Set( topologyData[1] );
 
-      selectedDisks = new Set( topologyData[1] );
-
-      return Object.assign( {}, state, { clientVolumes, selectedDisks } );
+      return Object.assign( {}, state, { clientVolumes } );
 
     case TYPES.REVERT_VOLUME_TOPOLOGY:
       clientVolumes = Object.assign( {}, state.clientVolumes );
 
       clientVolumes[ payload.volumeID ].preset = "None";
       clientVolumes[ payload.volumeID ].topology =
-        Object.assign( {}, ZFSConstants.BLANK_TOPOLOGY );
+        ZFSConstants.createBlankTopology();
+      clientVolumes[ payload.volumeID ].selectedDisks = new Set();
 
-      selectedDisks = new Set();
-
-      return Object.assign( {}, state, { clientVolumes, selectedDisks } );
+      return Object.assign( {}, state, { clientVolumes } );
 
 
     case TYPES.FOCUS_VOLUME:
@@ -186,9 +184,9 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
           clientVolumes[ payload.volumeID ].preset = payload.preset;
           clientVolumes[ payload.volumeID ].topology = topologyData[0];
-          selectedDisks = new Set( topologyData[1] );
+          clientVolumes[ payload.volumeID ].selectedDisks = new Set( topologyData[1] );
 
-          return Object.assign( {}, state, { clientVolumes, selectedDisks } );
+          return Object.assign( {}, state, { clientVolumes } );
         } else {
           console.warn( `The preset "${ payload.preset }" doesn't exist.` );
           return state;
@@ -205,14 +203,18 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
 
     case TYPES.SELECT_DISK:
-      selectedDisks = new Set( state.selectedDisks );
-      selectedDisks.add( payload.path );
-      return Object.assign( {}, state, { selectedDisks } );
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+      clientVolumes[ payload.volumeID ].selectedDisks =
+        new Set( clientVolumes[ payload.volumeID ].selectedDisks );
+      clientVolumes[ payload.volumeID ].selectedDisks.add( payload.path );
+      return Object.assign( {}, state, { clientVolumes } );
 
     case TYPES.DESELECT_DISK:
-      selectedDisks = new Set( state.selectedDisks );
-      selectedDisks.delete( payload.path );
-      return Object.assign( {}, state, { selectedDisks } );
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+      clientVolumes[ payload.volumeID ].selectedDisks =
+        new Set( clientVolumes[ payload.volumeID ].selectedDisks );
+      clientVolumes[ payload.volumeID ].selectedDisks.delete( payload.path );
+      return Object.assign( {}, state, { clientVolumes } );
 
 
     case TYPES.INTEND_DESTROY_VOLUME:

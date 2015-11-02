@@ -66,6 +66,7 @@ export function handleDeleteSingle ( payload, state, key ) {
   return Object.assign( {}, state, { [ key ]: newCollection } );
 }
 
+
 export function handleChangedEntities ( payload, stateCollection ) {
   let newCollection = Object.assign( {}, stateCollection );
 
