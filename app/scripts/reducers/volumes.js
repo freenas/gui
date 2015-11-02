@@ -15,7 +15,7 @@ const INITIAL_STATE =
   // RPC REQUEST TRACKING
   { volumesRequests: new Set()
   , availableDisksRequests: new Set()
-  , createRequests: new Set()
+  , createRequests: new Map()
   , destroyRequests: new Set()
   , availableDisksInvalid: false
 
@@ -89,6 +89,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       clientVolumes = Object.assign( {}, state.clientVolumes );
 
       clientVolumes[ payload.volumeID ] = payload.newVolume;
+      clientVolumes[ payload.volumeID ].volumeState = "NEW_ON_CLIENT";
 
       return Object.assign( {}
                           , state
@@ -244,12 +245,16 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
     // SUBMIT NEW VOLUME
     case TYPES.CREATE_VOLUME_TASK_SUBMIT_REQUEST:
-      return Object.assign( {}
-                          , state
-                          , recordUUID( payload.UUID, state, "createRequests" )
-                          );
+      var createRequests = new Map( state.createRequests );
+      createRequests.set( payload.UUID, payload.volumeID );
 
-    // SUBMIT NEW VOLUME
+      clientVolumes = Object.assign( {}, state.clientVolumes );
+      clientVolumes[ payload.volumeID ] =
+        Object.assign( {}, clientVolumes[ payload.volumeID ], { volumeState: "SUBMITTING" } );
+
+      return Object.assign( {}, state, { createRequests, clientVolumes });
+
+    // DESTROY VOLUME
     case TYPES.DESTROY_VOLUME_TASK_SUBMIT_REQUEST:
       return Object.assign( {}
                           , state
@@ -303,10 +308,18 @@ export default function volumes ( state = INITIAL_STATE, action ) {
       // VOLUME SUBMIT TASK
       if ( state.createRequests.has( payload.UUID ) ) {
         if ( payload.data ) {
-          return Object.assign( {}
-                              , state
-                              , resolveUUID( payload.UUID, state, "createRequests" )
-                              );
+          var createRequests = new Map( state.createRequests );
+          var volumeID = createRequests.get( payload.UUID );
+
+          // TODO: What if the task fails or times out...?
+          if ( state.clientVolumes[ volumeID ] ) {
+            clientVolumes = Object.assign( {}, state.clientVolumes );
+            clientVolumes[ volumeID ].volumeState = "CREATING";
+          } else {
+            console.warn( `Did not find volume "${ volumeID }" in state` );
+          }
+
+          return Object.assign( {}, state, { createRequests, clientVolumes } );
         } else {
           console.warn( "Volume Submit task did not return a task ID" );
           return state;

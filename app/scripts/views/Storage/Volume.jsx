@@ -14,8 +14,7 @@ import EventBus from "../../utility/EventBus";
 import ByteCalc from "../../utility/ByteCalc";
 import ZfsUtil from "./utility/ZfsUtil";
 
-import NewVolume from "./headers/NewVolume";
-import ExistingVolume from "./headers/ExistingVolume";
+import VolumeHeader from "./VolumeHeader";
 import Topology from "./sections/Topology";
 import Sharing from "./sections/Sharing";
 
@@ -147,6 +146,7 @@ export default class Volume extends React.Component {
   }
 
   isSubmissionDisabled () {
+    if ( !this.props.topology ) return true;
     if ( this.props.topology.data.length === 0 ) return true;
     if ( this.props.name.length === 0 ) return true;
   }
@@ -157,6 +157,13 @@ export default class Volume extends React.Component {
   render () {
     const ALLOWED_SECTIONS = this.getAllowedSections();
     const DEFAULT_SECTION = ALLOWED_SECTIONS.values().next().value;
+    let breakdown;
+
+    if ( this.props.rootDataset ) {
+      breakdown = this.breakdownFromRootDataset();
+    } else if ( this.props.topology ) {
+      breakdown = ZfsUtil.calculateBreakdown( this.props.topology.data, this.props.disks );
+    }
 
     let panelClass = [ "volume" ];
 
@@ -166,30 +173,20 @@ export default class Volume extends React.Component {
       <Panel className = { panelClass.join( " " ) } >
 
         {/* VOLUME HEADER */}
-        { this.props.existsOnServer ? (
-          <ExistingVolume
-            volumeName = { this.props.name }
-            onClick = { this.props.onFocusVolume }
-            onDestroyPool = { this.props.onRequestDestroyVolume }
-            topologyBreakdown = { this.breakdownFromRootDataset() }
-          />
-        ) : (
-          <NewVolume
-            volumeName = { this.props.name }
-            disableSubmit = { this.isSubmissionDisabled() }
-            topologyBreakdown = {
-              ZfsUtil.calculateBreakdown( this.props.topology.data
-                                        , this.props.disks
-                                        )
-            }
-            onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
-            onSubmitClick = { this.props.onSubmitVolume }
-            onCancelClick = { () => {
-              this.props.onBlurVolume();
-              this.props.onRevertVolume();
-            }}
-          />
-        ) }
+        <VolumeHeader
+          volumeName = { this.props.name }
+          disableSubmit = { this.isSubmissionDisabled() }
+          volumeState = { this.props.volumeState }
+          topologyBreakdown = { breakdown }
+          onClick = { this.props.onFocusVolume }
+          onVolumeNameChange = { ( name ) => this.props.onUpdateVolume({ name }) }
+          onCancelClick = { () => {
+            this.props.onBlurVolume();
+            this.props.onRevertVolume();
+          }}
+          onSubmitClick = { this.props.onSubmitVolume }
+          onDestroyPool = { this.props.onRequestDestroyVolume }
+        />
 
         <Tabs
           className = "volume-nav"
@@ -296,6 +293,13 @@ Volume.propTypes =
 
   , existsOnServer: React.PropTypes.bool.isRequired
   , existsOnClient: React.PropTypes.bool.isRequired
+  , volumeState: React.PropTypes.oneOf(
+      [ "NEW_ON_CLIENT"
+      , "SUBMITTING"
+      , "CREATING"
+      , "DELETING"
+      ]
+    )
 
   , onDiskSelect : React.PropTypes.func.isRequired
   , onDiskDeselect : React.PropTypes.func.isRequired

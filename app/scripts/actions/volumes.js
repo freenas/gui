@@ -204,9 +204,9 @@ export function deselectDisk ( volumeID, path ) {
   }
 }
 
-function volumeCreateAC ( UUID ) {
+function volumeCreateAC ( UUID, volumeID ) {
   return { type: TYPES.CREATE_VOLUME_TASK_SUBMIT_REQUEST
-         , payload: { UUID }
+         , payload: { UUID, volumeID }
          }
 }
 
@@ -248,7 +248,7 @@ export function submitVolume ( volumeID ) {
       }
 
       MC.submitTask( [ "volume.create", [ newVolume ] ]
-                   , ( UUID ) => dispatch( volumeCreateAC( UUID ) )
+                   , ( UUID ) => dispatch( volumeCreateAC( UUID, volumeID ) )
                    );
     }
   }
