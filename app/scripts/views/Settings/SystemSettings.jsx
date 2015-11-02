@@ -14,12 +14,12 @@ import * as systemActions from "../../actions/system";
 import IM from "../../flux/middleware/InterfacesMiddleware";
 */
 
-import Console from "./System/Console";
-import LocalizationSettings from "./System/LocalizationSettings";
-import OSSettings from "./System/OSSettings";
-//import ConnectionSettings from "./System/ConnectionSettings";
+import Console from "./SystemSettings/Console";
+import LocalizationSettings from "./SystemSettings/LocalizationSettings";
+import OSSettings from "./SystemSettings/OSSettings";
+//import ConnectionSettings from "./SystemSettings/ConnectionSettings";
 
-class System extends React.Component {
+class SystemSettings extends React.Component {
   constructor( props ) {
     super( props )
   }
@@ -105,4 +105,4 @@ function mapDispatchToProps ( dispatch ) {
   );
 };
 
-export default connect( mapStateToProps, mapDispatchToProps )( System );
+export default connect( mapStateToProps, mapDispatchToProps )( SystemSettings );
