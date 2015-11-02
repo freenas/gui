@@ -13,6 +13,7 @@ import * as riakActions from "../../actions/riak";
 import * as riakCSActions from "../../actions/riakcs";
 import * as stanchionActions from "../../actions/stanchion";
 import * as glusterActions from "../../actions/gluster";
+import * as swiftActions from "../../actions/swift";
 
 import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
@@ -21,6 +22,7 @@ import Riak from "./Distributed/Riak";
 import RiakCS from "./Distributed/RiakCS";
 import Stanchion from "./Distributed/Stanchion";
 import Gluster from "./Distributed/Gluster";
+import Swift from "./Distributed/Swift";
 
 class Distributed extends React.Component {
   constructor ( props ) {
@@ -56,6 +58,9 @@ class Distributed extends React.Component {
         <Col xs = {4}>
           <Gluster { ...this.props }/>
         </Col>
+        <Col xs = {4}>
+          <Swift { ...this.props }/>
+        </Col>
       </div>
     );
   }
@@ -72,6 +77,8 @@ function mapStateToProps ( state ) {
            , stanchionForm: state.stanchion.stanchionForm
            , glusterServerState: state.gluster.glusterServerState
            , glusterForm: state.gluster.glusterForm
+           , swiftServerState: state.swift.swiftServerState
+           , swiftForm: state.swift.swiftForm
            }
          );
 };
@@ -104,6 +111,9 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( glusterActions.updateGlusterForm( field, value ) )
     , resetGlusterForm: () =>
       dispatch( glusterActions.resetGlusterForm() )
+    , updateSwiftForm: ( field, value ) =>
+      dispatch( swiftActions.updateSwiftForm( field, value ) )
+    , resetSwiftForm: () => dispatch( swiftActions.resetSwiftForm() )
 
     // QUERIES
     , fetchData: () => {
@@ -112,6 +122,7 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( riakCSActions.requestRiakCSConfig() );
       dispatch( stanchionActions.requestStanchionConfig() );
       dispatch( glusterActions.requestGlusterConfig() );
+      dispatch( swiftActions.requestSwiftConfig() );
     }
 
     // TASKS
@@ -135,6 +146,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( glusterActions.configureGlusterTaskRequest() )
     , toggleGlusterTaskRequest: () =>
       dispatch( glusterActions.toggleGlusterTaskRequest() )
+    , configureSwiftTaskRequest: () =>
+      dispatch( swiftActions.configureSwiftTaskRequest() )
+    , toggleSwiftTaskRequest: () =>
+      dispatch( swiftActions.toggleSwiftTaskRequest() )
     }
   );
 };
