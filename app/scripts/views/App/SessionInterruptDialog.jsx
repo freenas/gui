@@ -45,7 +45,9 @@ class SessionInterruptDialog extends React.Component {
             <div className="sid-content">
 
               <div className="logo-wrapper">
-                <img className="logo-image" src="/images/freenas-icon-big.png" />
+                <img className="logo-image" src="/images/freenas-icon.png" />
+                <img className="logo-wordmark" src="/images/freenas-logotype.png" />
+                <img className="logo-x" src="/images/X.png" />
               </div>
 
               <h3>{ message }</h3>

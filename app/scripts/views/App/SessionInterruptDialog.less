@@ -10,7 +10,7 @@
   .align-items( center );
   .justify-content( center );
   .flex-flow( row nowrap );
-  background: fade( darken( #2b3241, 5% ), 90% );
+  background: fade( darken( @brand-primary, 35% ), 84% );
   top: 0;
   right: 0;
   bottom: 0;
@@ -19,37 +19,14 @@
   z-index: 2000;
 
   .sid-content {
-    .flex( 0 1 360px );
+    .flex( 0 1 450px );
     color: white;
     text-align: center;
-    color: #9da7b4;
-
-    h3{
-      margin-bottom: 24px;
-    }
-
-    .form-control{
-      height: 36px;
-      font-size: 15px;
-      border-color: rgba(250,250,250,0.2)
-    }
-
-    .form-control::-webkit-input-placeholder, .form-control:-moz-placeholder, .form-control::-moz-placeholder, .form-control:-ms-input-placeholder{
-      font-style: normal;
-      color: #444;
-    }
-
-    button{
-      padding: 8px 16px;
-    }
-
-    .form-group{
-      margin-bottom: 24px;
-    }
   }
 
   .logo-wrapper {
-    height: 88px;
+    height: 60px;
+    padding: 2px 20px 4px 25px;
     box-sizing: initial;
     display: inline-block;
   }
@@ -62,6 +39,8 @@
   }
 
   .logo-image {
+    padding: 5px 0;
+    margin-right: 20px;
   }
 
   .logo-wordmark {

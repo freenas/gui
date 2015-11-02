@@ -52,7 +52,7 @@ const paths =
     , icon     : "icon-calendar"
     , label    : "Calendar"
     , status   : null
-    , disabled : false
+    , disabled : true
     }
   , { path     : "/console"
     , icon     : "icon-console"
