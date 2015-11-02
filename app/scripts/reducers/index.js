@@ -30,6 +30,7 @@ import riakcs from "./riakcs";
 import smb from "./smb";
 import ssh from "./ssh";
 import stanchion from "./stanchion";
+import swift from "./swift";
 
 const rootReducer = combineReducers(
   { auth
@@ -59,6 +60,7 @@ const rootReducer = combineReducers(
   , smb
   , ssh
   , stanchion
+  , swift
   }
 );
 
