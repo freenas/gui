@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 
 import * as smbActions from "../../actions/smb";
 import * as nfsActions from "../../actions/nfs";
+import * as afpActions from "../../actions/afp";
 import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
 import SMB from "./Sharing/SMB";
@@ -44,11 +45,11 @@ class Sharing extends React.Component {
         <Col xs = {4}>
           <NFS { ...this.props }/>
         </Col>
-        {/*<Col xs = {4}>
-          <FTP { ...this.props }/>
-        </Col>
         <Col xs = {4}>
           <AFP { ...this.props }/>
+        </Col>
+        {/*<Col xs = {4}>
+          <FTP { ...this.props }/>
         </Col>
         <Col xs = {4}>
           <WebDAV { ...this.props }/>
@@ -102,6 +103,8 @@ function mapStateToProps ( state ) {
              , servers: state.nfs.nfsServerState.servers
              }
            , nfsForm: state.nfs.nfsForm
+           , afpServerState: state.afp.afpServerState
+           , afpForm: state.afp.afpForm
            }
          );
 }
@@ -123,11 +126,15 @@ function mapDispatchToProps ( dispatch ) {
     , updateNFSForm: ( field, value ) =>
         dispatch( nfsActions.updateNFSForm( field, value ) )
     , resetNFSForm: () => dispatch( nfsActions.resetNFSForm() )
+    , updateAFPForm: ( field, value ) =>
+        dispatch( afpActions.updateAFPForm( field, value ) )
+    , resetAFPForm: () => dispatch( afpActions.resetAFPForm() )
 
     // QUERIES
     , fetchData: () => {
       dispatch( smbActions.requestSMBConfig() );
       dispatch( nfsActions.requestNFSConfig() );
+      dispatch( afpActions.requestAFPConfig() );
     }
 
     // TASKS
@@ -139,6 +146,9 @@ function mapDispatchToProps ( dispatch ) {
     , toggleNFSTaskRequest: () => dispatch( nfsActions.toggleNFSTaskRequest() )
     , toggleNFSv4TaskRequest: () =>
         dispatch( nfsActions.toggleNFSv4TaskRequest() )
+    , configureAFPTaskRequest: () =>
+        dispatch( afpActions.configureAFPTaskRequest() )
+    , toggleAFPTaskRequest: () => dispatch( afpActions.toggleAFPTaskRequest() )
 
     }
   );
