@@ -21,6 +21,7 @@ import groups from "./groups";
 import update from "./update";
 
 // SERVICES
+import afp from "./afp";
 import ipfs from "./ipfs";
 import nfs from "./nfs";
 import riak from "./riak";
@@ -47,6 +48,7 @@ const rootReducer = combineReducers(
   , update
 
   // SERVICES
+  , afp
   , ipfs
   , nfs
   , riak
