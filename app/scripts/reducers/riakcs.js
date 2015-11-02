@@ -87,9 +87,9 @@ export default function riakcs ( state = INITIAL_STATE, action ) {
 
       if ( state.riakCSConfigRequests.has( payload.UUID ) ) {
         riakCSServerState = Object.assign( {}
-                                       , state.riakCSServerState
-                                       , payload.data
-                                       );
+                                          , state.riakCSServerState
+                                          , payload.data
+                                          );
         return Object.assign( {}, state, { riakCSServerState }
                             , resolveUUID( payload.UUID
                                          , state
@@ -105,9 +105,9 @@ export default function riakcs ( state = INITIAL_STATE, action ) {
         && payload.data.entities[0].name === "riakcs"
          ) {
         riakCSServerState = Object.assign( {}
-                                      , state.riakCSServerState
-                                      , payload.data.entities[0].config
-                                      );
+                                         , state.riakCSServerState
+                                         , payload.data.entities[0].config
+                                         );
         return Object.assign( {}, state, { riakCSServerState } );
       }
       return state;

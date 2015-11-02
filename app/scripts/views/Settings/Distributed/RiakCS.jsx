@@ -1,5 +1,5 @@
 // Riak CS Configuration
-// ====================
+// =====================
 
 "use strict";
 
