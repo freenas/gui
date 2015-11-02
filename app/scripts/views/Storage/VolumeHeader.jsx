@@ -83,6 +83,7 @@ const VolumeHeader = ( props ) => {
               <DropdownButton
                 noCaret
                 pullRight
+                disabled = { props.volumeState === "CREATING" }
                 id      = { "volume-options-" + props.volumeName }
                 bsStyle = "link"
                 title   = { <Icon glyph="icon-cog" /> }
