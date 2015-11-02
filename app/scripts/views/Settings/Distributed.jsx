@@ -12,6 +12,7 @@ import * as ipfsActions from "../../actions/ipfs";
 import * as riakActions from "../../actions/riak";
 import * as riakCSActions from "../../actions/riakcs";
 import * as stanchionActions from "../../actions/stanchion";
+import * as glusterActions from "../../actions/gluster";
 
 import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
@@ -19,6 +20,7 @@ import IPFS from "./Distributed/IPFS";
 import Riak from "./Distributed/Riak";
 import RiakCS from "./Distributed/RiakCS";
 import Stanchion from "./Distributed/Stanchion";
+import Gluster from "./Distributed/Gluster";
 
 class Distributed extends React.Component {
   constructor ( props ) {
@@ -51,6 +53,9 @@ class Distributed extends React.Component {
         <Col xs = {4}>
           <IPFS { ...this.props }/>
         </Col>
+        <Col xs = {4}>
+          <Gluster { ...this.props }/>
+        </Col>
       </div>
     );
   }
@@ -65,6 +70,8 @@ function mapStateToProps ( state ) {
            , riakCSForm: state.riakcs.riakCSForm
            , stanchionServerState: state.stanchion.stanchionServerState
            , stanchionForm: state.stanchion.stanchionForm
+           , glusterServerState: state.gluster.glusterServerState
+           , glusterForm: state.gluster.glusterForm
            }
          );
 };
@@ -93,6 +100,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( stanchionActions.updateStanchionForm( field, value ) )
     , resetStanchionForm: () =>
       dispatch( stanchionActions.resetStanchionForm() )
+    , updateGlusterForm: ( field, value ) =>
+      dispatch( glusterActions.updateGlusterForm( field, value ) )
+    , resetGlusterForm: () =>
+      dispatch( glusterActions.resetGlusterForm() )
 
     // QUERIES
     , fetchData: () => {
@@ -100,6 +111,7 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( riakActions.requestRiakConfig() );
       dispatch( riakCSActions.requestRiakCSConfig() );
       dispatch( stanchionActions.requestStanchionConfig() );
+      dispatch( glusterActions.requestGlusterConfig() );
     }
 
     // TASKS
@@ -119,6 +131,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( stanchionActions.configureStanchionTaskRequest() )
     , toggleStanchionTaskRequest: () =>
       dispatch( stanchionActions.toggleStanchionTaskRequest() )
+    , configureGlusterTaskRequest: () =>
+      dispatch( glusterActions.configureGlusterTaskRequest() )
+    , toggleGlusterTaskRequest: () =>
+      dispatch( glusterActions.toggleGlusterTaskRequest() )
     }
   );
 };
