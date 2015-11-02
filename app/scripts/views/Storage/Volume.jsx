@@ -8,7 +8,7 @@
 
 import _ from "lodash";
 import React from "react";
-import { Panel, Tabs, Tab } from "react-bootstrap";
+import { Panel, Tabs, Tab, Alert } from "react-bootstrap";
 
 import EventBus from "../../utility/EventBus";
 import ByteCalc from "../../utility/ByteCalc";
@@ -31,22 +31,24 @@ export default class Volume extends React.Component {
   getAllowedSections () {
     let allowedSections = new Set();
 
-    // TODO
-    if ( false ) {
-      allowedSections.add( "files" );
-    }
+    // Prerequisites for a healthy pool
+    if ( this.props.topology && this.props.datasets ) {
+      // TODO
+      if ( false ) {
+        allowedSections.add( "files" );
+      }
 
-    if ( this.props.existsOnServer ) {
-      allowedSections.add( "shares" );
-    }
+      if ( this.props.existsOnServer ) {
+        allowedSections.add( "shares" );
+      }
 
-    // TODO
-    if ( false ) {
-      allowedSections.add( "snapshots" );
-    }
+      // TODO
+      if ( false ) {
+        allowedSections.add( "snapshots" );
+      }
 
-    // Topology is always allowed
-    allowedSections.add( "topology" );
+      allowedSections.add( "topology" );
+    }
 
     return allowedSections;
   }
@@ -193,7 +195,10 @@ export default class Volume extends React.Component {
           className = "volume-nav"
           bsStyle = "pills"
           defaultActiveKey = { DEFAULT_SECTION }
-          style = { this.props.active ? {} : { display: "none" } }
+          style = { ( this.props.active && ALLOWED_SECTIONS.size )
+                  ? {}
+                  : { display: "none" }
+                  }
         >
 
           {/* DATASETS, ZVOLS, AND SHARES */}
@@ -202,17 +207,21 @@ export default class Volume extends React.Component {
             eventKey = "shares"
             disabled = { !ALLOWED_SECTIONS.has( "shares" ) }
           >
-            <Sharing
-              datasets = { this.props.datasets }
-              shares = { this.props.shares }
-              rootDataset = { this.props.rootDataset }
-              onFocusShare = { this.props.onFocusShare }
-              onBlurShare = { this.props.onBlurShare }
-              onUpdateShare = { this.props.onUpdateShare }
-              onRevertShare = { this.props.onRevertShare }
-              onSubmitShare = { this.props.onSubmitShare }
-              onRequestDeleteShare = { this.props.onRequestDeleteShare }
-            />
+            { ALLOWED_SECTIONS.has( "shares" ) ? (
+              <Sharing
+                datasets = { this.props.datasets }
+                shares = { this.props.shares }
+                rootDataset = { this.props.rootDataset }
+                onFocusShare = { this.props.onFocusShare }
+                onBlurShare = { this.props.onBlurShare }
+                onUpdateShare = { this.props.onUpdateShare }
+                onRevertShare = { this.props.onRevertShare }
+                onSubmitShare = { this.props.onSubmitShare }
+                onRequestDeleteShare = { this.props.onRequestDeleteShare }
+              />
+            ) : (
+              <noscript />
+            )}
           </Tab>
 
           {/* ZFS SNAPSHOTS */}
@@ -230,26 +239,43 @@ export default class Volume extends React.Component {
             eventKey = "topology"
             disabled = { !ALLOWED_SECTIONS.has( "topology" ) }
           >
-            <Topology
-              existsOnServer = { this.props.existsOnServer }
-              existsOnClient = { this.props.existsOnClient }
+            { ALLOWED_SECTIONS.has( "topology" ) ? (
+              <Topology
+                existsOnServer = { this.props.existsOnServer }
+                existsOnClient = { this.props.existsOnClient }
 
-              onDiskAdd = { this.handleDiskAdd.bind( this ) }
-              onDiskRemove = { this.handleDiskRemove.bind( this ) }
-              onVdevNuke = { this.handleVdevNuke.bind( this ) }
-              onVdevTypeChange = { this.handleVdevTypeChange.bind( this ) }
+                onDiskAdd = { this.handleDiskAdd.bind( this ) }
+                onDiskRemove = { this.handleDiskRemove.bind( this ) }
+                onVdevNuke = { this.handleVdevNuke.bind( this ) }
+                onVdevTypeChange = { this.handleVdevTypeChange.bind( this ) }
 
-              disks = { this.props.disks }
-              availableDisks = { this.props.availableDisks }
-              SSDs = { this.props.SSDs }
-              HDDs = { this.props.HDDs }
-              availableSSDs = { this.props.availableSSDs }
-              availableHDDs = { this.props.availableHDDs }
+                disks = { this.props.disks }
+                availableDisks = { this.props.availableDisks }
+                SSDs = { this.props.SSDs }
+                HDDs = { this.props.HDDs }
+                availableSSDs = { this.props.availableSSDs }
+                availableHDDs = { this.props.availableHDDs }
 
-              topology = { this.props.topology }
-            />
+                topology = { this.props.topology }
+              />
+            ) : (
+              <noscript />
+            )}
           </Tab>
         </Tabs>
+
+
+        { ALLOWED_SECTIONS.size === 0 ? (
+          <Alert
+            bsStyle="danger"
+            className="volume-error"
+          >
+            <h4>Critical Pool Error</h4>
+            <p>Something is very wrong with your pool. No topology data could be found.</p>
+          </Alert>
+        ) : (
+          <noscript />
+        )}
 
       </Panel>
     );
