@@ -1,5 +1,5 @@
 // IPFS REDUCER
-// ==============
+// ============
 // ipfs namespace
 
 "use strict";
@@ -76,9 +76,9 @@ export default function ipfs ( state = INITIAL_STATE, action ) {
 
       if ( state.ipfsConfigRequests.has( payload.UUID ) ) {
         ipfsServerState = Object.assign( {}
-                                      , state.ipfsServerState
-                                      , payload.data
-                                      );
+                                       , state.ipfsServerState
+                                       , payload.data
+                                       );
         return Object.assign( {}, state, { ipfsServerState }
                             , resolveUUID( payload.UUID
                                          , state
@@ -94,9 +94,9 @@ export default function ipfs ( state = INITIAL_STATE, action ) {
         && payload.data.entities[0].name === "ipfs"
          ) {
         ipfsServerState = Object.assign( {}
-                                      , state.ipfsServerState
-                                      , payload.data.entities[0].config
-                                      );
+                                       , state.ipfsServerState
+                                       , payload.data.entities[0].config
+                                       );
         return Object.assign( {}, state, { ipfsServerState } );
       }
       return state;

@@ -68,18 +68,19 @@ const IPFS = ( props ) => {
 
 };
 
-IPFS.propTypes = { ipfsServerState: React.PropTypes.shape(
-                  { enable: React.PropTypes.bool
-                  , path: React.PropTypes.string
-                  }
-                  )
-                , ipfsForm: React.PropTypes.shape(
-                  { path: React.PropTypes.string }
-                  )
-                , updateIPFSForm: React.PropTypes.func.isRequired
-                , resetIPFSForm: React.PropTypes.func.isRequired
-                , configureIPFSTaskRequest: React.PropTypes.func.isRequired
-                , toggleIPFSTaskRequest: React.PropTypes.func.isRequired
-                };
+IPFS.propTypes =
+  { ipfsServerState: React.PropTypes.shape(
+    { enable: React.PropTypes.bool
+    , path: React.PropTypes.string
+    }
+  )
+  , ipfsForm: React.PropTypes.shape(
+    { path: React.PropTypes.string }
+  )
+  , updateIPFSForm: React.PropTypes.func.isRequired
+  , resetIPFSForm: React.PropTypes.func.isRequired
+  , configureIPFSTaskRequest: React.PropTypes.func.isRequired
+  , toggleIPFSTaskRequest: React.PropTypes.func.isRequired
+  };
 
 export default IPFS;

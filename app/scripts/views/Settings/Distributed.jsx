@@ -73,7 +73,7 @@ const SUB_MASKS = [ "entity-subscriber.services.changed" ];
 
 function mapDispatchToProps ( dispatch ) {
   return (
-
+    // SUBSCRIPTIONS
     { subscribe: ( id ) =>
       dispatch( SUBSCRIPTIONS.add( SUB_MASKS, id ) )
     , unsubscribe: ( id ) =>
