@@ -57,10 +57,9 @@ class Storage extends React.Component {
   }
 
   // RENDER METHODS
-  renderVolumes () {
+  renderVolumes ( ALL_VOLUMES ) {
     const { volumes } = this.props;
 
-    const ALL_VOLUMES = Object.assign( {}, volumes.serverVolumes, volumes.clientVolumes );
     const VOLUME_IDS = Object.keys( ALL_VOLUMES );
 
     return VOLUME_IDS.map( ( id, index ) => {
@@ -118,6 +117,8 @@ class Storage extends React.Component {
       Boolean( Object.keys( this.props.volumes.serverVolumes ).length );
     const CLIENT_VOLUMES_EXIST =
       Boolean( Object.keys( this.props.volumes.clientVolumes ).length );
+    const ALL_VOLUMES =
+      Object.assign( {}, this.props.volumes.serverVolumes, this.props.volumes.clientVolumes );
 
     const LOADING = Boolean( this.props.volumes.volumesRequests.size );
     const SHOW_INTRO = !LOADING && !SERVER_VOLUMES_EXIST && !CLIENT_VOLUMES_EXIST;
@@ -126,9 +127,11 @@ class Storage extends React.Component {
     // create a new pool.
     const SHOW_NEW = !LOADING && !CLIENT_VOLUMES_EXIST && this.props.availableDisks.size;
 
-    const TO_DESTROY = this.props.volumeToDestroy
-                     ? this.props.volumes.serverVolumes[ this.props.volumeToDestroy ]
-                     : "";
+    const VOLUME_TO_DESTROY = (
+      ( this.props.volumeToDestroy && ALL_VOLUMES[ this.props.volumeToDestroy ] )
+      ? ALL_VOLUMES[ this.props.volumeToDestroy ].name
+      : ""
+    );
 
     return (
       <main>
@@ -177,7 +180,7 @@ class Storage extends React.Component {
 
 
         {/* VOLUMES */}
-        { this.renderVolumes() }
+        { this.renderVolumes( ALL_VOLUMES ) }
 
 
         {/* CREATE NEW POOL */}
@@ -193,11 +196,11 @@ class Storage extends React.Component {
           onCancel = { this.props.onCancelDestroyVolume }
           onConfirm = { this.props.onConfirmDestroyVolume }
           confirmStyle = { "danger" }
-          title = { "Confirm Destruction of " + TO_DESTROY.name }
+          title = { "Confirm Destruction of " + VOLUME_TO_DESTROY }
           body = {
             <span>
               { "Bro are you like, really really sure you want to do this? "
-              + "Once you destroy "}<b>{ TO_DESTROY.name }</b>{" "
+              + "Once you destroy "}<b>{ VOLUME_TO_DESTROY }</b>{" "
               + "it's not coming back. (In other words, I hope you backed up "
               + "your porn.)"
               }

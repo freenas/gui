@@ -257,7 +257,7 @@ export function submitVolume ( volumeID ) {
 export function intendDestroyVolume ( volumeID ) {
   return ( dispatch, getState ) => {
     const state = getState();
-    if ( volumeExistsOnServer( volumeID, state ) ) {
+    if ( volumeExists( volumeID, state ) ) {
       dispatch(
         { type: TYPES.INTEND_DESTROY_VOLUME
         , payload: { volumeID }
@@ -281,8 +281,14 @@ export function confirmDestroyVolume () {
   return ( dispatch, getState ) => {
     const state = getState();
 
-    if ( volumeExistsOnServer( state.volumes.volumeToDestroy, state ) ) {
-      const NAME = state.volumes.serverVolumes[ state.volumes.volumeToDestroy ].name;
+
+    if ( volumeExists( state.volumes.volumeToDestroy, state ) ) {
+      const ALL_VOLUMES =
+        Object.assign( {}
+                     , state.volumes.serverVolumes
+                     , state.volumes.clientVolumes
+                     );
+      const NAME = ALL_VOLUMES[ state.volumes.volumeToDestroy ].name;
       MC.submitTask( [ "volume.destroy", [ NAME ] ]
                    , ( UUID ) => dispatch( volumeDestroyAC( UUID ) )
                    );
