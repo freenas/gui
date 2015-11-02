@@ -28,6 +28,7 @@ import riak from "./riak";
 import riakcs from "./riakcs";
 import smb from "./smb";
 import ssh from "./ssh";
+import stanchion from "./stanchion";
 
 const rootReducer = combineReducers(
   { auth
@@ -55,6 +56,7 @@ const rootReducer = combineReducers(
   , riakcs
   , smb
   , ssh
+  , stanchion
   }
 );
 
