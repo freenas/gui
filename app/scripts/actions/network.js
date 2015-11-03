@@ -1,5 +1,5 @@
-// DISKS - ACTION CREATORS
-// =======================
+// NETWORK - ACTION CREATORS
+// =========================
 
 "use strict";
 
