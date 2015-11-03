@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import _ from "lodash";
 
 import * as SUBSCRIPTIONS from "../actions/subscriptions";
+import * as INTERFACES from "../actions/interfaces";
 import * as NETWORK from "../actions/network";
 import * as SYSTEM from "../actions/system";
 
@@ -78,7 +79,15 @@ function mapStateToProps ( state ) {
   return (
     { systemGeneral: state.system.general
     , hostname: state.system.general.hostname
-    , interfaces: state.network.interfaces
+    , interfaces: state.interfaces.interfaces
+    // Interface types
+    , loopback: state.interfaces.loopback
+    , ether: state.interfaces.ether
+    , vlan: state.interfaces.vlan
+    , bridge: state.interfaces.bridge
+    , lagg: state.interfaces.lagg
+    , unknown: state.interfaces.unknown
+
     // TODO
     , serverConfig: Object.assign( {}
                                  , state.network.serverConfig
@@ -113,7 +122,7 @@ function mapDispatchToProps ( dispatch ) {
     , fetchData: () => {
         dispatch( SYSTEM.requestGeneralConfig() );
         dispatch( NETWORK.requestNetworkConfig() );
-        dispatch( NETWORK.requestInterfaces() );
+        dispatch( INTERFACES.requestNetworkInterfaces() );
       }
     }
   );
