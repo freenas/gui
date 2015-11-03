@@ -45,7 +45,7 @@ export function resetInterface ( interfaceID ) {
 // TASKS
 export function toggleInterfaceTaskRequest ( interfaceID ) {
   return ( dispatch, getState ) => {
-    const state = getState().freeze;
+    const state = getState();
     MC.submitTask( [ "network.interface.configure"
                    , state.interfaces.interfaces[ interfaceID ].enabled
                    ? [ interfaceID, { enabled: false } ]
@@ -60,7 +60,7 @@ export function toggleInterfaceTaskRequest ( interfaceID ) {
 
 export function configureInterfaceTaskRequest ( interfaceID ) {
   return ( dispatch, getState ) => {
-    const state = getState().freeze;
+    const state = getState();
     MC.submitTask( [ "network.interface.configure"
                    , [ interfaceID
                      , state.interfaces.interfaceChanges[ interfaceID ]
