@@ -9,7 +9,9 @@ import { recordUUID, resolveUUID } from "../utility/Reducer";
 const INITIAL_STATE =
   { networkInterfacesRequests: new Set()
   , toggleInterfaceTaskRequests: new Set()
+  , interfaceConfigureTaskRequests: new Set()
   , interfaces: {}
+  , interfaceChanges: {}
   , loopback: new Set()
   , ether: new Set()
   , vlan: new Set()
@@ -60,6 +62,7 @@ function categorizeInterfaces ( client, server ) {
 export default function interfaces ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   var interfaces;
+  var interfaceChanges;
   var networkInterfacesRequests;
 
   switch ( type ) {
@@ -72,8 +75,36 @@ export default function interfaces ( state = INITIAL_STATE, action ) {
                                       )
                           );
 
+    // EDITING
+    // TODO: Delete interfaceChanges object for interfaces that have been
+    // manually returned to an unedited state.
+    case TYPES.UPDATE_INTERFACE:
+      interfaceChanges = Object.assign( state.interfaceChanges );
+      if ( interfaceChanges[ payload.interfaceID ] ) {
+        interfaceChanges[ payload.interfaceID ][ payload.path ] = payload.value;
+      } else {
+        interfaceChanges[ payload.interfaceID ] = { [ payload.path ]: payload.value };
+      }
+      return Object.assign( {}, state, { interfaceChanges } );
+
+    case TYPES.RESET_INTERFACE:
+      interfaceChanges = Object.assign( state.interfaceChanges );
+      if ( interfaceChanges[ payload.interfaceID ] ) {
+        delete interfaceChanges[ payload.interfaceID ];
+      }
+      return Object.assign( {}, state, { interfaceChanges } );
 
     // TASKS
+    case TYPES.INTERFACE_CONFIGURE_TASK_SUBMIT:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID
+                                      , state
+                                      , "interfaceConfigureTaskRequests"
+                                      )
+                          );
+
+
     case TYPES.TOGGLE_INTERFACE_TASK_REQUEST:
       return Object.assign( {}
                           , state
