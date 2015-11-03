@@ -62,7 +62,7 @@ export default function interfaces ( state = INITIAL_STATE, action ) {
   var interfaces;
   var networkInterfacesRequests;
 
-  switch ( action.type ) {
+  switch ( type ) {
     case TYPES.NETWORK_INTERFACES_REQUEST:
       return Object.assign( {}
                           , state
