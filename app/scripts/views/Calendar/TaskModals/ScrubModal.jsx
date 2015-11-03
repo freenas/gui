@@ -143,20 +143,20 @@ export default class ScrubModal extends React.Component {
     if ( this.props.existsOnServer ) {
       if ( this.state.taskID
         && this.state.taskID !== this.props.taskID
-         ) {
+         ) /*{
       validTaskID = taskIDToCheck !== ""
                  && _.find( CS.tasks
                           , { id: taskIDToCheck }
                           ) === undefined;
-      } else {
+      } else */{
         validTaskID = true;
       }
-    } else {
+    } /*else {
       validTaskID = taskIDToCheck !== ""
                  && _.find( CS.tasks
                           , { id: taskIDToCheck }
                           ) === undefined;
-    }
+    }*/
 
     var volumeToCheck = this.state.selectedVolume || this.props.selectedVolume;
     var validVolume = _.find( this.props.volumes
