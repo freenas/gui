@@ -39,8 +39,6 @@ class Network extends React.Component {
   }
 
   render () {
-    const INTERFACE_IDS = Object.keys( this.props.interfaces );
-
     return (
       <main>
         <h1 className="view-header section-heading type-line">
@@ -59,8 +57,12 @@ class Network extends React.Component {
         />
           <hr className = "network-divider" />
           <div className = "interface-item-container">
-            { INTERFACE_IDS.map( ( id, index ) =>
+            { [ ...this.props.ether ].map( ( id, index ) =>
                 <InterfaceItem
+                  updateInterface = { this.props.updateInterface }
+                  resetInterface = { this.props.resetInterface }
+                  toggleInterface = { this.props.toggleInterfaceTaskRequest }
+                  configureInterface = { this.props.configureInterfaceTaskRequest }
                   { ...this.props.interfaces[ id ] }
                   key = { index }
                 />
@@ -117,6 +119,15 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( NETWORK.revertNetworkConfig() )
     , submitNetworkConfig: () =>
       dispatch( NETWORK.submitNetworkConfig() )
+
+    , updateInterface: ( interfaceID, path, value ) =>
+      dispatch( INTERFACES.updateInterface( interfaceID, path, value ) )
+    , resetInterface: ( interfaceID ) =>
+      dispatch( INTERFACES.resetInterface( interfaceID ) )
+    , toggleInterfaceTaskRequest: ( interfaceID ) =>
+      dispatch( INTERFACES.toggleInterfaceTaskRequest( interfaceID ) )
+    , configureInterfaceTaskRequest: ( interfaceID ) =>
+      dispatch( INTERFACES.configureInterfaceTaskRequest() )
 
     // GET INITIAL DATA
     , fetchData: () => {
