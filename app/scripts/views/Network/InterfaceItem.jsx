@@ -263,10 +263,10 @@ const InterfaceItem = React.createClass(
         break;
     }
 
-    if ( this.state.status.aliases ) {
+    /*if ( this.state.status.aliases ) {
       // Aliases in state override those in props
       aliases = this.state.status.aliases.slice();
-    } else if ( this.props.status.aliases ) {
+    } else*/ if ( this.props.status.aliases ) {
       // TODO: Find some way to indicate a mismatch between configured aliases
       // and actual status.
       aliases = this.props.status.aliases.slice();
@@ -285,14 +285,14 @@ const InterfaceItem = React.createClass(
 
     // FIXME: There is no way this will work once we're presenting aliases as
     // equals, without a "static IP". Don't let it survive past then.
-    if ( this.state.staticIPInProgress ) {
+    /*if ( this.state.staticIPInProgress ) {
       staticIPValue = this.state.staticIPInProgress;
-    } else {
+    } else {*/
       if ( !_.isEmpty( aliases ) ) {
         let staticIPAlias = aliases.shift();
         staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
       }
-    }
+    // } // Commenting out static IP edit handling for now
 
     let interfaceName = (
         <h2 className = { nameClasses.join( " " ) } >
