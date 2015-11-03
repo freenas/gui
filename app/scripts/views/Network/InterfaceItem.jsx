@@ -336,7 +336,7 @@ const InterfaceItem = React.createClass(
                 className = "pull-right"
                 toggled = { Boolean( this.props.dhcp ) }
                 disabled = { !interfaceIsActive }
-                onChange = { this.toggleDHCP }
+                // onChange = { () => this.props.toggleDHCP( this.props.id ) }
               />
             </div>
           </div>
@@ -346,11 +346,8 @@ const InterfaceItem = React.createClass(
             type = "text"
             label = "Static IP Address"
             value = { staticIPValue }
-            bsStyle = { this.validate( "staticIP", staticIPValue ) }
-            onBlur = { this.resetFocus.bind( this, "staticIP" ) }
-            onChange = { this.handleChange.bind( this, "staticIP" ) }
-            onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
-            disabled = { this.props.dhcp || !interfaceIsActive }
+            // bsStyle = { this.validate( "staticIP", staticIPValue ) }
+            disabled = { true /*this.props.dhcp || !interfaceIsActive*/ }
           />
 
           {/* LINK SPEED RADIO SET */}
