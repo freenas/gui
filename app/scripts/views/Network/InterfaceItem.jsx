@@ -14,8 +14,6 @@ import networkCommon from "./networkCommon";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import Disclosure from "../../components/Disclosure";
 
-import IM from "../../flux/middleware/InterfacesMiddleware";
-
 // FIXME: Change this component so that each prop is submitted separately,
 // with proper propTypes and default props.
 const InterfaceItem = React.createClass(
@@ -24,6 +22,10 @@ const InterfaceItem = React.createClass(
                , id: React.PropTypes.string
                , name: React.PropTypes.string
                , enabled: React.PropTypes.bool
+               , updateInterface: React.PropTypes.func.isRequired
+               , resetInterface: React.PropTypes.func.isRequired
+               , toggleInterface: React.PropTypes.func.isRequired
+               , configureInterface: React.PropTypes.func.isRequired
                }
 
   , mixins: [ networkCommon ]
@@ -321,7 +323,7 @@ const InterfaceItem = React.createClass(
               <ToggleSwitch
                 className = "pull-right"
                 toggled = { Boolean( this.props.enabled ) }
-                onChange = { this.toggleInterface }
+                onChange = { ( e ) => this.props.toggleInterface( this.props.id ) }
               />
             </div>
           </div>
