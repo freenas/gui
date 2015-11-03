@@ -35,7 +35,7 @@ export default function system ( state = INITIAL_STATE, action ) {
 
         if ( Array.isArray( data[ payload.source ] ) ) {
           data[ payload.source ].push( newPulse );
-          data[ payload.source ] = _.takeRight( data[ payload.source ], STATS_LIMIT );
+          data[ payload.source ] = data[ payload.source ].slice( 0, STATS_LIMIT );
         } else {
           data[ payload.source ] = [ newPulse ];
         }
@@ -56,10 +56,12 @@ export default function system ( state = INITIAL_STATE, action ) {
 
         if ( payload.data ) {
           historyRequests = new Map( state.historyRequests );
-
           data = Object.assign( {}, state.data );
-          data[ historyRequests.get( payload.UUID ) ] =
-            _.takeRight( payload.data.data, STATS_LIMIT );
+
+          if ( !data[ historyRequests.get( payload.UUID ) ] ) {
+            data[ historyRequests.get( payload.UUID ) ] =
+              payload.data.data.splice( 0, STATS_LIMIT );
+          }
 
           historyRequests.delete( payload.UUID );
 

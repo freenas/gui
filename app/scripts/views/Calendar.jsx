@@ -119,7 +119,7 @@ const Calendar = React.createClass(
         , activeMonth: now.month()
         , selectedDate: now.startOf( "month" ).date()
         , activeTask: null
-        , tasks: CS.tasks
+        // , tasks: CS.tasks
         }
       );
     }
@@ -131,7 +131,7 @@ const Calendar = React.createClass(
         { activeYear: now.year()
         , activeMonth: now.month()
         , selectedDate: now.date()
-        , tasks: CS.tasks
+        // , tasks: CS.tasks
         , activeTask: null
         }
       );
@@ -204,11 +204,11 @@ const Calendar = React.createClass(
 
   , handleTaskRemove ( taskID ) {
     var newTasks = _.cloneDeep( this.state.tasks );
-    if ( _.any( CS.tasks
+    /*if ( _.any( CS.tasks
               , { id: taskID }
               ) ) {
       CM.deleteCalendarTask( taskID );
-    } else {
+    } else*/ {
       _.remove( newTasks, { id: taskID } );
       this.setState( { tasks: newTasks
                      , activeTask: null
