@@ -133,8 +133,8 @@ export default function interfaces ( state = INITIAL_STATE, action ) {
         } else {
           console.warn( "Network interfaces query did not return any data" );
         }
-        return state;
       }
+      return state;
 
     default:
       return state;
