@@ -251,13 +251,15 @@ const InterfaceItem = React.createClass(
         allowedLinkSpeeds = [ "10", "100", "1000" ];
         break;
 
-      case "LINK_STATE_UNKNOWN":
-        nameClasses.push( "interface-unknown" );
-        break;
-
       case "LINK_STATE_DOWN":
         nameClasses.push( "interface-down" );
         allowedLinkSpeeds = [ "10", "100", "1000" ];
+        break;
+
+      case "LINK_STATE_UNKNOWN":
+      default:
+        nameClasses.push( "interface-unknown" );
+        allowedLinkSpeeds = [];
         break;
     }
 
