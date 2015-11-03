@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import _ from "lodash";
 
 import * as SUBSCRIPTIONS from "../actions/subscriptions";
+import * as INTERFACES from "../actions/interfaces";
 import * as NETWORK from "../actions/network";
 import * as SYSTEM from "../actions/system";
 
@@ -38,8 +39,6 @@ class Network extends React.Component {
   }
 
   render () {
-    const INTERFACE_IDS = Object.keys( this.props.interfaces );
-
     return (
       <main>
         <h1 className="view-header section-heading type-line">
@@ -58,8 +57,12 @@ class Network extends React.Component {
         />
           <hr className = "network-divider" />
           <div className = "interface-item-container">
-            { INTERFACE_IDS.map( ( id, index ) =>
+            { [ ...this.props.ether ].map( ( id, index ) =>
                 <InterfaceItem
+                  updateInterface = { this.props.updateInterface }
+                  resetInterface = { this.props.resetInterface }
+                  toggleInterface = { this.props.toggleInterfaceTaskRequest }
+                  configureInterface = { this.props.configureInterfaceTaskRequest }
                   { ...this.props.interfaces[ id ] }
                   key = { index }
                 />
@@ -78,7 +81,15 @@ function mapStateToProps ( state ) {
   return (
     { systemGeneral: state.system.general
     , hostname: state.system.general.hostname
-    , interfaces: state.network.interfaces
+    , interfaces: state.interfaces.interfaces
+    // Interface types
+    , loopback: state.interfaces.loopback
+    , ether: state.interfaces.ether
+    , vlan: state.interfaces.vlan
+    , bridge: state.interfaces.bridge
+    , lagg: state.interfaces.lagg
+    , unknown: state.interfaces.unknown
+
     // TODO
     , serverConfig: Object.assign( {}
                                  , state.network.serverConfig
@@ -109,11 +120,20 @@ function mapDispatchToProps ( dispatch ) {
     , submitNetworkConfig: () =>
       dispatch( NETWORK.submitNetworkConfig() )
 
+    , updateInterface: ( interfaceID, path, value ) =>
+      dispatch( INTERFACES.updateInterface( interfaceID, path, value ) )
+    , resetInterface: ( interfaceID ) =>
+      dispatch( INTERFACES.resetInterface( interfaceID ) )
+    , toggleInterfaceTaskRequest: ( interfaceID ) =>
+      dispatch( INTERFACES.toggleInterfaceTaskRequest( interfaceID ) )
+    , configureInterfaceTaskRequest: ( interfaceID ) =>
+      dispatch( INTERFACES.configureInterfaceTaskRequest() )
+
     // GET INITIAL DATA
     , fetchData: () => {
         dispatch( SYSTEM.requestGeneralConfig() );
         dispatch( NETWORK.requestNetworkConfig() );
-        dispatch( NETWORK.requestInterfaces() );
+        dispatch( INTERFACES.requestNetworkInterfaces() );
       }
     }
   );

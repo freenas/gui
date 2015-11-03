@@ -14,8 +14,6 @@ import networkCommon from "./networkCommon";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import Disclosure from "../../components/Disclosure";
 
-import IM from "../../flux/middleware/InterfacesMiddleware";
-
 // FIXME: Change this component so that each prop is submitted separately,
 // with proper propTypes and default props.
 const InterfaceItem = React.createClass(
@@ -24,17 +22,13 @@ const InterfaceItem = React.createClass(
                , id: React.PropTypes.string
                , name: React.PropTypes.string
                , enabled: React.PropTypes.bool
+               , updateInterface: React.PropTypes.func.isRequired
+               , resetInterface: React.PropTypes.func.isRequired
+               , toggleInterface: React.PropTypes.func.isRequired
+               , configureInterface: React.PropTypes.func.isRequired
                }
 
   , mixins: [ networkCommon ]
-
-  , getInitialState () {
-      return { staticIPInProgress: null
-             , status:
-               { aliases: null
-               }
-             };
-    }
 
   , getDefaultProps () {
       return (
@@ -113,14 +107,6 @@ const InterfaceItem = React.createClass(
     return aliasList;
   }
 
-  , toggleInterface () {
-    if ( this.props.enabled ) {
-      IM.configureInterface( this.props.id, { enabled: false } );
-    } else {
-      IM.configureInterface( this.props.id, { enabled: true } );
-    }
-  }
-
   , validate ( key, value ) {
     var responseStyle = null;
     switch( key ) {
@@ -132,85 +118,6 @@ const InterfaceItem = React.createClass(
         }
     }
     return responseStyle;
-  }
-
-  // TODO Add Interface Alias editing.
-  , handleChange ( key, evt ) {
-    var newNetworkInterface = {};
-    switch ( key ) {
-      // TODO: have this handle broadcast and IPv6 properly as well
-      case "staticIP":
-        this.setState( { staticIPInProgress: evt.target.value } );
-        break;
-    }
-    if ( !_.isEmpty( newNetworkInterface ) ) {
-      this.setState( { newNetworkInterface } );
-    }
-  }
-
-  , submitChange ( target, evt ) {
-    var newNetworkInterface = {};
-
-    if ( evt.key === "Enter" ) {
-      switch ( target ) {
-        case "staticIP":
-          if ( this.state.staticIPInProgress
-            && this.isIPv4WithNetmask( this.state.staticIPInProgress ) ) {
-            let newAliases = [];
-            let aliasParts = this.state.staticIPInProgress.split( "/" );
-
-            if ( this.state.aliases ) {
-              newAliases = this.state.aliases.slice();
-            } else if ( this.props.aliases ) {
-              newAliases = this.props.aliases.slice();
-            }
-
-            if ( _.find( newAliases, { type: "INET" } ) ) {
-              let oldAliasIndex = _.findIndex( newAliases, { type: "INET" } );
-              newAliases[ oldAliasIndex ].address = aliasParts[0];
-              newAliases[ oldAliasIndex ].newNetmask = aliasParts[1];
-              newNetworkInterface.aliases = newAliases;
-            } else {
-              newAliases =
-                [ { type: "INET"
-                  , address: aliasParts[0]
-                  , netmask: aliasParts[1]
-                  }
-                ];
-              newNetworkInterface.aliases = newAliases;
-            }
-          }
-          break;
-      }
-    }
-    if ( !_.isEmpty( newNetworkInterface ) ) {
-      IM.configureInterface( this.props.id
-                           , newNetworkInterface);
-    }
-  }
-
-  , resetFocus ( key, evt ) {
-    switch ( key ) {
-      case "staticIP":
-        if ( !this.isIPv4WithNetmask( evt.target.value )
-          && !this.props.dhcp
-          && this.props.enabled ) {
-          evt.target.focus();
-        }
-        break;
-    }
-  }
-  // WARNING: Aliases set on interfaces configured with DHCP will not do
-  // anything. Turning on DHCP requires a message to this effect.
-  , toggleDHCP () {
-    var newNetworkInterface = {};
-    if ( this.props.dhcp ) {
-      newNetworkInterface = { dhcp: false };
-    } else {
-      newNetworkInterface = { dhcp: true };
-    }
-    IM.configureInterface( this.props.id
-                         , newNetworkInterface );
   }
 
   , createLinkSpeedToggles ( speed, index ) {
@@ -251,20 +158,22 @@ const InterfaceItem = React.createClass(
         allowedLinkSpeeds = [ "10", "100", "1000" ];
         break;
 
-      case "LINK_STATE_UNKNOWN":
-        nameClasses.push( "interface-unknown" );
-        break;
-
       case "LINK_STATE_DOWN":
         nameClasses.push( "interface-down" );
         allowedLinkSpeeds = [ "10", "100", "1000" ];
         break;
+
+      case "LINK_STATE_UNKNOWN":
+      default:
+        nameClasses.push( "interface-unknown" );
+        allowedLinkSpeeds = [];
+        break;
     }
 
-    if ( this.state.status.aliases ) {
+    /*if ( this.state.status.aliases ) {
       // Aliases in state override those in props
       aliases = this.state.status.aliases.slice();
-    } else if ( this.props.status.aliases ) {
+    } else*/ if ( this.props.status.aliases ) {
       // TODO: Find some way to indicate a mismatch between configured aliases
       // and actual status.
       aliases = this.props.status.aliases.slice();
@@ -283,14 +192,14 @@ const InterfaceItem = React.createClass(
 
     // FIXME: There is no way this will work once we're presenting aliases as
     // equals, without a "static IP". Don't let it survive past then.
-    if ( this.state.staticIPInProgress ) {
+    /*if ( this.state.staticIPInProgress ) {
       staticIPValue = this.state.staticIPInProgress;
-    } else {
+    } else {*/
       if ( !_.isEmpty( aliases ) ) {
         let staticIPAlias = aliases.shift();
         staticIPValue = staticIPAlias.address + "/" + staticIPAlias.netmask;
       }
-    }
+    // } // Commenting out static IP edit handling for now
 
     let interfaceName = (
         <h2 className = { nameClasses.join( " " ) } >
@@ -319,7 +228,7 @@ const InterfaceItem = React.createClass(
               <ToggleSwitch
                 className = "pull-right"
                 toggled = { Boolean( this.props.enabled ) }
-                onChange = { this.toggleInterface }
+                onChange = { ( e ) => this.props.toggleInterface( this.props.id ) }
               />
             </div>
           </div>
@@ -334,7 +243,7 @@ const InterfaceItem = React.createClass(
                 className = "pull-right"
                 toggled = { Boolean( this.props.dhcp ) }
                 disabled = { !interfaceIsActive }
-                onChange = { this.toggleDHCP }
+                // onChange = { () => this.props.toggleDHCP( this.props.id ) }
               />
             </div>
           </div>
@@ -344,11 +253,8 @@ const InterfaceItem = React.createClass(
             type = "text"
             label = "Static IP Address"
             value = { staticIPValue }
-            bsStyle = { this.validate( "staticIP", staticIPValue ) }
-            onBlur = { this.resetFocus.bind( this, "staticIP" ) }
-            onChange = { this.handleChange.bind( this, "staticIP" ) }
-            onKeyDown = { this.submitChange.bind( this, "staticIP" ) }
-            disabled = { this.props.dhcp || !interfaceIsActive }
+            // bsStyle = { this.validate( "staticIP", staticIPValue ) }
+            disabled = { true /*this.props.dhcp || !interfaceIsActive*/ }
           />
 
           {/* LINK SPEED RADIO SET */}

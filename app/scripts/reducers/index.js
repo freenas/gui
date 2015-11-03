@@ -7,6 +7,7 @@ import auth from "./auth";
 import disks from "./disks";
 import events from "./events";
 import network from "./network";
+import interfaces from "./interfaces";
 import rpc from "./rpc";
 import shares from "./shares";
 import shells from "./shells";
@@ -37,6 +38,7 @@ const rootReducer = combineReducers(
   , disks
   , events
   , network
+  , interfaces
   , rpc
   , shares
   , shells

@@ -10,7 +10,6 @@ const INITIAL_STATE =
   { configQueryRequests: new Set()
   , configTaskRequests: new Set()
   , activeConfigTasks: new Set()
-  , interfacesRequests: new Set()
   , serverConfig:
     { http_proxy: null
     , autoconfigure: false
@@ -35,21 +34,7 @@ const INITIAL_STATE =
   , clientConfig: {}
   };
 
-function normalizeInterfaces ( interfaces ) {
-  if ( Array.isArray( interfaces ) ) {
-    let normalized = {};
-
-    interfaces.forEach( item => {
-      normalized[ item.id ] = item;
-    });
-
-    return normalized;
-  } else {
-    console.warn( "Interfaces should be an array" );
-  }
-}
-
-export default function disks ( state = INITIAL_STATE, action ) {
+export default function network ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let clientConfig;
   let activeConfigTasks;
@@ -74,12 +59,6 @@ export default function disks ( state = INITIAL_STATE, action ) {
                           , recordUUID( payload.UUID, state, "configQueryRequests" )
                           );
 
-    case TYPES.INTERFACES_REQUEST:
-      return Object.assign( {}
-                          , state
-                          , recordUUID( payload.UUID, state, "interfacesRequests" )
-                          );
-
     case TYPES.NETWORK_CONFIGURE_TASK_SUBMIT:
       return Object.assign( {}
                           , state
@@ -96,18 +75,6 @@ export default function disks ( state = INITIAL_STATE, action ) {
                               , state
                               , resolveUUID( payload.UUID, state, "configQueryRequests" )
                               , { serverConfig: payload.data }
-                              );
-        } else {
-          return state;
-        }
-      }
-
-      if ( state.interfacesRequests.has( payload.UUID ) ) {
-        if ( payload.data ) {
-          return Object.assign( {}
-                              , state
-                              , resolveUUID( payload.UUID, state, "interfacesRequests" )
-                              , { interfaces: normalizeInterfaces( payload.data ) }
                               );
         } else {
           return state;
