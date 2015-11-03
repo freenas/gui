@@ -4,10 +4,13 @@
 
 .app-sidebar {
   .flex(0 0 20em);
+  .flex-flow( column nowrap );
+  padding: 0 @panel-body-padding;
 
   .context-content {
-    padding: 0 @panel-body-padding;
+    .flex( 1 );
     width: 100%;
+    overflow: auto;
 
     .btn-group {
       width: 100%;
@@ -21,6 +24,20 @@
   }
 }
 
+.feed {
+  .feed-header {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 300;
+    color: #777777;
+  }
+
+  .feed-content {
+    overflow: auto;
+  }
+}
+
 .context-section-header {
   color: @gray-light;
   text-transform: uppercase;
@@ -30,11 +47,27 @@
 }
 
 .context-dashboard {
-  .flex( 1 );
-  .flex-display( flex );
-  .flex-flow( column );
+  margin: 30px 0 20px;
 
-  .progress-bar {
-    color: black;
+  .basic-meter {
+    margin: 0 10px;
+
+    .progress {
+      height: 4px;
+      border-radius: 4px;
+      margin: 8px 0;
+    }
+
+    & > h5 {
+      text-transform: uppercase;
+      color: #3D3D3D;
+      font-weight: 400;
+      font-size: 0.85em;
+
+      .percentage {
+        color: #121212;
+        font-weight: 600;
+      }
+    }
   }
 }

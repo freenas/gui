@@ -20,7 +20,6 @@ import SystemInfo from "../components/Widgets/SystemInfo";
 import CPU from "../components/Widgets/CPU";
 import Network from "../components/Widgets/Network";
 import Memory from "../components/Widgets/Memory";
-import DashboardContext from "./Dashboard/DashboardContext";
 
 
 // STYLESHEET
