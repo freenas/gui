@@ -10,10 +10,6 @@ import { Col } from "react-bootstrap";
 
 import * as systemActions from "../../actions/system";
 
-/*
-import IM from "../../flux/middleware/InterfacesMiddleware";
-*/
-
 import Console from "./SystemSettings/Console";
 import LocalizationSettings from "./SystemSettings/LocalizationSettings";
 import OSSettings from "./SystemSettings/OSSettings";
