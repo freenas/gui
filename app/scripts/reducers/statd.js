@@ -35,7 +35,7 @@ export default function system ( state = INITIAL_STATE, action ) {
 
         if ( Array.isArray( data[ payload.source ] ) ) {
           data[ payload.source ].push( newPulse );
-          data[ payload.source ] = data[ payload.source ].slice( 0, STATS_LIMIT );
+          data[ payload.source ] = data[ payload.source ].slice( -STATS_LIMIT );
         } else {
           data[ payload.source ] = [ newPulse ];
         }
@@ -60,7 +60,7 @@ export default function system ( state = INITIAL_STATE, action ) {
 
           if ( !data[ historyRequests.get( payload.UUID ) ] ) {
             data[ historyRequests.get( payload.UUID ) ] =
-              payload.data.data.splice( 0, STATS_LIMIT );
+              payload.data.data.slice( -STATS_LIMIT );
           }
 
           historyRequests.delete( payload.UUID );
