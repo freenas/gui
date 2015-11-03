@@ -46,10 +46,10 @@ export function resetInterface ( interfaceID ) {
 export function toggleInterfaceTaskRequest ( interfaceID ) {
   return ( dispatch, getState ) => {
     const state = getState().freeze;
-    MC.submitTask( [ state.interfaces.interfaces.id.status.link_state
-                 === "LINK_STATE_UP"
-                   ? "network.interface.down"
-                   : "network.interface.up" // Alse used on LINK_STATE_UNKNOWN
+    MC.submitTask( [ "network.interface.configure"
+                   , state.interfaces.interfaces[ interfaceID ].enabled
+                   ? [ interfaceID, { enabled: false } ]
+                   : [ interfaceID, { enabled: true } ]
                    ]
                  , ( UUID ) => dispatch( watchRequest
                                        , TOGGLE_INTERFACE_TASK_SUBMIT
