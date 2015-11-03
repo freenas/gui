@@ -30,14 +30,6 @@ const InterfaceItem = React.createClass(
 
   , mixins: [ networkCommon ]
 
-  , getInitialState () {
-      return { staticIPInProgress: null
-             , status:
-               { aliases: null
-               }
-             };
-    }
-
   , getDefaultProps () {
       return (
         { enabled: false
@@ -115,14 +107,6 @@ const InterfaceItem = React.createClass(
     return aliasList;
   }
 
-  , toggleInterface () {
-    if ( this.props.enabled ) {
-      IM.configureInterface( this.props.id, { enabled: false } );
-    } else {
-      IM.configureInterface( this.props.id, { enabled: true } );
-    }
-  }
-
   , validate ( key, value ) {
     var responseStyle = null;
     switch( key ) {
@@ -134,85 +118,6 @@ const InterfaceItem = React.createClass(
         }
     }
     return responseStyle;
-  }
-
-  // TODO Add Interface Alias editing.
-  , handleChange ( key, evt ) {
-    var newNetworkInterface = {};
-    switch ( key ) {
-      // TODO: have this handle broadcast and IPv6 properly as well
-      case "staticIP":
-        this.setState( { staticIPInProgress: evt.target.value } );
-        break;
-    }
-    if ( !_.isEmpty( newNetworkInterface ) ) {
-      this.setState( { newNetworkInterface } );
-    }
-  }
-
-  , submitChange ( target, evt ) {
-    var newNetworkInterface = {};
-
-    if ( evt.key === "Enter" ) {
-      switch ( target ) {
-        case "staticIP":
-          if ( this.state.staticIPInProgress
-            && this.isIPv4WithNetmask( this.state.staticIPInProgress ) ) {
-            let newAliases = [];
-            let aliasParts = this.state.staticIPInProgress.split( "/" );
-
-            if ( this.state.aliases ) {
-              newAliases = this.state.aliases.slice();
-            } else if ( this.props.aliases ) {
-              newAliases = this.props.aliases.slice();
-            }
-
-            if ( _.find( newAliases, { type: "INET" } ) ) {
-              let oldAliasIndex = _.findIndex( newAliases, { type: "INET" } );
-              newAliases[ oldAliasIndex ].address = aliasParts[0];
-              newAliases[ oldAliasIndex ].newNetmask = aliasParts[1];
-              newNetworkInterface.aliases = newAliases;
-            } else {
-              newAliases =
-                [ { type: "INET"
-                  , address: aliasParts[0]
-                  , netmask: aliasParts[1]
-                  }
-                ];
-              newNetworkInterface.aliases = newAliases;
-            }
-          }
-          break;
-      }
-    }
-    if ( !_.isEmpty( newNetworkInterface ) ) {
-      IM.configureInterface( this.props.id
-                           , newNetworkInterface);
-    }
-  }
-
-  , resetFocus ( key, evt ) {
-    switch ( key ) {
-      case "staticIP":
-        if ( !this.isIPv4WithNetmask( evt.target.value )
-          && !this.props.dhcp
-          && this.props.enabled ) {
-          evt.target.focus();
-        }
-        break;
-    }
-  }
-  // WARNING: Aliases set on interfaces configured with DHCP will not do
-  // anything. Turning on DHCP requires a message to this effect.
-  , toggleDHCP () {
-    var newNetworkInterface = {};
-    if ( this.props.dhcp ) {
-      newNetworkInterface = { dhcp: false };
-    } else {
-      newNetworkInterface = { dhcp: true };
-    }
-    IM.configureInterface( this.props.id
-                         , newNetworkInterface );
   }
 
   , createLinkSpeedToggles ( speed, index ) {
