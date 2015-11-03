@@ -135,7 +135,7 @@ const CPU = React.createClass(
 
       DATA_SOURCES.forEach(
         function trimData ( dataSource ) {
-          let dataToUse = newStatdData[ dataSource ];
+          let dataToUse = _.cloneDeep( newStatdData[ dataSource ] );
           _.remove( dataToUse
                   , function ( datapoint ) {
                       return datapoint[0] < this.state.lastUpdateAt;
