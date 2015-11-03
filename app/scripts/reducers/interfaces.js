@@ -33,7 +33,7 @@ function categorizeInterfaces ( client, server ) {
     };
 
   server.forEach( networkInterface => {
-    newInterfaces[ networkInterface.id ] = networkInterface;
+    newInterfaces.interfaces[ networkInterface.id ] = networkInterface;
 
     switch ( networkInterface.type ) {
       case "LOOPBACK":
