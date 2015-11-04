@@ -10,11 +10,14 @@ import React from "react";
 import { connect } from "react-redux";
 
 import * as STATD from "../../actions/statd";
+import * as CONTEXTUAL from "../../constants/ContextualElements";
 
 import MemoryMeter from "../../components/Widgets/MemoryMeter";
 import CPUMeter from "../../components/Widgets/CPUMeter";
 import TopologyEditContext from "../Storage/contexts/TopologyEditContext";
 import Task from "./ContextBar/Task";
+import ContextualDocs from "./ContextBar/ContextualDocs";
+
 
 // STYLESHEET
 if ( process.env.BROWSER ) require( "./ContextBar.less" );
@@ -70,21 +73,17 @@ class ContextBar extends React.Component {
   }
 
   getActiveComponent() {
-    if ( this.props.location ) {
-      switch ( this.props.location.pathname ) {
-        case "/storage":
-          if ( this.props.volumes.activeVolume ) {
-            if ( this.props.volumes.clientVolumes.hasOwnProperty( this.props.volumes.activeVolume ) ) {
-              return <TopologyEditContext />;
-            } else if ( this.props.volumes.serverVolumes.hasOwnProperty( this.props.volumes.activeVolume ) ) {
-              // TODO: The thing for volumes that exist
-            }
-          }
-      }
-    }
+    switch ( this.props.contextual.activeElement ) {
+      case CONTEXTUAL.CONTEXTUAL_DOCUMENTATION:
+        return <ContextualDocs section={ this.props.contextual.activeDocs } />;
 
-    // Placeholder to ensure that space is properly maintained
-    return <div className="context-content"/>;
+      case CONTEXTUAL.TOPOLOGY_EDIT_CONTEXT:
+        return <TopologyEditContext />;
+
+      // Placeholder to ensure that space is properly maintained
+      default:
+        return <div className="context-content"/>;
+    }
   }
 
   render () {
@@ -102,7 +101,6 @@ class ContextBar extends React.Component {
             )}
           </div>
         </div>
-
 
         {/* CONTEXTUAL CONTENT */}
         { this.getActiveComponent() }
@@ -134,6 +132,7 @@ ContextBar.propTypes =
   , volumes: React.PropTypes.object // TODO: Ahahahaha, good grief. :(
   , statd: React.PropTypes.object
   , tasks: React.PropTypes.object
+  , contextual: React.PropTypes.object
   }
 
 
@@ -142,6 +141,7 @@ function mapStateToProps ( state ) {
   return { volumes: state.volumes
          , statd: state.statd.data
          , tasks: state.tasks.tasks
+         , contextual: state.contextual
          };
 }
 

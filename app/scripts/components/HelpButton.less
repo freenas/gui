@@ -1,0 +1,28 @@
+@styles-path: "../../styles/";
+
+@import ( reference ) "@{styles-path}core.less";
+
+.btn-help {
+  border: 1px solid;
+  border-radius: 50%;
+  vertical-align: top;
+  line-height: 1em;
+  height: 1em;
+  width: 1em;
+  padding: 0.25em;
+  font-weight: 500;
+  .transition( all 0.25s );
+
+  &:hover {
+    border-color: @brand-primary;
+    color: @brand-primary;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &.active {
+    border-color: @brand-primary;
+    color: @brand-primary;
+    background-color: @freenas-gray;
+    box-shadow: inset 0 0 0.45em 1px @brand-primary;
+  }
+}
