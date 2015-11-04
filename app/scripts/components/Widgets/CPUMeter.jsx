@@ -3,6 +3,7 @@
 
 "use strict";
 
+import _ from "lodash";
 import React from "react";
 import { ProgressBar } from "react-bootstrap";
 
@@ -29,8 +30,8 @@ class CPUMeter extends React.Component {
 
   getLatestValueFor( valueType ) {
     if ( Array.isArray( this.props.statdData[ valueType ] )
-      && Array.isArray( this.props.statdData[ valueType ][0] ) ) {
-      const VALUE = Number( this.props.statdData[ valueType ][0][1] );
+      && Array.isArray( _.last( this.props.statdData[ valueType ] ) ) ) {
+      const VALUE = Number( _.last( this.props.statdData[ valueType ] )[1] );
 
       if ( !isNaN( VALUE ) ) return VALUE;
     }
