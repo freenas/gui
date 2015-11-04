@@ -185,13 +185,12 @@ class Storage extends React.Component {
               style = { ghost.update( y, opacity ) }
             >
               <img src="/images/hdd.png" />
-              <h3>Creating Storage</h3>
+              <h3>Create Storage</h3>
               <p>
-                { "This is the place where you create ZFS pools and stuff. "
-                + "Someday, this text will be very helpful and everyone will "
-                + "like what it says. Today it just says this, so maybe create "
-                + "a pool or something, maaaaaan."
-                }
+                { "Click the \"Create new storage pool\" button to format your disks into a storage pool."}
+              </p>
+              <p>
+                { "Click the \"?\" icon to learn more about storage pools."}
               </p>
             </div>
           }
