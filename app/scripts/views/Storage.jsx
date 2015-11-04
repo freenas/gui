@@ -13,6 +13,8 @@ import { connect } from "react-redux";
 import { Motion, spring } from "react-motion";
 
 // ACTIONS
+import * as CONTEXTUAL from "../actions/contextual";
+import * as ELEMENTS from "../constants/ContextualElements";
 import * as DISKS from "../actions/disks";
 import * as VOLUMES from "../actions/volumes";
 import * as SHARES from "../actions/shares";
@@ -23,6 +25,7 @@ import { ghost, ghostUpdate } from "../utility/motions";
 import VolumeUtilities from "../utility/VolumeUtilities";
 
 // COMPONENTS
+import HelpButton from "../components/HelpButton";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import CreateStorage from "./Storage/CreateStorage";
 import Volume from "./Storage/Volume";
@@ -49,6 +52,8 @@ class Storage extends React.Component {
 
   componentWillUnmount () {
     this.props.unsubscribe( this.displayName );
+
+    this.props.cleanup();
   }
 
   componentDidUpdate () {
@@ -144,6 +149,13 @@ class Storage extends React.Component {
       <main>
         <h1 className="view-header section-heading type-line">
           <span className="text">Storage Volumes</span>
+          <HelpButton
+            className = "pull-right"
+            docs = "STORAGE_GENERAL"
+            activeDocs = { this.props.contextual.activeDocs }
+            requestDocs = { this.props.requestDocs }
+            releaseDocs = { this.props.releaseDocs }
+          />
         </h1>
 
         {/* LOADING SPINNER */}
@@ -281,6 +293,7 @@ function mapStateToProps ( state ) {
     , shares: state.shares
     , activeTasks: state.volumes.activeTasks
     , tasks: state.tasks.tasks
+    , contextual: state.contextual
     , availableDisks: state.volumes.availableDisks
     , SSDs: state.disks.SSDs
     , HDDs: state.disks.HDDs
@@ -310,13 +323,30 @@ function mapDispatchToProps ( dispatch ) {
         dispatch( SHARES.fetchShares() )
       }
 
+    , cleanup: () => {
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.CONTEXTUAL_DOCUMENTATION ) );
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
+
+    // DOCS
+    , requestDocs: ( section ) => {
+        dispatch( CONTEXTUAL.setDocsSection( section ) );
+        dispatch( CONTEXTUAL.requestContext( ELEMENTS.CONTEXTUAL_DOCUMENTATION ) );
+      }
+    , releaseDocs: ( section ) => {
+        dispatch( CONTEXTUAL.unsetDocsSection( section ) );
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.CONTEXTUAL_DOCUMENTATION ) );
+      }
+
     // FIXME: *wet farting noises*
     , fetchAvailableDisksIfNeeded: () =>
       dispatch( VOLUMES.fetchAvailableDisksIfNeeded() )
 
     // MODIFY VOLUME ON GUI
-    , onInitNewVolume: () =>
-      dispatch( VOLUMES.initNewVolume() )
+    , onInitNewVolume: () => {
+        dispatch( VOLUMES.initNewVolume() );
+        dispatch( CONTEXTUAL.requestContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
     , onUpdateVolume: ( volumeID, patch ) =>
       dispatch( VOLUMES.updateVolume( volumeID, patch ) )
     , onRevertVolume: ( volumeID ) =>
@@ -339,8 +369,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( SHARES.updateShare( volumeID, shareID, patch ) )
     , onRevertShare: ( volumeID, shareID ) =>
       dispatch( SHARES.revertShare( volumeID, shareID ) )
-    , onSubmitShare: ( volumeID, shareID ) =>
-      dispatch( SHARES.submitShare( volumeID, shareID ) )
+    , onSubmitShare: ( volumeID, shareID ) => {
+        dispatch( SHARES.submitShare( volumeID, shareID ) );
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
 
     // DELETE SHARE
     , onRequestDeleteShare: ( volumeID, shareID ) => console.log( "fart" )
@@ -356,10 +388,13 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( SHARES.focusShare( shareID ) )
     , onBlurShare: () =>
       dispatch( SHARES.blurShare() )
-    , onFocusVolume: ( volumeID ) =>
-      dispatch( VOLUMES.focusVolume( volumeID ) )
-    , onBlurVolume: ( volumeID ) =>
-      dispatch( VOLUMES.blurVolume( volumeID ) )
+    , onFocusVolume: ( volumeID ) => {
+        dispatch( VOLUMES.focusVolume( volumeID ) );
+      }
+    , onBlurVolume: ( volumeID ) => {
+        dispatch( VOLUMES.blurVolume( volumeID ) );
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
     , onToggleShareFocus: ( volumeID ) => console.log( "fart" )
     }
   );

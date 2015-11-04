@@ -4,6 +4,7 @@
 import { combineReducers } from "redux";
 
 import auth from "./auth";
+import contextual from "./contextual";
 import disks from "./disks";
 import events from "./events";
 import network from "./network";
@@ -35,6 +36,7 @@ import swift from "./swift";
 
 const rootReducer = combineReducers(
   { auth
+  , contextual
   , disks
   , events
   , network
