@@ -80,6 +80,7 @@ export default class ShareSettings extends React.Component {
               labelClassName = "col-xs-2"
               wrapperClassName = "col-xs-10"
             />
+            {/*
             <Input
               disabled = { !activeShare }
               type = "text"
@@ -88,6 +89,7 @@ export default class ShareSettings extends React.Component {
               labelClassName = "col-xs-2"
               wrapperClassName = "col-xs-10"
             />
+            */}
             <Input
               disabled
               type = "checkbox"
@@ -109,7 +111,7 @@ export default class ShareSettings extends React.Component {
             <Button
               bsStyle = "primary"
               bsSize  = "small"
-              onClick = { this.props.handlers.datasetUpdate.onSubmit }
+              onClick = { () => console.log( "fart" ) }
             >
               { "Submit" }
             </Button>
@@ -124,22 +126,6 @@ ShareSettings.propTypes =
   { name          : React.PropTypes.string.isRequired
   , show          : React.PropTypes.bool
   , shiftLeft     : React.PropTypes.number.isRequired
-  , share_type    : React.PropTypes.oneOf([ "UNIX", "MAC", "WINDOWS" ])
   , activeShare   : React.PropTypes.object
   , updateDataset : React.PropTypes.object
-  , handlers : React.PropTypes.shape(
-      { onShareCreate     : React.PropTypes.func.isRequired
-      , onShareDelete     : React.PropTypes.func.isRequired
-      , onDatasetActive   : React.PropTypes.func.isRequired
-      , onDatasetInactive : React.PropTypes.func.isRequired
-      , onDatasetChange   : React.PropTypes.func.isRequired
-      , datasetUpdate: React.PropTypes.shape(
-          { onChange: React.PropTypes.func.isRequired
-          , onSubmit: React.PropTypes.func.isRequired
-          , onRevert: React.PropTypes.func.isRequired
-          }
-        )
-      , nameIsPermitted   : React.PropTypes.func.isRequired
-      }
-    ).isRequired
   };

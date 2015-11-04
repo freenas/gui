@@ -104,6 +104,6 @@ export function focusShare ( volumeID, shareID ) {
          }
 }
 
-export function blurShare () {
+export function blurShare ( volumeID, shareID ) {
   return { type: TYPES.BLUR_SHARE }
 }

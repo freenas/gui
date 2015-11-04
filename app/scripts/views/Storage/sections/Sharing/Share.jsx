@@ -75,6 +75,7 @@ export default class Share extends React.Component {
 
   render () {
     const { used, available, compression } = this.props.datasetProperties;
+    const IS_ACTIVE = this.props.id === this.props.shares.activeShare;
 
     let nameLegend;
     let classes = [ "dataset" ];
@@ -147,18 +148,12 @@ export default class Share extends React.Component {
         </div>
 
         {/* DATASET AND SHARE SETTINGS */}
-        {/*
         <ShareSettings
-          show        = { this.isActive() }
-          pool        = { pool }
-          shiftLeft   = { shiftLeft }
-          handlers    = { handlers }
-          name        = { name }
-          activeShare = { activeShare }
-          share_type = { share_type }
-          updateDataset = { this.props.updateDataset }
+          show        = { IS_ACTIVE }
+          shiftLeft   = { this.props.depth * this.props.indent }
+          name        = { this.props.name }
+          share_type = { this.props.type }
         />
-        */}
 
         {/* CHILD DATASETS */}
         <div className="dataset-children">

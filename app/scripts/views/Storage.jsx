@@ -115,8 +115,8 @@ class Storage extends React.Component {
 
           // GUI
           onFocusVolume = { this.props.onFocusVolume.bind( this, id ) }
-          onFocusShare = { this.props.onFocusShare }
-          onBlurShare = { this.props.onBlurShare }
+          onFocusShare = { this.props.onFocusShare.bind( this, id ) }
+          onBlurShare = { this.props.onBlurShare.bind( this, id ) }
           onBlurVolume = { this.props.onBlurVolume.bind( this, id ) }
           onToggleShareFocus = { this.props.onToggleShareFocus.bind( this, id ) }
         />
@@ -384,10 +384,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.selectDisk( volumeID, path ) )
     , onDiskDeselect: ( volumeID, path ) =>
       dispatch( VOLUMES.deselectDisk( volumeID, path ) )
-    , onFocusShare: ( shareID ) =>
-      dispatch( SHARES.focusShare( shareID ) )
-    , onBlurShare: () =>
-      dispatch( SHARES.blurShare() )
+    , onFocusShare: ( volumeID, shareID ) =>
+      dispatch( SHARES.focusShare( volumeID, shareID ) )
+    , onBlurShare: ( volumeID, shareID ) =>
+      dispatch( SHARES.blurShare( volumeID, shareID ) )
     , onFocusVolume: ( volumeID ) => {
         dispatch( VOLUMES.focusVolume( volumeID ) );
       }
