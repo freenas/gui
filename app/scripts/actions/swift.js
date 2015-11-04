@@ -62,9 +62,9 @@ export function toggleSwiftTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.swift.swiftServerState.enable
-                   ? [ "swift", { enable: false } ]
-                   : [ "swift", { enable: true } ]
+                   , [ "swift"
+                     , { enable: !state.swift.swiftServerState.enable }
+                     ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_SWIFT_TASK_REQUEST

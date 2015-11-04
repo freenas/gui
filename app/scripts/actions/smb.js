@@ -63,9 +63,7 @@ export function toggleSMBTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.smb.smbServerState.enable
-                   ? [ "cifs", { enable: false } ]
-                   : [ "cifs", { enable: true } ]
+                   , [ "cifs", { enable: !state.smb.smbServerState.enable } ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_SMB_TASK_REQUEST

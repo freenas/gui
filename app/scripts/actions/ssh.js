@@ -66,9 +66,7 @@ export function toggleSSHTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.ssh.sshServerState.enable
-                   ? [ "sshd", { enable: false } ]
-                   : [ "sshd", { enable: true } ]
+                   , [ "sshd", { enable: !state.ssh.sshServerState.enable } ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                         , TOGGLE_SSH_TASK_REQUEST

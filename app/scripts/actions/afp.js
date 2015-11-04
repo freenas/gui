@@ -74,9 +74,7 @@ export function toggleAFPTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.afp.afpServerState.enable
-                   ? [ "afp", { enable: false } ]
-                   : [ "afp", { enable: true } ]
+                   , [ "afp", !state.afp.afpServerState.enable ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_AFP_TASK_REQUEST

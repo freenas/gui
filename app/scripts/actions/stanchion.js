@@ -1,6 +1,6 @@
 // STANCHION ACTION CREATORS
 // =========================
-// stanction namespace
+// stanchion namespace
 
 "use strict";
 
@@ -95,9 +95,9 @@ export function toggleStanchionTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.stanchion.stanchionServerState.enable
-                   ? [ "stanchion", { enable: false } ]
-                   : [ "stanchion", { enable: true } ]
+                   , [ "stanchion"
+                     , { enable: !state.stanchion.stanchionServerState.enable }
+                     ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_STANCHION_TASK_REQUEST
