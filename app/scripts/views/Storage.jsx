@@ -52,6 +52,8 @@ class Storage extends React.Component {
 
   componentWillUnmount () {
     this.props.unsubscribe( this.displayName );
+
+    this.props.cleanup();
   }
 
   componentDidUpdate () {
@@ -321,6 +323,11 @@ function mapDispatchToProps ( dispatch ) {
         dispatch( SHARES.fetchShares() )
       }
 
+    , cleanup: () => {
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.CONTEXTUAL_DOCUMENTATION ) );
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
+
     // DOCS
     , requestDocs: ( section ) => {
         dispatch( CONTEXTUAL.setDocsSection( section ) );
@@ -336,8 +343,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.fetchAvailableDisksIfNeeded() )
 
     // MODIFY VOLUME ON GUI
-    , onInitNewVolume: () =>
-      dispatch( VOLUMES.initNewVolume() )
+    , onInitNewVolume: () => {
+        dispatch( VOLUMES.initNewVolume() );
+        dispatch( CONTEXTUAL.requestContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
     , onUpdateVolume: ( volumeID, patch ) =>
       dispatch( VOLUMES.updateVolume( volumeID, patch ) )
     , onRevertVolume: ( volumeID ) =>
@@ -360,8 +369,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( SHARES.updateShare( volumeID, shareID, patch ) )
     , onRevertShare: ( volumeID, shareID ) =>
       dispatch( SHARES.revertShare( volumeID, shareID ) )
-    , onSubmitShare: ( volumeID, shareID ) =>
-      dispatch( SHARES.submitShare( volumeID, shareID ) )
+    , onSubmitShare: ( volumeID, shareID ) => {
+        dispatch( SHARES.submitShare( volumeID, shareID ) );
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
 
     // DELETE SHARE
     , onRequestDeleteShare: ( volumeID, shareID ) => console.log( "fart" )
@@ -377,10 +388,13 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( SHARES.focusShare( shareID ) )
     , onBlurShare: () =>
       dispatch( SHARES.blurShare() )
-    , onFocusVolume: ( volumeID ) =>
-      dispatch( VOLUMES.focusVolume( volumeID ) )
-    , onBlurVolume: ( volumeID ) =>
-      dispatch( VOLUMES.blurVolume( volumeID ) )
+    , onFocusVolume: ( volumeID ) => {
+        dispatch( VOLUMES.focusVolume( volumeID ) );
+      }
+    , onBlurVolume: ( volumeID ) => {
+        dispatch( VOLUMES.blurVolume( volumeID ) );
+        dispatch( CONTEXTUAL.releaseContext( ELEMENTS.TOPOLOGY_EDIT_CONTEXT ) );
+      }
     , onToggleShareFocus: ( volumeID ) => console.log( "fart" )
     }
   );
