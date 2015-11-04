@@ -151,9 +151,9 @@ function mapDispatchToProps ( dispatch ) {
     { fetchHistory: ( sources ) =>
       dispatch( STATD.fetchHistory( sources ) )
 
-    , pulseSubscribe: ( sources, id ) => {
+    , pulseSubscribe: ( sources, id ) =>
       dispatch( STATD.pulseSubscribe( sources, id ) )
-    }
+
     , pulseUnsubscribe: ( sources, id ) =>
       dispatch( STATD.pulseUnsubscribe( sources, id ) )
     }
