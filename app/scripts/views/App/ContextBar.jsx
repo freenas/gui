@@ -88,20 +88,7 @@ class ContextBar extends React.Component {
 
   render () {
     return (
-      <aside className="app-sidebar" >
-
-        {/* ACTIVE TASKS */}
-        <div className="feed">
-          <h5 className="context-section-header type-line">
-            <span className="text">Active Tasks</span>
-          </h5>
-          <div className="feed-content">
-            { Object.keys( this.props.tasks ).map( id =>
-              this.createTask( this.props.tasks[ id ] )
-            )}
-          </div>
-        </div>
-
+      <aside className="app-sidebar">
         {/* CONTEXTUAL CONTENT */}
         { this.getActiveComponent() }
 
@@ -122,6 +109,17 @@ class ContextBar extends React.Component {
           />
         </div>
 
+        {/* ACTIVE TASKS */}
+        <div className="feed">
+          <h5 className="context-section-header type-line">
+            <span className="text">Active Tasks</span>
+          </h5>
+          <div className="feed-content">
+            { Object.keys( this.props.tasks ).map( id =>
+              this.createTask( this.props.tasks[ id ] )
+            )}
+          </div>
+        </div>
       </aside>
     );
   }
