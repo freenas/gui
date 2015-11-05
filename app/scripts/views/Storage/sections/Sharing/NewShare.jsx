@@ -8,6 +8,7 @@ import React from "react";
 import { Input, Button, ButtonToolbar } from "react-bootstrap";
 
 import ShareProperty from "./ShareProperty";
+import ShareSettings from "./ShareSettings";
 import ShareToggles from "./ShareToggles";
 
 // TODO: Check potential names against blacklist
@@ -62,6 +63,12 @@ const NewShare = ( props ) => (
           </ButtonToolbar>
         </ShareProperty>
       </div>
+      <ShareSettings
+        show
+        newShare
+        shiftLeft = { props.depth * props.indent }
+        { ...props }
+      />
     </div>
   </div>
 );
