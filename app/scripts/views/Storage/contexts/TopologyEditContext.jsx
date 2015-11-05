@@ -41,8 +41,8 @@ const PRESET_NAMES =
 
 const PRESET_DESCS =
   { "None":
-      ( "Select a ZFS topology layout to automatically assign drives to your, "
-      + "pool, or use the topologizer tool to customize your layout."
+      ( "After dragging the desired number of disks to the STORAGE box, either select a layout from the drop-down menu "
+      + "or click the corner of the colored triangle that matches the layout you wish to optimize."
       )
   ,"Optimal":
       ( "The Optimal preset will try to strike a good balance between speed, "
@@ -187,7 +187,7 @@ class ContextDisks extends React.Component {
 
         <h5 className="context-section-header type-line">
           <span className="text">
-            { "Modify Pool Topology" }
+            { "Click to Optimize Pool For:" }
           </span>
         </h5>
 
@@ -212,7 +212,7 @@ class ContextDisks extends React.Component {
         {/* PRESET SELECTOR */}
         <h5 className="context-section-header type-line">
           <span className="text">
-            { "Preset Configuration" }
+            { "Or Select Layout" }
           </span>
         </h5>
         <DropdownButton
