@@ -130,10 +130,12 @@ export default class Share extends React.Component {
               pullRight
               bsStyle   = "link"
               className = "add"
-              onClick = { () =>
+              onClick = { ( e ) => {
+                e.stopPropagation()
                 this.props.onUpdateShare( "NEW"
                                         , { target: this.props.target }
                                         )
+                }
               }
             >
               {"+"}
