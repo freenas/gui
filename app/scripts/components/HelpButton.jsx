@@ -19,7 +19,6 @@ if ( process.env.BROWSER ) require( "./HelpButton.less" );
 const HelpButton = ( props ) => {
   if ( !Boolean( DOCS[ props.docs ] ) ) {
     console.warn( `Section "${ props.docs }" was not found in docs` );
-    return null;
   }
 
   const IS_ACTIVE = props.docs === props.activeDocs
