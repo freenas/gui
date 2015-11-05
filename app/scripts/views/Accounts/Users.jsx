@@ -6,7 +6,6 @@
 
 import React from "react";
 import { connect }  from "react-redux";
-import _ from "lodash";
 
 import * as USER_ACTIONS from "../../actions/users";
 import * as GROUP_ACTIONS from "../../actions/groups";
@@ -70,27 +69,8 @@ const USER_LABELS =
   };
 
 class Users extends React.Component {
-  constructor ( props ) {
-    super( props );
-    this.displayName = "Users Viewer";
-  }
-
   componentDidMount () {
-    this.props.requestUsers();
-    this.props.requestNextUID();
-    // UM.subscribe( this.constructor.displayName );
-
-    this.props.requestGroups();
-    this.props.requestNextGID();
-    // GM.subscribe( this.constructor.displayName );
-
-    this.props.fetchShells();
-  }
-
-  componentWillUnmount () {
-    // UM.unsubscribe( this.constructor.displayName );
-
-    // GM.unsubscribe( this.constructor.displayName );
+    this.props.fetchInitialData();
   }
 
   render () {
@@ -102,6 +82,7 @@ class Users extends React.Component {
         keyPrimary = { "username" }
         keySecondary = { "full_name" }
 
+        itemData = { this.props.users }
         itemSchema = { USER_SCHEMA }
         itemLabels = { USER_LABELS }
         routeParam = { "userID" }
@@ -142,19 +123,45 @@ class Users extends React.Component {
       />
     );
   }
-};
+}
+
+// FIXME: ben pls
+Users.propTypes =
+  { shells: React.PropTypes.any
+  , users: React.PropTypes.any
+  , userForm: React.PropTypes.any
+  , nextUID: React.PropTypes.any
+  , groups: React.PropTypes.any
+  , nextGID: React.PropTypes.any
+  , activeUser: React.PropTypes.any
+  // requests
+  , queryUsersRequests: React.PropTypes.instanceOf( Set ).isRequired
+  , queryGroupsRequests: React.PropTypes.instanceOf( Set ).isRequired
+
+  , updateUserForm: React.PropTypes.func.isRequired
+  , resetUserForm: React.PropTypes.func.isRequired
+  , createUser: React.PropTypes.func.isRequired
+  , updateUser: React.PropTypes.func.isRequired
+  , deleteUser: React.PropTypes.func.isRequired
+  };
 
 
 // REDUX
 function mapStateToProps ( state ) {
   return (
     { shells: state.shells.available
-    , itemData: state.users.users
+
+    // USERS
+    , activeUser: state.auth.activeUser
+    , users: state.users.users
     , userForm: state.users.userForm
     , nextUID: state.users.nextUID
+
+    // GROUPS
     , groups: state.groups.groups
+    , groupForm: state.groups.groupForm
     , nextGID: state.groups.nextGID
-    , activeUser: state.auth.activeUser
+
     // requests
     , queryUsersRequests: state.users.queryUsersRequests
     , queryGroupsRequests: state.groups.queryGroupsRequests
@@ -164,23 +171,27 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
   return (
-    // FORM
-    { updateUserForm: ( field, value ) =>
-        dispatch( USER_ACTIONS.updateUserForm( field, value ) )
-    , resetUserForm: () => dispatch( USER_ACTIONS.resetUserForm() )
-    // QUERIES
-    , fetchShells: () => dispatch( SHELL_ACTIONS.fetchShells() )
-    , requestUsers: () => dispatch( USER_ACTIONS.requestUsers() )
-    , requestNextUID: () => dispatch( USER_ACTIONS.requestNextUID() )
-    , requestGroups: () => dispatch( GROUP_ACTIONS.requestGroups() )
-    , requestNextGID: () => dispatch( GROUP_ACTIONS.requestNextGID() )
-    // TASKS
+    { fetchInitialData: () => {
+        dispatch( SHELL_ACTIONS.fetchShells() );
+        dispatch( USER_ACTIONS.requestUsers() );
+        dispatch( USER_ACTIONS.requestNextUID() );
+        dispatch( GROUP_ACTIONS.requestGroups() );
+        dispatch( GROUP_ACTIONS.requestNextGID() );
+      }
+
+    // USERS FORMS
+    , updateUserForm: ( field, value ) =>
+      dispatch( USER_ACTIONS.updateUserForm( field, value ) )
+    , resetUserForm: () =>
+      dispatch( USER_ACTIONS.resetUserForm() )
+
+    // USERS TASKS
     , createUser: () =>
-        dispatch( USER_ACTIONS.createUser() )
+      dispatch( USER_ACTIONS.createUser() )
     , updateUser: ( userID ) =>
-        dispatch( USER_ACTIONS.updateUser( userID ) )
+      dispatch( USER_ACTIONS.updateUser( userID ) )
     , deleteUser: ( userID ) =>
-        dispatch( USER_ACTIONS.deleteUser( userID ) )
+      dispatch( USER_ACTIONS.deleteUser( userID ) )
     }
   );
 }
