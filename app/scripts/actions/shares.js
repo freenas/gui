@@ -86,14 +86,14 @@ export function updateShare ( volumeID, shareID, shareData ) {
            { id: shareID
            , data: shareData
            }
-         }
-}
+         };
+};
 
 export function revertShare ( volumeID, shareID ) {
   return { type: TYPES.REVERT_SHARE
          , payload:
            { id: shareID }
-         }
+         };
 }
 
 
@@ -101,9 +101,9 @@ export function revertShare ( volumeID, shareID ) {
 export function focusShare ( volumeID, shareID ) {
   return { type: TYPES.FOCUS_SHARE
          , payload: { shareID }
-         }
+         };
 }
 
 export function blurShare ( volumeID, shareID ) {
-  return { type: TYPES.BLUR_SHARE }
+  return { type: TYPES.BLUR_SHARE };
 }
