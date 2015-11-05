@@ -42,7 +42,7 @@ const PRESET_NAMES =
 const PRESET_DESCS =
   { "None":
       ( "Either select a layout from the drop-down menu "
-      + "or click the corner of the colored triangle that matches the layout you wish to optimize."
+      + "or drag the circle to the corner of the colored triangle that matches the layout you wish to optimize."
       )
   ,"Optimal":
       ( "Strike a good balance between speed, "
@@ -185,7 +185,7 @@ class ContextDisks extends React.Component {
 
         <h5 className="context-section-header type-line">
           <span className="text">
-            { "Click to Optimize Layout For:" }
+            { "Optimize Layout For:" }
           </span>
         </h5>
 
