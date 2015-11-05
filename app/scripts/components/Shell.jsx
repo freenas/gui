@@ -86,7 +86,9 @@ export default class Shell extends React.Component {
         // inadvertently rendered into the terminal.
       }
 
-      this.term.write( event.data );
+      let reader = new FileReader();
+      reader.onload = () => this.term.write(reader.result);
+      reader.readAsBinaryString(event.data);
     }
 
     this.term.on( "data", ( data ) => this.ws.send( data ) );
