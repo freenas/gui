@@ -5,7 +5,6 @@
 "use strict";
 
 import React from "react";
-
 import { History } from "react-router";
 
 import SectionNav from "../components/SectionNav";
@@ -18,9 +17,8 @@ var sections = [ { route : "/accounts/users"
                  }
                ];
 
-const Accounts = React.createClass({
-
-  displayName: "Accounts"
+const Accounts = React.createClass(
+  { displayName: "Accounts"
 
   , mixins: [ History ]
 
