@@ -5,7 +5,12 @@
 "use strict";
 
 import React from "react";
-import { Button, ButtonToolbar, Input } from "react-bootstrap";
+import { Button, ButtonToolbar } from "react-bootstrap";
+
+import AFPShareSettings from "./AFPShareSettings";
+import SMBShareSettings from "./SMBShareSettings";
+import NFSShareSettings from "./NFSShareSettings";
+// import ISCSIShareSettings from "./ISCSIShareSettings";
 
 // TODO: Find a better way to source this
 const CONTAINER_PADDING = 15;
@@ -25,35 +30,75 @@ export default class ShareSettings extends React.Component {
     this.props.handlers.datasetUpdate.onChange( newDataset );
   }
 
-  assignValues () {
-    const { updateDataset, activeShare } = this.props;
-    let datasetParams = {};
-    let shareParams = {};
-
-    if ( updateDataset && updateDataset.params ) {
-      datasetParams.name = updateDataset.params.name;
-    }
-
-    if ( activeShare ) {
-      shareParams.exportName = activeShare.id;
-    }
-
-    return Object.assign(
-      { name       : this.props.name
-      , exportName : ""
-      }
-      , datasetParams
-      , shareParams
-    );
-  }
-
   render () {
     const { name, show, activeShare } = this.props;
-    const VALUES = this.assignValues();
+    var SettingsSection;
 
     let display = show
                 ? null
                 : "none";
+
+    switch( this.props.type ) {
+      case "afp":
+        SettingsSection = (
+          <AFPShareSettings
+            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
+            { ...this.props }
+          />
+        );
+        break;
+      case "cifs":
+        SettingsSection = (
+          <SMBShareSettings
+            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
+            { ...this.props }
+          />
+        );
+        break;
+      case "nfs":
+        SettingsSection = (
+          <NFSShareSettings
+            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
+            { ...this.props }
+          />
+        );
+        break;
+      /*case "iscsi":
+        SettingsSection = (
+          <iSCSIShareSettings
+            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
+            { ...this.props }
+          />
+        );
+        break;*/
+      default:
+        SettingsSection = null;
+        break;
+    }
+
+    var formHandlers = null;
+
+    if ( !this.props.newShare ) {
+      formHandlers = (
+        <div className="form-handlers">
+            <ButtonToolbar>
+              <Button
+                bsStyle = "default"
+                bsSize  = "small"
+              >
+                { "Revert" }
+              </Button>
+              <Button
+                bsStyle = "primary"
+                bsSize  = "small"
+                onClick = { () => console.log( "fart" ) }
+              >
+                { "Submit" }
+              </Button>
+            </ButtonToolbar>
+          </div>
+        );
+    }
 
     return (
       <div
@@ -68,55 +113,8 @@ export default class ShareSettings extends React.Component {
           className = "pointer"
           style     = {{ left: this.props.shiftLeft }}
         />
-
-
-        <section className="form-section">
-          <form className="form-horizontal">
-            <Input
-              type = "text"
-              label = "Name"
-              value = { VALUES.name.split( "/" ).pop() }
-              onChange = { this.onDatasetNameChange.bind( this ) }
-              labelClassName = "col-xs-2"
-              wrapperClassName = "col-xs-10"
-            />
-            {/*
-            <Input
-              disabled = { !activeShare }
-              type = "text"
-              label = "Export As"
-              value = { VALUES.exportName }
-              labelClassName = "col-xs-2"
-              wrapperClassName = "col-xs-10"
-            />
-            */}
-            <Input
-              disabled
-              type = "checkbox"
-              label = "Allow Guest Access"
-              wrapperClassName = "col-xs-offset-2 col-xs-10"
-              help = "Coming soon!"
-            />
-          </form>
-        </section>
-
-        <div className="form-handlers">
-          <ButtonToolbar>
-            <Button
-              bsStyle = "default"
-              bsSize  = "small"
-            >
-              { "Revert" }
-            </Button>
-            <Button
-              bsStyle = "primary"
-              bsSize  = "small"
-              onClick = { () => console.log( "fart" ) }
-            >
-              { "Submit" }
-            </Button>
-          </ButtonToolbar>
-        </div>
+        { SettingsSection }
+        { formHandlers }
       </div>
     );
   }
