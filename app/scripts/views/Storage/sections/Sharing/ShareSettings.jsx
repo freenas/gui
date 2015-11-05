@@ -120,7 +120,7 @@ export default class ShareSettings extends React.Component {
       </div>
     );
   }
-}
+};
 
 ShareSettings.propTypes =
   { name          : React.PropTypes.string.isRequired
@@ -128,4 +128,10 @@ ShareSettings.propTypes =
   , shiftLeft     : React.PropTypes.number.isRequired
   , activeShare   : React.PropTypes.object
   , updateDataset : React.PropTypes.object
+  , newShare      : React.PropTypes.bool
+
+  // HANDLERS
+  , onUpdateShare: React.PropTypes.func.isRequired
+  , onRevertShare: React.PropTypes.func.isRequired
+  , onSubmitShare: React.PropTypes.func.isRequired
   };
