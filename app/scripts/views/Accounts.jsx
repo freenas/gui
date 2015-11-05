@@ -59,7 +59,7 @@ const Accounts = React.createClass(
             <span className="text">Accounts</span>
           </h1>
           <HelpButton
-            className = "pull-right"
+            className = "pull-right on-dark"
             docs = "ACCOUNTS_GENERAL"
             activeDocs = { this.props.contextual.activeDocs }
             requestDocs = { this.props.requestDocs }
