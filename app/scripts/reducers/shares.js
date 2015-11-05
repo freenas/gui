@@ -20,6 +20,7 @@ const NEW_SHARE_INIT =
   , type: "nfs"
   , target: null
   , properties: {}
+  , enabled: true
   };
 
 function normalizeShares ( shares ) {
