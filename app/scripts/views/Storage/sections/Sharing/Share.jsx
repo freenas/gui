@@ -153,8 +153,7 @@ export default class Share extends React.Component {
         <ShareSettings
           show        = { IS_ACTIVE }
           shiftLeft   = { this.props.depth * this.props.indent }
-          name        = { this.props.name }
-          share_type = { this.props.type }
+          { ...this.props }
         />
 
         {/* CHILD DATASETS */}
