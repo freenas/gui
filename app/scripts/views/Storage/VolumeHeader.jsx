@@ -31,7 +31,7 @@ const VolumeHeader = ( props ) => {
             <Input
               autoFocus
               type        = "text"
-              placeholder = "Volume Name"
+              placeholder = "Input a Pool Name "
               readOnly    = { IS_SUBMITTING }
               onClick     = { event => event.stopPropagation() }
               onChange    = { event =>

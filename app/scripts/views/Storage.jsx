@@ -148,7 +148,7 @@ class Storage extends React.Component {
     return (
       <main>
         <h1 className="view-header section-heading type-line">
-          <span className="text">Storage Volumes</span>
+          <span className="text">Storage</span>
           <HelpButton
             className = "pull-right"
             docs = "STORAGE_GENERAL"
