@@ -17,7 +17,7 @@ const INITIAL_STATE =
 const NEW_SHARE_INIT =
   { name: ""
   , id: "NEW" // This must not be submitted to the server!
-  , type: "NFS"
+  , type: "nfs"
   , target: null
   , properties: {}
   };
