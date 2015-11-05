@@ -49,6 +49,9 @@ class MiddlewareClient {
     this.onRPCSuccess = () => notBoundWarn( "onRPCSuccess" );
     this.onRPCTimeout = () => notBoundWarn( "onRPCTimeout" );
 
+    // EVENTS
+    this.onSystemEvent = () => notBoundWarn( "onSystemEvent" );
+
     // TASK SUBMISSION HANDLERS
     this.onTaskSubmitRequest = () => notBoundWarn( "onTaskSubmitRequest" );
     this.onTaskSubmitFailure = () => notBoundWarn( "onTaskSubmitFailure" );
@@ -207,6 +210,11 @@ class MiddlewareClient {
           return;
         }
 
+        if ( MCD.reports( "messages" ) ) {
+          MCD.log( "Message contained event data" );
+        }
+        this.onSystemEvent( data, timestamp );
+
         switch ( eventName[0] ) {
           case "task":
             this.handleTaskResponse( eventName[1], data.args.args );
@@ -244,13 +252,6 @@ class MiddlewareClient {
           case "logout":
             sessionCookies.delete( "auth" );
             this.onLogout();
-            break;
-
-          default:
-            if ( MCD.reports( "messages" ) ) {
-              MCD.log( "Message contained event data" );
-            }
-            this.onSystemEvent( data, timestamp );
             break;
         }
         break;

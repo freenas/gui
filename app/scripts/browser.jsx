@@ -88,8 +88,24 @@ if ( process.env.BROWSER ) {
   );
 
   MiddlewareClient.subscribe(
+    // TASKS
     [ "entity-subscriber.task.changed"
     , "task.progress"
+
+    // EVENTS
+    , "server.client_login"
+    , "server.client_logout"
+    , "system.device.changed"
+    , "system.device.detached"
+    , "system.network.interface.attached"
+    , "system.network.interface.detached"
+    , "system.network.interface.link_down"
+    , "system.network.interface.link_up"
+    , "users.changed"
+    , "groups.changed"
+    , "shares.changed"
+    , "update.changed"
+    , "volumes.changed"
     ]
     , "WEBAPP"
   );
