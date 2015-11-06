@@ -19,6 +19,8 @@ import * as DISKS from "../actions/disks";
 import * as VOLUMES from "../actions/volumes";
 import * as SHARES from "../actions/shares";
 import * as SUBSCRIPTIONS from "../actions/subscriptions";
+import * as USERS from "../actions/users";
+import * as GROUPS from "../actions/groups";
 
 // UTILITY
 import { ghost, ghostUpdate } from "../utility/motions";
@@ -92,6 +94,10 @@ class Storage extends React.Component {
           volumeShares = { NESTED_SHARES[ volumeData.name ] }
           datasets = { VolumeUtilities.normalizeDatasets( datasets ) }
           rootDataset = { VolumeUtilities.getRootDataset( datasets, volumeData.name ) }
+
+          // ACCOUNTS (for share permissions)
+          users = { this.props.users }
+          groups = { this.props.groups }
 
           // DISKS
           disks = { this.props.disks }
@@ -282,6 +288,8 @@ const SUB_MASKS =
   [ "entity-subscriber.volumes.changed"
   , "entity-subscriber.disks.changed"
   , "entity-subscriber.shares.changed"
+  , "entity-subscriber.users.changed"
+  , "entity-subscriber.groups.changed"
   ];
 
 function mapStateToProps ( state ) {
@@ -302,6 +310,8 @@ function mapStateToProps ( state ) {
     , availableHDDs:
       Array.from( state.disks.HDDs )
            .filter( path => state.volumes.availableDisks.has( path ) )
+    , users: state.users.users
+    , groups: state.groups.groups
     }
   );
 }
@@ -320,6 +330,8 @@ function mapDispatchToProps ( dispatch ) {
         dispatch( VOLUMES.fetchVolumes() )
         dispatch( VOLUMES.fetchAvailableDisks() )
         dispatch( SHARES.fetchShares() )
+        dispatch( USERS.requestUsers() )
+        dispatch( GROUPS.requestGroups () )
       }
 
     , cleanup: () => {
