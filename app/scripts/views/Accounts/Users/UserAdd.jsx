@@ -336,7 +336,7 @@ const UserAdd = React.createClass(
     let userPasswordDisabledField =
       <Input
         type = "checkbox"
-        label = "Login Disabled"
+        label = "Password Login Disabled"
         checked = { typeof this.props.userForm.password_disabled === "boolean"
                          ? this.props.userForm.password_disabled
                          : null
