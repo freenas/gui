@@ -56,7 +56,11 @@ const NewShare = ( props ) => (
             <Button
               bsStyle  = "primary"
               disabled = { props.name.length === 0 }
-              onClick  = { () => props.onSubmitShare( props.id ) }
+              onClick = { () => {
+                props.onSubmitShare( props.id );
+                props.onRevertShare( props.id );
+                props.onBlurShare( props.id );
+              }}
             >
               { "Submit" }
             </Button>

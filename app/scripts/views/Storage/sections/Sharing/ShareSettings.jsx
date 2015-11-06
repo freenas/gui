@@ -59,7 +59,11 @@ export default class ShareSettings extends React.Component {
               <Button
                 bsStyle = "primary"
                 bsSize  = "small"
-                onClick = { () => this.props.onSubmitShare( this.props.id ) }
+                onClick = { () => {
+                 this.props.onSubmitShare( this.props.id );
+                 this.props.onRevertShare( this.props.id );
+                 this.props.onBlurShare( this.props.id );
+                }}
               >
                 { "Submit" }
               </Button>
@@ -100,4 +104,5 @@ ShareSettings.propTypes =
   , onUpdateShare: React.PropTypes.func.isRequired
   , onRevertShare: React.PropTypes.func.isRequired
   , onSubmitShare: React.PropTypes.func.isRequired
+  , onBlurShare  : React.PropTypes.func.isRequired
   };
