@@ -49,9 +49,11 @@ export default function shares ( state = INITIAL_STATE, action ) {
     // CLIENT MUTATIONS
     case TYPES.UPDATE_SHARE:
       clientShares = Object.assign( {}, state.clientShares );
+      serverShares = Object.assign( {}, state.serverShares );
 
       clientShares[ payload.id ] = Object.assign( {}
                                                 , NEW_SHARE_INIT
+                                                , serverShares[ payload.id ]
                                                 , clientShares[ payload.id ]
                                                 , payload.data
                                                 );
