@@ -62,9 +62,7 @@ export function toggleIPFSTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.ipfs.ipfsServerState.enable
-                   ? [ "ipfs", { enable: false } ]
-                   : [ "ipfs", { enable: true } ]
+                   , [ "ipfs", { enable: !state.ipfs.ipfsServerState.enable } ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_IPFS_TASK_REQUEST

@@ -62,9 +62,7 @@ export function toggleGlusterTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.gluster.glusterServerState.enable
-                   ? [ "glusterd", { enable: false } ]
-                   : [ "glusterd", { enable: true } ]
+                   , [ "glusterd", !state.gluster.glusterServerState.enable ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_GLUSTER_TASK_REQUEST

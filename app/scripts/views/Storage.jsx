@@ -19,6 +19,8 @@ import * as DISKS from "../actions/disks";
 import * as VOLUMES from "../actions/volumes";
 import * as SHARES from "../actions/shares";
 import * as SUBSCRIPTIONS from "../actions/subscriptions";
+import * as USERS from "../actions/users";
+import * as GROUPS from "../actions/groups";
 
 // UTILITY
 import { ghost, ghostUpdate } from "../utility/motions";
@@ -93,6 +95,10 @@ class Storage extends React.Component {
           datasets = { VolumeUtilities.normalizeDatasets( datasets ) }
           rootDataset = { VolumeUtilities.getRootDataset( datasets, volumeData.name ) }
 
+          // ACCOUNTS (for share permissions)
+          users = { this.props.users }
+          groups = { this.props.groups }
+
           // DISKS
           disks = { this.props.disks }
           availableDisks = { this.props.availableDisks }
@@ -115,8 +121,8 @@ class Storage extends React.Component {
 
           // GUI
           onFocusVolume = { this.props.onFocusVolume.bind( this, id ) }
-          onFocusShare = { this.props.onFocusShare }
-          onBlurShare = { this.props.onBlurShare }
+          onFocusShare = { this.props.onFocusShare.bind( this, id ) }
+          onBlurShare = { this.props.onBlurShare.bind( this, id ) }
           onBlurVolume = { this.props.onBlurVolume.bind( this, id ) }
           onToggleShareFocus = { this.props.onToggleShareFocus.bind( this, id ) }
         />
@@ -148,7 +154,7 @@ class Storage extends React.Component {
     return (
       <main>
         <h1 className="view-header section-heading type-line">
-          <span className="text">Storage Volumes</span>
+          <span className="text">Storage</span>
           <HelpButton
             className = "pull-right"
             docs = "STORAGE_GENERAL"
@@ -282,6 +288,8 @@ const SUB_MASKS =
   [ "entity-subscriber.volumes.changed"
   , "entity-subscriber.disks.changed"
   , "entity-subscriber.shares.changed"
+  , "entity-subscriber.users.changed"
+  , "entity-subscriber.groups.changed"
   ];
 
 function mapStateToProps ( state ) {
@@ -302,6 +310,8 @@ function mapStateToProps ( state ) {
     , availableHDDs:
       Array.from( state.disks.HDDs )
            .filter( path => state.volumes.availableDisks.has( path ) )
+    , users: state.users.users
+    , groups: state.groups.groups
     }
   );
 }
@@ -320,6 +330,8 @@ function mapDispatchToProps ( dispatch ) {
         dispatch( VOLUMES.fetchVolumes() )
         dispatch( VOLUMES.fetchAvailableDisks() )
         dispatch( SHARES.fetchShares() )
+        dispatch( USERS.requestUsers() )
+        dispatch( GROUPS.requestGroups () )
       }
 
     , cleanup: () => {
@@ -383,10 +395,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( VOLUMES.selectDisk( volumeID, path ) )
     , onDiskDeselect: ( volumeID, path ) =>
       dispatch( VOLUMES.deselectDisk( volumeID, path ) )
-    , onFocusShare: ( shareID ) =>
-      dispatch( SHARES.focusShare( shareID ) )
-    , onBlurShare: () =>
-      dispatch( SHARES.blurShare() )
+    , onFocusShare: ( volumeID, shareID ) =>
+      dispatch( SHARES.focusShare( volumeID, shareID ) )
+    , onBlurShare: ( volumeID, shareID ) =>
+      dispatch( SHARES.blurShare( volumeID, shareID ) )
     , onFocusVolume: ( volumeID ) => {
         dispatch( VOLUMES.focusVolume( volumeID ) );
       }

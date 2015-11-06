@@ -41,25 +41,23 @@ const PRESET_NAMES =
 
 const PRESET_DESCS =
   { "None":
-      ( "Select a ZFS topology layout to automatically assign drives to your, "
-      + "pool, or use the topologizer tool to customize your layout."
+      ( "Either select a layout from the drop-down menu "
+      + "or drag the circle to the corner of the colored triangle that matches the layout you wish to optimize."
       )
   ,"Optimal":
-      ( "The Optimal preset will try to strike a good balance between speed, "
-      + "storage, and safety."
+      ( "Strike a good balance between speed, "
+      + "capacity, and redundancy."
       )
   , "Virtualization":
-      ( "Virtualization prioritizes fast storage over capacity or parity. This "
+      ( "Prioritize speed over capacity or redundancy. This "
       + "layout is similar to RAID 10 on a non-ZFS system."
       )
   , "Backups":
-      ( "Backups emphasizes data security, and uses RAID Z2 to create extra "
-      + "parity. For those willing to sacrifice performance for security, RAID "
-      + "Z3 offers more redundancy with degraded speed."
+      ( "Emphasize redundancy using RAID Z2 (requires a minimum of 4 disks)."
       )
   , "Media":
-      ( "Media attempts to create a highly performant pool with good parity. "
-      + "It is similar to the Optimal preset, but has a greater emphasis on "
+      ( "Emphasize performance with good parity. "
+      + "It is similar to Optimal, but has a greater emphasis on "
       + "speed over storage capacity."
       )
   };
@@ -187,7 +185,7 @@ class ContextDisks extends React.Component {
 
         <h5 className="context-section-header type-line">
           <span className="text">
-            { "Modify Pool Topology" }
+            { "Optimize Layout For:" }
           </span>
         </h5>
 
@@ -206,13 +204,13 @@ class ContextDisks extends React.Component {
             this.props.onRevertTopology( this.props.activeVolume )
           }
         >
-          {"Reset Pool Topology"}
+          {"Reset Layout"}
         </Button>
 
         {/* PRESET SELECTOR */}
         <h5 className="context-section-header type-line">
           <span className="text">
-            { "Preset Configuration" }
+            { "Or Select Layout:" }
           </span>
         </h5>
         <DropdownButton

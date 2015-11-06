@@ -123,9 +123,7 @@ export function toggleNFSTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.nfs.nfsServerState.enable
-                   ? [ "nfs", { enable: false } ]
-                   : [ "nfs", { enable: true } ]
+                   , [ "nfs", { enable: !state.nfs.nfsServerState.enable } ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_NFS_TASK_REQUEST
@@ -138,9 +136,7 @@ export function toggleNFSv4TaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.nfs.nfsServerState.v4
-                   ? [ "nfs", { v4: false } ]
-                   : [ "nfs", { v4: true } ]
+                   , [ "nfs", { v4: !state.nfs.nfsServerState.v4 } ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_NFS_V4_TASK_REQUEST

@@ -111,9 +111,9 @@ export function toggleRiakCSTaskRequest () {
   return ( dispatch, getState ) =>{
     const state = getState();
     MC.submitTask( [ "service.configure"
-                   , state.riakcs.riakCSServerState.enable
-                   ? [ "riak_cs", { enable: false } ]
-                   : [ "riak_cs", { enable: true } ]
+                   , [ "riak_cs"
+                     , { enable: !state.riakcs.riakcsServerState.enable }
+                     ]
                    ]
                    , ( UUID ) => dispatch( watchRequest
                                          , TOGGLE_RIAKCS_TASK_REQUEST

@@ -15,6 +15,7 @@ import ContextBar from "./App/ContextBar";
 import PrimaryNavigation from "./App/PrimaryNavigation";
 // TODO: Convert to Redux and reenable
 // import DebugTools from "./App/DebugTools";
+import Events from "./App/Events";
 import SessionInterruptDialog from "./App/SessionInterruptDialog";
 
 // PRIMARY STYLESHEET
@@ -129,13 +130,17 @@ class App extends React.Component {
                     {/* Primary view */}
                     { this.props.children }
 
+                    {/* Event notifications */}
+                    <Events />
+
                     <footer className="app-footer">
                       {/* TODO? */}
                     </footer>
                   </div>
 
                 {/* User-customizable component showing system events */}
-                <ContextBar location = { this.props.location } />
+                <ContextBar />
+
               </div>
             }
           </Motion>

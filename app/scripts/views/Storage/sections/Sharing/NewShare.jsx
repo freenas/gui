@@ -8,6 +8,7 @@ import React from "react";
 import { Input, Button, ButtonToolbar } from "react-bootstrap";
 
 import ShareProperty from "./ShareProperty";
+import ShareSettings from "./ShareSettings";
 import ShareToggles from "./ShareToggles";
 
 // TODO: Check potential names against blacklist
@@ -55,13 +56,23 @@ const NewShare = ( props ) => (
             <Button
               bsStyle  = "primary"
               disabled = { props.name.length === 0 }
-              onClick  = { () => props.onSubmitShare( props.id ) }
+              onClick = { () => {
+                props.onSubmitShare( props.id );
+                props.onRevertShare( props.id );
+                props.onBlurShare( props.id );
+              }}
             >
               { "Submit" }
             </Button>
           </ButtonToolbar>
         </ShareProperty>
       </div>
+      <ShareSettings
+        show
+        newShare
+        shiftLeft = { props.depth * props.indent }
+        { ...props }
+      />
     </div>
   </div>
 );

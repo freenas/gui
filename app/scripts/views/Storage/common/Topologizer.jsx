@@ -91,7 +91,7 @@ const Topologizer = React.createClass(
           onMouseUp = { this.handleEndActive }
         >
           <span className = "topologizer-label-health">
-            {"Safety"}
+            {"Redundancy"}
           </span>
           <span className = "topologizer-label-speed">
             {"Speed"}
