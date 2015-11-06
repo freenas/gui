@@ -52,6 +52,7 @@ const UserView = React.createClass(
   , render: function () {
       var builtInUserAlert = null;
       var editButtons = null;
+      var deleteButton = null;
 
       if ( this.props.item.builtin ) {
         builtInUserAlert = (
@@ -64,30 +65,38 @@ const UserView = React.createClass(
         );
       }
 
-      editButtons = (
-        <ButtonToolbar>
-            <Button
-              className = "pull-left"
-              disabled = { this.props.item.builtin }
-              onClick = { () => this.props.deleteUser( this.props.item.id ) }
-              bsStyle = "danger"
-            >
-              {"Delete User"}
-            </Button>
-            <Button
-              className = "pull-right"
-              onClick = { this.props.handleViewChange.bind( null, "edit" ) }
-              bsStyle = "info"
-              disabled = { this.props.item.builtin
-                        && this.props.item.id !== 0
-                        && this.props.item.id !== "0"
-                         }
-            >
-              { "Edit User" }
-            </Button>
-        </ButtonToolbar>
-      );
-
+      if ( this.props.item.id === 0
+        || this.props.item.id === "0"
+        || !this.props.item.builtin
+         ) {
+          if ( !this.props.item.builtin ) {
+            deleteButton = (
+              <Button
+                className = "pull-left"
+                onClick = { () => this.props.deleteUser( this.props.item.id ) }
+                bsStyle = "danger"
+              >
+                {"Delete User"}
+              </Button>
+            );
+          }
+          editButtons = (
+            <ButtonToolbar>
+              { deleteButton }
+              <Button
+                className = "pull-right"
+                onClick = { this.props.handleViewChange.bind( null, "edit" ) }
+                bsStyle = "info"
+                disabled = { this.props.item.builtin
+                          && this.props.item.id !== 0
+                          && this.props.item.id !== "0"
+                           }
+              >
+                { "Edit User" }
+              </Button>
+          </ButtonToolbar>
+        );
+      }
       return (
         <Grid fluid>
           {/* "Edit User" Button - Top */}

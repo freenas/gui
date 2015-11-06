@@ -236,32 +236,37 @@ const UserEdit = React.createClass(
         { "Cancel Edit" }
       </Button>;
 
-    const deletebutton =
-      <Button
-        className = "pull-left"
-        bsStyle = "danger"
-        onClick = { () => this.props.deleteUser( this.props.item.id ) }
-        disabled = { this.props.item.builtin }
-      >
-        { "Delete User" }
-      </Button>;
-
+    var deleteButton = null;
+    if ( this.props.item.id === 0
+      || this.props.item.id === "0"
+       ) {
+      deleteButton = (
+        <Button
+          className = "pull-left"
+          bsStyle = "danger"
+          onClick = { () => this.props.deleteUser( this.props.item.id ) }
+        >
+          { "Delete User" }
+        </Button>
+      );
+    }
     const buttonToolbar =
         <ButtonToolbar>
           { cancelButton }
-          { deletebutton }
+          { deleteButton }
           { resetButton }
           { submitButton }
         </ButtonToolbar>;
 
     if ( this.props.item.builtin ) {
-      userIdField =
+      userIdField = (
         <div>
           <strong>
             { "User ID: " }
           </strong>
           { this.props.item.id }
-        </div>;
+        </div>
+      );
     } else {
       userIdField =
         <Input
