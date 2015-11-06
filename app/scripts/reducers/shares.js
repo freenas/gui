@@ -37,6 +37,7 @@ export default function shares ( state = INITIAL_STATE, action ) {
   const { payload, error, type } = action;
   let clientShares;
   let serverShares;
+  let writeableServerState;
 
   switch ( type ) {
 
@@ -50,10 +51,27 @@ export default function shares ( state = INITIAL_STATE, action ) {
     case TYPES.UPDATE_SHARE:
       clientShares = Object.assign( {}, state.clientShares );
       serverShares = Object.assign( {}, state.serverShares );
+      // Gather the writable bits of server state. Sucks, but this whole thing
+      // needs to be re-written for storage to work while using clientShares as
+      // only patches to serverShares.
+      // TODO: Redo this whole thing lol
+      if ( serverShares[ payload.id ] ) {
+        writeableServerState =
+          { id: serverShares[ payload.id ].id
+          , name: serverShares[ payload.id ].name
+          , target: serverShares[ payload.id ].target
+          , type: serverShares[ payload.id ].type
+          , properties: serverShares[ payload.id ].properties
+          , enabled: serverShares[ payload.id ].enabled
+          , filesystem_path: serverShares[ payload.id ].filesystem_path
+          , description: serverShares[ payload.id ].description
+          , compression: serverShares[ payload.id ].compression
+          };
+      }
 
       clientShares[ payload.id ] = Object.assign( {}
                                                 , NEW_SHARE_INIT
-                                                , serverShares[ payload.id ]
+                                                , writeableServerState
                                                 , clientShares[ payload.id ]
                                                 , payload.data
                                                 );
