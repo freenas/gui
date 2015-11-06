@@ -23,11 +23,10 @@ export function submitShare ( volumeID, shareID ) {
     const state = getState();
     const ON_SERVER = state.shares.serverShares[ shareID ];
     const ON_CLIENT = state.shares.clientShares[ shareID ];
-    const TO_SUBMIT = Object.assign( {}, ON_CLIENT );
-    delete TO_SUBMIT.id;
+    delete ON_CLIENT.id;
 
     // FIXME: This is a workaround because magic shares don't make sense to me right now
-    TO_SUBMIT.target = state.volumes.serverVolumes[ volumeID ].name;
+    ON_CLIENT.target = state.volumes.serverVolumes[ volumeID ].name;
 
     if ( typeof shareID !== "string" ) {
       console.warn( "Expected `shareID` to be a string." );
@@ -40,12 +39,12 @@ export function submitShare ( volumeID, shareID ) {
     }
 
     if ( ON_SERVER ) {
-      MC.submitTask( [ "share.update", [ TO_SUBMIT ] ]
+      MC.submitTask( [ "share.update", [ ON_SERVER.id, ON_CLIENT ] ]
                    , ( UUID ) =>
                      dispatch( watchRequest( UUID, TYPES.UPDATE_SHARE_TASK_SUBMIT_REQUEST ) )
                    );
     } else {
-      MC.submitTask( [ "share.create", [ TO_SUBMIT ] ]
+      MC.submitTask( [ "share.create", [ ON_CLIENT ] ]
                    , ( UUID ) =>
                      dispatch( watchRequest( UUID, TYPES.CREATE_SHARE_TASK_SUBMIT_REQUEST ) )
                    );
