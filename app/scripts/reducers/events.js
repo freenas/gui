@@ -27,7 +27,6 @@ export default function disks ( state = INITIAL_STATE, action ) {
     case TYPES.EVENT_SHARES_CHANGED:
     case TYPES.EVENT_UPDATE_CHANGED:
     case TYPES.EVENT_VOLUMES_CHANGED:
-      console.log( payload );
       return state;
 
     default:
