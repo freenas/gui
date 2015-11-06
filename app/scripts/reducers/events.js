@@ -3,12 +3,16 @@
 
 "use strict";
 
+import moment from "moment";
+
 import * as TYPES from "../actions/actionTypes";
 
 const INITIAL_STATE =
   { events: {}
   , timeline: []
-  , freezeToasts: false
+  , freezeNotifications: false
+  , frozenAt: null
+  , willBeStale: new Set()
   };
 
 
@@ -37,11 +41,54 @@ export default function events ( state = INITIAL_STATE, action ) {
         { ...payload.data.args
         , type
         , clientTimestamp: payload.clientTimestamp
+        , isStale: false
         };
 
       timeline.unshift( payload.eventID );
 
       return Object.assign( {}, state, { events, timeline } );
+
+    case TYPES.FREEZE_NOTIFICATIONS:
+      return Object.assign( {}, state,
+        { freezeNotifications: true
+        , frozenAt: moment()
+        }
+      );
+
+    case TYPES.UNFREEZE_NOTIFICATIONS:
+      return Object.assign( {}, state,
+        { freezeNotifications: false
+        , frozenAt: null
+        }
+      );
+
+    case TYPES.ENQUEUE_STALE_EVENT:
+      var willBeStale = new Set( state.willBeStale );
+
+      willBeStale.add( payload.eventID );
+      return Object.assign( {}, state, { willBeStale } );
+
+    case TYPES.DEQUEUE_STALE_EVENTS:
+      var willBeStale = new Set();
+      var events = Object.assign( {}, state.events );
+
+      Array.from( state.willBeStale ).forEach( id => {
+        if ( events.hasOwnProperty( id ) ) {
+          events[ id ].isStale = true;
+        } else {
+          console.log( `Event with id "${ id }" not found, will try again.`
+                     , events
+                     );
+          willBeStale.add( id );
+        }
+      });
+      return Object.assign( {}, state, { willBeStale, events } );
+
+    case TYPES.EVENT_IS_STALE:
+      var events = Object.assign( {}, state.events );
+      var willBeStale = Object.assign( {}, state.events );
+      events[ payload.eventID ].isStale = true;
+      return Object.assign( {}, state, { events } );
 
     default:
       return state;

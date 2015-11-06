@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { VelocityTransitionGroup } from "velocity-react";
 
 import * as TYPES from "../../actions/actionTypes";
+import * as EVENTS from "../../actions/events";
 
 import Notification from "./Events/Notification";
 
@@ -21,22 +22,16 @@ if ( process.env.BROWSER ) require( "./Events.less" );
 
 // REACT
 class Events extends React.Component {
-  renderEvents ( id, index ) {
-    const EVENT = this.props.events.events[ id ];
+  renderEvents ( event, index ) {
     let text;
 
-    if ( !EVENT ) {
-      console.warn( `Event "${ id }" does not exist in events:`, this.props.events );
-      return <noscript />;
-    }
-
-    switch ( EVENT.type ) {
+    switch ( event.type ) {
       case TYPES.EVENT_CLIENT_LOGIN:
-        text = EVENT.args.description;
+        text = event.args.description;
         break;
 
       case TYPES.EVENT_CLIENT_LOGOUT:
-        text = EVENT.args.description;
+        text = event.args.description;
         break;
 
       case TYPES.EVENT_DEVICE_CHANGED:
@@ -89,20 +84,37 @@ class Events extends React.Component {
         <Notification
           key = { index }
           text = { text }
-          clientTimestamp = { EVENT.clientTimestamp }
+          clientTimestamp = { event.clientTimestamp }
         />
       );
     } else {
-      console.warn( "Unrecognized or unsupported event:", EVENT );
+      console.warn( "Unrecognized or unsupported event:", event );
       return <noscript key={ index } />;
     }
   }
 
   render () {
+    const TIMELINE = this.props.events.timeline;
+    const EVENTS = this.props.events.events;
+    const TO_RENDER = [];
+
+    for ( let i = 0; i < TIMELINE.length; i++ ) {
+      if ( EVENTS[ TIMELINE[i] ] && !EVENTS[ TIMELINE[i] ].isStale ) {
+        console.log( EVENTS[ TIMELINE[i] ] );
+        TO_RENDER.push( EVENTS[ TIMELINE[i] ] );
+      } else {
+        break;
+      }
+    }
+
     return (
-      <div className="notification-feed">
-        { this.props.events.timeline.map( ( id, index ) =>
-          this.renderEvents( id, index )
+      <div
+        className = "notification-feed"
+        onMouseEnter = { () => this.props.freezeNotifications() }
+        onMouseLeave = { () => this.props.unfreezeNotifications() }
+      >
+        { TO_RENDER.map( ( event, index ) =>
+          this.renderEvents( event, index )
         )}
       </div>
     );
@@ -119,7 +131,13 @@ function mapStateToProps ( state ) {
 }
 
 function mapDispatchToProps ( dispatch ) {
-  return {}
+  return (
+    { freezeNotifications: () =>
+      dispatch( EVENTS.freezeNotifications() )
+    , unfreezeNotifications: () =>
+      dispatch( EVENTS.unfreezeNotifications() )
+    }
+  );
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )( Events );

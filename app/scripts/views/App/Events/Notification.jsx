@@ -5,7 +5,6 @@ import moment from "moment";
 import React from "react";
 
 const Notification = ( props ) => {
-  console.log( props );
   return (
     <div className="notification">
       <span className="text">{ props.text }</span>
