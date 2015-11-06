@@ -15,13 +15,6 @@ const STALE_AFTER = 10000;
 // element and re-freeze the events
 const UNFREEZE_AFTER = 5000;
 
-function eventAction ( type, data, timestamp ) {
-  const eventID = freeNASUtil.generateUUID();
-  const clientTimestamp = moment();
-
-  return { type, payload: { data, timestamp, eventID, clientTimestamp } };
-}
-
 function staleEventAction ( eventID ) {
   return { type: TYPES.EVENT_IS_STALE, payload: { eventID } };
 }
@@ -30,77 +23,105 @@ function enqueueStaleEventAction ( eventID ) {
   return { type: TYPES.ENQUEUE_STALE_EVENT, payload: { eventID } };
 }
 
-export function systemEvent ( data, timestamp ) {
+export function systemEvent ( eventData, timestamp ) {
   return ( dispatch, getState ) => {
-    const NAME = data.args.name;
-    let action;
+    const eventID = freeNASUtil.generateUUID();
+    const clientTimestamp = moment();
+    const data = eventData.args.args;
 
-    switch ( NAME ) {
+    let type, text;
+
+    switch ( eventData.args.name ) {
       case "server.client_login":
-        action = eventAction( TYPES.EVENT_CLIENT_LOGIN, data, timestamp );
+        type = TYPES.EVENT_CLIENT_LOGIN;
+        text = data.description;
         break;
 
       case "server.client_logout":
-        action = eventAction( TYPES.EVENT_CLIENT_LOGOUT, data, timestamp );
+        type = TYPES.EVENT_CLIENT_LOGOUT;
+        text = data.description;
         break;
 
       // TODO: Re-enable these when we have a better plan (too much noise)
       // case "system.device.changed":
-      //   action = eventAction( TYPES.EVENT_DEVICE_CHANGED, data, timestamp );
+      //   type = TYPES.EVENT_DEVICE_CHANGED;
+      //   text = "Device status changed";
       //   break;
 
       // case "system.device.detached":
-      //   action = eventAction( TYPES.EVENT_DEVICE_DETACHED, data, timestamp );
+      //   type = TYPES.EVENT_DEVICE_DETACHED;
+      //   text = "Device status detached";
       //   break;
 
       case "system.network.interface.attached":
-        action = eventAction( TYPES.EVENT_INTERFACE_ATTACHED, data, timestamp );
+        type = TYPES.EVENT_INTERFACE_ATTACHED;
+        text = "Network interface attached";
         break;
 
       case "system.network.interface.detached":
-        action = eventAction( TYPES.EVENT_INTERFACE_DETACHED, data, timestamp );
+        type = TYPES.EVENT_INTERFACE_DETACHED;
+        text = "Network interface detached";
         break;
 
       case "system.network.interface.link_down":
-        action = eventAction( TYPES.EVENT_INTERFACE_LINK_UP, data, timestamp );
+        type = TYPES.EVENT_INTERFACE_LINK_UP;
+        text = "Network Interface changed to UP";
         break;
 
       case "system.network.interface.link_up":
-        action = eventAction( TYPES.EVENT_INTERFACE_LINK_DOWN, data, timestamp );
+        type = TYPES.EVENT_INTERFACE_LINK_DOWN;
+        text = "Network Interface changed to DOWN";
         break;
 
       case "users.changed":
-        action = eventAction( TYPES.EVENT_USERS_CHANGED, data, timestamp );
+        type = TYPES.EVENT_USERS_CHANGED;
+        text = "User updated";
         break;
 
       case "groups.changed":
-        action = eventAction( TYPES.EVENT_GROUPS_CHANGED, data, timestamp );
+        type = TYPES.EVENT_GROUPS_CHANGED;
+        text = "Group updated";
         break;
 
       case "shares.changed":
-        action = eventAction( TYPES.EVENT_SHARES_CHANGED, data, timestamp );
+        type = TYPES.EVENT_SHARES_CHANGED;
+        text = "Share updated";
         break;
 
       case "update.changed":
-        action = eventAction( TYPES.EVENT_UPDATE_CHANGED, data, timestamp );
+        type = TYPES.EVENT_UPDATE_CHANGED;
+        text = "Update changed";
         break;
 
       case "volumes.changed":
-        action = eventAction( TYPES.EVENT_VOLUMES_CHANGED, data, timestamp );
+        type = TYPES.EVENT_VOLUMES_CHANGED;
+        text = "Volume updated";
         break;
     }
 
-    if ( action ) {
-      dispatch( action );
+    if ( type ) {
+      const action =
+        { type
+        , payload:
+          { eventID
+          , clientTimestamp
+          , text
+          , timestamp
+          , type
+          }
+        };
+
       setTimeout( () => {
         const state = getState();
 
         if ( state.events.freezeNotifications ) {
-          dispatch( enqueueStaleEventAction( action.payload.eventID ) );
+          dispatch( enqueueStaleEventAction( eventID ) );
         } else {
-          dispatch( staleEventAction( action.payload.eventID ) );
+          dispatch( staleEventAction( eventID ) );
         }
       }, STALE_AFTER );
+
+      dispatch( action );
     }
   }
 }
