@@ -1,0 +1,32 @@
+@styles-path: "../../../styles/";
+
+@import ( reference ) "@{styles-path}core.less";
+
+.notification-feed {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  .notification {
+    background-color: fade( #EFEFEF, 95% );
+    border-radius: 4px;
+    box-shadow: 0 2px 16px -2px rgba(0, 0, 0, 0.15)
+              , 0 1px 1px 1px rgba(0, 0, 0, 0.1);
+    width: 16em;
+    min-height: 2.5em;
+    padding: 0.5em;
+    margin: 0.75em 0.5em;
+
+    .text {
+      display: block;
+      font-size: 0.95em;
+    }
+    .timestamp {
+      display: block;
+      font-style: italic;
+      font-size: 0.85em;
+      color: #6A6A6A;
+    }
+  }
+}

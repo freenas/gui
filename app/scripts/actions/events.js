@@ -4,9 +4,14 @@
 "use strict";
 
 import * as TYPES from "./actionTypes";
+import freeNASUtil from "../utility/freeNASUtil";
+import moment from "moment";
 
 function eventAction ( type, data, timestamp ) {
-  return { type, payload: { data, timestamp } };
+  const eventID = freeNASUtil.generateUUID();
+  const clientTimestamp = moment();
+
+  return { type, payload: { data, timestamp, eventID, clientTimestamp } };
 }
 
 export function systemEvent ( data, timestamp ) {
@@ -22,13 +27,14 @@ export function systemEvent ( data, timestamp ) {
         dispatch( eventAction( TYPES.EVENT_CLIENT_LOGOUT, data, timestamp ) );
         break;
 
-      case "system.device.changed":
-        dispatch( eventAction( TYPES.EVENT_DEVICE_CHANGED, data, timestamp ) );
-        break;
+      // TODO: Re-enable these when we have a better plan (too much noise)
+      // case "system.device.changed":
+      //   dispatch( eventAction( TYPES.EVENT_DEVICE_CHANGED, data, timestamp ) );
+      //   break;
 
-      case "system.device.detached":
-        dispatch( eventAction( TYPES.EVENT_DEVICE_DETACHED, data, timestamp ) );
-        break;
+      // case "system.device.detached":
+      //   dispatch( eventAction( TYPES.EVENT_DEVICE_DETACHED, data, timestamp ) );
+      //   break;
 
       case "system.network.interface.attached":
         dispatch( eventAction( TYPES.EVENT_INTERFACE_ATTACHED, data, timestamp ) );
