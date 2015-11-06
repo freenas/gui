@@ -126,8 +126,7 @@ class ContextBar extends React.Component {
 }
 
 ContextBar.propTypes =
-  { location: React.PropTypes.object
-  , volumes: React.PropTypes.object // TODO: Ahahahaha, good grief. :(
+  { volumes: React.PropTypes.object // TODO: Ahahahaha, good grief. :(
   , statd: React.PropTypes.object
   , tasks: React.PropTypes.object
   , contextual: React.PropTypes.object
