@@ -294,7 +294,7 @@ const UserEdit = React.createClass(
       userNameField =
         <Input
           type = "text"
-          label = "User Name"
+          label = "Login Name"
           value = { usernameValue }
           onChange = { ( e ) => this.props.updateUserForm( "username"
                                                          , e.target.value
@@ -320,7 +320,7 @@ const UserEdit = React.createClass(
     passwordField =
       <Input
         type = "password"
-        label = "Enter Password"
+        label = "Change Password"
         value = { passwordValue }
         onChange = { ( e ) => this.props.updateUserForm( "password"
                                                        , e.target.value
@@ -343,7 +343,7 @@ const UserEdit = React.createClass(
       confirmPasswordField =
         <Input
           type = "password"
-          label = "Confirm Password"
+          label = "Confirm New Password"
           value = { typeof this.props.userForm.confirmPassword === "string"
                   ? this.props.userForm.confirmPassword
                   : ""
@@ -407,7 +407,7 @@ const UserEdit = React.createClass(
       userEmailField =
         <Input
           type = "text"
-          label = "email"
+          label = "Email Address"
           value = { emailValue }
           onChange = { ( e ) => this.props.updateUserForm( "email"
                                                          , e.target.value
@@ -438,7 +438,7 @@ const UserEdit = React.createClass(
       userShellField =
         <Input
           type = "select"
-          label = "Shell"
+          label = "Default Login Shell"
           value = { shellValue }
           onChange = { ( e ) => this.props.updateUserForm( "shell"
                                                          , e.target.value
@@ -495,7 +495,7 @@ const UserEdit = React.createClass(
       userSshPubKeyField =
         <Input
           type = "textarea"
-          label = "Public Key"
+          label = "Paste SSH Public Key"
           value = { sshpubkeyValue }
           onChange = { ( e ) => this.props.updateUserForm( "sshpubkey"
                                                          , e.target.value
@@ -525,7 +525,7 @@ const UserEdit = React.createClass(
       userGroupsField =
         <Input
           type = "select"
-          label = "Other Groups"
+          label = "Also Add to These Groups"
           value = { Array.isArray( this.props.userForm.groups )
                                  ? this.props.userForm.groups
                                  : this.props.item.groups
@@ -556,7 +556,7 @@ const UserEdit = React.createClass(
         <Input
           type = "checkbox"
           checked = { lockedValue }
-          label = "Locked"
+          label = "Lock Account"
           onChange = { ( e ) => this.props.updateUserForm( "locked"
                                                          , e.target.checked
                                                          )
@@ -572,7 +572,7 @@ const UserEdit = React.createClass(
         <Input
           type = "checkbox"
           checked = { sudoValue }
-          label = "sudo"
+          label = "Allow sudo"
           onChange = { ( e ) => this.props.updateUserForm( "sudo"
                                                          , e.target.checked
                                                          )
@@ -588,7 +588,7 @@ const UserEdit = React.createClass(
         <Input
           type = "checkbox"
           checked = { password_disabledValue }
-          label = "Password Disabled"
+          label = "Password Login Disabled"
           onChange = { ( e ) => this.props.updateUserForm( "password_disabled"
                                                          , e.target.checked
                                                          )
