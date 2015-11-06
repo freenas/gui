@@ -15,81 +15,79 @@ import NFSShareSettings from "./NFSShareSettings";
 // TODO: Find a better way to source this
 const CONTAINER_PADDING = 15;
 
-export default class ShareSettings extends React.Component {
+const ShareSettings = ( props ) => {
 
-  render () {
-    const { name, show, activeShare } = this.props;
-    var SettingsSection;
+  const { name, show, activeShare } = props;
+  var SettingsSection;
 
-    let display = show
-                ? null
-                : "none";
+  let display = show
+              ? null
+              : "none";
 
-    switch( this.props.type ) {
-      case "afp":
-        SettingsSection = <AFPShareSettings { ...this.props }/>;
-        break;
-      case "cifs":
-        SettingsSection = <SMBShareSettings { ...this.props }/>;
-        break;
-      case "nfs":
-        SettingsSection = <NFSShareSettings { ...this.props }/>;
-        break;
-      /*case "iscsi":
-        SettingsSection = <iSCSIShareSettings  { ...this.props }/>;
-        break;*/
-      default:
-        SettingsSection = null;
-        break;
-    }
-
-    var formHandlers = null;
-
-    if ( !this.props.newShare ) {
-      formHandlers = (
-        <div className="form-handlers">
-            <ButtonToolbar>
-              <Button
-                bsStyle = "default"
-                bsSize  = "small"
-                onClick = { () => this.props.onRevertShare( this.props.id ) }
-              >
-                { "Revert" }
-              </Button>
-              <Button
-                bsStyle = "primary"
-                bsSize  = "small"
-                onClick = { () => {
-                 this.props.onSubmitShare( this.props.id );
-                 this.props.onRevertShare( this.props.id );
-                 this.props.onBlurShare( this.props.id );
-                }}
-              >
-                { "Submit" }
-              </Button>
-            </ButtonToolbar>
-          </div>
-        );
-    }
-
-    return (
-      <div
-        className = "dataset-settings"
-        style = {
-          { marginLeft: -this.props.shiftLeft - CONTAINER_PADDING
-          , display
-          }
-        }
-      >
-        <span
-          className = "pointer"
-          style     = {{ left: this.props.shiftLeft }}
-        />
-        { SettingsSection }
-        { formHandlers }
-      </div>
-    );
+  switch ( props.type ) {
+    case "afp":
+      SettingsSection = <AFPShareSettings { ...props }/>;
+      break;
+    case "cifs":
+      SettingsSection = <SMBShareSettings { ...props }/>;
+      break;
+    case "nfs":
+      SettingsSection = <NFSShareSettings { ...props }/>;
+      break;
+    /*case "iscsi":
+      SettingsSection = <iSCSIShareSettings  { ...props }/>;
+      break;*/
+    default:
+      SettingsSection = null;
+      break;
   }
+
+  var formHandlers = null;
+
+  if ( !props.newShare ) {
+    formHandlers = (
+      <div className="form-handlers">
+          <ButtonToolbar>
+            <Button
+              bsStyle = "default"
+              bsSize  = "small"
+              onClick = { () => props.onRevertShare( props.id ) }
+            >
+              { "Revert" }
+            </Button>
+            <Button
+              bsStyle = "primary"
+              bsSize  = "small"
+              onClick = { () => {
+                props.onSubmitShare( props.id );
+                props.onRevertShare( props.id );
+                props.onBlurShare( props.id );
+              }}
+            >
+              { "Submit" }
+            </Button>
+          </ButtonToolbar>
+        </div>
+      );
+  }
+
+  return (
+    <div
+      className = "dataset-settings"
+      style = {
+        { marginLeft: -props.shiftLeft - CONTAINER_PADDING
+        , display
+        }
+      }
+    >
+      <span
+        className = "pointer"
+        style     = {{ left: props.shiftLeft }}
+      />
+      { SettingsSection }
+      { formHandlers }
+    </div>
+  );
 };
 
 ShareSettings.propTypes =
@@ -106,3 +104,5 @@ ShareSettings.propTypes =
   , onSubmitShare: React.PropTypes.func.isRequired
   , onBlurShare  : React.PropTypes.func.isRequired
   };
+
+export default ShareSettings;
