@@ -100,7 +100,6 @@ class Events extends React.Component {
 
     for ( let i = 0; i < TIMELINE.length; i++ ) {
       if ( EVENTS[ TIMELINE[i] ] && !EVENTS[ TIMELINE[i] ].isStale ) {
-        console.log( EVENTS[ TIMELINE[i] ] );
         TO_RENDER.push( EVENTS[ TIMELINE[i] ] );
       } else {
         break;
