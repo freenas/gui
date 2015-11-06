@@ -47,7 +47,11 @@ export default class AFPShareSettings extends React.Component {
           type = "text"
           label = "Name"
           value = { VALUES.name.split( "/" ).pop() }
-          onChange = { this.props.onDatasetNameChange }
+          onChange = { ( e ) =>
+            this.props.onUpdateShare( this.props.id
+                                    , { name: e.target.value }
+                                    )
+          }
           labelClassName = "col-xs-2"
           wrapperClassName = "col-xs-10"
         />
@@ -74,10 +78,10 @@ export default class AFPShareSettings extends React.Component {
             checked = { this.props.enabled }
             wrapperClassName = "col-xs-offset-2 col-xs-10"
             onChange = { ( e ) =>
-                         this.props.onUpdateShare( this.props.id
-                                                 , { enabled: e.target.checked }
-                                                 )
-                       }
+              this.props.onUpdateShare( this.props.id
+                                      , { enabled: e.target.checked }
+                                      )
+            }
           />
           <Input
             type = "checkbox"
@@ -87,9 +91,9 @@ export default class AFPShareSettings extends React.Component {
             onChange = { ( e ) =>
               this.props.onUpdateShare( this.props.id
                                       , { properties:
-                                          Object.assign ( this.props.properties
-                                                        , { time_machine: e.target.checked }
-                                                        )
+                                          Object.assign( this.props.properties
+                                                       , { time_machine: e.target.checked }
+                                                       )
                                         }
                                       ) }
           />
@@ -111,11 +115,9 @@ AFPShareSettings.propTypes =
   // , dataset_path    : React.PropTypes.string
 
   , newShare      : React.PropTypes.bool
-  , updateDataset : React.PropTypes.object
 
   // HANDLERS
   , onUpdateShare: React.PropTypes.func.isRequired
   , onRevertShare: React.PropTypes.func.isRequired
   , onSubmitShare: React.PropTypes.func.isRequired
-  , onDatasetNameChange: React.PropTypes.func.isRequired
   };

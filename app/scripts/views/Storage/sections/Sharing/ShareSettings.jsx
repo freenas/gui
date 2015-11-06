@@ -16,19 +16,6 @@ import NFSShareSettings from "./NFSShareSettings";
 const CONTAINER_PADDING = 15;
 
 export default class ShareSettings extends React.Component {
-  onDatasetNameChange ( event ) {
-    const NAME = event.target.value;
-
-    const newDataset =
-      { pool_name : this.props.pool
-      , path      : this.props.name
-      , params:
-        { name: this.props.name.replace( /([^\/]*$)/i, NAME )
-        }
-      };
-
-    this.props.handlers.datasetUpdate.onChange( newDataset );
-  }
 
   render () {
     const { name, show, activeShare } = this.props;
@@ -40,36 +27,16 @@ export default class ShareSettings extends React.Component {
 
     switch( this.props.type ) {
       case "afp":
-        SettingsSection = (
-          <AFPShareSettings
-            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
-            { ...this.props }
-          />
-        );
+        SettingsSection = <AFPShareSettings { ...this.props }/>;
         break;
       case "cifs":
-        SettingsSection = (
-          <SMBShareSettings
-            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
-            { ...this.props }
-          />
-        );
+        SettingsSection = <SMBShareSettings { ...this.props }/>;
         break;
       case "nfs":
-        SettingsSection = (
-          <NFSShareSettings
-            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
-            { ...this.props }
-          />
-        );
+        SettingsSection = <NFSShareSettings { ...this.props }/>;
         break;
       /*case "iscsi":
-        SettingsSection = (
-          <iSCSIShareSettings
-            onDatasetNameChange = { ( e ) => this.onDatasetNameChange }
-            { ...this.props }
-          />
-        );
+        SettingsSection = <iSCSIShareSettings  { ...this.props }/>;
         break;*/
       default:
         SettingsSection = null;

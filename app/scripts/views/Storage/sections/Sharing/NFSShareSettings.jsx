@@ -47,7 +47,11 @@ export default class NFSShareSettings extends React.Component {
           type = "text"
           label = "Name"
           value = { VALUES.name.split( "/" ).pop() }
-          onChange = { this.props.onDatasetNameChange }
+          onChange = { ( e ) =>
+            this.props.onUpdateShare( this.props.id
+                                    , { name: e.target.value }
+                                    )
+          }
           labelClassName = "col-xs-2"
           wrapperClassName = "col-xs-10"
         />
@@ -111,11 +115,9 @@ NFSShareSettings.propTypes =
   // , dataset_path    : React.PropTypes.string
 
   , newShare      : React.PropTypes.bool
-  , updateDataset : React.PropTypes.object
 
   // HANDLERS
   , onUpdateShare: React.PropTypes.func.isRequired
   , onRevertShare: React.PropTypes.func.isRequired
   , onSubmitShare: React.PropTypes.func.isRequired
-  , onDatasetNameChange: React.PropTypes.func.isRequired
   };
