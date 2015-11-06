@@ -85,13 +85,14 @@ export default class ShareSettings extends React.Component {
               <Button
                 bsStyle = "default"
                 bsSize  = "small"
+                onClick = { () => this.props.onRevertShare( this.props.id ) }
               >
                 { "Revert" }
               </Button>
               <Button
                 bsStyle = "primary"
                 bsSize  = "small"
-                onClick = { () => console.log( "fart" ) }
+                onClick = { () => this.props.onSubmitShare( this.props.id ) }
               >
                 { "Submit" }
               </Button>
