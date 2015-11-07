@@ -53,6 +53,7 @@ const INITIAL_STATE =
   , osForm: {}
   , localizationForm: {}
   , consoleForm: {}
+  , hostnameEdit: null
   , generalConfigRequests: new Set()
   , timezonesRequests: new Set()
   , keymapsRequests: new Set()
@@ -130,6 +131,14 @@ export default function system ( state = INITIAL_STATE, action ) {
     case TYPES.RESET_CONSOLE_FORM:
       return Object.assign( {}, state, { consoleForm: {} } );
     // case TYPES.SUBMIT_CONSOLE_FORM:
+    //  return state;
+
+    // Update hostname, for Network
+    case TYPES.UPDATE_HOSTNAME:
+      return Object.assign( {}, state, { hostnameEdit: payload.hostname } );
+    case TYPES.RESET_HOSTNAME:
+      return Object.assign( {}, state, { hostnameEdit: null } );
+    // case TYPES.SUBMIT_HOSTNAME_UPDATE_TASK:
     //  return state;
 
     // GENERAL QUERIES

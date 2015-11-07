@@ -47,11 +47,17 @@ class Network extends React.Component {
         <div>
         <NetworkConfig
           { ...this.props.serverConfig }
-          hostname = { this.props.hostname }
 
           onUpdate = { this.props.updateNetworkConfig }
-          onRevert = { this.props.revertNetworkConfig }
-          onSubmit = { this.props.submitNetworkConfig }
+          onRevert = { () => { this.props.revertNetworkConfig();
+                               this.props.resetHostname();
+                             }
+                     }
+          onSubmit = { () => { this.props.submitNetworkConfig()
+                               this.props.submitHostNameUpdateTask()
+                             }
+                     }
+          onUpdateHostname = { this.props.updateHostname }
           submitDisabled = { this.props.submitConfigDisabled }
           revertDisabled = { this.props.revertConfigDisabled }
         />
@@ -94,9 +100,17 @@ function mapStateToProps ( state ) {
     , serverConfig: Object.assign( {}
                                  , state.network.serverConfig
                                  , state.network.clientConfig
+                                 , { hostname: state.system.hostnameEdit !== null
+                                             ? state.system.hostnameEdit
+                                             : state.system.general.hostname
+                                   }
                                  )
-    , submitConfigDisabled: Boolean( Object.keys( state.network.clientConfig ).length === 0 )
-    , revertConfigDisabled: Boolean( Object.keys( state.network.clientConfig ).length === 0 )
+    , submitConfigDisabled: Boolean( Object.keys( state.network.clientConfig ).length === 0
+                                  && !state.system.hostnameEdit
+                                   )
+    , revertConfigDisabled: Boolean( Object.keys( state.network.clientConfig ).length === 0
+                                  && state.system.hostnameEdit !== null
+                                   )
     }
   );
 }
@@ -128,6 +142,12 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( INTERFACES.toggleInterfaceTaskRequest( interfaceID ) )
     , configureInterfaceTaskRequest: ( interfaceID ) =>
       dispatch( INTERFACES.configureInterfaceTaskRequest() )
+
+    , updateHostname: ( hostname ) =>
+      dispatch( SYSTEM.updateHostname( hostname ) )
+    , resetHostname: () => dispatch( SYSTEM.resetHostname() )
+    , submitHostNameUpdateTask: () =>
+      dispatch( SYSTEM.submitHostNameUpdateTask() )
 
     // GET INITIAL DATA
     , fetchData: () => {

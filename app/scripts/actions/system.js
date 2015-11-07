@@ -11,6 +11,9 @@ import { UPDATE_OS_FORM
        , RESET_LOCALIZATION_FORM
        , UPDATE_CONSOLE_FORM
        , RESET_CONSOLE_FORM
+       , UPDATE_HOSTNAME
+       , RESET_HOSTNAME
+       , SUBMIT_HOSTNAME_UPDATE_TASK
        , SYSTEM_GENERAL_CONFIG_REQUEST
        , SYSTEM_GENERAL_TIMEZONES_REQUEST
        , KEYMAPS_REQUEST
@@ -96,6 +99,19 @@ export function updateConsoleForm ( field, value ) {
 export function resetConsoleForm () {
   return ( { type: RESET_CONSOLE_FORM } );
 };
+
+// For Network
+export function updateHostname ( hostname ) {
+  return ( { type: UPDATE_HOSTNAME
+           , payload: { hostname: hostname }
+           }
+         );
+};
+
+export function resetHostname () {
+  return { type: RESET_HOSTNAME };
+};
+
 
 // GENERAL QUERIES
 
@@ -218,7 +234,7 @@ export function submitOSTask () {
               , [ "system.advanced.configure", [ state.system.osForm ] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_OS_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
 export function submitLocalizationTask () {
@@ -229,7 +245,7 @@ export function submitLocalizationTask () {
               , [ "system.general.configure", [ state.system.localizationForm ] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_LOCALIZATION_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
 export function submitConsoleTask () {
@@ -240,7 +256,26 @@ export function submitConsoleTask () {
               , [ "system.advanced.configure", [ state.system.consoleForm ] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_CONSOLE_TASK_REQUEST ) )
               );
-  }
+  };
+};
+
+export function submitHostNameUpdateTask () {
+  return ( dispatch, getState ) => {
+    const state = getState();
+    if ( typeof state.system.hostnameEdit !== "string"
+      || state.system.hostnameEdit === ""
+       ) {
+      throw new Error( "Attempted to submit an empty hostname." );
+    }
+    MC.submitTask( [ "system.general.configure"
+                   , [ { hostname: state.system.hostnameEdit } ]
+                   ]
+                 , UUID => dispatch( watchRequest( UUID
+                                                 , SUBMIT_HOSTNAME_UPDATE_TASK
+                                                 )
+                                   )
+                 );
+  };
 };
 
 export function rebootTask () {
@@ -250,7 +285,7 @@ export function rebootTask () {
               , [ "system.reboot", [] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_REBOOT_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
 export function shutdownTask () {
@@ -260,6 +295,6 @@ export function shutdownTask () {
               , [ "system.shutdown", [] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_SHUTDOWN_TASK_REQUEST ) )
               );
-  }
+  };
 };
 

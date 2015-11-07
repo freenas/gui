@@ -54,7 +54,9 @@ export function submitNetworkConfig () {
       MC.submitTask( [ "network.configure", [ state.network.clientConfig ] ]
                    , ( UUID ) => dispatch( networkConfigAC( UUID ) )
                    );
-    } else {
+    // System hostname is handled in another file, but makes this warning bogus
+    // Is hiding this warning in that case also bogus?
+    } else if ( !state.system.hostnameEdit ) {
       console.warn( "Can't submit an empty form" );
     }
   }

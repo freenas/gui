@@ -65,8 +65,6 @@ if ( process.env.BROWSER ) {
   const history = createBrowserHistory();
   const { protocol, host, path, mode } = TargetHost.connection();
 
-  store.dispatch( WEBSOCKET.changeSockTarget({ protocol, host, path, mode }) );
-
   MiddlewareClient.bindStore( store );
 
   MiddlewareClient.bindHandlers(
@@ -119,10 +117,6 @@ if ( process.env.BROWSER ) {
     }
   );
 
-  // SUBSCRIPTIONS TO CORE DATA
-  // ==========================
-  store.dispatch( SUBSCRIPTIONS.add( CORE_SUBSCRIPTIONS, "WEBAPP" ) );
-
   ReactDOM.render(
     <Provider store={ store }>
       <Router history={ history } routes={ routes } />
@@ -130,9 +124,14 @@ if ( process.env.BROWSER ) {
     , document
   );
 
+  // SUBSCRIPTIONS TO CORE DATA
+  // ==========================
+  store.dispatch( SUBSCRIPTIONS.add( CORE_SUBSCRIPTIONS, "WEBAPP" ) );
+
   // Connecting the middleware client must be the last action taken. Because of
   // the way it mutates the global state, we need to ensure that the app is
   // rendered at least once with initial (isomorphic) values before any changes.
+  store.dispatch( WEBSOCKET.changeSockTarget({ protocol, host, path, mode }) );
   MiddlewareClient.connect( protocol, host, path, mode );
 
 
