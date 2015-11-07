@@ -26,7 +26,9 @@ const NetworkConfig = ( props ) => {
               type = "text"
               label = "Hostname"
               value = { props.hostname }
-              disabled
+              onChange = { event =>
+                props.onUpdateHostname( event.target.value )
+              }
             />
             <Input { ...FORM_CLASSES }
               type = "text"
