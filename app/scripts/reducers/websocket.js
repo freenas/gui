@@ -6,7 +6,7 @@
 import { isClosureNormal } from "../websocket/WebSocketCodes";
 import * as actionTypes from "../actions/actionTypes";
 
-const RECONNECT_INTERVALS = [ 1000, 5000, 8000, 13000, 21000, 34000 ];
+const RECONNECT_INTERVALS = [ 0, 5000, 8000, 13000, 21000, 34000 ];
 
 const INITIAL_STATE =
   { reconnectNow: false
