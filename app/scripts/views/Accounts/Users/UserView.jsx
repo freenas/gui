@@ -18,12 +18,12 @@ const UserView = React.createClass(
 
   , getGroupName: function ( groupID ) {
       var group = _.find( this.props.groups, { id: groupID } )
-      if ( group ) {
+      if ( typeof group !== "undefined" ) {
         return group.name;
       } else {
         // TODO: Have a policy to deal with a user assigned to a
         // nonexistant group.
-        return null;
+        return groupID;
       }
     }
 
@@ -140,10 +140,7 @@ const UserView = React.createClass(
             <viewerUtil.DataCell
               title = { "Primary Group" }
               colNum = { 3 }
-              entry = { _.find( this.props.groups
-                              , { id: this.props.item.group }
-                              ).name
-                      }
+              entry = { this.getGroupName( this.props.item.group ) }
             />
             <viewerUtil.DataCell
               title = { "Shell" }
