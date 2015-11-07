@@ -21,6 +21,7 @@ import Accounts from "./views/Accounts";
     import GroupItem from "./views/Accounts/Groups/GroupItem";
     import GroupAdd from "./views/Accounts/Groups/GroupAdd";
 import Calendar from "./views/Calendar";
+import AppCafe from "./views/AppCafe";
 import Console from "./views/Console";
 import System from "./views/System";
 import Settings from "./views/Settings";
@@ -83,6 +84,10 @@ export default (
 
     {/* CONSOLE */}
     <Route path="console" component={ Console } />
+
+
+    {/* AppCafe */}
+    <Route path="appcafe" component={ AppCafe } />
 
 
     {/* System */}

@@ -54,6 +54,11 @@ const paths =
     , label    : "Console"
     , disabled : false
     }
+  , { path     : "/appcafe"
+    , icon     : "icon-mug"
+    , label    : "AppCafe"
+    , disabled : false
+    }
   , { path     : "/system"
     , icon     : "icon-drive"
     , label    : "System"
