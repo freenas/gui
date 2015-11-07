@@ -92,6 +92,8 @@ class Events extends React.Component {
                 key = { index }
                 style = { style }
                 text = { data.text }
+                icon = { data.icon }
+                bsStyle = { data.bsStyle }
                 clientTimestamp = { data.clientTimestamp }
               />
             );
