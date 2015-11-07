@@ -82,7 +82,7 @@ function mapStateToProps ( state ) {
     visible = "SPINNER";
     message = websocket.SIDMessage;
   } else if ( auth.SIDShow ) {
-    message = auth.SIDMessage;
+    message = auth.SIDMessage || websocket.SIDMessage;
     if ( auth.isWaiting ) {
       visible = "SPINNER";
     } else {

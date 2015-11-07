@@ -11,7 +11,7 @@ const INITIAL_STATE =
   , loggedIn: false
   , badCombo: false
   , SIDShow: true
-  , SIDMessage: "Welcome to FreeNAS X"
+  , SIDMessage: ""
   , username: ""
   , password: ""
   , token: null
@@ -115,7 +115,7 @@ export default function auth ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state,
         { isWaiting  : false
         , SIDShow    : true
-        , SIDMessage : "Welcome to FreeNAS X"
+        , SIDMessage : ""
         , loggedIn   : false
         });
 

@@ -76,7 +76,7 @@ export default function websocket ( state = INITIAL_STATE, action ) {
     case actionTypes.WS_OPEN:
       return Object.assign( {}, state,
         { SIDShow: false
-        , SIDMessage: "Connected"
+        , SIDMessage: `Connected to ${ state.host }`
         // When the connection opens, reset the connection attempts counter.
         , connectionAttempts: 0
         , readyState: "OPEN"
