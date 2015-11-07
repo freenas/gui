@@ -6,7 +6,7 @@
 import { isClosureNormal } from "../websocket/WebSocketCodes";
 import * as actionTypes from "../actions/actionTypes";
 
-const RECONNECT_INTERVALS = [ 1000, 5000, 8000, 13000, 21000, 34000 ];
+const RECONNECT_INTERVALS = [ 0, 5000, 8000, 13000, 21000, 34000 ];
 
 const INITIAL_STATE =
   { reconnectNow: false
@@ -50,7 +50,7 @@ export default function websocket ( state = INITIAL_STATE, action ) {
         }
       );
 
-    case actionTypes.RECONNECT_TICK:
+    case actionTypes.WS_RECONNECT_TICK:
       return Object.assign( {}, state,
         { reconnectTime: Math.max( 0, state.reconnectTime - 1000 )
         // Reset this flag when a connection is being attempted - avoids
@@ -76,7 +76,7 @@ export default function websocket ( state = INITIAL_STATE, action ) {
     case actionTypes.WS_OPEN:
       return Object.assign( {}, state,
         { SIDShow: false
-        , SIDMessage: "Connected"
+        , SIDMessage: `Connected to ${ state.host }`
         // When the connection opens, reset the connection attempts counter.
         , connectionAttempts: 0
         , readyState: "OPEN"
