@@ -50,7 +50,7 @@ export default function websocket ( state = INITIAL_STATE, action ) {
         }
       );
 
-    case actionTypes.RECONNECT_TICK:
+    case actionTypes.WS_RECONNECT_TICK:
       return Object.assign( {}, state,
         { reconnectTime: Math.max( 0, state.reconnectTime - 1000 )
         // Reset this flag when a connection is being attempted - avoids
