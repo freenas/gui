@@ -7,17 +7,28 @@
   right: 0;
   bottom: 0;
   z-index: 1;
+  overflow: hidden;
 
-  .notification {
-    background-color: fade( #EFEFEF, 95% );
+  .notification-container {
+    overflow: visible;
+  }
+
+  .notification-content {
+    background-color: rgba( 250, 250, 250, 0.95 );
     border-radius: 4px;
     box-shadow: 0 2px 16px -2px rgba(0, 0, 0, 0.15)
               , 0 1px 1px 1px rgba(0, 0, 0, 0.1);
-    width: 16em;
-    min-height: 2.5em;
-    padding: 0.5em;
-    margin: 0.75em 0.5em;
+    width: 250px;
+    height: 50px;
+    padding: 8px 10px;
+    margin: 10px;
 
+    .icon {
+      float: left;
+      font-size: 20px;
+      line-height: 35px;
+      padding: 0 0.75em 0 0.25em;
+    }
     .text {
       display: block;
       font-size: 0.95em;

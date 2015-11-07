@@ -176,7 +176,7 @@ const UserAdd = React.createClass(
     let userNameField =
       <Input
         type = "text"
-        label = "User Name"
+        label = "Login Name (case sensitive)"
         value = { typeof this.props.userForm.username === "string"
                        ? this.props.userForm.username
                        : null
@@ -195,7 +195,7 @@ const UserAdd = React.createClass(
     let passwordField =
       <Input
         type = "password"
-        label = "Enter Password"
+        label = "Login Password"
         value = { typeof this.props.userForm.password === "string"
                        ? this.props.userForm.password
                        : ""
@@ -245,7 +245,7 @@ const UserAdd = React.createClass(
     let userEmailField =
       <Input
         type = "text"
-        label = "email"
+        label = "Email Address"
         value = { typeof this.props.userForm.email === "string"
                        ? this.props.userForm.email
                        : null
@@ -259,7 +259,7 @@ const UserAdd = React.createClass(
     let userShellField =
       <Input
         type = "select"
-        label = "Shell"
+        label = "Default Login Shell"
         value = { typeof this.props.userForm.shell === "string"
                        ? this.props.userForm.shell
                        : null
@@ -276,7 +276,7 @@ const UserAdd = React.createClass(
     let userSshPubKeyField =
       <Input
         type = "textarea"
-        label = "Public Key"
+        label = "Paste SSH Public Key"
         value = { typeof this.props.userForm.sshpubkey === "string"
                            ? this.props.userForm.sshpubkey
                            : null
@@ -291,7 +291,7 @@ const UserAdd = React.createClass(
     let userGroupsField =
       <Input
         type = "select"
-        label = "Other Groups"
+        label = "Also Add to These Existing Groups"
         value = { this.props.userForm.groups
                            ? this.props.userForm.groups
                            : null
@@ -312,7 +312,7 @@ const UserAdd = React.createClass(
                            ? this.props.userForm.locked
                            : null
                            }
-        label = "Locked"
+        label = "Lock Account"
         onChange = { ( e ) => this.props.updateUserForm( "locked"
                                                        , e.target.checked
                                                        ) }
@@ -326,7 +326,7 @@ const UserAdd = React.createClass(
                            ? this.props.userForm.sudo
                            : null
                            }
-        label = "sudo"
+        label = "Allow sudo"
         onChange = { ( e ) => this.props.updateUserForm( "sudo"
                                                        , e.target.checked
                                                        ) }
@@ -336,7 +336,7 @@ const UserAdd = React.createClass(
     let userPasswordDisabledField =
       <Input
         type = "checkbox"
-        label = "Password Disabled"
+        label = "Password Login Disabled"
         checked = { typeof this.props.userForm.password_disabled === "boolean"
                          ? this.props.userForm.password_disabled
                          : null
@@ -350,7 +350,7 @@ const UserAdd = React.createClass(
     let userAutoPrimaryGroupField =
       <Input
         type = "checkbox"
-        label = "Automatically Create Primary Group"
+        label = "Automatically Create Primary Group With Same Name"
         onChange = { this.primaryGroupToggle }
         checked = { this.state.pleaseCreatePrimaryGroup }
       />;

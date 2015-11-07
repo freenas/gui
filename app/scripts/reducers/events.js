@@ -37,12 +37,7 @@ export default function events ( state = INITIAL_STATE, action ) {
       var events = Object.assign( {}, state.events );
       var timeline = state.timeline.slice( 0 );
 
-      events[ payload.eventID ] =
-        { ...payload.data.args
-        , type
-        , clientTimestamp: payload.clientTimestamp
-        , isStale: false
-        };
+      events[ payload.eventID ] = { ...payload, isStale: false };
 
       timeline.unshift( payload.eventID );
 
@@ -76,19 +71,24 @@ export default function events ( state = INITIAL_STATE, action ) {
         if ( events.hasOwnProperty( id ) ) {
           events[ id ].isStale = true;
         } else {
-          console.log( `Event with id "${ id }" not found, will try again.`
-                     , events
-                     );
+          console.warn( `Event with id "${ id }" not found, will try again.`
+                      , events
+                      );
           willBeStale.add( id );
         }
       });
       return Object.assign( {}, state, { willBeStale, events } );
 
     case TYPES.EVENT_IS_STALE:
+      var willBeStale = new Set( state.willBeStale );
       var events = Object.assign( {}, state.events );
-      var willBeStale = Object.assign( {}, state.events );
-      events[ payload.eventID ].isStale = true;
-      return Object.assign( {}, state, { events } );
+
+      if ( events.hasOwnProperty( payload.eventID ) ) {
+        events[ payload.eventID ].isStale = true;
+      }
+      willBeStale.delete( payload.eventID );
+
+      return Object.assign( {}, state, { willBeStale, events } );
 
     default:
       return state;

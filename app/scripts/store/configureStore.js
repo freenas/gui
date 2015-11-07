@@ -9,10 +9,14 @@ import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
 
+import * as TYPES from "../actions/actionTypes";
 import rootReducer from "../reducers";
+
+const DO_NOT_SHOW = new Set([ TYPES.STATD_PULSE ]);
 
 const loggerMiddleware = createLogger(
   { collapsed: true
+  , predicate: ( getState, action ) => !DO_NOT_SHOW.has( action.type )
   }
 );
 

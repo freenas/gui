@@ -18,12 +18,12 @@ const UserView = React.createClass(
 
   , getGroupName: function ( groupID ) {
       var group = _.find( this.props.groups, { id: groupID } )
-      if ( group ) {
+      if ( typeof group !== "undefined" ) {
         return group.name;
       } else {
         // TODO: Have a policy to deal with a user assigned to a
         // nonexistant group.
-        return null;
+        return groupID;
       }
     }
 
@@ -52,6 +52,7 @@ const UserView = React.createClass(
   , render: function () {
       var builtInUserAlert = null;
       var editButtons = null;
+      var deleteButton = null;
 
       if ( this.props.item.builtin ) {
         builtInUserAlert = (
@@ -64,30 +65,38 @@ const UserView = React.createClass(
         );
       }
 
-      editButtons = (
-        <ButtonToolbar>
-            <Button
-              className = "pull-left"
-              disabled = { this.props.item.builtin }
-              onClick = { () => this.props.deleteUser( this.props.item.id ) }
-              bsStyle = "danger"
-            >
-              {"Delete User"}
-            </Button>
-            <Button
-              className = "pull-right"
-              onClick = { this.props.handleViewChange.bind( null, "edit" ) }
-              bsStyle = "info"
-              disabled = { this.props.item.builtin
-                        && this.props.item.id !== 0
-                        && this.props.item.id !== "0"
-                         }
-            >
-              { "Edit User" }
-            </Button>
-        </ButtonToolbar>
-      );
-
+      if ( this.props.item.id === 0
+        || this.props.item.id === "0"
+        || !this.props.item.builtin
+         ) {
+          if ( !this.props.item.builtin ) {
+            deleteButton = (
+              <Button
+                className = "pull-left"
+                onClick = { () => this.props.deleteUser( this.props.item.id ) }
+                bsStyle = "danger"
+              >
+                {"Delete User"}
+              </Button>
+            );
+          }
+          editButtons = (
+            <ButtonToolbar>
+              { deleteButton }
+              <Button
+                className = "pull-right"
+                onClick = { this.props.handleViewChange.bind( null, "edit" ) }
+                bsStyle = "info"
+                disabled = { this.props.item.builtin
+                          && this.props.item.id !== 0
+                          && this.props.item.id !== "0"
+                           }
+              >
+                { "Edit User" }
+              </Button>
+          </ButtonToolbar>
+        );
+      }
       return (
         <Grid fluid>
           {/* "Edit User" Button - Top */}
@@ -131,10 +140,7 @@ const UserView = React.createClass(
             <viewerUtil.DataCell
               title = { "Primary Group" }
               colNum = { 3 }
-              entry = { _.find( this.props.groups
-                              , { id: this.props.item.group }
-                              ).name
-                      }
+              entry = { this.getGroupName( this.props.item.group ) }
             />
             <viewerUtil.DataCell
               title = { "Shell" }

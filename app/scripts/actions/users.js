@@ -57,6 +57,7 @@ export function createUser () {
   return ( dispatch, getState ) => {
     const state = getState();
     var newUserProps = Object.assign( {}, state.users.userForm );
+    var uid = newUserProps.id;
 
     _.forOwn( newUserProps
             , function processProperties ( property, key, newUserProps ) {
@@ -80,7 +81,7 @@ export function createUser () {
     }
 
     if ( _.find( state.users.users
-               , { id: newUserProps.id }
+               , { id: uid }
                )
        ) {
       throw new Error( "Attempted to create a user with an existing user id." );
@@ -94,6 +95,19 @@ export function createUser () {
       throw new Error( "Attempted to create a user with a missing or invalid"
                      + " password."
                      );
+    }
+
+    if ( typeof uid === "string" ) {
+      if ( uid === "" ) {
+        newUserProps.id = null;
+      } else {
+        uid = Number.parseInt( uid );
+        if ( !Number.isInteger( uid ) ) {
+          throw new Error( "Attempted to submit an invalid user id." );
+        } else {
+          newUserProps.id = uid;
+        }
+      }
     }
 
     MC.request( "task.submit"
@@ -165,6 +179,20 @@ export function updateUser ( userID ) {
       throw new Error( "Attempted to change a username to one which is already"
                      + "in use."
                      );
+    }
+
+    var uid = updatedUserProps.id;
+    if ( typeof uid === "string" ) {
+      if ( uid === "" ) {
+        updatedUserProps.id = null;
+      } else {
+        uid = Number.parseInt( uid );
+        if ( !Number.isInteger( uid ) ) {
+          throw new Error( "Attempted to submit an invalid user id." );
+        } else {
+          updatedUserProps.id = uid;
+        }
+      }
     }
 
     MC.request( "task.submit"
