@@ -27,49 +27,41 @@ const paths =
   [ { path     : "/dashboard"
     , icon     : "icon-datareport"
     , label    : "Dashboard"
-    , status   : null
     , disabled : false
     }
   , { path     : "/storage"
     , icon     : "icon-cloud-alt"
     , label    : "Storage"
-    , status   : null
     , disabled : false
     }
   , { path     : "/network"
     , icon     : "icon-flowchart"
     , label    : "Network"
-    , status   : null
     , disabled : false
     }
   , { path     : "/accounts/users"
     , icon     : "icon-id"
     , label    : "Accounts"
-    , status   : null
     , disabled : false
     }
   , { path     : "/calendar"
     , icon     : "icon-calendar"
     , label    : "Calendar"
-    , status   : null
     , disabled : true
     }
   , { path     : "/console"
     , icon     : "icon-console"
     , label    : "Console"
-    , status   : null
     , disabled : false
     }
   , { path     : "/system"
     , icon     : "icon-drive"
     , label    : "System"
-    , status   : null
     , disabled : false
     }
   , { path     : "/settings/system"
     , icon     : "icon-adjust-horiz"
     , label    : "Settings"
-    , status   : null
     , disabled : false
     }
   ];
