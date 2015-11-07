@@ -103,7 +103,7 @@ const GroupItem = React.createClass(
             bsStyle = "info"
             className = "text-center"
           >
-            <b>{ "This user does not exist." }</b>
+            <b>{ "This group does not exist." }</b>
           </Alert>
         </Grid>
       );
