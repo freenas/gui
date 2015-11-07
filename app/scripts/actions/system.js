@@ -218,7 +218,7 @@ export function submitOSTask () {
               , [ "system.advanced.configure", [ state.system.osForm ] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_OS_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
 export function submitLocalizationTask () {
@@ -229,7 +229,7 @@ export function submitLocalizationTask () {
               , [ "system.general.configure", [ state.system.localizationForm ] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_LOCALIZATION_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
 export function submitConsoleTask () {
@@ -240,7 +240,7 @@ export function submitConsoleTask () {
               , [ "system.advanced.configure", [ state.system.consoleForm ] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_CONSOLE_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
 export function rebootTask () {
@@ -250,7 +250,7 @@ export function rebootTask () {
               , [ "system.reboot", [] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_REBOOT_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
 export function shutdownTask () {
@@ -260,6 +260,6 @@ export function shutdownTask () {
               , [ "system.shutdown", [] ]
               , UUID => dispatch( watchRequest( UUID, SUBMIT_SHUTDOWN_TASK_REQUEST ) )
               );
-  }
+  };
 };
 
