@@ -41,7 +41,6 @@ const UserItem = React.createClass(
 
   , render: function () {
       var DisplayComponent = null;
-      var processingText = "";
       if ( this.props.itemData
         && this.props.groups
         && Array.isArray( this.props.itemData )

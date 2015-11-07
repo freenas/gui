@@ -39,7 +39,6 @@ const GroupItem = React.createClass(
 
   , render: function () {
     var DisplayComponent = null;
-    var processingText = "";
     if ( this.props.itemData
       && this.props.users
       && Array.isArray( this.props.itemData )
