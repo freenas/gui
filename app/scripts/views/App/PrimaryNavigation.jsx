@@ -94,7 +94,11 @@ class PrimaryNavigation extends React.Component {
           key = { index } >
           <Link
             to = { rawItem.path }
-            activeClassName = "active"
+            className =
+              { rawItem.path.startsWith( this.props.location.pathname )
+              ? "active"
+              : ""
+              }
           >
             <Icon glyph = { rawItem.icon } />
             <span className = "nav-item-label" >{ rawItem.label }</span>
@@ -170,7 +174,7 @@ class PrimaryNavigation extends React.Component {
           </MenuItem>
         </NavDropdown>
 
-        { paths.map( this.createNavItem ) }
+        { paths.map( this.createNavItem.bind( this ) ) }
 
       </Nav>
     );
