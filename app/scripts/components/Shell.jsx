@@ -38,6 +38,24 @@ export default class Shell extends React.Component {
     return false;
   }
 
+  calculateDimensions () {
+    let columns = 80;
+    let rows = 40;
+
+    if ( this.refs.termTarget ) {
+      const AVAILABLE_HEIGHT = this.refs.termTarget.clientHeight;
+      const ROW_HEIGHT = this.refs.termTarget
+                             .querySelector( ".terminal > div" )
+                             .clientHeight;
+
+      if ( AVAILABLE_HEIGHT && ROW_HEIGHT ) {
+        rows = Math.floor( AVAILABLE_HEIGHT / ROW_HEIGHT );
+      }
+    }
+
+    return [ columns, rows ];
+  }
+
   componentWillReceiveProps ( nextProps ) {
     const TOKEN_CHANGED = nextProps.token !== this.props.token;
     const SHELL_CHANGED = nextProps.shellType !== this.props.shellType;
@@ -51,8 +69,8 @@ export default class Shell extends React.Component {
     }
 
     if ( this.term && this.refs.termTarget.clientHeight !== 0 ) {
-      // FIXME: Only temporary
-      // this.term.resize( 80, this.refs.termTarget.clientHeight * 0.05 );
+      const dimensions = this.calculateDimensions();
+      this.term.resize( dimensions[0], dimensions[1] );
     }
   }
 
