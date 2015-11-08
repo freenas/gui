@@ -56,8 +56,6 @@ export default class Shell extends React.Component {
         rows = Math.floor( AVAILABLE_HEIGHT / ROW_HEIGHT );
       }
 
-      console.log( columns, rows );
-
       this.term.resize( columns, rows );
     }
   }
