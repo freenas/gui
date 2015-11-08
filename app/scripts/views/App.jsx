@@ -5,7 +5,6 @@
 "use strict";
 
 import React from "react";
-import { RouteHandler } from "react-router";
 import { connect } from "react-redux";
 import { Motion, spring } from "react-motion";
 
