@@ -7,7 +7,7 @@ import * as TYPES from "./actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
-// MIDDLEWARE
+// QUERIES
 export function fetchShares () {
   return ( dispatch, getState ) => {
     MC.request( "shares.query"

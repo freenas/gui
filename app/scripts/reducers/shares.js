@@ -92,7 +92,7 @@ export default function shares ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state, { activeShare: "" } );
 
 
-    // SUBMIT NEW VOLUME
+    // SUBMIT NEW SHARE
     case TYPES.CREATE_SHARE_TASK_SUBMIT_REQUEST:
       return Object.assign( {}
                           , state
