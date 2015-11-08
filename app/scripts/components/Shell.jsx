@@ -24,13 +24,17 @@ export default class Shell extends React.Component {
 
     this.ws = null;
     this.term = null;
+
+    this.BOUND_RESIZE = this.resizeTerminal.bind( this );
   }
 
   componentDidMount () {
     this.props.spawnShell( this.props.shellType );
+    window.addEventListener( "resize", this.BOUND_RESIZE );
   }
 
   componentWillUnmount () {
+    window.removeEventListener( "resize", this.BOUND_RESIZE );
     this.destroyShell();
   }
 
@@ -38,11 +42,11 @@ export default class Shell extends React.Component {
     return false;
   }
 
-  calculateDimensions () {
-    let columns = 80;
-    let rows = 40;
+  resizeTerminal () {
+    if ( this.term && this.refs.termTarget ) {
+      let columns = 80;
+      let rows    = 40;
 
-    if ( this.refs.termTarget ) {
       const AVAILABLE_HEIGHT = this.refs.termTarget.clientHeight;
       const ROW_HEIGHT = this.refs.termTarget
                              .querySelector( ".terminal > div" )
@@ -51,9 +55,11 @@ export default class Shell extends React.Component {
       if ( AVAILABLE_HEIGHT && ROW_HEIGHT ) {
         rows = Math.floor( AVAILABLE_HEIGHT / ROW_HEIGHT );
       }
-    }
 
-    return [ columns, rows ];
+      console.log( columns, rows );
+
+      this.term.resize( columns, rows );
+    }
   }
 
   componentWillReceiveProps ( nextProps ) {
@@ -68,10 +74,7 @@ export default class Shell extends React.Component {
       this.createNewShell( nextProps.token );
     }
 
-    if ( this.term && this.refs.termTarget.clientHeight !== 0 ) {
-      const dimensions = this.calculateDimensions();
-      this.term.resize( dimensions[0], dimensions[1] );
-    }
+    this.resizeTerminal();
   }
 
   destroyShell () {
