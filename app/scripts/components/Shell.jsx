@@ -24,27 +24,55 @@ export default class Shell extends React.Component {
 
     this.ws = null;
     this.term = null;
+
+    this.BOUND_RESIZE = this.resizeTerminal.bind( this );
   }
 
   componentDidMount () {
     this.props.spawnShell( this.props.shellType );
+    window.addEventListener( "resize", this.BOUND_RESIZE );
   }
 
   componentWillUnmount () {
+    window.removeEventListener( "resize", this.BOUND_RESIZE );
     this.destroyShell();
   }
 
-  componentDidUpdate ( prevProps, prevState ) {
-    const TOKEN_CHANGED = this.props.token !== prevProps.token;
-    const SHELL_CHANGED = this.props.shellType !== prevProps.shellType;
+  shouldComponentUpdate () {
+    return false;
+  }
+
+  resizeTerminal () {
+    if ( this.term && this.refs.termTarget ) {
+      let columns = 80;
+      let rows    = 40;
+
+      const AVAILABLE_HEIGHT = this.refs.termTarget.clientHeight;
+      const ROW_HEIGHT = this.refs.termTarget
+                             .querySelector( ".terminal > div" )
+                             .clientHeight;
+
+      if ( AVAILABLE_HEIGHT && ROW_HEIGHT ) {
+        rows = Math.floor( AVAILABLE_HEIGHT / ROW_HEIGHT );
+      }
+
+      this.term.resize( columns, rows );
+    }
+  }
+
+  componentWillReceiveProps ( nextProps ) {
+    const TOKEN_CHANGED = nextProps.token !== this.props.token;
+    const SHELL_CHANGED = nextProps.shellType !== this.props.shellType;
 
     if ( SHELL_CHANGED ) {
-      this.props.spawnShell( this.props.shellType );
+      nextProps.spawnShell( nextProps.shellType );
     }
 
-    if ( this.props.token && ( !this.ws || !this.term || TOKEN_CHANGED ) ) {
-      this.createNewShell();
+    if ( nextProps.token && ( !this.ws || !this.term || TOKEN_CHANGED ) ) {
+      this.createNewShell( nextProps.token );
     }
+
+    this.resizeTerminal();
   }
 
   destroyShell () {
@@ -55,7 +83,7 @@ export default class Shell extends React.Component {
     this.term = null;
   }
 
-  createNewShell () {
+  createNewShell ( token ) {
     let connection = TargetHost.connection();
     let url = connection.protocol + connection.host + ":5000/shell";
 
@@ -69,7 +97,7 @@ export default class Shell extends React.Component {
     });
 
     this.ws.onopen = ( event ) => {
-      this.ws.send( JSON.stringify({ token: this.props.token }) );
+      this.ws.send( JSON.stringify({ token }) );
     }
 
     this.ws.onmessage = ( event ) => {
@@ -94,19 +122,10 @@ export default class Shell extends React.Component {
     this.term.on( "data", ( data ) => this.ws.send( data ) );
 
     this.term.open( this.refs.termTarget );
-    this.forceUpdate();
   }
 
   render () {
-    const termNode = this.refs.termTarget;
-
-    if ( this.term && termNode.clientHeight !== 0 ) {
-      this.term.resize( 80, termNode.clientHeight * 0.05 );
-    }
-
-    return (
-      <div className="termFlex" ref="termTarget" />
-    );
+    return <div className="termFlex" ref="termTarget" />;
   }
 
 }

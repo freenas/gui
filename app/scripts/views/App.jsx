@@ -5,7 +5,6 @@
 "use strict";
 
 import React from "react";
-import { RouteHandler } from "react-router";
 import { connect } from "react-redux";
 import { Motion, spring } from "react-motion";
 
@@ -124,7 +123,7 @@ class App extends React.Component {
                   style = { this.getBlurStyle( blur ) }
                 >
                   {/* Primary navigation menu */}
-                  <PrimaryNavigation />
+                  <PrimaryNavigation location={ this.props.location } />
 
                   <div className="app-view">
                     {/* Primary view */}
