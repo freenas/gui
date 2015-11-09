@@ -125,8 +125,9 @@ export default class Share extends React.Component {
             </ShareProperty>
 
             {/* SHARE OPTIONS */}
-
-              <DropdownButton
+            { this.props.isRoot
+            ? <noscript />
+            : <DropdownButton
                 noCaret
                 pullRight
                 id = { `share-options-${ this.props.type }-${ this.props.type }` }
@@ -142,6 +143,7 @@ export default class Share extends React.Component {
                   { `Delete ${ this.props.name }...` }
                 </MenuItem>
               </DropdownButton>
+            }
 
             {/* ADD SUB SHARE */}
             <Button
