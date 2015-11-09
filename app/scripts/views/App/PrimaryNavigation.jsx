@@ -24,7 +24,7 @@ if ( process.env.BROWSER ) require( "./PrimaryNavigation.less" );
 // Path definitions
 // TODO: Convert to Flux or other external file
 const paths =
-  [ { path     : "/dashboard"
+  [ { path     : "/"
     , icon     : "icon-datareport"
     , label    : "Dashboard"
     , disabled : false
@@ -73,6 +73,15 @@ const paths =
 
 // REACT
 class PrimaryNavigation extends React.Component {
+  // FIXME: tbh desu fam this is p dumb hope redux-router comes through
+  routeIsActive ( activeRoute, targetRoute ) {
+    if ( activeRoute === targetRoute || ( activeRoute.length > 1 && targetRoute.startsWith( activeRoute ) ) ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   createNavItem ( rawItem, index ) {
     if ( rawItem.disabled ) {
       return (
@@ -95,7 +104,7 @@ class PrimaryNavigation extends React.Component {
           <Link
             to = { rawItem.path }
             className =
-              { rawItem.path.startsWith( this.props.location.pathname )
+              { this.routeIsActive( this.props.location.pathname, rawItem.path )
               ? "active"
               : ""
               }
