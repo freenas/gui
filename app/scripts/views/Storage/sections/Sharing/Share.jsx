@@ -5,7 +5,7 @@
 "use strict";
 
 import React from "react";
-import { Button, MenuItem } from "react-bootstrap";
+import { DropdownButton, Button, MenuItem } from "react-bootstrap";
 
 import ByteCalc from "../../../../utility/ByteCalc";
 
@@ -120,11 +120,30 @@ export default class Share extends React.Component {
           <div className="dataset-properties">
 
             {/* RADIO TOGGLES FOR CREATING SHARES */}
-
             <ShareProperty legend="Compression">
               { compression.rawvalue }
             </ShareProperty>
 
+            {/* SHARE OPTIONS */}
+
+              <DropdownButton
+                noCaret
+                pullRight
+                id = { `share-options-${ this.props.type }-${ this.props.type }` }
+                bsStyle = "link"
+                title = { <Icon glyph="icon-cog" /> }
+                className = "options"
+                onClick = { ( event ) => { event.stopPropagation(); } }
+              >
+                <MenuItem
+                  eventKey = { 1 }
+                  onSelect = { this.props.onRequestDeleteShare }
+                >
+                  { `Delete ${ this.props.name }...` }
+                </MenuItem>
+              </DropdownButton>
+
+            {/* ADD SUB SHARE */}
             <Button
               noCaret
               pullRight
