@@ -28,7 +28,6 @@ const INITIAL_STATE =
     , serial_speed: null
     , powerd: false
     , console_cli: false
-    , autotune: false
     , periodic_notify_user: null
     , serial_ports: []
     }

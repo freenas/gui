@@ -10,9 +10,6 @@ import { Input, Panel, Button, ButtonToolbar } from "react-bootstrap";
 // All settings in this panel are from system.advanced
 const OSSettings = ( props ) => {
 
-  var autotuneValue = typeof props.osForm.autotune !== "undefined"
-                    ? props.osForm.autotune
-                    : props.advanced.autotune;
   var consoleCLIValue = typeof props.osForm.console_cli !== "undefined"
                       ? props.osForm.console_cli
                       : props.advanced.console_cli;
@@ -28,18 +25,6 @@ const OSSettings = ( props ) => {
   var motdValue = typeof props.osForm.motd !== "undefined"
                 ? props.osForm.motd
                 : props.advanced.motd;
-
-  const autotune =
-    <Input
-      type = "checkbox"
-      label = "Enable Autotune"
-      checked = { autotuneValue }
-      onChange = { ( e ) => props.updateOSForm( "autotune"
-                                              , e.target.checked
-                                              )
-                 }
-    >
-    </Input>;
 
   const consoleCLI =
     <Input
@@ -125,7 +110,6 @@ const OSSettings = ( props ) => {
     <Panel>
       <h4>Operating System</h4>
       <form className = "settings-config-form">
-        { autotune }
         { consoleCLI }
         { powerd }
         { uploadCrash }
@@ -144,7 +128,6 @@ OSSettings.propTypes =
     , swapondrive: React.PropTypes.number // in GB
     , powerd: React.PropTypes.bool
     , console_cli: React.PropTypes.bool
-    , autotune: React.PropTypes.bool
     }
   )
   , osForm: React.PropTypes.shape(
@@ -153,7 +136,6 @@ OSSettings.propTypes =
     , swapondrive: React.PropTypes.number // in GB
     , powerd: React.PropTypes.bool
     , console_cli: React.PropTypes.bool
-    , autotune: React.PropTypes.bool
     }
   )
   , updateOSForm: React.PropTypes.func
