@@ -135,13 +135,16 @@ class ContextDisks extends React.Component {
     let renderableGroups = {};
 
     Object.keys( collection ).forEach( key => {
-      renderableGroups[ key ] = this.removeUsedDisks( collection[ key ] )
+      let renderable = this.removeUsedDisks( collection[ key ] );
+      if ( renderable.length ) {
+        renderableGroups[ key ] = renderable
+      }
     });
 
     const KEYS = Object.keys( renderableGroups );
 
     return (
-      <div style={ KEYS.length ? {} : { display: "none" } }>
+      <div>
         <h5 className="context-section-header type-line">
           <span className="text">
             { "Available " + TERMS[ type.toUpperCase() ] }
@@ -153,7 +156,11 @@ class ContextDisks extends React.Component {
           activeDrop
         >
           <Well bsSize="small">
-            { KEYS.map( ( key, index ) =>
+            { KEYS.length === 0
+            ? <div className="text-center text-muted">
+                <em>{ `There are no available ${ type }` }</em>
+              </div>
+            : KEYS.map( ( key, index ) =>
               this.renderDiskGroup( renderableGroups[ key ], index, key )
             )}
           </Well>
