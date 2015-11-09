@@ -151,6 +151,12 @@ class Storage extends React.Component {
       : ""
     );
 
+    const SHARE_TO_DELETE = (
+      ( this.props.shareToDelete && this.props.shares.serverShares[ this.props.shareToDelete ] )
+      ? this.props.shares.serverShares[ this.props.shareToDelete ].name
+      : ""
+    );
+
     return (
       <main>
         <h1 className="view-header section-heading type-line">
@@ -237,14 +243,14 @@ class Storage extends React.Component {
 
         {/* CONFIRMATION - SHARE DELETION */}
         <ConfirmationDialog
-          show = { Boolean( this.props.shareToDelete ) }
+          show = { Boolean( SHARE_TO_DELETE ) }
           onCancel = { this.props.onCancelDeleteShare }
           onConfirm = { this.props.onConfirmDeleteShare }
           confirmStyle = { "danger" }
-          title = { "Confirm Deletion of " + this.props.shareToDelete }
+          title = { `Confirm Deletion of ${ SHARE_TO_DELETE }` }
           body = {
             <span>
-              { `Yo this is going to delete ${ this.props.shareToDelete } . All `
+              { `Yo this is going to delete ${ SHARE_TO_DELETE } . All `
               + `the data that was in it will go bye-bye, and nobody will be `
               + `able to access it anymore. You sure that's what you want?`
               }
@@ -298,6 +304,7 @@ function mapStateToProps ( state ) {
     , volumes: state.volumes
     , volumeToDestroy: state.volumes.volumeToDestroy
     , shares: state.shares
+    , shareToDelete: state.shares.shareToDelete
     , activeTasks: state.volumes.activeTasks
     , tasks: state.tasks.tasks
     , contextual: state.contextual
@@ -386,9 +393,12 @@ function mapDispatchToProps ( dispatch ) {
       }
 
     // DELETE SHARE
-    , onRequestDeleteShare: ( volumeID, shareID ) => console.log( "fart" )
-    , onConfirmDeleteShare: ( volumeID ) => console.log( "fart" )
-    , onCancelDeleteShare: ( volumeID ) => console.log( "fart" )
+    , onRequestDeleteShare: ( volumeID, shareID ) =>
+      dispatch( SHARES.intendDeleteShare( volumeID, shareID ) )
+    , onConfirmDeleteShare: ( volumeID ) =>
+      dispatch( SHARES.confirmDeleteShare( volumeID ) )
+    , onCancelDeleteShare: ( volumeID ) =>
+      dispatch( SHARES.cancelDeleteShare( volumeID ) )
 
     // GUI
     , onDiskSelect: ( volumeID, path ) =>

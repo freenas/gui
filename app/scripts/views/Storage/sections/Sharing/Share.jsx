@@ -137,7 +137,7 @@ export default class Share extends React.Component {
               >
                 <MenuItem
                   eventKey = { 1 }
-                  onSelect = { this.props.onRequestDeleteShare }
+                  onSelect = { () => this.props.onRequestDeleteShare( this.props.id ) }
                 >
                   { `Delete ${ this.props.name }...` }
                 </MenuItem>
