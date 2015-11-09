@@ -7,7 +7,7 @@ import * as TYPES from "./actionTypes";
 import { watchRequest } from "../utility/Action";
 import MC from "../websocket/MiddlewareClient";
 
-// MIDDLEWARE
+// QUERIES
 export function fetchShares () {
   return ( dispatch, getState ) => {
     MC.request( "shares.query"
@@ -52,7 +52,29 @@ export function submitShare ( volumeID, shareID ) {
   }
 }
 
-export function deleteShare ( volumeID ) {
+export function intendDeleteShare ( volumeID, shareID ) {
+  return ( dispatch, getState ) => {
+    const state = getState();
+
+    if ( state.shares.serverShares.hasOwnProperty( shareID ) ) {
+      dispatch (
+        { type: TYPES.INTEND_DELETE_SHARE
+        , payload: { shareID }
+        }
+      );
+    } else {
+      console.warn( `Share "${ shareID }" does not seem to exist:`
+                  , state.shares.serverShares
+                  );
+    }
+  }
+}
+
+export function cancelDeleteShare () {
+  return { type: TYPES.CANCEL_DELETE_SHARE }
+}
+
+export function confirmDeleteShare ( volumeID ) {
   return ( dispatch, getState ) => {
     const state = getState();
     const TO_DELETE = state.shares.shareToDelete;

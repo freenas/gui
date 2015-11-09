@@ -29,7 +29,7 @@ const NewShare = ( props ) => (
       >
         <Input
           type = "text"
-          placeholder = "New Share"
+          placeholder = "Input Name for Share"
           onChange = { event =>
             props.onUpdateShare( props.id, { name: event.target.value } )
           }

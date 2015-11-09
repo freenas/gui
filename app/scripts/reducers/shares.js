@@ -9,7 +9,9 @@ import { recordUUID, resolveUUID, handleChangedEntities } from "../utility/Reduc
 const INITIAL_STATE =
   { queryRequests: new Set()
   , createRequests: new Set()
+  , deleteRequests: new Set()
   , activeShare: ""
+  , shareToDelete: ""
   , serverShares: {}
   , clientShares: {}
   };
@@ -83,6 +85,12 @@ export default function shares ( state = INITIAL_STATE, action ) {
       delete clientShares[ payload.id ];
       return Object.assign( {}, state, { clientShares } );
 
+    case TYPES.INTEND_DELETE_SHARE:
+      return Object.assign( {}, state, { shareToDelete: payload.shareID });
+
+    case TYPES.CANCEL_DELETE_SHARE:
+      return Object.assign( {}, state, { shareToDelete: "" })
+
 
     // GUI ACTIONS
     case TYPES.FOCUS_SHARE:
@@ -92,13 +100,19 @@ export default function shares ( state = INITIAL_STATE, action ) {
       return Object.assign( {}, state, { activeShare: "" } );
 
 
-    // SUBMIT NEW VOLUME
+    // SUBMIT NEW SHARE
     case TYPES.CREATE_SHARE_TASK_SUBMIT_REQUEST:
       return Object.assign( {}
                           , state
                           , recordUUID( payload.UUID, state, "createRequests" )
                           );
 
+    // DELETE SHARE
+    case TYPES.DELETE_SHARE_TASK_SUBMIT_REQUEST:
+      return Object.assign( {}
+                          , state
+                          , recordUUID( payload.UUID, state, "deleteRequests" )
+                          );
 
     // TODO: Handle these correctly
     case TYPES.RPC_TIMEOUT:
@@ -119,8 +133,21 @@ export default function shares ( state = INITIAL_STATE, action ) {
                               , resolveUUID( payload.UUID, state, "createRequests" )
                               );
         } else {
-          console.warn( "Share Submit task did not return a task ID" );
+          console.warn( "Share submit task did not return a task ID" );
           return state;
+        }
+      }
+
+      // SHARE DELETE TASK
+      if ( state.deleteRequests.has( payload.UUID ) ) {
+        if ( payload.data ) {
+          return Object.assign( {}
+                              , state
+                              , resolveUUID( payload.UUID, state, "deleteRequests" )
+                              , { shareToDelete: "" }
+                              );
+        } else {
+          console.warn( "Share delete task did not return a task ID" );
         }
       }
 

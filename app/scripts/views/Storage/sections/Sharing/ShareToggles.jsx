@@ -25,7 +25,7 @@ const ShareToggles = ( props ) => {
 
   return (
     <span>
-      <ShareProperty legend="File Sharing">
+      <ShareProperty legend="Share Type">
         <ButtonGroup
           className = { classes.join( " " ) }
         >
