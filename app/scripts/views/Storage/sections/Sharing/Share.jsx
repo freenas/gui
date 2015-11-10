@@ -5,6 +5,7 @@
 "use strict";
 
 import React from "react";
+import moment from "moment";
 import { DropdownButton, Button, MenuItem } from "react-bootstrap";
 
 import ByteCalc from "../../../../utility/ByteCalc";
@@ -23,13 +24,7 @@ if ( process.env.BROWSER ) require( "./Share.less" );
 
 // REACT
 export default class Share extends React.Component {
-
-  renderChild ( id, index ) {
-    const ON_SERVER = this.props.shares.serverShares[ id ];
-    const ON_CLIENT = this.props.shares.clientShares[ id ];
-
-    const SHARE = Object.assign( {}, ON_SERVER, ON_CLIENT );
-
+  renderChildren ( id, index ) {
     // HANDLERS
     const COMMON_PROPS =
       { depth  : this.props.depth + 1
@@ -43,34 +38,72 @@ export default class Share extends React.Component {
       , onSubmitShare : this.props.onSubmitShare
       };
 
-    if ( Boolean( ON_SERVER ) ) {
-      // If a parent dataset is shared, its children may not be shared, and
-      // their primary sharing type must not be changed
-      return (
-        <Share
-          { ...SHARE }
-          { ...COMMON_PROPS }
-          key = { index }
-          shares = { this.props.shares }
-          parentShared = { this.props.enabled ? this.props.type : "" }
-          activeShare = { this.props.activeShare }
-          childShares = { this.props.childShares }
-          children = { this.props.childShares[ SHARE.id ] }
-          onRequestDeleteShare = { this.props.onRequestDeleteShare }
-        />
-      );
-    } else if ( Boolean( ON_CLIENT ) ) {
-      return (
-        <NewShare
-          { ...SHARE }
-          { ...COMMON_PROPS }
-          key = { index }
-        />
-      );
-    } else {
-      console.warn( `The share "${ id }" does not seem to exist` );
-      return;
-    }
+    return (
+      this.props.children
+        .map( id => {
+          const ON_SERVER = this.props.shares.serverShares[ id ];
+          const ON_CLIENT = this.props.shares.clientShares[ id ];
+          const SHARE = Object.assign( {}, ON_SERVER, ON_CLIENT );
+
+          if ( ON_SERVER ) {
+            SHARE.state = "SERVER";
+          } else if ( ON_CLIENT ) {
+            SHARE.state = "CLIENT"
+          }
+
+          return SHARE;
+        })
+        .sort( ( a, b ) => {
+          if ( a.state === "CLIENT" && b.state !== "CLIENT" ) {
+            return -1;
+          }
+
+          if ( b.state === "CLIENT" && a.state !== "CLIENT" ) {
+            return 1;
+          }
+
+          if ( a["created-at"] && b["created-at"] ) {
+            if ( moment( a["created-at"] ).isAfter( b["created-at"] ) ) {
+              return -1;
+            } else {
+              return 1;
+            }
+          } else {
+            // TODO: Will screw up if multiple shares are being created
+            return 0;
+          }
+        })
+        .map( ( SHARE, index ) => {
+          if ( SHARE.state === "SERVER" ) {
+            // If a parent dataset is shared, its children may not be shared, and
+            // their primary sharing type must not be changed
+            return (
+              <Share
+                { ...SHARE }
+                { ...COMMON_PROPS }
+                key = { index }
+                shares = { this.props.shares }
+                parentShared = { this.props.enabled ? this.props.type : "" }
+                activeShare = { this.props.activeShare }
+                childShares = { this.props.childShares }
+                children = { this.props.childShares[ SHARE.id ] }
+                onRequestDeleteShare = { this.props.onRequestDeleteShare }
+              />
+            );
+          } else if ( SHARE.state === "CLIENT" ) {
+            return (
+              <NewShare
+                { ...SHARE }
+                { ...COMMON_PROPS }
+                key = { index }
+              />
+            );
+          } else {
+            console.warn( `The share "${ id }" does not seem to exist` );
+            return;
+          }
+        })
+    );
   }
 
   render () {
@@ -179,7 +212,7 @@ export default class Share extends React.Component {
 
         {/* CHILD DATASETS */}
         <div className="dataset-children">
-          { this.props.children.map( this.renderChild.bind( this ) ) }
+          { this.renderChildren() }
         </div>
       </div>
     );
