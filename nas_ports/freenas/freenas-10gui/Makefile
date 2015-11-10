@@ -12,7 +12,8 @@ COMMENT=	FreeNAS UI
 
 EXTRACT_ONLY=
 
-BUILD_DEPENDS=	npm012>0:${PORTSDIR}/www/npm012
+FETCH_DEPENDS=	npm012>0:${PORTSDIR}/www/npm012 \
+		gmake:${PORTSDIR}/devel/gmake
 RUN_DEPENDS=	node012>0:${PORTSDIR}/www/node012
 
 NO_BUILD=	yes
@@ -31,9 +32,10 @@ do-install:
 	install ${WRKSRC}/sbin/gui ${STAGEDIR}${PREFIX}/sbin/
 	mkdir -p ${STAGEDIR}${PREFIX}/www/gui/
 	(cd ${WRKSRC} && ${SETENV} ${NPM_ENV} ./node_modules/.bin/gulp deploy --output=${STAGEDIR}${PREFIX}/www/gui/)
-	(cd ${STAGEDIR}${PREFIX}/www/gui; ${FIND} -type f \
+	(cd ${STAGEDIR}${PREFIX}/www/gui; ${FIND} . -type f \
 		| ${SED} -e 's,^\./,,g' \
 		| ${AWK} '{print length, $$0}' | ${SORT} -rn \
-		| ${AWK} '{print "lib/dispatcher/"$$2 }' >> ${TMPPLIST})
+		| cut -d " " -f 2- \
+		| ${AWK} '{print "www/gui/"$$0 }' >> ${TMPPLIST})
 
 .include <bsd.port.mk>
