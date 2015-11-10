@@ -160,7 +160,7 @@ const LocalizationSettings = (props) => {
     <Panel>
       <h4>Localization</h4>
       <form className = "settings-config-form">
-        { language }
+        { /*language*/ }
         { timezone }
         { formControlButtons }
       </form>
