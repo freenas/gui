@@ -85,8 +85,8 @@ const OSSettings = ( props ) => {
                                               , e.target.value
                                               )
                  }
-    >
-    </Input>;
+      rows = {10}
+    />;
 
   const formControlButtons =
     <ButtonToolbar className = "pull-right">

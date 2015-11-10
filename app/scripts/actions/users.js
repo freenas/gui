@@ -168,7 +168,7 @@ export function updateUser ( userID ) {
         throw new Error( "Attempted to change root's group membership." );
       }
     } else if ( userToUpdate.builtin ) {
-      throw new Error( "Attempted to update a system user." );
+      throw new Error( "Attempted to update a built-in system user." );
     }
 
     if ( typeof updatedUserProps.name === "string"

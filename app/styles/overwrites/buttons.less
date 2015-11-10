@@ -121,12 +121,16 @@
 
     &:first-child {
       margin-left: 1px;
-      border-radius: ( @border-radius-base - 1px ) 0 0 ( @border-radius-base - 1px );
+      border-radius-top: ( @border-radius-base - 1px ) 0 0 ( @border-radius-base - 1px );
     }
 
     &:last-child {
       margin-right: 1px;
       border-radius: 0 ( @border-radius-base - 1px ) ( @border-radius-base - 1px ) 0;
+    }
+
+    &:only-child {
+      border-radius: ( @border-radius-base - 1px );
     }
   }
 
