@@ -37,5 +37,7 @@ do-install:
 		| ${AWK} '{print length, $$0}' | ${SORT} -rn \
 		| cut -d " " -f 2- \
 		| ${AWK} '{print "www/gui/"$$0 }' >> ${TMPPLIST})
+	${ECHO_CMD} etc/rc.d/gui >> ${TMPPLIST}
+	${ECHO_CMD} sbin/gui >> ${TMPPLIST}
 
 .include <bsd.port.mk>
