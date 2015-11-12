@@ -110,7 +110,7 @@ class ContextBar extends React.Component {
         </div>
 
         {/* ACTIVE TASKS */}
-        {/*<div className="feed">
+        <div className="feed">
           <h5 className="context-section-header type-line">
             <span className="text">Active Tasks</span>
           </h5>
@@ -119,7 +119,7 @@ class ContextBar extends React.Component {
               this.createTask( this.props.tasks[ id ] )
             )}
           </div>
-        </div>*/}
+        </div>
       </aside>
     );
   }
