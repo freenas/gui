@@ -27,7 +27,7 @@ import System from "./views/System";
 import Settings from "./views/Settings";
   import SystemSettings from "./views/Settings/SystemSettings";
   import Sharing from "./views/Settings/Sharing";
-  import Distributed from "./views/Settings/Distributed";
+  import Clustered from "./views/Settings/Clustered";
   import Update from "./views/Settings/Update";
   import Security from "./views/Settings/Security";
 
@@ -101,7 +101,7 @@ export default (
 
       <Route path="system" component={ SystemSettings } />
       <Route path="sharing" component={ Sharing } />
-      <Route path="distributed" component={ Distributed } />
+      <Route path="clustered" component={ Clustered } />
       <Route path="update" component={ Update } />
       <Route path="security" component={ Security } />
     </Route>

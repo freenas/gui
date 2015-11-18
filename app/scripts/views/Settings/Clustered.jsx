@@ -1,6 +1,6 @@
-// Distributed Sharing Service Settings
+// Clustered Sharing Service Settings
 // ====================================
-// Settings for distributed sharing services: IPVS, riak, riakcs
+// Settings for clustered sharing services: IPVS, riak, riakcs
 
 "use strict";
 
@@ -17,18 +17,18 @@ import * as swiftActions from "../../actions/swift";
 
 import * as SUBSCRIPTIONS from "../../actions/subscriptions";
 
-import IPFS from "./Distributed/IPFS";
-import Riak from "./Distributed/Riak";
-import RiakCS from "./Distributed/RiakCS";
-import Stanchion from "./Distributed/Stanchion";
-import Gluster from "./Distributed/Gluster";
-import Swift from "./Distributed/Swift";
+import IPFS from "./Clustered/IPFS";
+import Riak from "./Clustered/Riak";
+import RiakCS from "./Clustered/RiakCS";
+import Stanchion from "./Clustered/Stanchion";
+import Gluster from "./Clustered/Gluster";
+import Swift from "./Clustered/Swift";
 
-class Distributed extends React.Component {
+class Clustered extends React.Component {
   constructor ( props ) {
     super( props );
 
-    this.displayName = "Distributed Services Settings";
+    this.displayName = "Clustered Services Settings";
   }
 
   componentDidMount () {
@@ -154,4 +154,4 @@ function mapDispatchToProps ( dispatch ) {
   );
 };
 
-export default connect( mapStateToProps, mapDispatchToProps )( Distributed );
+export default connect( mapStateToProps, mapDispatchToProps )( Clustered );
