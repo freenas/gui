@@ -35,7 +35,7 @@ export default (
   <Route path="/" component={ Root } >
 
     {/* DASHBOARD */}
-    <IndexRoute component={ Dashboard } />
+    <IndexRoute component={ Console } />
     <Route path="dashboard" component={ Dashboard } />
 
 
