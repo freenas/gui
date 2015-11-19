@@ -21,8 +21,8 @@ const sections = [ { route: "/settings/system"
                  , { route: "/settings/sharing"
                    , display: "Sharing"
                    }
-                 , { route: "/settings/distributed"
-                   , display: "Distributed"
+                 , { route: "/settings/clustered"
+                   , display: "Clustered"
                    }
                  , { route: "/settings/update"
                    , display: "Updates"
