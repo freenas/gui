@@ -24,7 +24,7 @@ if ( process.env.BROWSER ) require( "./PrimaryNavigation.less" );
 // Path definitions
 // TODO: Convert to Flux or other external file
 const paths =
-  [ { path     : "/"
+  [ { path     : "/dashboard"
     , icon     : "icon-datareport"
     , label    : "Dashboard"
     , disabled : false
