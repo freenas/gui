@@ -49,11 +49,11 @@ const CORE_SUBSCRIPTIONS =
   , "group.changed"
   , "shares.changed"
   , "update.changed"
-  , "volumes.changed"
+  , "volume.changed"
   ];
 
 const STORAGE_SUBSCRIPTIONS =
-  [ "entity-subscriber.volumes.changed"
+  [ "entity-subscriber.volume.changed"
   , "entity-subscriber.disks.changed"
   , "entity-subscriber.shares.changed"
   ];

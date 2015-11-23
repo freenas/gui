@@ -366,7 +366,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
         return Object.assign( {}, state, { availableDisksInvalid: true } );
       }
 
-      if ( payload.mask === "volumes.changed" ) {
+      if ( payload.mask === "volume.changed" ) {
         serverVolumes = handleChangedEntities( payload, state.serverVolumes );
         clientVolumes = Object.assign( {}, state.clientVolumes );
         activeVolume = state.activeVolume;

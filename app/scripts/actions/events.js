@@ -151,7 +151,7 @@ export function systemEvent ( eventData, timestamp ) {
         text = "Update changed";
         break;
 
-      case "entity-subscriber.volumes.changed":
+      case "entity-subscriber.volume.changed":
         var volumeName = null;
 
         if ( data.entities && data.entities[0] ) {
@@ -187,7 +187,7 @@ export function systemEvent ( eventData, timestamp ) {
               break;
           }
         } else {
-          console.warn( `Expected volumes.changed to provide an operation and some ids`, eventData );
+          console.warn( `Expected volume.changed to provide an operation and some ids`, eventData );
         }
         break;
     }
