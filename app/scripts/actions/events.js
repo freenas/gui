@@ -105,7 +105,7 @@ export function systemEvent ( eventData, timestamp ) {
         text = "Group updated";
         break;
 
-      case "entity-subscriber.shares.changed":
+      case "entity-subscriber.share.changed":
         var shareName = null;
 
         if ( data.entities && data.entities[0] ) {
@@ -141,7 +141,7 @@ export function systemEvent ( eventData, timestamp ) {
               break;
           }
         } else {
-          console.warn( `Expected shares.changed to provide an operation and some ids`, eventData );
+          console.warn( `Expected share.changed to provide an operation and some ids`, eventData );
         }
         break;
 
