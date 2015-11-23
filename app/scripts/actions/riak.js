@@ -36,7 +36,7 @@ export function resetRiakForm () {
 // QUERY
 export function requestRiakConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "riak" ]
               , ( UUID ) => dispatch( watchRequest( UUID, RIAK_CONFIG_REQUEST ) )
               );

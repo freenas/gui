@@ -36,7 +36,7 @@ export function resetAFPForm () {
 // QUERY
 export function requestAFPConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "afp" ]
               , ( UUID ) => dispatch( watchRequest( UUID, AFP_CONFIG_REQUEST ) )
               );

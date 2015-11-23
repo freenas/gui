@@ -36,7 +36,7 @@ export function resetIPFSForm () {
 // QUERY
 export function requestIPFSConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "ipfs" ]
               , ( UUID ) => dispatch( watchRequest( UUID, IPFS_CONFIG_REQUEST ) )
               );

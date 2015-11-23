@@ -36,7 +36,7 @@ export function resetStanchionForm () {
 // QUERY
 export function requestStanchionConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "stanchion" ]
               , ( UUID ) => dispatch( watchRequest( UUID, STANCHION_CONFIG_REQUEST ) )
               );
