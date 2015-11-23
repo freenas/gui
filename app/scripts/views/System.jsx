@@ -87,9 +87,9 @@ function mapStateToProps ( state ) {
 function mapDispatchToProps ( dispatch ) {
   return (
     { subscribe: ( id ) =>
-      dispatch( SUBSCRIPTIONS.add( [ "entity-subscriber.disks.changed" ], id ) )
+      dispatch( SUBSCRIPTIONS.add( [ "entity-subscriber.disk.changed" ], id ) )
     , unsubscribe: ( id ) =>
-      dispatch( SUBSCRIPTIONS.remove( [ "entity-subscriber.disks.changed" ], id ) )
+      dispatch( SUBSCRIPTIONS.remove( [ "entity-subscriber.disk.changed" ], id ) )
     , fetchDisks: () =>
       dispatch( DISKS.requestDiskOverview() )
     , requestHardware: () =>

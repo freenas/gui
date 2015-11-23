@@ -292,7 +292,7 @@ Storage.propTypes =
 // REDUX
 const SUB_MASKS =
   [ "entity-subscriber.volume.changed"
-  , "entity-subscriber.disks.changed"
+  , "entity-subscriber.disk.changed"
   , "entity-subscriber.shares.changed"
   , "entity-subscriber.user.changed"
   , "entity-subscriber.group.changed"

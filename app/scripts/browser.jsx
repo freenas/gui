@@ -54,7 +54,7 @@ const CORE_SUBSCRIPTIONS =
 
 const STORAGE_SUBSCRIPTIONS =
   [ "entity-subscriber.volume.changed"
-  , "entity-subscriber.disks.changed"
+  , "entity-subscriber.disk.changed"
   , "entity-subscriber.shares.changed"
   ];
 
