@@ -154,7 +154,7 @@ export default function shares ( state = INITIAL_STATE, action ) {
       return state;
 
     case TYPES.ENTITY_CHANGED:
-      if ( payload.mask === "shares.changed" ) {
+      if ( payload.mask === "share.changed" ) {
         serverShares = handleChangedEntities( payload, state.serverShares );
         return Object.assign( {}
                             , state

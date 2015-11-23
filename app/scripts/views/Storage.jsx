@@ -293,7 +293,7 @@ Storage.propTypes =
 const SUB_MASKS =
   [ "entity-subscriber.volume.changed"
   , "entity-subscriber.disk.changed"
-  , "entity-subscriber.shares.changed"
+  , "entity-subscriber.share.changed"
   , "entity-subscriber.user.changed"
   , "entity-subscriber.group.changed"
   ];

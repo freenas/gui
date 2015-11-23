@@ -47,7 +47,7 @@ const CORE_SUBSCRIPTIONS =
   , "system.network.interface.link_up"
   , "user.changed"
   , "group.changed"
-  , "shares.changed"
+  , "share.changed"
   , "update.changed"
   , "volume.changed"
   ];
@@ -55,7 +55,7 @@ const CORE_SUBSCRIPTIONS =
 const STORAGE_SUBSCRIPTIONS =
   [ "entity-subscriber.volume.changed"
   , "entity-subscriber.disk.changed"
-  , "entity-subscriber.shares.changed"
+  , "entity-subscriber.share.changed"
   ];
 
 
