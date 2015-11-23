@@ -288,7 +288,7 @@ function mapStateToProps ( state ) {
   );
 }
 
-const SUB_MASKS = [ "entity-subscriber.disks.changed" ];
+const SUB_MASKS = [ "entity-subscriber.disk.changed" ];
 
 function mapDispatchToProps ( dispatch ) {
   return (

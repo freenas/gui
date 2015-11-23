@@ -72,7 +72,7 @@ const Day = React.createClass (
                      />
                    </Popover>;
                  break;
-               case "disks.parallel_test":
+               case "disk.parallel_test":
                  taskWidget =
                    <SmartTask
                      disks = { task.selectedDisks || null }

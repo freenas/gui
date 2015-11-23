@@ -362,7 +362,7 @@ export default function volumes ( state = INITIAL_STATE, action ) {
 
 
     case TYPES.ENTITY_CHANGED:
-      if ( payload.mask === "disks.changed" ) {
+      if ( payload.mask === "disk.changed" ) {
         return Object.assign( {}, state, { availableDisksInvalid: true } );
       }
 

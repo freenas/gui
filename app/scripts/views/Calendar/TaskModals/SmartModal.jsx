@@ -92,7 +92,7 @@ export default class SmartModal extends React.Component {
 
   createTask () {
     var newTask = { schedule: {}
-                  , name: "disks.parallel_test"
+                  , name: "disk.parallel_test"
                   };
 
     if ( this.state.selectedDisks ) {
@@ -120,7 +120,7 @@ export default class SmartModal extends React.Component {
 
   changeTask () {
     var newTask = { schedule: {}
-                  , name: "disks.parallel_test"
+                  , name: "disk.parallel_test"
                   };
 
     if ( this.state.selectedDisks  ) {
