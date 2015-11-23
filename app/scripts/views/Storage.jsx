@@ -294,8 +294,8 @@ const SUB_MASKS =
   [ "entity-subscriber.volumes.changed"
   , "entity-subscriber.disks.changed"
   , "entity-subscriber.shares.changed"
-  , "entity-subscriber.users.changed"
-  , "entity-subscriber.groups.changed"
+  , "entity-subscriber.user.changed"
+  , "entity-subscriber.group.changed"
   ];
 
 function mapStateToProps ( state ) {

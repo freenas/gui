@@ -93,13 +93,13 @@ export function systemEvent ( eventData, timestamp ) {
         text = "Network Interface changed to DOWN";
         break;
 
-      case "users.changed":
+      case "user.changed":
         icon = "icon-profile";
         type = TYPES.EVENT_USERS_CHANGED;
         text = "User updated";
         break;
 
-      case "groups.changed":
+      case "group.changed":
         icon = "icon-group";
         type = TYPES.EVENT_GROUPS_CHANGED;
         text = "Group updated";

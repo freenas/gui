@@ -34,7 +34,7 @@ export function resetUserForm () {
 // QUERIES
 export function requestUsers () {
   return ( dispatch ) => {
-    MC.request( "users.query"
+    MC.request( "user.query"
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, QUERY_USERS_REQUEST ) )
@@ -44,7 +44,7 @@ export function requestUsers () {
 
 export function requestNextUID () {
   return ( dispatch ) => {
-    MC.request( "users.next_uid"
+    MC.request( "user.next_uid"
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, GET_NEXT_UID_REQUEST ) )
@@ -111,7 +111,7 @@ export function createUser () {
     }
 
     MC.request( "task.submit"
-              , [ "users.create", [ newUserProps ] ]
+              , [ "user.create", [ newUserProps ] ]
               , UUID => dispatch( watchRequest( UUID, USER_CREATE_TASK ) )
               );
   }
@@ -196,7 +196,7 @@ export function updateUser ( userID ) {
     }
 
     MC.request( "task.submit"
-              , [ "users.update", [ userID, updatedUserProps ] ]
+              , [ "user.update", [ userID, updatedUserProps ] ]
               , UUID => dispatch( watchRequest( UUID, USER_UPDATE_TASK ) )
               );
   }
@@ -213,7 +213,7 @@ export function deleteUser ( userID ) {
       throw new Error( "Attempted to delete a built-in system user." );
     }
     MC.request( "task.submit"
-              , [ "users.delete", [ userID ] ]
+              , [ "user.delete", [ userID ] ]
               , UUID => dispatch( watchRequest( UUID, USER_DELETE_TASK ) )
               );
   }

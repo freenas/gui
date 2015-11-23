@@ -32,7 +32,7 @@ export function resetGroupForm () {
 // QUERIES
 export function requestGroups () {
   return ( dispatch ) => {
-    MC.request( "groups.query"
+    MC.request( "group.query"
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, QUERY_GROUPS_REQUEST ) )
@@ -42,7 +42,7 @@ export function requestGroups () {
 
 export function requestNextGID () {
   return ( dispatch ) => {
-    MC.request( "groups.next_gid"
+    MC.request( "group.next_gid"
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, GET_NEXT_GID_REQUEST ) )
@@ -118,7 +118,7 @@ export function createGroup () {
       throw new Error( "Attempted to create a group with an existing group id." );
     }
     MC.request( "task.submit"
-              , [ "groups.create", [ newGroupProps ] ]
+              , [ "group.create", [ newGroupProps ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_CREATE_TASK ) )
               );
   }
@@ -157,7 +157,7 @@ export function updateGroup ( groupID ) {
     }
 
     MC.request( "task.submit"
-              , [ "groups.update", [ groupID, newGroupProps ] ]
+              , [ "group.update", [ groupID, newGroupProps ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_UPDATE_TASK ) )
               );
   }
@@ -171,7 +171,7 @@ export function deleteGroup ( groupID ) {
       throw new Error( "Attempted to delete a built-in system group." );
     }
     MC.request( "task.submit"
-              , [ "groups.delete", [ groupID ] ]
+              , [ "group.delete", [ groupID ] ]
               , UUID => dispatch( watchRequest( UUID, GROUP_DELETE_TASK ) )
               );
   }
