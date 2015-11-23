@@ -49,7 +49,7 @@ function volumeExists ( volumeID, state ) {
 // VOLUMES REQUEST
 export function fetchVolumes () {
   return ( dispatch, getState ) => {
-    MC.request( "volumes.query"
+    MC.request( "volume.query"
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, TYPES.VOLUMES_RPC_REQUEST ) )
@@ -60,7 +60,7 @@ export function fetchVolumes () {
 // AVAILABLE DISKS REQUEST
 export function fetchAvailableDisks () {
   return ( dispatch, getState ) => {
-    MC.request( "volumes.get_available_disks"
+    MC.request( "volume.get_available_disks"
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, TYPES.AVAILABLE_DISKS_RPC_REQUEST ) )
