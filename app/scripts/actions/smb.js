@@ -36,7 +36,7 @@ export function resetSMBForm () {
 // QUERY
 export function requestSMBConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "cifs" ]
               , ( UUID ) => dispatch( watchRequest( UUID, SMB_CONFIG_REQUEST ) )
               );

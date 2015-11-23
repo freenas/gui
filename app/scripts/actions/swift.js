@@ -36,7 +36,7 @@ export function resetSwiftForm () {
 // QUERY
 export function requestSwiftConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "swift" ]
               , ( UUID ) => dispatch( watchRequest( UUID, SWIFT_CONFIG_REQUEST ) )
               );

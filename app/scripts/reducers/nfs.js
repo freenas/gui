@@ -104,7 +104,7 @@ export default function nfs ( state = INITIAL_STATE, action ) {
       }
 
     case TYPES.ENTITY_CHANGED:
-      if ( payload.mask === "services.changed"
+      if ( payload.mask === "service.changed"
         && payload.data.entities[0].name === "nfs"
          ) {
         nfsServerState = Object.assign( {}

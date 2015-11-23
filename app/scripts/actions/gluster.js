@@ -36,7 +36,7 @@ export function resetGlusterForm () {
 // QUERY
 export function requestGlusterConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "glusterd" ]
               , ( UUID ) => dispatch( watchRequest( UUID, GLUSTER_CONFIG_REQUEST ) )
               );

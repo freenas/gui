@@ -74,7 +74,7 @@ function mapStateToProps ( state ) {
          );
 }
 
-const SUB_MASKS = [ "entity-subscriber.services.changed" ];
+const SUB_MASKS = [ "entity-subscriber.service.changed" ];
 
 function mapDispatchToProps ( dispatch ) {
   return (

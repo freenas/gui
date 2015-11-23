@@ -37,7 +37,7 @@ export function resetNFSForm () {
 // QUERY
 export function requestNFSConfig () {
   return ( dispatch ) => {
-    MC.request( "services.get_service_config"
+    MC.request( "service.get_service_config"
               , [ "nfs" ]
               , ( UUID ) => dispatch( watchRequest( UUID, NFS_CONFIG_REQUEST ) )
               );
