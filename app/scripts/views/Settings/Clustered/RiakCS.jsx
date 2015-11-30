@@ -97,7 +97,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const nodename = (
     <Input
@@ -109,7 +109,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const node_ip = (
     <Input
@@ -121,7 +121,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const stanchion_host_port = (
     <Input
@@ -133,7 +133,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const admin_key = (
     <Input
@@ -145,7 +145,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const listener_port = (
     <Input
@@ -157,7 +157,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const riak_host_ip = (
     <Input
@@ -169,7 +169,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const riak_host_port = (
     <Input
@@ -181,7 +181,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const anonymous_user_creation = (
     <Input
@@ -193,7 +193,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const max_buckets_per_user = (
     <Input
@@ -205,7 +205,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const log_console_level = (
     <Input
@@ -219,7 +219,7 @@ const RiakCS = ( props ) => {
     >
       { createSimpleOptions( LOG_CONSOLE_LEVELS ) }
     </Input>
-);
+  );
 
   const stanchion_host_ip = (
     <Input
@@ -231,7 +231,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const listener_ip = (
     <Input
@@ -243,7 +243,7 @@ const RiakCS = ( props ) => {
                                                   )
                  }
     />
-);
+  );
 
   const formControlButtons = (
     <ButtonToolbar className = "pull-right">
