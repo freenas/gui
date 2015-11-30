@@ -106,7 +106,7 @@ export default (
       <Route path="security" component={ Security } />
     </Route>
 
-    <Route path="*" component={ Dashboard } />
+    <Route path="*" component={ Console } />
 
   </Route>
 );
