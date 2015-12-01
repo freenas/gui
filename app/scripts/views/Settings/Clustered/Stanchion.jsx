@@ -197,7 +197,7 @@ const Stanchion = ( props ) => {
       </Button>
       <Button
         bsStyle = "primary"
-        onClick = { props.configureRiakCSTaskRequest }
+        onClick = { props.configureStanchionTaskRequest }
         disabled = { Object.keys( props.stanchionForm ).length === 0 }
       >
         { "Apply" }
