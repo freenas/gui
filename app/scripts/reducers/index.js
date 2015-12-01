@@ -25,6 +25,7 @@ import update from "./update";
 // SERVICES
 import afp from "./afp";
 import gluster from "./gluster";
+import haproxy from "./haproxy";
 import ipfs from "./ipfs";
 import nfs from "./nfs";
 import riak from "./riak";
@@ -57,6 +58,7 @@ const rootReducer = combineReducers(
   // SERVICES
   , afp
   , gluster
+  , haproxy
   , ipfs
   , nfs
   , riak
