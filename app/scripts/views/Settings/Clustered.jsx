@@ -12,6 +12,7 @@ import * as ipfsActions from "../../actions/ipfs";
 import * as riakActions from "../../actions/riak";
 import * as riakCSActions from "../../actions/riakcs";
 import * as stanchionActions from "../../actions/stanchion";
+import * as haproxyActions from "../../actions/haproxy";
 import * as glusterActions from "../../actions/gluster";
 import * as swiftActions from "../../actions/swift";
 
@@ -21,6 +22,7 @@ import IPFS from "./Clustered/IPFS";
 import Riak from "./Clustered/Riak";
 import RiakCS from "./Clustered/RiakCS";
 import Stanchion from "./Clustered/Stanchion";
+import HAProxy from "./Clustered/HAProxy";
 import Gluster from "./Clustered/Gluster";
 import Swift from "./Clustered/Swift";
 
@@ -53,6 +55,9 @@ class Clustered extends React.Component {
           <Stanchion { ...this.props }/>
         </Col>
         <Col xs = {4}>
+          <HAProxy { ...this.props }/>
+        </Col>
+        <Col xs = {4}>
           <IPFS { ...this.props }/>
         </Col>
         <Col xs = {4}>
@@ -75,6 +80,8 @@ function mapStateToProps ( state ) {
            , riakCSForm: state.riakcs.riakCSForm
            , stanchionServerState: state.stanchion.stanchionServerState
            , stanchionForm: state.stanchion.stanchionForm
+           , haproxyServerState: state.haproxy.haproxyServerState
+           , haproxyForm: state.haproxy.haproxyForm
            , glusterServerState: state.gluster.glusterServerState
            , glusterForm: state.gluster.glusterForm
            , swiftServerState: state.swift.swiftServerState
@@ -107,6 +114,9 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( stanchionActions.updateStanchionForm( field, value ) )
     , resetStanchionForm: () =>
       dispatch( stanchionActions.resetStanchionForm() )
+    , updateHAProxyForm: ( field, value ) =>
+      dispatch( haproxyActions.updateHAProxyForm( field, value ) )
+    , resetHAProxyForm: () =>  dispatch( haproxyActions.resetHAProxyForm() )
     , updateGlusterForm: ( field, value ) =>
       dispatch( glusterActions.updateGlusterForm( field, value ) )
     , resetGlusterForm: () =>
@@ -121,6 +131,7 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( riakActions.requestRiakConfig() );
       dispatch( riakCSActions.requestRiakCSConfig() );
       dispatch( stanchionActions.requestStanchionConfig() );
+      dispatch( haproxyActions.requestHAProxyConfig() );
       dispatch( glusterActions.requestGlusterConfig() );
       dispatch( swiftActions.requestSwiftConfig() );
     }
@@ -142,6 +153,10 @@ function mapDispatchToProps ( dispatch ) {
       dispatch( stanchionActions.configureStanchionTaskRequest() )
     , toggleStanchionTaskRequest: () =>
       dispatch( stanchionActions.toggleStanchionTaskRequest() )
+    , configureHAProxyTaskRequest: () =>
+      dispatch( haproxyActions.configureHAProxyTaskRequest() )
+    , toggleHAProxyTaskRequest: () =>
+      dispatch( haproxyActions.toggleHAProxyTaskRequest() )
     , configureGlusterTaskRequest: () =>
       dispatch( glusterActions.configureGlusterTaskRequest() )
     , toggleGlusterTaskRequest: () =>

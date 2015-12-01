@@ -54,7 +54,6 @@ export function configureNFSTaskRequest () {
     var mountd_port = formToSubmit.mountd_port;
     var rpclockd_port = formToSubmit.rpclockd_port;
     var rpcstatd_port = formToSubmit.rpcstatd_port;
-    var server = formToSubmit.server;
     if ( typeof server === "string" ) {
       server = Number.parseInt( server );
       if ( !Number.isInteger( server ) ) {

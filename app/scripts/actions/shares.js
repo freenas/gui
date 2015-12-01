@@ -10,7 +10,7 @@ import MC from "../websocket/MiddlewareClient";
 // QUERIES
 export function fetchShares () {
   return ( dispatch, getState ) => {
-    MC.request( "shares.query"
+    MC.request( "share.query"
               , []
               , ( UUID ) =>
                 dispatch( watchRequest( UUID, TYPES.SHARES_RPC_REQUEST ) )
