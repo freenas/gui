@@ -127,7 +127,7 @@ const Stanchion = ( props ) => {
   const node_ip = (
     <Input
       type = "text"
-      label = "node_ip"
+      label = "Node Address"
       value = { node_ipValue }
       onChange = { ( e ) => props.updateStanchionForm( "node_ip"
                                                      , e.target.value

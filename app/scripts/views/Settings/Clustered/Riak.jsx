@@ -130,7 +130,7 @@ const Riak = ( props ) => {
   const node_ip = (
     <Input
       type = "text"
-      label = "node_ip"
+      label = "Node Address"
       value = { node_ipValue }
       onChange = { ( e ) => props.updateRiakForm( "node_ip"
                                                 , e.target.value
