@@ -311,21 +311,21 @@ const Riak = ( props ) => {
       <h4>{ "Riak" }</h4>
       { toggleService }
       <form className = "settings-config-form">
-        { listener_protobuf_internal }
         { nodename }
         { node_ip }
-        { object_size_warning_threshold }
-        { storage_backend }
-        { save_description }
-        { riak_control }
+        { listener_protobuf_internal }
         { listener_protobuf_internal_port }
-        { log_console_level }
         { listener_http_internal }
         { listener_http_internal_port }
-        { buckets_default_allow_multi }
-        { listener_https_internal_port }
         { listener_https_internal }
+        { listener_https_internal_port }
         { object_size_maximum }
+        { object_size_warning_threshold }
+        { storage_backend }
+        { log_console_level }
+        { buckets_default_allow_multi }
+        { riak_control }
+        { save_description }
         { formControlButtons }
       </form>
     </Panel>

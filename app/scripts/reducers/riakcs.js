@@ -102,7 +102,7 @@ export default function riakcs ( state = INITIAL_STATE, action ) {
 
     case TYPES.ENTITY_CHANGED:
       if ( payload.mask === "service.changed"
-        && payload.data.entities[0].name === "riakcs"
+        && payload.data.entities[0].name === "riak_cs"
          ) {
         riakCSServerState = Object.assign( {}
                                          , state.riakCSServerState
