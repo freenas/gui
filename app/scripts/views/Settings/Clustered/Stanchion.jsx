@@ -210,15 +210,15 @@ const Stanchion = ( props ) => {
       <h4>{ "Stanchion" }</h4>
       { toggleService }
       <form className = "settings-config-form">
-        { riak_host_ip }
-        { admin_secret }
-        { riak_host_port }
         { nodename }
         { node_ip }
-        { admin_key }
-        { log_console_level }
-        { listener_port }
         { listener_ip }
+        { listener_port }
+        { riak_host_ip }
+        { riak_host_port }
+        { admin_key }
+        { admin_secret }
+        { log_console_level }
         { formControlButtons }
       </form>
     </Panel>

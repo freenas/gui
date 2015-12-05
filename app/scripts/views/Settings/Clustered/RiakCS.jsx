@@ -270,19 +270,19 @@ const RiakCS = ( props ) => {
       <h4>{ "Riak CS" }</h4>
       { toggleService }
       <form className = "settings-config-form">
-        { admin_secret }
         { nodename }
         { node_ip }
-        { stanchion_host_port }
-        { admin_key }
+        { listener_ip }
         { listener_port }
         { riak_host_ip }
         { riak_host_port }
-        { anonymous_user_creation }
-        { max_buckets_per_user }
-        { log_console_level }
         { stanchion_host_ip }
-        { listener_ip }
+        { stanchion_host_port }
+        { max_buckets_per_user }
+        { admin_key }
+        { admin_secret }
+        { log_console_level }
+        { anonymous_user_creation }
         { formControlButtons }
       </form>
     </Panel>
