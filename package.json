@@ -1,0 +1,15 @@
+{
+    "name": "freenas-10-gui",
+    "version": "0.3.0",
+    "dependencies": {
+        "montage": "~0.15.0"
+    },
+    "devDependencies": {
+        "montage-testing": "~0.4.0"
+    },
+    "exclude": [
+        "run-tests.html",
+        "test"
+    ],
+    "bundle": [ "ui/main.reel" ]
+}
