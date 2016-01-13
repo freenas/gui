@@ -1,8 +1,8 @@
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class Main
+ * @class Accounts
  * @extends Component
  */
-exports.Main = Component.specialize({
+exports.Accounts = Component.specialize({
 });
