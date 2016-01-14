@@ -1,12 +1,18 @@
 .Main {}
 
-.mainContent {
+.mainSubstitution {
     position: absolute;
     height: 100%;
     top:  0;
     left: 12em;
     right: 18em;
-    background-size: 310px 310px;
+    background-size: cover, 310px 310px;
     overflow-y: scroll;
-    background: url(../../../assets/images/brushed-metal.gif);
+    background-image:
+        radial-gradient(
+            circle farthest-corner at center -5%,
+            rgba(255, 255, 255, .1),
+            rgba(0, 0, 0, .1)
+        ),
+        url(../../../assets/images/brushed-metal.gif);
 }

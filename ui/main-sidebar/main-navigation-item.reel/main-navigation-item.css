@@ -1,9 +1,30 @@
 .MainNavigationItem {
+    position: relative;
+    font-size: 1.2em;
     letter-spacing: .5px;
     color: rgba(255,255,255,.75);
     cursor: pointer;
     padding: .7em 1.5em .8em;
 }
+
+/* $fix - possible selection transition */
+
+/*.MainNavigationItem:before {
+    content: '';
+    position: absolute;
+    width:  100%;
+    height: 100%;
+    top:  0;
+    left: 0;
+    background: #2B9CD8;
+    z-index: -1;
+    transform: translateX(-100%);
+    transition: transform .2s ease-out;
+}
+
+.MainNavigationItem.selected:before {
+    transform: translateX(0);
+}*/
 
 .MainNavigationItem:hover {
     color: rgba(255,255,255, 1);
@@ -12,7 +33,8 @@
 
 .MainNavigationItem.selected {
     color: #FFF;
-    background: rgba(0,0,0,.2);
+    text-shadow: 0 1px 0 rgba(0,0,0,.5);
+    background: #2B9CD8;
 }
 
 .navigation ul {

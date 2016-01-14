@@ -12,8 +12,10 @@
     margin-bottom: 1em;
     border: 1px solid #2B9CD8;
     cursor: pointer;
+    color: #2B9CD8;
 }
 
 .userAvatar:hover {
     background: #2B9CD8;
+    color: #FFF;
 }
