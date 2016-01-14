@@ -3,7 +3,7 @@
     margin-bottom: 1em;
 }
 
-.userAvatar {
+.CurrentUserSummary-userAvatar {
     display: inline-block;
     width:  3em;
     height: 3em;
@@ -15,7 +15,7 @@
     color: #2B9CD8;
 }
 
-.userAvatar:hover {
+.CurrentUserSummary-userAvatar:hover {
     background: #2B9CD8;
     color: #FFF;
 }

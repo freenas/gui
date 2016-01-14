@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Main</title>
-
+    <title></title>
     <link rel="stylesheet" type="text/css" href="main.css">
-
     <script type="text/montage-serialization">
-        {
-            "owner": {
-                "properties": {
-                    "element": {"#": "main"}
-                }
-            },
-
-            "mainSidebar": {
-                "prototype": "../main-sidebar/main-sidebar.reel",
-                "properties": {
-                    "element": {"#": "mainSidebar"}
-                }
-            },
-            "sideboard": {
-                "prototype": "../dashboard/sideboard.reel",
-                "properties": {
-                    "element": {"#": "sideboard"}
-                }
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "main"}
+            }
+        },
+        "mainSidebar": {
+            "prototype": "../main-sidebar/main-sidebar.reel",
+            "properties": {
+                "element": {"#": "mainSidebar"}
+            }
+        },
+        "sideboard": {
+            "prototype": "../dashboard/sideboard.reel",
+            "properties": {
+                "element": {"#": "sideboard"}
             }
         }
+    }
     </script>
 </head>
 <body>
     <div data-montage-id="main" class="Main">
-        <div data-montage-id="mainSidebar"></div>
-        <div class="mainSubstitution">
+        <div data-montage-id="mainSidebar" class="Main-mainSidebar"></div>
+        <div class="Main-substitution">
             main content
         </div>
         <div data-montage-id="sideboard"></div>

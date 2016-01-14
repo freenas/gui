@@ -24,11 +24,11 @@
 
 /* Logo */
 
-.freenasLogo {
+.MainSidebar-freenasLogo {
     text-align: center;
 }
 
-.freenasLogo img {
+.MainSidebar-freenasLogo > img {
     height: 8em;
     padding: 1em;
     width: auto;
