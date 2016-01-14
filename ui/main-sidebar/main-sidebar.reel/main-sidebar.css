@@ -1,9 +1,11 @@
 .MainSidebar {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top:  0;
     left: 0;
     height: 100%;
-    width: 14em;
+    width: 12em;
     background: rgba(43, 156, 216, .4);
 }
 
@@ -18,4 +20,16 @@
     right: 0;
     position: absolute;
     z-index: -1;
+}
+
+/* Logo */
+
+.freenasLogo {
+    text-align: center;
+}
+
+.freenasLogo img {
+    height: 9em;
+    padding: 1.5em 0;
+    width: auto;
 }

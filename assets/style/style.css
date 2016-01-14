@@ -17,12 +17,20 @@ Base Styles
 
 ********************/
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: 'Lato', 'helvetica neue', 'helvetica', 'sans-serif';
     font-weight: 300;
     background: #222;
     color: #FFF;
+}
+
+img {
+    width: 100%;
 }
 
 /********************
