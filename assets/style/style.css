@@ -1,0 +1,90 @@
+/********************
+
+Colors
+
+********************/
+
+/*
+
+primary:    #2B9CD8
+            rgb(43, 156, 216)
+
+*/
+
+/********************
+
+Base Styles
+
+********************/
+
+body {
+    margin: 0;
+    font-family: 'Lato', 'helvetica neue', 'helvetica', 'sans-serif';
+    font-weight: 300;
+    background: #222;
+    color: #FFF;
+}
+
+/********************
+
+Fonts
+
+********************/
+
+@font-face {
+    font-family: 'Lato';
+    src: url(../fonts/lato/Lato-Light-7244318390cc4d36aac4a613ff42d308.woff2) format('woff2'), url(../fonts/lato/Lato-Light-90301aa07d780a09812229d6375c3b28.woff) format('woff');
+    font-style: normal;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url(../fonts/lato/Lato-Regular-bd03a2cc277bbbc338d464e679fe9942.woff2) format('woff2'), url(../fonts/lato/Lato-Regular-27bd77b9162d388cb8d4c4217c7c5e2a.woff) format('woff');
+    font-style: normal;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+}
+
+
+/********************
+
+Icons
+
+********************/
+
+@font-face {
+    font-family: 'freenas';
+    src:
+        url('assets/fonts/icons/freenas.ttf?bpnph5') format('truetype'),
+        url('assets/fonts/icons/freenas.woff?bpnph5') format('woff'),
+        url('assets/fonts/icons/freenas.svg?bpnph5#freenas') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="i-"], [class*=" i-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'freenas' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.i-checkmark:before {
+    content: "\63";
+}
+.i-triangle-down:before {
+    content: "\76";
+}
+.i-info:before {
+    content: "\69";
+}
