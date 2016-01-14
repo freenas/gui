@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="main-navigation.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "selectedValue": "storage",
+                "repetition": "@repetition"
+            }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "isSelectionEnabled": true,
+                "content": [
+                    {
+                        "value": "dashboard",
+                        "label": "Dashboard"
+                    },
+                    {
+                        "value": "storage",
+                        "label": "Storage"
+                    },
+                    {
+                        "value": "accounts",
+                        "label": "Accounts"
+                    },
+                    {
+                        "value": "network",
+                        "label": "Network"
+                    },
+                    {
+                        "value": "hardware",
+                        "label": "Hardware"
+                    },
+                    {
+                        "value": "system",
+                        "label": "System"
+                    },
+                    {
+                        "value": "services",
+                        "label": "Services"
+                    },
+                    {
+                        "value": "console",
+                        "label": "Console"
+                    },
+                    {
+                        "value": "calendar",
+                        "label": "Calendar"
+                    }
+                ]
+            }
+        },
+        "item": {
+            "prototype": "../main-navigation-item.reel",
+            "properties": {
+                "element": {"#": "item"}
+            },
+            "bindings": {
+                "iteration": {"<-": "@repetition:iteration"},
+                "iteration.selected": {"<->": "@owner.selectedValue == iteration.object.value"},
+                "title": {"<-": "iteration.object.label"},
+                "class": {"<-": "iteration.object.value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="MainNavigation">
+        <div data-montage-id="repetition">
+            <div data-montage-id="item"></div>
+        </div>
+    </div>
+</body>
+</html>

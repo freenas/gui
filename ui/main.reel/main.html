@@ -12,11 +12,30 @@
                 "properties": {
                     "element": {"#": "main"}
                 }
+            },
+
+            "mainSidebar": {
+                "prototype": "../main-sidebar/main-sidebar.reel",
+                "properties": {
+                    "element": {"#": "mainSidebar"}
+                }
+            },
+            "sideboard": {
+                "prototype": "../dashboard/sideboard.reel",
+                "properties": {
+                    "element": {"#": "sideboard"}
+                }
             }
         }
     </script>
 </head>
 <body>
-    <div data-montage-id="main" class="Main"></div>
+    <div data-montage-id="main" class="Main">
+        <div data-montage-id="mainSidebar"></div>
+        <div class="mainContent">
+            main content
+        </div>
+        <div data-montage-id="sideboard"></div>
+    </div>
 </body>
 </html>

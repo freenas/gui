@@ -1,3 +1,21 @@
 .MainSidebar {
+    position: fixed;
+    top:  0;
+    left: 0;
+    height: 100%;
+    width: 14em;
+    background: rgba(43, 156, 216, .4);
+}
 
+.MainSidebar:after {
+    content: "";
+    background-size: 310px 310px;
+    background: url(../../../assets/images/brushed-metal.gif);
+    opacity: .3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
 }
