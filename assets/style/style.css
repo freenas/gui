@@ -34,6 +34,8 @@ body {
     font-weight: 300;
     background: #222;
     color: #FFF;
+    display: flex;
+    flex-direction: column;
 }
 
 img {
@@ -48,7 +50,7 @@ Fonts
 
 @font-face {
     font-family: 'Lato';
-    src: url(../fonts/lato/Lato-Light-7244318390cc4d36aac4a613ff42d308.woff2) format('woff2'), url(../fonts/lato/Lato-Light-90301aa07d780a09812229d6375c3b28.woff) format('woff');
+    src: url('../fonts/lato/Lato-Light-7244318390cc4d36aac4a613ff42d308.woff2') format('woff2'), url(../fonts/lato/Lato-Light-90301aa07d780a09812229d6375c3b28.woff) format('woff');
     font-style: normal;
     font-weight: 300;
     text-rendering: optimizeLegibility;
@@ -56,7 +58,7 @@ Fonts
 
 @font-face {
     font-family: 'Lato';
-    src: url(../fonts/lato/Lato-Regular-bd03a2cc277bbbc338d464e679fe9942.woff2) format('woff2'), url(../fonts/lato/Lato-Regular-27bd77b9162d388cb8d4c4217c7c5e2a.woff) format('woff');
+    src: url('../fonts/lato/Lato-Regular-bd03a2cc277bbbc338d464e679fe9942.woff2') format('woff2'), url(../fonts/lato/Lato-Regular-27bd77b9162d388cb8d4c4217c7c5e2a.woff) format('woff');
     font-style: normal;
     font-weight: 400;
     text-rendering: optimizeLegibility;
@@ -72,9 +74,9 @@ Icons
 @font-face {
     font-family: 'freenas';
     src:
-        url('assets/fonts/icons/freenas.ttf?bpnph5') format('truetype'),
-        url('assets/fonts/icons/freenas.woff?bpnph5') format('woff'),
-        url('assets/fonts/icons/freenas.svg?bpnph5#freenas') format('svg');
+        url('../fonts/icons/freenas.ttf?df1sb9') format('truetype'),
+        url('../fonts/icons/freenas.woff?df1sb9') format('woff'),
+        url('../fonts/icons/freenas.svg?df1sb9#freenas') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -102,4 +104,7 @@ Icons
 }
 .i-info:before {
     content: "\69";
+}
+.i-cog:before {
+    content: "\67";
 }
