@@ -1,10 +1,14 @@
 .MainNavigationItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    max-height: 3em;
+    min-height: 2em;
     position: relative;
-    font-size: 1.2em;
     letter-spacing: .5px;
     color: rgba(255,255,255,.75);
     cursor: pointer;
-    padding: .7em 1.5em .8em;
 }
 
 /* $fix - possible selection transition */
@@ -36,11 +40,9 @@
     text-shadow: 0 1px 0 rgba(0,0,0,.5);
     background: #2B9CD8;
 }
-/*
-.navigation ul {
-    list-style: none;
-    margin:  0;
-    padding: 0;
-    flex: 1;
+
+@media (min-height: 40em) {
+    .MainNavigationItem {
+        font-size: 1.2em;
+    }
 }
-*/

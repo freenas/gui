@@ -1,6 +1,7 @@
 .CurrentUserSummary {
     text-align: center;
-    margin-bottom: 1em;
+    padding: 1em 0;
+    /*background: green;*/
 }
 
 .CurrentUserSummary-userAvatar {

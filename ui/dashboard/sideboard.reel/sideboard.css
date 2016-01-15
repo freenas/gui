@@ -1,7 +1,5 @@
 .Sideboard {
-    position: fixed;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 18em;
+    background-color: #FFF;
+    background-size: 310px 195px;
+    background-image: url(../../../assets/images/bg.png);
 }

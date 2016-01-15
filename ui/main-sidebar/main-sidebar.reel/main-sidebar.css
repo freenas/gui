@@ -1,35 +1,26 @@
 .MainSidebar {
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top:  0;
-    left: 0;
-    height: 100%;
-    width: 12em;
-    background: rgba(43, 156, 216, .4);
-}
-
-.MainSidebar:after {
-    content: "";
-    background-size: 310px 310px;
-    background: url(../../../assets/images/brushed-metal.gif);
-    opacity: .3;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    z-index: -1;
+    background-color: rgba(43, 156, 216, 1);
+    background-size: 310px 195px;
+    background-image: url(../../../assets/images/bg.png);
 }
 
 /* Logo */
 
 .MainSidebar-freenasLogo {
-    text-align: center;
+    height:  5em;
+    background-position: center;
+    background-size: calc(100% - 2em);
+    background-repeat: no-repeat;
+    background-image: url(../../../assets/images/logo.png);
 }
 
-.MainSidebar-freenasLogo > img {
-    height: 8em;
-    padding: 1em;
-    width: auto;
+
+@media (min-height: 40em) {
+    .MainSidebar-freenasLogo {
+        height:  9em;
+        background-size: calc(100% - 4em);
+        background-image: url(../../../assets/images/logo-stacked.png);
+    }
 }

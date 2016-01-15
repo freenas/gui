@@ -21,6 +21,75 @@
             "properties": {
                 "element": {"#": "sideboard"}
             }
+        },
+        "mainSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "mainSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "'storage'"}
+            }
+        },
+        "dashboard": {
+            "prototype": "../dashboard/dashboard.reel",
+            "properties": {
+                "element": {"#": "dashboard"}
+            }
+        },
+        "storage": {
+            "prototype": "../storage/storage.reel",
+            "properties": {
+                "element": {"#": "storage"}
+            }
+        },
+        "accounts": {
+            "prototype": "../accounts/accounts.reel",
+            "properties": {
+                "element": {"#": "accounts"}
+            }
+        },
+        "network": {
+            "prototype": "../network/network.reel",
+            "properties": {
+                "element": {"#": "network"}
+            }
+        },
+        "hardware": {
+            "prototype": "../hardware/hardware.reel",
+            "properties": {
+                "element": {"#": "hardware"}
+            }
+        },
+        "system": {
+            "prototype": "../system/system.reel",
+            "properties": {
+                "element": {"#": "system"}
+            }
+        },
+        "services": {
+            "prototype": "../services/services.reel",
+            "properties": {
+                "element": {"#": "services"}
+            }
+        },
+        "console": {
+            "prototype": "../console.reel",
+            "properties": {
+                "element": {"#": "console"}
+            }
+        },
+        "calendar": {
+            "prototype": "../calendar/calendar.reel",
+            "properties": {
+                "element": {"#": "calendar"}
+            }
+        },
+        "preferences": {
+            "prototype": "../preferences/preferences.reel",
+            "properties": {
+                "element": {"#": "preferences"}
+            }
         }
     }
     </script>
@@ -28,10 +97,21 @@
 <body>
     <div data-montage-id="main" class="Main">
         <div data-montage-id="mainSidebar" class="Main-mainSidebar"></div>
-        <div class="Main-substitution">
-            main content
+        <div class="Main-content">
+            <div data-montage-id="mainSubstitution" class="Main-substitution">
+                <div data-arg="dashboard" data-montage-id="dashboard"></div>
+                <div data-arg="storage" data-montage-id="storage"></div>
+                <div data-arg="accounts" data-montage-id="accounts"></div>
+                <div data-arg="network" data-montage-id="network"></div>
+                <div data-arg="hardware" data-montage-id="hardware"></div>
+                <div data-arg="system" data-montage-id="system"></div>
+                <div data-arg="services" data-montage-id="services"></div>
+                <div data-arg="console" data-montage-id="console"></div>
+                <div data-arg="calendar" data-montage-id="calendar"></div>
+                <div data-arg="preferences" data-montage-id="preferences"></div>
+            </div>
         </div>
-        <div data-montage-id="sideboard"></div>
+        <div data-montage-id="sideboard" class="Main-sideboard"></div>
     </div>
 </body>
 </html>

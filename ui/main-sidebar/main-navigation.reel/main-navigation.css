@@ -1,4 +1,24 @@
 .MainNavigation {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    overflow: scroll;
+}
+
+.MainNavigation-repetition {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* $fix - put into button - preferences icon */
+
+.MainNavigation-cog {
+    margin-bottom: 1em;
+}
+
+.MainNavigation-cog:before {
+    font-size: 1.8em;
+    color: rgba(255,255,255,.75);
 }

@@ -1,18 +1,34 @@
-.Main {}
+.Main {
+    flex: 1;
+    display: flex;
+}
+
+.Main-mainSidebar {
+    width:  12em;
+}
+
+.Main-sideboard {
+    width: 18em;
+}
 
 .Main-substitution {
-    position: absolute;
-    height: 100%;
-    top:  0;
-    left: 12em;
-    right: 18em;
-    background-size: cover, 310px 310px;
+    flex: 1;
+    background-size: 310px 195px;
+    background-image: url(../../assets/images/bg.png);
+}
+
+.Main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
+    background-size: cover;
     background-image:
         radial-gradient(
             circle farthest-corner at center -5%,
             rgba(255, 255, 255, .1),
             rgba(0, 0, 0, .1)
-        ),
-        url(../../assets/images/brushed-metal.gif);
+        );
 }
+
+
