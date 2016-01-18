@@ -7,8 +7,7 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "selectedValue": "storage"
+                "element": {"#": "owner"}
             }
         },
         "repetition": {
@@ -63,9 +62,25 @@
             },
             "bindings": {
                 "iteration": {"<-": "@repetition:iteration"},
-                "iteration.selected": {"<->": "@owner.selectedValue == iteration.object.value"},
+                "iteration.selected": {"<->": "application.section == iteration.object.value"},
                 "title": {"<-": "iteration.object.label"},
                 "class": {"<-": "iteration.object.value"}
+            }
+        },
+        "preferences": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "preferences"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"},
+                    "capture": false
+                }
+            ],
+            "bindings": {
+                "classList.has('MainNavigation-cog--selected')": {"<-": "application.section == 'preferences'"}
             }
         }
     }
@@ -76,7 +91,7 @@
         <div data-montage-id="repetition" class="MainNavigation-repetition">
             <div data-montage-id="item" class="MainNavigation-item"></div>
         </div>
-        <div class="i-cog MainNavigation-cog"></div>
+        <div data-montage-id="preferences" class="MainNavigation-cog i-cog"></div>
     </div>
 </body>
 </html>

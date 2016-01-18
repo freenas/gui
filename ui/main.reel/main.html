@@ -22,13 +22,13 @@
                 "element": {"#": "sideboard"}
             }
         },
-        "mainSubstitution": {
+        "substitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "mainSubstitution"}
+                "element": {"#": "substitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "'storage'"}
+                "switchValue": {"<-": "application.section"}
             }
         },
         "dashboard": {
@@ -98,7 +98,7 @@
     <div data-montage-id="main" class="Main">
         <div data-montage-id="mainSidebar" class="Main-mainSidebar"></div>
         <div class="Main-content">
-            <div data-montage-id="mainSubstitution" class="Main-substitution">
+            <div data-montage-id="substitution" class="Main-substitution">
                 <div data-arg="dashboard" data-montage-id="dashboard"></div>
                 <div data-arg="storage" data-montage-id="storage"></div>
                 <div data-arg="accounts" data-montage-id="accounts"></div>
