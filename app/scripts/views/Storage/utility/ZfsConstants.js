@@ -8,7 +8,7 @@
 export const VDEV_TYPES =
   { data  : [ "disk", "stripe", "mirror", "raidz1", "raidz2", "raidz3" ]
   , log   : [ "disk", "stripe", "mirror" ]
-  , cache : [ "disk", "stripe", "mirror" ]
+  , cache : [ "disk", "stripe" ]
   , spare : [ "disk", "stripe" ]
 };
 
