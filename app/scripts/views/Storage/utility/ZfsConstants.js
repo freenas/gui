@@ -1,4 +1,4 @@
-// ZFS CONTSTANTS
+// ZFS CONSTANTS
 // ==============
 // Reusable and generic reference constants for applications of ZFS business
 // logic throughout the webapp.
