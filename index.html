@@ -15,7 +15,19 @@
     {
         "owner": {
             "prototype": "montage/ui/loader.reel"
+        },
+
+        "applicationDelegate": {
+            "prototype": "core/application-delegate"
+        },
+
+        "application": {
+            "prototype": "montage/core/application",
+            "properties": {
+                "delegate": {"@": "applicationDelegate"}
+            }
         }
+
     }
     </script>
 </head>
