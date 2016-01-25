@@ -7,7 +7,48 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "currentSection": "management"
+            }
+        },
+        "sectionSelector": {
+            "prototype": "../../controls/section-selector.reel",
+            "properties": {
+                "element": {"#": "sectionSelector"},
+                "sections": [
+                    {
+                        "identifier": "management",
+                        "label": "Management",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "sharing",
+                        "label": "Sharing",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "clustering",
+                        "label": "Clustering",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "misc",
+                        "label": "Misc",
+                        "iconUrl": "path"
+                    }
+                ]
+            },
+            "bindings": {
+                "currentSection": {"<->": "@owner.currentSection"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.currentSection"}
             }
         }
     }
@@ -15,7 +56,13 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Services">
-        <i>services</i>
+        <div data-montage-id="sectionSelector" class="Services-navigation"></div>
+        <div data-montage-id="substitution" class="Services-substitution">
+            <div data-arg="management">Management Section</div>
+            <div data-arg="sharing">Sharing Section</div>
+            <div data-arg="clustering">Clustering Section</div>
+            <div data-arg="misc">Misc Section</div>
+        </div>
     </div>
 </body>
 </html>

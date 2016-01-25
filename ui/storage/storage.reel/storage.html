@@ -7,13 +7,38 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "currentSection": "volumes"
             }
         },
-        "navigation": {
+        "sectionSelector": {
             "prototype": "../../controls/section-selector.reel",
             "properties": {
-                "element": {"#": "navigation"}
+                "element": {"#": "sectionSelector"},
+                "sections": [
+                    {
+                        "identifier": "volumes",
+                        "label": "Volumes",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "shares",
+                        "label": "Shares",
+                        "iconUrl": "path"
+                    }
+                ]
+            },
+            "bindings": {
+                "currentSection": {"<->": "@owner.currentSection"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.currentSection"}
             }
         }
     }
@@ -21,8 +46,11 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Storage">
-        <i>storage</i>
-        <div data-montage-id="navigation" class="Storage-navigation"></div>
+        <div data-montage-id="sectionSelector" class="Storage-sectionSelector"></div>
+        <div data-montage-id="substitution" class="Accounts-substitution">
+            <div data-arg="volumes">Volumes Inspector</div>
+            <div data-arg="shares">Shares Inspector</div>
+        </div>
     </div>
 </body>
 </html>

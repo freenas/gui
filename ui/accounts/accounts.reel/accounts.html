@@ -7,15 +7,63 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "currentSection": "users"
+            }
+        },
+        "sectionSelector": {
+            "prototype": "../../controls/section-selector.reel",
+            "properties": {
+                "element": {"#": "sectionSelector"},
+                "sections": [
+                    {
+                        "identifier": "users",
+                        "label": "Users",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "groups",
+                        "label": "Groups",
+                        "iconUrl": "path"
+                    }
+                ]
+            },
+            "bindings": {
+                "currentSection": {"<->": "@owner.currentSection"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.currentSection"}
+            }
+        },
+        "users": {
+            "prototype": "../../inspectors/user.reel",
+            "properties": {
+                "element": {"#": "users"}
+            }
+        },
+        "groups": {
+            "prototype": "../../inspectors/group.reel",
+            "properties": {
+                "element": {"#": "groups"}
             }
         }
+
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Accounts">
-        <i>accounts</i>
+        <div data-montage-id="sectionSelector" class="Accounts-navigation"></div>
+        <div data-montage-id="substitution" class="Accounts-substitution">
+            <div data-montage-id="users" data-arg="users"></div>
+            <div data-montage-id="groups" data-arg="groups"></div>
+        </div>
     </div>
 </body>
 </html>

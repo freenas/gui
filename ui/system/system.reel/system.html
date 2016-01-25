@@ -7,7 +7,68 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "currentSection": "general"
+            }
+        },
+        "sectionSelector": {
+            "prototype": "../../controls/section-selector.reel",
+            "properties": {
+                "element": {"#": "sectionSelector"},
+                "sections": [
+                    {
+                        "identifier": "general",
+                        "label": "General",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "bootPool",
+                        "label": "Boot Pool",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "updates",
+                        "label": "Updates",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "dateAndTime",
+                        "label": "Date & Time",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "languageAndRegion",
+                        "label": "Language & Region",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "powerManagement",
+                        "label": "Power Management",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "serialConsole",
+                        "label": "Serial Console",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "advanced",
+                        "label": "Advanced",
+                        "iconUrl": "path"
+                    }
+                ]
+            },
+            "bindings": {
+                "currentSection": {"<->": "@owner.currentSection"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.currentSection"}
             }
         }
     }
@@ -15,7 +76,17 @@
 </head>
 <body>
     <div data-montage-id="owner" class="System">
-        <i>system</i>
+        <div data-montage-id="sectionSelector" class="System-navigation"></div>
+        <div data-montage-id="substitution" class="System-substitution">
+            <div data-arg="general">General Section</div>
+            <div data-arg="bootPool">Boot Pool Section</div>
+            <div data-arg="updates">Updates Section</div>
+            <div data-arg="dateAndTime">Date & Time Section</div>
+            <div data-arg="languageAndRegion">Language & Region Section</div>
+            <div data-arg="powerManagement">Power Management Section</div>
+            <div data-arg="serialConsole">Serial Console Section</div>
+            <div data-arg="advanced">Advanced Section</div>
+        </div>
     </div>
 </body>
 </html>

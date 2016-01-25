@@ -7,7 +7,43 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "currentSection": "memory"
+            }
+        },
+        "sectionSelector": {
+            "prototype": "../../controls/section-selector.reel",
+            "properties": {
+                "element": {"#": "sectionSelector"},
+                "sections": [
+                    {
+                        "identifier": "memory",
+                        "label": "Memory",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "processor",
+                        "label": "Processor",
+                        "iconUrl": "path"
+                    },
+                    {
+                        "identifier": "thermometer",
+                        "label": "Thermometer",
+                        "iconUrl": "path"
+                    }
+                ]
+            },
+            "bindings": {
+                "currentSection": {"<->": "@owner.currentSection"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.currentSection"}
             }
         }
     }
@@ -15,7 +51,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Hardware">
-        <i>hardware</i>
+        <div data-montage-id="sectionSelector" class="Hardware-navigation"></div>
+        <div data-montage-id="substitution" class="Hardware-substitution">
+            <div data-arg="memory">Memory Section</div>
+            <div data-arg="processor">Processor Section</div>
+            <div data-arg="thermometer">Thermometer Section</div>
+        </div>
     </div>
 </body>
 </html>
