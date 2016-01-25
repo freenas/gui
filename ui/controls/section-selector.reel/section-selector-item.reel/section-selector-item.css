@@ -1,18 +1,16 @@
 .SectionSelectorItem {
     text-align: center;
     cursor: pointer;
-    max-width: 9em;
-    padding: 1em;
+    max-width: 6em;
+    padding: .5em;
 }
 
 .SectionSelectorItem-icon {
-    border: 1px solid grey;
-    /* padding bottom hack to create responsive container */
-    /*padding-bottom: 97%;*/
+    border: 2px solid grey;
     display: inline-block;
-    width: 5em;
-    height: 5em;
-    margin-bottom: .25em;
+    background: rgba(0,0,0,.2);
+    width:  3em;
+    height: 3em;
     border-radius: .3em;
 }
 
@@ -21,7 +19,20 @@
 }
 
 .SectionSelectorItem-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: none;
+}
+
+@media (min-width: 60em) {
+    .SectionSelectorItem {
+        font-size: 1.5em;
+    }
+
+    .SectionSelectorItem-title {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-top: .25em;
+        font-size: .6em;
+    }
 }

@@ -1,7 +1,7 @@
 .SectionSelector {
     width: 100%;
-    outline: 1px solid white;
-    padding: 1em;
+    background: rgba(255,255,255,.15);
+    padding: .5em;
     overflow-x: scroll;
 }
 
@@ -11,5 +11,3 @@
 }
 
 .SectionSelector-item { flex-shrink: 0; }
-
-/*.SectionSelector-item + .SectionSelector-item { margin-left: -1em; }*/
