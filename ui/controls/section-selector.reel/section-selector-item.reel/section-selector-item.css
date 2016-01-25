@@ -1,0 +1,27 @@
+.SectionSelectorItem {
+    text-align: center;
+    cursor: pointer;
+    max-width: 9em;
+    padding: 1em;
+}
+
+.SectionSelectorItem-icon {
+    border: 1px solid grey;
+    /* padding bottom hack to create responsive container */
+    /*padding-bottom: 97%;*/
+    display: inline-block;
+    width: 5em;
+    height: 5em;
+    margin-bottom: .25em;
+    border-radius: .3em;
+}
+
+.SectionSelectorItem.selected .SectionSelectorItem-icon {
+    border-color: #2B9CD8;
+}
+
+.SectionSelectorItem-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

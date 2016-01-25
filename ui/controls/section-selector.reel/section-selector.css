@@ -1,5 +1,15 @@
 .SectionSelector {
-    height: 10em;
     width: 100%;
     outline: 1px solid white;
+    padding: 1em;
+    overflow-x: scroll;
 }
+
+.SectionSelector-repetition {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.SectionSelector-item { flex-shrink: 0; }
+
+/*.SectionSelector-item + .SectionSelector-item { margin-left: -1em; }*/
