@@ -7,7 +7,7 @@ var Component = require("montage/ui/component").Component;
 exports.Main = Component.specialize({
     enterDocument: {
         value: function() {
-            this.application.section = 'storage';
+            this.application.section = 'dashboard';
         }
     }
 });
