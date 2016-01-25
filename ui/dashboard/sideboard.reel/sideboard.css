@@ -2,4 +2,15 @@
     background-color: #FFF;
     background-size: 310px 195px;
     background-image: url(../../../assets/images/bg.png);
+    padding: 1em;
+}
+
+.Sideboard-widget {
+    display: block;
+    height: 5em;
+    outline: 1px solid #fff;
+}
+
+.Sideboard-widget + .Sideboard-widget {
+    margin-top: 2em;
 }
