@@ -81,7 +81,7 @@ Icons
     font-style: normal;
 }
 
-[class^="i-"], [class*=" i-"] {
+[class^="sharedIcon"], [class*=" sharedIcon"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'freenas' !important;
     speak: none;
@@ -96,15 +96,15 @@ Icons
     -moz-osx-font-smoothing: grayscale;
 }
 
-.i-checkmark:before {
+.sharedIcon-checkmark:before {
     content: "\63";
 }
-.i-triangle-down:before {
+.sharedIcon-triangle-down:before {
     content: "\76";
 }
-.i-info:before {
+.sharedIcon-info:before {
     content: "\69";
 }
-.i-cog:before {
+.sharedIcon-preferences:before {
     content: "\67";
 }
