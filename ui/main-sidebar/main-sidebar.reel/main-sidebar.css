@@ -9,11 +9,20 @@
 /* Logo */
 
 .MainSidebar-freenasLogo {
+    flex-shrink: 0;
     height:  5em;
     background-position: center;
     background-size: calc(100% - 2em);
     background-repeat: no-repeat;
     background-image: url(../../../assets/images/logo.png);
+}
+
+.MainSidebar-navigation {
+    flex: 1;
+}
+
+.MainSidebar-userSummary {
+    flex-shrink: 0;
 }
 
 
