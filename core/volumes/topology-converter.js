@@ -257,7 +257,7 @@ function distributeDataDrives ( driveGroup, vdevType, vdevSize ) {
             for ( var i = 0; i < numVdevs; i++ ) {
                 vdevs.push( createComplexVdev( modifiedVdevType
                                              , driveGroup.slice( i * modifiedVdevSize
-                                                               , i * modifiedVdevSize + ( modifiedVdevSize - 1 )
+                                                               , i * modifiedVdevSize + ( modifiedVdevSize )
                                                                )
                                              )
                 );
@@ -281,7 +281,7 @@ function distributeDataDrives ( driveGroup, vdevType, vdevSize ) {
             for ( var j = 0; j < numVdevs; j++ ) {
                 vdevs.push( createComplexVdev( vdevType
                                              , driveGroup.slice( j * modifiedVdevSize
-                                                               , j * modifiedVdevSize + ( modifiedVdevSize - 1 )
+                                                               , j * modifiedVdevSize + ( modifiedVdevSize )
                                                                )
                                              )
                 );
@@ -293,7 +293,7 @@ function distributeDataDrives ( driveGroup, vdevType, vdevSize ) {
             for ( var k = 0; k < numVdevs; k++ ) {
                 vdevs.push( createComplexVdev( vdevType
                                              , driveGroup.slice( k * vdevSize
-                                                               , k * vdevSize + ( vdevSize - 1 )
+                                                               , k * vdevSize + ( vdevSize )
                                                                )
                                              )
                 );
