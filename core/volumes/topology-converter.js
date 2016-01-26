@@ -344,7 +344,7 @@ exports.generateTopology = function ( drives, priorities ) {
                                                 , priorities.speed
                                                 );
 
-    topology.data = distributeDataDrives( dataDriveGroup
+    topology.data = distributeDataDrives( driveGroups[ dataDriveGroup ]
                                         , recommendation.type
                                         , recommendation.drives
                                         );
