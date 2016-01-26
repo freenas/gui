@@ -88,9 +88,9 @@ function divideDrives ( drives ) {
  * @private
  */
 function findLargestDriveGroup ( driveGroups ) {
-    var largestGroup = driveGroups[0];
+    var largestGroup = [];
 
-    driveGroups.forEach( function ( driveGroup ) {
+    for ( var driveGroup in driveGroups ) {
         if ( driveGroup.length > largestGroup.length ) {
             largestGroup = driveGroup;
         } else if ( driveGroup.length === largestGroup.length ) {
@@ -100,7 +100,7 @@ function findLargestDriveGroup ( driveGroups ) {
                 largestGroup = driveGroup;
             }
         }
-    });
+    }
 
     return largestGroup;
 };
