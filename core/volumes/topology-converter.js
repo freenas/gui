@@ -271,28 +271,29 @@ function distributeDataDrives ( driveGroup, vdevType, vdevSize ) {
         // Finally, more than one vdev is expected. Despite being the most
         // generic case, it's actually the least likely for home FreeNAS
         // users.
-        if ( driveGroup.length % vdevSize === 0 ) {
-            // As above, the desired vdev size divides evenly into the number of
-            // drives available.
-            for ( var j = 0; j < numVdevs; j++ ) {
-                vdevs.push( createComplexVdev( vdevType
-                                             , driveGroup.slice( j * vdevSize
-                                                               , j * vdevSize + ( vdevSize - 1 )
-                                                               )
-                                             )
-                );
-            }
-        } else if ( driveGroup.length % numVdevs > numVdevs ) {
+        if ( driveGroup.length % numVdevs > numVdevs ) {
             // If the number of drives left out is more than the number of
             // vdevs, distribute the remaining drives among them.
             modifiedVdevSize = vdevSize
                              + Math.floor( numVdevs / vdevSize );
             // Note: unlike possibly reducing the drive count above, increasing
             // the vdev size cannot cause a change in recommended vdev size.
+            for ( var j = 0; j < numVdevs; j++ ) {
+                vdevs.push( createComplexVdev( vdevType
+                                             , driveGroup.slice( j * modifiedVdevSize
+                                                               , j * modifiedVdevSize + ( modifiedVdevSize - 1 )
+                                                               )
+                                             )
+                );
+            }
+        } else {
+            // The desired vdev size divides evenly into the number of
+            // drives available, or there are fewer drives left over than the
+            // number of vdevs expected and the remainder are to be left out.
             for ( var k = 0; k < numVdevs; k++ ) {
                 vdevs.push( createComplexVdev( vdevType
-                                             , driveGroup.slice( k * modifiedVdevSize
-                                                               , k * modifiedVdevSize + ( modifiedVdevSize - 1 )
+                                             , driveGroup.slice( k * vdevSize
+                                                               , k * vdevSize + ( vdevSize - 1 )
                                                                )
                                              )
                 );
