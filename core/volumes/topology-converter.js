@@ -275,7 +275,7 @@ function distributeDataDrives ( driveGroup, vdevType, vdevSize ) {
             // If the number of drives left out is more than the number of
             // vdevs, distribute the remaining drives among them.
             modifiedVdevSize = vdevSize
-                             + Math.floor( numVdevs / vdevSize );
+                             + Math.floor( driveGroup.length % vdevSize / numVdevs );
             // Note: unlike possibly reducing the drive count above, increasing
             // the vdev size cannot cause a change in recommended vdev size.
             for ( var j = 0; j < numVdevs; j++ ) {
