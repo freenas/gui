@@ -198,7 +198,8 @@ function createComplexVdev ( type, drives ) {
     vdev.children = drives.map( function ( drive ) {
         return createDiskVdev( drive.status.path )
     });
-}
+    return vdev;
+};
 
 // TODO: There's a lot of duplication of creating vdevs in this function.
 // See if this can be abstracted without adding too much more complexity.
