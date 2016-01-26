@@ -271,7 +271,7 @@ function distributeDataDrives ( driveGroup, vdevType, vdevSize ) {
         // Finally, more than one vdev is expected. Despite being the most
         // generic case, it's actually the least likely for home FreeNAS
         // users.
-        if ( driveGroup.length % numVdevs > numVdevs ) {
+        if ( driveGroup.length % vdevSize > numVdevs ) {
             // If the number of drives left out is more than the number of
             // vdevs, distribute the remaining drives among them.
             modifiedVdevSize = vdevSize
