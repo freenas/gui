@@ -11,15 +11,15 @@ ModalOverlay.prototype.draw = Overlay.prototype.draw;
 exports.SignIn = ModalOverlay.specialize({
 
     // $fix - for development purpose
-    enterDocument: {
-        value: function (firsTime) {
-            Overlay.prototype.enterDocument.call(this, firsTime);
+    // enterDocument: {
+    //     value: function (firsTime) {
+    //         Overlay.prototype.enterDocument.call(this, firsTime);
 
-            if (firsTime) {
-                this.show();
-            }
-        }
-    },
+    //         if (firsTime) {
+    //             this.show();
+    //         }
+    //     }
+    // },
 
     handleSubmitAction: {
         value: function() {

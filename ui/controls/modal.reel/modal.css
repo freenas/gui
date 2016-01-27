@@ -1,6 +1,7 @@
 .Modal {
     /* comment this to show/hide */
-    /*opacity: 0;*/
+    opacity: 0;
+
     padding: 2em;
     position: absolute;
     display: flex;
