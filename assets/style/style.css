@@ -13,7 +13,7 @@ primary:    #2B9CD8
 
 /********************
 
-Base Styles
+$Base Styles
 
 ********************/
 
@@ -32,7 +32,7 @@ body {
     margin: 0;
     font-family: 'Lato', 'helvetica neue', 'helvetica', 'sans-serif';
     font-weight: 300;
-    background: #222;
+    background: #000;
     color: #FFF;
     display: flex;
     flex-direction: column;
@@ -44,7 +44,7 @@ img {
 
 /********************
 
-Fonts
+$Fonts
 
 ********************/
 
@@ -67,7 +67,7 @@ Fonts
 
 /********************
 
-Icons
+$Icons
 
 ********************/
 
@@ -107,4 +107,120 @@ Icons
 }
 .sharedIcon-preferences:before {
     content: "\67";
+}
+
+/********************
+
+$Buttons
+
+********************/
+
+button {
+    box-sizing: border-box;
+    font-family: "Lato", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    line-height: 2.9;
+    width: 100%;
+    font-weight: 300;
+    padding: 0 1.8em .1em;
+    text-align: center;
+    color: white;
+    background: white;
+    border-radius: .3em;
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
+    background-color: #666;
+    background-image: linear-gradient(transparent, rgba(0,0,0,.2));
+    box-shadow:
+        inset 0 1px rgba(255, 255, 255, .15),
+        inset 0 -1px rgba(0, 0, 0, .3),
+        0 1px 2px rgba(0, 0, 0, .4);
+    transition: box-shadow .1s ease-in-out;
+}
+
+button:hover  {
+    background-image: linear-gradient(transparent, transparent);
+    outline: none;
+    box-shadow:
+        inset 0 1px rgba(255, 255, 255, .15),
+        inset 0 -1px rgba(0, 0, 0, .3),
+        0 2px 6px 1px rgba(0, 0, 0, .4);
+}
+
+button:active {
+    background-image: linear-gradient(rgba(0,0,0,.2), transparent);
+    box-shadow:
+        inset 0 -1px rgba(255, 255, 255, .15),
+        inset 0 1px rgba(0, 0, 0, .3);
+    outline: none;
+    text-shadow: none;
+}
+
+button + button {
+    margin-left: .5em;
+}
+
+.btn--block { display: block; }
+
+.btn--primary { background-color: #0095d5; }
+.btn--cancel  { background-color: #FF0000; }
+
+.btn--small {
+    font-size: .75em;
+}
+
+/********************
+
+$Inputs
+
+********************/
+
+input,
+textarea {
+    font-family: "Lato", Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    font-weight: 300;
+    margin:     0;
+    padding:    0;
+    font-size: 1em;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 0 0.5em .2em;
+    width: 100%;
+
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+input[type='checkbox'] + label span,
+input[type='radio'] + label span {
+    background: rgba(0, 0, 0, .25);
+    border-radius: .3em;
+    border: 1px solid transparent;
+    border-top-color: rgba(0, 0, 0, .23);
+    border-bottom-color: rgba(255, 255, 255, .15);
+}
+
+label {
+    font-weight: 200;
+    color: rgba(255, 255, 255, .8);
+}
+
+input { height: 2em; }
+
+textarea {
+    display: inline-block;
+    height: 90px;
+    background: rgba(0, 0, 0, .25);
+    resize: none;
+    min-width: 300px;
+}
+
+input:focus {
+    border: 1px solid #2B9CD8;
 }

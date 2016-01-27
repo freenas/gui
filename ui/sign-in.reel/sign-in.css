@@ -1,3 +1,99 @@
-.SignIn {
-
+@keyframes denied {
+    20%  { transform: translateX(-10%); }
+    40%  { transform: translateX(10%);  }
+    60%  { transform: translateX(-10%); }
+    80%  { transform: translateX(10%);  }
+    100% { transform: translateX(0%);   }
 }
+
+.SignIn {
+    opacity: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.85);
+    background-image: radial-gradient(rgba(43, 156, 216,.2),rgba(0,0,0,.5) 50%);
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1000;
+    transition: visibility .75s, opacity .25s .5s;
+}
+
+.SignIn.montage-Overlay--visible {
+    opacity: 1;
+}
+
+.SignIn-content {
+    padding: 2em;
+    width: 20em;
+    /*background-color: rgba(43, 156, 216, 1);*/
+    /*box-shadow: 0 2px 4px rgba(0,0,0,.5);*/
+    background-size: 310px 195px;
+    background-image: url(../../../assets/images/bg.png);
+    transform: scale(0);
+    border-radius: .3em;
+    transition: transform .75s cubic-bezier(.62,-0.45,.93,.81);
+}
+
+/* error shake */
+
+.SignIn.SignIn-hasError .SignIn-content { animation: denied .5s ease-in-out; }
+
+/* visible state */
+
+.montage-Overlay--visible .SignIn-content { transform: scale(1); }
+
+/* Logo */
+
+.SignIn-logo { margin-bottom: 2em; }
+
+/* Sign In Main Message */
+
+.SignIn-infoText {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+/* Submit button */
+
+.SignIn-submit { margin-top: 2em; }
+
+/*
+
+field - wrapper for each input field
+
+$fix this should be a component or global class
+
+*/
+
+.field {
+    margin-bottom: .5em;
+}
+
+.SignIn .field input { margin-bottom: .25em; }
+
+/* field message */
+
+.field-message {
+    display: none;
+}
+
+/* error states*/
+
+.field.field-hasError .field-message {
+    color: rgba(255,0,0,.8);
+    display: block;
+    margin-bottom: 1em;
+}
+
+.field.field-hasError input {
+    border: 1px solid rgba(255,0,0,.8);
+    background: rgba(255,0,0,.075);
+}
+

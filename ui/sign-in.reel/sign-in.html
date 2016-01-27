@@ -7,7 +7,65 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "userName": {"@": "userName"},
+                "position": {
+                    "top":  0,
+                    "left": 0
+                }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "infoText": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "infoText"}
+            },
+            "bindings": {
+                "value": {"<-": "'Enter your username and password.'"}
+            }
+        },
+        "userName": {
+            "prototype": "montage/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "userName"},
+                "placeholder": "username"
+            }
+        },
+        "userNameMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "userNameMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "'username not found'"}
+            }
+        },
+        "password": {
+            "prototype": "montage/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "placeholder": "password"
+            }
+        },
+        "passwordMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "passwordMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "'password is incorrect'"}
+            }
+        },
+        "submit": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "submit"}
             }
         }
     }
@@ -15,6 +73,19 @@
 </head>
 <body>
     <div data-montage-id="owner" class="SignIn">
+        <div class="SignIn-content">
+            <img src="../../../assets/images/logo.png" class="SignIn-logo" alt="FreeNas Logo">
+            <div data-montage-id="infoText" class="SignIn-infoText"></div>
+            <div class="field">
+                <input type="text" data-montage-id="userName" class="SignIn-userName"></input>
+                <div data-montage-id="userNameMessage" class="field-message"></div>
+            </div>
+            <div class="field field-hasError">
+                <input type="password" data-montage-id="password" class="SignIn-userName"></input>
+                <div data-montage-id="passwordMessage" class="field-message"></div>
+            </div>
+            <button data-montage-id="submit" class="SignIn-submit btn--disabled btn--primary btn--block">Sign In</button>
+        </div>
     </div>
 </body>
 </html>
