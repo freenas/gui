@@ -120,8 +120,8 @@ button {
     font-family: "Lato", Helvetica, Arial, sans-serif;
     font-size: 1em;
     line-height: 2.9;
-    width: 100%;
     font-weight: 300;
+    min-width: 7em;
     padding: 0 1.8em .1em;
     text-align: center;
     color: white;
