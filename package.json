@@ -2,7 +2,8 @@
     "name": "freenas-10-gui",
     "version": "0.3.0",
     "dependencies": {
-        "montage": "~0.15.0"
+        "montage": "montagestudio/montage-data",
+        "montage-data": "montagejs/montage#master"
     },
     "devDependencies": {
         "montage-testing": "~0.4.0"
