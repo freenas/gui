@@ -1,5 +1,6 @@
 /*global require, exports, Error*/
-var Montage = require("montage").Montage;
+var Montage = require("montage").Montage,
+    FreeNASService = require("./service/freenas-service").FreeNASService;
 
 exports.ApplicationDelegate = Montage.specialize({
 
@@ -13,7 +14,7 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     willFinishLoading: {
         value: function (app) {
-            //Todo
+            app.service = FreeNASService.instance;
         }
     }
 
