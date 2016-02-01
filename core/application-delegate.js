@@ -14,7 +14,7 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     willFinishLoading: {
         value: function (app) {
-            //app.service = FreeNASService.instance;
+            //todo
         }
     }
 
