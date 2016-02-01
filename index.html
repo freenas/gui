@@ -24,14 +24,21 @@
         "application": {
             "prototype": "montage/core/application",
             "properties": {
-                "delegate": {"@": "applicationDelegate"}
+                "delegate": {"@": "applicationDelegate"},
+                "applicationModal": {"@":"applicationModal"}
+            }
+        },
+        "applicationModal": {
+            "prototype": "montage/ui/modal-overlay.reel",
+            "properties": {
+                "element": {"#": "application-modal"}
             }
         }
-
     }
     </script>
 </head>
 <body>
+    <div data-montage-id="application-modal" class=""></div>
     <span class="loading"></span>
 </body>
 </html>

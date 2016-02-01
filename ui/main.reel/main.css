@@ -32,4 +32,7 @@
         );
 }
 
-
+.AuthorizationManagerPanel {
+    width: 550px;
+    min-height: 400px;
+}

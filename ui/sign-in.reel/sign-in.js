@@ -1,14 +1,13 @@
-var ModalOverlay = require("montage/ui/modal-overlay.reel").ModalOverlay,
-    Overlay = require("montage/ui/overlay.reel").Overlay;
+var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").AuthorizationPanel;
 
-ModalOverlay.prototype.enterDocument = Overlay.prototype.enterDocument;
-ModalOverlay.prototype.draw = Overlay.prototype.draw;
+// ModalOverlay.prototype.enterDocument = Overlay.prototype.enterDocument;
+// ModalOverlay.prototype.draw = Overlay.prototype.draw;
 
 /**
  * @class SignIn
  * @extends Component
  */
-exports.SignIn = ModalOverlay.specialize({
+exports.SignIn = AuthorizationPanel.specialize({
 
     // $fix - for development purpose
     // enterDocument: {
@@ -20,11 +19,24 @@ exports.SignIn = ModalOverlay.specialize({
     //         }
     //     }
     // },
-
+    "userName": {
+        value: void 0
+    },
+    "password": {
+        value: void 0
+    },
     handleSubmitAction: {
         value: function() {
-            this.hide();
+
+            var promise = this.dataService.loginWithCredentials(this.userName, this.password).then(function(authorization){
+                this.authorizationManagerPanel.approveAuthorization(authorization);
+            }, function(error) {
+                this.authorizationManagerPanel.cancelAuthorization(error);
+            });
+
+            //this.hide();
         }
     }
+
 
 });
