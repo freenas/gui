@@ -2,9 +2,6 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     BackEndBridge = require("core/backend/backend-bridge").BackEndBridge,
     Montage = require("montage/core/core").Montage;
 
-//FIXME: Temporary
-//var LoginService = require("./login-service").LoginService;
-
 /**
  * The interface to all services used by FreeNAS.
  *
@@ -51,17 +48,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
     loginWithCredentials: {
         value: function (_username, _password) {
+            //FIXME:
+            //This is a response object. We need to extract data and turn it into
+            //a user objet using the User.objectDescriptor.
             return this.backendBridge.send("rpc", "auth", {
                 username : _username,
                 password : _password
-
-            }).then(function (response) {
-                console.log("logged!!", response);
-                //This is a response object. We need to extract data and turn it into
-                //a user objet using the User.objectDescriptor.
-
-            }, function (error) {
-                console.error("login failed", error.message, error.code);
             });
         }
     }
@@ -73,7 +65,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
             if (!instance) {
                 instance = this._instance = new FreeNASService();
-                // instance.addChildService(new LoginService());
             }
 
             return instance;
