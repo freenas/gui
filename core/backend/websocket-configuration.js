@@ -19,7 +19,7 @@ function _init () {
 
     WebSocketConfiguration.WEB_SOCKET_PROTOCOL = (window.location.protocol === "https:") ? "wss://" : "ws://";
     //FIXME: switch just to document.domain for production
-    WebSocketConfiguration.WEB_SOCKET_HOST = domain === "localhost" || domain === "127.0.0.1" ? "192.168.228.132" : document.domain;
+    WebSocketConfiguration.WEB_SOCKET_HOST = domain === "localhost" || domain === "127.0.0.1" ? "freenas.local" : document.domain;
     WebSocketConfiguration.WEB_SOCKET_PORT = "5000";
     WebSocketConfiguration.WEB_SOCKET_PATH = "/socket";
     WebSocketConfiguration.WEB_SOCKET_URL = WebSocketConfiguration.WEB_SOCKET_PROTOCOL +
