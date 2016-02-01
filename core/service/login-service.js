@@ -14,7 +14,7 @@ var LoginService = exports.LoginService = DataService.specialize(/** @lends Logi
 
     loginWithCredentials: {
         value: function (_username, _password) {
-            return this.rootService.backend.send("rpc", "auth", {
+            return this.rootService.backendBridge.send("rpc", "auth", {
                 username : _username,
                 password : _password
 
@@ -27,3 +27,8 @@ var LoginService = exports.LoginService = DataService.specialize(/** @lends Logi
     }
 
 });
+
+/*
+$0.component.application.service._firstServiceForType("LOGIN").loginWithCredentials("root", "montage")`
+
+*/
