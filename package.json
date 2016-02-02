@@ -2,8 +2,8 @@
     "name": "freenas-10-gui",
     "version": "0.3.0",
     "dependencies": {
-        "montage": "montagestudio/montage-data#bb192fb1c2e74a37039019e274184836ef6fbddf",
-        "montage-data": "montagejs/montage#f07a8a08dda739e12a56bd9d9395cfaf7d591081"
+        "montage": "montagejs/montage#f07a8a08dda739e12a56bd9d9395cfaf7d591081",
+        "montage-data": "montagestudio/montage-data#bb192fb1c2e74a37039019e274184836ef6fbddf"
     },
     "devDependencies": {
         "montage-testing": "~0.4.0"
