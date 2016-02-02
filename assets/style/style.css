@@ -224,3 +224,10 @@ textarea {
 input:focus {
     border: 1px solid #2B9CD8;
 }
+
+.ApplicationModal {
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+}

@@ -1,7 +1,5 @@
 var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").AuthorizationPanel;
 
-// ModalOverlay.prototype.enterDocument = Overlay.prototype.enterDocument;
-// ModalOverlay.prototype.draw = Overlay.prototype.draw;
 
 /**
  * @class SignIn
@@ -9,22 +7,14 @@ var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").Aut
  */
 exports.SignIn = AuthorizationPanel.specialize({
 
-    // $fix - for development purpose
-    // enterDocument: {
-    //     value: function (firsTime) {
-    //         Overlay.prototype.enterDocument.call(this, firsTime);
+    userName: {
+        value: void 0
+    },
 
-    //         if (firsTime) {
-    //             this.show();
-    //         }
-    //     }
-    // },
-    "userName": {
+    password: {
         value: void 0
     },
-    "password": {
-        value: void 0
-    },
+
     handleSubmitAction: {
         value: function() {
 
@@ -33,10 +23,7 @@ exports.SignIn = AuthorizationPanel.specialize({
             }, function(error) {
                 this.authorizationManagerPanel.cancelAuthorization(error);
             });
-
-            //this.hide();
         }
     }
-
 
 });
