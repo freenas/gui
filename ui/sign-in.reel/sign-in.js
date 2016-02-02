@@ -69,7 +69,8 @@ exports.SignIn = AuthorizationPanel.specialize({
                 var self = this;
 
                 this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
-                    self.authorizationManagerPanel.approveAuthorization(authorization);
+                    //FIXME: @Benoit authorizationManagerPanel is on window.
+                    this.authorizationManagerPanel.approveAuthorization(authorization);
 
                 }, function (error) {
                     self.errorMessage = error.message || error;
