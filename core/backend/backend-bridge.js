@@ -45,6 +45,7 @@ exports.BackEndBridge = Target.specialize({
             this._connection.delegate = this;
             this._connection.responseType = WebSocketClient.RESPONSE_TYPE.JSON;
             this._connection.addEventListener("webSocketMessage", this);
+            this._connection.addEventListener("webSocketError", this);
         }
     },
 
@@ -148,26 +149,30 @@ exports.BackEndBridge = Target.specialize({
                             deferred.resolve(new WebSocketResponse(response));
 
                         } else if (response.name === "error") {
-                            /**
-                             * FIXME: Need to investigate, it seems that code errors are the same
-                             * when an user is not logged or gives wrong credentials...
-                             */
-                            if (response.args.code === 13) {
-                                if (response.args.message === "Not logged in") {
-                                    this.dispatchEventNamed("userDisconnected", true, true);
+                            if (response.args) {
+                                /**
+                                 * FIXME: Need to investigate, it seems that code errors are the same
+                                 * when an user is not logged or gives wrong credentials...
+                                 */
+                                if (response.args.code === 13) {
+                                    if (response.args.message === "Not logged in") {
+                                        this.dispatchEventNamed("userDisconnected", true, true);
+                                    }
+
+                                    deferred.reject(new Error(response.args.message));
+
+                                } else {
+                                    deferred.reject(new Error("Error Server received, code: " +
+                                        response.args.code + " , message: " + response.args.message));
                                 }
-
-                                deferred.reject(response.args);
-
                             } else {
-                                deferred.reject("Error Server received, code: " +
-                                    response.args.code + " , message: " + response.args.message);
+                                deferred.reject(new Error("Error message received: " + response));
                             }
                         } else {
-                            deferred.reject("Unknown message received", response);
+                            deferred.reject(new Error("Unknown message received: " + response));
                         }
                     } else {
-                        console.warn("Message received but no handler has been found");
+                        deferred.reject(new Error("Message received but no handler has been found: " + response));
                     }
                 } else if (response.namespace === EVENTS_NAME_SPACE) {
                     this.dispatchEventNamed(this._getEventTypeFromRawType(
@@ -176,6 +181,14 @@ exports.BackEndBridge = Target.specialize({
                         true,
                         response.args.args || response.args);
                 }
+            }
+        }
+    },
+
+    handleWebSocketError: {
+        value: function (event) {
+            if (event.detail.code === WebSocketClient.ERROR_CODE.CONNECTION_FAILED) {
+                this._handlerPool.rejectAll(event.detail.message);
             }
         }
     },

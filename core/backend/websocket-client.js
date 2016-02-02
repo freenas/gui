@@ -368,7 +368,11 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
                     self._sendMessage(message);
 
                 }, function (error) {
-                    self.dispatchEventNamed("webSocketError", true, true, error);
+                    self._dispatchWebSocketError(
+                        WebSocketClient.ERROR_CODE.CONNECTION_FAILED,
+                        error.message,
+                        error.stack
+                    );
                 });
             }
         }
@@ -407,11 +411,10 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
             socket.onerror = function (event) {
                 if (self._isConnecting) {
                     if (++_currentAttempt <= self.maxConnectionAttempt) {
-                        console.log(_currentAttempt);
-
                         setTimeout(function () {
                             self._connect(resolve, reject, _currentAttempt);
                         }, _currentAttempt * self.reconnectInterval);
+
                     } else {
                         var state = socket.readyState;
 
@@ -424,8 +427,9 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
 
                         self.disconnect();
                     }
+
                 } else {
-                    self.dispatchEventNamed("webSocketError", true, true, event);
+                    reject(event);
                 }
             };
 
@@ -520,7 +524,11 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
                 }
 
                 if (errorResponse) {
-                    self.dispatchEventNamed("webSocketError", true, true, errorResponse);
+                    self._dispatchWebSocketError(
+                        WebSocketClient.ERROR_CODE.PARSE_RESPONSE_FAILED,
+                        errorResponse.message,
+                        errorResponse.stack
+                    );
 
                 } else {
                     self.dispatchEventNamed("webSocketMessage", true, true, response);
@@ -551,6 +559,16 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
 
             this._socket.send(messageFromDelegate || message);
         }
+    },
+
+    _dispatchWebSocketError: {
+        value: function (code, message, stack) {
+            this.dispatchEventNamed("webSocketError", true, true, {
+                code: WebSocketClient.ERROR_CODE.CONNECTION_FAILED,
+                message: message,
+                stack: stack
+            });
+        }
     }
 
 
@@ -561,6 +579,13 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
             STRING: 0,
             JSON: 1,
             BINARY: 2
+        }
+    },
+
+    ERROR_CODE: {
+        value: {
+            CONNECTION_FAILED: 0,
+            PARSE_RESPONSE_FAILED: 1
         }
     }
 

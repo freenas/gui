@@ -140,10 +140,26 @@ HandlerPool.prototype.setTimeoutToHandler = function (handler, timeout) {
  *
  */
 HandlerPool.prototype.clear = function () {
-    var keys = Object.keys(this);
+    var keys = Object.keys(this.pool);
 
     for (var i = 0, length = keys.length ; i < length; i++) {
         this.releaseHandler(keys[i]);
+    }
+};
+
+
+/**
+ * @function
+ * @public
+ *
+ * @description todo.
+ *
+ */
+HandlerPool.prototype.rejectAll = function (error) {
+    var keys = Object.keys(this.pool);
+
+    for (var i = 0, length = keys.length ; i < length; i++) {
+        this.releaseHandler(keys[i]).reject(error);
     }
 };
 
