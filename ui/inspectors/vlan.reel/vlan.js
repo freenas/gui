@@ -5,7 +5,7 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Vlan = Component.specialize({
-    "exampleVlan": {
+    "object": {
         "value": {
             "aliases": [],
             "created_at": "2016-01-28 17:37:50.732000",
