@@ -9,11 +9,18 @@
             "properties": {
                 "element": {"#": "owner"}
             },
-            "exampleVlan":  {
+            "_dev": {
+                "comment": "vlan.parent is missing. It requires a select dropdown of network interfaces.\nvlan.tag must be a number between 1 and 4095 inclusive."
+            },
+            "exampleVlan": {
+                "aliases": [],
+                "created_at": "2016-01-28 17:37:50.732000",
+                "dhcp": false,
+                "enabled": false,
                 "id": "vlan0",
-                "updated_at": "2016-01-28 17:37:50.732000",
-                "noipv6": false,
+                "media": null,
                 "mtu": null,
+                "noipv6": false,
                 "rtadv": false,
                 "status": {
                     "name": "vlan0",
@@ -45,16 +52,97 @@
                     "media_options": [],
                     "link_state": "LINK_STATE_DOWN"
                 },
-                "enabled": false,
-                "dhcp": false,
-                "aliases": [],
-                "created_at": "2016-01-28 17:37:50.732000",
                 "type": "VLAN",
-                "media": null,
+                "updated_at": "2016-01-28 17:37:50.732000",
                 "vlan": {
                     "tag": 1,
                     "parent": "em1"
                 }
+            }
+        },
+        "dhcp": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "dhcp"},
+                "checked": true,
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.exampleVlan.dhcp"}
+            }
+        },
+        "enabled": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "checked": true,
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.exampleVlan.enabled"}
+            }
+        },
+        "link_state": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "link_state"},
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true",
+                "value": "Text"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.exampleVlan.status.link_state"}
+            }
+        },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "value": "Text"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.exampleVlan.status.name"}
+            }
+        },
+        "noipv6": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "noipv6"},
+                "checked": true
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.exampleVlan.noipv6"}
+            }
+        },
+        "rtadv": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "rtadv"},
+                "checked": true,
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.exampleVlan.rtadv"}
+            }
+        },
+        "tag": {
+            "prototype": "montage/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "tag"},
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true",
+                "value": "Text"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.exampleVlan.vlan.tag"}
             }
         }
     }
@@ -62,6 +150,13 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Vlan">
+        <p data-montage-id="name"></p>
+        <p data-montage-id="link_state"></p>
+        <input type="checkbox" data-montage-id="enabled">
+        <input type="checkbox" data-montage-id="dhcp">
+        <input type="checkbox" data-montage-id="noipv6">
+        <input type="checkbox" data-montage-id="rtadv">
+        <input data-montage-id="tag" type="text">
     </div>
 </body>
 </html>
