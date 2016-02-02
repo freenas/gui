@@ -8,6 +8,94 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "_dev": {
+                "comment": "vlan.parent is missing. It requires a select dropdown of network interfaces.\nvlan.tag must be a number between 1 and 4095 inclusive."
+            }
+        },
+        "dhcp": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "dhcp"},
+                "checked": true,
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.dhcp"}
+            }
+        },
+        "enabled": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "checked": true,
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.enabled"}
+            }
+        },
+        "link_state": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "link_state"},
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true",
+                "value": "Text"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.link_state"}
+            }
+        },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "value": "Text"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.name"}
+            }
+        },
+        "noipv6": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "noipv6"},
+                "checked": true
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.noipv6"}
+            }
+        },
+        "rtadv": {
+            "prototype": "montage/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "rtadv"},
+                "checked": true,
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.rtadv"}
+            }
+        },
+        "tag": {
+            "prototype": "montage/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "tag"},
+                "contenteditable": "true",
+                "dir": "ltr",
+                "draggable": "true",
+                "value": "Text"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.vlan.tag"}
             }
         }
     }
@@ -15,6 +103,13 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Vlan">
+        <p data-montage-id="name"></p>
+        <p data-montage-id="link_state"></p>
+        <input type="checkbox" data-montage-id="enabled">
+        <input type="checkbox" data-montage-id="dhcp">
+        <input type="checkbox" data-montage-id="noipv6">
+        <input type="checkbox" data-montage-id="rtadv">
+        <input data-montage-id="tag" type="text">
     </div>
 </body>
 </html>
