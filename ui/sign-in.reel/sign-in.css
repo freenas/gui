@@ -1,13 +1,13 @@
 @keyframes denied {
-    20%  { transform: translateX(-10%); }
-    40%  { transform: translateX(10%);  }
-    60%  { transform: translateX(-10%); }
-    80%  { transform: translateX(10%);  }
-    100% { transform: translateX(0%);   }
+    20%  { transform: translateX(-8%); }
+    40%  { transform: translateX(8%);  }
+    60%  { transform: translateX(-8%); }
+    80%  { transform: translateX(8%);  }
+    100% { transform: translateX(0%);  }
 }
 
 .SignIn {
-    opacity: 1;
+    opacity: 0;
     padding: 2em;
     position: absolute;
     display: flex;
@@ -26,7 +26,11 @@
     transition: visibility .75s, opacity .25s .5s;
 }
 
-.SignIn.montage-Overlay--visible {
+.SignIn.isAuthenticating {
+    outline: 1px solid green;
+}
+
+.montage-Overlay--visible .SignIn {
     opacity: 1;
 }
 
@@ -42,9 +46,9 @@
     transition: transform .75s cubic-bezier(.62,-0.45,.93,.81);
 }
 
-/* error shake */
+/* error state */
 
-.SignIn.SignIn-hasError .SignIn-content { animation: denied .5s ease-in-out; }
+.SignIn.hasError .SignIn-content { animation: denied .5s ease-in-out; }
 
 /* visible state */
 
@@ -64,6 +68,39 @@
 /* Submit button */
 
 .SignIn-submit { margin-top: 2em; }
+
+@keyframes spin {
+    0%   {}
+    100% { transform: rotate(360deg); }
+}
+
+.isAuthenticating .SignIn-submit {
+    position: relative;
+    overflow: hidden;
+}
+
+.isAuthenticating .SignIn-submit:before {
+    position: absolute;
+    content: '';
+    background: rgba(0,0,0,.5);
+    left:0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.isAuthenticating .SignIn-submit:after {
+    position: absolute;
+    content: '';
+    background: white;
+    width: 2px;
+    height: 2em;
+    left: 50%;
+    margin-left: -1px;
+    top: 50%;
+    margin-top: -1em;
+    animation: spin .75s infinite;
+}
 
 /*
 
@@ -96,4 +133,19 @@ $fix this should be a component or global class
 .field.field-hasError input {
     border: 1px solid rgba(255,0,0,.8);
     background: rgba(255,0,0,.075);
+}
+
+/* $fix - error message could be global? */
+
+.error-message {
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.SignIn.hasError .error-message {
+    opacity: 1;
+    color: #FFF;
+    background: rgba(255,0,0,.7);
+    padding: .5em 2em;
+    margin: 0 -2em 2em -2em;
 }

@@ -172,6 +172,12 @@ button + button {
     font-size: .75em;
 }
 
+[class*='btn'].montage--disabled {
+    background: #666;
+    box-shadow: none;
+    text-shadow: none;
+}
+
 /********************
 
 $Inputs
@@ -213,6 +219,18 @@ label {
 
 input { height: 2em; }
 
+/* $fix -  idea for hiding input placeholders */
+
+/*input::-webkit-input-placeholder {
+    color: rgba(255,255,255,.4);
+    transition: opacity .25s;
+}
+
+input:focus::-webkit-input-placeholder {
+    opacity: 0;
+}*/
+
+
 textarea {
     display: inline-block;
     height: 90px;
@@ -231,3 +249,12 @@ input:focus {
     right:  0;
     bottom: 0;
 }
+
+/*$fix - hiding modalMask which will be removed entirely */
+
+.montage-ModalOverlay-modalMask {
+    display: none !important;
+}
+
+
+
