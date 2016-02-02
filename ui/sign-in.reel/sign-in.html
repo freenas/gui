@@ -8,11 +8,15 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "userName": {"@": "userName"}
+                "userNameTextField": {"@": "userName"},
+                "passwordTextField": {"@": "password"},
+                "submitButton": {"@": "submit"}
             },
             "bindings": {
                 "userName": {"<-": "@userName.value"},
-                "password": {"<-": "@password.value"}
+                "password": {"<-": "@password.value"},
+                "classList.has('hasError')": {"<-": "@owner.hasError"},
+                "classList.has('isAuthenticating')": {"<-": "@owner.isAuthenticating"}
             },
             "listeners": [
                 {
@@ -21,6 +25,7 @@
                 }
             ]
         },
+
         "infoText": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -30,6 +35,7 @@
                 "value": {"<-": "'Enter your username and password.'"}
             }
         },
+
         "userName": {
             "prototype": "montage/ui/text-field.reel",
             "properties": {
@@ -37,15 +43,7 @@
                 "placeholder": "username"
             }
         },
-        "userNameMessage": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "userNameMessage"}
-            },
-            "bindings": {
-                "value": {"<-": "'username not found'"}
-            }
-        },
+
         "password": {
             "prototype": "montage/ui/text-field.reel",
             "properties": {
@@ -53,15 +51,17 @@
                 "placeholder": "password"
             }
         },
-        "passwordMessage": {
+
+        "errorMessage": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "passwordMessage"}
+                "element": {"#": "errorMessage"}
             },
             "bindings": {
-                "value": {"<-": "'password is incorrect'"}
+                "value": {"<-": "@owner.errorMessage"}
             }
         },
+
         "submit": {
             "prototype": "montage/ui/button.reel",
             "properties": {
@@ -78,12 +78,13 @@
             <div data-montage-id="infoText" class="SignIn-infoText"></div>
             <div class="field">
                 <input type="text" data-montage-id="userName" class="SignIn-userName"></input>
-                <div data-montage-id="userNameMessage" class="field-message"></div>
             </div>
-            <div class="field field-hasError">
+            <div class="field">
                 <input type="password" data-montage-id="password" class="SignIn-userName"></input>
-                <div data-montage-id="passwordMessage" class="field-message"></div>
             </div>
+
+            <div data-montage-id="errorMessage" class="field-message"></div>
+
             <button data-montage-id="submit" class="SignIn-submit btn--disabled btn--primary btn--block">Sign In</button>
         </div>
     </div>

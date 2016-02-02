@@ -87,7 +87,7 @@ $fix this should be a component or global class
 
 /* error states*/
 
-.field.field-hasError .field-message {
+.SignIn.hasError .field-message {
     color: rgba(255,0,0,.8);
     display: block;
     margin-bottom: 1em;
