@@ -1,7 +1,7 @@
 .Modal {
     /* comment this to show/hide */
     opacity: 0;
-
+    visibility: hidden;
     padding: 2em;
     position: absolute;
     display: flex;

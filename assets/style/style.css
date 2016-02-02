@@ -163,7 +163,7 @@ button + button {
     margin-left: .5em;
 }
 
-.btn--block { display: block; }
+.btn--block { display: block; width: 100%; }
 
 .btn--primary { background-color: #0095d5; }
 .btn--cancel  { background-color: #FF0000; }
