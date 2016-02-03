@@ -22,6 +22,8 @@ var EventTypeMap = Object.create(null);
  *
  * @description Object used as a bridge to the backend.
  *
+ * @TODO: provide a method initWithConfiguration for the connection settings. (dict)
+ *
  */
 exports.BackEndBridge = Target.specialize({
 
