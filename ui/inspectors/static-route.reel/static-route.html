@@ -10,18 +10,61 @@
                 "element": {"#": "owner"}
             }
         },
-        "exampleRoute": {
-            "netmask": 16,
-            "gateway": "10.5.0.1",
-            "network": "10.5.0.0",
-            "type": "INET",
-            "id": "exampleRoute"
+        "netmask": {
+            "prototype": "montahe/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "netmask"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.netmask"}
+            }
+        },
+        "gateway": {
+            "prototype": "montahe/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "gateway"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.gateway"}
+            }
+        },
+        "network": {
+            "prototype": "montahe/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "network"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.network"}
+            }
+        },
+        "type": {
+            "prototype": "montahe/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "type"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.type"}
+            }
+        },
+        "id": {
+            "prototype": "montahe/ui/text-field.reel",
+            "properties" : {
+                "element": {"#": "id"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="StaticRoute">
+        <input type="text" data-montage-id="netmask">
+        <input type="text" data-montage-id="gateway">
+        <input type="text" data-montage-id="network">
+        <input type="text" data-montage-id="type">
+        <input type="text" data-montage-id="id">
     </div>
 </body>
 </html>
