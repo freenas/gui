@@ -32,8 +32,6 @@ extract:
 	:
 
 do-install:
-	install ${WRKSRC}/etc/gui ${STAGEDIR}${PREFIX}/etc/rc.d/
-	install ${WRKSRC}/sbin/gui ${STAGEDIR}${PREFIX}/sbin/
 	rsync -avl --exclude '.git' --exclude 'nas_ports' --exclude 'etc' --exclude 'sbin' ${WRKSRC}/ ${STAGEDIR}${PREFIX}/www/gui/
 	mkdir -p ${STAGEDIR}${PREFIX}/www/gui/
 	(cd ${STAGEDIR}${PREFIX}/www/gui; ${FIND} . -type f \
@@ -41,7 +39,5 @@ do-install:
 		| ${AWK} '{print length, $$0}' | ${SORT} -rn \
 		| cut -d " " -f 2- \
 		| ${AWK} '{print "www/gui/"$$0 }' >> ${TMPPLIST})
-	${ECHO_CMD} etc/rc.d/gui >> ${TMPPLIST}
-	${ECHO_CMD} sbin/gui >> ${TMPPLIST}
 
 .include <bsd.port.mk>
