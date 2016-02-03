@@ -25,13 +25,15 @@ For FreeBSD, run `sudo pkg install npm`.
 To make sure you have all the necessary global dev dependencies for developing
 the FreeNAS 10 GUI, run:
 
-    sudo npm install -g gulp forever jshint jscs esprima-fb@15001.1.0-dev-harmony-fb
     npm install
+    sudo npm install -g minit
 
 from the root of where you cloned the repo first.
 
-Once you're ready, run `gulp --connect FreeNASIPorHostname` and connect to
-`localhost:9999`.
+Once you have the environment bootstrapped,
+    ./minit serve &
+to run the stand-alone web server and connect your web browser to
+localhost:8083
 
 Once the app is running, it will monitor your source files and automatically
 rebuild and restart the GUI every time a file changes.

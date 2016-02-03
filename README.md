@@ -5,7 +5,8 @@
 FreeNAS 10 is the next version of FreeNAS, a FreeBSD-based open source NAS
 operating system. This repo is where development of the GUI happens.
 
-To learn how to contribute to FreeNAS 10, read
+To learn how to contribute to FreeNAS 10 (or even just run the GUI
+stand-alone), please read
 [CONTRIBUTING.md](https://github.com/freenas/gui/blob/master/CONTRIBUTING.md).
 
 ## Other resources
