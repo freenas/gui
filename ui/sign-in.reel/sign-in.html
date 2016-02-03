@@ -13,8 +13,6 @@
                 "submitButton": {"@": "submit"}
             },
             "bindings": {
-                "userName": {"<-": "@userName.value"},
-                "password": {"<-": "@password.value"},
                 "classList.has('hasError')": {"<-": "@owner.hasError"},
                 "classList.has('isAuthenticating')": {"<-": "@owner.isAuthenticating"}
             },
@@ -24,6 +22,10 @@
                     "listener": {"@": "owner"}
                 }
             ]
+        },
+
+        "trimConverter": {
+            "prototype": "montage/core/converter/trim-converter"
         },
 
         "infoText": {
@@ -40,7 +42,11 @@
             "prototype": "montage/ui/text-field.reel",
             "properties": {
                 "element": {"#": "userName"},
+                "converter": {"@": "trimConverter"},
                 "placeholder": "username"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.userName"}
             }
         },
 
@@ -48,7 +54,11 @@
             "prototype": "montage/ui/text-field.reel",
             "properties": {
                 "element": {"#": "password"},
+                "converter": {"@": "trimConverter"},
                 "placeholder": "password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.password"}
             }
         },
 
@@ -83,7 +93,6 @@
             <div class="field">
                 <input type="password" data-montage-id="password" class="SignIn-userName"></input>
             </div>
-
 
             <button data-montage-id="submit" class="SignIn-submit btn btn--primary btn--block">Sign In</button>
         </div>

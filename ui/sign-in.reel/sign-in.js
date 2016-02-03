@@ -63,20 +63,20 @@ exports.SignIn = AuthorizationPanel.specialize({
 
     handleSubmitAction: {
         value: function() {
-            if (!this._isAuthenticating) {
+            if (!this._isAuthenticating && this.userName && this.password) {
                 this.isAuthenticating = true;
 
-                var self = this;
-
-                this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
-                    //FIXME: @Benoit authorizationManagerPanel is on window.
+                this.dataService.loginWithCredentials(this.userName, this.password).bind(this).then(function (authorization) {
                     this.authorizationManagerPanel.approveAuthorization(authorization);
 
+                    // Don't keep any track of the password in memory.
+                    this.password = this.userName = null;
+
                 }, function (error) {
-                    self.errorMessage = error.message || error;
+                    this.errorMessage = error.message || error;
 
                 }).finally(function () {
-                    self.isAuthenticating = false;
+                    this.isAuthenticating = false;
                 });
             }
         }
