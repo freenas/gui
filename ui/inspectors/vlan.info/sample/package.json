@@ -1,4 +1,10 @@
 {
-    "name": "vlan-sample",
-    "version": "0.0.1"
+   "name": "vlan-sample.info",
+   "version": "0.1.0",
+   "mappings": {
+       "montage": "../../../../node_modules/montage"
+   },
+   "dependencies": {
+       "montage": "*"
+   },
 }
