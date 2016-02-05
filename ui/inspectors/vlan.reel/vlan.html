@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "_dev": {
-                "comment": "vlan.parent is missing. It requires a select dropdown of network interfaces.\nvlan.tag must be a number between 1 and 4095 inclusive."
+                "comment": "vlan.tag must be a number between 1 and 4095 inclusive."
             }
         },
         "dhcp": {
@@ -58,6 +58,16 @@
                 "checked": {"<->": "@owner.object.noipv6"}
             }
         },
+        "parent": {
+            "prototype": "digit/ui/select.reel",
+            "properties": {
+                "element": {"#": "parent"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.vlan.parent"},
+                "content": {"<-": "@owner.parent_options"}
+            }
+        },
         "rtadv": {
             "prototype": "montage/ui/checkbox.reel",
             "properties": {
@@ -87,6 +97,7 @@
         <input type="checkbox" data-montage-id="dhcp">
         <input type="checkbox" data-montage-id="noipv6">
         <input type="checkbox" data-montage-id="rtadv">
+        <select data-montage-id="parent">
         <input data-montage-id="tag" type="text">
     </div>
 </body>
