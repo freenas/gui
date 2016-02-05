@@ -59,3 +59,5 @@ customSystem.js
 
 # Exclude gulp files
 gulpfile.js
+
+*.info/**/node_modules
