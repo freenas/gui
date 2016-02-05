@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "_dev": {
-                "comment": "lagg.protocol is missing. It requires a select dropdown to present options from an enum provided by the middleware.\nlagg.ports is missing. It requires a more complex way to display, add, and remove ports. A multiselect list would work in the meantime."
+                "comment": "lagg.ports might benefit from a more complex way to display, add, and remove ports. A multiselect list will work in the meantime."
             }
         },
         "dhcp": {
@@ -58,6 +58,26 @@
                 "checked": {"<->": "@owner.object.noipv6"}
             }
         },
+        "ports": {
+            "prototype": "digit/ui/select.reel",
+            "properties": {
+                "element": {"#: ports"},
+                "content": {"@owner.interface_options"}
+            },
+            "bindings" {
+                "value": {"<->": "@owner.object.lagg.ports"}
+            }
+        },
+        "protocol": {
+            "prototype": "digit/ui/select.reel",
+            "properties": {
+                "element": {"#: protocol"},
+                "content": {"@owner.lagg_protocol_options"}
+            },
+            "bindings" {
+                "value": {"<->": "@owner.object.lagg.protocol"}
+            }
+        },
         "rtadv": {
             "prototype": "montage/ui/checkbox.reel",
             "properties": {
@@ -78,6 +98,8 @@
         <input type="checkbox" data-montage-id="dhcp">
         <input type="checkbox" data-montage-id="rtadv">
         <input type="checkbox" data-montage-id="noipv6">
+        <select data-montage-id="ports">
+        <select data-montage-id="protocol">
     </div>
 </body>
 </html>
