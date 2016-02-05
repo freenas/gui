@@ -61,21 +61,21 @@
         "ports": {
             "prototype": "digit/ui/select.reel",
             "properties": {
-                "element": {"#: ports"},
-                "content": {"@owner.interface_options"}
+                "element": {"#": "ports"}
             },
-            "bindings" {
-                "value": {"<->": "@owner.object.lagg.ports"}
+            "bindings": {
+                "value": {"<->": "@owner.object.lagg.ports"},
+                "content": {"<-": "@owner.port_options"}
             }
         },
         "protocol": {
             "prototype": "digit/ui/select.reel",
             "properties": {
-                "element": {"#: protocol"},
-                "content": {"@owner.lagg_protocol_options"}
+                "element": {"#": "protocol"}
             },
-            "bindings" {
-                "value": {"<->": "@owner.object.lagg.protocol"}
+            "bindings": {
+                "value": {"<->": "@owner.object.lagg.protocol"},
+                "content": {"<-": "@owner.lagg_protocol_options"}
             }
         },
         "rtadv": {
@@ -98,8 +98,8 @@
         <input type="checkbox" data-montage-id="dhcp">
         <input type="checkbox" data-montage-id="rtadv">
         <input type="checkbox" data-montage-id="noipv6">
-        <select data-montage-id="ports">
-        <select data-montage-id="protocol">
+        <select data-montage-id="ports"></select>
+        <select data-montage-id="protocol"></select>
     </div>
 </body>
 </html>
