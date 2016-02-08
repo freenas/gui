@@ -133,8 +133,8 @@ var _interfaces = [
 ];
 
 var _parent_options = _interfaces.map( function (interfaceInstance) {
-    return {"label": interfaceInstance.id, "code": interfaceInstance.id}
-})
+    return {"label": interfaceInstance.id, "value": interfaceInstance.id}
+});
 
 exports.Vlan = Component.specialize({
     "object": {
@@ -186,5 +186,7 @@ exports.Vlan = Component.specialize({
             }
         }
     },
-    "parent_options": _parent_options
+    "parent_options": {
+        value: _parent_options
+    }
 });
