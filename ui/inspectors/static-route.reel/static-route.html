@@ -11,7 +11,7 @@
             }
         },
         "netmask": {
-            "prototype": "montahe/ui/text-field.reel",
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "netmask"}
             },
@@ -20,7 +20,7 @@
             }
         },
         "gateway": {
-            "prototype": "montahe/ui/text-field.reel",
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "gateway"}
             },
@@ -29,7 +29,7 @@
             }
         },
         "network": {
-            "prototype": "montahe/ui/text-field.reel",
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "network"}
             },
@@ -38,7 +38,7 @@
             }
         },
         "type": {
-            "prototype": "montahe/ui/text-field.reel",
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "type"}
             },
@@ -47,7 +47,7 @@
             }
         },
         "id": {
-            "prototype": "montahe/ui/text-field.reel",
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties" : {
                 "element": {"#": "id"}
             },
@@ -60,11 +60,26 @@
 </head>
 <body>
     <div data-montage-id="owner" class="StaticRoute">
-        <input type="text" data-montage-id="netmask">
-        <input type="text" data-montage-id="gateway">
-        <input type="text" data-montage-id="network">
-        <input type="text" data-montage-id="type">
-        <input type="text" data-montage-id="id">
+        <div class="Field">
+            <div class="Field-title">Netmask</div>
+            <input type="text" data-montage-id="netmask">
+        </div>
+        <div class="Field">
+            <div class="Field-title">Gateway</div>
+            <input type="text" data-montage-id="gateway">
+        </div>
+        <div class="Field">
+            <div class="Field-title">Network</div>
+            <input type="text" data-montage-id="network">
+        </div>
+        <div class="Field">
+            <div class="Field-title">Type</div>
+            <input type="text" data-montage-id="type">
+        </div>
+        <div class="Field">
+            <div class="Field-title">Id</div>
+            <input type="text" data-montage-id="id">
+        </div>
     </div>
 </body>
 </html>
