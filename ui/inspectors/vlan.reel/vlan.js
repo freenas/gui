@@ -141,7 +141,7 @@ exports.Vlan = Component.specialize({
         "value": {
             "aliases": [],
             "created_at": "2016-01-28 17:37:50.732000",
-            "dhcp": false,
+            "dhcp": true,
             "enabled": false,
             "id": "vlan0",
             "media": null,
