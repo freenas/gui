@@ -39,11 +39,11 @@
         },
 
         "userName": {
-            "prototype": "montage/ui/text-field.reel",
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "userName"},
                 "converter": {"@": "trimConverter"},
-                "placeholder": "username"
+                "placeholderValue": "username"
             },
             "bindings": {
                 "value": {"<->": "@owner.userName"}
@@ -51,11 +51,11 @@
         },
 
         "password": {
-            "prototype": "montage/ui/text-field.reel",
+            "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
                 "element": {"#": "password"},
                 "converter": {"@": "trimConverter"},
-                "placeholder": "password"
+                "placeholderValue": "password"
             },
             "bindings": {
                 "value": {"<->": "@owner.password"}
@@ -73,9 +73,10 @@
         },
 
         "submit": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "submit"}
+                "element": {"#": "submit"},
+                "value": "Sign In"
             }
         }
     }
@@ -93,7 +94,7 @@
             <div class="field">
                 <input type="password" data-montage-id="password" class="SignIn-userName"></input>
             </div>
-            <button data-montage-id="submit" class="SignIn-submit btn btn--primary btn--block">Sign In</button>
+            <button data-montage-id="submit" class="SignIn-submit  Button--primary Button--block"></button>
         </div>
     </div>
 </body>
