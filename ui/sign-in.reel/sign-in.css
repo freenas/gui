@@ -40,7 +40,7 @@
     /*background-color: rgba(43, 156, 216, 1);*/
     /*box-shadow: 0 2px 4px rgba(0,0,0,.5);*/
     background-size: 310px 195px;
-    background-image: url(../../../assets/images/bg.png);
+    background-image: url(../../assets/images/bg.png);
     transform: scale(0);
     border-radius: .3em;
     transition: transform .75s cubic-bezier(.62,-0.45,.93,.81);
