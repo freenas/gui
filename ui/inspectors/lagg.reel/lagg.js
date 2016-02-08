@@ -16,7 +16,7 @@ var _LAGG_PROTOCOLS = [
 ]
 
 var _lagg_protocol_options = _LAGG_PROTOCOLS.map( function (protocol) {
-    return {"label": protocol, "code": protocol};
+    return {"label": protocol, "value": protocol};
 });
 
 // This should be an array of all the interfaces of type "ETHER", provided by
@@ -147,7 +147,7 @@ var _interfaces = [
 ];
 
 var _port_options = _interfaces.map( function (interfaceInstance) {
-    return {"label": interfaceInstance.id, "code": interfaceInstance.id}
+    return {"label": interfaceInstance.id, "value": interfaceInstance.id}
 })
 
 exports.Lagg = Component.specialize({
@@ -203,6 +203,10 @@ exports.Lagg = Component.specialize({
             "updated_at": "2016-01-28 17:37:50.732000"
         }
     },
-    "lagg_protocol_options": _lagg_protocol_options,
-    "port_options": _port_options
+    "lagg_protocol_options": {
+        value: _lagg_protocol_options
+    },
+    "port_options": {
+        value: _port_options
+    }
 });
