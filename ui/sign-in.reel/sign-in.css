@@ -56,7 +56,10 @@
 
 /* Logo */
 
-.SignIn-logo { margin-bottom: 2em; }
+.SignIn-logo {
+    margin-bottom: 2em;
+    width: 100%;
+}
 
 /* Sign In Main Message */
 
