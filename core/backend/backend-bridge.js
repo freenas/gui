@@ -1,10 +1,10 @@
 /*global require, exports, Error*/
 var Target = require("montage/core/target").Target,
-    WebSocketClient = require("core/backend/websocket-client").WebSocketClient,
-    WebSocketMessage = require("core/backend/websocket-message").WebSocketMessage,
-    WebSocketResponse = require("core/backend/websocket-response").WebSocketResponse,
-    WebSocketConfiguration = require("core/backend/websocket-configuration").WebSocketConfiguration,
-    HandlerPool = require("core/backend/handler-pool").HandlerPool;
+    WebSocketClient = require("./websocket-client").WebSocketClient,
+    WebSocketMessage = require("./websocket-message").WebSocketMessage,
+    WebSocketResponse = require("./websocket-response").WebSocketResponse,
+    WebSocketConfiguration = require("./websocket-configuration").WebSocketConfiguration,
+    HandlerPool = require("./handler-pool").HandlerPool;
 
 
 var RPC_NAME_SPACE = "rpc",
@@ -41,9 +41,10 @@ exports.BackEndBridge = Target.specialize({
      *
      */
     constructor: {
-        value: function BackEndBridge () {
-            this._connection = new WebSocketClient().initWithUrl(WebSocketConfiguration.WEB_SOCKET_URL);
-            this._handlerPool = new HandlerPool().initWithHandlerTimeout(WebSocketConfiguration.WEB_SOCKET_SEND_MESSAGE_TIMEOUT);
+        value: function BackEndBridge (configuration) {
+            this._connection = new WebSocketClient().initWithUrl(configuration.get(WebSocketConfiguration.KEYS.URL));
+            this._handlerPool = new HandlerPool().initWithHandlerTimeout(configuration.get(WebSocketConfiguration.KEYS.TIMEOUT));
+
             this._connection.delegate = this;
             this._connection.responseType = WebSocketClient.RESPONSE_TYPE.JSON;
             this._connection.addEventListener("webSocketMessage", this);
