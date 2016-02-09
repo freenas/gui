@@ -1,5 +1,6 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
     BackEndBridge = require("core/backend/backend-bridge").BackEndBridge,
+    WebSocketConfiguration = require("../backend/websocket-configuration").WebSocketConfiguration,
     Montage = require("montage/core/core").Montage;
 
 /**
@@ -11,7 +12,7 @@ var DataService = require("montage-data/logic/service/data-service").DataService
 var FreeNASService = exports.FreeNASService = DataService.specialize({
     constructor: {
         value: function FreeNASService() {
-            this.backendBridge = new BackEndBridge();
+            this.backendBridge = new BackEndBridge(WebSocketConfiguration.defaultConfiguration);
 
             var info = Montage.getInfoForObject(this);
             this._authorizationServices = [info.moduleId];
