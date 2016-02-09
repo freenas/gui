@@ -9,12 +9,63 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "size": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "size"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.size"}
+            }
+        },
+        "shares": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "shares"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.shares"}
+            }
+        },
+        "snapshots": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "snapshots"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.snapshots"}
+            }
+        },
+        "scrub": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "scrub"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.scrub"}
+            }
+        },
+        "topology": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "topology"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.topology"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Volume">
+        <p style="text-align: center; margin-bottom: 0"><img style="width: 160px" src="256.png"></p>
+        <div data-montage-id="size" style="text-align: center; margin-bottom: 20px; font-size: 26px"></div>
+        <div data-montage-id="shares"></div>
+        <div data-montage-id="snapshots"></div>
+        <div data-montage-id="scrub"></div>
+        <div data-montage-id="topology"></div>
     </div>
 </body>
 </html>

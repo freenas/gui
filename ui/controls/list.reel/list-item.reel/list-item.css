@@ -1,0 +1,49 @@
+.ListItem {
+    height: 43px;
+    line-height: 43px;
+    padding: 0 16px;
+    position: relative;
+    font-family: sans-serif;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+
+.ListItem-label {
+    position: absolute;
+    top: 0;
+    left: 16px;
+    right: 29px;
+    bottom: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ListItem:hover {
+    background: #fafafa;
+}
+
+.selected > .ListItem {
+    background: #1a82eb;
+    cursor: default;
+    color: white;
+}
+
+.ListItem:before {
+    position: absolute;
+    right: 13px;
+    font-size: 29px;
+    content: "▸";
+    color: white;
+    text-shadow: 3px 0 0 #ddd;
+}
+
+.ListItem:hover:before {
+    color: #fafafa;
+}
+
+.selected .ListItem:before {
+    color: #1a82eb;
+    text-shadow: 3px 0 0 #fff;
+}

@@ -8,6 +8,51 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedObject": {"<->": "@controller.selection.0"}
+            }
+        },
+        "viewMode": {
+            "prototype": "./view-mode.reel",
+            "properties": {
+                "element": {"#": "viewMode"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@viewMode.type"}
+            }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.object"}
+            }
+        },
+        "list": {
+            "prototype": "ui/controls/list.reel",
+            "properties": {
+                "element": {"#": "list"},
+                "controller": {"@": "controller"}
+            }
+        },
+        "grid": {
+            "prototype": "ui/controls/grid.reel",
+            "properties": {
+                "element": {"#": "grid"},
+                "controller": {"@": "controller"}
+            }
+        },
+        "table": {
+            "prototype": "ui/controls/table.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "controller": {"@": "controller"}
             }
         }
     }
@@ -15,6 +60,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Viewer">
+        <div data-montage-id="viewMode"></div>
+        <div data-montage-id="substitution">
+            <div data-arg="list" data-montage-id="list" class="Viewer-list"></div>
+            <div data-arg="grid" data-montage-id="grid" class="Viewer-grid"></div>
+            <div data-arg="table" data-montage-id="table" class="Viewer-table"></div>
+        </div>
     </div>
 </body>
 </html>

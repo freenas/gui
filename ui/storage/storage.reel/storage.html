@@ -40,6 +40,12 @@
             "bindings": {
                 "switchValue": {"<-": "@owner.currentSection"}
             }
+        },
+        "volumes": {
+            "prototype": "ui/storage/volumes.reel",
+            "properties": {
+                "element": {"#": "volumes"}
+            }
         }
     }
     </script>
@@ -48,8 +54,8 @@
     <div data-montage-id="owner" class="Storage">
         <div data-montage-id="sectionSelector" class="Storage-sectionSelector"></div>
         <div data-montage-id="substitution" class="Storage-substitution">
-            <div data-arg="volumes">Volumes Inspector</div>
-            <div data-arg="shares">Shares Inspector</div>
+            <div data-arg="volumes" data-montage-id="volumes"></div>
+            <div data-arg="shares">Shares</div>
         </div>
     </div>
 </body>

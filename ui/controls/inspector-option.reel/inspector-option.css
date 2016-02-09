@@ -1,0 +1,12 @@
+﻿.InspectorOption {
+    outline: none;
+}
+
+.InspectorOption > * {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.InspectorOption + .InspectorOption > * {
+    border-top: none;
+}

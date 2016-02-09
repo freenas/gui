@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="button-group.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "content": {"<-": "@owner.options"}
+            }
+        },
+        "option": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "option"}
+            },
+            "bindings": {
+                "iteration": {"<-": "@repetition:iteration"},
+                "value": {"<-": "iteration.object.label"},
+                "iteration.selected": {"<->": "@owner.selectedValue == iteration.object.value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ButtonGroup">
+        <div data-montage-id="repetition" class="ButtonGroup-repetition"><!--
+         --><div data-montage-id="option" class="ButtonGroup-option"></div><!--
+     --></div>
+    </div>
+</body>
+</html>

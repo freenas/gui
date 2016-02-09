@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="cascading-list-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "content": {"@": "content"}
+            },
+            "bindings": {
+                "selectedObject": {"<-": "@content.component.selectedObject"}
+            }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.data.object.name"}
+            }
+        },
+        "content": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "content"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner.data.inspector"},
+                "component.object": {"<-": "@owner.data.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CascadingListItem">
+        <div data-montage-id="title" class="CascadingListItem-title"></div>
+        <div data-montage-id="content" class="CascadingListItem-content"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+.CascadingListItem {
+    border-right: 1px solid #ddd;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.CascadingListItem-title {
+    line-height: 44px;
+    height: 44px;
+    padding: 0 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background: #eee;
+    font-family: sans-serif;
+}

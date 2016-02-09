@@ -1,9 +1,10 @@
 .Storage {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .Storage-substitution {
     flex: 1;
+    position: relative;
 }

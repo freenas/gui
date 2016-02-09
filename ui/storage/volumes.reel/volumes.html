@@ -7,7 +7,14 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "cascadingList": {"@": "cascadingList"}
+            }
+        },
+        "cascadingList": {
+            "prototype": "ui/controls/cascading-list.reel",
+            "properties": {
+                "element": {"#": "cascadingList"}
             }
         }
     }
@@ -15,6 +22,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Volumes">
+        <div data-montage-id="cascadingList"></div>
     </div>
 </body>
 </html>

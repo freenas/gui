@@ -1,9 +1,7 @@
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class Viewer
+ * @class Grid
  * @extends Component
  */
-exports.Viewer = Component.specialize({
-
-});
+exports.Grid = Component.specialize();

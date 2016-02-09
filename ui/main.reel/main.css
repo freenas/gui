@@ -18,6 +18,7 @@
     flex: 1;
     background-size: 310px 195px;
     background-image: url(../../assets/images/bg.png);
+    display: flex;
 }
 
 .Main-content {

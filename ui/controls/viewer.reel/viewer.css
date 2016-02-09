@@ -1,3 +1,61 @@
 .Viewer {
 
 }
+
+.Viewer-listItem {
+    height: 43px;
+    line-height: 43px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 0 16px;
+    position: relative;
+    font-family: sans-serif;
+    cursor: pointer;
+}
+
+.Viewer-listItem + .Viewer-listItem {
+    border-top: none;
+}
+
+.Viewer-listItem:hover {
+    background: #fafafa;
+}
+
+.Viewer-listItem.selected {
+    background: #1a82eb;
+    cursor: default;
+    color: white;
+}
+
+.Viewer-grid {
+    padding: 16px;
+}
+
+.Viewer-listItem2:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10px;
+    right: 10px;
+    height: 69px;
+    border-radius: 16px;
+    background: #ddd;
+    cursor: pointer;
+}
+
+.Viewer-listItem2 {
+    position: relative;
+    float: left;
+    font-size: 15px;
+    line-height: 20px;
+    width: 89px;
+    height: 20px;
+    padding-top: 74px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.Viewer-listItem2.selected:before {
+    background: #1a82eb;
+    cursor: default;
+}

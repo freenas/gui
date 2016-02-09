@@ -1,0 +1,135 @@
+.ViewMode {
+    position: relative;
+    height: 50px;
+    background: #fafafa;
+    box-sizing: border-box;
+    opacity: .6;
+}
+
+.ViewMode-searchField {
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    display: block;
+    width: 180px;
+    -webkit-appearance: textfield;
+    font-family: inherit;
+    font-size: 14px;
+    color: #555;
+    border: 1px solid #ccc;
+    padding: 4px 12px 4px 38px;
+    height: 30px;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-transition: all ease-in-out .15s;
+    box-shadow: inset 56px 0 0 -28px #eee, inset 58px 0 0 -29px #ccc;
+}
+
+.ViewMode-searchField-label:before {
+    content: "U";
+    position: absolute;
+    display: block;
+    width: 28px;
+    left: -38px;
+    text-align: center;
+    color: #333;
+    font-family: "ElegantIcons";
+    -webkit-transition: all ease-in-out .15s;
+}
+
+.ViewMode-searchField:focus + .ViewMode-searchField-label:before {
+    color: white;
+}
+
+.ViewMode-searchField-label {
+    position: absolute;
+    top: 15px;
+    left: 49px;
+    color: #aaa;
+    -webkit-transition: all ease-in-out .15s;
+    pointer-events: none;
+}
+
+.ViewMode-searchField:valid + .ViewMode-searchField-label,
+.ViewMode-searchField:focus + .ViewMode-searchField-label {
+    color: transparent;
+}
+
+.ViewMode-searchField:focus {
+    border-color: #0196d8;
+    box-shadow: inset 56px 0 0 -28px #0196d8, inset 58px 0 0 -29px #0196d8, 0 0 6px rgba(1, 150, 216, .5);
+}
+
+.ViewMode-selector {
+    font-family: "ElegantIcons";
+    position: absolute;
+    left: 9px;
+    top: 9px;
+    height: 30px;
+}
+
+.ViewMode-selector div div {
+    height: 30px;
+    line-height: 28px;
+    font-size: 14px;
+    padding: 0 16px;
+}
+
+
+.ViewMode-filters-label {
+    position: absolute;
+    line-height: 30px;
+    top: 9px;
+    left: 200px;
+    color: #777;
+}
+
+.ViewMode-filters {
+    position: absolute;
+    z-index: 2;
+    top: 9px;
+    left: 242px;
+    cursor: pointer;
+}
+
+.ViewMode-filter {
+    position: absolute;
+    background: white;
+    width: 70px;
+    height: 30px;
+    box-sizing: border-box;
+    line-height: 28px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    color: #777;
+    opacity: 1;
+}
+
+.ViewMode-filter:hover {
+    background: #f6f6f6;
+}
+
+.ViewMode-filters:hover .ViewMode-filter {
+    display: block;
+}
+
+
+
+.ViewMode-filters:hover .ViewMode-filter:nth-child(2) {
+    top: 29px;
+}
+
+.ViewMode-filters:hover .ViewMode-filter:nth-child(3) {
+    top: 58px;
+}
+
+.ViewMode-filter.selected {
+    z-index: 1;
+    cursor: pointer;
+}
+
+.ViewMode-filters:hover .ViewMode-filter.selected {
+    background-color: #59378d;
+    border-color: #492d74;
+    color: white;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="grid.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedObject": {"<-": "@repetition.selection.0"}
+            }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "contentController": {"<-": "@owner.controller"}
+            }
+        },
+        "labeledIcon": {
+            "prototype": "ui/controls/labeled-icon.reel",
+            "properties": {
+                "element": {"#": "icon"}
+            },
+            "bindings": {
+                "label": {"<-": "@repetition:iteration.object.name"}
+            }
+        },
+        "imageComponent": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "iconImagePlaceholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@repetition:iteration.object.listItem || 'ui/controls/labeled-icon.reel/default-icon.reel'"},
+                "component.object": {"<-": "@repetition:iteration.object"},
+                "component.size": {"<-": "size"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Grid">
+        <div data-montage-id="repetition" class="Grid-repetition">
+            <div data-montage-id="icon" class="Grid-icon">
+                <div data-arg="image" data-montage-id="iconImagePlaceholder"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

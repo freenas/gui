@@ -1,15 +1,15 @@
 /**
- * @module ui/scrub.reel
+ * @module ui/snapshot.reel
  */
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class Scrub
+ * @class Snapshot
  * @extends Component
  */
-exports.Scrub = Component.specialize(/** @lends Scrub# */ {
+exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
     constructor: {
-        value: function Scrub() {
+        value: function Snapshot() {
             this.super();
         }
     }

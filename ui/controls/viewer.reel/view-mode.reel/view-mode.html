@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="view-mode.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "searchField": {"#": "searchField"}
+            },
+            "bindings": {
+                "type": {"<-": "@selector.selectedValue"}
+            }
+        },
+        "selector": {
+            "prototype": "ui/controls/button-group.reel",
+            "properties": {
+                "element": {"#": "selector"},
+                "options": [
+                    {"value": "list", "label": "List"},
+                    {"value": "grid", "label": "Grid"},
+                    {"value": "table", "label": "Table"}
+                ],
+                "selectedValue": "list"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ViewMode">
+        <input style="display: none" data-montage-id="searchField" class="ViewMode-searchField" required>
+        <span style="display: none" class="ViewMode-searchField-label">Search</span>
+        <div data-montage-id="selector" class="ViewMode-selector"></div>
+    </div>
+</body>
+</html>

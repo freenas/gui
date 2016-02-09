@@ -1,0 +1,12 @@
+.List {
+
+}
+
+.List-item > * {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.List-item + .List-item > * {
+    border-top: none;
+}

@@ -1,0 +1,28 @@
+.LabeledIcon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+}
+
+.LabeledIcon-image > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 36px;
+}
+
+.LabeledIcon-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    line-height: 16px;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="inspector-option.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ],
+            "bindings": {
+                "classList.has('selected')": {"<-": "object == parentComponent.selectedObject"}
+            }
+        },
+        "item": {
+            "prototype": "ui/controls/list.reel/list-item.reel",
+            "properties": {
+                "element": {"#": "item"}
+            },
+            "bindings": {
+                "name": {"<-": "@owner.name"},
+                "object": {"<-": "@owner.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="InspectorOption">
+        <div data-montage-id="item"></div>
+    </div>
+</body>
+</html>

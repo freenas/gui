@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="list.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedObject": {"<-": "@repetition.selection.0"}
+            }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"},
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "contentController": {"<-": "@owner.controller"}
+            }
+        },
+        "item": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "item"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@repetition:iteration.object.listItem || 'ui/controls/list.reel/list-item.reel'"},
+                "component.object": {"<-": "@repetition:iteration.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="List">
+        <div data-montage-id="repetition">
+            <div data-montage-id="item" class="List-item"></div>
+        </div>
+    </div>
+</body>
+</html>

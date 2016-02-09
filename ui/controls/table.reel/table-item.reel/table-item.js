@@ -1,15 +1,15 @@
 /**
- * @module ui/scrub.reel
+ * @module ui/table-item.reel
  */
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class Scrub
+ * @class TableItem
  * @extends Component
  */
-exports.Scrub = Component.specialize(/** @lends Scrub# */ {
+exports.TableItem = Component.specialize(/** @lends TableItem# */ {
     constructor: {
-        value: function Scrub() {
+        value: function TableItem() {
             this.super();
         }
     }
