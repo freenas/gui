@@ -9,12 +9,131 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "address-substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "address-substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.source"}
+            }
+        },
+        "address-text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "address-text"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.address"}
+            }
+        },
+        "address-input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "address-input"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.address"}
+            }
+        },
+        "netmask-substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "netmask-substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.source"}
+            }
+        },
+        "netmask-text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "netmask-text"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.netmask"}
+            }
+        },
+        "netmask-input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "netmask-input"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.netmask"}
+            }
+        },
+        "broadcast-substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "broadcast-substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.source"}
+            }
+        },
+        "broadcast-text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "broadcast-text"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.broadcast"}
+            }
+        },
+        "broadcast-input": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "broadcast-input"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.broadcast"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="InterfaceAlias">
+        <div data-montage-id="address-substitution">
+            <div data-arg="dhcp">
+                <p>DCHP Address</p>
+                <div data-montage-id="address-text"></div>
+            </div>
+            <div data-arg="rtadv">
+                <p>Auto-configured IPv6 Address</p>
+                <div data-montage-id="address-text"></div>
+            </div>
+            <div data-arg="link-local">
+                <p>Link-Local IPv6 Address</p>
+                <div data-montage-id="address-text"></div>
+            </div>
+            <div data-arg="manual">
+                <p>IP Address</p>
+                <div data-montage-id="address-input"></div>
+            </div>
+        </div>
+        <div data-montage-id="netmask-substitution">
+            <div data-arg="dhcp">
+                <p>DCHP Netmask</p>
+                <div data-montage-id="netmask-text"></div>
+            </div>
+            <div data-arg="manual">
+                <p>Netmask</p>
+                <div data-montage-id="netmask-input"></div>
+            </div>
+        </div>
+        <div data-montage-id="broadcast-substitution">
+            <div data-arg="dhcp">
+                <p>DCHP Broadcast Address</p>
+                <div data-montage-id="broadcast-text"></div>
+            </div>
+            <div data-arg="manual">
+                <p>Broadcast Address</p>
+                <div data-montage-id="broadcast-input"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
