@@ -6,7 +6,7 @@ var WebSocketMessage = exports.WebSocketMessage = function WebSocketMessage (nam
 
 WebSocketMessage.prototype.id = null;
 
-WebSocketMessage.prototype.toJSON = function () {
+WebSocketMessage.prototype.toString = WebSocketMessage.prototype.toJSON = function () {
     return JSON.stringify({
         namespace: this.namespace,
         name: this.name,

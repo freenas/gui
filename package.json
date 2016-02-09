@@ -18,5 +18,8 @@
         "run-tests.html",
         "test"
     ],
-    "bundle": [ "ui/main.reel" ]
+    "bundle": [ "ui/main.reel" ],
+    "scripts": {
+        "generate-descriptors" : "node ./tools/generate.js descriptors -t ./core/model/descriptors"
+    }
 }
