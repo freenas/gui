@@ -1,0 +1,230 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "state",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "country",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "csr_path",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "certificate",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "city",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "valid_from",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint8": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "privatekey",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint9": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "csr",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint10": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "valid_until",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint11": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "key_length",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint12": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lifetime",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint13": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "serial",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint14": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dn",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint15": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "CA_EXISTING",
+        "CA_INTERMEDIATE",
+        "CA_INTERNAL",
+        "CERT_CSR",
+        "CERT_EXISTING",
+        "CERT_INTERMEDIATE",
+        "CERT_INTERNAL"
+      ]
+    }
+  },
+  "propertyblueprint16": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "organization",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint17": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "certificate_path",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint18": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "common",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint19": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "email",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint20": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "digest_algorithm",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "SHA1",
+        "SHA224",
+        "SHA256",
+        "SHA384",
+        "SHA512"
+      ]
+    }
+  },
+  "propertyblueprint21": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "signedby",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint22": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "privatekey_path",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "crypto-certificate",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"},
+        {"@": "propertyblueprint8"},
+        {"@": "propertyblueprint9"},
+        {"@": "propertyblueprint10"},
+        {"@": "propertyblueprint11"},
+        {"@": "propertyblueprint12"},
+        {"@": "propertyblueprint13"},
+        {"@": "propertyblueprint14"},
+        {"@": "propertyblueprint15"},
+        {"@": "propertyblueprint16"},
+        {"@": "propertyblueprint17"},
+        {"@": "propertyblueprint18"},
+        {"@": "propertyblueprint19"},
+        {"@": "propertyblueprint20"},
+        {"@": "propertyblueprint21"},
+        {"@": "propertyblueprint22"}
+      ]
+    }
+  }
+}

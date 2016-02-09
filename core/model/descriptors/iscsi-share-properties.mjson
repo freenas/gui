@@ -1,0 +1,123 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vendor_id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "naa",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ctl_lun",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tpc",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "block_size",
+      "blueprint": {"@": "root"},
+      "valueType": "number",
+      "enumValues": [
+        512,
+        1024,
+        2048,
+        4096
+      ]
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "device_id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint8": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "serial",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint9": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "available_space_threshold",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint10": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rpm",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "UNKNOWN",
+        "SSD",
+        "5400",
+        "7200",
+        "10000",
+        "15000"
+      ]
+    }
+  },
+  "propertyblueprint11": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "physical_block_size",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "iscsi-share-properties",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"},
+        {"@": "propertyblueprint8"},
+        {"@": "propertyblueprint9"},
+        {"@": "propertyblueprint10"},
+        {"@": "propertyblueprint11"}
+      ]
+    }
+  }
+}

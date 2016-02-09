@@ -1,0 +1,64 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "paths",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "label",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "uuid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mediasize",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "disk-partition",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"}
+      ]
+    }
+  }
+}

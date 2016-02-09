@@ -1,0 +1,71 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gateway",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "netmask",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vlan_id",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "address",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "channel",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dhcp",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ipmi-configuration",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"}
+      ]
+    }
+  }
+}

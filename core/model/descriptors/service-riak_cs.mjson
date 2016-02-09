@@ -1,0 +1,137 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "admin_secret",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "admin_key",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nodename",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "log_console_level",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "NONE",
+        "DEBUG",
+        "INFO",
+        "WARNING",
+        "CRITICAL",
+        "ALERT",
+        "EMERGENCY",
+        "ERROR"
+      ]
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "anonymous_user_creation",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "listener_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "max_buckets_per_user",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint8": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "stanchion_host_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint9": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "stanchion_host_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint10": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "node_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint11": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "riak_host_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint12": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "riak_host_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint13": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "listener_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "service-riak_cs",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"},
+        {"@": "propertyblueprint8"},
+        {"@": "propertyblueprint9"},
+        {"@": "propertyblueprint10"},
+        {"@": "propertyblueprint11"},
+        {"@": "propertyblueprint12"},
+        {"@": "propertyblueprint13"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "blueprint_ipfs_info_Addresses": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "Addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_ipfs_info_ProtocolVersion": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ProtocolVersion",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_ipfs_info_AgentVersion": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "AgentVersion",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_ipfs_info_PublicKey": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "PublicKey",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_ipfs_info_ID": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ID",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ipfs_info",
+      "propertyBlueprints": [
+        {"@": "blueprint_ipfs_info_Addresses"},
+        {"@": "blueprint_ipfs_info_ProtocolVersion"},
+        {"@": "blueprint_ipfs_info_AgentVersion"},
+        {"@": "blueprint_ipfs_info_PublicKey"},
+        {"@": "blueprint_ipfs_info_ID"}
+      ]
+    }
+  }
+}

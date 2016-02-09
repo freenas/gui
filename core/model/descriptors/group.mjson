@@ -1,0 +1,57 @@
+{
+  "blueprint_group_builtin": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "builtin",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_group_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_group_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_group_sudo": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sudo",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_group_members": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "members",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "group",
+      "propertyBlueprints": [
+        {"@": "blueprint_group_builtin"},
+        {"@": "blueprint_group_name"},
+        {"@": "blueprint_group_id"},
+        {"@": "blueprint_group_sudo"},
+        {"@": "blueprint_group_members"}
+      ]
+    }
+  }
+}

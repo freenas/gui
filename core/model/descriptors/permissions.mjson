@@ -1,0 +1,45 @@
+{
+  "blueprint_permissions_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "group",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_permissions_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_permissions_acl": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "acl",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_permissions_modes": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "modes",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "permissions",
+      "propertyBlueprints": [
+        {"@": "blueprint_permissions_group"},
+        {"@": "blueprint_permissions_user"},
+        {"@": "blueprint_permissions_acl"},
+        {"@": "blueprint_permissions_modes"}
+      ]
+    }
+  }
+}

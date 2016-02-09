@@ -1,0 +1,262 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "empty_password",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "zeroconf",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "workgroup",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hostlookup",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "log_level",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "NONE",
+        "MINIMUM",
+        "NORMAL",
+        "FULL",
+        "DEBUG"
+      ]
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "min_protocol",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        null,
+        "CORE",
+        "COREPLUS",
+        "LANMAN1",
+        "LANMAN2",
+        "NT1",
+        "SMB2",
+        "SMB2_02",
+        "SMB2_10",
+        "SMB2_22",
+        "SMB2_24",
+        "SMB3",
+        "SMB3_00"
+      ]
+    }
+  },
+  "propertyblueprint8": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auxiliary",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint9": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unixext",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint10": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "syslog",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint11": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "guest_user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint12": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "obey_pam_restrictions",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint13": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "time_server",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint14": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dos_charset",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint15": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unix_charset",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint16": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bind_addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "propertyblueprint17": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint18": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "execute_always",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint19": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "max_protocol",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "CORE",
+        "COREPLUS",
+        "LANMAN1",
+        "LANMAN2",
+        "NT1",
+        "SMB2",
+        "SMB2_02",
+        "SMB2_10",
+        "SMB2_22",
+        "SMB2_24",
+        "SMB3",
+        "SMB3_00"
+      ]
+    }
+  },
+  "propertyblueprint20": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "local_master",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint21": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filemask",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint22": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "netbiosname",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "propertyblueprint23": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dirmask",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint24": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "domain_logons",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "service-smb",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"},
+        {"@": "propertyblueprint8"},
+        {"@": "propertyblueprint9"},
+        {"@": "propertyblueprint10"},
+        {"@": "propertyblueprint11"},
+        {"@": "propertyblueprint12"},
+        {"@": "propertyblueprint13"},
+        {"@": "propertyblueprint14"},
+        {"@": "propertyblueprint15"},
+        {"@": "propertyblueprint16"},
+        {"@": "propertyblueprint17"},
+        {"@": "propertyblueprint18"},
+        {"@": "propertyblueprint19"},
+        {"@": "propertyblueprint20"},
+        {"@": "propertyblueprint21"},
+        {"@": "propertyblueprint22"},
+        {"@": "propertyblueprint23"},
+        {"@": "propertyblueprint24"}
+      ]
+    }
+  }
+}

@@ -1,0 +1,658 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "guid",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "primarycache",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "refreservation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vscan",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "aclinherit",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "casesensitivity",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "jailed",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint8": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "defer_destroy",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint9": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "used",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint10": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "devices",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint11": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "prevsnap",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint12": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "snapdir",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint13": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mounted",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint14": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volmode",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint15": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mlslabel",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint16": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "logicalused",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint17": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "creation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint18": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dedup",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint19": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "setuid",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint20": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "inconsistent",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint21": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "iscsioptions",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint22": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "usedbydataset",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint23": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "refcompressratio",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint24": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "objsetid",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint25": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filesystem_count",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint26": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "checksum",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint27": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "reservation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint28": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sharesmb",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint29": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "normalization",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint30": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "useraccounting",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint31": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "exec",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint32": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volblocksize",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint33": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "numclones",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint34": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "logbias",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint35": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "available",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint36": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filesystem_limit",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint37": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "copies",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint38": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "redundant_metadata",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint39": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint40": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "written",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint41": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "readonly",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint42": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "referenced",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint43": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mountpoint",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint44": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sync",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint45": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "secondarycache",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint46": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nbmand",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint47": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "xattr",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint48": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "logicalreferenced",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint49": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "clones",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint50": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volsize",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint51": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "usedbychildren",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint52": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "compressratio",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint53": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "version",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint54": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "snapshot_count",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint55": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "utf8only",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint56": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recordsize",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint57": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "refquota",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint58": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "userrefs",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint59": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "canmount",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint60": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "quota",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint61": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unique",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint62": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "snapshot_limit",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint63": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "atime",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint64": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint65": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "usedbysnapshots",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint66": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "createtxg",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint67": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sharenfs",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint68": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "origin",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint69": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "compression",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint70": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "usedbyrefreservation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint71": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "aclmode",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "propertyblueprint72": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "stmf_sbd_lu",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "zfs-datasetproperties",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"},
+        {"@": "propertyblueprint8"},
+        {"@": "propertyblueprint9"},
+        {"@": "propertyblueprint10"},
+        {"@": "propertyblueprint11"},
+        {"@": "propertyblueprint12"},
+        {"@": "propertyblueprint13"},
+        {"@": "propertyblueprint14"},
+        {"@": "propertyblueprint15"},
+        {"@": "propertyblueprint16"},
+        {"@": "propertyblueprint17"},
+        {"@": "propertyblueprint18"},
+        {"@": "propertyblueprint19"},
+        {"@": "propertyblueprint20"},
+        {"@": "propertyblueprint21"},
+        {"@": "propertyblueprint22"},
+        {"@": "propertyblueprint23"},
+        {"@": "propertyblueprint24"},
+        {"@": "propertyblueprint25"},
+        {"@": "propertyblueprint26"},
+        {"@": "propertyblueprint27"},
+        {"@": "propertyblueprint28"},
+        {"@": "propertyblueprint29"},
+        {"@": "propertyblueprint30"},
+        {"@": "propertyblueprint31"},
+        {"@": "propertyblueprint32"},
+        {"@": "propertyblueprint33"},
+        {"@": "propertyblueprint34"},
+        {"@": "propertyblueprint35"},
+        {"@": "propertyblueprint36"},
+        {"@": "propertyblueprint37"},
+        {"@": "propertyblueprint38"},
+        {"@": "propertyblueprint39"},
+        {"@": "propertyblueprint40"},
+        {"@": "propertyblueprint41"},
+        {"@": "propertyblueprint42"},
+        {"@": "propertyblueprint43"},
+        {"@": "propertyblueprint44"},
+        {"@": "propertyblueprint45"},
+        {"@": "propertyblueprint46"},
+        {"@": "propertyblueprint47"},
+        {"@": "propertyblueprint48"},
+        {"@": "propertyblueprint49"},
+        {"@": "propertyblueprint50"},
+        {"@": "propertyblueprint51"},
+        {"@": "propertyblueprint52"},
+        {"@": "propertyblueprint53"},
+        {"@": "propertyblueprint54"},
+        {"@": "propertyblueprint55"},
+        {"@": "propertyblueprint56"},
+        {"@": "propertyblueprint57"},
+        {"@": "propertyblueprint58"},
+        {"@": "propertyblueprint59"},
+        {"@": "propertyblueprint60"},
+        {"@": "propertyblueprint61"},
+        {"@": "propertyblueprint62"},
+        {"@": "propertyblueprint63"},
+        {"@": "propertyblueprint64"},
+        {"@": "propertyblueprint65"},
+        {"@": "propertyblueprint66"},
+        {"@": "propertyblueprint67"},
+        {"@": "propertyblueprint68"},
+        {"@": "propertyblueprint69"},
+        {"@": "propertyblueprint70"},
+        {"@": "propertyblueprint71"},
+        {"@": "propertyblueprint72"}
+      ]
+    }
+  }
+}

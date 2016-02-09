@@ -1,0 +1,19 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "working_directory",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "service-glusterd",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"}
+      ]
+    }
+  }
+}
