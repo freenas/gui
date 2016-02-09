@@ -32,13 +32,13 @@ loginSchema.properties.password = passwordSchema.properties.password;
 
 program
     .version('0.0.1')
-    .option('-u, --username [username]', 'username')
-    .option('-p, --password [password]', 'password')
-    .option('-H, --host <host>', 'set the host by default freenas.local')
-    .option('-P, --port <port>', 'port')
-    .option('-v, --verbose', 'verbose')
-    .option('-s, --secure', 'secure')
-    .option('-t, --target <target>', 'target')
+    .option('-u, --username [username]', 'username that will be used to establish a connection with the middleware')
+    .option('-p, --password [password]', 'password that will be used to establish a connection with the middleware')
+    .option('-H, --host <host>', 'host that will be used to establish a connection with the middleware')
+    .option('-P, --port <port>', 'port that will be used to establish a connection with the middleware')
+    .option('-v, --verbose', "enable the verbose mode")
+    .option('-s, --secure', "establish a secure connection with the middleware")
+    .option('-t, --target <target>', "changes the default target directory")
     .parse(process.argv);
 
 
