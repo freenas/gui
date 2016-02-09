@@ -13,6 +13,8 @@
 }
 
 .Main-substitution {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     background-size: 310px 195px;
     background-image: url(../../assets/images/bg.png);
