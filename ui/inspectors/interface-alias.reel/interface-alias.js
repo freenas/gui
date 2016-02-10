@@ -26,6 +26,12 @@ var Component = require("montage/ui/component").Component;
     }
 ]*/
 
+// This is hardcoded. There will never be any other options.
+var _ALIAS_TYPE_OPTIONS = [
+    {"label": "IPv4", "value": "INET"},
+    {"label": "IPv6", "value": "INET6"}
+];
+
 /**
  * @class InterfaceAlias
  * @extends Component
@@ -39,5 +45,8 @@ exports.InterfaceAlias = Component.specialize({
             "type": "INET",
             "source": "manual"
         }
+    },
+    aliasTypeOptions: {
+        "value": _ALIAS_TYPE_OPTIONS
     }
 });

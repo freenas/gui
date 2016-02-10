@@ -90,6 +90,34 @@
             "bindings": {
                 "value": {"<->": "@owner.object.broadcast"}
             }
+        },
+        "type-substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "type-substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.source"}
+            }
+        },
+        "type-text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "type-text"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type"}
+            }
+        },
+        "type-select": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "type-select"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.type"},
+                "options": {"<-": "@owner.aliasTypeOptions"}
+            }
         }
     }
     </script>
@@ -132,6 +160,24 @@
             <div data-arg="manual">
                 <p>Broadcast Address</p>
                 <div data-montage-id="broadcast-input"></div>
+            </div>
+        </div>
+        <div data-montage-id="type-substitution">
+            <div data-arg="dhcp">
+                <p>Alias Type</p>
+                <div data-montage-id="type-text"></div>
+            </div>
+            <div data-arg="rtadv">
+                <p>Alias Type</p>
+                <div data-montage-id="type-text"></div>
+            </div>
+            <div data-arg="link-local">
+                <p>Alias Type</p>
+                <div data-montage-id="type-text"></div>
+            </div>
+            <div data-arg="manual">
+                <p>Alias Type</p>
+                <div data-montage-id="type-select"></div>
             </div>
         </div>
     </div>
