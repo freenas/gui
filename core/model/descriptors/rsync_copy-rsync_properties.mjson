@@ -1,0 +1,91 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "times",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "preserve_permissions",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "delay_updates",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "compress",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recursive",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "delete",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "extra",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint8": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "preserve_attributes",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint9": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "archive",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "rsync_copy-rsync_properties",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"},
+        {"@": "propertyblueprint8"},
+        {"@": "propertyblueprint9"}
+      ]
+    }
+  }
+}

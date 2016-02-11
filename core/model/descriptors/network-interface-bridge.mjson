@@ -1,0 +1,19 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "members",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "network-interface-bridge",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"}
+      ]
+    }
+  }
+}

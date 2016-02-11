@@ -1,0 +1,28 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "assign_gateway",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "assign_dns",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "network-config-dhcp",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"}
+      ]
+    }
+  }
+}

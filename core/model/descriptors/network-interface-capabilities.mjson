@@ -1,0 +1,26 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "add",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "del",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "network-interface-capabilities",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"}
+      ]
+    }
+  }
+}

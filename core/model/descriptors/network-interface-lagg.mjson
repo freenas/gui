@@ -1,0 +1,27 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "protocol",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ports",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "network-interface-lagg",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"}
+      ]
+    }
+  }
+}

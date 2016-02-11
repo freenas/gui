@@ -1,0 +1,28 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "network-config-netwait",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"}
+      ]
+    }
+  }
+}

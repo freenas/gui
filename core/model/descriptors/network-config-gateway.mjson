@@ -1,0 +1,28 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ipv4",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ipv6",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "network-config-gateway",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"}
+      ]
+    }
+  }
+}

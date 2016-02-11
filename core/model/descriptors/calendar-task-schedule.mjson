@@ -1,0 +1,91 @@
+{
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "day",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint2": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "year",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "week",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "minute",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint5": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "second",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "month",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint7": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hour",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint8": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "day_of_week",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "propertyblueprint9": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "coalesce",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "calendar-task-schedule",
+      "propertyBlueprints": [
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "propertyblueprint3"},
+        {"@": "propertyblueprint4"},
+        {"@": "propertyblueprint5"},
+        {"@": "propertyblueprint6"},
+        {"@": "propertyblueprint7"},
+        {"@": "propertyblueprint8"},
+        {"@": "propertyblueprint9"}
+      ]
+    }
+  }
+}
