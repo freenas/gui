@@ -1,0 +1,452 @@
+{
+    "models": [
+        {
+            "type": "acl-entry",
+            "modelId": "core/model/descriptors/acl-entry.mjson"
+        },
+        {
+            "type": "activedirectory-config",
+            "modelId": "core/model/descriptors/activedirectory-config.mjson"
+        },
+        {
+            "type": "afp-share",
+            "modelId": "core/model/descriptors/afp-share.mjson"
+        },
+        {
+            "type": "alert-filter",
+            "modelId": "core/model/descriptors/alert-filter.mjson"
+        },
+        {
+            "type": "alert",
+            "modelId": "core/model/descriptors/alert.mjson"
+        },
+        {
+            "type": "boot-environment",
+            "modelId": "core/model/descriptors/boot-environment.mjson"
+        },
+        {
+            "type": "calendar-task-status",
+            "modelId": "core/model/descriptors/calendar-task-status.mjson"
+        },
+        {
+            "type": "calendar-task",
+            "modelId": "core/model/descriptors/calendar-task.mjson"
+        },
+        {
+            "type": "container-device-cdrom",
+            "modelId": "core/model/descriptors/container-device-cdrom.mjson"
+        },
+        {
+            "type": "container-device-disk",
+            "modelId": "core/model/descriptors/container-device-disk.mjson"
+        },
+        {
+            "type": "container-device-nic",
+            "modelId": "core/model/descriptors/container-device-nic.mjson"
+        },
+        {
+            "type": "container-device",
+            "modelId": "core/model/descriptors/container-device.mjson"
+        },
+        {
+            "type": "container",
+            "modelId": "core/model/descriptors/container.mjson"
+        },
+        {
+            "type": "cpu-device",
+            "modelId": "core/model/descriptors/cpu-device.mjson"
+        },
+        {
+            "type": "crypto-certificate",
+            "modelId": "core/model/descriptors/crypto-certificate.mjson"
+        },
+        {
+            "type": "dataset",
+            "modelId": "core/model/descriptors/dataset.mjson"
+        },
+        {
+            "type": "directoryservice",
+            "modelId": "core/model/descriptors/directoryservice.mjson"
+        },
+        {
+            "type": "disk-attach-params",
+            "modelId": "core/model/descriptors/disk-attach-params.mjson"
+        },
+        {
+            "type": "disk-device",
+            "modelId": "core/model/descriptors/disk-device.mjson"
+        },
+        {
+            "type": "disk-metadata",
+            "modelId": "core/model/descriptors/disk-metadata.mjson"
+        },
+        {
+            "type": "disk-partition",
+            "modelId": "core/model/descriptors/disk-partition.mjson"
+        },
+        {
+            "type": "disk-set-key-params",
+            "modelId": "core/model/descriptors/disk-set-key-params.mjson"
+        },
+        {
+            "type": "disk-status",
+            "modelId": "core/model/descriptors/disk-status.mjson"
+        },
+        {
+            "type": "disk",
+            "modelId": "core/model/descriptors/disk.mjson"
+        },
+        {
+            "type": "disks-allocation",
+            "modelId": "core/model/descriptors/disks-allocation.mjson"
+        },
+        {
+            "type": "encryption",
+            "modelId": "core/model/descriptors/encryption.mjson"
+        },
+        {
+            "type": "error",
+            "modelId": "core/model/descriptors/error.mjson"
+        },
+        {
+            "type": "group",
+            "modelId": "core/model/descriptors/group.mjson"
+        },
+        {
+            "type": "importable-disk",
+            "modelId": "core/model/descriptors/importable-disk.mjson"
+        },
+        {
+            "type": "ipfs_info",
+            "modelId": "core/model/descriptors/ipfs_info.mjson"
+        },
+        {
+            "type": "ipmi-configuration",
+            "modelId": "core/model/descriptors/ipmi-configuration.mjson"
+        },
+        {
+            "type": "iscsi-auth-group",
+            "modelId": "core/model/descriptors/iscsi-auth-group.mjson"
+        },
+        {
+            "type": "iscsi-portal",
+            "modelId": "core/model/descriptors/iscsi-portal.mjson"
+        },
+        {
+            "type": "iscsi-share-properties",
+            "modelId": "core/model/descriptors/iscsi-share-properties.mjson"
+        },
+        {
+            "type": "iscsi-target",
+            "modelId": "core/model/descriptors/iscsi-target.mjson"
+        },
+        {
+            "type": "iscsi-user",
+            "modelId": "core/model/descriptors/iscsi-user.mjson"
+        },
+        {
+            "type": "ldap-config",
+            "modelId": "core/model/descriptors/ldap-config.mjson"
+        },
+        {
+            "type": "mail-message",
+            "modelId": "core/model/descriptors/mail-message.mjson"
+        },
+        {
+            "type": "mail",
+            "modelId": "core/model/descriptors/mail.mjson"
+        },
+        {
+            "type": "network-config",
+            "modelId": "core/model/descriptors/network-config.mjson"
+        },
+        {
+            "type": "network-device",
+            "modelId": "core/model/descriptors/network-device.mjson"
+        },
+        {
+            "type": "network-host",
+            "modelId": "core/model/descriptors/network-host.mjson"
+        },
+        {
+            "type": "network-interface-alias",
+            "modelId": "core/model/descriptors/network-interface-alias.mjson"
+        },
+        {
+            "type": "network-interface-status",
+            "modelId": "core/model/descriptors/network-interface-status.mjson"
+        },
+        {
+            "type": "network-interface",
+            "modelId": "core/model/descriptors/network-interface.mjson"
+        },
+        {
+            "type": "network-route",
+            "modelId": "core/model/descriptors/network-route.mjson"
+        },
+        {
+            "type": "nfs-share-properties",
+            "modelId": "core/model/descriptors/nfs-share-properties.mjson"
+        },
+        {
+            "type": "ntp-server",
+            "modelId": "core/model/descriptors/ntp-server.mjson"
+        },
+        {
+            "type": "permissions",
+            "modelId": "core/model/descriptors/permissions.mjson"
+        },
+        {
+            "type": "power_changed",
+            "modelId": "core/model/descriptors/power_changed.mjson"
+        },
+        {
+            "type": "replication",
+            "modelId": "core/model/descriptors/replication.mjson"
+        },
+        {
+            "type": "rsync_copy",
+            "modelId": "core/model/descriptors/rsync_copy.mjson"
+        },
+        {
+            "type": "rsyncd-module",
+            "modelId": "core/model/descriptors/rsyncd-module.mjson"
+        },
+        {
+            "type": "rusage",
+            "modelId": "core/model/descriptors/rusage.mjson"
+        },
+        {
+            "type": "service-afp",
+            "modelId": "core/model/descriptors/service-afp.mjson"
+        },
+        {
+            "type": "service-dyndns",
+            "modelId": "core/model/descriptors/service-dyndns.mjson"
+        },
+        {
+            "type": "service-ftp",
+            "modelId": "core/model/descriptors/service-ftp.mjson"
+        },
+        {
+            "type": "service-glusterd",
+            "modelId": "core/model/descriptors/service-glusterd.mjson"
+        },
+        {
+            "type": "service-haproxy",
+            "modelId": "core/model/descriptors/service-haproxy.mjson"
+        },
+        {
+            "type": "service-ipfs",
+            "modelId": "core/model/descriptors/service-ipfs.mjson"
+        },
+        {
+            "type": "service-iscsi",
+            "modelId": "core/model/descriptors/service-iscsi.mjson"
+        },
+        {
+            "type": "service-lldp",
+            "modelId": "core/model/descriptors/service-lldp.mjson"
+        },
+        {
+            "type": "service-nfs",
+            "modelId": "core/model/descriptors/service-nfs.mjson"
+        },
+        {
+            "type": "service-riak",
+            "modelId": "core/model/descriptors/service-riak.mjson"
+        },
+        {
+            "type": "service-riak_cs",
+            "modelId": "core/model/descriptors/service-riak_cs.mjson"
+        },
+        {
+            "type": "service-rsyncd",
+            "modelId": "core/model/descriptors/service-rsyncd.mjson"
+        },
+        {
+            "type": "service-smartd",
+            "modelId": "core/model/descriptors/service-smartd.mjson"
+        },
+        {
+            "type": "service-smb",
+            "modelId": "core/model/descriptors/service-smb.mjson"
+        },
+        {
+            "type": "service-snmp",
+            "modelId": "core/model/descriptors/service-snmp.mjson"
+        },
+        {
+            "type": "service-ssh",
+            "modelId": "core/model/descriptors/service-ssh.mjson"
+        },
+        {
+            "type": "service-stanchion",
+            "modelId": "core/model/descriptors/service-stanchion.mjson"
+        },
+        {
+            "type": "service-swift",
+            "modelId": "core/model/descriptors/service-swift.mjson"
+        },
+        {
+            "type": "service-tftp",
+            "modelId": "core/model/descriptors/service-tftp.mjson"
+        },
+        {
+            "type": "service-ups",
+            "modelId": "core/model/descriptors/service-ups.mjson"
+        },
+        {
+            "type": "service-webdav",
+            "modelId": "core/model/descriptors/service-webdav.mjson"
+        },
+        {
+            "type": "service",
+            "modelId": "core/model/descriptors/service.mjson"
+        },
+        {
+            "type": "session",
+            "modelId": "core/model/descriptors/session.mjson"
+        },
+        {
+            "type": "share-client",
+            "modelId": "core/model/descriptors/share-client.mjson"
+        },
+        {
+            "type": "share",
+            "modelId": "core/model/descriptors/share.mjson"
+        },
+        {
+            "type": "simulated-disk",
+            "modelId": "core/model/descriptors/simulated-disk.mjson"
+        },
+        {
+            "type": "smb-share",
+            "modelId": "core/model/descriptors/smb-share.mjson"
+        },
+        {
+            "type": "stat",
+            "modelId": "core/model/descriptors/stat.mjson"
+        },
+        {
+            "type": "support-ticket",
+            "modelId": "core/model/descriptors/support-ticket.mjson"
+        },
+        {
+            "type": "swap-mirror",
+            "modelId": "core/model/descriptors/swap-mirror.mjson"
+        },
+        {
+            "type": "system-advanced",
+            "modelId": "core/model/descriptors/system-advanced.mjson"
+        },
+        {
+            "type": "system-general",
+            "modelId": "core/model/descriptors/system-general.mjson"
+        },
+        {
+            "type": "system-time",
+            "modelId": "core/model/descriptors/system-time.mjson"
+        },
+        {
+            "type": "system-ui",
+            "modelId": "core/model/descriptors/system-ui.mjson"
+        },
+        {
+            "type": "task",
+            "modelId": "core/model/descriptors/task.mjson"
+        },
+        {
+            "type": "tunable",
+            "modelId": "core/model/descriptors/tunable.mjson"
+        },
+        {
+            "type": "ui-transaction",
+            "modelId": "core/model/descriptors/ui-transaction.mjson"
+        },
+        {
+            "type": "unix-mode-tuple",
+            "modelId": "core/model/descriptors/unix-mode-tuple.mjson"
+        },
+        {
+            "type": "unix-permissions",
+            "modelId": "core/model/descriptors/unix-permissions.mjson"
+        },
+        {
+            "type": "update-info",
+            "modelId": "core/model/descriptors/update-info.mjson"
+        },
+        {
+            "type": "update-ops",
+            "modelId": "core/model/descriptors/update-ops.mjson"
+        },
+        {
+            "type": "update-progress",
+            "modelId": "core/model/descriptors/update-progress.mjson"
+        },
+        {
+            "type": "update-train",
+            "modelId": "core/model/descriptors/update-train.mjson"
+        },
+        {
+            "type": "update",
+            "modelId": "core/model/descriptors/update.mjson"
+        },
+        {
+            "type": "user",
+            "modelId": "core/model/descriptors/user.mjson"
+        },
+        {
+            "type": "volume-import-params",
+            "modelId": "core/model/descriptors/volume-import-params.mjson"
+        },
+        {
+            "type": "volume",
+            "modelId": "core/model/descriptors/volume.mjson"
+        },
+        {
+            "type": "webdav-share-properties",
+            "modelId": "core/model/descriptors/webdav-share-properties.mjson"
+        },
+        {
+            "type": "zfs-dataset",
+            "modelId": "core/model/descriptors/zfs-dataset.mjson"
+        },
+        {
+            "type": "zfs-datasetproperties",
+            "modelId": "core/model/descriptors/zfs-datasetproperties.mjson"
+        },
+        {
+            "type": "zfs-pool",
+            "modelId": "core/model/descriptors/zfs-pool.mjson"
+        },
+        {
+            "type": "zfs-properties",
+            "modelId": "core/model/descriptors/zfs-properties.mjson"
+        },
+        {
+            "type": "zfs-property",
+            "modelId": "core/model/descriptors/zfs-property.mjson"
+        },
+        {
+            "type": "zfs-scan",
+            "modelId": "core/model/descriptors/zfs-scan.mjson"
+        },
+        {
+            "type": "zfs-snapshot",
+            "modelId": "core/model/descriptors/zfs-snapshot.mjson"
+        },
+        {
+            "type": "zfs-topology",
+            "modelId": "core/model/descriptors/zfs-topology.mjson"
+        },
+        {
+            "type": "zfs-vdev-extension",
+            "modelId": "core/model/descriptors/zfs-vdev-extension.mjson"
+        },
+        {
+            "type": "zfs-vdev",
+            "modelId": "core/model/descriptors/zfs-vdev.mjson"
+        }
+    ]
+}

@@ -14,35 +14,33 @@ var DESCRIPTOR_CACHE = Object.create(null);
 var ModelDescriptor = exports.ModelDescriptor = Blueprint.specialize(/* @lends ModelDescriptor# */ null, {
 
     /**
-     * Gets a descriptor from a serialized file at the given module id.
+     * Gets a descriptor from a serialized file at the given model ID
      * @function
-     * @param {string} descriptor module id
+     * @param {string} descriptor model ID
      * @param {function} require function
      */
-    getDescriptorWithModuleId: {
-        value: function (moduleId, _require) {
-            if (moduleId.search(/\.mjson/) === -1) {
-                throw new Error(moduleId + " descriptor module id does not end in '.mjson'");
+    getDescriptorWithModelId: {
+        value: function (modelId, _require) {
+            if (modelId.search(/\.mjson/) === -1) {
+                throw new Error(modelId + " descriptor module id does not end in '.mjson'");
             }
             if (!_require) {
-                throw new Error("Require needed to get descriptor " + moduleId);
+                throw new Error("Require needed to get descriptor " + modelId);
             }
 
             var targetRequire;
 
-            var key = _require.location + "#" + moduleId;
+            var key = _require.location + "#" + modelId;
             if (key in DESCRIPTOR_CACHE) {
                 return DESCRIPTOR_CACHE[key];
             }
 
-            return DESCRIPTOR_CACHE[key] = _require.async(moduleId)
+            return DESCRIPTOR_CACHE[key] = _require.async(modelId)
                 .then(function (object) {
-                    // Need to get the require from the module, because thats
-                    // what all the moduleId references are relative to.
-                    targetRequire = getModuleRequire(_require, moduleId);
+                    targetRequire = getModelRequire(_require, modelId);
                     return new Deserializer().init(JSON.stringify(object), targetRequire).deserializeObject();
                 }).then(function (blueprint) {
-                    blueprint.blueprintInstanceModule = new ModuleReference().initWithIdAndRequire(moduleId, _require);
+                    blueprint.blueprintInstanceModule = new ModuleReference().initWithIdAndRequire(modelId, _require);
 
                     if (blueprint._parentReference) {
                         // Load parent "synchronously" so that all the properties
@@ -61,8 +59,8 @@ var ModelDescriptor = exports.ModelDescriptor = Blueprint.specialize(/* @lends M
 });
 
 // Adapted from mr/sandbox
-function getModuleRequire(parentRequire, moduleId) {
-    var topId = parentRequire.resolve(moduleId);
+function getModelRequire(parentRequire, modelId) {
+    var topId = parentRequire.resolve(modelId);
     var module = parentRequire.getModuleDescriptor(topId);
 
     while (module.redirect || module.mappingRedirect) {
