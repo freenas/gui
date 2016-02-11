@@ -3,6 +3,11 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="interface-alias.css">
+    <!-- Watch out for duplicate components here. At the time of this writing,
+         element to component matching is one to one. Therefore, even though
+         many of these components are identical, they must each be present with
+         unique IDs in order to work with their respective substritutions.
+     -->
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -19,10 +24,28 @@
                 "switchValue": {"<-": "@owner.object.source"}
             }
         },
-        "address-text": {
+        "address-dhcp": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "address-text"}
+                "element": {"#": "address-dhcp"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.address"}
+            }
+        },
+        "address-rtadv": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "address-rtadv"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.address"}
+            }
+        },
+        "address-local": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "address-local"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.address"}
@@ -46,10 +69,28 @@
                 "switchValue": {"<-": "@owner.object.source"}
             }
         },
-        "netmask-text": {
+        "netmask-dhcp": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "netmask-text"}
+                "element": {"#": "netmask-dhcp"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.netmask"}
+            }
+        },
+        "netmask-rtadv": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "netmask-rtadv"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.netmask"}
+            }
+        },
+        "netmask-local": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "netmask-local"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.netmask"}
@@ -73,10 +114,10 @@
                 "switchValue": {"<-": "@owner.object.source"}
             }
         },
-        "broadcast-text": {
+        "broadcast-dhcp": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "broadcast-text"}
+                "element": {"#": "broadcast-dhcp"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.broadcast"}
@@ -100,10 +141,28 @@
                 "switchValue": {"<-": "@owner.object.source"}
             }
         },
-        "type-text": {
+        "type-dhcp": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "type-text"}
+                "element": {"#": "type-dhcp"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type"}
+            }
+        },
+        "type-rtadv": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "type-rtadv"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type"}
+            }
+        },
+        "type-local": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "type-local"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.type"}
@@ -127,15 +186,15 @@
         <div data-montage-id="address-substitution">
             <div data-arg="dhcp">
                 <p>DCHP Address</p>
-                <div data-montage-id="address-text"></div>
+                <div data-montage-id="address-dhcp"></div>
             </div>
             <div data-arg="rtadv">
                 <p>Auto-configured IPv6 Address</p>
-                <div data-montage-id="address-text"></div>
+                <div data-montage-id="address-rtadv"></div>
             </div>
             <div data-arg="link-local">
                 <p>Link-Local IPv6 Address</p>
-                <div data-montage-id="address-text"></div>
+                <div data-montage-id="address-local"></div>
             </div>
             <div data-arg="manual">
                 <p>IP Address</p>
@@ -144,8 +203,16 @@
         </div>
         <div data-montage-id="netmask-substitution">
             <div data-arg="dhcp">
-                <p>DCHP Netmask</p>
-                <div data-montage-id="netmask-text"></div>
+                <p>Netmask</p>
+                <div data-montage-id="netmask-dhcp"></div>
+            </div>
+            <div data-arg="rtadv">
+                <p>Netmask</p>
+                <div data-montage-id="netmask-rtadv"></div>
+            </div>
+            <div data-arg="link-local">
+                <p>Netmask</p>
+                <div data-montage-id="netmask-local"></div>
             </div>
             <div data-arg="manual">
                 <p>Netmask</p>
@@ -154,8 +221,8 @@
         </div>
         <div data-montage-id="broadcast-substitution">
             <div data-arg="dhcp">
-                <p>DCHP Broadcast Address</p>
-                <div data-montage-id="broadcast-text"></div>
+                <p>Broadcast Address</p>
+                <div data-montage-id="broadcast-dhcp"></div>
             </div>
             <div data-arg="manual">
                 <p>Broadcast Address</p>
@@ -165,15 +232,15 @@
         <div data-montage-id="type-substitution">
             <div data-arg="dhcp">
                 <p>Alias Type</p>
-                <div data-montage-id="type-text"></div>
+                <div data-montage-id="type-dhcp"></div>
             </div>
             <div data-arg="rtadv">
                 <p>Alias Type</p>
-                <div data-montage-id="type-text"></div>
+                <div data-montage-id="type-rtadv"></div>
             </div>
             <div data-arg="link-local">
                 <p>Alias Type</p>
-                <div data-montage-id="type-text"></div>
+                <div data-montage-id="type-local"></div>
             </div>
             <div data-arg="manual">
                 <p>Alias Type</p>
