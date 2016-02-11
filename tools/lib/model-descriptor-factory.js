@@ -5,7 +5,7 @@ var ModelDescriptor = require("../../core/model/model-descriptor").ModelDescript
     mr = require("mr/require").makeRequire();
 
 
-exports.createModelDescriptorWithSchema = function (name, schema) {
+var createModelDescriptorWithNameAndSchema = exports.createModelDescriptorWithNameAndSchema = function (name, schema) {
     var descriptor;
 
     if (schema.type === "object") {
@@ -26,6 +26,71 @@ exports.createModelDescriptorWithSchema = function (name, schema) {
     }
 
     return descriptor;
+};
+
+
+exports.createModelDescriptorsWithNameAndSchema = function (name, schema) {
+    var descriptors = [];
+
+    schema._schema_name = name;
+
+    var schemas = findSchemasInSchema(schema),
+        _schema;
+
+    for (var i = 0, length = schemas.length; i< length; i++) {
+        _schema = schemas[i];
+        descriptors.push(createModelDescriptorWithNameAndSchema(_schema._schema_name, _schema));
+    }
+
+    return descriptors;
+};
+
+
+var findSchemasInSchema = exports.findSchemasInSchema = function findSchemasInSchema (schema, _schemas) {
+    if (!_schemas) {
+        _schemas = [];
+    }
+
+    var properties = schema.properties;
+
+    if (properties) {
+        _schemas.push(schema);
+
+        var propertyKeys = Object.keys(properties),
+            property,
+            propertyKey;
+
+        for (var i = 0, length = propertyKeys.length; i < length; i++) {
+            propertyKey = propertyKeys[i];
+            property = properties[propertyKey];
+
+            var type = property.type;
+
+            if (property.enum) {
+                if (global.warning || global.verbose) {
+                    console.log("schema '" + schema._schema_name +
+                        "' should have a reference to an enumeration for the property '" + propertyKey + "'");
+                }
+            } else if (typeof type === "string") {
+                if (type === "object") {
+                    if (global.warning || global.verbose) {
+                        console.log("schema '" + schema._schema_name +
+                            "' should have a reference to an object for the property '" + propertyKey + "'");
+                    }
+
+                    property._schema_name = schema._schema_name + "-" + propertyKey;
+
+                    findSchemasInSchema(property, _schemas);
+                }
+            }
+        }
+    } else {
+        if (global.warning || global.verbose) {
+            console.log("Missing schema for '" + schema._schema_name + "'");
+        }
+    }
+
+    return _schemas;
 };
 
 
@@ -108,12 +173,18 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
             var type = property.type;
 
             if (typeof type === "string") {
+                if (type === "object" && (global.warning || global.verbose)) {
+                    console.log("schema '" + name + "' should have a reference to an object for the property '" + propertyKey + "'");
+                }
+
                 setTypeOnPropertyDescriptor(type, propertyDescriptor);
 
             } else if (Array.isArray(type)) {
+                //todo check if [0] !== null
                 setTypeOnPropertyDescriptor(property.type[0], propertyDescriptor);
 
             } else if (propertyDescriptor["$ref"]) {
+                //todo: implement $ref
                 setTypeOnPropertyDescriptor("object", propertyDescriptor);
             }
 
