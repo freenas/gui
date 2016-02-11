@@ -1,6 +1,7 @@
 /*global require, exports, Error*/
-var Montage = require("montage").Montage,
-    FreeNASService = require("./service/freenas-service").FreeNASService;
+var Montage = require("montage").Montage;
+
+require("./extras/string");
 
 exports.ApplicationDelegate = Montage.specialize({
 

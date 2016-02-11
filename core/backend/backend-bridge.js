@@ -13,9 +13,6 @@ var RPC_NAME_SPACE = "rpc",
     RESPONSE_NAME = "response";
 
 
-var EventTypeMap = Object.create(null);
-
-
 /**
  * @class
  * @extends Target
@@ -178,8 +175,8 @@ exports.BackEndBridge = Target.specialize({
                         deferred.reject(new Error("Message received but no handler has been found: " + response));
                     }
                 } else if (response.namespace === EVENTS_NAME_SPACE) {
-                    this.dispatchEventNamed(this._getEventTypeFromRawType(
-                        response.name !== EVENT_NAME ? response.name : response.args.name),
+                    this.dispatchEventNamed(
+                        (response.name !== EVENT_NAME ? response.name : response.args.name).toCamelCase(),
                         true,
                         true,
                         response.args.args || response.args);
@@ -397,7 +394,7 @@ exports.BackEndBridge = Target.specialize({
         value: function (events, listener, useCapture) {
             if (listener) {
                 for (var i  = 0, length = events.length; i < length; i++) {
-                    this.addEventListener(this._getEventTypeFromRawType(events[i]), listener, useCapture);
+                    this.addEventListener(events[i].toCamelCase(), listener, useCapture);
                 }
             }
         }
@@ -419,45 +416,8 @@ exports.BackEndBridge = Target.specialize({
         value: function (events, listener, useCapture) {
             if (listener) {
                 for (var i  = 0, length = events.length; i < length; i++) {
-                    this.removeEventListener(this._getEventTypeFromRawType(events[i]), listener, useCapture);
+                    this.removeEventListener(events[i].toCamelCase(), listener, useCapture);
                 }
-            }
-        }
-    },
-
-
-    /**
-     * @function
-     * @private
-     *
-     * @description todo
-     *
-     * @params {String} rawType
-     *
-     */
-    _getEventTypeFromRawType: {
-        value: function (rawType) {
-            if (typeof rawType === "string" && rawType.length) {
-                rawType = rawType.trim();
-
-                var eventType = EventTypeMap[rawType];
-
-                if (!eventType) {
-                    var data = rawType.split(/\.|_|-/);
-
-                    eventType = data[0];
-
-                    for (var i = 1, length = data.length; i < length; i++) {
-                        eventType += data[i].toCapitalized();
-                    }
-
-                    EventTypeMap[rawType] = eventType;
-                }
-
-                return eventType;
-
-            } else {
-                throw new Error("Can't get event type from given type: " + rawType);
             }
         }
     }
