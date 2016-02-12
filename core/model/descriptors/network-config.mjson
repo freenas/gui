@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "http_proxy",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "gateway",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_networkconfig_netwait": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "netwait",
@@ -23,15 +7,7 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "dns",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint5": {
+  "blueprint_networkconfig_autoconfigure": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "autoconfigure",
@@ -39,7 +15,15 @@
       "valueType": "boolean"
     }
   },
-  "propertyblueprint6": {
+  "blueprint_networkconfig_gateway": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gateway",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_networkconfig_dhcp": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "dhcp",
@@ -47,17 +31,33 @@
       "valueType": "object"
     }
   },
+  "blueprint_networkconfig_dns": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dns",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_networkconfig_http_proxy": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "http_proxy",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "network-config",
+      "name": "NetworkConfig",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"}
+        {"@": "blueprint_networkconfig_netwait"},
+        {"@": "blueprint_networkconfig_autoconfigure"},
+        {"@": "blueprint_networkconfig_gateway"},
+        {"@": "blueprint_networkconfig_dhcp"},
+        {"@": "blueprint_networkconfig_dns"},
+        {"@": "blueprint_networkconfig_http_proxy"}
       ]
     }
   }

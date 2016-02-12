@@ -1,13 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "guid",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint2": {
+  "blueprint_zfsproperties_maxblocksize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "maxblocksize",
@@ -15,55 +7,15 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint3": {
+  "blueprint_zfsproperties_guid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "size",
+      "name": "guid",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "fragmentation",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "dedupratio",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "autoexpand",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint8": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "readonly",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint9": {
+  "blueprint_zfsproperties_autoreplace": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "autoreplace",
@@ -71,87 +23,7 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint10": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "bootfs",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint11": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "free",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint12": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "allocated",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint13": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listsnapshots",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint14": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "version",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint15": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "comment",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint16": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "capacity",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint17": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "delegation",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint18": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "freeing",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint19": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "health",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint20": {
+  "blueprint_zfsproperties_expandsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "expandsize",
@@ -159,23 +31,15 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint21": {
+  "blueprint_zfsproperties_listsnapshots": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "altroot",
+      "name": "listsnapshots",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint22": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "failmode",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint23": {
+  "blueprint_zfsproperties_leaked": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "leaked",
@@ -183,15 +47,63 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint24": {
+  "blueprint_zfsproperties_fragmentation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dedupditto",
+      "name": "fragmentation",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint25": {
+  "blueprint_zfsproperties_autoexpand": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "autoexpand",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_altroot": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "altroot",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_bootfs": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bootfs",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_delegation": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "delegation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_allocated": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "allocated",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_failmode": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "failmode",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_cachefile": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "cachefile",
@@ -199,36 +111,124 @@
       "valueType": "object"
     }
   },
+  "blueprint_zfsproperties_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "version",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "size",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_freeing": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "freeing",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_dedupratio": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dedupratio",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_capacity": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "capacity",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_dedupditto": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dedupditto",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_health": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "health",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_free": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "free",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_readonly": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "readonly",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsproperties_comment": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "comment",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-properties",
+      "name": "ZfsProperties",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"},
-        {"@": "propertyblueprint10"},
-        {"@": "propertyblueprint11"},
-        {"@": "propertyblueprint12"},
-        {"@": "propertyblueprint13"},
-        {"@": "propertyblueprint14"},
-        {"@": "propertyblueprint15"},
-        {"@": "propertyblueprint16"},
-        {"@": "propertyblueprint17"},
-        {"@": "propertyblueprint18"},
-        {"@": "propertyblueprint19"},
-        {"@": "propertyblueprint20"},
-        {"@": "propertyblueprint21"},
-        {"@": "propertyblueprint22"},
-        {"@": "propertyblueprint23"},
-        {"@": "propertyblueprint24"},
-        {"@": "propertyblueprint25"}
+        {"@": "blueprint_zfsproperties_maxblocksize"},
+        {"@": "blueprint_zfsproperties_guid"},
+        {"@": "blueprint_zfsproperties_autoreplace"},
+        {"@": "blueprint_zfsproperties_expandsize"},
+        {"@": "blueprint_zfsproperties_listsnapshots"},
+        {"@": "blueprint_zfsproperties_leaked"},
+        {"@": "blueprint_zfsproperties_fragmentation"},
+        {"@": "blueprint_zfsproperties_autoexpand"},
+        {"@": "blueprint_zfsproperties_altroot"},
+        {"@": "blueprint_zfsproperties_bootfs"},
+        {"@": "blueprint_zfsproperties_delegation"},
+        {"@": "blueprint_zfsproperties_allocated"},
+        {"@": "blueprint_zfsproperties_failmode"},
+        {"@": "blueprint_zfsproperties_cachefile"},
+        {"@": "blueprint_zfsproperties_version"},
+        {"@": "blueprint_zfsproperties_name"},
+        {"@": "blueprint_zfsproperties_size"},
+        {"@": "blueprint_zfsproperties_freeing"},
+        {"@": "blueprint_zfsproperties_dedupratio"},
+        {"@": "blueprint_zfsproperties_capacity"},
+        {"@": "blueprint_zfsproperties_dedupditto"},
+        {"@": "blueprint_zfsproperties_health"},
+        {"@": "blueprint_zfsproperties_free"},
+        {"@": "blueprint_zfsproperties_readonly"},
+        {"@": "blueprint_zfsproperties_comment"}
       ]
     }
   }

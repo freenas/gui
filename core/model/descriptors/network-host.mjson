@@ -1,13 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "address",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
+  "blueprint_networkhost_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -15,13 +7,21 @@
       "valueType": "String"
     }
   },
+  "blueprint_networkhost_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "network-host",
+      "name": "NetworkHost",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_networkhost_id"},
+        {"@": "blueprint_networkhost_address"}
       ]
     }
   }

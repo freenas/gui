@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfsvdev_guid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "guid",
@@ -7,7 +7,41 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfsvdev_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsvdev_children": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "children",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_zfsvdev_stats": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "stats",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsvdev_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsvdev_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
@@ -23,51 +57,17 @@
       ]
     }
   },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "children",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "stats",
-      "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "status",
-      "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-vdev",
+      "name": "ZfsVdev",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"}
+        {"@": "blueprint_zfsvdev_guid"},
+        {"@": "blueprint_zfsvdev_path"},
+        {"@": "blueprint_zfsvdev_children"},
+        {"@": "blueprint_zfsvdev_stats"},
+        {"@": "blueprint_zfsvdev_status"},
+        {"@": "blueprint_zfsvdev_type"}
       ]
     }
   }

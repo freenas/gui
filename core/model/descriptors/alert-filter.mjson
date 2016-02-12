@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_alertfilter_emitters": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "emitters",
@@ -7,15 +7,7 @@
       "valueType": "array"
     }
   },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_alertfilter_severity": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "severity",
@@ -23,14 +15,22 @@
       "valueType": "array"
     }
   },
+  "blueprint_alertfilter_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "alert-filter",
+      "name": "AlertFilter",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"}
+        {"@": "blueprint_alertfilter_emitters"},
+        {"@": "blueprint_alertfilter_severity"},
+        {"@": "blueprint_alertfilter_name"}
       ]
     }
   }

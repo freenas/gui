@@ -1,28 +1,4 @@
 {
-  "blueprint_stat_atime": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "atime",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_stat_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_stat_ctime": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ctime",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_stat_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -31,10 +7,10 @@
       "valueType": "number"
     }
   },
-  "blueprint_stat_mtime": {
+  "blueprint_stat_ctime": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "mtime",
+      "name": "ctime",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -47,6 +23,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_stat_atime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "atime",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_stat_permissions": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -54,18 +38,34 @@
       "blueprint": {"@": "root"}
     }
   },
+  "blueprint_stat_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_stat_mtime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mtime",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "stat",
+      "name": "Stat",
       "propertyBlueprints": [
-        {"@": "blueprint_stat_atime"},
-        {"@": "blueprint_stat_type"},
-        {"@": "blueprint_stat_ctime"},
         {"@": "blueprint_stat_size"},
-        {"@": "blueprint_stat_mtime"},
+        {"@": "blueprint_stat_ctime"},
         {"@": "blueprint_stat_path"},
-        {"@": "blueprint_stat_permissions"}
+        {"@": "blueprint_stat_atime"},
+        {"@": "blueprint_stat_permissions"},
+        {"@": "blueprint_stat_type"},
+        {"@": "blueprint_stat_mtime"}
       ]
     }
   }

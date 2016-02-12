@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfsdatasetpropertiesfilesystemlimit_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfsdatasetpropertiesfilesystemlimit_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-datasetproperties-filesystem_limit",
+      "name": "ZfsDatasetpropertiesFilesystemLimit",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_zfsdatasetpropertiesfilesystemlimit_value"},
+        {"@": "blueprint_zfsdatasetpropertiesfilesystemlimit_source"}
       ]
     }
   }

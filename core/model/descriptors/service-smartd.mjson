@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_servicesmartd_interval": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "interval",
@@ -7,7 +7,15 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_servicesmartd_temp_informational": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "temp_informational",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_servicesmartd_power_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "power_mode",
@@ -21,15 +29,7 @@
       ]
     }
   },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "temp_difference",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint4": {
+  "blueprint_servicesmartd_temp_critical": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "temp_critical",
@@ -37,10 +37,10 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint5": {
+  "blueprint_servicesmartd_temp_difference": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "temp_informational",
+      "name": "temp_difference",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -48,13 +48,13 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-smartd",
+      "name": "ServiceSmartd",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"}
+        {"@": "blueprint_servicesmartd_interval"},
+        {"@": "blueprint_servicesmartd_temp_informational"},
+        {"@": "blueprint_servicesmartd_power_mode"},
+        {"@": "blueprint_servicesmartd_temp_critical"},
+        {"@": "blueprint_servicesmartd_temp_difference"}
       ]
     }
   }

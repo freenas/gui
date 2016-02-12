@@ -1,45 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "message",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "subject",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "attachments",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "extra_headers",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "to",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint6": {
+  "blueprint_mailmessage_from": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "from",
@@ -47,17 +7,57 @@
       "valueType": "String"
     }
   },
+  "blueprint_mailmessage_message": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "message",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_mailmessage_attachments": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "attachments",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_mailmessage_extra_headers": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "extra_headers",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_mailmessage_to": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "to",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_mailmessage_subject": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "subject",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "mail-message",
+      "name": "MailMessage",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"}
+        {"@": "blueprint_mailmessage_from"},
+        {"@": "blueprint_mailmessage_message"},
+        {"@": "blueprint_mailmessage_attachments"},
+        {"@": "blueprint_mailmessage_extra_headers"},
+        {"@": "blueprint_mailmessage_to"},
+        {"@": "blueprint_mailmessage_subject"}
       ]
     }
   }

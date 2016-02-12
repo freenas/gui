@@ -1,45 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "times",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "preserve_permissions",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "delay_updates",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "compress",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "recursive",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint6": {
+  "blueprint_rsynccopyrsyncproperties_delete": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "delete",
@@ -47,7 +7,15 @@
       "valueType": "boolean"
     }
   },
-  "propertyblueprint7": {
+  "blueprint_rsynccopyrsyncproperties_compress": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "compress",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_rsynccopyrsyncproperties_extra": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "extra",
@@ -55,15 +23,15 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint8": {
+  "blueprint_rsynccopyrsyncproperties_times": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "preserve_attributes",
+      "name": "times",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
   },
-  "propertyblueprint9": {
+  "blueprint_rsynccopyrsyncproperties_archive": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "archive",
@@ -71,20 +39,52 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_rsynccopyrsyncproperties_delay_updates": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "delay_updates",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_rsynccopyrsyncproperties_recursive": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recursive",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_rsynccopyrsyncproperties_preserve_attributes": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "preserve_attributes",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_rsynccopyrsyncproperties_preserve_permissions": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "preserve_permissions",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "rsync_copy-rsync_properties",
+      "name": "RsyncCopyRsyncProperties",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"}
+        {"@": "blueprint_rsynccopyrsyncproperties_delete"},
+        {"@": "blueprint_rsynccopyrsyncproperties_compress"},
+        {"@": "blueprint_rsynccopyrsyncproperties_extra"},
+        {"@": "blueprint_rsynccopyrsyncproperties_times"},
+        {"@": "blueprint_rsynccopyrsyncproperties_archive"},
+        {"@": "blueprint_rsynccopyrsyncproperties_delay_updates"},
+        {"@": "blueprint_rsynccopyrsyncproperties_recursive"},
+        {"@": "blueprint_rsynccopyrsyncproperties_preserve_attributes"},
+        {"@": "blueprint_rsynccopyrsyncproperties_preserve_permissions"}
       ]
     }
   }

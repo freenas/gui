@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfsdatasetpropertiesdevices_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfsdatasetpropertiesdevices_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-datasetproperties-devices",
+      "name": "ZfsDatasetpropertiesDevices",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_zfsdatasetpropertiesdevices_value"},
+        {"@": "blueprint_zfsdatasetpropertiesdevices_source"}
       ]
     }
   }

@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfspropertiescomment_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfspropertiescomment_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-properties-comment",
+      "name": "ZfsPropertiesComment",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_zfspropertiescomment_value"},
+        {"@": "blueprint_zfspropertiescomment_source"}
       ]
     }
   }

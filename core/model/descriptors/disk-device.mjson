@@ -1,13 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
+  "blueprint_diskdevice_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "description",
@@ -15,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint3": {
+  "blueprint_diskdevice_mediasize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "mediasize",
@@ -23,14 +15,22 @@
       "valueType": "number"
     }
   },
+  "blueprint_diskdevice_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "disk-device",
+      "name": "DiskDevice",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"}
+        {"@": "blueprint_diskdevice_description"},
+        {"@": "blueprint_diskdevice_mediasize"},
+        {"@": "blueprint_diskdevice_name"}
       ]
     }
   }

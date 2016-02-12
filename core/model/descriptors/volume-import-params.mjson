@@ -1,13 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "disks",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint2": {
+  "blueprint_volumeimportparams_key": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "key",
@@ -15,13 +7,21 @@
       "valueType": "String"
     }
   },
+  "blueprint_volumeimportparams_disks": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "disks",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "volume-import-params",
+      "name": "VolumeImportParams",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_volumeimportparams_key"},
+        {"@": "blueprint_volumeimportparams_disks"}
       ]
     }
   }

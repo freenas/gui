@@ -1,10 +1,82 @@
 {
-  "blueprint_user_password": {
+  "blueprint_user_sudo": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "password",
+      "name": "sudo",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_user_password_disabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password_disabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_user_full_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "full_name",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_user_smbhash": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "smbhash",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_user_shell": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "shell",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_user_email": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "email",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_user_locked": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "locked",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_user_username": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "username",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_user_unixhash": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unixhash",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_user_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "group",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "blueprint_user_home": {
@@ -23,60 +95,13 @@
       "valueType": "number"
     }
   },
-  "blueprint_user_smbhash": {
+  "blueprint_user_builtin": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "smbhash",
+      "name": "builtin",
       "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_user_sudo": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "sudo",
-      "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "boolean"
-    }
-  },
-  "blueprint_user_username": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "username",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_user_attributes": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "attributes",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "blueprint_user_groups": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "groups",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_user_group": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "group",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_user_shell": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "shell",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_user_sshpubkey": {
@@ -87,51 +112,26 @@
       "valueType": "String"
     }
   },
-  "blueprint_user_full_name": {
+  "blueprint_user_groups": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "full_name",
+      "name": "groups",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
-  "blueprint_user_password_disabled": {
+  "blueprint_user_attributes": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "password_disabled",
+      "name": "attributes",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "object"
     }
   },
-  "blueprint_user_builtin": {
+  "blueprint_user_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "builtin",
-      "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_user_locked": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "locked",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_user_unixhash": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "unixhash",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_user_email": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "email",
+      "name": "password",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -139,25 +139,25 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "user",
+      "name": "User",
       "propertyBlueprints": [
-        {"@": "blueprint_user_password"},
+        {"@": "blueprint_user_sudo"},
+        {"@": "blueprint_user_password_disabled"},
+        {"@": "blueprint_user_full_name"},
+        {"@": "blueprint_user_smbhash"},
+        {"@": "blueprint_user_shell"},
+        {"@": "blueprint_user_email"},
+        {"@": "blueprint_user_locked"},
+        {"@": "blueprint_user_username"},
+        {"@": "blueprint_user_unixhash"},
+        {"@": "blueprint_user_group"},
         {"@": "blueprint_user_home"},
         {"@": "blueprint_user_id"},
-        {"@": "blueprint_user_smbhash"},
-        {"@": "blueprint_user_sudo"},
-        {"@": "blueprint_user_username"},
-        {"@": "blueprint_user_attributes"},
-        {"@": "blueprint_user_groups"},
-        {"@": "blueprint_user_group"},
-        {"@": "blueprint_user_shell"},
-        {"@": "blueprint_user_sshpubkey"},
-        {"@": "blueprint_user_full_name"},
-        {"@": "blueprint_user_password_disabled"},
         {"@": "blueprint_user_builtin"},
-        {"@": "blueprint_user_locked"},
-        {"@": "blueprint_user_unixhash"},
-        {"@": "blueprint_user_email"}
+        {"@": "blueprint_user_sshpubkey"},
+        {"@": "blueprint_user_groups"},
+        {"@": "blueprint_user_attributes"},
+        {"@": "blueprint_user_password"}
       ]
     }
   }

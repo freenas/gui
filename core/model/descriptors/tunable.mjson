@@ -1,17 +1,4 @@
 {
-  "blueprint_tunable_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "LOADER",
-        "RC",
-        "SYSCTL"
-      ]
-    }
-  },
   "blueprint_tunable_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -28,6 +15,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_tunable_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_tunable_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -36,12 +31,17 @@
       "valueType": "String"
     }
   },
-  "blueprint_tunable_enabled": {
+  "blueprint_tunable_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "enabled",
+      "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "String",
+      "enumValues": [
+        "LOADER",
+        "RC",
+        "SYSCTL"
+      ]
     }
   },
   "blueprint_tunable_comment": {
@@ -55,13 +55,13 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "tunable",
+      "name": "Tunable",
       "propertyBlueprints": [
-        {"@": "blueprint_tunable_type"},
         {"@": "blueprint_tunable_id"},
         {"@": "blueprint_tunable_var"},
-        {"@": "blueprint_tunable_value"},
         {"@": "blueprint_tunable_enabled"},
+        {"@": "blueprint_tunable_value"},
+        {"@": "blueprint_tunable_type"},
         {"@": "blueprint_tunable_comment"}
       ]
     }

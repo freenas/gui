@@ -1,125 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "chroot",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "login_attempt",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "local_up_bandwidth",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "tls_ssl_certificate",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ip_connections",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "fxp",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "max_clients",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint8": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "tls_options",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint9": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "local_down_bandwidth",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint10": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "auxiliary",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint11": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "tls",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint12": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "anonymous_path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint13": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "only_local",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint14": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "root_login",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint15": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "timeout",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint16": {
+  "blueprint_serviceftp_passive_ports_min": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "passive_ports_min",
@@ -127,7 +7,175 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint17": {
+  "blueprint_serviceftp_tls_ssl_certificate": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tls_ssl_certificate",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceftp_ip_connections": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ip_connections",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceftp_local_up_bandwidth": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "local_up_bandwidth",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceftp_passive_ports_max": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "passive_ports_max",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceftp_timeout": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "timeout",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceftp_tls": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tls",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_display_login": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "display_login",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceftp_root_login": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "root_login",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_local_down_bandwidth": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "local_down_bandwidth",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceftp_auxiliary": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auxiliary",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceftp_dirmask": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dirmask",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceftp_chroot": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "chroot",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceftp_only_local": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "only_local",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_resume": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "resume",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_reverse_dns": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "reverse_dns",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_ident": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ident",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_fxp": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "fxp",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceftp_max_clients": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "max_clients",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceftp_masquerade_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "masquerade_address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceftp_filemask": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filemask",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceftp_anon_up_bandwidth": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "anon_up_bandwidth",
@@ -135,15 +183,31 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint18": {
+  "blueprint_serviceftp_anon_down_bandwidth": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "only_anonymous",
+      "name": "anon_down_bandwidth",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "number"
     }
   },
-  "propertyblueprint19": {
+  "blueprint_serviceftp_tls_options": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tls_options",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_serviceftp_anonymous_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "anonymous_path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceftp_tls_policy": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "tls_policy",
@@ -163,120 +227,56 @@
       ]
     }
   },
-  "propertyblueprint20": {
+  "blueprint_serviceftp_only_anonymous": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "reverse_dns",
+      "name": "only_anonymous",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
   },
-  "propertyblueprint21": {
+  "blueprint_serviceftp_login_attempt": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "anon_down_bandwidth",
+      "name": "login_attempt",
       "blueprint": {"@": "root"},
       "valueType": "number"
-    }
-  },
-  "propertyblueprint22": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "passive_ports_max",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint23": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "masquerade_address",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint24": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "filemask",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint25": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "resume",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint26": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint27": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ident",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint28": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "dirmask",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint29": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "display_login",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-ftp",
+      "name": "ServiceFtp",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"},
-        {"@": "propertyblueprint10"},
-        {"@": "propertyblueprint11"},
-        {"@": "propertyblueprint12"},
-        {"@": "propertyblueprint13"},
-        {"@": "propertyblueprint14"},
-        {"@": "propertyblueprint15"},
-        {"@": "propertyblueprint16"},
-        {"@": "propertyblueprint17"},
-        {"@": "propertyblueprint18"},
-        {"@": "propertyblueprint19"},
-        {"@": "propertyblueprint20"},
-        {"@": "propertyblueprint21"},
-        {"@": "propertyblueprint22"},
-        {"@": "propertyblueprint23"},
-        {"@": "propertyblueprint24"},
-        {"@": "propertyblueprint25"},
-        {"@": "propertyblueprint26"},
-        {"@": "propertyblueprint27"},
-        {"@": "propertyblueprint28"},
-        {"@": "propertyblueprint29"}
+        {"@": "blueprint_serviceftp_passive_ports_min"},
+        {"@": "blueprint_serviceftp_tls_ssl_certificate"},
+        {"@": "blueprint_serviceftp_ip_connections"},
+        {"@": "blueprint_serviceftp_local_up_bandwidth"},
+        {"@": "blueprint_serviceftp_passive_ports_max"},
+        {"@": "blueprint_serviceftp_timeout"},
+        {"@": "blueprint_serviceftp_tls"},
+        {"@": "blueprint_serviceftp_display_login"},
+        {"@": "blueprint_serviceftp_root_login"},
+        {"@": "blueprint_serviceftp_local_down_bandwidth"},
+        {"@": "blueprint_serviceftp_auxiliary"},
+        {"@": "blueprint_serviceftp_dirmask"},
+        {"@": "blueprint_serviceftp_chroot"},
+        {"@": "blueprint_serviceftp_port"},
+        {"@": "blueprint_serviceftp_only_local"},
+        {"@": "blueprint_serviceftp_resume"},
+        {"@": "blueprint_serviceftp_reverse_dns"},
+        {"@": "blueprint_serviceftp_ident"},
+        {"@": "blueprint_serviceftp_fxp"},
+        {"@": "blueprint_serviceftp_max_clients"},
+        {"@": "blueprint_serviceftp_masquerade_address"},
+        {"@": "blueprint_serviceftp_filemask"},
+        {"@": "blueprint_serviceftp_anon_up_bandwidth"},
+        {"@": "blueprint_serviceftp_anon_down_bandwidth"},
+        {"@": "blueprint_serviceftp_tls_options"},
+        {"@": "blueprint_serviceftp_anonymous_path"},
+        {"@": "blueprint_serviceftp_tls_policy"},
+        {"@": "blueprint_serviceftp_only_anonymous"},
+        {"@": "blueprint_serviceftp_login_attempt"}
       ]
     }
   }

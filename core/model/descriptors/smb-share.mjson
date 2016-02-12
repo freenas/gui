@@ -1,45 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "guest_ok",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "recyclebin",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "show_hidden_files",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "read_only",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vfs_objects",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint6": {
+  "blueprint_smbshare_guest_only": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "guest_only",
@@ -47,15 +7,7 @@
       "valueType": "boolean"
     }
   },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "browseable",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint8": {
+  "blueprint_smbshare_hosts_allow": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "hosts_allow",
@@ -63,7 +15,39 @@
       "valueType": "array"
     }
   },
-  "propertyblueprint9": {
+  "blueprint_smbshare_show_hidden_files": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "show_hidden_files",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_smbshare_recyclebin": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recyclebin",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_smbshare_vfs_objects": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vfs_objects",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_smbshare_guest_ok": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "guest_ok",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_smbshare_hosts_deny": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "hosts_deny",
@@ -71,7 +55,23 @@
       "valueType": "array"
     }
   },
-  "propertyblueprint10": {
+  "blueprint_smbshare_browseable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "browseable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_smbshare_read_only": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_only",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_smbshare_comment": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "comment",
@@ -82,18 +82,18 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "smb-share",
+      "name": "SmbShare",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"},
-        {"@": "propertyblueprint10"}
+        {"@": "blueprint_smbshare_guest_only"},
+        {"@": "blueprint_smbshare_hosts_allow"},
+        {"@": "blueprint_smbshare_show_hidden_files"},
+        {"@": "blueprint_smbshare_recyclebin"},
+        {"@": "blueprint_smbshare_vfs_objects"},
+        {"@": "blueprint_smbshare_guest_ok"},
+        {"@": "blueprint_smbshare_hosts_deny"},
+        {"@": "blueprint_smbshare_browseable"},
+        {"@": "blueprint_smbshare_read_only"},
+        {"@": "blueprint_smbshare_comment"}
       ]
     }
   }

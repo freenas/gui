@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfsdatasetpropertiesexec_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfsdatasetpropertiesexec_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-datasetproperties-exec",
+      "name": "ZfsDatasetpropertiesExec",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_zfsdatasetpropertiesexec_value"},
+        {"@": "blueprint_zfsdatasetpropertiesexec_source"}
       ]
     }
   }

@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_containerdevicecdrom_path": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "path",
@@ -10,9 +10,9 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "container-device-cdrom",
+      "name": "ContainerDeviceCdrom",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"}
+        {"@": "blueprint_containerdevicecdrom_path"}
       ]
     }
   }

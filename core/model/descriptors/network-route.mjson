@@ -1,5 +1,29 @@
 {
-  "propertyblueprint": {
+  "blueprint_networkroute_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkroute_netmask": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "netmask",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_networkroute_gateway": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gateway",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkroute_network": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "network",
@@ -7,7 +31,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_networkroute_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
@@ -19,40 +43,16 @@
       ]
     }
   },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "netmask",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "gateway",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "network-route",
+      "name": "NetworkRoute",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"}
+        {"@": "blueprint_networkroute_id"},
+        {"@": "blueprint_networkroute_netmask"},
+        {"@": "blueprint_networkroute_gateway"},
+        {"@": "blueprint_networkroute_network"},
+        {"@": "blueprint_networkroute_type"}
       ]
     }
   }

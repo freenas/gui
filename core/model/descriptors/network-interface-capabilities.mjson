@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_networkinterfacecapabilities_add": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "add",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_networkinterfacecapabilities_del": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "del",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "network-interface-capabilities",
+      "name": "NetworkInterfaceCapabilities",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_networkinterfacecapabilities_add"},
+        {"@": "blueprint_networkinterfacecapabilities_del"}
       ]
     }
   }

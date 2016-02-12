@@ -1,37 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "minpoll",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "iburst",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "maxpoll",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint5": {
+  "blueprint_ntpserver_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "address",
@@ -39,7 +7,31 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint6": {
+  "blueprint_ntpserver_iburst": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "iburst",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_ntpserver_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_ntpserver_maxpoll": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "maxpoll",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_ntpserver_burst": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "burst",
@@ -47,7 +39,15 @@
       "valueType": "boolean"
     }
   },
-  "propertyblueprint7": {
+  "blueprint_ntpserver_minpoll": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "minpoll",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_ntpserver_prefer": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "prefer",
@@ -58,15 +58,15 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ntp-server",
+      "name": "NtpServer",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"}
+        {"@": "blueprint_ntpserver_address"},
+        {"@": "blueprint_ntpserver_iburst"},
+        {"@": "blueprint_ntpserver_id"},
+        {"@": "blueprint_ntpserver_maxpoll"},
+        {"@": "blueprint_ntpserver_burst"},
+        {"@": "blueprint_ntpserver_minpoll"},
+        {"@": "blueprint_ntpserver_prefer"}
       ]
     }
   }

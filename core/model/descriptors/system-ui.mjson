@@ -1,45 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "webui_https_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "webui_https_certificate",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "webui_http_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "webui_http_redirect_https",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "webui_protocol",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint6": {
+  "blueprint_systemui_webui_listen": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "webui_listen",
@@ -47,17 +7,57 @@
       "valueType": "array"
     }
   },
+  "blueprint_systemui_webui_protocol": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui_protocol",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_systemui_webui_http_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui_http_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_systemui_webui_https_certificate": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui_https_certificate",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_systemui_webui_https_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui_https_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_systemui_webui_http_redirect_https": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui_http_redirect_https",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "system-ui",
+      "name": "SystemUi",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"}
+        {"@": "blueprint_systemui_webui_listen"},
+        {"@": "blueprint_systemui_webui_protocol"},
+        {"@": "blueprint_systemui_webui_http_port"},
+        {"@": "blueprint_systemui_webui_https_certificate"},
+        {"@": "blueprint_systemui_webui_https_port"},
+        {"@": "blueprint_systemui_webui_http_redirect_https"}
       ]
     }
   }

@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfsdatasetpropertiesnbmand_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfsdatasetpropertiesnbmand_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-datasetproperties-nbmand",
+      "name": "ZfsDatasetpropertiesNbmand",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_zfsdatasetpropertiesnbmand_value"},
+        {"@": "blueprint_zfsdatasetpropertiesnbmand_source"}
       ]
     }
   }

@@ -1,13 +1,13 @@
 {
-  "propertyblueprint": {
+  "blueprint_updateops_previous_version": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "new_name",
+      "name": "previous_version",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_updateops_previous_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "previous_name",
@@ -15,7 +15,23 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint3": {
+  "blueprint_updateops_new_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "new_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_updateops_new_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "new_version",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_updateops_operation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "operation",
@@ -28,32 +44,16 @@
       ]
     }
   },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "previous_version",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "new_version",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "update-ops",
+      "name": "UpdateOps",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"}
+        {"@": "blueprint_updateops_previous_version"},
+        {"@": "blueprint_updateops_previous_name"},
+        {"@": "blueprint_updateops_new_name"},
+        {"@": "blueprint_updateops_new_version"},
+        {"@": "blueprint_updateops_operation"}
       ]
     }
   }

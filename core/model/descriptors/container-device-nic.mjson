@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_containerdevicenic_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "mode",
@@ -13,7 +13,7 @@
       ]
     }
   },
-  "propertyblueprint2": {
+  "blueprint_containerdevicenic_bridge": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "bridge",
@@ -24,10 +24,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "container-device-nic",
+      "name": "ContainerDeviceNic",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_containerdevicenic_mode"},
+        {"@": "blueprint_containerdevicenic_bridge"}
       ]
     }
   }

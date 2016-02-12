@@ -1,33 +1,13 @@
 {
-  "propertyblueprint": {
+  "blueprint_aclentry_text": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "ALLOW",
-        "DENY"
-      ]
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "perms",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
+      "name": "text",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_aclentry_tag": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "tag",
@@ -44,15 +24,15 @@
       ]
     }
   },
-  "propertyblueprint5": {
+  "blueprint_aclentry_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "flags",
+      "name": "id",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "String"
     }
   },
-  "propertyblueprint6": {
+  "blueprint_aclentry_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
@@ -60,26 +40,46 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint7": {
+  "blueprint_aclentry_flags": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "text",
+      "name": "flags",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object"
+    }
+  },
+  "blueprint_aclentry_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "ALLOW",
+        "DENY"
+      ]
+    }
+  },
+  "blueprint_aclentry_perms": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "perms",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "acl-entry",
+      "name": "AclEntry",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"}
+        {"@": "blueprint_aclentry_text"},
+        {"@": "blueprint_aclentry_tag"},
+        {"@": "blueprint_aclentry_id"},
+        {"@": "blueprint_aclentry_name"},
+        {"@": "blueprint_aclentry_flags"},
+        {"@": "blueprint_aclentry_type"},
+        {"@": "blueprint_aclentry_perms"}
       ]
     }
   }

@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_serviceglusterd_working_directory": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "working_directory",
@@ -10,9 +10,9 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-glusterd",
+      "name": "ServiceGlusterd",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"}
+        {"@": "blueprint_serviceglusterd_working_directory"}
       ]
     }
   }

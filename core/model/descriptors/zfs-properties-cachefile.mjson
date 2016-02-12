@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfspropertiescachefile_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfspropertiescachefile_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-properties-cachefile",
+      "name": "ZfsPropertiesCachefile",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_zfspropertiescachefile_value"},
+        {"@": "blueprint_zfspropertiescachefile_source"}
       ]
     }
   }

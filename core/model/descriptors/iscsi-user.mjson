@@ -1,29 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "peer_secret",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "peer_name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint4": {
+  "blueprint_iscsiuser_secret": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "secret",
@@ -31,15 +7,39 @@
       "valueType": "String"
     }
   },
+  "blueprint_iscsiuser_peer_secret": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "peer_secret",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsiuser_peer_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "peer_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsiuser_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "iscsi-user",
+      "name": "IscsiUser",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"}
+        {"@": "blueprint_iscsiuser_secret"},
+        {"@": "blueprint_iscsiuser_peer_secret"},
+        {"@": "blueprint_iscsiuser_peer_name"},
+        {"@": "blueprint_iscsiuser_name"}
       ]
     }
   }

@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfspropertiesreadonly_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfspropertiesreadonly_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -16,10 +16,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-properties-readonly",
+      "name": "ZfsPropertiesReadonly",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_zfspropertiesreadonly_value"},
+        {"@": "blueprint_zfspropertiesreadonly_source"}
       ]
     }
   }

@@ -1,5 +1,5 @@
 {
-  "blueprint_power_changed_operation": {
+  "blueprint_powerchanged_operation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "operation",
@@ -14,9 +14,9 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "power_changed",
+      "name": "PowerChanged",
       "propertyBlueprints": [
-        {"@": "blueprint_power_changed_operation"}
+        {"@": "blueprint_powerchanged_operation"}
       ]
     }
   }

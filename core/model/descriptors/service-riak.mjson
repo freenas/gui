@@ -1,13 +1,13 @@
 {
-  "propertyblueprint": {
+  "blueprint_serviceriak_listener_https_internal": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "riak_control",
+      "name": "listener_https_internal",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "String"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_serviceriak_nodename": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "nodename",
@@ -15,7 +15,30 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint3": {
+  "blueprint_serviceriak_storage_backend": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "storage_backend",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "BITCASK",
+        "LEVELDB",
+        "MEMORY",
+        "MULTI",
+        "PREFIX_MULTI"
+      ]
+    }
+  },
+  "blueprint_serviceriak_riak_control": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "riak_control",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceriak_log_console_level": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "log_console_level",
@@ -33,78 +56,7 @@
       ]
     }
   },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "storage_backend",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "BITCASK",
-        "LEVELDB",
-        "MEMORY",
-        "MULTI",
-        "PREFIX_MULTI"
-      ]
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listener_https_internal_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listener_https_internal",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listener_http_internal_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint8": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "object_size_warning_threshold",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint9": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "save_description",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint10": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "buckets_default_allow_multi",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint11": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "node_ip",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint12": {
+  "blueprint_serviceriak_listener_protobuf_internal": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "listener_protobuf_internal",
@@ -112,23 +64,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint13": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "object_size_maximum",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint14": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listener_http_internal",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint15": {
+  "blueprint_serviceriak_listener_protobuf_internal_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "listener_protobuf_internal_port",
@@ -136,26 +72,90 @@
       "valueType": "number"
     }
   },
+  "blueprint_serviceriak_object_size_warning_threshold": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "object_size_warning_threshold",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceriak_buckets_default_allow_multi": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "buckets_default_allow_multi",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceriak_listener_https_internal_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "listener_https_internal_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceriak_save_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "save_description",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceriak_object_size_maximum": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "object_size_maximum",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceriak_listener_http_internal_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "listener_http_internal_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceriak_listener_http_internal": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "listener_http_internal",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceriak_node_ip": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "node_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-riak",
+      "name": "ServiceRiak",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"},
-        {"@": "propertyblueprint10"},
-        {"@": "propertyblueprint11"},
-        {"@": "propertyblueprint12"},
-        {"@": "propertyblueprint13"},
-        {"@": "propertyblueprint14"},
-        {"@": "propertyblueprint15"}
+        {"@": "blueprint_serviceriak_listener_https_internal"},
+        {"@": "blueprint_serviceriak_nodename"},
+        {"@": "blueprint_serviceriak_storage_backend"},
+        {"@": "blueprint_serviceriak_riak_control"},
+        {"@": "blueprint_serviceriak_log_console_level"},
+        {"@": "blueprint_serviceriak_listener_protobuf_internal"},
+        {"@": "blueprint_serviceriak_listener_protobuf_internal_port"},
+        {"@": "blueprint_serviceriak_object_size_warning_threshold"},
+        {"@": "blueprint_serviceriak_buckets_default_allow_multi"},
+        {"@": "blueprint_serviceriak_listener_https_internal_port"},
+        {"@": "blueprint_serviceriak_save_description"},
+        {"@": "blueprint_serviceriak_object_size_maximum"},
+        {"@": "blueprint_serviceriak_listener_http_internal_port"},
+        {"@": "blueprint_serviceriak_listener_http_internal"},
+        {"@": "blueprint_serviceriak_node_ip"}
       ]
     }
   }

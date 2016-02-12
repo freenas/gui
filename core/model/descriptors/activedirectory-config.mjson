@@ -1,13 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "bindpw",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
+  "blueprint_activedirectoryconfig_binddn": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "binddn",
@@ -15,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint3": {
+  "blueprint_activedirectoryconfig_domain": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "domain",
@@ -23,14 +15,22 @@
       "valueType": "String"
     }
   },
+  "blueprint_activedirectoryconfig_bindpw": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bindpw",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "activedirectory-config",
+      "name": "ActivedirectoryConfig",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"}
+        {"@": "blueprint_activedirectoryconfig_binddn"},
+        {"@": "blueprint_activedirectoryconfig_domain"},
+        {"@": "blueprint_activedirectoryconfig_bindpw"}
       ]
     }
   }

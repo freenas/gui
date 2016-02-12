@@ -1,4 +1,28 @@
 {
+  "blueprint_share_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_share_properties": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "properties",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_share_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_share_target_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -13,10 +37,10 @@
       ]
     }
   },
-  "blueprint_share_type": {
+  "blueprint_share_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -28,10 +52,10 @@
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_share_id": {
+  "blueprint_share_target_path": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "id",
+      "name": "target_path",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -52,44 +76,20 @@
       "valueType": "String"
     }
   },
-  "blueprint_share_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_share_target_path": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "target_path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_share_properties": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "properties",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "share",
+      "name": "Share",
       "propertyBlueprints": [
-        {"@": "blueprint_share_target_type"},
-        {"@": "blueprint_share_type"},
-        {"@": "blueprint_share_permissions"},
-        {"@": "blueprint_share_id"},
-        {"@": "blueprint_share_enabled"},
-        {"@": "blueprint_share_name"},
         {"@": "blueprint_share_description"},
+        {"@": "blueprint_share_properties"},
+        {"@": "blueprint_share_type"},
+        {"@": "blueprint_share_target_type"},
+        {"@": "blueprint_share_id"},
+        {"@": "blueprint_share_permissions"},
         {"@": "blueprint_share_target_path"},
-        {"@": "blueprint_share_properties"}
+        {"@": "blueprint_share_enabled"},
+        {"@": "blueprint_share_name"}
       ]
     }
   }

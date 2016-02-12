@@ -1,181 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "multipath",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "schema",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "swap_partition_path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "swap_partition_uuid",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "max_rotation",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "model",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "interface",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint8": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "is_ssd",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint9": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "is_encrypted",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint10": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "empty",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint11": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "controller",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint12": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mediasize",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint13": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "gdisk_name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint14": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "is_multipath",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint15": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "lunid",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint16": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "data_partition_uuid",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint17": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint18": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "partitions",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint19": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "encrypted",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint20": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint21": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "data_partition_path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint22": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "serial",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint23": {
+  "blueprint_diskstatus_smart_enabled": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "smart_enabled",
@@ -183,7 +7,119 @@
       "valueType": "boolean"
     }
   },
-  "propertyblueprint24": {
+  "blueprint_diskstatus_max_rotation": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "max_rotation",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_diskstatus_swap_partition_uuid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "swap_partition_uuid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_lunid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lunid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_controller": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "controller",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_diskstatus_interface": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "interface",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_empty": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "empty",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_diskstatus_encrypted": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "encrypted",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_diskstatus_partitions": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "partitions",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_diskstatus_swap_partition_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "swap_partition_path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_is_multipath": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "is_multipath",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_diskstatus_multipath": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "multipath",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_diskstatus_mediasize": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mediasize",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_diskstatus_schema": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "schema",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_smart_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "smart_status",
@@ -191,15 +127,39 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint25": {
+  "blueprint_diskstatus_data_partition_uuid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "smart_capable",
+      "name": "data_partition_uuid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_is_encrypted": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "is_encrypted",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
   },
-  "propertyblueprint26": {
+  "blueprint_diskstatus_gdisk_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gdisk_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_data_partition_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "data_partition_path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_sectorsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "sectorsize",
@@ -207,37 +167,77 @@
       "valueType": "number"
     }
   },
+  "blueprint_diskstatus_model": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "model",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_is_ssd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "is_ssd",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_diskstatus_serial": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "serial",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskstatus_smart_capable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "smart_capable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "disk-status",
+      "name": "DiskStatus",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"},
-        {"@": "propertyblueprint10"},
-        {"@": "propertyblueprint11"},
-        {"@": "propertyblueprint12"},
-        {"@": "propertyblueprint13"},
-        {"@": "propertyblueprint14"},
-        {"@": "propertyblueprint15"},
-        {"@": "propertyblueprint16"},
-        {"@": "propertyblueprint17"},
-        {"@": "propertyblueprint18"},
-        {"@": "propertyblueprint19"},
-        {"@": "propertyblueprint20"},
-        {"@": "propertyblueprint21"},
-        {"@": "propertyblueprint22"},
-        {"@": "propertyblueprint23"},
-        {"@": "propertyblueprint24"},
-        {"@": "propertyblueprint25"},
-        {"@": "propertyblueprint26"}
+        {"@": "blueprint_diskstatus_smart_enabled"},
+        {"@": "blueprint_diskstatus_max_rotation"},
+        {"@": "blueprint_diskstatus_swap_partition_uuid"},
+        {"@": "blueprint_diskstatus_lunid"},
+        {"@": "blueprint_diskstatus_controller"},
+        {"@": "blueprint_diskstatus_interface"},
+        {"@": "blueprint_diskstatus_empty"},
+        {"@": "blueprint_diskstatus_encrypted"},
+        {"@": "blueprint_diskstatus_partitions"},
+        {"@": "blueprint_diskstatus_swap_partition_path"},
+        {"@": "blueprint_diskstatus_description"},
+        {"@": "blueprint_diskstatus_is_multipath"},
+        {"@": "blueprint_diskstatus_multipath"},
+        {"@": "blueprint_diskstatus_mediasize"},
+        {"@": "blueprint_diskstatus_schema"},
+        {"@": "blueprint_diskstatus_smart_status"},
+        {"@": "blueprint_diskstatus_data_partition_uuid"},
+        {"@": "blueprint_diskstatus_is_encrypted"},
+        {"@": "blueprint_diskstatus_gdisk_name"},
+        {"@": "blueprint_diskstatus_data_partition_path"},
+        {"@": "blueprint_diskstatus_sectorsize"},
+        {"@": "blueprint_diskstatus_model"},
+        {"@": "blueprint_diskstatus_id"},
+        {"@": "blueprint_diskstatus_is_ssd"},
+        {"@": "blueprint_diskstatus_serial"},
+        {"@": "blueprint_diskstatus_smart_capable"}
       ]
     }
   }

@@ -1,53 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "subject",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "attachments",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "debug",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "category",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint7": {
+  "blueprint_supportticket_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "description",
@@ -55,7 +7,23 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint8": {
+  "blueprint_supportticket_attachments": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "attachments",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_supportticket_debug": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "debug",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_supportticket_username": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "username",
@@ -63,19 +31,51 @@
       "valueType": "String"
     }
   },
+  "blueprint_supportticket_category": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "category",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_supportticket_subject": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "subject",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_supportticket_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_supportticket_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "support-ticket",
+      "name": "SupportTicket",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"}
+        {"@": "blueprint_supportticket_description"},
+        {"@": "blueprint_supportticket_attachments"},
+        {"@": "blueprint_supportticket_debug"},
+        {"@": "blueprint_supportticket_username"},
+        {"@": "blueprint_supportticket_category"},
+        {"@": "blueprint_supportticket_subject"},
+        {"@": "blueprint_supportticket_type"},
+        {"@": "blueprint_supportticket_password"}
       ]
     }
   }

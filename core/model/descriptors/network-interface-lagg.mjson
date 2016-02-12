@@ -1,12 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_networkinterfacelagg_protocol": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "protocol",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
+  "blueprint_networkinterfacelagg_ports": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "ports",
@@ -17,10 +17,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "network-interface-lagg",
+      "name": "NetworkInterfaceLagg",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_networkinterfacelagg_protocol"},
+        {"@": "blueprint_networkinterfacelagg_ports"}
       ]
     }
   }

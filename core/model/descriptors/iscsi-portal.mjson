@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listen",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_iscsiportal_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -23,15 +7,15 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_iscsiportal_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "tag",
+      "name": "description",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
-  "propertyblueprint5": {
+  "blueprint_iscsiportal_discovery_auth_group": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "discovery_auth_group",
@@ -39,16 +23,32 @@
       "valueType": "String"
     }
   },
+  "blueprint_iscsiportal_tag": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tag",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_iscsiportal_listen": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "listen",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "iscsi-portal",
+      "name": "IscsiPortal",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"}
+        {"@": "blueprint_iscsiportal_id"},
+        {"@": "blueprint_iscsiportal_description"},
+        {"@": "blueprint_iscsiportal_discovery_auth_group"},
+        {"@": "blueprint_iscsiportal_tag"},
+        {"@": "blueprint_iscsiportal_listen"}
       ]
     }
   }

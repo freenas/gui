@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "size",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_importabledisk_label": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "label",
@@ -23,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_importabledisk_fstype": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "fstype",
@@ -31,15 +15,31 @@
       "valueType": "String"
     }
   },
+  "blueprint_importabledisk_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_importabledisk_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "importable-disk",
+      "name": "ImportableDisk",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"}
+        {"@": "blueprint_importabledisk_label"},
+        {"@": "blueprint_importabledisk_fstype"},
+        {"@": "blueprint_importabledisk_size"},
+        {"@": "blueprint_importabledisk_path"}
       ]
     }
   }

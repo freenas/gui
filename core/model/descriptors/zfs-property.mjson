@@ -1,5 +1,13 @@
 {
-  "propertyblueprint": {
+  "blueprint_zfsproperty_rawvalue": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rawvalue",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsproperty_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
@@ -7,7 +15,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_zfsproperty_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
@@ -22,22 +30,14 @@
       ]
     }
   },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "rawvalue",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-property",
+      "name": "ZfsProperty",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"}
+        {"@": "blueprint_zfsproperty_rawvalue"},
+        {"@": "blueprint_zfsproperty_value"},
+        {"@": "blueprint_zfsproperty_source"}
       ]
     }
   }

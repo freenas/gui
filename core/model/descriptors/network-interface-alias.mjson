@@ -1,5 +1,21 @@
 {
-  "propertyblueprint": {
+  "blueprint_networkinterfacealias_netmask": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "netmask",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_networkinterfacealias_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkinterfacealias_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
@@ -11,7 +27,7 @@
       ]
     }
   },
-  "propertyblueprint2": {
+  "blueprint_networkinterfacealias_broadcast": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "broadcast",
@@ -19,31 +35,15 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "netmask",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "address",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "network-interface-alias",
+      "name": "NetworkInterfaceAlias",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"}
+        {"@": "blueprint_networkinterfacealias_netmask"},
+        {"@": "blueprint_networkinterfacealias_address"},
+        {"@": "blueprint_networkinterfacealias_type"},
+        {"@": "blueprint_networkinterfacealias_broadcast"}
       ]
     }
   }

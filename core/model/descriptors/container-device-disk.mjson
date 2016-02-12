@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_containerdevicedisk_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "size",
@@ -10,9 +10,9 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "container-device-disk",
+      "name": "ContainerDeviceDisk",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"}
+        {"@": "blueprint_containerdevicedisk_size"}
       ]
     }
   }

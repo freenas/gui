@@ -1,18 +1,18 @@
 {
-  "blueprint_update_train": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "train",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_update_update_server": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "update_server",
       "blueprint": {"@": "root"},
       "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "blueprint_update_train": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "train",
+      "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
@@ -27,10 +27,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "update",
+      "name": "Update",
       "propertyBlueprints": [
-        {"@": "blueprint_update_train"},
         {"@": "blueprint_update_update_server"},
+        {"@": "blueprint_update_train"},
         {"@": "blueprint_update_check_auto"}
       ]
     }

@@ -1,5 +1,37 @@
 {
-  "propertyblueprint": {
+  "blueprint_iscsiauthgroup_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsiauthgroup_initiators": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "initiators",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_iscsiauthgroup_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsiauthgroup_users": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "users",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_iscsiauthgroup_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
@@ -13,31 +45,7 @@
       ]
     }
   },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "initiators",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
+  "blueprint_iscsiauthgroup_networks": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "networks",
@@ -45,25 +53,17 @@
       "valueType": "array"
     }
   },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "users",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "iscsi-auth-group",
+      "name": "IscsiAuthGroup",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"}
+        {"@": "blueprint_iscsiauthgroup_description"},
+        {"@": "blueprint_iscsiauthgroup_initiators"},
+        {"@": "blueprint_iscsiauthgroup_id"},
+        {"@": "blueprint_iscsiauthgroup_users"},
+        {"@": "blueprint_iscsiauthgroup_type"},
+        {"@": "blueprint_iscsiauthgroup_networks"}
       ]
     }
   }

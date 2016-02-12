@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "user",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "share",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_shareclient_host": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "host",
@@ -23,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_shareclient_extra": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "extra",
@@ -31,7 +15,7 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint5": {
+  "blueprint_shareclient_connected_at": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "connected_at",
@@ -39,16 +23,32 @@
       "valueType": "String"
     }
   },
+  "blueprint_shareclient_share": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "share",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_shareclient_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "share-client",
+      "name": "ShareClient",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"}
+        {"@": "blueprint_shareclient_host"},
+        {"@": "blueprint_shareclient_extra"},
+        {"@": "blueprint_shareclient_connected_at"},
+        {"@": "blueprint_shareclient_share"},
+        {"@": "blueprint_shareclient_user"}
       ]
     }
   }

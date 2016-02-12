@@ -1,21 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_updateinfo_operations": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "changelog",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
+      "name": "operations",
+      "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "notes",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_updateinfo_downloaded": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "downloaded",
@@ -23,7 +14,15 @@
       "valueType": "boolean"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_updateinfo_notes": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "notes",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_updateinfo_notice": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "notice",
@@ -31,23 +30,24 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint5": {
+  "blueprint_updateinfo_changelog": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "operations",
-      "blueprint": {"@": "root"}
+      "name": "changelog",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "update-info",
+      "name": "UpdateInfo",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"}
+        {"@": "blueprint_updateinfo_operations"},
+        {"@": "blueprint_updateinfo_downloaded"},
+        {"@": "blueprint_updateinfo_notes"},
+        {"@": "blueprint_updateinfo_notice"},
+        {"@": "blueprint_updateinfo_changelog"}
       ]
     }
   }

@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "read",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "write",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_unixmodetuple_execute": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "execute",
@@ -23,14 +7,30 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_unixmodetuple_read": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_unixmodetuple_write": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "write",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "unix-mode-tuple",
+      "name": "UnixModeTuple",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"}
+        {"@": "blueprint_unixmodetuple_execute"},
+        {"@": "blueprint_unixmodetuple_read"},
+        {"@": "blueprint_unixmodetuple_write"}
       ]
     }
   }

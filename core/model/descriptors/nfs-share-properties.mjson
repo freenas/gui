@@ -1,61 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mapall_user",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "read_only",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "hosts",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "maproot_user",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "alldirs",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "maproot_group",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mapall_group",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint8": {
+  "blueprint_nfsshareproperties_security": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "security",
@@ -63,19 +7,75 @@
       "valueType": "array"
     }
   },
+  "blueprint_nfsshareproperties_mapall_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mapall_group",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_nfsshareproperties_maproot_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "maproot_group",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_nfsshareproperties_maproot_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "maproot_user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_nfsshareproperties_mapall_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mapall_user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_nfsshareproperties_hosts": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hosts",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_nfsshareproperties_read_only": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_only",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_nfsshareproperties_alldirs": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "alldirs",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "nfs-share-properties",
+      "name": "NfsShareProperties",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"}
+        {"@": "blueprint_nfsshareproperties_security"},
+        {"@": "blueprint_nfsshareproperties_mapall_group"},
+        {"@": "blueprint_nfsshareproperties_maproot_group"},
+        {"@": "blueprint_nfsshareproperties_maproot_user"},
+        {"@": "blueprint_nfsshareproperties_mapall_user"},
+        {"@": "blueprint_nfsshareproperties_hosts"},
+        {"@": "blueprint_nfsshareproperties_read_only"},
+        {"@": "blueprint_nfsshareproperties_alldirs"}
       ]
     }
   }

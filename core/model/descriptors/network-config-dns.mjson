@@ -1,5 +1,5 @@
 {
-  "propertyblueprint": {
+  "blueprint_networkconfigdns_search": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "search",
@@ -7,7 +7,7 @@
       "valueType": "array"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_networkconfigdns_addresses": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "addresses",
@@ -18,10 +18,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "network-config-dns",
+      "name": "NetworkConfigDns",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_networkconfigdns_search"},
+        {"@": "blueprint_networkconfigdns_addresses"}
       ]
     }
   }

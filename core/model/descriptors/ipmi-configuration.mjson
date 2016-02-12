@@ -1,20 +1,12 @@
 {
-  "propertyblueprint": {
+  "blueprint_ipmiconfiguration_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "gateway",
+      "name": "address",
       "blueprint": {"@": "root"}
     }
   },
-  "propertyblueprint3": {
+  "blueprint_ipmiconfiguration_netmask": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "netmask",
@@ -22,7 +14,7 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_ipmiconfiguration_vlan_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "vlan_id",
@@ -30,14 +22,7 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "address",
-      "blueprint": {"@": "root"}
-    }
-  },
-  "propertyblueprint6": {
+  "blueprint_ipmiconfiguration_channel": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "channel",
@@ -45,7 +30,14 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint7": {
+  "blueprint_ipmiconfiguration_gateway": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gateway",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_ipmiconfiguration_dhcp": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "dhcp",
@@ -53,18 +45,26 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_ipmiconfiguration_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ipmi-configuration",
+      "name": "IpmiConfiguration",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"}
+        {"@": "blueprint_ipmiconfiguration_address"},
+        {"@": "blueprint_ipmiconfiguration_netmask"},
+        {"@": "blueprint_ipmiconfiguration_vlan_id"},
+        {"@": "blueprint_ipmiconfiguration_channel"},
+        {"@": "blueprint_ipmiconfiguration_gateway"},
+        {"@": "blueprint_ipmiconfiguration_dhcp"},
+        {"@": "blueprint_ipmiconfiguration_password"}
       ]
     }
   }

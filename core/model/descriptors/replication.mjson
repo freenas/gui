@@ -1,4 +1,28 @@
 {
+  "blueprint_replication_recursive": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recursive",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_remote_hostkey": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_hostkey",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_remote_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_port",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_replication_cipher": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -20,18 +44,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_replication_recursive": {
+  "blueprint_replication_remote_dataset": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "recursive",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_replication_remote": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "remote",
+      "name": "remote_dataset",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -42,14 +58,6 @@
       "name": "followdelete",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
-    }
-  },
-  "blueprint_replication_remote_dataset": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "remote_dataset",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_replication_compression": {
@@ -67,18 +75,10 @@
       ]
     }
   },
-  "blueprint_replication_remote_port": {
+  "blueprint_replication_remote": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_port",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_replication_remote_hostkey": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "remote_hostkey",
+      "name": "remote",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -86,17 +86,17 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "replication",
+      "name": "Replication",
       "propertyBlueprints": [
+        {"@": "blueprint_replication_recursive"},
+        {"@": "blueprint_replication_remote_hostkey"},
+        {"@": "blueprint_replication_remote_port"},
         {"@": "blueprint_replication_cipher"},
         {"@": "blueprint_replication_bandwidth_limit"},
-        {"@": "blueprint_replication_recursive"},
-        {"@": "blueprint_replication_remote"},
-        {"@": "blueprint_replication_followdelete"},
         {"@": "blueprint_replication_remote_dataset"},
+        {"@": "blueprint_replication_followdelete"},
         {"@": "blueprint_replication_compression"},
-        {"@": "blueprint_replication_remote_port"},
-        {"@": "blueprint_replication_remote_hostkey"}
+        {"@": "blueprint_replication_remote"}
       ]
     }
   }

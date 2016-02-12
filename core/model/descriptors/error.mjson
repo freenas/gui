@@ -1,4 +1,12 @@
 {
+  "blueprint_error_message": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "message",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_error_code": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -23,23 +31,15 @@
       "valueType": "String"
     }
   },
-  "blueprint_error_message": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "message",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "error",
+      "name": "Error",
       "propertyBlueprints": [
+        {"@": "blueprint_error_message"},
         {"@": "blueprint_error_code"},
         {"@": "blueprint_error_type"},
-        {"@": "blueprint_error_stacktrace"},
-        {"@": "blueprint_error_message"}
+        {"@": "blueprint_error_stacktrace"}
       ]
     }
   }

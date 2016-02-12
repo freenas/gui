@@ -1,20 +1,4 @@
 {
-  "blueprint_directoryservice_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_directoryservice_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_directoryservice_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -31,15 +15,31 @@
       "valueType": "String"
     }
   },
+  "blueprint_directoryservice_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_directoryservice_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "directoryservice",
+      "name": "Directoryservice",
       "propertyBlueprints": [
-        {"@": "blueprint_directoryservice_type"},
-        {"@": "blueprint_directoryservice_name"},
         {"@": "blueprint_directoryservice_id"},
-        {"@": "blueprint_directoryservice_description"}
+        {"@": "blueprint_directoryservice_description"},
+        {"@": "blueprint_directoryservice_type"},
+        {"@": "blueprint_directoryservice_name"}
       ]
     }
   }

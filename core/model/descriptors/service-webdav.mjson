@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "protocol",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_servicewebdav_http_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "http_port",
@@ -23,7 +7,15 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_servicewebdav_certificate": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "certificate",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicewebdav_authentication": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "authentication",
@@ -35,15 +27,15 @@
       ]
     }
   },
-  "propertyblueprint5": {
+  "blueprint_servicewebdav_protocol": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "certificate",
+      "name": "protocol",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
-  "propertyblueprint6": {
+  "blueprint_servicewebdav_https_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "https_port",
@@ -51,17 +43,25 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicewebdav_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-webdav",
+      "name": "ServiceWebdav",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"}
+        {"@": "blueprint_servicewebdav_http_port"},
+        {"@": "blueprint_servicewebdav_certificate"},
+        {"@": "blueprint_servicewebdav_authentication"},
+        {"@": "blueprint_servicewebdav_protocol"},
+        {"@": "blueprint_servicewebdav_https_port"},
+        {"@": "blueprint_servicewebdav_password"}
       ]
     }
   }

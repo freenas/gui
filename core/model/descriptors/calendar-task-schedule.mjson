@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "day",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "year",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_calendartaskschedule_week": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "week",
@@ -23,47 +7,7 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "minute",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "second",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "month",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "hour",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint8": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "day_of_week",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint9": {
+  "blueprint_calendartaskschedule_coalesce": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "coalesce",
@@ -71,20 +15,76 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_calendartaskschedule_hour": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hour",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_second": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "second",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_minute": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "minute",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_month": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "month",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_day_of_week": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "day_of_week",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_day": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "day",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_year": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "year",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "calendar-task-schedule",
+      "name": "CalendarTaskSchedule",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"}
+        {"@": "blueprint_calendartaskschedule_week"},
+        {"@": "blueprint_calendartaskschedule_coalesce"},
+        {"@": "blueprint_calendartaskschedule_hour"},
+        {"@": "blueprint_calendartaskschedule_second"},
+        {"@": "blueprint_calendartaskschedule_minute"},
+        {"@": "blueprint_calendartaskschedule_month"},
+        {"@": "blueprint_calendartaskschedule_day_of_week"},
+        {"@": "blueprint_calendartaskschedule_day"},
+        {"@": "blueprint_calendartaskschedule_year"}
       ]
     }
   }

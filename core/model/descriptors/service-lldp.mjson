@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "location",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "save_description",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_servicelldp_country_code": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "country_code",
@@ -23,14 +7,30 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicelldp_location": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "location",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicelldp_save_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "save_description",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-lldp",
+      "name": "ServiceLldp",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"}
+        {"@": "blueprint_servicelldp_country_code"},
+        {"@": "blueprint_servicelldp_location"},
+        {"@": "blueprint_servicelldp_save_description"}
       ]
     }
   }

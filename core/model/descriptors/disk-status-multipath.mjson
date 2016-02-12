@@ -1,13 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "members",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint2": {
+  "blueprint_diskstatusmultipath_node": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "node",
@@ -15,7 +7,15 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint3": {
+  "blueprint_diskstatusmultipath_members": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "members",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_diskstatusmultipath_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "status",
@@ -26,11 +26,11 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "disk-status-multipath",
+      "name": "DiskStatusMultipath",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"}
+        {"@": "blueprint_diskstatusmultipath_node"},
+        {"@": "blueprint_diskstatusmultipath_members"},
+        {"@": "blueprint_diskstatusmultipath_status"}
       ]
     }
   }

@@ -1,29 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "uptime",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "boot_time",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "system_time",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint4": {
+  "blueprint_systemtime_timezone": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "timezone",
@@ -31,15 +7,39 @@
       "valueType": "String"
     }
   },
+  "blueprint_systemtime_uptime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "uptime",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_systemtime_system_time": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "system_time",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_systemtime_boot_time": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "boot_time",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "system-time",
+      "name": "SystemTime",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"}
+        {"@": "blueprint_systemtime_timezone"},
+        {"@": "blueprint_systemtime_uptime"},
+        {"@": "blueprint_systemtime_system_time"},
+        {"@": "blueprint_systemtime_boot_time"}
       ]
     }
   }

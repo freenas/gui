@@ -1,133 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "guid",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "primarycache",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "refreservation",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vscan",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "aclinherit",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint6": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "casesensitivity",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint7": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "jailed",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint8": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "defer_destroy",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint9": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "used",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint10": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "devices",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint11": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "prevsnap",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint12": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "snapdir",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint13": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mounted",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint14": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "volmode",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint15": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mlslabel",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint16": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "logicalused",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint17": {
+  "blueprint_zfsdatasetproperties_creation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "creation",
@@ -135,87 +7,15 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint18": {
+  "blueprint_zfsdatasetproperties_devices": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dedup",
+      "name": "devices",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint19": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "setuid",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint20": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "inconsistent",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint21": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "iscsioptions",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint22": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "usedbydataset",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint23": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "refcompressratio",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint24": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "objsetid",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint25": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "filesystem_count",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint26": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "checksum",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint27": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "reservation",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint28": {
+  "blueprint_zfsdatasetproperties_sharesmb": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "sharesmb",
@@ -223,247 +23,23 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint29": {
+  "blueprint_zfsdatasetproperties_iscsioptions": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "normalization",
+      "name": "iscsioptions",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint30": {
+  "blueprint_zfsdatasetproperties_volmode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "useraccounting",
+      "name": "volmode",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint31": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "exec",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint32": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "volblocksize",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint33": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "numclones",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint34": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "logbias",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint35": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "available",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint36": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "filesystem_limit",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint37": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "copies",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint38": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "redundant_metadata",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint39": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint40": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "written",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint41": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "readonly",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint42": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "referenced",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint43": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mountpoint",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint44": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "sync",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint45": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "secondarycache",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint46": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "nbmand",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint47": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "xattr",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint48": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "logicalreferenced",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint49": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "clones",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint50": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "volsize",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint51": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "usedbychildren",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint52": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "compressratio",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint53": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "version",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint54": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "snapshot_count",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint55": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "utf8only",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint56": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "recordsize",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint57": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "refquota",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint58": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "userrefs",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint59": {
+  "blueprint_zfsdatasetproperties_canmount": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "canmount",
@@ -471,55 +47,15 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint60": {
+  "blueprint_zfsdatasetproperties_snapshot_count": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "quota",
+      "name": "snapshot_count",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint61": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "unique",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint62": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "snapshot_limit",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint63": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "atime",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint64": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint65": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "usedbysnapshots",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "propertyblueprint66": {
+  "blueprint_zfsdatasetproperties_createtxg": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "createtxg",
@@ -527,39 +63,47 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint67": {
+  "blueprint_zfsdatasetproperties_defer_destroy": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "sharenfs",
+      "name": "defer_destroy",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint68": {
+  "blueprint_zfsdatasetproperties_usedbysnapshots": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "origin",
+      "name": "usedbysnapshots",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint69": {
+  "blueprint_zfsdatasetproperties_written": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "compression",
+      "name": "written",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint70": {
+  "blueprint_zfsdatasetproperties_exec": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "usedbyrefreservation",
+      "name": "exec",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
   },
-  "propertyblueprint71": {
+  "blueprint_zfsdatasetproperties_volsize": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volsize",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_aclmode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "aclmode",
@@ -567,7 +111,47 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint72": {
+  "blueprint_zfsdatasetproperties_mlslabel": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mlslabel",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_reservation": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "reservation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_clones": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "clones",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_userrefs": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "userrefs",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_referenced": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "referenced",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_stmf_sbd_lu": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "stmf_sbd_lu",
@@ -575,83 +159,499 @@
       "valueType": "object"
     }
   },
+  "blueprint_zfsdatasetproperties_mounted": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mounted",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_utf8only": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "utf8only",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_unique": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unique",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_numclones": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "numclones",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_used": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "used",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_xattr": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "xattr",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_refcompressratio": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "refcompressratio",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_nbmand": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nbmand",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_origin": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "origin",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_logbias": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "logbias",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_readonly": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "readonly",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_redundant_metadata": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "redundant_metadata",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_checksum": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "checksum",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_filesystem_limit": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filesystem_limit",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_guid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "guid",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_objsetid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "objsetid",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_logicalreferenced": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "logicalreferenced",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_primarycache": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "primarycache",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_atime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "atime",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_normalization": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "normalization",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_usedbychildren": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "usedbychildren",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_vscan": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vscan",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_logicalused": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "logicalused",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_mountpoint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mountpoint",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_snapdir": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "snapdir",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_recordsize": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recordsize",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_copies": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "copies",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_secondarycache": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "secondarycache",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "version",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_setuid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "setuid",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_snapshot_limit": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "snapshot_limit",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_filesystem_count": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filesystem_count",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_prevsnap": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "prevsnap",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_sync": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sync",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_compressratio": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "compressratio",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_refreservation": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "refreservation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_refquota": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "refquota",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_aclinherit": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "aclinherit",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_available": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "available",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_casesensitivity": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "casesensitivity",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_usedbydataset": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "usedbydataset",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_usedbyrefreservation": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "usedbyrefreservation",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_quota": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "quota",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_useraccounting": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "useraccounting",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_inconsistent": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "inconsistent",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_volblocksize": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volblocksize",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_sharenfs": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "sharenfs",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_dedup": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dedup",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_jailed": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "jailed",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_zfsdatasetproperties_compression": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "compression",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "zfs-datasetproperties",
+      "name": "ZfsDatasetproperties",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"},
-        {"@": "propertyblueprint10"},
-        {"@": "propertyblueprint11"},
-        {"@": "propertyblueprint12"},
-        {"@": "propertyblueprint13"},
-        {"@": "propertyblueprint14"},
-        {"@": "propertyblueprint15"},
-        {"@": "propertyblueprint16"},
-        {"@": "propertyblueprint17"},
-        {"@": "propertyblueprint18"},
-        {"@": "propertyblueprint19"},
-        {"@": "propertyblueprint20"},
-        {"@": "propertyblueprint21"},
-        {"@": "propertyblueprint22"},
-        {"@": "propertyblueprint23"},
-        {"@": "propertyblueprint24"},
-        {"@": "propertyblueprint25"},
-        {"@": "propertyblueprint26"},
-        {"@": "propertyblueprint27"},
-        {"@": "propertyblueprint28"},
-        {"@": "propertyblueprint29"},
-        {"@": "propertyblueprint30"},
-        {"@": "propertyblueprint31"},
-        {"@": "propertyblueprint32"},
-        {"@": "propertyblueprint33"},
-        {"@": "propertyblueprint34"},
-        {"@": "propertyblueprint35"},
-        {"@": "propertyblueprint36"},
-        {"@": "propertyblueprint37"},
-        {"@": "propertyblueprint38"},
-        {"@": "propertyblueprint39"},
-        {"@": "propertyblueprint40"},
-        {"@": "propertyblueprint41"},
-        {"@": "propertyblueprint42"},
-        {"@": "propertyblueprint43"},
-        {"@": "propertyblueprint44"},
-        {"@": "propertyblueprint45"},
-        {"@": "propertyblueprint46"},
-        {"@": "propertyblueprint47"},
-        {"@": "propertyblueprint48"},
-        {"@": "propertyblueprint49"},
-        {"@": "propertyblueprint50"},
-        {"@": "propertyblueprint51"},
-        {"@": "propertyblueprint52"},
-        {"@": "propertyblueprint53"},
-        {"@": "propertyblueprint54"},
-        {"@": "propertyblueprint55"},
-        {"@": "propertyblueprint56"},
-        {"@": "propertyblueprint57"},
-        {"@": "propertyblueprint58"},
-        {"@": "propertyblueprint59"},
-        {"@": "propertyblueprint60"},
-        {"@": "propertyblueprint61"},
-        {"@": "propertyblueprint62"},
-        {"@": "propertyblueprint63"},
-        {"@": "propertyblueprint64"},
-        {"@": "propertyblueprint65"},
-        {"@": "propertyblueprint66"},
-        {"@": "propertyblueprint67"},
-        {"@": "propertyblueprint68"},
-        {"@": "propertyblueprint69"},
-        {"@": "propertyblueprint70"},
-        {"@": "propertyblueprint71"},
-        {"@": "propertyblueprint72"}
+        {"@": "blueprint_zfsdatasetproperties_creation"},
+        {"@": "blueprint_zfsdatasetproperties_devices"},
+        {"@": "blueprint_zfsdatasetproperties_sharesmb"},
+        {"@": "blueprint_zfsdatasetproperties_iscsioptions"},
+        {"@": "blueprint_zfsdatasetproperties_volmode"},
+        {"@": "blueprint_zfsdatasetproperties_canmount"},
+        {"@": "blueprint_zfsdatasetproperties_snapshot_count"},
+        {"@": "blueprint_zfsdatasetproperties_createtxg"},
+        {"@": "blueprint_zfsdatasetproperties_defer_destroy"},
+        {"@": "blueprint_zfsdatasetproperties_usedbysnapshots"},
+        {"@": "blueprint_zfsdatasetproperties_written"},
+        {"@": "blueprint_zfsdatasetproperties_exec"},
+        {"@": "blueprint_zfsdatasetproperties_volsize"},
+        {"@": "blueprint_zfsdatasetproperties_aclmode"},
+        {"@": "blueprint_zfsdatasetproperties_mlslabel"},
+        {"@": "blueprint_zfsdatasetproperties_reservation"},
+        {"@": "blueprint_zfsdatasetproperties_clones"},
+        {"@": "blueprint_zfsdatasetproperties_userrefs"},
+        {"@": "blueprint_zfsdatasetproperties_referenced"},
+        {"@": "blueprint_zfsdatasetproperties_stmf_sbd_lu"},
+        {"@": "blueprint_zfsdatasetproperties_mounted"},
+        {"@": "blueprint_zfsdatasetproperties_utf8only"},
+        {"@": "blueprint_zfsdatasetproperties_unique"},
+        {"@": "blueprint_zfsdatasetproperties_numclones"},
+        {"@": "blueprint_zfsdatasetproperties_used"},
+        {"@": "blueprint_zfsdatasetproperties_xattr"},
+        {"@": "blueprint_zfsdatasetproperties_refcompressratio"},
+        {"@": "blueprint_zfsdatasetproperties_nbmand"},
+        {"@": "blueprint_zfsdatasetproperties_origin"},
+        {"@": "blueprint_zfsdatasetproperties_logbias"},
+        {"@": "blueprint_zfsdatasetproperties_readonly"},
+        {"@": "blueprint_zfsdatasetproperties_redundant_metadata"},
+        {"@": "blueprint_zfsdatasetproperties_checksum"},
+        {"@": "blueprint_zfsdatasetproperties_filesystem_limit"},
+        {"@": "blueprint_zfsdatasetproperties_guid"},
+        {"@": "blueprint_zfsdatasetproperties_objsetid"},
+        {"@": "blueprint_zfsdatasetproperties_logicalreferenced"},
+        {"@": "blueprint_zfsdatasetproperties_primarycache"},
+        {"@": "blueprint_zfsdatasetproperties_atime"},
+        {"@": "blueprint_zfsdatasetproperties_normalization"},
+        {"@": "blueprint_zfsdatasetproperties_usedbychildren"},
+        {"@": "blueprint_zfsdatasetproperties_vscan"},
+        {"@": "blueprint_zfsdatasetproperties_type"},
+        {"@": "blueprint_zfsdatasetproperties_logicalused"},
+        {"@": "blueprint_zfsdatasetproperties_mountpoint"},
+        {"@": "blueprint_zfsdatasetproperties_snapdir"},
+        {"@": "blueprint_zfsdatasetproperties_recordsize"},
+        {"@": "blueprint_zfsdatasetproperties_copies"},
+        {"@": "blueprint_zfsdatasetproperties_secondarycache"},
+        {"@": "blueprint_zfsdatasetproperties_version"},
+        {"@": "blueprint_zfsdatasetproperties_setuid"},
+        {"@": "blueprint_zfsdatasetproperties_snapshot_limit"},
+        {"@": "blueprint_zfsdatasetproperties_filesystem_count"},
+        {"@": "blueprint_zfsdatasetproperties_prevsnap"},
+        {"@": "blueprint_zfsdatasetproperties_sync"},
+        {"@": "blueprint_zfsdatasetproperties_compressratio"},
+        {"@": "blueprint_zfsdatasetproperties_refreservation"},
+        {"@": "blueprint_zfsdatasetproperties_refquota"},
+        {"@": "blueprint_zfsdatasetproperties_aclinherit"},
+        {"@": "blueprint_zfsdatasetproperties_available"},
+        {"@": "blueprint_zfsdatasetproperties_casesensitivity"},
+        {"@": "blueprint_zfsdatasetproperties_name"},
+        {"@": "blueprint_zfsdatasetproperties_usedbydataset"},
+        {"@": "blueprint_zfsdatasetproperties_usedbyrefreservation"},
+        {"@": "blueprint_zfsdatasetproperties_quota"},
+        {"@": "blueprint_zfsdatasetproperties_useraccounting"},
+        {"@": "blueprint_zfsdatasetproperties_inconsistent"},
+        {"@": "blueprint_zfsdatasetproperties_volblocksize"},
+        {"@": "blueprint_zfsdatasetproperties_sharenfs"},
+        {"@": "blueprint_zfsdatasetproperties_dedup"},
+        {"@": "blueprint_zfsdatasetproperties_jailed"},
+        {"@": "blueprint_zfsdatasetproperties_compression"}
       ]
     }
   }

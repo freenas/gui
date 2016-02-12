@@ -7,23 +7,12 @@
       "valueType": "String"
     }
   },
-  "blueprint_dataset_type": {
+  "blueprint_dataset_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "properties",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "FILESYSTEM",
-        "VOLUME"
-      ]
-    }
-  },
-  "blueprint_dataset_permissions": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "permissions",
-      "blueprint": {"@": "root"}
+      "valueType": "object"
     }
   },
   "blueprint_dataset_permissions_type": {
@@ -38,12 +27,31 @@
       ]
     }
   },
+  "blueprint_dataset_permissions": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "permissions",
+      "blueprint": {"@": "root"}
+    }
+  },
   "blueprint_dataset_volsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "volsize",
       "blueprint": {"@": "root"},
       "valueType": "number"
+    }
+  },
+  "blueprint_dataset_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "FILESYSTEM",
+        "VOLUME"
+      ]
     }
   },
   "blueprint_dataset_name": {
@@ -54,26 +62,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_dataset_properties": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "properties",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "dataset",
+      "name": "Dataset",
       "propertyBlueprints": [
         {"@": "blueprint_dataset_mountpoint"},
-        {"@": "blueprint_dataset_type"},
-        {"@": "blueprint_dataset_permissions"},
+        {"@": "blueprint_dataset_properties"},
         {"@": "blueprint_dataset_permissions_type"},
+        {"@": "blueprint_dataset_permissions"},
         {"@": "blueprint_dataset_volsize"},
-        {"@": "blueprint_dataset_name"},
-        {"@": "blueprint_dataset_properties"}
+        {"@": "blueprint_dataset_type"},
+        {"@": "blueprint_dataset_name"}
       ]
     }
   }

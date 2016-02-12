@@ -1,13 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
+  "blueprint_diskattachparams_key": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "key",
@@ -15,13 +7,21 @@
       "valueType": "String"
     }
   },
+  "blueprint_diskattachparams_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "disk-attach-params",
+      "name": "DiskAttachParams",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"}
+        {"@": "blueprint_diskattachparams_key"},
+        {"@": "blueprint_diskattachparams_password"}
       ]
     }
   }

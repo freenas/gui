@@ -1,29 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "base_name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "pool_space_threshold",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "isns_servers",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "propertyblueprint4": {
+  "blueprint_serviceiscsi_enable": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "enable",
@@ -31,15 +7,39 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_serviceiscsi_isns_servers": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "isns_servers",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_serviceiscsi_pool_space_threshold": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "pool_space_threshold",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_serviceiscsi_base_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "base_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-iscsi",
+      "name": "ServiceIscsi",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"}
+        {"@": "blueprint_serviceiscsi_enable"},
+        {"@": "blueprint_serviceiscsi_isns_servers"},
+        {"@": "blueprint_serviceiscsi_pool_space_threshold"},
+        {"@": "blueprint_serviceiscsi_base_name"}
       ]
     }
   }

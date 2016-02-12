@@ -1,20 +1,4 @@
 {
-  "blueprint_rusage_ru_nivcsw": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ru_nivcsw",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_rusage_ru_majflt": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ru_majflt",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "blueprint_rusage_ru_isrss": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -31,18 +15,50 @@
       "valueType": "number"
     }
   },
-  "blueprint_rusage_ru_msgrcv": {
+  "blueprint_rusage_ru_utime": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ru_msgrcv",
+      "name": "ru_utime",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
   },
-  "blueprint_rusage_ru_idrss": {
+  "blueprint_rusage_ru_nsignals": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ru_idrss",
+      "name": "ru_nsignals",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_rusage_ru_majflt": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ru_majflt",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_rusage_ru_msgsnd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ru_msgsnd",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_rusage_ru_nswap": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ru_nswap",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_rusage_ru_msgrcv": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ru_msgrcv",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -55,10 +71,18 @@
       "valueType": "number"
     }
   },
-  "blueprint_rusage_ru_utime": {
+  "blueprint_rusage_ru_maxrss": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ru_utime",
+      "name": "ru_maxrss",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_rusage_ru_idrss": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ru_idrss",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -71,10 +95,10 @@
       "valueType": "number"
     }
   },
-  "blueprint_rusage_ru_msgsnd": {
+  "blueprint_rusage_ru_nivcsw": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ru_msgsnd",
+      "name": "ru_nivcsw",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -103,51 +127,27 @@
       "valueType": "number"
     }
   },
-  "blueprint_rusage_ru_nswap": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ru_nswap",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_rusage_ru_maxrss": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ru_maxrss",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_rusage_ru_nsignals": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ru_nsignals",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "rusage",
+      "name": "Rusage",
       "propertyBlueprints": [
-        {"@": "blueprint_rusage_ru_nivcsw"},
-        {"@": "blueprint_rusage_ru_majflt"},
         {"@": "blueprint_rusage_ru_isrss"},
         {"@": "blueprint_rusage_ru_ixrss"},
-        {"@": "blueprint_rusage_ru_msgrcv"},
-        {"@": "blueprint_rusage_ru_idrss"},
-        {"@": "blueprint_rusage_ru_minflt"},
         {"@": "blueprint_rusage_ru_utime"},
-        {"@": "blueprint_rusage_ru_nvcsw"},
+        {"@": "blueprint_rusage_ru_nsignals"},
+        {"@": "blueprint_rusage_ru_majflt"},
         {"@": "blueprint_rusage_ru_msgsnd"},
+        {"@": "blueprint_rusage_ru_nswap"},
+        {"@": "blueprint_rusage_ru_msgrcv"},
+        {"@": "blueprint_rusage_ru_minflt"},
+        {"@": "blueprint_rusage_ru_maxrss"},
+        {"@": "blueprint_rusage_ru_idrss"},
+        {"@": "blueprint_rusage_ru_nvcsw"},
+        {"@": "blueprint_rusage_ru_nivcsw"},
         {"@": "blueprint_rusage_ru_stime"},
         {"@": "blueprint_rusage_ru_inblock"},
-        {"@": "blueprint_rusage_ru_oublock"},
-        {"@": "blueprint_rusage_ru_nswap"},
-        {"@": "blueprint_rusage_ru_maxrss"},
-        {"@": "blueprint_rusage_ru_nsignals"}
+        {"@": "blueprint_rusage_ru_oublock"}
       ]
     }
   }

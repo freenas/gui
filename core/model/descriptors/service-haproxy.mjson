@@ -1,49 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "global_maxconn",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "http_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "backend_mode",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "HTTP",
-        "TCP"
-      ]
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "https_ip",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "https_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "propertyblueprint6": {
+  "blueprint_servicehaproxy_http_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "http_ip",
@@ -51,7 +7,23 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint7": {
+  "blueprint_servicehaproxy_http_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "http_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_servicehaproxy_https_ip": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "https_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicehaproxy_frontend_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "frontend_mode",
@@ -63,7 +35,27 @@
       ]
     }
   },
-  "propertyblueprint8": {
+  "blueprint_servicehaproxy_backend_mode": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "backend_mode",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "HTTP",
+        "TCP"
+      ]
+    }
+  },
+  "blueprint_servicehaproxy_global_maxconn": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "global_maxconn",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_servicehaproxy_defaults_maxconn": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "defaults_maxconn",
@@ -71,19 +63,27 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicehaproxy_https_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "https_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-haproxy",
+      "name": "ServiceHaproxy",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"}
+        {"@": "blueprint_servicehaproxy_http_ip"},
+        {"@": "blueprint_servicehaproxy_http_port"},
+        {"@": "blueprint_servicehaproxy_https_ip"},
+        {"@": "blueprint_servicehaproxy_frontend_mode"},
+        {"@": "blueprint_servicehaproxy_backend_mode"},
+        {"@": "blueprint_servicehaproxy_global_maxconn"},
+        {"@": "blueprint_servicehaproxy_defaults_maxconn"},
+        {"@": "blueprint_servicehaproxy_https_port"}
       ]
     }
   }

@@ -1,20 +1,4 @@
 {
-  "blueprint_service_pid": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "pid",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_service_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_service_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -36,15 +20,31 @@
       ]
     }
   },
+  "blueprint_service_pid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "pid",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_service_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service",
+      "name": "Service",
       "propertyBlueprints": [
-        {"@": "blueprint_service_pid"},
-        {"@": "blueprint_service_name"},
         {"@": "blueprint_service_id"},
-        {"@": "blueprint_service_state"}
+        {"@": "blueprint_service_state"},
+        {"@": "blueprint_service_pid"},
+        {"@": "blueprint_service_name"}
       ]
     }
   }

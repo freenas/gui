@@ -1,21 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "allow_new_files",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "auxiliary",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
+  "blueprint_servicetftp_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "port",
@@ -23,7 +7,7 @@
       "valueType": "number"
     }
   },
-  "propertyblueprint4": {
+  "blueprint_servicetftp_path": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "path",
@@ -31,7 +15,15 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint5": {
+  "blueprint_servicetftp_auxiliary": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auxiliary",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicetftp_username": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "username",
@@ -39,7 +31,15 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint6": {
+  "blueprint_servicetftp_allow_new_files": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "allow_new_files",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicetftp_umask": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "umask",
@@ -50,14 +50,14 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "service-tftp",
+      "name": "ServiceTftp",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"}
+        {"@": "blueprint_servicetftp_port"},
+        {"@": "blueprint_servicetftp_path"},
+        {"@": "blueprint_servicetftp_auxiliary"},
+        {"@": "blueprint_servicetftp_username"},
+        {"@": "blueprint_servicetftp_allow_new_files"},
+        {"@": "blueprint_servicetftp_umask"}
       ]
     }
   }

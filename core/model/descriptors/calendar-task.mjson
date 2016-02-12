@@ -1,44 +1,5 @@
 {
-  "propertyblueprint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint2": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "propertyblueprint3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "enabled",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint4": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "protected",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "propertyblueprint5": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "status",
-      "blueprint": {"@": "root"}
-    }
-  },
-  "propertyblueprint6": {
+  "blueprint_calendartask_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "description",
@@ -46,7 +7,15 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint7": {
+  "blueprint_calendartask_protected": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "protected",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_calendartask_schedule": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "schedule",
@@ -54,15 +23,15 @@
       "valueType": "object"
     }
   },
-  "propertyblueprint8": {
+  "blueprint_calendartask_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "args",
+      "name": "id",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "String"
     }
   },
-  "propertyblueprint9": {
+  "blueprint_calendartask_hidden": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "hidden",
@@ -70,20 +39,51 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_calendartask_args": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "args",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_calendartask_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_calendartask_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_calendartask_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "calendar-task",
+      "name": "CalendarTask",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "propertyblueprint2"},
-        {"@": "propertyblueprint3"},
-        {"@": "propertyblueprint4"},
-        {"@": "propertyblueprint5"},
-        {"@": "propertyblueprint6"},
-        {"@": "propertyblueprint7"},
-        {"@": "propertyblueprint8"},
-        {"@": "propertyblueprint9"}
+        {"@": "blueprint_calendartask_description"},
+        {"@": "blueprint_calendartask_protected"},
+        {"@": "blueprint_calendartask_schedule"},
+        {"@": "blueprint_calendartask_id"},
+        {"@": "blueprint_calendartask_hidden"},
+        {"@": "blueprint_calendartask_args"},
+        {"@": "blueprint_calendartask_enabled"},
+        {"@": "blueprint_calendartask_status"},
+        {"@": "blueprint_calendartask_name"}
       ]
     }
   }
