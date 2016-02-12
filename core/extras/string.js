@@ -5,14 +5,26 @@ if (!String.prototype.toCamelCase) {
             var trimmed = this.trim(),
                 camelCase = toCamelCase.cache[trimmed] || '';
 
-            if (!camelCase) {
-                var data = trimmed.split(/\.|_|-/);
+            if (this.length) {
+                if (!camelCase) {
+                    if (/[^A-Z]/.test(trimmed[0]) || /\.|_|-|\s/.test(trimmed)) {
+                        var data = trimmed.split(/\.|_|-|\s/),
+                            str;
 
-                for (var i = 0, length = data.length; i < length; i++) {
-                    camelCase += data[i].toCapitalized();
+                        for (var i = 0, length = data.length; i < length; i++) {
+                            str = data[i];
+
+                            if (str) {
+                                camelCase += str.toCapitalized();
+                            }
+                        }
+
+                        toCamelCase[trimmed] = camelCase;
+
+                    } else {//already camelCase
+                        camelCase = toCamelCase[trimmed] = trimmed;
+                    }
                 }
-
-                toCamelCase[trimmed] = camelCase;
             }
 
             return camelCase;
