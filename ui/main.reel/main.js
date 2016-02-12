@@ -12,7 +12,7 @@ exports.Main = Component.specialize({
     constructor: {
         value: function MainConstructor() {
             //application.delegate = this;
-            this.dataService = new DataService();
+            this.application.dataService = new DataService();
             DataService.mainService.addChildService(new FreeNASService());
             return this;
         }
@@ -23,7 +23,7 @@ exports.Main = Component.specialize({
     enterDocument: {
         value: function() {
             this.application.section = 'dashboard';
-            this.application.applicationModal.enterDocument(true); 
+            this.application.applicationModal.enterDocument(true);
             // this.element.ownerDocument.body.appendChild(this.application.applicationModal.element);
             // this.application.applicationModal.attachToParentComponent();
         }
