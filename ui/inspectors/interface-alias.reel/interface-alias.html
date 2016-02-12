@@ -15,40 +15,68 @@
                 "element": {"#": "owner"}
             }
         },
-        "address-substitution": {
+        "address-label-substitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "address-substitution"}
+                "element": {"#": "address-label-substitution"}
             },
             "bindings": {
                 "switchValue": {"<-": "@owner.object.source"}
             }
         },
-        "address-dhcp": {
+        "address-label-dhcp": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "address-dhcp"}
+                "element": {"#": "address-label-dhcp"},
+                "value": "DCHP Address"
+            }
+        },
+        "address-label-rtadv": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "address-label-rtadv"},
+                "value": "Auto-configured IPv6 Address"
+            }
+        },
+        "address-label-local": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "address-label-local"},
+                "value": "Link-Local IPv6 Address"
+            }
+        },
+        "address-label-manual": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "address-label-manual"},
+                "value": "IP Address"
+            }
+        },
+        "address-display-condition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "address-display-condition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.displayInput"}
+            }
+        },
+        "address-display": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "address-display"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.address"}
             }
         },
-        "address-rtadv": {
-            "prototype": "montage/ui/text.reel",
+        "address-input-condition": {
+            "prototype": "montage/ui/condition.reel",
             "properties": {
-                "element": {"#": "address-rtadv"}
+                "element": {"#": "address-input-condition"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.address"}
-            }
-        },
-        "address-local": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "address-local"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.address"}
+                "condition": {"<-": "@owner.displayInput"}
             }
         },
         "address-input": {
@@ -60,40 +88,38 @@
                 "value": {"<->": "@owner.object.address"}
             }
         },
-        "netmask-substitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "netmask-substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object.source"}
-            }
-        },
-        "netmask-dhcp": {
+        "netmask-label": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "netmask-dhcp"}
+                "element": {"#": "netmask-label"},
+                "value": "Netmask"
+            }
+        },
+        "netmask-display-condition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "netmask-display-condition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.displayInput"}
+            }
+        },
+        "netmask-display": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "netmask-display"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.netmask"}
             }
         },
-        "netmask-rtadv": {
-            "prototype": "montage/ui/text.reel",
+        "netmask-input-condition": {
+            "prototype": "montage/ui/condition.reel",
             "properties": {
-                "element": {"#": "netmask-rtadv"}
+                "element": {"#": "netmask-input-condition"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.netmask"}
-            }
-        },
-        "netmask-local": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "netmask-local"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.netmask"}
+                "condition": {"<-": "@owner.displayInput"}
             }
         },
         "netmask-input": {
@@ -103,6 +129,22 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.netmask"}
+            }
+        },
+        "broadcast-display-condition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "broadcast-display-condition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.displayBroadcast"}
+            }
+        },
+        "broadcast-label": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "broadcast-label"},
+                "value": "Broadcast Address"
             }
         },
         "broadcast-substitution": {
@@ -130,6 +172,13 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.broadcast"}
+            }
+        },
+        "type-label": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "type-label"},
+                "value": "Alias Type"
             }
         },
         "type-substitution": {
@@ -183,67 +232,56 @@
 </head>
 <body>
     <div data-montage-id="owner" class="InterfaceAlias">
-        <div data-montage-id="address-substitution">
+        <div data-montage-id="address-label-substitution">
             <div data-arg="dhcp">
-                <p>DCHP Address</p>
-                <div data-montage-id="address-dhcp"></div>
+                <div data-montage-id="address-label-dhcp"></div>
             </div>
             <div data-arg="rtadv">
-                <p>Auto-configured IPv6 Address</p>
-                <div data-montage-id="address-rtadv"></div>
+                <div data-montage-id="address-label-rtadv"></div>
             </div>
             <div data-arg="link-local">
-                <p>Link-Local IPv6 Address</p>
-                <div data-montage-id="address-local"></div>
+                <div data-montage-id="address-label-local"></div>
             </div>
             <div data-arg="manual">
-                <p>IP Address</p>
-                <div data-montage-id="address-input"></div>
+                <div data-montage-id="address-label-manual"></div>
             </div>
         </div>
-        <div data-montage-id="netmask-substitution">
-            <div data-arg="dhcp">
-                <p>Netmask</p>
-                <div data-montage-id="netmask-dhcp"></div>
-            </div>
-            <div data-arg="rtadv">
-                <p>Netmask</p>
-                <div data-montage-id="netmask-rtadv"></div>
-            </div>
-            <div data-arg="link-local">
-                <p>Netmask</p>
-                <div data-montage-id="netmask-local"></div>
-            </div>
-            <div data-arg="manual">
-                <p>Netmask</p>
-                <div data-montage-id="netmask-input"></div>
+        <div data-montage-id="address-display-condition">
+            <div data-montage-id="address-display"></div>
+        </div>
+        <div data-montage-id="address-input-condition">
+            <div data-montage-id="address-input"></div>
+        </div>
+        <div data-montage-id="netmask-label"></div>
+        <div data-montage-id="netmask-display-condition">
+            <div data-montage-id="netmask-display"></div>
+        </div>
+        <div data-montage-id="netmask-input-condition">
+            <div data-montage-id="netmask-input"></div>
+        </div>
+        <div data-montage-id="broadcast-display-condition">
+            <div data-montage-id="broadcast-label"></div>
+            <div data-montage-id="broadcast-substitution">
+                <div data-arg="dhcp">
+                    <div data-montage-id="broadcast-dhcp"></div>
+                </div>
+                <div data-arg="manual">
+                    <div data-montage-id="broadcast-input"></div>
+                </div>
             </div>
         </div>
-        <div data-montage-id="broadcast-substitution">
-            <div data-arg="dhcp">
-                <p>Broadcast Address</p>
-                <div data-montage-id="broadcast-dhcp"></div>
-            </div>
-            <div data-arg="manual">
-                <p>Broadcast Address</p>
-                <div data-montage-id="broadcast-input"></div>
-            </div>
-        </div>
+        <div data-montage-id="type-label"></div>
         <div data-montage-id="type-substitution">
             <div data-arg="dhcp">
-                <p>Alias Type</p>
                 <div data-montage-id="type-dhcp"></div>
             </div>
             <div data-arg="rtadv">
-                <p>Alias Type</p>
                 <div data-montage-id="type-rtadv"></div>
             </div>
             <div data-arg="link-local">
-                <p>Alias Type</p>
                 <div data-montage-id="type-local"></div>
             </div>
             <div data-arg="manual">
-                <p>Alias Type</p>
                 <div data-montage-id="type-select"></div>
             </div>
         </div>
