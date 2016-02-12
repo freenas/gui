@@ -296,5 +296,12 @@ textarea {
     color: #2B9CD8;
 }
 
+/* $fix - this will get added to the section selector */
+
+/*.section-wrapper {
+    flex-grow: 1;
+    position: relative;
+}*/
+
 
 

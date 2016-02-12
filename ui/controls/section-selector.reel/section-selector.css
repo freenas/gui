@@ -5,6 +5,11 @@
     overflow-x: scroll;
 }
 
+.SectionSelector + * {
+    flex-grow: 1;
+    position: relative;
+}
+
 .SectionSelector-repetition {
     display: flex;
     flex-wrap: nowrap;
