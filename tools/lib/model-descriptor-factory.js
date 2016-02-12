@@ -4,6 +4,8 @@ var ModelDescriptor = require("../../core/model/model-descriptor").ModelDescript
     Path = require('path'),
     mr = require("mr/require").makeRequire();
 
+require('../../core/extras/string');
+require('montage/core/extras/string');
 
 var createModelDescriptorWithNameAndSchema = exports.createModelDescriptorWithNameAndSchema = function (name, schema) {
     var descriptor;
@@ -98,7 +100,7 @@ var saveModelDescriptorWithPathAndFileName = exports.saveModelDescriptorWithPath
     return new Promise(function (resolve, reject) {
         var serializer = new Serializer().initWithRequire(mr);
 
-        path = Path.join(path, modelDescriptor.name + ".mjson");
+        path = Path.join(path, _toFileName(modelDescriptor.name, "-") + ".mjson");
 
         if (global.verbose) {
             console.log("writing " + path);
@@ -126,9 +128,14 @@ exports.saveModelDescriptorsAtPath = function (modelDescriptors, path) {
 };
 
 
+function _toFileName (name, separator) {
+    return name.split(/(?=[A-Z])/).join(separator).toLowerCase();
+}
+
+
 //FIXME: hacky
 function createModelDescriptorWithName(name) {
-    var modelDescriptor = new ModelDescriptor().initWithName(name);
+    var modelDescriptor = new ModelDescriptor().initWithName(name.toCamelCase());
 
     modelDescriptor._montage_metadata = {
         require: mr,

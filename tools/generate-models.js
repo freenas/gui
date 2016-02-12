@@ -6,8 +6,11 @@ var Path = require('path');
 
 var modelDirectory;
 
+require('../core/extras/string');
+require('montage/core/extras/string');
+
 program
-    .version('0.0.1')
+    .version('0.0.2')
     .arguments('<model_directory>')
     .action(function (model_directory) {
         modelDirectory = model_directory;
@@ -47,7 +50,7 @@ function _generateModels (path) {
 
             if (format.ext === ".mjson") {
                 models.push({
-                    type: format.name,
+                    type: format.name.toCamelCase(),
                     modelId: program.prefix ? Path.join(program.prefix, file) : file
                 });
             }

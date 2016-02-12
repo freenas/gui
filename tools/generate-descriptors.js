@@ -29,7 +29,7 @@ loginSchema.properties.password = passwordSchema.properties.password;
 
 
 program
-    .version('0.0.3')
+    .version('0.0.4')
     .option('-u, --username <username>', 'username that will be used to establish a connection with the middleware')
     .option('-p, --password <password>', 'password that will be used to establish a connection with the middleware')
     .option('-H, --host <host>', 'host that will be used to establish a connection with the middleware')
