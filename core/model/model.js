@@ -5,97 +5,84 @@ var Montage = require("montage/core/core").Montage,
     modelsMJSON = require("./models.mjson");
 
 //todo: need review with benoit
-/**
- * @class Models
- * @extends Montage
- */
-var Model = exports.Model = Montage.specialize(/* @lends ModelDescriptor# */null, {
+
+var _Model = null;
 
 
-    _initialize: {
-        value: function () {
-            var models = modelsMJSON.models,
-                model;
-
-            this._types = Object.create(null);
-
-            if (models) {
-                for (var i = 0, length = models.length; i < length; i++) {
-                    model = models[i];
-
-                    this._setGetterForType(model.type, model.modelId);
-                }
-            }
+Object.defineProperty(exports, "Model", {
+    get: function () {
+        if (!_Model) {
+            _initialize();
         }
-    },
 
-
-    _types: {
-        value: null
-    },
-
-
-    types: {
-        get: function () {
-            if (!this._types) {
-                this._initialize();
-            }
-
-            return this._types;
-        }
-    },
-
-
-    getPrototypeForType: {
-        value: function (type) {
-            var objectDescriptor = this.types[typeof type === "string" ? type : type.typeName];
-
-            if (!objectDescriptor) {
-                return Promise.reject(new Error("wrong type given!"));
-            }
-
-            if (!objectDescriptor.objectPrototype || objectDescriptor.objectPrototype !== Montage) {
-                return ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
-                    return (objectDescriptor.objectPrototype = descriptor.newInstancePrototype());
-                });
-            }
-
-            return Promise.resolve(type.objectPrototype);
-        }
-    },
-
-
-    getModelIdForType: {
-        value: function (type) {
-            return this.types[type].modelId;
-        }
-    },
-
-
-    _setGetterForType: {
-        value: function (type, modelId) {
-            var types = this._types,
-                camelCaseType = type.toCamelCase();
-
-            Object.defineProperty(types, camelCaseType, {
-                get: function () {
-                    var privateType = "_" + camelCaseType,
-                        objectDescriptor = types[privateType];
-
-                    if (!objectDescriptor) {
-                        objectDescriptor = types[privateType] = new ObjectDescriptor();
-                        objectDescriptor.typeName = camelCaseType;
-                        objectDescriptor.modelId = modelId;
-                    }
-
-                    return objectDescriptor;
-                }
-            });
-        }
+        return _Model;
     }
-
-
 });
 
 
-Model.prototype.fetchPrototypeForType = Model.prototype.getPrototypeForType;
+function _initialize () {
+    var models = modelsMJSON.models,
+        model;
+
+    _Model = Object.create(null);
+
+    if (models) {
+        for (var i = 0, length = models.length; i < length; i++) {
+            model = models[i];
+
+            _setGetterForType(model.type, model.modelId);
+        }
+    }
+
+    Object.defineProperties(_Model, {
+
+        getPrototypeForType: {
+            value: function (type) {
+                var objectDescriptor = this[typeof type === "string" ? type : type.typeName];
+
+                if (!objectDescriptor) {
+                    return Promise.reject(new Error("wrong type given!"));
+                }
+
+                if (!objectDescriptor.objectPrototype || objectDescriptor.objectPrototype !== Montage) {
+                    return ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
+                        return (objectDescriptor.objectPrototype = descriptor.newInstancePrototype());
+                    });
+                }
+
+                return Promise.resolve(type.objectPrototype);
+            }
+        },
+
+
+        getModelIdForType: {
+            value: function (type) {
+                return this[type].modelId;
+            }
+        }
+
+    });
+
+    _Model.fetchPrototypeForType = _Model.getPrototypeForType;
+}
+
+
+function _setGetterForType (type, modelId) {
+    var types = _Model,
+        camelCaseType = type.toCamelCase();
+
+    Object.defineProperty(types, camelCaseType, {
+        get: function () {
+            var privateType = "_" + camelCaseType,
+                objectDescriptor = types[privateType];
+
+            if (!objectDescriptor) {
+                objectDescriptor = types[privateType] = new ObjectDescriptor();
+                objectDescriptor.typeName = camelCaseType;
+                objectDescriptor.modelId = modelId;
+            }
+
+            return objectDescriptor;
+        }
+    });
+}

@@ -1,0 +1,17 @@
+{
+    "NetworkInterface": {
+        "fetch": {
+            "namespace": "rpc",
+            "name": "call",
+            "method": "network.interface.query"
+        }
+    },
+
+    "Disk": {
+        "fetch": {
+            "namespace": "rpc",
+            "name": "call",
+            "method": "disk.query"
+        }
+    }
+}
