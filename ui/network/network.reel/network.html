@@ -38,6 +38,18 @@
             "bindings": {
                 "switchValue": {"<-": "@owner.currentSection"}
             }
+        },
+        "interfacesInspector": {
+            "prototype": "ui/inspectors/interfaces.reel",
+            "properties": {
+                "element": {"#": "interfacesInspector"}
+            }
+        },
+        "configuration": {
+            "prototype": "ui/network/configuration/configuration.reel",
+            "properties": {
+                "element": {"#": "configuration"}
+            }
         }
     }
     </script>
@@ -46,8 +58,8 @@
     <div data-montage-id="owner" class="Network">
         <div data-montage-id="sectionSelector" class="Network-sectionSelector"></div>
         <div data-montage-id="substitution" class="Network-substitution">
-            <div data-arg="interfaces"><i>interfaces section</i></div>
-            <div data-arg="configuration"><i>configuration section</i></div>
+            <div data-montage-id="interfacesInspector" data-arg="interfaces"></div>
+            <div data-montage-id="configuration" data-arg="configuration"></div>
         </div>
     </div>
 </body>

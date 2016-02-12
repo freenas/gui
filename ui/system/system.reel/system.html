@@ -70,6 +70,57 @@
             "bindings": {
                 "switchValue": {"<-": "@owner.currentSection"}
             }
+        },
+        "general": {
+            "prototype": "../general.reel",
+            "properties": {
+                "element": {"#": "general"}
+            }
+        },
+        "bootPool": {
+            "prototype": "../boot-pool.reel",
+            "properties": {
+                "element": {"#": "bootPool"}
+            }
+        },
+        "updates": {
+            "prototype": "../updates/updates.reel",
+            "properties": {
+                "element": {"#": "updates"}
+            }
+        },
+        "dateAndTime": {
+            "prototype": "../date-and-time.reel",
+            "properties": {
+                "element": {"#": "dateAndTime"}
+            }
+        },
+        "languageAndRegion": {
+            "prototype": "../language-and-region.reel",
+            "properties": {
+                "element": {"#": "languageAndRegion"}
+            }
+        },
+        "powerManagement": {
+            "prototype": "../power-management.reel",
+            "properties": {
+                "element": {"#": "powerManagement"}
+            }
+        },
+        "serialConsole": {
+            "prototype": "../serial-console.reel",
+            "properties": {
+                "element": {"#": "serialConsole"}
+            },
+            "bindings": {
+                "property": {"<-": "data"}
+            }
+        },
+        "advanced": {
+            "prototype": "../advanced.reel",
+            "properties": {
+                "element": {"#": "advanced"}
+            }
         }
     }
     </script>
@@ -78,14 +129,14 @@
     <div data-montage-id="owner" class="System">
         <div data-montage-id="sectionSelector" class="System-navigation"></div>
         <div data-montage-id="substitution" class="System-substitution">
-            <div data-arg="general">General Section</div>
-            <div data-arg="bootPool">Boot Pool Section</div>
-            <div data-arg="updates">Updates Section</div>
-            <div data-arg="dateAndTime">Date & Time Section</div>
-            <div data-arg="languageAndRegion">Language & Region Section</div>
-            <div data-arg="powerManagement">Power Management Section</div>
-            <div data-arg="serialConsole">Serial Console Section</div>
-            <div data-arg="advanced">Advanced Section</div>
+            <div data-montage-id="general" data-arg="general">General Section</div>
+            <div data-montage-id="bootPool" data-arg="bootPool">Boot Pool Section</div>
+            <div data-montage-id="updates" data-arg="updates">Updates Section</div>
+            <div data-montage-id="dateAndTime" data-arg="dateAndTime">Date & Time Section</div>
+            <div data-montage-id="languageAndRegion" data-arg="languageAndRegion">Language & Region Section</div>
+            <div data-montage-id="powerManagement" data-arg="powerManagement">Power Management Section</div>
+            <div data-montage-id="serialConsole" data-arg="serialConsole">Serial Console Section</div>
+            <div data-montage-id="advanced" data-arg="advanced">Advanced Section</div>
         </div>
     </div>
 </body>

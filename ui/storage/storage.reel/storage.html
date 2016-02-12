@@ -7,38 +7,13 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "currentSection": "volumes"
+                "element": {"#": "owner"}
             }
         },
-        "sectionSelector": {
-            "prototype": "../../controls/section-selector.reel",
+        "volumes": {
+            "prototype": "../volumes.reel",
             "properties": {
-                "element": {"#": "sectionSelector"},
-                "sections": [
-                    {
-                        "identifier": "volumes",
-                        "label": "Volumes",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "shares",
-                        "label": "Shares",
-                        "iconUrl": "path"
-                    }
-                ]
-            },
-            "bindings": {
-                "currentSection": {"<->": "@owner.currentSection"}
-            }
-        },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.currentSection"}
+                "element": {"#": "volumes"}
             }
         },
         "volumes": {

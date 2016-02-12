@@ -38,6 +38,7 @@ body {
     flex-direction: column;
 }
 
+
 /********************
 
 $Fonts
@@ -273,101 +274,6 @@ textarea {
     flex-basis: 4em;
     margin-right: 3em;
     color: rgba(255,255,255,.8);
-}
-
-/* $fix - this will likely get added to a component */
-
-.infoText {
-    position: absolute;
-    top: 1.5em;
-    left: -4.6em;
-    width: 14em;
-    font-family: 'Lato';
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 1.3;
-    margin-top: 1em;
-    margin-bottom: 2em;
-    padding: 1em;
-    opacity: 1;
-    color: #000;
-    border-radius: 0.3em;
-    background: rgba(2555,255,255,1);
-    box-shadow: 0 2px 4px rgba(0,0,0,.5);
-    z-index: 2;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-1em);
-    transition: all .25s ease-out;
-}
-
-.infoText:before {
-    position: absolute;
-    content: '';
-    background: #fff;
-    height: 1.2em;
-    width: 1.2em;
-    top: -.5em;
-    border-radius: .2em;
-    transform: rotate(45deg);
-}
-
-.infoText.expanded {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-
-/* Info Idea #2*/
-
-.infoText2 {
-    margin: 1em 0 2em;
-    width: 100%;
-    display: none !important;
-}
-
-.infoText2.expanded {
-    display: block !important;
-}
-
-/* Info Icon*/
-
-.sharedIcon-info {
-    display: inline-block;
-    position: relative;
-    font-size: .7em;
-    padding:  .4em;
-    width: 2em;
-    height: 2em;
-    border-radius: 50%;
-    border: 1px solid #2B9CD8;
-    color: #2B9CD8;
-    margin-left: 1em;
-    cursor: pointer;
-    vertical-align: middle;
-    margin-top: -.4em;
-    transition: all .2s ease-in-out;
-}
-
-.sharedIcon-info:before {
-    position: absolute;
-    left: 50%;
-    top:  50%;
-    height: 3em;
-    width:  3em;
-    margin-top:  -1.5em;
-    margin-left: -1.5em;
-    text-align: center;
-    line-height: 3em;
-}
-.sharedIcon-info.expanded {
-    background: #2B9CD8;
-    color: #fff;
-}
-.sharedIcon-info:hover {
-    color: #fff;
-    border-color: #FFF;
 }
 
 /* $sample - styles only used on .info samples */

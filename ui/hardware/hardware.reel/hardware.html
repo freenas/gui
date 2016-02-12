@@ -45,6 +45,24 @@
             "bindings": {
                 "switchValue": {"<-": "@owner.currentSection"}
             }
+        },
+        "memory": {
+            "prototype": "../memory.reel",
+            "properties": {
+                "element": {"#": "memory"}
+            }
+        },
+        "processor": {
+            "prototype": "../processor.reel",
+            "properties": {
+                "element": {"#": "processor"}
+            }
+        },
+        "thermometer": {
+            "prototype": "../thermometer.reel",
+            "properties": {
+                "element": {"#": "thermometer"}
+            }
         }
     }
     </script>
@@ -53,9 +71,9 @@
     <div data-montage-id="owner" class="Hardware">
         <div data-montage-id="sectionSelector" class="Hardware-navigation"></div>
         <div data-montage-id="substitution" class="Hardware-substitution">
-            <div data-arg="memory">Memory Section</div>
-            <div data-arg="processor">Processor Section</div>
-            <div data-arg="thermometer">Thermometer Section</div>
+            <div data-montage-id="memory" data-arg="memory"></div>
+            <div data-montage-id="processor" data-arg="processor"></div>
+            <div data-montage-id="thermometer" data-arg="thermometer"></div>
         </div>
     </div>
 </body>
