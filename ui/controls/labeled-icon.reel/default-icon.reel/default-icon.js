@@ -71,7 +71,6 @@ exports.DefaultIcon = Component.specialize({
                 this._element.style.fontSize = (minSize * .3) + "px";
                 this._needsResize = false;
             }
-            console.log("draw");
             this._element.textContent = this._getInitials(this.object.name);
             this._element.style.backgroundColor = this._getPastelColor(this.object.name);
         }
