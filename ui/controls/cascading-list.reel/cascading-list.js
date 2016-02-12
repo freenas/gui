@@ -18,7 +18,9 @@ exports.CascadingList = Component.specialize({
         },
         set: function (value) {
             this._root = value;
-            this.expand(value);
+            if (value) {
+                this.expand(value);
+            }
         }
     },
 

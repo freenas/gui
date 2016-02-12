@@ -48,12 +48,10 @@
         "interfaces": {
             "prototype": "ui/controls/cascading-list.reel",
             "properties": {
-                "element": {"#": "interfaces"},
-                "root": {
-                    "name": "Interface 1",
-                    "inspector": "ui/inspectors/interface.reel",
-                    "dhcp": true
-                }
+                "element": {"#": "interfaces"}
+            },
+            "bindings": {
+                "root": {"<-": "@owner.interfaces"}
             }
         }
     }
