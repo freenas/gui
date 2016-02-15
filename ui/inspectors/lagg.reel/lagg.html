@@ -40,15 +40,6 @@
                 "value": {"<-": "@owner.object.link_state"}
             }
         },
-        "name": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "name"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.status.name"}
-            }
-        },
         "noipv6": {
             "prototype": "blue-shark/ui/checkbox.reel",
             "properties": {
@@ -59,14 +50,13 @@
             }
         },
         "ports": {
-            "prototype": "blue-shark/ui/select.reel",
+            "prototype": "blue-shark/ui/select-multiple.reel",
             "properties": {
                 "element": {"#": "ports"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.lagg.ports"},
                 "options": {"<-": "@owner.port_options"},
-                "selectedValue": {"<-": "@owner.port_options[0].value"}
+                "selectedValues": {"<->": "@owner.object.lagg.ports"}
             }
         },
         "protocol": {
@@ -93,7 +83,6 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Lagg">
-        <p data-montage-id="name"></p>
         <p data-montage-id="link_state"></p>
         <div class="Field">
             <div class="Field-title">Enabled</div>
