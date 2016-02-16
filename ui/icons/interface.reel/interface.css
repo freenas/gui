@@ -1,3 +1,7 @@
-.InterfaceIcon {
+.InterfaceIcon svg {
+    color: #ccc;
+}
 
+.Grid-icon.selected .InterfaceIcon svg {
+    color: #2B9CD8;
 }

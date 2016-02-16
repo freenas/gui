@@ -7,12 +7,21 @@
     cursor: pointer;
 }
 
+.LabeledIcon-image {
+    text-align: center;
+}
+
 .LabeledIcon-image > * {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 36px;
+}
+
+.LabeledIcon-image svg {
+    width: 100%;
+    max-width: 3.5em;
 }
 
 .LabeledIcon-label {
@@ -26,3 +35,4 @@
     text-align: center;
     overflow: hidden;
 }
+
