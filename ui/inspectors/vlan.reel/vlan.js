@@ -258,8 +258,12 @@ var _interfaces = [
     }
 ];
 
-var _parent_options = _interfaces.map( function (interfaceInstance) {
-    return {"label": interfaceInstance.id, "value": interfaceInstance.id}
+var _parent_options = [];
+
+_interfaces.forEach( function (interfaceInstance) {
+    if (interfaceInstance.type === "ETHER" || interfaceInstance.type === "LAGG") {
+        _parent_options.push({"label": interfaceInstance.id, "value": interfaceInstance.id});
+    }
 });
 
 exports.Vlan = Component.specialize({
