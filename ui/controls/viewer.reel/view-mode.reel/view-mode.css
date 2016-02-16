@@ -1,9 +1,8 @@
 .ViewMode {
     position: relative;
-    height: 50px;
-    background: #fafafa;
+    height: 3em;
+    background-color: #333;
     box-sizing: border-box;
-    opacity: .6;
 }
 
 .ViewMode-searchField {

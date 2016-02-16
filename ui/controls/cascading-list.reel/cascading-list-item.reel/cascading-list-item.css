@@ -1,16 +1,54 @@
 .CascadingListItem {
-    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    font-family: 'lato';
+    border-right: 1px solid rgba(255,255,255,.15);
     min-width: 300px;
     max-width: 300px;
 }
 
 .CascadingListItem-title {
-    line-height: 44px;
-    height: 44px;
-    padding: 0 16px;
+    flex-shrink: 0;
+    font-size: 1em;
+    line-height: 3em;
+    height:      3em;
+    padding: 0 .5em;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background: #eee;
-    font-family: sans-serif;
+    background-color: #1A3144;
+    background-image: linear-gradient(transparent, rgba(0,0,0,.15) );
+    color: #FFF;
+    text-shadow: 0 1px rgba(0,0,0,.2);
+    font-weight: 400;
+}
+
+.CascadingListItem-content {
+    flex-grow: 1;
+    overflow: scroll;
+}
+
+/* Button Group Idea */
+
+.CascadingListItem-content .ViewMode {
+    height: auto;
+    display: flex;
+}
+
+.CascadingListItem-content .ViewMode .ViewMode-selector  {
+    position: relative;
+    left:   0;
+    top:    0;
+    flex: 1;
+    display: flex;
+}
+
+.CascadingListItem-content .ViewMode .ButtonGroup-repetition {
+    flex: 1;
+    display: flex;
+}
+
+.CascadingListItem-content .ViewMode .ButtonGroup-option {
+    flex: 1;
 }

@@ -3,8 +3,8 @@
 }
 
 .List-item > * {
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    border-top:     1px solid rgba(255,255,255,.2);
+    border-bottom:  1px solid rgba(255,255,255,.2);
 }
 
 .List-item + .List-item > * {

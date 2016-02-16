@@ -1,8 +1,11 @@
 .Viewer {
-
 }
 
+/* $fix - what does this go to? */
+
 .Viewer-listItem {
+    font-family: 'lato';
+    font-weight: 300;
     height: 43px;
     line-height: 43px;
     border-top: 1px solid #ddd;
