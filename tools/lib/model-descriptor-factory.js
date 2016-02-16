@@ -16,13 +16,13 @@ var createModelDescriptorWithNameAndSchema = exports.createModelDescriptorWithNa
         if (schema.enum) {
             descriptor = getModelDescriptorWithNameAndEnum(name, schema.enum);
         } else {
-            if (global.warning || global.verbose) {
+            if (global.verbose) {
                 console.log("does not support schema '" + name + "' with the content '" + JSON.stringify(schema) + "'");
             }
         }
 
     } else {
-        if (global.warning || global.verbose) {
+        if (global.verbose) {
             console.log("does not support schema '" + name + "' for the type '" + schema.type + "'");
         }
     }
@@ -181,10 +181,6 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
             var type = property.type;
 
             if (typeof type === "string") {
-                if (type === "object" && (global.warning || global.verbose)) {
-                    console.log("schema '" + name + "' should have a reference to an object for the property '" + propertyKey + "'");
-                }
-
                 setTypeOnPropertyDescriptor(type, propertyDescriptor);
 
             } else if (Array.isArray(type)) {
@@ -201,10 +197,6 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
             }
 
             if (property.enum) {
-                if (global.warning || global.verbose) {
-                    console.log("schema '" + name + "' should have a reference to an enumeration for the property '" + propertyKey + "'");
-                }
-
                 propertyDescriptor.enumValues = property.enum;
             }
 

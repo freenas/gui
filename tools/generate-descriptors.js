@@ -29,7 +29,7 @@ loginSchema.properties.password = passwordSchema.properties.password;
 
 
 program
-    .version('0.0.5')
+    .version('0.0.6')
     .option('-u, --username <username>', 'username that will be used to establish a connection with the middleware')
     .option('-p, --password <password>', 'password that will be used to establish a connection with the middleware')
     .option('-H, --host <host>', 'host that will be used to establish a connection with the middleware')
@@ -38,6 +38,7 @@ program
     .option('-w, --warning', "log warning messages")
     .option('-s, --secure', "establish a secure connection with the middleware")
     .option('-t, --target <target>', "changes the default target directory")
+    .option('--no-save', "does not save descriptor files")
     .parse(process.argv);
 
 
@@ -112,7 +113,11 @@ function generateDescriptors () {
                                     }
                                 }
 
-                                return ModelDescriptorFactory.saveModelDescriptorsAtPath(descriptors, targetPath);
+                                if (program.save) {
+                                    return ModelDescriptorFactory.saveModelDescriptorsAtPath(descriptors, targetPath);
+                                }
+
+                                return Promise.resolve();
                             }
                         });
                     });
