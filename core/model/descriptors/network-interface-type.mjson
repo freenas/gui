@@ -1,0 +1,60 @@
+{
+  "blueprint_networkinterfacetype_LOOPBACK": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "LOOPBACK",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "LOOPBACK"
+    }
+  },
+  "blueprint_networkinterfacetype_ETHER": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ETHER",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "ETHER"
+    }
+  },
+  "blueprint_networkinterfacetype_VLAN": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "VLAN",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "VLAN"
+    }
+  },
+  "blueprint_networkinterfacetype_BRIDGE": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "BRIDGE",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "BRIDGE"
+    }
+  },
+  "blueprint_networkinterfacetype_LAGG": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "LAGG",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "LAGG"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "NetworkInterfaceType",
+      "propertyBlueprints": [
+        {"@": "blueprint_networkinterfacetype_LOOPBACK"},
+        {"@": "blueprint_networkinterfacetype_ETHER"},
+        {"@": "blueprint_networkinterfacetype_VLAN"},
+        {"@": "blueprint_networkinterfacetype_BRIDGE"},
+        {"@": "blueprint_networkinterfacetype_LAGG"}
+      ]
+    }
+  }
+}

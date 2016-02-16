@@ -1,8 +1,8 @@
 {
-  "blueprint_unixmodetuple_execute": {
+  "blueprint_unixmodetuple_write": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "execute",
+      "name": "write",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -15,10 +15,10 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_unixmodetuple_write": {
+  "blueprint_unixmodetuple_execute": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "write",
+      "name": "execute",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -28,9 +28,9 @@
     "properties": {
       "name": "UnixModeTuple",
       "propertyBlueprints": [
-        {"@": "blueprint_unixmodetuple_execute"},
+        {"@": "blueprint_unixmodetuple_write"},
         {"@": "blueprint_unixmodetuple_read"},
-        {"@": "blueprint_unixmodetuple_write"}
+        {"@": "blueprint_unixmodetuple_execute"}
       ]
     }
   }

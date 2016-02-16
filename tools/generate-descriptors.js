@@ -29,7 +29,7 @@ loginSchema.properties.password = passwordSchema.properties.password;
 
 
 program
-    .version('0.0.4')
+    .version('0.0.5')
     .option('-u, --username <username>', 'username that will be used to establish a connection with the middleware')
     .option('-p, --password <password>', 'password that will be used to establish a connection with the middleware')
     .option('-H, --host <host>', 'host that will be used to establish a connection with the middleware')
@@ -99,14 +99,17 @@ function generateDescriptors () {
                             if (schemas) {
                                 var schemaKeys = Object.keys(schemas),
                                     descriptors = [],
+                                    tmpDescriptors,
                                     schemaKey;
 
                                 for (var i = 0, length = schemaKeys.length; i < length; i++) {
                                     schemaKey = schemaKeys[i];
 
-                                    descriptors = descriptors.concat(
-                                        ModelDescriptorFactory.createModelDescriptorsWithNameAndSchema(schemaKey, schemas[schemaKey])
-                                    );
+                                    tmpDescriptors = ModelDescriptorFactory.createModelDescriptorsWithNameAndSchema(schemaKey, schemas[schemaKey]);
+
+                                    if (tmpDescriptors) {
+                                        descriptors = descriptors.concat(tmpDescriptors);
+                                    }
                                 }
 
                                 return ModelDescriptorFactory.saveModelDescriptorsAtPath(descriptors, targetPath);

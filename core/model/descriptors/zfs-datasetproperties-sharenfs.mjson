@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiessharenfs_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiessharenfs_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiessharenfs_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesSharenfs",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiessharenfs_value"},
-        {"@": "blueprint_zfsdatasetpropertiessharenfs_source"}
+        {"@": "blueprint_zfsdatasetpropertiessharenfs_source"},
+        {"@": "blueprint_zfsdatasetpropertiessharenfs_value"}
       ]
     }
   }

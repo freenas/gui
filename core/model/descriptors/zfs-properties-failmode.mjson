@@ -1,15 +1,15 @@
 {
-  "blueprint_zfspropertiesfailmode_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertiesfailmode_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfspropertiesfailmode_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsPropertiesFailmode",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertiesfailmode_value"},
-        {"@": "blueprint_zfspropertiesfailmode_source"}
+        {"@": "blueprint_zfspropertiesfailmode_source"},
+        {"@": "blueprint_zfspropertiesfailmode_value"}
       ]
     }
   }

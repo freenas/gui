@@ -1,42 +1,18 @@
 {
+  "blueprint_simulateddisk_serial": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "serial",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_simulateddisk_block_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "block_size",
       "blueprint": {"@": "root"},
       "valueType": "number"
-    }
-  },
-  "blueprint_simulateddisk_vendor": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vendor",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_simulateddisk_mediasize": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mediasize",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_simulateddisk_path": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_simulateddisk_online": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "online",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
     }
   },
   "blueprint_simulateddisk_id": {
@@ -63,6 +39,22 @@
       ]
     }
   },
+  "blueprint_simulateddisk_online": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "online",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_simulateddisk_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_simulateddisk_model": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -71,10 +63,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_simulateddisk_serial": {
+  "blueprint_simulateddisk_mediasize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "serial",
+      "name": "mediasize",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_simulateddisk_vendor": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vendor",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -84,15 +84,15 @@
     "properties": {
       "name": "SimulatedDisk",
       "propertyBlueprints": [
+        {"@": "blueprint_simulateddisk_serial"},
         {"@": "blueprint_simulateddisk_block_size"},
-        {"@": "blueprint_simulateddisk_vendor"},
-        {"@": "blueprint_simulateddisk_mediasize"},
-        {"@": "blueprint_simulateddisk_path"},
-        {"@": "blueprint_simulateddisk_online"},
         {"@": "blueprint_simulateddisk_id"},
         {"@": "blueprint_simulateddisk_rpm"},
+        {"@": "blueprint_simulateddisk_online"},
+        {"@": "blueprint_simulateddisk_path"},
         {"@": "blueprint_simulateddisk_model"},
-        {"@": "blueprint_simulateddisk_serial"}
+        {"@": "blueprint_simulateddisk_mediasize"},
+        {"@": "blueprint_simulateddisk_vendor"}
       ]
     }
   }

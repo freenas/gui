@@ -7,18 +7,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_calendartaskstatus_next_run_time": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "next_run_time",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_calendartaskstatus_last_run_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "last_run_status",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskstatus_next_run_time": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "next_run_time",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -37,8 +37,8 @@
       "name": "CalendarTaskStatus",
       "propertyBlueprints": [
         {"@": "blueprint_calendartaskstatus_current_run_status"},
-        {"@": "blueprint_calendartaskstatus_next_run_time"},
         {"@": "blueprint_calendartaskstatus_last_run_status"},
+        {"@": "blueprint_calendartaskstatus_next_run_time"},
         {"@": "blueprint_calendartaskstatus_current_run_progress"}
       ]
     }

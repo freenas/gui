@@ -1,8 +1,8 @@
 {
-  "blueprint_zfssnapshot_dataset": {
+  "blueprint_zfssnapshot_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dataset",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -15,12 +15,12 @@
       "valueType": "String"
     }
   },
-  "blueprint_zfssnapshot_properties": {
+  "blueprint_zfssnapshot_dataset": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "properties",
+      "name": "dataset",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "String"
     }
   },
   "blueprint_zfssnapshot_holds": {
@@ -31,12 +31,12 @@
       "valueType": "object"
     }
   },
-  "blueprint_zfssnapshot_name": {
+  "blueprint_zfssnapshot_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "properties",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object"
     }
   },
   "root": {
@@ -44,11 +44,11 @@
     "properties": {
       "name": "ZfsSnapshot",
       "propertyBlueprints": [
-        {"@": "blueprint_zfssnapshot_dataset"},
+        {"@": "blueprint_zfssnapshot_name"},
         {"@": "blueprint_zfssnapshot_pool"},
-        {"@": "blueprint_zfssnapshot_properties"},
+        {"@": "blueprint_zfssnapshot_dataset"},
         {"@": "blueprint_zfssnapshot_holds"},
-        {"@": "blueprint_zfssnapshot_name"}
+        {"@": "blueprint_zfssnapshot_properties"}
       ]
     }
   }

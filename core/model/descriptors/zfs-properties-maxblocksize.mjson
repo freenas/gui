@@ -1,15 +1,15 @@
 {
-  "blueprint_zfspropertiesmaxblocksize_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertiesmaxblocksize_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfspropertiesmaxblocksize_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsPropertiesMaxblocksize",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertiesmaxblocksize_value"},
-        {"@": "blueprint_zfspropertiesmaxblocksize_source"}
+        {"@": "blueprint_zfspropertiesmaxblocksize_source"},
+        {"@": "blueprint_zfspropertiesmaxblocksize_value"}
       ]
     }
   }

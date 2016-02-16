@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiesvolsize_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesvolsize_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiesvolsize_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesVolsize",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesvolsize_value"},
-        {"@": "blueprint_zfsdatasetpropertiesvolsize_source"}
+        {"@": "blueprint_zfsdatasetpropertiesvolsize_source"},
+        {"@": "blueprint_zfsdatasetpropertiesvolsize_value"}
       ]
     }
   }

@@ -7,6 +7,13 @@
       "valueType": "array"
     }
   },
+  "blueprint_permissions_modes": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "modes",
+      "blueprint": {"@": "root"}
+    }
+  },
   "blueprint_permissions_user": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -23,22 +30,15 @@
       "valueType": "String"
     }
   },
-  "blueprint_permissions_modes": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "modes",
-      "blueprint": {"@": "root"}
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Permissions",
       "propertyBlueprints": [
         {"@": "blueprint_permissions_acl"},
+        {"@": "blueprint_permissions_modes"},
         {"@": "blueprint_permissions_user"},
-        {"@": "blueprint_permissions_group"},
-        {"@": "blueprint_permissions_modes"}
+        {"@": "blueprint_permissions_group"}
       ]
     }
   }

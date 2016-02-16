@@ -1,28 +1,4 @@
 {
-  "blueprint_iscsiauthgroup_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_iscsiauthgroup_initiators": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "initiators",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_iscsiauthgroup_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_iscsiauthgroup_users": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -45,6 +21,14 @@
       ]
     }
   },
+  "blueprint_iscsiauthgroup_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_iscsiauthgroup_networks": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -53,17 +37,33 @@
       "valueType": "array"
     }
   },
+  "blueprint_iscsiauthgroup_initiators": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "initiators",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_iscsiauthgroup_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "IscsiAuthGroup",
       "propertyBlueprints": [
-        {"@": "blueprint_iscsiauthgroup_description"},
-        {"@": "blueprint_iscsiauthgroup_initiators"},
-        {"@": "blueprint_iscsiauthgroup_id"},
         {"@": "blueprint_iscsiauthgroup_users"},
         {"@": "blueprint_iscsiauthgroup_type"},
-        {"@": "blueprint_iscsiauthgroup_networks"}
+        {"@": "blueprint_iscsiauthgroup_id"},
+        {"@": "blueprint_iscsiauthgroup_networks"},
+        {"@": "blueprint_iscsiauthgroup_initiators"},
+        {"@": "blueprint_iscsiauthgroup_description"}
       ]
     }
   }

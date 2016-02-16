@@ -1,4 +1,12 @@
 {
+  "blueprint_containerconfig_boot_device": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "boot_device",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_containerconfig_bootloader": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -11,20 +19,12 @@
       ]
     }
   },
-  "blueprint_containerconfig_boot_device": {
+  "blueprint_containerconfig_memsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "boot_device",
+      "name": "memsize",
       "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_containerconfig_boot_partition": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "boot_partition",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
   "blueprint_containerconfig_boot_directory": {
@@ -35,14 +35,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_containerconfig_memsize": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "memsize",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "blueprint_containerconfig_ncpus": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -51,17 +43,25 @@
       "valueType": "number"
     }
   },
+  "blueprint_containerconfig_boot_partition": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "boot_partition",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ContainerConfig",
       "propertyBlueprints": [
-        {"@": "blueprint_containerconfig_bootloader"},
         {"@": "blueprint_containerconfig_boot_device"},
-        {"@": "blueprint_containerconfig_boot_partition"},
-        {"@": "blueprint_containerconfig_boot_directory"},
+        {"@": "blueprint_containerconfig_bootloader"},
         {"@": "blueprint_containerconfig_memsize"},
-        {"@": "blueprint_containerconfig_ncpus"}
+        {"@": "blueprint_containerconfig_boot_directory"},
+        {"@": "blueprint_containerconfig_ncpus"},
+        {"@": "blueprint_containerconfig_boot_partition"}
       ]
     }
   }

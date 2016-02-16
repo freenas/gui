@@ -1,12 +1,4 @@
 {
-  "blueprint_zfstopology_data": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "data",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_zfstopology_cache": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,10 +7,10 @@
       "valueType": "array"
     }
   },
-  "blueprint_zfstopology_spare": {
+  "blueprint_zfstopology_data": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "spare",
+      "name": "data",
       "blueprint": {"@": "root"},
       "valueType": "array"
     }
@@ -31,15 +23,23 @@
       "valueType": "array"
     }
   },
+  "blueprint_zfstopology_spare": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "spare",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ZfsTopology",
       "propertyBlueprints": [
-        {"@": "blueprint_zfstopology_data"},
         {"@": "blueprint_zfstopology_cache"},
-        {"@": "blueprint_zfstopology_spare"},
-        {"@": "blueprint_zfstopology_log"}
+        {"@": "blueprint_zfstopology_data"},
+        {"@": "blueprint_zfstopology_log"},
+        {"@": "blueprint_zfstopology_spare"}
       ]
     }
   }

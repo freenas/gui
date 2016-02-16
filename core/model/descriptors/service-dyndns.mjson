@@ -1,32 +1,16 @@
 {
-  "blueprint_servicedyndns_ipserver": {
+  "blueprint_servicedyndns_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ipserver",
+      "name": "password",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_servicedyndns_domains": {
+  "blueprint_servicedyndns_ipserver": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "domains",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_servicedyndns_update_period": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "update_period",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_servicedyndns_auxiliary": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "auxiliary",
+      "name": "ipserver",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -39,12 +23,36 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicedyndns_auxiliary": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auxiliary",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicedyndns_update_period": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "update_period",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_servicedyndns_force_update_period": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "force_update_period",
       "blueprint": {"@": "root"},
       "valueType": "number"
+    }
+  },
+  "blueprint_servicedyndns_domains": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "domains",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
     }
   },
   "blueprint_servicedyndns_provider": {
@@ -55,29 +63,21 @@
       "valueType": "String",
       "enumValues": [
         null,
-        "default@dnsomatic.com",
-        "ipv6tb@he.net",
-        "default@zoneedit.com",
-        "default@dynsip.org",
         "default@zerigo.com",
-        "dyndns@3322.org",
-        "default@dhis.org",
-        "default@majimoto.net",
         "default@tzo.com",
-        "default@no-ip.com",
+        "default@zoneedit.com",
+        "default@easydns.com",
+        "ipv6tb@he.net",
         "default@sitelutions.com",
+        "dyndns@3322.org",
+        "default@dnsomatic.com",
         "dyndns@dyndns.org",
-        "default@freedns.afraid.org",
-        "default@easydns.com"
+        "default@no-ip.com",
+        "default@dhis.org",
+        "default@dynsip.org",
+        "default@majimoto.net",
+        "default@freedns.afraid.org"
       ]
-    }
-  },
-  "blueprint_servicedyndns_password": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "root": {
@@ -85,14 +85,14 @@
     "properties": {
       "name": "ServiceDyndns",
       "propertyBlueprints": [
+        {"@": "blueprint_servicedyndns_password"},
         {"@": "blueprint_servicedyndns_ipserver"},
-        {"@": "blueprint_servicedyndns_domains"},
-        {"@": "blueprint_servicedyndns_update_period"},
-        {"@": "blueprint_servicedyndns_auxiliary"},
         {"@": "blueprint_servicedyndns_username"},
+        {"@": "blueprint_servicedyndns_auxiliary"},
+        {"@": "blueprint_servicedyndns_update_period"},
         {"@": "blueprint_servicedyndns_force_update_period"},
-        {"@": "blueprint_servicedyndns_provider"},
-        {"@": "blueprint_servicedyndns_password"}
+        {"@": "blueprint_servicedyndns_domains"},
+        {"@": "blueprint_servicedyndns_provider"}
       ]
     }
   }

@@ -1,8 +1,8 @@
 {
-  "blueprint_updateops_previous_version": {
+  "blueprint_updateops_new_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "previous_version",
+      "name": "new_name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -15,18 +15,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_updateops_new_name": {
+  "blueprint_updateops_previous_version": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "new_name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_updateops_new_version": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "new_version",
+      "name": "previous_version",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -44,16 +36,24 @@
       ]
     }
   },
+  "blueprint_updateops_new_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "new_version",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "UpdateOps",
       "propertyBlueprints": [
-        {"@": "blueprint_updateops_previous_version"},
-        {"@": "blueprint_updateops_previous_name"},
         {"@": "blueprint_updateops_new_name"},
-        {"@": "blueprint_updateops_new_version"},
-        {"@": "blueprint_updateops_operation"}
+        {"@": "blueprint_updateops_previous_name"},
+        {"@": "blueprint_updateops_previous_version"},
+        {"@": "blueprint_updateops_operation"},
+        {"@": "blueprint_updateops_new_version"}
       ]
     }
   }

@@ -1,9 +1,10 @@
 {
-  "blueprint_updateinfo_operations": {
+  "blueprint_updateinfo_notes": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "operations",
-      "blueprint": {"@": "root"}
+      "name": "notes",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
     }
   },
   "blueprint_updateinfo_downloaded": {
@@ -14,12 +15,12 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_updateinfo_notes": {
+  "blueprint_updateinfo_changelog": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "notes",
+      "name": "changelog",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "array"
     }
   },
   "blueprint_updateinfo_notice": {
@@ -30,12 +31,11 @@
       "valueType": "String"
     }
   },
-  "blueprint_updateinfo_changelog": {
+  "blueprint_updateinfo_operations": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "changelog",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
+      "name": "operations",
+      "blueprint": {"@": "root"}
     }
   },
   "root": {
@@ -43,11 +43,11 @@
     "properties": {
       "name": "UpdateInfo",
       "propertyBlueprints": [
-        {"@": "blueprint_updateinfo_operations"},
-        {"@": "blueprint_updateinfo_downloaded"},
         {"@": "blueprint_updateinfo_notes"},
+        {"@": "blueprint_updateinfo_downloaded"},
+        {"@": "blueprint_updateinfo_changelog"},
         {"@": "blueprint_updateinfo_notice"},
-        {"@": "blueprint_updateinfo_changelog"}
+        {"@": "blueprint_updateinfo_operations"}
       ]
     }
   }

@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiesjailed_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesjailed_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiesjailed_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesJailed",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesjailed_value"},
-        {"@": "blueprint_zfsdatasetpropertiesjailed_source"}
+        {"@": "blueprint_zfsdatasetpropertiesjailed_source"},
+        {"@": "blueprint_zfsdatasetpropertiesjailed_value"}
       ]
     }
   }

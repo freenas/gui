@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiesobjsetid_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesobjsetid_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiesobjsetid_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesObjsetid",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesobjsetid_value"},
-        {"@": "blueprint_zfsdatasetpropertiesobjsetid_source"}
+        {"@": "blueprint_zfsdatasetpropertiesobjsetid_source"},
+        {"@": "blueprint_zfsdatasetpropertiesobjsetid_value"}
       ]
     }
   }

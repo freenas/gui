@@ -1,44 +1,4 @@
 {
-  "blueprint_systemadvanced_powerd": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "powerd",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_systemadvanced_serial_console": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "serial_console",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_systemadvanced_serial_port": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "serial_port",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_systemadvanced_swapondrive": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "swapondrive",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_systemadvanced_console_screensaver": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "console_screensaver",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_systemadvanced_debugkernel": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -55,28 +15,12 @@
       "valueType": "number"
     }
   },
-  "blueprint_systemadvanced_periodic_notify_user": {
+  "blueprint_systemadvanced_console_screensaver": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "periodic_notify_user",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_systemadvanced_console_cli": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "console_cli",
+      "name": "console_screensaver",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
-    }
-  },
-  "blueprint_systemadvanced_boot_scrub_internal": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "boot_scrub_internal",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
     }
   },
   "blueprint_systemadvanced_uploadcrash": {
@@ -95,23 +39,79 @@
       "valueType": "String"
     }
   },
+  "blueprint_systemadvanced_serial_console": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "serial_console",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_systemadvanced_serial_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "serial_port",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_systemadvanced_boot_scrub_internal": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "boot_scrub_internal",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_systemadvanced_console_cli": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "console_cli",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_systemadvanced_swapondrive": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "swapondrive",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_systemadvanced_periodic_notify_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "periodic_notify_user",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_systemadvanced_powerd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "powerd",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "SystemAdvanced",
       "propertyBlueprints": [
-        {"@": "blueprint_systemadvanced_powerd"},
-        {"@": "blueprint_systemadvanced_serial_console"},
-        {"@": "blueprint_systemadvanced_serial_port"},
-        {"@": "blueprint_systemadvanced_swapondrive"},
-        {"@": "blueprint_systemadvanced_console_screensaver"},
         {"@": "blueprint_systemadvanced_debugkernel"},
         {"@": "blueprint_systemadvanced_serial_speed"},
-        {"@": "blueprint_systemadvanced_periodic_notify_user"},
-        {"@": "blueprint_systemadvanced_console_cli"},
-        {"@": "blueprint_systemadvanced_boot_scrub_internal"},
+        {"@": "blueprint_systemadvanced_console_screensaver"},
         {"@": "blueprint_systemadvanced_uploadcrash"},
-        {"@": "blueprint_systemadvanced_motd"}
+        {"@": "blueprint_systemadvanced_motd"},
+        {"@": "blueprint_systemadvanced_serial_console"},
+        {"@": "blueprint_systemadvanced_serial_port"},
+        {"@": "blueprint_systemadvanced_boot_scrub_internal"},
+        {"@": "blueprint_systemadvanced_console_cli"},
+        {"@": "blueprint_systemadvanced_swapondrive"},
+        {"@": "blueprint_systemadvanced_periodic_notify_user"},
+        {"@": "blueprint_systemadvanced_powerd"}
       ]
     }
   }

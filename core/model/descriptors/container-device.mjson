@@ -1,10 +1,10 @@
 {
-  "blueprint_containerdevice_properties": {
+  "blueprint_containerdevice_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "properties",
+      "name": "name",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "String"
     }
   },
   "blueprint_containerdevice_type": {
@@ -20,12 +20,12 @@
       ]
     }
   },
-  "blueprint_containerdevice_name": {
+  "blueprint_containerdevice_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "properties",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object"
     }
   },
   "root": {
@@ -33,9 +33,9 @@
     "properties": {
       "name": "ContainerDevice",
       "propertyBlueprints": [
-        {"@": "blueprint_containerdevice_properties"},
+        {"@": "blueprint_containerdevice_name"},
         {"@": "blueprint_containerdevice_type"},
-        {"@": "blueprint_containerdevice_name"}
+        {"@": "blueprint_containerdevice_properties"}
       ]
     }
   }

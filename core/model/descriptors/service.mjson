@@ -1,12 +1,4 @@
 {
-  "blueprint_service_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_service_state": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -36,15 +28,23 @@
       "valueType": "String"
     }
   },
+  "blueprint_service_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Service",
       "propertyBlueprints": [
-        {"@": "blueprint_service_id"},
         {"@": "blueprint_service_state"},
         {"@": "blueprint_service_pid"},
-        {"@": "blueprint_service_name"}
+        {"@": "blueprint_service_name"},
+        {"@": "blueprint_service_id"}
       ]
     }
   }

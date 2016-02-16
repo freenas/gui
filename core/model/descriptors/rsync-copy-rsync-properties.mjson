@@ -1,8 +1,16 @@
 {
-  "blueprint_rsynccopyrsyncproperties_delete": {
+  "blueprint_rsynccopyrsyncproperties_extra": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "delete",
+      "name": "extra",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_rsynccopyrsyncproperties_preserve_permissions": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "preserve_permissions",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -15,34 +23,10 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_rsynccopyrsyncproperties_extra": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "extra",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_rsynccopyrsyncproperties_times": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "times",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_rsynccopyrsyncproperties_archive": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "archive",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_rsynccopyrsyncproperties_delay_updates": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "delay_updates",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -63,10 +47,26 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_rsynccopyrsyncproperties_preserve_permissions": {
+  "blueprint_rsynccopyrsyncproperties_delay_updates": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "preserve_permissions",
+      "name": "delay_updates",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_rsynccopyrsyncproperties_times": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "times",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_rsynccopyrsyncproperties_delete": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "delete",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -76,15 +76,15 @@
     "properties": {
       "name": "RsyncCopyRsyncProperties",
       "propertyBlueprints": [
-        {"@": "blueprint_rsynccopyrsyncproperties_delete"},
-        {"@": "blueprint_rsynccopyrsyncproperties_compress"},
         {"@": "blueprint_rsynccopyrsyncproperties_extra"},
-        {"@": "blueprint_rsynccopyrsyncproperties_times"},
+        {"@": "blueprint_rsynccopyrsyncproperties_preserve_permissions"},
+        {"@": "blueprint_rsynccopyrsyncproperties_compress"},
         {"@": "blueprint_rsynccopyrsyncproperties_archive"},
-        {"@": "blueprint_rsynccopyrsyncproperties_delay_updates"},
         {"@": "blueprint_rsynccopyrsyncproperties_recursive"},
         {"@": "blueprint_rsynccopyrsyncproperties_preserve_attributes"},
-        {"@": "blueprint_rsynccopyrsyncproperties_preserve_permissions"}
+        {"@": "blueprint_rsynccopyrsyncproperties_delay_updates"},
+        {"@": "blueprint_rsynccopyrsyncproperties_times"},
+        {"@": "blueprint_rsynccopyrsyncproperties_delete"}
       ]
     }
   }

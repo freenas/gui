@@ -1,15 +1,15 @@
 {
-  "blueprint_zfspropertiesleaked_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertiesleaked_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfspropertiesleaked_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsPropertiesLeaked",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertiesleaked_value"},
-        {"@": "blueprint_zfspropertiesleaked_source"}
+        {"@": "blueprint_zfspropertiesleaked_source"},
+        {"@": "blueprint_zfspropertiesleaked_value"}
       ]
     }
   }

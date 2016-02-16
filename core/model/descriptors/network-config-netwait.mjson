@@ -1,12 +1,4 @@
 {
-  "blueprint_networkconfignetwait_enabled": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "enabled",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_networkconfignetwait_addresses": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,13 +7,21 @@
       "valueType": "array"
     }
   },
+  "blueprint_networkconfignetwait_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "NetworkConfigNetwait",
       "propertyBlueprints": [
-        {"@": "blueprint_networkconfignetwait_enabled"},
-        {"@": "blueprint_networkconfignetwait_addresses"}
+        {"@": "blueprint_networkconfignetwait_addresses"},
+        {"@": "blueprint_networkconfignetwait_enabled"}
       ]
     }
   }

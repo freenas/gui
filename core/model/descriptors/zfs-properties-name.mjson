@@ -1,15 +1,15 @@
 {
-  "blueprint_zfspropertiesname_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertiesname_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfspropertiesname_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsPropertiesName",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertiesname_value"},
-        {"@": "blueprint_zfspropertiesname_source"}
+        {"@": "blueprint_zfspropertiesname_source"},
+        {"@": "blueprint_zfspropertiesname_value"}
       ]
     }
   }

@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicestanchion_listener_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "listener_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_servicestanchion_listener_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,34 +23,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_servicestanchion_admin_secret": {
+  "blueprint_servicestanchion_riak_host_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "admin_secret",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicestanchion_admin_key": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "admin_key",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicestanchion_nodename": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "nodename",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicestanchion_listener_port": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listener_port",
+      "name": "riak_host_port",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -65,12 +49,12 @@
       ]
     }
   },
-  "blueprint_servicestanchion_riak_host_port": {
+  "blueprint_servicestanchion_admin_secret": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "riak_host_port",
+      "name": "admin_secret",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_servicestanchion_node_ip": {
@@ -81,20 +65,36 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicestanchion_admin_key": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "admin_key",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicestanchion_nodename": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nodename",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ServiceStanchion",
       "propertyBlueprints": [
         {"@": "blueprint_servicestanchion_riak_host_ip"},
-        {"@": "blueprint_servicestanchion_listener_ip"},
-        {"@": "blueprint_servicestanchion_admin_secret"},
-        {"@": "blueprint_servicestanchion_admin_key"},
-        {"@": "blueprint_servicestanchion_nodename"},
         {"@": "blueprint_servicestanchion_listener_port"},
-        {"@": "blueprint_servicestanchion_log_console_level"},
+        {"@": "blueprint_servicestanchion_listener_ip"},
         {"@": "blueprint_servicestanchion_riak_host_port"},
-        {"@": "blueprint_servicestanchion_node_ip"}
+        {"@": "blueprint_servicestanchion_log_console_level"},
+        {"@": "blueprint_servicestanchion_admin_secret"},
+        {"@": "blueprint_servicestanchion_node_ip"},
+        {"@": "blueprint_servicestanchion_admin_key"},
+        {"@": "blueprint_servicestanchion_nodename"}
       ]
     }
   }

@@ -37,11 +37,16 @@ exports.createModelDescriptorsWithNameAndSchema = function (name, schema) {
     schema._schema_name = name;
 
     var schemas = findSchemasInSchema(schema),
+        descriptor,
         _schema;
 
     for (var i = 0, length = schemas.length; i< length; i++) {
         _schema = schemas[i];
-        descriptors.push(createModelDescriptorWithNameAndSchema(_schema._schema_name, _schema));
+        descriptor = createModelDescriptorWithNameAndSchema(_schema._schema_name, _schema);
+
+        if (descriptor) {
+            descriptors.push(descriptor);
+        }
     }
 
     return descriptors;
@@ -55,9 +60,9 @@ var findSchemasInSchema = exports.findSchemasInSchema = function findSchemasInSc
 
     var properties = schema.properties;
 
-    if (properties) {
-        _schemas.push(schema);
+    _schemas.push(schema);
 
+    if (properties) {
         var propertyKeys = Object.keys(properties),
             property,
             propertyKey;
@@ -85,10 +90,6 @@ var findSchemasInSchema = exports.findSchemasInSchema = function findSchemasInSc
                     findSchemasInSchema(property, _schemas);
                 }
             }
-        }
-    } else {
-        if (global.warning || global.verbose) {
-            console.log("Missing schema for '" + schema._schema_name + "'");
         }
     }
 

@@ -1,0 +1,40 @@
+{
+  "blueprint_diskerasemethod_QUICK": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "QUICK",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "QUICK"
+    }
+  },
+  "blueprint_diskerasemethod_ZEROS": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ZEROS",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "ZEROS"
+    }
+  },
+  "blueprint_diskerasemethod_RANDOM": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "RANDOM",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "RANDOM"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DiskEraseMethod",
+      "propertyBlueprints": [
+        {"@": "blueprint_diskerasemethod_QUICK"},
+        {"@": "blueprint_diskerasemethod_ZEROS"},
+        {"@": "blueprint_diskerasemethod_RANDOM"}
+      ]
+    }
+  }
+}

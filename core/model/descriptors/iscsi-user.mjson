@@ -1,8 +1,8 @@
 {
-  "blueprint_iscsiuser_secret": {
+  "blueprint_iscsiuser_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "secret",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -15,18 +15,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiuser_peer_name": {
+  "blueprint_iscsiuser_secret": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "peer_name",
+      "name": "secret",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_iscsiuser_name": {
+  "blueprint_iscsiuser_peer_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "peer_name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -36,10 +36,10 @@
     "properties": {
       "name": "IscsiUser",
       "propertyBlueprints": [
-        {"@": "blueprint_iscsiuser_secret"},
+        {"@": "blueprint_iscsiuser_name"},
         {"@": "blueprint_iscsiuser_peer_secret"},
-        {"@": "blueprint_iscsiuser_peer_name"},
-        {"@": "blueprint_iscsiuser_name"}
+        {"@": "blueprint_iscsiuser_secret"},
+        {"@": "blueprint_iscsiuser_peer_name"}
       ]
     }
   }

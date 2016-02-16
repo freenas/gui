@@ -1,0 +1,50 @@
+{
+  "blueprint_diskselftesttype_SHORT": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "SHORT",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "SHORT"
+    }
+  },
+  "blueprint_diskselftesttype_LONG": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "LONG",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "LONG"
+    }
+  },
+  "blueprint_diskselftesttype_CONVEYANCE": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "CONVEYANCE",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "CONVEYANCE"
+    }
+  },
+  "blueprint_diskselftesttype_OFFLINE": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "OFFLINE",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "defaultValue": "OFFLINE"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DiskSelftestType",
+      "propertyBlueprints": [
+        {"@": "blueprint_diskselftesttype_SHORT"},
+        {"@": "blueprint_diskselftesttype_LONG"},
+        {"@": "blueprint_diskselftesttype_CONVEYANCE"},
+        {"@": "blueprint_diskselftesttype_OFFLINE"}
+      ]
+    }
+  }
+}

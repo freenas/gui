@@ -1,12 +1,4 @@
 {
-  "blueprint_supportticket_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_supportticket_attachments": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -21,6 +13,14 @@
       "name": "debug",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
+    }
+  },
+  "blueprint_supportticket_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_supportticket_username": {
@@ -39,14 +39,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_supportticket_subject": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "subject",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_supportticket_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -55,10 +47,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_supportticket_password": {
+  "blueprint_supportticket_subject": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "password",
+      "name": "subject",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_supportticket_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -68,14 +68,14 @@
     "properties": {
       "name": "SupportTicket",
       "propertyBlueprints": [
-        {"@": "blueprint_supportticket_description"},
         {"@": "blueprint_supportticket_attachments"},
         {"@": "blueprint_supportticket_debug"},
+        {"@": "blueprint_supportticket_password"},
         {"@": "blueprint_supportticket_username"},
         {"@": "blueprint_supportticket_category"},
-        {"@": "blueprint_supportticket_subject"},
         {"@": "blueprint_supportticket_type"},
-        {"@": "blueprint_supportticket_password"}
+        {"@": "blueprint_supportticket_subject"},
+        {"@": "blueprint_supportticket_description"}
       ]
     }
   }

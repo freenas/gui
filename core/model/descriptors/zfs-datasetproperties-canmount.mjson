@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiescanmount_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiescanmount_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiescanmount_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesCanmount",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiescanmount_value"},
-        {"@": "blueprint_zfsdatasetpropertiescanmount_source"}
+        {"@": "blueprint_zfsdatasetpropertiescanmount_source"},
+        {"@": "blueprint_zfsdatasetpropertiescanmount_value"}
       ]
     }
   }

@@ -1,36 +1,4 @@
 {
-  "blueprint_diskpartition_mediasize": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mediasize",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_diskpartition_label": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "label",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_diskpartition_uuid": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "uuid",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_diskpartition_paths": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "paths",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_diskpartition_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -47,17 +15,49 @@
       "valueType": "String"
     }
   },
+  "blueprint_diskpartition_label": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "label",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_diskpartition_paths": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "paths",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_diskpartition_mediasize": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mediasize",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_diskpartition_uuid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "uuid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "DiskPartition",
       "propertyBlueprints": [
-        {"@": "blueprint_diskpartition_mediasize"},
-        {"@": "blueprint_diskpartition_label"},
-        {"@": "blueprint_diskpartition_uuid"},
-        {"@": "blueprint_diskpartition_paths"},
         {"@": "blueprint_diskpartition_type"},
-        {"@": "blueprint_diskpartition_name"}
+        {"@": "blueprint_diskpartition_name"},
+        {"@": "blueprint_diskpartition_label"},
+        {"@": "blueprint_diskpartition_paths"},
+        {"@": "blueprint_diskpartition_mediasize"},
+        {"@": "blueprint_diskpartition_uuid"}
       ]
     }
   }

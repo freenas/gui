@@ -1,15 +1,15 @@
 {
-  "blueprint_zfspropertiesallocated_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertiesallocated_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfspropertiesallocated_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsPropertiesAllocated",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertiesallocated_value"},
-        {"@": "blueprint_zfspropertiesallocated_source"}
+        {"@": "blueprint_zfspropertiesallocated_source"},
+        {"@": "blueprint_zfspropertiesallocated_value"}
       ]
     }
   }

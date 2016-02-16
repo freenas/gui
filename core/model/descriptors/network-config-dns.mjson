@@ -1,16 +1,16 @@
 {
-  "blueprint_networkconfigdns_search": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "search",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_networkconfigdns_addresses": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_networkconfigdns_search": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "search",
       "blueprint": {"@": "root"},
       "valueType": "array"
     }
@@ -20,8 +20,8 @@
     "properties": {
       "name": "NetworkConfigDns",
       "propertyBlueprints": [
-        {"@": "blueprint_networkconfigdns_search"},
-        {"@": "blueprint_networkconfigdns_addresses"}
+        {"@": "blueprint_networkconfigdns_addresses"},
+        {"@": "blueprint_networkconfigdns_search"}
       ]
     }
   }

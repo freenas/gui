@@ -1,16 +1,16 @@
 {
-  "blueprint_serviceswift_swift_hash_path_suffix": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "swift_hash_path_suffix",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_serviceswift_swift_hash_path_prefix": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "swift_hash_path_prefix",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceswift_swift_hash_path_suffix": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "swift_hash_path_suffix",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -20,8 +20,8 @@
     "properties": {
       "name": "ServiceSwift",
       "propertyBlueprints": [
-        {"@": "blueprint_serviceswift_swift_hash_path_suffix"},
-        {"@": "blueprint_serviceswift_swift_hash_path_prefix"}
+        {"@": "blueprint_serviceswift_swift_hash_path_prefix"},
+        {"@": "blueprint_serviceswift_swift_hash_path_suffix"}
       ]
     }
   }

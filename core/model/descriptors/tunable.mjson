@@ -1,34 +1,10 @@
 {
-  "blueprint_tunable_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_tunable_var": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "var",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_tunable_enabled": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "enabled",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
-    }
-  },
-  "blueprint_tunable_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_tunable_type": {
@@ -44,6 +20,30 @@
       ]
     }
   },
+  "blueprint_tunable_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_tunable_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_tunable_var": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "var",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_tunable_comment": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -57,11 +57,11 @@
     "properties": {
       "name": "Tunable",
       "propertyBlueprints": [
-        {"@": "blueprint_tunable_id"},
-        {"@": "blueprint_tunable_var"},
         {"@": "blueprint_tunable_enabled"},
-        {"@": "blueprint_tunable_value"},
         {"@": "blueprint_tunable_type"},
+        {"@": "blueprint_tunable_id"},
+        {"@": "blueprint_tunable_value"},
+        {"@": "blueprint_tunable_var"},
         {"@": "blueprint_tunable_comment"}
       ]
     }

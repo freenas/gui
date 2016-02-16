@@ -1,20 +1,4 @@
 {
-  "blueprint_mailmessage_from": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "from",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_mailmessage_message": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "message",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_mailmessage_attachments": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -31,14 +15,6 @@
       "valueType": "object"
     }
   },
-  "blueprint_mailmessage_to": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "to",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_mailmessage_subject": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -47,17 +23,41 @@
       "valueType": "String"
     }
   },
+  "blueprint_mailmessage_from": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "from",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_mailmessage_message": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "message",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_mailmessage_to": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "to",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "MailMessage",
       "propertyBlueprints": [
-        {"@": "blueprint_mailmessage_from"},
-        {"@": "blueprint_mailmessage_message"},
         {"@": "blueprint_mailmessage_attachments"},
         {"@": "blueprint_mailmessage_extra_headers"},
-        {"@": "blueprint_mailmessage_to"},
-        {"@": "blueprint_mailmessage_subject"}
+        {"@": "blueprint_mailmessage_subject"},
+        {"@": "blueprint_mailmessage_from"},
+        {"@": "blueprint_mailmessage_message"},
+        {"@": "blueprint_mailmessage_to"}
       ]
     }
   }

@@ -1,11 +1,10 @@
 {
-  "blueprint_update_update_server": {
+  "blueprint_update_check_auto": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "update_server",
+      "name": "check_auto",
       "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
   "blueprint_update_train": {
@@ -16,12 +15,13 @@
       "valueType": "String"
     }
   },
-  "blueprint_update_check_auto": {
+  "blueprint_update_update_server": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "check_auto",
+      "name": "update_server",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "readOnly": true,
+      "valueType": "String"
     }
   },
   "root": {
@@ -29,9 +29,9 @@
     "properties": {
       "name": "Update",
       "propertyBlueprints": [
-        {"@": "blueprint_update_update_server"},
+        {"@": "blueprint_update_check_auto"},
         {"@": "blueprint_update_train"},
-        {"@": "blueprint_update_check_auto"}
+        {"@": "blueprint_update_update_server"}
       ]
     }
   }

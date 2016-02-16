@@ -1,26 +1,10 @@
 {
-  "blueprint_systemui_webui_listen": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "webui_listen",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_systemui_webui_protocol": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "webui_protocol",
       "blueprint": {"@": "root"},
       "valueType": "array"
-    }
-  },
-  "blueprint_systemui_webui_http_port": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "webui_http_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
     }
   },
   "blueprint_systemui_webui_https_certificate": {
@@ -31,12 +15,12 @@
       "valueType": "String"
     }
   },
-  "blueprint_systemui_webui_https_port": {
+  "blueprint_systemui_webui_listen": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "webui_https_port",
+      "name": "webui_listen",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "array"
     }
   },
   "blueprint_systemui_webui_http_redirect_https": {
@@ -47,17 +31,33 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_systemui_webui_https_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui_https_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_systemui_webui_http_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui_http_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "SystemUi",
       "propertyBlueprints": [
-        {"@": "blueprint_systemui_webui_listen"},
         {"@": "blueprint_systemui_webui_protocol"},
-        {"@": "blueprint_systemui_webui_http_port"},
         {"@": "blueprint_systemui_webui_https_certificate"},
+        {"@": "blueprint_systemui_webui_listen"},
+        {"@": "blueprint_systemui_webui_http_redirect_https"},
         {"@": "blueprint_systemui_webui_https_port"},
-        {"@": "blueprint_systemui_webui_http_redirect_https"}
+        {"@": "blueprint_systemui_webui_http_port"}
       ]
     }
   }

@@ -1,26 +1,18 @@
 {
-  "blueprint_disk_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_disk_smart": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "smart",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_disk_standby_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "standby_mode",
       "blueprint": {"@": "root"},
       "valueType": "number"
+    }
+  },
+  "blueprint_disk_serial": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "serial",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_disk_apm_mode": {
@@ -31,18 +23,25 @@
       "valueType": "number"
     }
   },
-  "blueprint_disk_mediasize": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mediasize",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "blueprint_disk_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_disk_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_disk_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -69,25 +68,26 @@
       ]
     }
   },
-  "blueprint_disk_serial": {
+  "blueprint_disk_smart": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "serial",
+      "name": "smart",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
-  "blueprint_disk_status": {
+  "blueprint_disk_mediasize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "status",
-      "blueprint": {"@": "root"}
+      "name": "mediasize",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
-  "blueprint_disk_name": {
+  "blueprint_disk_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "description",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -97,17 +97,17 @@
     "properties": {
       "name": "Disk",
       "propertyBlueprints": [
-        {"@": "blueprint_disk_description"},
-        {"@": "blueprint_disk_smart"},
         {"@": "blueprint_disk_standby_mode"},
+        {"@": "blueprint_disk_serial"},
         {"@": "blueprint_disk_apm_mode"},
-        {"@": "blueprint_disk_mediasize"},
         {"@": "blueprint_disk_id"},
+        {"@": "blueprint_disk_status"},
+        {"@": "blueprint_disk_name"},
         {"@": "blueprint_disk_smart_options"},
         {"@": "blueprint_disk_acoustic_level"},
-        {"@": "blueprint_disk_serial"},
-        {"@": "blueprint_disk_status"},
-        {"@": "blueprint_disk_name"}
+        {"@": "blueprint_disk_smart"},
+        {"@": "blueprint_disk_mediasize"},
+        {"@": "blueprint_disk_description"}
       ]
     }
   }

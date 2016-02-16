@@ -7,18 +7,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_activedirectoryconfig_domain": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "domain",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_activedirectoryconfig_bindpw": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "bindpw",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_activedirectoryconfig_domain": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "domain",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -29,8 +29,8 @@
       "name": "ActivedirectoryConfig",
       "propertyBlueprints": [
         {"@": "blueprint_activedirectoryconfig_binddn"},
-        {"@": "blueprint_activedirectoryconfig_domain"},
-        {"@": "blueprint_activedirectoryconfig_bindpw"}
+        {"@": "blueprint_activedirectoryconfig_bindpw"},
+        {"@": "blueprint_activedirectoryconfig_domain"}
       ]
     }
   }

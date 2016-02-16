@@ -1,8 +1,8 @@
 {
-  "blueprint_diskdevice_description": {
+  "blueprint_diskdevice_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "description",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -15,10 +15,10 @@
       "valueType": "number"
     }
   },
-  "blueprint_diskdevice_name": {
+  "blueprint_diskdevice_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "description",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -28,9 +28,9 @@
     "properties": {
       "name": "DiskDevice",
       "propertyBlueprints": [
-        {"@": "blueprint_diskdevice_description"},
+        {"@": "blueprint_diskdevice_name"},
         {"@": "blueprint_diskdevice_mediasize"},
-        {"@": "blueprint_diskdevice_name"}
+        {"@": "blueprint_diskdevice_description"}
       ]
     }
   }

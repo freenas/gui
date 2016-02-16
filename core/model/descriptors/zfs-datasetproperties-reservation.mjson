@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiesreservation_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesreservation_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiesreservation_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesReservation",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesreservation_value"},
-        {"@": "blueprint_zfsdatasetpropertiesreservation_source"}
+        {"@": "blueprint_zfsdatasetpropertiesreservation_source"},
+        {"@": "blueprint_zfsdatasetpropertiesreservation_value"}
       ]
     }
   }

@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiescopies_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiescopies_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiescopies_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesCopies",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiescopies_value"},
-        {"@": "blueprint_zfsdatasetpropertiescopies_source"}
+        {"@": "blueprint_zfsdatasetpropertiescopies_source"},
+        {"@": "blueprint_zfsdatasetpropertiescopies_value"}
       ]
     }
   }

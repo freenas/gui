@@ -1,16 +1,16 @@
 {
-  "blueprint_networkdevice_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_networkdevice_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkdevice_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -20,8 +20,8 @@
     "properties": {
       "name": "NetworkDevice",
       "propertyBlueprints": [
-        {"@": "blueprint_networkdevice_description"},
-        {"@": "blueprint_networkdevice_name"}
+        {"@": "blueprint_networkdevice_name"},
+        {"@": "blueprint_networkdevice_description"}
       ]
     }
   }

@@ -1,6 +1,14 @@
 {
     "models": [
         {
+            "type": "AclEntryFlags",
+            "modelId": "core/model/descriptors/acl-entry-flags.mjson"
+        },
+        {
+            "type": "AclEntryPerms",
+            "modelId": "core/model/descriptors/acl-entry-perms.mjson"
+        },
+        {
             "type": "AclEntry",
             "modelId": "core/model/descriptors/acl-entry.mjson"
         },
@@ -15,6 +23,10 @@
         {
             "type": "AlertFilter",
             "modelId": "core/model/descriptors/alert-filter.mjson"
+        },
+        {
+            "type": "AlertSeverity",
+            "modelId": "core/model/descriptors/alert-severity.mjson"
         },
         {
             "type": "Alert",
@@ -53,6 +65,10 @@
             "modelId": "core/model/descriptors/container-device-nic.mjson"
         },
         {
+            "type": "ContainerDeviceProperties",
+            "modelId": "core/model/descriptors/container-device-properties.mjson"
+        },
+        {
             "type": "ContainerDevice",
             "modelId": "core/model/descriptors/container-device.mjson"
         },
@@ -67,6 +83,14 @@
         {
             "type": "CryptoCertificate",
             "modelId": "core/model/descriptors/crypto-certificate.mjson"
+        },
+        {
+            "type": "DatasetProperties",
+            "modelId": "core/model/descriptors/dataset-properties.mjson"
+        },
+        {
+            "type": "DatasetType",
+            "modelId": "core/model/descriptors/dataset-type.mjson"
         },
         {
             "type": "Dataset",
@@ -85,6 +109,10 @@
             "modelId": "core/model/descriptors/disk-device.mjson"
         },
         {
+            "type": "DiskEraseMethod",
+            "modelId": "core/model/descriptors/disk-erase-method.mjson"
+        },
+        {
             "type": "DiskMetadata",
             "modelId": "core/model/descriptors/disk-metadata.mjson"
         },
@@ -93,8 +121,16 @@
             "modelId": "core/model/descriptors/disk-partition.mjson"
         },
         {
+            "type": "DiskSelftestType",
+            "modelId": "core/model/descriptors/disk-selftest-type.mjson"
+        },
+        {
             "type": "DiskSetKeyParams",
             "modelId": "core/model/descriptors/disk-set-key-params.mjson"
+        },
+        {
+            "type": "DiskStatusController",
+            "modelId": "core/model/descriptors/disk-status-controller.mjson"
         },
         {
             "type": "DiskStatusMultipath",
@@ -107,6 +143,10 @@
         {
             "type": "Disk",
             "modelId": "core/model/descriptors/disk.mjson"
+        },
+        {
+            "type": "DisksAllocation",
+            "modelId": "core/model/descriptors/disks-allocation.mjson"
         },
         {
             "type": "Encryption",
@@ -157,12 +197,20 @@
             "modelId": "core/model/descriptors/ldap-config.mjson"
         },
         {
+            "type": "MailMessageExtraHeaders",
+            "modelId": "core/model/descriptors/mail-message-extra-headers.mjson"
+        },
+        {
             "type": "MailMessage",
             "modelId": "core/model/descriptors/mail-message.mjson"
         },
         {
             "type": "Mail",
             "modelId": "core/model/descriptors/mail.mjson"
+        },
+        {
+            "type": "NetworkAggregationProtocols",
+            "modelId": "core/model/descriptors/network-aggregation-protocols.mjson"
         },
         {
             "type": "NetworkConfigDhcp",
@@ -211,6 +259,10 @@
         {
             "type": "NetworkInterfaceStatus",
             "modelId": "core/model/descriptors/network-interface-status.mjson"
+        },
+        {
+            "type": "NetworkInterfaceType",
+            "modelId": "core/model/descriptors/network-interface-type.mjson"
         },
         {
             "type": "NetworkInterfaceVlan",
@@ -353,8 +405,16 @@
             "modelId": "core/model/descriptors/session.mjson"
         },
         {
+            "type": "ShareClientExtra",
+            "modelId": "core/model/descriptors/share-client-extra.mjson"
+        },
+        {
             "type": "ShareClient",
             "modelId": "core/model/descriptors/share-client.mjson"
+        },
+        {
+            "type": "ShareProperties",
+            "modelId": "core/model/descriptors/share-properties.mjson"
         },
         {
             "type": "Share",
@@ -397,6 +457,10 @@
             "modelId": "core/model/descriptors/system-ui.mjson"
         },
         {
+            "type": "TaskArgs",
+            "modelId": "core/model/descriptors/task-args.mjson"
+        },
+        {
             "type": "Task",
             "modelId": "core/model/descriptors/task.mjson"
         },
@@ -415,6 +479,10 @@
         {
             "type": "UnixPermissions",
             "modelId": "core/model/descriptors/unix-permissions.mjson"
+        },
+        {
+            "type": "UpdateInfoNotes",
+            "modelId": "core/model/descriptors/update-info-notes.mjson"
         },
         {
             "type": "UpdateInfo",
@@ -437,12 +505,24 @@
             "modelId": "core/model/descriptors/update.mjson"
         },
         {
+            "type": "UserAttributes",
+            "modelId": "core/model/descriptors/user-attributes.mjson"
+        },
+        {
             "type": "User",
             "modelId": "core/model/descriptors/user.mjson"
         },
         {
+            "type": "VolumeAttributes",
+            "modelId": "core/model/descriptors/volume-attributes.mjson"
+        },
+        {
             "type": "VolumeImportParams",
             "modelId": "core/model/descriptors/volume-import-params.mjson"
+        },
+        {
+            "type": "VolumeParams",
+            "modelId": "core/model/descriptors/volume-params.mjson"
         },
         {
             "type": "Volume",
@@ -865,6 +945,14 @@
             "modelId": "core/model/descriptors/zfs-scan.mjson"
         },
         {
+            "type": "ZfsSnapshotHolds",
+            "modelId": "core/model/descriptors/zfs-snapshot-holds.mjson"
+        },
+        {
+            "type": "ZfsSnapshotProperties",
+            "modelId": "core/model/descriptors/zfs-snapshot-properties.mjson"
+        },
+        {
             "type": "ZfsSnapshot",
             "modelId": "core/model/descriptors/zfs-snapshot.mjson"
         },
@@ -875,6 +963,10 @@
         {
             "type": "ZfsVdevExtension",
             "modelId": "core/model/descriptors/zfs-vdev-extension.mjson"
+        },
+        {
+            "type": "ZfsVdevStats",
+            "modelId": "core/model/descriptors/zfs-vdev-stats.mjson"
         },
         {
             "type": "ZfsVdev",

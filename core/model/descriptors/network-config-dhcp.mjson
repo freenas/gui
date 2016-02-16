@@ -1,16 +1,16 @@
 {
-  "blueprint_networkconfigdhcp_assign_dns": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "assign_dns",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_networkconfigdhcp_assign_gateway": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "assign_gateway",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_networkconfigdhcp_assign_dns": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "assign_dns",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -20,8 +20,8 @@
     "properties": {
       "name": "NetworkConfigDhcp",
       "propertyBlueprints": [
-        {"@": "blueprint_networkconfigdhcp_assign_dns"},
-        {"@": "blueprint_networkconfigdhcp_assign_gateway"}
+        {"@": "blueprint_networkconfigdhcp_assign_gateway"},
+        {"@": "blueprint_networkconfigdhcp_assign_dns"}
       ]
     }
   }

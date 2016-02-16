@@ -1,4 +1,48 @@
 {
+  "blueprint_servicesnmp_v3_auth_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "v3_auth_type",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "MD5",
+        "SHA"
+      ]
+    }
+  },
+  "blueprint_servicesnmp_v3_privacy_passphrase": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "v3_privacy_passphrase",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesnmp_v3_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "v3_password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesnmp_v3_username": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "v3_username",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesnmp_location": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "location",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_servicesnmp_auxiliary": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,12 +59,20 @@
       "valueType": "String"
     }
   },
-  "blueprint_servicesnmp_v3_privacy_passphrase": {
+  "blueprint_servicesnmp_contact": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "v3_privacy_passphrase",
+      "name": "contact",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_servicesnmp_v3": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "v3",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
     }
   },
   "blueprint_servicesnmp_v3_privacy_protocol": {
@@ -35,73 +87,21 @@
       ]
     }
   },
-  "blueprint_servicesnmp_v3_password": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "v3_password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesnmp_v3": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "v3",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_servicesnmp_location": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "location",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesnmp_v3_username": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "v3_username",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesnmp_contact": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "contact",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesnmp_v3_auth_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "v3_auth_type",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "MD5",
-        "SHA"
-      ]
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ServiceSnmp",
       "propertyBlueprints": [
+        {"@": "blueprint_servicesnmp_v3_auth_type"},
+        {"@": "blueprint_servicesnmp_v3_privacy_passphrase"},
+        {"@": "blueprint_servicesnmp_v3_password"},
+        {"@": "blueprint_servicesnmp_v3_username"},
+        {"@": "blueprint_servicesnmp_location"},
         {"@": "blueprint_servicesnmp_auxiliary"},
         {"@": "blueprint_servicesnmp_community"},
-        {"@": "blueprint_servicesnmp_v3_privacy_passphrase"},
-        {"@": "blueprint_servicesnmp_v3_privacy_protocol"},
-        {"@": "blueprint_servicesnmp_v3_password"},
-        {"@": "blueprint_servicesnmp_v3"},
-        {"@": "blueprint_servicesnmp_location"},
-        {"@": "blueprint_servicesnmp_v3_username"},
         {"@": "blueprint_servicesnmp_contact"},
-        {"@": "blueprint_servicesnmp_v3_auth_type"}
+        {"@": "blueprint_servicesnmp_v3"},
+        {"@": "blueprint_servicesnmp_v3_privacy_protocol"}
       ]
     }
   }

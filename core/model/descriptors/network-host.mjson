@@ -1,16 +1,16 @@
 {
-  "blueprint_networkhost_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_networkhost_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkhost_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -20,8 +20,8 @@
     "properties": {
       "name": "NetworkHost",
       "propertyBlueprints": [
-        {"@": "blueprint_networkhost_id"},
-        {"@": "blueprint_networkhost_address"}
+        {"@": "blueprint_networkhost_address"},
+        {"@": "blueprint_networkhost_id"}
       ]
     }
   }

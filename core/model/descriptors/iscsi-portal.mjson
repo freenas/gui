@@ -1,18 +1,10 @@
 {
-  "blueprint_iscsiportal_id": {
+  "blueprint_iscsiportal_tag": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "id",
+      "name": "tag",
       "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_iscsiportal_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
   "blueprint_iscsiportal_discovery_auth_group": {
@@ -23,12 +15,12 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiportal_tag": {
+  "blueprint_iscsiportal_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "tag",
+      "name": "id",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_iscsiportal_listen": {
@@ -39,16 +31,24 @@
       "valueType": "array"
     }
   },
+  "blueprint_iscsiportal_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "IscsiPortal",
       "propertyBlueprints": [
-        {"@": "blueprint_iscsiportal_id"},
-        {"@": "blueprint_iscsiportal_description"},
-        {"@": "blueprint_iscsiportal_discovery_auth_group"},
         {"@": "blueprint_iscsiportal_tag"},
-        {"@": "blueprint_iscsiportal_listen"}
+        {"@": "blueprint_iscsiportal_discovery_auth_group"},
+        {"@": "blueprint_iscsiportal_id"},
+        {"@": "blueprint_iscsiportal_listen"},
+        {"@": "blueprint_iscsiportal_description"}
       ]
     }
   }

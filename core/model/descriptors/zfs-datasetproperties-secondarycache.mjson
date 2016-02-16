@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiessecondarycache_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiessecondarycache_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiessecondarycache_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesSecondarycache",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiessecondarycache_value"},
-        {"@": "blueprint_zfsdatasetpropertiessecondarycache_source"}
+        {"@": "blueprint_zfsdatasetpropertiessecondarycache_source"},
+        {"@": "blueprint_zfsdatasetpropertiessecondarycache_value"}
       ]
     }
   }
