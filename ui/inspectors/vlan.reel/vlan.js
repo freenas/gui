@@ -5,8 +5,7 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 
-// This should be an array of all the interfaces of type "ETHER", provided by
-// the middleware.
+// This should be an array of all the interfaces provided by the middleware.
 var _interfaces = [
     {
         "status": {
