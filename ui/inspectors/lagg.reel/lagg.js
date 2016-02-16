@@ -271,9 +271,13 @@ var _interfaces = [
     }
 ];
 
-var _port_options = _interfaces.map( function (interfaceInstance) {
-    return {"label": interfaceInstance.id, "value": interfaceInstance.id}
-})
+var _port_options = [];
+
+_interfaces.forEach( function (interfaceInstance) {
+    if (interfaceInstance.type === "ETHER") {
+        _port_options.push({"label": interfaceInstance.id, "value": interfaceInstance.id});
+    }
+});
 
 exports.Lagg = Component.specialize({
     "object": {
