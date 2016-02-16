@@ -9,20 +9,34 @@ var Component = require("montage/ui/component").Component;
 // the middleware.
 var _interfaces = [
     {
-        "type": "ETHER",
-        "rtadv": false,
-        "dhcp": true,
-        "enabled": true,
-        "updated_at": {
-            "$date": "2016-01-28 17:37:59.284000"
-        },
-        "created_at": {
-            "$date": "2016-01-28 17:37:50.691000"
-        },
-        "media": null,
-        "mtu": null,
-        "id": "em0",
         "status": {
+            "capabilities": [
+                "VLAN_MTU",
+                "RXCSUM",
+                "TXCSUM",
+                "VLAN_HWTAGGING",
+                "VLAN_HWCSUM"
+            ],
+            "link_address": "00:0c:29:a8:72:a7",
+            "media_type": "Ethernet",
+            "link_state": "LINK_STATE_UP",
+            "aliases": [
+                {
+                    "type": "LINK",
+                    "address": "00:0c:29:a8:72:a7"
+                },
+                {
+                    "netmask": 64,
+                    "type": "INET6",
+                    "address": "fe80::20c:29ff:fea8:72a7"
+                },
+                {
+                    "netmask": 24,
+                    "broadcast": "10.0.1.255",
+                    "type": "INET",
+                    "address": "10.0.1.169"
+                }
+            ],
             "flags": [
                 "DRV_RUNNING",
                 "UP",
@@ -36,28 +50,34 @@ var _interfaces = [
                 "DYING",
                 "RENAMING"
             ],
+            "media_subtype": "autoselect",
+            "media_options": [],
+            "cloned": false,
+            "mtu": 1500,
             "nd6_flags": [
                 "AUTO_LINKLOCAL",
                 "PERFORMNUD"
             ],
-            "aliases": [
-                {
-                    "type": "LINK",
-                    "address": "00:0c:29:a8:72:a7"
-                },
-                {
-                    "type": "INET",
-                    "netmask": 24,
-                    "address": "10.0.1.169",
-                    "broadcast": "10.0.1.255"
-                },
-                {
-                    "type": "INET6",
-                    "netmask": 64,
-                    "address": "fe80::20c:29ff:fea8:72a7"
-                }
-            ],
-            "media_subtype": "autoselect",
+            "name": "em0"
+        },
+        "enabled": true,
+        "dhcp": true,
+        "updated_at": {
+            "$date": "2016-02-10 01:02:28.288000"
+        },
+        "aliases": [],
+        "type": "ETHER",
+        "media": null,
+        "rtadv": false,
+        "noipv6": false,
+        "created_at": {
+            "$date": "2016-02-10 01:02:23.270000"
+        },
+        "mtu": null,
+        "id": "em0"
+    },
+    {
+        "status": {
             "capabilities": [
                 "VLAN_MTU",
                 "RXCSUM",
@@ -65,29 +85,15 @@ var _interfaces = [
                 "VLAN_HWTAGGING",
                 "VLAN_HWCSUM"
             ],
-            "link_state": "LINK_STATE_UP",
-            "name": "em0",
-            "mtu": 1500,
-            "link_address": "00:0c:29:a8:72:a7",
+            "link_address": "00:0c:29:a8:72:b1",
             "media_type": "Ethernet",
-            "cloned": false,
-            "media_options": []
-        },
-        "noipv6": false,
-        "aliases": []
-    },
-    {
-        "type": "ETHER",
-        "aliases": [],
-        "enabled": false,
-        "updated_at": {
-            "$date": "2016-01-28 17:37:50.732000"
-        },
-        "rtadv": false,
-        "media": null,
-        "mtu": null,
-        "id": "em1",
-        "status": {
+            "link_state": "LINK_STATE_DOWN",
+            "aliases": [
+                {
+                    "type": "LINK",
+                    "address": "00:0c:29:a8:72:b1"
+                }
+            ],
             "flags": [
                 "SIMPLEX",
                 "MULTICAST",
@@ -99,36 +105,156 @@ var _interfaces = [
                 "DYING",
                 "RENAMING"
             ],
+            "media_subtype": "autoselect",
+            "media_options": [],
+            "cloned": false,
+            "mtu": 1500,
             "nd6_flags": [
                 "PERFORMNUD"
             ],
+            "name": "em1"
+        },
+        "enabled": false,
+        "dhcp": false,
+        "updated_at": {
+            "$date": "2016-02-10 01:02:23.275000"
+        },
+        "aliases": [],
+        "type": "ETHER",
+        "media": null,
+        "rtadv": false,
+        "noipv6": false,
+        "created_at": {
+            "$date": "2016-02-10 01:02:23.275000"
+        },
+        "mtu": null,
+        "id": "em1"
+    },
+    {
+        "status": {
+            "capabilities": [
+                "HWSTATS"
+            ],
+            "link_address": "00:00:00:00:00:00",
+            "media_type": "Ethernet",
+            "link_state": "LINK_STATE_DOWN",
             "aliases": [
                 {
                     "type": "LINK",
-                    "address": "00:0c:29:a8:72:b1"
+                    "address": "00:00:00:00:00:00"
+                },
+                {
+                    "netmask": 64,
+                    "type": "INET6",
+                    "address": "fe80::20c:29ff:fea8:72a7"
                 }
             ],
-            "media_subtype": "autoselect",
-            "capabilities": [
-                "VLAN_MTU",
-                "RXCSUM",
-                "TXCSUM",
-                "VLAN_HWTAGGING",
-                "VLAN_HWCSUM"
+            "flags": [
+                "DRV_RUNNING",
+                "UP",
+                "BROADCAST",
+                "SIMPLEX",
+                "MULTICAST",
+                "CANTCONFIG",
+                "PPROMISC",
+                "MONITOR",
+                "STATICARP",
+                "DYING",
+                "RENAMING"
             ],
-            "link_state": "LINK_STATE_DOWN",
-            "name": "em1",
-            "mtu": 1500,
-            "link_address": "00:0c:29:a8:72:b1",
-            "media_type": "Ethernet",
+            "media_subtype": "autoselect",
+            "media_options": [],
+            "protocol": "FAILOVER",
+            "nd6_flags": [
+                "AUTO_LINKLOCAL",
+                "PERFORMNUD"
+            ],
             "cloned": false,
-            "media_options": []
+            "mtu": 1500,
+            "ports": "<generator object at 0x8097c0058>",
+            "name": "lagg0"
         },
+        "enabled": true,
         "dhcp": false,
-        "created_at": {
-            "$date": "2016-01-28 17:37:50.732000"
+        "updated_at": {
+            "$date": "2016-02-13 19:26:23.788000"
         },
-        "noipv6": false
+        "aliases": [],
+        "type": "LAGG",
+        "lagg": {
+            "ports": [],
+            "protocol": "FAILOVER"
+        },
+        "media": null,
+        "noipv6": false,
+        "rtadv": false,
+        "cloned": true,
+        "mtu": null,
+        "created_at": {
+            "$date": "2016-02-13 19:26:23.788000"
+        },
+        "id": "lagg0"
+    },
+    {
+        "status": {
+            "capabilities": [],
+            "link_address": "00:00:00:00:00:00",
+            "media_type": null,
+            "link_state": "LINK_STATE_UNKNOWN",
+            "parent": "b''",
+            "flags": [
+                "MULTICAST",
+                "UP",
+                "BROADCAST",
+                "CANTCONFIG",
+                "PPROMISC",
+                "MONITOR",
+                "STATICARP",
+                "DYING",
+                "RENAMING"
+            ],
+            "media_subtype": null,
+            "media_options": [],
+            "aliases": [
+                {
+                    "type": "LINK",
+                    "address": "00:00:00:00:00:00"
+                },
+                {
+                    "netmask": 64,
+                    "type": "INET6",
+                    "address": "fe80::20c:29ff:fea8:72a7"
+                }
+            ],
+            "tag": 0,
+            "cloned": true,
+            "mtu": 1500,
+            "nd6_flags": [
+                "AUTO_LINKLOCAL",
+                "PERFORMNUD"
+            ],
+            "name": "vlan0"
+        },
+        "enabled": true,
+        "dhcp": false,
+        "updated_at": {
+            "$date": "2016-02-13 19:36:49.833000"
+        },
+        "aliases": [],
+        "type": "VLAN",
+        "media": null,
+        "noipv6": false,
+        "rtadv": false,
+        "cloned": true,
+        "mtu": null,
+        "vlan": {
+            "parent": null,
+            "tag": null
+        },
+        "created_at": {
+            "$date": "2016-02-13 19:36:49.833000"
+        },
+        "id": "vlan0"
     }
 ];
 
