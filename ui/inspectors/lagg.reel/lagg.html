@@ -23,7 +23,7 @@
             }
         },
         "enabled": {
-            "prototype": "digit/ui/toggle-switch.reel",
+            "prototype": "blue-shark/ui/toggle-switch.reel",
             "properties": {
                 "element": {"#": "enabled"}
             },
@@ -37,7 +37,7 @@
                 "element": {"#": "link_state"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.link_state"}
+                "value": {"<-": "@owner.object.status.link_state"}
             }
         },
         "noipv6": {
@@ -82,7 +82,7 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Lagg">
+    <div data-montage-id="owner" class="Lagg global-padding">
         <p data-montage-id="link_state"></p>
         <div class="Field">
             <div class="Field-title">Enabled</div>

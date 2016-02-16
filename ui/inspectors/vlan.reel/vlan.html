@@ -40,15 +40,6 @@
                 "value": {"<-": "@owner.object.status.link_state"}
             }
         },
-        "name": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "name"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.status.name"}
-            }
-        },
         "noipv6": {
             "prototype": "blue-shark/ui/checkbox.reel",
             "properties": {
@@ -90,8 +81,7 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Vlan">
-        <h3 data-montage-id="name"></h3>
+    <div data-montage-id="owner" class="Vlan global-padding">
         <p data-montage-id="link_state"></p>
         <div class="Field">
             <div class="Field-title">Enabled</div>

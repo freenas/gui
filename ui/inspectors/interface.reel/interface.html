@@ -20,7 +20,7 @@
             }
         },
         "enabled": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/toggle-switch.reel",
             "properties": {
                 "element": {"#": "enabled"}
             },
@@ -55,15 +55,6 @@
                 "value": {"<-": "@owner.object.status.media_type"}
             }
         },
-        "name": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "name"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.status.name"}
-            }
-        },
         "noipv6": {
             "prototype": "blue-shark/ui/checkbox.reel",
             "properties": {
@@ -86,8 +77,7 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Interface">
-        <h3 data-montage-id="name"></h3>
+    <div data-montage-id="owner" class="Interface global-padding">
         <p data-montage-id="media_type"></p>
         <p data-montage-id="link_state"></p>
         <p data-montage-id="link_address"></p>
