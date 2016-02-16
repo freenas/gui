@@ -18,8 +18,8 @@
     left:   0;
     right:  0;
     bottom: 0;
-    background-color: rgba(0,0,0,.85);
-    background-image: radial-gradient(rgba(43, 156, 216,.2),rgba(0,0,0,.5) 50%);
+    background-color: #000;
+    background-image: radial-gradient(rgba(43, 156, 216,.3),rgba(0,0,0,.5) 50%);
     background-repeat: no-repeat;
     background-position: center;
     z-index: 1000;
@@ -35,15 +35,28 @@
 }
 
 .SignIn-content {
+    position: relative;
     padding: 2em;
     width: 20em;
-    /*background-color: rgba(43, 156, 216, 1);*/
-    /*box-shadow: 0 2px 4px rgba(0,0,0,.5);*/
     background-size: 310px 195px;
     background-image: url(../../assets/images/bg.png);
     transform: scale(0);
-    border-radius: .3em;
+    border-radius: 4px;
     transition: transform .75s cubic-bezier(.62,-0.45,.93,.81);
+    overflow: hidden;
+}
+
+/* needed to fix background-image bleed on border radius */
+
+.SignIn-content:before {
+    background-color: rgba(255, 255, 255, .075);
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
 }
 
 /* error state */

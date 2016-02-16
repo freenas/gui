@@ -38,6 +38,10 @@ body {
     flex-direction: column;
 }
 
+p {
+    margin-top: 0;
+}
+
 
 /********************
 
@@ -106,108 +110,11 @@ $Icons
     content: "\67";
 }
 
-/********************
-
-$Buttons
-
-********************/
-
-/*button {
-    box-sizing: border-box;
-    font-family: "Lato", Helvetica, Arial, sans-serif;
-    font-size: 1em;
-    line-height: 2.9;
-    font-weight: 300;
-    min-width: 7em;
-    padding: 0 1.8em .1em;
-    text-align: center;
-    color: white;
-    background: white;
-    border-radius: .3em;
-    border: 0;
-    margin: 0;
-    cursor: pointer;
-    -webkit-appearance: none;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
-    background-color: #666;
-    background-image: linear-gradient(transparent, rgba(0,0,0,.2));
-    box-shadow:
-        inset 0 1px rgba(255, 255, 255, .15),
-        inset 0 -1px rgba(0, 0, 0, .3),
-        0 1px 2px rgba(0, 0, 0, .4);
-    transition: box-shadow .1s ease-in-out;
-}
-
-button:hover  {
-    background-image: linear-gradient(transparent, transparent);
-    outline: none;
-    box-shadow:
-        inset 0 1px rgba(255, 255, 255, .15),
-        inset 0 -1px rgba(0, 0, 0, .3),
-        0 2px 6px 1px rgba(0, 0, 0, .4);
-}
-
-button:active {
-    background-image: linear-gradient(rgba(0,0,0,.2), transparent);
-    box-shadow:
-        inset 0 -1px rgba(255, 255, 255, .15),
-        inset 0 1px rgba(0, 0, 0, .3);
-    outline: none;
-    text-shadow: none;
-}
-
-button + button {
-    margin-left: .5em;
-}
-
-.btn--block { display: block; width: 100%; }
-
-.btn--primary { background-color: #0095d5; }
-.btn--cancel  { background-color: #FF0000; }
-
-.btn--small {
-    font-size: .75em;
-}*/
-
 [class*='btn'].montage--disabled {
     background: #666;
     box-shadow: none;
     text-shadow: none;
 }
-
-/********************
-
-$Inputs
-
-********************/
-
-/*input,
-textarea {
-    font-family: "Lato", Helvetica, Arial, sans-serif;
-    box-sizing: border-box;
-    font-weight: 300;
-    margin:     0;
-    padding:    0;
-    font-size: 1em;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 0 0.5em .2em;
-    width: 100%;
-
-}
-
-input[type="text"],
-input[type="password"],
-textarea,
-input[type='checkbox'] + label span,
-input[type='radio'] + label span {
-    background: rgba(0, 0, 0, .25);
-    border-radius: .3em;
-    border: 1px solid transparent;
-    border-top-color: rgba(0, 0, 0, .23);
-    border-bottom-color: rgba(255, 255, 255, .15);
-}*/
 
 label {
     font-weight: 200;
@@ -235,10 +142,6 @@ textarea {
     resize: none;
     min-width: 300px;
 }
-
-/*input:focus {
-    border: 1px solid #2B9CD8;
-}*/
 
 .ApplicationModal {
     top:    0;
@@ -281,27 +184,11 @@ textarea {
 .inspector {
     max-width: 20em;
     padding: 0 1em;
-    /*margin: 0 auto;*/
-
 }
 
-/* $fix - temporary styles */
-
-.digit-ToggleSwitch {
-    color: rgba(255,255,255,.8);
-    max-width: 4em;
+.global-padding {
+    padding: 1em;
 }
-
-.digit-ToggleSwitch.montage-ToggleSwitch--checked {
-    color: #2B9CD8;
-}
-
-/* $fix - this will get added to the section selector */
-
-/*.section-wrapper {
-    flex-grow: 1;
-    position: relative;
-}*/
 
 
 
