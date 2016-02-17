@@ -14,7 +14,6 @@ exports.Volumes = Component.specialize({
                 data = [
                     {
                         name: "Volume 1",
-                        icon: "ui/icons/volume.reel",
                         size: "2 TB",
                         inspector: "ui/inspectors/volume.reel",
                         shares: [
