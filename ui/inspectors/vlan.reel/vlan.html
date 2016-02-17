@@ -14,18 +14,20 @@
             }
         },
         "dhcp": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "dhcp"}
+                "element": {"#": "dhcp"},
+                "label": "DHCP"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.dhcp"}
             }
         },
         "enabled": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "enabled"}
+                "element": {"#": "enabled"},
+                "label": "Enabled"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.enabled"}
@@ -41,18 +43,20 @@
             }
         },
         "noipv6": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "noipv6"}
+                "element": {"#": "noipv6"},
+                "label": "noipv6"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.noipv6"}
             }
         },
         "parent": {
-            "prototype": "blue-shark/ui/select.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "parent"}
+                "element": {"#": "parent"},
+                "label": "Parent"
             },
             "bindings": {
                 "options": {"<-": "@owner.parent_options"},
@@ -60,18 +64,20 @@
             }
         },
         "rtadv": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "rtadv"}
+                "element": {"#": "rtadv"},
+                "label": "rtadv"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.rtadv"}
             }
         },
         "tag": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "tag"}
+                "element": {"#": "tag"},
+                "label": "Tag"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.vlan.tag"}
@@ -81,34 +87,14 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Vlan global-padding">
+    <div data-montage-id="owner" class="Vlan">
         <p data-montage-id="link_state"></p>
-        <div class="Field">
-            <div class="Field-title">Enabled</div>
-            <input type="checkbox" data-montage-id="enabled">
-        </div>
-        <div class="Field">
-            <div class="Field-title">DCHP</div>
-            <input type="checkbox" data-montage-id="dhcp">
-        </div>
-        <div class="Field">
-            <div class="Field-title">noipv6</div>
-            <input type="checkbox" data-montage-id="noipv6">
-        </div>
-        <div class="Field">
-            <div class="Field-title">rtadv</div>
-            <input type="checkbox" data-montage-id="rtadv">
-        </div>
-        <div class="Field">
-            <div class="Field-title">Parent</div>
-            <select data-montage-id="parent"></select>
-        </div>
-        <div class="Field">
-            <div class="Field-title">Tag</div>
-
-            <input data-montage-id="tag" type="text">
-        </div>
-
+        <div data-montage-id="enabled"></div>
+        <div data-montage-id="dhcp"></div>
+        <div data-montage-id="noipv6"></div>
+        <div data-montage-id="rtadv"></div>
+        <div data-montage-id="parent"></div>
+        <div data-montage-id="tag">
     </div>
 </body>
 </html>

@@ -11,18 +11,20 @@
             }
         },
         "dhcp": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "dhcp"}
+                "element": {"#": "dhcp"},
+                "label": "DHCP"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.dhcp"}
             }
         },
         "enabled": {
-            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "prototype": "blue-shark/ui/field-toggle-switch.reel",
             "properties": {
-                "element": {"#": "enabled"}
+                "element": {"#": "enabled"},
+                "label": "Enabled"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.enabled"}
@@ -56,18 +58,20 @@
             }
         },
         "noipv6": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "noipv6"}
+                "element": {"#": "noipv6"},
+                "label": "noipv6"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.noipv6"}
             }
         },
         "rtadv": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "rtadv"}
+                "element": {"#": "rtadv"},
+                "label": "rtadv"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.rtadv"}
@@ -77,26 +81,16 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Interface global-padding">
-        <p data-montage-id="media_type"></p>
-        <p data-montage-id="link_state"></p>
-        <p data-montage-id="link_address"></p>
-        <div class="Field">
-            <div class="Field-title">Enabled</div>
-            <input type="checkbox" data-montage-id="enabled">
+    <div data-montage-id="owner" class="Interface">
+        <div class="global-padding">
+            <p data-montage-id="media_type"></p>
+            <p data-montage-id="link_state"></p>
+            <p data-montage-id="link_address"></p>
         </div>
-        <div class="Field">
-            <div class="Field-title">DHCP</div>
-            <input type="checkbox" data-montage-id="dhcp">
-        </div>
-        <div class="Field">
-            <div class="Field-title">noipv6</div>
-            <input type="checkbox" data-montage-id="noipv6">
-        </div>
-        <div class="Field">
-            <div class="Field-title">rtadv</div>
-            <input type="checkbox" data-montage-id="rtadv">
-        </div>
+        <div data-montage-id="enabled"></div>
+        <div data-montage-id="dhcp"></div>
+        <div data-montage-id="noipv6"></div>
+        <div data-montage-id="rtadv"></div>
     </div>
 </body>
 </html>
