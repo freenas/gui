@@ -1,10 +1,10 @@
 {
-  "blueprint_updatetrain_current": {
+  "blueprint_updatetrain_sequence": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "current",
+      "name": "sequence",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "String"
     }
   },
   "blueprint_updatetrain_name": {
@@ -15,12 +15,12 @@
       "valueType": "String"
     }
   },
-  "blueprint_updatetrain_sequence": {
+  "blueprint_updatetrain_current": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "sequence",
+      "name": "current",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
   "blueprint_updatetrain_description": {
@@ -36,9 +36,9 @@
     "properties": {
       "name": "UpdateTrain",
       "propertyBlueprints": [
-        {"@": "blueprint_updatetrain_current"},
-        {"@": "blueprint_updatetrain_name"},
         {"@": "blueprint_updatetrain_sequence"},
+        {"@": "blueprint_updatetrain_name"},
+        {"@": "blueprint_updatetrain_current"},
         {"@": "blueprint_updatetrain_description"}
       ]
     }

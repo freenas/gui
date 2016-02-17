@@ -1,4 +1,20 @@
 {
+  "blueprint_servicetftp_username": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "username",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicetftp_allow_new_files": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "allow_new_files",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicetftp_umask": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,28 +31,12 @@
       "valueType": "number"
     }
   },
-  "blueprint_servicetftp_username": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "username",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_servicetftp_auxiliary": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "auxiliary",
       "blueprint": {"@": "root"},
       "valueType": "String"
-    }
-  },
-  "blueprint_servicetftp_allow_new_files": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "allow_new_files",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
     }
   },
   "blueprint_servicetftp_path": {
@@ -52,11 +52,11 @@
     "properties": {
       "name": "ServiceTftp",
       "propertyBlueprints": [
+        {"@": "blueprint_servicetftp_username"},
+        {"@": "blueprint_servicetftp_allow_new_files"},
         {"@": "blueprint_servicetftp_umask"},
         {"@": "blueprint_servicetftp_port"},
-        {"@": "blueprint_servicetftp_username"},
         {"@": "blueprint_servicetftp_auxiliary"},
-        {"@": "blueprint_servicetftp_allow_new_files"},
         {"@": "blueprint_servicetftp_path"}
       ]
     }

@@ -1,4 +1,12 @@
 {
+  "blueprint_containerdevicenic_bridge": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bridge",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_containerdevicenic_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -13,10 +21,10 @@
       ]
     }
   },
-  "blueprint_containerdevicenic_bridge": {
+  "blueprint_containerdevicenic_link_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "bridge",
+      "name": "link_address",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -26,8 +34,9 @@
     "properties": {
       "name": "ContainerDeviceNic",
       "propertyBlueprints": [
+        {"@": "blueprint_containerdevicenic_bridge"},
         {"@": "blueprint_containerdevicenic_mode"},
-        {"@": "blueprint_containerdevicenic_bridge"}
+        {"@": "blueprint_containerdevicenic_link_address"}
       ]
     }
   }

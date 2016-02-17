@@ -7,10 +7,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_systemtime_timezone": {
+  "blueprint_systemtime_boot_time": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "timezone",
+      "name": "boot_time",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -23,10 +23,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_systemtime_boot_time": {
+  "blueprint_systemtime_timezone": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "boot_time",
+      "name": "timezone",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -37,9 +37,9 @@
       "name": "SystemTime",
       "propertyBlueprints": [
         {"@": "blueprint_systemtime_system_time"},
-        {"@": "blueprint_systemtime_timezone"},
+        {"@": "blueprint_systemtime_boot_time"},
         {"@": "blueprint_systemtime_uptime"},
-        {"@": "blueprint_systemtime_boot_time"}
+        {"@": "blueprint_systemtime_timezone"}
       ]
     }
   }

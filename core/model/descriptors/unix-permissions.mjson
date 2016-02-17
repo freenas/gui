@@ -1,18 +1,4 @@
 {
-  "blueprint_unixpermissions_user": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "user",
-      "blueprint": {"@": "root"}
-    }
-  },
-  "blueprint_unixpermissions_group": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "group",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_unixpermissions_others": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -28,15 +14,29 @@
       "valueType": "number"
     }
   },
+  "blueprint_unixpermissions_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "group",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_unixpermissions_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user",
+      "blueprint": {"@": "root"}
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "UnixPermissions",
       "propertyBlueprints": [
-        {"@": "blueprint_unixpermissions_user"},
-        {"@": "blueprint_unixpermissions_group"},
         {"@": "blueprint_unixpermissions_others"},
-        {"@": "blueprint_unixpermissions_value"}
+        {"@": "blueprint_unixpermissions_value"},
+        {"@": "blueprint_unixpermissions_group"},
+        {"@": "blueprint_unixpermissions_user"}
       ]
     }
   }

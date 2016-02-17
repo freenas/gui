@@ -1,4 +1,17 @@
 {
+  "blueprint_updateops_operation": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "operation",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "delete",
+        "install",
+        "upgrade"
+      ]
+    }
+  },
   "blueprint_updateops_new_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,31 +28,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_updateops_previous_version": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "previous_version",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_updateops_operation": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "operation",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "delete",
-        "install",
-        "upgrade"
-      ]
-    }
-  },
   "blueprint_updateops_new_version": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "new_version",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_updateops_previous_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "previous_version",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -49,11 +49,11 @@
     "properties": {
       "name": "UpdateOps",
       "propertyBlueprints": [
+        {"@": "blueprint_updateops_operation"},
         {"@": "blueprint_updateops_new_name"},
         {"@": "blueprint_updateops_previous_name"},
-        {"@": "blueprint_updateops_previous_version"},
-        {"@": "blueprint_updateops_operation"},
-        {"@": "blueprint_updateops_new_version"}
+        {"@": "blueprint_updateops_new_version"},
+        {"@": "blueprint_updateops_previous_version"}
       ]
     }
   }

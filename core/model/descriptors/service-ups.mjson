@@ -1,60 +1,16 @@
 {
-  "blueprint_serviceups_driver_port": {
+  "blueprint_serviceups_email_notify": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "driver_port",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_serviceups_powerdown": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "powerdown",
+      "name": "email_notify",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
-    }
-  },
-  "blueprint_serviceups_shutdown_mode": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "shutdown_mode",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "LOWBATT",
-        "BATT"
-      ]
-    }
-  },
-  "blueprint_serviceups_auxiliary_users": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "auxiliary_users",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_serviceups_identifier": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "identifier",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_serviceups_driver": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "driver",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_serviceups_email_subject": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "email_subject",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -67,28 +23,20 @@
       "valueType": "String"
     }
   },
+  "blueprint_serviceups_driver_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "driver_port",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_serviceups_email_recipients": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "email_recipients",
       "blueprint": {"@": "root"},
       "valueType": "array"
-    }
-  },
-  "blueprint_serviceups_monitor_user": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "monitor_user",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_serviceups_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "description",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_serviceups_monitor_remote": {
@@ -99,20 +47,20 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_serviceups_remote_port": {
+  "blueprint_serviceups_monitor_user": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_port",
+      "name": "monitor_user",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
-  "blueprint_serviceups_shutdown_timer": {
+  "blueprint_serviceups_email_subject": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "shutdown_timer",
+      "name": "email_subject",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_serviceups_mode": {
@@ -127,12 +75,32 @@
       ]
     }
   },
-  "blueprint_serviceups_monitor_password": {
+  "blueprint_serviceups_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "monitor_password",
+      "name": "description",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_serviceups_shutdown_mode": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "shutdown_mode",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "LOWBATT",
+        "BATT"
+      ]
+    }
+  },
+  "blueprint_serviceups_remote_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "blueprint_serviceups_auxiliary": {
@@ -143,12 +111,44 @@
       "valueType": "String"
     }
   },
-  "blueprint_serviceups_email_notify": {
+  "blueprint_serviceups_monitor_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "email_notify",
+      "name": "monitor_password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceups_driver": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "driver",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceups_auxiliary_users": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auxiliary_users",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceups_powerdown": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "powerdown",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceups_shutdown_timer": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "shutdown_timer",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "root": {
@@ -156,24 +156,24 @@
     "properties": {
       "name": "ServiceUps",
       "propertyBlueprints": [
-        {"@": "blueprint_serviceups_driver_port"},
-        {"@": "blueprint_serviceups_powerdown"},
-        {"@": "blueprint_serviceups_shutdown_mode"},
-        {"@": "blueprint_serviceups_auxiliary_users"},
+        {"@": "blueprint_serviceups_email_notify"},
         {"@": "blueprint_serviceups_identifier"},
-        {"@": "blueprint_serviceups_driver"},
-        {"@": "blueprint_serviceups_email_subject"},
         {"@": "blueprint_serviceups_remote_host"},
+        {"@": "blueprint_serviceups_driver_port"},
         {"@": "blueprint_serviceups_email_recipients"},
-        {"@": "blueprint_serviceups_monitor_user"},
-        {"@": "blueprint_serviceups_description"},
         {"@": "blueprint_serviceups_monitor_remote"},
-        {"@": "blueprint_serviceups_remote_port"},
-        {"@": "blueprint_serviceups_shutdown_timer"},
+        {"@": "blueprint_serviceups_monitor_user"},
+        {"@": "blueprint_serviceups_email_subject"},
         {"@": "blueprint_serviceups_mode"},
-        {"@": "blueprint_serviceups_monitor_password"},
+        {"@": "blueprint_serviceups_description"},
+        {"@": "blueprint_serviceups_shutdown_mode"},
+        {"@": "blueprint_serviceups_remote_port"},
         {"@": "blueprint_serviceups_auxiliary"},
-        {"@": "blueprint_serviceups_email_notify"}
+        {"@": "blueprint_serviceups_monitor_password"},
+        {"@": "blueprint_serviceups_driver"},
+        {"@": "blueprint_serviceups_auxiliary_users"},
+        {"@": "blueprint_serviceups_powerdown"},
+        {"@": "blueprint_serviceups_shutdown_timer"}
       ]
     }
   }

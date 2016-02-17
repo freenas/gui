@@ -16,7 +16,8 @@
       "enumValues": [
         "DISK",
         "CDROM",
-        "NIC"
+        "NIC",
+        "VOLUME"
       ]
     }
   },

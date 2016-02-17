@@ -1,12 +1,4 @@
 {
-  "blueprint_servicehaproxy_defaults_maxconn": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "defaults_maxconn",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "blueprint_servicehaproxy_backend_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -19,12 +11,20 @@
       ]
     }
   },
-  "blueprint_servicehaproxy_https_port": {
+  "blueprint_servicehaproxy_https_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "https_port",
+      "name": "https_ip",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicehaproxy_http_ip": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "http_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_servicehaproxy_frontend_mode": {
@@ -47,20 +47,20 @@
       "valueType": "number"
     }
   },
-  "blueprint_servicehaproxy_http_ip": {
+  "blueprint_servicehaproxy_https_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "http_ip",
+      "name": "https_port",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
-  "blueprint_servicehaproxy_https_ip": {
+  "blueprint_servicehaproxy_defaults_maxconn": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "https_ip",
+      "name": "defaults_maxconn",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
   "blueprint_servicehaproxy_global_maxconn": {
@@ -76,13 +76,13 @@
     "properties": {
       "name": "ServiceHaproxy",
       "propertyBlueprints": [
-        {"@": "blueprint_servicehaproxy_defaults_maxconn"},
         {"@": "blueprint_servicehaproxy_backend_mode"},
-        {"@": "blueprint_servicehaproxy_https_port"},
+        {"@": "blueprint_servicehaproxy_https_ip"},
+        {"@": "blueprint_servicehaproxy_http_ip"},
         {"@": "blueprint_servicehaproxy_frontend_mode"},
         {"@": "blueprint_servicehaproxy_http_port"},
-        {"@": "blueprint_servicehaproxy_http_ip"},
-        {"@": "blueprint_servicehaproxy_https_ip"},
+        {"@": "blueprint_servicehaproxy_https_port"},
+        {"@": "blueprint_servicehaproxy_defaults_maxconn"},
         {"@": "blueprint_servicehaproxy_global_maxconn"}
       ]
     }

@@ -1,11 +1,4 @@
 {
-  "blueprint_networkinterfacelagg_protocol": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "protocol",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_networkinterfacelagg_ports": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -14,13 +7,20 @@
       "valueType": "array"
     }
   },
+  "blueprint_networkinterfacelagg_protocol": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "protocol",
+      "blueprint": {"@": "root"}
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "NetworkInterfaceLagg",
       "propertyBlueprints": [
-        {"@": "blueprint_networkinterfacelagg_protocol"},
-        {"@": "blueprint_networkinterfacelagg_ports"}
+        {"@": "blueprint_networkinterfacelagg_ports"},
+        {"@": "blueprint_networkinterfacelagg_protocol"}
       ]
     }
   }

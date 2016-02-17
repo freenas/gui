@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_networkroute_network": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "network",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_networkroute_netmask": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -35,24 +43,16 @@
       "valueType": "String"
     }
   },
-  "blueprint_networkroute_network": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "network",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "NetworkRoute",
       "propertyBlueprints": [
         {"@": "blueprint_networkroute_gateway"},
+        {"@": "blueprint_networkroute_network"},
         {"@": "blueprint_networkroute_netmask"},
         {"@": "blueprint_networkroute_type"},
-        {"@": "blueprint_networkroute_id"},
-        {"@": "blueprint_networkroute_network"}
+        {"@": "blueprint_networkroute_id"}
       ]
     }
   }

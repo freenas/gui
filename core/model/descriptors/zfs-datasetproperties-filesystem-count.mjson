@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiesfilesystemcount_source": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesfilesystemcount_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiesfilesystemcount_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesFilesystemCount",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesfilesystemcount_source"},
-        {"@": "blueprint_zfsdatasetpropertiesfilesystemcount_value"}
+        {"@": "blueprint_zfsdatasetpropertiesfilesystemcount_value"},
+        {"@": "blueprint_zfsdatasetpropertiesfilesystemcount_source"}
       ]
     }
   }

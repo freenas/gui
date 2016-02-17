@@ -25,8 +25,8 @@
             "modelId": "core/model/descriptors/alert-filter.mjson"
         },
         {
-            "type": "AlertSeverity",
-            "modelId": "core/model/descriptors/alert-severity.mjson"
+            "type": "AlertRegistration",
+            "modelId": "core/model/descriptors/alert-registration.mjson"
         },
         {
             "type": "Alert",
@@ -89,10 +89,6 @@
             "modelId": "core/model/descriptors/dataset-properties.mjson"
         },
         {
-            "type": "DatasetType",
-            "modelId": "core/model/descriptors/dataset-type.mjson"
-        },
-        {
             "type": "Dataset",
             "modelId": "core/model/descriptors/dataset.mjson"
         },
@@ -109,20 +105,12 @@
             "modelId": "core/model/descriptors/disk-device.mjson"
         },
         {
-            "type": "DiskEraseMethod",
-            "modelId": "core/model/descriptors/disk-erase-method.mjson"
-        },
-        {
             "type": "DiskMetadata",
             "modelId": "core/model/descriptors/disk-metadata.mjson"
         },
         {
             "type": "DiskPartition",
             "modelId": "core/model/descriptors/disk-partition.mjson"
-        },
-        {
-            "type": "DiskSelftestType",
-            "modelId": "core/model/descriptors/disk-selftest-type.mjson"
         },
         {
             "type": "DiskSetKeyParams",
@@ -209,10 +197,6 @@
             "modelId": "core/model/descriptors/mail.mjson"
         },
         {
-            "type": "NetworkAggregationProtocols",
-            "modelId": "core/model/descriptors/network-aggregation-protocols.mjson"
-        },
-        {
             "type": "NetworkConfigDhcp",
             "modelId": "core/model/descriptors/network-config-dhcp.mjson"
         },
@@ -259,10 +243,6 @@
         {
             "type": "NetworkInterfaceStatus",
             "modelId": "core/model/descriptors/network-interface-status.mjson"
-        },
-        {
-            "type": "NetworkInterfaceType",
-            "modelId": "core/model/descriptors/network-interface-type.mjson"
         },
         {
             "type": "NetworkInterfaceVlan",
@@ -417,6 +397,10 @@
             "modelId": "core/model/descriptors/share-properties.mjson"
         },
         {
+            "type": "ShareTypes",
+            "modelId": "core/model/descriptors/share-types.mjson"
+        },
+        {
             "type": "Share",
             "modelId": "core/model/descriptors/share.mjson"
         },
@@ -427,6 +411,10 @@
         {
             "type": "SmbShare",
             "modelId": "core/model/descriptors/smb-share.mjson"
+        },
+        {
+            "type": "StatAlert",
+            "modelId": "core/model/descriptors/stat-alert.mjson"
         },
         {
             "type": "Stat",
@@ -523,6 +511,26 @@
         {
             "type": "VolumeParams",
             "modelId": "core/model/descriptors/volume-params.mjson"
+        },
+        {
+            "type": "VolumeVdevRecommendation",
+            "modelId": "core/model/descriptors/volume-vdev-recommendation.mjson"
+        },
+        {
+            "type": "VolumeVdevRecommendationsRedundancy",
+            "modelId": "core/model/descriptors/volume-vdev-recommendations-redundancy.mjson"
+        },
+        {
+            "type": "VolumeVdevRecommendationsSpeed",
+            "modelId": "core/model/descriptors/volume-vdev-recommendations-speed.mjson"
+        },
+        {
+            "type": "VolumeVdevRecommendationsStorage",
+            "modelId": "core/model/descriptors/volume-vdev-recommendations-storage.mjson"
+        },
+        {
+            "type": "VolumeVdevRecommendations",
+            "modelId": "core/model/descriptors/volume-vdev-recommendations.mjson"
         },
         {
             "type": "Volume",

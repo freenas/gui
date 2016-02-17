@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiessharesmb_source": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiessharesmb_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiessharesmb_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesSharesmb",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiessharesmb_source"},
-        {"@": "blueprint_zfsdatasetpropertiessharesmb_value"}
+        {"@": "blueprint_zfsdatasetpropertiessharesmb_value"},
+        {"@": "blueprint_zfsdatasetpropertiessharesmb_source"}
       ]
     }
   }

@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiescompression_source": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiescompression_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiescompression_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesCompression",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiescompression_source"},
-        {"@": "blueprint_zfsdatasetpropertiescompression_value"}
+        {"@": "blueprint_zfsdatasetpropertiescompression_value"},
+        {"@": "blueprint_zfsdatasetpropertiescompression_source"}
       ]
     }
   }

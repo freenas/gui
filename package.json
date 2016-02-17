@@ -24,6 +24,7 @@
     "scripts": {
         "generate-descriptors" : "node ./tools/generate.js descriptors -t ./core/model/descriptors",
         "generate-models" : "node ./tools/generate.js models ./core/model/descriptors/ -p ./core/model/descriptors -t ./core/model",
+        "generate-enumerations" : "node ./tools/generate.js enumerations -t ./core/model/enumerations",
         "warnings": "node ./tools/generate.js descriptors -w --no-save"
     }
 }

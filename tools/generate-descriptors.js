@@ -1,35 +1,13 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var prompt = require('prompt');
 var FS = require('./lib/fs-promise');
 var ModelDescriptorFactory = require('./lib/model-descriptor-factory');
-var WebSocketClient = require('./lib/websocket-client').WebSocketClient;
-var WebSocketConfiguration = require('../core/backend/websocket-configuration').WebSocketConfiguration;
-
-var passwordSchema = {
-        properties: {
-            password: {
-                hidden: true,
-                required: true
-            }
-        }
-    },
-
-    loginSchema = {
-        properties: {
-            username: {
-                required: true
-            }
-        }
-    };
-
-
-loginSchema.properties.password = passwordSchema.properties.password;
+var Connect = require('./lib/connect');
 
 
 program
-    .version('0.0.6')
+    .version('0.0.7')
     .option('-u, --username <username>', 'username that will be used to establish a connection with the middleware')
     .option('-p, --password <password>', 'password that will be used to establish a connection with the middleware')
     .option('-H, --host <host>', 'host that will be used to establish a connection with the middleware')
@@ -46,95 +24,52 @@ global.verbose = !!program.verbose;
 global.warning = !!program.warning;
 
 
-if (!program.password || !program.username) {
-    prompt.start();
-
-    console.log("authentication required!");
-
-    prompt.get(program.username ? passwordSchema : loginSchema, function (error, result) {
-        if (error) {
-            console.log(error);
-            process.exit(1);
-        }
-
-        if (!program.username) {
-            program.username = result.username;
-        }
-
-        program.password = result.password;
-
-        generateDescriptors();
-    });
-
-} else {
-    generateDescriptors();
-}
-
-
-function generateDescriptors () {
+Connect.authenticateIfNeeded(program.username, program.password, program).then(function (websocket) {
     return FS.getAbsolutePath(program.target).then(function (targetPath) {
         return FS.isDirectoryAtPath(targetPath).then(function (isDirectoryAtPath) {
             if (isDirectoryAtPath) {
-                var webSocketConfiguration = new WebSocketConfiguration();
+                return websocket.send("rpc", "call", {
+                    method: "discovery.get_schema",
+                    args: []
 
-                webSocketConfiguration.set(WebSocketConfiguration.KEYS.SECURE, !!program.secure);
-                webSocketConfiguration.set(WebSocketConfiguration.KEYS.HOST, program.host || "freenas.local");
-                webSocketConfiguration.set(WebSocketConfiguration.KEYS.PORT, program.port || "5000");
-                webSocketConfiguration.set(WebSocketConfiguration.KEYS.PATH, "/socket");
+                }).then(function (response) {
+                    var schemas = response.args.definitions;
 
-                var websocket = new WebSocketClient(webSocketConfiguration);
+                    if (schemas) {
+                        var schemaKeys = Object.keys(schemas),
+                            descriptors = [],
+                            tmpDescriptors,
+                            schemaKey;
 
-                return websocket.connect().then(function () {
-                    return websocket.authenticate(program.username, program.password).then(function () {
-                        if (global.verbose) {
-                            console.log("Used Connected");
+                        for (var i = 0, length = schemaKeys.length; i < length; i++) {
+                            schemaKey = schemaKeys[i];
+
+                            tmpDescriptors = ModelDescriptorFactory.createModelDescriptorsWithNameAndSchema(schemaKey, schemas[schemaKey]);
+
+                            if (tmpDescriptors) {
+                                descriptors = descriptors.concat(tmpDescriptors);
+                            }
                         }
 
-                        return websocket.send("rpc", "call", {
-                            method : "discovery.get_schema",
-                            args : []
+                        if (program.save) {
+                            return ModelDescriptorFactory.saveModelDescriptorsAtPath(descriptors, targetPath);
+                        }
 
-                        }).then(function (response) {
-                            var schemas = response.args.definitions;
-
-                            if (schemas) {
-                                var schemaKeys = Object.keys(schemas),
-                                    descriptors = [],
-                                    tmpDescriptors,
-                                    schemaKey;
-
-                                for (var i = 0, length = schemaKeys.length; i < length; i++) {
-                                    schemaKey = schemaKeys[i];
-
-                                    tmpDescriptors = ModelDescriptorFactory.createModelDescriptorsWithNameAndSchema(schemaKey, schemas[schemaKey]);
-
-                                    if (tmpDescriptors) {
-                                        descriptors = descriptors.concat(tmpDescriptors);
-                                    }
-                                }
-
-                                if (program.save) {
-                                    return ModelDescriptorFactory.saveModelDescriptorsAtPath(descriptors, targetPath);
-                                }
-
-                                return Promise.resolve();
-                            }
-                        });
-                    });
+                        return Promise.resolve();
+                    }
                 });
             } else {
                 throw new Error("not a directory");
             }
         });
+    })
+}).catch(function (error) {
+    console.log(error);
 
-    }).catch(function (error) {
-        console.log(error);
+    process.exit(1);
 
-        process.exit(1);
+}).finally(function () {
+    console.log("Done!");
 
-    }).finally(function () {
-        console.log("Done!");
-
-        process.exit(0);
-    });
-}
+    process.exit(0);
+});

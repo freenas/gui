@@ -1,36 +1,4 @@
 {
-  "blueprint_bootenvironment_mountpoint": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mountpoint",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_bootenvironment_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_bootenvironment_space": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "space",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_bootenvironment_on_reboot": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "on_reboot",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_bootenvironment_created": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -47,6 +15,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_bootenvironment_space": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "space",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_bootenvironment_active": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -55,18 +31,42 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_bootenvironment_on_reboot": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "on_reboot",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_bootenvironment_mountpoint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mountpoint",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_bootenvironment_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "BootEnvironment",
       "propertyBlueprints": [
-        {"@": "blueprint_bootenvironment_mountpoint"},
-        {"@": "blueprint_bootenvironment_id"},
-        {"@": "blueprint_bootenvironment_space"},
-        {"@": "blueprint_bootenvironment_on_reboot"},
         {"@": "blueprint_bootenvironment_created"},
         {"@": "blueprint_bootenvironment_realname"},
-        {"@": "blueprint_bootenvironment_active"}
+        {"@": "blueprint_bootenvironment_space"},
+        {"@": "blueprint_bootenvironment_active"},
+        {"@": "blueprint_bootenvironment_on_reboot"},
+        {"@": "blueprint_bootenvironment_mountpoint"},
+        {"@": "blueprint_bootenvironment_id"}
       ]
     }
   }

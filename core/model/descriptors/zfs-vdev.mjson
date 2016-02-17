@@ -1,18 +1,10 @@
 {
-  "blueprint_zfsvdev_type": {
+  "blueprint_zfsvdev_guid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "guid",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "disk",
-        "file",
-        "mirror",
-        "raidz1",
-        "raidz2",
-        "raidz3"
-      ]
+      "valueType": "String"
     }
   },
   "blueprint_zfsvdev_stats": {
@@ -22,6 +14,15 @@
       "blueprint": {"@": "root"},
       "readOnly": true,
       "valueType": "object"
+    }
+  },
+  "blueprint_zfsvdev_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
     }
   },
   "blueprint_zfsvdev_path": {
@@ -40,21 +41,20 @@
       "valueType": "array"
     }
   },
-  "blueprint_zfsvdev_guid": {
+  "blueprint_zfsvdev_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "guid",
+      "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_zfsvdev_status": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "status",
-      "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "String"
+      "valueType": "String",
+      "enumValues": [
+        "disk",
+        "file",
+        "mirror",
+        "raidz1",
+        "raidz2",
+        "raidz3"
+      ]
     }
   },
   "root": {
@@ -62,12 +62,12 @@
     "properties": {
       "name": "ZfsVdev",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsvdev_type"},
+        {"@": "blueprint_zfsvdev_guid"},
         {"@": "blueprint_zfsvdev_stats"},
+        {"@": "blueprint_zfsvdev_status"},
         {"@": "blueprint_zfsvdev_path"},
         {"@": "blueprint_zfsvdev_children"},
-        {"@": "blueprint_zfsvdev_guid"},
-        {"@": "blueprint_zfsvdev_status"}
+        {"@": "blueprint_zfsvdev_type"}
       ]
     }
   }

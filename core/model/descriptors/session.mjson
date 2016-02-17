@@ -1,5 +1,21 @@
 {
+  "blueprint_session_tty": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tty",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ended-at",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "propertyblueprint2": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "started-at",
@@ -15,12 +31,12 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_session_active": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ended-at",
+      "name": "active",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "boolean"
     }
   },
   "blueprint_session_resource": {
@@ -31,33 +47,17 @@
       "valueType": "String"
     }
   },
-  "blueprint_session_tty": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "tty",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_session_active": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "active",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Session",
       "propertyBlueprints": [
-        {"@": "propertyblueprint"},
-        {"@": "blueprint_session_username"},
-        {"@": "propertyblueprint2"},
-        {"@": "blueprint_session_resource"},
         {"@": "blueprint_session_tty"},
-        {"@": "blueprint_session_active"}
+        {"@": "propertyblueprint"},
+        {"@": "propertyblueprint2"},
+        {"@": "blueprint_session_username"},
+        {"@": "blueprint_session_active"},
+        {"@": "blueprint_session_resource"}
       ]
     }
   }

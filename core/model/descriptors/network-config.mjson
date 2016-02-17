@@ -1,8 +1,16 @@
 {
-  "blueprint_networkconfig_dns": {
+  "blueprint_networkconfig_gateway": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dns",
+      "name": "gateway",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_networkconfig_dhcp": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dhcp",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
@@ -15,12 +23,12 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_networkconfig_dhcp": {
+  "blueprint_networkconfig_http_proxy": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dhcp",
+      "name": "http_proxy",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "String"
     }
   },
   "blueprint_networkconfig_netwait": {
@@ -31,18 +39,10 @@
       "valueType": "object"
     }
   },
-  "blueprint_networkconfig_http_proxy": {
+  "blueprint_networkconfig_dns": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "http_proxy",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_networkconfig_gateway": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "gateway",
+      "name": "dns",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
@@ -52,12 +52,12 @@
     "properties": {
       "name": "NetworkConfig",
       "propertyBlueprints": [
-        {"@": "blueprint_networkconfig_dns"},
-        {"@": "blueprint_networkconfig_autoconfigure"},
+        {"@": "blueprint_networkconfig_gateway"},
         {"@": "blueprint_networkconfig_dhcp"},
-        {"@": "blueprint_networkconfig_netwait"},
+        {"@": "blueprint_networkconfig_autoconfigure"},
         {"@": "blueprint_networkconfig_http_proxy"},
-        {"@": "blueprint_networkconfig_gateway"}
+        {"@": "blueprint_networkconfig_netwait"},
+        {"@": "blueprint_networkconfig_dns"}
       ]
     }
   }

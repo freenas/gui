@@ -7,10 +7,10 @@
       "valueType": "array"
     }
   },
-  "blueprint_zfstopology_data": {
+  "blueprint_zfstopology_spare": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "data",
+      "name": "spare",
       "blueprint": {"@": "root"},
       "valueType": "array"
     }
@@ -23,10 +23,10 @@
       "valueType": "array"
     }
   },
-  "blueprint_zfstopology_spare": {
+  "blueprint_zfstopology_data": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "spare",
+      "name": "data",
       "blueprint": {"@": "root"},
       "valueType": "array"
     }
@@ -37,9 +37,9 @@
       "name": "ZfsTopology",
       "propertyBlueprints": [
         {"@": "blueprint_zfstopology_cache"},
-        {"@": "blueprint_zfstopology_data"},
+        {"@": "blueprint_zfstopology_spare"},
         {"@": "blueprint_zfstopology_log"},
-        {"@": "blueprint_zfstopology_spare"}
+        {"@": "blueprint_zfstopology_data"}
       ]
     }
   }

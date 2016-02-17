@@ -1,10 +1,10 @@
 {
-  "blueprint_iscsishareproperties_device_id": {
+  "blueprint_iscsishareproperties_physical_block_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "device_id",
+      "name": "physical_block_size",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
   "blueprint_iscsishareproperties_serial": {
@@ -13,6 +13,30 @@
       "name": "serial",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_iscsishareproperties_device_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "device_id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsishareproperties_naa": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "naa",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_iscsishareproperties_available_space_threshold": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "available_space_threshold",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "blueprint_iscsishareproperties_block_size": {
@@ -29,18 +53,18 @@
       ]
     }
   },
-  "blueprint_iscsishareproperties_available_space_threshold": {
+  "blueprint_iscsishareproperties_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "available_space_threshold",
+      "name": "size",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
   },
-  "blueprint_iscsishareproperties_naa": {
+  "blueprint_iscsishareproperties_vendor_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "naa",
+      "name": "vendor_id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -51,22 +75,6 @@
       "name": "tpc",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
-    }
-  },
-  "blueprint_iscsishareproperties_physical_block_size": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "physical_block_size",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_iscsishareproperties_vendor_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vendor_id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_iscsishareproperties_rpm": {
@@ -93,30 +101,22 @@
       "valueType": "number"
     }
   },
-  "blueprint_iscsishareproperties_size": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "size",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "IscsiShareProperties",
       "propertyBlueprints": [
-        {"@": "blueprint_iscsishareproperties_device_id"},
-        {"@": "blueprint_iscsishareproperties_serial"},
-        {"@": "blueprint_iscsishareproperties_block_size"},
-        {"@": "blueprint_iscsishareproperties_available_space_threshold"},
-        {"@": "blueprint_iscsishareproperties_naa"},
-        {"@": "blueprint_iscsishareproperties_tpc"},
         {"@": "blueprint_iscsishareproperties_physical_block_size"},
+        {"@": "blueprint_iscsishareproperties_serial"},
+        {"@": "blueprint_iscsishareproperties_device_id"},
+        {"@": "blueprint_iscsishareproperties_naa"},
+        {"@": "blueprint_iscsishareproperties_available_space_threshold"},
+        {"@": "blueprint_iscsishareproperties_block_size"},
+        {"@": "blueprint_iscsishareproperties_size"},
         {"@": "blueprint_iscsishareproperties_vendor_id"},
+        {"@": "blueprint_iscsishareproperties_tpc"},
         {"@": "blueprint_iscsishareproperties_rpm"},
-        {"@": "blueprint_iscsishareproperties_ctl_lun"},
-        {"@": "blueprint_iscsishareproperties_size"}
+        {"@": "blueprint_iscsishareproperties_ctl_lun"}
       ]
     }
   }

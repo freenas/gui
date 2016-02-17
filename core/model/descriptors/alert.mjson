@@ -1,10 +1,10 @@
 {
-  "blueprint_alert_dismissed": {
+  "blueprint_alert_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dismissed",
+      "name": "description",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "String"
     }
   },
   "blueprint_alert_severity": {
@@ -12,22 +12,6 @@
     "properties": {
       "name": "severity",
       "blueprint": {"@": "root"}
-    }
-  },
-  "blueprint_alert_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_alert_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_alert_when": {
@@ -38,12 +22,28 @@
       "valueType": "String"
     }
   },
-  "blueprint_alert_description": {
+  "blueprint_alert_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "description",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_alert_dismissed": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dismissed",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_alert_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "root": {
@@ -51,12 +51,12 @@
     "properties": {
       "name": "Alert",
       "propertyBlueprints": [
-        {"@": "blueprint_alert_dismissed"},
+        {"@": "blueprint_alert_description"},
         {"@": "blueprint_alert_severity"},
-        {"@": "blueprint_alert_id"},
-        {"@": "blueprint_alert_name"},
         {"@": "blueprint_alert_when"},
-        {"@": "blueprint_alert_description"}
+        {"@": "blueprint_alert_name"},
+        {"@": "blueprint_alert_dismissed"},
+        {"@": "blueprint_alert_id"}
       ]
     }
   }

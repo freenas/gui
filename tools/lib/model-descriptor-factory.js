@@ -13,14 +13,11 @@ var createModelDescriptorWithNameAndSchema = exports.createModelDescriptorWithNa
     if (schema.type === "object") {
         descriptor = getModelDescriptorWithNameAndSchema(name, schema);
     } else if (schema.type === "string") {
-        if (schema.enum) {
-            descriptor = getModelDescriptorWithNameAndEnum(name, schema.enum);
-        } else {
+        if (!schema.enum) {
             if (global.verbose) {
                 console.log("does not support schema '" + name + "' with the content '" + JSON.stringify(schema) + "'");
             }
         }
-
     } else {
         if (global.verbose) {
             console.log("does not support schema '" + name + "' for the type '" + schema.type + "'");

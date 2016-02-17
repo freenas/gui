@@ -1,0 +1,34 @@
+{
+  "blueprint_volumevdevrecommendationsredundancy_storage": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "storage",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_volumevdevrecommendationsredundancy_redundancy": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "redundancy",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_volumevdevrecommendationsredundancy_speed": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "speed",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VolumeVdevRecommendationsRedundancy",
+      "propertyBlueprints": [
+        {"@": "blueprint_volumevdevrecommendationsredundancy_storage"},
+        {"@": "blueprint_volumevdevrecommendationsredundancy_redundancy"},
+        {"@": "blueprint_volumevdevrecommendationsredundancy_speed"}
+      ]
+    }
+  }
+}

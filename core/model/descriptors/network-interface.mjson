@@ -1,4 +1,20 @@
 {
+  "blueprint_networkinterface_aliases": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "aliases",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_networkinterface_vlan": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vlan",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_networkinterface_enabled": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -7,10 +23,10 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_networkinterface_media": {
+  "blueprint_networkinterface_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "media",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -30,14 +46,6 @@
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_networkinterface_mtu": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "mtu",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "blueprint_networkinterface_noipv6": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -46,36 +54,28 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_networkinterface_name": {
+  "blueprint_networkinterface_mtu": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "mtu",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_networkinterface_dhcp": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dhcp",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_networkinterface_media": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "media",
       "blueprint": {"@": "root"},
       "valueType": "String"
-    }
-  },
-  "blueprint_networkinterface_lagg": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "lagg",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "blueprint_networkinterface_aliases": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "aliases",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_networkinterface_bridge": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "bridge",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
     }
   },
   "blueprint_networkinterface_rtadv": {
@@ -86,10 +86,25 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_networkinterface_vlan": {
+  "blueprint_networkinterface_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "vlan",
+      "name": "status",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_networkinterface_bridge": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bridge",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_networkinterface_lagg": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lagg",
       "blueprint": {"@": "root"},
       "valueType": "object"
     }
@@ -109,42 +124,27 @@
       "valueType": "String"
     }
   },
-  "blueprint_networkinterface_dhcp": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "dhcp",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_networkinterface_status": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "status",
-      "blueprint": {"@": "root"}
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "NetworkInterface",
       "propertyBlueprints": [
+        {"@": "blueprint_networkinterface_aliases"},
+        {"@": "blueprint_networkinterface_vlan"},
         {"@": "blueprint_networkinterface_enabled"},
-        {"@": "blueprint_networkinterface_media"},
+        {"@": "blueprint_networkinterface_name"},
         {"@": "blueprint_networkinterface_capabilities"},
         {"@": "blueprint_networkinterface_mediaopts"},
-        {"@": "blueprint_networkinterface_mtu"},
         {"@": "blueprint_networkinterface_noipv6"},
-        {"@": "blueprint_networkinterface_name"},
-        {"@": "blueprint_networkinterface_lagg"},
-        {"@": "blueprint_networkinterface_aliases"},
-        {"@": "blueprint_networkinterface_bridge"},
-        {"@": "blueprint_networkinterface_rtadv"},
-        {"@": "blueprint_networkinterface_vlan"},
-        {"@": "blueprint_networkinterface_type"},
-        {"@": "blueprint_networkinterface_id"},
+        {"@": "blueprint_networkinterface_mtu"},
         {"@": "blueprint_networkinterface_dhcp"},
-        {"@": "blueprint_networkinterface_status"}
+        {"@": "blueprint_networkinterface_media"},
+        {"@": "blueprint_networkinterface_rtadv"},
+        {"@": "blueprint_networkinterface_status"},
+        {"@": "blueprint_networkinterface_bridge"},
+        {"@": "blueprint_networkinterface_lagg"},
+        {"@": "blueprint_networkinterface_type"},
+        {"@": "blueprint_networkinterface_id"}
       ]
     }
   }

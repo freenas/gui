@@ -1,16 +1,16 @@
 {
-  "blueprint_serviceriakcs_stanchion_host_port": {
+  "blueprint_serviceriakcs_admin_key": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "stanchion_host_port",
+      "name": "admin_key",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
-  "blueprint_serviceriakcs_stanchion_host_ip": {
+  "blueprint_serviceriakcs_node_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "stanchion_host_ip",
+      "name": "node_ip",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -23,28 +23,36 @@
       "valueType": "number"
     }
   },
-  "blueprint_serviceriakcs_riak_host_ip": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "riak_host_ip",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_serviceriakcs_listener_port": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "listener_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "blueprint_serviceriakcs_listener_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "listener_ip",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_serviceriakcs_admin_secret": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "admin_secret",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceriakcs_nodename": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nodename",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceriakcs_stanchion_host_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "stanchion_host_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "blueprint_serviceriakcs_anonymous_user_creation": {
@@ -81,34 +89,26 @@
       ]
     }
   },
-  "blueprint_serviceriakcs_admin_secret": {
+  "blueprint_serviceriakcs_stanchion_host_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "admin_secret",
+      "name": "stanchion_host_ip",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_serviceriakcs_node_ip": {
+  "blueprint_serviceriakcs_listener_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "node_ip",
+      "name": "listener_port",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
-  "blueprint_serviceriakcs_admin_key": {
+  "blueprint_serviceriakcs_riak_host_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "admin_key",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_serviceriakcs_nodename": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "nodename",
+      "name": "riak_host_ip",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -118,19 +118,19 @@
     "properties": {
       "name": "ServiceRiakCs",
       "propertyBlueprints": [
-        {"@": "blueprint_serviceriakcs_stanchion_host_port"},
-        {"@": "blueprint_serviceriakcs_stanchion_host_ip"},
+        {"@": "blueprint_serviceriakcs_admin_key"},
+        {"@": "blueprint_serviceriakcs_node_ip"},
         {"@": "blueprint_serviceriakcs_max_buckets_per_user"},
-        {"@": "blueprint_serviceriakcs_riak_host_ip"},
-        {"@": "blueprint_serviceriakcs_listener_port"},
         {"@": "blueprint_serviceriakcs_listener_ip"},
+        {"@": "blueprint_serviceriakcs_admin_secret"},
+        {"@": "blueprint_serviceriakcs_nodename"},
+        {"@": "blueprint_serviceriakcs_stanchion_host_port"},
         {"@": "blueprint_serviceriakcs_anonymous_user_creation"},
         {"@": "blueprint_serviceriakcs_riak_host_port"},
         {"@": "blueprint_serviceriakcs_log_console_level"},
-        {"@": "blueprint_serviceriakcs_admin_secret"},
-        {"@": "blueprint_serviceriakcs_node_ip"},
-        {"@": "blueprint_serviceriakcs_admin_key"},
-        {"@": "blueprint_serviceriakcs_nodename"}
+        {"@": "blueprint_serviceriakcs_stanchion_host_ip"},
+        {"@": "blueprint_serviceriakcs_listener_port"},
+        {"@": "blueprint_serviceriakcs_riak_host_ip"}
       ]
     }
   }

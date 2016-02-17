@@ -19,12 +19,20 @@
       ]
     }
   },
-  "blueprint_containerconfig_memsize": {
+  "blueprint_containerconfig_ncpus": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "memsize",
+      "name": "ncpus",
       "blueprint": {"@": "root"},
       "valueType": "number"
+    }
+  },
+  "blueprint_containerconfig_cloud_init": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "cloud_init",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_containerconfig_boot_directory": {
@@ -35,10 +43,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_containerconfig_ncpus": {
+  "blueprint_containerconfig_memsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ncpus",
+      "name": "memsize",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -58,9 +66,10 @@
       "propertyBlueprints": [
         {"@": "blueprint_containerconfig_boot_device"},
         {"@": "blueprint_containerconfig_bootloader"},
-        {"@": "blueprint_containerconfig_memsize"},
-        {"@": "blueprint_containerconfig_boot_directory"},
         {"@": "blueprint_containerconfig_ncpus"},
+        {"@": "blueprint_containerconfig_cloud_init"},
+        {"@": "blueprint_containerconfig_boot_directory"},
+        {"@": "blueprint_containerconfig_memsize"},
         {"@": "blueprint_containerconfig_boot_partition"}
       ]
     }

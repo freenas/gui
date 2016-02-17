@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiesreferenced_source": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesreferenced_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiesreferenced_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesReferenced",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesreferenced_source"},
-        {"@": "blueprint_zfsdatasetpropertiesreferenced_value"}
+        {"@": "blueprint_zfsdatasetpropertiesreferenced_value"},
+        {"@": "blueprint_zfsdatasetpropertiesreferenced_source"}
       ]
     }
   }

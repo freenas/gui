@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiesaclinherit_source": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesaclinherit_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiesaclinherit_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesAclinherit",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesaclinherit_source"},
-        {"@": "blueprint_zfsdatasetpropertiesaclinherit_value"}
+        {"@": "blueprint_zfsdatasetpropertiesaclinherit_value"},
+        {"@": "blueprint_zfsdatasetpropertiesaclinherit_source"}
       ]
     }
   }

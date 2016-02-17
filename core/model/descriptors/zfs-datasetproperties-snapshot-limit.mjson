@@ -1,15 +1,15 @@
 {
-  "blueprint_zfsdatasetpropertiessnapshotlimit_source": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiessnapshotlimit_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfsdatasetpropertiessnapshotlimit_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesSnapshotLimit",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiessnapshotlimit_source"},
-        {"@": "blueprint_zfsdatasetpropertiessnapshotlimit_value"}
+        {"@": "blueprint_zfsdatasetpropertiessnapshotlimit_value"},
+        {"@": "blueprint_zfsdatasetpropertiessnapshotlimit_source"}
       ]
     }
   }

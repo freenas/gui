@@ -1,12 +1,4 @@
 {
-  "blueprint_ipmiconfiguration_password": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_ipmiconfiguration_dhcp": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,12 +7,11 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_ipmiconfiguration_vlan_id": {
+  "blueprint_ipmiconfiguration_gateway": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "vlan_id",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
+      "name": "gateway",
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_ipmiconfiguration_address": {
@@ -46,11 +37,20 @@
       "valueType": "number"
     }
   },
-  "blueprint_ipmiconfiguration_gateway": {
+  "blueprint_ipmiconfiguration_vlan_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "gateway",
-      "blueprint": {"@": "root"}
+      "name": "vlan_id",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_ipmiconfiguration_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "password",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -58,13 +58,13 @@
     "properties": {
       "name": "IpmiConfiguration",
       "propertyBlueprints": [
-        {"@": "blueprint_ipmiconfiguration_password"},
         {"@": "blueprint_ipmiconfiguration_dhcp"},
-        {"@": "blueprint_ipmiconfiguration_vlan_id"},
+        {"@": "blueprint_ipmiconfiguration_gateway"},
         {"@": "blueprint_ipmiconfiguration_address"},
         {"@": "blueprint_ipmiconfiguration_channel"},
         {"@": "blueprint_ipmiconfiguration_netmask"},
-        {"@": "blueprint_ipmiconfiguration_gateway"}
+        {"@": "blueprint_ipmiconfiguration_vlan_id"},
+        {"@": "blueprint_ipmiconfiguration_password"}
       ]
     }
   }

@@ -1,57 +1,25 @@
 {
-  "blueprint_stat_mtime": {
+  "blueprint_stat_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "mtime",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_stat_type": {
+  "blueprint_stat_last_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_stat_size": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "size",
+      "name": "last_value",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
   },
-  "blueprint_stat_permissions": {
+  "blueprint_stat_alerts": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "permissions",
+      "name": "alerts",
       "blueprint": {"@": "root"}
-    }
-  },
-  "blueprint_stat_ctime": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ctime",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_stat_path": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_stat_atime": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "atime",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "root": {
@@ -59,13 +27,9 @@
     "properties": {
       "name": "Stat",
       "propertyBlueprints": [
-        {"@": "blueprint_stat_mtime"},
-        {"@": "blueprint_stat_type"},
-        {"@": "blueprint_stat_size"},
-        {"@": "blueprint_stat_permissions"},
-        {"@": "blueprint_stat_ctime"},
-        {"@": "blueprint_stat_path"},
-        {"@": "blueprint_stat_atime"}
+        {"@": "blueprint_stat_name"},
+        {"@": "blueprint_stat_last_value"},
+        {"@": "blueprint_stat_alerts"}
       ]
     }
   }

@@ -1,10 +1,10 @@
 {
-  "blueprint_mailmessage_attachments": {
+  "blueprint_mailmessage_from": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "attachments",
+      "name": "from",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "String"
     }
   },
   "blueprint_mailmessage_extra_headers": {
@@ -15,26 +15,26 @@
       "valueType": "object"
     }
   },
-  "blueprint_mailmessage_subject": {
+  "blueprint_mailmessage_attachments": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "subject",
+      "name": "attachments",
       "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_mailmessage_from": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "from",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
   "blueprint_mailmessage_message": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "message",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_mailmessage_subject": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "subject",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -52,11 +52,11 @@
     "properties": {
       "name": "MailMessage",
       "propertyBlueprints": [
-        {"@": "blueprint_mailmessage_attachments"},
-        {"@": "blueprint_mailmessage_extra_headers"},
-        {"@": "blueprint_mailmessage_subject"},
         {"@": "blueprint_mailmessage_from"},
+        {"@": "blueprint_mailmessage_extra_headers"},
+        {"@": "blueprint_mailmessage_attachments"},
         {"@": "blueprint_mailmessage_message"},
+        {"@": "blueprint_mailmessage_subject"},
         {"@": "blueprint_mailmessage_to"}
       ]
     }

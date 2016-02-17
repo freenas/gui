@@ -1,15 +1,15 @@
 {
-  "blueprint_zfspropertiesfragmentation_source": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertiesfragmentation_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfspropertiesfragmentation_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"}
     }
   },
@@ -18,8 +18,8 @@
     "properties": {
       "name": "ZfsPropertiesFragmentation",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertiesfragmentation_source"},
-        {"@": "blueprint_zfspropertiesfragmentation_value"}
+        {"@": "blueprint_zfspropertiesfragmentation_value"},
+        {"@": "blueprint_zfspropertiesfragmentation_source"}
       ]
     }
   }

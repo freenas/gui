@@ -1,10 +1,83 @@
 {
-  "blueprint_cryptocertificate_signedby": {
+  "blueprint_cryptocertificate_city": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "signedby",
+      "name": "city",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_email": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "email",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_valid_until": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "valid_until",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_dn": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dn",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_privatekey": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "privatekey",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_lifetime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lifetime",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_cryptocertificate_key_length": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "key_length",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_cryptocertificate_digest_algorithm": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "digest_algorithm",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "SHA1",
+        "SHA224",
+        "SHA256",
+        "SHA384",
+        "SHA512"
+      ]
     }
   },
   "blueprint_cryptocertificate_certificate_path": {
@@ -13,6 +86,14 @@
       "name": "certificate_path",
       "blueprint": {"@": "root"},
       "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_country": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "country",
+      "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
@@ -33,18 +114,34 @@
       ]
     }
   },
-  "blueprint_cryptocertificate_state": {
+  "blueprint_cryptocertificate_signedby": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "state",
+      "name": "signedby",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_cryptocertificate_privatekey": {
+  "blueprint_cryptocertificate_certificate": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "privatekey",
+      "name": "certificate",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_csr": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "csr",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_common": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "common",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -58,51 +155,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_cryptocertificate_valid_until": {
+  "blueprint_cryptocertificate_valid_from": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "valid_until",
-      "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_csr": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "csr",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_city": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "city",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_lifetime": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "lifetime",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_cryptocertificate_privatekey_path": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "privatekey_path",
+      "name": "valid_from",
       "blueprint": {"@": "root"},
       "readOnly": true,
       "valueType": "String"
@@ -116,41 +172,10 @@
       "valueType": "number"
     }
   },
-  "blueprint_cryptocertificate_key_length": {
+  "blueprint_cryptocertificate_state": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "key_length",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_cryptocertificate_certificate": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "certificate",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_digest_algorithm": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "digest_algorithm",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "SHA1",
-        "SHA224",
-        "SHA256",
-        "SHA384",
-        "SHA512"
-      ]
-    }
-  },
-  "blueprint_cryptocertificate_email": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "email",
+      "name": "state",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -163,35 +188,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_cryptocertificate_dn": {
+  "blueprint_cryptocertificate_privatekey_path": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dn",
-      "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_common": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "common",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_country": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "country",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_cryptocertificate_valid_from": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "valid_from",
+      "name": "privatekey_path",
       "blueprint": {"@": "root"},
       "readOnly": true,
       "valueType": "String"
@@ -202,28 +202,28 @@
     "properties": {
       "name": "CryptoCertificate",
       "propertyBlueprints": [
-        {"@": "blueprint_cryptocertificate_signedby"},
-        {"@": "blueprint_cryptocertificate_certificate_path"},
-        {"@": "blueprint_cryptocertificate_type"},
-        {"@": "blueprint_cryptocertificate_state"},
-        {"@": "blueprint_cryptocertificate_privatekey"},
-        {"@": "blueprint_cryptocertificate_csr_path"},
-        {"@": "blueprint_cryptocertificate_valid_until"},
-        {"@": "blueprint_cryptocertificate_csr"},
-        {"@": "blueprint_cryptocertificate_name"},
         {"@": "blueprint_cryptocertificate_city"},
-        {"@": "blueprint_cryptocertificate_lifetime"},
-        {"@": "blueprint_cryptocertificate_privatekey_path"},
-        {"@": "blueprint_cryptocertificate_serial"},
-        {"@": "blueprint_cryptocertificate_key_length"},
-        {"@": "blueprint_cryptocertificate_certificate"},
-        {"@": "blueprint_cryptocertificate_digest_algorithm"},
         {"@": "blueprint_cryptocertificate_email"},
-        {"@": "blueprint_cryptocertificate_organization"},
+        {"@": "blueprint_cryptocertificate_valid_until"},
         {"@": "blueprint_cryptocertificate_dn"},
-        {"@": "blueprint_cryptocertificate_common"},
+        {"@": "blueprint_cryptocertificate_name"},
+        {"@": "blueprint_cryptocertificate_privatekey"},
+        {"@": "blueprint_cryptocertificate_lifetime"},
+        {"@": "blueprint_cryptocertificate_key_length"},
+        {"@": "blueprint_cryptocertificate_digest_algorithm"},
+        {"@": "blueprint_cryptocertificate_certificate_path"},
         {"@": "blueprint_cryptocertificate_country"},
-        {"@": "blueprint_cryptocertificate_valid_from"}
+        {"@": "blueprint_cryptocertificate_type"},
+        {"@": "blueprint_cryptocertificate_signedby"},
+        {"@": "blueprint_cryptocertificate_certificate"},
+        {"@": "blueprint_cryptocertificate_csr"},
+        {"@": "blueprint_cryptocertificate_common"},
+        {"@": "blueprint_cryptocertificate_csr_path"},
+        {"@": "blueprint_cryptocertificate_valid_from"},
+        {"@": "blueprint_cryptocertificate_serial"},
+        {"@": "blueprint_cryptocertificate_state"},
+        {"@": "blueprint_cryptocertificate_organization"},
+        {"@": "blueprint_cryptocertificate_privatekey_path"}
       ]
     }
   }

@@ -1,10 +1,17 @@
 {
-  "blueprint_dataset_mountpoint": {
+  "blueprint_dataset_permissions": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "mountpoint",
+      "name": "permissions",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_dataset_properties": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "properties",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object"
     }
   },
   "blueprint_dataset_permissions_type": {
@@ -19,6 +26,30 @@
       ]
     }
   },
+  "blueprint_dataset_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dataset_volsize": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volsize",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_dataset_mountpoint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mountpoint",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_dataset_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -31,49 +62,18 @@
       ]
     }
   },
-  "blueprint_dataset_volsize": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "volsize",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_dataset_properties": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "properties",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "blueprint_dataset_permissions": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "permissions",
-      "blueprint": {"@": "root"}
-    }
-  },
-  "blueprint_dataset_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Dataset",
       "propertyBlueprints": [
-        {"@": "blueprint_dataset_mountpoint"},
-        {"@": "blueprint_dataset_permissions_type"},
-        {"@": "blueprint_dataset_type"},
-        {"@": "blueprint_dataset_volsize"},
-        {"@": "blueprint_dataset_properties"},
         {"@": "blueprint_dataset_permissions"},
-        {"@": "blueprint_dataset_name"}
+        {"@": "blueprint_dataset_properties"},
+        {"@": "blueprint_dataset_permissions_type"},
+        {"@": "blueprint_dataset_name"},
+        {"@": "blueprint_dataset_volsize"},
+        {"@": "blueprint_dataset_mountpoint"},
+        {"@": "blueprint_dataset_type"}
       ]
     }
   }

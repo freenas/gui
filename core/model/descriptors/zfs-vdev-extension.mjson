@@ -1,4 +1,11 @@
 {
+  "blueprint_zfsvdevextension_vdev": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "vdev",
+      "blueprint": {"@": "root"}
+    }
+  },
   "blueprint_zfsvdevextension_target_guid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -7,20 +14,13 @@
       "valueType": "String"
     }
   },
-  "blueprint_zfsvdevextension_vdev": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vdev",
-      "blueprint": {"@": "root"}
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ZfsVdevExtension",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsvdevextension_target_guid"},
-        {"@": "blueprint_zfsvdevextension_vdev"}
+        {"@": "blueprint_zfsvdevextension_vdev"},
+        {"@": "blueprint_zfsvdevextension_target_guid"}
       ]
     }
   }
