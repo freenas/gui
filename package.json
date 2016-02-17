@@ -3,7 +3,7 @@
     "version": "0.3.0",
     "dependencies": {
         "collections": "montagejs/collections#master",
-        "montage": "montagejs/montage#da1c459b8a2d22970f75c90d26882760fa1c8a9a",
+        "montage": "montagejs/montage#d90c72866f433d849a55594741ce7fcf8da3dbb0",
         "blue-shark": "freenas/blue-shark",
         "montage-data": "montagestudio/montage-data#e3208b8b55da686950dd67c4f2f727dc0800c8b2",
         "digit": "montagejs/digit",
