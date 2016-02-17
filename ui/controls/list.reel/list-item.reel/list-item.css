@@ -8,6 +8,7 @@
     cursor: pointer;
     overflow: hidden;
     position: relative;
+    background: rgba(255,255,255,.05);
 }
 
 .ListItem-label {
