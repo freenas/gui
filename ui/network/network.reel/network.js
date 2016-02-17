@@ -30,7 +30,7 @@ exports.Network = Component.specialize({
                 for (var i = 0, length = networkInterfaces.length; i < length; i++) {
                     networkInterface = networkInterfaces[i];
 
-                    //FIXME: Bug in FreeNAS the name property is not populated.
+                    //FIXME: @Javier we need here a way to specify the key for the label/name of an object.
                     networkInterface.name = networkInterface.id;
 
                     //FIXME: need to update montage
