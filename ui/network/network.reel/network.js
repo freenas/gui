@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType;
 
 /**
  * @class Network
@@ -33,14 +34,12 @@ exports.Network = Component.specialize({
                     //FIXME: @Javier we need here a way to specify the key for the label/name of an object.
                     networkInterface.name = networkInterface.id;
 
-                    //FIXME: need to update montage
-                    // add the defaultValue property to Property-blueprint.
                     // Ask to @ben what are the others types, do we need some other components here?
-                    if (networkInterface.type === "VLAN") {
+                    if (networkInterface.type === NetworkInterfaceType.VLAN) {
                         networkInterface.inspector = "ui/inspectors/vlan.reel";
                         networkInterface.icon = "ui/icons/vlan.reel";
 
-                    } else if (networkInterface.type === "LAGG") {
+                    } else if (networkInterface.type === NetworkInterfaceType.LAGG) {
                         networkInterface.inspector = "ui/inspectors/lagg.reel";
                         networkInterface.icon = "ui/icons/lagg.reel";
 
