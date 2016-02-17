@@ -156,29 +156,6 @@ textarea {
     display: none !important;
 }
 
-/* $fix - this should probably be made into a component */
-
-.Field {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-bottom: 1em;
-}
-
-.Field > * {
-    flex: 1;
-}
-
-.Field-title {
-    display: inline-block;
-    font-weight: 200;
-    margin-top: 0.1em;
-    flex: 0;
-    flex-basis: 4em;
-    margin-right: 3em;
-    color: rgba(255,255,255,.8);
-}
-
 /* $sample - styles only used on .info samples */
 
 .inspector {
