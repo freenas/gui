@@ -56,10 +56,12 @@
             "prototype": "blue-shark/ui/field-select-multiple.reel",
             "properties": {
                 "element": {"#": "ports"},
-                "label": "Ports"
+                "label": "Ports",
+                "valuePropertyName": "id",
+                "labelPropertyName": "id"
             },
             "bindings": {
-                "options": {"<-": "@owner.port_options"},
+                "options": {"<-": "@owner.portOptions"},
                 "selectedValues": {"<->": "@owner.object.lagg.ports"}
             }
         },
@@ -71,7 +73,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.lagg.protocol"},
-                "options": {"<-": "@owner.lagg_protocol_options"}
+                "options": {"<-": "@owner.laggProtocolOptions"}
             }
         },
         "rtadv": {

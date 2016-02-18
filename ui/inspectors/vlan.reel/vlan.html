@@ -56,10 +56,13 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "parent"},
-                "label": "Parent"
+                "label": "Parent",
+                "valuePropertyName": "id",
+                "labelPropertyName": "id",
+                "hasOptionalValue": true
             },
             "bindings": {
-                "options": {"<-": "@owner.parent_options"},
+                "options": {"<-": "@owner.parentOptions"},
                 "selectedValue": {"<->": "@owner.object.vlan.parent"}
             }
         },
