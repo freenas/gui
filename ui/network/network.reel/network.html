@@ -12,7 +12,7 @@
             }
         },
         "sectionSelector": {
-            "prototype": "../../controls/section-selector.reel",
+            "prototype": "ui/controls/section-selector.reel",
             "properties": {
                 "element": {"#": "sectionSelector"},
                 "sections": [
@@ -40,9 +40,12 @@
             }
         },
         "configuration": {
-            "prototype": "ui/network/configuration/configuration.reel",
+            "prototype": "ui/controls/cascading-list.reel",
             "properties": {
                 "element": {"#": "configuration"}
+            },
+            "bindings": {
+                "root": {"<-": "@owner.overview"}
             }
         },
         "interfaces": {

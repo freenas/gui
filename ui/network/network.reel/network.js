@@ -9,7 +9,7 @@ var Component = require("montage/ui/component").Component,
 exports.Network = Component.specialize({
 
     enterDocument: {
-        value: function () {
+        value: function (isFirstTime) {
             var self = this;
 
             this.listInterfaces().then(function (interfaces) {
@@ -17,7 +17,6 @@ exports.Network = Component.specialize({
             });
         }
     },
-
 
     listInterfaces: {
         value: function () {
@@ -52,6 +51,48 @@ exports.Network = Component.specialize({
                 return networkInterfaces;
             });
         }
+    },
+
+    overview: {
+        get: function () {
+            var overview = {
+                    name: "Overview",
+                    inspector: "ui/network/configuration.reel",
+                    summary: {
+                        interfaces: [
+                            {name: "em0", ipv4: "192.168.0.15/24", ipv6: "foo"},
+                            {name: "em1", ipv4: "192.168.0.15/24", ipv6: "foo"},
+                            {name: "vlan1", ipv4: "192.168.0.15/24", ipv6: "bar"}
+                        ],
+                        nameservers: ["209.18.47.61", "209.18.47.62"],
+                        defaultRoute: "192.168.0.1"
+                    },
+                    staticRoutes: [
+                        {name: "staticRoute1", inspector: "ui/inspectors/static-route.reel"},
+                        {name: "staticRoute2", inspector: "ui/inspectors/static-route.reel"},
+                        {name: "staticRoute3", inspector: "ui/inspectors/static-route.reel"}
+                    ],
+                    ipmi: {
+                        name: "Ipmi",
+                        inspector: "ui/inspectors/ipmi.reel"
+                    },
+                    networkConfiguration: {
+                        name: "Network Configuration",
+                        inspector: "ui/inspectors/network-configuration.reel"
+                    },
+
+                };
+            overview.staticRoutes.name = "Static Routes";
+            overview.staticRoutes.inspector = "ui/controls/viewer.reel";
+            return overview;
+        }
     }
 
 });
+
+
+
+
+
+
+

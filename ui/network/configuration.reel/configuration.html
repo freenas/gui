@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="configuration.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "defaultRoute": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "defaultRoute"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.summary.defaultRoute"}
+            }
+        },
+        "staticRoutes": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "staticRoutes"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.staticRoutes"}
+            }
+        },
+        "ipmi": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "ipmi"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.ipmi"}
+            }
+        },
+        "networkConfiguration": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "networkConfiguration"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.networkConfiguration"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Configuration">
+        <h1>Summary</h1>
+        default route:
+        <div data-montage-id="defaultRoute"></div>
+        <div data-montage-id="networkConfiguration"></div>
+        <div data-montage-id="staticRoutes"></div>
+        <div data-montage-id="ipmi"></div>
+    </div>
+</body>
+</html>
