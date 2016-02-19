@@ -9,56 +9,56 @@
             "properties": {
                 "element": {"#": "owner"}
             }
-        }
-    },
-    "dhcp": {
-        "prototype": "blue-shark/ui/field-checkbox.reel",
-        "properties": {
-            "element": {"#": "dhcp"},
-            "label": "DHCP"
         },
-        "bindings": {
-            "checked": {"<-": "@owner.object.dhcp"}
-        }
-    },
-    "gateway": {
-        "prototype": "blue-shark/ui/field-text-input.reel",
-        "properties": {
-            "element": {"#": "gateway"},
-            "label": "Gateway"
+        "dhcp": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "dhcp"},
+                "label": "DHCP"
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.dhcp"}
+            }
         },
-        "bindings": {
-            "value": {"<->": "@owner.object.gateway"}
-        }
-    },
-    "netmask": {
-        "prototype": "blue-shark/ui/field-text-input.reel",
-        "properties": {
-            "element": {"#": "netmask"},
-            "label": Netmask"
+        "gateway": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "gateway"},
+                "label": "Gateway"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.gateway"}
+            }
         },
-        "bindings": {
-            "value": {"<->": "@owner.object.gateway"}
-        }
-    },
-    "address": {
-        "prototype": "blue-shark/ui/field-text-input.reel",
-        "properties": {
-            "element": {"#": "address"},
-            "label": "Address"
+        "netmask": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "netmask"},
+                "label": "Netmask"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.gateway"}
+            }
         },
-        "bindings": {
-            "value": {"<->": "@owner.object.address"}
-        }
-    },
-    "vlan_id": {
-        "prototype": "blue-shark/ui/field-text-input.reel",
-        "properties": {
-            "element": {"#": "vlan_id"},
-            "label": "VLAN ID"
+        "address": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "address"},
+                "label": "Address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.address"}
+            }
         },
-        "bindings": {
-            "value": {"<->": "@owner.object.vlan_id"}
+        "vlan_id": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "vlan_id"},
+                "label": "VLAN ID"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.vlan_id"}
+            }
         }
     }
     </script>
