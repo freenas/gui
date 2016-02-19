@@ -13,6 +13,13 @@
                 "comment": "vlan.tag must be a number between 1 and 4095 inclusive."
             }
         },
+        "selectOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "id",
+                "valuePropertyName": "id"
+            }
+        },
         "dhcp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -56,9 +63,8 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "parent"},
+                "converter": {"@": "selectOptionsConverter"},
                 "label": "Parent",
-                "valuePropertyName": "id",
-                "labelPropertyName": "id",
                 "hasOptionalValue": true
             },
             "bindings": {

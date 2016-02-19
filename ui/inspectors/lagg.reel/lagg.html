@@ -65,10 +65,14 @@
                 "selectedValues": {"<->": "@owner.object.lagg.ports"}
             }
         },
+        "selectProtocolConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
         "protocol": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "protocol"},
+                "converter": {"@": "selectProtocolConverter"},
                 "label": "Protocol"
             },
             "bindings": {
