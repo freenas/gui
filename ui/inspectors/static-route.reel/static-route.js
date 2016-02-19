@@ -13,5 +13,9 @@ exports.StaticRoute = Component.specialize({
             "type": "INET",
             "id": "exampleRoute"
         }
+    },
+    "protocolOptions": {
+        value: [{"label": "IPv4", "value": "INET"},
+               { "label": "IPv6", "value": "INET6"}]
     }
 });

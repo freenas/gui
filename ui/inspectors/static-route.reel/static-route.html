@@ -11,45 +11,59 @@
             }
         },
         "netmask": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "netmask"}
+                "element": {"#": "netmask"},
+                "label": "Netmask"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.netmask"}
             }
         },
         "gateway": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "gateway"}
+                "element": {"#": "gateway"},
+                "label": "Gateway"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.gateway"}
             }
         },
         "network": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "network"}
+                "element": {"#": "network"},
+                "label": "Network"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.network"}
             }
         },
-        "type": {
-            "prototype": "blue-shark/ui/text-field.reel",
+        "protocolTypeConverter": {
+            "prototype": "core/converter/select-option-converter",
             "properties": {
-                "element": {"#": "type"}
+                "labelPropertyName": "label",
+                "valuePropertyName": "value"
+            }
+        },
+        "type": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "type"},
+                "converter": {"@": "protocolTypeConverter"},
+                "label": "IP Type"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.type"}
+                "selectedValue": {"<->": "@owner.object.type"},
+                "options": {"<-": "@owner.protocolOptions"}
             }
         },
         "id": {
-            "prototype": "blue-shark/ui/text-field.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties" : {
-                "element": {"#": "id"}
+                "element": {"#": "id"},
+                "label": "ID"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.id"}
@@ -60,26 +74,11 @@
 </head>
 <body>
     <div data-montage-id="owner" class="StaticRoute">
-        <div class="Field">
-            <div class="Field-title">Netmask</div>
-            <input type="text" data-montage-id="netmask">
-        </div>
-        <div class="Field">
-            <div class="Field-title">Gateway</div>
-            <input type="text" data-montage-id="gateway">
-        </div>
-        <div class="Field">
-            <div class="Field-title">Network</div>
-            <input type="text" data-montage-id="network">
-        </div>
-        <div class="Field">
-            <div class="Field-title">Type</div>
-            <input type="text" data-montage-id="type">
-        </div>
-        <div class="Field">
-            <div class="Field-title">Id</div>
-            <input type="text" data-montage-id="id">
-        </div>
+        <input type="text" data-montage-id="netmask">
+        <input type="text" data-montage-id="gateway">
+        <input type="text" data-montage-id="network">
+        <div data-montage-id="type"></div>
+        <input type="text" data-montage-id="id">
     </div>
 </body>
 </html>
