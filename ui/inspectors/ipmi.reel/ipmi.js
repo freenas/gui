@@ -8,9 +8,22 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Ipmi = Component.specialize(/** @lends Ipmi# */ {
-    constructor: {
-        value: function Ipmi() {
-            this.super();
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (ipmiConfig) {
+            if ( ipmiConfig ) {
+                this._object = ipmiConfig;
+            } else {
+                this._object = null;
+            }
+        },
+
+        get: function () {
+            return this._object;
         }
     }
 });

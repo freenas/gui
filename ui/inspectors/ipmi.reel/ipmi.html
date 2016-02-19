@@ -10,12 +10,81 @@
                 "element": {"#": "owner"}
             }
         }
+    },
+    "dhcp": {
+        "prototype": "blue-shark/ui/field-checkbox.reel",
+        "properties": {
+            "element": {"#": "dhcp"},
+            "label": "DHCP"
+        },
+        "bindings": {
+            "checked": {"<-": "@owner.object.dhcp"}
+        }
+    },
+    "gateway": {
+        "prototype": "blue-shark/ui/field-text-input.reel",
+        "properties": {
+            "element": {"#": "gateway"},
+            "label": "Gateway"
+        },
+        "bindings": {
+            "value": {"<->": "@owner.object.gateway"}
+        }
+    },
+    "netmask": {
+        "prototype": "blue-shark/ui/field-text-input.reel",
+        "properties": {
+            "element": {"#": "netmask"},
+            "label": Netmask"
+        },
+        "bindings": {
+            "value": {"<->": "@owner.object.gateway"}
+        }
+    },
+    "address": {
+        "prototype": "blue-shark/ui/field-text-input.reel",
+        "properties": {
+            "element": {"#": "address"},
+            "label": "Address"
+        },
+        "bindings": {
+            "value": {"<->": "@owner.object.address"}
+        }
+    },
+    "vlan_id": {
+        "prototype": "blue-shark/ui/field-text-input.reel",
+        "properties": {
+            "element": {"#": "vlan_id"},
+            "label": "VLAN ID"
+        },
+        "bindings": {
+            "value": {"<->": "@owner.object.vlan_id"}
+        }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Ipmi">
-        <i>ipmi.reel</i>
+        <!-- This field requires data from another middleware call
+             ('ipmi.channels') to populate.
+             Here's the serialization in the meantime:
+            "channel": {
+                "prototype": "blue-shark/ui/field-select.reel",
+                "properties": {
+                    "element": {"#": "channel"},
+                    "label": "Channel"
+                },
+                "bindings": {
+                    "selectedValue": {"<->": "@owner.object.channel"},
+                    "options": {"<-": "@owner.channelOptions"}
+                }
+            }
+        <div data-montage-id="channel"></div> -->
+        <div data-montage-id="address"></div>
+        <div data-montage-id="netmask"></div>
+        <div data-montage-id="gateway"></div>
+        <div data-montage-id="dhcp"></div>
+        <div data-montage-id="vlan_id"></div>
     </div>
 </body>
 </html>
