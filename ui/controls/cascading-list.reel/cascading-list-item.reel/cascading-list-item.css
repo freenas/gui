@@ -13,10 +13,11 @@
     font-size: 1em;
     line-height: 3em;
     height:      3em;
-    padding: 0 .5em;
+    padding: 0 1em;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    /*background-color: #1A3144;*/
     background-color: #1A3144;
     background-image: linear-gradient(transparent, rgba(0,0,0,.15) );
     color: #FFF;
@@ -25,30 +26,13 @@
 }
 
 .CascadingListItem-content {
+    display: flex;
     flex-grow: 1;
+    flex-direction: column;
+    /*overflow: scroll;*/
+}
+
+/* sets up scrolling only on inspectors */
+.CascadingListItem-content.Inspector-scroll {
     overflow: scroll;
-}
-
-/* Button Group Idea */
-
-.CascadingListItem-content .ViewMode {
-    height: auto;
-    display: flex;
-}
-
-.CascadingListItem-content .ViewMode .ViewMode-selector  {
-    position: relative;
-    left:   0;
-    top:    0;
-    flex: 1;
-    display: flex;
-}
-
-.CascadingListItem-content .ViewMode .ButtonGroup-repetition {
-    flex: 1;
-    display: flex;
-}
-
-.CascadingListItem-content .ViewMode .ButtonGroup-option {
-    flex: 1;
 }

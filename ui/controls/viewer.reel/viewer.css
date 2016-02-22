@@ -1,4 +1,108 @@
 .Viewer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Viewer-header {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background: rgba(25,71,129,0.1);
+}
+
+.Viewer-content {
+    overflow: scroll;
+}
+
+.Viewer-footer {
+    text-align: center;
+    flex-shrink: 0;
+    padding: .5em;
+    background: rgba(0,0,0,.2);
+}
+
+.Viewer-searchToggle {
+    font-size: 29px;
+    margin-right: 8px;
+    align-self: center;
+    cursor: pointer;
+    color: rgba(255,255,255,.8);
+    outline: none;
+}
+
+/* Search */
+
+.Viewer-search {
+    position: relative;
+    height: 0;
+    visibility: hidden;
+    width: 100%;
+    background: rgba(0,0,0,.3);
+    overflow: hidden;
+}
+
+/* search field*/
+
+.Viewer-searchField.blueShark-TextField {
+    border-radius: 0;
+    height: 3em;
+    padding-right: 2.5em;
+}
+
+.Viewer-searchClearButton {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    right: .5em;
+    top: 50%;
+    margin-top: -.7em;
+    height: 1.4em;
+    width:  1.4em;
+    border-radius: 50%;
+    background: rgba(255,255,255,.8);
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: all .2s;
+}
+
+.Viewer-searchClearButton:before {
+    display: block;
+    font-size: .9em;
+    line-height: 22px;
+    transform: rotate(45deg);
+    color: rgba(0,0,0,.8);
+}
+
+/* search states */
+
+.Viewer-search.is-expanded {
+    visibility: visible;
+    height: auto;
+}
+
+.Viewer-searchClearButton.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Create */
+
+.Viewer-createButton {
+    font-size: 1.2em;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Create Icon */
+
+.Viewer-createButton span {
+    margin-top: -.25em;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1em;
 }
 
 /* $fix - what does this go to? */
@@ -31,7 +135,7 @@
 }
 
 .Viewer-grid {
-    padding: 16px;
+    padding: 1em;
 }
 
 .Viewer-listItem2:before {

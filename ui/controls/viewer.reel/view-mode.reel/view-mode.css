@@ -1,7 +1,8 @@
 .ViewMode {
     position: relative;
-    height: 3em;
-    background-color: #333;
+    /*height: 3em;*/
+    padding: .5em;
+    /*background-color: #333;*/
     box-sizing: border-box;
 }
 
@@ -61,17 +62,10 @@
 
 .ViewMode-selector {
     font-family: "ElegantIcons";
-    position: absolute;
+    /*position: absolute;
     left: 9px;
-    top: 9px;
-    height: 30px;
-}
-
-.ViewMode-selector div div {
-    height: 30px;
-    line-height: 28px;
-    font-size: 14px;
-    padding: 0 16px;
+    top: 9px;*/
+    /*height: 30px;*/
 }
 
 
@@ -132,3 +126,41 @@
     border-color: #492d74;
     color: white;
 }
+
+/* Adds Icons */
+
+.ViewMode .ButtonGroup-option {
+    position: relative;
+    border: none;
+    height: 2em;
+    width:  2em;
+    padding: 0;
+    color: transparent;
+    margin-right: 1px;
+}
+
+.ViewMode .ButtonGroup-option:after {
+    font-family: 'freenas';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 24px;
+    line-height: 37px;
+    color: rgba(255,255,255,.5);
+    background: rgba(0,0,0,.5);
+    z-index: 1;
+}
+
+.ViewMode .ButtonGroup-option:nth-child(1):after { content: '\e902'; }
+.ViewMode .ButtonGroup-option:nth-child(2):after { content: '\e901'; }
+.ViewMode .ButtonGroup-option:nth-child(3):after { content: '\e905'; }
+
+.ViewMode .ButtonGroup-option.selected:after {
+    background: rgba(255,255,255,.7);
+    color: rgba(0,0,0,.5);
+}
+
+
+

@@ -7,11 +7,18 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "searchField": {"@": "searchField"}
             },
             "bindings": {
                 "selectedObject": {"<->": "@controller.selection.0"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "viewMode": {
             "prototype": "./view-mode.reel",
@@ -54,17 +61,70 @@
                 "element": {"#": "table"},
                 "controller": {"@": "controller"}
             }
+        },
+        "createButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "createButton"}
+            }
+        },
+        "searchToggle": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "searchToggle"}
+            }
+        },
+        "viewerSearch": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "viewerSearch"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-expanded')": {"<-": "@owner.searchExpanded"}
+            }
+        },
+        "searchClearButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "searchClearButton"}
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.searchField.value"}
+            }
+        },
+        "searchField": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "searchField"},
+                "placeholderValue": "enter search"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Viewer">
-        <div data-montage-id="viewMode"></div>
-        <div data-montage-id="substitution">
+        <div class="Viewer-header">
+            <div data-montage-id="viewMode"></div>
+            <div data-montage-id="searchToggle" class="Viewer-searchToggle">
+                <span class="sharedIcon-magnifyingGlass"></span>
+            </div>
+            <div data-montage-id="viewerSearch"class="Viewer-search">
+                <div data-montage-id="searchField" class="Viewer-searchField"></div>
+                <div data-montage-id="searchClearButton" class="Viewer-searchClearButton sharedIcon-plus">
+                </div>
+            </div>
+        </div>
+        <div data-montage-id="substitution" class="Viewer-content">
             <div data-arg="list" data-montage-id="list" class="Viewer-list"></div>
             <div data-arg="grid" data-montage-id="grid" class="Viewer-grid"></div>
             <div data-arg="table" data-montage-id="table" class="Viewer-table"></div>
+        </div>
+        <div class="Viewer-footer">
+            <div data-montage-id="createButton" class="Viewer-createButton">create
+                <span class="sharedIcon-plus"></span>
+            </div>
         </div>
     </div>
 </body>

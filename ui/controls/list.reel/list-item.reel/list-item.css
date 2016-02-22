@@ -36,12 +36,11 @@
 
 .ListItem:before {
     position: absolute;
-    right: 2px;
-    font-size: 29px;
+    right: 8px;
+    font-size: 20px;
     font-family: 'freenas';
-    content: "\76";
-    color: white;
-    transform: rotate(-90deg);
+    content: "\e900";
+    color: rgba(255,255,255,.8);
 }
 
 .ListItem:hover:before {

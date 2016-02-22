@@ -28,6 +28,7 @@
             "bindings": {
                 "iteration": {"<-": "@repetition:iteration"},
                 "value": {"<-": "iteration.object.label"},
+                "title": {"<-": "iteration.object.label"},
                 "iteration.selected": {"<->": "@owner.selectedValue == iteration.object.value"}
             }
         }

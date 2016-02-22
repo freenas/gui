@@ -30,7 +30,8 @@
             },
             "bindings": {
                 "moduleId": {"<-": "@owner.data.inspector"},
-                "component.object": {"<-": "@owner.data.object"}
+                "component.object": {"<-": "@owner.data.object"},
+                "classList.has('Inspector-scroll')": {"<-": "@owner.data.object.inspector != 'ui/controls/viewer.reel'"}
             }
         }
     }

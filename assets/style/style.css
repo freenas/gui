@@ -97,14 +97,32 @@ $Icons
     -moz-osx-font-smoothing: grayscale;
 }
 
+.sharedIcon-arrow:before {
+    content: "\e900";
+}
+.sharedIcon-gridview:before {
+    content: "\e901";
+}
+.sharedIcon-list-view:before {
+    content: "\e902";
+}
+.sharedIcon-magnifyingGlass:before {
+    content: "\e903";
+}
+.sharedIcon-plus:before {
+    content: "\e904";
+}
+.sharedIcon-table-view:before {
+    content: "\e905";
+}
+.sharedIcon-info:before {
+    content: "\69";
+}
 .sharedIcon-checkmark:before {
     content: "\63";
 }
 .sharedIcon-triangle-down:before {
     content: "\76";
-}
-.sharedIcon-info:before {
-    content: "\69";
 }
 .sharedIcon-preferences:before {
     content: "\67";
@@ -134,7 +152,6 @@ input:focus::-webkit-input-placeholder {
     opacity: 0;
 }*/
 
-
 textarea {
     display: inline-block;
     height: 90px;
@@ -163,8 +180,17 @@ textarea {
     padding: 0 1em;
 }
 
-.global-padding {
+.g-padding {
     padding: 1em;
+}
+
+.g-padding-vertical {
+    padding-top:    1em;
+    padding-bottom: 1em;
+}
+
+.g-padding-top {
+    padding-top: 1em;
 }
 
 
