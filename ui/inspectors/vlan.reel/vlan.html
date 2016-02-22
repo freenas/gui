@@ -41,9 +41,10 @@
             }
         },
         "link_state": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "link_state"}
+                "element": {"#": "link_state"},
+                "label": "Status"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.status.link_state"}
@@ -96,8 +97,8 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Vlan">
-        <p data-montage-id="link_state" class="global-padding"></p>
+    <div data-montage-id="owner" class="Vlan g-padding-top">
+        <div data-montage-id="link_state"></div>
         <div data-montage-id="enabled"></div>
         <div data-montage-id="dhcp"></div>
         <div data-montage-id="noipv6"></div>

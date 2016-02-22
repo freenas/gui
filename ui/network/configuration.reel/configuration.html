@@ -19,6 +19,60 @@
                 "value": {"<-": "@owner.object.summary.defaultRoute"}
             }
         },
+        "interfaceRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "interfaceRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object.summary.interfaces"}
+            }
+        },
+        "interfaceName": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "interfaceName"}
+            },
+            "bindings": {
+                "value": {"<-": "@interfaceRepetition:iteration.object.name"}
+            }
+        },
+        "interfaceIpv4": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "interfaceIpv4"}
+            },
+            "bindings": {
+                "value": {"<-": "@interfaceRepetition:iteration.object.ipv4"}
+            }
+        },
+        "interfaceIpv6": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "interfaceIpv6"}
+            },
+            "bindings": {
+                "value": {"<-": "@interfaceRepetition:iteration.object.ipv6"}
+            }
+        },
+        "nameserverRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "nameserverRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object.summary.nameservers"}
+            }
+        },
+        "nameserver": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "nameserver"}
+            },
+            "bindings": {
+                "value": {"<-": "@nameserverRepetition:iteration.object"}
+            }
+        },
         "staticRoutes": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -51,9 +105,47 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Configuration">
-        <h1>Summary</h1>
-        default route:
-        <div data-montage-id="defaultRoute"></div>
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>IPv4 Address</td>
+                    <td>IPv6 Address</td>
+                </tr>
+            </thead>
+            <tbody data-montage-id="interfaceRepetition">
+                <tr>
+                    <td data-montage-id="interfaceName"></td>
+                    <td data-montage-id="interfaceIpv4"></td>
+                    <td data-montage-id="interfaceIpv6"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <td>Nameserver</td>
+                </tr>
+            </thead>
+            <tbody data-montage-id="nameserverRepetition">
+                <tr>
+                    <td data-montage-id="nameserver"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <td>Default Route</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-montage-id="defaultRoute"></td>
+                </tr>
+            </tbody>
+        </table>
+
         <div data-montage-id="networkConfiguration"></div>
         <div data-montage-id="staticRoutes"></div>
         <div data-montage-id="ipmi"></div>

@@ -1,3 +1,27 @@
 .Configuration {
 
 }
+
+table {
+    margin: 0;
+    margin-bottom: 1em;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+thead {
+    background: rgba(255,255,255,.75);
+    color: #000;
+    margin-bottom: 1em;
+}
+tbody {}
+
+tr {
+    padding: 1em;
+}
+
+td {
+    margin: 0;
+    padding: .25em 1em;
+}

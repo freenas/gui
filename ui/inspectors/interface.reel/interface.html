@@ -31,27 +31,30 @@
             }
         },
         "link_address": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "link_address"}
+                "element": {"#": "link_address"},
+                "label": "Address"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.status.link_address"}
             }
         },
         "link_state": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "link_state"}
+                "element": {"#": "link_state"},
+                "label": "State"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.status.link_state"}
             }
         },
         "media_type": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "media_type"}
+                "element": {"#": "media_type"},
+                "label": "Type"
             },
             "bindings": {
                 "value": {"<-": "@owner.object.status.media_type"}
@@ -81,12 +84,10 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Interface">
-        <div class="global-padding">
-            <p data-montage-id="media_type"></p>
-            <p data-montage-id="link_state"></p>
-            <p data-montage-id="link_address"></p>
-        </div>
+    <div data-montage-id="owner" class="Interface g-padding-top">
+        <div data-montage-id="media_type"></div>
+        <div data-montage-id="link_state"></div>
+        <div data-montage-id="link_address"></div>
         <div data-montage-id="enabled"></div>
         <div data-montage-id="dhcp"></div>
         <div data-montage-id="noipv6"></div>

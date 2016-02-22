@@ -61,8 +61,8 @@ exports.Network = Component.specialize({
                     summary: {
                         interfaces: [
                             {name: "em0", ipv4: "192.168.0.15/24", ipv6: "foo"},
-                            {name: "em1", ipv4: "192.168.0.15/24", ipv6: "foo"},
-                            {name: "vlan1", ipv4: "192.168.0.15/24", ipv6: "bar"}
+                            {name: "em1", ipv4: "0.0.0.0/8", ipv6: "foo"},
+                            {name: "vlan1", ipv4: "0.0.0.0/8", ipv6: "bar"}
                         ],
                         nameservers: ["209.18.47.61", "209.18.47.62"],
                         defaultRoute: "192.168.0.1"
