@@ -12,7 +12,7 @@ exports.NetworkConfiguration = Component.specialize(/** @lends NetworkConfigurat
         value: {
             "autoconfigure": false,
             "dns": {
-                "addresses": [],
+                "addresses": ["8.8.8.8", "8.8.4.4"],
                 "search": []
             },
             "netwait": {
