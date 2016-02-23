@@ -1,18 +1,16 @@
 {
-  "blueprint_networkinterfacealias_broadcast": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "broadcast",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_networkinterfacealias_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "address",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_networkinterfacealias_broadcast": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "broadcast",
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_networkinterfacealias_netmask": {
@@ -40,8 +38,8 @@
     "properties": {
       "name": "NetworkInterfaceAlias",
       "propertyBlueprints": [
-        {"@": "blueprint_networkinterfacealias_broadcast"},
         {"@": "blueprint_networkinterfacealias_address"},
+        {"@": "blueprint_networkinterfacealias_broadcast"},
         {"@": "blueprint_networkinterfacealias_netmask"},
         {"@": "blueprint_networkinterfacealias_type"}
       ]

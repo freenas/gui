@@ -1,10 +1,26 @@
 {
+  "blueprint_servicessh_allow_password_auth": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "allow_password_auth",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicessh_allow_port_forwarding": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "allow_port_forwarding",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
+    }
+  },
+  "blueprint_servicessh_auxiliary": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auxiliary",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_servicessh_compression": {
@@ -21,14 +37,6 @@
       "name": "permit_root_login",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
-    }
-  },
-  "blueprint_servicessh_auxiliary": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "auxiliary",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
     }
   },
   "blueprint_servicessh_port": {
@@ -78,27 +86,19 @@
       ]
     }
   },
-  "blueprint_servicessh_allow_password_auth": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "allow_password_auth",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ServiceSsh",
       "propertyBlueprints": [
+        {"@": "blueprint_servicessh_allow_password_auth"},
         {"@": "blueprint_servicessh_allow_port_forwarding"},
+        {"@": "blueprint_servicessh_auxiliary"},
         {"@": "blueprint_servicessh_compression"},
         {"@": "blueprint_servicessh_permit_root_login"},
-        {"@": "blueprint_servicessh_auxiliary"},
         {"@": "blueprint_servicessh_port"},
         {"@": "blueprint_servicessh_sftp_log_facility"},
-        {"@": "blueprint_servicessh_sftp_log_level"},
-        {"@": "blueprint_servicessh_allow_password_auth"}
+        {"@": "blueprint_servicessh_sftp_log_level"}
       ]
     }
   }

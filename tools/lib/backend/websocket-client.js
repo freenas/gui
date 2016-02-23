@@ -1,7 +1,7 @@
 var Client = require('websocket').client;
-var WebSocketMessage = require('../../core/backend/websocket-message').WebSocketMessage;
-var WebSocketConfiguration = require('../../core/backend/websocket-configuration').WebSocketConfiguration;
-var HandlerPool = require('../../core/backend/handler-pool').HandlerPool;
+var WebSocketMessage = require('../../../core/backend/websocket-message').WebSocketMessage;
+var WebSocketConfiguration = require('../../../core/backend/websocket-configuration').WebSocketConfiguration;
+var HandlerPool = require('../../../core/backend/handler-pool').HandlerPool;
 var Promise = require('montage/core/promise').Promise;
 
 

@@ -1,16 +1,16 @@
 {
-  "blueprint_webdavshareproperties_read_only": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "read_only",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_webdavshareproperties_permission": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "permission",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_webdavshareproperties_read_only": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_only",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -20,8 +20,8 @@
     "properties": {
       "name": "WebdavShareProperties",
       "propertyBlueprints": [
-        {"@": "blueprint_webdavshareproperties_read_only"},
-        {"@": "blueprint_webdavshareproperties_permission"}
+        {"@": "blueprint_webdavshareproperties_permission"},
+        {"@": "blueprint_webdavshareproperties_read_only"}
       ]
     }
   }

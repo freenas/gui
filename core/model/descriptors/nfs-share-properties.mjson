@@ -7,20 +7,12 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_nfsshareproperties_maproot_group": {
+  "blueprint_nfsshareproperties_hosts": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "maproot_group",
+      "name": "hosts",
       "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_nfsshareproperties_read_only": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "read_only",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "array"
     }
   },
   "blueprint_nfsshareproperties_mapall_group": {
@@ -31,26 +23,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_nfsshareproperties_hosts": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "hosts",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_nfsshareproperties_security": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "security",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_nfsshareproperties_mapall_user": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "mapall_user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_nfsshareproperties_maproot_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "maproot_group",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -63,19 +47,35 @@
       "valueType": "String"
     }
   },
+  "blueprint_nfsshareproperties_read_only": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_only",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_nfsshareproperties_security": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "security",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "NfsShareProperties",
       "propertyBlueprints": [
         {"@": "blueprint_nfsshareproperties_alldirs"},
-        {"@": "blueprint_nfsshareproperties_maproot_group"},
-        {"@": "blueprint_nfsshareproperties_read_only"},
-        {"@": "blueprint_nfsshareproperties_mapall_group"},
         {"@": "blueprint_nfsshareproperties_hosts"},
-        {"@": "blueprint_nfsshareproperties_security"},
+        {"@": "blueprint_nfsshareproperties_mapall_group"},
         {"@": "blueprint_nfsshareproperties_mapall_user"},
-        {"@": "blueprint_nfsshareproperties_maproot_user"}
+        {"@": "blueprint_nfsshareproperties_maproot_group"},
+        {"@": "blueprint_nfsshareproperties_maproot_user"},
+        {"@": "blueprint_nfsshareproperties_read_only"},
+        {"@": "blueprint_nfsshareproperties_security"}
       ]
     }
   }

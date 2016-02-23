@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiessnapshotcount_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiessnapshotcount_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiessnapshotcount_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesSnapshotCount",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiessnapshotcount_value"},
-        {"@": "blueprint_zfsdatasetpropertiessnapshotcount_source"}
+        {"@": "blueprint_zfsdatasetpropertiessnapshotcount_source"},
+        {"@": "blueprint_zfsdatasetpropertiessnapshotcount_value"}
       ]
     }
   }

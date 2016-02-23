@@ -1,16 +1,18 @@
 {
-  "blueprint_zfspropertieslistsnapshots_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertieslistsnapshots_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfspropertieslistsnapshots_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsPropertiesListsnapshots",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertieslistsnapshots_value"},
-        {"@": "blueprint_zfspropertieslistsnapshots_source"}
+        {"@": "blueprint_zfspropertieslistsnapshots_source"},
+        {"@": "blueprint_zfspropertieslistsnapshots_value"}
       ]
     }
   }

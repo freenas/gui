@@ -1,24 +1,16 @@
 {
-  "blueprint_calendartaskschedule_week": {
+  "blueprint_calendartaskschedule_coalesce": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "week",
+      "name": "coalesce",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
-  "blueprint_calendartaskschedule_second": {
+  "blueprint_calendartaskschedule_day": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "second",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_calendartaskschedule_minute": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "minute",
+      "name": "day",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -31,22 +23,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_calendartaskschedule_month": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "month",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_calendartaskschedule_coalesce": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "coalesce",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_calendartaskschedule_hour": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -55,10 +31,26 @@
       "valueType": "String"
     }
   },
-  "blueprint_calendartaskschedule_day": {
+  "blueprint_calendartaskschedule_minute": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "day",
+      "name": "minute",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_month": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "month",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_second": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "second",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -67,6 +59,14 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "timezone",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_calendartaskschedule_week": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "week",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -84,15 +84,15 @@
     "properties": {
       "name": "CalendarTaskSchedule",
       "propertyBlueprints": [
-        {"@": "blueprint_calendartaskschedule_week"},
-        {"@": "blueprint_calendartaskschedule_second"},
-        {"@": "blueprint_calendartaskschedule_minute"},
-        {"@": "blueprint_calendartaskschedule_day_of_week"},
-        {"@": "blueprint_calendartaskschedule_month"},
         {"@": "blueprint_calendartaskschedule_coalesce"},
-        {"@": "blueprint_calendartaskschedule_hour"},
         {"@": "blueprint_calendartaskschedule_day"},
+        {"@": "blueprint_calendartaskschedule_day_of_week"},
+        {"@": "blueprint_calendartaskschedule_hour"},
+        {"@": "blueprint_calendartaskschedule_minute"},
+        {"@": "blueprint_calendartaskschedule_month"},
+        {"@": "blueprint_calendartaskschedule_second"},
         {"@": "blueprint_calendartaskschedule_timezone"},
+        {"@": "blueprint_calendartaskschedule_week"},
         {"@": "blueprint_calendartaskschedule_year"}
       ]
     }

@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiescreatetxg_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiescreatetxg_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiescreatetxg_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesCreatetxg",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiescreatetxg_value"},
-        {"@": "blueprint_zfsdatasetpropertiescreatetxg_source"}
+        {"@": "blueprint_zfsdatasetpropertiescreatetxg_source"},
+        {"@": "blueprint_zfsdatasetpropertiescreatetxg_value"}
       ]
     }
   }

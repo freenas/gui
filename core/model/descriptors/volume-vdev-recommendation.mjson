@@ -1,12 +1,4 @@
 {
-  "blueprint_volumevdevrecommendation_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_volumevdevrecommendation_drives": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,13 +7,21 @@
       "valueType": "number"
     }
   },
+  "blueprint_volumevdevrecommendation_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "VolumeVdevRecommendation",
       "propertyBlueprints": [
-        {"@": "blueprint_volumevdevrecommendation_type"},
-        {"@": "blueprint_volumevdevrecommendation_drives"}
+        {"@": "blueprint_volumevdevrecommendation_drives"},
+        {"@": "blueprint_volumevdevrecommendation_type"}
       ]
     }
   }

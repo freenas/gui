@@ -1,6 +1,7 @@
 var Path = require('path');
-var Promise = require('montage/core/promise').Promise;
 var FS = require("fs");
+var rimraf = require("rimraf");
+var Promise = require('montage/core/promise').Promise;
 
 var isDirectoryAtPath = exports.isDirectoryAtPath = function isDirectoryAtPath (path) {
     return new Promise(function (resolve, reject) {
@@ -64,6 +65,41 @@ var writeFileAtPathWithData = exports.writeFileAtPathWithData = function writeFi
                 reject(error);
             } else {
                 resolve(path)
+            }
+        });
+    });
+};
+
+
+exports.removeFolderAtPath = function (path) {
+    return new Promise(function (resolve, reject) {
+        if (global.verbose) {
+            console.log("deleting folder at " + path);
+        }
+
+        rimraf(path, function (error) {
+            if (error) {
+                reject(error);
+
+                return void 0;
+            }
+
+            resolve();
+        });
+    });
+};
+
+exports.createDirectoryAtPath = function (path) {
+    return new Promise(function (resolve, reject) {
+        if (global.verbose) {
+            console.log("creating directory at " + path);
+        }
+
+        FS.mkdir(path, function (error) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve()
             }
         });
     });

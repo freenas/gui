@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiesuserrefs_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesuserrefs_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiesuserrefs_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesUserrefs",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesuserrefs_value"},
-        {"@": "blueprint_zfsdatasetpropertiesuserrefs_source"}
+        {"@": "blueprint_zfsdatasetpropertiesuserrefs_source"},
+        {"@": "blueprint_zfsdatasetpropertiesuserrefs_value"}
       ]
     }
   }

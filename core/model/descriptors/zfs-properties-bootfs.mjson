@@ -1,16 +1,18 @@
 {
-  "blueprint_zfspropertiesbootfs_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfspropertiesbootfs_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfspropertiesbootfs_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsPropertiesBootfs",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspropertiesbootfs_value"},
-        {"@": "blueprint_zfspropertiesbootfs_source"}
+        {"@": "blueprint_zfspropertiesbootfs_source"},
+        {"@": "blueprint_zfspropertiesbootfs_value"}
       ]
     }
   }

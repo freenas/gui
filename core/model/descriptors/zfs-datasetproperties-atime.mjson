@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiesatime_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesatime_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiesatime_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesAtime",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesatime_value"},
-        {"@": "blueprint_zfsdatasetpropertiesatime_source"}
+        {"@": "blueprint_zfsdatasetpropertiesatime_source"},
+        {"@": "blueprint_zfsdatasetpropertiesatime_value"}
       ]
     }
   }

@@ -1,11 +1,4 @@
 {
-  "blueprint_swapmirror_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_swapmirror_disks": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -14,13 +7,21 @@
       "valueType": "array"
     }
   },
+  "blueprint_swapmirror_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "SwapMirror",
       "propertyBlueprints": [
-        {"@": "blueprint_swapmirror_name"},
-        {"@": "blueprint_swapmirror_disks"}
+        {"@": "blueprint_swapmirror_disks"},
+        {"@": "blueprint_swapmirror_name"}
       ]
     }
   }

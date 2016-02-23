@@ -1,8 +1,8 @@
 {
-  "blueprint_importabledisk_path": {
+  "blueprint_importabledisk_fstype": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "path",
+      "name": "fstype",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -15,10 +15,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_importabledisk_fstype": {
+  "blueprint_importabledisk_path": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "fstype",
+      "name": "path",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -36,9 +36,9 @@
     "properties": {
       "name": "ImportableDisk",
       "propertyBlueprints": [
-        {"@": "blueprint_importabledisk_path"},
-        {"@": "blueprint_importabledisk_label"},
         {"@": "blueprint_importabledisk_fstype"},
+        {"@": "blueprint_importabledisk_label"},
+        {"@": "blueprint_importabledisk_path"},
         {"@": "blueprint_importabledisk_size"}
       ]
     }

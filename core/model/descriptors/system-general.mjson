@@ -1,12 +1,4 @@
 {
-  "blueprint_systemgeneral_hostname": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "hostname",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_systemgeneral_console_keymap": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,10 +7,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_systemgeneral_timezone": {
+  "blueprint_systemgeneral_hostname": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "timezone",
+      "name": "hostname",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -39,16 +31,24 @@
       "valueType": "String"
     }
   },
+  "blueprint_systemgeneral_timezone": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "timezone",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "SystemGeneral",
       "propertyBlueprints": [
-        {"@": "blueprint_systemgeneral_hostname"},
         {"@": "blueprint_systemgeneral_console_keymap"},
-        {"@": "blueprint_systemgeneral_timezone"},
+        {"@": "blueprint_systemgeneral_hostname"},
         {"@": "blueprint_systemgeneral_language"},
-        {"@": "blueprint_systemgeneral_syslog_server"}
+        {"@": "blueprint_systemgeneral_syslog_server"},
+        {"@": "blueprint_systemgeneral_timezone"}
       ]
     }
   }

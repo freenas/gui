@@ -1,10 +1,10 @@
-var ModelDescriptor = require("../../core/model/model-descriptor").ModelDescriptor,
+var ModelDescriptor = require("../../../core/model/model-descriptor").ModelDescriptor,
     Serializer = require("montage/core/serialization/serializer/montage-serializer").MontageSerializer,
     FS = require('fs'),
     Path = require('path'),
     mr = require("mr/require").makeRequire();
 
-require('../../core/extras/string');
+require('../../../core/extras/string');
 require('montage/core/extras/string');
 
 var createModelDescriptorWithNameAndSchema = exports.createModelDescriptorWithNameAndSchema = function (name, schema) {
@@ -12,6 +12,14 @@ var createModelDescriptorWithNameAndSchema = exports.createModelDescriptorWithNa
 
     if (schema.type === "object") {
         descriptor = getModelDescriptorWithNameAndSchema(name, schema);
+
+        descriptor._propertyBlueprints = descriptor._propertyBlueprints.sort(function (a, b) {
+            if (a.name > b.name)
+                return 1;
+            if (a.name < b.name)
+                return -1;
+            return 0;
+        });
     } else if (schema.type === "string") {
         if (!schema.enum) {
             if (global.verbose) {

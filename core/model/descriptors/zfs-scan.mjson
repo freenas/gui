@@ -1,10 +1,10 @@
 {
-  "blueprint_zfsscan_end_time": {
+  "blueprint_zfsscan_bytes_processed": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "end_time",
+      "name": "bytes_processed",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
   "blueprint_zfsscan_bytes_to_process": {
@@ -15,42 +15,18 @@
       "valueType": "number"
     }
   },
-  "blueprint_zfsscan_percentage": {
+  "blueprint_zfsscan_end_time": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "percentage",
+      "name": "end_time",
       "blueprint": {"@": "root"},
-      "valueType": "float"
+      "valueType": "String"
     }
   },
   "blueprint_zfsscan_errors": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "errors",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_zfsscan_state": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "state",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_zfsscan_start_time": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "start_time",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_zfsscan_bytes_processed": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "bytes_processed",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -63,19 +39,43 @@
       "valueType": "number"
     }
   },
+  "blueprint_zfsscan_percentage": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "percentage",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_zfsscan_start_time": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "start_time",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsscan_state": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "state",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ZfsScan",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsscan_end_time"},
-        {"@": "blueprint_zfsscan_bytes_to_process"},
-        {"@": "blueprint_zfsscan_percentage"},
-        {"@": "blueprint_zfsscan_errors"},
-        {"@": "blueprint_zfsscan_state"},
-        {"@": "blueprint_zfsscan_start_time"},
         {"@": "blueprint_zfsscan_bytes_processed"},
-        {"@": "blueprint_zfsscan_func"}
+        {"@": "blueprint_zfsscan_bytes_to_process"},
+        {"@": "blueprint_zfsscan_end_time"},
+        {"@": "blueprint_zfsscan_errors"},
+        {"@": "blueprint_zfsscan_func"},
+        {"@": "blueprint_zfsscan_percentage"},
+        {"@": "blueprint_zfsscan_start_time"},
+        {"@": "blueprint_zfsscan_state"}
       ]
     }
   }

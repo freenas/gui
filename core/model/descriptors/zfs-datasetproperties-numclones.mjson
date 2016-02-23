@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiesnumclones_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesnumclones_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiesnumclones_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesNumclones",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesnumclones_value"},
-        {"@": "blueprint_zfsdatasetpropertiesnumclones_source"}
+        {"@": "blueprint_zfsdatasetpropertiesnumclones_source"},
+        {"@": "blueprint_zfsdatasetpropertiesnumclones_value"}
       ]
     }
   }

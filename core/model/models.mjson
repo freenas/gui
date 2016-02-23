@@ -1,16 +1,16 @@
 {
     "models": [
         {
+            "type": "AclEntry",
+            "modelId": "core/model/descriptors/acl-entry.mjson"
+        },
+        {
             "type": "AclEntryFlags",
             "modelId": "core/model/descriptors/acl-entry-flags.mjson"
         },
         {
             "type": "AclEntryPerms",
             "modelId": "core/model/descriptors/acl-entry-perms.mjson"
-        },
-        {
-            "type": "AclEntry",
-            "modelId": "core/model/descriptors/acl-entry.mjson"
         },
         {
             "type": "ActivedirectoryConfig",
@@ -21,6 +21,10 @@
             "modelId": "core/model/descriptors/afp-share.mjson"
         },
         {
+            "type": "Alert",
+            "modelId": "core/model/descriptors/alert.mjson"
+        },
+        {
             "type": "AlertFilter",
             "modelId": "core/model/descriptors/alert-filter.mjson"
         },
@@ -29,12 +33,12 @@
             "modelId": "core/model/descriptors/alert-registration.mjson"
         },
         {
-            "type": "Alert",
-            "modelId": "core/model/descriptors/alert.mjson"
-        },
-        {
             "type": "BootEnvironment",
             "modelId": "core/model/descriptors/boot-environment.mjson"
+        },
+        {
+            "type": "CalendarTask",
+            "modelId": "core/model/descriptors/calendar-task.mjson"
         },
         {
             "type": "CalendarTaskSchedule",
@@ -45,12 +49,16 @@
             "modelId": "core/model/descriptors/calendar-task-status.mjson"
         },
         {
-            "type": "CalendarTask",
-            "modelId": "core/model/descriptors/calendar-task.mjson"
+            "type": "Container",
+            "modelId": "core/model/descriptors/container.mjson"
         },
         {
             "type": "ContainerConfig",
             "modelId": "core/model/descriptors/container-config.mjson"
+        },
+        {
+            "type": "ContainerDevice",
+            "modelId": "core/model/descriptors/container-device.mjson"
         },
         {
             "type": "ContainerDeviceCdrom",
@@ -69,12 +77,8 @@
             "modelId": "core/model/descriptors/container-device-properties.mjson"
         },
         {
-            "type": "ContainerDevice",
-            "modelId": "core/model/descriptors/container-device.mjson"
-        },
-        {
-            "type": "Container",
-            "modelId": "core/model/descriptors/container.mjson"
+            "type": "ContainerDeviceVolume",
+            "modelId": "core/model/descriptors/container-device-volume.mjson"
         },
         {
             "type": "CpuDevice",
@@ -85,16 +89,20 @@
             "modelId": "core/model/descriptors/crypto-certificate.mjson"
         },
         {
-            "type": "DatasetProperties",
-            "modelId": "core/model/descriptors/dataset-properties.mjson"
-        },
-        {
             "type": "Dataset",
             "modelId": "core/model/descriptors/dataset.mjson"
         },
         {
+            "type": "DatasetProperties",
+            "modelId": "core/model/descriptors/dataset-properties.mjson"
+        },
+        {
             "type": "Directoryservice",
             "modelId": "core/model/descriptors/directoryservice.mjson"
+        },
+        {
+            "type": "Disk",
+            "modelId": "core/model/descriptors/disk.mjson"
         },
         {
             "type": "DiskAttachParams",
@@ -117,20 +125,16 @@
             "modelId": "core/model/descriptors/disk-set-key-params.mjson"
         },
         {
+            "type": "DiskStatus",
+            "modelId": "core/model/descriptors/disk-status.mjson"
+        },
+        {
             "type": "DiskStatusController",
             "modelId": "core/model/descriptors/disk-status-controller.mjson"
         },
         {
             "type": "DiskStatusMultipath",
             "modelId": "core/model/descriptors/disk-status-multipath.mjson"
-        },
-        {
-            "type": "DiskStatus",
-            "modelId": "core/model/descriptors/disk-status.mjson"
-        },
-        {
-            "type": "Disk",
-            "modelId": "core/model/descriptors/disk.mjson"
         },
         {
             "type": "DisksAllocation",
@@ -185,16 +189,20 @@
             "modelId": "core/model/descriptors/ldap-config.mjson"
         },
         {
-            "type": "MailMessageExtraHeaders",
-            "modelId": "core/model/descriptors/mail-message-extra-headers.mjson"
+            "type": "Mail",
+            "modelId": "core/model/descriptors/mail.mjson"
         },
         {
             "type": "MailMessage",
             "modelId": "core/model/descriptors/mail-message.mjson"
         },
         {
-            "type": "Mail",
-            "modelId": "core/model/descriptors/mail.mjson"
+            "type": "MailMessageExtraHeaders",
+            "modelId": "core/model/descriptors/mail-message-extra-headers.mjson"
+        },
+        {
+            "type": "NetworkConfig",
+            "modelId": "core/model/descriptors/network-config.mjson"
         },
         {
             "type": "NetworkConfigDhcp",
@@ -213,16 +221,16 @@
             "modelId": "core/model/descriptors/network-config-netwait.mjson"
         },
         {
-            "type": "NetworkConfig",
-            "modelId": "core/model/descriptors/network-config.mjson"
-        },
-        {
             "type": "NetworkDevice",
             "modelId": "core/model/descriptors/network-device.mjson"
         },
         {
             "type": "NetworkHost",
             "modelId": "core/model/descriptors/network-host.mjson"
+        },
+        {
+            "type": "NetworkInterface",
+            "modelId": "core/model/descriptors/network-interface.mjson"
         },
         {
             "type": "NetworkInterfaceAlias",
@@ -249,10 +257,6 @@
             "modelId": "core/model/descriptors/network-interface-vlan.mjson"
         },
         {
-            "type": "NetworkInterface",
-            "modelId": "core/model/descriptors/network-interface.mjson"
-        },
-        {
             "type": "NetworkRoute",
             "modelId": "core/model/descriptors/network-route.mjson"
         },
@@ -277,12 +281,12 @@
             "modelId": "core/model/descriptors/replication.mjson"
         },
         {
-            "type": "RsyncCopyRsyncProperties",
-            "modelId": "core/model/descriptors/rsync-copy-rsync-properties.mjson"
-        },
-        {
             "type": "RsyncCopy",
             "modelId": "core/model/descriptors/rsync-copy.mjson"
+        },
+        {
+            "type": "RsyncCopyRsyncProperties",
+            "modelId": "core/model/descriptors/rsync-copy-rsync-properties.mjson"
         },
         {
             "type": "RsyncdModule",
@@ -291,6 +295,10 @@
         {
             "type": "Rusage",
             "modelId": "core/model/descriptors/rusage.mjson"
+        },
+        {
+            "type": "Service",
+            "modelId": "core/model/descriptors/service.mjson"
         },
         {
             "type": "ServiceAfp",
@@ -329,12 +337,12 @@
             "modelId": "core/model/descriptors/service-nfs.mjson"
         },
         {
-            "type": "ServiceRiakCs",
-            "modelId": "core/model/descriptors/service-riak-cs.mjson"
-        },
-        {
             "type": "ServiceRiak",
             "modelId": "core/model/descriptors/service-riak.mjson"
+        },
+        {
+            "type": "ServiceRiakCs",
+            "modelId": "core/model/descriptors/service-riak-cs.mjson"
         },
         {
             "type": "ServiceRsyncd",
@@ -377,20 +385,20 @@
             "modelId": "core/model/descriptors/service-webdav.mjson"
         },
         {
-            "type": "Service",
-            "modelId": "core/model/descriptors/service.mjson"
-        },
-        {
             "type": "Session",
             "modelId": "core/model/descriptors/session.mjson"
         },
         {
-            "type": "ShareClientExtra",
-            "modelId": "core/model/descriptors/share-client-extra.mjson"
+            "type": "Share",
+            "modelId": "core/model/descriptors/share.mjson"
         },
         {
             "type": "ShareClient",
             "modelId": "core/model/descriptors/share-client.mjson"
+        },
+        {
+            "type": "ShareClientExtra",
+            "modelId": "core/model/descriptors/share-client-extra.mjson"
         },
         {
             "type": "ShareProperties",
@@ -401,10 +409,6 @@
             "modelId": "core/model/descriptors/share-types.mjson"
         },
         {
-            "type": "Share",
-            "modelId": "core/model/descriptors/share.mjson"
-        },
-        {
             "type": "SimulatedDisk",
             "modelId": "core/model/descriptors/simulated-disk.mjson"
         },
@@ -413,12 +417,16 @@
             "modelId": "core/model/descriptors/smb-share.mjson"
         },
         {
-            "type": "StatAlert",
-            "modelId": "core/model/descriptors/stat-alert.mjson"
+            "type": "SmbShareExtraParameters",
+            "modelId": "core/model/descriptors/smb-share-extra-parameters.mjson"
         },
         {
             "type": "Stat",
             "modelId": "core/model/descriptors/stat.mjson"
+        },
+        {
+            "type": "StatAlert",
+            "modelId": "core/model/descriptors/stat-alert.mjson"
         },
         {
             "type": "SupportTicket",
@@ -445,12 +453,12 @@
             "modelId": "core/model/descriptors/system-ui.mjson"
         },
         {
-            "type": "TaskArgs",
-            "modelId": "core/model/descriptors/task-args.mjson"
-        },
-        {
             "type": "Task",
             "modelId": "core/model/descriptors/task.mjson"
+        },
+        {
+            "type": "TaskArgs",
+            "modelId": "core/model/descriptors/task-args.mjson"
         },
         {
             "type": "Tunable",
@@ -469,12 +477,16 @@
             "modelId": "core/model/descriptors/unix-permissions.mjson"
         },
         {
-            "type": "UpdateInfoNotes",
-            "modelId": "core/model/descriptors/update-info-notes.mjson"
+            "type": "Update",
+            "modelId": "core/model/descriptors/update.mjson"
         },
         {
             "type": "UpdateInfo",
             "modelId": "core/model/descriptors/update-info.mjson"
+        },
+        {
+            "type": "UpdateInfoNotes",
+            "modelId": "core/model/descriptors/update-info-notes.mjson"
         },
         {
             "type": "UpdateOps",
@@ -489,16 +501,16 @@
             "modelId": "core/model/descriptors/update-train.mjson"
         },
         {
-            "type": "Update",
-            "modelId": "core/model/descriptors/update.mjson"
+            "type": "User",
+            "modelId": "core/model/descriptors/user.mjson"
         },
         {
             "type": "UserAttributes",
             "modelId": "core/model/descriptors/user-attributes.mjson"
         },
         {
-            "type": "User",
-            "modelId": "core/model/descriptors/user.mjson"
+            "type": "Volume",
+            "modelId": "core/model/descriptors/volume.mjson"
         },
         {
             "type": "VolumeAttributes",
@@ -517,6 +529,10 @@
             "modelId": "core/model/descriptors/volume-vdev-recommendation.mjson"
         },
         {
+            "type": "VolumeVdevRecommendations",
+            "modelId": "core/model/descriptors/volume-vdev-recommendations.mjson"
+        },
+        {
             "type": "VolumeVdevRecommendationsRedundancy",
             "modelId": "core/model/descriptors/volume-vdev-recommendations-redundancy.mjson"
         },
@@ -529,20 +545,16 @@
             "modelId": "core/model/descriptors/volume-vdev-recommendations-storage.mjson"
         },
         {
-            "type": "VolumeVdevRecommendations",
-            "modelId": "core/model/descriptors/volume-vdev-recommendations.mjson"
-        },
-        {
-            "type": "Volume",
-            "modelId": "core/model/descriptors/volume.mjson"
-        },
-        {
             "type": "WebdavShareProperties",
             "modelId": "core/model/descriptors/webdav-share-properties.mjson"
         },
         {
             "type": "ZfsDataset",
             "modelId": "core/model/descriptors/zfs-dataset.mjson"
+        },
+        {
+            "type": "ZfsDatasetproperties",
+            "modelId": "core/model/descriptors/zfs-datasetproperties.mjson"
         },
         {
             "type": "ZfsDatasetpropertiesAclinherit",
@@ -833,12 +845,12 @@
             "modelId": "core/model/descriptors/zfs-datasetproperties-xattr.mjson"
         },
         {
-            "type": "ZfsDatasetproperties",
-            "modelId": "core/model/descriptors/zfs-datasetproperties.mjson"
-        },
-        {
             "type": "ZfsPool",
             "modelId": "core/model/descriptors/zfs-pool.mjson"
+        },
+        {
+            "type": "ZfsProperties",
+            "modelId": "core/model/descriptors/zfs-properties.mjson"
         },
         {
             "type": "ZfsPropertiesAllocated",
@@ -941,16 +953,16 @@
             "modelId": "core/model/descriptors/zfs-properties-version.mjson"
         },
         {
-            "type": "ZfsProperties",
-            "modelId": "core/model/descriptors/zfs-properties.mjson"
-        },
-        {
             "type": "ZfsProperty",
             "modelId": "core/model/descriptors/zfs-property.mjson"
         },
         {
             "type": "ZfsScan",
             "modelId": "core/model/descriptors/zfs-scan.mjson"
+        },
+        {
+            "type": "ZfsSnapshot",
+            "modelId": "core/model/descriptors/zfs-snapshot.mjson"
         },
         {
             "type": "ZfsSnapshotHolds",
@@ -961,12 +973,12 @@
             "modelId": "core/model/descriptors/zfs-snapshot-properties.mjson"
         },
         {
-            "type": "ZfsSnapshot",
-            "modelId": "core/model/descriptors/zfs-snapshot.mjson"
-        },
-        {
             "type": "ZfsTopology",
             "modelId": "core/model/descriptors/zfs-topology.mjson"
+        },
+        {
+            "type": "ZfsVdev",
+            "modelId": "core/model/descriptors/zfs-vdev.mjson"
         },
         {
             "type": "ZfsVdevExtension",
@@ -975,10 +987,6 @@
         {
             "type": "ZfsVdevStats",
             "modelId": "core/model/descriptors/zfs-vdev-stats.mjson"
-        },
-        {
-            "type": "ZfsVdev",
-            "modelId": "core/model/descriptors/zfs-vdev.mjson"
         }
     ]
 }

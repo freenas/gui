@@ -1,26 +1,10 @@
 {
-  "blueprint_servicenfs_v4_kerberos": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "v4_kerberos",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_servicenfs_bind_addresses": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "bind_addresses",
       "blueprint": {"@": "root"},
       "valueType": "array"
-    }
-  },
-  "blueprint_servicenfs_nonroot": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "nonroot",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
     }
   },
   "blueprint_servicenfs_mountd_port": {
@@ -31,10 +15,34 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicenfs_nonroot": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nonroot",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicenfs_rpclockd_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rpclockd_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_servicenfs_rpcstatd_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "rpcstatd_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_servicenfs_servers": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "servers",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -55,20 +63,12 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_servicenfs_servers": {
+  "blueprint_servicenfs_v4_kerberos": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "servers",
+      "name": "v4_kerberos",
       "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_servicenfs_rpclockd_port": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "rpclockd_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "boolean"
     }
   },
   "root": {
@@ -76,15 +76,15 @@
     "properties": {
       "name": "ServiceNfs",
       "propertyBlueprints": [
-        {"@": "blueprint_servicenfs_v4_kerberos"},
         {"@": "blueprint_servicenfs_bind_addresses"},
-        {"@": "blueprint_servicenfs_nonroot"},
         {"@": "blueprint_servicenfs_mountd_port"},
+        {"@": "blueprint_servicenfs_nonroot"},
+        {"@": "blueprint_servicenfs_rpclockd_port"},
         {"@": "blueprint_servicenfs_rpcstatd_port"},
+        {"@": "blueprint_servicenfs_servers"},
         {"@": "blueprint_servicenfs_udp"},
         {"@": "blueprint_servicenfs_v4"},
-        {"@": "blueprint_servicenfs_servers"},
-        {"@": "blueprint_servicenfs_rpclockd_port"}
+        {"@": "blueprint_servicenfs_v4_kerberos"}
       ]
     }
   }

@@ -3,14 +3,13 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "gateway",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "blueprint": {"@": "root"}
     }
   },
-  "blueprint_networkroute_network": {
+  "blueprint_networkroute_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "network",
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -21,6 +20,13 @@
       "name": "netmask",
       "blueprint": {"@": "root"},
       "valueType": "number"
+    }
+  },
+  "blueprint_networkroute_network": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "network",
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_networkroute_type": {
@@ -35,24 +41,16 @@
       ]
     }
   },
-  "blueprint_networkroute_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "NetworkRoute",
       "propertyBlueprints": [
         {"@": "blueprint_networkroute_gateway"},
-        {"@": "blueprint_networkroute_network"},
+        {"@": "blueprint_networkroute_id"},
         {"@": "blueprint_networkroute_netmask"},
-        {"@": "blueprint_networkroute_type"},
-        {"@": "blueprint_networkroute_id"}
+        {"@": "blueprint_networkroute_network"},
+        {"@": "blueprint_networkroute_type"}
       ]
     }
   }

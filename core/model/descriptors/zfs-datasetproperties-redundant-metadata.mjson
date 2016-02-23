@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiesredundantmetadata_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesredundantmetadata_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiesredundantmetadata_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesRedundantMetadata",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesredundantmetadata_value"},
-        {"@": "blueprint_zfsdatasetpropertiesredundantmetadata_source"}
+        {"@": "blueprint_zfsdatasetpropertiesredundantmetadata_source"},
+        {"@": "blueprint_zfsdatasetpropertiesredundantmetadata_value"}
       ]
     }
   }

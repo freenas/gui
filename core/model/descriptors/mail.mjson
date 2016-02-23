@@ -1,10 +1,10 @@
 {
-  "blueprint_mail_from": {
+  "blueprint_mail_auth": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "from",
+      "name": "auth",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
   "blueprint_mail_encryption": {
@@ -20,10 +20,18 @@
       ]
     }
   },
-  "blueprint_mail_user": {
+  "blueprint_mail_from": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "user",
+      "name": "from",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_mail_pass": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "pass",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -36,26 +44,18 @@
       "valueType": "number"
     }
   },
-  "blueprint_mail_pass": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "pass",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_mail_auth": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "auth",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_mail_server": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "server",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_mail_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -65,13 +65,13 @@
     "properties": {
       "name": "Mail",
       "propertyBlueprints": [
-        {"@": "blueprint_mail_from"},
-        {"@": "blueprint_mail_encryption"},
-        {"@": "blueprint_mail_user"},
-        {"@": "blueprint_mail_port"},
-        {"@": "blueprint_mail_pass"},
         {"@": "blueprint_mail_auth"},
-        {"@": "blueprint_mail_server"}
+        {"@": "blueprint_mail_encryption"},
+        {"@": "blueprint_mail_from"},
+        {"@": "blueprint_mail_pass"},
+        {"@": "blueprint_mail_port"},
+        {"@": "blueprint_mail_server"},
+        {"@": "blueprint_mail_user"}
       ]
     }
   }

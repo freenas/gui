@@ -7,18 +7,18 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_unixmodetuple_write": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "write",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_unixmodetuple_read": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "read",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_unixmodetuple_write": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "write",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -29,8 +29,8 @@
       "name": "UnixModeTuple",
       "propertyBlueprints": [
         {"@": "blueprint_unixmodetuple_execute"},
-        {"@": "blueprint_unixmodetuple_write"},
-        {"@": "blueprint_unixmodetuple_read"}
+        {"@": "blueprint_unixmodetuple_read"},
+        {"@": "blueprint_unixmodetuple_write"}
       ]
     }
   }

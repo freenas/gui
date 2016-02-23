@@ -1,8 +1,24 @@
 {
+  "blueprint_zfsvdev_children": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "children",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_zfsvdev_guid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "guid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsvdev_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "path",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -23,22 +39,6 @@
       "blueprint": {"@": "root"},
       "readOnly": true,
       "valueType": "String"
-    }
-  },
-  "blueprint_zfsvdev_path": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "path",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_zfsvdev_children": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "children",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
     }
   },
   "blueprint_zfsvdev_type": {
@@ -62,11 +62,11 @@
     "properties": {
       "name": "ZfsVdev",
       "propertyBlueprints": [
+        {"@": "blueprint_zfsvdev_children"},
         {"@": "blueprint_zfsvdev_guid"},
+        {"@": "blueprint_zfsvdev_path"},
         {"@": "blueprint_zfsvdev_stats"},
         {"@": "blueprint_zfsvdev_status"},
-        {"@": "blueprint_zfsvdev_path"},
-        {"@": "blueprint_zfsvdev_children"},
         {"@": "blueprint_zfsvdev_type"}
       ]
     }

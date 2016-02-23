@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiesusedbychildren_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesusedbychildren_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiesusedbychildren_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesUsedbychildren",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesusedbychildren_value"},
-        {"@": "blueprint_zfsdatasetpropertiesusedbychildren_source"}
+        {"@": "blueprint_zfsdatasetpropertiesusedbychildren_source"},
+        {"@": "blueprint_zfsdatasetpropertiesusedbychildren_value"}
       ]
     }
   }

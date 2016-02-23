@@ -7,14 +7,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_servicelldp_save_description": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "save_description",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_servicelldp_location": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -23,14 +15,22 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicelldp_save_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "save_description",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ServiceLldp",
       "propertyBlueprints": [
         {"@": "blueprint_servicelldp_country_code"},
-        {"@": "blueprint_servicelldp_save_description"},
-        {"@": "blueprint_servicelldp_location"}
+        {"@": "blueprint_servicelldp_location"},
+        {"@": "blueprint_servicelldp_save_description"}
       ]
     }
   }

@@ -1,0 +1,41 @@
+{
+  "blueprint_containerdevicevolume_auto": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auto",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_containerdevicevolume_destination": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "destination",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_containerdevicevolume_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "VT9P",
+        "NFS"
+      ]
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ContainerDeviceVolume",
+      "propertyBlueprints": [
+        {"@": "blueprint_containerdevicevolume_auto"},
+        {"@": "blueprint_containerdevicevolume_destination"},
+        {"@": "blueprint_containerdevicevolume_type"}
+      ]
+    }
+  }
+}

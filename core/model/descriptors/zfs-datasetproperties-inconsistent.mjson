@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiesinconsistent_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesinconsistent_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiesinconsistent_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesInconsistent",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesinconsistent_value"},
-        {"@": "blueprint_zfsdatasetpropertiesinconsistent_source"}
+        {"@": "blueprint_zfsdatasetpropertiesinconsistent_source"},
+        {"@": "blueprint_zfsdatasetpropertiesinconsistent_value"}
       ]
     }
   }

@@ -1,18 +1,113 @@
 {
-  "blueprint_servicesmb_syslog": {
+  "blueprint_servicesmb_auxiliary": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "syslog",
+      "name": "auxiliary",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesmb_bind_addresses": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bind_addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_servicesmb_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesmb_dirmask": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dirmask",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesmb_domain_logons": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "domain_logons",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
   },
-  "blueprint_servicesmb_unix_charset": {
+  "blueprint_servicesmb_dos_charset": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "unix_charset",
+      "name": "dos_charset",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_servicesmb_empty_password": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "empty_password",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicesmb_execute_always": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "execute_always",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicesmb_filemask": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filemask",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesmb_guest_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "guest_user",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_servicesmb_hostlookup": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hostlookup",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicesmb_local_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "local_master",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicesmb_log_level": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "log_level",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "NONE",
+        "MINIMUM",
+        "NORMAL",
+        "FULL",
+        "DEBUG"
+      ]
     }
   },
   "blueprint_servicesmb_max_protocol": {
@@ -35,62 +130,6 @@
         "SMB3",
         "SMB3_00"
       ]
-    }
-  },
-  "blueprint_servicesmb_local_master": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "local_master",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_servicesmb_empty_password": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "empty_password",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_servicesmb_time_server": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "time_server",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_servicesmb_workgroup": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "workgroup",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesmb_dos_charset": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "dos_charset",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesmb_zeroconf": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "zeroconf",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_servicesmb_execute_always": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "execute_always",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
     }
   },
   "blueprint_servicesmb_min_protocol": {
@@ -124,22 +163,6 @@
       "valueType": "array"
     }
   },
-  "blueprint_servicesmb_dirmask": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "dirmask",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesmb_bind_addresses": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "bind_addresses",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_servicesmb_obey_pam_restrictions": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -148,42 +171,34 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_servicesmb_filemask": {
+  "blueprint_servicesmb_sid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "filemask",
+      "name": "sid",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_servicesmb_guest_user": {
+  "blueprint_servicesmb_syslog": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "guest_user",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesmb_auxiliary": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "auxiliary",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_servicesmb_domain_logons": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "domain_logons",
+      "name": "syslog",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
   },
-  "blueprint_servicesmb_description": {
+  "blueprint_servicesmb_time_server": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "description",
+      "name": "time_server",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicesmb_unix_charset": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unix_charset",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -196,33 +211,18 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_servicesmb_log_level": {
+  "blueprint_servicesmb_workgroup": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "log_level",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "NONE",
-        "MINIMUM",
-        "NORMAL",
-        "FULL",
-        "DEBUG"
-      ]
-    }
-  },
-  "blueprint_servicesmb_sid": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "sid",
+      "name": "workgroup",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_servicesmb_hostlookup": {
+  "blueprint_servicesmb_zeroconf": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "hostlookup",
+      "name": "zeroconf",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
     }
@@ -232,30 +232,30 @@
     "properties": {
       "name": "ServiceSmb",
       "propertyBlueprints": [
-        {"@": "blueprint_servicesmb_syslog"},
-        {"@": "blueprint_servicesmb_unix_charset"},
-        {"@": "blueprint_servicesmb_max_protocol"},
-        {"@": "blueprint_servicesmb_local_master"},
-        {"@": "blueprint_servicesmb_empty_password"},
-        {"@": "blueprint_servicesmb_time_server"},
-        {"@": "blueprint_servicesmb_workgroup"},
-        {"@": "blueprint_servicesmb_dos_charset"},
-        {"@": "blueprint_servicesmb_zeroconf"},
-        {"@": "blueprint_servicesmb_execute_always"},
-        {"@": "blueprint_servicesmb_min_protocol"},
-        {"@": "blueprint_servicesmb_netbiosname"},
-        {"@": "blueprint_servicesmb_dirmask"},
+        {"@": "blueprint_servicesmb_auxiliary"},
         {"@": "blueprint_servicesmb_bind_addresses"},
-        {"@": "blueprint_servicesmb_obey_pam_restrictions"},
+        {"@": "blueprint_servicesmb_description"},
+        {"@": "blueprint_servicesmb_dirmask"},
+        {"@": "blueprint_servicesmb_domain_logons"},
+        {"@": "blueprint_servicesmb_dos_charset"},
+        {"@": "blueprint_servicesmb_empty_password"},
+        {"@": "blueprint_servicesmb_execute_always"},
         {"@": "blueprint_servicesmb_filemask"},
         {"@": "blueprint_servicesmb_guest_user"},
-        {"@": "blueprint_servicesmb_auxiliary"},
-        {"@": "blueprint_servicesmb_domain_logons"},
-        {"@": "blueprint_servicesmb_description"},
-        {"@": "blueprint_servicesmb_unixext"},
+        {"@": "blueprint_servicesmb_hostlookup"},
+        {"@": "blueprint_servicesmb_local_master"},
         {"@": "blueprint_servicesmb_log_level"},
+        {"@": "blueprint_servicesmb_max_protocol"},
+        {"@": "blueprint_servicesmb_min_protocol"},
+        {"@": "blueprint_servicesmb_netbiosname"},
+        {"@": "blueprint_servicesmb_obey_pam_restrictions"},
         {"@": "blueprint_servicesmb_sid"},
-        {"@": "blueprint_servicesmb_hostlookup"}
+        {"@": "blueprint_servicesmb_syslog"},
+        {"@": "blueprint_servicesmb_time_server"},
+        {"@": "blueprint_servicesmb_unix_charset"},
+        {"@": "blueprint_servicesmb_unixext"},
+        {"@": "blueprint_servicesmb_workgroup"},
+        {"@": "blueprint_servicesmb_zeroconf"}
       ]
     }
   }

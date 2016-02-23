@@ -1,4 +1,20 @@
 {
+  "blueprint_updateops_new_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "new_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_updateops_new_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "new_version",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_updateops_operation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -12,26 +28,10 @@
       ]
     }
   },
-  "blueprint_updateops_new_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "new_name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_updateops_previous_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "previous_name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_updateops_new_version": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "new_version",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -49,10 +49,10 @@
     "properties": {
       "name": "UpdateOps",
       "propertyBlueprints": [
-        {"@": "blueprint_updateops_operation"},
         {"@": "blueprint_updateops_new_name"},
-        {"@": "blueprint_updateops_previous_name"},
         {"@": "blueprint_updateops_new_version"},
+        {"@": "blueprint_updateops_operation"},
+        {"@": "blueprint_updateops_previous_name"},
         {"@": "blueprint_updateops_previous_version"}
       ]
     }

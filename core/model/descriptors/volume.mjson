@@ -1,4 +1,12 @@
 {
+  "blueprint_volume_attributes": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "attributes",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_volume_encrypted": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -14,6 +22,30 @@
       "blueprint": {"@": "root"}
     }
   },
+  "blueprint_volume_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_volume_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_volume_params": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "params",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_volume_providers_presence": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -27,35 +59,11 @@
       ]
     }
   },
-  "blueprint_volume_params": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "params",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
   "blueprint_volume_topology": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "topology",
       "blueprint": {"@": "root"}
-    }
-  },
-  "blueprint_volume_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_volume_attributes": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "attributes",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
     }
   },
   "blueprint_volume_type": {
@@ -69,28 +77,20 @@
       ]
     }
   },
-  "blueprint_volume_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Volume",
       "propertyBlueprints": [
+        {"@": "blueprint_volume_attributes"},
         {"@": "blueprint_volume_encrypted"},
         {"@": "blueprint_volume_encryption"},
-        {"@": "blueprint_volume_providers_presence"},
-        {"@": "blueprint_volume_params"},
-        {"@": "blueprint_volume_topology"},
+        {"@": "blueprint_volume_id"},
         {"@": "blueprint_volume_name"},
-        {"@": "blueprint_volume_attributes"},
-        {"@": "blueprint_volume_type"},
-        {"@": "blueprint_volume_id"}
+        {"@": "blueprint_volume_params"},
+        {"@": "blueprint_volume_providers_presence"},
+        {"@": "blueprint_volume_topology"},
+        {"@": "blueprint_volume_type"}
       ]
     }
   }

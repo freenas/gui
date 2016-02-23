@@ -7,29 +7,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_alert_severity": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "severity",
-      "blueprint": {"@": "root"}
-    }
-  },
-  "blueprint_alert_when": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "when",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_alert_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_alert_dismissed": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -46,17 +23,40 @@
       "valueType": "number"
     }
   },
+  "blueprint_alert_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_alert_severity": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "severity",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_alert_when": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "when",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Alert",
       "propertyBlueprints": [
         {"@": "blueprint_alert_description"},
-        {"@": "blueprint_alert_severity"},
-        {"@": "blueprint_alert_when"},
-        {"@": "blueprint_alert_name"},
         {"@": "blueprint_alert_dismissed"},
-        {"@": "blueprint_alert_id"}
+        {"@": "blueprint_alert_id"},
+        {"@": "blueprint_alert_name"},
+        {"@": "blueprint_alert_severity"},
+        {"@": "blueprint_alert_when"}
       ]
     }
   }

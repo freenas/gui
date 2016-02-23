@@ -1,16 +1,16 @@
 {
+  "blueprint_ipfsinfo_Addresses": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "Addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_ipfsinfo_AgentVersion": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "AgentVersion",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_ipfsinfo_PublicKey": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "PublicKey",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -23,18 +23,18 @@
       "valueType": "String"
     }
   },
-  "blueprint_ipfsinfo_Addresses": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "Addresses",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_ipfsinfo_ProtocolVersion": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "ProtocolVersion",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_ipfsinfo_PublicKey": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "PublicKey",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -44,11 +44,11 @@
     "properties": {
       "name": "IpfsInfo",
       "propertyBlueprints": [
-        {"@": "blueprint_ipfsinfo_AgentVersion"},
-        {"@": "blueprint_ipfsinfo_PublicKey"},
-        {"@": "blueprint_ipfsinfo_ID"},
         {"@": "blueprint_ipfsinfo_Addresses"},
-        {"@": "blueprint_ipfsinfo_ProtocolVersion"}
+        {"@": "blueprint_ipfsinfo_AgentVersion"},
+        {"@": "blueprint_ipfsinfo_ID"},
+        {"@": "blueprint_ipfsinfo_ProtocolVersion"},
+        {"@": "blueprint_ipfsinfo_PublicKey"}
       ]
     }
   }

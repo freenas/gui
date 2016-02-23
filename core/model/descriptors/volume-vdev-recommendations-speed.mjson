@@ -1,11 +1,4 @@
 {
-  "blueprint_volumevdevrecommendationsspeed_storage": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "storage",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_volumevdevrecommendationsspeed_redundancy": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -20,14 +13,21 @@
       "blueprint": {"@": "root"}
     }
   },
+  "blueprint_volumevdevrecommendationsspeed_storage": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "storage",
+      "blueprint": {"@": "root"}
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "VolumeVdevRecommendationsSpeed",
       "propertyBlueprints": [
-        {"@": "blueprint_volumevdevrecommendationsspeed_storage"},
         {"@": "blueprint_volumevdevrecommendationsspeed_redundancy"},
-        {"@": "blueprint_volumevdevrecommendationsspeed_speed"}
+        {"@": "blueprint_volumevdevrecommendationsspeed_speed"},
+        {"@": "blueprint_volumevdevrecommendationsspeed_storage"}
       ]
     }
   }

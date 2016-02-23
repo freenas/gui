@@ -7,12 +7,17 @@
       "valueType": "String"
     }
   },
-  "blueprint_replication_remote_port": {
+  "blueprint_replication_cipher": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_port",
+      "name": "cipher",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "String",
+      "enumValues": [
+        "NORMAL",
+        "FAST",
+        "DISABLED"
+      ]
     }
   },
   "blueprint_replication_compression": {
@@ -30,10 +35,34 @@
       ]
     }
   },
+  "blueprint_replication_followdelete": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "followdelete",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_recursive": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recursive",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_replication_remote": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "remote",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_remote_dataset": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_dataset",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -46,39 +75,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_replication_followdelete": {
+  "blueprint_replication_remote_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "followdelete",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_replication_cipher": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "cipher",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "NORMAL",
-        "FAST",
-        "DISABLED"
-      ]
-    }
-  },
-  "blueprint_replication_recursive": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "recursive",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_replication_remote_dataset": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "remote_dataset",
+      "name": "remote_port",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -89,14 +89,14 @@
       "name": "Replication",
       "propertyBlueprints": [
         {"@": "blueprint_replication_bandwidth_limit"},
-        {"@": "blueprint_replication_remote_port"},
-        {"@": "blueprint_replication_compression"},
-        {"@": "blueprint_replication_remote"},
-        {"@": "blueprint_replication_remote_hostkey"},
-        {"@": "blueprint_replication_followdelete"},
         {"@": "blueprint_replication_cipher"},
+        {"@": "blueprint_replication_compression"},
+        {"@": "blueprint_replication_followdelete"},
         {"@": "blueprint_replication_recursive"},
-        {"@": "blueprint_replication_remote_dataset"}
+        {"@": "blueprint_replication_remote"},
+        {"@": "blueprint_replication_remote_dataset"},
+        {"@": "blueprint_replication_remote_hostkey"},
+        {"@": "blueprint_replication_remote_port"}
       ]
     }
   }

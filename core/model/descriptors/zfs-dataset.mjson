@@ -1,12 +1,4 @@
 {
-  "blueprint_zfsdataset_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_zfsdataset_children": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,11 +7,12 @@
       "valueType": "array"
     }
   },
-  "blueprint_zfsdataset_type": {
+  "blueprint_zfsdataset_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"}
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_zfsdataset_pool": {
@@ -37,16 +30,23 @@
       "blueprint": {"@": "root"}
     }
   },
+  "blueprint_zfsdataset_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"}
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ZfsDataset",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdataset_name"},
         {"@": "blueprint_zfsdataset_children"},
-        {"@": "blueprint_zfsdataset_type"},
+        {"@": "blueprint_zfsdataset_name"},
         {"@": "blueprint_zfsdataset_pool"},
-        {"@": "blueprint_zfsdataset_properties"}
+        {"@": "blueprint_zfsdataset_properties"},
+        {"@": "blueprint_zfsdataset_type"}
       ]
     }
   }

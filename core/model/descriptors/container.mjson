@@ -15,20 +15,20 @@
       "valueType": "String"
     }
   },
-  "blueprint_container_template": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "template",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
   "blueprint_container_devices": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "devices",
       "blueprint": {"@": "root"},
       "valueType": "array"
+    }
+  },
+  "blueprint_container_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_container_name": {
@@ -47,6 +47,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_container_template": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "template",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_container_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -60,14 +68,6 @@
       ]
     }
   },
-  "blueprint_container_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -75,12 +75,12 @@
       "propertyBlueprints": [
         {"@": "blueprint_container_config"},
         {"@": "blueprint_container_description"},
-        {"@": "blueprint_container_template"},
         {"@": "blueprint_container_devices"},
+        {"@": "blueprint_container_id"},
         {"@": "blueprint_container_name"},
         {"@": "blueprint_container_target"},
-        {"@": "blueprint_container_type"},
-        {"@": "blueprint_container_id"}
+        {"@": "blueprint_container_template"},
+        {"@": "blueprint_container_type"}
       ]
     }
   }

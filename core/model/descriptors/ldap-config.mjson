@@ -1,12 +1,4 @@
 {
-  "blueprint_ldapconfig_hostname": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "hostname",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_ldapconfig_binddn": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -23,14 +15,22 @@
       "valueType": "String"
     }
   },
+  "blueprint_ldapconfig_hostname": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hostname",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "LdapConfig",
       "propertyBlueprints": [
-        {"@": "blueprint_ldapconfig_hostname"},
         {"@": "blueprint_ldapconfig_binddn"},
-        {"@": "blueprint_ldapconfig_bindpw"}
+        {"@": "blueprint_ldapconfig_bindpw"},
+        {"@": "blueprint_ldapconfig_hostname"}
       ]
     }
   }

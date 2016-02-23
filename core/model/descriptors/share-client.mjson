@@ -1,16 +1,8 @@
 {
-  "blueprint_shareclient_host": {
+  "blueprint_shareclient_connected_at": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "host",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_shareclient_share": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "share",
+      "name": "connected_at",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -23,10 +15,18 @@
       "valueType": "object"
     }
   },
-  "blueprint_shareclient_connected_at": {
+  "blueprint_shareclient_host": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "connected_at",
+      "name": "host",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_shareclient_share": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "share",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -44,10 +44,10 @@
     "properties": {
       "name": "ShareClient",
       "propertyBlueprints": [
+        {"@": "blueprint_shareclient_connected_at"},
+        {"@": "blueprint_shareclient_extra"},
         {"@": "blueprint_shareclient_host"},
         {"@": "blueprint_shareclient_share"},
-        {"@": "blueprint_shareclient_extra"},
-        {"@": "blueprint_shareclient_connected_at"},
         {"@": "blueprint_shareclient_user"}
       ]
     }

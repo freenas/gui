@@ -2,7 +2,7 @@
 
 var prompt = require('prompt');
 var WebSocketClient = require('./websocket-client').WebSocketClient;
-var WebSocketConfiguration = require('../../core/backend/websocket-configuration').WebSocketConfiguration;
+var WebSocketConfiguration = require('../../../core/backend/websocket-configuration').WebSocketConfiguration;
 var Promise = require('montage/core/promise').Promise;
 
 var passwordSchema = {
@@ -22,13 +22,12 @@ var passwordSchema = {
         }
     };
 
-var _isUserConnected = false,
-    _userConnection = null;
+var _userConnection = null;
 
 loginSchema.properties.password = passwordSchema.properties.password;
 
-exports.authenticateIfNeeded = function (username, password, option) {
-    if (_isUserConnected) {
+exports.authenticateIfNeeded = function (username, password, options) {
+    if (_userConnection) {
         return Promise.resolve(_userConnection);
     }
 
@@ -44,22 +43,22 @@ exports.authenticateIfNeeded = function (username, password, option) {
                     return void 0;
                 }
 
-                resolve(_authenticate(username || result.username, result.password, option));
+                resolve(_authenticate(username || result.username, result.password, options));
             });
 
         } else {
-            resolve(_authenticate(username, password, option));
+            resolve(_authenticate(username, password, options));
         }
     });
 };
 
 
-function _authenticate (username, password, option) {
+function _authenticate (username, password, options) {
     var webSocketConfiguration = new WebSocketConfiguration();
 
-    webSocketConfiguration.set(WebSocketConfiguration.KEYS.SECURE, option ? option.secure : false);
-    webSocketConfiguration.set(WebSocketConfiguration.KEYS.HOST, option && option.host ? option.host : "freenas.local");
-    webSocketConfiguration.set(WebSocketConfiguration.KEYS.PORT, option && option.port ? option.port : "5000");
+    webSocketConfiguration.set(WebSocketConfiguration.KEYS.SECURE, options ? options.secure : false);
+    webSocketConfiguration.set(WebSocketConfiguration.KEYS.HOST, options && options.host ? options.host : "freenas.local");
+    webSocketConfiguration.set(WebSocketConfiguration.KEYS.PORT, options && options.port ? options.port : "5000");
     webSocketConfiguration.set(WebSocketConfiguration.KEYS.PATH, "/socket");
 
     var websocket = new WebSocketClient(webSocketConfiguration);

@@ -1,4 +1,12 @@
 {
+  "blueprint_iscsitarget_auth_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auth_group",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_iscsitarget_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,10 +23,10 @@
       "valueType": "array"
     }
   },
-  "blueprint_iscsitarget_auth_group": {
+  "blueprint_iscsitarget_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "auth_group",
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -31,24 +39,16 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsitarget_id": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "id",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "IscsiTarget",
       "propertyBlueprints": [
+        {"@": "blueprint_iscsitarget_auth_group"},
         {"@": "blueprint_iscsitarget_description"},
         {"@": "blueprint_iscsitarget_extents"},
-        {"@": "blueprint_iscsitarget_auth_group"},
-        {"@": "blueprint_iscsitarget_portal_group"},
-        {"@": "blueprint_iscsitarget_id"}
+        {"@": "blueprint_iscsitarget_id"},
+        {"@": "blueprint_iscsitarget_portal_group"}
       ]
     }
   }

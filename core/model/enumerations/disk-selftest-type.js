@@ -1,3 +1,3 @@
 var Enum = require("montage/core/enum").Enum;
 
-exports.DiskSelftestType = new Enum().initWithMembersAndValues(["SHORT","LONG","CONVEYANCE","OFFLINE"], ["SHORT","LONG","CONVEYANCE","OFFLINE"]);
+exports.DiskSelftestType = new Enum().initWithMembersAndValues(["CONVEYANCE","LONG","OFFLINE","SHORT"], ["CONVEYANCE","LONG","OFFLINE","SHORT"]);

@@ -1,8 +1,56 @@
 {
+  "blueprint_updateprogress_details": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "details",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_updateprogress_error": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "error",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_updateprogress_filesize": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "filesize",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_updateprogress_finished": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "finished",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_updateprogress_indeterminate": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "indeterminate",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_updateprogress_num_files_done": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "num_files_done",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_updateprogress_num_files_total": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "num_files_total",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -19,22 +67,6 @@
       ]
     }
   },
-  "blueprint_updateprogress_pkg_version": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "pkg_version",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_updateprogress_num_files_total": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "num_files_total",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
   "blueprint_updateprogress_percent": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -43,18 +75,18 @@
       "valueType": "number"
     }
   },
-  "blueprint_updateprogress_filesize": {
+  "blueprint_updateprogress_pkg_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "filesize",
+      "name": "pkg_name",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
-  "blueprint_updateprogress_details": {
+  "blueprint_updateprogress_pkg_version": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "details",
+      "name": "pkg_version",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -67,55 +99,23 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_updateprogress_indeterminate": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "indeterminate",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_updateprogress_error": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "error",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_updateprogress_pkg_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "pkg_name",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_updateprogress_finished": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "finished",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "UpdateProgress",
       "propertyBlueprints": [
-        {"@": "blueprint_updateprogress_num_files_done"},
-        {"@": "blueprint_updateprogress_operation"},
-        {"@": "blueprint_updateprogress_pkg_version"},
-        {"@": "blueprint_updateprogress_num_files_total"},
-        {"@": "blueprint_updateprogress_percent"},
-        {"@": "blueprint_updateprogress_filesize"},
         {"@": "blueprint_updateprogress_details"},
-        {"@": "blueprint_updateprogress_reboot"},
-        {"@": "blueprint_updateprogress_indeterminate"},
         {"@": "blueprint_updateprogress_error"},
+        {"@": "blueprint_updateprogress_filesize"},
+        {"@": "blueprint_updateprogress_finished"},
+        {"@": "blueprint_updateprogress_indeterminate"},
+        {"@": "blueprint_updateprogress_num_files_done"},
+        {"@": "blueprint_updateprogress_num_files_total"},
+        {"@": "blueprint_updateprogress_operation"},
+        {"@": "blueprint_updateprogress_percent"},
         {"@": "blueprint_updateprogress_pkg_name"},
-        {"@": "blueprint_updateprogress_finished"}
+        {"@": "blueprint_updateprogress_pkg_version"},
+        {"@": "blueprint_updateprogress_reboot"}
       ]
     }
   }

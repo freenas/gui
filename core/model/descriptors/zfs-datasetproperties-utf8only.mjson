@@ -1,16 +1,18 @@
 {
-  "blueprint_zfsdatasetpropertiesutf8only_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_zfsdatasetpropertiesutf8only_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_zfsdatasetpropertiesutf8only_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -18,8 +20,8 @@
     "properties": {
       "name": "ZfsDatasetpropertiesUtf8only",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsdatasetpropertiesutf8only_value"},
-        {"@": "blueprint_zfsdatasetpropertiesutf8only_source"}
+        {"@": "blueprint_zfsdatasetpropertiesutf8only_source"},
+        {"@": "blueprint_zfsdatasetpropertiesutf8only_value"}
       ]
     }
   }

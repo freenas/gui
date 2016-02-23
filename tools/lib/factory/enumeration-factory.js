@@ -1,14 +1,14 @@
-var FS = require('./fs-promise'),
+var FS = require('../fs-promise'),
     Path = require('path');
 
-require('../../core/extras/string');
+require('../../../core/extras/string');
 require('montage/core/extras/string');
 
 var ENUM_FILE_TEMPLATE = "var Enum = require(\"montage/core/enum\").Enum;\n\nexports.<EXPORT_NAME> = new Enum().initWithMembersAndValues([<MEMBERS>], [<VALUES>]);\n";
 
 
 exports.createEnumerationWithNameAndValues = function (name, values) {
-    values = values.map(function (value) { return "\"" + value + "\""});
+    values = values.sort().map(function (value) { return "\"" + value + "\""});
 
     return {
         name: name,

@@ -1,8 +1,40 @@
 {
-  "blueprint_rsynccopy_remote_user": {
+  "blueprint_rsynccopy_path": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_user",
+      "name": "path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_rsynccopy_quiet": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "quiet",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_rsynccopy_remote_host": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_host",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_rsynccopy_remote_module": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_module",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_rsynccopy_remote_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_path",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -15,54 +47,10 @@
       "valueType": "number"
     }
   },
-  "blueprint_rsynccopy_remote_module": {
+  "blueprint_rsynccopy_remote_user": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_module",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_rsynccopy_rsync_mode": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "rsync_mode",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "MODULE",
-        "SSH"
-      ]
-    }
-  },
-  "blueprint_rsynccopy_remote_host": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "remote_host",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_rsynccopy_user": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "user",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_rsynccopy_rsync_properties": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "rsync_properties",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "blueprint_rsynccopy_path": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "path",
+      "name": "remote_user",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -79,18 +67,30 @@
       ]
     }
   },
-  "blueprint_rsynccopy_quiet": {
+  "blueprint_rsynccopy_rsync_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "quiet",
+      "name": "rsync_mode",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
+      "valueType": "String",
+      "enumValues": [
+        "MODULE",
+        "SSH"
+      ]
     }
   },
-  "blueprint_rsynccopy_remote_path": {
+  "blueprint_rsynccopy_rsync_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_path",
+      "name": "rsync_properties",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_rsynccopy_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -100,17 +100,17 @@
     "properties": {
       "name": "RsyncCopy",
       "propertyBlueprints": [
-        {"@": "blueprint_rsynccopy_remote_user"},
-        {"@": "blueprint_rsynccopy_remote_ssh_port"},
-        {"@": "blueprint_rsynccopy_remote_module"},
-        {"@": "blueprint_rsynccopy_rsync_mode"},
-        {"@": "blueprint_rsynccopy_remote_host"},
-        {"@": "blueprint_rsynccopy_user"},
-        {"@": "blueprint_rsynccopy_rsync_properties"},
         {"@": "blueprint_rsynccopy_path"},
-        {"@": "blueprint_rsynccopy_rsync_direction"},
         {"@": "blueprint_rsynccopy_quiet"},
-        {"@": "blueprint_rsynccopy_remote_path"}
+        {"@": "blueprint_rsynccopy_remote_host"},
+        {"@": "blueprint_rsynccopy_remote_module"},
+        {"@": "blueprint_rsynccopy_remote_path"},
+        {"@": "blueprint_rsynccopy_remote_ssh_port"},
+        {"@": "blueprint_rsynccopy_remote_user"},
+        {"@": "blueprint_rsynccopy_rsync_direction"},
+        {"@": "blueprint_rsynccopy_rsync_mode"},
+        {"@": "blueprint_rsynccopy_rsync_properties"},
+        {"@": "blueprint_rsynccopy_user"}
       ]
     }
   }

@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_encryption_key": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "key",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_encryption_salt": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -23,23 +31,15 @@
       "valueType": "number"
     }
   },
-  "blueprint_encryption_key": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "key",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Encryption",
       "propertyBlueprints": [
         {"@": "blueprint_encryption_hashed_password"},
+        {"@": "blueprint_encryption_key"},
         {"@": "blueprint_encryption_salt"},
-        {"@": "blueprint_encryption_slot"},
-        {"@": "blueprint_encryption_key"}
+        {"@": "blueprint_encryption_slot"}
       ]
     }
   }

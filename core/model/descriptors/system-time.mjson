@@ -1,12 +1,4 @@
 {
-  "blueprint_systemtime_system_time": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "system_time",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_systemtime_boot_time": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,10 +7,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_systemtime_uptime": {
+  "blueprint_systemtime_system_time": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "uptime",
+      "name": "system_time",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -31,15 +23,23 @@
       "valueType": "String"
     }
   },
+  "blueprint_systemtime_uptime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "uptime",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "SystemTime",
       "propertyBlueprints": [
-        {"@": "blueprint_systemtime_system_time"},
         {"@": "blueprint_systemtime_boot_time"},
-        {"@": "blueprint_systemtime_uptime"},
-        {"@": "blueprint_systemtime_timezone"}
+        {"@": "blueprint_systemtime_system_time"},
+        {"@": "blueprint_systemtime_timezone"},
+        {"@": "blueprint_systemtime_uptime"}
       ]
     }
   }

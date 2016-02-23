@@ -1,10 +1,9 @@
 {
-  "blueprint_zfspool_hostname": {
+  "blueprint_zfspool_groups": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "hostname",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "name": "groups",
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_zfspool_guid": {
@@ -15,11 +14,12 @@
       "valueType": "number"
     }
   },
-  "blueprint_zfspool_root_dataset": {
+  "blueprint_zfspool_hostname": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "root_dataset",
-      "blueprint": {"@": "root"}
+      "name": "hostname",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_zfspool_name": {
@@ -28,6 +28,20 @@
       "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_zfspool_properties": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "properties",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_zfspool_root_dataset": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "root_dataset",
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_zfspool_scan": {
@@ -53,33 +67,19 @@
       ]
     }
   },
-  "blueprint_zfspool_properties": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "properties",
-      "blueprint": {"@": "root"}
-    }
-  },
-  "blueprint_zfspool_groups": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "groups",
-      "blueprint": {"@": "root"}
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ZfsPool",
       "propertyBlueprints": [
-        {"@": "blueprint_zfspool_hostname"},
+        {"@": "blueprint_zfspool_groups"},
         {"@": "blueprint_zfspool_guid"},
-        {"@": "blueprint_zfspool_root_dataset"},
+        {"@": "blueprint_zfspool_hostname"},
         {"@": "blueprint_zfspool_name"},
-        {"@": "blueprint_zfspool_scan"},
-        {"@": "blueprint_zfspool_status"},
         {"@": "blueprint_zfspool_properties"},
-        {"@": "blueprint_zfspool_groups"}
+        {"@": "blueprint_zfspool_root_dataset"},
+        {"@": "blueprint_zfspool_scan"},
+        {"@": "blueprint_zfspool_status"}
       ]
     }
   }
