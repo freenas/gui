@@ -9,13 +9,94 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "netwait-enabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "netwait-enabled"},
+                "label": "Enable Netwait"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.netwait.enabled"}
+            }
+        },
+        "http_proxy": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "http_proxy"},
+                "label": "HTTP Proxy"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.http_proxy"}
+            }
+        },
+        "dhcp_title": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "dhcp_title"},
+                "value": "DHCP Settings"
+            }
+        },
+        "dhcp_assign_gateway": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "dhcp_assign_gateway"},
+                "label": "Assign Gateway"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.dhcp.assign_gateway"}
+            }
+        },
+        "dhcp_assign_dns": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "dhcp_assign_dns"},
+                "label": "Assign DNS"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.dhcp.assign_dns"}
+            }
+        },
+        "gateway_title": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "gateway_title"},
+                "value": "Gateway Settings"
+            }
+        },
+        "gateway_ipv4": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "gateway_ipv4"},
+                "label": "IPv4"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.gateway.ipv4"}
+            }
+        },
+        "gateway_ipv6": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "gateway_ipv6"},
+                "label": "IPv6"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.gateway.ipv6"}
+            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="NetworkConfiguration">
-        <i>network-configuration.reel</i>
+    <div data-montage-id="owner" class="NetworkConfiguration g-padding-top">
+        <div data-montage-id="netwait-enabled"></div>
+        <div data-montage-id="http_proxy"></div>
+        <div data-montage-id="dhcp_title"></div>
+        <div data-montage-id="dhcp_assign_gateway"></div>
+        <div data-montage-id="dhcp_assign_dns"></div>
+        <div data-montage-id="gateway_title"></div>
+        <div data-montage-id="gateway_ipv4"></div>
+        <div data-montage-id="gateway_ipv6"></div>
     </div>
 </body>
 </html>
