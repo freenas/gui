@@ -31,7 +31,7 @@ HandlerPool.prototype.handlerTimeout = 5000;
  *
  */
 HandlerPool.prototype.initWithHandlerTimeout = function (timeout) {
-    this.handlerTimeout = +timeout;
+    this.handlerTimeout = +timeout || 0;
 
     return this;
 };
@@ -128,7 +128,7 @@ HandlerPool.prototype.setTimeoutToHandler = function (handler, timeout) {
 
             delete self.pool[uuid];
         }
-    }, timeout || this.handlerTimeout);
+    }, +timeout || this.handlerTimeout);
 };
 
 

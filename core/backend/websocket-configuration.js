@@ -76,6 +76,7 @@ Object.defineProperties(WebSocketConfiguration, {
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "5000");
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/socket");
+                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 10000);
 
                 _defaultConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
