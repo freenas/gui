@@ -172,7 +172,7 @@ exports.BackEndBridge = Target.specialize({
                             deferred.reject(new Error("Unknown message received: " + response));
                         }
                     } else {
-                        deferred.reject(new Error("Message received but no handler has been found: " + response));
+                        throw new Error("Message received but no handler has been found: " + response);
                     }
                 } else if (response.namespace === EVENTS_NAME_SPACE) {
                     this.dispatchEventNamed(
