@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="bridge.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "_dev": {
+                "comment": "bridge.members might benefit from a more complex way to display, add, and remove members. A multiselect list will work in the meantime."
+            }
+        },
+        "dhcp": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "dhcp"},
+                "label": "DHCP"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.dhcp"}
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-toggle-switch.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.enabled"}
+            }
+        },
+        "link_state": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "link_state"},
+                "label": "Status"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.link_state"}
+            }
+        },
+        "noipv6": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "noipv6"},
+                "label": "noipv6"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.noipv6"}
+            }
+        },
+        "members": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "members"},
+                "label": "Members",
+                "valuePropertyName": "id",
+                "labelPropertyName": "id"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.memberOptions"},
+                "selectedValues": {"<->": "@owner.object.bridge.members"}
+            }
+        },
+        "rtadv": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "rtadv"},
+                "label": "rtadv"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.rtadv"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Bridge g-padding-top">
+        <div data-montage-id="link_state"></div>
+        <div data-montage-id="enabled"></div>
+        <div data-montage-id="dhcp"></div>
+        <div data-montage-id="rtadv"></div>
+        <div data-montage-id="noipv6"></div>
+        <div data-montage-id="members"></div>
+    </div>
+</body>
+</html>
