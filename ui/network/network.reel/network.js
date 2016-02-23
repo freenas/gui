@@ -42,6 +42,10 @@ exports.Network = Component.specialize({
                         networkInterface.inspector = "ui/inspectors/lagg.reel";
                         networkInterface.icon = "ui/icons/lagg.reel";
 
+                    } else if (networkInterface.type === NetworkInterfaceType.BRIDGE) {
+                        networkInterface.inspector = "ui/inspectors/bridge.reel";
+                        networkInterface.icon = "ui/icons/bridge.reel";
+
                     } else {
                         networkInterface.inspector = "ui/inspectors/interface.reel";
                         networkInterface.icon = "ui/icons/interface.reel";
