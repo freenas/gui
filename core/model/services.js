@@ -19,7 +19,7 @@ var Services = exports.Services = Montage.specialize(/* @lends Services# */null,
             var service = servicesMJSON[type.typeName];
 
             if (service) {
-                return service.fetch || null;
+                return service.read || null;
             }
 
             return null;

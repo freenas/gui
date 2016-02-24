@@ -34,6 +34,14 @@
       ]
     }
   },
+  "blueprint_dataset_pool": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "pool",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_dataset_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -71,6 +79,7 @@
         {"@": "blueprint_dataset_name"},
         {"@": "blueprint_dataset_permissions"},
         {"@": "blueprint_dataset_permissions_type"},
+        {"@": "blueprint_dataset_pool"},
         {"@": "blueprint_dataset_properties"},
         {"@": "blueprint_dataset_type"},
         {"@": "blueprint_dataset_volsize"}

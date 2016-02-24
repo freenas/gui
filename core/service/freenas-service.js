@@ -1,6 +1,7 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
     BackEndBridge = require("core/backend/backend-bridge").BackEndBridge,
     WebSocketConfiguration = require("../backend/websocket-configuration").WebSocketConfiguration,
+    DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
     Model = require("core/model/model").Model,
     Services = require("core/model/services").Services,
     Montage = require("montage/core/core").Montage;
@@ -90,6 +91,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     types: {
         value: [
             //FIXME: ALL_TYPES doesn't Seems to work
+            //DataObjectDescriptor.ALL_TYPES,
             Model.Disk,
             Model.NetworkInterface
         ]

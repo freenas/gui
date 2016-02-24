@@ -15,7 +15,8 @@
         "websocket": "~1.0.22",
         "prompt": "~0.3.0",
         "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
-        "rimraf": "2.5.2"
+        "rimraf": "2.5.2",
+        "json.sortify": "1.0.2"
     },
     "exclude": [
         "run-tests.html",
@@ -28,6 +29,7 @@
         "generate-descriptors" : "node ./tools/cli/generate.js descriptors -t ./core/model/descriptors",
         "generate-model" : "node ./tools/cli/generate.js model ./core/model/descriptors/ -p ./core/model/descriptors -t ./core/model",
         "generate-enumerations" : "node ./tools/cli/generate.js enumerations -t ./core/model/enumerations",
+        "generate-services" : "node ./tools/cli/generate.js services -t ./core/model",
         "warnings": "node ./tools/cli/generate.js descriptors -w --no-save"
     }
 }

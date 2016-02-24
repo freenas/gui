@@ -1,5 +1,7 @@
 var FS = require('./fs-promise');
 var Path = require('path');
+var Promise = require('montage/core/promise').Promise;
+require('json.sortify');
 
 exports.generateModel = function generateModel (path, options) {
     return FS.listDirectoryAtPath(path).then(function (files) {
@@ -22,25 +24,20 @@ exports.generateModel = function generateModel (path, options) {
             }
         }
 
-        models.sort(function (a, b) {
-            if (a.type > b.type)
-                return 1;
-            if (a.type < b.type)
-                return -1;
-            return 0;
-        });
+        if (options.save) {
+            var targetPath = options.target;
 
-        var targetPath = options.target;
+            return FS.getAbsolutePath(targetPath).then(function (absoluteTarget) {
+                return FS.isDirectoryAtPath(absoluteTarget).then(function (isDirectoryAtPath) {
+                    if (isDirectoryAtPath) {
+                        targetPath = Path.join(absoluteTarget, "models.mjson");
+                    }
 
-        return FS.getAbsolutePath(targetPath).then(function (absoluteTarget) {
-            return FS.isDirectoryAtPath(absoluteTarget).then(function (isDirectoryAtPath) {
-                if (isDirectoryAtPath) {
-                    targetPath = Path.join(absoluteTarget, "models.mjson");
-                }
-
-                return FS.writeFileAtPathWithData(targetPath, JSON.stringify(modelsFile, null, 4));
+                    return FS.writeFileAtPathWithData(targetPath, JSON.sortify(modelsFile, null, 4));
+                });
             });
-        });
+        }
 
+        return Promise.resolve();
     });
 };

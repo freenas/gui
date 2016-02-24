@@ -18,6 +18,7 @@ program
     .option('-v, --verbose', "enable the verbose mode")
     .option('-w, --warning', "log warning messages")
     .option('-t, --target <target>', "changes the default target directory")
+    .option('--no-save', "do not save model file")
     .parse(process.argv);
 
 

@@ -1,992 +1,992 @@
 {
     "models": [
         {
-            "type": "AclEntry",
-            "modelId": "core/model/descriptors/acl-entry.mjson"
+            "modelId": "core/model/descriptors/acl-entry-flags.mjson",
+            "type": "AclEntryFlags"
         },
         {
-            "type": "AclEntryFlags",
-            "modelId": "core/model/descriptors/acl-entry-flags.mjson"
+            "modelId": "core/model/descriptors/acl-entry-perms.mjson",
+            "type": "AclEntryPerms"
         },
         {
-            "type": "AclEntryPerms",
-            "modelId": "core/model/descriptors/acl-entry-perms.mjson"
+            "modelId": "core/model/descriptors/acl-entry.mjson",
+            "type": "AclEntry"
         },
         {
-            "type": "ActivedirectoryConfig",
-            "modelId": "core/model/descriptors/activedirectory-config.mjson"
+            "modelId": "core/model/descriptors/activedirectory-config.mjson",
+            "type": "ActivedirectoryConfig"
         },
         {
-            "type": "AfpShare",
-            "modelId": "core/model/descriptors/afp-share.mjson"
+            "modelId": "core/model/descriptors/afp-share.mjson",
+            "type": "AfpShare"
         },
         {
-            "type": "Alert",
-            "modelId": "core/model/descriptors/alert.mjson"
+            "modelId": "core/model/descriptors/alert-filter.mjson",
+            "type": "AlertFilter"
         },
         {
-            "type": "AlertFilter",
-            "modelId": "core/model/descriptors/alert-filter.mjson"
+            "modelId": "core/model/descriptors/alert-registration.mjson",
+            "type": "AlertRegistration"
         },
         {
-            "type": "AlertRegistration",
-            "modelId": "core/model/descriptors/alert-registration.mjson"
+            "modelId": "core/model/descriptors/alert.mjson",
+            "type": "Alert"
         },
         {
-            "type": "BootEnvironment",
-            "modelId": "core/model/descriptors/boot-environment.mjson"
+            "modelId": "core/model/descriptors/boot-environment.mjson",
+            "type": "BootEnvironment"
         },
         {
-            "type": "CalendarTask",
-            "modelId": "core/model/descriptors/calendar-task.mjson"
+            "modelId": "core/model/descriptors/calendar-task-schedule.mjson",
+            "type": "CalendarTaskSchedule"
         },
         {
-            "type": "CalendarTaskSchedule",
-            "modelId": "core/model/descriptors/calendar-task-schedule.mjson"
+            "modelId": "core/model/descriptors/calendar-task-status.mjson",
+            "type": "CalendarTaskStatus"
         },
         {
-            "type": "CalendarTaskStatus",
-            "modelId": "core/model/descriptors/calendar-task-status.mjson"
+            "modelId": "core/model/descriptors/calendar-task.mjson",
+            "type": "CalendarTask"
         },
         {
-            "type": "Container",
-            "modelId": "core/model/descriptors/container.mjson"
+            "modelId": "core/model/descriptors/container-config.mjson",
+            "type": "ContainerConfig"
         },
         {
-            "type": "ContainerConfig",
-            "modelId": "core/model/descriptors/container-config.mjson"
+            "modelId": "core/model/descriptors/container-device-cdrom.mjson",
+            "type": "ContainerDeviceCdrom"
         },
         {
-            "type": "ContainerDevice",
-            "modelId": "core/model/descriptors/container-device.mjson"
+            "modelId": "core/model/descriptors/container-device-disk.mjson",
+            "type": "ContainerDeviceDisk"
         },
         {
-            "type": "ContainerDeviceCdrom",
-            "modelId": "core/model/descriptors/container-device-cdrom.mjson"
+            "modelId": "core/model/descriptors/container-device-nic.mjson",
+            "type": "ContainerDeviceNic"
         },
         {
-            "type": "ContainerDeviceDisk",
-            "modelId": "core/model/descriptors/container-device-disk.mjson"
+            "modelId": "core/model/descriptors/container-device-properties.mjson",
+            "type": "ContainerDeviceProperties"
         },
         {
-            "type": "ContainerDeviceNic",
-            "modelId": "core/model/descriptors/container-device-nic.mjson"
+            "modelId": "core/model/descriptors/container-device-volume.mjson",
+            "type": "ContainerDeviceVolume"
         },
         {
-            "type": "ContainerDeviceProperties",
-            "modelId": "core/model/descriptors/container-device-properties.mjson"
+            "modelId": "core/model/descriptors/container-device.mjson",
+            "type": "ContainerDevice"
         },
         {
-            "type": "ContainerDeviceVolume",
-            "modelId": "core/model/descriptors/container-device-volume.mjson"
+            "modelId": "core/model/descriptors/container.mjson",
+            "type": "Container"
         },
         {
-            "type": "CpuDevice",
-            "modelId": "core/model/descriptors/cpu-device.mjson"
+            "modelId": "core/model/descriptors/cpu-device.mjson",
+            "type": "CpuDevice"
         },
         {
-            "type": "CryptoCertificate",
-            "modelId": "core/model/descriptors/crypto-certificate.mjson"
+            "modelId": "core/model/descriptors/crypto-certificate.mjson",
+            "type": "CryptoCertificate"
         },
         {
-            "type": "Dataset",
-            "modelId": "core/model/descriptors/dataset.mjson"
+            "modelId": "core/model/descriptors/dataset-properties.mjson",
+            "type": "DatasetProperties"
         },
         {
-            "type": "DatasetProperties",
-            "modelId": "core/model/descriptors/dataset-properties.mjson"
+            "modelId": "core/model/descriptors/dataset.mjson",
+            "type": "Dataset"
         },
         {
-            "type": "Directoryservice",
-            "modelId": "core/model/descriptors/directoryservice.mjson"
+            "modelId": "core/model/descriptors/directoryservice.mjson",
+            "type": "Directoryservice"
         },
         {
-            "type": "Disk",
-            "modelId": "core/model/descriptors/disk.mjson"
+            "modelId": "core/model/descriptors/disk-attach-params.mjson",
+            "type": "DiskAttachParams"
         },
         {
-            "type": "DiskAttachParams",
-            "modelId": "core/model/descriptors/disk-attach-params.mjson"
+            "modelId": "core/model/descriptors/disk-device.mjson",
+            "type": "DiskDevice"
         },
         {
-            "type": "DiskDevice",
-            "modelId": "core/model/descriptors/disk-device.mjson"
+            "modelId": "core/model/descriptors/disk-metadata.mjson",
+            "type": "DiskMetadata"
         },
         {
-            "type": "DiskMetadata",
-            "modelId": "core/model/descriptors/disk-metadata.mjson"
+            "modelId": "core/model/descriptors/disk-partition.mjson",
+            "type": "DiskPartition"
         },
         {
-            "type": "DiskPartition",
-            "modelId": "core/model/descriptors/disk-partition.mjson"
+            "modelId": "core/model/descriptors/disk-set-key-params.mjson",
+            "type": "DiskSetKeyParams"
         },
         {
-            "type": "DiskSetKeyParams",
-            "modelId": "core/model/descriptors/disk-set-key-params.mjson"
+            "modelId": "core/model/descriptors/disk-status-controller.mjson",
+            "type": "DiskStatusController"
         },
         {
-            "type": "DiskStatus",
-            "modelId": "core/model/descriptors/disk-status.mjson"
+            "modelId": "core/model/descriptors/disk-status-multipath.mjson",
+            "type": "DiskStatusMultipath"
         },
         {
-            "type": "DiskStatusController",
-            "modelId": "core/model/descriptors/disk-status-controller.mjson"
+            "modelId": "core/model/descriptors/disk-status.mjson",
+            "type": "DiskStatus"
         },
         {
-            "type": "DiskStatusMultipath",
-            "modelId": "core/model/descriptors/disk-status-multipath.mjson"
+            "modelId": "core/model/descriptors/disk.mjson",
+            "type": "Disk"
         },
         {
-            "type": "DisksAllocation",
-            "modelId": "core/model/descriptors/disks-allocation.mjson"
+            "modelId": "core/model/descriptors/disks-allocation.mjson",
+            "type": "DisksAllocation"
         },
         {
-            "type": "Encryption",
-            "modelId": "core/model/descriptors/encryption.mjson"
+            "modelId": "core/model/descriptors/encryption.mjson",
+            "type": "Encryption"
         },
         {
-            "type": "Error",
-            "modelId": "core/model/descriptors/error.mjson"
+            "modelId": "core/model/descriptors/error.mjson",
+            "type": "Error"
         },
         {
-            "type": "Group",
-            "modelId": "core/model/descriptors/group.mjson"
+            "modelId": "core/model/descriptors/group.mjson",
+            "type": "Group"
         },
         {
-            "type": "ImportableDisk",
-            "modelId": "core/model/descriptors/importable-disk.mjson"
+            "modelId": "core/model/descriptors/importable-disk.mjson",
+            "type": "ImportableDisk"
         },
         {
-            "type": "IpfsInfo",
-            "modelId": "core/model/descriptors/ipfs-info.mjson"
+            "modelId": "core/model/descriptors/ipfs-info.mjson",
+            "type": "IpfsInfo"
         },
         {
-            "type": "IpmiConfiguration",
-            "modelId": "core/model/descriptors/ipmi-configuration.mjson"
+            "modelId": "core/model/descriptors/ipmi-configuration.mjson",
+            "type": "IpmiConfiguration"
         },
         {
-            "type": "IscsiAuthGroup",
-            "modelId": "core/model/descriptors/iscsi-auth-group.mjson"
+            "modelId": "core/model/descriptors/iscsi-auth-group.mjson",
+            "type": "IscsiAuthGroup"
         },
         {
-            "type": "IscsiPortal",
-            "modelId": "core/model/descriptors/iscsi-portal.mjson"
+            "modelId": "core/model/descriptors/iscsi-portal.mjson",
+            "type": "IscsiPortal"
         },
         {
-            "type": "IscsiShareProperties",
-            "modelId": "core/model/descriptors/iscsi-share-properties.mjson"
+            "modelId": "core/model/descriptors/iscsi-share-properties.mjson",
+            "type": "IscsiShareProperties"
         },
         {
-            "type": "IscsiTarget",
-            "modelId": "core/model/descriptors/iscsi-target.mjson"
+            "modelId": "core/model/descriptors/iscsi-target.mjson",
+            "type": "IscsiTarget"
         },
         {
-            "type": "IscsiUser",
-            "modelId": "core/model/descriptors/iscsi-user.mjson"
+            "modelId": "core/model/descriptors/iscsi-user.mjson",
+            "type": "IscsiUser"
         },
         {
-            "type": "LdapConfig",
-            "modelId": "core/model/descriptors/ldap-config.mjson"
+            "modelId": "core/model/descriptors/ldap-config.mjson",
+            "type": "LdapConfig"
         },
         {
-            "type": "Mail",
-            "modelId": "core/model/descriptors/mail.mjson"
+            "modelId": "core/model/descriptors/mail-message-extra-headers.mjson",
+            "type": "MailMessageExtraHeaders"
         },
         {
-            "type": "MailMessage",
-            "modelId": "core/model/descriptors/mail-message.mjson"
+            "modelId": "core/model/descriptors/mail-message.mjson",
+            "type": "MailMessage"
         },
         {
-            "type": "MailMessageExtraHeaders",
-            "modelId": "core/model/descriptors/mail-message-extra-headers.mjson"
+            "modelId": "core/model/descriptors/mail.mjson",
+            "type": "Mail"
         },
         {
-            "type": "NetworkConfig",
-            "modelId": "core/model/descriptors/network-config.mjson"
+            "modelId": "core/model/descriptors/network-config-dhcp.mjson",
+            "type": "NetworkConfigDhcp"
         },
         {
-            "type": "NetworkConfigDhcp",
-            "modelId": "core/model/descriptors/network-config-dhcp.mjson"
+            "modelId": "core/model/descriptors/network-config-dns.mjson",
+            "type": "NetworkConfigDns"
         },
         {
-            "type": "NetworkConfigDns",
-            "modelId": "core/model/descriptors/network-config-dns.mjson"
+            "modelId": "core/model/descriptors/network-config-gateway.mjson",
+            "type": "NetworkConfigGateway"
         },
         {
-            "type": "NetworkConfigGateway",
-            "modelId": "core/model/descriptors/network-config-gateway.mjson"
+            "modelId": "core/model/descriptors/network-config-netwait.mjson",
+            "type": "NetworkConfigNetwait"
         },
         {
-            "type": "NetworkConfigNetwait",
-            "modelId": "core/model/descriptors/network-config-netwait.mjson"
+            "modelId": "core/model/descriptors/network-config.mjson",
+            "type": "NetworkConfig"
         },
         {
-            "type": "NetworkDevice",
-            "modelId": "core/model/descriptors/network-device.mjson"
+            "modelId": "core/model/descriptors/network-device.mjson",
+            "type": "NetworkDevice"
         },
         {
-            "type": "NetworkHost",
-            "modelId": "core/model/descriptors/network-host.mjson"
+            "modelId": "core/model/descriptors/network-host.mjson",
+            "type": "NetworkHost"
         },
         {
-            "type": "NetworkInterface",
-            "modelId": "core/model/descriptors/network-interface.mjson"
+            "modelId": "core/model/descriptors/network-interface-alias.mjson",
+            "type": "NetworkInterfaceAlias"
         },
         {
-            "type": "NetworkInterfaceAlias",
-            "modelId": "core/model/descriptors/network-interface-alias.mjson"
+            "modelId": "core/model/descriptors/network-interface-bridge.mjson",
+            "type": "NetworkInterfaceBridge"
         },
         {
-            "type": "NetworkInterfaceBridge",
-            "modelId": "core/model/descriptors/network-interface-bridge.mjson"
+            "modelId": "core/model/descriptors/network-interface-capabilities.mjson",
+            "type": "NetworkInterfaceCapabilities"
         },
         {
-            "type": "NetworkInterfaceCapabilities",
-            "modelId": "core/model/descriptors/network-interface-capabilities.mjson"
+            "modelId": "core/model/descriptors/network-interface-lagg.mjson",
+            "type": "NetworkInterfaceLagg"
         },
         {
-            "type": "NetworkInterfaceLagg",
-            "modelId": "core/model/descriptors/network-interface-lagg.mjson"
+            "modelId": "core/model/descriptors/network-interface-status.mjson",
+            "type": "NetworkInterfaceStatus"
         },
         {
-            "type": "NetworkInterfaceStatus",
-            "modelId": "core/model/descriptors/network-interface-status.mjson"
+            "modelId": "core/model/descriptors/network-interface-vlan.mjson",
+            "type": "NetworkInterfaceVlan"
         },
         {
-            "type": "NetworkInterfaceVlan",
-            "modelId": "core/model/descriptors/network-interface-vlan.mjson"
+            "modelId": "core/model/descriptors/network-interface.mjson",
+            "type": "NetworkInterface"
         },
         {
-            "type": "NetworkRoute",
-            "modelId": "core/model/descriptors/network-route.mjson"
+            "modelId": "core/model/descriptors/network-route.mjson",
+            "type": "NetworkRoute"
         },
         {
-            "type": "NfsShareProperties",
-            "modelId": "core/model/descriptors/nfs-share-properties.mjson"
+            "modelId": "core/model/descriptors/nfs-share-properties.mjson",
+            "type": "NfsShareProperties"
         },
         {
-            "type": "NtpServer",
-            "modelId": "core/model/descriptors/ntp-server.mjson"
+            "modelId": "core/model/descriptors/ntp-server.mjson",
+            "type": "NtpServer"
         },
         {
-            "type": "Permissions",
-            "modelId": "core/model/descriptors/permissions.mjson"
+            "modelId": "core/model/descriptors/permissions.mjson",
+            "type": "Permissions"
         },
         {
-            "type": "PowerChanged",
-            "modelId": "core/model/descriptors/power-changed.mjson"
+            "modelId": "core/model/descriptors/power-changed.mjson",
+            "type": "PowerChanged"
         },
         {
-            "type": "Replication",
-            "modelId": "core/model/descriptors/replication.mjson"
+            "modelId": "core/model/descriptors/replication.mjson",
+            "type": "Replication"
         },
         {
-            "type": "RsyncCopy",
-            "modelId": "core/model/descriptors/rsync-copy.mjson"
+            "modelId": "core/model/descriptors/rsync-copy-rsync-properties.mjson",
+            "type": "RsyncCopyRsyncProperties"
         },
         {
-            "type": "RsyncCopyRsyncProperties",
-            "modelId": "core/model/descriptors/rsync-copy-rsync-properties.mjson"
+            "modelId": "core/model/descriptors/rsync-copy.mjson",
+            "type": "RsyncCopy"
         },
         {
-            "type": "RsyncdModule",
-            "modelId": "core/model/descriptors/rsyncd-module.mjson"
+            "modelId": "core/model/descriptors/rsyncd-module.mjson",
+            "type": "RsyncdModule"
         },
         {
-            "type": "Rusage",
-            "modelId": "core/model/descriptors/rusage.mjson"
+            "modelId": "core/model/descriptors/rusage.mjson",
+            "type": "Rusage"
         },
         {
-            "type": "Service",
-            "modelId": "core/model/descriptors/service.mjson"
+            "modelId": "core/model/descriptors/service-afp.mjson",
+            "type": "ServiceAfp"
         },
         {
-            "type": "ServiceAfp",
-            "modelId": "core/model/descriptors/service-afp.mjson"
+            "modelId": "core/model/descriptors/service-dyndns.mjson",
+            "type": "ServiceDyndns"
         },
         {
-            "type": "ServiceDyndns",
-            "modelId": "core/model/descriptors/service-dyndns.mjson"
+            "modelId": "core/model/descriptors/service-ftp.mjson",
+            "type": "ServiceFtp"
         },
         {
-            "type": "ServiceFtp",
-            "modelId": "core/model/descriptors/service-ftp.mjson"
+            "modelId": "core/model/descriptors/service-glusterd.mjson",
+            "type": "ServiceGlusterd"
         },
         {
-            "type": "ServiceGlusterd",
-            "modelId": "core/model/descriptors/service-glusterd.mjson"
+            "modelId": "core/model/descriptors/service-haproxy.mjson",
+            "type": "ServiceHaproxy"
         },
         {
-            "type": "ServiceHaproxy",
-            "modelId": "core/model/descriptors/service-haproxy.mjson"
+            "modelId": "core/model/descriptors/service-ipfs.mjson",
+            "type": "ServiceIpfs"
         },
         {
-            "type": "ServiceIpfs",
-            "modelId": "core/model/descriptors/service-ipfs.mjson"
+            "modelId": "core/model/descriptors/service-iscsi.mjson",
+            "type": "ServiceIscsi"
         },
         {
-            "type": "ServiceIscsi",
-            "modelId": "core/model/descriptors/service-iscsi.mjson"
+            "modelId": "core/model/descriptors/service-lldp.mjson",
+            "type": "ServiceLldp"
         },
         {
-            "type": "ServiceLldp",
-            "modelId": "core/model/descriptors/service-lldp.mjson"
+            "modelId": "core/model/descriptors/service-nfs.mjson",
+            "type": "ServiceNfs"
         },
         {
-            "type": "ServiceNfs",
-            "modelId": "core/model/descriptors/service-nfs.mjson"
+            "modelId": "core/model/descriptors/service-riak-cs.mjson",
+            "type": "ServiceRiakCs"
         },
         {
-            "type": "ServiceRiak",
-            "modelId": "core/model/descriptors/service-riak.mjson"
+            "modelId": "core/model/descriptors/service-riak.mjson",
+            "type": "ServiceRiak"
         },
         {
-            "type": "ServiceRiakCs",
-            "modelId": "core/model/descriptors/service-riak-cs.mjson"
+            "modelId": "core/model/descriptors/service-rsyncd.mjson",
+            "type": "ServiceRsyncd"
         },
         {
-            "type": "ServiceRsyncd",
-            "modelId": "core/model/descriptors/service-rsyncd.mjson"
+            "modelId": "core/model/descriptors/service-smartd.mjson",
+            "type": "ServiceSmartd"
         },
         {
-            "type": "ServiceSmartd",
-            "modelId": "core/model/descriptors/service-smartd.mjson"
+            "modelId": "core/model/descriptors/service-smb.mjson",
+            "type": "ServiceSmb"
         },
         {
-            "type": "ServiceSmb",
-            "modelId": "core/model/descriptors/service-smb.mjson"
+            "modelId": "core/model/descriptors/service-snmp.mjson",
+            "type": "ServiceSnmp"
         },
         {
-            "type": "ServiceSnmp",
-            "modelId": "core/model/descriptors/service-snmp.mjson"
+            "modelId": "core/model/descriptors/service-ssh.mjson",
+            "type": "ServiceSsh"
         },
         {
-            "type": "ServiceSsh",
-            "modelId": "core/model/descriptors/service-ssh.mjson"
+            "modelId": "core/model/descriptors/service-stanchion.mjson",
+            "type": "ServiceStanchion"
         },
         {
-            "type": "ServiceStanchion",
-            "modelId": "core/model/descriptors/service-stanchion.mjson"
+            "modelId": "core/model/descriptors/service-swift.mjson",
+            "type": "ServiceSwift"
         },
         {
-            "type": "ServiceSwift",
-            "modelId": "core/model/descriptors/service-swift.mjson"
+            "modelId": "core/model/descriptors/service-tftp.mjson",
+            "type": "ServiceTftp"
         },
         {
-            "type": "ServiceTftp",
-            "modelId": "core/model/descriptors/service-tftp.mjson"
+            "modelId": "core/model/descriptors/service-ups.mjson",
+            "type": "ServiceUps"
         },
         {
-            "type": "ServiceUps",
-            "modelId": "core/model/descriptors/service-ups.mjson"
+            "modelId": "core/model/descriptors/service-webdav.mjson",
+            "type": "ServiceWebdav"
         },
         {
-            "type": "ServiceWebdav",
-            "modelId": "core/model/descriptors/service-webdav.mjson"
+            "modelId": "core/model/descriptors/service.mjson",
+            "type": "Service"
         },
         {
-            "type": "Session",
-            "modelId": "core/model/descriptors/session.mjson"
+            "modelId": "core/model/descriptors/session.mjson",
+            "type": "Session"
         },
         {
-            "type": "Share",
-            "modelId": "core/model/descriptors/share.mjson"
+            "modelId": "core/model/descriptors/share-client-extra.mjson",
+            "type": "ShareClientExtra"
         },
         {
-            "type": "ShareClient",
-            "modelId": "core/model/descriptors/share-client.mjson"
+            "modelId": "core/model/descriptors/share-client.mjson",
+            "type": "ShareClient"
         },
         {
-            "type": "ShareClientExtra",
-            "modelId": "core/model/descriptors/share-client-extra.mjson"
+            "modelId": "core/model/descriptors/share-properties.mjson",
+            "type": "ShareProperties"
         },
         {
-            "type": "ShareProperties",
-            "modelId": "core/model/descriptors/share-properties.mjson"
+            "modelId": "core/model/descriptors/share-types.mjson",
+            "type": "ShareTypes"
         },
         {
-            "type": "ShareTypes",
-            "modelId": "core/model/descriptors/share-types.mjson"
+            "modelId": "core/model/descriptors/share.mjson",
+            "type": "Share"
         },
         {
-            "type": "SimulatedDisk",
-            "modelId": "core/model/descriptors/simulated-disk.mjson"
+            "modelId": "core/model/descriptors/simulated-disk.mjson",
+            "type": "SimulatedDisk"
         },
         {
-            "type": "SmbShare",
-            "modelId": "core/model/descriptors/smb-share.mjson"
+            "modelId": "core/model/descriptors/smb-share-extra-parameters.mjson",
+            "type": "SmbShareExtraParameters"
         },
         {
-            "type": "SmbShareExtraParameters",
-            "modelId": "core/model/descriptors/smb-share-extra-parameters.mjson"
+            "modelId": "core/model/descriptors/smb-share.mjson",
+            "type": "SmbShare"
         },
         {
-            "type": "Stat",
-            "modelId": "core/model/descriptors/stat.mjson"
+            "modelId": "core/model/descriptors/stat-alert.mjson",
+            "type": "StatAlert"
         },
         {
-            "type": "StatAlert",
-            "modelId": "core/model/descriptors/stat-alert.mjson"
+            "modelId": "core/model/descriptors/stat.mjson",
+            "type": "Stat"
         },
         {
-            "type": "SupportTicket",
-            "modelId": "core/model/descriptors/support-ticket.mjson"
+            "modelId": "core/model/descriptors/support-ticket.mjson",
+            "type": "SupportTicket"
         },
         {
-            "type": "SwapMirror",
-            "modelId": "core/model/descriptors/swap-mirror.mjson"
+            "modelId": "core/model/descriptors/swap-mirror.mjson",
+            "type": "SwapMirror"
         },
         {
-            "type": "SystemAdvanced",
-            "modelId": "core/model/descriptors/system-advanced.mjson"
+            "modelId": "core/model/descriptors/system-advanced.mjson",
+            "type": "SystemAdvanced"
         },
         {
-            "type": "SystemGeneral",
-            "modelId": "core/model/descriptors/system-general.mjson"
+            "modelId": "core/model/descriptors/system-general.mjson",
+            "type": "SystemGeneral"
         },
         {
-            "type": "SystemTime",
-            "modelId": "core/model/descriptors/system-time.mjson"
+            "modelId": "core/model/descriptors/system-time.mjson",
+            "type": "SystemTime"
         },
         {
-            "type": "SystemUi",
-            "modelId": "core/model/descriptors/system-ui.mjson"
+            "modelId": "core/model/descriptors/system-ui.mjson",
+            "type": "SystemUi"
         },
         {
-            "type": "Task",
-            "modelId": "core/model/descriptors/task.mjson"
+            "modelId": "core/model/descriptors/task-args.mjson",
+            "type": "TaskArgs"
         },
         {
-            "type": "TaskArgs",
-            "modelId": "core/model/descriptors/task-args.mjson"
+            "modelId": "core/model/descriptors/task.mjson",
+            "type": "Task"
         },
         {
-            "type": "Tunable",
-            "modelId": "core/model/descriptors/tunable.mjson"
+            "modelId": "core/model/descriptors/tunable.mjson",
+            "type": "Tunable"
         },
         {
-            "type": "UiTransaction",
-            "modelId": "core/model/descriptors/ui-transaction.mjson"
+            "modelId": "core/model/descriptors/ui-transaction.mjson",
+            "type": "UiTransaction"
         },
         {
-            "type": "UnixModeTuple",
-            "modelId": "core/model/descriptors/unix-mode-tuple.mjson"
+            "modelId": "core/model/descriptors/unix-mode-tuple.mjson",
+            "type": "UnixModeTuple"
         },
         {
-            "type": "UnixPermissions",
-            "modelId": "core/model/descriptors/unix-permissions.mjson"
+            "modelId": "core/model/descriptors/unix-permissions.mjson",
+            "type": "UnixPermissions"
         },
         {
-            "type": "Update",
-            "modelId": "core/model/descriptors/update.mjson"
+            "modelId": "core/model/descriptors/update-info-notes.mjson",
+            "type": "UpdateInfoNotes"
         },
         {
-            "type": "UpdateInfo",
-            "modelId": "core/model/descriptors/update-info.mjson"
+            "modelId": "core/model/descriptors/update-info.mjson",
+            "type": "UpdateInfo"
         },
         {
-            "type": "UpdateInfoNotes",
-            "modelId": "core/model/descriptors/update-info-notes.mjson"
+            "modelId": "core/model/descriptors/update-ops.mjson",
+            "type": "UpdateOps"
         },
         {
-            "type": "UpdateOps",
-            "modelId": "core/model/descriptors/update-ops.mjson"
+            "modelId": "core/model/descriptors/update-progress.mjson",
+            "type": "UpdateProgress"
         },
         {
-            "type": "UpdateProgress",
-            "modelId": "core/model/descriptors/update-progress.mjson"
+            "modelId": "core/model/descriptors/update-train.mjson",
+            "type": "UpdateTrain"
         },
         {
-            "type": "UpdateTrain",
-            "modelId": "core/model/descriptors/update-train.mjson"
+            "modelId": "core/model/descriptors/update.mjson",
+            "type": "Update"
         },
         {
-            "type": "User",
-            "modelId": "core/model/descriptors/user.mjson"
+            "modelId": "core/model/descriptors/user-attributes.mjson",
+            "type": "UserAttributes"
         },
         {
-            "type": "UserAttributes",
-            "modelId": "core/model/descriptors/user-attributes.mjson"
+            "modelId": "core/model/descriptors/user.mjson",
+            "type": "User"
         },
         {
-            "type": "Volume",
-            "modelId": "core/model/descriptors/volume.mjson"
+            "modelId": "core/model/descriptors/volume-attributes.mjson",
+            "type": "VolumeAttributes"
         },
         {
-            "type": "VolumeAttributes",
-            "modelId": "core/model/descriptors/volume-attributes.mjson"
+            "modelId": "core/model/descriptors/volume-import-params.mjson",
+            "type": "VolumeImportParams"
         },
         {
-            "type": "VolumeImportParams",
-            "modelId": "core/model/descriptors/volume-import-params.mjson"
+            "modelId": "core/model/descriptors/volume-params.mjson",
+            "type": "VolumeParams"
         },
         {
-            "type": "VolumeParams",
-            "modelId": "core/model/descriptors/volume-params.mjson"
+            "modelId": "core/model/descriptors/volume-vdev-recommendation.mjson",
+            "type": "VolumeVdevRecommendation"
         },
         {
-            "type": "VolumeVdevRecommendation",
-            "modelId": "core/model/descriptors/volume-vdev-recommendation.mjson"
+            "modelId": "core/model/descriptors/volume-vdev-recommendations-redundancy.mjson",
+            "type": "VolumeVdevRecommendationsRedundancy"
         },
         {
-            "type": "VolumeVdevRecommendations",
-            "modelId": "core/model/descriptors/volume-vdev-recommendations.mjson"
+            "modelId": "core/model/descriptors/volume-vdev-recommendations-speed.mjson",
+            "type": "VolumeVdevRecommendationsSpeed"
         },
         {
-            "type": "VolumeVdevRecommendationsRedundancy",
-            "modelId": "core/model/descriptors/volume-vdev-recommendations-redundancy.mjson"
+            "modelId": "core/model/descriptors/volume-vdev-recommendations-storage.mjson",
+            "type": "VolumeVdevRecommendationsStorage"
         },
         {
-            "type": "VolumeVdevRecommendationsSpeed",
-            "modelId": "core/model/descriptors/volume-vdev-recommendations-speed.mjson"
+            "modelId": "core/model/descriptors/volume-vdev-recommendations.mjson",
+            "type": "VolumeVdevRecommendations"
         },
         {
-            "type": "VolumeVdevRecommendationsStorage",
-            "modelId": "core/model/descriptors/volume-vdev-recommendations-storage.mjson"
+            "modelId": "core/model/descriptors/volume.mjson",
+            "type": "Volume"
         },
         {
-            "type": "WebdavShareProperties",
-            "modelId": "core/model/descriptors/webdav-share-properties.mjson"
+            "modelId": "core/model/descriptors/webdav-share-properties.mjson",
+            "type": "WebdavShareProperties"
         },
         {
-            "type": "ZfsDataset",
-            "modelId": "core/model/descriptors/zfs-dataset.mjson"
+            "modelId": "core/model/descriptors/zfs-dataset.mjson",
+            "type": "ZfsDataset"
         },
         {
-            "type": "ZfsDatasetproperties",
-            "modelId": "core/model/descriptors/zfs-datasetproperties.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-aclinherit.mjson",
+            "type": "ZfsDatasetpropertiesAclinherit"
         },
         {
-            "type": "ZfsDatasetpropertiesAclinherit",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-aclinherit.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-aclmode.mjson",
+            "type": "ZfsDatasetpropertiesAclmode"
         },
         {
-            "type": "ZfsDatasetpropertiesAclmode",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-aclmode.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-atime.mjson",
+            "type": "ZfsDatasetpropertiesAtime"
         },
         {
-            "type": "ZfsDatasetpropertiesAtime",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-atime.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-available.mjson",
+            "type": "ZfsDatasetpropertiesAvailable"
         },
         {
-            "type": "ZfsDatasetpropertiesAvailable",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-available.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-canmount.mjson",
+            "type": "ZfsDatasetpropertiesCanmount"
         },
         {
-            "type": "ZfsDatasetpropertiesCanmount",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-canmount.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-casesensitivity.mjson",
+            "type": "ZfsDatasetpropertiesCasesensitivity"
         },
         {
-            "type": "ZfsDatasetpropertiesCasesensitivity",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-casesensitivity.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-checksum.mjson",
+            "type": "ZfsDatasetpropertiesChecksum"
         },
         {
-            "type": "ZfsDatasetpropertiesChecksum",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-checksum.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-clones.mjson",
+            "type": "ZfsDatasetpropertiesClones"
         },
         {
-            "type": "ZfsDatasetpropertiesClones",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-clones.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-compression.mjson",
+            "type": "ZfsDatasetpropertiesCompression"
         },
         {
-            "type": "ZfsDatasetpropertiesCompression",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-compression.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-compressratio.mjson",
+            "type": "ZfsDatasetpropertiesCompressratio"
         },
         {
-            "type": "ZfsDatasetpropertiesCompressratio",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-compressratio.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-copies.mjson",
+            "type": "ZfsDatasetpropertiesCopies"
         },
         {
-            "type": "ZfsDatasetpropertiesCopies",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-copies.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-createtxg.mjson",
+            "type": "ZfsDatasetpropertiesCreatetxg"
         },
         {
-            "type": "ZfsDatasetpropertiesCreatetxg",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-createtxg.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-creation.mjson",
+            "type": "ZfsDatasetpropertiesCreation"
         },
         {
-            "type": "ZfsDatasetpropertiesCreation",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-creation.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-dedup.mjson",
+            "type": "ZfsDatasetpropertiesDedup"
         },
         {
-            "type": "ZfsDatasetpropertiesDedup",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-dedup.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-defer-destroy.mjson",
+            "type": "ZfsDatasetpropertiesDeferDestroy"
         },
         {
-            "type": "ZfsDatasetpropertiesDeferDestroy",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-defer-destroy.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-devices.mjson",
+            "type": "ZfsDatasetpropertiesDevices"
         },
         {
-            "type": "ZfsDatasetpropertiesDevices",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-devices.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-exec.mjson",
+            "type": "ZfsDatasetpropertiesExec"
         },
         {
-            "type": "ZfsDatasetpropertiesExec",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-exec.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-filesystem-count.mjson",
+            "type": "ZfsDatasetpropertiesFilesystemCount"
         },
         {
-            "type": "ZfsDatasetpropertiesFilesystemCount",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-filesystem-count.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-filesystem-limit.mjson",
+            "type": "ZfsDatasetpropertiesFilesystemLimit"
         },
         {
-            "type": "ZfsDatasetpropertiesFilesystemLimit",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-filesystem-limit.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-guid.mjson",
+            "type": "ZfsDatasetpropertiesGuid"
         },
         {
-            "type": "ZfsDatasetpropertiesGuid",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-guid.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-inconsistent.mjson",
+            "type": "ZfsDatasetpropertiesInconsistent"
         },
         {
-            "type": "ZfsDatasetpropertiesInconsistent",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-inconsistent.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-iscsioptions.mjson",
+            "type": "ZfsDatasetpropertiesIscsioptions"
         },
         {
-            "type": "ZfsDatasetpropertiesIscsioptions",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-iscsioptions.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-jailed.mjson",
+            "type": "ZfsDatasetpropertiesJailed"
         },
         {
-            "type": "ZfsDatasetpropertiesJailed",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-jailed.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-logbias.mjson",
+            "type": "ZfsDatasetpropertiesLogbias"
         },
         {
-            "type": "ZfsDatasetpropertiesLogbias",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-logbias.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-logicalreferenced.mjson",
+            "type": "ZfsDatasetpropertiesLogicalreferenced"
         },
         {
-            "type": "ZfsDatasetpropertiesLogicalreferenced",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-logicalreferenced.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-logicalused.mjson",
+            "type": "ZfsDatasetpropertiesLogicalused"
         },
         {
-            "type": "ZfsDatasetpropertiesLogicalused",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-logicalused.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-mlslabel.mjson",
+            "type": "ZfsDatasetpropertiesMlslabel"
         },
         {
-            "type": "ZfsDatasetpropertiesMlslabel",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-mlslabel.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-mounted.mjson",
+            "type": "ZfsDatasetpropertiesMounted"
         },
         {
-            "type": "ZfsDatasetpropertiesMounted",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-mounted.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-mountpoint.mjson",
+            "type": "ZfsDatasetpropertiesMountpoint"
         },
         {
-            "type": "ZfsDatasetpropertiesMountpoint",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-mountpoint.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-name.mjson",
+            "type": "ZfsDatasetpropertiesName"
         },
         {
-            "type": "ZfsDatasetpropertiesName",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-name.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-nbmand.mjson",
+            "type": "ZfsDatasetpropertiesNbmand"
         },
         {
-            "type": "ZfsDatasetpropertiesNbmand",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-nbmand.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-normalization.mjson",
+            "type": "ZfsDatasetpropertiesNormalization"
         },
         {
-            "type": "ZfsDatasetpropertiesNormalization",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-normalization.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-numclones.mjson",
+            "type": "ZfsDatasetpropertiesNumclones"
         },
         {
-            "type": "ZfsDatasetpropertiesNumclones",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-numclones.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-objsetid.mjson",
+            "type": "ZfsDatasetpropertiesObjsetid"
         },
         {
-            "type": "ZfsDatasetpropertiesObjsetid",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-objsetid.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-origin.mjson",
+            "type": "ZfsDatasetpropertiesOrigin"
         },
         {
-            "type": "ZfsDatasetpropertiesOrigin",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-origin.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-prevsnap.mjson",
+            "type": "ZfsDatasetpropertiesPrevsnap"
         },
         {
-            "type": "ZfsDatasetpropertiesPrevsnap",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-prevsnap.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-primarycache.mjson",
+            "type": "ZfsDatasetpropertiesPrimarycache"
         },
         {
-            "type": "ZfsDatasetpropertiesPrimarycache",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-primarycache.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-quota.mjson",
+            "type": "ZfsDatasetpropertiesQuota"
         },
         {
-            "type": "ZfsDatasetpropertiesQuota",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-quota.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-readonly.mjson",
+            "type": "ZfsDatasetpropertiesReadonly"
         },
         {
-            "type": "ZfsDatasetpropertiesReadonly",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-readonly.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-recordsize.mjson",
+            "type": "ZfsDatasetpropertiesRecordsize"
         },
         {
-            "type": "ZfsDatasetpropertiesRecordsize",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-recordsize.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-redundant-metadata.mjson",
+            "type": "ZfsDatasetpropertiesRedundantMetadata"
         },
         {
-            "type": "ZfsDatasetpropertiesRedundantMetadata",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-redundant-metadata.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-refcompressratio.mjson",
+            "type": "ZfsDatasetpropertiesRefcompressratio"
         },
         {
-            "type": "ZfsDatasetpropertiesRefcompressratio",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-refcompressratio.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-referenced.mjson",
+            "type": "ZfsDatasetpropertiesReferenced"
         },
         {
-            "type": "ZfsDatasetpropertiesReferenced",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-referenced.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-refquota.mjson",
+            "type": "ZfsDatasetpropertiesRefquota"
         },
         {
-            "type": "ZfsDatasetpropertiesRefquota",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-refquota.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-refreservation.mjson",
+            "type": "ZfsDatasetpropertiesRefreservation"
         },
         {
-            "type": "ZfsDatasetpropertiesRefreservation",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-refreservation.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-reservation.mjson",
+            "type": "ZfsDatasetpropertiesReservation"
         },
         {
-            "type": "ZfsDatasetpropertiesReservation",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-reservation.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-secondarycache.mjson",
+            "type": "ZfsDatasetpropertiesSecondarycache"
         },
         {
-            "type": "ZfsDatasetpropertiesSecondarycache",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-secondarycache.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-setuid.mjson",
+            "type": "ZfsDatasetpropertiesSetuid"
         },
         {
-            "type": "ZfsDatasetpropertiesSetuid",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-setuid.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-sharenfs.mjson",
+            "type": "ZfsDatasetpropertiesSharenfs"
         },
         {
-            "type": "ZfsDatasetpropertiesSharenfs",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-sharenfs.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-sharesmb.mjson",
+            "type": "ZfsDatasetpropertiesSharesmb"
         },
         {
-            "type": "ZfsDatasetpropertiesSharesmb",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-sharesmb.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-snapdir.mjson",
+            "type": "ZfsDatasetpropertiesSnapdir"
         },
         {
-            "type": "ZfsDatasetpropertiesSnapdir",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-snapdir.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-snapshot-count.mjson",
+            "type": "ZfsDatasetpropertiesSnapshotCount"
         },
         {
-            "type": "ZfsDatasetpropertiesSnapshotCount",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-snapshot-count.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-snapshot-limit.mjson",
+            "type": "ZfsDatasetpropertiesSnapshotLimit"
         },
         {
-            "type": "ZfsDatasetpropertiesSnapshotLimit",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-snapshot-limit.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-stmf-sbd-lu.mjson",
+            "type": "ZfsDatasetpropertiesStmfSbdLu"
         },
         {
-            "type": "ZfsDatasetpropertiesStmfSbdLu",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-stmf-sbd-lu.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-sync.mjson",
+            "type": "ZfsDatasetpropertiesSync"
         },
         {
-            "type": "ZfsDatasetpropertiesSync",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-sync.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-type.mjson",
+            "type": "ZfsDatasetpropertiesType"
         },
         {
-            "type": "ZfsDatasetpropertiesType",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-type.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-unique.mjson",
+            "type": "ZfsDatasetpropertiesUnique"
         },
         {
-            "type": "ZfsDatasetpropertiesUnique",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-unique.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-used.mjson",
+            "type": "ZfsDatasetpropertiesUsed"
         },
         {
-            "type": "ZfsDatasetpropertiesUsed",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-used.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbychildren.mjson",
+            "type": "ZfsDatasetpropertiesUsedbychildren"
         },
         {
-            "type": "ZfsDatasetpropertiesUsedbychildren",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbychildren.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbydataset.mjson",
+            "type": "ZfsDatasetpropertiesUsedbydataset"
         },
         {
-            "type": "ZfsDatasetpropertiesUsedbydataset",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbydataset.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbyrefreservation.mjson",
+            "type": "ZfsDatasetpropertiesUsedbyrefreservation"
         },
         {
-            "type": "ZfsDatasetpropertiesUsedbyrefreservation",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbyrefreservation.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbysnapshots.mjson",
+            "type": "ZfsDatasetpropertiesUsedbysnapshots"
         },
         {
-            "type": "ZfsDatasetpropertiesUsedbysnapshots",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-usedbysnapshots.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-useraccounting.mjson",
+            "type": "ZfsDatasetpropertiesUseraccounting"
         },
         {
-            "type": "ZfsDatasetpropertiesUseraccounting",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-useraccounting.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-userrefs.mjson",
+            "type": "ZfsDatasetpropertiesUserrefs"
         },
         {
-            "type": "ZfsDatasetpropertiesUserrefs",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-userrefs.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-utf8only.mjson",
+            "type": "ZfsDatasetpropertiesUtf8only"
         },
         {
-            "type": "ZfsDatasetpropertiesUtf8only",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-utf8only.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-version.mjson",
+            "type": "ZfsDatasetpropertiesVersion"
         },
         {
-            "type": "ZfsDatasetpropertiesVersion",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-version.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-volblocksize.mjson",
+            "type": "ZfsDatasetpropertiesVolblocksize"
         },
         {
-            "type": "ZfsDatasetpropertiesVolblocksize",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-volblocksize.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-volmode.mjson",
+            "type": "ZfsDatasetpropertiesVolmode"
         },
         {
-            "type": "ZfsDatasetpropertiesVolmode",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-volmode.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-volsize.mjson",
+            "type": "ZfsDatasetpropertiesVolsize"
         },
         {
-            "type": "ZfsDatasetpropertiesVolsize",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-volsize.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-vscan.mjson",
+            "type": "ZfsDatasetpropertiesVscan"
         },
         {
-            "type": "ZfsDatasetpropertiesVscan",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-vscan.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-written.mjson",
+            "type": "ZfsDatasetpropertiesWritten"
         },
         {
-            "type": "ZfsDatasetpropertiesWritten",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-written.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties-xattr.mjson",
+            "type": "ZfsDatasetpropertiesXattr"
         },
         {
-            "type": "ZfsDatasetpropertiesXattr",
-            "modelId": "core/model/descriptors/zfs-datasetproperties-xattr.mjson"
+            "modelId": "core/model/descriptors/zfs-datasetproperties.mjson",
+            "type": "ZfsDatasetproperties"
         },
         {
-            "type": "ZfsPool",
-            "modelId": "core/model/descriptors/zfs-pool.mjson"
+            "modelId": "core/model/descriptors/zfs-pool.mjson",
+            "type": "ZfsPool"
         },
         {
-            "type": "ZfsProperties",
-            "modelId": "core/model/descriptors/zfs-properties.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-allocated.mjson",
+            "type": "ZfsPropertiesAllocated"
         },
         {
-            "type": "ZfsPropertiesAllocated",
-            "modelId": "core/model/descriptors/zfs-properties-allocated.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-altroot.mjson",
+            "type": "ZfsPropertiesAltroot"
         },
         {
-            "type": "ZfsPropertiesAltroot",
-            "modelId": "core/model/descriptors/zfs-properties-altroot.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-autoexpand.mjson",
+            "type": "ZfsPropertiesAutoexpand"
         },
         {
-            "type": "ZfsPropertiesAutoexpand",
-            "modelId": "core/model/descriptors/zfs-properties-autoexpand.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-autoreplace.mjson",
+            "type": "ZfsPropertiesAutoreplace"
         },
         {
-            "type": "ZfsPropertiesAutoreplace",
-            "modelId": "core/model/descriptors/zfs-properties-autoreplace.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-bootfs.mjson",
+            "type": "ZfsPropertiesBootfs"
         },
         {
-            "type": "ZfsPropertiesBootfs",
-            "modelId": "core/model/descriptors/zfs-properties-bootfs.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-cachefile.mjson",
+            "type": "ZfsPropertiesCachefile"
         },
         {
-            "type": "ZfsPropertiesCachefile",
-            "modelId": "core/model/descriptors/zfs-properties-cachefile.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-capacity.mjson",
+            "type": "ZfsPropertiesCapacity"
         },
         {
-            "type": "ZfsPropertiesCapacity",
-            "modelId": "core/model/descriptors/zfs-properties-capacity.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-comment.mjson",
+            "type": "ZfsPropertiesComment"
         },
         {
-            "type": "ZfsPropertiesComment",
-            "modelId": "core/model/descriptors/zfs-properties-comment.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-dedupditto.mjson",
+            "type": "ZfsPropertiesDedupditto"
         },
         {
-            "type": "ZfsPropertiesDedupditto",
-            "modelId": "core/model/descriptors/zfs-properties-dedupditto.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-dedupratio.mjson",
+            "type": "ZfsPropertiesDedupratio"
         },
         {
-            "type": "ZfsPropertiesDedupratio",
-            "modelId": "core/model/descriptors/zfs-properties-dedupratio.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-delegation.mjson",
+            "type": "ZfsPropertiesDelegation"
         },
         {
-            "type": "ZfsPropertiesDelegation",
-            "modelId": "core/model/descriptors/zfs-properties-delegation.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-expandsize.mjson",
+            "type": "ZfsPropertiesExpandsize"
         },
         {
-            "type": "ZfsPropertiesExpandsize",
-            "modelId": "core/model/descriptors/zfs-properties-expandsize.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-failmode.mjson",
+            "type": "ZfsPropertiesFailmode"
         },
         {
-            "type": "ZfsPropertiesFailmode",
-            "modelId": "core/model/descriptors/zfs-properties-failmode.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-fragmentation.mjson",
+            "type": "ZfsPropertiesFragmentation"
         },
         {
-            "type": "ZfsPropertiesFragmentation",
-            "modelId": "core/model/descriptors/zfs-properties-fragmentation.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-free.mjson",
+            "type": "ZfsPropertiesFree"
         },
         {
-            "type": "ZfsPropertiesFree",
-            "modelId": "core/model/descriptors/zfs-properties-free.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-freeing.mjson",
+            "type": "ZfsPropertiesFreeing"
         },
         {
-            "type": "ZfsPropertiesFreeing",
-            "modelId": "core/model/descriptors/zfs-properties-freeing.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-guid.mjson",
+            "type": "ZfsPropertiesGuid"
         },
         {
-            "type": "ZfsPropertiesGuid",
-            "modelId": "core/model/descriptors/zfs-properties-guid.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-health.mjson",
+            "type": "ZfsPropertiesHealth"
         },
         {
-            "type": "ZfsPropertiesHealth",
-            "modelId": "core/model/descriptors/zfs-properties-health.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-leaked.mjson",
+            "type": "ZfsPropertiesLeaked"
         },
         {
-            "type": "ZfsPropertiesLeaked",
-            "modelId": "core/model/descriptors/zfs-properties-leaked.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-listsnapshots.mjson",
+            "type": "ZfsPropertiesListsnapshots"
         },
         {
-            "type": "ZfsPropertiesListsnapshots",
-            "modelId": "core/model/descriptors/zfs-properties-listsnapshots.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-maxblocksize.mjson",
+            "type": "ZfsPropertiesMaxblocksize"
         },
         {
-            "type": "ZfsPropertiesMaxblocksize",
-            "modelId": "core/model/descriptors/zfs-properties-maxblocksize.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-name.mjson",
+            "type": "ZfsPropertiesName"
         },
         {
-            "type": "ZfsPropertiesName",
-            "modelId": "core/model/descriptors/zfs-properties-name.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-readonly.mjson",
+            "type": "ZfsPropertiesReadonly"
         },
         {
-            "type": "ZfsPropertiesReadonly",
-            "modelId": "core/model/descriptors/zfs-properties-readonly.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-size.mjson",
+            "type": "ZfsPropertiesSize"
         },
         {
-            "type": "ZfsPropertiesSize",
-            "modelId": "core/model/descriptors/zfs-properties-size.mjson"
+            "modelId": "core/model/descriptors/zfs-properties-version.mjson",
+            "type": "ZfsPropertiesVersion"
         },
         {
-            "type": "ZfsPropertiesVersion",
-            "modelId": "core/model/descriptors/zfs-properties-version.mjson"
+            "modelId": "core/model/descriptors/zfs-properties.mjson",
+            "type": "ZfsProperties"
         },
         {
-            "type": "ZfsProperty",
-            "modelId": "core/model/descriptors/zfs-property.mjson"
+            "modelId": "core/model/descriptors/zfs-property.mjson",
+            "type": "ZfsProperty"
         },
         {
-            "type": "ZfsScan",
-            "modelId": "core/model/descriptors/zfs-scan.mjson"
+            "modelId": "core/model/descriptors/zfs-scan.mjson",
+            "type": "ZfsScan"
         },
         {
-            "type": "ZfsSnapshot",
-            "modelId": "core/model/descriptors/zfs-snapshot.mjson"
+            "modelId": "core/model/descriptors/zfs-snapshot-holds.mjson",
+            "type": "ZfsSnapshotHolds"
         },
         {
-            "type": "ZfsSnapshotHolds",
-            "modelId": "core/model/descriptors/zfs-snapshot-holds.mjson"
+            "modelId": "core/model/descriptors/zfs-snapshot-properties.mjson",
+            "type": "ZfsSnapshotProperties"
         },
         {
-            "type": "ZfsSnapshotProperties",
-            "modelId": "core/model/descriptors/zfs-snapshot-properties.mjson"
+            "modelId": "core/model/descriptors/zfs-snapshot.mjson",
+            "type": "ZfsSnapshot"
         },
         {
-            "type": "ZfsTopology",
-            "modelId": "core/model/descriptors/zfs-topology.mjson"
+            "modelId": "core/model/descriptors/zfs-topology.mjson",
+            "type": "ZfsTopology"
         },
         {
-            "type": "ZfsVdev",
-            "modelId": "core/model/descriptors/zfs-vdev.mjson"
+            "modelId": "core/model/descriptors/zfs-vdev-extension.mjson",
+            "type": "ZfsVdevExtension"
         },
         {
-            "type": "ZfsVdevExtension",
-            "modelId": "core/model/descriptors/zfs-vdev-extension.mjson"
+            "modelId": "core/model/descriptors/zfs-vdev-stats.mjson",
+            "type": "ZfsVdevStats"
         },
         {
-            "type": "ZfsVdevStats",
-            "modelId": "core/model/descriptors/zfs-vdev-stats.mjson"
+            "modelId": "core/model/descriptors/zfs-vdev.mjson",
+            "type": "ZfsVdev"
         }
     ]
 }

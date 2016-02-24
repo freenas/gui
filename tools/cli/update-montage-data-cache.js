@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 
 var program = require('commander');
+var MontageDataConfig = require("../configuration/montage-data-config").MontageDataConfig;
+
 var cleanMontageDataCache = require('../lib/clean-cache').cleanMontageDataCache;
 var generateDescriptors = require("../lib/generate-descriptors").generateDescriptors;
 var generateEnumerations = require("../lib/generate-enumerations").generateEnumerations;
 var generateModel = require("../lib/generate-model").generateModel;
-var MontageDataConfig = require("../configuration/montage-data-config").MontageDataConfig;
+var generateServices = require("../lib/generate-services").generateServices;
+
 
 program
     .version('0.0.1')
@@ -16,17 +19,23 @@ cleanMontageDataCache(
     MontageDataConfig.EnumerationsDirectoryAbsolutePath,
     MontageDataConfig.DescriptorsDirectoryAbsolutePath).then(function () {
 
-    return generateDescriptors({
-        target: MontageDataConfig.DescriptorsDirectoryAbsolutePath,
+    return generateServices({
+        target: MontageDataConfig.ModelDirectoryAbsolutePath,
         save: true
     }).then(function () {
-        return generateEnumerations({
-            target: MontageDataConfig.EnumerationsDirectoryAbsolutePath,
+        return generateDescriptors({
+            target: MontageDataConfig.DescriptorsDirectoryAbsolutePath,
             save: true
         }).then(function () {
-            return generateModel(MontageDataConfig.DescriptorsDirectoryAbsolutePath, {
-                prefix: MontageDataConfig.DescriptorsDirectoryPath,
-                target: MontageDataConfig.ModelDirectoryAbsolutePath
+            return generateEnumerations({
+                target: MontageDataConfig.EnumerationsDirectoryAbsolutePath,
+                save: true
+            }).then(function () {
+                return generateModel(MontageDataConfig.DescriptorsDirectoryAbsolutePath, {
+                    prefix: MontageDataConfig.DescriptorsDirectoryPath,
+                    target: MontageDataConfig.ModelDirectoryAbsolutePath,
+                    save: true
+                });
             });
         });
     });
