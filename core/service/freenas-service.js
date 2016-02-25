@@ -93,7 +93,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     types: {
         value: [
-            //FIXME: ALL_TYPES doesn't Seems to work
+            //FIXME: ALL_TYPES doesn't seems to work
             //DataObjectDescriptor.ALL_TYPES,
             Model.Disk,
             Model.NetworkInterface
@@ -120,42 +120,49 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     _fetchRawDataWithType: {
         value: function (stream, type) {
-            var commandFetchForType = Services.getFetchServiceForType(type);
+            var readServiceDescriptor = Services.findReadServiceForType(type);
 
-            if (commandFetchForType) {
+            if (readServiceDescriptor) {
                 var self = this;
 
                 return this.backendBridge.send(
-                    commandFetchForType.namespace,
-                    commandFetchForType.name,
+                    readServiceDescriptor.namespace,
+                    readServiceDescriptor.name,
                     {
-                        method: commandFetchForType.method,
-                        args: commandFetchForType.arguments || []
+                        method: readServiceDescriptor.method,
+                        args: []
                     }
-
                 ).then(function (response) {
                     self.addRawData(stream, response.data);
                     self.rawDataDone(stream);
+                });
+            }
 
+            //Fixme: @charles how to reject a fetch ? stream ?
+        }
+    },
+
+    deleteRawData: {
+        value: function (rawData, object) {
+            //todo need review @charles + @benoit
+            var deleteServiceDescriptor = Services.findDeleteServiceForType(object.Type);
+
+            if (deleteServiceDescriptor) {
+                return this.backendBridge.send(
+                    deleteServiceDescriptor.namespace,
+                    deleteServiceDescriptor.name,
+                    {
+                        method: deleteServiceDescriptor.method,
+                        args: [deleteServiceDescriptor.task, [object.id]]
+                    }
+
+                ).then(function (response) {
+                    //todo catch jobID + events
+                    return response;
                 });
             }
         }
     }
 
-
-}, /** @lends FreeNASService */ {
-
-    instance: {
-        get: function () {
-            var instance = this._instance;
-
-            if (!instance) {
-                instance = this._instance = new DataService();
-                DataService.mainService.addChildService(new FreeNASService());
-            }
-
-            return instance;
-        }
-    }
 
 });

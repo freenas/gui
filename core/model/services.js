@@ -1,8 +1,17 @@
 var Montage = require("montage/core/core").Montage,
     servicesMJSON = require("./services.mjson");
 
+
 //todo: need review with @benoit
-var CURD = ["create", "update", "read", "delete"];
+var CRUD_MAP = {
+        create: "create",
+        read: "read",
+        update: "update",
+        delete: "delete"
+    },
+
+    CRUD_ARRAY = Object.keys(CRUD_MAP);
+
 
 /**
  * @class Services
@@ -10,47 +19,72 @@ var CURD = ["create", "update", "read", "delete"];
  */
 exports.Services = Montage.specialize(/* @lends Services# */null, {
 
-    getServiceForType: {
+    findServicesForType: {
         value: function (type) {
             return servicesMJSON[typeof type === "string" ? type : type.typeName];
         }
     },
 
-    getFetchServiceForType: {
+    findCreateServiceForType: {
         value: function (type) {
-            var service = servicesMJSON[type.typeName];
-
-            if (service) {
-                return service.read || null;
-            }
-
-            return null;
+            return this._findCrudServiceForType(CRUD_MAP.create, type);
         }
     },
 
-    findRPCMethodsForType: {
+    findReadServiceForType: {
         value: function (type) {
-            var service = servicesMJSON[type.typeName],
-                rpcMethods = null;
+            return this._findCrudServiceForType(CRUD_MAP.read, type);
+        }
+    },
 
-            if (service) {
-                var serviceMethodKeys = Object.keys(service),
-                    serviceMethodKey;
+    findUpdateServiceForType: {
+        value: function (type) {
+            return this._findCrudServiceForType(CRUD_MAP.update, type);
+        }
+    },
 
-                for (var i = 0, length = serviceMethodKeys.length; i < length; i++) {
-                    serviceMethodKey = serviceMethodKeys[i];
+    findDeleteServiceForType: {
+        value: function (type) {
+            return this._findCrudServiceForType(CRUD_MAP.delete, type);
+        }
+    },
 
-                    if (CURD.indexOf(serviceMethodKey) === -1) {
-                        if (!rpcMethods) {
-                            rpcMethods = Object.create(null);
+    findRPCServicesForType: {
+        value: function (type) {
+            var servicesForType = servicesMJSON[type.typeName],
+                rpcServices = null;
+
+            if (servicesForType) {
+                var servicesForTypeKeys = Object.keys(servicesForType),
+                    servicesForTypeKey;
+
+                for (var i = 0, length = servicesForTypeKeys.length; i < length; i++) {
+                    servicesForTypeKey = servicesForTypeKeys[i];
+
+                    if (CRUD_ARRAY.indexOf(servicesForTypeKey) === -1) {
+                        if (!rpcServices) {
+                            rpcServices = Object.create(null);
                         }
 
-                        rpcMethods[serviceMethodKey] = service[serviceMethodKey];
+                        rpcServices[servicesForTypeKey] = servicesForType[servicesForTypeKey];
                     }
                 }
             }
 
-            return rpcMethods;
+            return rpcServices;
+        }
+    },
+
+
+     _findCrudServiceForType: {
+        value: function (crudAction, type) {
+            var services = this.findServicesForType(type);
+
+            if (services) {
+                return services[crudAction] || null;
+            }
+
+            return null;
         }
     }
 

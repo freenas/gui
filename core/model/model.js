@@ -43,15 +43,15 @@ function _initialize () {
         }
 
         if (!objectDescriptor.objectPrototype || objectDescriptor.objectPrototype !== Montage) {
-            var self = this;
-
             return ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
                 var objectPrototype = descriptor.newInstancePrototype().prototype,
-                    rpcMethods = Services.findRPCMethodsForType(type);
+                    rpcServices = Services.findRPCServicesForType(type);
 
-                if (rpcMethods) {
-                    _applyRpcMethodsOnPrototype(rpcMethods, objectPrototype);
+                if (rpcServices) {
+                    _applyRpcServicesOnPrototype(rpcServices, objectPrototype);
                 }
+
+                objectPrototype.Type = type;
 
                 return (objectDescriptor.objectPrototype = objectPrototype);
             });
@@ -88,8 +88,19 @@ function _setGetterForType (type, modelId) {
 }
 
 
-function _applyRPCMethodOnPrototype (methodName, methodDescriptor, prototype) {
-    Object.defineProperty(prototype, methodName, {
+function _applyRpcServicesOnPrototype (rpcServices, prototype) {
+    var rpcServicesKeys = Object.keys(rpcServices),
+        rpcServicesKey;
+
+    for (var i = 0, length = rpcServicesKeys.length; i < length; i++) {
+        rpcServicesKey = rpcServicesKeys[i];
+        _applyRpcServiceOnPrototype(rpcServicesKey, rpcServices[rpcServicesKey], prototype);
+    }
+}
+
+
+function _applyRpcServiceOnPrototype (serviceName, serviceDescriptor, prototype) {
+    Object.defineProperty(prototype, serviceName, {
         value: function () {
             var argumentsLength = arguments.length,
                 args;
@@ -99,24 +110,13 @@ function _applyRPCMethodOnPrototype (methodName, methodDescriptor, prototype) {
             }
 
             return _Model.backendBridge.send(
-                methodDescriptor.namespace,
-                methodDescriptor.name,
+                serviceDescriptor.namespace,
+                serviceDescriptor.name,
                 {
-                    method: methodDescriptor.method,
-                    args:  args ? [methodDescriptor.task, args] : [methodDescriptor.task]
+                    method: serviceDescriptor.method,
+                    args:  args ? [serviceDescriptor.task, args] : [serviceDescriptor.task]
                 }
             );
         }
     });
-}
-
-
-function _applyRpcMethodsOnPrototype (rpcMethods, prototype) {
-    var methodKeys = Object.keys(rpcMethods),
-        methodKey;
-
-    for (var i = 0, length = methodKeys.length; i < length; i++) {
-        methodKey = methodKeys[i];
-        _applyRPCMethodOnPrototype(methodKey, rpcMethods[methodKey], prototype);
-    }
 }
