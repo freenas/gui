@@ -1,7 +1,10 @@
 /*global require, exports, Error*/
-var Montage = require("montage").Montage;
-
 require("./extras/string");
+
+var Montage = require("montage").Montage,
+    DataService = require("montage-data/logic/service/data-service").DataService,
+    FreeNASService = require("core/service/freenas-service").FreeNASService;
+
 
 exports.ApplicationDelegate = Montage.specialize({
 
@@ -15,7 +18,9 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     willFinishLoading: {
         value: function (app) {
-            //todo
+            app.dataService = new DataService();
+
+            DataService.mainService.addChildService(new FreeNASService());
         }
     }
 

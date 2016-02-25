@@ -24,6 +24,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         value: function FreeNASService() {
             this.backendBridge = new BackEndBridge(WebSocketConfiguration.defaultConfiguration);
 
+            //Fixme: @benoit where/how that should be done?
+            Model.backendBridge = this.backendBridge;
+
             var info = Montage.getInfoForObject(this);
             this._authorizationServices = [info.moduleId];
 
@@ -147,7 +150,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             var instance = this._instance;
 
             if (!instance) {
-                instance = this._instance = new FreeNASService();
+                instance = this._instance = new DataService();
+                DataService.mainService.addChildService(new FreeNASService());
             }
 
             return instance;
