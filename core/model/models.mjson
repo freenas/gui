@@ -17,10 +17,6 @@
             "type": "ActivedirectoryConfig"
         },
         {
-            "modelId": "core/model/descriptors/afp-share.mjson",
-            "type": "AfpShare"
-        },
-        {
             "modelId": "core/model/descriptors/alert-filter.mjson",
             "type": "AlertFilter"
         },
@@ -149,6 +145,10 @@
             "type": "Error"
         },
         {
+            "modelId": "core/model/descriptors/failover-link.mjson",
+            "type": "FailoverLink"
+        },
+        {
             "modelId": "core/model/descriptors/group.mjson",
             "type": "Group"
         },
@@ -163,26 +163,6 @@
         {
             "modelId": "core/model/descriptors/ipmi-configuration.mjson",
             "type": "IpmiConfiguration"
-        },
-        {
-            "modelId": "core/model/descriptors/iscsi-auth-group.mjson",
-            "type": "IscsiAuthGroup"
-        },
-        {
-            "modelId": "core/model/descriptors/iscsi-portal.mjson",
-            "type": "IscsiPortal"
-        },
-        {
-            "modelId": "core/model/descriptors/iscsi-share-properties.mjson",
-            "type": "IscsiShareProperties"
-        },
-        {
-            "modelId": "core/model/descriptors/iscsi-target.mjson",
-            "type": "IscsiTarget"
-        },
-        {
-            "modelId": "core/model/descriptors/iscsi-user.mjson",
-            "type": "IscsiUser"
         },
         {
             "modelId": "core/model/descriptors/ldap-config.mjson",
@@ -259,10 +239,6 @@
         {
             "modelId": "core/model/descriptors/network-route.mjson",
             "type": "NetworkRoute"
-        },
-        {
-            "modelId": "core/model/descriptors/nfs-share-properties.mjson",
-            "type": "NfsShareProperties"
         },
         {
             "modelId": "core/model/descriptors/ntp-server.mjson",
@@ -389,6 +365,10 @@
             "type": "Session"
         },
         {
+            "modelId": "core/model/descriptors/share-afp.mjson",
+            "type": "ShareAfp"
+        },
+        {
             "modelId": "core/model/descriptors/share-client-extra.mjson",
             "type": "ShareClientExtra"
         },
@@ -397,28 +377,56 @@
             "type": "ShareClient"
         },
         {
+            "modelId": "core/model/descriptors/share-iscsi-auth.mjson",
+            "type": "ShareIscsiAuth"
+        },
+        {
+            "modelId": "core/model/descriptors/share-iscsi-portal.mjson",
+            "type": "ShareIscsiPortal"
+        },
+        {
+            "modelId": "core/model/descriptors/share-iscsi-target.mjson",
+            "type": "ShareIscsiTarget"
+        },
+        {
+            "modelId": "core/model/descriptors/share-iscsi-user.mjson",
+            "type": "ShareIscsiUser"
+        },
+        {
+            "modelId": "core/model/descriptors/share-iscsi.mjson",
+            "type": "ShareIscsi"
+        },
+        {
+            "modelId": "core/model/descriptors/share-nfs.mjson",
+            "type": "ShareNfs"
+        },
+        {
             "modelId": "core/model/descriptors/share-properties.mjson",
             "type": "ShareProperties"
+        },
+        {
+            "modelId": "core/model/descriptors/share-smb-extra-parameters.mjson",
+            "type": "ShareSmbExtraParameters"
+        },
+        {
+            "modelId": "core/model/descriptors/share-smb.mjson",
+            "type": "ShareSmb"
         },
         {
             "modelId": "core/model/descriptors/share-types.mjson",
             "type": "ShareTypes"
         },
         {
+            "modelId": "core/model/descriptors/share-webdav.mjson",
+            "type": "ShareWebdav"
+        },
+        {
             "modelId": "core/model/descriptors/share.mjson",
             "type": "Share"
         },
         {
-            "modelId": "core/model/descriptors/simulated-disk.mjson",
-            "type": "SimulatedDisk"
-        },
-        {
-            "modelId": "core/model/descriptors/smb-share-extra-parameters.mjson",
-            "type": "SmbShareExtraParameters"
-        },
-        {
-            "modelId": "core/model/descriptors/smb-share.mjson",
-            "type": "SmbShare"
+            "modelId": "core/model/descriptors/simulator-disk.mjson",
+            "type": "SimulatorDisk"
         },
         {
             "modelId": "core/model/descriptors/stat-alert.mjson",
@@ -543,10 +551,6 @@
         {
             "modelId": "core/model/descriptors/volume.mjson",
             "type": "Volume"
-        },
-        {
-            "modelId": "core/model/descriptors/webdav-share-properties.mjson",
-            "type": "WebdavShareProperties"
         },
         {
             "modelId": "core/model/descriptors/zfs-dataset.mjson",

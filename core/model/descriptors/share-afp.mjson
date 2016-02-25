@@ -1,5 +1,5 @@
 {
-  "blueprint_afpshare_afp3_privileges": {
+  "blueprint_shareafp_afp3_privileges": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "afp3_privileges",
@@ -7,7 +7,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_afpshare_comment": {
+  "blueprint_shareafp_comment": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "comment",
@@ -15,28 +15,28 @@
       "valueType": "String"
     }
   },
-  "blueprint_afpshare_default_directory_perms": {
+  "blueprint_shareafp_default_directory_perms": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "default_directory_perms",
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_afpshare_default_file_perms": {
+  "blueprint_shareafp_default_file_perms": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "default_file_perms",
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_afpshare_default_umask": {
+  "blueprint_shareafp_default_umask": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "default_umask",
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_afpshare_hosts_allow": {
+  "blueprint_shareafp_hosts_allow": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "hosts_allow",
@@ -44,7 +44,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_afpshare_hosts_deny": {
+  "blueprint_shareafp_hosts_deny": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "hosts_deny",
@@ -52,7 +52,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_afpshare_no_stat": {
+  "blueprint_shareafp_no_stat": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "no_stat",
@@ -60,7 +60,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_afpshare_read_only": {
+  "blueprint_shareafp_read_only": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "read_only",
@@ -68,7 +68,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_afpshare_ro_list": {
+  "blueprint_shareafp_ro_list": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "ro_list",
@@ -76,7 +76,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_afpshare_rw_list": {
+  "blueprint_shareafp_rw_list": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "rw_list",
@@ -84,7 +84,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_afpshare_time_machine": {
+  "blueprint_shareafp_time_machine": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "time_machine",
@@ -92,7 +92,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_afpshare_users_allow": {
+  "blueprint_shareafp_users_allow": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "users_allow",
@@ -100,7 +100,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_afpshare_users_deny": {
+  "blueprint_shareafp_users_deny": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "users_deny",
@@ -108,7 +108,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_afpshare_zero_dev_numbers": {
+  "blueprint_shareafp_zero_dev_numbers": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "zero_dev_numbers",
@@ -119,23 +119,23 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "AfpShare",
+      "name": "ShareAfp",
       "propertyBlueprints": [
-        {"@": "blueprint_afpshare_afp3_privileges"},
-        {"@": "blueprint_afpshare_comment"},
-        {"@": "blueprint_afpshare_default_directory_perms"},
-        {"@": "blueprint_afpshare_default_file_perms"},
-        {"@": "blueprint_afpshare_default_umask"},
-        {"@": "blueprint_afpshare_hosts_allow"},
-        {"@": "blueprint_afpshare_hosts_deny"},
-        {"@": "blueprint_afpshare_no_stat"},
-        {"@": "blueprint_afpshare_read_only"},
-        {"@": "blueprint_afpshare_ro_list"},
-        {"@": "blueprint_afpshare_rw_list"},
-        {"@": "blueprint_afpshare_time_machine"},
-        {"@": "blueprint_afpshare_users_allow"},
-        {"@": "blueprint_afpshare_users_deny"},
-        {"@": "blueprint_afpshare_zero_dev_numbers"}
+        {"@": "blueprint_shareafp_afp3_privileges"},
+        {"@": "blueprint_shareafp_comment"},
+        {"@": "blueprint_shareafp_default_directory_perms"},
+        {"@": "blueprint_shareafp_default_file_perms"},
+        {"@": "blueprint_shareafp_default_umask"},
+        {"@": "blueprint_shareafp_hosts_allow"},
+        {"@": "blueprint_shareafp_hosts_deny"},
+        {"@": "blueprint_shareafp_no_stat"},
+        {"@": "blueprint_shareafp_read_only"},
+        {"@": "blueprint_shareafp_ro_list"},
+        {"@": "blueprint_shareafp_rw_list"},
+        {"@": "blueprint_shareafp_time_machine"},
+        {"@": "blueprint_shareafp_users_allow"},
+        {"@": "blueprint_shareafp_users_deny"},
+        {"@": "blueprint_shareafp_zero_dev_numbers"}
       ]
     }
   }

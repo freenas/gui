@@ -38,11 +38,11 @@
             "namespace": "rpc",
             "task": "boot.environment.activate"
         },
-        "create": {
+        "clone": {
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "boot.environment.create"
+            "task": "boot.environment.clone"
         },
         "delete": {
             "method": "task.submit",
@@ -143,16 +143,34 @@
         }
     },
     "CryptoCertificate": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "crypto.certificate.create"
+        },
         "delete": {
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
             "task": "crypto.certificate.delete"
         },
+        "import": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "crypto.certificate.import"
+        },
         "read": {
             "method": "crypto.certificate.query",
             "name": "call",
             "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "crypto.certificate.update"
         }
     },
     "Directoryservice": {
@@ -237,13 +255,10 @@
             "task": "disk.test"
         },
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "disk.configure"
+            "task": "disk.update"
         }
     },
     "DsdConfiguration": {
@@ -287,13 +302,10 @@
     },
     "Mail": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "mail.configure"
+            "task": "mail.update"
         }
     },
     "NetworkHost": {
@@ -358,13 +370,10 @@
             "task": "network.interface.up"
         },
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "network.interface.configure"
+            "task": "network.interface.update"
         }
     },
     "NetworkRoute": {
@@ -412,145 +421,106 @@
             "namespace": "rpc"
         },
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.configure"
+            "task": "service.update"
         }
     },
     "ServiceAfp": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.afp.configure"
+            "task": "service.afp.update"
         }
     },
     "ServiceDyndns": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.dyndns.configure"
+            "task": "service.dyndns.update"
         }
     },
     "ServiceFtp": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.ftp.configure"
+            "task": "service.ftp.update"
         }
     },
     "ServiceGlusterd": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.glusterd.configure"
+            "task": "service.glusterd.update"
         }
     },
     "ServiceHaproxy": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.haproxy.configure"
+            "task": "service.haproxy.update"
         }
     },
     "ServiceIpfs": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.ipfs.configure"
+            "task": "service.ipfs.update"
         }
     },
     "ServiceIscsi": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.iscsi.configure"
+            "task": "service.iscsi.update"
         }
     },
     "ServiceLldp": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.lldp.configure"
+            "task": "service.lldp.update"
         }
     },
     "ServiceNfs": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.nfs.configure"
+            "task": "service.nfs.update"
         }
     },
     "ServiceRiak": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.riak.configure"
+            "task": "service.riak.update"
         }
     },
     "ServiceRiakCs": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.riak_cs.configure"
+            "task": "service.riak_cs.update"
         }
     },
     "ServiceRsyncd": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.rsyncd.configure"
+            "task": "service.rsyncd.update"
         }
     },
     "ServiceRsyncdModule": {
@@ -562,101 +532,74 @@
     },
     "ServiceSmartd": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.smartd.configure"
+            "task": "service.smartd.update"
         }
     },
     "ServiceSmb": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.smb.configure"
+            "task": "service.smb.update"
         }
     },
     "ServiceSnmp": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.snmp.configure"
+            "task": "service.snmp.update"
         }
     },
     "ServiceSsh": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.ssh.configure"
+            "task": "service.ssh.update"
         }
     },
     "ServiceStanchion": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.stanchion.configure"
+            "task": "service.stanchion.update"
         }
     },
     "ServiceSwift": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.swift.configure"
+            "task": "service.swift.update"
         }
     },
     "ServiceTftp": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.tftp.configure"
+            "task": "service.tftp.update"
         }
     },
     "ServiceUps": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.ups.configure"
+            "task": "service.ups.update"
         }
     },
     "ServiceWebdav": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.webdav.configure"
+            "task": "service.webdav.update"
         }
     },
     "Session": {
@@ -697,32 +640,234 @@
             "task": "share.update"
         }
     },
+    "ShareAfp": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.afp.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.afp.delete"
+        },
+        "import": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.afp.import"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.afp.update"
+        }
+    },
+    "ShareIscsi": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.delete"
+        },
+        "import": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.import"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.update"
+        }
+    },
     "ShareIscsiAuth": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.auth.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.auth.delete"
+        },
         "read": {
             "method": "share.iscsi.auth.query",
             "name": "call",
             "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.auth.update"
         }
     },
     "ShareIscsiPortal": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.portal.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.portal.delete"
+        },
         "read": {
             "method": "share.iscsi.portal.query",
             "name": "call",
             "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.portal.update"
         }
     },
     "ShareIscsiTarget": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.target.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.target.delete"
+        },
         "read": {
             "method": "share.iscsi.target.query",
             "name": "call",
             "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.iscsi.target.update"
+        }
+    },
+    "ShareNfs": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.nfs.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.nfs.delete"
+        },
+        "import": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.nfs.import"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.nfs.update"
+        }
+    },
+    "ShareSmb": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.smb.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.smb.delete"
+        },
+        "import": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.smb.import"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.smb.update"
+        }
+    },
+    "ShareWebdav": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.webdav.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.webdav.delete"
+        },
+        "import": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.webdav.import"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "share.webdav.update"
         }
     },
     "SimulatorDisk": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "simulator.disk.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "simulator.disk.delete"
+        },
         "read": {
             "method": "simulator.disk.query",
             "name": "call",
             "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "simulator.disk.update"
         }
     },
     "Stat": {
@@ -784,46 +929,34 @@
     },
     "SystemAdvanced": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "system.advanced.configure"
+            "task": "system.advanced.update"
         }
     },
     "SystemGeneral": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "system.general.configure"
+            "task": "system.general.update"
         }
     },
     "SystemTime": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "system.time.configure"
+            "task": "system.time.update"
         }
     },
     "SystemUi": {
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "system.ui.configure"
+            "task": "system.ui.update"
         }
     },
     "Task": {
@@ -897,13 +1030,10 @@
             "task": "update.manual"
         },
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "update.configure"
+            "task": "update.update"
         },
         "updatenow": {
             "method": "task.submit",
@@ -1092,13 +1222,10 @@
             "task": "zfs.pool.scrub"
         },
         "update": {
-            "_meta_data": {
-                "isConfigure": true
-            },
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "zfs.pool.configure"
+            "task": "zfs.pool.update"
         },
         "upgrade": {
             "method": "task.submit",

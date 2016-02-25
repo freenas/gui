@@ -1,5 +1,5 @@
 {
-  "blueprint_iscsiauthgroup_description": {
+  "blueprint_shareiscsiauth_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "description",
@@ -7,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiauthgroup_id": {
+  "blueprint_shareiscsiauth_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -15,7 +15,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiauthgroup_initiators": {
+  "blueprint_shareiscsiauth_initiators": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "initiators",
@@ -23,7 +23,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_iscsiauthgroup_networks": {
+  "blueprint_shareiscsiauth_networks": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "networks",
@@ -31,7 +31,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_iscsiauthgroup_type": {
+  "blueprint_shareiscsiauth_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
@@ -45,7 +45,7 @@
       ]
     }
   },
-  "blueprint_iscsiauthgroup_users": {
+  "blueprint_shareiscsiauth_users": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "users",
@@ -56,14 +56,14 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "IscsiAuthGroup",
+      "name": "ShareIscsiAuth",
       "propertyBlueprints": [
-        {"@": "blueprint_iscsiauthgroup_description"},
-        {"@": "blueprint_iscsiauthgroup_id"},
-        {"@": "blueprint_iscsiauthgroup_initiators"},
-        {"@": "blueprint_iscsiauthgroup_networks"},
-        {"@": "blueprint_iscsiauthgroup_type"},
-        {"@": "blueprint_iscsiauthgroup_users"}
+        {"@": "blueprint_shareiscsiauth_description"},
+        {"@": "blueprint_shareiscsiauth_id"},
+        {"@": "blueprint_shareiscsiauth_initiators"},
+        {"@": "blueprint_shareiscsiauth_networks"},
+        {"@": "blueprint_shareiscsiauth_type"},
+        {"@": "blueprint_shareiscsiauth_users"}
       ]
     }
   }

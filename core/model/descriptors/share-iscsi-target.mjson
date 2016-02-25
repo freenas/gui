@@ -1,5 +1,13 @@
 {
-  "blueprint_iscsiportal_description": {
+  "blueprint_shareiscsitarget_auth_group": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auth_group",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_shareiscsitarget_description": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "description",
@@ -7,15 +15,15 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiportal_discovery_auth_group": {
+  "blueprint_shareiscsitarget_extents": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "discovery_auth_group",
+      "name": "extents",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
-  "blueprint_iscsiportal_id": {
+  "blueprint_shareiscsitarget_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -23,32 +31,24 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiportal_listen": {
+  "blueprint_shareiscsitarget_portal_group": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "listen",
+      "name": "portal_group",
       "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_iscsiportal_tag": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "tag",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "IscsiPortal",
+      "name": "ShareIscsiTarget",
       "propertyBlueprints": [
-        {"@": "blueprint_iscsiportal_description"},
-        {"@": "blueprint_iscsiportal_discovery_auth_group"},
-        {"@": "blueprint_iscsiportal_id"},
-        {"@": "blueprint_iscsiportal_listen"},
-        {"@": "blueprint_iscsiportal_tag"}
+        {"@": "blueprint_shareiscsitarget_auth_group"},
+        {"@": "blueprint_shareiscsitarget_description"},
+        {"@": "blueprint_shareiscsitarget_extents"},
+        {"@": "blueprint_shareiscsitarget_id"},
+        {"@": "blueprint_shareiscsitarget_portal_group"}
       ]
     }
   }

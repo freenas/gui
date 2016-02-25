@@ -1,0 +1,64 @@
+{
+  "blueprint_failoverlink_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_failoverlink_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "master",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_failoverlink_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_failoverlink_partners": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "partners",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_failoverlink_update_date": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "update_date",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_failoverlink_volumes": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volumes",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "FailoverLink",
+      "propertyBlueprints": [
+        {"@": "blueprint_failoverlink_id"},
+        {"@": "blueprint_failoverlink_master"},
+        {"@": "blueprint_failoverlink_name"},
+        {"@": "blueprint_failoverlink_partners"},
+        {"@": "blueprint_failoverlink_update_date"},
+        {"@": "blueprint_failoverlink_volumes"}
+      ]
+    }
+  }
+}

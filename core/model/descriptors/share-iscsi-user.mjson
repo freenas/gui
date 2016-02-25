@@ -1,5 +1,5 @@
 {
-  "blueprint_iscsiuser_name": {
+  "blueprint_shareiscsiuser_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
@@ -7,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiuser_peer_name": {
+  "blueprint_shareiscsiuser_peer_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "peer_name",
@@ -15,7 +15,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiuser_peer_secret": {
+  "blueprint_shareiscsiuser_peer_secret": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "peer_secret",
@@ -23,7 +23,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_iscsiuser_secret": {
+  "blueprint_shareiscsiuser_secret": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "secret",
@@ -34,12 +34,12 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "IscsiUser",
+      "name": "ShareIscsiUser",
       "propertyBlueprints": [
-        {"@": "blueprint_iscsiuser_name"},
-        {"@": "blueprint_iscsiuser_peer_name"},
-        {"@": "blueprint_iscsiuser_peer_secret"},
-        {"@": "blueprint_iscsiuser_secret"}
+        {"@": "blueprint_shareiscsiuser_name"},
+        {"@": "blueprint_shareiscsiuser_peer_name"},
+        {"@": "blueprint_shareiscsiuser_peer_secret"},
+        {"@": "blueprint_shareiscsiuser_secret"}
       ]
     }
   }
