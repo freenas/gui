@@ -80,7 +80,7 @@ Object.defineProperties(WebSocketConfiguration, {
 
                 _defaultConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
-                    domain === "localhost" || domain === "127.0.0.1" ? "freenas.local" : domain
+                    (domain === "localhost" || domain === "127.0.0.1") ? "freenas.local" : domain
                 );
             }
 
