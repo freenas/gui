@@ -111,7 +111,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             } else {
                 var self = this;
 
-                Model.fetchPrototypeForType(type).then(function () {
+                Model.getPrototypeForType(type).then(function () {
                     self._fetchRawDataWithType(stream, type);
                 });
             }
@@ -121,63 +121,69 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     deleteRawData: {
         value: function (rawData, object) {
-            //todo need review @charles + @benoit
-            var deleteServiceDescriptor = Services.findDeleteServiceForType(object.Type);
+            var objectPrototype = Object.getPrototypeOf(object),
+                type = objectPrototype.Type,
+                deleteServiceDescriptor = Services.findDeleteServiceForType(type);
 
             if (deleteServiceDescriptor) {
                 return this.backendBridge.send(
                     deleteServiceDescriptor.namespace,
-                    deleteServiceDescriptor.name,
-                    {
+                    deleteServiceDescriptor.name, {
                         method: deleteServiceDescriptor.method,
                         args: [deleteServiceDescriptor.task, [object.id]]
                     }
-
                 ).then(function (response) {
                     //todo catch jobID + events
                     return response;
                 });
             }
 
-            return Promise.reject();
+            return Promise.reject(new Error("No delete service for the model object '" + type.typeName + "'"));
         }
     },
 
+
     mapToRawData: {
         value: function (object, data) {
-            //fixme @charles how to reject promise here?
+            //fixme @charles how to reject the promise here?
             if (object.id !== void 0) {
-                var serviceDescriptor;
-
-                if (object.id !== null) { //update
-                    serviceDescriptor = Services.findUpdateServiceForType(object.Type);
-
-                } else { // create (fixme: delete...)
-                    serviceDescriptor = Services.findCreateServiceForType(object.Type);
-                }
+                var objectPrototype = Object.getPrototypeOf(object),
+                    type = objectPrototype.Type,
+                    serviceDescriptor = object.id !== null ?
+                        Services.findUpdateServiceForType(type) : // -> update case (fixme: delete...)
+                        Services.findCreateServiceForType(type); // -> create case
 
                 if (serviceDescriptor) {
                     var restrictions = serviceDescriptor.restrictions,
-                        hasRestrictions = !!restrictions,
-                        keys = Object.keys(object),
-                        key;
+                        propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
+                        hasRestrictions = !!restrictions, respectedRestrictionsCounter = 0,
+                        requiredFields, forbiddenFields, propertyDescriptor, objectValue, key;
 
-                    for (var i = 0, length = keys.length; i < length; i++) {
-                        key = keys[i];
+                    if (hasRestrictions) {
+                        forbiddenFields = restrictions.forbiddenFields;
+                        requiredFields = restrictions.requiredFields;
+                    }
+
+                    for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
+                        propertyDescriptor = propertyDescriptors[i];
+                        key = propertyDescriptor.name;
+                        objectValue = object[key];
 
                         if (hasRestrictions) {
-                            if (restrictions.forbiddenFields.indexOf(key) === -1) {
-                                if (restrictions.requiredFields.indexOf(key) > -1) {
-                                    throw new Error (
-                                        "missing required key: '" + key + "' for type: '" + object.Type + "'"
-                                    );
-                                }
+                            if (forbiddenFields && forbiddenFields.indexOf(key) === -1) {
+                                if (requiredFields && requiredFields.indexOf(key) > -1 && objectValue !== null &&
+                                    objectValue !== void 0) respectedRestrictionsCounter++;
 
-                                data[key] = object[key];
+                                if (objectValue !== null) data[key] = objectValue;
                             }
                         } else {
-                            data[key] = object[key];
+                            if (objectValue !== null) data[key] = objectValue;
                         }
+                    }
+
+                    if (requiredFields && requiredFields.length !== respectedRestrictionsCounter) {
+                        //todo: improve this error message, with list of the missing fields ?
+                        throw new Error ("missing required fields for type: '" + type.typeName + "'");
                     }
                 } else {
                     //todo warning
@@ -190,25 +196,18 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     saveRawData: {
         value: function (rawData, object) {
-            if (object.id !== void 0) {
-                var isUpdate = false,
-                    serviceDescriptor;
-
-                if (object.id !== null) { //update
-                    serviceDescriptor = Services.findUpdateServiceForType(object.Type);
-                    isUpdate = true;
-
-                } else { // create (fixme: delete...)
-                    serviceDescriptor = Services.findCreateServiceForType(object.Type);
-                }
+            if (object.id !== void 0) { // id can be forbidden
+                var isUpdate = object.id !== null,
+                    type = Object.getPrototypeOf(object).Type,
+                    serviceDescriptor = isUpdate ?
+                        Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
                 if (serviceDescriptor) {
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
-                        serviceDescriptor.name,
-                        {
+                        serviceDescriptor.name, {
                             method: serviceDescriptor.method,
-                            args: [serviceDescriptor.task, isUpdate ? [object.id, rawData] : [object.id]]
+                            args: [serviceDescriptor.task, isUpdate ? [object.id, rawData] : [rawData]]
                         }
 
                     ).then(function (response) {
@@ -216,13 +215,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         return response;
                     });
                 } else {
-                    //todo warning
+                    return Promise.reject(new Error(
+                        "No '" + isUpdate ? "update" : "create" + "' service for the model object '" + type.typeName + "'"
+                    ));
                 }
             } else {
-                //todo warning
+                return Promise.reject(new Error("Non supported model object '" + type.typeName + "', 'id' is missing"));
             }
-
-            return Promise.reject();
         }
     },
 
@@ -235,8 +234,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 return this.backendBridge.send(
                     readServiceDescriptor.namespace,
-                    readServiceDescriptor.name,
-                    {
+                    readServiceDescriptor.name, {
                         method: readServiceDescriptor.method,
                         args: []
                     }
@@ -244,11 +242,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     self.addRawData(stream, response.data);
                     self.rawDataDone(stream);
                 });
+            } else {
+                stream.reject(new Error("No fetch service for the model object '" + type.typeName + "'"));
             }
-
-            //Fixme: @charles how to reject a fetch ? stream ?
         }
     }
-
-
 });

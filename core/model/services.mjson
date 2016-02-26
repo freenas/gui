@@ -55,11 +55,11 @@
             "name": "call",
             "namespace": "rpc"
         },
-        "rename": {
+        "update": {
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "boot.environment.rename"
+            "task": "boot.environment.update"
         }
     },
     "CalendarTask": {
@@ -74,7 +74,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "status"
                 ]
             },
@@ -102,7 +102,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "status"
                 ]
             },
@@ -158,7 +158,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "type",
                     "name",
                     "country",
@@ -201,10 +201,10 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "id"
                 ],
-                "fieldsRequired": [
+                "requiredFields": [
                     "name",
                     "domain"
                 ]
@@ -290,7 +290,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "name",
                     "serial",
                     "path",
@@ -323,7 +323,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "name"
                 ]
             },
@@ -361,7 +361,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "id",
                     "address"
                 ]
@@ -392,11 +392,11 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "id",
                     "status"
                 ],
-                "fieldsRequired": [
+                "requiredFields": [
                     "type"
                 ]
             },
@@ -436,7 +436,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "id",
                     "type",
                     "status"
@@ -451,7 +451,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "id",
                     "type",
                     "network",
@@ -693,7 +693,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "name",
                     "type",
                     "target_type",
@@ -785,7 +785,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "type"
                 ]
             },
@@ -943,7 +943,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "id"
                 ]
             },
@@ -965,7 +965,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "id"
                 ]
             },
@@ -1051,7 +1051,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "boot_time",
                     "uptime"
                 ]
@@ -1080,7 +1080,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsRequired": [
+                "requiredFields": [
                     "var",
                     "value",
                     "type"
@@ -1169,10 +1169,10 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "builtin"
                 ],
-                "fieldsRequired": [
+                "requiredFields": [
                     "username"
                 ]
             },
@@ -1194,7 +1194,7 @@
             "name": "call",
             "namespace": "rpc",
             "restrictions": {
-                "fieldsForbidden": [
+                "forbiddenFields": [
                     "builtin"
                 ]
             },
@@ -1227,17 +1227,17 @@
             "namespace": "rpc",
             "task": "volume.create"
         },
-        "destroy": {
+        "delete": {
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "volume.destroy"
+            "task": "volume.delete"
         },
-        "detach": {
+        "export": {
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "volume.detach"
+            "task": "volume.export"
         },
         "import": {
             "method": "task.submit",
@@ -1281,7 +1281,50 @@
             "task": "volume.upgrade"
         }
     },
+    "VolumeDataset": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "volume.dataset.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "volume.dataset.delete"
+        },
+        "read": {
+            "method": "volume.dataset.query",
+            "name": "call",
+            "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "volume.dataset.update"
+        }
+    },
     "VolumeSnapshot": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "volume.snapshot.create"
+        },
+        "dataset": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "volume.snapshot_dataset"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "volume.snapshot.delete"
+        },
         "read": {
             "method": "volume.snapshot.query",
             "name": "call",

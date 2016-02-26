@@ -35,7 +35,7 @@ function _initialize () {
         }
     }
 
-    _Model.fetchPrototypeForType = _Model.getPrototypeForType = function (type) {
+    _Model.getPrototypeForType = function (type) {
         var objectDescriptor = this[typeof type === "string" ? type : type.typeName];
 
         if (!objectDescriptor) {
@@ -111,8 +111,7 @@ function _applyRpcServiceOnPrototype (serviceName, serviceDescriptor, prototype)
 
             return _Model.backendBridge.send(
                 serviceDescriptor.namespace,
-                serviceDescriptor.name,
-                {
+                serviceDescriptor.name, {
                     method: serviceDescriptor.method,
                     args:  args ? [serviceDescriptor.task, args] : [serviceDescriptor.task]
                 }

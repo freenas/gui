@@ -85,14 +85,6 @@
             "type": "CryptoCertificate"
         },
         {
-            "modelId": "core/model/descriptors/dataset-properties.mjson",
-            "type": "DatasetProperties"
-        },
-        {
-            "modelId": "core/model/descriptors/dataset.mjson",
-            "type": "Dataset"
-        },
-        {
             "modelId": "core/model/descriptors/directoryservice.mjson",
             "type": "Directoryservice"
         },
@@ -401,10 +393,6 @@
             "type": "ShareNfs"
         },
         {
-            "modelId": "core/model/descriptors/share-properties.mjson",
-            "type": "ShareProperties"
-        },
-        {
             "modelId": "core/model/descriptors/share-smb-extra-parameters.mjson",
             "type": "ShareSmbExtraParameters"
         },
@@ -521,12 +509,32 @@
             "type": "VolumeAttributes"
         },
         {
+            "modelId": "core/model/descriptors/volume-dataset-properties.mjson",
+            "type": "VolumeDatasetProperties"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-dataset.mjson",
+            "type": "VolumeDataset"
+        },
+        {
             "modelId": "core/model/descriptors/volume-import-params.mjson",
             "type": "VolumeImportParams"
         },
         {
             "modelId": "core/model/descriptors/volume-params.mjson",
             "type": "VolumeParams"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-snapshot-holds.mjson",
+            "type": "VolumeSnapshotHolds"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-snapshot-properties.mjson",
+            "type": "VolumeSnapshotProperties"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-snapshot.mjson",
+            "type": "VolumeSnapshot"
         },
         {
             "modelId": "core/model/descriptors/volume-vdev-recommendation.mjson",
