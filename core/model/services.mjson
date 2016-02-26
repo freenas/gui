@@ -73,6 +73,11 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "status"
+                ]
+            },
             "task": "calendar_task.create"
         },
         "delete": {
@@ -96,6 +101,11 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "status"
+                ]
+            },
             "task": "calendar_task.update"
         }
     },
@@ -147,6 +157,18 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "type",
+                    "name",
+                    "country",
+                    "state",
+                    "city",
+                    "organization",
+                    "email",
+                    "common"
+                ]
+            },
             "task": "crypto.certificate.create"
         },
         "delete": {
@@ -178,6 +200,15 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "id"
+                ],
+                "fieldsRequired": [
+                    "name",
+                    "domain"
+                ]
+            },
             "task": "directoryservice.create"
         },
         "delete": {
@@ -258,6 +289,17 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "name",
+                    "serial",
+                    "path",
+                    "id",
+                    "mediasize",
+                    "status",
+                    "description"
+                ]
+            },
             "task": "disk.update"
         }
     },
@@ -280,6 +322,11 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "name"
+                ]
+            },
             "task": "group.create"
         },
         "delete": {
@@ -313,6 +360,12 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "id",
+                    "address"
+                ]
+            },
             "task": "network.host.create"
         },
         "delete": {
@@ -338,6 +391,15 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "id",
+                    "status"
+                ],
+                "fieldsRequired": [
+                    "type"
+                ]
+            },
             "task": "network.interface.create"
         },
         "delete": {
@@ -373,6 +435,13 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "id",
+                    "type",
+                    "status"
+                ]
+            },
             "task": "network.interface.update"
         }
     },
@@ -381,6 +450,15 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "id",
+                    "type",
+                    "network",
+                    "netmask",
+                    "gateway"
+                ]
+            },
             "task": "network.route.create"
         },
         "delete": {
@@ -614,6 +692,15 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "name",
+                    "type",
+                    "target_type",
+                    "target_path",
+                    "properties"
+                ]
+            },
             "task": "share.create"
         },
         "delete": {
@@ -697,6 +784,11 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "type"
+                ]
+            },
             "task": "share.iscsi.auth.create"
         },
         "delete": {
@@ -850,6 +942,11 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "id"
+                ]
+            },
             "task": "simulator.disk.create"
         },
         "delete": {
@@ -867,6 +964,11 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "id"
+                ]
+            },
             "task": "simulator.disk.update"
         }
     },
@@ -948,6 +1050,12 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "boot_time",
+                    "uptime"
+                ]
+            },
             "task": "system.time.update"
         }
     },
@@ -971,6 +1079,13 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsRequired": [
+                    "var",
+                    "value",
+                    "type"
+                ]
+            },
             "task": "tunable.create"
         },
         "delete": {
@@ -1053,6 +1168,14 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "builtin"
+                ],
+                "fieldsRequired": [
+                    "username"
+                ]
+            },
             "task": "user.create"
         },
         "delete": {
@@ -1070,6 +1193,11 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "fieldsForbidden": [
+                    "builtin"
+                ]
+            },
             "task": "user.update"
         }
     },

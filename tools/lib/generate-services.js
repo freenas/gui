@@ -46,8 +46,15 @@ exports.generateServices = function generateServices (options) {
                             isConfigure: true
                         };
                     }
+
+                    _applyRestrictionsOnServiceNodeWithTaskDescriptor(node, taskDescriptor);
+
                 } else {
                     node = servicesTree.getTaskNode(taskDescriptor.taskType);
+
+                    if (taskDescriptor.taskType === "create") {
+                        _applyRestrictionsOnServiceNodeWithTaskDescriptor(node, taskDescriptor);
+                    }
                 }
 
                 node.task = taskDescriptor.task;
@@ -76,6 +83,41 @@ exports.generateServices = function generateServices (options) {
         });
     });
 };
+
+
+function _applyRestrictionsOnServiceNodeWithTaskDescriptor (node, taskDescriptor) {
+    if (taskDescriptor.schema && taskDescriptor.schema.length) {
+        var i = 0, length = taskDescriptor.schema.length, argumentDescriptors;
+
+        while (!argumentDescriptors && i < length) {
+            argumentDescriptors = taskDescriptor.schema[i++].allOf;
+        }
+
+        if (argumentDescriptors) {
+            var argumentDescriptor, forbiddenFields,
+                restrictions = Object.create(null);
+
+            for (var ii = 0, ll = argumentDescriptors.length; ii < ll; ii++) {
+                argumentDescriptor = argumentDescriptors[ii];
+
+                if (argumentDescriptor["required"]) {
+                    restrictions.requiredFields = argumentDescriptor["required"];
+
+                } else if (argumentDescriptor["not"]) {
+                    forbiddenFields = argumentDescriptor["not"]["required"];
+
+                    if (forbiddenFields) {
+                        restrictions.forbiddenFields = forbiddenFields;
+                    }
+                }
+            }
+
+            if (Object.keys(restrictions).length) {
+                node.restrictions = restrictions;
+            }
+        }
+    }
+}
 
 
 function ServicesTree () {

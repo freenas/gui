@@ -118,6 +118,114 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
+
+    deleteRawData: {
+        value: function (rawData, object) {
+            //todo need review @charles + @benoit
+            var deleteServiceDescriptor = Services.findDeleteServiceForType(object.Type);
+
+            if (deleteServiceDescriptor) {
+                return this.backendBridge.send(
+                    deleteServiceDescriptor.namespace,
+                    deleteServiceDescriptor.name,
+                    {
+                        method: deleteServiceDescriptor.method,
+                        args: [deleteServiceDescriptor.task, [object.id]]
+                    }
+
+                ).then(function (response) {
+                    //todo catch jobID + events
+                    return response;
+                });
+            }
+
+            return Promise.reject();
+        }
+    },
+
+    mapToRawData: {
+        value: function (object, data) {
+            //fixme @charles how to reject promise here?
+            if (object.id !== void 0) {
+                var serviceDescriptor;
+
+                if (object.id !== null) { //update
+                    serviceDescriptor = Services.findUpdateServiceForType(object.Type);
+
+                } else { // create (fixme: delete...)
+                    serviceDescriptor = Services.findCreateServiceForType(object.Type);
+                }
+
+                if (serviceDescriptor) {
+                    var restrictions = serviceDescriptor.restrictions,
+                        hasRestrictions = !!restrictions,
+                        keys = Object.keys(object),
+                        key;
+
+                    for (var i = 0, length = keys.length; i < length; i++) {
+                        key = keys[i];
+
+                        if (hasRestrictions) {
+                            if (restrictions.forbiddenFields.indexOf(key) === -1) {
+                                if (restrictions.requiredFields.indexOf(key) > -1) {
+                                    throw new Error (
+                                        "missing required key: '" + key + "' for type: '" + object.Type + "'"
+                                    );
+                                }
+
+                                data[key] = object[key];
+                            }
+                        } else {
+                            data[key] = object[key];
+                        }
+                    }
+                } else {
+                    //todo warning
+                }
+            } else {
+                //todo warning
+            }
+        }
+    },
+
+    saveRawData: {
+        value: function (rawData, object) {
+            if (object.id !== void 0) {
+                var isUpdate = false,
+                    serviceDescriptor;
+
+                if (object.id !== null) { //update
+                    serviceDescriptor = Services.findUpdateServiceForType(object.Type);
+                    isUpdate = true;
+
+                } else { // create (fixme: delete...)
+                    serviceDescriptor = Services.findCreateServiceForType(object.Type);
+                }
+
+                if (serviceDescriptor) {
+                    return this.backendBridge.send(
+                        serviceDescriptor.namespace,
+                        serviceDescriptor.name,
+                        {
+                            method: serviceDescriptor.method,
+                            args: [serviceDescriptor.task, isUpdate ? [object.id, rawData] : [object.id]]
+                        }
+
+                    ).then(function (response) {
+                        //todo catch jobID + events
+                        return response;
+                    });
+                } else {
+                    //todo warning
+                }
+            } else {
+                //todo warning
+            }
+
+            return Promise.reject();
+        }
+    },
+
     _fetchRawDataWithType: {
         value: function (stream, type) {
             var readServiceDescriptor = Services.findReadServiceForType(type);
@@ -139,28 +247,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             }
 
             //Fixme: @charles how to reject a fetch ? stream ?
-        }
-    },
-
-    deleteRawData: {
-        value: function (rawData, object) {
-            //todo need review @charles + @benoit
-            var deleteServiceDescriptor = Services.findDeleteServiceForType(object.Type);
-
-            if (deleteServiceDescriptor) {
-                return this.backendBridge.send(
-                    deleteServiceDescriptor.namespace,
-                    deleteServiceDescriptor.name,
-                    {
-                        method: deleteServiceDescriptor.method,
-                        args: [deleteServiceDescriptor.task, [object.id]]
-                    }
-
-                ).then(function (response) {
-                    //todo catch jobID + events
-                    return response;
-                });
-            }
         }
     }
 
