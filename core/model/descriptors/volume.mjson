@@ -22,18 +22,18 @@
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_volume_id": {
+  "blueprint_volume_guid": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "id",
+      "name": "guid",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_volume_name": {
+  "blueprint_volume_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -85,8 +85,8 @@
         {"@": "blueprint_volume_attributes"},
         {"@": "blueprint_volume_encrypted"},
         {"@": "blueprint_volume_encryption"},
+        {"@": "blueprint_volume_guid"},
         {"@": "blueprint_volume_id"},
-        {"@": "blueprint_volume_name"},
         {"@": "blueprint_volume_params"},
         {"@": "blueprint_volume_providers_presence"},
         {"@": "blueprint_volume_topology"},

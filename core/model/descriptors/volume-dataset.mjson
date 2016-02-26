@@ -1,5 +1,13 @@
 {
-  "blueprint_dataset_mountpoint": {
+  "blueprint_volumedataset_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_volumedataset_mountpoint": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "mountpoint",
@@ -7,7 +15,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_dataset_name": {
+  "blueprint_volumedataset_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
@@ -15,14 +23,14 @@
       "valueType": "String"
     }
   },
-  "blueprint_dataset_permissions": {
+  "blueprint_volumedataset_permissions": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "permissions",
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_dataset_permissions_type": {
+  "blueprint_volumedataset_permissions_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "permissions_type",
@@ -34,15 +42,7 @@
       ]
     }
   },
-  "blueprint_dataset_pool": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "pool",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_dataset_properties": {
+  "blueprint_volumedataset_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "properties",
@@ -50,7 +50,7 @@
       "valueType": "object"
     }
   },
-  "blueprint_dataset_type": {
+  "blueprint_volumedataset_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
@@ -62,7 +62,7 @@
       ]
     }
   },
-  "blueprint_dataset_volsize": {
+  "blueprint_volumedataset_volsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "volsize",
@@ -70,19 +70,28 @@
       "valueType": "number"
     }
   },
+  "blueprint_volumedataset_volume": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volume",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "Dataset",
+      "name": "VolumeDataset",
       "propertyBlueprints": [
-        {"@": "blueprint_dataset_mountpoint"},
-        {"@": "blueprint_dataset_name"},
-        {"@": "blueprint_dataset_permissions"},
-        {"@": "blueprint_dataset_permissions_type"},
-        {"@": "blueprint_dataset_pool"},
-        {"@": "blueprint_dataset_properties"},
-        {"@": "blueprint_dataset_type"},
-        {"@": "blueprint_dataset_volsize"}
+        {"@": "blueprint_volumedataset_id"},
+        {"@": "blueprint_volumedataset_mountpoint"},
+        {"@": "blueprint_volumedataset_name"},
+        {"@": "blueprint_volumedataset_permissions"},
+        {"@": "blueprint_volumedataset_permissions_type"},
+        {"@": "blueprint_volumedataset_properties"},
+        {"@": "blueprint_volumedataset_type"},
+        {"@": "blueprint_volumedataset_volsize"},
+        {"@": "blueprint_volumedataset_volume"}
       ]
     }
   }
