@@ -96,7 +96,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             //FIXME: ALL_TYPES doesn't seems to work
             //DataObjectDescriptor.ALL_TYPES,
             Model.Disk,
-            Model.NetworkInterface
+            Model.NetworkInterface,
+            Model.NetworkRoute,
+            Model.NetworkConfig
         ]
     },
 

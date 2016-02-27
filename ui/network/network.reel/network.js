@@ -12,9 +12,76 @@ exports.Network = Component.specialize({
         value: function (isFirstTime) {
             var self = this;
 
+            this.overview = {
+                name: "Overview",
+                inspector: "ui/network/configuration.reel",
+                summary: {
+                    interfaces: [],
+                    nameservers: [],
+                    defaultRoute: ""
+                },
+                staticRoutes: [],
+                ipmi: {
+                    name: "Ipmi",
+                    inspector: "ui/inspectors/ipmi.reel"
+                },
+                networkConfiguration: {
+                    name: "Network Configuration",
+                    inspector: "ui/inspectors/network-configuration.reel"
+                }
+            };
+
             this.listInterfaces().then(function (interfaces) {
-                 self.interfaces = interfaces;
+                self.interfaces = interfaces;
+                self.overview.summary.interfaces = self.getInterfacesSummaries();
             });
+
+
+            this.listStaticRoutes().then(function(staticRoutes) {
+                staticRoutes.name = "Static Routes";
+                staticRoutes.inspector = "ui/controls/viewer.reel";
+                self.overview.staticRoutes = staticRoutes;
+            });
+
+            this.getNetworkConfig().then(function(networkConfig) {
+                self.overview.summary.nameservers = networkConfig.dns.addresses;
+                self.overview.summary.defaultRoute.push(networkConfig.gateway.ipv4);
+            });
+        }
+    },
+
+    getInterfacesSummaries: {
+        value: function() {
+            var self = this,
+                networkInterface,
+                interfaceSummary,
+                aliases,
+                alias,
+                interfacesSummaries = [];
+            for (var i = 0, length = self.interfaces.length; i < length; i++) {
+                networkInterface = self.interfaces[i];
+                interfaceSummary = {
+                    name: networkInterface.name
+                };
+                aliases = networkInterface.status.aliases;
+                for (var j = 0, aliasesLength = aliases.length; j < aliasesLength; j++) {
+                    alias = aliases[j];
+                    switch (alias.type) {
+                        case "INET":
+                            if (!interfaceSummary.ipv4) {
+                                interfaceSummary.ipv4 = alias.address;
+                            }
+                            break;
+                        case "INET6":
+                            if (!interfaceSummary.ipv6) {
+                                interfaceSummary.ipv6 = alias.address;
+                            }
+                            break;
+                    }
+                }
+                interfacesSummaries.push(interfaceSummary);
+            }
+            return interfacesSummaries
         }
     },
 
@@ -57,41 +124,25 @@ exports.Network = Component.specialize({
         }
     },
 
-    overview: {
-        get: function () {
-            var overview = {
-                    name: "Overview",
-                    inspector: "ui/network/configuration.reel",
-                    summary: {
-                        interfaces: [
-                            {name: "em0", ipv4: "192.168.0.15/24", ipv6: "foo"},
-                            {name: "em1", ipv4: "0.0.0.0/8", ipv6: "foo"},
-                            {name: "vlan1", ipv4: "0.0.0.0/8", ipv6: "bar"}
-                        ],
-                        nameservers: ["209.18.47.61", "209.18.47.62"],
-                        defaultRoute: "192.168.0.1"
-                    },
-                    staticRoutes: [
-                        {name: "staticRoute1", inspector: "ui/inspectors/static-route.reel"},
-                        {name: "staticRoute2", inspector: "ui/inspectors/static-route.reel"},
-                        {name: "staticRoute3", inspector: "ui/inspectors/static-route.reel"}
-                    ],
-                    ipmi: {
-                        name: "Ipmi",
-                        inspector: "ui/inspectors/ipmi.reel"
-                    },
-                    networkConfiguration: {
-                        name: "Network Configuration",
-                        inspector: "ui/inspectors/network-configuration.reel"
-                    },
+    listStaticRoutes: {
+        value: function () {
+            return this.application.dataService.fetchData(Model.NetworkRoute).then(function (staticRoutes) {
+                var staticRoute;
+                for (var i = 0, length = staticRoutes.length; i < length; i++) {
+                    staticRoute = staticRoutes[i];
+                    staticRoute.name = 'staticRoute' + i;
+                    staticRoute.inspector = "ui/inspectors/static-route.reel";
+                }
+                return staticRoutes;
+            });
+        }
+    },
 
-                };
-            overview.staticRoutes.name = "Static Routes";
-            overview.staticRoutes.inspector = "ui/controls/viewer.reel";
-            return overview;
+    getNetworkConfig: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.NetworkConfig);
         }
     }
-
 });
 
 
