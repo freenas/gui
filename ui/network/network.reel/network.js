@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
+    Promise = require("montage/core/promise").Promise,
     NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType;
 
 /**
@@ -45,7 +46,7 @@ exports.Network = Component.specialize({
 
             this.getNetworkConfig().then(function(networkConfig) {
                 self.overview.summary.nameservers = networkConfig.dns.addresses;
-                self.overview.summary.defaultRoute.push(networkConfig.gateway.ipv4);
+                self.overview.summary.defaultRoute = networkConfig.gateway.ipv4;
             });
         }
     },
@@ -140,7 +141,9 @@ exports.Network = Component.specialize({
 
     getNetworkConfig: {
         value: function() {
-            return this.application.dataService.fetchData(Model.NetworkConfig);
+            //FIXME: Switch as soon as NetworkConfig is query-able
+            // return this.application.dataService.fetchData(Model.NetworkConfig);
+            return Promise.resolve({dns: {}, gateway: {}});
         }
     }
 });
