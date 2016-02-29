@@ -151,10 +151,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             if (object.id !== void 0) {
                 var objectPrototype = Object.getPrototypeOf(object),
                     type = objectPrototype.Type,
-                    serviceDescriptor = object.id !== null ?
+                    isUpdate = object.id !== null,
+                    serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : // -> update case (fixme: delete...)
                         Services.findCreateServiceForType(type); // -> create case
 
+                // todo: switch to a validator field, schemas
                 if (serviceDescriptor) {
                     var restrictions = serviceDescriptor.restrictions,
                         propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
@@ -171,15 +173,19 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         key = propertyDescriptor.name;
                         objectValue = object[key];
 
+                        if (propertyDescriptor.mandatory && (objectValue === null || objectValue === void 0)) {
+                            throw new Error ("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
+                        }
+
                         if (hasRestrictions) {
                             if (forbiddenFields && forbiddenFields.indexOf(key) === -1) {
                                 if (requiredFields && requiredFields.indexOf(key) > -1 && objectValue !== null &&
                                     objectValue !== void 0) respectedRestrictionsCounter++;
 
-                                if (objectValue !== null) data[key] = objectValue;
+                                if ((!isUpdate && objectValue !== null) || isUpdate) data[key] = objectValue;
                             }
                         } else {
-                            if (objectValue !== null) data[key] = objectValue;
+                            if ((!isUpdate && objectValue !== null) || isUpdate) data[key] = objectValue;
                         }
                     }
 
