@@ -7,6 +7,8 @@ var ModelDescriptor = require("../../../core/model/model-descriptor").ModelDescr
 require('../../../core/extras/string');
 require('montage/core/extras/string');
 
+//todo: need big clean up
+
 var createModelDescriptorWithNameAndSchema = exports.createModelDescriptorWithNameAndSchema = function (name, schema) {
     var descriptor;
 
@@ -170,6 +172,7 @@ function createPropertyDescriptorWithModelAndName(modelDescriptor, name) {
 
 function getModelDescriptorWithNameAndSchema(name, schema) {
     var modelDescriptor = createModelDescriptorWithName(name),
+        requiredProperties = schema.required,
         properties = schema.properties;
 
     if (properties) {
@@ -203,6 +206,10 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
 
             if (property.enum) {
                 propertyDescriptor.enumValues = property.enum;
+            }
+
+            if (requiredProperties && requiredProperties.indexOf(propertyKey)) {
+                propertyDescriptor.mandatory = true;
             }
 
             modelDescriptor.addPropertyBlueprint(propertyDescriptor);
