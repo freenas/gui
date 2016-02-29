@@ -79,6 +79,25 @@
             "bindings": {
                 "checked": {"<->": "@owner.object.rtadv"}
             }
+        },
+        "footer": {
+            "prototype": "ui/controls/inspector-footer.reel",
+            "properties": {
+                "element": {"#": "footer"}
+            }
+        },
+        "relatedInterfacesTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "relatedInterfacesTitle"},
+                "value": "Related Interfaces"
+            }
+        },
+        "relatedInterfaces": {
+            "prototype": "ui/inspectors/related-interfaces.reel",
+            "properties": {
+                "element": {"#": "relatedInterfaces"}
+            }
         }
     }
     </script>
@@ -92,6 +111,9 @@
         <div data-montage-id="dhcp"></div>
         <div data-montage-id="noipv6"></div>
         <div data-montage-id="rtadv"></div>
+        <div data-montage-id="relatedInterfacesTitle"></div>
+        <div data-montage-id="relatedInterfaces" class="g-padding"></div>
+        <div data-montage-id="footer"></div>
     </div>
 </body>
 </html>

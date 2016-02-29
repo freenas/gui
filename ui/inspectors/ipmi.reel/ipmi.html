@@ -59,6 +59,12 @@
             "bindings": {
                 "value": {"<->": "@owner.object.vlan_id"}
             }
+        },
+        "footer": {
+            "prototype": "ui/controls/inspector-footer.reel",
+            "properties": {
+                "element": {"#": "footer"}
+            }
         }
     }
     </script>
@@ -85,6 +91,7 @@
         <div data-montage-id="gateway"></div>
         <div data-montage-id="dhcp"></div>
         <div data-montage-id="vlan_id"></div>
+        <div data-montage-id="footer"></div>
     </div>
 </body>
 </html>

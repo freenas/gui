@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="inspector-footer.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "isVisible": true
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.isVisible"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "delete": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "delete"}
+            }
+        },
+        "revert": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "revert"},
+                "value": "Revert"
+            }
+        },
+        "save": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "save"},
+                "value": "Save"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="InspectorFooter">
+        <div data-montage-id="delete" class="InspectorFooter-delete">
+            <span>Delete</span>
+        </div>
+        <button data-montage-id="revert" class="blueShark-Button Button--secondary Button--small"></button>
+        <button data-montage-id="save" class="blueShark-Button Button--primary Button--small"></button>
+    </div>
+</body>
+</html>

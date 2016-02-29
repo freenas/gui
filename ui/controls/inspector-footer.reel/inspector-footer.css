@@ -1,0 +1,44 @@
+.InspectorFooter {
+    margin-top: 1em;
+    padding: 1em;
+    display: none;
+    flex-shrink: 0;
+}
+
+.InspectorFooter.is-visible {
+    display: flex;
+}
+
+.InspectorFooter > * {
+    flex: 1;
+}
+
+.InspectorFooter-delete svg,
+.InspectorFooter-delete span {
+    vertical-align: middle;
+}
+
+.InspectorFooter-delete {
+    display: inline-block;
+    cursor: pointer;
+    color: rgb(150, 36, 36);
+    align-self: center;
+    margin-right: 3em;
+    margin-bottom: 0.3em;
+    outline: none;
+}
+
+.InspectorFooter-delete:hover {
+    color: rgb(175,36,36);
+}
+
+.InspectorFooter-delete span {
+    vertical-align: middle;
+}
+
+.InspectorFooter-buttons {
+    padding: 1em;
+    display: flex;
+    background: rgba(0,0,0,.2);
+}
+

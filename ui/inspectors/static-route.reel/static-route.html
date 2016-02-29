@@ -68,24 +68,24 @@
             "bindings": {
                 "value": {"<->": "@owner.object.id"}
             }
+        },
+        "footer": {
+            "prototype": "ui/controls/inspector-footer.reel",
+            "properties": {
+                "element": {"#": "footer"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="StaticRoute g-padding-top">
-        <div class="inspector-content">
-            <div data-montage-id="netmask"></div>
-            <div data-montage-id="gateway"></div>
-            <div data-montage-id="network"></div>
-            <div data-montage-id="type"></div>
-            <div data-montage-id="id"></div>
-        </div>
-        <div class="inspector-footer">
-            <button class="blueShark-Button Button--alert Button--small">Delete</button>
-            <button class="blueShark-Button Button--secondary Button--small">Cancel</button>
-            <button class="blueShark-Button Button--primary Button--small">Save</button>
-        </div>
+        <div data-montage-id="netmask"></div>
+        <div data-montage-id="gateway"></div>
+        <div data-montage-id="network"></div>
+        <div data-montage-id="type"></div>
+        <div data-montage-id="id"></div>
+        <div data-montage-id="footer"></div>
     </div>
 </body>
 </html>
