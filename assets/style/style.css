@@ -76,8 +76,7 @@ $Icons
     font-family: 'freenas';
     src:
         url('../fonts/icons/freenas.ttf?df1sb9') format('truetype'),
-        url('../fonts/icons/freenas.woff?df1sb9') format('woff'),
-        url('../fonts/icons/freenas.svg?df1sb9#freenas') format('svg');
+        url('../fonts/icons/freenas.woff?df1sb9') format('woff');
     font-weight: normal;
     font-style: normal;
 }
