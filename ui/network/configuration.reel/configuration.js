@@ -7,5 +7,4 @@ var Component = require("montage/ui/component").Component;
  * @class Configuration
  * @extends Component
  */
-exports.Configuration = Component.specialize(/** @lends Configuration# */ {
-});
+exports.Configuration = Component.specialize();

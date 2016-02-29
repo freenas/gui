@@ -11,8 +11,8 @@ table {
 }
 
 thead {
-    background: rgba(255,255,255,.75);
-    color: #000;
+    background: #4F4F4F;
+    color: rgba(255,255,255,.8);
     margin-bottom: 1em;
 }
 tbody {}
