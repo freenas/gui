@@ -7,6 +7,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_servicenfs_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicenfs_mountd_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -77,6 +85,7 @@
       "name": "ServiceNfs",
       "propertyBlueprints": [
         {"@": "blueprint_servicenfs_bind_addresses"},
+        {"@": "blueprint_servicenfs_enable"},
         {"@": "blueprint_servicenfs_mountd_port"},
         {"@": "blueprint_servicenfs_nonroot"},
         {"@": "blueprint_servicenfs_rpclockd_port"},

@@ -1,4 +1,12 @@
 {
+  "blueprint_servicesmartd_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicesmartd_interval": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -50,6 +58,7 @@
     "properties": {
       "name": "ServiceSmartd",
       "propertyBlueprints": [
+        {"@": "blueprint_servicesmartd_enable"},
         {"@": "blueprint_servicesmartd_interval"},
         {"@": "blueprint_servicesmartd_power_mode"},
         {"@": "blueprint_servicesmartd_temp_critical"},

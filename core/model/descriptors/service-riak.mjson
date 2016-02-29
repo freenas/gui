@@ -7,6 +7,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_serviceriak_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_serviceriak_listener_http_internal": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -142,6 +150,7 @@
       "name": "ServiceRiak",
       "propertyBlueprints": [
         {"@": "blueprint_serviceriak_buckets_default_allow_multi"},
+        {"@": "blueprint_serviceriak_enable"},
         {"@": "blueprint_serviceriak_listener_http_internal"},
         {"@": "blueprint_serviceriak_listener_http_internal_port"},
         {"@": "blueprint_serviceriak_listener_https_internal"},

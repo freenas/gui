@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicelldp_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicelldp_location": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -29,6 +37,7 @@
       "name": "ServiceLldp",
       "propertyBlueprints": [
         {"@": "blueprint_servicelldp_country_code"},
+        {"@": "blueprint_servicelldp_enable"},
         {"@": "blueprint_servicelldp_location"},
         {"@": "blueprint_servicelldp_save_description"}
       ]

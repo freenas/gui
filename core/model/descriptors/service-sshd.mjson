@@ -1,5 +1,5 @@
 {
-  "blueprint_servicessh_allow_password_auth": {
+  "blueprint_servicesshd_allow_password_auth": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "allow_password_auth",
@@ -7,7 +7,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_servicessh_allow_port_forwarding": {
+  "blueprint_servicesshd_allow_port_forwarding": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "allow_port_forwarding",
@@ -15,7 +15,15 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_servicessh_auxiliary": {
+  "blueprint_servicesshd_allow_pubkey_auth": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "allow_pubkey_auth",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicesshd_auxiliary": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "auxiliary",
@@ -23,7 +31,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_servicessh_compression": {
+  "blueprint_servicesshd_compression": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "compression",
@@ -31,7 +39,15 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_servicessh_permit_root_login": {
+  "blueprint_servicesshd_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_servicesshd_permit_root_login": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "permit_root_login",
@@ -39,7 +55,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_servicessh_port": {
+  "blueprint_servicesshd_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "port",
@@ -47,7 +63,7 @@
       "valueType": "number"
     }
   },
-  "blueprint_servicessh_sftp_log_facility": {
+  "blueprint_servicesshd_sftp_log_facility": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "sftp_log_facility",
@@ -68,7 +84,7 @@
       ]
     }
   },
-  "blueprint_servicessh_sftp_log_level": {
+  "blueprint_servicesshd_sftp_log_level": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "sftp_log_level",
@@ -89,16 +105,18 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ServiceSsh",
+      "name": "ServiceSshd",
       "propertyBlueprints": [
-        {"@": "blueprint_servicessh_allow_password_auth"},
-        {"@": "blueprint_servicessh_allow_port_forwarding"},
-        {"@": "blueprint_servicessh_auxiliary"},
-        {"@": "blueprint_servicessh_compression"},
-        {"@": "blueprint_servicessh_permit_root_login"},
-        {"@": "blueprint_servicessh_port"},
-        {"@": "blueprint_servicessh_sftp_log_facility"},
-        {"@": "blueprint_servicessh_sftp_log_level"}
+        {"@": "blueprint_servicesshd_allow_password_auth"},
+        {"@": "blueprint_servicesshd_allow_port_forwarding"},
+        {"@": "blueprint_servicesshd_allow_pubkey_auth"},
+        {"@": "blueprint_servicesshd_auxiliary"},
+        {"@": "blueprint_servicesshd_compression"},
+        {"@": "blueprint_servicesshd_enable"},
+        {"@": "blueprint_servicesshd_permit_root_login"},
+        {"@": "blueprint_servicesshd_port"},
+        {"@": "blueprint_servicesshd_sftp_log_facility"},
+        {"@": "blueprint_servicesshd_sftp_log_level"}
       ]
     }
   }

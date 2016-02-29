@@ -15,6 +15,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_servicedyndns_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicedyndns_force_update_period": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -47,20 +55,20 @@
       "valueType": "String",
       "enumValues": [
         null,
-        "default@sitelutions.com",
         "default@zerigo.com",
+        "default@dnsomatic.com",
         "default@freedns.afraid.org",
-        "default@easydns.com",
-        "default@majimoto.net",
-        "default@zoneedit.com",
         "default@no-ip.com",
-        "dyndns@3322.org",
+        "default@sitelutions.com",
         "default@dynsip.org",
+        "default@majimoto.net",
+        "default@tzo.com",
+        "dyndns@dyndns.org",
         "default@dhis.org",
         "ipv6tb@he.net",
-        "dyndns@dyndns.org",
-        "default@tzo.com",
-        "default@dnsomatic.com"
+        "default@easydns.com",
+        "default@zoneedit.com",
+        "dyndns@3322.org"
       ]
     }
   },
@@ -87,6 +95,7 @@
       "propertyBlueprints": [
         {"@": "blueprint_servicedyndns_auxiliary"},
         {"@": "blueprint_servicedyndns_domains"},
+        {"@": "blueprint_servicedyndns_enable"},
         {"@": "blueprint_servicedyndns_force_update_period"},
         {"@": "blueprint_servicedyndns_ipserver"},
         {"@": "blueprint_servicedyndns_password"},

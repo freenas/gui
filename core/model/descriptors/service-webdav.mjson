@@ -19,6 +19,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicewebdav_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicewebdav_http_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -58,6 +66,7 @@
       "propertyBlueprints": [
         {"@": "blueprint_servicewebdav_authentication"},
         {"@": "blueprint_servicewebdav_certificate"},
+        {"@": "blueprint_servicewebdav_enable"},
         {"@": "blueprint_servicewebdav_http_port"},
         {"@": "blueprint_servicewebdav_https_port"},
         {"@": "blueprint_servicewebdav_password"},

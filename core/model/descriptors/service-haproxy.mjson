@@ -19,6 +19,14 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicehaproxy_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicehaproxy_frontend_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -78,6 +86,7 @@
       "propertyBlueprints": [
         {"@": "blueprint_servicehaproxy_backend_mode"},
         {"@": "blueprint_servicehaproxy_defaults_maxconn"},
+        {"@": "blueprint_servicehaproxy_enable"},
         {"@": "blueprint_servicehaproxy_frontend_mode"},
         {"@": "blueprint_servicehaproxy_global_maxconn"},
         {"@": "blueprint_servicehaproxy_http_ip"},

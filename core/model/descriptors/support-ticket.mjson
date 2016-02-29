@@ -4,6 +4,7 @@
     "properties": {
       "name": "attachments",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "array"
     }
   },
@@ -12,6 +13,7 @@
     "properties": {
       "name": "category",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -20,6 +22,7 @@
     "properties": {
       "name": "debug",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "boolean"
     }
   },
@@ -28,6 +31,7 @@
     "properties": {
       "name": "description",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -36,6 +40,7 @@
     "properties": {
       "name": "password",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -44,6 +49,7 @@
     "properties": {
       "name": "subject",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -52,6 +58,7 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
     }
   },

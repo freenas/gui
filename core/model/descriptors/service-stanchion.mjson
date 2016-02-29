@@ -15,6 +15,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicestanchion_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicestanchion_listener_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -88,6 +96,7 @@
       "propertyBlueprints": [
         {"@": "blueprint_servicestanchion_admin_key"},
         {"@": "blueprint_servicestanchion_admin_secret"},
+        {"@": "blueprint_servicestanchion_enable"},
         {"@": "blueprint_servicestanchion_listener_ip"},
         {"@": "blueprint_servicestanchion_listener_port"},
         {"@": "blueprint_servicestanchion_log_console_level"},

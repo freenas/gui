@@ -1,4 +1,12 @@
 {
+  "blueprint_serviceipfs_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_serviceipfs_path": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -12,6 +20,7 @@
     "properties": {
       "name": "ServiceIpfs",
       "propertyBlueprints": [
+        {"@": "blueprint_serviceipfs_enable"},
         {"@": "blueprint_serviceipfs_path"}
       ]
     }

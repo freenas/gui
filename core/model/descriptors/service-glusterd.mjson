@@ -1,4 +1,12 @@
 {
+  "blueprint_serviceglusterd_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_serviceglusterd_working_directory": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -12,6 +20,7 @@
     "properties": {
       "name": "ServiceGlusterd",
       "propertyBlueprints": [
+        {"@": "blueprint_serviceglusterd_enable"},
         {"@": "blueprint_serviceglusterd_working_directory"}
       ]
     }

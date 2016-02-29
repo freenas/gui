@@ -4,6 +4,7 @@
     "properties": {
       "name": "description",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -12,6 +13,7 @@
     "properties": {
       "name": "dismissed",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "boolean"
     }
   },
@@ -20,6 +22,7 @@
     "properties": {
       "name": "id",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "number"
     }
   },
@@ -35,7 +38,8 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "severity",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "mandatory": true
     }
   },
   "blueprint_alert_when": {
@@ -43,6 +47,7 @@
     "properties": {
       "name": "when",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
     }
   },

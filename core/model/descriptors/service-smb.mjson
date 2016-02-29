@@ -55,6 +55,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_servicesmb_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_servicesmb_execute_always": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -239,6 +247,7 @@
         {"@": "blueprint_servicesmb_domain_logons"},
         {"@": "blueprint_servicesmb_dos_charset"},
         {"@": "blueprint_servicesmb_empty_password"},
+        {"@": "blueprint_servicesmb_enable"},
         {"@": "blueprint_servicesmb_execute_always"},
         {"@": "blueprint_servicesmb_filemask"},
         {"@": "blueprint_servicesmb_guest_user"},

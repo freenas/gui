@@ -23,6 +23,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_serviceriakcs_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_serviceriakcs_listener_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -121,6 +129,7 @@
         {"@": "blueprint_serviceriakcs_admin_key"},
         {"@": "blueprint_serviceriakcs_admin_secret"},
         {"@": "blueprint_serviceriakcs_anonymous_user_creation"},
+        {"@": "blueprint_serviceriakcs_enable"},
         {"@": "blueprint_serviceriakcs_listener_ip"},
         {"@": "blueprint_serviceriakcs_listener_port"},
         {"@": "blueprint_serviceriakcs_log_console_level"},

@@ -347,6 +347,19 @@
             "task": "group.update"
         }
     },
+    "Ipmi": {
+        "read": {
+            "method": "ipmi.query",
+            "name": "call",
+            "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "ipmi.update"
+        }
+    },
     "Mail": {
         "update": {
             "method": "task.submit",
@@ -502,6 +515,18 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "forbiddenFields": [
+                    "id",
+                    "name",
+                    "builtin",
+                    "pid",
+                    "state"
+                ],
+                "requiredFields": [
+                    "config"
+                ]
+            },
             "task": "service.update"
         }
     },
@@ -632,12 +657,12 @@
             "task": "service.snmp.update"
         }
     },
-    "ServiceSsh": {
+    "ServiceSshd": {
         "update": {
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.ssh.update"
+            "task": "service.sshd.update"
         }
     },
     "ServiceStanchion": {
@@ -656,12 +681,12 @@
             "task": "service.swift.update"
         }
     },
-    "ServiceTftp": {
+    "ServiceTftpd": {
         "update": {
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
-            "task": "service.tftp.update"
+            "task": "service.tftpd.update"
         }
     },
     "ServiceUps": {

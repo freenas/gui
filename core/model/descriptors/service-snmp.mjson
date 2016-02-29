@@ -23,6 +23,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicesnmp_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicesnmp_location": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -95,6 +103,7 @@
         {"@": "blueprint_servicesnmp_auxiliary"},
         {"@": "blueprint_servicesnmp_community"},
         {"@": "blueprint_servicesnmp_contact"},
+        {"@": "blueprint_servicesnmp_enable"},
         {"@": "blueprint_servicesnmp_location"},
         {"@": "blueprint_servicesnmp_v3"},
         {"@": "blueprint_servicesnmp_v3_auth_type"},

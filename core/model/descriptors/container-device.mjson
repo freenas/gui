@@ -12,6 +12,7 @@
     "properties": {
       "name": "properties",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "object"
     }
   },
@@ -20,6 +21,7 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String",
       "enumValues": [
         "DISK",

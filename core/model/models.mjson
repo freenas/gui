@@ -153,8 +153,8 @@
             "type": "IpfsInfo"
         },
         {
-            "modelId": "core/model/descriptors/ipmi-configuration.mjson",
-            "type": "IpmiConfiguration"
+            "modelId": "core/model/descriptors/ipmi.mjson",
+            "type": "Ipmi"
         },
         {
             "modelId": "core/model/descriptors/ldap-config.mjson",
@@ -313,6 +313,10 @@
             "type": "ServiceRsyncd"
         },
         {
+            "modelId": "core/model/descriptors/service-simulator.mjson",
+            "type": "ServiceSimulator"
+        },
+        {
             "modelId": "core/model/descriptors/service-smartd.mjson",
             "type": "ServiceSmartd"
         },
@@ -325,8 +329,8 @@
             "type": "ServiceSnmp"
         },
         {
-            "modelId": "core/model/descriptors/service-ssh.mjson",
-            "type": "ServiceSsh"
+            "modelId": "core/model/descriptors/service-sshd.mjson",
+            "type": "ServiceSshd"
         },
         {
             "modelId": "core/model/descriptors/service-stanchion.mjson",
@@ -337,8 +341,8 @@
             "type": "ServiceSwift"
         },
         {
-            "modelId": "core/model/descriptors/service-tftp.mjson",
-            "type": "ServiceTftp"
+            "modelId": "core/model/descriptors/service-tftpd.mjson",
+            "type": "ServiceTftpd"
         },
         {
             "modelId": "core/model/descriptors/service-ups.mjson",

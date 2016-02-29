@@ -63,6 +63,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_serviceups_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_serviceups_identifier": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -164,6 +172,7 @@
         {"@": "blueprint_serviceups_email_notify"},
         {"@": "blueprint_serviceups_email_recipients"},
         {"@": "blueprint_serviceups_email_subject"},
+        {"@": "blueprint_serviceups_enable"},
         {"@": "blueprint_serviceups_identifier"},
         {"@": "blueprint_serviceups_mode"},
         {"@": "blueprint_serviceups_monitor_password"},
