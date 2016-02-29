@@ -1,0 +1,21 @@
+.InspectorSectionTitle {
+    position: relative;
+    padding-left: 1em;
+    margin: 2em 0 1em;
+    color: rgba(255,255,255,.8);
+}
+
+.InspectorSectionTitle:after {
+    content: '';
+    position: absolute;
+    left: 1em;
+    right: 0;
+    bottom: -2px;
+    border-bottom: 1px solid rgba(255,255,255,.8);
+}
+
+.InspectorSectionTitle-text {
+    font-size: 1.2em;
+    line-height: 1.25;
+    font-weight: 400;
+}
