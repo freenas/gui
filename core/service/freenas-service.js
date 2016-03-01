@@ -161,7 +161,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     var restrictions = serviceDescriptor.restrictions,
                         propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
                         hasRestrictions = !!restrictions, respectedRestrictionsCounter = 0,
-                        requiredFields, forbiddenFields, propertyDescriptor, objectValue, key;
+                        requiredFields, isPropertyValueNullified, forbiddenFields, propertyDescriptor, propertyValue, key;
 
                     if (hasRestrictions) {
                         forbiddenFields = restrictions.forbiddenFields;
@@ -171,21 +171,23 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
                         propertyDescriptor = propertyDescriptors[i];
                         key = propertyDescriptor.name;
-                        objectValue = object[key];
+                        propertyValue = object[key];
+                        isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
 
-                        if (propertyDescriptor.mandatory && (objectValue === null || objectValue === void 0)) {
+                        if (propertyDescriptor.mandatory && isPropertyValueNullified) {
                             throw new Error ("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
                         }
 
                         if (hasRestrictions) {
                             if (forbiddenFields && forbiddenFields.indexOf(key) === -1) {
-                                if (requiredFields && requiredFields.indexOf(key) > -1 && objectValue !== null &&
-                                    objectValue !== void 0) respectedRestrictionsCounter++;
+                                if (requiredFields && requiredFields.indexOf(key) > -1 && !isPropertyValueNullified) {
+                                    respectedRestrictionsCounter++;
+                                }
 
-                                if ((!isUpdate && objectValue !== null) || isUpdate) data[key] = objectValue;
+                                this._mapPropertyToRawData(data, object, key, isUpdate);
                             }
                         } else {
-                            if ((!isUpdate && objectValue !== null) || isUpdate) data[key] = objectValue;
+                            this._mapPropertyToRawData(data, object, key, isUpdate);
                         }
                     }
 
@@ -252,6 +254,20 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 });
             } else {
                 stream.reject(new Error("No fetch service for the model object '" + type.typeName + "'"));
+            }
+        }
+    },
+
+    _mapPropertyToRawData: {
+        value: function (rawData, object, propertyKey, update) {
+            var propertyValue = object[propertyKey];
+
+            if (update) {
+                if (object.hasOwnProperty("_" + propertyKey)) { // filter unset values.
+                    rawData[propertyKey] = propertyValue;
+                }
+            } else if (propertyValue !== null) {
+                rawData[propertyKey] = propertyValue;
             }
         }
     }
