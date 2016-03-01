@@ -10,10 +10,16 @@
                 "element": {"#": "owner"}
             }
         },
+
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+
         "size": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "size"}
+                "element": {"#": "size"},
+                "converter": {"@": "bytesConverter"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.size"}

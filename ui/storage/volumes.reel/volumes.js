@@ -1,4 +1,5 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Model = require("core/model/model").Model;
 
 /**
  * @class Volumes
@@ -8,10 +9,37 @@ exports.Volumes = Component.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
+            var self = this;
             if (isFirstTime) {
-                var data, i, self = this;
+                this.listVolumes().then(function(volumes) {
+                    self.cascadingList.root = volumes;
+                    var volume;
+                    for (var i = 0, length = self.cascadingList.root.length; i < length; i++) {
+                        volume = self.cascadingList.root[i];
+                        volume.scrub = {
+                            name: "Scrub",
+                            inspector: "ui/inspectors/scrub.reel"
+                        };
+                    }
+                    return self.listSnapshots();
+                }).then(function(volumesSnapshots) {
+                    var volume;
+                    for (var i = 0, length = self.cascadingList.root.length; i < length; i++) {
+                        volume = self.cascadingList.root[i];
+                        volume.snapshots = volumesSnapshots[volume.name] || [];
+                        volume.snapshots.name = "Snapshots";
+                        volume.snapshots.inspector = "ui/controls/viewer.reel";
+                    }
+                });
+            }
+        }
+    },
 
-                data = [
+    listVolumes: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.Volume).then(function(volumes) {
+/*
+                var _data_ = [
                     {
                         name: "Volume 1",
                         size: "2 TB",
@@ -161,16 +189,49 @@ exports.Volumes = Component.specialize({
                         }
                     }
                 ];
-                for (i = 0; i < data.length; i++) {
-                    data[i].shares.name = "Shares";
-                    data[i].shares.inspector = "ui/controls/viewer.reel";
-                    data[i].snapshots.name = "Snapshots";
-                    data[i].snapshots.inspector = "ui/controls/viewer.reel";
+*/
+                var displayedVolumes = [],
+                    displayedVolume,
+                    volume,
+                    i;
+                for (i = 0; i < volumes.length; i++) {
+                    volume = volumes[i];
+                    displayedVolume = {
+                        name: volume.id,
+                        size: volume.topology.data[0].stats.size,
+                        inspector: "ui/inspectors/volume.reel",
+                        shares: [],
+                        topology: volume.topology
+                    };
+                    displayedVolume.shares.name = "Shares";
+                    displayedVolume.shares.inspector = "ui/controls/viewer.reel";
+                    displayedVolume.topology.name = "Topology";
+                    displayedVolume.topology.inspector = "ui/inspectors/topology.reel";
+                    displayedVolumes.push(displayedVolume);
                 }
-                data.name = "Volumes";
-                data.inspector = "ui/controls/viewer.reel";
-                this.cascadingList.root = data;
-            }
+                displayedVolumes.name = "Volumes";
+                displayedVolumes.inspector = "ui/controls/viewer.reel";
+                return displayedVolumes
+            });
+        }
+    },
+
+    listSnapshots: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.VolumeSnapshot).then(function(snapshots) {
+                var volumesSnapshots = {},
+                    snapshot,
+                    i,
+                    length;
+                for (i = 0, length = snapshots.length; i < length; i++) {
+                    snapshot = snapshots[i];
+                    if (!volumesSnapshots.hasOwnProperty(snapshot.volume)) {
+                        volumesSnapshots[snapshot.volume] = [];
+                    }
+                    volumesSnapshots[snapshot.volume].push(snapshot);
+                }
+                return volumesSnapshots;
+            });
         }
     }
 
