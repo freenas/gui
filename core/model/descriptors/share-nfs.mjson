@@ -63,6 +63,16 @@
       "valueType": "array"
     }
   },
+  "blueprint_sharenfs_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "share-nfs"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -75,7 +85,8 @@
         {"@": "blueprint_sharenfs_maproot_group"},
         {"@": "blueprint_sharenfs_maproot_user"},
         {"@": "blueprint_sharenfs_read_only"},
-        {"@": "blueprint_sharenfs_security"}
+        {"@": "blueprint_sharenfs_security"},
+        {"@": "blueprint_sharenfs_type"}
       ]
     }
   }

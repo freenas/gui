@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicersyncd_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicersyncd_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -15,13 +23,25 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicersyncd_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-rsyncd"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ServiceRsyncd",
       "propertyBlueprints": [
         {"@": "blueprint_servicersyncd_auxiliary"},
-        {"@": "blueprint_servicersyncd_port"}
+        {"@": "blueprint_servicersyncd_enable"},
+        {"@": "blueprint_servicersyncd_port"},
+        {"@": "blueprint_servicersyncd_type"}
       ]
     }
   }

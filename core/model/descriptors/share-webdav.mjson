@@ -15,13 +15,24 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_sharewebdav_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "share-webdav"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ShareWebdav",
       "propertyBlueprints": [
         {"@": "blueprint_sharewebdav_permission"},
-        {"@": "blueprint_sharewebdav_read_only"}
+        {"@": "blueprint_sharewebdav_read_only"},
+        {"@": "blueprint_sharewebdav_type"}
       ]
     }
   }

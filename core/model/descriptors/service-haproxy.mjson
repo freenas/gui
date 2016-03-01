@@ -79,6 +79,16 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicehaproxy_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-haproxy"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -92,7 +102,8 @@
         {"@": "blueprint_servicehaproxy_http_ip"},
         {"@": "blueprint_servicehaproxy_http_port"},
         {"@": "blueprint_servicehaproxy_https_ip"},
-        {"@": "blueprint_servicehaproxy_https_port"}
+        {"@": "blueprint_servicehaproxy_https_port"},
+        {"@": "blueprint_servicehaproxy_type"}
       ]
     }
   }

@@ -159,6 +159,16 @@
       "valueType": "number"
     }
   },
+  "blueprint_serviceups_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-ups"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -182,7 +192,8 @@
         {"@": "blueprint_serviceups_remote_host"},
         {"@": "blueprint_serviceups_remote_port"},
         {"@": "blueprint_serviceups_shutdown_mode"},
-        {"@": "blueprint_serviceups_shutdown_timer"}
+        {"@": "blueprint_serviceups_shutdown_timer"},
+        {"@": "blueprint_serviceups_type"}
       ]
     }
   }

@@ -92,6 +92,16 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_shareafp_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "share-afp"
+      ]
+    }
+  },
   "blueprint_shareafp_users_allow": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -133,6 +143,7 @@
         {"@": "blueprint_shareafp_ro_list"},
         {"@": "blueprint_shareafp_rw_list"},
         {"@": "blueprint_shareafp_time_machine"},
+        {"@": "blueprint_shareafp_type"},
         {"@": "blueprint_shareafp_users_allow"},
         {"@": "blueprint_shareafp_users_deny"},
         {"@": "blueprint_shareafp_zero_dev_numbers"}

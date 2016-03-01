@@ -55,6 +55,16 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicenfs_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-nfs"
+      ]
+    }
+  },
   "blueprint_servicenfs_udp": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -91,6 +101,7 @@
         {"@": "blueprint_servicenfs_rpclockd_port"},
         {"@": "blueprint_servicenfs_rpcstatd_port"},
         {"@": "blueprint_servicenfs_servers"},
+        {"@": "blueprint_servicenfs_type"},
         {"@": "blueprint_servicenfs_udp"},
         {"@": "blueprint_servicenfs_v4"},
         {"@": "blueprint_servicenfs_v4_kerberos"}

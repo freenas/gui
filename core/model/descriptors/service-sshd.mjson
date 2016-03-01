@@ -102,6 +102,16 @@
       ]
     }
   },
+  "blueprint_servicesshd_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-sshd"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -116,7 +126,8 @@
         {"@": "blueprint_servicesshd_permit_root_login"},
         {"@": "blueprint_servicesshd_port"},
         {"@": "blueprint_servicesshd_sftp_log_facility"},
-        {"@": "blueprint_servicesshd_sftp_log_level"}
+        {"@": "blueprint_servicesshd_sftp_log_level"},
+        {"@": "blueprint_servicesshd_type"}
       ]
     }
   }

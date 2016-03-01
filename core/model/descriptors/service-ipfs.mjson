@@ -15,13 +15,24 @@
       "valueType": "String"
     }
   },
+  "blueprint_serviceipfs_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-ipfs"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ServiceIpfs",
       "propertyBlueprints": [
         {"@": "blueprint_serviceipfs_enable"},
-        {"@": "blueprint_serviceipfs_path"}
+        {"@": "blueprint_serviceipfs_path"},
+        {"@": "blueprint_serviceipfs_type"}
       ]
     }
   }

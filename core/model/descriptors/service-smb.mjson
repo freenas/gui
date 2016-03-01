@@ -60,7 +60,7 @@
     "properties": {
       "name": "enable",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
   "blueprint_servicesmb_execute_always": {
@@ -203,6 +203,16 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_servicesmb_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-smb"
+      ]
+    }
+  },
   "blueprint_servicesmb_unix_charset": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -261,6 +271,7 @@
         {"@": "blueprint_servicesmb_sid"},
         {"@": "blueprint_servicesmb_syslog"},
         {"@": "blueprint_servicesmb_time_server"},
+        {"@": "blueprint_servicesmb_type"},
         {"@": "blueprint_servicesmb_unix_charset"},
         {"@": "blueprint_servicesmb_unixext"},
         {"@": "blueprint_servicesmb_workgroup"},

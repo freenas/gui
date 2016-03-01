@@ -55,6 +55,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_serviceftp_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_serviceftp_filemask": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -243,6 +251,16 @@
       "valueType": "String"
     }
   },
+  "blueprint_serviceftp_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-ftp"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -255,6 +273,7 @@
         {"@": "blueprint_serviceftp_chroot"},
         {"@": "blueprint_serviceftp_dirmask"},
         {"@": "blueprint_serviceftp_display_login"},
+        {"@": "blueprint_serviceftp_enable"},
         {"@": "blueprint_serviceftp_filemask"},
         {"@": "blueprint_serviceftp_fxp"},
         {"@": "blueprint_serviceftp_ident"},
@@ -276,7 +295,8 @@
         {"@": "blueprint_serviceftp_tls"},
         {"@": "blueprint_serviceftp_tls_options"},
         {"@": "blueprint_serviceftp_tls_policy"},
-        {"@": "blueprint_serviceftp_tls_ssl_certificate"}
+        {"@": "blueprint_serviceftp_tls_ssl_certificate"},
+        {"@": "blueprint_serviceftp_type"}
       ]
     }
   }

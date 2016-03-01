@@ -89,6 +89,16 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicestanchion_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-stanchion"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -103,7 +113,8 @@
         {"@": "blueprint_servicestanchion_node_ip"},
         {"@": "blueprint_servicestanchion_nodename"},
         {"@": "blueprint_servicestanchion_riak_host_ip"},
-        {"@": "blueprint_servicestanchion_riak_host_port"}
+        {"@": "blueprint_servicestanchion_riak_host_port"},
+        {"@": "blueprint_servicestanchion_type"}
       ]
     }
   }

@@ -79,6 +79,16 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_sharesmb_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "share-smb"
+      ]
+    }
+  },
   "blueprint_sharesmb_vfs_objects": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -102,6 +112,7 @@
         {"@": "blueprint_sharesmb_read_only"},
         {"@": "blueprint_sharesmb_recyclebin"},
         {"@": "blueprint_sharesmb_show_hidden_files"},
+        {"@": "blueprint_sharesmb_type"},
         {"@": "blueprint_sharesmb_vfs_objects"}
       ]
     }

@@ -59,6 +59,16 @@
       "valueType": "array"
     }
   },
+  "blueprint_servicewebdav_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-webdav"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -70,7 +80,8 @@
         {"@": "blueprint_servicewebdav_http_port"},
         {"@": "blueprint_servicewebdav_https_port"},
         {"@": "blueprint_servicewebdav_password"},
-        {"@": "blueprint_servicewebdav_protocol"}
+        {"@": "blueprint_servicewebdav_protocol"},
+        {"@": "blueprint_servicewebdav_type"}
       ]
     }
   }

@@ -53,6 +53,16 @@
       "valueType": "number"
     }
   },
+  "blueprint_servicesmartd_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-smartd"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -63,7 +73,8 @@
         {"@": "blueprint_servicesmartd_power_mode"},
         {"@": "blueprint_servicesmartd_temp_critical"},
         {"@": "blueprint_servicesmartd_temp_difference"},
-        {"@": "blueprint_servicesmartd_temp_informational"}
+        {"@": "blueprint_servicesmartd_temp_informational"},
+        {"@": "blueprint_servicesmartd_type"}
       ]
     }
   }

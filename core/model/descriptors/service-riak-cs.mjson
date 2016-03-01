@@ -121,6 +121,16 @@
       "valueType": "number"
     }
   },
+  "blueprint_serviceriakcs_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-riak_cs"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -139,7 +149,8 @@
         {"@": "blueprint_serviceriakcs_riak_host_ip"},
         {"@": "blueprint_serviceriakcs_riak_host_port"},
         {"@": "blueprint_serviceriakcs_stanchion_host_ip"},
-        {"@": "blueprint_serviceriakcs_stanchion_host_port"}
+        {"@": "blueprint_serviceriakcs_stanchion_host_port"},
+        {"@": "blueprint_serviceriakcs_type"}
       ]
     }
   }

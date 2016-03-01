@@ -23,6 +23,16 @@
       "valueType": "String"
     }
   },
+  "blueprint_serviceswift_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-swift"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -30,7 +40,8 @@
       "propertyBlueprints": [
         {"@": "blueprint_serviceswift_enable"},
         {"@": "blueprint_serviceswift_swift_hash_path_prefix"},
-        {"@": "blueprint_serviceswift_swift_hash_path_suffix"}
+        {"@": "blueprint_serviceswift_swift_hash_path_suffix"},
+        {"@": "blueprint_serviceswift_type"}
       ]
     }
   }

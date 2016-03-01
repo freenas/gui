@@ -55,20 +55,30 @@
       "valueType": "String",
       "enumValues": [
         null,
-        "default@zerigo.com",
-        "default@dnsomatic.com",
         "default@freedns.afraid.org",
-        "default@no-ip.com",
-        "default@sitelutions.com",
-        "default@dynsip.org",
-        "default@majimoto.net",
-        "default@tzo.com",
-        "dyndns@dyndns.org",
-        "default@dhis.org",
         "ipv6tb@he.net",
-        "default@easydns.com",
         "default@zoneedit.com",
-        "dyndns@3322.org"
+        "default@dynsip.org",
+        "dyndns@dyndns.org",
+        "default@sitelutions.com",
+        "default@majimoto.net",
+        "default@easydns.com",
+        "default@dhis.org",
+        "default@dnsomatic.com",
+        "dyndns@3322.org",
+        "default@no-ip.com",
+        "default@tzo.com",
+        "default@zerigo.com"
+      ]
+    }
+  },
+  "blueprint_servicedyndns_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-dyndns"
       ]
     }
   },
@@ -100,6 +110,7 @@
         {"@": "blueprint_servicedyndns_ipserver"},
         {"@": "blueprint_servicedyndns_password"},
         {"@": "blueprint_servicedyndns_provider"},
+        {"@": "blueprint_servicedyndns_type"},
         {"@": "blueprint_servicedyndns_update_period"},
         {"@": "blueprint_servicedyndns_username"}
       ]

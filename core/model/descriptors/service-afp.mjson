@@ -79,6 +79,16 @@
       "valueType": "String"
     }
   },
+  "blueprint_serviceafp_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-afp"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -93,7 +103,8 @@
         {"@": "blueprint_serviceafp_guest_user"},
         {"@": "blueprint_serviceafp_homedir_enable"},
         {"@": "blueprint_serviceafp_homedir_name"},
-        {"@": "blueprint_serviceafp_homedir_path"}
+        {"@": "blueprint_serviceafp_homedir_path"},
+        {"@": "blueprint_serviceafp_type"}
       ]
     }
   }

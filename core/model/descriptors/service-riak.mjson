@@ -144,6 +144,16 @@
       ]
     }
   },
+  "blueprint_serviceriak_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-riak"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -164,7 +174,8 @@
         {"@": "blueprint_serviceriak_object_size_warning_threshold"},
         {"@": "blueprint_serviceriak_riak_control"},
         {"@": "blueprint_serviceriak_save_description"},
-        {"@": "blueprint_serviceriak_storage_backend"}
+        {"@": "blueprint_serviceriak_storage_backend"},
+        {"@": "blueprint_serviceriak_type"}
       ]
     }
   }

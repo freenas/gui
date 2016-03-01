@@ -317,6 +317,13 @@
             "namespace": "rpc"
         }
     },
+    "Failover": {
+        "read": {
+            "method": "failover.query",
+            "name": "call",
+            "namespace": "rpc"
+        }
+    },
     "Group": {
         "create": {
             "method": "task.submit",
@@ -366,6 +373,14 @@
             "name": "call",
             "namespace": "rpc",
             "task": "mail.update"
+        }
+    },
+    "NetworkConfig": {
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "network.config.update"
         }
     },
     "NetworkHost": {
@@ -522,9 +537,6 @@
                     "builtin",
                     "pid",
                     "state"
-                ],
-                "requiredFields": [
-                    "config"
                 ]
             },
             "task": "service.update"

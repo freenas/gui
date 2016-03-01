@@ -93,6 +93,16 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_shareiscsi_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "share-iscsi"
+      ]
+    }
+  },
   "blueprint_shareiscsi_vendor_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -116,6 +126,7 @@
         {"@": "blueprint_shareiscsi_serial"},
         {"@": "blueprint_shareiscsi_size"},
         {"@": "blueprint_shareiscsi_tpc"},
+        {"@": "blueprint_shareiscsi_type"},
         {"@": "blueprint_shareiscsi_vendor_id"}
       ]
     }

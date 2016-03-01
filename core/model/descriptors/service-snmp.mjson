@@ -39,6 +39,16 @@
       "valueType": "String"
     }
   },
+  "blueprint_servicesnmp_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-snmp"
+      ]
+    }
+  },
   "blueprint_servicesnmp_v3": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -105,6 +115,7 @@
         {"@": "blueprint_servicesnmp_contact"},
         {"@": "blueprint_servicesnmp_enable"},
         {"@": "blueprint_servicesnmp_location"},
+        {"@": "blueprint_servicesnmp_type"},
         {"@": "blueprint_servicesnmp_v3"},
         {"@": "blueprint_servicesnmp_v3_auth_type"},
         {"@": "blueprint_servicesnmp_v3_password"},
