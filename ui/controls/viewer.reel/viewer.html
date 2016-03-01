@@ -7,8 +7,7 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "searchField": {"@": "searchField"}
+                "element": {"#": "owner"}
             },
             "bindings": {
                 "selectedObject": {"<->": "@controller.selection.0"}
@@ -67,38 +66,6 @@
             "properties": {
                 "element": {"#": "createButton"}
             }
-        },
-        "searchToggle": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "searchToggle"}
-            }
-        },
-        "viewerSearch": {
-            "prototype": "montage/ui/component",
-            "properties": {
-                "element": {"#": "viewerSearch"},
-                "hasTemplate": false
-            },
-            "bindings": {
-                "classList.has('is-expanded')": {"<-": "@owner.searchExpanded"}
-            }
-        },
-        "searchClearButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "searchClearButton"}
-            },
-            "bindings": {
-                "classList.has('is-visible')": {"<-": "@owner.searchField.value"}
-            }
-        },
-        "searchField": {
-            "prototype": "blue-shark/ui/text-field.reel",
-            "properties": {
-                "element": {"#": "searchField"},
-                "placeholderValue": "enter search"
-            }
         }
     }
     </script>
@@ -107,14 +74,6 @@
     <div data-montage-id="owner" class="Viewer">
         <div class="Viewer-header">
             <div data-montage-id="viewMode"></div>
-            <div data-montage-id="searchToggle" class="Viewer-searchToggle">
-                <span class="sharedIcon-magnifyingGlass"></span>
-            </div>
-            <div data-montage-id="viewerSearch" class="Viewer-search">
-                <div data-montage-id="searchField" class="Viewer-searchField"></div>
-                <div data-montage-id="searchClearButton" class="Viewer-searchClearButton sharedIcon-plus">
-                </div>
-            </div>
         </div>
         <div data-montage-id="substitution" class="Viewer-content">
             <div data-arg="list" data-montage-id="list" class="Viewer-list"></div>
@@ -122,8 +81,9 @@
             <div data-arg="table" data-montage-id="table" class="Viewer-table"></div>
         </div>
         <div class="Viewer-footer">
-            <div data-montage-id="createButton" class="Viewer-createButton">create
+            <div data-montage-id="createButton" class="Viewer-createButton">
                 <span class="sharedIcon-plus"></span>
+                <span class="Viewer-createButton-label">Create</span>
             </div>
         </div>
     </div>

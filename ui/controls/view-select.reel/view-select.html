@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="view-select.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "currentSelectedIcon": {"#": "currentSelectedIcon"}
+            }
+        },
+        "selected": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "selected"}
+            }
+        },
+        "options": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "options"},
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "content": {"<-": "@owner.content"}
+            }
+        },
+        "option": {
+            "prototype": "./view-select-option.reel",
+            "properties": {
+                "element": {"#": "option"}
+            },
+            "bindings": {
+                "iteration": {"<-": "@options:iteration"},
+                "iconId": {"<-": "iteration.object.iconId"},
+                "iteration.selected": {"<->": "@owner.selectedValue == iteration.object.value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ViewSelect">
+        <button data-montage-id="selected" class="ViewSelect-currentOption">
+            <div class="ViewSelect-arrowIcon">
+                <svg>
+                    <use xlink:href="#i-arrow" />
+                </svg>
+            </div>
+            <div class="ViewSelect-currentIcon">
+                <svg>
+                    <use data-montage-id="currentSelectedIcon" />
+                </svg>
+            </div>
+        </button>
+        <div data-montage-id="options" class="ViewSelect-options">
+            <div data-montage-id="option"></div>
+        </div>
+    </div>
+</body>
+</html>

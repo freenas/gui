@@ -26,10 +26,15 @@
 }
 
 .CascadingListItem-content {
+    position: relative;
     display: flex;
-    flex-grow: 1;
+    /*flex-grow: 1;*/
     flex-direction: column;
     /*overflow: scroll;*/
+}
+
+.CascadingListItem-content > * {
+    position: relative;
 }
 
 /* sets up scrolling only on inspectors */

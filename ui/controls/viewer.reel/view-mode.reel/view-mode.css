@@ -1,165 +1,95 @@
 .ViewMode {
+    display: flex;
+    flex: 1;
+}
+
+.ViewMode-selector { margin: .5em; }
+
+/* Search */
+
+.Viewer-search {
+    flex: 1;
     position: relative;
-    /*height: 3em;*/
-    padding: .5em;
-    /*background-color: #333;*/
-    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.ViewMode-searchField {
+.Viewer-searchToggle {
     position: absolute;
-    top: 9px;
-    left: 9px;
-    display: block;
-    width: 180px;
-    -webkit-appearance: textfield;
-    font-family: inherit;
-    font-size: 14px;
-    color: #555;
-    border: 1px solid #ccc;
-    padding: 4px 12px 4px 38px;
-    height: 30px;
-    box-sizing: border-box;
-    outline: none;
-    -webkit-transition: all ease-in-out .15s;
-    box-shadow: inset 56px 0 0 -28px #eee, inset 58px 0 0 -29px #ccc;
-}
-
-.ViewMode-searchField-label:before {
-    content: "U";
-    position: absolute;
-    display: block;
-    width: 28px;
-    left: -38px;
-    text-align: center;
-    color: #333;
-    font-family: "ElegantIcons";
-    -webkit-transition: all ease-in-out .15s;
-}
-
-.ViewMode-searchField:focus + .ViewMode-searchField-label:before {
-    color: white;
-}
-
-.ViewMode-searchField-label {
-    position: absolute;
-    top: 15px;
-    left: 49px;
-    color: #aaa;
-    -webkit-transition: all ease-in-out .15s;
-    pointer-events: none;
-}
-
-.ViewMode-searchField:valid + .ViewMode-searchField-label,
-.ViewMode-searchField:focus + .ViewMode-searchField-label {
-    color: transparent;
-}
-
-.ViewMode-searchField:focus {
-    border-color: #0196d8;
-    box-shadow: inset 56px 0 0 -28px #0196d8, inset 58px 0 0 -29px #0196d8, 0 0 6px rgba(1, 150, 216, .5);
-}
-
-.ViewMode-selector {
-    font-family: "ElegantIcons";
-    /*position: absolute;
-    left: 9px;
-    top: 9px;*/
-    /*height: 30px;*/
-}
-
-
-.ViewMode-filters-label {
-    position: absolute;
-    line-height: 30px;
-    top: 9px;
-    left: 200px;
-    color: #777;
-}
-
-.ViewMode-filters {
-    position: absolute;
-    z-index: 2;
-    top: 9px;
-    left: 242px;
+    top: 0;
+    bottom: 0;
+    right: .4em;
+    height: 100%;
+    width: 2em;
+    padding: .6em 0;
     cursor: pointer;
+    color: #ccc;
+    outline: none;
+    z-index: 1;
+    transition: opacity .2s;
+    visibility: hidden;
+    opacity: 0;
 }
 
-.ViewMode-filter {
-    position: absolute;
-    background: white;
-    width: 70px;
-    height: 30px;
-    box-sizing: border-box;
-    line-height: 28px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    color: #777;
+/* toggle states */
+
+.Viewer-searchToggle:hover { color: #fff; }
+.Viewer-searchToggle.is-visible {
+    visibility: visible;
     opacity: 1;
 }
 
-.ViewMode-filter:hover {
-    background: #f6f6f6;
-}
+/* search input field */
 
-.ViewMode-filters:hover .ViewMode-filter {
-    display: block;
-}
-
-
-
-.ViewMode-filters:hover .ViewMode-filter:nth-child(2) {
-    top: 29px;
-}
-
-.ViewMode-filters:hover .ViewMode-filter:nth-child(3) {
-    top: 58px;
-}
-
-.ViewMode-filter.selected {
-    z-index: 1;
-    cursor: pointer;
-}
-
-.ViewMode-filters:hover .ViewMode-filter.selected {
-    background-color: #59378d;
-    border-color: #492d74;
-    color: white;
-}
-
-/* Adds Icons */
-
-.ViewMode .ButtonGroup-option {
-    position: relative;
-    border: none;
-    height: 2em;
-    width:  2em;
-    padding: 0;
-    color: transparent;
-    margin-right: 1px;
-}
-
-.ViewMode .ButtonGroup-option:after {
-    font-family: 'freenas';
+.Viewer-searchField.blueShark-TextField {
     position: absolute;
-    top: 0;
-    left: 0;
     right: 0;
-    bottom: 0;
-    font-size: 24px;
-    line-height: 37px;
-    color: rgba(255,255,255,.5);
-    background: rgba(0,0,0,.5);
-    z-index: 1;
+    width: 0;
+    height: 3em;
+    padding-right: 2.5em;
+    border-radius: 0;
+    visibility: hidden;
+    opacity: 0;
+    border-color: transparent;
+    background: rgba(0,0,0,.3);
+    transition-property: width, opacity, visibility;
+    transition-duration: .25s;
+    transition-timing-function: ease-in-out;
 }
 
-.ViewMode .ButtonGroup-option:nth-child(1):after { content: '\e902'; }
-.ViewMode .ButtonGroup-option:nth-child(2):after { content: '\e901'; }
-.ViewMode .ButtonGroup-option:nth-child(3):after { content: '\e905'; }
+.Viewer-searchClearButton {
+    position: absolute;
+    right: .6em;
+    top: 50%;
+    margin-top: -.6em;
+    height: 1.2em;
+    width:  1.2em;
+    padding: .2em;
+    border-radius: .6em;
+    background: rgba(255,255,255,.8);
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(45deg);
+    transition-property: opacity, visibility, background-color;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+}
 
-.ViewMode .ButtonGroup-option.selected:after {
-    background: rgba(255,255,255,.7);
-    color: rgba(0,0,0,.5);
+.Viewer-searchClearButton:hover { background-color: #fff; }
+
+/* search states */
+
+.Viewer-search.is-expanded .Viewer-searchField.blueShark-TextField {
+    visibility: visible;
+    opacity: 1;
+    width: 100%;
+}
+
+.Viewer-searchClearButton.is-visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 

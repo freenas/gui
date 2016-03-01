@@ -7,7 +7,6 @@
 .Viewer-header {
     display: flex;
     flex-shrink: 0;
-    justify-content: space-between;
     flex-wrap: wrap;
     background: rgba(25,71,129,0.1);
 }
@@ -17,92 +16,69 @@
 }
 
 .Viewer-footer {
-    text-align: center;
     flex-shrink: 0;
-    padding: .5em;
-    background: rgba(0,0,0,.2);
-}
-
-.Viewer-searchToggle {
-    font-size: 29px;
-    margin-right: 8px;
-    align-self: center;
-    cursor: pointer;
-    color: rgba(255,255,255,.8);
-    outline: none;
-}
-
-/* Search */
-
-.Viewer-search {
-    position: relative;
-    height: 0;
-    visibility: hidden;
-    width: 100%;
-    background: rgba(0,0,0,.3);
-    overflow: hidden;
-}
-
-/* search field*/
-
-.Viewer-searchField.blueShark-TextField {
-    border-radius: 0;
-    height: 3em;
-    padding-right: 2.5em;
-}
-
-.Viewer-searchClearButton {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    right: .5em;
-    top: 50%;
-    margin-top: -.7em;
-    height: 1.4em;
-    width:  1.4em;
-    border-radius: 50%;
-    background: rgba(255,255,255,.8);
-    text-align: center;
-    cursor: pointer;
-    outline: none;
-    transition: all .2s;
-}
-
-.Viewer-searchClearButton:before {
-    display: block;
-    font-size: .9em;
-    line-height: 22px;
-    transform: rotate(45deg);
-    color: rgba(0,0,0,.8);
-}
-
-/* search states */
-
-.Viewer-search.is-expanded {
-    visibility: visible;
-    height: auto;
-}
-
-.Viewer-searchClearButton.is-visible {
-    opacity: 1;
-    visibility: visible;
+    border-top: 1px solid rgba(0,0,0,.2);
 }
 
 /* Create */
 
 .Viewer-createButton {
-    font-size: 1.2em;
+    height:         43px;
+    line-height:    43px;
+    padding: 0 16px;
+    position: relative;
     cursor: pointer;
-    outline: none;
+    overflow: hidden;
+    position: relative;
+    background-color: #40AD40;
+    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.1));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
 }
+
+.Viewer-createButton-label {
+    font-size: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+}
+
+.Viewer-createButton:hover { background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.25)); }
+
+.selected > .Viewer-createButton {
+    background: #2B9CD8;
+    cursor: default;
+    color: white;
+}
+
+/* List Item Icon*/
+
+.Viewer-createButton:before {
+    position: absolute;
+    right: 8px;
+    font-size: 20px;
+    font-family: 'freenas';
+    content: "\e900";
+    color: rgba(255,255,255,.8);
+}
+
+.Viewer-createButton:hover:before { color: #fafafa; }
 
 /* Create Icon */
 
-.Viewer-createButton span {
-    margin-top: -.25em;
+.Viewer-createButton .sharedIcon-plus  {
     display: inline-block;
-    vertical-align: middle;
-    font-size: 1em;
+    border: 1px solid #FFF;
+    border-radius: 1em;
+    height: 1.3em;
+    width:  1.3em;
+    text-align: center;
+    margin-right: .25em;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+}
+
+.Viewer-createButton .sharedIcon-plus:before {
+    font-size: .9em;
 }
 
 /* $fix - what does this go to? */

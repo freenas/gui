@@ -9,7 +9,7 @@ exports.ViewMode = Component.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
-                this.searchField.addEventListener("input", this, false);
+                // this.searchField.addEventListener("input", this, false);
             }
         }
     },
@@ -88,6 +88,26 @@ exports.ViewMode = Component.specialize({
                     this._dataController.filterPath = undefined;
                 }
             }
+        }
+    },
+
+    searchExpanded: {
+        value: false
+    },
+
+    handleSearchToggleAction: {
+        value: function () {
+            if (this.searchExpanded) {
+                this.searchExpanded = false;
+            } else {
+                this.searchExpanded = true;
+            }
+        }
+    },
+
+    handleSearchClearButtonAction: {
+        value: function () {
+            this.searchField.value = null;
         }
     }
 
