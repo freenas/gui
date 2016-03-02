@@ -8,26 +8,35 @@ require('json.sortify');
 exports.generateServices = function generateServices (options) {
     return Service.findMethodsForServices(options).then(function (methodsForServices) {
         var servicesTree = new ServicesTree(),
-            methodForService,
+            readMethodCounter,
+            methodsForService,
             serviceName,
             node,
             method;
 
         for (var i = 0, l = methodsForServices.length; i < l; i++) {
-            methodForService = methodsForServices[i];
+            methodsForService = methodsForServices[i];
+            readMethodCounter = 0;
 
-            for (var ii = 0, ll = methodForService.length; ii < ll; ii++) {
-                method = methodForService[ii];
+            for (var ii = 0, ll = methodsForService.length; ii < ll; ii++) {
+                method = methodsForService[ii];
 
-                if (method && method.name === "query" && !method.private) {
-                    serviceName = methodForService._meta_data.service_name_camel_case;
+                if (method && !method.private && (method.name === "query" || method.name === "get_config")) {
+                    if (method.name === "get_config" && method["params-schema"] &&
+                        method["params-schema"].items && method["params-schema"].items.length) {
+                        continue;
+                    }
+
+                    if (++readMethodCounter > 1) {
+                        throw new Error ("service with query and get_config rpc call");
+                    }
+
+                    serviceName = methodsForService._meta_data.service_name_camel_case;
 
                     node = servicesTree.getReadCrudNode();
-                    node.method = methodForService._meta_data.service_name + ".query";
+                    node.method = methodsForService._meta_data.service_name + "." + method.name;
 
                     servicesTree.addAPINodeToService(node, serviceName);
-
-                    break;
                 }
             }
         }

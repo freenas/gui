@@ -254,7 +254,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         args: []
                     }
                 ).then(function (response) {
-                    self.addRawData(stream, response.data);
+                    var data = response.data;
+
+                    self.addRawData(stream, Array.isArray(data) ? data : [data]);
                     self.rawDataDone(stream);
                 });
             } else {

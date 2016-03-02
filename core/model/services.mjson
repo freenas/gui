@@ -254,6 +254,20 @@
             "task": "directoryservice.update"
         }
     },
+    "DirectoryserviceActivedirectory": {
+        "read": {
+            "method": "directoryservice.activedirectory.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        }
+    },
+    "DirectoryserviceLdap": {
+        "read": {
+            "method": "directoryservice.ldap.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        }
+    },
     "Directoryservices": {
         "read": {
             "method": "directoryservices.query",
@@ -317,13 +331,6 @@
             "namespace": "rpc"
         }
     },
-    "Failover": {
-        "read": {
-            "method": "failover.query",
-            "name": "call",
-            "namespace": "rpc"
-        }
-    },
     "Group": {
         "create": {
             "method": "task.submit",
@@ -368,6 +375,11 @@
         }
     },
     "Mail": {
+        "read": {
+            "method": "mail.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -376,6 +388,11 @@
         }
     },
     "NetworkConfig": {
+        "read": {
+            "method": "network.config.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -543,6 +560,11 @@
         }
     },
     "ServiceAfp": {
+        "read": {
+            "method": "service.afp.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -551,6 +573,11 @@
         }
     },
     "ServiceDyndns": {
+        "read": {
+            "method": "service.dyndns.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -559,6 +586,11 @@
         }
     },
     "ServiceFtp": {
+        "read": {
+            "method": "service.ftp.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -567,6 +599,11 @@
         }
     },
     "ServiceGlusterd": {
+        "read": {
+            "method": "service.glusterd.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -575,6 +612,11 @@
         }
     },
     "ServiceHaproxy": {
+        "read": {
+            "method": "service.haproxy.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -583,6 +625,11 @@
         }
     },
     "ServiceIpfs": {
+        "read": {
+            "method": "service.ipfs.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -591,6 +638,11 @@
         }
     },
     "ServiceIscsi": {
+        "read": {
+            "method": "service.iscsi.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -599,6 +651,11 @@
         }
     },
     "ServiceLldp": {
+        "read": {
+            "method": "service.lldp.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -607,6 +664,11 @@
         }
     },
     "ServiceNfs": {
+        "read": {
+            "method": "service.nfs.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -615,6 +677,11 @@
         }
     },
     "ServiceRiak": {
+        "read": {
+            "method": "service.riak.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -623,6 +690,11 @@
         }
     },
     "ServiceRiakCs": {
+        "read": {
+            "method": "service.riak_cs.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -631,6 +703,11 @@
         }
     },
     "ServiceRsyncd": {
+        "read": {
+            "method": "service.rsyncd.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -646,6 +723,11 @@
         }
     },
     "ServiceSmartd": {
+        "read": {
+            "method": "service.smartd.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -654,6 +736,11 @@
         }
     },
     "ServiceSmb": {
+        "read": {
+            "method": "service.smb.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -662,6 +749,11 @@
         }
     },
     "ServiceSnmp": {
+        "read": {
+            "method": "service.snmp.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -670,6 +762,11 @@
         }
     },
     "ServiceSshd": {
+        "read": {
+            "method": "service.sshd.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -678,6 +775,11 @@
         }
     },
     "ServiceStanchion": {
+        "read": {
+            "method": "service.stanchion.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -686,6 +788,11 @@
         }
     },
     "ServiceSwift": {
+        "read": {
+            "method": "service.swift.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -694,6 +801,11 @@
         }
     },
     "ServiceTftpd": {
+        "read": {
+            "method": "service.tftpd.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -702,6 +814,11 @@
         }
     },
     "ServiceUps": {
+        "read": {
+            "method": "service.ups.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -710,6 +827,11 @@
         }
     },
     "ServiceWebdav": {
+        "read": {
+            "method": "service.webdav.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -1067,6 +1189,11 @@
         }
     },
     "SystemAdvanced": {
+        "read": {
+            "method": "system.advanced.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -1075,6 +1202,11 @@
         }
     },
     "SystemGeneral": {
+        "read": {
+            "method": "system.general.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -1097,6 +1229,11 @@
         }
     },
     "SystemUi": {
+        "read": {
+            "method": "system.ui.get_config",
+            "name": "call",
+            "namespace": "rpc"
+        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -1180,6 +1317,11 @@
             "name": "call",
             "namespace": "rpc",
             "task": "update.manual"
+        },
+        "read": {
+            "method": "update.get_config",
+            "name": "call",
+            "namespace": "rpc"
         },
         "update": {
             "method": "task.submit",

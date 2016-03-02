@@ -23,14 +23,6 @@
       "valueType": "array"
     }
   },
-  "blueprint_container_enabled": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "enabled",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_container_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -84,7 +76,6 @@
         {"@": "blueprint_container_config"},
         {"@": "blueprint_container_description"},
         {"@": "blueprint_container_devices"},
-        {"@": "blueprint_container_enabled"},
         {"@": "blueprint_container_id"},
         {"@": "blueprint_container_name"},
         {"@": "blueprint_container_target"},
