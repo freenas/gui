@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="calendar-widget-day.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('CalendarWidgetDay-otherMonth')": {"<-": "!data.isCurrentMonth"},
+                "classList.has('CalendarWidgetDay-Sunday')": {"<-": "data.day == 0"},
+                "classList.has('CalendarWidgetDay-Saturday')": {"<-": "data.day == 6"},
+                "classList.has('CalendarWidgetDay-today')": {"<-": "data.isToday"}
+            }
+        },
+        "date": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "date"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.data.date"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td data-montage-id="owner" class="CalendarWidgetDay">
+                <div data-montage-id="date" class="CalendarWidgetDay-date"></div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

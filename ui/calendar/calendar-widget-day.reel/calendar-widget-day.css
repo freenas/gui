@@ -1,0 +1,38 @@
+.CalendarWidgetDay {
+    position: relative;
+    width: 14.2857%;
+    border-right: 1px solid #f3f3f3;
+    border-top: 1px solid #f3f3f3;
+    background: #f9f9f9;
+}
+
+.CalendarWidgetDay-Sunday,
+.CalendarWidgetDay-Saturday {
+    background-color: #efefef;
+}
+
+.CalendarWidgetDay-otherMonth {
+    background: #e3e3e3;
+}
+
+.CalendarWidgetDay-date {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #777;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+}
+
+.CalendarWidgetDay-otherMonth .CalendarWidgetDay-date {
+    color: transparent;
+}
+
+.CalendarWidgetDay-today .CalendarWidgetDay-date {
+    background-color: #f05a5a;
+    border-radius: 50%;
+    color: white;
+}

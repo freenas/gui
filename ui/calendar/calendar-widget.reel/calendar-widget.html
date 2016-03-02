@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="calendar-widget.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "daysOfTheWeek": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "daysOfTheWeek"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.daysOfTheWeekContentForRepetition"}
+            }
+        },
+        "dayOfTheWeek": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "dayOfTheWeek"}
+            },
+            "bindings": {
+                "value": {"<-" : "@daysOfTheWeek:iteration.object"}
+            }
+        },
+        "month": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "Calendar-month"}
+            },
+            "bindings": {
+                "value": {"<-" : "@owner._month"}
+            }
+        },
+        "year": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "Calendar-year"}
+            },
+            "bindings": {
+                "value": {"<-" : "@owner._year"}
+            }
+        },
+        "weekRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "weekRepetition"}
+            },
+            "bindings": {
+                "content": {"<-" : "@owner._weeks"}
+            }
+        },
+        "dayRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "dayRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@weekRepetition:iteration.object"}
+            }
+        },
+        "day": {
+            "prototype": "../calendar-widget-day.reel",
+            "properties": {
+                "element": {"#": "day"}
+            },
+            "bindings": {
+                "data": {"<-": "@dayRepetition:iteration.object"}
+            }
+        },
+        "previousMonth": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "previousMonth"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "nextMonth": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "nextMonth"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "today": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "today"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        }
+    }
+    </script>
+</head>
+<body>
+    <table data-montage-id="owner" class="CalendarWidget">
+        <caption>
+            <span data-montage-id="Calendar-month" class="CalendarWidget-month"></span>
+            <span data-montage-id="Calendar-year" class="CalendarWidget-year"></span>
+            <button data-montage-id="previousMonth" class="CalendarWidget-previousMonthButton">previous month</button>
+            <button data-montage-id="today" class="CalendarWidget-todayButton">Today</button>
+            <button data-montage-id="nextMonth" class="CalendarWidget-nextMonthButton">next month</button>
+        </caption>
+        <thead>
+            <tr data-montage-id="daysOfTheWeek">
+                <td data-montage-id="dayOfTheWeek"></td>
+            </tr>
+        </thead>
+        <tbody data-montage-id="weekRepetition">
+            <tr data-montage-id="dayRepetition">
+                <td data-montage-id="day" class="CalendarWidget-day">
+                    <span ></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
