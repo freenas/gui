@@ -1,1 +1,11 @@
-.Dashboard {}
+.Dashboard {
+    background-color: #f8f8f8;
+    min-height: 100%;
+    border-right: 1px solid #e8e8e8;
+}
+
+.Dashboard-widgetsWrapper {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 4px;
+}

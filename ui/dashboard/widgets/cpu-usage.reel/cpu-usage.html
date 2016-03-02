@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="cpu-usage.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chart": {"@": "chart"}
+            }
+        },
+        "chart": {
+            "prototype": "../chart.reel",
+            "properties": {
+                "element": {"#": "chart"},
+                "data": {
+                    "type": "area",
+                    "groups": [
+                        ["User", "System"]
+                    ]
+                },
+                "axis": {
+                    "x": {
+                        "show": false
+                    },
+                    "y": {
+                        "max": 100,
+                        "min": 0,
+                        "padding": {
+                            "top": 0,
+                            "bottom": 0
+                        },
+                        "tick": {
+                            "values": [0, 25, 50, 75, 100]
+                        }
+                    }
+                },
+                "point": {
+                    "show": false
+                },
+                "tooltip": {
+                    "format": {}
+                }
+            },
+            "bindings": {
+                "tooltip.format.value": {"<-": "@owner.percentageToString"},
+                "axis.y.tick.format": {"<-": "@owner.percentageToString"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CpuUsage">
+        <div class="CpuUsage-title">CPU Usage</div>
+        <div data-montage-id="chart" class="CpuUsage-chart"></div>
+    </div>
+</body>
+</html>

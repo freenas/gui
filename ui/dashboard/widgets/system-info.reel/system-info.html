@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="system-info.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+        "hostname": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "hostname"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.hostname"}
+            }
+        },
+        "platform": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "platform"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.platform"}
+            }
+        },
+        "osVersion": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "osVersion"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.osVersion"}
+            }
+        },
+        "cpuSpeed": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "cpuSpeed"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.cpu.frequency"}
+            }
+        },
+        "cpuDetails": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "cpuDetails"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.cpu.cores + (@owner.system.cpu.cores > 1 ? ' Cores' : ' Core')"}
+            }
+        },
+        "memorySize": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "memorySize"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.memory"}
+            }
+        },
+        "memoryDetails": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "memoryDetails"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.memoryDetails"}
+            }
+        },
+        "drivesSize": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "drivesSize"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.drivesSize"}
+            }
+        },
+        "drivesDetails": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "drivesDetails"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.drivesDetails"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SystemInfo">
+        <div class="SystemInfo-software">
+            <div data-montage-id="hostname" class="SystemInfo-hostname"></div>
+            <table class="SystemInfo-table">
+                <tr>
+                    <td class="SystemInfo-tableProperty">Platform</td>
+                    <td class="SystemInfo-tableValue" data-montage-id="platform"></td>
+                </tr>
+                <tr>
+                    <td class="SystemInfo-tableProperty">OS Version</td>
+                    <td class="SystemInfo-tableValue" data-montage-id="osVersion"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="SystemInfo-hardware">
+            <div class="SystemInfo-cpu">
+                <span class="SystemInfo-property">CPU</span>
+                <span data-montage-id="cpuSpeed" class="SystemInfo-value"></span>
+                <span data-montage-id="cpuDetails" class="SystemInfo-details"></span>
+            </div>
+            <div class="SystemInfo-memory">
+                <span class="SystemInfo-property">Memory</span>
+                <span data-montage-id="memorySize" class="SystemInfo-value"></span>
+                <span data-montage-id="memoryDetails" class="SystemInfo-details"></span>
+            </div>
+            <div class="SystemInfo-drives">
+                <span class="SystemInfo-property">Drives</span>
+                <span data-montage-id="drivesSize" class="SystemInfo-value"></span>
+                <span data-montage-id="drivesDetails" class="SystemInfo-details"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

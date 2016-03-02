@@ -1,3 +1,77 @@
-.Table {
+.Table-header {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
 
+.Table-rowRepetition {
+    position: absolute;
+    top: 33px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+.Table-row,
+.Table-header {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row;
+    flex-flow: row;
+}
+
+.Table-row {
+    border-left: 1px solid #ddd;
+}
+
+.Table-row:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.Table-row:hover {
+    background-color: #fafafa;
+}
+
+.Table-row:nth-of-type(odd):hover {
+    background-color: #f4f4f4;
+}
+
+.Table-cell {
+    -webkit-flex: 1;
+    flex: 1;
+    color: #333;
+    padding: 5px;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    height: 19px;
+}
+
+.Table-label {
+    -webkit-flex: 1;
+    flex: 1;
+    padding: 5px;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    color: #f1f1f1;
+    background: #333;
+}
+
+.Table-label:hover {
+    background: #555;
+}
+
+.Table-label-orderBy:before {
+    content: "▲";
+    font-size: 9px;
+    line-height: 20px;
+    padding-right: 6px;
+    opacity: .6;
+}
+
+.Table-reverseSorting .Table-label-orderBy:before {
+    content: "▼";
 }

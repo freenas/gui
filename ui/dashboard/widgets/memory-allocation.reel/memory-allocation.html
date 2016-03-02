@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="memory-allocation.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chart": {"@": "chart"}
+            }
+        },
+        "chart": {
+            "prototype": "../chart.reel",
+            "properties": {
+                "element": {"#": "chart"},
+                "data": {
+                    "type": "area-step"
+                },
+                "axis": {
+                    "x": {
+                        "show": false
+                    },
+                    "y": {
+                        "tick": {}
+                    }
+                },
+                "point": {
+                    "show": false
+                },
+                "tooltip": {
+                    "format": {}
+                }
+            },
+            "bindings": {
+                "tooltip.format.value": {"<-": "@owner.humanize"},
+                "axis.y.tick.format": {"<-": "@owner.humanizeRounding"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="MemoryAllocation">
+        <div class="MemoryAllocation-title">Memory Allocation</div>
+        <div data-montage-id="chart" class="MemoryAllocation-chart"></div>
+    </div>
+</body>
+</html>

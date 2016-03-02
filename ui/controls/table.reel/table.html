@@ -8,6 +8,59 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "activeColumn": {"<-": "@headerRepetition.activeIterations.0.object"},
+                "classList.has('Table-reverseSorting')": {"<-": "@owner._reversed"}
+            }
+        },
+        "headerRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "headerRepetition"},
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "content": {"<-": "@owner.columns"}
+            }
+        },
+        "label": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "label"}
+            },
+            "bindings": {
+                "value": {"<-": "@headerRepetition:iteration.object.label"},
+                "classList.has('Table-label-orderBy')": {"<-": "@headerRepetition:iteration.object.expression == @owner._orderBy"}
+            }
+        },
+        "rowRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "rowRepetition"},
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "contentController": {"<-": "@owner.dataController"}
+            }
+        },
+        "cellRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "cellRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.columns.map{@rowRepetition:iteration.object.path(expression)}"}
+            }
+        },
+        "cell": {
+            "prototype": "../table-cell.reel",
+            "properties": {
+                "element": {"#": "cell"}
+            },
+            "bindings": {
+                "value": {"<-": "@cellRepetition:iteration.object"},
+                "type": {"<-": "@owner.columns[@cellRepetition:iteration.index].type"}
             }
         }
     }
@@ -15,7 +68,14 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Table">
-        Table
+        <div data-montage-id="headerRepetition" class="Table-header">
+            <div data-montage-id="label" class="Table-label"></div>
+        </div>
+        <div data-montage-id="rowRepetition" class="Table-rowRepetition">
+            <div data-montage-id="cellRepetition" class="Table-row">
+                <div data-montage-id="cell" class="Table-cell"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

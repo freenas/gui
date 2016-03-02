@@ -9,13 +9,42 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "cpuUsage": {
+            "prototype": "../widgets/cpu-usage.reel",
+            "properties": {
+                "element": {"#": "cpuUsage"}
+            }
+        },
+        "networkTraffic": {
+            "prototype": "../widgets/network-traffic.reel",
+            "properties": {
+                "element": {"#": "networkTraffic"}
+            }
+        },
+        "systemInfo": {
+            "prototype": "../widgets/system-info.reel",
+            "properties": {
+                "element": {"#": "systemInfo"}
+            }
+        },
+        "memoryAllocation": {
+            "prototype": "../widgets/memory-allocation.reel",
+            "properties": {
+                "element": {"#": "memoryAllocation"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Dashboard">
-        <i>dashboard.reel</i>
+        <div class="Dashboard-widgetsWrapper">
+            <div data-montage-id="systemInfo"></div>
+            <div data-montage-id="cpuUsage"></div>
+            <div data-montage-id="networkTraffic"></div>
+            <div data-montage-id="memoryAllocation"></div>
+        </div>
     </div>
 </body>
 </html>

@@ -3,11 +3,15 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="chart.css">
+    <link rel="stylesheet" type="text/css" href="c3.min.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "_columns": {"<-": "data.columns"}
             }
         }
     }
