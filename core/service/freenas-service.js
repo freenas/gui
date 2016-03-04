@@ -101,7 +101,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.NetworkConfig,
             Model.Ipmi,
             Model.Volume,
-            Model.VolumeSnapshot
+            Model.VolumeSnapshot,
+            Model.User,
+            Model.Group
         ]
     },
 
