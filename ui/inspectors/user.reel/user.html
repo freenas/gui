@@ -9,13 +9,137 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "uid": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "uid"},
+                "label": "User ID"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.uid"}
+            }
+        },
+        "username": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "username"},
+                "label": "Username"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.username"}
+            }
+        },
+        "full_name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "full_name"},
+                "label": "Full Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.full_name"}
+            }
+        },
+        "groupOptionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "valuePropertyName": "gid",
+                "labelPropertyName": "name"
+            }
+        },
+        "group": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "group"},
+                "converter": {"@": "groupOptionConverter"},
+                "label": "Primary Group"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.group"},
+                "options": {"<-": "@owner.groupOptions"}
+            }
+        },
+        "groups": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "groups"},
+                "label": "Additional Groups",
+                "valuePropertyName": "gid",
+                "labelPropertyName": "name"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.groupOptions"},
+                "selectedValues": {"<->": "@owner.groupOptions"}
+            }
+        },
+        "home": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "home"},
+                "label": "Home Directory"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.home"}
+            }
+        },
+        "sshpubkey": {
+            "prototype": "blue-shark/ui/field-text-area.reel",
+            "properties": {
+                "element": {"#": "sshpubkey"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.sshpubkey"}
+            }
+        },
+        "password_disabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "password_disabled"},
+                "label": "Disable Password"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.password_disabled"}
+            }
+        },
+        "locked": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "locked"},
+                "label": "Lock Account"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.locked"}
+            }
+        },
+        "sudo": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "sudo"},
+                "label": "Superuser"
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.sudo"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="User">
-        <i>inspectors/user.reel</i>
+        <div data-montage-id="uid"></div>
+        <div data-montage-id="username"></div>
+        <div data-montage-id="full_name"></div>
+        <div data-montage-id="password"></div>
+        <!-- The user schema will soon change the key for group and groups to 'id' from 'gid' -->
+        <div data-montage-id="group"></div>
+        <div data-montage-id="groups"></div>
+        <div data-montage-id="home"></div>
+        <div data-montage-id="shell"></div>
+        <div data-montage-id="email"></div>
+        <div data-montage-id="sshpubkey"></div>
+        <div data-montage-id="password_disabled"></div>
+        <div data-montage-id="locked"></div>
+        <div data-montage-id="sudo"></div>
     </div>
 </body>
 </html>
