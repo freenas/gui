@@ -258,12 +258,11 @@ exports.BackEndBridge = Target.specialize({
      *
      * @params {String} event
      * @params {Object} listener
-     * @params {Boolean} useCapture
      *
      */
     subscribeToEvent: {
-        value: function (event, listener, useCapture) {
-            this.subscribeToEvents([event], listener, useCapture);
+        value: function (event, listener) {
+            this.subscribeToEvents([event], listener);
         }
     },
 
@@ -276,14 +275,13 @@ exports.BackEndBridge = Target.specialize({
      *
      * @params {Array.<String>} events
      * @params {Object} listener
-     * @params {Boolean} useCapture
      *
      */
     subscribeToEvents: {
-        value: function (events, listener, useCapture) {
+        value: function (events, listener) {
             if (this._checkEventsValidity(events)) {
                 this.send(EVENTS_NAME_SPACE, "subscribe", events);
-                this._addEventListeners(events, listener, useCapture);
+                this._addEventListeners(events, listener);
             }
         }
     },
@@ -297,12 +295,11 @@ exports.BackEndBridge = Target.specialize({
      *
      * @params {String} event
      * @params {Object} listener
-     * @params {Boolean} useCapture
      *
      */
     unSubscribeToEvent: {
-        value: function (event, listener, useCapture) {
-            this.unSubscribeToEvents([event], listener, useCapture);
+        value: function (event, listener) {
+            this.unSubscribeToEvents([event], listener);
         }
     },
 
@@ -315,14 +312,13 @@ exports.BackEndBridge = Target.specialize({
      *
      * @params {Array.<String>} events
      * @params {Object} listener
-     * @params {Boolean} useCapture
      *
      */
     unSubscribeToEvents: {
-        value: function (events, listener, useCapture) {
+        value: function (events, listener) {
             if (this._checkEventsValidity(events)) {
                 this.send(EVENTS_NAME_SPACE, "unsubscribe", events);
-                this._removeEventListeners(events, listener, useCapture);
+                this._removeEventListeners(events, listener, false);
             }
         }
     },
@@ -368,8 +364,10 @@ exports.BackEndBridge = Target.specialize({
             var isValid = events && events.constructor === Array;
 
             if (isValid) {
+                var event;
+
                 for (var i = 0, length = events.length; i < length && isValid === true; i++) {
-                    var event = events[i];
+                    event = events[i];
                     isValid = typeof event === "string" && !!event.length;
                 }
             }
