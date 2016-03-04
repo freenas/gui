@@ -42,9 +42,12 @@
             }
         },
         "users": {
-            "prototype": "../../inspectors/user.reel",
+            "prototype": "ui/controls/cascading-list.reel",
             "properties": {
                 "element": {"#": "users"}
+            },
+            "bindings": {
+                "root": {"<-": "@owner.users"}
             }
         },
         "groups": {
