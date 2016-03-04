@@ -37,7 +37,7 @@
     "properties": {
       "name": "group",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_user_groups": {
@@ -61,7 +61,7 @@
     "properties": {
       "name": "id",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_user_locked": {
@@ -120,6 +120,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_user_uid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "uid",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_user_unixhash": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -156,6 +164,7 @@
         {"@": "blueprint_user_smbhash"},
         {"@": "blueprint_user_sshpubkey"},
         {"@": "blueprint_user_sudo"},
+        {"@": "blueprint_user_uid"},
         {"@": "blueprint_user_unixhash"},
         {"@": "blueprint_user_username"}
       ]

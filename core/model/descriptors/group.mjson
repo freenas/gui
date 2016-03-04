@@ -8,12 +8,20 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_group_gid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gid",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_group_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_group_members": {
@@ -47,6 +55,7 @@
       "name": "Group",
       "propertyBlueprints": [
         {"@": "blueprint_group_builtin"},
+        {"@": "blueprint_group_gid"},
         {"@": "blueprint_group_id"},
         {"@": "blueprint_group_members"},
         {"@": "blueprint_group_name"},

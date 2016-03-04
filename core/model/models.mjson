@@ -137,10 +137,6 @@
             "type": "Error"
         },
         {
-            "modelId": "core/model/descriptors/failover-link.mjson",
-            "type": "FailoverLink"
-        },
-        {
             "modelId": "core/model/descriptors/group.mjson",
             "type": "Group"
         },
@@ -243,6 +239,10 @@
         {
             "modelId": "core/model/descriptors/power-changed.mjson",
             "type": "PowerChanged"
+        },
+        {
+            "modelId": "core/model/descriptors/replication-bidir-link.mjson",
+            "type": "ReplicationBidirLink"
         },
         {
             "modelId": "core/model/descriptors/replication.mjson",

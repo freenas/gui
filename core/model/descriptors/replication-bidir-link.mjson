@@ -1,5 +1,5 @@
 {
-  "blueprint_failoverlink_id": {
+  "blueprint_replicationbidirlink_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -7,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_failoverlink_master": {
+  "blueprint_replicationbidirlink_master": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "master",
@@ -15,7 +15,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_failoverlink_name": {
+  "blueprint_replicationbidirlink_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
@@ -23,7 +23,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_failoverlink_partners": {
+  "blueprint_replicationbidirlink_partners": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "partners",
@@ -31,7 +31,7 @@
       "valueType": "array"
     }
   },
-  "blueprint_failoverlink_update_date": {
+  "blueprint_replicationbidirlink_update_date": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "update_date",
@@ -39,7 +39,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_failoverlink_volumes": {
+  "blueprint_replicationbidirlink_volumes": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "volumes",
@@ -50,14 +50,14 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "FailoverLink",
+      "name": "ReplicationBidirLink",
       "propertyBlueprints": [
-        {"@": "blueprint_failoverlink_id"},
-        {"@": "blueprint_failoverlink_master"},
-        {"@": "blueprint_failoverlink_name"},
-        {"@": "blueprint_failoverlink_partners"},
-        {"@": "blueprint_failoverlink_update_date"},
-        {"@": "blueprint_failoverlink_volumes"}
+        {"@": "blueprint_replicationbidirlink_id"},
+        {"@": "blueprint_replicationbidirlink_master"},
+        {"@": "blueprint_replicationbidirlink_name"},
+        {"@": "blueprint_replicationbidirlink_partners"},
+        {"@": "blueprint_replicationbidirlink_update_date"},
+        {"@": "blueprint_replicationbidirlink_volumes"}
       ]
     }
   }
