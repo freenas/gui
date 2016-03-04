@@ -1,9 +1,11 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
-    BackEndBridge = require("core/backend/backend-bridge").BackEndBridge,
+    BackEndBridge = require("../backend/backend-bridge").BackEndBridge,
     WebSocketConfiguration = require("../backend/websocket-configuration").WebSocketConfiguration,
     DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
-    Model = require("core/model/model").Model,
-    Services = require("core/model/services").Services,
+    NotificationCenterModule = require("../backend/notification-center"),
+    NotificationCenter = NotificationCenterModule.NotificationCenter,
+    Model = require("../model/model").Model,
+    Services = require("../model/services").Services,
     Montage = require("montage/core/core").Montage;
 
 /**
@@ -74,16 +76,21 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     loginWithCredentials: {
         value: function (_username, _password) {
-            //FIXME:
-            //This is a response object. We need to extract data and turn it into
-            //a user objet using the User.objectDescriptor.
+            var self = this;
+
             return this.backendBridge.send("rpc", "auth", {
                 username : _username,
                 password : _password
+            }).then(function (response) {
+                self.notificationCenter.startListenToTaskEvents();
+
+                //FIXME:
+                //This is a response object. We need to extract data and turn it into
+                //a user objet using the User.objectDescriptor.
+                return response;
             });
         }
     },
-
 
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -105,6 +112,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.User,
             Model.Group
         ]
+    },
+
+
+    notificationCenter: {
+        get: function () {
+            return NotificationCenterModule.defaultNotificationCenter;
+        }
     },
 
 
@@ -133,6 +147,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 deleteServiceDescriptor = Services.findDeleteServiceForType(type);
 
             if (deleteServiceDescriptor) {
+                var self = this;
+
                 return this.backendBridge.send(
                     deleteServiceDescriptor.namespace,
                     deleteServiceDescriptor.name, {
@@ -140,8 +156,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         args: [deleteServiceDescriptor.task, [object.id]]
                     }
                 ).then(function (response) {
-                    //todo catch jobID + events
-                    return response;
+                    return self._trackTaskWithJobIdForModel(response.data);
                 });
             }
 
@@ -218,6 +233,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
                 if (serviceDescriptor) {
+                    var self = this;
+
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
@@ -226,8 +243,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         }
 
                     ).then(function (response) {
-                        //todo catch jobID + events
-                        return response;
+                        return self._trackTaskWithJobIdForModel(response.data, object);
                     });
                 } else {
                     return Promise.reject(new Error(
@@ -239,6 +255,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             }
         }
     },
+
 
     _fetchRawDataWithType: {
         value: function (stream, type) {
@@ -265,6 +282,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
+
     _mapPropertyToRawData: {
         value: function (rawData, object, propertyKey, update) {
             var propertyValue = object[propertyKey];
@@ -277,5 +295,44 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 rawData[propertyKey] = propertyValue;
             }
         }
+    },
+
+
+    _trackTaskWithJobIdForModel: {
+        value: function (jobId, model) {
+            var self = this;
+
+            return new Promise(function (resolve, reject) {
+                self.notificationCenter.startTrackingTask(jobId, model, {
+                    resolve: resolve,
+                    reject: reject
+                });
+            });
+        }
     }
+
+
+}, {
+
+
+    instance: {
+        get: function () {
+            var instance = this._instance;
+
+            if (!instance) {
+                var freeNASService = new FreeNASService(),
+                    notificationCenter = new NotificationCenter().initWithBackendBridge(freeNASService.backendBridge);
+
+                instance = new DataService();
+                DataService.mainService.addChildService(freeNASService);
+                notificationCenter.dismissNotificationAfterDelay = true;
+
+                NotificationCenterModule.defaultNotificationCenter = notificationCenter;
+            }
+
+            return instance;
+        }
+    }
+
+
 });

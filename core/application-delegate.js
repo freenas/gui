@@ -2,7 +2,6 @@
 require("./extras/string");
 
 var Montage = require("montage").Montage,
-    DataService = require("montage-data/logic/service/data-service").DataService,
     FreeNASService = require("core/service/freenas-service").FreeNASService;
 
 
@@ -18,9 +17,7 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     willFinishLoading: {
         value: function (app) {
-            app.dataService = new DataService();
-
-            DataService.mainService.addChildService(new FreeNASService());
+            app.dataService = FreeNASService.instance;
         }
     }
 
