@@ -82,7 +82,7 @@ exports.Network = Component.specialize({
                 }
                 interfacesSummaries.push(interfaceSummary);
             }
-            return interfacesSummaries
+            return interfacesSummaries;
         }
     },
 
