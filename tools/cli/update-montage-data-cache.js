@@ -10,6 +10,7 @@ var generateDescriptors = require("../lib/generate-descriptors").generateDescrip
 var generateEnumerations = require("../lib/generate-enumerations").generateEnumerations;
 var generateModel = require("../lib/generate-model").generateModel;
 var generateServices = require("../lib/generate-services").generateServices;
+var generateEventTypesForEntities = require("../lib/generate-events").generateEventTypesForEntities;
 
 
 program
@@ -18,7 +19,7 @@ program
 
 
 Connect.authenticateIfNeeded().then(function () {
-    var progressBar = new ProgressBar('processing [:bar] :percent :etas', { total: 5 });
+    var progressBar = new ProgressBar('processing [:bar] :percent :etas', { total: 6 });
 
     return cleanMontageDataCache(
         MontageDataConfig.EnumerationsDirectoryAbsolutePath,
@@ -50,7 +51,14 @@ Connect.authenticateIfNeeded().then(function () {
                     }).then(function () {
                         progressBar.tick();
 
-                        return null;
+                        return generateEventTypesForEntities({
+                            target: MontageDataConfig.ModelDirectoryAbsolutePath,
+                            save: true
+                        }).then(function () {
+                            progressBar.tick();
+
+                            return null;
+                        });
                     });
                 });
             });

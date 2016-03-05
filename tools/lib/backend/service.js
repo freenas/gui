@@ -131,3 +131,33 @@ var _findTaskDescriptorForTaskName = function _findTaskDescriptorForTaskName (op
         return model;
     });
 };
+
+
+exports.findEventTypesForEntities = function findEventTypesForEntities (options) {
+    return Connect.authenticateIfNeeded(options.username, options.password, options).then(function (websocket) {
+        return websocket.send("rpc", "call", {
+            method: "discovery.get_event_types",
+            args: []
+
+        }).then(function (response) {
+            var eventTypeKeys = Object.keys(response.args),
+                eventTypes = {},
+                eventTypeKey,
+                match;
+
+            for (var i = 0, length = eventTypeKeys.length; i < length; i++) {
+                eventTypeKey = eventTypeKeys[i];
+
+                if (eventTypeKey) {
+                    match = eventTypeKey.match(/^entity-subscriber\.([a-z\.-]+)\.changed$/i);
+
+                    if (match && match.length === 2) {
+                        eventTypes[match[1].toCamelCase()] = eventTypeKey;
+                    }
+                }
+            }
+
+            return eventTypes;
+        });
+    });
+};
