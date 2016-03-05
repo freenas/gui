@@ -1,4 +1,6 @@
 var Montage = require("montage/core/core").Montage,
+    EventTypes = require("../model/events.mjson"),
+    Model = require("../model/model").Model,
     Map = require("collections/map");
 
 
@@ -9,6 +11,7 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
         value: function NotificationCenter () {
             this._notifications = [];
             this._tasksMap = new Map();
+            this._listenersOnModelChangesMap = new Map();
         }
     },
 
@@ -40,7 +43,12 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
 
 
     _tasksMap: {
-        value: false
+        value: null
+    },
+
+
+    _listenersOnModelChangesMap: {
+        value: null
     },
 
 
@@ -96,9 +104,7 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
      */
     startListenToTaskEvents: {
         value: function () {
-            if (!this.isListeningToTaskEvents) {
-                this._backendBridge.subscribeToEvent("entity-subscriber.task.changed", this);
-            }
+            return this.startListenForChangesOnModelIfNeeded(Model.Task);
         }
     },
 
@@ -112,21 +118,55 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
      */
     stopListenToTaskEvents: {
         value: function () {
-            if (this.isListeningToTaskEvents) {
-                this._backendBridge.unSubscribeToEvent("entity-subscriber.task.changed", this);
-            }
+            return this.stopListenForChangesOnModel(Model.Task);
         }
     },
 
 
-    handleEntitySubscriberNetworkInterfaceChanged: {
+    startListenForChangesOnModelIfNeeded: {
+        value: function (modelType) {
+            var modelTypeName = modelType.typeName,
+                eventType = EventTypes[modelTypeName];
+
+            if (eventType && !this._listenersOnModelChangesMap.get(modelTypeName)) {
+                var handlerEventTypeName = "handle" + eventType.toCamelCase(),
+                    self = this;
+
+                return this._backendBridge.subscribeToEvent(eventType, this).then(function () {
+                    if (modelType !== Model.Task && !self[handlerEventTypeName]) {
+                        self[handlerEventTypeName] = self.handleEntityChanged;
+                    }
+
+                    self._listenersOnModelChangesMap.set(modelTypeName, true);
+                });
+            }
+
+            return Promise.resolve();
+        }
+    },
+
+
+    stopListenForChangesOnModel: {
+        value: function (modelType) {
+            var modelTypeName = modelType.typeName,
+                eventType = EventTypes[modelTypeName];
+
+            if (eventType && this._listenersOnModelChangesMap.get(modelTypeName)) {
+                var self = this;
+
+                return this._backendBridge.subscribeToEvent(eventType, this).then(function () {
+                    self._listenersOnModelChangesMap.set(modelTypeName, false);
+                });
+            }
+
+            return Promise.resolve();
+        }
+    },
+
+
+    handleEntityChanged: {
         value: function (event) {
-            console.log(event)
-            //todo:
-            // 1: ask for the job id that initiated this change.
-            // 2: make a events.mjson file that knows how to map event from entity
-            // 3: make generic that method -> handleEntityChange.
-            // 4: listen lazily task subscription (need map) (should unsubscribe when logged out)
+            //todo: make a pool of changed entities ...
         }
     },
 

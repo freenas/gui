@@ -262,7 +262,7 @@ exports.BackEndBridge = Target.specialize({
      */
     subscribeToEvent: {
         value: function (event, listener) {
-            this.subscribeToEvents([event], listener);
+            return this.subscribeToEvents([event], listener);
         }
     },
 
@@ -280,9 +280,14 @@ exports.BackEndBridge = Target.specialize({
     subscribeToEvents: {
         value: function (events, listener) {
             if (this._checkEventsValidity(events)) {
-                this.send(EVENTS_NAME_SPACE, "subscribe", events);
-                this._addEventListeners(events, listener);
+                var self = this;
+
+                return this.send(EVENTS_NAME_SPACE, "subscribe", events).then(function () {
+                    self._addEventListeners(events, listener);
+                });
             }
+
+            return Promise.reject("wrong parameters given");
         }
     },
 
@@ -299,7 +304,7 @@ exports.BackEndBridge = Target.specialize({
      */
     unSubscribeToEvent: {
         value: function (event, listener) {
-            this.unSubscribeToEvents([event], listener);
+            return this.unSubscribeToEvents([event], listener);
         }
     },
 
@@ -317,9 +322,14 @@ exports.BackEndBridge = Target.specialize({
     unSubscribeToEvents: {
         value: function (events, listener) {
             if (this._checkEventsValidity(events)) {
-                this.send(EVENTS_NAME_SPACE, "unsubscribe", events);
-                this._removeEventListeners(events, listener, false);
+                var self = this;
+
+                return this.send(EVENTS_NAME_SPACE, "unsubscribe", events).then(function () {
+                    self._removeEventListeners(events, listener);
+                });
             }
+
+            return Promise.reject("wrong parameters given");
         }
     },
 

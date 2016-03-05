@@ -82,12 +82,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 username : _username,
                 password : _password
             }).then(function (response) {
-                self.notificationCenter.startListenToTaskEvents();
-
-                //FIXME:
-                //This is a response object. We need to extract data and turn it into
-                //a user objet using the User.objectDescriptor.
-                return response;
+                return self.notificationCenter.startListenToTaskEvents().then(function () {
+                    //FIXME:
+                    //This is a response object. We need to extract data and turn it into
+                    //a user objet using the User.objectDescriptor.
+                    return response;
+                });
             });
         }
     },
@@ -273,8 +273,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 ).then(function (response) {
                     var data = response.data;
 
-                    self.addRawData(stream, Array.isArray(data) ? data : [data]);
-                    self.rawDataDone(stream);
+                    self.notificationCenter.startListenForChangesOnModelIfNeeded(type).then(function () {
+                        self.addRawData(stream, Array.isArray(data) ? data : [data]);
+                        self.rawDataDone(stream);
+                    });
                 });
             } else {
                 stream.reject(new Error("No fetch service for the model object '" + type.typeName + "'"));
