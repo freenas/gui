@@ -12,14 +12,37 @@ exports.Vlan = Component.specialize({
         value: null
     },
 
+    ipWithNetmaskConverter: {
+        value: {
+            convert: function(value) {
+                var alias = {label: value.label, value:{}};
+                var splitValue = value.label.split("/");
+
+                alias.value.address = splitValue[0];
+
+                // These needs to be checked based on if the address is IPv4 or IPv6
+                alias.value.netmask = parseInt(splitValue[1], 10);
+                alias.value.type = "INET"
+                return alias;
+            },
+            validator: {
+                validate: function(value) {
+                    // This function needs to check if the string value is
+                    // a valid ip address/netmask combination (ipv4 or ipv6)
+                    return true;
+                }
+            }
+        }
+    },
+
     object: {
         set: function (networkInterface) {
             if (networkInterface && networkInterface.type === NetworkInterfaceType.VLAN) {
                 this._object = networkInterface;
 
                 if (networkInterface) {
-                    var self = this;
 
+                    //Filter parent options
                     //FIXME: when move to FetchDataWithCriteria when it will have been implemented.
                     this.application.dataService.fetchData(Model.NetworkInterface).then(function (networkInterfaces) {
                         var parentOptions = [],
@@ -37,6 +60,16 @@ exports.Vlan = Component.specialize({
 
                         self.parentOptions = parentOptions;
                     });
+
+                    // Convert aliases for multiple select
+                    var _aliasOption;
+                    this.aliasOptions = [];
+
+                    for (var i = 0, length = networkInterface.aliases.length; i < length; i++ ) {
+                        _aliasOption = { value: networkInterface.aliases[i] };
+                        _aliasOption.label = _aliasOption.value.address + "/" + _aliasOption.value.netmask;
+                        this.aliasOptions.push( _aliasOption );
+                    }
                 }
             } else {
                 this._object = null;
@@ -48,6 +81,10 @@ exports.Vlan = Component.specialize({
     },
 
     parentOptions: {
+        value: null
+    },
+
+    aliasOptions: {
         value: null
     }
 

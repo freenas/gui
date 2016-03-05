@@ -93,6 +93,17 @@
                 "value": {"<->": "@owner.object.vlan.tag"}
             }
         },
+        "aliases": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "aliases"}
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.ipWithNetmaskConverter"},
+                "values": {"<->": "@owner.aliasOptions"},
+                "options": {"<-": "@owner.aliasOptions"}
+            }
+        },
         "footer": {
             "prototype": "ui/controls/inspector-footer.reel",
             "properties": {
@@ -111,6 +122,7 @@
         <div data-montage-id="rtadv"></div>
         <div data-montage-id="parent"></div>
         <div data-montage-id="tag"></div>
+        <div data-montage-id="aliases"></div>
         <div data-montage-id="footer"></div>
     </div>
 </body>
