@@ -91,6 +91,17 @@
                 "checked": {"<->": "@owner.object.rtadv"}
             }
         },
+        "aliases": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "aliases"}
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.ipWithNetmaskConverter"},
+                "values": {"<->": "@owner.aliasOptions"},
+                "options": {"<-": "@owner.aliasOptions"}
+            }
+        },
         "footer": {
             "prototype": "ui/controls/inspector-footer.reel",
             "properties": {
@@ -109,6 +120,7 @@
         <div data-montage-id="noipv6"></div>
         <div data-montage-id="ports"></div>
         <div data-montage-id="protocol"></div>
+        <div data-montage-id="aliases"></div>
         <div data-montage-id="footer"></div>
     </div>
 </body>
