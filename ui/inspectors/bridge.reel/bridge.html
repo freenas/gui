@@ -66,6 +66,17 @@
                 "selectedValues": {"<->": "@owner.object.bridge.members"}
             }
         },
+        "aliases": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "aliases"}
+            },
+            "bindings": {
+                "converter": {"<-": "@owner.ipWithNetmaskConverter"},
+                "values": {"<->": "@owner.aliasOptions"},
+                "options": {"<-": "@owner.aliasOptions"}
+            }
+        },
         "rtadv": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -87,6 +98,7 @@
         <div data-montage-id="rtadv"></div>
         <div data-montage-id="noipv6"></div>
         <div data-montage-id="members"></div>
+        <div data-montage-id="aliases"></div>
     </div>
 </body>
 </html>
