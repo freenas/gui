@@ -19,11 +19,17 @@
     z-index: 1;
     outline: none;
     cursor: pointer;
+    height: 2em;
+    color: #ddd;
 }
 
-.MainNavigation-preferences:before {
-    font-size: 1.8em;
-    color: rgba(255,255,255,.75);
+.MainNavigation-preferences:hover {
+    color: #fff;
+}
+
+.MainNavigation-preferences > svg {
+    width:  2em;
+    height: 100%;
 }
 
 .MainNavigation-preferences.selected:after {
@@ -39,8 +45,4 @@
     background: #2B9CD8;
     box-shadow: 0 2px 2px rgba(0,0,0,.3);
     z-index: -1;
-}
-
-.MainNavigation-preferences.selected:before {
-    color: #FFF;
 }
