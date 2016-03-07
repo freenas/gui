@@ -11,9 +11,7 @@
     background: rgba(25,71,129,0.1);
 }
 
-.Viewer-content {
-    overflow: scroll;
-}
+.Viewer-content { overflow: scroll; }
 
 .Viewer-footer {
     flex-shrink: 0;
@@ -23,31 +21,43 @@
 /* Create */
 
 .Viewer-createButton {
+    display: flex;
+    align-items: center;
     height:         43px;
     line-height:    43px;
-    padding: 0 16px;
+    padding-left:   16px;
     position: relative;
     cursor: pointer;
     overflow: hidden;
     position: relative;
+    outline: none;
     background-color: #40AD40;
     background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.1));
     box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
 }
 
 .Viewer-createButton svg {
+    width:  1.4em;
+    height: 100%;
+}
+
+.Viewer-createButton-arrow,
+.Viewer-createButton-plus {
+    display: flex;
+    margin-right: .5em;
+    color: #ddd;
+}
+
+.Viewer-createButton-plus {
+    border: 1px solid currentColor;
     width:  1.6em;
     height: 1.6em;
     padding: .25em;
-    border: 1px solid #FFF;
-    border-radius: .8em;
-    display: inline-block;
-    vertical-align: middle;
-    margin-bottom: .3em;
-    margin-right: .25em;
+    border-radius: 1em;
 }
 
 .Viewer-createButton-label {
+    flex: 1;
     font-size: 1em;
     overflow: hidden;
     white-space: nowrap;
@@ -57,40 +67,12 @@
 
 .Viewer-createButton:hover { background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.25)); }
 
+.Viewer-createButton:hover > * { color: #FFF; }
+
 .selected > .Viewer-createButton {
     background: #2B9CD8;
     cursor: default;
     color: white;
-}
-
-/* List Item Icon*/
-
-.Viewer-createButton:before {
-    position: absolute;
-    right: 8px;
-    font-size: 20px;
-    font-family: 'freenas';
-    content: "\e900";
-    color: rgba(255,255,255,.8);
-}
-
-.Viewer-createButton:hover:before { color: #fafafa; }
-
-/* Create Icon */
-
-.Viewer-createButton .sharedIcon-plus  {
-    display: inline-block;
-    border: 1px solid #FFF;
-    border-radius: 1em;
-    height: 1.3em;
-    width:  1.3em;
-    text-align: center;
-    margin-right: .25em;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
-}
-
-.Viewer-createButton .sharedIcon-plus:before {
-    font-size: .9em;
 }
 
 /* $fix - what does this go to? */

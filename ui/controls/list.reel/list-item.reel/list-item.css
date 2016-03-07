@@ -1,7 +1,9 @@
 .ListItem {
+    display: flex;
+    justify-content: space-between;
     height: 43px;
     line-height: 43px;
-    padding: 0 16px;
+    padding-left: 16px;
     position: relative;
     font-family: 'lato', 'Helvetica Neue', 'Helvetica', sans-serif;
     font-weight: 300;
@@ -12,11 +14,11 @@
 }
 
 .ListItem-label {
-    position: absolute;
+    /*position: absolute;
     top: 0;
     left: 16px;
     right: 29px;
-    bottom: 0;
+    bottom: 0;*/
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -29,20 +31,24 @@
 .selected > .ListItem {
     background: #2B9CD8;
     cursor: default;
-    color: white;
+    color: #fff;
 }
 
 /* List Item Icon*/
 
-.ListItem:before {
-    position: absolute;
-    right: 8px;
-    font-size: 20px;
-    font-family: 'freenas';
-    content: "\e900";
-    color: rgba(255,255,255,.8);
+.ListItem-icon {
+    width: 1.4em;
+    display: flex;
+    margin-right: .5em;
+    color: #ddd;
 }
 
-.ListItem:hover:before {
+.ListItem-icon svg {
+    align-self: center;
+    width:  2em;
+    height: 2em;
+}
+
+.ListItem:hover .ListItem-icon {
     color: #fafafa;
 }
