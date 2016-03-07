@@ -35,6 +35,18 @@
     box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
 }
 
+.Viewer-createButton svg {
+    width:  1.6em;
+    height: 1.6em;
+    padding: .25em;
+    border: 1px solid #FFF;
+    border-radius: .8em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: .3em;
+    margin-right: .25em;
+}
+
 .Viewer-createButton-label {
     font-size: 1em;
     overflow: hidden;
