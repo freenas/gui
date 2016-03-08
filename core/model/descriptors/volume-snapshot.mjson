@@ -23,6 +23,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_volumesnapshot_lifetime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lifetime",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_volumesnapshot_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -37,6 +45,14 @@
       "name": "properties",
       "blueprint": {"@": "root"},
       "valueType": "object"
+    }
+  },
+  "blueprint_volumesnapshot_replicable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "replicable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
     }
   },
   "blueprint_volumesnapshot_volume": {
@@ -55,8 +71,10 @@
         {"@": "blueprint_volumesnapshot_dataset"},
         {"@": "blueprint_volumesnapshot_holds"},
         {"@": "blueprint_volumesnapshot_id"},
+        {"@": "blueprint_volumesnapshot_lifetime"},
         {"@": "blueprint_volumesnapshot_name"},
         {"@": "blueprint_volumesnapshot_properties"},
+        {"@": "blueprint_volumesnapshot_replicable"},
         {"@": "blueprint_volumesnapshot_volume"}
       ]
     }

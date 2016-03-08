@@ -229,6 +229,18 @@
             "type": "NetworkRoute"
         },
         {
+            "modelId": "core/model/descriptors/network-status-dns.mjson",
+            "type": "NetworkStatusDns"
+        },
+        {
+            "modelId": "core/model/descriptors/network-status-gateway.mjson",
+            "type": "NetworkStatusGateway"
+        },
+        {
+            "modelId": "core/model/descriptors/network-status.mjson",
+            "type": "NetworkStatus"
+        },
+        {
             "modelId": "core/model/descriptors/ntp-server.mjson",
             "type": "NtpServer"
         },
@@ -241,8 +253,8 @@
             "type": "PowerChanged"
         },
         {
-            "modelId": "core/model/descriptors/replication-bidir-link.mjson",
-            "type": "ReplicationBidirLink"
+            "modelId": "core/model/descriptors/replication-link.mjson",
+            "type": "ReplicationLink"
         },
         {
             "modelId": "core/model/descriptors/replication.mjson",

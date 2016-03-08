@@ -1,0 +1,28 @@
+{
+  "blueprint_networkstatusdns_addresses": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_networkstatusdns_search": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "search",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "NetworkStatusDns",
+      "propertyBlueprints": [
+        {"@": "blueprint_networkstatusdns_addresses"},
+        {"@": "blueprint_networkstatusdns_search"}
+      ]
+    }
+  }
+}

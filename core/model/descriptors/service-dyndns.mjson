@@ -56,19 +56,19 @@
       "enumValues": [
         null,
         "default@zerigo.com",
+        "default@sitelutions.com",
+        "default@dnsomatic.com",
+        "default@tzo.com",
+        "default@majimoto.net",
+        "dyndns@3322.org",
+        "default@easydns.com",
+        "ipv6tb@he.net",
+        "default@dhis.org",
+        "default@dynsip.org",
         "dyndns@dyndns.org",
         "default@zoneedit.com",
-        "dyndns@3322.org",
-        "default@dhis.org",
-        "default@sitelutions.com",
-        "default@freedns.afraid.org",
         "default@no-ip.com",
-        "ipv6tb@he.net",
-        "default@tzo.com",
-        "default@dynsip.org",
-        "default@majimoto.net",
-        "default@dnsomatic.com",
-        "default@easydns.com"
+        "default@freedns.afraid.org"
       ]
     }
   },

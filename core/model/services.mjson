@@ -531,9 +531,45 @@
             "namespace": "rpc"
         }
     },
-    "ReplicationBidir": {
+    "Replication": {
+        "create": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "restrictions": {
+                "requiredFields": [
+                    "name",
+                    "partners",
+                    "master",
+                    "datasets",
+                    "replicate_services",
+                    "bidirectional"
+                ]
+            },
+            "task": "replication.create"
+        },
+        "delete": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "replication.delete"
+        },
+        "sync": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "replication.sync"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "replication.update"
+        }
+    },
+    "ReplicationLink": {
         "read": {
-            "method": "replication.bidir.query",
+            "method": "replication.link.query",
             "name": "call",
             "namespace": "rpc"
         }
@@ -567,11 +603,6 @@
         }
     },
     "ServiceAfp": {
-        "read": {
-            "method": "service.afp.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -580,11 +611,6 @@
         }
     },
     "ServiceDyndns": {
-        "read": {
-            "method": "service.dyndns.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -593,11 +619,6 @@
         }
     },
     "ServiceFtp": {
-        "read": {
-            "method": "service.ftp.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -606,11 +627,6 @@
         }
     },
     "ServiceGlusterd": {
-        "read": {
-            "method": "service.glusterd.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -619,11 +635,6 @@
         }
     },
     "ServiceHaproxy": {
-        "read": {
-            "method": "service.haproxy.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -632,11 +643,6 @@
         }
     },
     "ServiceIpfs": {
-        "read": {
-            "method": "service.ipfs.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -658,11 +664,6 @@
         }
     },
     "ServiceLldp": {
-        "read": {
-            "method": "service.lldp.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -671,11 +672,6 @@
         }
     },
     "ServiceNfs": {
-        "read": {
-            "method": "service.nfs.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -684,11 +680,6 @@
         }
     },
     "ServiceRiak": {
-        "read": {
-            "method": "service.riak.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -697,11 +688,6 @@
         }
     },
     "ServiceRiakCs": {
-        "read": {
-            "method": "service.riak_cs.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -710,11 +696,6 @@
         }
     },
     "ServiceRsyncd": {
-        "read": {
-            "method": "service.rsyncd.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -743,11 +724,6 @@
         }
     },
     "ServiceSmb": {
-        "read": {
-            "method": "service.smb.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -769,11 +745,6 @@
         }
     },
     "ServiceSshd": {
-        "read": {
-            "method": "service.sshd.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -782,11 +753,6 @@
         }
     },
     "ServiceStanchion": {
-        "read": {
-            "method": "service.stanchion.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -795,11 +761,6 @@
         }
     },
     "ServiceSwift": {
-        "read": {
-            "method": "service.swift.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -808,11 +769,6 @@
         }
     },
     "ServiceTftpd": {
-        "read": {
-            "method": "service.tftpd.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -821,11 +777,6 @@
         }
     },
     "ServiceUps": {
-        "read": {
-            "method": "service.ups.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -834,11 +785,6 @@
         }
     },
     "ServiceWebdav": {
-        "read": {
-            "method": "service.webdav.get_config",
-            "name": "call",
-            "namespace": "rpc"
-        },
         "update": {
             "method": "task.submit",
             "name": "call",
@@ -1448,6 +1394,12 @@
             "namespace": "rpc",
             "task": "volume.rekey"
         },
+        "scrub": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "task": "volume.scrub"
+        },
         "unlock": {
             "method": "task.submit",
             "name": "call",
@@ -1472,6 +1424,12 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "requiredFields": [
+                    "id",
+                    "volume"
+                ]
+            },
             "task": "volume.dataset.create"
         },
         "delete": {
@@ -1497,6 +1455,16 @@
             "method": "task.submit",
             "name": "call",
             "namespace": "rpc",
+            "restrictions": {
+                "forbiddenFields": [
+                    "id"
+                ],
+                "requiredFields": [
+                    "volume",
+                    "dataset",
+                    "name"
+                ]
+            },
             "task": "volume.snapshot.create"
         },
         "dataset": {
@@ -1515,6 +1483,17 @@
             "method": "volume.snapshot.query",
             "name": "call",
             "namespace": "rpc"
+        },
+        "update": {
+            "method": "task.submit",
+            "name": "call",
+            "namespace": "rpc",
+            "restrictions": {
+                "forbiddenFields": [
+                    "id"
+                ]
+            },
+            "task": "volume.snapshot.update"
         }
     },
     "ZfsDataset": {
