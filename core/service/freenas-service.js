@@ -293,9 +293,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                                 return data;
                             })
                         });
+                    }, function (error) {
+                        stream.dataError(error);
                     });
                 } else {
-                    stream.reject(new Error("No fetch service for the model object '" + type.typeName + "'"));
+                    stream.dataError(new Error("No fetch service for the model object '" + type.typeName + "'"));
                 }
             }
         }
