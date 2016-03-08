@@ -162,8 +162,7 @@ exports.BackEndBridge = Target.specialize({
                                     deferred.reject(new Error(response.args.message));
 
                                 } else {
-                                    deferred.reject(new Error("Error Server received, code: " +
-                                        response.args.code + " , message: " + response.args.message));
+                                    deferred.reject(response.args);
                                 }
                             } else {
                                 deferred.reject(new Error("Error message received: " + response));
