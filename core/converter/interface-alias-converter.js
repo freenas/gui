@@ -14,14 +14,24 @@ var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Valid
  */
  var InterfaceAliasConverter = exports.InterfaceAliasConverter = Converter.specialize({
 
-    _alias: {
-        value: null
-    },
-
     constructor: {
         value: function() {
             this.super();
             this.validator = new IPv4Validator();
+        }
+    },
+
+    __alias: {
+        value: null
+    },
+
+
+    _alias: {
+        set: function (alias) {
+            this.__alias = alias;
+        },
+        get: function () {
+            return this.__alias || (this.__alias = {});
         }
     },
 
@@ -30,7 +40,7 @@ var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Valid
             this._alias = alias;
             var aliasString = "";
 
-            if (alias.address) {
+            if (alias && alias.address) {
                 aliasString += alias.address;
                 if (alias.netmask) {
                     aliasString += "/" + alias.netmask;
@@ -58,6 +68,8 @@ var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Valid
                 // FIXME: Does this need a fallback case to be safe/have expected
                 // behavior?
             }
+
+            return this.__alias;
         }
     },
 
