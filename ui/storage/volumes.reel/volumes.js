@@ -6,6 +6,13 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.Volumes = Component.specialize({
+    _getVolumeNameFromShare: {
+        value: function(share) {
+            // FIXME: Replace with real RPC call
+            console.warn('Replace with real RPC call');
+            return share.filesystem_path.split('/')[2];
+        }
+    },
 
     enterDocument: {
         value: function (isFirstTime) {
@@ -30,6 +37,17 @@ exports.Volumes = Component.specialize({
                         volume.snapshots.name = "Snapshots";
                         volume.snapshots.inspector = "ui/controls/viewer.reel";
                     }
+                    return self.listShares();
+                }).then(function(volumesShares) {
+                    var volume;
+                    for (var i = 0, length = self.cascadingList.root.length; i < length; i++) {
+                        volume = self.cascadingList.root[i];
+                        volume.shares = volumesShares[volume.name] || [];
+                        volume.shares.name = "Shares";
+                        volume.shares.inspector = "ui/controls/viewer.reel";
+                    }
+                }).then(function() {
+                    console.log(self.cascadingList.root);
                 });
             }
         }
@@ -37,6 +55,7 @@ exports.Volumes = Component.specialize({
 
     listVolumes: {
         value: function() {
+            var self = this;
             return this.application.dataService.fetchData(Model.Volume).then(function(volumes) {
 /*
                 var _data_ = [
@@ -196,15 +215,13 @@ exports.Volumes = Component.specialize({
                     i;
                 for (i = 0; i < volumes.length; i++) {
                     volume = volumes[i];
+                    self._decodePath = volume.decode_path;
                     displayedVolume = {
                         name: volume.id,
                         size: volume.topology.data[0].stats.size,
                         inspector: "ui/inspectors/volume.reel",
-                        shares: [],
                         topology: volume.topology
                     };
-                    displayedVolume.shares.name = "Shares";
-                    displayedVolume.shares.inspector = "ui/controls/viewer.reel";
                     displayedVolume.topology.name = "Topology";
                     displayedVolume.topology.inspector = "ui/inspectors/topology.reel";
                     displayedVolumes.push(displayedVolume);
@@ -232,6 +249,28 @@ exports.Volumes = Component.specialize({
                 }
                 return volumesSnapshots;
             });
+        }
+    },
+
+    listShares: {
+        value: function() {
+            var self = this;
+            return this.application.dataService.fetchData(Model.Share).then(function(shares) {
+                var volumesShares = {},
+                    share,
+                    i,
+                    length;
+                for (i = 0, length = shares.length; i < length; i++) {
+                    share = shares[i];
+                    var volumeName = self._getVolumeNameFromShare(share);
+                    if (!volumesShares.hasOwnProperty(volumeName)) {
+                        volumesShares[volumeName] = [];
+                    }
+                    volumesShares[volumeName].push(share);
+                }
+                return volumesShares;
+            });
+
         }
     }
 
