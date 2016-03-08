@@ -288,7 +288,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                             self.rawDataDone(stream);
 
                             stream.then(function (data) {
-                                debugger
                                 modelCache.set(type.typeName, data);
 
                                 return data;
