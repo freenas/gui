@@ -8,6 +8,11 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     Services = require("../model/services").Services,
     Montage = require("montage/core/core").Montage;
 
+
+//Fixme: temporary cache
+var modelCache = new Map();
+
+
 /**
  * The interface to all services used by FreeNAS.
  *
@@ -259,27 +264,40 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     _fetchRawDataWithType: {
         value: function (stream, type) {
-            var readServiceDescriptor = Services.findReadServiceForType(type);
+            if (modelCache.has(type.typeName)) {
+                stream._data = modelCache.get(type.typeName);
+                stream.dataDone();
 
-            if (readServiceDescriptor) {
-                var self = this;
-
-                return this.backendBridge.send(
-                    readServiceDescriptor.namespace,
-                    readServiceDescriptor.name, {
-                        method: readServiceDescriptor.method,
-                        args: []
-                    }
-                ).then(function (response) {
-                    var data = response.data;
-
-                    self.notificationCenter.startListenForChangesOnModelIfNeeded(type).then(function () {
-                        self.addRawData(stream, Array.isArray(data) ? data : [data]);
-                        self.rawDataDone(stream);
-                    });
-                });
             } else {
-                stream.reject(new Error("No fetch service for the model object '" + type.typeName + "'"));
+                var readServiceDescriptor = Services.findReadServiceForType(type);
+
+                if (readServiceDescriptor) {
+                    var self = this;
+
+                    return this.backendBridge.send(
+                        readServiceDescriptor.namespace,
+                        readServiceDescriptor.name, {
+                            method: readServiceDescriptor.method,
+                            args: []
+                        }
+                    ).then(function (response) {
+                        var data = response.data;
+
+                        self.notificationCenter.startListenForChangesOnModelIfNeeded(type).then(function () {
+                            self.addRawData(stream, Array.isArray(data) ? data : [data]);
+                            self.rawDataDone(stream);
+
+                            stream.then(function (data) {
+                                debugger
+                                modelCache.set(type.typeName, data);
+
+                                return data;
+                            })
+                        });
+                    });
+                } else {
+                    stream.reject(new Error("No fetch service for the model object '" + type.typeName + "'"));
+                }
             }
         }
     },
