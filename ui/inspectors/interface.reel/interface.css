@@ -26,6 +26,24 @@
 
 /* status light icon */
 
+.is-down.Interface-status:before,
+.is-down.Interface-status:after {
+    color: #C84646;
+}
+
+.is-disabled.Interface-status:before,
+.is-disabled.Interface-status:after {
+    color: #FFC000;
+}
+
+.is-deactivated.Interface-status:before,
+.is-deactivated.Interface-status:after {
+    color: grey;
+    box-shadow: none;
+}
+
+
+
 .Interface-status {
     position: relative;
     text-transform: uppercase;
