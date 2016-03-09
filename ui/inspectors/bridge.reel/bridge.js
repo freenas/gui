@@ -17,8 +17,6 @@ var Bridge = exports.Bridge = Component.specialize({
         set: function (networkInterface) {
             if (networkInterface && networkInterface.type === NetworkInterfaceType.BRIDGE) {
                 this._object = networkInterface;
-                this._object.staticIP = [networkInterface.aliases[0]];
-                this._object.otherAliases = networkInterface.aliases.slice(1);
 
                 if (networkInterface) {
 
