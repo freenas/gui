@@ -13,6 +13,36 @@ var Bridge = exports.Bridge = Component.specialize({
         value: null
     },
 
+    memberOptions: {
+        value: null
+    },
+
+    dhcpAlias: {
+        value: null
+    },
+
+    staticIP: {
+        value: null
+    },
+
+    otherAliases: {
+        value: null
+    },
+
+    ipAddressSource: {
+        value: null
+    },
+
+    constructor: {
+        value: function() {
+            this.super();
+            this.dhcpAlias =
+                {address: "",
+                 netmask: null,
+                 type: "INET" };
+        }
+    },
+
     object: {
         set: function (networkInterface) {
             if (networkInterface && networkInterface.type === NetworkInterfaceType.BRIDGE) {
@@ -42,14 +72,16 @@ var Bridge = exports.Bridge = Component.specialize({
                     this.ipAddressSource = "dhcp";
                     // The first and only ipv4 address in the read-only aliases is
                     // always the one assigned by dhcp if dhcp is enabled.
-                    this.dhcpAddress = networkInterface.status.aliases.find(function(alias) {
+                    // Otherwise the one pre-set in the inspector applies.
+                    this.dhcpAlias = networkInterface.status.aliases.find(function(alias) {
                         return new IPv4Validator().validate(alias.address);
-                    }).address || "";
+                    });
                 } else {
-                    this.staticIP = networkInterface.aliases.slice(0, 1);
-                    this.otherAliases = networkInterface.aliases.slice(1);
                     this.ipAddressSource = "static";
                 }
+                // This always applies, in case they switch off DHCP
+                this.staticIP = networkInterface.aliases.slice(0, 1);
+                this.otherAliases = networkInterface.aliases.slice(1);
 
             } else {
                 this._object = null;
@@ -57,29 +89,9 @@ var Bridge = exports.Bridge = Component.specialize({
         },
         get: function () {
             var newObject = new Object(this._object);
-            newObject.aliases = this.staticIP.concat(this.otherAliases);
+            newObject.aliases = this.staticIP.concat(this.otherAliases).filter(function(alias) {return !!alias});
             return newObject;
         }
-    },
-
-    memberOptions: {
-        value: null
-    },
-
-    dhcpAddress: {
-        value: null
-    },
-
-    staticIP: {
-        value: null
-    },
-
-    otherAliases: {
-        value: null
-    },
-
-    ipAddressSource: {
-        value: null
     }
 
 });

@@ -52,34 +52,16 @@
         "interface_alias_converter": {
             "prototype": "core/converter/interface-alias-converter"
         },
-        "static_ip_substituion": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "static_ip_substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.ipAddressSource"}
-            }
-        },
-        "static_ip": {
+        "ip_address": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "static_ip"},
-                "label": "Static IP Address",
+                "element": {"#": "ip_address"},
+                "label": "IPv4 Address",
                 "converter": {"@": "interface_alias_converter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.staticIP[0]"}
-            }
-        },
-        "dhcp_ip": {
-            "prototype": "blue-shark/ui/field-text.reel",
-            "properties": {
-                "element": {"#": "dhcp_ip"},
-                "label": "DHCP IP Address"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.dhcpAddress"}
+                "value": {"<->": "@owner.object.dhcp ? @owner.dhcpAlias : @owner.staticIP[0]"},
+                "enabled": {"<-": "!@owner.object.dhcp"}
             }
         },
         "noipv6": {
@@ -137,10 +119,7 @@
             <div data-montage-id="link_state"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="dhcp"></div>
-            <div data-montage-id="static_ip_substitution">
-                <div data-montage-id="static_ip" data-arg="static"></div>
-                <div data-montage-id="dhcp_ip" data-arg="dhcp"></div>
-            </div>
+            <div data-montage-id="ip_address"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="noipv6"></div>
             <div data-montage-id="members"></div>
