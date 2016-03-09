@@ -1,8 +1,8 @@
 .SectionSelectorItem {
     text-align: center;
     cursor: pointer;
-    max-width: 6em;
-    padding: .5em;
+    max-width: 5em;
+    padding: .5em .5em;
 }
 
 .SectionSelectorItem-icon {

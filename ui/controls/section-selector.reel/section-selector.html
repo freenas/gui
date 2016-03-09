@@ -30,14 +30,23 @@
                 "iteration.selected": {"<->": "@owner.currentSection == iteration.object.identifier"},
                 "title": {"<-": "iteration.object.label"}
             }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollX"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SectionSelector">
-        <div data-montage-id="repetition" class="SectionSelector-repetition">
-            <div data-montage-id="item" class="SectionSelector-item"></div>
+        <div data-montage-id="scrollView">
+            <div data-montage-id="repetition" class="SectionSelector-repetition">
+                <div data-montage-id="item" class="SectionSelector-item"></div>
+            </div>
         </div>
     </div>
 </body>
