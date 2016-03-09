@@ -28,16 +28,19 @@
 .CascadingListItem-content {
     position: relative;
     display: flex;
-    /*flex-grow: 1;*/
+    flex-grow: 1;
     flex-direction: column;
     /*overflow: scroll;*/
 }
 
 .CascadingListItem-content > * {
     position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* sets up scrolling only on inspectors */
 .CascadingListItem-content.Inspector-scroll {
-    overflow: scroll;
+    overflow: hidden;
 }

@@ -21,9 +21,10 @@
             ]
         },
         "delete": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "delete"}
+                "element": {"#": "delete"},
+                "value": "Delete"
             }
         },
         "revert": {
@@ -45,11 +46,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="InspectorFooter">
-        <div data-montage-id="delete" class="InspectorFooter-delete">
-            <span>Delete</span>
+        <div data-montage-id="delete" class="InspectorFooter-delete blueShark-Button Button--alert Button--small">
         </div>
-        <button data-montage-id="revert" class="blueShark-Button Button--secondary Button--small"></button>
-        <button data-montage-id="save" class="blueShark-Button Button--primary Button--small"></button>
+        <button data-montage-id="revert" class="InspectorFooter-revert blueShark-Button Button--secondary Button--small"></button>
+        <button data-montage-id="save" class="InspectorFooter-save blueShark-Button Button--primary Button--small"></button>
     </div>
 </body>
 </html>
