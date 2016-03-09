@@ -48,8 +48,8 @@ HandlerPool.prototype.initWithHandlerTimeout = function (timeout) {
  * @returns {String} returns an unique ID.
  *
  */
-HandlerPool.prototype.addHandler = function (handler) {
-    var uuid = this._generateUUID();
+HandlerPool.prototype.addHandler = function (handler, uuid) {
+    uuid = uuid || this._generateUUID();
 
     this.pool[uuid] = handler;
     handler.uuid = uuid;

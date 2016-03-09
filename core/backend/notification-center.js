@@ -1,21 +1,36 @@
 var Montage = require("montage/core/core").Montage,
+    Target = require("montage/core/target").Target,
     EventTypes = require("../model/events.mjson"),
     Model = require("../model/model").Model,
     Map = require("collections/map");
 
 
-var NotificationCenter = exports.NotificationCenter = Montage.specialize({
+var NotificationCenter = exports.NotificationCenter = Target.specialize({
 
 
+    /**
+     * @constructor
+     * @public
+     *
+     * @description todo
+     *
+     */
     constructor: {
         value: function NotificationCenter () {
             this._notifications = [];
-            this._tasksMap = new Map();
+            this._trackingTasksMap = new Map();
             this._listenersOnModelChangesMap = new Map();
         }
     },
 
 
+    /**
+     * @public
+     * @function
+     *
+     * @description todo
+     *
+     */
     initWithBackendBridge: {
         value: function (backendBridge) {
             this._backendBridge = backendBridge;
@@ -42,7 +57,7 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
     },
 
 
-    _tasksMap: {
+    _trackingTasksMap: {
         value: null
     },
 
@@ -53,7 +68,9 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
 
 
     isListeningToTaskEvents: {
-        value: false
+        get: function () {
+            return this.isListeningToChangesOnModel(Model.Task);
+        }
     },
 
 
@@ -104,7 +121,7 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
      */
     startListenToTaskEvents: {
         value: function () {
-            return this.startListenForChangesOnModelIfNeeded(Model.Task);
+            return this.startListenToChangesOnModelIfNeeded(Model.Task);
         }
     },
 
@@ -118,14 +135,21 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
      */
     stopListenToTaskEvents: {
         value: function () {
-            return this.stopListenForChangesOnModel(Model.Task);
+            return this.stopListenToChangesOnModel(Model.Task);
         }
     },
 
 
-    startListenForChangesOnModelIfNeeded: {
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    startListenToChangesOnModelIfNeeded: {
         value: function (modelType) {
-            var modelTypeName = modelType.typeName,
+            var modelTypeName = modelType.typeName || modelType,
                 eventType = EventTypes[modelTypeName];
 
             if (eventType && !this._listenersOnModelChangesMap.get(modelTypeName)) {
@@ -146,9 +170,16 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
     },
 
 
-    stopListenForChangesOnModel: {
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    stopListenToChangesOnModel: {
         value: function (modelType) {
-            var modelTypeName = modelType.typeName,
+            var modelTypeName = modelType.typeName || modelType,
                 eventType = EventTypes[modelTypeName];
 
             if (eventType && this._listenersOnModelChangesMap.get(modelTypeName)) {
@@ -163,14 +194,45 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
         }
     },
 
-
-    handleEntityChanged: {
-        value: function (event) {
-            //todo: make a pool of changed entities ...
+    isListeningToChangesOnModel: {
+        value: function (modelType) {
+            return this._listenersOnModelChangesMap.has(modelType.typeName || modelType);
         }
     },
 
 
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    handleEntityChanged: {
+        value: function (event) {
+            var detail = event.detail;
+
+            if (detail) {
+                var notification = this.createNotificationWithType(Notification.TYPES.EVENT);
+                notification.modelType = detail.service.toCamelCase();
+                notification.service = detail.operation;
+                notification.data = detail.operation === "delete" ? detail.ids : detail.entities;
+
+
+                this.dispatchEventNamed("modelChange", true, true, notification);
+                this._notifications.push(notification);
+            }
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     handleEntitySubscriberTaskChanged: {
         value: function (event) {
             var detail = event.detail;
@@ -186,25 +248,23 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
                 for (var i = 0, length = taskReports.length; i < length; i++) {
                     taskReport = taskReports[i];
                     jobId = taskReport.id;
-
                     taskNotification = this.findTaskWithJobId(jobId);
 
                     if (taskNotification) {
-                        var state = taskNotification.state = taskReport.state;
+                        var state = taskNotification.state = taskReport.state,
+                            isTaskDone = state === Notification.TASK_STATES.FINISHED ||
+                                state === Notification.TASK_STATES.FAILED ||
+                                state === Notification.TASK_STATES.ABORTED;
 
-                        if (state === Notification.TASK_STATES.FINISHED) {
-                            //Fixme: pass the correct value ?
-                            //Need jobId fix
-                            taskNotification._deferred.resolve();
+                        if (isTaskDone) {
+                            this.dispatchEventNamed("taskDone", true, true, {
+                                jobId: jobId,
+                                taskReport: taskReport
+                            });
 
-                        } else if (state === Notification.TASK_STATES.FAILED || state === Notification.TASK_STATES.ABORTED) {
-                            taskNotification._deferred.reject(event.detail);
-                        }
-
-                        if (this.dismissNotificationAfterDelay && (state === Notification.TASK_STATES.FINISHED ||
-                            state === Notification.TASK_STATES.FAILED || state === Notification.TASK_STATES.ABORTED)) {
-
-                            this._stopTrackingTaskAfterDelay(taskNotification, this.dismissNotificationDelay);
+                            if (this.dismissNotificationAfterDelay) {
+                                this._stopTrackingTaskAfterDelay(taskNotification, this.dismissNotificationDelay);
+                            }
                         }
                     }
                 }
@@ -213,6 +273,13 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
     },
 
 
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     createNotificationWithType: {
         value:function (type) {
             return new Notification(type);
@@ -220,16 +287,20 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
     },
 
 
-    startTrackingTask: {
-        value: function (jobId, model, deferred) {
-            var tasksMap = this._tasksMap;
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    startTrackingTaskWithJobId: {
+        value: function (jobId) {
+            var tasksMap = this._trackingTasksMap;
 
             if (!tasksMap.get(jobId)) {
                 var notification = this.createNotificationWithType(Notification.TYPES.TASK);
                 notification.jobId = jobId;
-                notification.relatedModel = model;
-                notification._deferred = deferred;
-
                 tasksMap.set(jobId, notification);
                 this._notifications.push(notification);
             } else {
@@ -241,9 +312,16 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
     },
 
 
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     stopTrackingTaskWithJobId: {
         value: function (jobId) {
-            var tasksMap = this._tasksMap;
+            var tasksMap = this._trackingTasksMap;
 
             if (tasksMap.has(jobId)) {
                 var notifications = this._notifications,
@@ -256,13 +334,27 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
     },
 
 
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     findTaskWithJobId: {
         value: function (jobId) {
-            return this._tasksMap.get(jobId) || null;
+            return this._trackingTasksMap.get(jobId) || null;
         }
     },
 
 
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
     _stopTrackingTaskAfterDelay: {
         value: function (taskNotification, delay) {
             var self = this;
@@ -277,6 +369,7 @@ var NotificationCenter = exports.NotificationCenter = Montage.specialize({
 
 
 var _defaultNotificationCenter;
+
 
 Object.defineProperty(exports, "defaultNotificationCenter", {
 
@@ -338,12 +431,17 @@ var Notification = exports.Notification =  Montage.specialize({
     },
 
 
-    relatedModel: {
+    modelType: {
         value: null
     },
 
 
-    _handler: {
+    service: {
+        value: null
+    },
+
+
+    data: {
         value: null
     }
 
@@ -353,8 +451,8 @@ var Notification = exports.Notification =  Montage.specialize({
 
     TYPES: {
         value: {
-            //todo: add more
-            TASK: "TASK"
+            TASK: "TASK",
+            EVENT: "EVENT"
         }
     },
 

@@ -4,13 +4,11 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
     NotificationCenterModule = require("../backend/notification-center"),
     NotificationCenter = NotificationCenterModule.NotificationCenter,
-    Model = require("../model/model").Model,
+    TaskStates = NotificationCenterModule.Notification.TASK_STATES,
+    HandlerPool = require("../backend/handler-pool").HandlerPool,
     Services = require("../model/services").Services,
-    Montage = require("montage/core/core").Montage;
-
-
-//Fixme: temporary cache
-var modelCache = new Map();
+    Montage = require("montage/core/core").Montage,
+    Model = require("../model/model").Model;
 
 
 /**
@@ -46,6 +44,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     console.log("I'm Authorized!! ", authorization);
                 });
             }
+
+
+            //Fixme: temporary cache
+            this.modelsCache = new Map();
 
             return this;
         }
@@ -87,7 +89,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 username : _username,
                 password : _password
             }).then(function (response) {
-                return self.notificationCenter.startListenToTaskEvents().then(function () {
+                return self._startListenToBackendEvents().then(function () {
                     //FIXME:
                     //This is a response object. We need to extract data and turn it into
                     //a user objet using the User.objectDescriptor.
@@ -161,7 +163,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         args: [deleteServiceDescriptor.task, [object.id]]
                     }
                 ).then(function (response) {
-                    return self._trackTaskWithJobIdForModel(response.data);
+                    return self._startTrackingTaskWithJobId(response.data);
                 });
             }
 
@@ -231,9 +233,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     saveRawData: {
         value: function (rawData, object) {
+            var type = Object.getPrototypeOf(object).Type;
+
             if (object.id !== void 0) { // id can be forbidden
                 var isUpdate = object.id !== null,
-                    type = Object.getPrototypeOf(object).Type,
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
@@ -248,7 +251,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         }
 
                     ).then(function (response) {
-                        return self._trackTaskWithJobIdForModel(response.data, object);
+                        return self._startTrackingTaskWithJobId(response.data);
                     });
                 } else {
                     return Promise.reject(new Error(
@@ -264,8 +267,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     _fetchRawDataWithType: {
         value: function (stream, type) {
-            if (modelCache.has(type.typeName)) {
-                stream._data = modelCache.get(type.typeName);
+            if (this.modelsCache.has(type.typeName)) {
+                stream._data = this.modelsCache.get(type.typeName);
                 stream.dataDone();
 
             } else {
@@ -283,12 +286,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     ).then(function (response) {
                         var data = response.data;
 
-                        self.notificationCenter.startListenForChangesOnModelIfNeeded(type).then(function () {
+                        self.notificationCenter.startListenToChangesOnModelIfNeeded(type).then(function () {
                             self.addRawData(stream, Array.isArray(data) ? data : [data]);
                             self.rawDataDone(stream);
 
                             stream.then(function (data) {
-                                modelCache.set(type.typeName, data);
+                                self.modelsCache.set(type.typeName, data);
 
                                 return data;
                             })
@@ -319,16 +322,167 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
-    _trackTaskWithJobIdForModel: {
-        value: function (jobId, model) {
+    __taskHandlerPool: {
+        value: null
+    },
+
+
+    _taskHandlerPool: {
+        get: function () {
+            return this.__taskHandlerPool || (this.__taskHandlerPool = new HandlerPool());
+        }
+    },
+
+
+    handleModelChange: {
+        value: function (event) {
+            var detail = event.detail;
+
+            if (detail) {
+                var modelCache = this._findModelCacheForType(detail.modelType);
+
+                if (modelCache) {
+                    var type = Model[detail.modelType],
+                        data = detail.data,
+                        length = data.length,
+                        i = 0,
+                        rawModel,
+                        model;
+
+                    if (detail.service === "create") {
+                        for (rawModel = data[i]; i < length; i++) {
+                            model = this.getDataObject(type);
+                            this.mapFromRawData(model, rawModel);
+                            modelCache.push(model);
+                        }
+                    } else if (detail.service === "delete") {
+                        var modelIndex, id;
+
+                        for (id = data[i]; i < length; i++) {
+                            modelIndex = this._findModelIndexFromCacheWithTypeAndId(type, id);
+
+                            if (modelIndex > -1) {
+                                modelCache.splice(modelIndex, 1);
+                            }
+                        }
+                    } else { // consider other operations as an update.
+                        for (rawModel = data[i]; i < length; i++) {
+                            model = this._findModelFromCacheWithTypeAndId(type, rawModel.id);
+
+                            if (model) {
+                                this.mapFromRawData(model, rawModel);
+                            } else {
+                                //todo: warning?
+                            }
+                        }
+                    }
+                }
+            } else {
+                //todo: throw an error/warning ?
+            }
+        }
+    },
+
+
+    handleTaskDone: {
+        value: function (event) {
+            var detail = event.detail;
+
+            if (detail) {
+                var jobId = detail.jobId,
+                    taskReport = detail.taskReport,
+                    taskHandler = this._taskHandlerPool.findHandler(jobId);
+
+                if (taskHandler) {
+                    if (taskReport.state === TaskStates.FINISHED) {
+                        taskHandler.resolve();
+                    } else {
+                        taskHandler.reject(taskReport);
+                    }
+                } else {
+                    //todo: throw an error/warning ?
+                }
+            } else {
+                //todo: throw an error/warning ?
+            }
+        }
+    },
+
+
+    _startListenToBackendEvents: {
+        value: function () {
+            var self = this;
+
+            return this.notificationCenter.startListenToTaskEvents().then(function () {
+                self.notificationCenter.addEventListener("taskDone", self);
+                self.notificationCenter.addEventListener("modelChange", self);
+            });
+        }
+    },
+
+
+    _stopListenToBackendEvents: {
+        value: function () {
+            var self = this;
+
+            return this.notificationCenter.stopListenToTaskEvents().then(function () {
+                self.notificationCenter.removeEventListener("taskDone", self);
+                self.notificationCenter.removeEventListener("modelChange", self);
+            });
+        }
+    },
+
+
+    _startTrackingTaskWithJobId: {
+        value: function (jobId) {
             var self = this;
 
             return new Promise(function (resolve, reject) {
-                self.notificationCenter.startTrackingTask(jobId, model, {
+                self._taskHandlerPool.addHandler({
                     resolve: resolve,
                     reject: reject
-                });
+                }, jobId);
+
+                self.notificationCenter.startTrackingTaskWithJobId(jobId);
             });
+        }
+    },
+
+
+    _findModelCacheForType: {
+        value: function (type) {
+            return this.modelsCache.get(type.typeName || type);
+        }
+    },
+
+
+    _findModelFromCacheWithTypeAndId: {
+        value: function (type, modelId) {
+            var index = this._findModelIndexFromCacheWithTypeAndId(type, modelId);
+
+            return index > -1 ? this._findModelCacheForType(type)[index] : null;
+        }
+    },
+
+
+    _findModelIndexFromCacheWithTypeAndId: {
+        value: function (type, modelId) {
+            var modelCache = this._findModelCacheForType(type),
+                index = -1,
+                model;
+
+            if (modelCache) {
+                for (var i = 0, length = modelCache.length; i < length; i++) {
+                    model = modelCache[i];
+
+                    if (model.id === modelId) {
+                        index = i;
+                        break
+                    }
+                }
+            }
+
+            return index;
         }
     }
 
@@ -346,7 +500,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 instance = new DataService();
                 DataService.mainService.addChildService(freeNASService);
-                notificationCenter.dismissNotificationAfterDelay = true;
 
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;
             }
