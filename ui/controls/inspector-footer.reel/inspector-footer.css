@@ -9,37 +9,31 @@
     padding: 1em;
     display: none;
     flex-shrink: 0;
-    flex-direction: flex-start;}
-
-.InspectorFooter.is-visible {
-    display: flex;
+    justify-content: flex-start;
+    margin: 0 -.5em;
 }
 
 .InspectorFooter > * {
-    flex: 1;
+    flex: .00001;
 }
+/* $fix - important classes can be removed after updating blue-shark */
 
-.InspectorFooter-buttons {
-    padding: 1em;
-    display: flex;
-    background: rgba(0,0,0,.2);
-}
-
-.InspectorFooter .blueShark-Button {
-    min-width: auto;
-    width: auto;
+.InspectorFooter > .blueShark-Button {
     visibility: hidden;
+    opacity: 0;
+    min-width: 0;
+    padding: 0;
+    margin-left:  0 !important;
+    margin-right: 0 !important;
+    overflow: hidden;
+    transition: all .5s ease-in-out;
 }
-
-.InspectorFooter .blueShark-Button.is-visible {
-    visibility: visible;
-}
-
 .InspectorFooter-delete.blueShark-Button {
     color: rgb(200, 70, 70);
     background: rgba(150, 36, 36,.1);
     border: 1px solid rgb(150, 36, 36);
     box-shadow: none;
+    max-width: 8em;
 }
 
 .InspectorFooter-delete.blueShark-Button:hover {
@@ -48,4 +42,18 @@
     box-shadow: none;
 }
 
+
+/* States ---------------------------------- */
+
+.InspectorFooter.is-visible { display: flex; }
+
+.InspectorFooter-delete.is-visible,
+.InspectorFooter-revert.is-visible,
+.InspectorFooter-save.is-visible {
+    flex: 1;
+    visibility: visible;
+    opacity: 1;
+    margin-left: .5em !important;
+    margin-right: .5em !important;
+}
 
