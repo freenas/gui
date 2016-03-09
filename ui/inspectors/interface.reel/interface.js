@@ -9,5 +9,4 @@ exports.Interface = Component.specialize({
     object: {
         value: null
     }
-
 });

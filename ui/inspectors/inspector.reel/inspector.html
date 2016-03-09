@@ -21,7 +21,13 @@
             "prototype": "ui/controls/inspector-footer.reel",
             "properties": {
                 "element": {"#": "footer"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         }
 
     }

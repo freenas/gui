@@ -9,15 +9,4 @@ var Component = require("montage/ui/component").Component;
  */
 exports.InspectorFooter = Component.specialize({
 
-    handleDeleteAction: function () {
-        console.log("delete");
-    },
-
-    handleRevertAction: function () {
-        console.log("revert");
-    },
-
-    handleSaveAction: function () {
-        console.log("save");
-    }
 });

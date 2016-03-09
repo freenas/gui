@@ -16,13 +16,14 @@ exports.Volumes = Component.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
-            var self = this;
+            var self = this,
+                volume,
+                i, length;
             if (isFirstTime) {
                 this.listVolumes().then(function(volumes) {
-                    self.cascadingList.root = volumes;
-                    var volume;
-                    for (var i = 0, length = self.cascadingList.root.length; i < length; i++) {
-                        volume = self.cascadingList.root[i];
+                    self.volumes = volumes;
+                    for (i = 0, length = self.volumes.length; i < length; i++) {
+                        volume = self.volumes[i];
                         volume.scrub = {
                             name: "Scrub",
                             inspector: "ui/inspectors/scrub.reel"
@@ -31,23 +32,26 @@ exports.Volumes = Component.specialize({
                     return self.listSnapshots();
                 }).then(function(volumesSnapshots) {
                     var volume;
-                    for (var i = 0, length = self.cascadingList.root.length; i < length; i++) {
-                        volume = self.cascadingList.root[i];
+                    for (i = 0, length = self.volumes.length; i < length; i++) {
+                        volume = self.volumes[i];
                         volume.snapshots = volumesSnapshots[volume.name] || [];
                         volume.snapshots.name = "Snapshots";
                         volume.snapshots.inspector = "ui/controls/viewer.reel";
+                        console.log('snaps', volume.name, volume.snapshots);
                     }
                     return self.listShares();
                 }).then(function(volumesShares) {
                     var volume;
-                    for (var i = 0, length = self.cascadingList.root.length; i < length; i++) {
-                        volume = self.cascadingList.root[i];
+                    for (i = 0, length = self.volumes.length; i < length; i++) {
+                        volume = self.volumes[i];
                         volume.shares = volumesShares[volume.name] || [];
                         volume.shares.name = "Shares";
                         volume.shares.inspector = "ui/controls/viewer.reel";
+                        console.log('share', volume.name, volume.shares);
                     }
                 }).then(function() {
-                    console.log(self.cascadingList.root);
+                    self.selection = [self.volumes[0], self.volumes[0].shares];
+                    //console.log(self.volumes);
                 });
             }
         }
