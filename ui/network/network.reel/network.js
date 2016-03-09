@@ -98,9 +98,6 @@ exports.Network = Component.specialize({
                 for (var i = 0, length = networkInterfaces.length; i < length; i++) {
                     networkInterface = networkInterfaces[i];
 
-                    //FIXME: @Javier we need here a way to specify the key for the label/name of an object.
-                    networkInterface.name = networkInterface.id;
-
                     // Ask to @ben what are the others types, do we need some other components here?
                     if (networkInterface.type === NetworkInterfaceType.VLAN) {
                         networkInterface.inspector = "ui/inspectors/vlan.reel";
