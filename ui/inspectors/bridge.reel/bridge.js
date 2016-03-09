@@ -46,7 +46,7 @@ var Bridge = exports.Bridge = Component.specialize({
                         return new IPv4Validator().validate(alias.address);
                     }).address || "";
                 } else {
-                    this.staticIP = networkInterface.aliases.slice(0,0);
+                    this.staticIP = networkInterface.aliases.slice(0, 1);
                     this.otherAliases = networkInterface.aliases.slice(1);
                     this.ipAddressSource = "static";
                 }
