@@ -23,7 +23,8 @@ var IPv4WithNetmaskValidator = exports.IPv4WithNetmaskValidator = Validator.spec
                 // There may only be one "/", no more and no less
                 if (splitValue.length === 2) {
                     if (new IPv4Validator().validate(splitValue[0])
-                     && splitValue[1] !== "" // "" >= 0, catch this case
+                     // "" >= 0, catch this case
+                     && splitValue[1] !== ""
                      // IPv4 netmasks range from 0 to 32
                      && splitValue[1] >= 0
                      && splitValue[1] <= 32) {
