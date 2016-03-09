@@ -67,18 +67,20 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
                 // FIXME: Does this need a fallback case to be safe/have expected
                 // behavior?
             }
-
-            if (typeof aliasParts[1] === "string") {
-                if (aliasParts[1] === "") {
-                    this._alias.netmask = null;
+            if (aliasParts[1]) {
+                if (typeof aliasParts[1] === "string") {
+                    if (aliasParts[1] === "") {
+                        this._alias.netmask = null;
+                    } else {
+                        this._alias.netmask = parseInt(aliasParts[1], 10);
+                    }
                 } else {
-                    this._alias.netmask = parseInt(aliasParts[1], 10);
+                    // FIXME: Does this need a fallback case to be safe/have expected
+                    // behavior?
                 }
             } else {
-                // FIXME: Does this need a fallback case to be safe/have expected
-                // behavior?
+                this._alias.netmask = null;
             }
-
             return this.__alias;
         }
     },
