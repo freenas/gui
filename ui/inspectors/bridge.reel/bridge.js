@@ -1,6 +1,7 @@
 var Component = require("montage/ui/component").Component,
     NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Validator;
 
 /**
  * @class Bridge
@@ -39,21 +40,27 @@ var Bridge = exports.Bridge = Component.specialize({
                     }.bind(this));
                 }
 
-                // Convert aliases for multiple select
-                var _aliasOption;
-                this.aliasOptions = [];
-
-                for (var i = 0, length = networkInterface.aliases.length; i < length; i++ ) {
-                    _aliasOption = { value: networkInterface.aliases[i] };
-                    _aliasOption.label = _aliasOption.value.address + "/" + _aliasOption.value.netmask;
-                    this.aliasOptions.push( _aliasOption );
+                if (networkInterface.dhcp) {
+                    this.ipAddressSource = "dhcp";
+                    // The first and only ipv4 address in the read-only aliases is
+                    // always the one assigned by dhcp if dhcp is enabled.
+                    this.dhcpAddress = networkInterface.status.aliases.find(function(alias) {
+                        return new IPv4Validator().validate(alias.address);
+                    }).address || "";
+                } else {
+                    this.staticIP = [networkInterface.aliases[0] || null];
+                    this.otherAliases = networkInterface.aliases.slice(1);
+                    this.ipAddressSource = "static";
                 }
+
             } else {
                 this._object = null;
             }
         },
         get: function () {
-            return this._object;
+            var newObject = new Object(this._object);
+            newObject.aliases = this.staticIP + this.otherAliases;
+            return newObject;
         }
     },
 
@@ -61,7 +68,19 @@ var Bridge = exports.Bridge = Component.specialize({
         value: null
     },
 
-    aliasOptions: {
+    dhcpAddress: {
+        value: null
+    },
+
+    staticIP: {
+        value: null
+    },
+
+    otherAliases: {
+        value: null
+    },
+
+    ipAddressSource: {
         value: null
     }
 

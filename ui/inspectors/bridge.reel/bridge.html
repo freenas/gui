@@ -46,6 +46,36 @@
         "interface_alias_converter": {
             "prototype": "core/converter/interface-alias-converter"
         },
+        "static_ip_substituion": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "static_ip_substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.ipAddressSource"}
+            }
+        },
+        "static_ip": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "static_ip"},
+                "label": "Static IP Address",
+                "converter": {"@": "interface_alias_converter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.staticIP[0]"}
+            }
+        },
+        "dhcp_ip": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "dhcp_ip"},
+                "label": "DHCP IP Address"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.dhcpAddress"}
+            }
+        },
         "noipv6": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -73,11 +103,12 @@
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "aliases"},
-                "converter": {"@": "interface_alias_converter"}
+                "label": "Aliases",
+                "converter": {"@": "interface_alias_converter"},
+                "labelPath": "address + '/' + netmask"
             },
             "bindings": {
-                "values": {"<->": "@owner.aliasOptions"},
-                "options": {"<-": "@owner.aliasOptions"}
+                "values": {"<->": "@owner.otherAliases"}
             }
         },
         "rtadv": {
@@ -98,6 +129,10 @@
         <div data-montage-id="link_state"></div>
         <div data-montage-id="enabled"></div>
         <div data-montage-id="dhcp"></div>
+        <div data-montage-id="static_ip_substitution">
+            <div data-montage-id="static_ip" data-arg="static"></div>
+            <div data-montage-id="dhcp_ip" data-arg="dhcp"></div>
+        </div>
         <div data-montage-id="rtadv"></div>
         <div data-montage-id="noipv6"></div>
         <div data-montage-id="members"></div>
