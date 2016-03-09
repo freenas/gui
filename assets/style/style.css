@@ -133,31 +133,12 @@ $Icons
     text-shadow: none;
 }
 
-label {
+/*label {
     font-weight: 200;
     color: rgba(255, 255, 255, .8);
-}
-
-input { height: 2em; }
-
-/* $fix -  idea for hiding input placeholders */
-
-/*input::-webkit-input-placeholder {
-    color: rgba(255,255,255,.4);
-    transition: opacity .25s;
-}
-
-input:focus::-webkit-input-placeholder {
-    opacity: 0;
 }*/
 
-textarea {
-    display: inline-block;
-    height: 90px;
-    background: rgba(0, 0, 0, .25);
-    resize: none;
-    min-width: 300px;
-}
+/*input { height: 2em; }*/
 
 .ApplicationModal {
     top:    0;
