@@ -28,6 +28,11 @@
 .InspectorFooter .blueShark-Button {
     min-width: auto;
     width: auto;
+    visibility: hidden;
+}
+
+.InspectorFooter .blueShark-Button.is-visible {
+    visibility: visible;
 }
 
 .InspectorFooter-delete.blueShark-Button {

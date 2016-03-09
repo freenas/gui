@@ -25,6 +25,9 @@
             "properties": {
                 "element": {"#": "delete"},
                 "value": "Delete"
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.canDelete"}
             }
         },
         "revert": {
@@ -32,6 +35,9 @@
             "properties": {
                 "element": {"#": "revert"},
                 "value": "Revert"
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.canRevert"}
             }
         },
         "save": {
@@ -39,6 +45,9 @@
             "properties": {
                 "element": {"#": "save"},
                 "value": "Save"
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.canSave"}
             }
         }
     }

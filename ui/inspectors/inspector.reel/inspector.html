@@ -22,6 +22,11 @@
             "properties": {
                 "element": {"#": "footer"}
             },
+            "bindings": {
+                "canDelete": {"<-": "!!@owner.canDelete"},
+                "canRevert": {"<-": "!!@owner.canRevert"},
+                "canSave": {"<-": "!!@owner.canSave"}
+            },
             "listeners": [
                 {
                     "type": "action",
