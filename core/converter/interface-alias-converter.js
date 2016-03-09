@@ -3,7 +3,7 @@
  */
 var Converter = require("montage/core/converter/converter").Converter;
 var Montage = require("montage/core/core").Montage;
-var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Validator;
+var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netmask-validator").IPv4WithNetmaskValidator;
 
 /**
  * Converts an interface alias to and from <$IP_ADDRESS>/<$NETMASK> form. Assumes
@@ -17,7 +17,7 @@ var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Valid
     constructor: {
         value: function() {
             this.super();
-            this.validator = new IPv4Validator();
+            this.validator = new IPv4WithNetmaskValidator();
         }
     },
 
