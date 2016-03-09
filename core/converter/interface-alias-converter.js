@@ -54,16 +54,26 @@ var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Valid
     revert: {
         value: function (value) {
             var aliasParts = value.split("/");
-            if (aliasParts[0]) {
-                this._alias.address = aliasParts[0];
-                // TODO: Check which type of IP this is; assign `type` accordingly;
-                this._alias.type = "INET";
+            if (typeof aliasParts[0] === "string") {
+                if (aliasParts[0] === "") {
+                    this._alias.address = null;
+                    this._alias.type = null;
+                } else {
+                    this._alias.address = aliasParts[0];
+                    // TODO: Check which type of IP this is; assign `type` accordingly;
+                    this._alias.type = "INET";
+                }
             } else {
                 // FIXME: Does this need a fallback case to be safe/have expected
                 // behavior?
             }
-            if (aliasParts[1]) {
-                this._alias.netmask = aliasParts[0];
+
+            if (typeof aliasParts[1] === "string") {
+                if (aliasParts[1] === "") {
+                    this._alias.netmask = null;
+                } else {
+                    this._alias.netmask = parseInt(aliasParts[1], 10);
+                }
             } else {
                 // FIXME: Does this need a fallback case to be safe/have expected
                 // behavior?
