@@ -1,5 +1,9 @@
 .Configuration {
+    flex: 1;
+}
 
+.Configuration .ScrollviewContent {
+    width: 100%;
 }
 
 table {

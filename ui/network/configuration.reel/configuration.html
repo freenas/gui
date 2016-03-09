@@ -10,6 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
         "defaultRoute": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -105,50 +112,54 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Configuration">
-        <table>
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>IPv4 Address</td>
-                    <td>IPv6 Address</td>
-                </tr>
-            </thead>
-            <tbody data-montage-id="interfaceRepetition">
-                <tr>
-                    <td data-montage-id="interfaceName"></td>
-                    <td data-montage-id="interfaceIpv4"></td>
-                    <td data-montage-id="interfaceIpv6"></td>
-                </tr>
-            </tbody>
-        </table>
-        <table>
-            <thead>
-                <tr>
-                    <td>Nameserver</td>
-                </tr>
-            </thead>
-            <tbody data-montage-id="nameserverRepetition">
-                <tr>
-                    <td data-montage-id="nameserver"></td>
-                </tr>
-            </tbody>
-        </table>
-        <table>
-            <thead>
-                <tr>
-                    <td>Default Route</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-montage-id="defaultRoute"></td>
-                </tr>
-            </tbody>
-        </table>
+        <div data-montage-id="scrollView">
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>IPv4 Address</td>
+                            <td>IPv6 Address</td>
+                        </tr>
+                    </thead>
+                    <tbody data-montage-id="interfaceRepetition">
+                        <tr>
+                            <td data-montage-id="interfaceName"></td>
+                            <td data-montage-id="interfaceIpv4"></td>
+                            <td data-montage-id="interfaceIpv6"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Nameserver</td>
+                        </tr>
+                    </thead>
+                    <tbody data-montage-id="nameserverRepetition">
+                        <tr>
+                            <td data-montage-id="nameserver"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Default Route</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-montage-id="defaultRoute"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-        <div data-montage-id="networkConfiguration"></div>
-        <div data-montage-id="staticRoutes"></div>
-        <div data-montage-id="ipmi"></div>
+                <div data-montage-id="networkConfiguration"></div>
+                <div data-montage-id="staticRoutes"></div>
+                <div data-montage-id="ipmi"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
