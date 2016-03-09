@@ -66,6 +66,16 @@
             "properties": {
                 "element": {"#": "createButton"}
             }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            },
+            "bindings": {
+                "property": {"<-": "data"}
+            }
         }
     }
     </script>
@@ -75,19 +85,23 @@
         <div class="Viewer-header">
             <div data-montage-id="viewMode"></div>
         </div>
-        <div data-montage-id="substitution" class="Viewer-content">
-            <div data-arg="list" data-montage-id="list" class="Viewer-list"></div>
-            <div data-arg="grid" data-montage-id="grid" class="Viewer-grid"></div>
-            <div data-arg="table" data-montage-id="table" class="Viewer-table"></div>
-        </div>
-        <div class="Viewer-footer">
-            <div data-montage-id="createButton" class="Viewer-createButton">
-                <div class="Viewer-createButton-plus">
-                    <svg><use xlink:href="#i-plus"/></svg>
+        <div data-montage-id="scrollView">
+            <div class="content">
+                <div data-montage-id="substitution" class="Viewer-content">
+                    <div data-arg="list" data-montage-id="list" class="Viewer-list"></div>
+                    <div data-arg="grid" data-montage-id="grid" class="Viewer-grid"></div>
+                    <div data-arg="table" data-montage-id="table" class="Viewer-table"></div>
                 </div>
-                <span class="Viewer-createButton-label">Create</span>
-                <div class="Viewer-createButton-arrow">
-                    <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+            <div class="Viewer-footer">
+                <div data-montage-id="createButton" class="Viewer-createButton">
+                    <div class="Viewer-createButton-plus">
+                        <svg><use xlink:href="#i-plus"/></svg>
+                    </div>
+                    <span class="Viewer-createButton-label">Create</span>
+                    <div class="Viewer-createButton-arrow">
+                        <svg><use xlink:href="#i-arrow"/></svg>
+                    </div>
                 </div>
             </div>
         </div>
