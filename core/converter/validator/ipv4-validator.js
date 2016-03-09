@@ -14,7 +14,7 @@ var IPv4Validator = exports.IPv4Validator = Validator.specialize({
 
     validate: {
         value: function (address) {
-            return /^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$/.test(input);
+            return /^(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}$/.test(address);
         }
     }
 
