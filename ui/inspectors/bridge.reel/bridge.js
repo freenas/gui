@@ -59,7 +59,7 @@ var Bridge = exports.Bridge = Component.specialize({
         },
         get: function () {
             var newObject = new Object(this._object);
-            newObject.aliases = this.staticIP + this.otherAliases;
+            newObject.aliases = this.staticIP.concat(this.otherAliases);
             return newObject;
         }
     },
