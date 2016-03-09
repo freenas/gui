@@ -10,6 +10,12 @@
                 "element": {"#": "owner"}
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
         "netwait-enabled": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -83,27 +89,22 @@
             "bindings": {
                 "value": {"<->": "@owner.object.gateway.ipv6"}
             }
-        },
-        "footer": {
-            "prototype": "ui/controls/inspector-footer.reel",
-            "properties": {
-                "element": {"#": "footer"}
-            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="NetworkConfiguration g-padding-top">
-        <div data-montage-id="netwait-enabled"></div>
-        <div data-montage-id="http_proxy"></div>
-        <div data-montage-id="dhcp_title"></div>
-        <div data-montage-id="dhcp_assign_gateway"></div>
-        <div data-montage-id="dhcp_assign_dns"></div>
-        <div data-montage-id="gateway_title"></div>
-        <div data-montage-id="gateway_ipv4"></div>
-        <div data-montage-id="gateway_ipv6"></div>
-        <div data-montage-id="footer"></div>
+    <div data-montage-id="owner" class="NetworkConfiguration">
+        <div data-montage-id="inspector">
+            <div data-montage-id="netwait-enabled"></div>
+            <div data-montage-id="http_proxy"></div>
+            <div data-montage-id="dhcp_title"></div>
+            <div data-montage-id="dhcp_assign_gateway"></div>
+            <div data-montage-id="dhcp_assign_dns"></div>
+            <div data-montage-id="gateway_title"></div>
+            <div data-montage-id="gateway_ipv4"></div>
+            <div data-montage-id="gateway_ipv6"></div>
+        </div>
     </div>
 </body>
 </html>

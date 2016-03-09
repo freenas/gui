@@ -10,6 +10,12 @@
                 "element": {"#": "owner"}
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
         "netmask": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -68,24 +74,19 @@
             "bindings": {
                 "value": {"<->": "@owner.object.id"}
             }
-        },
-        "footer": {
-            "prototype": "ui/controls/inspector-footer.reel",
-            "properties": {
-                "element": {"#": "footer"}
-            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="StaticRoute g-padding-top">
-        <div data-montage-id="netmask"></div>
-        <div data-montage-id="gateway"></div>
-        <div data-montage-id="network"></div>
-        <div data-montage-id="type"></div>
-        <div data-montage-id="id"></div>
-        <div data-montage-id="footer"></div>
+    <div data-montage-id="owner" class="StaticRoute">
+        <div data-montage-id="inspector">
+            <div data-montage-id="netmask"></div>
+            <div data-montage-id="gateway"></div>
+            <div data-montage-id="network"></div>
+            <div data-montage-id="type"></div>
+            <div data-montage-id="id"></div>
+        </div>
     </div>
 </body>
 </html>

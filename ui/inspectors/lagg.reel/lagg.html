@@ -13,6 +13,12 @@
                 "comment": "lagg.ports might benefit from a more complex way to display, add, and remove ports. A multiselect list will work in the meantime."
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
         "dhcp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -101,27 +107,22 @@
                 "values": {"<->": "@owner.aliasOptions"},
                 "options": {"<-": "@owner.aliasOptions"}
             }
-        },
-        "footer": {
-            "prototype": "ui/controls/inspector-footer.reel",
-            "properties": {
-                "element": {"#": "footer"}
-            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Lagg g-padding-top">
-        <div data-montage-id="link_state"></div>
-        <div data-montage-id="enabled"></div>
-        <div data-montage-id="dhcp"></div>
-        <div data-montage-id="rtadv"></div>
-        <div data-montage-id="noipv6"></div>
-        <div data-montage-id="ports"></div>
-        <div data-montage-id="protocol"></div>
-        <div data-montage-id="aliases"></div>
-        <div data-montage-id="footer"></div>
+    <div data-montage-id="owner" class="Lagg">
+        <div data-montage-id="inspector">
+            <div data-montage-id="link_state"></div>
+            <div data-montage-id="enabled"></div>
+            <div data-montage-id="dhcp"></div>
+            <div data-montage-id="rtadv"></div>
+            <div data-montage-id="noipv6"></div>
+            <div data-montage-id="ports"></div>
+            <div data-montage-id="protocol"></div>
+            <div data-montage-id="aliases"></div>
+        </div>
     </div>
 </body>
 </html>

@@ -1,3 +1,60 @@
-.Interface {
+.Interface {}
 
+.Interface-overview {
+    display: flex;
+    margin: 1em;
+    margin-top: 0;
+    padding-bottom: 1em;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.Interface-overview-icon {
+    display: block;
+    width:  4em;
+    height: 4em;
+    margin-right: 1em;
+}
+
+.Interface-overview-icon svg { width: 100%; }
+
+.Interface-overview-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* status light icon */
+
+.Interface-status {
+    position: relative;
+    text-transform: uppercase;
+    padding-left: 1.5em;
+    height: 1em;
+    line-height: 1em;
+}
+
+.Interface-status:before,
+.Interface-status:after {
+    position: absolute;
+    color: #01CE18;
+    content: '';
+    left: 0;
+    top: 50%;
+    margin-top: -.5em;
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+}
+
+.Interface-status:before {
+    z-index: -1;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.3),
+                0 1px 1px 1px rgba(0,0,0,.5);
+}
+
+.Interface-status:after {
+    background-color: currentColor;
+    box-shadow: 0 0 15px currentColor,
+                inset 0 1px 2px rgba(255,255,255,.3);
 }

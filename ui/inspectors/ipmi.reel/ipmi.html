@@ -10,6 +10,12 @@
                 "element": {"#": "owner"}
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
         "dhcp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -59,18 +65,12 @@
             "bindings": {
                 "value": {"<->": "@owner.object.vlan_id"}
             }
-        },
-        "footer": {
-            "prototype": "ui/controls/inspector-footer.reel",
-            "properties": {
-                "element": {"#": "footer"}
-            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Ipmi g-padding-top">
+    <div data-montage-id="owner" class="Ipmi">
         <!-- This field requires data from another middleware call
              ('ipmi.channels') to populate.
              Here's the serialization in the meantime:
@@ -86,12 +86,13 @@
                 }
             }
         <div data-montage-id="channel"></div> -->
-        <div data-montage-id="address"></div>
-        <div data-montage-id="netmask"></div>
-        <div data-montage-id="gateway"></div>
-        <div data-montage-id="dhcp"></div>
-        <div data-montage-id="vlan_id"></div>
-        <div data-montage-id="footer"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="address"></div>
+            <div data-montage-id="netmask"></div>
+            <div data-montage-id="gateway"></div>
+            <div data-montage-id="dhcp"></div>
+            <div data-montage-id="vlan_id"></div>
+        </div>
     </div>
 </body>
 </html>

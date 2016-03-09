@@ -10,6 +10,12 @@
                 "element": {"#": "owner"}
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
         "uid": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -127,20 +133,22 @@
 </head>
 <body>
     <div data-montage-id="owner" class="User">
-        <div data-montage-id="uid"></div>
-        <div data-montage-id="username"></div>
-        <div data-montage-id="full_name"></div>
-        <div data-montage-id="password"></div>
-        <!-- The user schema will soon change the key for group and groups to 'id' from 'gid' -->
-        <div data-montage-id="group"></div>
-        <div data-montage-id="groups"></div>
-        <div data-montage-id="home"></div>
-        <div data-montage-id="shell"></div>
-        <div data-montage-id="email"></div>
-        <div data-montage-id="sshpubkey"></div>
-        <div data-montage-id="password_disabled"></div>
-        <div data-montage-id="locked"></div>
-        <div data-montage-id="sudo"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="uid"></div>
+            <div data-montage-id="username"></div>
+            <div data-montage-id="full_name"></div>
+            <div data-montage-id="password"></div>
+            <!-- The user schema will soon change the key for group and groups to 'id' from 'gid' -->
+            <div data-montage-id="group"></div>
+            <div data-montage-id="groups"></div>
+            <div data-montage-id="home"></div>
+            <div data-montage-id="shell"></div>
+            <div data-montage-id="email"></div>
+            <div data-montage-id="sshpubkey"></div>
+            <div data-montage-id="password_disabled"></div>
+            <div data-montage-id="locked"></div>
+            <div data-montage-id="sudo"></div>
+        </div>
     </div>
 </body>
 </html>

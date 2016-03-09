@@ -9,13 +9,33 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "repetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.content"}
+            }
+        },
+        "relatedInterface": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "relatedInterface"}
+            },
+            "bindings": {
+                "object": {"<-": "@repetition:iteration.object"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="RelatedInterfaces">
-        related-interfaces.reel
+        <div data-montage-id="repetition">
+            <div data-montage-id="relatedInterface"></div>
+        </div>
     </div>
 </body>
 </html>

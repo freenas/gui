@@ -13,6 +13,12 @@
                 "comment": "bridge.members might benefit from a more complex way to display, add, and remove members. A multiselect list will work in the meantime."
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
         "dhcp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -127,17 +133,19 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Bridge g-padding-top">
-        <div data-montage-id="link_state"></div>
-        <div data-montage-id="enabled"></div>
-        <div data-montage-id="dhcp"></div>
-        <div data-montage-id="static_ip_substitution">
-            <div data-montage-id="static_ip" data-arg="static"></div>
-            <div data-montage-id="dhcp_ip" data-arg="dhcp"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="link_state"></div>
+            <div data-montage-id="enabled"></div>
+            <div data-montage-id="dhcp"></div>
+            <div data-montage-id="static_ip_substitution">
+                <div data-montage-id="static_ip" data-arg="static"></div>
+                <div data-montage-id="dhcp_ip" data-arg="dhcp"></div>
+            </div>
+            <div data-montage-id="rtadv"></div>
+            <div data-montage-id="noipv6"></div>
+            <div data-montage-id="members"></div>
+            <div data-montage-id="aliases"></div>
         </div>
-        <div data-montage-id="rtadv"></div>
-        <div data-montage-id="noipv6"></div>
-        <div data-montage-id="members"></div>
-        <div data-montage-id="aliases"></div>
     </div>
 </body>
 </html>
