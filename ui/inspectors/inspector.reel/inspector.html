@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="inspector.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
+        "footer": {
+            "prototype": "ui/controls/inspector-footer.reel",
+            "properties": {
+                "element": {"#": "footer"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Inspector">
+        <div data-montage-id="scrollView">
+            <div class="Inspector-body">
+                <div data-param="*"></div>
+            </div>
+            <div data-montage-id="footer"></div>
+        </div>
+    </div>
+</body>
+</html>

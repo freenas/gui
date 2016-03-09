@@ -1,0 +1,16 @@
+{
+  "name": "interface-sample.info",
+  "version": "0.1.0",
+  "dependencies": {
+    "blue-shark": "*",
+    "digit": "*",
+    "montage": "*",
+    "gui": "freenas/gui#montage"
+  },
+  "mappings": {
+    "montage": "../../../../node_modules/montage",
+    "digit": "../../../../node_modules/digit",
+    "blue-shark": "../../../../node_modules/blue-shark",
+    "gui": "../../../../"
+  }
+}
