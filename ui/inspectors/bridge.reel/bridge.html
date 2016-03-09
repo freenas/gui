@@ -43,6 +43,9 @@
                 "value": {"<-": "@owner.object.status.link_state"}
             }
         },
+        "interface_alias_converter": {
+            "prototype": "core/converter/interface-alias-converter"
+        },
         "noipv6": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -69,10 +72,10 @@
         "aliases": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
-                "element": {"#": "aliases"}
+                "element": {"#": "aliases"},
+                "converter": {"@": "interface_alias_converter"}
             },
             "bindings": {
-                "converter": {"<-": "@owner.ipWithNetmaskConverter"},
                 "values": {"<->": "@owner.aliasOptions"},
                 "options": {"<-": "@owner.aliasOptions"}
             }

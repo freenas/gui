@@ -12,33 +12,12 @@ var Bridge = exports.Bridge = Component.specialize({
         value: null
     },
 
-    ipWithNetmaskConverter: {
-        value: {
-            convert: function(value) {
-                var alias = {label: value.label, value:{}};
-                var splitValue = value.label.split("/");
-
-                alias.value.address = splitValue[0];
-
-                // These needs to be checked based on if the address is IPv4 or IPv6
-                alias.value.netmask = parseInt(splitValue[1], 10);
-                alias.value.type = "INET"
-                return alias;
-            },
-            validator: {
-                validate: function(value) {
-                    // This function needs to check if the string value is
-                    // a valid ip address/netmask combination (ipv4 or ipv6)
-                    return true;
-                }
-            }
-        }
-    },
-
     object: {
         set: function (networkInterface) {
             if (networkInterface && networkInterface.type === NetworkInterfaceType.BRIDGE) {
                 this._object = networkInterface;
+                this._object.staticIP = [networkInterface.aliases[0]];
+                this._object.otherAliases = networkInterface.aliases.slice(1);
 
                 if (networkInterface) {
 
