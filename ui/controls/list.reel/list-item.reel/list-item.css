@@ -1,6 +1,6 @@
 .ListItem {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     height: 43px;
     line-height: 43px;
     padding-left: 16px;
@@ -14,11 +14,7 @@
 }
 
 .ListItem-label {
-    /*position: absolute;
-    top: 0;
-    left: 16px;
-    right: 29px;
-    bottom: 0;*/
+    flex: 1;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -28,27 +24,38 @@
     background: rgba(255,255,255,.1);
 }
 
-.selected > .ListItem {
-    background: #2B9CD8;
-    cursor: default;
-    color: #fff;
+.ListItem-icon {
+    /*position: relative;*/
+    width:  1.8em;
+    height: 1.8em;
+    margin-right: 1em;
 }
 
-/* List Item Icon*/
+/* List Item arrow */
 
-.ListItem-icon {
+.ListItem-arrow {
     width: 1.4em;
     display: flex;
     margin-right: .5em;
     color: #ddd;
 }
 
-.ListItem-icon svg {
+.ListItem-arrow svg {
     align-self: center;
     width:  2em;
     height: 2em;
 }
 
-.ListItem:hover .ListItem-icon {
+/* States ---------------------------------- */
+
+.selected > .ListItem {
+    background: #2B9CD8;
+    cursor: default;
+    color: #fff;
+}
+
+/* $fix - selected state shoudn't change */
+
+.ListItem:hover .ListItem-arrow {
     color: #fafafa;
 }

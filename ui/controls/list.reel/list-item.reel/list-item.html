@@ -18,14 +18,26 @@
             "bindings": {
                 "value": {"<-": "@owner.name || @owner.object.name || @owner.object.id"}
             }
+        },
+        "imageComponent": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "iconImagePlaceholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner.icon || 'ui/icons/interface.reel'"},
+                "component.object": {"<-": "@owner.object"},
+                "component.size": {"<-": "size"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="ListItem">
+        <div data-montage-id="iconImagePlaceholder" class="ListItem-icon"></div>
         <div data-montage-id="label" class="ListItem-label"></div>
-        <div class="ListItem-icon">
+        <div class="ListItem-arrow">
             <svg><use xlink:href="#i-arrow"/></svg>
         </div>
     </div>

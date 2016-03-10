@@ -15,7 +15,10 @@
     margin-right: 1em;
 }
 
-.Interface-overview-icon svg { width: 100%; }
+.Interface-overview-icon svg {
+    color: #ccc;
+    width: 100%;
+}
 
 .Interface-overview-info {
     flex: 1;
