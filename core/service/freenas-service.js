@@ -100,6 +100,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 ----------------------------------------------------------------------------------------------------------------------*/
 
 
+    /**
+     * @public
+     *
+     * @type {Array.<DataObjectDescriptor>}
+     *
+     */
     types: {
         value: [
             //FIXME: ALL_TYPES doesn't seems to work
@@ -118,6 +124,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @public
+     *
+     * @type {Object.<NotificationCenter>}
+     *
+     */
     notificationCenter: {
         get: function () {
             return NotificationCenterModule.defaultNotificationCenter;
@@ -125,6 +137,18 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+/*----------------------------------------------------------------------------------------------------------------------
+                                        DataService Public Functions
+----------------------------------------------------------------------------------------------------------------------*/
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     fetchRawData: {
         value: function (stream) {
             var type = stream.selector.type;
@@ -143,6 +167,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     deleteRawData: {
         value: function (rawData, object) {
             var objectPrototype = Object.getPrototypeOf(object),
@@ -168,6 +199,54 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    saveRawData: {
+        value: function (rawData, object) {
+            var type = Object.getPrototypeOf(object).Type;
+
+            if (object.id !== void 0) { // id can be forbidden
+                var isUpdate = object.id !== null,
+                    serviceDescriptor = isUpdate ?
+                        Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
+
+                if (serviceDescriptor) {
+                    var self = this;
+
+                    return this.backendBridge.send(
+                        serviceDescriptor.namespace,
+                        serviceDescriptor.name, {
+                            method: serviceDescriptor.method,
+                            args: [serviceDescriptor.task, isUpdate ? [object.id, rawData] : [rawData]]
+                        }
+
+                    ).then(function (response) {
+                        return self.notificationCenter.startTrackingTaskWithJobId(response.data);
+                    });
+                } else {
+                    return Promise.reject(new Error(
+                        "No '" + isUpdate ? "update" : "create" + "' service for the model object '" + type.typeName + "'"
+                    ));
+                }
+            } else {
+                return Promise.reject(new Error("Non supported model object '" + type.typeName + "', 'id' is missing"));
+            }
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     mapToRawData: {
         value: function (object, data) {
             //fixme @charles how to reject the promise here?
@@ -227,44 +306,79 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
-    saveRawData: {
-        value: function (rawData, object) {
-            var type = Object.getPrototypeOf(object).Type;
 
-            if (object.id !== void 0) { // id can be forbidden
-                var isUpdate = object.id !== null,
-                    serviceDescriptor = isUpdate ?
-                        Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
+    /**
+     * @function
+     * @public
+     *
+     * @description Handles model changes from middleware events.
+     *
+     * @param {Object.<MutableEvent>} event
+     *
+     */
+    handleModelChange: {
+        value: function (event) {
+            var detail = event.detail,
+                modelType = detail.modelType,
+                modelCache = this._findModelCacheForType(modelType);
 
-                if (serviceDescriptor) {
-                    var self = this;
+            if (modelCache) {
+                var type = Model[modelType],
+                    data = detail.data,
+                    length = data.length,
+                    i = 0,
+                    rawModel,
+                    model;
 
-                    return this.backendBridge.send(
-                        serviceDescriptor.namespace,
-                        serviceDescriptor.name, {
-                            method: serviceDescriptor.method,
-                            args: [serviceDescriptor.task, isUpdate ? [object.id, rawData] : [rawData]]
+                if (detail.service === "create") {
+                    for (rawModel = data[i]; i < length; i++) {
+                        model = this.getDataObject(type);
+                        this.mapFromRawData(model, rawModel);
+                        modelCache.push(model);
+                    }
+                } else if (detail.service === "delete") {
+                    var modelIndex, id;
+
+                    for (id = data[i]; i < length; i++) {
+                        modelIndex = this._findModelIndexFromCacheWithTypeAndId(type, id);
+
+                        if (modelIndex > -1) {
+                            modelCache.splice(modelIndex, 1);
                         }
+                    }
+                } else { // consider other operations as an update.
+                    for (rawModel = data[i]; i < length; i++) {
+                        model = this._findModelFromCacheWithTypeAndId(type, rawModel.id);
 
-                    ).then(function (response) {
-                        return self.notificationCenter.startTrackingTaskWithJobId(response.data);
-                    });
-                } else {
-                    return Promise.reject(new Error(
-                        "No '" + isUpdate ? "update" : "create" + "' service for the model object '" + type.typeName + "'"
-                    ));
+                        if (model) {
+                            this.mapFromRawData(model, rawModel);
+                        } else {
+                            //todo: warning?
+                        }
+                    }
                 }
-            } else {
-                return Promise.reject(new Error("Non supported model object '" + type.typeName + "', 'id' is missing"));
             }
         }
     },
 
 
+/*----------------------------------------------------------------------------------------------------------------------
+                                             DataService Private Functions
+----------------------------------------------------------------------------------------------------------------------*/
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
     _fetchRawDataWithType: {
         value: function (stream, type) {
             if (this.modelsCache.has(type.typeName)) {
-                stream._data = this.modelsCache.get(type.typeName);
+                //Fixme: hacky
+                stream._data = this._findModelCacheForType(type);
                 stream.dataDone();
 
             } else {
@@ -303,6 +417,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
     _mapPropertyToRawData: {
         value: function (rawData, object, propertyKey, update) {
             var propertyValue = object[propertyKey];
@@ -318,56 +439,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
-    handleModelChange: {
-        value: function (event) {
-            var detail = event.detail;
-
-            if (detail) {
-                var modelCache = this._findModelCacheForType(detail.modelType);
-
-                if (modelCache) {
-                    var type = Model[detail.modelType],
-                        data = detail.data,
-                        length = data.length,
-                        i = 0,
-                        rawModel,
-                        model;
-
-                    if (detail.service === "create") {
-                        for (rawModel = data[i]; i < length; i++) {
-                            model = this.getDataObject(type);
-                            this.mapFromRawData(model, rawModel);
-                            modelCache.push(model);
-                        }
-                    } else if (detail.service === "delete") {
-                        var modelIndex, id;
-
-                        for (id = data[i]; i < length; i++) {
-                            modelIndex = this._findModelIndexFromCacheWithTypeAndId(type, id);
-
-                            if (modelIndex > -1) {
-                                modelCache.splice(modelIndex, 1);
-                            }
-                        }
-                    } else { // consider other operations as an update.
-                        for (rawModel = data[i]; i < length; i++) {
-                            model = this._findModelFromCacheWithTypeAndId(type, rawModel.id);
-
-                            if (model) {
-                                this.mapFromRawData(model, rawModel);
-                            } else {
-                                //todo: warning?
-                            }
-                        }
-                    }
-                }
-            } else {
-                //todo: throw an error/warning ?
-            }
-        }
-    },
-
-
+    /**
+     * @function
+     * @private
+     *
+     * @description Starts listening to the middleware events.
+     *
+     * @returns {Promise}
+     *
+     */
     _startListenToBackendEvents: {
         value: function () {
             var self = this;
@@ -379,6 +459,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @function
+     * @private
+     *
+     * @description Stops listening to the middleware events.
+     *
+     * @returns {Promise}
+     *
+     */
     _stopListenToBackendEvents: {
         value: function () {
             var self = this;
@@ -390,6 +479,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @function
+     * @private
+     *
+     * @description try to find the model collection cache according to a given model type.
+     *
+     * @returns {Array|null}
+     *
+     */
     _findModelCacheForType: {
         value: function (type) {
             return this.modelsCache.get(type.typeName || type);
@@ -397,6 +495,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @function
+     * @private
+     *
+     * @description try to find a Model Object according to its type and its id within the models cache.
+     *
+     * @returns {Object.<Model>|null}
+     *
+     */
     _findModelFromCacheWithTypeAndId: {
         value: function (type, modelId) {
             var index = this._findModelIndexFromCacheWithTypeAndId(type, modelId);
@@ -406,6 +513,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    /**
+     * @function
+     * @private
+     *
+     * @description try to find a Model index according to its type and its id within the models cache.
+     *
+     * @returns {number}
+     *
+     */
     _findModelIndexFromCacheWithTypeAndId: {
         value: function (type, modelId) {
             var modelCache = this._findModelCacheForType(type),
