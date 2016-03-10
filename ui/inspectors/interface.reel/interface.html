@@ -117,6 +117,13 @@
                 "enabled": {"<-": "!@owner.object.dhcp"}
             }
         },
+        "aliasTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "aliasTitle"},
+                "value": "Alias"
+            }
+        },
         "rtadv": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -158,6 +165,7 @@
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="noipv6"></div>
             <div data-montage-id="rtadv"></div>
+            <div data-montage-id="aliasTitle"></div>
             <div data-montage-id="aliases"></div>
         </div>
     </div>
