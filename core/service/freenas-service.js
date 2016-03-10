@@ -1,11 +1,8 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
-    BackEndBridge = require("../backend/backend-bridge").BackEndBridge,
-    WebSocketConfiguration = require("../backend/websocket-configuration").WebSocketConfiguration,
+    BackEndBridgeModule = require("../backend/backend-bridge"),
     DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
     NotificationCenterModule = require("../backend/notification-center"),
     NotificationCenter = NotificationCenterModule.NotificationCenter,
-    TaskStates = NotificationCenterModule.Notification.TASK_STATES,
-    HandlerPool = require("../backend/handler-pool").HandlerPool,
     Services = require("../model/services").Services,
     Montage = require("montage/core/core").Montage,
     Model = require("../model/model").Model;
@@ -27,10 +24,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     constructor: {
         value: function FreeNASService() {
-            this.backendBridge = new BackEndBridge(WebSocketConfiguration.defaultConfiguration);
-
-            //Fixme: @benoit where/how that should be done?
-            Model.backendBridge = this.backendBridge;
+            this.backendBridge = BackEndBridgeModule.defaultBackendBridge;
 
             var info = Montage.getInfoForObject(this);
             this._authorizationServices = [info.moduleId];
@@ -164,7 +158,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         args: [deleteServiceDescriptor.task, [object.id]]
                     }
                 ).then(function (response) {
-                    return self._startTrackingTaskWithJobId(response.data);
+                    return self.notificationCenter.startTrackingTaskWithJobId(response.data);
                 });
             }
 
@@ -252,7 +246,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         }
 
                     ).then(function (response) {
-                        return self._startTrackingTaskWithJobId(response.data);
+                        return self.notificationCenter.startTrackingTaskWithJobId(response.data);
                     });
                 } else {
                     return Promise.reject(new Error(
@@ -323,18 +317,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
-    __taskHandlerPool: {
-        value: null
-    },
-
-
-    _taskHandlerPool: {
-        get: function () {
-            return this.__taskHandlerPool || (this.__taskHandlerPool = new HandlerPool());
-        }
-    },
-
-
     handleModelChange: {
         value: function (event) {
             var detail = event.detail;
@@ -385,37 +367,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
-    handleTaskDone: {
-        value: function (event) {
-            var detail = event.detail;
-
-            if (detail) {
-                var jobId = detail.jobId,
-                    taskReport = detail.taskReport,
-                    taskHandler = this._taskHandlerPool.findHandler(jobId);
-
-                if (taskHandler) {
-                    if (taskReport.state === TaskStates.FINISHED) {
-                        taskHandler.resolve();
-                    } else {
-                        taskHandler.reject(taskReport);
-                    }
-                } else {
-                    //todo: throw an error/warning ?
-                }
-            } else {
-                //todo: throw an error/warning ?
-            }
-        }
-    },
-
-
     _startListenToBackendEvents: {
         value: function () {
             var self = this;
 
             return this.notificationCenter.startListenToTaskEvents().then(function () {
-                self.notificationCenter.addEventListener("taskDone", self);
                 self.notificationCenter.addEventListener("modelChange", self);
             });
         }
@@ -427,24 +383,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             var self = this;
 
             return this.notificationCenter.stopListenToTaskEvents().then(function () {
-                self.notificationCenter.removeEventListener("taskDone", self);
                 self.notificationCenter.removeEventListener("modelChange", self);
-            });
-        }
-    },
-
-
-    _startTrackingTaskWithJobId: {
-        value: function (jobId) {
-            var self = this;
-
-            return new Promise(function (resolve, reject) {
-                self._taskHandlerPool.addHandler({
-                    resolve: resolve,
-                    reject: reject
-                }, jobId);
-
-                self.notificationCenter.startTrackingTaskWithJobId(jobId);
             });
         }
     },

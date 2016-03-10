@@ -3,6 +3,8 @@ var Montage = require("montage/core/core").Montage,
     Services = require("./services").Services,
     ObjectDescriptor = require("montage-data/logic/model/object-descriptor").ObjectDescriptor,
     ModelDescriptor = require("core/model/model-descriptor").ModelDescriptor,
+    backendBridge = require("../backend/backend-bridge").defaultBackendBridge,
+    NotificationCenterModule = require("../backend/notification-center"),
     modelsMJSON = require("./models.mjson");
 
 
@@ -109,13 +111,15 @@ function _applyInstanceServiceOnPrototype (serviceName, serviceDescriptor, proto
                 args = argumentsLength === 1 ? [arguments[0]] : Array.apply(null, arguments);
             }
 
-            return _Model.backendBridge.send(
+            return backendBridge.send(
                 serviceDescriptor.namespace,
                 serviceDescriptor.name, {
                     method: serviceDescriptor.method,
                     args:  args ? [serviceDescriptor.task, args] : [serviceDescriptor.task]
                 }
-            );
+            ).then(function (response) {
+                return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithJobId(response.data);
+            });
         }
     });
 }

@@ -1,6 +1,7 @@
 var Montage = require("montage/core/core").Montage,
     Target = require("montage/core/target").Target,
     EventTypes = require("../model/events.mjson"),
+    HandlerPool = require("./handler-pool").HandlerPool,
     Model = require("../model/model").Model,
     Map = require("collections/map");
 
@@ -112,6 +113,18 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     },
 
 
+    __taskHandlerPool: {
+        value: null
+    },
+
+
+    _taskHandlerPool: {
+        get: function () {
+            return this.__taskHandlerPool || (this.__taskHandlerPool = new HandlerPool());
+        }
+    },
+
+
     /**
      * @function
      * @public
@@ -218,7 +231,6 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 notification.service = detail.operation;
                 notification.data = detail.operation === "delete" ? detail.ids : detail.entities;
 
-
                 this.dispatchEventNamed("modelChange", true, true, notification);
                 this._notifications.push(notification);
             }
@@ -257,10 +269,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                                 state === Notification.TASK_STATES.ABORTED;
 
                         if (isTaskDone) {
-                            this.dispatchEventNamed("taskDone", true, true, {
-                                jobId: jobId,
-                                taskReport: taskReport
-                            });
+                            this.handleTaskDone(jobId, taskReport);
 
                             if (this.dismissNotificationAfterDelay) {
                                 this._stopTrackingTaskAfterDelay(taskNotification, this.dismissNotificationDelay);
@@ -268,6 +277,30 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                         }
                     }
                 }
+            }
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    handleTaskDone: {
+        value: function (jobId, taskReport) {
+            var taskHandler = this._taskHandlerPool.releaseHandler(jobId);
+
+            if (taskHandler) {
+                if (taskReport.state === Notification.TASK_STATES.FINISHED) {
+                    taskHandler.resolve();
+                } else {
+                    taskHandler.reject(taskReport);
+                }
+            } else {
+                //todo: throw an error/warning ?
             }
         }
     },
@@ -296,18 +329,28 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     startTrackingTaskWithJobId: {
         value: function (jobId) {
-            var tasksMap = this._trackingTasksMap;
+            var self = this;
 
-            if (!tasksMap.get(jobId)) {
-                var notification = this.createNotificationWithType(Notification.TYPES.TASK);
-                notification.jobId = jobId;
-                tasksMap.set(jobId, notification);
-                this._notifications.push(notification);
-            } else {
-                throw new Error(
-                    "NotificationCenter is already following the notification with the jobId: '" + jobId  + "'"
-                );
-            }
+            return new Promise(function (resolve, reject) {
+                self._taskHandlerPool.addHandler({
+                    resolve: resolve,
+                    reject: reject
+                }, jobId);
+
+                var tasksMap = self._trackingTasksMap;
+
+                if (!tasksMap.get(jobId)) {
+                    var notification = self.createNotificationWithType(Notification.TYPES.TASK);
+                    notification.jobId = jobId;
+                    tasksMap.set(jobId, notification);
+                    self._notifications.push(notification);
+
+                } else {
+                    throw new Error(
+                        "NotificationCenter is already following the notification with the jobId: '" + jobId  + "'"
+                    );
+                }
+            });
         }
     },
 
@@ -321,7 +364,12 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     stopTrackingTaskWithJobId: {
         value: function (jobId) {
-            var tasksMap = this._trackingTasksMap;
+            var taskHandler = this._taskHandlerPool.releaseHandler(jobId),
+                tasksMap = this._trackingTasksMap;
+
+            if (taskHandler) {
+                taskHandler.reject(new Error("stop tracking task with jobId: " + jobId));
+            }
 
             if (tasksMap.has(jobId)) {
                 var notifications = this._notifications,

@@ -22,7 +22,7 @@ var RPC_NAME_SPACE = "rpc",
  * @TODO: provide a method initWithConfiguration for the connection settings. (dict)
  *
  */
-exports.BackEndBridge = Target.specialize({
+var BackEndBridge = exports.BackEndBridge = Target.specialize({
 
 
     /*------------------------------------------------------------------------------------------------------------------
@@ -427,6 +427,21 @@ exports.BackEndBridge = Target.specialize({
                 }
             }
         }
+    }
+
+});
+
+
+var _defaultBackendBridge;
+
+
+Object.defineProperty(exports, "defaultBackendBridge", {
+
+    set: function (backendBridge) {
+        _defaultBackendBridge = backendBridge;
+    },
+    get: function () {
+        return _defaultBackendBridge || (_defaultBackendBridge = new BackEndBridge(WebSocketConfiguration.defaultConfiguration));
     }
 
 });
