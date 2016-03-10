@@ -71,9 +71,12 @@ var Bridge = exports.Bridge = Component.specialize({
                         // The first and only ipv4 address in the read-only aliases is
                         // always the one assigned by dhcp if dhcp is enabled.
                         // Otherwise the one pre-set in the inspector applies.
-                        this.dhcpAlias = networkInterface.status.aliases.find(function(alias) {
-                            return new IPv4Validator().validate(alias.address);
-                        });
+                        for (var i = 0, length = networkInterface.status.aliases.length; i < length; i++ ) {
+                            if (networkInterface.status.aliases[i].type === "INET") {
+                                this.dhcpAlias = networkInterface.status.aliases[i];
+                                break;
+                            }
+                        }
                     } else {
                         this.ipAddressSource = "static";
                     }
