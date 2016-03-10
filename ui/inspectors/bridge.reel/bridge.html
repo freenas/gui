@@ -100,7 +100,8 @@
                 "inputErrorMessage": "Please enter a valid IP address and netmask."
             },
             "bindings": {
-                "values": {"<->": "@owner.otherAliases"}
+                "values": {"<->": "@owner.otherAliases"},
+                "enabled": {"<-": "!@owner.object.dhcp"}
             }
         },
         "rtadv": {
