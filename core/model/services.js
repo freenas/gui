@@ -21,7 +21,7 @@ exports.Services = Montage.specialize(/* @lends Services# */null, {
 
     findServicesForType: {
         value: function (type) {
-            return servicesMJSON[typeof type === "string" ? type : type.typeName];
+            return servicesMJSON[typeof type === "string" ? type : type.typeName].instance;
         }
     },
 
@@ -49,34 +49,48 @@ exports.Services = Montage.specialize(/* @lends Services# */null, {
         }
     },
 
-    findRPCServicesForType: {
+
+    findInstanceServicesForType: {
         value: function (type) {
+            return this._findServicesForType(type, true);
+        }
+    },
+
+
+    findClassServicesForType: {
+        value: function (type) {
+            return this._findServicesForType(type, false);
+        }
+    },
+
+
+    _findServicesForType: {
+        value: function (type, shouldGetInstanceServices) {
             var servicesForType = servicesMJSON[type.typeName],
-                rpcServices = null;
+                services = null;
 
             if (servicesForType) {
-                var servicesForTypeKeys = Object.keys(servicesForType),
+                var servicesForTypeKeys = Object.keys(shouldGetInstanceServices ? servicesForType.instance : servicesForType.class),
                     servicesForTypeKey;
 
                 for (var i = 0, length = servicesForTypeKeys.length; i < length; i++) {
                     servicesForTypeKey = servicesForTypeKeys[i];
 
                     if (CRUD_ARRAY.indexOf(servicesForTypeKey) === -1) {
-                        if (!rpcServices) {
-                            rpcServices = Object.create(null);
+                        if (!services) {
+                            services = Object.create(null);
                         }
 
-                        rpcServices[servicesForTypeKey] = servicesForType[servicesForTypeKey];
+                        services[servicesForTypeKey] = servicesForType[servicesForTypeKey];
                     }
                 }
             }
 
-            return rpcServices;
+            return services;
         }
     },
 
-
-     _findCrudServiceForType: {
+    _findCrudServiceForType: {
         value: function (crudAction, type) {
             var services = this.findServicesForType(type);
 

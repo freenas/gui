@@ -39,6 +39,13 @@
       "valueType": "object"
     }
   },
+  "blueprint_zfssnapshot_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"}
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -48,7 +55,8 @@
         {"@": "blueprint_zfssnapshot_holds"},
         {"@": "blueprint_zfssnapshot_name"},
         {"@": "blueprint_zfssnapshot_pool"},
-        {"@": "blueprint_zfssnapshot_properties"}
+        {"@": "blueprint_zfssnapshot_properties"},
+        {"@": "blueprint_zfssnapshot_type"}
       ]
     }
   }

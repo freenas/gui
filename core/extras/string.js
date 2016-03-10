@@ -1,37 +1,55 @@
 
 if (!String.prototype.toCamelCase) {
-    Object.defineProperty(String.prototype, 'toCamelCase', {
-        value: function toCamelCase () {
-            var trimmed = this.trim(),
-                camelCase = toCamelCase.cache[trimmed] || '';
+    function _toCamelCase (sring, cache, isLower) {
+        var trimmed = sring.trim(),
+            camelCase = cache[trimmed] || '';
 
-            if (this.length) {
-                if (!camelCase) {
-                    if (/[^A-Z]/.test(trimmed[0]) || /\.|_|-|\s/.test(trimmed)) {
-                        var data = trimmed.split(/\.|_|-|\s/),
-                            str;
+        if (!camelCase && trimmed.length) {
+            if ((!isLower && /[^A-Z]/.test(trimmed[0])) || /\.|_|-|\s/.test(trimmed)) {
+                var data = trimmed.split(/\.|_|-|\s/),
+                    str;
 
-                        for (var i = 0, length = data.length; i < length; i++) {
-                            str = data[i];
+                for (var i = 0, length = data.length; i < length; i++) {
+                    str = data[i];
 
-                            if (str) {
-                                camelCase += str.toCapitalized();
-                            }
+                    if (str) {
+                        if (isLower && i === 0) {
+                            camelCase += str;
+                        } else {
+                            camelCase += str.toCapitalized();
                         }
-
-                        toCamelCase[trimmed] = camelCase;
-
-                    } else {//already camelCase
-                        camelCase = toCamelCase[trimmed] = trimmed;
                     }
                 }
-            }
 
-            return camelCase;
+                cache[trimmed] = camelCase;
+
+            } else { // already camelCase
+                camelCase = cache[trimmed] = trimmed;
+            }
+        }
+
+        return camelCase;
+    }
+
+
+    Object.defineProperty(String.prototype, 'toCamelCase', {
+        value: function toCamelCase() {
+            return _toCamelCase(this, toCamelCase.cache);
         },
         writable: true,
         configurable: true
     });
 
     String.prototype.toCamelCase.cache = Object.create(null);
+
+
+    Object.defineProperty(String.prototype, 'toLowerCamelCase', {
+        value: function toLowerCamelCase () {
+            return _toCamelCase(this, toLowerCamelCase.cache, true);
+        },
+        writable: true,
+        configurable: true
+    });
+
+    String.prototype.toLowerCamelCase.cache = Object.create(null);
 }

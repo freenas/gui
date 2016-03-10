@@ -17,12 +17,16 @@
             "type": "ActivedirectoryConfig"
         },
         {
-            "modelId": "core/model/descriptors/alert-filter.mjson",
-            "type": "AlertFilter"
+            "modelId": "core/model/descriptors/alert-class.mjson",
+            "type": "AlertClass"
         },
         {
-            "modelId": "core/model/descriptors/alert-registration.mjson",
-            "type": "AlertRegistration"
+            "modelId": "core/model/descriptors/alert-emitter-email.mjson",
+            "type": "AlertEmitterEmail"
+        },
+        {
+            "modelId": "core/model/descriptors/alert-filter.mjson",
+            "type": "AlertFilter"
         },
         {
             "modelId": "core/model/descriptors/alert.mjson",

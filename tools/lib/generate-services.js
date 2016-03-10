@@ -21,22 +21,30 @@ exports.generateServices = function generateServices (options) {
             for (var ii = 0, ll = methodsForService.length; ii < ll; ii++) {
                 method = methodsForService[ii];
 
-                if (method && !method.private && (method.name === "query" || method.name === "get_config")) {
-                    if (method.name === "get_config" && method["params-schema"] &&
-                        method["params-schema"].items && method["params-schema"].items.length) {
-                        continue;
-                    }
-
-                    if (++readMethodCounter > 1) {
-                        throw new Error ("service with query and get_config rpc call");
-                    }
-
+                if (method && !method.private) {
                     serviceName = methodsForService._meta_data.service_name_camel_case;
 
-                    node = servicesTree.getReadCrudNode();
-                    node.method = methodsForService._meta_data.service_name + "." + method.name;
+                    if ((method.name === "query" || method.name === "get_config")) {
+                        if (method.name === "get_config" && method["params-schema"] &&
+                            method["params-schema"].items && method["params-schema"].items.length) {
+                            continue;
+                        }
 
-                    servicesTree.addAPINodeToService(node, serviceName);
+                        if (++readMethodCounter > 1) {
+                            throw new Error ("service with query and get_config rpc call");
+                        }
+
+                        node = servicesTree.getReadCrudNode();
+                        node.method = methodsForService._meta_data.service_name + "." + method.name;
+
+                        servicesTree.addInstanceMethodNodeToService(node, serviceName);
+
+                    } else {
+                        node = servicesTree.getTaskNode(method.name.toLowerCamelCase());
+                        node.task = methodsForService._meta_data.service_name + "." + method.name;
+
+                        servicesTree.addClassMethodNodeToService(node, serviceName);
+                    }
                 }
             }
         }
@@ -59,7 +67,7 @@ exports.generateServices = function generateServices (options) {
                     _applyRestrictionsOnServiceNodeWithTaskDescriptor(node, taskDescriptor);
 
                 } else {
-                    node = servicesTree.getTaskNode(taskDescriptor.taskType);
+                    node = servicesTree.getTaskNode(taskDescriptor.taskType.toLowerCamelCase());
 
                     if (taskDescriptor.taskType === "create") {
                         _applyRestrictionsOnServiceNodeWithTaskDescriptor(node, taskDescriptor);
@@ -67,7 +75,7 @@ exports.generateServices = function generateServices (options) {
                 }
 
                 node.task = taskDescriptor.task;
-                servicesTree.addAPINodeToService(node, taskDescriptor.name);
+                servicesTree.addInstanceMethodNodeToService(node, taskDescriptor.name);
             }
 
             if (options.save) {
@@ -149,16 +157,26 @@ ServicesTree.prototype.addServiceWithName = function (name) {
 };
 
 
-ServicesTree.prototype.addAPINodeToService = function (node, serviceName) {
+ServicesTree.prototype.addInstanceMethodNodeToService = function (node, serviceName) {
     var service = this.crudTree[serviceName];
 
     if (!service) {
         service = this.addServiceWithName(serviceName);
     }
 
-    service.addAPINode(node);
+    service.addInstanceMethodNode(node);
 };
 
+
+ServicesTree.prototype.addClassMethodNodeToService = function (node, serviceName) {
+    var service = this.crudTree[serviceName];
+
+    if (!service) {
+        service = this.addServiceWithName(serviceName);
+    }
+
+    service.addClassMethodNode(node);
+};
 
 ServicesTree.prototype.toJSON = function () {
     return JSON.sortify(this.crudTree, null, 4);
@@ -168,8 +186,19 @@ ServicesTree.prototype.toJSON = function () {
 function ServiceNode () {}
 
 
-ServiceNode.prototype.addAPINode = function (node) {
-    this[node.type] = node;
+ServiceNode.prototype.addInstanceMethodNode = function (node) {
+    if (!this.instance) {
+        this.instance = Object.create(null);
+    }
+    this.instance[node.type] = node;
+};
+
+
+ServiceNode.prototype.addClassMethodNode = function (node) {
+    if (!this.class) {
+        this.class = Object.create(null);
+    }
+    this.class[node.type] = node;
 };
 
 

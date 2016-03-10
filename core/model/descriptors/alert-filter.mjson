@@ -1,24 +1,31 @@
 {
-  "blueprint_alertfilter_emitters": {
+  "blueprint_alertfilter_emitter": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "emitters",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
-  "blueprint_alertfilter_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
+      "name": "emitter",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_alertfilter_severity": {
+  "blueprint_alertfilter_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "severity",
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_alertfilter_parameters": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "parameters",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_alertfilter_predicates": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "predicates",
       "blueprint": {"@": "root"},
       "valueType": "array"
     }
@@ -28,9 +35,10 @@
     "properties": {
       "name": "AlertFilter",
       "propertyBlueprints": [
-        {"@": "blueprint_alertfilter_emitters"},
-        {"@": "blueprint_alertfilter_name"},
-        {"@": "blueprint_alertfilter_severity"}
+        {"@": "blueprint_alertfilter_emitter"},
+        {"@": "blueprint_alertfilter_id"},
+        {"@": "blueprint_alertfilter_parameters"},
+        {"@": "blueprint_alertfilter_predicates"}
       ]
     }
   }

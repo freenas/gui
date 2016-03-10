@@ -45,10 +45,10 @@ function _initialize () {
         if (!objectDescriptor.objectPrototype || objectDescriptor.objectPrototype !== Montage) {
             return ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
                 var objectPrototype = descriptor.newInstancePrototype().prototype,
-                    rpcServices = Services.findRPCServicesForType(type);
+                    instanceServices = Services.findInstanceServicesForType(type);
 
-                if (rpcServices) {
-                    _applyRpcServicesOnPrototype(rpcServices, objectPrototype);
+                if (instanceServices) {
+                    _applyInstanceServicesOnPrototype(instanceServices, objectPrototype);
                 }
 
                 objectPrototype.Type = type;
@@ -88,18 +88,18 @@ function _setGetterForType (type, modelId) {
 }
 
 
-function _applyRpcServicesOnPrototype (rpcServices, prototype) {
-    var rpcServicesKeys = Object.keys(rpcServices),
-        rpcServicesKey;
+function _applyInstanceServicesOnPrototype (instanceServices, prototype) {
+    var instanceServicesKeys = Object.keys(instanceServices),
+        instanceServicesKey;
 
-    for (var i = 0, length = rpcServicesKeys.length; i < length; i++) {
-        rpcServicesKey = rpcServicesKeys[i];
-        _applyRpcServiceOnPrototype(rpcServicesKey, rpcServices[rpcServicesKey], prototype);
+    for (var i = 0, length = instanceServicesKeys.length; i < length; i++) {
+        instanceServicesKey = instanceServicesKeys[i];
+        _applyInstanceServiceOnPrototype(instanceServicesKey, instanceServices[instanceServicesKey], prototype);
     }
 }
 
 
-function _applyRpcServiceOnPrototype (serviceName, serviceDescriptor, prototype) {
+function _applyInstanceServiceOnPrototype (serviceName, serviceDescriptor, prototype) {
     Object.defineProperty(prototype, serviceName, {
         value: function () {
             var argumentsLength = arguments.length,
