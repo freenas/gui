@@ -7,7 +7,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "status": {"@": "status"}
             }
         },
         "inspector": {
@@ -16,6 +17,15 @@
                 "element": {"#": "inspector"},
                 "canRevert": "true",
                 "canSave": "true"
+            }
+        },
+        "status": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "status"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.interfaceStatus"}
             }
         },
         "dhcp": {
@@ -137,7 +147,7 @@
                 </div>
                 <div class="Interface-overview-info">
                     <p>Ethernet</p>
-                    <div class="Interface-status">active</div>
+                    <div data-montage-id="status" class="Interface-status">active</div>
                 </div>
             </div>
             <div data-montage-id="media_type"></div>
