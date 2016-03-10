@@ -5,7 +5,8 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     NotificationCenter = NotificationCenterModule.NotificationCenter,
     Services = require("../model/services").Services,
     Montage = require("montage/core/core").Montage,
-    Model = require("../model/model").Model;
+    Model = require("../model/model").Model,
+    EMPTY_ARRAY = [];
 
 
 /**
@@ -276,7 +277,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         readServiceDescriptor.namespace,
                         readServiceDescriptor.name, {
                             method: readServiceDescriptor.method,
-                            args: []
+                            args: EMPTY_ARRAY
                         }
                     ).then(function (response) {
                         var data = response.data;

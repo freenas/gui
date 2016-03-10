@@ -41,7 +41,7 @@ exports.generateServices = function generateServices (options) {
 
                     } else {
                         node = servicesTree.getTaskNode(method.name.toLowerCamelCase());
-                        node.task = methodsForService._meta_data.service_name + "." + method.name;
+                        node.method = methodsForService._meta_data.service_name + "." + method.name;
 
                         servicesTree.addClassMethodNodeToService(node, serviceName);
                     }

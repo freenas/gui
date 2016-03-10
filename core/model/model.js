@@ -5,7 +5,9 @@ var Montage = require("montage/core/core").Montage,
     ModelDescriptor = require("core/model/model-descriptor").ModelDescriptor,
     backendBridge = require("../backend/backend-bridge").defaultBackendBridge,
     NotificationCenterModule = require("../backend/notification-center"),
-    modelsMJSON = require("./models.mjson");
+    modelsMJSON = require("./models.mjson"),
+
+    EMPTY_ARRAY = [];
 
 
 //todo: need review with @benoit
@@ -46,14 +48,21 @@ function _initialize () {
 
         if (!objectDescriptor.objectPrototype || objectDescriptor.objectPrototype !== Montage) {
             return ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
-                var objectPrototype = descriptor.newInstancePrototype().prototype,
+                var constructor = descriptor.newInstancePrototype(),
+                    objectPrototype = constructor.prototype,
+                    classServices = Services.findClassServicesForType(type),
                     instanceServices = Services.findInstanceServicesForType(type);
 
                 if (instanceServices) {
-                    _applyInstanceServicesOnPrototype(instanceServices, objectPrototype);
+                    _applyServicesOnObject(instanceServices, objectPrototype);
+                }
+
+                if (classServices) {
+                    _applyServicesOnObject(classServices, constructor);
                 }
 
                 objectPrototype.Type = type;
+                objectDescriptor.constructor = constructor;
 
                 return (objectDescriptor.objectPrototype = objectPrototype);
             });
@@ -90,35 +99,50 @@ function _setGetterForType (type, modelId) {
 }
 
 
-function _applyInstanceServicesOnPrototype (instanceServices, prototype) {
+function _applyServicesOnObject (instanceServices, object) {
     var instanceServicesKeys = Object.keys(instanceServices),
         instanceServicesKey;
 
     for (var i = 0, length = instanceServicesKeys.length; i < length; i++) {
         instanceServicesKey = instanceServicesKeys[i];
-        _applyInstanceServiceOnPrototype(instanceServicesKey, instanceServices[instanceServicesKey], prototype);
+        _applyServiceOnPrototype(instanceServicesKey, instanceServices[instanceServicesKey], object);
     }
 }
 
 
-function _applyInstanceServiceOnPrototype (serviceName, serviceDescriptor, prototype) {
-    Object.defineProperty(prototype, serviceName, {
+function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
+    Object.defineProperty(object, serviceName, {
         value: function () {
             var argumentsLength = arguments.length,
+                isTask = !!serviceDescriptor.task,
                 args;
 
             if (argumentsLength) {
                 args = argumentsLength === 1 ? [arguments[0]] : Array.apply(null, arguments);
             }
 
+            if (isTask) {
+                args = args ? [serviceDescriptor.task, args] : [serviceDescriptor.task];
+            } else {
+                args = args ? [args] : EMPTY_ARRAY;
+            }
+
             return backendBridge.send(
                 serviceDescriptor.namespace,
                 serviceDescriptor.name, {
                     method: serviceDescriptor.method,
-                    args:  args ? [serviceDescriptor.task, args] : [serviceDescriptor.task]
+                    args:  args
                 }
             ).then(function (response) {
-                return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithJobId(response.data);
+                if (isTask) {
+                    return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithJobId(response.data);
+                }
+
+                return response.data;
+            }).catch(function (response) {
+                console.warn(response.error || response);
+
+                throw response;
             });
         }
     });

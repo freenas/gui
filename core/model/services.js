@@ -70,18 +70,22 @@ exports.Services = Montage.specialize(/* @lends Services# */null, {
                 services = null;
 
             if (servicesForType) {
-                var servicesForTypeKeys = Object.keys(shouldGetInstanceServices ? servicesForType.instance : servicesForType.class),
-                    servicesForTypeKey;
+                servicesForType = shouldGetInstanceServices ? servicesForType.instance : servicesForType.class;
 
-                for (var i = 0, length = servicesForTypeKeys.length; i < length; i++) {
-                    servicesForTypeKey = servicesForTypeKeys[i];
+                if (servicesForType) {
+                    var servicesForTypeKeys = Object.keys(servicesForType),
+                        servicesForTypeKey;
 
-                    if (CRUD_ARRAY.indexOf(servicesForTypeKey) === -1) {
-                        if (!services) {
-                            services = Object.create(null);
+                    for (var i = 0, length = servicesForTypeKeys.length; i < length; i++) {
+                        servicesForTypeKey = servicesForTypeKeys[i];
+
+                        if (CRUD_ARRAY.indexOf(servicesForTypeKey) === -1) {
+                            if (!services) {
+                                services = Object.create(null);
+                            }
+
+                            services[servicesForTypeKey] = servicesForType[servicesForTypeKey];
                         }
-
-                        services[servicesForTypeKey] = servicesForType[servicesForTypeKey];
                     }
                 }
             }

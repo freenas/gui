@@ -1,0 +1,30 @@
+{
+  "blueprint_alertemitteremail_addresses": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "addresses",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_alertemitteremail_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "alert-emitter-email"
+      ]
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "AlertEmitterEmail",
+      "propertyBlueprints": [
+        {"@": "blueprint_alertemitteremail_addresses"},
+        {"@": "blueprint_alertemitteremail_type"}
+      ]
+    }
+  }
+}
