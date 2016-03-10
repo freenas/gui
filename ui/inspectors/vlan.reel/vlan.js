@@ -57,9 +57,9 @@ exports.Vlan = Component.specialize({
                                 parentOptions.push(_networkInterface);
                             }
                         }
+                        this.parentOptions = parentOptions;
+                    }.bind(this));
 
-                        self.parentOptions = parentOptions;
-                    });
 
                     // Convert aliases for multiple select
                     var _aliasOption;
