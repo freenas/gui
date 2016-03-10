@@ -10,15 +10,9 @@ exports.InspectorOption = Button.specialize({
         value: true
     },
 
-    // FIXME: this is a Josh Hack to get past the scrollview component
-
     handleAction: {
         value: function () {
-            if (this.parentComponent.indentifier = "scrollView") {
-                this.parentComponent.parentComponent.selectedObject = this.object;
-            } else {
-                this.parentComponent.selectedObject = this.object;
-            }
+            this.parentComponent.selectedObject = this.object;
         }
     }
 
