@@ -12,26 +12,33 @@ exports.Vlan = Component.specialize({
         value: null
     },
 
-    ipWithNetmaskConverter: {
-        value: {
-            convert: function(value) {
-                var alias = {label: value.label, value:{}};
-                var splitValue = value.label.split("/");
+    parentOptions: {
+        value: null
+    },
 
-                alias.value.address = splitValue[0];
+    dhcpAlias: {
+        value: null
+    },
 
-                // These needs to be checked based on if the address is IPv4 or IPv6
-                alias.value.netmask = parseInt(splitValue[1], 10);
-                alias.value.type = "INET"
-                return alias;
-            },
-            validator: {
-                validate: function(value) {
-                    // This function needs to check if the string value is
-                    // a valid ip address/netmask combination (ipv4 or ipv6)
-                    return true;
-                }
-            }
+    staticIP: {
+        value: null
+    },
+
+    otherAliases: {
+        value: null
+    },
+
+    ipAddressSource: {
+        value: null
+    },
+
+    constructor: {
+        value: function() {
+            this.super();
+            this.dhcpAlias =
+                {address: "",
+                 netmask: null,
+                 type: "INET" };
         }
     },
 
@@ -60,16 +67,23 @@ exports.Vlan = Component.specialize({
                         this.parentOptions = parentOptions;
                     }.bind(this));
 
-
-                    // Convert aliases for multiple select
-                    var _aliasOption;
-                    this.aliasOptions = [];
-
-                    for (var i = 0, length = networkInterface.aliases.length; i < length; i++ ) {
-                        _aliasOption = { value: networkInterface.aliases[i] };
-                        _aliasOption.label = _aliasOption.value.address + "/" + _aliasOption.value.netmask;
-                        this.aliasOptions.push( _aliasOption );
+                    if (networkInterface.dhcp) {
+                        this.ipAddressSource = "dhcp";
+                        // The first and only ipv4 address in the read-only aliases is
+                        // always the one assigned by dhcp if dhcp is enabled.
+                        // Otherwise the one pre-set in the inspector applies.
+                        for (var i = 0, length = networkInterface.status.aliases.length; i < length; i++ ) {
+                            if (networkInterface.status.aliases[i].type === "INET") {
+                                this.dhcpAlias = networkInterface.status.aliases[i];
+                                break;
+                            }
+                        }
+                    } else {
+                        this.ipAddressSource = "static";
                     }
+                    // This always applies, in case they switch off DHCP
+                    this.staticIP = networkInterface.aliases.slice(0, 1);
+                    this.otherAliases = networkInterface.aliases.slice(1);
                 }
             } else {
                 this._object = null;
@@ -78,14 +92,6 @@ exports.Vlan = Component.specialize({
         get: function () {
             return this._object;
         }
-    },
-
-    parentOptions: {
-        value: null
-    },
-
-    aliasOptions: {
-        value: null
     }
 
 });
