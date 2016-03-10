@@ -66,23 +66,21 @@ var Bridge = exports.Bridge = Component.specialize({
 
                         this.memberOptions = memberOptions;
                     }.bind(this));
+                    if (networkInterface.dhcp) {
+                        this.ipAddressSource = "dhcp";
+                        // The first and only ipv4 address in the read-only aliases is
+                        // always the one assigned by dhcp if dhcp is enabled.
+                        // Otherwise the one pre-set in the inspector applies.
+                        this.dhcpAlias = networkInterface.status.aliases.find(function(alias) {
+                            return new IPv4Validator().validate(alias.address);
+                        });
+                    } else {
+                        this.ipAddressSource = "static";
+                    }
+                    // This always applies, in case they switch off DHCP
+                    this.staticIP = networkInterface.aliases.slice(0, 1);
+                    this.otherAliases = networkInterface.aliases.slice(1);
                 }
-
-                if (networkInterface.dhcp) {
-                    this.ipAddressSource = "dhcp";
-                    // The first and only ipv4 address in the read-only aliases is
-                    // always the one assigned by dhcp if dhcp is enabled.
-                    // Otherwise the one pre-set in the inspector applies.
-                    this.dhcpAlias = networkInterface.status.aliases.find(function(alias) {
-                        return new IPv4Validator().validate(alias.address);
-                    });
-                } else {
-                    this.ipAddressSource = "static";
-                }
-                // This always applies, in case they switch off DHCP
-                this.staticIP = networkInterface.aliases.slice(0, 1);
-                this.otherAliases = networkInterface.aliases.slice(1);
-
             } else {
                 this._object = null;
             }
