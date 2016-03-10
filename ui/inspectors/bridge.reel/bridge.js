@@ -1,7 +1,6 @@
 var Component = require("montage/ui/component").Component,
     NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType,
-    Model = require("core/model/model").Model,
-    IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Validator;
+    Model = require("core/model/model").Model;
 
 /**
  * @class Bridge
