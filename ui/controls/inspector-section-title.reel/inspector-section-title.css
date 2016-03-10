@@ -8,14 +8,14 @@
 .InspectorSectionTitle-text {
     position: relative;
     font-weight: 400;
-    padding: .5em 1em;
+    padding: .5em 0;
 }
 
 .InspectorSectionTitle-text:after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 1em;
-    right: 1em;
+    left:   0;
+    right:  0;
     border-bottom: 1px solid rgba(255,255,255,.3);
 }
