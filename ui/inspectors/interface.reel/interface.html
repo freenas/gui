@@ -68,6 +68,21 @@
                 "value": {"<-": "@owner.object.status.media_type"}
             }
         },
+        "interface_alias_converter": {
+            "prototype": "core/converter/interface-alias-converter"
+        },
+        "ip_address": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "ip_address"},
+                "label": "IPv4 Address",
+                "converter": {"@": "interface_alias_converter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.dhcp ? @owner.dhcpAlias : @owner.staticIP[0]"},
+                "enabled": {"<-": "!@owner.object.dhcp"}
+            }
+        },
         "noipv6": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -76,6 +91,20 @@
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.noipv6"}
+            }
+        },
+        "aliases": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "aliases"},
+                "label": "Aliases",
+                "converter": {"@": "interface_alias_converter"},
+                "labelPath": "address + '/' + netmask",
+                "inputErrorMessage": "Please enter a valid IP address and netmask."
+            },
+            "bindings": {
+                "values": {"<->": "@owner.otherAliases"},
+                "enabled": {"<-": "!@owner.object.dhcp"}
             }
         },
         "rtadv": {
@@ -113,11 +142,13 @@
             </div>
             <div data-montage-id="media_type"></div>
             <div data-montage-id="link_state"></div>
+            <div data-montage-id="ip_address"></div>
             <div data-montage-id="link_address"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="noipv6"></div>
             <div data-montage-id="rtadv"></div>
+            <div data-montage-id="aliases"></div>
         </div>
     </div>
 </body>
