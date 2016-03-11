@@ -32,6 +32,18 @@ var Bridge = exports.Bridge = Component.specialize({
         value: null
     },
 
+    save: {
+        value: function() {
+            this.application.dataService.saveDataObject(this.object);
+        }
+    },
+
+    delete: {
+        value: function() {
+            this.application.dataService.deleteDataObject(this.object);
+        }
+    },
+
     constructor: {
         value: function() {
             this.super();
