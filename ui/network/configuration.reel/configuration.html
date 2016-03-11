@@ -17,13 +17,22 @@
                 "overflow": "scrollY"
             }
         },
-        "defaultRoute": {
+        "defaultRouteIpv4": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "defaultRoute"}
+                "element": {"#": "defaultRouteIpv4"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.summary.defaultRoute"}
+                "value": {"<-": "@owner.object.summary.defaultRoute.ipv4"}
+            }
+        },
+        "defaultRouteIpv6": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "defaultRouteIpv6"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.summary.defaultRoute.ipv6"}
             }
         },
         "interfaceRepetition": {
@@ -150,7 +159,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td data-montage-id="defaultRoute"></td>
+                            <td data-montage-id="defaultRouteIpv4"></td>
+                        </tr>
+                        <tr>
+                            <td data-montage-id="defaultRouteIpv6"></td>
                         </tr>
                     </tbody>
                 </table>

@@ -45,8 +45,12 @@ exports.Network = Component.specialize({
             });
 
             this.getNetworkConfig().then(function(networkConfig) {
+console.log(networkConfig);
                 self.overview.summary.nameservers = networkConfig.dns.addresses;
-                self.overview.summary.defaultRoute = networkConfig.gateway.ipv4;
+                self.overview.summary.defaultRoute = {
+                    ipv4: networkConfig.gateway.ipv4,
+                    ipv6: networkConfig.gateway.ipv6
+                };
             });
         }
     },
@@ -138,9 +142,9 @@ exports.Network = Component.specialize({
 
     getNetworkConfig: {
         value: function() {
-            //FIXME: Switch as soon as NetworkConfig is query-able
-            // return this.application.dataService.fetchData(Model.NetworkConfig);
-            return Promise.resolve({dns: {}, gateway: {}});
+            return Model.getPrototypeForType(Model.NetworkConfig).then(function(NetworkConfig) {
+                return NetworkConfig.constructor.getStatus();
+            });
         }
     }
 });
