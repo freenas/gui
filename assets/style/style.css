@@ -173,5 +173,11 @@ $Icons
     padding-top: 1em;
 }
 
+/* typography  helpers */
+
+.bold {
+    font-weight: 400;
+}
+
 
 

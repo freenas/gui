@@ -42,10 +42,9 @@
             }
         },
         "enabled": {
-            "prototype": "blue-shark/ui/field-toggle-switch.reel",
+            "prototype": "blue-shark/ui/toggle-switch.reel",
             "properties": {
-                "element": {"#": "enabled"},
-                "label": "Enabled"
+                "element": {"#": "enabled"}
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.enabled"}
@@ -61,21 +60,10 @@
                 "value": {"<-": "@owner.object.status.link_address"}
             }
         },
-        "link_state": {
-            "prototype": "blue-shark/ui/field-text.reel",
-            "properties": {
-                "element": {"#": "link_state"},
-                "label": "State"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.status.link_state"}
-            }
-        },
         "media_type": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "media_type"},
-                "label": "Type"
+                "element": {"#": "media_type"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.status.media_type"}
@@ -156,15 +144,13 @@
                     </svg>
                 </div>
                 <div class="Interface-overview-info">
-                    <p>Ethernet</p>
-                    <div data-montage-id="status" class="Interface-status">active</div>
+                    <p data-montage-id="media_type" class="bold">Ethernet</p>
+                    <p data-montage-id="status" class="Interface-status">active</p>
+                    <div data-montage-id="enabled"></div>
                 </div>
             </div>
-            <div data-montage-id="media_type"></div>
-            <div data-montage-id="link_state"></div>
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="link_address"></div>
-            <div data-montage-id="enabled"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="noipv6"></div>
             <div data-montage-id="rtadv"></div>
