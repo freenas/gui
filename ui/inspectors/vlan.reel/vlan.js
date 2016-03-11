@@ -1,6 +1,9 @@
 var Component = require("montage/ui/component").Component,
     NetworkInterfaceType = require("core/model/enumerations/network-interface-type").NetworkInterfaceType,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    Converter = require("montage/core/converter/converter").Converter,
+    Validator = require("montage/core/converter/converter").Validator,
+    isNumber = require("montage/core/converter/converter").isNumber;
 
 /**
  * @class Vlan
@@ -32,6 +35,10 @@ exports.Vlan = Component.specialize({
         value: null
     },
 
+    vlanTagConverter: {
+        value: null
+    },
+
     constructor: {
         value: function() {
             this.super();
@@ -39,6 +46,7 @@ exports.Vlan = Component.specialize({
                 {address: "",
                  netmask: null,
                  type: "INET" };
+            this.vlanTagConverter = new VlanTagConverter();
         }
     },
 
@@ -93,5 +101,41 @@ exports.Vlan = Component.specialize({
             return this._object;
         }
     }
+});
 
+var VlanTagConverter = Converter.specialize({
+
+    constructor: {
+        value: function() {
+            this.super();
+            this.validator = new VlanTagValidator();
+        }
+    },
+
+    // This is only needed because convert is mandatory. Revert and validate
+    // matter more here.
+    convert: {
+        value: function (vlanTag) {
+            return vlanTag;
+        }
+    },
+
+    revert: {
+        value: function (tagInput) {
+            return parseInt(tagInput, 10);
+            // if (this.validator.validate(tagInput)) {
+            //     return tagInput;
+            // } else {
+            //    return null;
+            // }
+        }
+    }
+});
+
+var VlanTagValidator = Validator.specialize({
+    validate: {
+        value: function (tagValue) {
+            return isNumber(tagValue);
+        }
+    }
 });

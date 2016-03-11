@@ -114,7 +114,8 @@
                 "label": "Tag"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.vlan.tag"}
+                "value": {"<->": "@owner.object.vlan.tag"},
+                "converter": {"<-": "@owner.vlanTagConverter"}
             }
         },
         "aliases": {
