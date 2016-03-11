@@ -92,6 +92,12 @@ exports.Interface = Component.specialize({
         }
     },
 
+    save: {
+        value: function() {
+            this.application.dataService.saveDataObject(this.object);
+        }
+    },
+
     object: {
         set: function (networkInterface) {
             if (networkInterface && networkInterface.type === NetworkInterfaceType.ETHER) {
