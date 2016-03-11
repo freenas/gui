@@ -1,7 +1,22 @@
 .Vdev {
+    padding: .5em;
     border: solid 1px silver;
 }
 
 .Vdev.unhealthy {
     border-color: red;
+}
+
+.Vdev .LabeledIcon {
+    flex-basis: 4em;
+    margin-bottom: 0;
+}
+
+.Vdev .Grid-repetition {
+    display: flex;
+}
+
+.Vdev .LabeledIcon-image svg {
+    width:  3em;
+    height: 3em;
 }

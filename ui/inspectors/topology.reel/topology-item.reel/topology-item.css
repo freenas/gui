@@ -1,4 +1,29 @@
 .TopologyItem {
-    padding: 16px;
+    position: relative;
     clear: both;
+}
+
+.TopologyItem-title {
+    padding: .25em 1em .35em;
+    background: black;
+    margin-left: -1em;
+    margin-right: -1em;
+    margin-bottom: 1em;
+}
+
+.TopologyItem .Grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.TopologyItem .Grid-icon {
+    float: none;
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.TopologyItem .LabeledIcon-image > * {
+    width: auto;
+    height: auto;
 }
