@@ -7,11 +7,10 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "isVisible": true
+                "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-visible')": {"<-": "@owner.isVisible"}
+                "classList.has('is-visible')": {"<-": "!@owner.isHidden"}
             },
             "listeners": [
                 {

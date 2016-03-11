@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="topology-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.name"}
+            }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.vdevs"}
+            }
+        },
+        "vdevsGrid": {
+            "prototype": "ui/controls/grid.reel",
+            "properties": {
+                "element": {"#": "vdevsGrid"},
+                "controller": {"@": "controller"},
+                "labelPath": "type",
+                "icon": "ui/inspectors/topology.reel/vdev.reel"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TopologyItem">
+        <div>
+            <span data-montage-id="name"></span>
+        </div>
+        <div data-montage-id="vdevsGrid"></div>
+    </div>
+</body>
+</html>

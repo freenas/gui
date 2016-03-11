@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "label": {"<-": "!!@owner.labelPath ? @owner.object.path(@owner.labelPath) : @owner.object.name"}
             }
         }
     }

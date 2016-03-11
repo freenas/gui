@@ -1,0 +1,7 @@
+.Vdev {
+    border: solid 1px silver;
+}
+
+.Vdev.unhealthy {
+    border-color: red;
+}

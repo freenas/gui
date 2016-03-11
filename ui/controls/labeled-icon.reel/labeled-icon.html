@@ -16,7 +16,7 @@
                 "element": {"#": "label"}
             },
             "bindings": {
-                "value": {"<-": "@owner.label"}
+                "value": {"<-": "!!@owner.labelPath ? @owner.object.path(@owner.labelPath) : @owner.label"}
             }
         }
     }

@@ -1,4 +1,5 @@
 var Component = require("montage/ui/component").Component,
+    Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
 /**
@@ -6,12 +7,8 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.Volumes = Component.specialize({
-    _getVolumeNameFromShare: {
-        value: function(share) {
-            // FIXME: Replace with real RPC call
-            console.warn('Replace with real RPC call');
-            return share.filesystem_path.split('/')[2];
-        }
+    _volumeService: {
+        value: null
     },
 
     enterDocument: {
@@ -20,7 +17,10 @@ exports.Volumes = Component.specialize({
                 volume,
                 i, length;
             if (isFirstTime) {
-                this.listVolumes().then(function(volumes) {
+                this._volumeService = Model.getPrototypeForType(Model.Volume).then(function(Volume) {
+                    return Volume.constructor;
+                });
+                this._listVolumes().then(function(volumes) {
                     self.volumes = volumes;
                     for (i = 0, length = self.volumes.length; i < length; i++) {
                         volume = self.volumes[i];
@@ -29,7 +29,7 @@ exports.Volumes = Component.specialize({
                             inspector: "ui/inspectors/scrub.reel"
                         };
                     }
-                    return self.listSnapshots();
+                    return self._listSnapshots();
                 }).then(function(volumesSnapshots) {
                     var volume;
                     for (i = 0, length = self.volumes.length; i < length; i++) {
@@ -37,9 +37,8 @@ exports.Volumes = Component.specialize({
                         volume.snapshots = volumesSnapshots[volume.name] || [];
                         volume.snapshots.name = "Snapshots";
                         volume.snapshots.inspector = "ui/controls/viewer.reel";
-                        console.log('snaps', volume.name, volume.snapshots);
                     }
-                    return self.listShares();
+                    return self._listShares();
                 }).then(function(volumesShares) {
                     var volume;
                     for (i = 0, length = self.volumes.length; i < length; i++) {
@@ -47,20 +46,119 @@ exports.Volumes = Component.specialize({
                         volume.shares = volumesShares[volume.name] || [];
                         volume.shares.name = "Shares";
                         volume.shares.inspector = "ui/controls/viewer.reel";
-                        console.log('share', volume.name, volume.shares);
                     }
-                }).then(function() {
-                    self.selection = [self.volumes[0], self.volumes[0].shares];
-                    //console.log(self.volumes);
+                    return self._listDisks();
+                }).then(function(disks) {
+                    var volume;
+                    for (i = 0, length = self.volumes.length; i < length; i++) {
+                        volume = self.volumes[i];
+                        volume.topology.spare = disks || [];
+                    }
                 });
             }
         }
     },
 
-    listVolumes: {
+    _listVolumes: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.Volume).then(function(volumes) {
+                var displayedVolumes = [],
+                    displayedVolume,
+                    volume,
+                    i;
+                for (i = 0; i < volumes.length; i++) {
+                    volume = volumes[i];
+                    displayedVolume = {
+                        name: volume.id,
+                        size: volume.properties.size.rawvalue,
+                        inspector: "ui/inspectors/volume.reel",
+                        topology: volume.topology
+                    };
+                    displayedVolume.topology.name = "Topology";
+                    displayedVolume.topology.inspector = "ui/inspectors/topology.reel";
+                    displayedVolumes.push(displayedVolume);
+                }
+                displayedVolumes.name = "Volumes";
+                displayedVolumes.inspector = "ui/controls/viewer.reel";
+                return displayedVolumes
+            });
+        }
+    },
+
+    _listSnapshots: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.VolumeSnapshot).then(function(snapshots) {
+                var volumesSnapshots = {},
+                    snapshot,
+                    i,
+                    length;
+                for (i = 0, length = snapshots.length; i < length; i++) {
+                    snapshot = snapshots[i];
+                    if (!volumesSnapshots.hasOwnProperty(snapshot.volume)) {
+                        volumesSnapshots[snapshot.volume] = [];
+                    }
+                    snapshot.inspector = "ui/inspectors/snapshot.reel";
+                    volumesSnapshots[snapshot.volume].push(snapshot);
+                }
+                return volumesSnapshots;
+            });
+        }
+    },
+
+    _listShares: {
         value: function() {
             var self = this;
-            return this.application.dataService.fetchData(Model.Volume).then(function(volumes) {
+            return this.application.dataService.fetchData(Model.Share).then(function(shares) {
+                var volumesShares = {},
+                    share,
+                    i,
+                    length,
+                    volumeNamePromises = [];
+                for (i = 0, length = shares.length; i < length; i++) {
+                    share = shares[i];
+                    volumeNamePromises.push(self._getVolumeNameFromShare(share).then(function(volumeName) {
+                        if (!volumesShares.hasOwnProperty(volumeName)) {
+                            volumesShares[volumeName] = [];
+                        }
+                        share.inspector = "ui/inspectors/" + share.type + "-share.reel";
+                        volumesShares[volumeName].push(share);
+                    }));
+                }
+                return Promise.all(volumeNamePromises).then(function() {
+                    return volumesShares;
+                })
+            });
+
+        }
+    },
+
+    _listDisks: {
+        value: function() {
+            var self = this;
+            return this._volumeService.then(function(volumeService) {
+                return volumeService.getAvailableDisks();
+            }).then(function(availableDisksPaths) {
+                return self.application.dataService.fetchData(Model.Disk).then(function(disks) {
+                    return disks.filter(function(x) { return availableDisksPaths.indexOf(x.path) != -1 });
+                });
+            });
+        }
+    },
+
+    _getVolumeNameFromShare: {
+        value: function(share) {
+/*
+            return this._volumeService.then(function(volumeService) {
+                return volumeService.decodePath(share.filesystem_path);
+            });
+*/
+            // FIXME: Replace with real RPC call
+            console.warn('Replace with real RPC call');
+            return Promise.resolve(share.filesystem_path.split('/')[2]);
+        }
+    }
+
+});
 /*
                 var _data_ = [
                     {
@@ -213,69 +311,3 @@ exports.Volumes = Component.specialize({
                     }
                 ];
 */
-                var displayedVolumes = [],
-                    displayedVolume,
-                    volume,
-                    i;
-                for (i = 0; i < volumes.length; i++) {
-                    volume = volumes[i];
-                    self._decodePath = volume.decode_path;
-                    displayedVolume = {
-                        name: volume.id,
-                        size: volume.topology.data[0].stats.size,
-                        inspector: "ui/inspectors/volume.reel",
-                        topology: volume.topology
-                    };
-                    displayedVolume.topology.name = "Topology";
-                    displayedVolume.topology.inspector = "ui/inspectors/topology.reel";
-                    displayedVolumes.push(displayedVolume);
-                }
-                displayedVolumes.name = "Volumes";
-                displayedVolumes.inspector = "ui/controls/viewer.reel";
-                return displayedVolumes
-            });
-        }
-    },
-
-    listSnapshots: {
-        value: function() {
-            return this.application.dataService.fetchData(Model.VolumeSnapshot).then(function(snapshots) {
-                var volumesSnapshots = {},
-                    snapshot,
-                    i,
-                    length;
-                for (i = 0, length = snapshots.length; i < length; i++) {
-                    snapshot = snapshots[i];
-                    if (!volumesSnapshots.hasOwnProperty(snapshot.volume)) {
-                        volumesSnapshots[snapshot.volume] = [];
-                    }
-                    volumesSnapshots[snapshot.volume].push(snapshot);
-                }
-                return volumesSnapshots;
-            });
-        }
-    },
-
-    listShares: {
-        value: function() {
-            var self = this;
-            return this.application.dataService.fetchData(Model.Share).then(function(shares) {
-                var volumesShares = {},
-                    share,
-                    i,
-                    length;
-                for (i = 0, length = shares.length; i < length; i++) {
-                    share = shares[i];
-                    var volumeName = self._getVolumeNameFromShare(share);
-                    if (!volumesShares.hasOwnProperty(volumeName)) {
-                        volumesShares[volumeName] = [];
-                    }
-                    volumesShares[volumeName].push(share);
-                }
-                return volumesShares;
-            });
-
-        }
-    }
-
-});
