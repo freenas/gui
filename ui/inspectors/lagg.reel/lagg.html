@@ -46,16 +46,6 @@
                 "checked": {"<->": "@owner.object.enabled"}
             }
         },
-        "link_state": {
-            "prototype": "blue-shark/ui/field-text.reel",
-            "properties": {
-                "element": {"#": "link_state"},
-                "label": "Status"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.status.link_state"}
-            }
-        },
         "interface_alias_converter": {
             "prototype": "core/converter/interface-alias-converter"
         },
@@ -119,11 +109,17 @@
                 "checked": {"<->": "@owner.object.rtadv"}
             }
         },
+        "aliasTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "aliasTitle"},
+                "value": "Aliases"
+            }
+        },
         "aliases": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "aliases"},
-                "label": "Aliases",
                 "converter": {"@": "interface_alias_converter"},
                 "labelPath": "address + '/' + netmask",
                 "inputErrorMessage": "Please enter a valid IP address and netmask."
@@ -139,14 +135,14 @@
 <body>
     <div data-montage-id="owner" class="Lagg">
         <div data-montage-id="inspector">
-            <div data-montage-id="ip_address"></div>
-            <div data-montage-id="link_state"></div>
             <div data-montage-id="enabled"></div>
+            <div data-montage-id="ip_address"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="noipv6"></div>
             <div data-montage-id="ports"></div>
             <div data-montage-id="protocol"></div>
+            <div data-montage-id="aliasTitle"></div>
             <div data-montage-id="aliases"></div>
         </div>
     </div>
