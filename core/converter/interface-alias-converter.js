@@ -49,7 +49,7 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
                     }
                 }
             }
-            return result
+            return result;
         }
     },
 
