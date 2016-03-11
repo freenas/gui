@@ -2,7 +2,6 @@
  * @requires montage/core/converter/converter
  */
 var Validator = require("montage/core/converter/converter").Validator;
-var Montage = require("montage/core/core").Montage;
 var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Validator;
 
 /**
@@ -11,7 +10,7 @@ var IPv4Validator = require("core/converter/validator/ipv4-validator").IPv4Valid
   * @extends Validator
   */
 
-var IPv4WithNetmaskValidator = exports.IPv4WithNetmaskValidator = Validator.specialize({
+exports.IPv4WithNetmaskValidator = Validator.specialize({
 
     validate: {
         value: function (value) {

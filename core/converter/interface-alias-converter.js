@@ -2,7 +2,6 @@
  * @requires montage/core/converter/converter
  */
 var Converter = require("montage/core/converter/converter").Converter;
-var Montage = require("montage/core/core").Montage;
 var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netmask-validator").IPv4WithNetmaskValidator;
 
 /**
@@ -12,7 +11,7 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
  * @class InterfaceAliasConverter
  * @extends Converter
  */
- var InterfaceAliasConverter = exports.InterfaceAliasConverter = Converter.specialize({
+ exports.InterfaceAliasConverter = Converter.specialize({
 
     constructor: {
         value: function() {
@@ -37,51 +36,60 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
 
     convert: {
         value: function (alias) {
-            this._alias = alias;
-            var aliasString = "";
+            var result;
+            if (typeof alias === 'string') {
+                result = alias;
+            } else {
+                this._alias = alias;
 
-            if (alias && alias.address) {
-                aliasString += alias.address;
-                if (alias.netmask) {
-                    aliasString += "/" + alias.netmask;
+                if (alias && alias.address) {
+                    result = alias.address;
+                    if (alias.netmask) {
+                        result += "/" + alias.netmask;
+                    }
                 }
             }
-
-            return aliasString;
+            return result
         }
     },
 
     revert: {
         value: function (value) {
-            var aliasParts = value.split("/");
-            if (typeof aliasParts[0] === "string") {
-                if (aliasParts[0] === "") {
-                    this._alias.address = null;
-                    this._alias.type = null;
-                } else {
-                    this._alias.address = aliasParts[0];
-                    // TODO: Check which type of IP this is; assign `type` accordingly;
-                    this._alias.type = "INET";
-                }
-            } else {
-                // FIXME: Does this need a fallback case to be safe/have expected
-                // behavior?
-            }
-            if (aliasParts[1]) {
-                if (typeof aliasParts[1] === "string") {
-                    if (aliasParts[1] === "") {
-                        this._alias.netmask = null;
+            var result;
+            if (this.validator.validate(value)) {
+                var aliasParts = value.split("/");
+                if (typeof aliasParts[0] === "string") {
+                    if (aliasParts[0] === "") {
+                        this._alias.address = null;
+                        this._alias.type = null;
                     } else {
-                        this._alias.netmask = parseInt(aliasParts[1], 10);
+                        this._alias.address = aliasParts[0];
+                        // TODO: Check which type of IP this is; assign `type` accordingly;
+                        this._alias.type = "INET";
                     }
                 } else {
                     // FIXME: Does this need a fallback case to be safe/have expected
                     // behavior?
                 }
+                if (aliasParts[1]) {
+                    if (typeof aliasParts[1] === "string") {
+                        if (aliasParts[1] === "") {
+                            this._alias.netmask = null;
+                        } else {
+                            this._alias.netmask = parseInt(aliasParts[1], 10);
+                        }
+                    } else {
+                        // FIXME: Does this need a fallback case to be safe/have expected
+                        // behavior?
+                    }
+                } else {
+                    this._alias.netmask = null;
+                }
+                result = this.__alias;
             } else {
-                this._alias.netmask = null;
+                result = value;
             }
-            return this.__alias;
+            return result;
         }
     },
 
