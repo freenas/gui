@@ -77,7 +77,8 @@
                 "label": "IPv4"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.gateway.ipv4"}
+                "value": {"<->": "@owner.object.gateway.ipv4"},
+                "enabled": {"<-": "!@owner.object.dhcp.assign_gateway"}
             }
         },
         "gateway_ipv6": {
@@ -87,7 +88,8 @@
                 "label": "IPv6"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.gateway.ipv6"}
+                "value": {"<->": "@owner.object.gateway.ipv6"},
+                "enabled": {"<-": "!@owner.object.dhcp.assign_gateway"}
             }
         }
     }
