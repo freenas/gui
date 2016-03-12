@@ -7,8 +7,7 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "status": {"@": "status"}
+                "element": {"#": "owner"}
             }
         },
         "inspector": {
@@ -22,13 +21,13 @@
                 "save": {"<-": "@owner.save"}
             }
         },
-        "status": {
-            "prototype": "montage/ui/text.reel",
+        "overview": {
+            "prototype": "ui/controls/interface-overview.reel",
             "properties": {
-                "element": {"#": "status"}
+                "element": {"#": "overview"}
             },
             "bindings": {
-                "value": {"<-": "@owner.interfaceStatus"}
+                "object": {"<-": "@owner.object"}
             }
         },
         "dhcp": {
@@ -41,15 +40,6 @@
                 "checked": {"<->": "@owner.object.dhcp"}
             }
         },
-        "enabled": {
-            "prototype": "blue-shark/ui/toggle-switch.reel",
-            "properties": {
-                "element": {"#": "enabled"}
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.enabled"}
-            }
-        },
         "link_address": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -58,15 +48,6 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.status.link_address"}
-            }
-        },
-        "media_type": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "media_type"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.status.media_type"}
             }
         },
         "interface_alias_converter": {
@@ -130,24 +111,7 @@
 <body>
     <div data-montage-id="owner" class="Interface">
         <div data-montage-id="inspector">
-            <div class="Interface-overview">
-                <div class="Interface-overview-icon">
-                    <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                        <g fill="none" fill-rule="evenodd">
-                            <rect fill="currentColor" width="36" height="36" rx="3"/>
-                            <path d="M31 7v16h-4v3h-5v3h-8v-3H9v-3H5V7h26z" fill="#556875"/>
-                            <g stroke="#D8D8D8" stroke-width="2" stroke-linecap="square">
-                                <path d="M9 10v5M12 10v5M15 10v5M21 10v5M18 10v5M24 10v5M27 10v5"/>
-                            </g>
-                        </g>
-                    </svg>
-                </div>
-                <div class="Interface-overview-info">
-                    <p data-montage-id="media_type" class="bold">Ethernet</p>
-                    <p data-montage-id="status" class="Interface-status">active</p>
-                    <div data-montage-id="enabled"></div>
-                </div>
-            </div>
+            <div data-montage-id="overview"></div>
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="link_address"></div>
             <div data-montage-id="dhcp"></div>
