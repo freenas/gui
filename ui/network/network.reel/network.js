@@ -11,8 +11,6 @@ exports.Network = Component.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
-            var self = this;
-
             this.overview = {
                 name: "Overview",
                 inspector: "ui/network/configuration.reel",
@@ -28,30 +26,35 @@ exports.Network = Component.specialize({
                 },
                 networkConfiguration: {
                     name: "Network Configuration",
-                    inspector: "ui/inspectors/network-configuration.reel"
+                    inspector: "ui/inspectors/network-configuration.reel",
+                    config: null,
+                    status: null
                 }
             };
 
             this.listInterfaces().then(function (interfaces) {
-                self.interfaces = interfaces;
-                self.overview.summary.interfaces = self.getInterfacesSummaries();
-            });
-
+                this.interfaces = interfaces;
+                this.overview.summary.interfaces = this.getInterfacesSummaries();
+            }.bind(this));
 
             this.listStaticRoutes().then(function(staticRoutes) {
                 staticRoutes.name = "Static Routes";
                 staticRoutes.inspector = "ui/controls/viewer.reel";
-                self.overview.staticRoutes = staticRoutes;
-            });
+                this.overview.staticRoutes = staticRoutes;
+            }.bind(this));
+
+            this.getNetworkStatus().then(function(networkStatus) {
+                this.overview.summary.nameservers = networkStatus.dns.addresses;
+                this.overview.summary.defaultRoute = {
+                    ipv4: networkStatus.gateway.ipv4,
+                    ipv6: networkStatus.gateway.ipv6
+                };
+                this.overview.networkConfiguration.status = networkStatus;
+            }.bind(this));
 
             this.getNetworkConfig().then(function(networkConfig) {
-console.log(networkConfig);
-                self.overview.summary.nameservers = networkConfig.dns.addresses;
-                self.overview.summary.defaultRoute = {
-                    ipv4: networkConfig.gateway.ipv4,
-                    ipv6: networkConfig.gateway.ipv6
-                };
-            });
+                this.overview.networkConfiguration.config = networkConfig;
+            }.bind(this));
         }
     },
 
@@ -141,6 +144,14 @@ console.log(networkConfig);
     },
 
     getNetworkConfig: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.NetworkConfig).then(function(networkConfig) {
+                return networkConfig[0];
+            });
+        }
+    },
+
+    getNetworkStatus: {
         value: function() {
             return Model.getPrototypeForType(Model.NetworkConfig).then(function(NetworkConfig) {
                 return NetworkConfig.constructor.getStatus();

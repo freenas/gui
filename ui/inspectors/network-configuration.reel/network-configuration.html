@@ -13,7 +13,12 @@
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "inspector"}
+                "element": {"#": "inspector"},
+                "canSave": "true",
+                "canRevert": "true"
+            },
+            "bindings": {
+                "save": {"<-": "@owner.save"}
             }
         },
         "netwait-enabled": {
@@ -23,17 +28,18 @@
                 "label": "Enable Netwait"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.netwait.enabled"}
+                "checked": {"<->": "@owner.object.config.netwait.enabled"}
             }
         },
         "http_proxy": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "http_proxy"},
-                "label": "HTTP Proxy"
+                "label": "HTTP Proxy",
+                "placeholderValue": "eg. http://a.com:1234"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.http_proxy"}
+                "value": {"<->": "@owner.object.config.http_proxy"}
             }
         },
         "dhcp_title": {
@@ -50,7 +56,7 @@
                 "label": "Assign Gateway"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.dhcp.assign_gateway"}
+                "checked": {"<->": "@owner.object.config.dhcp.assign_gateway"}
             }
         },
         "dhcp_assign_dns": {
@@ -60,7 +66,7 @@
                 "label": "Assign DNS"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.dhcp.assign_dns"}
+                "checked": {"<->": "@owner.object.config.dhcp.assign_dns"}
             }
         },
         "gateway_title": {
@@ -74,22 +80,57 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "gateway_ipv4"},
-                "label": "IPv4"
+                "label": "IPv4",
+                "placeholderValue": "eg. 1.2.3.4/16"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.gateway.ipv4"},
-                "enabled": {"<-": "!@owner.object.dhcp.assign_gateway"}
+                "value": {"<->": "@owner.serverDhcpAssignGateway ? @owner.serverDhcpAssignedGatewayValues.ipv4 : @owner.object.config.gateway.ipv4"},
+                "enabled": {"<-": "!@owner.object.config.dhcp.assign_gateway"},
+                "placeholderValue": {"<-": "!@owner.object.config.dhcp.assign_gateway ? 'eg. 1.2.3.4/16' : ''"}
             }
         },
         "gateway_ipv6": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "gateway_ipv6"},
-                "label": "IPv6"
+                "label": "IPv6",
+                "placeholderValue": "eg. ::ffff:102:304"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.gateway.ipv6"},
-                "enabled": {"<-": "!@owner.object.dhcp.assign_gateway"}
+                "value": {"<->": "@owner.serverDhcpAssignGateway ? @owner.serverDhcpAssignedGatewayValues.ipv6 : @owner.object.config.gateway.ipv6"},
+                "enabled": {"<-": "!@owner.object.config.dhcp.assign_gateway"},
+                "placeholderValue": {"<-": "!@owner.object.config.dhcp.assign_gateway ? 'eg. ::ffff:102:304' : ''"}
+            }
+        },
+        "dns_title": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "dns_title"},
+                "value": "DNS Settings"
+            }
+        },
+        "dns_search": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "dns_search"},
+                "label": "Search Addresses",
+                "labelPath": "this"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.config.dns.search"},
+                "enabled": {"<-": "!@owner.object.config.dhcp.assign_dns"}
+            }
+        },
+        "dns_addresses": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "dns_addresses"},
+                "label": "IP Addresses",
+                "labelPath": "this"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.config.dns.addresses"},
+                "enabled": {"<-": "!@owner.object.config.dhcp.assign_dns"}
             }
         }
     }
@@ -106,6 +147,9 @@
             <div data-montage-id="gateway_title"></div>
             <div data-montage-id="gateway_ipv4"></div>
             <div data-montage-id="gateway_ipv6"></div>
+            <div data-montage-id="dns_title"></div>
+            <div data-montage-id="dns_search"></div>
+            <div data-montage-id="dns_addresses"></div>
         </div>
     </div>
 </body>
