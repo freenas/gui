@@ -64,7 +64,8 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.dhcp ? @owner.dhcpAlias : @owner.staticIP[0]"},
-                "enabled": {"<-": "!@owner.object.dhcp"}
+                "enabled": {"<-": "!@owner.object.dhcp"},
+                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
             }
         },
         "noipv6": {
