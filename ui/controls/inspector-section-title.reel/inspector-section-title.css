@@ -1,8 +1,8 @@
 .InspectorSectionTitle {
     position: relative;
-    margin-top: 2em;
+    margin-top: 1em;
     margin-bottom: 1em;
-    color: rgba(255,255,255,.8);
+    color: #fff;
 }
 
 .InspectorSectionTitle-text {
