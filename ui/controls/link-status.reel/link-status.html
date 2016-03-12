@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="link-status.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "status": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "status"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.interfaceStatus"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="LinkStatus">
+        <div data-montage-id="status"></div>
+    </div>
+</body>
+</html>
