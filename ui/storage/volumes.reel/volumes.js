@@ -110,19 +110,11 @@ exports.Volumes = Component.specialize({
             var self = this;
             return this.application.dataService.fetchData(Model.Share).then(function(shares) {
                 var volumesShares = {},
-                    share,
                     i,
                     length,
                     volumeNamePromises = [];
                 for (i = 0, length = shares.length; i < length; i++) {
-                    share = shares[i];
-                    volumeNamePromises.push(self._getVolumeNameFromShare(share).then(function(volumeName) {
-                        if (!volumesShares.hasOwnProperty(volumeName)) {
-                            volumesShares[volumeName] = [];
-                        }
-                        share.inspector = "ui/inspectors/" + share.type + "-share.reel";
-                        volumesShares[volumeName].push(share);
-                    }));
+                    volumeNamePromises.push(self._addShareToVolumeShares(shares[i], volumesShares));
                 }
                 return Promise.all(volumeNamePromises).then(function() {
                     return volumesShares;
@@ -141,6 +133,18 @@ exports.Volumes = Component.specialize({
                 return self.application.dataService.fetchData(Model.Disk).then(function(disks) {
                     return disks.filter(function(x) { return availableDisksPaths.indexOf(x.path) != -1 });
                 });
+            });
+        }
+    },
+
+    _addShareToVolumeShares: {
+        value: function(share, volumesShares) {
+            return this._getVolumeNameFromShare(share).then(function(volumeName) {
+                if (!volumesShares.hasOwnProperty(volumeName)) {
+                    volumesShares[volumeName] = [];
+                }
+                share.inspector = "ui/inspectors/share.reel";
+                volumesShares[volumeName].push(share);
             });
         }
     },

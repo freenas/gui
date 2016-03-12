@@ -9,13 +9,79 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "readOnly": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "readOnly"},
+                "label": "Read only"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.read_only"}
+            }
+        },
+        "guestAllowed": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "guestAllowed"},
+                "label": "Guest allowed"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.guest_ok"}
+            }
+        },
+        "browseable": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "browseable"},
+                "label": "Browseable"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.browseable"}
+            }
+        },
+        "recycleBin": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "recycleBin"},
+                "label": "Recycle bin"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.recyclebin"}
+            }
+        },
+        "hiddenFiles": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "hiddenFiles"},
+                "label": "Show hidden files"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.show_hidden_files"}
+            }
+        },
+        "guestOnly": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "guestOnly"},
+                "label": "Guest only"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.guest_only"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SmbShare">
-        ui/inspectors/smb-share.reel
+        <div data-montage-id="readOnly"></div>
+        <div data-montage-id="guestAllowed"></div>
+        <div data-montage-id="browseable"></div>
+        <div data-montage-id="recycleBin"></div>
+        <div data-montage-id="hiddenFiles"></div>
+        <div data-montage-id="guestOnly"></div>
+        <div data-montage-id="homes"></div>
     </div>
 </body>
 </html>

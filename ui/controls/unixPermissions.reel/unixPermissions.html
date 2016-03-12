@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="unixPermissions.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "modeBitsElement": {"#": "modeBits"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "userRead": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "userRead"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.user.read"}
+            }
+        },
+        "userWrite": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "userWrite"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.user.write"}
+            }
+        },
+        "userExecute": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "userExecute"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.user.execute"}
+            }
+        },
+        "groupRead": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "groupRead"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.group.read"}
+            }
+        },
+        "groupWrite": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "groupWrite"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.group.write"}
+            }
+        },
+        "groupExecute": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "groupExecute"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.group.execute"}
+            }
+        },
+        "othersRead": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "othersRead"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.others.read"}
+            }
+        },
+        "othersWrite": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "othersWrite"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.others.write"}
+            }
+        },
+        "othersExecute": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "othersExecute"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.modes.others.execute"}
+            }
+        },
+        "modeBits": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "modeBits"},
+                "label": "Mode"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.modeBits"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Permissions">
+        <table class="Permissions-flags">
+            <tr>
+                <td></td>
+                <th>User</th>
+                <th>Group</th>
+                <th>All</th>
+            </tr>
+            <tr>
+                <th>Read</th>
+                <td><div data-montage-id="userRead"></div></td>
+                <td><div data-montage-id="groupRead"></div></td>
+                <td><div data-montage-id="othersRead"></div></td>
+            </tr>
+            <tr>
+                <th>Write</th>
+                <td><div data-montage-id="userWrite"></div></td>
+                <td><div data-montage-id="groupWrite"></div></td>
+                <td><div data-montage-id="othersWrite"></div></td>
+            </tr>
+            <tr>
+                <th>Execute</th>
+                <td><div data-montage-id="userExecute"></div></td>
+                <td><div data-montage-id="groupExecute"></div></td>
+                <td><div data-montage-id="othersExecute"></div></td>
+            </tr>
+        </table>
+        <div data-montage-id="modeBits"></div>
+    </div>
+</body>
+</html>

@@ -10,13 +10,135 @@
                 "element": {"#": "owner"}
             }
         },
-        "text": {
-            "prototype": "montage/ui/text.reel",
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "text"}
+                "element": {"#": "inspector"},
+                "canDelete": "true",
+                "canRevert": "true",
+                "canSave": "true"
+            }
+        },
+        "iconSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "iconSubstitution"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.name"}
+                "switchValue": {"<-": "@owner.object.type"}
+            }
+        },
+        "smbIcon": {
+            "prototype": "ui/icons/smb-share.reel",
+            "properties": {
+                "element": {"#": "smbIcon"}
+            }
+        },
+        "afpIcon": {
+            "prototype": "ui/icons/afp-share.reel",
+            "properties": {
+                "element": {"#": "afpIcon"}
+            }
+        },
+        "nfsIcon": {
+            "prototype": "ui/icons/nfs-share.reel",
+            "properties": {
+                "element": {"#": "nfsIcon"}
+            }
+        },
+        "targetType": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "targetType"},
+                "label": "Target type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.target_type"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.description"}
+            }
+        },
+        "target": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "target"},
+                "label": "Target"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.target_path"}
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-toggle-switch.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.enabled"}
+            }
+        },
+        "unixPermissions": {
+            "prototype": "ui/controls/unixPermissions.reel",
+            "properties": {
+                "element": {"#": "unixPermissions"}
+            },
+            "bindings": {
+                "modes": {"<->": "@owner.object.permissions.modes"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.type"}
+            }
+        },
+        "smb": {
+            "prototype": "ui/inspectors/smb-share.reel",
+            "properties": {
+                "element": {"#": "smb"}
+            },
+            "bindings": {
+                "properties": {"<-": "@owner.object.properties"}
+            }
+        },
+        "afp": {
+            "prototype": "ui/inspectors/afp-share.reel",
+            "properties": {
+                "element": {"#": "afp"}
+            },
+            "bindings": {
+                "properties": {"<-": "@owner.object.properties"}
+            }
+        },
+        "nfs": {
+            "prototype": "ui/inspectors/nfs-share.reel",
+            "properties": {
+                "element": {"#": "nfs"}
+            },
+            "bindings": {
+                "properties": {"<-": "@owner.object.properties"}
             }
         }
     }
@@ -24,8 +146,24 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Share">
-        Share inspector
-        <div data-montage-id="text" style="position: absolute"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="iconSubstitution">
+                <div data-montage-id="smbIcon" data-arg="smb"></div>
+                <div data-montage-id="afpIcon" data-arg="afp"></div>
+                <div data-montage-id="nfsIcon" data-arg="nfs"></div>
+            </div>
+            <div data-montage-id="targetType"></div>
+            <div data-montage-id="enabled"></div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="target"></div>
+            <div data-montage-id="description"></div>
+            <div data-montage-id="substitution">
+                <div data-arg="smb" data-montage-id="smb"></div>
+                <div data-arg="afp" data-montage-id="afp"></div>
+                <div data-arg="nfs" data-montage-id="nfs"></div>
+            </div>
+            <div data-montage-id="unixPermissions"></div>
+        </div>
     </div>
 </body>
 </html>

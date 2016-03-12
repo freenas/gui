@@ -17,9 +17,9 @@
 }
 
 .TopologyItem .Grid-icon {
-    float: none;
+    float: left;
     display: flex;
-    width: 100%;
+    width: auto;
     height: auto;
 }
 
