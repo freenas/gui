@@ -208,10 +208,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      */
     saveRawData: {
         value: function (rawData, object) {
-            var type = Object.getPrototypeOf(object).Type;
+            var type = Object.getPrototypeOf(object).Type,
+                modelHasNoId = this._isModelTypeHasNoId(type);
 
-            if (object.id !== void 0) { // id can be forbidden
-                var isUpdate = object.id !== null,
+            /**
+             * On some model objects, ids can be missing knowing that they are unique. (get_config)
+             * On the other hand, ids can be forbidden (while saving) but they can be set to null.
+             */
+            if (modelHasNoId || object.id !== void 0) {
+                var isUpdate = modelHasNoId || object.id !== null,
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
@@ -222,9 +227,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
                             method: serviceDescriptor.method,
-                            args: [serviceDescriptor.task, isUpdate ? [object.id, rawData] : [rawData]]
+                            args: [serviceDescriptor.task, isUpdate && !modelHasNoId ? [object.id, rawData] : [rawData]]
                         }
-
                     ).then(function (response) {
                         return self.notificationCenter.startTrackingTaskWithJobId(response.data);
                     });
@@ -253,7 +257,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             if (object.id !== void 0) {
                 var objectPrototype = Object.getPrototypeOf(object),
                     type = objectPrototype.Type,
-                    isUpdate = object.id !== null,
+                    modelHasNoId = this._isModelTypeHasNoId(type),
+                    isUpdate = modelHasNoId || object.id !== null,
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : // -> update case (fixme: delete...)
                         Services.findCreateServiceForType(type); // -> create case
@@ -540,6 +545,23 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             }
 
             return index;
+        }
+    },
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     * @returns {Boolean}
+     *
+     */
+    _isModelTypeHasNoId: {
+        value: function (modelType) {
+            var readServiceDescriptor = Services.findReadServiceForType(modelType);
+            return readServiceDescriptor && /\.get_config$/.test(readServiceDescriptor.method);
         }
     }
 
