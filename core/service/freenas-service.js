@@ -249,16 +249,19 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      * @public
      *
      * @description todo
-     *
+     * fixme: @charles how to reject the promise here?
      */
     mapToRawData: {
         value: function (object, data) {
-            //fixme @charles how to reject the promise here?
-            if (object.id !== void 0) {
-                var objectPrototype = Object.getPrototypeOf(object),
-                    type = objectPrototype.Type,
-                    modelHasNoId = this._isModelTypeHasNoId(type),
-                    isUpdate = modelHasNoId || object.id !== null,
+            var objectPrototype = Object.getPrototypeOf(object),
+                type = objectPrototype.Type,
+                modelHasNoId = this._isModelTypeHasNoId(type);
+
+            /**
+             * @see comment in saveRawData.
+             */
+            if (modelHasNoId || object.id !== void 0) {
+                var isUpdate = modelHasNoId || object.id !== null,
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : // -> update case (fixme: delete...)
                         Services.findCreateServiceForType(type); // -> create case
