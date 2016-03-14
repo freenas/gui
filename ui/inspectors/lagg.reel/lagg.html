@@ -61,16 +61,6 @@
                 "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
             }
         },
-        "noipv6": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "noipv6"},
-                "label": "noipv6"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.noipv6"}
-            }
-        },
         "ports": {
             "prototype": "blue-shark/ui/field-select-multiple.reel",
             "properties": {
@@ -139,7 +129,6 @@
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
-            <div data-montage-id="noipv6"></div>
             <div data-montage-id="ports"></div>
             <div data-montage-id="protocol"></div>
             <div data-montage-id="aliasTitle"></div>
