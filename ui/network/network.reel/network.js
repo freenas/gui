@@ -33,7 +33,8 @@ exports.Network = Component.specialize({
                     name: "Network Configuration",
                     inspector: "ui/inspectors/network-configuration.reel",
                     config: null,
-                    status: null
+                    status: null,
+                    general: null
                 },
                 interfaces: []
             };
@@ -62,8 +63,9 @@ exports.Network = Component.specialize({
                 this.overview.networkConfiguration.config = networkConfig;
             }.bind(this));
 
-            this.getHostname().then(function(hostname) {
-                this.overview.summary.hostname = hostname;
+            this.getSystemGeneralConfig().then(function(systemGeneral) {
+                this.overview.summary.hostname = systemGeneral.hostname;
+                this.overview.networkConfiguration.general = systemGeneral;
             }.bind(this));
         }
     },
@@ -167,10 +169,10 @@ exports.Network = Component.specialize({
         }
     },
 
-    getHostname: {
+    getSystemGeneralConfig: {
         value: function () {
             return this.application.dataService.fetchData(Model.SystemGeneral).then(function (systemGeneral) {
-                return systemGeneral[0].hostname;
+                return systemGeneral[0];
             })
         }
     }

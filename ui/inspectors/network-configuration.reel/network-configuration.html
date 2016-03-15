@@ -21,6 +21,16 @@
                 "save": {"<-": "@owner.save"}
             }
         },
+        "hostname": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hostname"},
+                "label": "Hostname"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.general.hostname"}
+            }
+        },
         "netwait-enabled": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -139,6 +149,7 @@
 <body>
     <div data-montage-id="owner" class="NetworkConfiguration">
         <div data-montage-id="inspector">
+            <div data-montage-id="hostname"></div>
             <div data-montage-id="dhcp_title"></div>
             <div data-montage-id="dhcp_assign_gateway"></div>
             <div data-montage-id="dhcp_assign_dns"></div>
