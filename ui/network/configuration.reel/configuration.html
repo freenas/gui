@@ -17,6 +17,15 @@
                 "overflow": "scrollY"
             }
         },
+        "hostname": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "hostname"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.summary.hostname"}
+            }
+        },
         "defaultRouteIpv4": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -139,6 +148,16 @@
     <div data-montage-id="owner" class="Configuration">
         <div data-montage-id="scrollView">
             <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>
+                                Hostname
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody data-montage-id="hostname"></tbody>
+                </table>
                 <table>
                     <thead>
                         <tr>

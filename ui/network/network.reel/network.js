@@ -21,7 +21,8 @@ exports.Network = Component.specialize({
                 summary: {
                     interfaces: [],
                     nameservers: [],
-                    defaultRoute: ""
+                    defaultRoute: "",
+                    hostname: null
                 },
                 staticRoutes: [],
                 ipmi: {
@@ -59,6 +60,10 @@ exports.Network = Component.specialize({
 
             this.getNetworkConfig().then(function(networkConfig) {
                 this.overview.networkConfiguration.config = networkConfig;
+            }.bind(this));
+
+            this.getHostname().then(function(hostname) {
+                this.overview.summary.hostname = hostname;
             }.bind(this));
         }
     },
@@ -159,6 +164,14 @@ exports.Network = Component.specialize({
             return Model.getPrototypeForType(Model.NetworkConfig).then(function(NetworkConfig) {
                 return NetworkConfig.constructor.getStatus();
             });
+        }
+    },
+
+    getHostname: {
+        value: function () {
+            return this.application.dataService.fetchData(Model.SystemGeneral).then(function (systemGeneral) {
+                return systemGeneral[0].hostname;
+            })
         }
     }
 });
