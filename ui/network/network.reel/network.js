@@ -9,6 +9,10 @@ var Component = require("montage/ui/component").Component,
  */
 exports.Network = Component.specialize({
 
+    overview: {
+        value: null
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             this.overview = {
