@@ -35,6 +35,17 @@
                 "object": {"<-": "@owner.object"}
             }
         },
+        "interface_name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "interface_name"},
+                "label": "Interface Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"},
+                "placeholderValue": {"<-": "@owner.object.id"}
+            }
+        },
         "dhcp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -111,6 +122,7 @@
     <div data-montage-id="owner" class="Bridge g-padding-top">
         <div data-montage-id="inspector">
             <div data-montage-id="overview"></div>
+            <div data-montage-id="interface_name"></div>
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
