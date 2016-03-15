@@ -7,36 +7,7 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "currentSection": "interfaces"
-            }
-        },
-        "sectionSelector": {
-            "prototype": "ui/controls/section-selector.reel",
-            "properties": {
-                "element": {"#": "sectionSelector"},
-                "sections": [
-                    {
-                        "identifier": "interfaces",
-                        "label": "Interfaces"
-                    },
-                    {
-                        "identifier": "configuration",
-                        "label": "Configuration"
-                    }
-                ]
-            },
-            "bindings": {
-                "currentSection": {"<->": "@owner.currentSection"}
-            }
-        },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.currentSection"}
+                "element": {"#": "owner"}
             }
         },
         "configuration": {
@@ -47,26 +18,13 @@
             "bindings": {
                 "root": {"<-": "@owner.overview"}
             }
-        },
-        "interfaces": {
-            "prototype": "ui/controls/cascading-list.reel",
-            "properties": {
-                "element": {"#": "interfaces"}
-            },
-            "bindings": {
-                "root": {"<-": "@owner.interfaces"}
-            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Network">
-        <div data-montage-id="sectionSelector" class="Network-sectionSelector"></div>
-        <div data-montage-id="substitution">
-            <div data-montage-id="interfaces" data-arg="interfaces"></div>
-            <div data-montage-id="configuration" data-arg="configuration"></div>
-        </div>
+        <div data-montage-id="configuration" data-arg="configuration"></div>
     </div>
 </body>
 </html>

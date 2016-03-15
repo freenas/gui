@@ -115,6 +115,22 @@
             "bindings": {
                 "object": {"<-": "@owner.object.networkConfiguration"}
             }
+        },
+        "interfacesTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "interfacesTitle"},
+                "value": "Interfaces"
+            }
+        },
+        "interfaceViewer": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "interfaceViewer"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.interfaces"}
+            }
         }
     }
     </script>
@@ -170,6 +186,9 @@
                 <div data-montage-id="networkConfiguration"></div>
                 <div data-montage-id="staticRoutes"></div>
                 <div data-montage-id="ipmi"></div>
+                <!-- FIXME: Temporary Title Element-->
+                <div data-montage-id="interfacesTitle"></div>
+                <div data-montage-id="interfaceViewer"></div>
             </div>
         </div>
     </div>

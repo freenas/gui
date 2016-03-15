@@ -33,11 +33,12 @@ exports.Network = Component.specialize({
                     inspector: "ui/inspectors/network-configuration.reel",
                     config: null,
                     status: null
-                }
+                },
+                interfaces: []
             };
 
             this.listInterfaces().then(function (interfaces) {
-                this.interfaces = interfaces;
+                this.overview.interfaces = interfaces;
                 this.overview.summary.interfaces = this.getInterfacesSummaries();
             }.bind(this));
 
@@ -64,14 +65,13 @@ exports.Network = Component.specialize({
 
     getInterfacesSummaries: {
         value: function() {
-            var self = this,
-                networkInterface,
+            var networkInterface,
                 interfaceSummary,
                 aliases,
                 alias,
                 interfacesSummaries = [];
-            for (var i = 0, length = self.interfaces.length; i < length; i++) {
-                networkInterface = self.interfaces[i];
+            for (var i = 0, length = this.overview.interfaces.length; i < length; i++) {
+                networkInterface = this.overview.interfaces[i];
                 interfaceSummary = {
                     name: networkInterface.name
                 };
