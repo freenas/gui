@@ -109,7 +109,6 @@ exports.Network = Component.specialize({
                 for (var i = 0, length = networkInterfaces.length; i < length; i++) {
                     networkInterface = networkInterfaces[i];
 
-                    // Ask to @ben what are the others types, do we need some other components here?
                     if (networkInterface.type === NetworkInterfaceType.VLAN) {
                         networkInterface.inspector = "ui/inspectors/vlan.reel";
                         networkInterface.icon = "ui/icons/vlan.reel";
@@ -163,10 +162,3 @@ exports.Network = Component.specialize({
         }
     }
 });
-
-
-
-
-
-
-
