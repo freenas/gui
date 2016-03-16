@@ -31,14 +31,27 @@
                 "value": {"<->": "@owner.object.general.hostname"}
             }
         },
-        "netwait-enabled": {
+        "netwait_enabled": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "netwait-enabled"},
+                "element": {"#": "netwait_enabled"},
                 "label": "Enable Netwait"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.config.netwait.enabled"}
+            }
+        },
+        "netwait_addresses": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "netwait_addresses"},
+                "label": "IP Addresses",
+                "labelPath": "this"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.config.netwait.addresses"},
+                "enabled": {"<-": "@owner.object.config.netwait.enabled"},
+                "placeholderValue": {"<-": "@owner.object.config.netwait.enabled ? 'eg. 1.2.3.4' : ''"}
             }
         },
         "netwait_title": {
@@ -168,7 +181,8 @@
             <div data-montage-id="dns_search"></div>
             <div data-montage-id="dns_addresses"></div>
             <div data-montage-id="netwait_title"></div>
-            <div data-montage-id="netwait-enabled"></div>
+            <div data-montage-id="netwait_enabled"></div>
+            <div data-montage-id="netwait_addresses"></div>
         </div>
     </div>
 </body>
