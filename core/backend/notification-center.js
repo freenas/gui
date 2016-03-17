@@ -41,16 +41,30 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     },
 
 
-    _backendBridge: {
-        value: null
-    },
+    /*------------------------------------------------------------------------------------------------------------------
+                                                    Properties
+    ------------------------------------------------------------------------------------------------------------------*/
 
 
+    /**
+     * @type {Array}
+     * @private
+     *
+     * @description todo.
+     *
+     */
     _notifications: {
         value: null
     },
 
 
+    /**
+     * @type {Array}
+     * @public
+     *
+     * @description todo.
+     *
+     */
     notifications: {
         get: function () {
             return this._notifications;
@@ -58,16 +72,13 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     },
 
 
-    _trackingTasksMap: {
-        value: null
-    },
-
-
-    _listenersOnModelChangesMap: {
-        value: null
-    },
-
-
+    /**
+     * @type {Boolean}
+     * @public
+     *
+     * @description todo.
+     *
+     */
     isListeningToTaskEvents: {
         get: function () {
             return this.isListeningToChangesOnModel(Model.Task);
@@ -75,11 +86,39 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     },
 
 
+    /**
+     * @type {Boolean}
+     * @public
+     *
+     * @description todo.
+     *
+     */
+    isListeningToChangesOnModel: {
+        value: function (modelType) {
+            return this._listenersOnModelChangesMap.has(modelType.typeName || modelType);
+        }
+    },
+
+
+    /**
+     * @type {number}
+     * @private
+     *
+     * @description todo.
+     *
+     */
     _dismissNotificationAfterDelay: {
         value: 2000
     },
 
 
+    /**
+     * @type {number}
+     * @public
+     *
+     * @description todo.
+     *
+     */
     dismissNotificationAfterDelay: {
         set: function (dismissNotificationAfterDelay) {
             dismissNotificationAfterDelay = !!dismissNotificationAfterDelay;
@@ -98,11 +137,25 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     },
 
 
+    /**
+     * @type {Boolean}
+     * @private
+     *
+     * @description todo.
+     *
+     */
     _dismissNotificationDelay: {
         value: null
     },
 
 
+    /**
+     * @type {Boolean}
+     * @public
+     *
+     * @description todo.
+     *
+     */
     dismissNotificationDelay: {
         set: function (dismissNotificationAfterDelay) {
             this._dismissNotificationDelay = ~~dismissNotificationAfterDelay;
@@ -113,16 +166,71 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     },
 
 
+    /**
+     * @type {Object.<BackEndBridge>}
+     * @private
+     *
+     * @description todo.
+     *
+     */
+    _backendBridge: {
+        value: null
+    },
+
+
+    /**
+     * @type {Map}
+     * @private
+     *
+     * @description todo.
+     *
+     */
+    _trackingTasksMap: {
+        value: null
+    },
+
+
+    /**
+     * @type {Map}
+     * @private
+     *
+     * @description todo.
+     *
+     */
+    _listenersOnModelChangesMap: {
+        value: null
+    },
+
+
+    /**
+     * @type {Object.<HandlerPool>}
+     * @private
+     *
+     * @description todo.
+     *
+     */
     __taskHandlerPool: {
         value: null
     },
 
 
+    /**
+     * @type {HandlerPool}
+     * @private
+     *
+     * @description todo.
+     *
+     */
     _taskHandlerPool: {
         get: function () {
             return this.__taskHandlerPool || (this.__taskHandlerPool = new HandlerPool());
         }
     },
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+                                                    Public Functions
+    ------------------------------------------------------------------------------------------------------------------*/
 
 
     /**
@@ -207,12 +315,6 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
         }
     },
 
-    isListeningToChangesOnModel: {
-        value: function (modelType) {
-            return this._listenersOnModelChangesMap.has(modelType.typeName || modelType);
-        }
-    },
-
 
     /**
      * @function
@@ -226,7 +328,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
             var detail = event.detail;
 
             if (detail) {
-                var notification = this.createNotificationWithType(Notification.TYPES.EVENT);
+                var notification = this._createNotificationWithType(Notification.TYPES.EVENT);
                 notification.modelType = detail.service.toCamelCase();
                 notification.service = detail.operation;
                 notification.data = detail.operation === "delete" ? detail.ids : detail.entities;
@@ -299,6 +401,8 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 } else {
                     taskHandler.reject(taskReport);
                 }
+
+                this._trackingTasksMap.delete(jobId);
             } else {
                 //todo: throw an error/warning ?
             }
@@ -313,9 +417,24 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
-    createNotificationWithType: {
-        value:function (type) {
-            return new Notification(type);
+    removeNotification: {
+        value: function (notification) {
+            if (notification) {
+                var canDeleteNotification = false,
+                    notifications = this._notifications,
+                    notificationIndex = notifications.indexOf(notification);
+
+                if ((canDeleteNotification = notificationIndex > -1)) {
+                    if (notification.type === Notification.TYPES.TASK) { // if notification is a task
+                        // if notification is a task that is not in a "finished" state. (FINISHED, ABORTED, FAILED)
+                        canDeleteNotification = !this._trackingTasksMap.has(notification.jobId);
+                    }
+                }
+
+                if (canDeleteNotification) {
+                    notifications.splice(notifications.indexOf(notification), 1);
+                }
+            }
         }
     },
 
@@ -340,7 +459,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 var tasksMap = self._trackingTasksMap;
 
                 if (!tasksMap.get(jobId)) {
-                    var notification = self.createNotificationWithType(Notification.TYPES.TASK);
+                    var notification = self._createNotificationWithType(Notification.TYPES.TASK);
                     notification.jobId = jobId;
                     tasksMap.set(jobId, notification);
                     self._notifications.push(notification);
@@ -392,6 +511,25 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     findTaskWithJobId: {
         value: function (jobId) {
             return this._trackingTasksMap.get(jobId) || null;
+        }
+    },
+
+
+    /*------------------------------------------------------------------------------------------------------------------
+                                                   Private Functions
+    ------------------------------------------------------------------------------------------------------------------*/
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
+    _createNotificationWithType: {
+        value:function (type) {
+            return new Notification(type);
         }
     },
 
