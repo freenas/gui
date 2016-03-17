@@ -42,6 +42,7 @@ HandlerPool.prototype.initWithHandlerTimeout = function (timeout) {
  * @public
  *
  * @param {Object} handler - An Object.
+ * @param {Object} uuid - An unique universal id.
  *
  * @description Add a handler to the pool.
  *
