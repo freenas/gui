@@ -520,24 +520,24 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
                         response = data;
                     }
 
-                    self.callDelegateMethod("webSocketDidParseResponse", self, response);
+                    if (errorResponse) {
+                        self._dispatchWebSocketError(
+                            WebSocketClient.ERROR_CODE.PARSE_RESPONSE_FAILED,
+                            errorResponse.message,
+                            errorResponse.stack
+                        );
+                    } else {
+                        self.callDelegateMethod("webSocketDidParseResponse", self, response);
+                    }
                 }
 
-                if (errorResponse) {
-                    self._dispatchWebSocketError(
-                        WebSocketClient.ERROR_CODE.PARSE_RESPONSE_FAILED,
-                        errorResponse.message,
-                        errorResponse.stack
-                    );
-
-                } else {
+                if (response) {
                     self.dispatchEventNamed("webSocketMessage", true, true, response);
                 }
             };
 
             socket.onclose = function (closeEvent) {
                 self.dispatchEventNamed("webSocketClose", true, true, closeEvent);
-
                 self.disconnect();
             };
         }
