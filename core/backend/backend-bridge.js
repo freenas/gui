@@ -121,7 +121,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
                 this._handlerPool.setTimeoutToHandler(handler);
             }
 
-            return message.toJSON();
+            return JSON.stringify(message);
         }
     },
 
