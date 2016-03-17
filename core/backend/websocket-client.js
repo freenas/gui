@@ -56,12 +56,6 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
      *
      */
     url: {
-        set: function (url) {
-            //TODO: better url checking.
-            if (typeof url === "string" && url.length && this._url !== url) {
-                this._url = url;
-            }
-        },
         get: function () {
             return this._url;
         }
@@ -255,7 +249,7 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
      */
     initWithUrl: {
         value: function (url) {
-            this.url = url;
+            this._url = url;
 
             return this;
         }
