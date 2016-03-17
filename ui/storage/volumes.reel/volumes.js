@@ -46,7 +46,7 @@ exports.Volumes = Component.specialize({
                     var volume;
                     for (i = 0, length = self.volumes.length; i < length; i++) {
                         volume = self.volumes[i];
-                        volume.shares = volumesShares[volume.name] || dataService.getEmptyCollectionForType(Model.Share);
+                        volume.shares = volumesShares[volume.id] || dataService.getEmptyCollectionForType(Model.Share);
                     }
                     return self._listDisks();
                 }).then(function(disks) {
