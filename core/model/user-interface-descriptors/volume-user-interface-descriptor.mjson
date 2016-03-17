@@ -1,0 +1,11 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Volumes'",
+            "inspectorComponentModule": {"%": "ui/inspectors/volume.reel"},
+            "nameExpression": "id"
+        }
+    }
+}

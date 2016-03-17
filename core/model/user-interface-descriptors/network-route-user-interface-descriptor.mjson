@@ -1,0 +1,10 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/inspectors/static-route.reel"},
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Static Routes'"
+        }
+    }
+}

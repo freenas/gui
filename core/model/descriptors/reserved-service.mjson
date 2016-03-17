@@ -1,0 +1,46 @@
+{
+  "blueprint_reservedservice_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_reservedservice_link_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "link_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_reservedservice_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_reservedservice_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ReservedService",
+      "propertyBlueprints": [
+        {"@": "blueprint_reservedservice_id"},
+        {"@": "blueprint_reservedservice_link_name"},
+        {"@": "blueprint_reservedservice_name"},
+        {"@": "blueprint_reservedservice_type"}
+      ]
+    }
+  }
+}

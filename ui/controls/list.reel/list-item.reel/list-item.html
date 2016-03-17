@@ -16,7 +16,7 @@
                 "element": {"#": "label"}
             },
             "bindings": {
-                "value": {"<-": "@owner.name || @owner.object.name || @owner.object.id"}
+                "value": {"<-": "@owner.isCollection ? path(@owner.userInterfaceDescriptor.collectionNameExpression) : @owner.object.path(@owner.userInterfaceDescriptor.nameExpression)"}
             }
         },
         "imageComponent": {
@@ -25,8 +25,8 @@
                 "element": {"#": "iconImagePlaceholder"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.object.icon || @owner.icon "},
-                "component.object": {"<-": "@owner.object"},
+                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconComponentModule.id"},
+                "object": {"<-": "@owner.object"},
                 "component.size": {"<-": "size"}
             }
         }

@@ -7,12 +7,23 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_servicesimulator_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-simulator"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "ServiceSimulator",
       "propertyBlueprints": [
-        {"@": "blueprint_servicesimulator_enable"}
+        {"@": "blueprint_servicesimulator_enable"},
+        {"@": "blueprint_servicesimulator_type"}
       ]
     }
   }

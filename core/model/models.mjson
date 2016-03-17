@@ -265,6 +265,10 @@
             "type": "Replication"
         },
         {
+            "modelId": "core/model/descriptors/reserved-service.mjson",
+            "type": "ReservedService"
+        },
+        {
             "modelId": "core/model/descriptors/rsync-copy-rsync-properties.mjson",
             "type": "RsyncCopyRsyncProperties"
         },
@@ -541,8 +545,12 @@
             "type": "VolumeImportParams"
         },
         {
-            "modelId": "core/model/descriptors/volume-params.mjson",
-            "type": "VolumeParams"
+            "modelId": "core/model/descriptors/volume-properties.mjson",
+            "type": "VolumeProperties"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-property.mjson",
+            "type": "VolumeProperty"
         },
         {
             "modelId": "core/model/descriptors/volume-snapshot-holds.mjson",
@@ -1019,6 +1027,14 @@
         {
             "modelId": "core/model/descriptors/zfs-vdev.mjson",
             "type": "ZfsVdev"
+        },
+        {
+            "modelId": "core/model/custom-descriptors/network-overview.mjson",
+            "type": "NetworkOverview"
+        },
+        {
+            "modelId": "core/model/custom-descriptors/scrub.mjson",
+            "type": "Scrub"
         }
     ]
 }

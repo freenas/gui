@@ -4,8 +4,15 @@
     "properties": {
       "name": "active",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "boolean"
+    }
+  },
+  "blueprint_alert_cancelled_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "cancelled_at",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_alert_class": {
@@ -13,7 +20,6 @@
     "properties": {
       "name": "class",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -22,7 +28,6 @@
     "properties": {
       "name": "description",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -31,8 +36,23 @@
     "properties": {
       "name": "dismissed",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "boolean"
+    }
+  },
+  "blueprint_alert_dismissed_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dismissed_at",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_alert_happened_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "happened_at",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_alert_id": {
@@ -40,8 +60,23 @@
     "properties": {
       "name": "id",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "number"
+    }
+  },
+  "blueprint_alert_last_emitted_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "last_emitted_at",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_alert_one_shot": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "one_shot",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
     }
   },
   "blueprint_alert_send_count": {
@@ -49,7 +84,6 @@
     "properties": {
       "name": "send_count",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "number"
     }
   },
@@ -58,7 +92,6 @@
     "properties": {
       "name": "source",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -67,7 +100,6 @@
     "properties": {
       "name": "subtype",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -76,7 +108,6 @@
     "properties": {
       "name": "target",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -85,7 +116,6 @@
     "properties": {
       "name": "title",
       "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -94,16 +124,6 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "mandatory": true,
-      "valueType": "String"
-    }
-  },
-  "blueprint_alert_when": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "when",
-      "blueprint": {"@": "root"},
-      "mandatory": true,
       "valueType": "String"
     }
   },
@@ -113,17 +133,21 @@
       "name": "Alert",
       "propertyBlueprints": [
         {"@": "blueprint_alert_active"},
+        {"@": "blueprint_alert_cancelled_at"},
         {"@": "blueprint_alert_class"},
         {"@": "blueprint_alert_description"},
         {"@": "blueprint_alert_dismissed"},
+        {"@": "blueprint_alert_dismissed_at"},
+        {"@": "blueprint_alert_happened_at"},
         {"@": "blueprint_alert_id"},
+        {"@": "blueprint_alert_last_emitted_at"},
+        {"@": "blueprint_alert_one_shot"},
         {"@": "blueprint_alert_send_count"},
         {"@": "blueprint_alert_source"},
         {"@": "blueprint_alert_subtype"},
         {"@": "blueprint_alert_target"},
         {"@": "blueprint_alert_title"},
-        {"@": "blueprint_alert_type"},
-        {"@": "blueprint_alert_when"}
+        {"@": "blueprint_alert_type"}
       ]
     }
   }

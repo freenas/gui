@@ -1,14 +1,17 @@
 var Component = require("montage/ui/component").Component;
 
+
 /**
  * @class Placeholder
  * @extends Component
  */
 exports.Placeholder = Component.specialize({
 
+
     _moduleId: {
         value: null
     },
+
 
     moduleId: {
         get: function () {
@@ -23,49 +26,49 @@ exports.Placeholder = Component.specialize({
         }
     },
 
-    _needsUpdateComponent: {
-        value: false
+
+    _object: {
+        value: null
     },
 
-    _needsLoadComponent: {
-        value: false
+
+    object: {
+        get: function () {
+            return this._object;
+        },
+        set: function (object) {
+            if (this._object !== object) {
+                this._object = object;
+                this.needsDraw = true;
+            }
+        }
     },
+
 
     component: {
         value: null
     },
 
+
+    size: {
+        value: null
+    },
+
+
     _previousComponent: {
         value: null
     },
 
-    _loadComponent: {
-        value: function (moduleId) {
-            var element = document.createElement("div"),
-                self = this;
 
-            this._element.innerHTML = "";
-            this._element.appendChild(element);
-            require.async(moduleId).then(function (exports) {
-                if (element.parentNode) {
-                    // TODO: This is an ugly hack, fix
-                    self.component = new exports[Object.keys(exports)[0]]();
-                    self.component.element = element;
-                    self.component.needsDraw = true;
-                    self.component.attachToParentComponent();
-                    self.component._oldEnterDocument = self.component.enterDocument;
-                    self.component.enterDocument = function (isFirstTime) {
-                        self._needsUpdateComponent = true;
-                        self.needsDraw = true;
-                        if (this.enterDocument = this._oldEnterDocument) {
-                            delete this._oldEnterDocument;
-                            this.enterDocument(isFirstTime);
-                        }
-                    }
-                }
-            });
-        }
+    _needsUpdateComponent: {
+        value: false
     },
+
+
+    _needsLoadComponent: {
+        value: false
+    },
+
 
     willDraw: {
         value: function () {
@@ -83,22 +86,59 @@ exports.Placeholder = Component.specialize({
         }
     },
 
+
     draw: {
         value: function () {
-            var element,
-                self;
+            var self = this;
 
             if (this._needsUpdateComponent) {
                 if (this._previousComponent) {
                     this._previousComponent.detachFromParentComponent();
                 }
+
                 this._previousComponent = this.component;
                 this._needsUpdateComponent = false;
             }
+
             if (this._needsLoadComponent) {
-                this._loadComponent(this._moduleId);
                 this._needsLoadComponent = false;
+
+                this._loadComponent(this._moduleId).then(function () {
+                    self.component.object = self.object;
+                });
+            } else if (this.component) {
+                this.component.object = this.object;
             }
+        }
+    },
+
+
+    _loadComponent: {
+        value: function (moduleId) {
+            var element = document.createElement("div"),
+                self = this;
+
+            this._element.innerHTML = "";
+            this._element.appendChild(element);
+
+            return require.async(moduleId).then(function (exports) {
+                if (element.parentNode) {
+                    // TODO: This is an ugly hack, fix
+                    self.component = new exports[Object.keys(exports)[0]]();
+                    self.component.element = element;
+                    self.component.needsDraw = true;
+                    self.component.attachToParentComponent();
+                    self.component._oldEnterDocument = self.component.enterDocument;
+                    self.component.enterDocument = function (isFirstTime) {
+                        self._needsUpdateComponent = true;
+                        self.needsDraw = true;
+                        if (this.enterDocument = this._oldEnterDocument) {
+                            delete this._oldEnterDocument;
+                            this.enterDocument(isFirstTime);
+                        }
+                    }
+                }
+            });
         }
     }
 

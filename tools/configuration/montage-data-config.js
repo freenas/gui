@@ -5,5 +5,6 @@ exports.MontageDataConfig = {
     EnumerationsDirectoryAbsolutePath: Path.join(__dirname, "../../core/model/enumerations"),
     DescriptorsDirectoryPath: "core/model/descriptors",
     DescriptorsDirectoryAbsolutePath: Path.join(__dirname, "../../core/model/descriptors"),
-    ServicesDirectoryAbsolutePath: Path.join(__dirname, "../../core/model")
+    ServicesDirectoryAbsolutePath: Path.join(__dirname, "../../core/model"),
+    CustomDescriptorsAbsolutePath: Path.join(__dirname, "../../core/model/custom-descriptors")
 };

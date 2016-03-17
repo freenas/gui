@@ -1,0 +1,43 @@
+{
+  "blueprint_volumeproperty_rawvalue": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rawvalue",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_volumeproperty_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "NONE",
+        "DEFAULT",
+        "LOCAL",
+        "INHERITED"
+      ]
+    }
+  },
+  "blueprint_volumeproperty_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VolumeProperty",
+      "propertyBlueprints": [
+        {"@": "blueprint_volumeproperty_rawvalue"},
+        {"@": "blueprint_volumeproperty_source"},
+        {"@": "blueprint_volumeproperty_value"}
+      ]
+    }
+  }
+}

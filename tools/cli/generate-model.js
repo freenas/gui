@@ -14,7 +14,6 @@ program
     .action(function (model_directory) {
         modelDirectory = model_directory;
     })
-    .option('-p, --prefix <prefix>', "prefix for the moduleId path")
     .option('-v, --verbose', "enable the verbose mode")
     .option('-w, --warning', "log warning messages")
     .option('-t, --target <target>', "changes the default target directory")

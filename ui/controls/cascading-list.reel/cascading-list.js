@@ -1,6 +1,8 @@
 var Component = require("montage/ui/component").Component;
 
+
 exports.CascadingList = Component.specialize({
+
 
     constructor: {
         value: function () {
@@ -8,9 +10,16 @@ exports.CascadingList = Component.specialize({
         }
     },
 
+
+    _stack: {
+        value: null
+    },
+
+
     _root: {
         value: null
     },
+
 
     root: {
         get: function () {
@@ -24,6 +33,7 @@ exports.CascadingList = Component.specialize({
         }
     },
 
+
     _push: {
         value: function (object) {
             this._stack.push(object);
@@ -31,12 +41,14 @@ exports.CascadingList = Component.specialize({
         }
     },
 
+
     _pop: {
         value: function () {
             this._stack.pop();
             this.needsDraw = true;
         }
     },
+
 
     _popAll: {
         value: function () {
@@ -46,27 +58,51 @@ exports.CascadingList = Component.specialize({
         }
     },
 
+
     expand: {
         value: function (object, columnIndex) {
-            var i;
+            columnIndex = columnIndex || 0;
 
             if (columnIndex) {
-                for (i = this._stack.length - columnIndex; i > 0; i--) {
+                for (var i = this._stack.length - columnIndex; i > 0; i--) {
                     this._pop();
                 }
-                this._push({
-                    object: object,
-                    inspector: object.inspector,
-                    columnIndex: columnIndex
-                });
             } else {
                 this._popAll();
-                this._push({
-                    object: object,
-                    inspector: object.inspector,
-                    columnIndex: 0
-                });
             }
+
+            this._populateColumnWithObjectAndIndex(object, columnIndex);
+        }
+    },
+
+
+    _populateColumnWithObjectAndIndex: {
+        value: function (object, columnIndex) {
+            var self = this;
+
+            this.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
+                self._push({
+                    object: object,
+                    userInterfaceDescriptor: userInterfaceDescriptor,
+                    columnIndex: columnIndex
+                });
+            });
+        }
+    },
+
+    _findObjectPropertyNameWithChildValue: {
+        value: function (parentObject, childValue) {
+            var objectPropertyKeys = Object.keys(parentObject),
+                objectPropertyKey;
+
+            for (var i = 0, length = objectPropertyKeys.length; i < length; i++) {
+                if (objectPropertyKeys[i] === childValue) {
+                    objectPropertyKey = i;
+                    break;
+                }
+            }
+
+            return objectPropertyKey;
         }
     }
 

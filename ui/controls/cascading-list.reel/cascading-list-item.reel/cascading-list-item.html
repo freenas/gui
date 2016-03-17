@@ -20,7 +20,7 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "@owner.data.object.name || @owner.data.object.id"}
+                "value": {"<-": "@owner.isCollection ? path(@owner.userInterfaceDescriptor.collectionNameExpression) : @owner.data.object.path(@owner.userInterfaceDescriptor.nameExpression)"}
             }
         },
         "content": {
@@ -29,9 +29,9 @@
                 "element": {"#": "content"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.data.inspector"},
-                "component.object": {"<-": "@owner.data.object"},
-                "classList.has('Inspector-scroll')": {"<-": "@owner.data.object.inspector != 'ui/controls/viewer.reel'"}
+                "moduleId": {"<-": "@owner.inspectorComponentModuleId"},
+                "object": {"<-": "@owner.data.object"},
+                "classList.has('Inspector-scroll')": {"<-": "@owner.inspectorComponentModuleId != 'ui/controls/viewer.reel'"}
             }
         }
     }

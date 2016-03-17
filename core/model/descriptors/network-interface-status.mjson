@@ -34,7 +34,12 @@
     "properties": {
       "name": "link_state",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "String",
+      "enumValues": [
+        "LINK_STATE_UNKNOWN",
+        "LINK_STATE_DOWN",
+        "LINK_STATE_UP"
+      ]
     }
   },
   "blueprint_networkinterfacestatus_media_options": {

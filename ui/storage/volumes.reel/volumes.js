@@ -13,75 +13,61 @@ exports.Volumes = Component.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
-            var self = this,
+            var dataService = this.application.dataService,
+                self = this,
                 volume,
                 i, length;
+
             if (isFirstTime) {
                 this._volumeService = Model.getPrototypeForType(Model.Volume).then(function(Volume) {
                     return Volume.constructor;
                 });
-                this._listVolumes().then(function(volumes) {
-                    self.volumes = volumes;
-                    for (i = 0, length = self.volumes.length; i < length; i++) {
-                        volume = self.volumes[i];
-                        volume.scrub = {
-                            name: "Scrub",
-                            inspector: "ui/inspectors/scrub.reel"
-                        };
-                    }
-                    return self._listSnapshots();
+
+                dataService.fetchData(Model.Volume).then(function(volumes) {
+                    // fixme: getDataObject doesn't return a promise, so we need to load the descriptor manually
+                    // before calling getDataObject, knowing that models are loaded lazily.
+                    return Model.getPrototypeForType(Model.Scrub).then(function () {
+                        self.volumes = volumes;
+                        for (i = 0, length = self.volumes.length; i < length; i++) {
+                            volume = self.volumes[i];
+                            //fixme: hacky montage-data need to return a promise here
+                            volume.scrubs = self.application.dataService.getDataObject(Model.Scrub);
+                        }
+                        return self._listSnapshots();
+                    });
                 }).then(function(volumesSnapshots) {
                     var volume;
                     for (i = 0, length = self.volumes.length; i < length; i++) {
                         volume = self.volumes[i];
-                        volume.snapshots = volumesSnapshots[volume.name] || [];
-                        volume.snapshots.name = "Snapshots";
-                        volume.snapshots.inspector = "ui/controls/viewer.reel";
+                        volume.snapshots = volumesSnapshots[volume.name] || dataService.getEmptyCollectionForType(Model.VolumeSnapshot);
                     }
                     return self._listShares();
                 }).then(function(volumesShares) {
                     var volume;
                     for (i = 0, length = self.volumes.length; i < length; i++) {
                         volume = self.volumes[i];
-                        volume.shares = volumesShares[volume.name] || [];
-                        volume.shares.name = "Shares";
-                        volume.shares.inspector = "ui/controls/viewer.reel";
+                        volume.shares = volumesShares[volume.name] || dataService.getEmptyCollectionForType(Model.Share);
                     }
                     return self._listDisks();
                 }).then(function(disks) {
-                    var volume;
-                    for (i = 0, length = self.volumes.length; i < length; i++) {
-                        volume = self.volumes[i];
-                        volume.topology.spare = disks || [];
-                    }
+                    // fixme: getDataObject doesn't return a promise, so we need to load the descriptor manually
+                    // before calling getDataObject, knowing that models are loaded lazily.
+                    return Model.getPrototypeForType(Model.ZfsTopology).then(function () {
+                        var volume, zfsTopology;
+                        for (i = 0, length = self.volumes.length; i < length; i++) {
+                            volume = self.volumes[i];
+
+                            //fixme: need to add reference support to descriptors
+                            //fixme: hacky montage-data need to return a promise here
+                            zfsTopology = self.application.dataService.getDataObject(Model.ZfsTopology);
+                            dataService.mapFromRawData(zfsTopology, volume.topology);
+                            volume.topology = zfsTopology;
+
+                            volume.topology.spare = disks || [];
+                        }
+                    });
                 });
             }
-        }
-    },
-
-    _listVolumes: {
-        value: function() {
-            return this.application.dataService.fetchData(Model.Volume).then(function(volumes) {
-                var displayedVolumes = [],
-                    displayedVolume,
-                    volume,
-                    i;
-                for (i = 0; i < volumes.length; i++) {
-                    volume = volumes[i];
-                    displayedVolume = {
-                        name: volume.id,
-                        size: volume.properties.size.rawvalue,
-                        inspector: "ui/inspectors/volume.reel",
-                        topology: volume.topology
-                    };
-                    displayedVolume.topology.name = "Topology";
-                    displayedVolume.topology.inspector = "ui/inspectors/topology.reel";
-                    displayedVolumes.push(displayedVolume);
-                }
-                displayedVolumes.name = "Volumes";
-                displayedVolumes.inspector = "ui/controls/viewer.reel";
-                return displayedVolumes
-            });
         }
     },
 
@@ -95,9 +81,8 @@ exports.Volumes = Component.specialize({
                 for (i = 0, length = snapshots.length; i < length; i++) {
                     snapshot = snapshots[i];
                     if (!volumesSnapshots.hasOwnProperty(snapshot.volume)) {
-                        volumesSnapshots[snapshot.volume] = [];
+                        volumesSnapshots[snapshot.volume] = dataService.getEmptyCollectionForType(Model.VolumeSnapshot);
                     }
-                    snapshot.inspector = "ui/inspectors/snapshot.reel";
                     volumesSnapshots[snapshot.volume].push(snapshot);
                 }
                 return volumesSnapshots;
@@ -139,11 +124,12 @@ exports.Volumes = Component.specialize({
 
     _addShareToVolumeShares: {
         value: function(share, volumesShares) {
+            var dataService = this.application.dataService;
+
             return this._getVolumeNameFromShare(share).then(function(volumeName) {
                 if (!volumesShares.hasOwnProperty(volumeName)) {
-                    volumesShares[volumeName] = [];
+                    volumesShares[volumeName] = dataService.getEmptyCollectionForType(Model.Share);
                 }
-                share.inspector = "ui/inspectors/share.reel";
                 volumesShares[volumeName].push(share);
             });
         }

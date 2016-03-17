@@ -38,7 +38,7 @@
                 "label": "Enable Netwait"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.config.netwait.enabled"}
+                "checked": {"<->": "@owner.object.netwait.enabled"}
             }
         },
         "netwait_addresses": {
@@ -69,7 +69,7 @@
                 "placeholderValue": "eg. http://a.com:1234"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.config.http_proxy"}
+                "value": {"<->": "@owner.object.http_proxy"}
             }
         },
         "dhcp_title": {
@@ -86,7 +86,7 @@
                 "label": "Assign Gateway"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.config.dhcp.assign_gateway"}
+                "checked": {"<->": "@owner.object.dhcp.assign_gateway"}
             }
         },
         "dhcp_assign_dns": {
@@ -96,7 +96,7 @@
                 "label": "Assign DNS"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.config.dhcp.assign_dns"}
+                "checked": {"<->": "@owner.object.dhcp.assign_dns"}
             }
         },
         "gateway_title": {
@@ -114,9 +114,9 @@
                 "placeholderValue": "eg. 1.2.3.4/16"
             },
             "bindings": {
-                "value": {"<->": "@owner.serverDhcpAssignGateway ? @owner.serverDhcpAssignedGatewayValues.ipv4 : @owner.object.config.gateway.ipv4"},
-                "enabled": {"<-": "!@owner.object.config.dhcp.assign_gateway"},
-                "placeholderValue": {"<-": "!@owner.object.config.dhcp.assign_gateway ? 'eg. 1.2.3.4/16' : ''"}
+                "value": {"<->": "@owner.serverDhcpAssignGateway ? @owner.serverDhcpAssignedGatewayValues.ipv4 : @owner.object.gateway.ipv4"},
+                "enabled": {"<-": "!@owner.object.dhcp.assign_gateway"},
+                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_gateway ? 'eg. 1.2.3.4/16' : ''"}
             }
         },
         "gateway_ipv6": {
@@ -127,9 +127,9 @@
                 "placeholderValue": "eg. ::ffff:102:304"
             },
             "bindings": {
-                "value": {"<->": "@owner.serverDhcpAssignGateway ? @owner.serverDhcpAssignedGatewayValues.ipv6 : @owner.object.config.gateway.ipv6"},
-                "enabled": {"<-": "!@owner.object.config.dhcp.assign_gateway"},
-                "placeholderValue": {"<-": "!@owner.object.config.dhcp.assign_gateway ? 'eg. ::ffff:102:304' : ''"}
+                "value": {"<->": "@owner.serverDhcpAssignGateway ? @owner.serverDhcpAssignedGatewayValues.ipv6 : @owner.object.gateway.ipv6"},
+                "enabled": {"<-": "!@owner.object.dhcp.assign_gateway"},
+                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_gateway ? 'eg. ::ffff:102:304' : ''"}
             }
         },
         "dns_title": {
@@ -147,8 +147,8 @@
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<->": "@owner.object.config.dns.search"},
-                "enabled": {"<-": "!@owner.object.config.dhcp.assign_dns"}
+                "values": {"<->": "@owner.object.dns.search"},
+                "enabled": {"<-": "!@owner.object.dhcp.assign_dns"}
             }
         },
         "dns_addresses": {
@@ -159,8 +159,8 @@
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<->": "@owner.object.config.dns.addresses"},
-                "enabled": {"<-": "!@owner.object.config.dhcp.assign_dns"}
+                "values": {"<->": "@owner.object.dns.addresses"},
+                "enabled": {"<-": "!@owner.object.dhcp.assign_dns"}
             }
         }
     }

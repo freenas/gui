@@ -16,8 +16,8 @@
                 "element": {"#": "interfaceIcon"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.object.icon || @owner.icon "},
-                "component.object": {"<-": "@owner.object"},
+                "moduleId": {"<-": "@owner.userInterfaceDescriptor.iconComponentModule.id"},
+                "object": {"<-": "@owner.object"},
                 "component.size": {"<-": "size"}
             }
         },

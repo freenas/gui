@@ -1,0 +1,13 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/inspectors/interface.reel"},
+            "iconComponentModule":  {"%": "ui/icons/interface.reel"},
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Interfaces'",
+            "nameExpression": "id"
+        }
+    }
+
+}

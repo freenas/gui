@@ -1,0 +1,9 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/inspectors/network-configuration.reel"},
+            "nameExpression": "'Network Configuration'"
+        }
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "blueprint_networkconfiguration_summary": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "summary",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_networkconfiguration_staticroutes": {
+      "prototype": "montage/core/meta/property-blueprint",
+      "properties": {
+        "name": "staticRoutes",
+        "blueprint": {"@": "root"}
+      }
+    },
+  "blueprint_networkconfiguration_ipmi": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ipmi",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_networkconfiguration_networkconfiguration": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "networkConfiguration",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "NetworkHost",
+      "propertyBlueprints": [
+        {"@": "blueprint_networkconfiguration_summary"},
+        {"@": "blueprint_networkconfiguration_staticroutes"},
+        {"@": "blueprint_networkconfiguration_ipmi"},
+        {"@": "blueprint_networkconfiguration_networkconfiguration"}
+      ]
+    }
+  }
+}

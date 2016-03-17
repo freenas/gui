@@ -43,7 +43,7 @@ exports.NetworkConfiguration = Component.specialize(/** @lends NetworkConfigurat
             if (networkConfig) {
                 this._object = networkConfig;
                 this._status = networkConfig.status;
-                if (networkConfig.config.dhcp.assign_gateway) {
+                if (networkConfig.dhcp.assign_gateway) {
                     this.serverDhcpAssignGateway = true;
                     this.serverDhcpAssignedGatewayValues = networkConfig.status.gateway;
                 } else {

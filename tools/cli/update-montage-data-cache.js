@@ -44,11 +44,15 @@ Connect.authenticateIfNeeded().then(function () {
                 }).then(function () {
                     progressBar.tick();
 
-                    return generateModel(MontageDataConfig.DescriptorsDirectoryAbsolutePath, {
-                        prefix: MontageDataConfig.DescriptorsDirectoryPath,
-                        target: MontageDataConfig.ModelDirectoryAbsolutePath,
-                        save: true
-                    }).then(function () {
+                    return generateModel(
+                        [
+                            MontageDataConfig.DescriptorsDirectoryAbsolutePath,
+                            MontageDataConfig.CustomDescriptorsAbsolutePath
+                        ], {
+                            target: MontageDataConfig.ModelDirectoryAbsolutePath,
+                            save: true
+                        }
+                    ).then(function () {
                         progressBar.tick();
 
                         return generateEventTypesForEntities({

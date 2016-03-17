@@ -3,24 +3,38 @@ var Path = require('path');
 var Promise = require('montage/core/promise').Promise;
 require('json.sortify');
 
-exports.generateModel = function generateModel (path, options) {
-    return FS.listDirectoryAtPath(path).then(function (files) {
+exports.generateModel = function generateModel (paths, options) {
+    if (!Array.isArray(paths)) {
+        paths = [paths];
+    }
+
+    return Promise.map(paths, function (path) {
+        return FS.listDirectoryAtPath(path);
+
+    }).then(function (filesFolders) {
         var modelsFile = {
                 models: []
             },
             models = modelsFile.models,
+            filesFolder,
+            descriptorFolderAbsolutePath,
             file;
 
-        for (var i = 0, length = files.length; i < length; i++) {
-            file = files[i];
+        for (var i = 0, length = filesFolders.length; i < length; i++) {
+            filesFolder = filesFolders[i];
+            descriptorFolderAbsolutePath = paths[i];
+            
+            for (var ii = 0, ll = filesFolder.length; ii < ll; ii++) {
+                file = filesFolder[ii];
 
-            var format = Path.parse(file);
+                var format = Path.parse(file);
 
-            if (format.ext === ".mjson") {
-                models.push({
-                    type: format.name.toCamelCase(),
-                    modelId: options.prefix ? Path.join(options.prefix, file) : file
-                });
+                if (format.ext === ".mjson") {
+                    models.push({
+                        type: format.name.toCamelCase(),
+                        modelId: Path.join(Path.relative(__dirname, descriptorFolderAbsolutePath).replace(/\.\.\//g, ""), file)
+                    });
+                }
             }
         }
 

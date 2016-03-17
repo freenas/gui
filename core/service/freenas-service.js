@@ -371,6 +371,17 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
 
+    //FIXME: hacky
+    getEmptyCollectionForType: {
+        value: function (type) {
+            var collection = [];
+            collection._meta_data = {collectionModelType: type};
+
+            return collection;
+        }
+    },
+
+
 /*----------------------------------------------------------------------------------------------------------------------
                                              DataService Private Functions
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -410,6 +421,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                             self.rawDataDone(stream);
 
                             stream.then(function (data) {
+                                //fixme: fix for UIDescriptor and empty array....
+                                data._meta_data = {collectionModelType: type};
                                 self.modelsCache.set(type.typeName, data);
 
                                 return data;
@@ -582,8 +595,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     notificationCenter = new NotificationCenter().initWithBackendBridge(freeNASService.backendBridge);
 
                 instance = new DataService();
-                DataService.mainService.addChildService(freeNASService);
 
+                //Fixme: hacky
+                instance.getEmptyCollectionForType = FreeNASService.prototype.getEmptyCollectionForType;
+
+                DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;
             }
 

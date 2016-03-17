@@ -22,7 +22,7 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.size"}
+                "value": {"<-": "@owner.object.properties.size.rawvalue"}
             }
         },
         "shares": {
@@ -49,7 +49,7 @@
                 "element": {"#": "scrub"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.scrub"}
+                "object": {"<-": "@owner.object.scrubs"}
             }
         },
         "topology": {

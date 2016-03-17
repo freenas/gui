@@ -46,8 +46,7 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "properties",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_volumedataset_type": {

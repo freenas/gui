@@ -6,11 +6,6 @@
                 "name": "call",
                 "namespace": "rpc"
             },
-            "emit": {
-                "method": "alert.emit",
-                "name": "call",
-                "namespace": "rpc"
-            },
             "getAlertClasses": {
                 "method": "alert.get_alert_classes",
                 "name": "call",
@@ -31,6 +26,11 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "id"
+                    ]
+                },
                 "task": "alert.filter.create"
             },
             "delete": {
@@ -49,6 +49,34 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "alert.filter.update"
+            }
+        }
+    },
+    "AlertdAlert": {
+        "class": {
+            "cancel": {
+                "method": "alertd.alert.cancel",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "emit": {
+                "method": "alertd.alert.emit",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "AlertdManagement": {
+        "class": {
+            "die": {
+                "method": "alertd.management.die",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "rescanPlugins": {
+                "method": "alertd.management.rescan_plugins",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
@@ -184,6 +212,12 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "container.delete"
+            },
+            "export": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "container.export"
             },
             "import": {
                 "method": "task.submit",
@@ -1265,6 +1299,16 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getReservedContainers": {
+                "method": "replication.get_reserved_containers",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getReservedShares": {
+                "method": "replication.get_reserved_shares",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "scanKeysOnHost": {
                 "method": "replication.scan_keys_on_host",
                 "name": "call",
@@ -1311,8 +1355,13 @@
     },
     "ReplicationLink": {
         "class": {
-            "getOne": {
-                "method": "replication.link.get_one",
+            "getOneLocal": {
+                "method": "replication.link.get_one_local",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "localQuery": {
+                "method": "replication.link.local_query",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -1692,6 +1741,12 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "share.delete"
+            },
+            "export": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.export"
             },
             "import": {
                 "method": "task.submit",
@@ -2728,11 +2783,6 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
-                "restrictions": {
-                    "forbiddenFields": [
-                        "id"
-                    ]
-                },
                 "task": "volume.snapshot.update"
             }
         }
