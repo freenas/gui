@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/ipmi.reel"},
-            "nameExpression": "'Ipmi'"
+            "nameExpression": "'IPMI'"
         }
     }
 }
