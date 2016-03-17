@@ -19,8 +19,6 @@ var RPC_NAME_SPACE = "rpc",
  *
  * @description Object used as a bridge to the backend.
  *
- * @TODO: provide a method initWithConfiguration for the connection settings. (dict)
- *
  */
 var BackEndBridge = exports.BackEndBridge = Target.specialize({
 
@@ -31,14 +29,13 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
 
 
     /**
-     * @constructor
      * @public
      *
      * @description todo
      *
      */
-    constructor: {
-        value: function BackEndBridge (configuration) {
+    initWithConfiguration: {
+        value: function (configuration) {
             this._connection = new WebSocketClient().initWithUrl(configuration.get(WebSocketConfiguration.KEYS.URL));
             this._handlerPool = new HandlerPool().initWithHandlerTimeout(configuration.get(WebSocketConfiguration.KEYS.TIMEOUT));
 
@@ -46,6 +43,8 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
             this._connection.responseType = WebSocketClient.RESPONSE_TYPE.JSON;
             this._connection.addEventListener("webSocketMessage", this);
             this._connection.addEventListener("webSocketError", this);
+
+            return this;
         }
     },
 
@@ -441,7 +440,9 @@ Object.defineProperty(exports, "defaultBackendBridge", {
         _defaultBackendBridge = backendBridge;
     },
     get: function () {
-        return _defaultBackendBridge || (_defaultBackendBridge = new BackEndBridge(WebSocketConfiguration.defaultConfiguration));
+        return _defaultBackendBridge || (
+                _defaultBackendBridge = (new BackEndBridge()).initWithConfiguration(WebSocketConfiguration.defaultConfiguration)
+            );
     }
 
 });
