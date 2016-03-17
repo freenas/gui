@@ -23,7 +23,7 @@ exports.generateModel = function generateModel (paths, options) {
         for (var i = 0, length = filesFolders.length; i < length; i++) {
             filesFolder = filesFolders[i];
             descriptorFolderAbsolutePath = paths[i];
-            
+
             for (var ii = 0, ll = filesFolder.length; ii < ll; ii++) {
                 file = filesFolder[ii];
 

@@ -26,7 +26,6 @@ WebSocketConfiguration.prototype.set = function (key, value) {
 
     if (keys[key] && keys.URL !== key) {
         this._store.set(key, value);
-
     }
 };
 
