@@ -57,12 +57,13 @@ exports.User = Component.specialize({
     },
 
     groupOptionConverter: {
-        convert: function (name) {
-            return this.groupOptions.find({name:name});
+        convert: function (groupId) {
+            return this.groupOptions.find({id:groupID});
         },
 
-        revert: function (group) {
-            return group.id;
+        revert: function (name) {
+            var newGroupValue = this.groupOptions.find({name:name});
+            return newGroupValue ? newGroupValue.id : null;
         },
 
         validator: {
