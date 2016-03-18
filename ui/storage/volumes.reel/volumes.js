@@ -81,12 +81,12 @@ exports.Volumes = Component.specialize({
                 for (i = 0, length = snapshots.length; i < length; i++) {
                     snapshot = snapshots[i];
                     if (!volumesSnapshots.hasOwnProperty(snapshot.volume)) {
-                        volumesSnapshots[snapshot.volume] = this.application.dataService.getEmptyCollectionForType(Model.VolumeSnapshot);
+                        volumesSnapshots[snapshot.volume] = dataService.getEmptyCollectionForType(Model.VolumeSnapshot);
                     }
                     volumesSnapshots[snapshot.volume].push(snapshot);
                 }
                 return volumesSnapshots;
-            }.bind(this));
+            });
         }
     },
 
