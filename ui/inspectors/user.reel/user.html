@@ -43,6 +43,16 @@
                 "value": {"<->": "@owner.object.username"}
             }
         },
+        "password": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "label": "Password"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password"}
+            }
+        },
         "full_name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -143,6 +153,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="uid"></div>
             <div data-montage-id="username"></div>
+            <div data-montage-id="password"></div>
             <div data-montage-id="full_name"></div>
             <div data-montage-id="password"></div>
             <div data-montage-id="group"></div>
