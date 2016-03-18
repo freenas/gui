@@ -46,6 +46,11 @@ exports.Network = Component.specialize({
                 }).then(function () {
                     return self._populateNetworkInterfaces(networkOverview);
                 }).then(function () {
+                    return self.getSystemGeneralConfig().then(function (systemGeneral) {
+                        networkOverview.summary.hostname = systemGeneral.hostname;
+                        networkOverview.networkConfiguration.general = systemGeneral;
+                    });
+                }).then(function () {
                     return self._populateStaticRoutes(networkOverview).then(function () {
                         return networkOverview;
                     });
