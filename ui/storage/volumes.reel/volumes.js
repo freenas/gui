@@ -73,6 +73,7 @@ exports.Volumes = Component.specialize({
 
     _listSnapshots: {
         value: function() {
+            var dataService = this.application.dataService;
             return this.application.dataService.fetchData(Model.VolumeSnapshot).then(function(snapshots) {
                 var volumesSnapshots = {},
                     snapshot,
