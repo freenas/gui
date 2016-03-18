@@ -6,7 +6,7 @@
             "iconComponentModule":  {"%": "ui/icons/interface.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Interfaces'",
-            "nameExpression": "id"
+            "nameExpression": "name || id"
         }
     }
 
