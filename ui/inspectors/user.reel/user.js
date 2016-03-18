@@ -11,6 +11,10 @@ exports.User = Component.specialize({
         value: null
     },
 
+    groupOptions: {
+        value: null
+    },
+
     object: {
         set: function (user) {
             if (user) {
@@ -34,7 +38,19 @@ exports.User = Component.specialize({
         }
     },
 
-    groupOptions: {
-        value: null
+    groupOptionConverter: {
+        convert: function (name) {
+            return this.groupOptions.find({name:name});
+        },
+
+        revert: function (group) {
+            return group.id;
+        },
+
+        validator: {
+            validate: function (name) {
+                return !!this.groupOptions.find({name:name});
+            }
+        }
     }
 });

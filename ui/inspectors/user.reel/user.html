@@ -66,16 +66,16 @@
             }
         },
         "groups": {
-            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "groups"},
                 "label": "Additional Groups",
-                "valuePropertyName": "gid",
-                "labelPropertyName": "name"
+                "labelPath": "name",
+                "converter": "@owner.groupOptionConverter"
             },
             "bindings": {
                 "options": {"<-": "@owner.groupOptions"},
-                "selectedValues": {"<->": "@owner.groupOptions"}
+                "selectedValues": {"<->": "@owner.object.groups"}
             }
         },
         "home": {
