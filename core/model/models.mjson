@@ -33,6 +33,14 @@
             "type": "Alert"
         },
         {
+            "modelId": "core/model/descriptors/backup-types.mjson",
+            "type": "BackupTypes"
+        },
+        {
+            "modelId": "core/model/descriptors/backup.mjson",
+            "type": "Backup"
+        },
+        {
             "modelId": "core/model/descriptors/boot-environment.mjson",
             "type": "BootEnvironment"
         },

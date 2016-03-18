@@ -1,4 +1,4 @@
-var Client = require('websocket').client;
+var WebSocket = require('ws');
 var WebSocketMessage = require('../../../core/backend/websocket-message').WebSocketMessage;
 var WebSocketConfiguration = require('../../../core/backend/websocket-configuration').WebSocketConfiguration;
 var HandlerPool = require('../../../core/backend/handler-pool').HandlerPool;
@@ -6,14 +6,18 @@ var Promise = require('montage/core/promise').Promise;
 
 
 var WebSocketClient = exports.WebSocketClient = function (webSocketConfiguration) {
-    this.client = new Client();
     this.handlerPool = new HandlerPool();
     this.configuration = webSocketConfiguration;
 };
 
 WebSocketClient.prototype.connect = function () {
-    var client = this.client;
     var configuration = this.configuration;
+
+    if (global.verbose) {
+        console.log('Connecting to: ' + configuration.get(WebSocketConfiguration.KEYS.URL));
+    }
+
+    var client = this.client = new WebSocket(configuration.get(WebSocketConfiguration.KEYS.URL));
     var self = this;
 
     return new Promise(function (resolve, reject) {
@@ -23,27 +27,26 @@ WebSocketClient.prototype.connect = function () {
             reject(error);
         });
 
-        client.on('connect', function (connection) {
-            self.connection = connection;
+        client.on('error', function (error) {
+            console.log("Connection Error: " + error.toString());
+            reject(error);
+        });
 
+        client.on('open', function () {
             if (global.verbose) {
                 console.log('Connected');
             }
 
-            connection.on('error', function (error) {
-                console.log("Connection Error: " + error.toString());
-            });
-
-            connection.on('close', function () {
+            client.on('close', function () {
                 console.log('Connection Closed');
             });
 
-            connection.on('message', function (message) {
+            client.on('message', function (message) {
                 var response,
                     errorMessage;
 
                 try {
-                    response = JSON.parse(message.utf8Data);
+                    response = JSON.parse(message);
 
                 } catch (error) {
                     errorMessage = error;
@@ -58,20 +61,14 @@ WebSocketClient.prototype.connect = function () {
                 }
             });
 
-            resolve(connection);
+            resolve(client);
         });
-
-        if (global.verbose) {
-            console.log('Connecting to: ' + configuration.get(WebSocketConfiguration.KEYS.URL));
-        }
-
-        client.connect(configuration.get(WebSocketConfiguration.KEYS.URL));
     });
 };
 
 
 WebSocketClient.prototype.send = function (namespace, name, args) {
-    if (this.connection.connected) {
+    if (this.client.readyState === WebSocket.OPEN) {
         var self = this;
 
         return new Promise(function (resolve, reject) {
@@ -86,7 +83,7 @@ WebSocketClient.prototype.send = function (namespace, name, args) {
                 console.log("Message Sent: '" + message.toJSON() + "'");
             }
 
-            self.connection.send(message);
+            self.client.send(JSON.stringify(message));
         });
     }
 
@@ -94,16 +91,12 @@ WebSocketClient.prototype.send = function (namespace, name, args) {
 };
 
 WebSocketClient.prototype.authenticate = function (username, password) {
-    if (this.connection.connected) {
-        if (global.verbose) {
-            console.log('User Authenticating...');
-        }
-
-        return this.send("rpc", "auth", {
-            username : username,
-            password : password
-        });
+    if (global.verbose) {
+        console.log('User Authenticating...');
     }
 
-    return Promise.reject("not connected!");
+    return this.send("rpc", "auth", {
+        username : username,
+        password : password
+    });
 };

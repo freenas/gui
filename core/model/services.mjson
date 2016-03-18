@@ -80,6 +80,60 @@
             }
         }
     },
+    "Backup": {
+        "class": {
+            "supportedTypes": {
+                "method": "backup.supported_types",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "name",
+                        "provider",
+                        "dataset"
+                    ]
+                },
+                "task": "backup.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.delete"
+            },
+            "read": {
+                "method": "backup.query",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "sync": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.sync"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "restrictions": {
+                    "forbiddenFields": [
+                        "id",
+                        "provider",
+                        "dataset"
+                    ]
+                },
+                "task": "backup.update"
+            }
+        }
+    },
     "BootEnvironment": {
         "instance": {
             "activate": {

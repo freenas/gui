@@ -1,6 +1,7 @@
 {
     "Alert": "entity-subscriber.alert.changed",
     "AlertFilter": "entity-subscriber.alert.filter.changed",
+    "Backup": "entity-subscriber.backup.changed",
     "Container": "entity-subscriber.container.changed",
     "CryptoCertificate": "entity-subscriber.crypto.certificate.changed",
     "Disk": "entity-subscriber.disk.changed",

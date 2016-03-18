@@ -12,7 +12,7 @@
     "devDependencies": {
         "montage-testing": "~0.4.0",
         "commander": "~2.9.0",
-        "websocket": "~1.0.22",
+        "ws": "~1.0.1",
         "prompt": "~0.3.0",
         "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
         "rimraf": "~2.5.2",
