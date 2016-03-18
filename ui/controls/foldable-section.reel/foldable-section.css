@@ -1,0 +1,13 @@
+.FoldableSection-content {
+    display: none;
+}
+
+.FoldableSection.is-expanded .FoldableSection-content {
+    display: block;
+}
+
+.FoldableSection-expand
+{
+    outline: none;
+}
+

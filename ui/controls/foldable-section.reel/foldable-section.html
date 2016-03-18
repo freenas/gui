@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="foldable-section.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "expandButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "expandButton"}
+            }
+        },
+        "sectionTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "sectionTitle"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FoldableSection">
+        <div data-montage-id="expandButton" class="FoldableSection-expand">
+            <div data-montage-id="sectionTitle"></div>
+        </div>
+        <div data-montage-id="sectionContent" class="FoldableSection-content">
+            <div data-param="*"></div>
+        </div>
+    </div>
+</body>
+</html>
