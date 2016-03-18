@@ -320,6 +320,36 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      * @function
      * @public
      *
+     * @description todo
+     *
+     */
+    mapFromRawData: {
+        value: function (object, data) {
+            var propertyDescriptors = Object.getPrototypeOf(object).blueprint.propertyBlueprints,
+                keys = Object.keys(data),
+                propertyDescriptor,
+                key;
+
+            for (var i = 0, n = keys.length; i < n; i ++) {
+                key = keys[i];
+                propertyDescriptor = this._findPropertyDescriptorWithDescriptorAndPropertyName(propertyDescriptors, key);
+
+                if (propertyDescriptor) {
+                    if (propertyDescriptor.readOnly) {
+                        object["_" + key] = data[key];
+                    } else {
+                        object[key] = data[key];
+                    }
+                }
+            }
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
      * @description Handles model changes from middleware events.
      *
      * @param {Object.<MutableEvent>} event
@@ -435,6 +465,35 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     stream.dataError(new Error("No fetch service for the model object '" + type.typeName + "'"));
                 }
             }
+        }
+    },
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     * @param {Object.<Blueprint>} blueprint
+     * @param {String} key - property name
+     *
+     */
+    _findPropertyDescriptorWithDescriptorAndPropertyName: {
+        value: function (propertyDescriptors, propertyName) {
+            var propertyDescriptor = null,
+                propertyDescriptorTemp;
+
+            for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
+                propertyDescriptorTemp = propertyDescriptors[i];
+
+                if (propertyDescriptorTemp.name === propertyName) {
+                    propertyDescriptor = propertyDescriptorTemp;
+                    break;
+                }
+            }
+
+            return propertyDescriptor;
         }
     },
 
