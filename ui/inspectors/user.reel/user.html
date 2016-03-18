@@ -13,7 +13,14 @@
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "inspector"}
+                "element": {"#": "inspector"},
+                "canRevert": "true",
+                "canSave": "true"
+            },
+            "bindings": {
+                "save": {"<-": "@owner.save"},
+                "delete": {"<-": "@owner.delete"},
+                "canDelete": {"<-": "!@owner.object.builtin"}
             }
         },
         "uid": {
