@@ -54,7 +54,11 @@ exports.ApplicationDelegate = Montage.specialize({
             modelType = modelType || (object ? Object.getPrototypeOf(object).Type : null);
 
             if (modelType) {
-                userInterfaceDescriptorPromise = UserInterfaceDescriptorPromisesMap.get(modelType.typeName);
+                //Fixme: should be generic
+                var key = Model.NetworkInterface === modelType && object.type && object.type !== "ETHER" ?
+                    modelType.typeName + "_" + object.type : modelType.typeName;
+
+                userInterfaceDescriptorPromise = UserInterfaceDescriptorPromisesMap.get(key);
 
                 if (!userInterfaceDescriptorPromise) {
                     userInterfaceDescriptorPromise = new Promise(function (resolve, reject) {
@@ -63,7 +67,7 @@ exports.ApplicationDelegate = Montage.specialize({
 
                         if (Model.NetworkInterface === modelType) {
                             objectUserInterfaceDescriptorId += userInterfaceDescriptorPrefix +
-                                (object && object.type !== "ETHER" ? "-" + object.type.toLowerCase() : "") +
+                                (object && (object.type !== "ETHER" || !object.type) ? "-" + object.type.toLowerCase() : "") +
                                 UserInterfaceDescriptorSuffix;
 
                         } else {
@@ -77,7 +81,7 @@ exports.ApplicationDelegate = Montage.specialize({
                         }, reject);
                     });
 
-                    UserInterfaceDescriptorPromisesMap.set(modelType.typeName, userInterfaceDescriptorPromise);
+                    UserInterfaceDescriptorPromisesMap.set(key, userInterfaceDescriptorPromise);
                 }
             } else {
                 return Promise.reject("no user interface descriptor for object: " + object);

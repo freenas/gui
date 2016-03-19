@@ -88,22 +88,6 @@ exports.CascadingList = Component.specialize({
                 });
             });
         }
-    },
-
-    _findObjectPropertyNameWithChildValue: {
-        value: function (parentObject, childValue) {
-            var objectPropertyKeys = Object.keys(parentObject),
-                objectPropertyKey;
-
-            for (var i = 0, length = objectPropertyKeys.length; i < length; i++) {
-                if (objectPropertyKeys[i] === childValue) {
-                    objectPropertyKey = i;
-                    break;
-                }
-            }
-
-            return objectPropertyKey;
-        }
     }
 
 });

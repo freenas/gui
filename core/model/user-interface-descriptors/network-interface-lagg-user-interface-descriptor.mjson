@@ -2,8 +2,9 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/bridge.reel"},
-            "iconComponentModule":  {"%": "ui/icons/bridge.reel"}
+            "inspectorComponentModule": {"%": "ui/inspectors/lagg.reel"},
+            "iconComponentModule":  {"%": "ui/icons/lagg.reel"},
+            "nameExpression": "id"
         }
     }
 }

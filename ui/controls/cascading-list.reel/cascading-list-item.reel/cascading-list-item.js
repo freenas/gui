@@ -16,24 +16,44 @@ exports.CascadingListItem = Component.specialize({
         },
         set: function (data) {
             if (this._data !== data) {
-                this._data = data;
+                var inspectorComponentModuleId = null;
 
                 if (data) {
-                    var object = data.object,
-                        userInterfaceDescriptor = data.userInterfaceDescriptor;
+                    var defaultInspectorId = this.constructor.DEFAULT_INSPECTOR_ID,
+                        userInterfaceDescriptor = data.userInterfaceDescriptor,
+                        object = data.object;
 
                     this.isCollection = Array.isArray(object);
                     this.userInterfaceDescriptor = userInterfaceDescriptor;
 
-                    //todo: need to be smarter here
-                    if (this.isCollection) {
-                        this.inspectorComponentModuleId = userInterfaceDescriptor.collectionInspectorComponentModule.id;
-                    } else if (object && typeof object === "object") {
-                        this.inspectorComponentModuleId = userInterfaceDescriptor.inspectorComponentModule.id;
+                    if (userInterfaceDescriptor) {
+                        //todo: need to be smarter here
+                        if (this.isCollection) {
+                            var collectionInspectorComponentModule = userInterfaceDescriptor.collectionInspectorComponentModule;
+
+                            inspectorComponentModuleId = collectionInspectorComponentModule ?
+                                collectionInspectorComponentModule.id : defaultInspectorId;
+
+                        } else if (object && typeof object === "object") {
+                            var inspectorComponentModule  = userInterfaceDescriptor.inspectorComponentModule,
+                                objectPrototype = Object.getPrototypeOf(Object.getPrototypeOf(object)),
+                                id = object.id;
+
+                            if ((id == void 0 && id !== null) || !objectPrototype.hasOwnProperty("id")) {
+                                inspectorComponentModuleId = inspectorComponentModule ?
+                                    inspectorComponentModule.id : defaultInspectorId;
+                            } else {
+                                var editorComponentModule = userInterfaceDescriptor.editorComponentModule;
+
+                                inspectorComponentModuleId = editorComponentModule ? editorComponentModule.id :
+                                    inspectorComponentModule ? inspectorComponentModule.id : defaultInspectorId;
+                            }
+                        }
                     }
-                } else {
-                    this.inspectorComponentModuleId = null;
                 }
+
+                this._data = data;
+                this.inspectorComponentModuleId = inspectorComponentModuleId;
             }
         }
     },
@@ -80,6 +100,12 @@ exports.CascadingListItem = Component.specialize({
                 this._element.parentNode.scrollLeft = 1e10;
             }
         }
+    }
+
+}, {
+
+    DEFAULT_INSPECTOR_ID: {
+        value: 'ui/controls/viewer.reel'
     }
 
 });

@@ -3,7 +3,8 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/bridge.reel"},
-            "iconComponentModule":  {"%": "ui/icons/bridge.reel"}
+            "iconComponentModule":  {"%": "ui/icons/bridge.reel"},
+            "nameExpression": "id"
         }
     }
 }

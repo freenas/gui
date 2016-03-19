@@ -46,6 +46,8 @@ exports.Interface = Component.specialize({
 
     object: {
         set: function (networkInterface) {
+            this._object = networkInterface;
+
             if (networkInterface && networkInterface.type === NetworkInterfaceType.ETHER) {
                 this._object = networkInterface;
 
@@ -68,14 +70,16 @@ exports.Interface = Component.specialize({
                     this.staticIP = networkInterface.aliases.slice(0, 1);
                     this.otherAliases = networkInterface.aliases.slice(1);
                 }
-            } else {
-                this._object = null;
             }
         },
 
         get: function () {
             var newObject = new Object(this._object);
-            newObject.aliases = this.staticIP.concat(this.otherAliases).filter(function (alias) { return !!alias; });
+
+            if (this.staticIP) {
+                newObject.aliases = this.staticIP.concat(this.otherAliases).filter(function (alias) { return !!alias; });
+            }
+
             return newObject;
         }
     }

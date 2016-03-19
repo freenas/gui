@@ -22,7 +22,7 @@ exports.InspectorOption = Button.specialize({
             //fixme: the selection is not great at all.
 
             if (firstTime) {
-                this.parentCascadingListItem = this._findParentCascadingListItem(this)
+                this.parentCascadingListItem = this._findParentCascadingListItem(this);
                 this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "handleSelectionChange");
             }
         }

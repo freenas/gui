@@ -3,7 +3,8 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/vlan.reel"},
-            "iconComponentModule":  {"%": "ui/icons/vlan.reel"}
+            "iconComponentModule":  {"%": "ui/icons/vlan.reel"},
+            "nameExpression": "id"
         }
     }
 }

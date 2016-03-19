@@ -5,9 +5,9 @@
             "inspectorComponentModule": {"%": "ui/inspectors/interface.reel"},
             "iconComponentModule":  {"%": "ui/icons/interface.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "editorComponentModule": {"%": "ui/inspectors/interface.reel"},
             "collectionNameExpression": "'Interfaces'",
             "nameExpression": "name || id"
         }
     }
-
 }
