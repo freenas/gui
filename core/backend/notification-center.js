@@ -446,8 +446,8 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
-    startTrackingTaskWithJobId: {
-        value: function (jobId) {
+    startTrackingTaskWithTaskAndJobId: {
+        value: function (task, jobId) {
             var self = this;
 
             return new Promise(function (resolve, reject) {
@@ -456,19 +456,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                     reject: reject
                 }, jobId);
 
-                var tasksMap = self._trackingTasksMap;
-
-                if (!tasksMap.get(jobId)) {
-                    var notification = self._createNotificationWithType(Notification.TYPES.TASK);
-                    notification.jobId = jobId;
-                    tasksMap.set(jobId, notification);
-                    self._notifications.push(notification);
-
-                } else {
-                    throw new Error(
-                        "NotificationCenter is already following the notification with the jobId: '" + jobId  + "'"
-                    );
-                }
+                self._startTrackingTaskWithTaskAndJobId(task, jobId);
             });
         }
     },
@@ -518,6 +506,51 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     /*------------------------------------------------------------------------------------------------------------------
                                                    Private Functions
     ------------------------------------------------------------------------------------------------------------------*/
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
+    _startTrackingTaskWithTaskAndJobId: {
+        value:function (task, jobId) {
+            var tasksMap = this._trackingTasksMap;
+
+            if (!tasksMap.get(jobId)) {
+                var notification = this._createTaskNotification(jobId, task.name || task, task.created_at);
+                tasksMap.set(jobId, notification);
+
+                this._notifications.push(notification);
+
+            } else {
+                throw new Error(
+                    "NotificationCenter is already following the notification with the jobId: '" + jobId  + "'"
+                );
+            }
+        }
+    },
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
+    _createTaskNotification: {
+        value:function (jobId, taskName, startedTime) {
+            var notification = this._createNotificationWithType(Notification.TYPES.TASK);
+            notification.jobId = jobId;
+            notification.taskName = taskName;
+            notification.startedTime = startedTime || Date.now();
+
+            return notification;
+        }
+    },
 
 
     /**
@@ -628,6 +661,16 @@ var Notification = exports.Notification =  Montage.specialize({
 
 
     data: {
+        value: null
+    },
+
+
+    startedTime: {
+        value: null
+    },
+
+
+    taskName: {
         value: null
     }
 

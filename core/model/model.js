@@ -135,7 +135,10 @@ function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
                 }
             ).then(function (response) {
                 if (isTask) {
-                    return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithJobId(response.data);
+                    return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithTaskAndJobId(
+                        isTask ? serviceDescriptor.task : serviceDescriptor.name + "." + serviceDescriptor.method,
+                        response.data
+                    );
                 }
 
                 return response.data;

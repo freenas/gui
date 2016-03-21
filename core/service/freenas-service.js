@@ -182,16 +182,17 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 deleteServiceDescriptor = Services.findDeleteServiceForType(type);
 
             if (deleteServiceDescriptor) {
-                var self = this;
+                var self = this,
+                    taskName = deleteServiceDescriptor.task;
 
                 return this.backendBridge.send(
                     deleteServiceDescriptor.namespace,
                     deleteServiceDescriptor.name, {
                         method: deleteServiceDescriptor.method,
-                        args: [deleteServiceDescriptor.task, [object.id]]
+                        args: [taskName, [object.id]]
                     }
                 ).then(function (response) {
-                    return self.notificationCenter.startTrackingTaskWithJobId(response.data);
+                    return self.notificationCenter.startTrackingTaskWithTaskAndJobId(taskName, response.data);
                 });
             }
 
@@ -222,16 +223,17 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
                 if (serviceDescriptor) {
-                    var self = this;
+                    var self = this,
+                        taskName = serviceDescriptor.task;
 
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
                             method: serviceDescriptor.method,
-                            args: [serviceDescriptor.task, isUpdate && !modelHasNoId ? [object.id, rawData] : [rawData]]
+                            args: [taskName, isUpdate && !modelHasNoId ? [object.id, rawData] : [rawData]]
                         }
                     ).then(function (response) {
-                        return self.notificationCenter.startTrackingTaskWithJobId(response.data);
+                        return self.notificationCenter.startTrackingTaskWithTaskAndJobId(taskName, response.data);
                     });
                 } else {
                     return Promise.reject(new Error(
