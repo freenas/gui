@@ -1,13 +1,56 @@
+.FoldableSection {
+    position: relative;
+    margin-bottom: 2em;
+}
+
+/* border */
+
+.FoldableSection:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid #6D6D6D;
+}
+
+/* title */
+
+.FoldableSection .InspectorSectionTitle { margin-bottom: 0; }
+
+/* content */
+
 .FoldableSection-content {
-    display: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: all .3s ease-in-out;
 }
 
-.FoldableSection.is-expanded .FoldableSection-content {
-    display: block;
-}
+.FoldableSection-contentContainer { padding: 1em 0; }
 
-.FoldableSection-expand
-{
+.FoldableSection-contentContainer *:last-child { margin-bottom: 0; }
+
+/* Title / Icon button container */
+
+.FoldableSection-expand {
+    position: relative;
+    cursor: pointer;
     outline: none;
+}
+
+/* Icon */
+
+.FoldableSection-expand svg {
+    position: absolute;
+    top: 50%;
+    margin-top: -.7em;
+    right: 0;
+    width:  1.4em;
+    height: 1.4em;
+    transform: rotate(90deg);
+}
+
+.FoldableSection.is-expanded .FoldableSection-expand svg {
+    transform: rotate(-90deg);
 }
 
