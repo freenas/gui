@@ -107,12 +107,20 @@
             "bindings": {
                 "value": {"<->": "@owner.modeBits"}
             }
+        },
+        "title": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "title"},
+                "value": "Permissions"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Permissions">
+        <div data-montage-id="title" class="Permissions-title"></div>
         <table class="Permissions-flags">
             <tr>
                 <td></td>
