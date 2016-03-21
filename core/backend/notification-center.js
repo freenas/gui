@@ -121,7 +121,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     dismissNotificationAfterDelay: {
         set: function (dismissNotificationAfterDelay) {
-            dismissNotificationAfterDelay = !!dismissNotificationAfterDelay;
+            dismissNotificationAfterDelay = ~~dismissNotificationAfterDelay;
 
             if (this._dismissNotificationAfterDelay !== dismissNotificationAfterDelay) {
                 this._dismissNotificationAfterDelay = dismissNotificationAfterDelay;
@@ -158,7 +158,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     dismissNotificationDelay: {
         set: function (dismissNotificationAfterDelay) {
-            this._dismissNotificationDelay = ~~dismissNotificationAfterDelay;
+            this._dismissNotificationDelay = !!dismissNotificationAfterDelay;
         },
         get: function () {
             return this._dismissNotificationDelay;
