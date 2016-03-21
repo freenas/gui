@@ -546,7 +546,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
             var notification = this._createNotificationWithType(Notification.TYPES.TASK);
             notification.jobId = jobId;
             notification.taskName = taskName;
-            notification.startedTime = startedTime || Date.now();
+            notification.startedTime = Date.parse(startedTime) || Date.now();
 
             return notification;
         }
