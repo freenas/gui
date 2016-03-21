@@ -19,41 +19,13 @@
                 "canSave": "true"
             }
         },
-        "iconSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
+        "overview": {
+            "prototype": "ui/controls/share-overview.reel",
             "properties": {
-                "element": {"#": "iconSubstitution"}
+                "element": {"#": "overview"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.type"}
-            }
-        },
-        "smbIcon": {
-            "prototype": "ui/icons/smb-share.reel",
-            "properties": {
-                "element": {"#": "smbIcon"}
-            }
-        },
-        "afpIcon": {
-            "prototype": "ui/icons/afp-share.reel",
-            "properties": {
-                "element": {"#": "afpIcon"}
-            }
-        },
-        "nfsIcon": {
-            "prototype": "ui/icons/nfs-share.reel",
-            "properties": {
-                "element": {"#": "nfsIcon"}
-            }
-        },
-        "targetType": {
-            "prototype": "blue-shark/ui/field-text.reel",
-            "properties": {
-                "element": {"#": "targetType"},
-                "label": "Target type"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.target_type"}
+                "object": {"<-": "@owner.object"}
             }
         },
         "name": {
@@ -84,16 +56,6 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.target_path"}
-            }
-        },
-        "enabled": {
-            "prototype": "blue-shark/ui/field-toggle-switch.reel",
-            "properties": {
-                "element": {"#": "enabled"},
-                "label": "Enabled"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.enabled"}
             }
         },
         "unixPermissions": {
@@ -147,13 +109,7 @@
 <body>
     <div data-montage-id="owner" class="Share">
         <div data-montage-id="inspector">
-            <div data-montage-id="iconSubstitution">
-                <div data-montage-id="smbIcon" data-arg="smb"></div>
-                <div data-montage-id="afpIcon" data-arg="afp"></div>
-                <div data-montage-id="nfsIcon" data-arg="nfs"></div>
-            </div>
-            <div data-montage-id="targetType"></div>
-            <div data-montage-id="enabled"></div>
+            <div data-montage-id="overview"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="target"></div>
             <div data-montage-id="description"></div>
