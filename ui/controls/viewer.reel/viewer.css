@@ -21,6 +21,7 @@
 /* Create */
 
 .Viewer-createButton {
+    margin-top: -2px;
     display: flex;
     align-items: center;
     height:         43px;

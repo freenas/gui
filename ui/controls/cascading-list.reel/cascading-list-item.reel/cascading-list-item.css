@@ -4,8 +4,8 @@
     position: relative;
     font-family: 'lato';
     border-right: 1px solid rgba(255,255,255,.15);
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 400px;
+    max-width: 400px;
 }
 
 .CascadingListItem-title {
@@ -17,7 +17,6 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    /*background-color: #1A3144;*/
     background-color: #1A3144;
     background-image: linear-gradient(transparent, rgba(0,0,0,.15) );
     color: #FFF;
@@ -30,7 +29,6 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    /*overflow: scroll;*/
 }
 
 .CascadingListItem-content > * {

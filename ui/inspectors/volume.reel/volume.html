@@ -66,8 +66,16 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Volume">
-        <p style="text-align: center; margin-bottom: 0"><img style="width: 160px" src="256.png"></p>
-        <div data-montage-id="size" style="text-align: center; margin-bottom: 20px; font-size: 26px"></div>
+        <div class="Volume-header">
+            <div class="Volume-header-icon">
+                <img src="256.png">
+            </div>
+            <div class="Volume-header-info">
+                <div>Status Info</div>
+                <div>Additional Info</div>
+                <div data-montage-id="size" class="Volume-header-info-size"></div>
+            </div>
+        </div>
         <div data-montage-id="shares"></div>
         <div data-montage-id="snapshots"></div>
         <div data-montage-id="scrub"></div>
