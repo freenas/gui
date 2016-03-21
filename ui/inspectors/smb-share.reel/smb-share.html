@@ -69,19 +69,74 @@
             "bindings": {
                 "checked": {"<->": "@owner.properties.guest_only"}
             }
+        },
+        "hostAllow": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hostAllow"},
+                "label": "Hosts allow"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.properties.hosts_allow"}
+            }
+        },
+        "hostDeny": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hostDeny"},
+                "label": "Hosts deny"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.properties.hosts_deny"}
+            }
+        },
+        "vfsObjects": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "vfsObjects"},
+                "label": "VFS objects"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.properties.vfs_objects"}
+            }
+        },
+        "auxiliaryParameters": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "auxiliaryParameters"},
+                "label": "Auxiliary parameters"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.properties.extra_parameters.additionalProperties"}
+            }
+        },
+        "advancedSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advancedSection"},
+                "title": "Advanced"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SmbShare">
-        <div data-montage-id="readOnly"></div>
         <div data-montage-id="guestAllowed"></div>
-        <div data-montage-id="browseable"></div>
-        <div data-montage-id="recycleBin"></div>
-        <div data-montage-id="hiddenFiles"></div>
-        <div data-montage-id="guestOnly"></div>
         <div data-montage-id="homes"></div>
+        <div data-montage-id="advancedSection">
+            <div data-montage-id="comment"></div>
+            <div data-montage-id="readOnly"></div>
+            <div data-montage-id="browseable"></div>
+            <div data-montage-id="recycleBin"></div>
+            <div data-montage-id="hiddenFiles"></div>
+            <div data-montage-id="guestOnly"></div>
+            <div data-montage-id="hostAllow"></div>
+            <div data-montage-id="hostDeny"></div>
+            <div data-montage-id="vfsObjects"></div>
+
+            <div data-montage-id="auxiliaryParameters"></div>
+        </div>
     </div>
 </body>
 </html>
