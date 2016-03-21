@@ -24,7 +24,7 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
         }
     },
 
-    handleAction: {
+    handleExpandButtonAction: {
         value: function(event) {
             this.isExpanded = !this.isExpanded;
             this.setContentMaxHeight();

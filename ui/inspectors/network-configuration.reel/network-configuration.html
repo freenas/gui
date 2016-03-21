@@ -51,14 +51,14 @@
             "bindings": {
                 "values": {"<->": "@owner.object.config.netwait.addresses"},
                 "enabled": {"<-": "@owner.object.config.netwait.enabled"},
-                "placeholderValue": {"<-": "@owner.object.config.netwait.enabled ? 'eg. 1.2.3.4' : ''"}
+                "placeholderValue": {"<-": "@owner.object.config.netwait.enabled ? 'eg. 1.2.3.4' : 'Enter Netwait Address'"}
             }
         },
-        "netwait_title": {
-            "prototype": "ui/controls/inspector-section-title.reel",
+        "netwait_settings": {
+            "prototype": "ui/controls/foldable-section.reel",
             "properties": {
-                "element": {"#": "netwait_title"},
-                "value": "Netwait Settings"
+                "element": {"#": "netwait_settings"},
+                "title": "Netwait Settings"
             }
         },
         "http_proxy": {
@@ -132,11 +132,11 @@
                 "placeholderValue": {"<-": "!@owner.object.dhcp.assign_gateway ? 'eg. ::ffff:102:304' : ''"}
             }
         },
-        "dns_title": {
-            "prototype": "ui/controls/inspector-section-title.reel",
+        "dns_settings": {
+            "prototype": "ui/controls/foldable-section.reel",
             "properties": {
-                "element": {"#": "dns_title"},
-                "value": "DNS Settings"
+                "element": {"#": "dns_settings"},
+                "title": "DNS Settings"
             }
         },
         "dns_search": {
@@ -144,7 +144,8 @@
             "properties": {
                 "element": {"#": "dns_search"},
                 "label": "Search Addresses",
-                "labelPath": "this"
+                "labelPath": "this",
+                "placeholderValue": "Enter DNS"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.search"},
@@ -156,7 +157,8 @@
             "properties": {
                 "element": {"#": "dns_addresses"},
                 "label": "IP Addresses",
-                "labelPath": "this"
+                "labelPath": "this",
+                "placeholderValue": "Enter DNS Address"
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.addresses"},
@@ -177,12 +179,14 @@
             <div data-montage-id="gateway_ipv4"></div>
             <div data-montage-id="gateway_ipv6"></div>
             <div data-montage-id="http_proxy"></div>
-            <div data-montage-id="dns_title"></div>
-            <div data-montage-id="dns_search"></div>
-            <div data-montage-id="dns_addresses"></div>
-            <div data-montage-id="netwait_title"></div>
-            <div data-montage-id="netwait_enabled"></div>
-            <div data-montage-id="netwait_addresses"></div>
+            <div data-montage-id="dns_settings">
+                <div data-montage-id="dns_search"></div>
+                <div data-montage-id="dns_addresses"></div>
+            </div>
+            <div data-montage-id="netwait_settings">
+                <div data-montage-id="netwait_enabled"></div>
+                <div data-montage-id="netwait_addresses"></div>
+            </div>
         </div>
     </div>
 </body>

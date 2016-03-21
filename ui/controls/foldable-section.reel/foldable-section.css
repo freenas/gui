@@ -1,18 +1,18 @@
 .FoldableSection {
     position: relative;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 /* border */
 
-.FoldableSection:after {
+/*.FoldableSection:after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     border-bottom: 1px solid #6D6D6D;
-}
+}*/
 
 /* title */
 
@@ -27,8 +27,7 @@
 }
 
 .FoldableSection-contentContainer { padding: 1em 0; }
-
-.FoldableSection-contentContainer *:last-child { margin-bottom: 0; }
+.FoldableSection-contentContainer > *:last-child { margin-bottom: 0; }
 
 /* Title / Icon button container */
 
@@ -37,6 +36,12 @@
     cursor: pointer;
     outline: none;
 }
+
+.FoldableSection-expand .InspectorSectionTitle-text:after {
+    transition: border-color .25s ease-in-out;
+}
+
+.FoldableSection-expand:hover .InspectorSectionTitle-text:after { border-color: #fff; }
 
 /* Icon */
 
@@ -48,9 +53,15 @@
     width:  1.4em;
     height: 1.4em;
     transform: rotate(90deg);
+    color: #6D6D6D;
+    transition-property: color, transform;
+    transition-duration: .25s;
+    transition-timing-function: ease-in-out;
 }
 
+.FoldableSection-expand:hover svg { color: #fff; }
+
 .FoldableSection.is-expanded .FoldableSection-expand svg {
-    transform: rotate(-90deg);
+    transform: rotate(-90deg) rotateX(-180deg);
 }
 
