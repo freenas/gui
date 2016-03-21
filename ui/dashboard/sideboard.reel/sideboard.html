@@ -10,31 +10,10 @@
                 "element": {"#": "owner"}
             }
         },
-        "repetition": {
-            "prototype": "montage/ui/repetition.reel",
+        "notifications": {
+            "prototype": "ui/dashboard/widgets/notifications.reel",
             "properties": {
-                "element": {"#": "repetition"},
-                "isSelectionEnabled": true,
-                "content": [
-                    {
-                        "value": "widget 1"
-                    },
-                    {
-                        "value": "widget 2"
-                    },
-                    {
-                        "value": "widget 3"
-                    }
-                ]
-            }
-        },
-        "widget": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "widget"}
-            },
-            "bindings": {
-                "value": {"<-": "@repetition:iteration.object.value"}
+                "element": {"#": "notifications"}
             }
         }
     }
@@ -42,10 +21,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Sideboard">
-        <i>sideboard</i>
-        <div data-montage-id="repetition" class="Sideboard-repetition">
-            <i data-montage-id="widget" class="Sideboard-widget"></i>
-        </div>
+        <div data-montage-id="notifications"></div>
     </div>
 </body>
 </html>

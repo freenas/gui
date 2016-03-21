@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="notification.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "notificationIcon": {"#": "notificationIcon"}
+            }
+        },
+        "modelType": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "modelType"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.modelType"}
+            }
+        },
+        "service": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "service"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.service"}
+            }
+        },
+        "state": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "state"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.state"}
+            }
+        },
+        "timestamp": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "timestamp"}
+            },
+            "bindings": {
+                "value": {"<-": "'12:14:52'"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Notification">
+        <svg>
+            <use data-montage-id="notificationIcon" />
+        </svg>
+        <div class="Notification-body">
+            <div data-montage-id="modelType"></div>
+            <div data-montage-id="service"></div>
+            <div data-montage-id="state"></div>
+        </div>
+        <div data-montage-id="timestamp" class="Notification-timestamp"></div>
+    </div>
+</body>
+</html>

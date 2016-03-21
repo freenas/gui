@@ -1,3 +1,79 @@
 .Notifications {
-
+    padding: 1em;
 }
+
+.Notifications .ScrollviewContent {
+    min-height: 100%;
+}
+
+.Notifications-header {
+    position: relative;
+    margin-bottom: 1em;
+}
+
+.Notifications-title { font-weight: 400; }
+
+.Notifications-body {
+    display: flex;
+    flex-direction: column;
+    height: 21em;
+    overflow: hidden;
+}
+
+/* filter Icon */
+
+.Notifications-filterButton {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -1em;
+    outline: none;
+    color: #ddd;
+    background: transparent;
+    cursor: pointer;
+}
+
+.Notifications-filterButton svg {
+    padding: .5em;
+    width:  2.4em;
+    height: 2.4em;
+}
+
+.Notifications-filterButton:hover {
+    color: #FFF;
+}
+
+.filters-expanded .Notifications-filterButton {
+    color: #FFF;
+    background: #666;
+}
+
+.Notifications-body .Scrollview {
+    border: 1px solid rgba(255,255,255,.3);
+}
+
+.Notifications-filters {
+    overflow: hidden;
+    display: none;
+    padding: .5em;
+    justify-content: space-between;
+    background: #666;
+}
+
+.filters-expanded .Notifications-filters {
+    display: flex;
+}
+
+/* Empty State */
+
+.Notifications-emptyState {
+    position: absolute;
+    text-align: center;
+    color: rgba(255,255,255,.5);
+    width:100%;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.Notifications-emptyState.is-hidden { display: none; }

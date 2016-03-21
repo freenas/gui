@@ -1,0 +1,33 @@
+.Notification {
+    display: flex;
+    align-items: flex-start;
+    padding: .5em;
+}
+
+.Notification:nth-child(even) {
+    background: rgba(255,255,255,.05);
+}
+
+.Notification-body {
+    /*font-size: .9em;*/
+    flex: 1;
+}
+
+.Notification-timestamp {
+    margin-top: .3em;
+    font-size: .75em;
+    text-align: right;
+}
+
+/* Icon */
+
+.Notification svg {
+    margin-top: -.1em;
+    width:  1.5em;
+    height: 1.5em;
+    margin-right: .5em;
+}
+
+.Notification--event svg { color: grey; }
+.Notification--alert svg { color: #D2192D; }
+.Notification--task svg  { color: #1CD786; }
