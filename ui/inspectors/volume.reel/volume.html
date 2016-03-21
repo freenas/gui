@@ -8,6 +8,10 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "allShares": {"<-": "@owner.object.shares"},
+                "shares": {"<-": "@owner.allShares.filter{volume == @owner.object.id}"}
             }
         },
 
@@ -31,7 +35,7 @@
                 "element": {"#": "shares"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.shares"}
+                "object": {"<-": "@owner.shares.length > 0 ? @owner.shares : @owner.emptyShares"}
             }
         },
         "snapshots": {
