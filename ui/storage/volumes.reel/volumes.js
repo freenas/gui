@@ -148,12 +148,9 @@ exports.Volumes = Component.specialize({
 
     _getVolumeName: {
         value: function(share) {
-/*
-            return this._volumeService.decodePath(share.filesystem_path);
-*/
-            // FIXME: Replace with real RPC call
-            console.warn('Replace with real RPC call');
-            return Promise.resolve(share.filesystem_path.split('/')[2]);
+           return this._volumeService.decodePath(share.filesystem_path).then(function (decodedPath) {
+                return decodedPath[0];
+           });
         }
     }
 

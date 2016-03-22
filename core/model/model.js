@@ -124,7 +124,7 @@ function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
             if (isTask) {
                 args = args ? [serviceDescriptor.task, args] : [serviceDescriptor.task];
             } else {
-                args = args ? [args] : EMPTY_ARRAY;
+                args = args ? args : EMPTY_ARRAY;
             }
 
             return backendBridge.send(
