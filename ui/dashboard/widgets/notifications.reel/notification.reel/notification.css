@@ -1,7 +1,7 @@
 .Notification {
     display: flex;
     align-items: flex-start;
-    padding: .5em;
+    padding: .75em .5em;
 }
 
 .Notification:nth-child(even) {
@@ -9,14 +9,16 @@
 }
 
 .Notification-body {
-    /*font-size: .9em;*/
+    font-size: .85em;
+    letter-spacing: .5px;
+    /*-webkit-font-smoothing: antialiased;*/
     flex: 1;
 }
 
-.Notification-timestamp {
+.Notification-small {
     margin-top: .3em;
     font-size: .75em;
-    text-align: right;
+    color: rgba(255,255,255,.5);
 }
 
 /* Icon */

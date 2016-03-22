@@ -35,7 +35,13 @@
                 "element": {"#": "state"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.state"}
+                "value": {"<-": "@owner.object.taskName"}
+            }
+        },
+        "converter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "HH:mm:ss"
             }
         },
         "timestamp": {
@@ -44,7 +50,10 @@
                 "element": {"#": "timestamp"}
             },
             "bindings": {
-                "value": {"<-": "'12:14:52'"}
+                "value": {
+                    "<-": "@owner.object.startedTime",
+                    "converter": {"@": "converter"}
+                }
             }
         }
     }
@@ -57,10 +66,10 @@
         </svg>
         <div class="Notification-body">
             <div data-montage-id="modelType"></div>
-            <div data-montage-id="service"></div>
+            <div data-montage-id="service" class="Notification-small"></div>
             <div data-montage-id="state"></div>
+            <div data-montage-id="timestamp" class="Notification-small"></div>
         </div>
-        <div data-montage-id="timestamp" class="Notification-timestamp"></div>
     </div>
 </body>
 </html>
