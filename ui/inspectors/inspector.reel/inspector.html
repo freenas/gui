@@ -24,7 +24,7 @@
             },
             "bindings": {
                 "isHidden": {"<-": "!!@owner.isFooterHidden"},
-                "canDelete": {"<-": "!!@owner.canDelete"},
+                "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"}
             },
