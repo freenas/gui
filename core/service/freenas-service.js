@@ -496,19 +496,19 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                             args: EMPTY_ARRAY
                         }
                     ).then(function (response) {
-                        var data = response.data;
+                        var rawData = response.data;
 
                         self.notificationCenter.startListenToChangesOnModelIfNeeded(type).then(function () {
-                            self.addRawData(stream, Array.isArray(data) ? data : [data]);
+                            self.addRawData(stream, Array.isArray(rawData) ? rawData : [rawData]);
                             self.rawDataDone(stream);
 
-                            stream.then(function (data) {
+                            stream.then(function (cookedData) {
                                 //fixme: fix for UIDescriptor and empty array....
-                                data._meta_data = {collectionModelType: type};
-                                self.modelsCache.set(type.typeName, data);
+                                cookedData._meta_data = {collectionModelType: type};
+                                self.modelsCache.set(type.typeName, cookedData);
 
-                                return data;
-                            })
+                                return cookedData;
+                            });
                         });
                     }, function (error) {
                         stream.dataError(error);
