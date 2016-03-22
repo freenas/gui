@@ -1,7 +1,30 @@
 .FoldableSection {
     position: relative;
+    margin: 0 -1em;
+    padding: 0 1em;
     margin-bottom: 1em;
+    background: rgba(0,0,0,.1);
+    /*outline: 1px solid red;*/
 }
+
+/*.FoldableSection:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,.1);
+}*/
+
+/*.FoldableSection:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1em;
+    right: 1em;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}*/
 
 /* title */
 
@@ -15,7 +38,7 @@
 }
 
 .FoldableSection-contentContainer { padding: 1em 0; }
-.FoldableSection-contentContainer > *:last-child { margin-bottom: 0; }
+.FoldableSection-contentContainer > *:last-child .Field { margin-bottom: 0; }
 
 /* Title / Icon button container */
 
