@@ -47,18 +47,6 @@ var Lagg = exports.Lagg = Component.specialize({
         }
     },
 
-    save: {
-        value: function() {
-            this.application.dataService.saveDataObject(this.object);
-        }
-    },
-
-    delete: {
-        value: function() {
-            this.application.dataService.deleteDataObject(this.object);
-        }
-    },
-
     object: {
         set: function (networkInterface) {
             if (networkInterface && networkInterface.type === NetworkInterfaceType.LAGG) {
