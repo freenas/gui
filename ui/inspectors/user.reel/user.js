@@ -15,12 +15,6 @@ exports.User = Component.specialize({
         value: null
     },
 
-    create: {
-        value: function () {
-            // @thibault create montage-data call here
-        }
-    },
-
     save: {
         value: function () {
             this.application.dataService.saveDataObject(this.object);
