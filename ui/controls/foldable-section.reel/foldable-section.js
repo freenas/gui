@@ -8,6 +8,21 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
+
+    isFirstTime: {
+        value: false
+    },
+
+    draw: {
+        value: function () {
+            if (!this.isFirstTime && this.isExpanded) {
+                this.setContentMaxHeight();
+
+                this.isFirstTime = true;
+            }
+        }
+    },
+
     getContentHeight: {
         value: function () {
             return this.contentContainer.offsetHeight + "px";
@@ -17,9 +32,9 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
     setContentMaxHeight: {
         value:  function () {
             if (this.isExpanded) {
-                this.sectionContent.style.maxHeight = this.getContentHeight();
+                this.sectionContent.style.height = this.getContentHeight();
             } else {
-                this.sectionContent.style.maxHeight = 0;
+                this.sectionContent.style.height = 0;
             }
         }
     },

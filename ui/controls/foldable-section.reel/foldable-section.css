@@ -3,17 +3,6 @@
     margin-bottom: 1em;
 }
 
-/* border */
-
-/*.FoldableSection:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-bottom: 1px solid #6D6D6D;
-}*/
-
 /* title */
 
 .FoldableSection .InspectorSectionTitle { margin-bottom: 0; }
@@ -21,7 +10,6 @@
 /* content */
 
 .FoldableSection-content {
-    max-height: 0;
     overflow: hidden;
     transition: all .3s ease-in-out;
 }
@@ -55,7 +43,7 @@
     transform: rotate(90deg);
     color: #6D6D6D;
     transition-property: color, transform;
-    transition-duration: .25s;
+    /*transition-duration: .25s;*/
     transition-timing-function: ease-in-out;
 }
 

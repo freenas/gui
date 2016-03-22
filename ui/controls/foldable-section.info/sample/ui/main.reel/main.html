@@ -23,7 +23,19 @@
             "prototype": "gui/ui/controls/foldable-section.reel",
             "properties": {
                 "element": {"#": "default"},
-                "title": "Foldable Section"
+                "title": "Foldable Section",
+                "isExpanded": true
+            }
+        },
+        "multipleSelect": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "multipleSelect"},
+                "placeholderValue": "enter item"
+            },
+            "bindings": {
+                "options": {"<->": "@owner.options"},
+                "selectedValues": {"<->": "@owner.selected"}
             }
         }
     }
@@ -39,6 +51,7 @@
             <p>more content</p>
             <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt iure eaque sint necessitatibus officia, quidem, vitae quisquam, sunt autem accusamus facere aliquam. Maxime voluptatibus enim ea dignissimos accusamus hic officiis!</span>
             <span>Maiores autem numquam eos, cumque culpa perferendis distinctio iusto laboriosam similique incidunt fuga soluta praesentium quo amet neque aliquam quidem nam rem laudantium. Maiores quod, cupiditate recusandae eligendi distinctio vero.</span>
+            <div data-montage-id="multipleSelect"></div>
         </div>
         <p>content that is not folded</p>
     </div>
