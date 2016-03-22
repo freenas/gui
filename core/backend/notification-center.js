@@ -334,7 +334,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 notification.data = detail.operation === "delete" ? detail.ids : detail.entities;
 
                 this.dispatchEventNamed("modelChange", true, true, notification);
-                this._notifications.push(notification);
+                this._addNotification(notification);
             }
         }
     },
@@ -515,6 +515,20 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
+    _addNotification: {
+        value:function (notification) {
+            this._notifications.unshift(notification);
+        }
+    },
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
     _startTrackingTaskWithTaskAndJobId: {
         value:function (task, jobId) {
             var tasksMap = this._trackingTasksMap;
@@ -523,7 +537,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 var notification = this._createTaskNotification(jobId, task.name || task, task.created_at);
                 tasksMap.set(jobId, notification);
 
-                this._notifications.push(notification);
+                this._addNotification(notification);
 
             } else {
                 throw new Error(
