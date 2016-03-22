@@ -111,10 +111,10 @@
             }
         },
         "aliasTitle": {
-            "prototype": "ui/controls/inspector-section-title.reel",
+            "prototype": "ui/controls/foldable-section.reel",
             "properties": {
                 "element": {"#": "aliasTitle"},
-                "value": "Aliases"
+                "title": "Aliases"
             }
         },
         "aliases": {
@@ -144,8 +144,9 @@
             <div data-montage-id="rtadv"></div>
             <div data-montage-id="ports"></div>
             <div data-montage-id="protocol"></div>
-            <div data-montage-id="aliasTitle"></div>
-            <div data-montage-id="aliases"></div>
+            <div data-montage-id="aliasTitle">
+                <div data-montage-id="aliases"></div>
+            </div>
         </div>
     </div>
 </body>
