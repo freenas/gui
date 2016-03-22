@@ -11,127 +11,175 @@ exports.Volumes = Component.specialize({
         value: null
     },
 
+    _dataService: {
+        value: null
+    },
+
+    _volumes: {
+        value: null
+    },
+
+    _mountpointToVolume: {
+        value: {}
+    },
+
+    _shares: {
+        value: null
+    },
+
+    shares: {
+        get: function() {
+            return this._shares;
+        },
+        set: function(shares) {
+            if (this._shares != shares) {
+                this._shares = shares;
+            }
+        }
+    },
+
+    volumes: {
+        get: function() {
+            return this._volumes;
+        },
+        set: function(volumes) {
+            if (this._volumes != volumes) {
+                var volume;
+                this._volumes = volumes;
+                for (var i = 0, length = this.volumes.length; i < length; i++) {
+                    volume = this.volumes[i];
+                    if (!volume.shares) {
+                        this._loadDependencies(volume);
+                    }
+                }
+            }
+        }
+    },
+
+    _loadDependencies: {
+        value: function () {
+            var self = this;
+            return this._listShares().then(function (shares) {
+                self.shares = shares;
+                return self._listSnapshots();
+            }).then(function (snapshots) {
+                self.snapshots = snapshots;
+                return self._listDisks();
+            }).then(function (disks) {
+                self.spare = disks || [];
+            });
+        }
+    },
+
+    _listVolumes: {
+        value: function () {
+            var self = this,
+                i, length;
+            return this._dataService.fetchData(Model.Volume).then(function (volumes) {
+                for (i = 0, length = volumes.length; i < length; i++) {
+                    volumes[i].scrubs = self._dataService.getDataObject(Model.Scrub);
+                }
+                return volumes;
+            });
+        }
+    },
+
+    _initializeServices: {
+        value: function () {
+            var self = this;
+            this._dataService = this.application.dataService;
+            return Model.getPrototypeForType(Model.Volume).then(function (Volume) {
+                self._volumeService = Volume.constructor;
+            }).then(function() {
+                return Model.getPrototypeForType(Model.ZfsTopology);
+            }).then(function() {
+                return Model.getPrototypeForType(Model.Scrub);
+            });
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
-            var dataService = this.application.dataService,
-                self = this,
-                volume,
-                i, length;
+            var self = this;
 
             if (isFirstTime) {
-                this._volumeService = Model.getPrototypeForType(Model.Volume).then(function(Volume) {
-                    return Volume.constructor;
-                });
-
-                dataService.fetchData(Model.Volume).then(function(volumes) {
-                    // fixme: getDataObject doesn't return a promise, so we need to load the descriptor manually
-                    // before calling getDataObject, knowing that models are loaded lazily.
-                    return Model.getPrototypeForType(Model.Scrub).then(function () {
+                self.addRangeAtPathChangeListener("shares", this, "handleSharesChange");
+                this._initializeServices().then(function() {
+                    self._listVolumes().then(function(volumes) {
                         self.volumes = volumes;
+                        return self._loadDependencies();
+                    }).then(function() {
+                        return Model.getPrototypeForType(Model.ZfsTopology)
+                    }).then(function () {
+                        var volume,
+                            zfsTopology,
+                            i, length;
                         for (i = 0, length = self.volumes.length; i < length; i++) {
                             volume = self.volumes[i];
-                            //fixme: hacky montage-data need to return a promise here
-                            volume.scrubs = self.application.dataService.getDataObject(Model.Scrub);
-                        }
-                        return self._listSnapshots();
-                    });
-                }).then(function(volumesSnapshots) {
-                    var volume;
-                    for (i = 0, length = self.volumes.length; i < length; i++) {
-                        volume = self.volumes[i];
-                        volume.snapshots = volumesSnapshots[volume.name] || dataService.getEmptyCollectionForType(Model.VolumeSnapshot);
-                    }
-                    return self._listShares();
-                }).then(function(volumesShares) {
-                    var volume;
-                    for (i = 0, length = self.volumes.length; i < length; i++) {
-                        volume = self.volumes[i];
-                        volume.shares = volumesShares[volume.id] || dataService.getEmptyCollectionForType(Model.Share);
-                    }
-                    return self._listDisks();
-                }).then(function(disks) {
-                    var volume;
+                            volume.shares = self.shares;
+                            volume.snapshots = self.snapshots;
+                            zfsTopology = self._dataService.getDataObject(Model.ZfsTopology);
+                            self._dataService.mapFromRawData(zfsTopology, volume.topology);
 
-                    for (i = 0, length = self.volumes.length; i < length; i++) {
-                        volume = self.volumes[i];
-                        volume.topology.spare = disks || [];
-                    }
+                            volume.topology = zfsTopology;
+                            volume.topology.spare = self.spare;
+                        }
+                    });
                 });
             }
         }
     },
 
+    handleSharesChange: {
+        value: function(shares) {
+            var volumeNamePromise,
+                volumeNamesPromises = [],
+                share,
+                i, length;
+            for (i = 0, length = shares.length; i < length; i++) {
+                share = shares[i];
+                if (!share.volume) {
+                    volumeNamePromise = this._getVolumeName(share);
+                } else {
+                    volumeNamePromise = Promise.resolve(share.volume);
+                }
+                volumeNamesPromises.push(volumeNamePromise);
+            }
+            Promise.all(volumeNamesPromises).then(function(volumeNames) {
+                for (i =0, length = shares.length; i < length; i++) {
+                    shares[i].volume = volumeNames[i];
+                }
+            });
+        }
+    },
+
     _listSnapshots: {
         value: function() {
-            var dataService = this.application.dataService;
-            return this.application.dataService.fetchData(Model.VolumeSnapshot).then(function(snapshots) {
-                var volumesSnapshots = {},
-                    snapshot,
-                    i,
-                    length;
-                for (i = 0, length = snapshots.length; i < length; i++) {
-                    snapshot = snapshots[i];
-                    if (!volumesSnapshots.hasOwnProperty(snapshot.volume)) {
-                        volumesSnapshots[snapshot.volume] = dataService.getEmptyCollectionForType(Model.VolumeSnapshot);
-                    }
-                    volumesSnapshots[snapshot.volume].push(snapshot);
-                }
-                return volumesSnapshots;
-            });
+            return this._dataService.fetchData(Model.VolumeSnapshot);
         }
     },
 
     _listShares: {
         value: function() {
-            var self = this;
-            return this.application.dataService.fetchData(Model.Share).then(function(shares) {
-                var volumesShares = {},
-                    i,
-                    length,
-                    volumeNamePromises = [];
-                for (i = 0, length = shares.length; i < length; i++) {
-                    volumeNamePromises.push(self._addShareToVolumeShares(shares[i], volumesShares));
-                }
-                return Promise.all(volumeNamePromises).then(function() {
-                    return volumesShares;
-                })
-            });
-
+            return this._dataService.fetchData(Model.Share);
         }
     },
 
     _listDisks: {
         value: function() {
             var self = this;
-            return this._volumeService.then(function(volumeService) {
-                return volumeService.getAvailableDisks();
-            }).then(function(availableDisksPaths) {
-                return self.application.dataService.fetchData(Model.Disk).then(function(disks) {
+            return this._volumeService.getAvailableDisks().then(function(availableDisksPaths) {
+                return self._dataService.fetchData(Model.Disk).then(function(disks) {
                     return disks.filter(function(x) { return availableDisksPaths.indexOf(x.path) != -1 });
                 });
             });
         }
     },
 
-    _addShareToVolumeShares: {
-        value: function(share, volumesShares) {
-            var dataService = this.application.dataService;
-
-            return this._getVolumeNameFromShare(share).then(function(volumeName) {
-                if (!volumesShares.hasOwnProperty(volumeName)) {
-                    volumesShares[volumeName] = dataService.getEmptyCollectionForType(Model.Share);
-                }
-                volumesShares[volumeName].push(share);
-            });
-        }
-    },
-
-    _getVolumeNameFromShare: {
+    _getVolumeName: {
         value: function(share) {
 /*
-            return this._volumeService.then(function(volumeService) {
-                return volumeService.decodePath(share.filesystem_path);
-            });
+            return this._volumeService.decodePath(share.filesystem_path);
 */
             // FIXME: Replace with real RPC call
             console.warn('Replace with real RPC call');
