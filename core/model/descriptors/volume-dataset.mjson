@@ -27,7 +27,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "permissions",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Permissions"
     }
   },
   "blueprint_volumedataset_permissions_type": {
@@ -46,7 +48,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "properties",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeDatasetProperties"
     }
   },
   "blueprint_volumedataset_type": {

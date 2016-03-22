@@ -188,16 +188,18 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
 
             var type = property.type;
 
-            if (typeof type === "string") {
-                setTypeOnPropertyDescriptor(type, propertyDescriptor);
+            if (type !== void 0 && type !== null) {
+                if (typeof type === "string") {
 
-            } else if (Array.isArray(type)) {
-                //todo check if [0] !== null
-                setTypeOnPropertyDescriptor(property.type[0], propertyDescriptor);
+                    setTypeOnPropertyDescriptor(type, propertyDescriptor);
 
-            } else if (propertyDescriptor["$ref"]) {
-                //todo: implement $ref
+                } else if (Array.isArray(type)) {
+                    //todo check if [0] !== null
+                    setTypeOnPropertyDescriptor(property.type[0], propertyDescriptor);
+                }
+            } else if (property["$ref"]) {
                 setTypeOnPropertyDescriptor("object", propertyDescriptor);
+                propertyDescriptor.valueObjectPrototypeName = property["$ref"].toCamelCase();
             }
 
             if (property.readOnly) {

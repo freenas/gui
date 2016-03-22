@@ -11,7 +11,7 @@
     "NetworkRoute": "entity-subscriber.network.route.changed",
     "Ntpservers": "entity-subscriber.ntpservers.changed",
     "Power": "entity-subscriber.power.changed",
-    "Replication": "entity-subscriber.replication.changed",
+    "ReplicationLink": "entity-subscriber.replication.link.changed",
     "Service": "entity-subscriber.service.changed",
     "Share": "entity-subscriber.share.changed",
     "ShareAfp": "entity-subscriber.share.afp.changed",

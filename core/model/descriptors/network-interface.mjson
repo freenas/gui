@@ -67,7 +67,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "mediaopts",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "NetworkInterfaceMediaopts"
     }
   },
   "blueprint_networkinterface_mtu": {
@@ -106,14 +108,18 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "status",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "NetworkInterfaceStatus"
     }
   },
   "blueprint_networkinterface_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "NetworkInterfaceType"
     }
   },
   "blueprint_networkinterface_vlan": {

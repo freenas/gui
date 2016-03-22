@@ -33,6 +33,10 @@
             "type": "Alert"
         },
         {
+            "modelId": "core/model/descriptors/backup-ssh.mjson",
+            "type": "BackupSsh"
+        },
+        {
             "modelId": "core/model/descriptors/backup-types.mjson",
             "type": "BackupTypes"
         },

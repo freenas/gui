@@ -3,21 +3,27 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "group",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixModeTuple"
     }
   },
   "blueprint_unixpermissions_others": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "others",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixModeTuple"
     }
   },
   "blueprint_unixpermissions_user": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "user",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixModeTuple"
     }
   },
   "blueprint_unixpermissions_value": {

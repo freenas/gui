@@ -1,64 +1,62 @@
 {
-  "blueprint_zfssnapshot_dataset": {
+  "blueprint_backupssh_directory": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "dataset",
+      "name": "directory",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_zfssnapshot_holds": {
+  "blueprint_backupssh_hostkey": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "holds",
-      "blueprint": {"@": "root"},
-      "valueType": "object"
-    }
-  },
-  "blueprint_zfssnapshot_name": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "name",
+      "name": "hostkey",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_zfssnapshot_pool": {
+  "blueprint_backupssh_hostport": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "pool",
+      "name": "hostport",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_zfssnapshot_properties": {
+  "blueprint_backupssh_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "properties",
+      "name": "password",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "String"
     }
   },
-  "blueprint_zfssnapshot_type": {
+  "blueprint_backupssh_privkey": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "privkey",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "DatasetType"
+      "valueType": "String"
+    }
+  },
+  "blueprint_backupssh_username": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "username",
+      "blueprint": {"@": "root"}
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ZfsSnapshot",
+      "name": "BackupSsh",
       "propertyBlueprints": [
-        {"@": "blueprint_zfssnapshot_dataset"},
-        {"@": "blueprint_zfssnapshot_holds"},
-        {"@": "blueprint_zfssnapshot_name"},
-        {"@": "blueprint_zfssnapshot_pool"},
-        {"@": "blueprint_zfssnapshot_properties"},
-        {"@": "blueprint_zfssnapshot_type"}
+        {"@": "blueprint_backupssh_directory"},
+        {"@": "blueprint_backupssh_hostkey"},
+        {"@": "blueprint_backupssh_hostport"},
+        {"@": "blueprint_backupssh_password"},
+        {"@": "blueprint_backupssh_privkey"},
+        {"@": "blueprint_backupssh_username"}
       ]
     }
   }

@@ -3,35 +3,45 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "clones",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumesnapshotproperties_compressratio": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "compressratio",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumesnapshotproperties_creation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "creation",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumesnapshotproperties_referenced": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "referenced",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumesnapshotproperties_used": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "used",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "root": {

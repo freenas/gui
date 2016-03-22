@@ -11,7 +11,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "created_at",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "IsoDatetime"
     }
   },
   "blueprint_task_debugger": {

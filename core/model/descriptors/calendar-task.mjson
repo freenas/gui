@@ -67,7 +67,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "status",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "CalendarTaskStatus"
     }
   },
   "root": {

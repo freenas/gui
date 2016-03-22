@@ -3,7 +3,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "groups",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsTopology"
     }
   },
   "blueprint_zfspool_guid": {
@@ -34,21 +36,27 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "properties",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsProperties"
     }
   },
   "blueprint_zfspool_root_dataset": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "root_dataset",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsDataset"
     }
   },
   "blueprint_zfspool_scan": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "scan",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsScan"
     }
   },
   "blueprint_zfspool_status": {

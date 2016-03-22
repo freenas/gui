@@ -3,21 +3,27 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "redundancy",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeVdevRecommendation"
     }
   },
   "blueprint_volumevdevrecommendationsredundancy_speed": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "speed",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeVdevRecommendation"
     }
   },
   "blueprint_volumevdevrecommendationsredundancy_storage": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "storage",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeVdevRecommendation"
     }
   },
   "root": {

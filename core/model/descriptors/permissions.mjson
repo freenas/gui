@@ -19,7 +19,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "modes",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_permissions_user": {

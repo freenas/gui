@@ -20,8 +20,7 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "email",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_user_full_name": {

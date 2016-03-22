@@ -19,7 +19,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "encryption",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Encryption"
     }
   },
   "blueprint_volume_guid": {
@@ -42,7 +44,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "properties",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperties"
     }
   },
   "blueprint_volume_providers_presence": {
@@ -62,7 +66,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "topology",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsTopology"
     }
   },
   "blueprint_volume_type": {

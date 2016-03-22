@@ -27,14 +27,18 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "properties",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsDatasetproperties"
     }
   },
   "blueprint_zfsdataset_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "DatasetType"
     }
   },
   "root": {

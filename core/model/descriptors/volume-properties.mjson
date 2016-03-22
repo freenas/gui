@@ -3,105 +3,135 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "allocated",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_autoreplace": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "autoreplace",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_capacity": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "capacity",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_comment": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "comment",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_dedupratio": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "dedupratio",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_delegation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "delegation",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_expandsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "expandsize",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_failmode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "failmode",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_fragmentation": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "fragmentation",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_free": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "free",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_health": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "health",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_leaked": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "leaked",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_readonly": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "readonly",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "size",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "blueprint_volumeproperties_version": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "version",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProperty"
     }
   },
   "root": {

@@ -82,6 +82,16 @@
     },
     "Backup": {
         "class": {
+            "download": {
+                "method": "backup.download",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getState": {
+                "method": "backup.get_state",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "supportedTypes": {
                 "method": "backup.supported_types",
                 "name": "call",
@@ -131,6 +141,35 @@
                     ]
                 },
                 "task": "backup.update"
+            }
+        }
+    },
+    "BackupSsh": {
+        "class": {
+            "listObjects": {
+                "method": "backup.ssh.list_objects",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "get": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.ssh.get"
+            },
+            "list": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.ssh.list"
+            },
+            "put": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.ssh.put"
             }
         }
     },

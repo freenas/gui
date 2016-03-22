@@ -19,21 +19,27 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "default_directory_perms",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_shareafp_default_file_perms": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "default_file_perms",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_shareafp_default_umask": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "default_umask",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_shareafp_hosts_allow": {

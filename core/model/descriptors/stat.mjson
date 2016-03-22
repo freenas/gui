@@ -3,7 +3,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "alerts",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "StatAlert"
     }
   },
   "blueprint_stat_last_value": {
