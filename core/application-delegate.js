@@ -29,6 +29,38 @@ exports.ApplicationDelegate = Montage.specialize({
     },
 
 
+    getUserInterfaceDescriptorForType: {
+        value: function (modelType, object) {
+            var key = modelType.typeName,
+                subType = "";
+
+            //Fixme: should be generic
+            if (Model.NetworkInterface === modelType && object && object.type && object.type !== "ETHER") {
+                key += +"_" + object.type;
+                subType = "-" + object.type.toLowerCase()
+            }
+
+            var userInterfaceDescriptorPromise = UserInterfaceDescriptorPromisesMap.get(key);
+
+            if (!userInterfaceDescriptorPromise) {
+                userInterfaceDescriptorPromise = new Promise(function (resolve, reject) {
+                    var userInterfaceDescriptorPrefix = modelType.typeName.split(/(?=[A-Z])/).join("-").toLowerCase(),
+                        objectUserInterfaceDescriptorId = ModelUserInterfaceDescriptorsFolderPath;
+
+                    objectUserInterfaceDescriptorId += userInterfaceDescriptorPrefix + subType + UserInterfaceDescriptorSuffix;
+
+                    require.async(objectUserInterfaceDescriptorId).then(function (userInterfaceDescriptor) {
+                        return new Deserializer().init(JSON.stringify(userInterfaceDescriptor), require)
+                            .deserializeObject().then(resolve);
+                    }, reject);
+                });
+
+                UserInterfaceDescriptorPromisesMap.set(key, userInterfaceDescriptorPromise);
+            }
+            return userInterfaceDescriptorPromise;
+        }
+    },
+
     /**
      * @function
      * @public
@@ -54,35 +86,7 @@ exports.ApplicationDelegate = Montage.specialize({
             modelType = modelType || (object ? Object.getPrototypeOf(object).Type : null);
 
             if (modelType) {
-                //Fixme: should be generic
-                var key = Model.NetworkInterface === modelType && object.type && object.type !== "ETHER" ?
-                    modelType.typeName + "_" + object.type : modelType.typeName;
-
-                userInterfaceDescriptorPromise = UserInterfaceDescriptorPromisesMap.get(key);
-
-                if (!userInterfaceDescriptorPromise) {
-                    userInterfaceDescriptorPromise = new Promise(function (resolve, reject) {
-                        var userInterfaceDescriptorPrefix = modelType.typeName.split(/(?=[A-Z])/).join("-").toLowerCase(),
-                            objectUserInterfaceDescriptorId = ModelUserInterfaceDescriptorsFolderPath;
-
-                        if (Model.NetworkInterface === modelType) {
-                            objectUserInterfaceDescriptorId += userInterfaceDescriptorPrefix +
-                                (object && (object.type !== "ETHER" || !object.type) ? "-" + object.type.toLowerCase() : "") +
-                                UserInterfaceDescriptorSuffix;
-
-                        } else {
-                            objectUserInterfaceDescriptorId += userInterfaceDescriptorPrefix +
-                                UserInterfaceDescriptorSuffix;
-                        }
-
-                        require.async(objectUserInterfaceDescriptorId).then(function (userInterfaceDescriptor) {
-                            return new Deserializer().init(JSON.stringify(userInterfaceDescriptor), require)
-                                .deserializeObject().then(resolve);
-                        }, reject);
-                    });
-
-                    UserInterfaceDescriptorPromisesMap.set(key, userInterfaceDescriptorPromise);
-                }
+                userInterfaceDescriptorPromise = this.getUserInterfaceDescriptorForType(modelType, object);
             } else {
                 return Promise.reject("no user interface descriptor for object: " + object);
             }

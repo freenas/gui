@@ -15,18 +15,9 @@ exports.Volumes = Component.specialize({
         value: null
     },
 
-    _volumes: {
-        value: null
-    },
-
-    _mountpointToVolume: {
-        value: {}
-    },
-
     _shares: {
         value: null
     },
-
     shares: {
         get: function() {
             return this._shares;
@@ -34,24 +25,6 @@ exports.Volumes = Component.specialize({
         set: function(shares) {
             if (this._shares != shares) {
                 this._shares = shares;
-            }
-        }
-    },
-
-    volumes: {
-        get: function() {
-            return this._volumes;
-        },
-        set: function(volumes) {
-            if (this._volumes != volumes) {
-                var volume;
-                this._volumes = volumes;
-                for (var i = 0, length = this.volumes.length; i < length; i++) {
-                    volume = this.volumes[i];
-                    if (!volume.shares) {
-                        this._loadDependencies(volume);
-                    }
-                }
             }
         }
     },
@@ -73,14 +46,7 @@ exports.Volumes = Component.specialize({
 
     _listVolumes: {
         value: function () {
-            var self = this,
-                i, length;
-            return this._dataService.fetchData(Model.Volume).then(function (volumes) {
-                for (i = 0, length = volumes.length; i < length; i++) {
-                    volumes[i].scrubs = self._dataService.getDataObject(Model.Scrub);
-                }
-                return volumes;
-            });
+            return this._dataService.fetchData(Model.Volume);
         }
     },
 
@@ -104,24 +70,19 @@ exports.Volumes = Component.specialize({
 
             if (isFirstTime) {
                 self.addRangeAtPathChangeListener("shares", this, "handleSharesChange");
+                self.addRangeAtPathChangeListener("volumes", this, "handleVolumesChange");
                 this._initializeServices().then(function() {
+                    self.type = Model.Volume;
                     self._listVolumes().then(function(volumes) {
                         self.volumes = volumes;
                         return self._loadDependencies();
-                    }).then(function() {
-                        return Model.getPrototypeForType(Model.ZfsTopology)
                     }).then(function () {
                         var volume,
-                            zfsTopology,
                             i, length;
                         for (i = 0, length = self.volumes.length; i < length; i++) {
                             volume = self.volumes[i];
                             volume.shares = self.shares;
                             volume.snapshots = self.snapshots;
-                            zfsTopology = self._dataService.getDataObject(Model.ZfsTopology);
-                            self._dataService.mapFromRawData(zfsTopology, volume.topology);
-
-                            volume.topology = zfsTopology;
                             volume.topology.spare = self.spare;
                         }
                     });
@@ -150,6 +111,15 @@ exports.Volumes = Component.specialize({
                     shares[i].volume = volumeNames[i];
                 }
             });
+        }
+    },
+
+    handleVolumesChange: {
+        value: function(volumes) {
+            var i, length;
+            for (i = 0, length = volumes.length; i < length; i++) {
+                volumes[i].scrubs = this._dataService.getDataObject(Model.Scrub);
+            }
         }
     },
 

@@ -501,12 +501,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         self.notificationCenter.startListenToChangesOnModelIfNeeded(type).then(function () {
                             self.addRawData(stream, Array.isArray(rawData) ? rawData : [rawData]);
                             self.rawDataDone(stream);
+                            //fixme: fix for UIDescriptor and empty array....
+                            stream._data._meta_data = {collectionModelType: type};
 
                             stream.then(function (cookedData) {
-                                //fixme: fix for UIDescriptor and empty array....
-                                cookedData._meta_data = {collectionModelType: type};
                                 self.modelsCache.set(type.typeName, cookedData);
-
                                 return cookedData;
                             });
                         });
