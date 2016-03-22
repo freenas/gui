@@ -50,22 +50,12 @@ exports.Volumes = Component.specialize({
                     }
                     return self._listDisks();
                 }).then(function(disks) {
-                    // fixme: getDataObject doesn't return a promise, so we need to load the descriptor manually
-                    // before calling getDataObject, knowing that models are loaded lazily.
-                    return Model.getPrototypeForType(Model.ZfsTopology).then(function () {
-                        var volume, zfsTopology;
-                        for (i = 0, length = self.volumes.length; i < length; i++) {
-                            volume = self.volumes[i];
+                    var volume;
 
-                            //fixme: need to add reference support to descriptors
-                            //fixme: hacky montage-data need to return a promise here
-                            zfsTopology = self.application.dataService.getDataObject(Model.ZfsTopology);
-                            dataService.mapFromRawData(zfsTopology, volume.topology);
-                            volume.topology = zfsTopology;
-
-                            volume.topology.spare = disks || [];
-                        }
-                    });
+                    for (i = 0, length = self.volumes.length; i < length; i++) {
+                        volume = self.volumes[i];
+                        volume.topology.spare = disks || [];
+                    }
                 });
             }
         }

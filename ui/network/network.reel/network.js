@@ -1,4 +1,5 @@
 var Component = require("montage/ui/component").Component,
+    Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
 /**
@@ -30,7 +31,7 @@ exports.Network = Component.specialize({
         value: function () {
             var self = this;
 
-            //Fixme:
+            //Fixme: getDataObject needs to retrun a promise
             return Model.getPrototypeForType(Model.NetworkOverview).then(function () {
                 //Fixme: need to add clever getter/setter on descriptors, defaultValue?
                 var networkOverview = self.application.dataService.getDataObject(Model.NetworkOverview);
@@ -120,34 +121,62 @@ exports.Network = Component.specialize({
             var networkInterface,
                 interfaceSummary,
                 aliases,
-                alias,
                 interfacesSummaries = [];
 
             for (var i = 0, length = networkInterfaces.length; i < length; i++) {
                 networkInterface = networkInterfaces[i];
                 interfaceSummary = {name: networkInterface.name};
-                aliases = networkInterface.status.aliases;
-
-                for (var j = 0, aliasesLength = aliases.length; j < aliasesLength; j++) {
-                    alias = aliases[j];
-                    switch (alias.type) {
-                        case "INET":
-                            if (!interfaceSummary.ipv4) {
-                                interfaceSummary.ipv4 = alias.address;
-                            }
-                            break;
-                        case "INET6":
-                            if (!interfaceSummary.ipv6) {
-                                interfaceSummary.ipv6 = alias.address;
-                            }
-                            break;
-                    }
-                }
-
+                this._populateNetworkInterfaceStatus(networkInterface, interfaceSummary);
                 interfacesSummaries.push(interfaceSummary);
             }
 
             return interfacesSummaries;
+        }
+    },
+
+
+    _populateNetworkInterfaceStatus: {
+        value: function (networkInterface, interfaceSummary) {
+            // Fixme: Given that the property status of a networkInterface Object is a reference to another Model type
+            // that could have never been require before, we need to require its descriptor in order to instantiate this type.
+            // But knowing that montage-data doesn't return a promise when we are mapping an object from rawData,
+            // so it's not possible at the moment to get a "safe" populated model object.
+            // In order to fix temporally this issue (hacky), the property status here could be a promise that will be
+            // resolved once the NetworkInterfaceStatus will have been instantiated.
+            if (Promise.is(networkInterface.status)) {
+                var self = this;
+
+                networkInterface.status.then(function () {
+                    self._populateNetworkInterfaceSummary(networkInterface, interfaceSummary);
+                });
+            } else {
+                this._populateNetworkInterfaceSummary(networkInterface, interfaceSummary);
+            }
+        }
+    },
+
+
+    _populateNetworkInterfaceSummary: {
+        value: function (networkInterface, interfaceSummary) {
+            var aliases = networkInterface.status.aliases,
+                alias;
+
+            for (var j = 0, aliasesLength = aliases.length; j < aliasesLength; j++) {
+                alias = aliases[j];
+
+                switch (alias.type) {
+                    case "INET":
+                        if (!interfaceSummary.ipv4) {
+                            interfaceSummary.ipv4 = alias.address;
+                        }
+                        break;
+                    case "INET6":
+                        if (!interfaceSummary.ipv6) {
+                            interfaceSummary.ipv6 = alias.address;
+                        }
+                        break;
+                }
+            }
         }
     },
 

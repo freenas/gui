@@ -330,6 +330,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             var propertyDescriptors = Object.getPrototypeOf(object).blueprint.propertyBlueprints,
                 keys = Object.keys(data),
                 propertyDescriptor,
+                rawValue,
                 key;
 
             for (var i = 0, n = keys.length; i < n; i ++) {
@@ -337,10 +338,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 propertyDescriptor = this._findPropertyDescriptorWithDescriptorAndPropertyName(propertyDescriptors, key);
 
                 if (propertyDescriptor) {
-                    if (propertyDescriptor.readOnly) {
-                        object["_" + key] = data[key];
+                    rawValue = data[key];
+
+                    if (propertyDescriptor.valueObjectPrototypeName && propertyDescriptor.valueType === "object") {
+                        this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue);
+
                     } else {
-                        object[key] = data[key];
+                        this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
                     }
                 }
             }
@@ -417,6 +421,52 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 /*----------------------------------------------------------------------------------------------------------------------
                                              DataService Private Functions
 ----------------------------------------------------------------------------------------------------------------------*/
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
+    _mapObjectPropertyReferenceFromRawData: {
+        value: function (propertyDescriptor, object, key, rawValue) {
+            var type = Model[propertyDescriptor.valueObjectPrototypeName],
+                self = this,
+                value;
+
+            if (type) {
+                //Fixme: hacky mapFromRawData need to return a promise
+                object[key] = Model.getPrototypeForType(type).then(function () {
+                    value = self.getDataObject(type);
+                    self.mapFromRawData(value, rawValue);
+                    self._mapObjectPropertyFromRawData(propertyDescriptor, object, key, value);
+                });
+            } else { //fallback
+                console.warn("model type: '" + propertyDescriptor.valueObjectPrototypeName + "' unknown");
+                this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
+            }
+        }
+    },
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
+    _mapObjectPropertyFromRawData: {
+        value: function (propertyDescriptor, object, key, value) {
+            if (propertyDescriptor.readOnly) {
+                object["_" + key] = value;
+            } else {
+                object[key] = value;
+            }
+        }
+    },
 
 
     /**
