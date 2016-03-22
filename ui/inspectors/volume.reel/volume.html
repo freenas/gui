@@ -11,7 +11,9 @@
             },
             "bindings": {
                 "allShares": {"<-": "@owner.object.shares"},
-                "shares": {"<-": "@owner.allShares.filter{volume == @owner.object.id}"}
+                "shares": {"<-": "@owner.allShares.filter{volume == @owner.object.id}"},
+                "allSnapshots": {"<-": "@owner.object.snapshots"},
+                "snapshots": {"<-": "@owner.allSnapshots.filter{volume == @owner.object.id}"}
             }
         },
 
@@ -44,7 +46,7 @@
                 "element": {"#": "snapshots"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.snapshots"}
+                "object": {"<-": "@owner.snapshots.length > 0 ? @owner.snapshots : @owner.emptySnapshots"}
             }
         },
         "scrub": {
