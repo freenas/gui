@@ -43,9 +43,9 @@ exports.CascadingListItem = Component.specialize({
                                 inspectorComponentModuleId = inspectorComponentModule ?
                                     inspectorComponentModule.id : defaultInspectorId;
                             } else {
-                                var editorComponentModule = userInterfaceDescriptor.editorComponentModule;
+                                var creatorComponentModule = userInterfaceDescriptor.creatorComponentModule;
 
-                                inspectorComponentModuleId = editorComponentModule ? editorComponentModule.id :
+                                inspectorComponentModuleId = creatorComponentModule ? creatorComponentModule.id :
                                     inspectorComponentModule ? inspectorComponentModule.id : defaultInspectorId;
                             }
                         }
