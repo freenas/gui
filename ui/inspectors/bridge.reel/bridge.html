@@ -25,6 +25,15 @@
                 "object": {"<-": "@owner.object"}
             }
         },
+        "enabledSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "enabledSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.editMode"}
+            }
+        },
         "overview": {
             "prototype": "ui/controls/interface-overview.reel",
             "properties": {
@@ -32,6 +41,16 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"}
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.object.enabled"}
             }
         },
         "interface_name": {
@@ -121,7 +140,10 @@
 <body>
     <div data-montage-id="owner" class="Bridge g-padding-top">
         <div data-montage-id="inspector">
-            <div data-montage-id="overview"></div>
+             <div data-montage-id="enabledSubstitution">
+                <div data-montage-id="overview" data-arg="editing"></div>
+                <div data-montage-id="enabled" data-arg="creating"></div>
+            </div>
             <div data-montage-id="interface_name"></div>
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="dhcp"></div>

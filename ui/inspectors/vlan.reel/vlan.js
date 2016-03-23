@@ -38,6 +38,10 @@ exports.Vlan = Component.specialize({
         value: null
     },
 
+    editMode: {
+        value: null
+    },
+
     constructor: {
         value: function() {
             this.super();
@@ -56,6 +60,7 @@ exports.Vlan = Component.specialize({
 
                 if (networkInterface) {
 
+                    this.editMode = !!networkInterface.id ? "editing" : "creating";
                     //Filter parent options
                     //FIXME: when move to FetchDataWithCriteria when it will have been implemented.
                     this.application.dataService.fetchData(Model.NetworkInterface).then(function (networkInterfaces) {

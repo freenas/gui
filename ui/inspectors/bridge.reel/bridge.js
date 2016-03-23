@@ -32,6 +32,10 @@ var Bridge = exports.Bridge = Component.specialize({
         value: null
     },
 
+    editMode: {
+        value: null
+    },
+
     constructor: {
         value: function() {
             this.super();
@@ -49,6 +53,7 @@ var Bridge = exports.Bridge = Component.specialize({
 
                 if (networkInterface) {
 
+                    this.editMode = !!networkInterface.id ? "editing" : "creating";
                     // Filter member options
                     //FIXME: when move to FetchDataWithCriteria when it will have been implemented.
                     this.application.dataService.fetchData(Model.NetworkInterface).then(function (networkInterfaces) {
