@@ -7,7 +7,7 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/network-interface-create.reel"},
             "collectionNameExpression": "'Interfaces'",
-            "nameExpression": "!!id ? name || id : 'New ' + type"
+            "nameExpression": "!!id ? status.name : 'New ' + type"
         }
     }
 }
