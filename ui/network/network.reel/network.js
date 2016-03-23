@@ -125,7 +125,7 @@ exports.Network = Component.specialize({
 
             for (var i = 0, length = networkInterfaces.length; i < length; i++) {
                 networkInterface = networkInterfaces[i];
-                interfaceSummary = {name: networkInterface.name};
+                interfaceSummary = {};
                 this._populateNetworkInterfaceStatus(networkInterface, interfaceSummary);
                 interfacesSummaries.push(interfaceSummary);
             }
@@ -160,7 +160,7 @@ exports.Network = Component.specialize({
         value: function (networkInterface, interfaceSummary) {
             var aliases = networkInterface.status.aliases,
                 alias;
-
+            interfaceSummary.name = networkInterface.status.name;
             for (var j = 0, aliasesLength = aliases.length; j < aliasesLength; j++) {
                 alias = aliases[j];
 
