@@ -36,7 +36,7 @@ exports.NetworkTraffic = Component.specialize({
                     ["igb0 Up"].concat(this._generateRandomData(0, 25, 31))
                 ];
             }
-            this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
+            //this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
         }
     },
 

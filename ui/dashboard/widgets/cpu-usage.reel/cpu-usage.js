@@ -36,7 +36,7 @@ exports.CpuUsage = Component.specialize({
                     ["System"].concat(this._generateRandomData(1, 5, 31))
                 ];
             }
-            this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
+            //this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
         }
     },
 

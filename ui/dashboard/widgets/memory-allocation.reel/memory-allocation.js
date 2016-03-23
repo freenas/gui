@@ -58,7 +58,7 @@ exports.MemoryAllocation = Component.specialize({
                     columns[0][i] = free;
                 }
             }
-            this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
+            //this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
         }
     },
 
