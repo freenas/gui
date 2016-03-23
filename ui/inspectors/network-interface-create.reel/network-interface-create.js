@@ -35,7 +35,8 @@ exports.NetworkInterfaceCreate = Component.specialize({
         value: function() {
             var newInterface = this.application.dataService.getDataObject(Model.NetworkInterface);
             newInterface.aliases = [];
-            newInterface.enabled = false;
+            // FIXME: This creates an invisible network interface for some reason if it's false.
+            newInterface.enabled = true;
             // FIXME: Hacks around combination of name not being nullable in the middleware
             // and certain form elements initializing the bound value to null. Remove if
             // either issue is resolved.
