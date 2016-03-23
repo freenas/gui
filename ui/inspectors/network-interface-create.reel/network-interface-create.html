@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="network-interface-create.css">
+    <script type="text/montage-serialization">
+    {
+    "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
+        "createVlan": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "createVlan"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newVlan"}
+            }
+        },
+        "createLagg": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "createLagg"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newLagg"}
+            }
+        },
+        "createBridge": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "createBridge"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newBridge"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="NetworkInterfaceCreate">
+        <div data-montage-id="inspector">
+            <div data-montage-id="createVlan"></div>
+            <div data-montage-id="createLagg"></div>
+            <div data-montage-id="createBridge"></div>
+        </div>
+    </div>
+</body>
+</html>
