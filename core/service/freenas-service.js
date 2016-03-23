@@ -297,10 +297,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                                     respectedRestrictionsCounter++;
                                 }
 
-                                this._mapPropertyToRawData(data, object, key, isUpdate);
+                                this._mapPropertyToRawData(data, object, key);
                             }
                         } else {
-                            this._mapPropertyToRawData(data, object, key, isUpdate);
+                            this._mapPropertyToRawData(data, object, key);
                         }
                     }
 
@@ -557,15 +557,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      *
      */
     _mapPropertyToRawData: {
-        value: function (rawData, object, propertyKey, update) {
-            var propertyValue = object[propertyKey];
-
-            if (update) {
-                if (object.hasOwnProperty("_" + propertyKey)) { // filter unset values.
-                    rawData[propertyKey] = propertyValue;
-                }
-            } else if (propertyValue !== null) {
-                rawData[propertyKey] = propertyValue;
+        value: function (rawData, object, propertyKey) {
+            if (object.hasOwnProperty("_" + propertyKey)) { // filter unset values.
+                rawData[propertyKey] = object[propertyKey];
             }
         }
     },
