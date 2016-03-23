@@ -185,7 +185,7 @@ exports.Network = Component.specialize({
         value: function () {
             return this.application.dataService.fetchData(Model.SystemGeneral).then(function (systemGeneral) {
                 return systemGeneral[0];
-            })
+            });
         }
     }
 
