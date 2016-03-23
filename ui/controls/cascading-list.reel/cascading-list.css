@@ -4,15 +4,17 @@
     left: 0;
     right: 0;
     bottom: 0;
+    display: flex;
+    flex: 1;
 }
 
 .CascadingList-repetition {
-    position: absolute;
+    /*position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    overflow: auto;
+    bottom: 0;*/
+    /*overflow: auto;*/
     -ms-box-orient: horizontal;
     display: -webkit-box;
     display: -moz-box;
@@ -22,6 +24,7 @@
     display: flex;
     -webkit-flex-wrap: nowrap;
     flex-wrap: nowrap;
+    flex: 1;
 }
 
 
