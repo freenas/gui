@@ -38,7 +38,10 @@
 }
 
 .FoldableSection-contentContainer { padding: 1em 0; }
-.FoldableSection-contentContainer > *:last-child .Field { margin-bottom: 0; }
+.FoldableSection-contentContainer > *:last-child,
+.FoldableSection-contentContainer > *:last-child .Field {
+    margin-bottom: 0;
+}
 
 /* Title / Icon button container */
 
