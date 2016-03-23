@@ -9,12 +9,132 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "readOnly": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "readOnly"},
+                "label": "Read only"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.read_only"}
+            }
+        },
+        "alldirs": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "alldirs"},
+                "label": "All directories"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.properties.alldirs"}
+            }
+        },
+        "advancedSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advancedSection"},
+                "title": "Advanced"
+            }
+        },
+        "hostsTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "hostsTitle"},
+                "value": "Authorized hosts"
+            }
+        },
+        "hosts": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "hosts"},
+                "labelPath": "this"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.hosts"},
+                "placeholderValue": {"<-": "'eg. 1.2.3.4 or hostname'"}
+
+            }
+        },
+        "maprootUser": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "maprootUser"},
+                "label": "Maproot user"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.properties.maproot_user"},
+                "options": {"<-": "[{label: '', value: ''}].concat(@owner.users.map{{label: username, value: username}})"}
+            }
+        },
+        "maprootGroup": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "maprootGroup"},
+                "label": "Maproot group"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.properties.maproot_group"},
+                "options": {"<-": "[{label: '', value: ''}].concat(@owner.groups.map{{label: name, value: name}})"}
+            }
+        },
+        "mapallUser": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "mapallUser"},
+                "label": "Mapall user"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.properties.mapall_user"},
+                "options": {"<-": "[{label: '', value: ''}].concat(@owner.users.map{{label: username, value: username}})"}
+            }
+        },
+        "mapallGroup": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "mapallGroup"},
+                "label": "Mapall group"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.properties.mapall_group"},
+                "options": {"<-": "[{label: '', value: ''}].concat(@owner.groups.map{{label: name, value: name}})"}
+            }
+        },
+        "securityTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "securityTitle"},
+                "value": "Security"
+            }
+        },
+        "security": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "security"},
+                "draggable": "true",
+                "labelPath": "this"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.properties.security"},
+                "options": {"<-": "@owner.securityOptions"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="NfsShare">
-    </div>
+        <div data-montage-id="alldirs"></div>
+        <div data-montage-id="readOnly"></div>
+        <div data-montage-id="advancedSection">
+            <div data-montage-id="hostsTitle"></div>
+            <div data-montage-id="hosts"></div>
+            <div data-montage-id="maprootUser"></div>
+            <div data-montage-id="maprootGroup"></div>
+            <div data-montage-id="mapallUser"></div>
+            <div data-montage-id="mapallGroup"></div>
+            <div data-montage-id="securityTitle"></div>
+            <div data-montage-id="security"></div>
+        </div>
 </body>
 </html>
