@@ -33,7 +33,7 @@ exports.NetworkConfiguration = Component.specialize(/** @lends NetworkConfigurat
 
     save: {
         value: function() {
-            this.application.dataService.saveDataObject(this.object.config);
+            this.application.dataService.saveDataObject(this.object);
             this.application.dataService.saveDataObject(this.object.general);
         }
     },
