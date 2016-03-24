@@ -97,7 +97,7 @@ exports.CascadingListItem = Component.specialize({
             if (!this._element.clientWidth) {
                 this.needsDraw = true;
             } else {
-                this._element.parentNode.scrollLeft = 1e10;
+                this.cascadingList.scrollView.scrollIntoView(false);
             }
         }
     }
