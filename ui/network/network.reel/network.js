@@ -32,12 +32,12 @@ exports.Network = Component.specialize({
             var self = this;
 
             //Fixme: getDataObject needs to retrun a promise
-            return Model.getPrototypeForType(Model.NetworkOverview).then(function () {
+            return Model.populateObjectPrototypeForType(Model.NetworkOverview).then(function () {
                 //Fixme: need to add clever getter/setter on descriptors, defaultValue?
                 var networkOverview = self.application.dataService.getDataObject(Model.NetworkOverview);
                 networkOverview.summary = {};
 
-                return Model.getPrototypeForType(Model.Ipmi).then(function () {
+                return Model.populateObjectPrototypeForType(Model.Ipmi).then(function () {
                     networkOverview.ipmi = self.application.dataService.getDataObject(Model.Ipmi);
 
                 }).then(function () {
@@ -72,7 +72,7 @@ exports.Network = Component.specialize({
 
     _populateNetworkStatus: {
         value: function (networkOverview) {
-            return Model.getPrototypeForType(Model.NetworkConfig).then(function(NetworkConfig) {
+            return Model.populateObjectPrototypeForType(Model.NetworkConfig).then(function(NetworkConfig) {
                 return NetworkConfig.constructor.getStatus().then(function (networkStatus) {
                     networkOverview.summary.nameservers = networkStatus.dns.addresses;
                     networkOverview.summary.defaultRoute = {

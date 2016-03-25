@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="share-creator.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+            }
+        },
+
+        "introductionText": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "introductionText"},
+                "value": "Choose the share type to create."
+            }
+        },
+        "smb": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "smb"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newSmbShare"}
+            }
+        },
+        "nfs": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "nfs"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newNfsShare"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ShareCreator">
+        <div class="ShareCreator-header">
+            <div data-montage-id="introductionText"></div>
+        </div>
+        <div data-montage-id="smb"></div>
+        <div data-montage-id="nfs"></div>
+    </div>
+</body>
+</html>

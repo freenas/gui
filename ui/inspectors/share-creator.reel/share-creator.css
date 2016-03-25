@@ -1,0 +1,29 @@
+.ShareCreator {
+
+}
+
+.ShareCreator-header {
+    padding: 1em;
+    display: flex;
+}
+
+/* Icon */
+
+.ShareCreator-header-icon {
+    width: 6em;
+    margin-right: 2em;
+}
+
+.ShareCreator-header-icon img { width:  100%; }
+
+/* Info */
+
+.ShareCreator-header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ShareCreator-header-info-size {
+    font-size: 1.5em;
+}

@@ -160,7 +160,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             } else {
                 var self = this;
 
-                Model.getPrototypeForType(type).then(function () {
+                Model.populateObjectPrototypeForType(type).then(function () {
                     self._fetchRawDataWithType(stream, type);
                 });
             }
@@ -273,12 +273,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 if (serviceDescriptor) {
                     var restrictions = serviceDescriptor.restrictions,
                         propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
-                        hasRestrictions = !!restrictions, respectedRestrictionsCounter = 0,
-                        requiredFields, isPropertyValueNullified, forbiddenFields, propertyDescriptor, propertyValue, key;
+                        hasRestrictions = !!restrictions, requiredFields, isPropertyValueNullified, forbiddenFields,
+                        propertyDescriptor, propertyValue, key, requiredFieldIndex, unsatisfiedRequiredFieldsCount = 0;
 
                     if (hasRestrictions) {
-                        forbiddenFields = restrictions.forbiddenFields;
-                        requiredFields = restrictions.requiredFields;
+                        forbiddenFields = restrictions.forbiddenFields || [];
+                        requiredFields = restrictions.requiredFields || [];
+                        unsatisfiedRequiredFieldsCount = requiredFields.length;
                     }
 
                     for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
@@ -292,9 +293,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         }
 
                         if (hasRestrictions) {
-                            if (forbiddenFields && forbiddenFields.indexOf(key) === -1) {
-                                if (requiredFields && requiredFields.indexOf(key) > -1 && !isPropertyValueNullified) {
-                                    respectedRestrictionsCounter++;
+                            if (forbiddenFields.indexOf(key) === -1) {
+                                requiredFieldIndex = requiredFields.indexOf(key);
+                                if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
+                                    unsatisfiedRequiredFieldsCount--;
+                                    delete requiredFields[requiredFieldIndex];
                                 }
 
                                 this._mapPropertyToRawData(data, object, key);
@@ -304,9 +307,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         }
                     }
 
-                    if (requiredFields && requiredFields.length !== respectedRestrictionsCounter) {
-                        //todo: improve this error message, with list of the missing fields ?
-                        throw new Error ("missing required fields for type: '" + type.typeName + "'");
+                    if (requiredFields && unsatisfiedRequiredFieldsCount > 0) {
+                        throw new Error ("missing " + unsatisfiedRequiredFieldsCount + " required fields for type: '" +
+                            type.typeName + "': " + requiredFields.filter(function(x) { return x; }).join(', '));
                     }
                 } else {
                     //todo warning
@@ -436,16 +439,18 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 self = this,
                 value;
 
-            if (type) {
+            if (type && rawValue) {
                 //Fixme: hacky mapFromRawData need to return a promise
-                object[key] = Model.getPrototypeForType(type).then(function () {
+                object[key] = Model.populateObjectPrototypeForType(type).then(function () {
                     value = self.getDataObject(type);
                     self.mapFromRawData(value, rawValue);
                     self._mapObjectPropertyFromRawData(propertyDescriptor, object, key, value);
                 });
-            } else { //fallback
+            } else if (rawValue) { //fallback
                 console.warn("model type: '" + propertyDescriptor.valueObjectPrototypeName + "' unknown");
                 this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
+            } else {
+                console.warn("Cannot map empty property: '" + key + "'");
             }
         }
     },

@@ -39,7 +39,7 @@ exports.CascadingListItem = Component.specialize({
                                 objectPrototype = Object.getPrototypeOf(Object.getPrototypeOf(object)),
                                 id = object.id;
 
-                            if ((id !== void 0 && id !== null) || !objectPrototype.hasOwnProperty("id")) {
+                            if ((id !== void 0 && id !== null) || !objectPrototype.hasOwnProperty("id") || object._isNewObject) {
                                 inspectorComponentModuleId = inspectorComponentModule ?
                                     inspectorComponentModule.id : defaultInspectorId;
                             } else {

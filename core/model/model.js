@@ -39,7 +39,7 @@ function _initialize () {
         }
     }
 
-    _Model.getPrototypeForType = function (type) {
+    _Model.populateObjectPrototypeForType = function (type) {
         var objectDescriptor = this[typeof type === "string" ? type : type.typeName];
 
         if (!objectDescriptor) {

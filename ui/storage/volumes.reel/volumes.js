@@ -15,6 +15,10 @@ exports.Volumes = Component.specialize({
         value: null
     },
 
+    _volumesById: {
+        value: {}
+    },
+
     _shares: {
         value: null
     },
@@ -54,12 +58,12 @@ exports.Volumes = Component.specialize({
         value: function () {
             var self = this;
             this._dataService = this.application.dataService;
-            return Model.getPrototypeForType(Model.Volume).then(function (Volume) {
+            return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                 self._volumeService = Volume.constructor;
             }).then(function() {
-                return Model.getPrototypeForType(Model.ZfsTopology);
+                return Model.populateObjectPrototypeForType(Model.ZfsTopology);
             }).then(function() {
-                return Model.getPrototypeForType(Model.Scrub);
+                return Model.populateObjectPrototypeForType(Model.Scrub);
             });
         }
     },
@@ -100,7 +104,7 @@ exports.Volumes = Component.specialize({
             for (i = 0, length = shares.length; i < length; i++) {
                 share = shares[i];
                 if (!share.volume) {
-                    volumeNamePromise = this._getVolumeName(share);
+                    volumeNamePromise = this._getContainingVolume(share);
                 } else {
                     volumeNamePromise = Promise.resolve(share.volume);
                 }
@@ -116,10 +120,13 @@ exports.Volumes = Component.specialize({
 
     handleVolumesChange: {
         value: function(volumes) {
-            var i, length;
+            var volume, i, length;
             for (i = 0, length = volumes.length; i < length; i++) {
-                volumes[i].scrubs = this._dataService.getDataObject(Model.Scrub);
+                volume = volumes[i];
+                volume.scrubs = this._dataService.getDataObject(Model.Scrub);
+                this._volumesById[volume.id] = volume;
             }
+            console.log(volumes, this._volumesById);
         }
     },
 
@@ -146,11 +153,12 @@ exports.Volumes = Component.specialize({
         }
     },
 
-    _getVolumeName: {
+    _getContainingVolume: {
         value: function(share) {
-           return this._volumeService.decodePath(share.filesystem_path).then(function (decodedPath) {
-                return decodedPath[0];
-           });
+            var self = this;
+            return this._volumeService.decodePath(share.filesystem_path).then(function (decodedPath) {
+                return self._volumesById[decodedPath[0]];
+            });
         }
     }
 

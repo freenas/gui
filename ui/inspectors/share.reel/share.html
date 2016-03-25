@@ -23,7 +23,7 @@
             }
         },
         "overview": {
-            "prototype": "ui/controls/share-overview.reel",
+            "prototype": "./share-overview.reel",
             "properties": {
                 "element": {"#": "overview"}
             },
@@ -58,7 +58,8 @@
                 "label": "Target"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.target_path"}
+                "value": {"<->": "@owner.targetPath"},
+                "converter": {"<-": "@owner.pathConverter"}
             }
         },
         "substitution": {

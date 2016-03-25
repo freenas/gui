@@ -13,11 +13,11 @@ exports.Viewer = Component.specialize({
             var type = Array.isArray(this.object) ? this.object._meta_data.collectionModelType :
                 Object.getPrototypeOf(this.object).Type;
 
+            this.selectedObject = null;
             if (type) {
                 var self = this;
-
                 //Fixme: getDataObject must return a promise!
-                return Model.getPrototypeForType(type).then(function () {
+                return Model.populateObjectPrototypeForType(type).then(function () {
                     self.parentCascadingListItem.selectedObject = self.application.dataService.getDataObject(type);
                 });
             }
