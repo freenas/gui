@@ -1,16 +1,11 @@
 .Main {
-    position: relative;
     flex: 1;
     display: flex;
 }
 
-.Main-mainSidebar {
-    width:  12em;
-}
+.Main-mainSidebar { width:  12em; }
 
-.Main-sideboard {
-    width: 19em;
-}
+.Main-sideboard { width: 19em; }
 
 .Main-substitution {
     position: relative;
@@ -32,7 +27,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    /*overflow-y: scroll;*/
     background-size: cover;
     background-image:
         radial-gradient(
@@ -40,9 +34,4 @@
             rgba(255, 255, 255, .1),
             rgba(0, 0, 0, .1)
         );
-}
-
-.AuthorizationManagerPanel {
-    width: 550px;
-    min-height: 400px;
 }
