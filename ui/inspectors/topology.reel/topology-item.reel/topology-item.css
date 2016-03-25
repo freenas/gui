@@ -48,12 +48,12 @@
 
 /* Vdev Container */
 
-.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon {
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem >  .LabeledIcon {
     margin-right: 1em;
 }
 
 /* Title */
-.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-title {
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title {
     position: relative;
     order: -1;
     text-align: left;
@@ -64,7 +64,7 @@
 }
 
 /* status icon */
-.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-title:after {
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title:after {
     content: '';
     position: absolute;
     width: .8em;
@@ -77,7 +77,7 @@
 }
 
 /* Grid Container*/
-.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-image > * {
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-image > * {
     padding: 0;
 }
 

@@ -1,9 +1,5 @@
-.Grid-icon {
-    float: left;
+.Grid-repetition {
     display: flex;
-    flex-direction: column;
-    width:  90px;
-    height: 90px;
-    cursor: pointer;
-    margin-bottom: 1em;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

@@ -24,25 +24,18 @@
                 "contentController": {"<-": "@owner.controller"}
             }
         },
-        "labeledIcon": {
-            "prototype": "ui/controls/labeled-icon.reel",
+
+        "gridItem": {
+            "prototype": "./grid-item.reel",
             "properties": {
-                "element": {"#": "icon"}
+                "element": {"#": "grid-item"}
             },
             "bindings": {
-                "label": {"<-": "!!@owner.labelPath ? @repetition:iteration.object.path(@owner.labelPath) : @repetition:iteration.object.name"}
-            }
-        },
-        "imageComponent": {
-            "prototype": "ui/controls/placeholder.reel",
-            "properties": {
-                "element": {"#": "iconImagePlaceholder"}
-            },
-            "bindings": {
-                "moduleId": {"<-": "@repetition:iteration.object.icon || @owner.defaultModuleId"},
                 "object": {"<-": "@repetition:iteration.object"},
-                "component.size": {"<-": "size"},
-                "component.labelPath": {"<-": "@owner.labelPath"}
+                "defaultModuleId": {"<-": "@owner.defaultModuleId"},
+                "labelPath": {"<-": "@owner.labelPath"},
+                "size": {"<-": "@owner.size"},
+                "enabled": {"<-": "@owner.draggable"}
             }
         }
     }
@@ -51,9 +44,7 @@
 <body>
     <div data-montage-id="owner" class="Grid">
         <div data-montage-id="repetition" class="Grid-repetition">
-            <div data-montage-id="icon" class="Grid-icon">
-                <div data-arg="image" data-montage-id="iconImagePlaceholder"></div>
-            </div>
+            <div data-montage-id="grid-item"></div>
         </div>
     </div>
 </body>

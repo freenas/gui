@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="grid-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "labeledIcon": {
+            "prototype": "ui/controls/labeled-icon.reel",
+            "properties": {
+                "element": {"#": "icon"}
+            },
+            "bindings": {
+                "label": {"<-": "!!@owner.labelPath ? @owner.object.path(@owner.labelPath) : @owner.object.name"}
+            }
+        },
+
+        "imageComponent": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "iconImagePlaceholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner.object.icon || @owner.defaultModuleId"},
+                "object": {"<-": "@owner.object"},
+                "component.size": {"<-": "@owner.size"},
+                "component.labelPath": {"<-": "@owner.labelPath"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="GridItem">
+        <div data-montage-id="icon" class="Grid-icon">
+            <div data-arg="image" data-montage-id="iconImagePlaceholder"></div>
+        </div>
+    </div>
+</body>
+</html>
