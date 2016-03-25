@@ -1,10 +1,4 @@
-.Notifications {
-    padding: 1em;
-}
-
-.Notifications .ScrollviewContent {
-    min-height: 100%;
-}
+.Notifications { padding: 1em; }
 
 .Notifications-header {
     position: relative;
@@ -14,13 +8,20 @@
 .Notifications-title { font-weight: 400; }
 
 .Notifications-body {
-    display: flex;
+    position: relative;
     flex-direction: column;
     height: 21em;
     overflow: hidden;
+    border: 1px solid rgba(255,255,255,.3);
 }
 
-/* filter Icon */
+/*
+
+filter
+
+*/
+
+/* icon */
 
 .Notifications-filterButton {
     position: absolute;
@@ -39,17 +40,11 @@
     height: 2.4em;
 }
 
-.Notifications-filterButton:hover {
-    color: #FFF;
-}
+.Notifications-filterButton:hover { color: #FFF; }
 
 .filters-expanded .Notifications-filterButton {
     color: #FFF;
     background: #666;
-}
-
-.Notifications-body .Scrollview {
-    border: 1px solid rgba(255,255,255,.3);
 }
 
 .Notifications-filters {
@@ -60,9 +55,7 @@
     background: #666;
 }
 
-.filters-expanded .Notifications-filters {
-    display: flex;
-}
+.filters-expanded .Notifications-filters { display: flex; }
 
 /* Empty State */
 

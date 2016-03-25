@@ -6,15 +6,10 @@
     bottom: 0;
     display: flex;
     flex: 1;
+    overflow: hidden;
 }
 
 .CascadingList-repetition {
-    /*position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;*/
-    /*overflow: auto;*/
     -ms-box-orient: horizontal;
     display: -webkit-box;
     display: -moz-box;

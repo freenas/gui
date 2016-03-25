@@ -29,33 +29,31 @@ exports.Network = Component.specialize({
 
     getNetworkOverview: {
         value: function () {
-            var self = this;
+            var self = this,
+                networkOverview;
 
-            //Fixme: getDataObject needs to retrun a promise
+            //Fixme: getDataObject needs to return a promise
             return Model.populateObjectPrototypeForType(Model.NetworkOverview).then(function () {
                 //Fixme: need to add clever getter/setter on descriptors, defaultValue?
-                var networkOverview = self.application.dataService.getDataObject(Model.NetworkOverview);
+                networkOverview = self.application.dataService.getDataObject(Model.NetworkOverview);
                 networkOverview.summary = {};
 
-                return Model.populateObjectPrototypeForType(Model.Ipmi).then(function () {
-                    networkOverview.ipmi = self.application.dataService.getDataObject(Model.Ipmi);
-
-                }).then(function () {
-                    return self._populateNetworkConfig(networkOverview);
-                }).then(function () {
-                    return self._populateNetworkStatus(networkOverview);
-                }).then(function () {
-                    return self._populateNetworkInterfaces(networkOverview);
-                }).then(function () {
-                    return self.getSystemGeneralConfig().then(function (systemGeneral) {
-                        networkOverview.summary.hostname = systemGeneral.hostname;
-                        networkOverview.networkConfiguration.general = systemGeneral;
-                    });
-                }).then(function () {
-                    return self._populateStaticRoutes(networkOverview).then(function () {
-                        return networkOverview;
-                    });
-                });
+                return Model.populateObjectPrototypeForType(Model.Ipmi);
+            }).then(function () {
+                networkOverview.ipmi = self.application.dataService.getDataObject(Model.Ipmi);
+                return self._populateNetworkConfig(networkOverview);
+            }).then(function () {
+                return self._populateNetworkStatus(networkOverview);
+            }).then(function () {
+                return self._populateNetworkInterfaces(networkOverview);
+            }).then(function () {
+                return self.getSystemGeneralConfig()
+            }).then(function (systemGeneral) {
+                networkOverview.summary.hostname = systemGeneral.hostname;
+                networkOverview.networkConfiguration.general = systemGeneral;
+                return self._populateStaticRoutes(networkOverview);
+            }).then(function () {
+                return networkOverview;
             });
         }
     },
@@ -64,7 +62,7 @@ exports.Network = Component.specialize({
     _populateNetworkConfig: {
         value: function (networkOverview) {
             return this.application.dataService.fetchData(Model.NetworkConfig).then(function (networkConfig) {
-                return (networkOverview.networkConfiguration = networkConfig[0]);
+                networkOverview.networkConfiguration = networkConfig[0];
             });
         }
     },
@@ -79,8 +77,7 @@ exports.Network = Component.specialize({
                         ipv4: networkStatus.gateway.ipv4,
                         ipv6: networkStatus.gateway.ipv6
                     };
-
-                    return (networkOverview.networkConfiguration.status = networkStatus);
+                    networkOverview.networkConfiguration.status = networkStatus;
                 });
             });
         }
@@ -93,8 +90,7 @@ exports.Network = Component.specialize({
 
             return this.application.dataService.fetchData(Model.NetworkInterface).then(function (networkInterfaces) {
                 networkOverview.summary.interfaces = self._getInterfacesSummaries(networkInterfaces);
-
-                return (networkOverview.interfaces = networkInterfaces);
+                networkOverview.interfaces = networkInterfaces;
             });
         }
     },
@@ -110,7 +106,7 @@ exports.Network = Component.specialize({
                     staticRoute.name = 'staticRoute' + i;
                 }
 
-                return (networkOverview.staticRoutes = staticRoutes);
+                networkOverview.staticRoutes = staticRoutes;
             });
         }
     },
@@ -120,7 +116,6 @@ exports.Network = Component.specialize({
         value: function (networkInterfaces) {
             var networkInterface,
                 interfaceSummary,
-                aliases,
                 interfacesSummaries = [];
 
             for (var i = 0, length = networkInterfaces.length; i < length; i++) {
