@@ -9,17 +9,26 @@ exports.Accounts = Component.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
-            this.listUsers();
+            if (isFirstTime) {
+                this._listUsers();
+                this._prefetchGroups();
+            }
         }
     },
 
-    listUsers: {
+    _listUsers: {
         value: function() {
             var self = this;
 
             return this.application.dataService.fetchData(Model.User).then(function (users) {
                 self.users = users;
             });
+        }
+    },
+
+    _prefetchGroups: {
+        value: function() {
+            return this.application.dataService.fetchData(Model.Group);
         }
     }
 

@@ -1,5 +1,7 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    Converter = require("montage/core/converter/converter").Converter,
+    Validator = require("montage/core/converter/converter").Validator;
 
 /**
  * @class User
@@ -11,47 +13,56 @@ exports.User = Component.specialize({
         value: null
     },
 
+    additionalGroups: {
+        value: null
+    },
+
     groupOptions: {
         value: null
     },
 
     object: {
         set: function (user) {
-            if (user) {
-                this._object = user;
+            var self = this;
+            this._object = user;
 
-                this.application.dataService.fetchData(Model.Group).then(function (groups) {
-                    if (groups) {
-                        this.groupOptions = groups;
-                    } else {
-                        this.groupOptions = null;
-                    }
-                }.bind(this));
-
-            } else {
-                this._object = null;
-            }
+            this.application.dataService.fetchData(Model.Group).then(function (groups) {
+                self.groupOptions = groups;
+                self.additionalGroups = user.groups ? groups.filter(function (x) { return user.groups.indexOf(x.id) > -1; }) : [];
+            });
         },
-
         get: function () {
             return this._object;
         }
     },
 
-    groupOptionConverter: {
-        convert: function (groupId) {
-            return this.groupOptions.find({id:groupID});
-        },
+    save: {
+        value: function() {
+            this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
+            this.application.dataService.saveDataObject(this.object);
+        }
+    }
+});
 
-        revert: function (name) {
-            var newGroupValue = this.groupOptions.find({name:name});
+exports.AdditionalGroupsConverter = Converter.specialize({
+    convert: {
+        value: function (groupId) {
+            return this.groupOptions.find(function(x){ return x.id === groupId });
+        }
+    },
+
+    revert: {
+        value: function (name) {
+            var newGroupValue = this.groupOptions.find(function(x) { return x.name === name });
             return newGroupValue ? newGroupValue.id : null;
-        },
+        }
+    }
+});
 
-        validator: {
-            validate: function (name) {
-                return !!this.groupOptions.find({name:name});
-            }
+exports.AdditionalGroupsValidator = Validator.specialize({
+    validate: {
+        value: function (name) {
+            return !!this.groupOptions.find(function(x) { return x.name === name });
         }
     }
 });

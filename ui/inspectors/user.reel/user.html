@@ -29,7 +29,7 @@
                 "label": "User ID"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.uid"}
+                "value": {"<->": "+@owner.object.uid"}
             }
         },
         "username": {
@@ -78,7 +78,22 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.group"},
-                "options": {"<-": "@owner.groupOptions"}
+                "options": {"<-": "[{id: -1, name: ''}].concat(@owner.groupOptions)"}
+            }
+        },
+        "additionalGroupsValidator": {
+            "prototype": "./[AdditionalGroupsValidator]",
+            "bindings": {
+                "groupOptions": {"<-": "@owner.groupOptions"}
+            }
+        },
+        "additionalGroupsConverter": {
+            "prototype": "./[AdditionalGroupsConverter]",
+            "properties": {
+                "validator": {"@": "additionalGroupsValidator"}
+            },
+            "bindings": {
+                "groupOptions": {"<-": "@owner.groupOptions"}
             }
         },
         "groups": {
@@ -87,12 +102,12 @@
                 "element": {"#": "groups"},
                 "label": "Additional Groups",
                 "labelPath": "name",
-                "converter": "@owner.groupOptionConverter",
-                "placeholderValue": "Select a group"
+                "placeholderValue": "Select a group",
+                "converter": {"@": "additionalGroupsConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.groupOptions"},
-                "selectedValues": {"<->": "@owner.object.groups"}
+                "options": {"<-": "@owner.groupOptions.filter{id != @owner.object.group}"},
+                "values": {"<->": "@owner.additionalGroups"}
             }
         },
         "home": {
