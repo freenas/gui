@@ -1,0 +1,9 @@
+.Grid-icon {
+    float: left;
+    display: flex;
+    flex-direction: column;
+    width:  90px;
+    height: 90px;
+    cursor: pointer;
+    margin-bottom: 1em;
+}
