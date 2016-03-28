@@ -137,7 +137,7 @@
                 "label": "Disable Password"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.password_disabled"}
+                "checked": {"<->": "!!@owner.object.password_disabled"}
             }
         },
         "locked": {
@@ -147,7 +147,7 @@
                 "label": "Lock Account"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.locked"}
+                "checked": {"<->": "!!@owner.object.locked"}
             }
         },
         "sudo": {
@@ -157,7 +157,7 @@
                 "label": "Superuser"
             },
             "bindings": {
-                "checked": {"<-": "@owner.object.sudo"}
+                "checked": {"<-": "!!@owner.object.sudo"}
             }
         }
     }
