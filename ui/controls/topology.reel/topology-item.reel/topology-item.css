@@ -82,10 +82,13 @@
 }
 
 .TopologyItem-dropZone {
+    margin: .25em;
     margin-bottom: 1em;
-    padding: .5em;
     color: rgba(255,255,255,.4);
-    border: 2px dashed rgba(255,255,255,.1);
+    border: 1px dashed rgba(255,255,255,.1);
     border-radius: 4px;
-    width: 100%;
+    width: 6em;
+    height: 6em;
+    line-height: 6em;
+    text-align: center;
 }

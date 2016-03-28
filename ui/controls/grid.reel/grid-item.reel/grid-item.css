@@ -1,3 +1,7 @@
+.GridItem > .GridItem {
+    max-width: 6em;
+}
+
 .Grid-icon {
     float: left;
     display: flex;
@@ -6,4 +10,8 @@
     height: 90px;
     cursor: pointer;
     margin-bottom: 1em;
+}
+
+.Grid-icon svg {
+    max-width: 3em;
 }
