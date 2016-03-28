@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="topology.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "data": {
+            "prototype": "./topology-item.reel",
+            "properties": {
+                "element": {"#": "data"},
+                "name": "Data"
+            },
+            "bindings": {
+                "vdevs": {"<-": "@owner.object.data"}
+            }
+        },
+        "cache": {
+            "prototype": "./topology-item.reel",
+            "properties": {
+                "element": {"#": "cache"},
+                "name": "Cache"
+            },
+            "bindings": {
+                "vdevs": {"<-": "@owner.object.cache"}
+            }
+        },
+        "log": {
+            "prototype": "./topology-item.reel",
+            "properties": {
+                "element": {"#": "log"},
+                "name": "Log"
+            },
+            "bindings": {
+                "vdevs": {"<-": "@owner.object.log"}
+            }
+        },
+        "spareTitle": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "spareTitle"},
+                "value": "Spare"
+            }
+        },
+        "spareController": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.object.spare"}
+            }
+        },
+        "spareGrid": {
+            "prototype": "ui/controls/grid.reel",
+            "properties": {
+                "element": {"#": "spareGrid"},
+                "controller": {"@": "spareController"},
+                "labelPath": "path.split('/')[2]",
+                "icon": "ui/icons/disk.reel"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Topology">
+        <div data-montage-id="data"></div>
+        <div data-montage-id="cache"></div>
+        <div data-montage-id="log"></div>
+        <!-- $fix -->
+        <div class="TopologyItem">
+            <div data-montage-id="spareTitle" class="TopologyItem-title"></div>
+            <div class="TopologyItem-grid">
+                <div data-montage-id="spareGrid"></div>
+                <div class="TopologyItem-dropZone">Add Drive</div>
+            </div>
+        </div>
+        <!-- end -->
+    </div>
+</body>
+</html>

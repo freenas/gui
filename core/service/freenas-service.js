@@ -118,6 +118,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.Volume,
             Model.VolumeSnapshot,
             Model.Share,
+            Model.ZfsTopology,
             Model.User,
             Model.Group,
             Model.SystemGeneral

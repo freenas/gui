@@ -59,7 +59,7 @@ exports.Volume = Component.specialize({
 
     exitDocument: {
         value: function() {
-            delete this.application.selectedVolume;
+            delete this.application.delectedVolume;
         }
     }
 });

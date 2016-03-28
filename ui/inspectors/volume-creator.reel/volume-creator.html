@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="volume-creator.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+            }
+        },
+
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+
+        "size": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "size"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.properties.size.rawvalue"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
+        "topology": {
+            "prototype": "ui/controls/topology.reel",
+            "properties": {
+                "element": {"#": "topology"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.topology"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VolumeCreator">
+        <div class="VolumeCreator-header">
+            <div class="VolumeCreator-header-icon">
+                <img src="256.png">
+            </div>
+            <div class="VolumeCreator-header-info">
+                <div>Status Info</div>
+                <div>Additional Info</div>
+                <div data-montage-id="size" class="VolumeCreator-header-info-size"></div>
+            </div>
+        </div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="topology"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -5,6 +5,7 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Volumes'",
             "inspectorComponentModule": {"%": "ui/inspectors/volume.reel"},
+            "creatorComponentModule": {"%": "ui/inspectors/volume-creator.reel"},
             "nameExpression": "id"
         }
     }

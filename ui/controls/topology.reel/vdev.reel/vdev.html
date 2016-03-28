@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="vdev.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('unhealthy')": {"<-": "@owner.object.status != 'ONLINE'"}
+            }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.object.children.length > 0 ? @owner.object.children : [@owner.object]"}
+            }
+        },
+        "disksGrid": {
+            "prototype": "ui/controls/grid.reel",
+            "properties": {
+                "element": {"#": "disksGrid"},
+                "controller": {"@": "controller"},
+                "labelPath": "path.split('/')[2]",
+                "icon": "ui/icons/disk.reel"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Vdev">
+        <div data-montage-id="disksGrid"></div>
+    </div>
+</body>
+</html>

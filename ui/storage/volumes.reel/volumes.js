@@ -19,9 +19,29 @@ exports.Volumes = Component.specialize({
         value: {}
     },
 
+    _spareDisks: {
+        value: []
+    },
+
+    _disks: {
+        value: null
+    },
+
+    disks: {
+        get: function() {
+            return this._disks || [];
+        },
+        set: function(disks) {
+            if (this._disks != disks) {
+                this._disks = disks;
+            }
+        }
+    },
+
     _shares: {
         value: null
     },
+
     shares: {
         get: function() {
             return this._shares;
@@ -43,7 +63,7 @@ exports.Volumes = Component.specialize({
                 self.snapshots = snapshots;
                 return self._listDisks();
             }).then(function (disks) {
-                self.spare = disks || [];
+                self.disks = disks;
             });
         }
     },
@@ -75,6 +95,7 @@ exports.Volumes = Component.specialize({
             if (isFirstTime) {
                 self.addRangeAtPathChangeListener("shares", this, "handleSharesChange");
                 self.addRangeAtPathChangeListener("volumes", this, "handleVolumesChange");
+                self.addRangeAtPathChangeListener("disks", this, "handleDisksChange");
                 this._initializeServices().then(function() {
                     self.type = Model.Volume;
                     self._listVolumes().then(function(volumes) {
@@ -87,7 +108,7 @@ exports.Volumes = Component.specialize({
                             volume = self.volumes[i];
                             volume.shares = self.shares;
                             volume.snapshots = self.snapshots;
-                            volume.topology.spare = self.spare;
+                            volume.disks = self.disks;
                         }
                     });
                 });
@@ -118,15 +139,54 @@ exports.Volumes = Component.specialize({
         }
     },
 
+    _checkIfDiskIsAssignedToVolume: {
+        value: function (disk, volume) {
+            return this._volumeService.getVolumeDisks(volume.id).then(function(volumeDisks) {
+                if (volumeDisks.indexOf('/dev/' + disk.status.gdisk_name) != -1) {
+                    disk.volume = volume;
+                }
+            });
+        }
+    },
+
     handleVolumesChange: {
         value: function(volumes) {
-            var volume, i, length;
-            for (i = 0, length = volumes.length; i < length; i++) {
+            var volume, i, volumesLength,
+                disk, j, disksLength;
+            for (i = 0, volumesLength = volumes.length; i < volumesLength; i++) {
                 volume = volumes[i];
+                for (j = 0, disksLength = this.disks.length; i < disksLength; i++) {
+                    disk = disks[i];
+                    this._checkIfDiskIsAssignedToVolume(disk, volume);
+                }
+                volume.topology.spare = this._spareDisks;
                 volume.scrubs = this._dataService.getDataObject(Model.Scrub);
                 this._volumesById[volume.id] = volume;
             }
             console.log(volumes, this._volumesById);
+        }
+    },
+
+    handleDisksChange: {
+        value: function(disks) {
+            var self = this,
+                i, disksLength, disk,
+                j, volumesLength, volume,
+                disksVolumesPromises = [];
+            for (i = 0, disksLength = disks.length; i < disksLength; i++) {
+                disk = disks[i];
+                for (j = 0, volumesLength = this.volumes.length; j < volumesLength; j++) {
+                    volume = this.volumes[j];
+                    disksVolumesPromises.push(this._checkIfDiskIsAssignedToVolume(disk, volume));
+                }
+            }
+            Promise.all(disksVolumesPromises).then(function() {
+                self._spareDisks.splice(0, self._spareDisks.length);
+                Array.prototype.push.apply(self._spareDisks, self.disks.filter(function(x) { return !x.volume }));
+                if (self.volumes) {
+                    self.volumes.map(function(x) { x.topology.spare = self._spareDisks });
+                }
+            });
         }
     },
 
@@ -144,12 +204,7 @@ exports.Volumes = Component.specialize({
 
     _listDisks: {
         value: function() {
-            var self = this;
-            return this._volumeService.getAvailableDisks().then(function(availableDisksPaths) {
-                return self._dataService.fetchData(Model.Disk).then(function(disks) {
-                    return disks.filter(function(x) { return availableDisksPaths.indexOf(x.path) != -1 });
-                });
-            });
+            return this._dataService.fetchData(Model.Disk);
         }
     },
 
@@ -163,155 +218,3 @@ exports.Volumes = Component.specialize({
     }
 
 });
-/*
-                var _data_ = [
-                    {
-                        name: "Volume 1",
-                        size: "2 TB",
-                        inspector: "ui/inspectors/volume.reel",
-                        shares: [
-                            {
-                                name: "Share 1",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 2",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 3",
-                                inspector: "ui/inspectors/share.reel"
-                            }
-                        ],
-                        snapshots: [
-                            {
-                                name: "Snapshot 1",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            },
-                            {
-                                name: "Snapshot 2",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            }
-                        ],
-                        scrub: {
-                            name: "Scrub",
-                            inspector: "ui/inspectors/scrub.reel"
-                        },
-                        topology: {
-                            name: "Topology",
-                            inspector: "ui/inspectors/topology.reel"
-                        }
-                    },
-                    {
-                        name: "Volume 2 with a very long name",
-                        size: "500 GB",
-                        inspector: "ui/inspectors/volume.reel",
-                        shares: [
-                            {
-                                name: "Share 1",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 2",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 3",
-                                inspector: "ui/inspectors/share.reel"
-                            }
-                        ],
-                        snapshots: [
-                            {
-                                name: "Snapshot 1",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            },
-                            {
-                                name: "Snapshot 2",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            }
-                        ],
-                        scrub: {
-                            name: "Scrub",
-                            inspector: "ui/inspectors/scrub.reel"
-                        },
-                        topology: {
-                            name: "Topology",
-                            inspector: "ui/inspectors/topology.reel"
-                        }
-                    },
-                    {
-                        name: "Volume 3",
-                        size: "1.3 TB",
-                        inspector: "ui/inspectors/volume.reel",
-                        shares: [
-                            {
-                                name: "Share 1",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 2",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 3",
-                                inspector: "ui/inspectors/share.reel"
-                            }
-                        ],
-                        snapshots: [
-                            {
-                                name: "Snapshot 1",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            },
-                            {
-                                name: "Snapshot 2",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            }
-                        ],
-                        scrub: {
-                            name: "Scrub",
-                            inspector: "ui/inspectors/scrub.reel"
-                        },
-                        topology: {
-                            name: "Topology",
-                            inspector: "ui/inspectors/topology.reel"
-                        }
-                    },
-                    {
-                        name: "Volume 4",
-                        size: "200 MB",
-                        inspector: "ui/inspectors/volume.reel",
-                        shares: [
-                            {
-                                name: "Share 1",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 2",
-                                inspector: "ui/inspectors/share.reel"
-                            },
-                            {
-                                name: "Share 3",
-                                inspector: "ui/inspectors/share.reel"
-                            }
-                        ],
-                        snapshots: [
-                            {
-                                name: "Snapshot 1",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            },
-                            {
-                                name: "Snapshot 2",
-                                inspector: "ui/inspectors/snapshot.reel"
-                            }
-                        ],
-                        scrub: {
-                            name: "Scrub",
-                            inspector: "ui/inspectors/scrub.reel"
-                        },
-                        topology: {
-                            name: "Topology",
-                            inspector: "ui/inspectors/topology.reel"
-                        }
-                    }
-                ];
-*/
