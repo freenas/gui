@@ -3,7 +3,10 @@
     display: flex;
 }
 
-.Main-mainSidebar { width:  12em; }
+.Main-mainSidebar {
+    flex-shrink: 0;
+    width:  11em;
+}
 
 .Main-sideboard { width: 19em; }
 
