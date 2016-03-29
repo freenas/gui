@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="service-overview.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "iconSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "iconSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.type"}
+            }
+        },
+        "smbIcon": {
+            "prototype": "ui/icons/smb-service.reel",
+            "properties": {
+                "element": {"#": "smbIcon"},
+                "component.object": {"<-": "@owner.object"},
+                "component.size": {"<-": "size"}
+            }
+        },
+        "afpIcon": {
+            "prototype": "ui/icons/afp-service.reel",
+            "properties": {
+                "element": {"#": "afpIcon"},
+                "component.object": {"<-": "@owner.object"},
+                "component.size": {"<-": "size"}
+            }
+        },
+        "nfsIcon": {
+            "prototype": "ui/icons/nfs-service.reel",
+            "properties": {
+                "element": {"#": "nfsIcon"},
+                "component.object": {"<-": "@owner.object"},
+                "component.size": {"<-": "size"}
+            }
+        },
+        "serviceType": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "serviceType"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.name"}
+            }
+        },
+        "state": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "state"},
+                "label": "State"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.state"}
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "properties": {
+                "element": {"#": "enabled"}
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.enabled"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ServiceOverview">
+        <div data-montage-id="iconSubstitution">
+            <div data-montage-id="smbIcon" data-arg="smb" class="ServiceOverview-icon"></div>
+            <div data-montage-id="afpIcon" data-arg="afp" class="ServiceOverview-icon"></div>
+            <div data-montage-id="nfsIcon" data-arg="nfs" class="ServiceOverview-icon"></div>
+        </div>
+        <div class="ServiceOverview-info">
+            <p data-montage-id="serviceType" class="bold"></p>
+            <div data-montage-id="state"></div>
+            <div data-montage-id="enabled"></div>
+        </div>
+    </div>
+</body>
+</html>

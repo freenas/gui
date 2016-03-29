@@ -8,7 +8,8 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "modeBitsElement": {"#": "modeBits"}
+                "modeBitsElement": {"#": "modeBits"},
+                "converter": {"@": "converter"}
             },
             "listeners": [
                 {
@@ -16,6 +17,9 @@
                     "listener": {"@": "owner"}
                 }
             ]
+        },
+        "converter": {
+            "prototype": "core/converter/unix-permissions-converter"
         },
         "userRead": {
             "prototype": "blue-shark/ui/checkbox.reel",
@@ -111,8 +115,10 @@
         "title": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "title"},
-                "value": "Permissions"
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title || 'Permissions'"}
             }
         }
     }

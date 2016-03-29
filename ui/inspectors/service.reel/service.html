@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="service.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "name": {"<-": "@owner.object.config.type.replace('service-', '')"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canRevert": "true",
+                "canSave": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "overview": {
+            "prototype": "./service-overview.reel",
+            "properties": {
+                "element": {"#": "overview"}
+            },
+            "bindings": {
+                "name": {"<-": "@owner.name"},
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.name"}
+            }
+        },
+        "smb": {
+            "prototype": "ui/inspectors/smb-service.reel",
+            "properties": {
+                "element": {"#": "smb"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.config"}
+            }
+        },
+        "afp": {
+            "prototype": "ui/inspectors/afp-service.reel",
+            "properties": {
+                "element": {"#": "afp"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.config"}
+            }
+        },
+        "nfs": {
+            "prototype": "ui/inspectors/nfs-service.reel",
+            "properties": {
+                "element": {"#": "nfs"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.config"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Service">
+        <div data-montage-id="inspector">
+            <div data-montage-id="overview"></div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="target"></div>
+            <div data-montage-id="description"></div>
+            <div data-montage-id="substitution">
+                <div data-arg="smb" data-montage-id="smb"></div>
+                <div data-arg="afp" data-montage-id="afp"></div>
+                <div data-arg="nfs" data-montage-id="nfs"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -8,86 +8,24 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "currentSection": "management"
+                "cascadingList": {"@": "cascadingList"}
             }
         },
-        "sectionSelector": {
-            "prototype": "../../controls/section-selector.reel",
+        "cascadingList": {
+            "prototype": "ui/controls/cascading-list.reel",
             "properties": {
-                "element": {"#": "sectionSelector"},
-                "sections": [
-                    {
-                        "identifier": "management",
-                        "label": "Management",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "sharing",
-                        "label": "Sharing",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "clustering",
-                        "label": "Clustering",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "misc",
-                        "label": "Misc",
-                        "iconUrl": "path"
-                    }
-                ]
+                "element": {"#": "cascadingList"}
             },
             "bindings": {
-                "currentSection": {"<->": "@owner.currentSection"}
-            }
-        },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.currentSection"}
-            }
-        },
-        "management": {
-            "prototype": "../management.reel",
-            "properties": {
-                "element": {"#": "management"}
-            }
-        },
-        "sharing": {
-            "prototype": "../sharing.reel",
-            "properties": {
-                "element": {"#": "sharing"}
-            }
-        },
-        "clustering": {
-            "prototype": "../clustering.reel",
-            "properties": {
-                "element": {"#": "clustering"}
-            }
-        },
-        "misc": {
-            "prototype": "../miscellaneous.reel",
-            "properties": {
-                "element": {"#": "misc"}
+                "root": {"<-": "@owner.categories"}
             }
         }
-
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Services">
-        <div data-montage-id="sectionSelector" class="Services-navigation"></div>
-        <div data-montage-id="substitution" class="Services-substitution">
-            <div data-montage-id="management" data-arg="management"></div>
-            <div data-montage-id="sharing" data-arg="sharing"></div>
-            <div data-montage-id="clustering" data-arg="clustering"></div>
-            <div data-montage-id="misc" data-arg="misc"></div>
-        </div>
+        <div data-montage-id="cascadingList"></div>
     </div>
 </body>
 </html>

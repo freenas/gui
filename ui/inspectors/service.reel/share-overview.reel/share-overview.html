@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="share-overview.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+                "iconSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "iconSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.type"}
+            }
+        },
+        "smbIcon": {
+            "prototype": "ui/icons/smb-share.reel",
+            "properties": {
+                "element": {"#": "smbIcon"},
+                "component.object": {"<-": "@owner.object"},
+                "component.size": {"<-": "size"}
+            }
+        },
+        "afpIcon": {
+            "prototype": "ui/icons/afp-share.reel",
+            "properties": {
+                "element": {"#": "afpIcon"},
+                "component.object": {"<-": "@owner.object"},
+                "component.size": {"<-": "size"}
+            }
+        },
+        "nfsIcon": {
+            "prototype": "ui/icons/nfs-share.reel",
+            "properties": {
+                "element": {"#": "nfsIcon"},
+                "component.object": {"<-": "@owner.object"},
+                "component.size": {"<-": "size"}
+            }
+        },
+        "shareType": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "shareType"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type"}
+            }
+        },
+        "targetType": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "targetType"},
+                "label": "Target type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.target_type"}
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "properties": {
+                "element": {"#": "enabled"}
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.enabled"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ShareOverview">
+        <div data-montage-id="iconSubstitution">
+            <div data-montage-id="smbIcon" data-arg="smb" class="ShareOverview-icon"></div>
+            <div data-montage-id="afpIcon" data-arg="afp" class="ShareOverview-icon"></div>
+            <div data-montage-id="nfsIcon" data-arg="nfs" class="ShareOverview-icon"></div>
+        </div>
+        <div class="ShareOverview-info">
+            <p data-montage-id="shareType" class="bold"></p>
+            <div data-montage-id="targetType"></div>
+            <div data-montage-id="enabled"></div>
+        </div>
+    </div>
+</body>
+</html>

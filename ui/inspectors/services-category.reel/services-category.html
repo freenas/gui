@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="services-category.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "categoryServices": {"<-": "@owner.object.services.filter{@owner.object.types.has(this.config.type)}"}
+            }
+        },
+        "overview": {
+            "prototype": "./services-category-overview.reel",
+            "properties": {
+                "element": {"#": "overview"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"},
+                "services": {"<-": "@owner.categoryServices"}
+            }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.categoryServices"}
+            }
+        },
+        "services": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "services"},
+                "contentController": {"@": "controller"}
+            }
+        },
+        "service": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "service"}
+            },
+            "bindings": {
+                "object": {"<-": "@services:iteration.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Share">
+        <div data-montage-id="overview"></div>
+        <div data-montage-id="services">
+            <div data-montage-id="service"></div>
+        </div>
+    </div>
+</body>
+</html>

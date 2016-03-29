@@ -1,0 +1,11 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Services Categories'",
+            "inspectorComponentModule": {"%": "ui/inspectors/services-category.reel"},
+            "nameExpression": "name"
+        }
+    }
+}

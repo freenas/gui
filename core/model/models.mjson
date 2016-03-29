@@ -1047,6 +1047,10 @@
         {
             "modelId": "core/model/custom-descriptors/scrub.mjson",
             "type": "Scrub"
+        },
+        {
+            "modelId": "core/model/custom-descriptors/services-category.mjson",
+            "type": "ServicesCategory"
         }
     ]
 }

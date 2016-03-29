@@ -1,0 +1,34 @@
+{
+  "blueprint_servicescategory_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_servicescategory_services": {
+      "prototype": "montage/core/meta/property-blueprint",
+      "properties": {
+        "name": "services",
+        "blueprint": {"@": "root"}
+      }
+    },
+  "blueprint_servicescategory_selector": {
+      "prototype": "montage/core/meta/property-blueprint",
+      "properties": {
+        "name": "selector",
+        "blueprint": {"@": "root"}
+      }
+    },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ServicesCategory",
+      "propertyBlueprints": [
+        {"@": "blueprint_servicescategory_name"},
+        {"@": "blueprint_servicescategory_services"},
+        {"@": "blueprint_servicescategory_selector"}
+      ]
+    }
+  }
+}

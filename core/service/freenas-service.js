@@ -121,7 +121,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.ZfsTopology,
             Model.User,
             Model.Group,
-            Model.SystemGeneral
+            Model.SystemGeneral,
+            Model.Service
         ]
     },
 

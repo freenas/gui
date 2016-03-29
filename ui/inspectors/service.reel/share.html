@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="share.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": "true",
+                "canRevert": "true",
+                "canSave": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "overview": {
+            "prototype": "./share-overview.reel",
+            "properties": {
+                "element": {"#": "overview"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.description"}
+            }
+        },
+        "target": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "target"},
+                "label": "Target"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.targetPath"},
+                "converter": {"<-": "@owner.pathConverter"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.type"}
+            }
+        },
+        "smb": {
+            "prototype": "ui/inspectors/smb-share.reel",
+            "properties": {
+                "element": {"#": "smb"}
+            },
+            "bindings": {
+                "properties": {"<-": "@owner.object.properties"}
+            }
+        },
+        "afp": {
+            "prototype": "ui/inspectors/afp-share.reel",
+            "properties": {
+                "element": {"#": "afp"}
+            },
+            "bindings": {
+                "properties": {"<-": "@owner.object.properties"}
+            }
+        },
+        "nfs": {
+            "prototype": "ui/inspectors/nfs-share.reel",
+            "properties": {
+                "element": {"#": "nfs"}
+            },
+            "bindings": {
+                "properties": {"<-": "@owner.object.properties"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Share">
+        <div data-montage-id="inspector">
+            <div data-montage-id="overview"></div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="target"></div>
+            <div data-montage-id="description"></div>
+            <div data-montage-id="substitution">
+                <div data-arg="smb" data-montage-id="smb"></div>
+                <div data-arg="afp" data-montage-id="afp"></div>
+                <div data-arg="nfs" data-montage-id="nfs"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
