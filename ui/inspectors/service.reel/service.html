@@ -24,6 +24,16 @@
                 "object": {"<-": "@owner.object"}
             }
         },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.config.enable"}
+            }
+        },
         "overview": {
             "prototype": "./service-overview.reel",
             "properties": {
@@ -77,9 +87,7 @@
     <div data-montage-id="owner" class="Service">
         <div data-montage-id="inspector">
             <div data-montage-id="overview"></div>
-            <div data-montage-id="name"></div>
-            <div data-montage-id="target"></div>
-            <div data-montage-id="description"></div>
+            <div data-montage-id="enabled"></div>
             <div data-montage-id="substitution">
                 <div data-arg="smb" data-montage-id="smb"></div>
                 <div data-arg="afp" data-montage-id="afp"></div>

@@ -61,13 +61,14 @@
             }
         },
         "logLevel": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "logLevel"},
                 "label": "Log level"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.log_level"}
+                "selectedValue": {"<->": "@owner.object.log_level"},
+                "options": {"<-": "@owner.LOG_LEVELS"}
             }
         },
         "syslog": {
@@ -110,14 +111,23 @@
                 "checked": {"<->": "@owner.object.time_server"}
             }
         },
+        "usersToOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
         "guestUser": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "guestUser"},
-                "label": "Guest account"
+                "label": "Guest account",
+                "converter": {"@": "usersToOptionsConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.guest_user"}
+                "selectedValue": {"<->": "@owner.object.guest_user"},
+                "options": {"<-": "@owner.users"}
             }
         },
         "fileMask": {
@@ -191,23 +201,26 @@
             }
         },
         "minProtocol": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "minProtocol"},
                 "label": "Server minimum protocol"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.min_protocol"}
+                "selectedValue": {"<->": "@owner.object.min_protocol"},
+                "options": {"<-": "@owner.PROTOCOLS"}
+
             }
         },
         "maxProtocol": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "maxProtocol"},
                 "label": "Server maximum protocol"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.max_protocol"}
+                "selectedValue": {"<->": "@owner.object.max_protocol"},
+                "options": {"<-": "@owner.PROTOCOLS"}
             }
         },
         "executeAlways": {

@@ -7,16 +7,17 @@ var Converter = require("montage/core/converter/converter").Converter;
  * Convert a permissions object to a permissions mask
 
  * @class UnixPermissionsConverter
- * @extends Converter
+ * @extends UnixPermissionsConverter
  */
  exports.UnixPermissionsConverter = Converter.specialize({
     convert: {
         value: function (object) {
             var mask;
             if (object && object.user && object.group && object.others) {
-                 mask  = this._getMaskForRight(object.user);
-                 mask += this._getMaskForRight(object.group);
-                 mask += this._getMaskForRight(object.others);
+                mask = '';
+                mask += this._getMaskForRight(object.user);
+                mask += this._getMaskForRight(object.group);
+                mask += this._getMaskForRight(object.others);
             }
             return mask;
         }

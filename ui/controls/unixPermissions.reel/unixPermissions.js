@@ -1,10 +1,15 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter;
 
 /**
  * @class UnixPermissions
  * @extends Component
  */
 exports.UnixPermissions = Component.specialize({
+    converter: {
+        value: new UnixPermissionsConverter()
+    },
+
     _READ: {
         value: 4
     },
@@ -52,7 +57,7 @@ exports.UnixPermissions = Component.specialize({
 
     handleAction: {
         value: function(event) {
-            this.modeBits = this.converter.converter(this.modes);
+            this.modeBits = this.converter.convert(this.modes);
         }
     }
 });

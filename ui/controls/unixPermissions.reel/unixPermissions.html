@@ -8,8 +8,7 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "modeBitsElement": {"#": "modeBits"},
-                "converter": {"@": "converter"}
+                "modeBitsElement": {"#": "modeBits"}
             },
             "listeners": [
                 {
@@ -17,9 +16,6 @@
                     "listener": {"@": "owner"}
                 }
             ]
-        },
-        "converter": {
-            "prototype": "core/converter/unix-permissions-converter"
         },
         "userRead": {
             "prototype": "blue-shark/ui/checkbox.reel",

@@ -62,13 +62,14 @@
                 "value": {"<-": "@owner.object.state"}
             }
         },
-        "enabled": {
-            "prototype": "blue-shark/ui/toggle-switch.reel",
+        "running": {
+            "prototype": "blue-shark/ui/field-toggle-switch.reel",
             "properties": {
-                "element": {"#": "enabled"}
+                "element": {"#": "running"},
+                "label": "Started"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.object.enabled"}
+                "checked": {"<-": "@owner.object.state == 'RUNNING'"}
             }
         }
     }
@@ -84,7 +85,7 @@
         <div class="ServiceOverview-info">
             <p data-montage-id="serviceType" class="bold"></p>
             <div data-montage-id="state"></div>
-            <div data-montage-id="enabled"></div>
+            <div data-montage-id="running"></div>
         </div>
     </div>
 </body>
