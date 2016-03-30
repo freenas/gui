@@ -41,33 +41,6 @@
 }
 
 .Vdev.acceptDrop {
-    border:1px solid red;
-}
-
-@-webkit-keyframes blink {
-    0% {
-        border-color: red;
-    }
-
-    50% {
-        border-color: rgba(255,0,0,.1);
-    }
-
-    100% {
-        border-color: red;
-    }
-}
-
-@keyframes blink {
-    0% {
-        border-color: red;
-    }
-
-    50% {
-        border-color: rgba(255,0,0,.1);
-    }
-
-    100% {
-        border-color: red;
-    }
+    border: 1px dashed rgba(43,156,216,1);
+    background-color: rgba(43,156,216,0.1);
 }

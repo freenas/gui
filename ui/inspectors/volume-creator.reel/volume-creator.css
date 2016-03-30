@@ -2,6 +2,10 @@
 
 }
 
+.VolumeCreator .Inspector-body {
+    margin: 0;
+}
+
 .VolumeCreator-header {
     padding: 1em;
     display: flex;

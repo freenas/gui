@@ -2,16 +2,16 @@
     margin: .25em;
     margin-bottom: 1em;
     color: rgba(255,255,255,.4);
-    border: 1px dashed rgba(255,255,255,.1);
+    border: 1px dashed rgba(43,156,216,0.5);
     border-radius: 4px;
     width: 6em;
     height: 6em;
     line-height: 6em;
 }
 
-
-/*FIXME: @joshua FYI */
 .TopologyDropZone.willAcceptDrop {
+    background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.25), rgba(43,156,216,0.25) 1px, transparent 1px, transparent 10px);
+    background-size: 28px 28px;
     -webkit-animation-direction: normal;
     -webkit-animation-duration: 1s;
     -webkit-animation-iteration-count: infinite;
@@ -25,33 +25,8 @@
 }
 
 .TopologyDropZone.acceptDrop {
-    border:1px solid red;
-}
-
-@-webkit-keyframes blink {
-    0% {
-        border-color: red;
-    }
-
-    50% {
-        border-color: rgba(255,0,0,.1);
-    }
-
-    100% {
-        border-color: red;
-    }
-}
-
-@keyframes blink {
-    0% {
-        border-color: red;
-    }
-
-    50% {
-        border-color: rgba(255,0,0,.1);
-    }
-
-    100% {
-        border-color: red;
-    }
+    border: 1px dashed rgba(43,156,216,1);
+    background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.75), rgba(43,156,216,0.75) 1px, transparent 1px, transparent 10px);
+    background-size: 28px 28px;
+    background-color: rgba(43,156,216,0.1);
 }

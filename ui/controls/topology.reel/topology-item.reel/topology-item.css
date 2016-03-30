@@ -82,13 +82,32 @@
 }
 
 .TopologyItem-dropZone {
+    position: relative;
     margin: .25em;
     margin-bottom: 1em;
     color: rgba(255,255,255,.4);
     border: 1px dashed rgba(255,255,255,.1);
     border-radius: 4px;
-    width: 6em;
-    height: 6em;
-    line-height: 6em;
+    /* $fix - can we make the size better here?*/
+    width: 4.5em;
+    height: 5.3em;
     text-align: center;
+    flex-shrink: 0;
 }
+
+.TopologyItem-dropZone:after {
+    content: "+";
+    position: absolute;
+    font-size: 1.2em;
+    height: 1em;
+    width:  1em;
+    top: 50%;
+    margin-top: -.5em;
+    left: 50%;
+    margin-left: -.5em;
+    line-height: .95em;
+    border-radius: 1em;
+    border: 1px solid currentColor;
+}
+
+.acceptDrop.TopologyItem-dropZone { color: #fff; }

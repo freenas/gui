@@ -3,3 +3,36 @@
 .Topology .Inspector-body {
     margin: 0;
 }
+
+.Topology .DiskIcon {
+    height: 3em;
+    width: 3em;
+}
+
+@-webkit-keyframes blink {
+    0% {
+        border-color: rgba(43,156,216,0.1);
+    }
+
+    50% {
+        border-color: rgba(43,156,216,0.5);
+    }
+
+    100% {
+        border-color: rgba(43,156,216,0.1);
+    }
+}
+
+@keyframes blink {
+    0% {
+        border-color: rgba(43,156,216,0.1);
+    }
+
+    50% {
+        border-color: rgba(43,156,216,0.5);
+    }
+
+    100% {
+        border-color: rgba(43,156,216,0.1);
+    }
+}
