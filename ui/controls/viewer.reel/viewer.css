@@ -14,8 +14,6 @@
     background: rgba(25,71,129,0.1);
 }
 
-.Viewer-content { overflow: scroll; }
-
 .Viewer-footer {
     flex-shrink: 0;
     border-top: 1px solid rgba(0,0,0,.2);
