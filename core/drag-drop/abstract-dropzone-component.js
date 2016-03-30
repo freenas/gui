@@ -1,6 +1,7 @@
 /*global require, exports, document, Error*/
 
 var Component = require("montage/ui/component").Component,
+    UUID = require("montage/core/uuid").Uuid,
     DragDropComponentManager = require('core/drag-drop/drag-drop-component-manager').defaultDragDropComponentManager;
 /**
  * @class AbstractDropZoneComponent
@@ -33,6 +34,18 @@ exports.AbstractDropZoneComponent = Component.specialize( /** @lends AbstractDro
 
     priorityDrop: {
         value: 0 //todo: nested drop-zones should always have the higher priority?
+    },
+
+
+    _uuid: {
+        value: null
+    },
+
+
+    uuid: {
+        get: function () {
+            return this._uuid || (this._uuid = UUID.generate());
+        }
     },
 
 

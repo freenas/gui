@@ -207,9 +207,9 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
         value: function () {
             this._resetIfNeeded();
 
-            if (this._enabled) {
-                this._unload();
-            }
+            //if (this._enabled) {
+            //    this._unload();
+            //}
         }
     },
 
@@ -236,6 +236,7 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
             if (DragDropComponentManager.registerDraggableComponent(this)) {
                 this._translateComposer.addEventListener('translate', this, false);
                 this._translateComposer.addEventListener('translateEnd', this, false);
+                this._translateComposer.addEventListener('translateCancel', this, false);
 
                 if (typeof this.didDragStart === "function") {
                     this.didDragStart(event);
@@ -295,7 +296,17 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
 
             this._translateComposer.removeEventListener('translate', this, false);
             this._translateComposer.removeEventListener('translateEnd', this, false);
+            this._translateComposer.removeEventListener('translateCancel', this, false);
 
+            this.needsDraw = true;
+        }
+    },
+
+
+    handleTranslateCancel: {
+        value: function (event) {
+
+            //todo
             this.needsDraw = true;
         }
     },
@@ -308,10 +319,8 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
                     this._translateComposer = new TranslateComposer();
                     this._translateComposer.hasMomentum = false;
 
-                    this.addComposerForElement(this._translateComposer, this._element);
+                    this.addComposer(this._translateComposer);
                 }
-
-                this._translateComposer.load();
             }
         }
     },

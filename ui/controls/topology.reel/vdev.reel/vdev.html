@@ -16,7 +16,7 @@
         "controller": {
             "prototype": "montage/core/range-controller",
             "bindings": {
-                "content": {"<-": "@owner.object.children.length > 0 ? @owner.object.children : [@owner.object]"}
+                "content": {"<-": "@owner.object.children.defined() && @owner.object.children.length > 0 ? @owner.object.children : [@owner.object]"}
             }
         },
         "disksGrid": {
@@ -26,6 +26,10 @@
                 "controller": {"@": "controller"},
                 "labelPath": "path.split('/')[2]",
                 "icon": "ui/icons/disk.reel"
+            },
+            "bindings": {
+                "itemDraggable": {"<-": "@owner.editable"},
+                "identifier": {"<-": "@owner.gridIdentifier"}
             }
         }
     }

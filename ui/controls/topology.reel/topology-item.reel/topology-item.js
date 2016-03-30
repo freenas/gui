@@ -8,4 +8,9 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.TopologyItem = Component.specialize(/** @lends TopologyItem# */ {
+
+    editable: {
+        value: false
+    }
+
 });

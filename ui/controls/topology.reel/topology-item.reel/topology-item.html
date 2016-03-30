@@ -31,7 +31,18 @@
                 "element": {"#": "vdevsGrid"},
                 "controller": {"@": "controller"},
                 "labelPath": "type",
-                "icon": "ui/inspectors/topology.reel/vdev.reel"
+                "icon": "ui/controls/topology.reel/vdev.reel"
+            }
+        },
+
+        "dropZone": {
+            "prototype": "../topology-dropzone.reel",
+            "properties": {
+                "element": {"#": "drop-zone"},
+                "vDevController": {"@": "controller"}
+            },
+            "bindings": {
+                "identifier": {"<-": "@owner.gridIdentifier"}
             }
         }
     }
@@ -44,7 +55,7 @@
 
         <div class="TopologyItem-grid">
             <div data-montage-id="vdevsGrid" class="TopologyItem-vdevsGrid"></div>
-            <div class="TopologyItem-dropZone">Add Drive</div>
+            <div data-montage-id="drop-zone" class="TopologyItem-dropZone"></div>
         </div>
     </div>
 </body>

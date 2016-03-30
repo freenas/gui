@@ -17,7 +17,9 @@
                 "name": "Data"
             },
             "bindings": {
-                "vdevs": {"<-": "@owner.object.data"}
+                "vdevs": {"<-": "@owner.object.data"},
+                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE"},
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.DATA"}
             }
         },
         "cache": {
@@ -27,7 +29,9 @@
                 "name": "Cache"
             },
             "bindings": {
-                "vdevs": {"<-": "@owner.object.cache"}
+                "vdevs": {"<-": "@owner.object.cache"},
+                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.CACHE"}
             }
         },
         "log": {
@@ -37,7 +41,9 @@
                 "name": "Log"
             },
             "bindings": {
-                "vdevs": {"<-": "@owner.object.log"}
+                "vdevs": {"<-": "@owner.object.log"},
+                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.LOG"}
             }
         },
         "spareTitle": {
@@ -60,8 +66,24 @@
                 "controller": {"@": "spareController"},
                 "labelPath": "path.split('/')[2]",
                 "icon": "ui/icons/disk.reel"
+            },
+            "bindings": {
+                "itemDraggable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
+                "identifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"}
+            }
+        },
+
+        "spareGridDropZone": {
+            "prototype": "./topology-dropzone.reel",
+            "properties": {
+                "element": {"#": "spareGridDropZone"},
+                "vDevController": {"@": "spareController"}
+            },
+            "bindings": {
+                "identifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"}
             }
         }
+
     }
     </script>
 </head>
@@ -75,7 +97,7 @@
             <div data-montage-id="spareTitle" class="TopologyItem-title"></div>
             <div class="TopologyItem-grid">
                 <div data-montage-id="spareGrid"></div>
-                <div class="TopologyItem-dropZone">Add Drive</div>
+                <div data-montage-id="spareGridDropZone" class="TopologyItem-dropZone"></div>
             </div>
         </div>
         <!-- end -->
