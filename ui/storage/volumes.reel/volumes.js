@@ -31,6 +31,10 @@ exports.Volumes = Component.specialize({
         value: {}
     },
 
+    _volumes: {
+        value: null
+    },
+
     disks: {
         get: function() {
             return this._disks || [];
@@ -99,21 +103,23 @@ exports.Volumes = Component.specialize({
             if (isFirstTime) {
                 self.addRangeAtPathChangeListener("shares", this, "handleSharesChange");
                 self.addRangeAtPathChangeListener("volumes", this, "handleVolumesChange");
+                self.addRangeAtPathChangeListener("_volumes", this, "handleVolumesChange");
                 self.addRangeAtPathChangeListener("disks", this, "handleDisksChange");
                 this._initializeServices().then(function() {
                     self.type = Model.Volume;
                     self._listVolumes().then(function(volumes) {
-                        self.volumes = volumes;
+                        self._volumes = volumes;
                         return self._loadDependencies();
                     }).then(function () {
                         var volume,
                             i, length;
-                        for (i = 0, length = self.volumes.length; i < length; i++) {
-                            volume = self.volumes[i];
+                        for (i = 0, length = self._volumes.length; i < length; i++) {
+                            volume = self._volumes[i];
                             volume.shares = self.shares;
                             volume.snapshots = self.snapshots;
                             volume.disks = self.disks;
                         }
+                        self.volumes = self._volumes;
                     });
                 });
             }
@@ -169,14 +175,13 @@ exports.Volumes = Component.specialize({
             for (i = 0, volumesLength = volumes.length; i < volumesLength; i++) {
                 volume = volumes[i];
                 for (j = 0, disksLength = this.disks.length; i < disksLength; i++) {
-                    disk = disks[i];
+                    disk = this.disks[i];
                     this._checkIfDiskIsAssignedToVolume(disk, volume);
                 }
-                volume.topology.spare = this._spareDisks;
                 volume.scrubs = this._dataService.getDataObject(Model.Scrub);
+                volume.topology.spare = this._spareDisks;
                 this._volumesById[volume.id] = volume;
             }
-            console.log(volumes, this._volumesById);
         }
     },
 
@@ -188,16 +193,16 @@ exports.Volumes = Component.specialize({
                 disksVolumesPromises = [];
             for (i = 0, disksLength = disks.length; i < disksLength; i++) {
                 disk = disks[i];
-                for (j = 0, volumesLength = this.volumes.length; j < volumesLength; j++) {
-                    volume = this.volumes[j];
+                for (j = 0, volumesLength = this._volumes.length; j < volumesLength; j++) {
+                    volume = this._volumes[j];
                     disksVolumesPromises.push(this._checkIfDiskIsAssignedToVolume(disk, volume));
                 }
             }
             Promise.all(disksVolumesPromises).then(function() {
                 self._spareDisks.splice(0, self._spareDisks.length);
                 Array.prototype.push.apply(self._spareDisks, self.disks.filter(function(x) { return !x.volume }));
-                if (self.volumes) {
-                    self.volumes.map(function(x) { x.topology.spare = self._spareDisks });
+                if (self._volumes) {
+                    self._volumes.map(function(x) { x.topology.spare = self._spareDisks });
                 }
             });
         }

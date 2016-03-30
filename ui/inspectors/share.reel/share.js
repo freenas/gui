@@ -15,6 +15,10 @@ exports.Share = Component.specialize({
         value: '^'
     },
 
+    _filesystemService: {
+        value: null
+    },
+
     _volumeService: {
         value: null
     },
@@ -47,13 +51,14 @@ exports.Share = Component.specialize({
         value: function(isFirsttime) {
             var self = this;
             if (isFirsttime) {
+                this._filesystemService = this.application.filesystemService;
                 this._loadingPromise = this._loadVolumeService().then(function() {
                     self._loadPathConverter();
                 });
             }
             this._loadingPromise.then(function() {
                 self.targetPath = self.object.target_path || '';
-            })
+            });
         }
     },
 
@@ -69,16 +74,31 @@ exports.Share = Component.specialize({
 
     _addTargetTypeToObject: {
         value: function() {
-            var self = this;
-            return this._volumeService.decodePath(this._targetPath).then(function(pathComponents) {
-                if (pathComponents[2].length > 0) {
-                    self.object.target_type = 'DIRECTORY';
-                    self.object.target_path = self._targetPath;
-                } else {
-                    self.object.target_type = 'DATASET';
-                    self.object.target_path = pathComponents[1];
-                }
+            var self = this,
+                targetPath = this._targetPath || this.pathConverter.revert(this.object.name),
+                basename = this._filesystemService.basename(targetPath),
+                isDatasetPromise;
 
+            return this._filesystemService.listDir(this._filesystemService.dirname(targetPath)).then(function(children) {
+                if (children.find(function(x) { return x.name == basename }) != -1) {
+                    isDatasetPromise = self._volumeService.decodePath(targetPath).then(function(pathComponents) {
+                        return pathComponents[2].length == 0;
+                    });
+                } else {
+                    isDatasetPromise = Promise.resolve(true)
+                }
+                return isDatasetPromise;
+            }).then(function(isDataset) {
+                if (isDataset) {
+                    return self._volumeService.decodePath(targetPath).then(function(pathComponents) {
+                        self.object.target_type = 'DATASET';
+                        self.object.target_path = self._filesystemService.join(pathComponents[1], pathComponents[2]);
+                    });
+                } else {
+                    self.object.target_type = 'DIRECTORY';
+                    self.object.target_path = targetPath;
+                    return null;
+                }
             });
         }
     },
@@ -103,7 +123,7 @@ exports.Share = Component.specialize({
                         return value.replace(volumePathRegExp, self.EMPTY_STRING).replace(volumeIdRegExp, self.EMPTY_STRING);
                     },
                     revert: function(value) {
-                        return datasetPath + value;
+                        return [datasetPath, value].join('/').replace('//', '/');
                     }
                 };
                 self.targetPath = self.targetPath+'';

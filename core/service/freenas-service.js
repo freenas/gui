@@ -713,6 +713,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;
+
             }
 
             return instance;
