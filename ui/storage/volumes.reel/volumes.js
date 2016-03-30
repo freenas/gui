@@ -27,6 +27,10 @@ exports.Volumes = Component.specialize({
         value: null
     },
 
+    _volumeDisksPromises: {
+        value: {}
+    },
+
     disks: {
         get: function() {
             return this._disks || [];
@@ -141,7 +145,16 @@ exports.Volumes = Component.specialize({
 
     _checkIfDiskIsAssignedToVolume: {
         value: function (disk, volume) {
-            return this._volumeService.getVolumeDisks(volume.id).then(function(volumeDisks) {
+            var self = this,
+                volumeDisksPromise;
+            if (this._volumeDisksPromises[volume.id]) {
+                volumeDisksPromise = this._volumeDisksPromises[volume.id];
+            } else {
+                this._volumeDisksPromises[volume.id] = volumeDisksPromise = this._volumeService.getVolumeDisks(volume.id);
+            }
+            return volumeDisksPromise.then(function(volumeDisks) {
+                delete self._volumeDisksPromises[volume.id];
+                volume.assignedDisks = volumeDisks;
                 if (volumeDisks.indexOf('/dev/' + disk.status.gdisk_name) != -1) {
                     disk.volume = volume;
                 }

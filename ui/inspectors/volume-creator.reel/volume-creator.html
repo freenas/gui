@@ -33,6 +33,16 @@
                 "element": {"#": "inspector"}
             }
         },
+        "topologizer": {
+            "prototype": "ui/controls/topologizer.reel",
+            "properties": {
+                "element": {"#": "topologizer"}
+            },
+            "bindings": {
+                "topology": {"<-": "@owner.object.topology"},
+                "disks": {"<-": "@owner.disks"}
+            }
+        },
         "topology": {
             "prototype": "ui/controls/topology.reel",
             "properties": {
@@ -58,6 +68,7 @@
             </div>
         </div>
         <div data-montage-id="inspector">
+            <div data-montage-id="topologizer"></div>
             <div data-montage-id="topology"></div>
         </div>
     </div>

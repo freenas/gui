@@ -1,0 +1,62 @@
+.Topologizer {
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    height: 127px;
+}
+
+.Topologizer-triangle {
+    position: absolute;
+    left: 50%;
+    margin-left: -55px;
+    top: 16px;
+    width: 110px;
+    height: 95px;
+    background-size: 110px 95px;
+    background-image: url(./triangle.png);
+    background-repeat: no-repeat;
+}
+
+.Topologizer-handle {
+    box-sizing: border-box;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 5px solid rgba(255, 255, 255, .85);
+    top: 63px;
+    left: 55px;
+    cursor: default;
+    pointer-events: none;
+}
+
+.Topologizer-label {
+    position: absolute;
+    font-weight: 300;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 17px;
+}
+
+.Topologizer-speed-label {
+    left: 0;
+    right: 0;
+}
+
+.Topologizer-safety-label {
+    width: 110px;
+    right: 50%;
+    top: 110px;
+}
+
+.Topologizer-storage-label {
+    width: 110px;
+    left: 50%;
+    top: 110px;
+}
