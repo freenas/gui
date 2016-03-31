@@ -37,6 +37,32 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
         }
     },
 
+    enterDocument: {
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
+            }
+
+            this._mutationObserver.observe(this.element, {
+                subtree: true,
+                childList: true
+            });
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this._mutationObserver.disconnect();
+        }
+    },
+
+    handleMutations: {
+        value: function (event) {
+            this.setContentMaxHeight();
+            this.needsDraw = true;
+        }
+    },
+
     getContentHeight: {
         value: function () {
             return this.contentContainer.offsetHeight + "px";
