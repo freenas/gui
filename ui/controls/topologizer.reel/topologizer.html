@@ -12,37 +12,31 @@
                 "triangleElement": {"#": "triangle"}
             }
         },
-        "speedLabel": {
+        "speedScore": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "speedLabel"},
-                "value": "Speed"
+                "element": {"#": "speedScore"}
             },
             "bindings": {
-                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'speed'"},
-                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'speed'"}
+                "value": {"<-": "'10'"}
             }
         },
-        "redundancyLabel": {
+        "storageScore": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "redundancyLabel"},
-                "value": "Redundancy"
+                "element": {"#": "storageScore"}
             },
             "bindings": {
-                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'redundancy'"},
-                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'redundancy'"}
+                "value": {"<-": "'10'"}
             }
         },
-        "storageLabel": {
+        "redundancyScore": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "storageLabel"},
-                "value": "Storage"
+                "element": {"#": "redundancyScore"}
             },
             "bindings": {
-                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'storage'"},
-                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'storage'"}
+                "value": {"<-": "'10'"}
             }
         }
     }
@@ -50,12 +44,35 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Topologizer">
-        <div data-montage-id="triangle" class="Topologizer-triangle">
-            <div data-montage-id="handle" class="Topologizer-handle"></div>
+        <div>
+            <div data-montage-id="triangle" class="Topologizer-triangle">
+                <svg width="124" height="108" viewBox="0 0 124 108" xmlns="http://www.w3.org/2000/svg">
+                    <title>topologizer</title>
+                    <g fill="none" fill-rule="evenodd">
+                    <path stroke="#9B9B9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M62 7l55 95H7z"/>
+                    <path class="Topologizer-color-speed" d="M62 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" stroke="#2E74C6" stroke-width="3" fill="#529CF3"/>
+                    <path class="Topologizer-color-storage" d="M117 106c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" stroke="#87508F" stroke-width="3" fill="#BB78C5"/>
+                    <path class="Topologizer-color-redundancy" d="M7 106c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" stroke="#92650B" stroke-width="3" fill="#DE9B16"/></g></svg>
+                <div data-montage-id="handle" class="Topologizer-handle"></div>
+            </div>
         </div>
-        <div data-montage-id="speedLabel" class="Topologizer-speed-label Topologizer-label">Speed</div>
-        <div data-montage-id="redundancyLabel" class="Topologizer-safety-label Topologizer-label">Redundancy</div>
-        <div data-montage-id="storageLabel" class="Topologizer-storage-label Topologizer-label">Storage</div>
+        <div class="Topologizer-legend">
+            <div class="Topologizer-legend-item">
+                <span class="Topologizer-legend-item-marker Topologizer-color-speed"></span>
+                <span class="Topologizer-legend-item-label">Speed</span>
+                <span class="Topologizer-legend-item-score" data-montage-id="speedScore"></span>
+            </div>
+            <div class="Topologizer-legend-item">
+                <span class="Topologizer-legend-item-marker Topologizer-color-storage"></span>
+                <span class="Topologizer-legend-item-label">Storage</span>
+                <span class="Topologizer-legend-item-score" data-montage-id="storageScore"></span>
+            </div>
+            <div class="Topologizer-legend-item">
+                <span class="Topologizer-legend-item-marker Topologizer-color-redundancy"></span>
+                <span class="Topologizer-legend-item-label">Redundancy</span>
+                <span class="Topologizer-legend-item-score" data-montage-id="redundancyScore"></span>
+            </div>
+        </div>
     </div>
 </body>
 </html>

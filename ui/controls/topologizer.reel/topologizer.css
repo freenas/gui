@@ -5,67 +5,94 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
-    height: 127px;
+    padding: 1.5em 1.5em;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(0,0,0,.2);
+}
+
+.Topologizer > * {
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.Topologizer-legend-item { display: flex; }
+
+.Topologizer-legend-item + .Topologizer-legend-item {
+    margin-top: .5em;
+}
+
+.Topologizer-legend-item-marker {
+    position: relative;
+    top: .15em;
+    background: aqua;
+    height: 1em;
+    width:  1em;
+    border-radius: 1em;
+    margin-right: .5em;
+    border: 4px solid green;
+}
+
+.Topologizer-legend-item-label {
+    flex: 1;
+    margin-right: 1em;
+    font-weight: 200;
+    color: rgba(255,255,255,.8);
+}
+
+.Topologizer-legend-item-score {
+    font-weight: 400;
 }
 
 .Topologizer-triangle {
-    position: absolute;
-    left: 50%;
-    margin-left: -55px;
-    top: 16px;
+    position: relative;
     width: 110px;
     height: 95px;
-    background-size: 110px 95px;
-    background-image: url(./triangle.png);
-    background-repeat: no-repeat;
+}
+
+.Topologizer-triangle svg {
+    position: absolute;
+    left: -7px;
+    top:  -7px;
+    /* minor adjustment */
+    padding: 1px;
+    padding-bottom: 0;
 }
 
 .Topologizer-handle {
-    box-sizing: border-box;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width:  1em;
+    height: 1em;
     position: absolute;
-    margin-left: -10px;
-    margin-top: -10px;
-    border: 5px solid rgba(255, 255, 255, .85);
-    top: 63px;
-    left: 55px;
+    margin-left: -.5em;
+    margin-top:  -.5em;
+    border: 5px solid #ccc;
+    top:  50%;
+    left: 50%;
     cursor: default;
     pointer-events: none;
 }
 
-.Topologizer-label {
-    position: absolute;
-    font-weight: 300;
-    font-size: 12px;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 17px;
+/* marker colors - controls both svg and html */
+
+.Topologizer-color-speed {
+    background-color:   #4A90E2;
+    fill:               #4A90E2;
+    border-color:   #3672B9;
+    stroke:         #3672B9;
 }
 
-.Topologizer-label.is-first-priority,
-.Topologizer-label.is-second-priority {
-    font-weight: 600;
+.Topologizer-color-storage {
+    background-color:   #DE9B16;
+    fill:               #DE9B16;
+    border-color:   #92650B;
+    stroke:         #92650B;
 }
 
-.Topologizer-label.is-first-priority {
-    text-decoration: underline;
-}
-
-.Topologizer-speed-label {
-    left: 0;
-    right: 0;
-}
-
-.Topologizer-safety-label {
-    width: 110px;
-    right: 50%;
-    top: 110px;
-}
-
-.Topologizer-storage-label {
-    width: 110px;
-    left: 50%;
-    top: 110px;
+.Topologizer-color-redundancy {
+    background-color:   #BB78C5;
+    fill:               #BB78C5;
+    border-color:   #87508F;
+    stroke:         #87508F;
 }
