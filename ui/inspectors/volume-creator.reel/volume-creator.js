@@ -63,22 +63,47 @@ exports.VolumeCreator = Component.specialize({
         }
     },
 
+    _getDefaultVdevType: {
+        value: function(disksCount) {
+            var type;
+            if (disksCount >=3) {
+                type = 'raidz1'
+            } else if (disksCount == 2) {
+                type = 'mirror'
+            } else {
+                type = 'disk'
+            }
+            return type;
+        }
+    },
+
     _cleanupVdevs: {
         value: function (storageType) {
             var i, vdevsLength, vdev,
-                j, disksLength, disk;
+                j, disksLength, disk,
+                type, path;
             for (i = 0, vdevsLength = storageType.length; i < vdevsLength; i++) {
                 vdev = storageType[i];
                 for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
                     disk = vdev.children[j];
+                    path = disk.path;
+                    if (path.indexOf('/dev/') != 0) {
+                        path = '/dev/' + path;
+                    }
                     vdev.children[j] = {
-                        path: '/dev/' + disk.path,
+                        path: path,
                         type: 'disk'
                     };
                 }
-                storageType[i] = {
-                    children: vdev.children,
-                    type: vdev.type
+
+                if (vdev.children.length > 1) {
+                    type = vdev.type || this._getDefaultVdevType(vdev.children.length);
+                    storageType[i] = {
+                        children: vdev.children,
+                        type: type
+                    }
+                } else {
+                    storageType[i] = vdev.children[0];
                 }
             }
             return storageType;
