@@ -1,7 +1,7 @@
-var AbstractDropZoneComponent = require("core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class AvailableDisks
  * @extends Component
  */
-exports.AvailableDisks = AbstractDropZoneComponent.specialize();
+exports.AvailableDisks = Component.specialize();
