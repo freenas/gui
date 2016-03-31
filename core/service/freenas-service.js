@@ -370,12 +370,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     handleModelChange: {
         value: function (event) {
             var detail = event.detail,
+                data = detail.data,
                 modelType = detail.modelType,
                 modelCache = this._findModelCacheForType(modelType);
 
-            if (modelCache) {
+            if (modelCache && data) {
                 var type = Model[modelType],
-                    data = detail.data,
                     length = data.length,
                     i = 0,
                     rawModel,
