@@ -12,6 +12,23 @@
                 "triangleElement": {"#": "triangle"}
             }
         },
+        "profiles": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "profiles"},
+                "label": "Profile",
+                "options": [
+                    { "label": "Media",             "value": "MEDIA" },
+                    { "label": "Virtualization",    "value": "VIRTUALIZATION" },
+                    { "label": "Backup",            "value": "BACKUP" },
+                    { "label": "Optimal",           "value": "OPTIMAL" },
+                    { "label": "Media",             "value": "MEDIA" }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.profile"}
+            }
+        },
         "speedScore": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -50,6 +67,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Topologizer">
+        <div data-montage-id="profiles"></div>
         <div>
             <div data-montage-id="triangle" class="Topologizer-triangle">
                 <svg width="124" height="108" viewBox="0 0 124 108" xmlns="http://www.w3.org/2000/svg">
