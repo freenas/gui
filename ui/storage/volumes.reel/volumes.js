@@ -149,37 +149,30 @@ exports.Volumes = Component.specialize({
         }
     },
 
-    _checkIfDiskIsAssignedToVolume: {
-        value: function (disk, volume) {
-            var self = this,
-                volumeDisksPromise;
-            if (this._volumeDisksPromises[volume.id]) {
-                volumeDisksPromise = this._volumeDisksPromises[volume.id];
-            } else {
-                this._volumeDisksPromises[volume.id] = volumeDisksPromise = this._volumeService.getVolumeDisks(volume.id);
-            }
-            return volumeDisksPromise.then(function(volumeDisks) {
-                delete self._volumeDisksPromises[volume.id];
-                volume.assignedDisks = volumeDisks;
-                if (volumeDisks.indexOf('/dev/' + disk.status.gdisk_name) != -1) {
-                    disk.volume = volume;
-                }
-            });
-        }
-    },
-
     handleVolumesChange: {
-        value: function(volumes) {
+        value: function(addedVolumes, removedVolumes) {
             var volume, i, volumesLength,
                 disk, j, disksLength;
-            for (i = 0, volumesLength = volumes.length; i < volumesLength; i++) {
-                volume = volumes[i];
+            for (i = 0, volumesLength = removedVolumes.length; i < volumesLength; i++) {
+                volume = removedVolumes[i];
+                for (j = 0, disksLength = this.disks.length; i < disksLength; i++) {
+                    disk = this.disks[i];
+                    if (disk.volume == volume) {
+                        disk.volume = null;
+                    }
+                }
+            }
+            for (i = 0, volumesLength = addedVolumes.length; i < volumesLength; i++) {
+                volume = addedVolumes[i];
                 for (j = 0, disksLength = this.disks.length; i < disksLength; i++) {
                     disk = this.disks[i];
                     if (disk.status) {
                         this._checkIfDiskIsAssignedToVolume(disk, volume);
                     }
                 }
+                volume.shares = this.shares;
+                volume.snapshots = this.snapshots;
+                volume.disks = this.disks;
                 volume.scrubs = this._dataService.getDataObject(Model.Scrub);
                 this._volumesById[volume.id] = volume;
             }
@@ -204,6 +197,25 @@ exports.Volumes = Component.specialize({
             Promise.all(disksVolumesPromises).then(function() {
                 self._spareDisks.splice(0, self._spareDisks.length);
                 Array.prototype.push.apply(self._spareDisks, self.disks.filter(function(x) { return !x.volume }));
+            });
+        }
+    },
+
+    _checkIfDiskIsAssignedToVolume: {
+        value: function (disk, volume) {
+            var self = this,
+                volumeDisksPromise;
+            if (this._volumeDisksPromises[volume.id]) {
+                volumeDisksPromise = this._volumeDisksPromises[volume.id];
+            } else {
+                this._volumeDisksPromises[volume.id] = volumeDisksPromise = this._volumeService.getVolumeDisks(volume.id);
+            }
+            return volumeDisksPromise.then(function(volumeDisks) {
+                delete self._volumeDisksPromises[volume.id];
+                volume.assignedDisks = volumeDisks;
+                if (volumeDisks.indexOf('/dev/' + disk.status.gdisk_name) != -1) {
+                    disk.volume = volume;
+                }
             });
         }
     },

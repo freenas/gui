@@ -14,8 +14,8 @@ exports.VolumeCreator = Component.specialize({
         value: null
     },
 
-    enterDocument: {
-        value: function(isFirstTime) {
+    _initializeTopology: {
+        value: function () {
             var self = this,
                 volumes;
             this.emptyDisksArray = this.application.dataService.getEmptyCollectionForType(Model.Disk);
@@ -27,15 +27,16 @@ exports.VolumeCreator = Component.specialize({
             return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                 self._volumeService = Volume.constructor;
                 return self.application.dataService.fetchData(Model.Volume)
-            }).then(function(_volumes) {
+            }).then(function (_volumes) {
                 volumes = _volumes;
                 return self.application.dataService.fetchData(Model.Disk);
-            }).then(function(disks) {
+            }).then(function (disks) {
                 var i, disksLength, disk,
                     j, volumesLength, volume,
                     disksVolumesPromises = [];
                 for (i = 0, disksLength = disks.length; i < disksLength; i++) {
                     disk = disks[i];
+                    disk.volume = null;
                     if (disk.status) {
                         for (j = 0, volumesLength = volumes.length; j < volumesLength; j++) {
                             volume = volumes[j];
@@ -43,10 +44,16 @@ exports.VolumeCreator = Component.specialize({
                         }
                     }
                 }
-                Promise.all(disksVolumesPromises).then(function() {
-                    self.disks = disks.filter(function(x) { return !x.volume });
+                Promise.all(disksVolumesPromises).then(function () {
+                    self.disks = disks.filter(function (x) { return !x.volume });
                 });
             });
+        }
+    },
+
+    enterDocument: {
+        value: function() {
+            return this._initializeTopology();
         }
     },
 
@@ -88,6 +95,13 @@ exports.VolumeCreator = Component.specialize({
             };
             this.object.type = 'zfs';
             this.object._isNew = true;
+        }
+    },
+
+    revert: {
+        value: function() {
+            this._initializeTopology();
+
         }
     },
 
