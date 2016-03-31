@@ -10,6 +10,10 @@ exports.Topologizer = Component.specialize({
         value: null
     },
 
+    priorities: {
+        value: []
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
@@ -96,7 +100,7 @@ exports.Topologizer = Component.specialize({
             } else {
                 barycentricValues = [0.5, 0.5, 0.5];
             }
-            this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
+            this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
 
             this.needsDraw = true;
         }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="disks-category.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "section": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "section"},
+                "isExpanded": "true"
+            },
+            "bindings": {
+                "title": {"<-": "@owner.title"}
+            }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.disks"}
+            }
+        },
+        "grid": {
+            "prototype": "ui/controls/grid.reel",
+            "properties": {
+                "element": {"#": "grid"},
+                "controller": {"@": "controller"},
+                "labelPath": "status.gdisk_name",
+                "itemDraggable": "true"
+            },
+            "bindings": {
+                "icon": {"<-": "@owner.icon"},
+                "identifier": {"<-": "@owner.identifier"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="AvailableDisks">
+        <div data-montage-id="section">
+            <div data-montage-id="grid"></div>
+        </div>
+    </div>
+</body>
+</html>

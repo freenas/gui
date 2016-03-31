@@ -46,41 +46,16 @@
                 "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.LOG"}
             }
         },
-        "spareTitle": {
-            "prototype": "montage/ui/text.reel",
+        "spare": {
+            "prototype": "./topology-item.reel",
             "properties": {
-                "element": {"#": "spareTitle"},
-                "value": "Spare"
-            }
-        },
-        "spareController": {
-            "prototype": "montage/core/range-controller",
-            "bindings": {
-                "content": {"<-": "@owner.object.spare"}
-            }
-        },
-        "spareGrid": {
-            "prototype": "ui/controls/grid.reel",
-            "properties": {
-                "element": {"#": "spareGrid"},
-                "controller": {"@": "spareController"},
-                "labelPath": "path.split('/')[2]",
-                "icon": "ui/icons/disk.reel"
+                "element": {"#": "spare"},
+                "name": "Spare"
             },
             "bindings": {
-                "itemDraggable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
-                "identifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"}
-            }
-        },
-
-        "spareGridDropZone": {
-            "prototype": "./topology-dropzone.reel",
-            "properties": {
-                "element": {"#": "spareGridDropZone"},
-                "vDevController": {"@": "spareController"}
-            },
-            "bindings": {
-                "identifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"}
+                "vdevs": {"<-": "@owner.object.spare"},
+                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"}
             }
         }
 
@@ -92,15 +67,7 @@
         <div data-montage-id="data"></div>
         <div data-montage-id="cache"></div>
         <div data-montage-id="log"></div>
-        <!-- $fix -->
-        <div class="TopologyItem">
-            <div data-montage-id="spareTitle" class="TopologyItem-title"></div>
-            <div class="TopologyItem-grid">
-                <div data-montage-id="spareGrid"></div>
-                <div data-montage-id="spareGridDropZone" class="TopologyItem-dropZone"></div>
-            </div>
-        </div>
-        <!-- end -->
+        <div data-montage-id="spare"></div>
     </div>
 </body>
 </html>

@@ -10,14 +10,20 @@ exports.VolumeCreator = Component.specialize({
         value: {}
     },
 
+    emptyDisksArray: {
+        value: null
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this,
                 volumes;
+            this.emptyDisksArray = this.application.dataService.getEmptyCollectionForType(Model.Disk);
             this.object.topology = this.application.dataService.getDataObject(Model.ZfsTopology);
             this.object.topology.cache = [];
             this.object.topology.data = [];
             this.object.topology.log = [];
+            this.object.topology.spare = [];
             return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                 self._volumeService = Volume.constructor;
                 return self.application.dataService.fetchData(Model.Volume)
@@ -36,7 +42,6 @@ exports.VolumeCreator = Component.specialize({
                     }
                 }
                 Promise.all(disksVolumesPromises).then(function() {
-                    self.object.topology.spare = disks.filter(function(x) { return !x.volume });
                     self.disks = disks.filter(function(x) { return !x.volume });
                 });
             });
@@ -45,6 +50,7 @@ exports.VolumeCreator = Component.specialize({
 
     exitDocument: {
         value: function() {
+            this.disks.map(function(x) { delete x.volume; });
         }
     },
 

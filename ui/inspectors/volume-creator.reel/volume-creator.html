@@ -10,6 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
+                "unassignedDisks": {"<-": "@owner.disks.filter{!volume}"}
             }
         },
 
@@ -52,6 +53,15 @@
             "bindings": {
                 "object": {"<-": "@owner.object.topology"}
             }
+        },
+        "availableDisks": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "availableDisks"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.unassignedDisks.length > 0 ? @owner.unassignedDisks : @owner.emptyDisksArray"}
+            }
         }
     }
     </script>
@@ -71,6 +81,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="topologizer"></div>
             <div data-montage-id="topology"></div>
+            <div data-montage-id="availableDisks"></div>
         </div>
     </div>
 </body>

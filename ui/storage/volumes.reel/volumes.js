@@ -179,7 +179,6 @@ exports.Volumes = Component.specialize({
                     this._checkIfDiskIsAssignedToVolume(disk, volume);
                 }
                 volume.scrubs = this._dataService.getDataObject(Model.Scrub);
-                volume.topology.spare = this._spareDisks;
                 this._volumesById[volume.id] = volume;
             }
         }
@@ -201,9 +200,6 @@ exports.Volumes = Component.specialize({
             Promise.all(disksVolumesPromises).then(function() {
                 self._spareDisks.splice(0, self._spareDisks.length);
                 Array.prototype.push.apply(self._spareDisks, self.disks.filter(function(x) { return !x.volume }));
-                if (self._volumes) {
-                    self._volumes.map(function(x) { x.topology.spare = self._spareDisks });
-                }
             });
         }
     },

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="available-disks.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "hdds": {"<-": "@owner.object.filter{!this.status.is_ssd}"},
+                "ssds": {"<-": "@owner.object.filter{this.status.is_ssd}"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"}
+            }
+        },
+        "hddsCategory": {
+            "prototype": "./disks-category.reel",
+            "properties": {
+                "element": {"#": "hddsCategory"},
+                "title": "Hdds",
+                "icon": "ui/icons/disk.reel",
+                "identifier": "HDDS"
+            },
+            "bindings": {
+                "disks": {"<-": "@owner.hdds"},
+                "classList.has('is-hidden')": {"<-": "@owner.hdds.length == 0"}
+            }
+        },
+        "ssdsCategory": {
+            "prototype": "./disks-category.reel",
+            "properties": {
+                "element": {"#": "ssdsCategory"},
+                "title": "Ssds",
+                "icon": "ui/icons/disk.reel",
+                "identifier": "SSDS"
+            },
+            "bindings": {
+                "disks": {"<-": "@owner.ssds"},
+                "classList.has('is-hidden')": {"<-": "@owner.ssds.length == 0"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="AvailableDisks">
+        <div data-montage-id="inspector">
+            <div data-montage-id="hddsCategory" class="AvailableDisks-category"></div>
+            <div data-montage-id="ssdsCategory" class="AvailableDisks-category"></div>
+        </div>
+    </div>
+</body>
+</html>

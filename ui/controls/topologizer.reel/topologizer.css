@@ -44,6 +44,15 @@
     line-height: 17px;
 }
 
+.Topologizer-label.is-first-priority,
+.Topologizer-label.is-second-priority {
+    font-weight: 600;
+}
+
+.Topologizer-label.is-first-priority {
+    text-decoration: underline;
+}
+
 .Topologizer-speed-label {
     left: 0;
     right: 0;

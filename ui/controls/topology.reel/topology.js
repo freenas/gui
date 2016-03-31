@@ -2,7 +2,8 @@
  * @module ui/topology.reel
  */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    TopologyService = require("core/volumes/topology-service").TopologyService;
 
 
 var ClASS_NAMES_FOR_MODES = {
@@ -17,6 +18,9 @@ var ClASS_NAMES_FOR_MODES = {
  * @extends Component
  */
 var Topology = exports.Topology = Component.specialize({
+    _topologyService: {
+        value: null
+    },
 
     _mode: {
         value: null
@@ -42,7 +46,10 @@ var Topology = exports.Topology = Component.specialize({
 
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this._topologyService = new TopologyService().init(this.application.dataService);
+            }
             this.addEventListener("vDevCreated", this, false);
             this.addEventListener("diskAddedToVDev", this, false);
         }
@@ -82,7 +89,7 @@ var Topology = exports.Topology = Component.specialize({
                             //Fixme: getDataObject needs to return a promise
                             Model.populateObjectPrototypeForType(Model.ZfsVdev).then(function () {
                                 var vDev = self.application.dataService.getDataObject(Model.ZfsVdev);
-                                vDev.children = [disk];
+                                vDev.children = [self._topologyService.diskToVdev(disk)];
 
                                 self._removeDiskFromTopologyCollection(disk, collectionSource);
                                 collectionTarget.push(vDev);
@@ -115,7 +122,7 @@ var Topology = exports.Topology = Component.specialize({
                         var disk = detail.disk;
 
                         this._removeDiskFromTopologyCollection(disk, collectionSource);
-                        detail.vDevTarget.children.push(disk);
+                        detail.vDevTarget.children.push(this._topologyService.diskToVdev(disk));
                     } else {
                         console.warn("bug -> unknown dropzone : " + dropZoneId);
                     }
@@ -200,7 +207,9 @@ var Topology = exports.Topology = Component.specialize({
             LOG: "LOG",
             SPARE: "SPARE",
             DATA: "DATA",
-            CACHE: "CACHE"
+            CACHE: "CACHE",
+            HDDS: "HDDS",
+            SSDS: "SSDS"
         }
     }
 

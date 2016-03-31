@@ -11,6 +11,39 @@
                 "handleElement": {"#": "handle"},
                 "triangleElement": {"#": "triangle"}
             }
+        },
+        "speedLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "speedLabel"},
+                "value": "Speed"
+            },
+            "bindings": {
+                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'speed'"},
+                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'speed'"}
+            }
+        },
+        "redundancyLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "redundancyLabel"},
+                "value": "Redundancy"
+            },
+            "bindings": {
+                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'redundancy'"},
+                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'redundancy'"}
+            }
+        },
+        "storageLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "storageLabel"},
+                "value": "Storage"
+            },
+            "bindings": {
+                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'storage'"},
+                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'storage'"}
+            }
         }
     }
     </script>
@@ -20,9 +53,9 @@
         <div data-montage-id="triangle" class="Topologizer-triangle">
             <div data-montage-id="handle" class="Topologizer-handle"></div>
         </div>
-        <div class="Topologizer-speed-label Topologizer-label">Speed</div>
-        <div class="Topologizer-safety-label Topologizer-label">Redundancy</div>
-        <div class="Topologizer-storage-label Topologizer-label">Storage</div>
+        <div data-montage-id="speedLabel" class="Topologizer-speed-label Topologizer-label">Speed</div>
+        <div data-montage-id="redundancyLabel" class="Topologizer-safety-label Topologizer-label">Redundancy</div>
+        <div data-montage-id="storageLabel" class="Topologizer-storage-label Topologizer-label">Storage</div>
     </div>
 </body>
 </html>

@@ -2,6 +2,10 @@ var Montage = require("montage").Montage,
     Model = require("core/model/model").Model;
 
 exports.TopologyService = Montage.specialize({
+    _instance: {
+        value: null
+    },
+
     _STORAGE: {
         value: "storage"
     },
@@ -59,7 +63,10 @@ exports.TopologyService = Montage.specialize({
                 firstPriority = orderedPriorities[0],
                 secondPriority = orderedPriorities[1].weight > 0 ? orderedPriorities[1] : orderedPriorities[0];
 
-            return this._vdevRecommendations[firstPriority.type][secondPriority.type];
+            return {
+                recommendation: this._vdevRecommendations[firstPriority.type][secondPriority.type],
+                priorities: [firstPriority.type, secondPriority.type]
+            };
         }
     },
 
@@ -93,11 +100,19 @@ exports.TopologyService = Montage.specialize({
         }
     },
 
-    _getDiskVdev: {
+    diskToVdev: {
         value: function(disk) {
             var vdev = this._dataService.getDataObject(Model.ZfsVdev);
+            disk.volume = '/TEMP/';
             vdev.path = disk.status.gdisk_name;
+            vdev._disk = disk;
             return vdev;
+        }
+    },
+
+    vdevToDisk: {
+        value: function(vdev) {
+            return vdev._disk;
         }
     },
 
@@ -115,7 +130,7 @@ exports.TopologyService = Montage.specialize({
             if (!vdev.children) {
                 vdev.children = [];
             }
-            Array.prototype.push.apply(vdev.children, disks.map(this._getDiskVdev.bind(this)));
+            Array.prototype.push.apply(vdev.children, disks.map(this.diskToVdev.bind(this)));
         }
     },
 
@@ -124,6 +139,7 @@ exports.TopologyService = Montage.specialize({
             var vdevs = [],
                 disks = dataDisks.slice(0, size),
                 sliceStart = size;
+
 
             vdevs.push(this._buildVdevWithDisks(type, disks));
             disks = dataDisks.slice(sliceStart, sliceStart + size);
@@ -136,6 +152,7 @@ exports.TopologyService = Montage.specialize({
             }
 
             if (disks.length > 0) {
+                disks.map(function(x) { x.volume = null });
                 if (vdevs.length == 1) {
                     if (disks.length <= (size / 2)) {
                         this._addDisksToVdev(disks, vdevs[0]);
@@ -165,17 +182,24 @@ exports.TopologyService = Montage.specialize({
                 vdevRecommendation = this._getVdevRecommendation(redundancy, speed, storage);
             } else if (dataDisks.length > 2) {
                 vdevRecommendation = {
-                    type: 'raidz1',
-                    drives: 3
+                    recommendation: {
+                        type: 'raidz1',
+                        drives: 3
+                    },
+                    priorities: []
                 };
             } else {
                 vdevRecommendation = {
-                    type: 'mirror',
-                    drives: 2
+                    recommendation: {
+                        type: 'mirror',
+                        drives: 2
+                    },
+                    priorities: []
                 };
             }
 
-            topology.data = this._buildDataVdevsWithDisks(vdevRecommendation.type, vdevRecommendation.drives, dataDisks);
+            topology.data = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
+            return vdevRecommendation.priorities;
         }
     }
 });
