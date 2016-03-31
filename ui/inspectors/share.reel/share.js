@@ -80,7 +80,7 @@ exports.Share = Component.specialize({
                 isDatasetPromise;
 
             return this._filesystemService.listDir(this._filesystemService.dirname(targetPath)).then(function(children) {
-                if (children.find(function(x) { return x.name == basename }) != -1) {
+                if (children.filter(function(x) { return x.name == basename }).length > 0) {
                     isDatasetPromise = self._volumeService.decodePath(targetPath).then(function(pathComponents) {
                         return pathComponents[2].length == 0;
                     });
@@ -120,7 +120,11 @@ exports.Share = Component.specialize({
                     volumePathRegExp = new RegExp(self.LINE_START+datasetPath);
                 self.pathConverter = {
                     convert: function(value) {
-                        return value.replace(volumePathRegExp, self.EMPTY_STRING).replace(volumeIdRegExp, self.EMPTY_STRING);
+                        var result = value.replace(volumePathRegExp, self.EMPTY_STRING).replace(volumeIdRegExp, self.EMPTY_STRING);
+                        if (self.object.target_type) {
+                            result = '/' + result;
+                        }
+                        return result.replace('//', '/');
                     },
                     revert: function(value) {
                         return [datasetPath, value].join('/').replace('//', '/');
