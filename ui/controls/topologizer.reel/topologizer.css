@@ -43,6 +43,8 @@
 
 .Topologizer-legend-item-score {
     font-weight: 400;
+    width: 1em;
+    text-align: right;
 }
 
 .Topologizer-legend-item-score.is-first-priority,
