@@ -81,20 +81,22 @@ var Topology = exports.Topology = Component.specialize({
                             disk = detail.disk,
                             self = this;
 
-                        if (dropZoneId === Topology.IDENTIFIERS.SPARE) {
-                            this._removeDiskFromTopologyCollection(disk, collectionSource);
-                            collectionTarget.push(disk);
+                        //Fixme: getDataObject needs to return a promise
+                        Model.populateObjectPrototypeForType(Model.ZfsVdev).then(function () {
+                            var vDev = self.application.dataService.getDataObject(Model.ZfsVdev);
 
-                        } else {
-                            //Fixme: getDataObject needs to return a promise
-                            Model.populateObjectPrototypeForType(Model.ZfsVdev).then(function () {
-                                var vDev = self.application.dataService.getDataObject(Model.ZfsVdev);
-                                vDev.children = [self._topologyService.diskToVdev(disk)];
+                            //here: disk can be a model disk or ZfsVdev
+                            vDev.children = [
+                                Object.getPrototypeOf(disk).Type === Model.ZfsVdev ?
+                                    disk : self._topologyService.diskToVdev(disk)
+                            ];
 
+                            if (collectionSource) {
                                 self._removeDiskFromTopologyCollection(disk, collectionSource);
-                                collectionTarget.push(vDev);
-                            });
-                        }
+                            }
+
+                            collectionTarget.push(vDev);
+                        });
                     } else {
                         console.warn("bug -> unknown dropzone : " + dropZoneId);
                     }
@@ -121,8 +123,14 @@ var Topology = exports.Topology = Component.specialize({
                     if (topologyIdentifiers[dropZoneId]) {
                         var disk = detail.disk;
 
-                        this._removeDiskFromTopologyCollection(disk, collectionSource);
-                        detail.vDevTarget.children.push(this._topologyService.diskToVdev(disk));
+                        if (collectionSource) {
+                            this._removeDiskFromTopologyCollection(disk, collectionSource);
+                        }
+
+                        detail.vDevTarget.children.push(
+                            Object.getPrototypeOf(disk).Type === Model.ZfsVdev ?
+                            disk : this._topologyService.diskToVdev(disk)
+                        );
                     } else {
                         console.warn("bug -> unknown dropzone : " + dropZoneId);
                     }
@@ -141,13 +149,15 @@ var Topology = exports.Topology = Component.specialize({
 
             return  identifier === topologyIdentifiers.DATA ? topology.data :
                     identifier === topologyIdentifiers.SPARE ? topology.spare :
-                    identifier === topologyIdentifiers.CACHE ? topology.cache : topology.log;
+                    identifier === topologyIdentifiers.CACHE ? topology.cache :
+                    identifier === topologyIdentifiers.LOG ? topology.log : null;
         }
     },
 
 
     _removeDiskFromTopologyCollection: {
         value: function (disk, topologyCollection) {
+            /* the argument disk can be vdev or disk here */
             var ZfsVdevType = Model.ZfsVdev,
                 ii, ll, vDev, vDevDisks, vDevDisk;
 

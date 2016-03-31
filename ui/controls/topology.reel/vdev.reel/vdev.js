@@ -49,13 +49,16 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             var response = this.editable;
 
             if (response) {
+                /* targetDisk can be vdev or disk here */
                 var targetDisk = diskGridItemComponent.object,
                     vDevChildren = this.object.children;
 
-                for (var i = 0, l = vDevChildren.length; i < l; i++) {
-                    if (targetDisk === vDevChildren[i]) {
-                        response = false;
-                        break;
+                if (vDevChildren) {
+                    for (var i = 0, l = vDevChildren.length; i < l; i++) {
+                        if (targetDisk === vDevChildren[i]) {
+                            response = false;
+                            break;
+                        }
                     }
                 }
             }
