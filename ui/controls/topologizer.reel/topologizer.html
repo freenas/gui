@@ -18,7 +18,9 @@
                 "element": {"#": "speedScore"}
             },
             "bindings": {
-                "value": {"<-": "'10'"}
+                "value": {"<-": "@owner.barycentricValues.1"},
+                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'speed'"},
+                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'speed'"}
             }
         },
         "storageScore": {
@@ -27,7 +29,9 @@
                 "element": {"#": "storageScore"}
             },
             "bindings": {
-                "value": {"<-": "'10'"}
+                "value": {"<-": "@owner.barycentricValues.2"},
+                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'storage'"},
+                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'storage'"}
             }
         },
         "redundancyScore": {
@@ -36,7 +40,9 @@
                 "element": {"#": "redundancyScore"}
             },
             "bindings": {
-                "value": {"<-": "'10'"}
+                "value": {"<-": "@owner.barycentricValues.0"},
+                "classList.has('is-first-priority')": {"<-": "@owner.priorities.0 == 'redundancy'"},
+                "classList.has('is-second-priority')": {"<-": "@owner.priorities.1 == 'redundancy'"}
             }
         }
     }

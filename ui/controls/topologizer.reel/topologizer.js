@@ -14,6 +14,21 @@ exports.Topologizer = Component.specialize({
         value: []
     },
 
+    _barycentricValues: {
+        value: [1/3, 1/3, 1/3]
+    },
+
+    barycentricValues: {
+        get: function() {
+            return this._barycentricValues.map(function(x) { return Math.round(x * 10)});
+        },
+        set: function(barycentricValues) {
+            if (this._barycentricValues != barycentricValues) {
+                this._barycentricValues = barycentricValues;
+            }
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
@@ -31,13 +46,13 @@ exports.Topologizer = Component.specialize({
     _computeBarycentricValues: {
         value: function (x, y) {
             if (this._width && this._height) {
-                return [
+                this.barycentricValues = [
                     1 - ((x * Math.sin(Math.PI / 3) - (y - this._height) * Math.cos(Math.PI / 3)) / this._height),
                     1 - (y / this._height),
                     1- (((this._width - x) * Math.sin(Math.PI / 3) - (y - this._height) * Math.cos(Math.PI / 3)) / this._height)
                 ];
             } else {
-                return [1/3, 1/3, 1/3];
+                this.barycentricValues = [1/3, 1/3, 1/3];
             }
         }
     },
@@ -48,6 +63,7 @@ exports.Topologizer = Component.specialize({
 
     _valuesInRange: {
         value: function (barycentricValues) {
+            barycentricValues = barycentricValues || this._barycentricValues;
             return (barycentricValues[0] >= 0 &&
                     barycentricValues[0] <= 1 &&
                     barycentricValues[1] >= 0 &&
@@ -62,12 +78,11 @@ exports.Topologizer = Component.specialize({
             return this._handlePosition;
         },
         set: function (value) {
-            var barycentricValues,
-                x, y, best;
+            var x, y, best;
 
             if (value) {
-                barycentricValues = this._computeBarycentricValues(value.x, value.y);
-                if (this._valuesInRange(barycentricValues)) {
+                this._computeBarycentricValues(value.x, value.y);
+                if (this._valuesInRange()) {
                     this._handlePosition = value;
                 } else {
                     best = {x: 0, distance: Infinity};
@@ -90,7 +105,7 @@ exports.Topologizer = Component.specialize({
                         }
                     }
                     this._handlePosition = {x: best.x, y: y};
-                    barycentricValues = this._computeBarycentricValues(
+                    this._computeBarycentricValues(
                         this._handlePosition.x,
                         this._handlePosition.y
                     );
@@ -98,9 +113,9 @@ exports.Topologizer = Component.specialize({
                 this.application.preventAnimation = true;
 
             } else {
-                barycentricValues = [0.5, 0.5, 0.5];
+                this.barycentricValues = [1/3, 1/3, 1/3];
             }
-            this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
+            this.priorities = this._topologyService.generateTopology(this.topology, this.disks, this._barycentricValues[0], this._barycentricValues[1], this._barycentricValues[2]);
 
             this.needsDraw = true;
         }

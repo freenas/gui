@@ -45,6 +45,15 @@
     font-weight: 400;
 }
 
+.Topologizer-legend-item-score.is-first-priority,
+.Topologizer-legend-item-score.is-second-priority {
+    font-weight: 600;
+}
+
+.Topologizer-legend-item-score.is-first-priority {
+    text-decoration: underline;
+}
+
 .Topologizer-triangle {
     position: relative;
     width: 110px;
