@@ -176,7 +176,9 @@ exports.Volumes = Component.specialize({
                 volume = volumes[i];
                 for (j = 0, disksLength = this.disks.length; i < disksLength; i++) {
                     disk = this.disks[i];
-                    this._checkIfDiskIsAssignedToVolume(disk, volume);
+                    if (disk.status) {
+                        this._checkIfDiskIsAssignedToVolume(disk, volume);
+                    }
                 }
                 volume.scrubs = this._dataService.getDataObject(Model.Scrub);
                 this._volumesById[volume.id] = volume;
@@ -192,9 +194,11 @@ exports.Volumes = Component.specialize({
                 disksVolumesPromises = [];
             for (i = 0, disksLength = disks.length; i < disksLength; i++) {
                 disk = disks[i];
-                for (j = 0, volumesLength = this._volumes.length; j < volumesLength; j++) {
-                    volume = this._volumes[j];
-                    disksVolumesPromises.push(this._checkIfDiskIsAssignedToVolume(disk, volume));
+                if (disk.status) {
+                    for (j = 0, volumesLength = this._volumes.length; j < volumesLength; j++) {
+                        volume = this._volumes[j];
+                        disksVolumesPromises.push(this._checkIfDiskIsAssignedToVolume(disk, volume));
+                    }
                 }
             }
             Promise.all(disksVolumesPromises).then(function() {

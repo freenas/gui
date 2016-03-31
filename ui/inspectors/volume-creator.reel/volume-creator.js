@@ -36,9 +36,11 @@ exports.VolumeCreator = Component.specialize({
                     disksVolumesPromises = [];
                 for (i = 0, disksLength = disks.length; i < disksLength; i++) {
                     disk = disks[i];
-                    for (j = 0, volumesLength = volumes.length; j < volumesLength; j++) {
-                        volume = volumes[j];
-                        disksVolumesPromises.push(self._checkIfDiskIsAssignedToVolume(disk, volume));
+                    if (disk.status) {
+                        for (j = 0, volumesLength = volumes.length; j < volumesLength; j++) {
+                            volume = volumes[j];
+                            disksVolumesPromises.push(self._checkIfDiskIsAssignedToVolume(disk, volume));
+                        }
                     }
                 }
                 Promise.all(disksVolumesPromises).then(function() {
@@ -51,6 +53,48 @@ exports.VolumeCreator = Component.specialize({
     exitDocument: {
         value: function() {
             this.disks.map(function(x) { delete x.volume; });
+        }
+    },
+
+    _cleanupVdevs: {
+        value: function (storageType) {
+            var i, vdevsLength, vdev,
+                j, disksLength, disk;
+            for (i = 0, vdevsLength = storageType.length; i < vdevsLength; i++) {
+                vdev = storageType[i];
+                for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                    disk = vdev.children[j];
+                    vdev.children[j] = {
+                        path: '/dev/' + disk.path,
+                        type: 'disk'
+                    };
+                }
+                storageType[i] = {
+                    children: vdev.children,
+                    type: vdev.type
+                }
+            }
+            return storageType;
+        }
+    },
+
+    _cleanupTopology: {
+        value: function() {
+            this.object.topology = {
+                data: this._cleanupVdevs(this.object.topology.data),
+                cache: this._cleanupVdevs(this.object.topology.cache),
+                log: this._cleanupVdevs(this.object.topology.log),
+                spare: this._cleanupVdevs(this.object.topology.spare)
+            };
+            this.object.type = 'zfs';
+            this.object._isNew = true;
+        }
+    },
+
+    save: {
+        value: function() {
+            this._cleanupTopology();
+            this.application.dataService.saveDataObject(this.object);
         }
     },
 

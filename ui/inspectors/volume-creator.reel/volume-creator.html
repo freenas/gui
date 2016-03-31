@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "unassignedDisks": {"<-": "@owner.disks.filter{!volume}"}
+                "unassignedDisks": {"<-": "@owner.disks.filter{!volume && !!status}"}
             }
         },
 
@@ -31,7 +31,22 @@
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "inspector"}
+                "element": {"#": "inspector"},
+                "canRevert": "true",
+                "canSave": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
             }
         },
         "topologizer": {
@@ -41,7 +56,7 @@
             },
             "bindings": {
                 "topology": {"<-": "@owner.object.topology"},
-                "disks": {"<-": "@owner.disks"}
+                "disks": {"<-": "@owner.disks.filter{!!status}"}
             }
         },
         "topology": {
@@ -79,6 +94,7 @@
             </div>
         </div>
         <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
             <div data-montage-id="topologizer"></div>
             <div data-montage-id="topology"></div>
             <div data-montage-id="availableDisks"></div>

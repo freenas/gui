@@ -221,7 +221,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
              * On the other hand, ids can be forbidden (while saving) but they can be set to null.
              */
             if (modelHasNoId || object.id !== void 0) {
-                var isUpdate = modelHasNoId || object.id !== null,
+                var isUpdate = modelHasNoId || (object.id !== null && !object._isNew),
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
