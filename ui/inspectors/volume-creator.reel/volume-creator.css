@@ -9,6 +9,8 @@
 .VolumeCreator-header {
     padding: 1em;
     display: flex;
+    background: #B0BBBD;
+    color: #181A1D;
 }
 
 /* Icon */
