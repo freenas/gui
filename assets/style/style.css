@@ -173,6 +173,11 @@ $Icons
     padding-top: 1em;
 }
 
+.g-margin-sides {
+    margin-left:  1em;
+    margin-right: 1em;
+}
+
 /* typography  helpers */
 
 .bold {
