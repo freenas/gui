@@ -43,7 +43,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
-                "label": "Name"
+                "label": "Name",
+                "placeholderValue": "enter volume name"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.id"}
@@ -94,7 +95,9 @@
             </div>
         </div>
         <div data-montage-id="inspector">
-            <div data-montage-id="name"></div>
+            <div class="g-margin-sides">
+                <div data-montage-id="name"></div>
+            </div>
             <div data-montage-id="topologizer"></div>
             <div data-montage-id="topology"></div>
             <div data-montage-id="availableDisks"></div>
