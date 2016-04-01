@@ -42,3 +42,9 @@
 .CascadingListItem-content.Inspector-scroll {
     overflow: hidden;
 }
+
+/* Changes active state color on last selection  */
+.CascadingListItem:nth-last-child(2) .InspectorOption.selected > .ListItem,
+.CascadingListItem:nth-last-child(2) .List-item.selected > .ListItem {
+    background: #00A7FF;
+}
