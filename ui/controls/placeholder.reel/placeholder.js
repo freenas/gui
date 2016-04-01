@@ -39,7 +39,12 @@ exports.Placeholder = Component.specialize({
         set: function (object) {
             if (this._object !== object) {
                 this._object = object;
-                this.needsDraw = true;
+
+                if (this.component && !this._needsLoadComponent && object) {
+                    // if the component stay the same we can update directly the context,
+                    // otherwise it will be updated once the component would have been loaded.
+                    this.component.object = object;
+                }
             }
         }
     },
@@ -89,8 +94,6 @@ exports.Placeholder = Component.specialize({
 
     draw: {
         value: function () {
-            var self = this;
-
             if (this._needsUpdateComponent) {
                 if (this._previousComponent) {
                     this._previousComponent.detachFromParentComponent();
@@ -102,12 +105,7 @@ exports.Placeholder = Component.specialize({
 
             if (this._needsLoadComponent) {
                 this._needsLoadComponent = false;
-
-                this._loadComponent(this._moduleId).then(function () {
-                    self.component.object = self.object;
-                });
-            } else if (this.component) {
-                this.component.object = this.object;
+                this._loadComponent(this._moduleId);
             }
         }
     },
@@ -126,6 +124,8 @@ exports.Placeholder = Component.specialize({
                     // TODO: This is an ugly hack, fix
                     self.component = new exports[Object.keys(exports)[0]]();
                     self.component.element = element;
+                    self.component.object = self.object;
+
                     self.component.needsDraw = true;
                     self.component.attachToParentComponent();
                     self.component._oldEnterDocument = self.component.enterDocument;
