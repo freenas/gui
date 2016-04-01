@@ -47,8 +47,7 @@
 .TopologyItem .Grid-icon {
     display: flex;
     width:  auto;
-    /*height: auto;*/
-    /*margin-bottom: 0;*/
+    height: auto;
 }
 
 .TopologyItem .LabeledIcon-image > * {
@@ -59,9 +58,7 @@
 /* Vdev Container */
 
 .TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon {
-    /*margin-right: 1em;*/
-    position: relative;
-    min-height: 7em;
+    height: auto;
 }
 
 /* Title */
