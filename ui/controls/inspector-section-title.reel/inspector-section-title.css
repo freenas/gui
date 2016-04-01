@@ -4,12 +4,13 @@
     margin-bottom: 1em;
     color: #fff;
     background: rgba(0,0,0,.1);
+    line-height: 3em;
 }
 
 .InspectorSectionTitle-text {
     position: relative;
     font-weight: 400;
-    padding: .5em 1em;
+    padding: 0 1em;
 }
 
 .InspectorSectionTitle:hover { background: rgba(0,0,0,.2); }
