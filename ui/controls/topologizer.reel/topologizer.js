@@ -15,7 +15,23 @@ exports.Topologizer = Component.specialize({
     },
 
     _barycentricValues: {
-        value: [1/3, 1/3, 1/3]
+        value: []
+    },
+
+    _profile: {
+        value: null
+    },
+
+    profile: {
+        get: function() {
+            return this._profile
+        },
+        set: function(profile) {
+            if (this._profile != profile) {
+                this._profile = profile;
+                this._setProfile();
+            }
+        }
     },
 
     barycentricValues: {
@@ -25,6 +41,8 @@ exports.Topologizer = Component.specialize({
         set: function(barycentricValues) {
             if (this._barycentricValues != barycentricValues) {
                 this._barycentricValues = barycentricValues;
+                this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
+                this.needsDraw = true;
             }
         }
     },
@@ -115,9 +133,6 @@ exports.Topologizer = Component.specialize({
             } else {
                 this.barycentricValues = [1/3, 1/3, 1/3];
             }
-            this.priorities = this._topologyService.generateTopology(this.topology, this.disks, this._barycentricValues[0], this._barycentricValues[1], this._barycentricValues[2]);
-
-            this.needsDraw = true;
         }
     },
 
@@ -134,6 +149,7 @@ exports.Topologizer = Component.specialize({
             };
             document.addEventListener("mousemove", this, false);
             document.addEventListener("mouseup", this, false);
+            this.profile = "";
             event.preventDefault();
         }
     },
@@ -176,6 +192,37 @@ exports.Topologizer = Component.specialize({
     didDraw: {
         value: function () {
             this.application.preventAnimation = false;
+        }
+    },
+
+    _setProfile: {
+        value: function() {
+            switch (this._profile) {
+                case 'MEDIA':
+                    this.handlePosition = {
+                        x: 110,
+                        y: 95
+                    };
+                    break;
+                case 'VIRTUALIZATION':
+                    this.handlePosition = {
+                        x: 55,
+                        y: 0
+                    };
+                    break;
+                case 'BACKUP':
+                    this.handlePosition = {
+                        x: 0,
+                        y: 95
+                    };
+                    break;
+                case 'OPTIMAL':
+                    this.handlePosition = {
+                        x: 55,
+                        y: 62.5
+                    };
+                    break;
+            }
         }
     }
 
