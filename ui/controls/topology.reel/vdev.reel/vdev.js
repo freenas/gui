@@ -10,6 +10,12 @@ var AbstractDropZoneComponent = require("core/drag-drop/abstract-dropzone-compon
  */
 exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
+    templateDidLoad: {
+        value: function () {
+            this._populateTopologyItem();
+        }
+    },
+
     _topologyItem: {
         value: void 0
     },
@@ -30,12 +36,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         }
     },
 
-    enterDocument: {
-        value: function (firstTime) {
-            AbstractDropZoneComponent.prototype.enterDocument.call(this, firstTime);
-            this._populateTopologyItem();
-        }
-    },
 
     exitDocument: {
         value: function () {
@@ -93,8 +93,8 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
             this._topologyItem = topologyItem;
 
-            this.dispatchOwnPropertyChange("editable", this.editable, false);
-            this.dispatchOwnPropertyChange("gridIdentifier", this.gridIdentifier, false);
+            this.disksGrid.itemDraggable = this.editable;
+            this.disksGrid.identifier = this.gridIdentifier;
         }
     }
 

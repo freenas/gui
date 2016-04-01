@@ -71,10 +71,12 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
 
     enabled: {
         set: function (boolean) {
+            boolean = !!boolean;
+
             if (this._enabled !== boolean) {
                 this._enabled = boolean;
-
-                if (this._enabled) {
+                
+                if (boolean && this._inDocument) {
                     this._load();
                 } else {
                     this._unload();
@@ -195,10 +197,6 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
                     }
                 }
             }
-
-            if (this._enabled) {
-                this._load();
-            }
         }
     },
 
@@ -216,9 +214,7 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
 
     prepareForActivationEvents: {
         value: function() {
-            if (this._translateComposer) {
-                this._translateComposer.addEventListener('translateStart', this, false);
-            }
+            this._load();
         }
     },
 
@@ -321,6 +317,8 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
 
                     this.addComposer(this._translateComposer);
                 }
+
+                this._translateComposer.addEventListener('translateStart', this, false);
             }
         }
     },
@@ -328,8 +326,8 @@ var AbstractDraggableComponent = exports.AbstractDraggableComponent = Component.
 
     _unload: {
         value: function () {
-            if (this._enabled && this._translateComposer) {
-                this._translateComposer.unload();
+            if (this._translateComposer) {
+                this._translateComposer.removeEventListener('translateStart', this, false);
             }
         }
     },

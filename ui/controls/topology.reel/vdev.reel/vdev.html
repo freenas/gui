@@ -7,7 +7,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "disksGrid": {"@": "disksGrid"}
             },
             "bindings": {
                 "classList.has('unhealthy')": {"<-": "@owner.object.status != 'ONLINE'"}
@@ -26,10 +27,6 @@
                 "controller": {"@": "controller"},
                 "labelPath": "path",
                 "icon": "ui/icons/disk.reel"
-            },
-            "bindings": {
-                "itemDraggable": {"<-": "@owner.editable"},
-                "identifier": {"<-": "@owner.gridIdentifier"}
             }
         }
     }
