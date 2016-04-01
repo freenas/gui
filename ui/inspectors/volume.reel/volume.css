@@ -2,9 +2,12 @@
 
 }
 
+/* $fix - should this be a component */
 .Volume-header {
     padding: 1em;
     display: flex;
+    background: #B0BBBD;
+    color: #181A1D;
 }
 
 /* Icon */
