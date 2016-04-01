@@ -157,11 +157,11 @@ exports.TopologyService = Montage.specialize({
                     if (disks.length <= (size / 2)) {
                         this._addDisksToVdev(disks, vdevs[0]);
                     } else {
-                        vdevs = this._buildDataVdevsWithDisks(type, Math.round(dataDisks.length / 2), dataDisks);
+                        vdevs = this._buildDataVdevsWithDisks(type, Math.floor(dataDisks.length / 2), dataDisks);
                     }
                 } else {
                     var i, length, vdev,
-                        bonusDiskCountPerVdev = Math.round(disks.length / vdevs.length);
+                        bonusDiskCountPerVdev = Math.floor(disks.length / vdevs.length);
                     for (i = 0, length = vdevs.length; i < length; i++) {
                         vdev = vdevs[i];
                         this._addDisksToVdev(disks.slice(i*bonusDiskCountPerVdev, i*bonusDiskCountPerVdev + bonusDiskCountPerVdev), vdev);
