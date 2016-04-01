@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_volumedataset_mounted": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mounted",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_volumedataset_mountpoint": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -87,6 +95,7 @@
       "name": "VolumeDataset",
       "propertyBlueprints": [
         {"@": "blueprint_volumedataset_id"},
+        {"@": "blueprint_volumedataset_mounted"},
         {"@": "blueprint_volumedataset_mountpoint"},
         {"@": "blueprint_volumedataset_name"},
         {"@": "blueprint_volumedataset_permissions"},

@@ -1,47 +1,45 @@
 {
-  "blueprint_serviceswift_enable": {
+  "blueprint_knownhost_hostkey": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "enable",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_serviceswift_swift_hash_path_prefix": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "swift_hash_path_prefix",
+      "name": "hostkey",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_serviceswift_swift_hash_path_suffix": {
+  "blueprint_knownhost_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "swift_hash_path_suffix",
+      "name": "id",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_serviceswift_type": {
+  "blueprint_knownhost_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "name",
       "blueprint": {"@": "root"},
-      "enumValues": [
-        "service-swift"
-      ]
+      "valueType": "String"
+    }
+  },
+  "blueprint_knownhost_pubkey": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "pubkey",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ServiceSwift",
+      "name": "KnownHost",
       "propertyBlueprints": [
-        {"@": "blueprint_serviceswift_enable"},
-        {"@": "blueprint_serviceswift_swift_hash_path_prefix"},
-        {"@": "blueprint_serviceswift_swift_hash_path_suffix"},
-        {"@": "blueprint_serviceswift_type"}
+        {"@": "blueprint_knownhost_hostkey"},
+        {"@": "blueprint_knownhost_id"},
+        {"@": "blueprint_knownhost_name"},
+        {"@": "blueprint_knownhost_pubkey"}
       ]
     }
   }

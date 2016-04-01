@@ -40,6 +40,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_volume_params": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "params",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_volume_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -92,6 +100,7 @@
         {"@": "blueprint_volume_encryption"},
         {"@": "blueprint_volume_guid"},
         {"@": "blueprint_volume_id"},
+        {"@": "blueprint_volume_params"},
         {"@": "blueprint_volume_properties"},
         {"@": "blueprint_volume_providers_presence"},
         {"@": "blueprint_volume_topology"},

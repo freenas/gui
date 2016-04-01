@@ -33,8 +33,16 @@
             "type": "Alert"
         },
         {
+            "modelId": "core/model/descriptors/backup-file.mjson",
+            "type": "BackupFile"
+        },
+        {
             "modelId": "core/model/descriptors/backup-ssh.mjson",
             "type": "BackupSsh"
+        },
+        {
+            "modelId": "core/model/descriptors/backup-state.mjson",
+            "type": "BackupState"
         },
         {
             "modelId": "core/model/descriptors/backup-types.mjson",
@@ -59,6 +67,18 @@
         {
             "modelId": "core/model/descriptors/calendar-task.mjson",
             "type": "CalendarTask"
+        },
+        {
+            "modelId": "core/model/descriptors/compress-plugin-read-fd.mjson",
+            "type": "CompressPluginReadFd"
+        },
+        {
+            "modelId": "core/model/descriptors/compress-plugin-write-fd.mjson",
+            "type": "CompressPluginWriteFd"
+        },
+        {
+            "modelId": "core/model/descriptors/compress-plugin.mjson",
+            "type": "CompressPlugin"
         },
         {
             "modelId": "core/model/descriptors/container-config.mjson",
@@ -145,6 +165,18 @@
             "type": "DisksAllocation"
         },
         {
+            "modelId": "core/model/descriptors/encrypt-plugin-read-fd.mjson",
+            "type": "EncryptPluginReadFd"
+        },
+        {
+            "modelId": "core/model/descriptors/encrypt-plugin-write-fd.mjson",
+            "type": "EncryptPluginWriteFd"
+        },
+        {
+            "modelId": "core/model/descriptors/encrypt-plugin.mjson",
+            "type": "EncryptPlugin"
+        },
+        {
             "modelId": "core/model/descriptors/encryption.mjson",
             "type": "Encryption"
         },
@@ -167,6 +199,10 @@
         {
             "modelId": "core/model/descriptors/ipmi.mjson",
             "type": "Ipmi"
+        },
+        {
+            "modelId": "core/model/descriptors/known-host.mjson",
+            "type": "KnownHost"
         },
         {
             "modelId": "core/model/descriptors/ldap-config.mjson",
@@ -273,6 +309,10 @@
             "type": "ReplicationLink"
         },
         {
+            "modelId": "core/model/descriptors/replication-transport.mjson",
+            "type": "ReplicationTransport"
+        },
+        {
             "modelId": "core/model/descriptors/replication.mjson",
             "type": "Replication"
         },
@@ -313,10 +353,6 @@
             "type": "ServiceGlusterd"
         },
         {
-            "modelId": "core/model/descriptors/service-haproxy.mjson",
-            "type": "ServiceHaproxy"
-        },
-        {
             "modelId": "core/model/descriptors/service-ipfs.mjson",
             "type": "ServiceIpfs"
         },
@@ -333,14 +369,6 @@
             "type": "ServiceNfs"
         },
         {
-            "modelId": "core/model/descriptors/service-riak-cs.mjson",
-            "type": "ServiceRiakCs"
-        },
-        {
-            "modelId": "core/model/descriptors/service-riak.mjson",
-            "type": "ServiceRiak"
-        },
-        {
             "modelId": "core/model/descriptors/service-rsyncd.mjson",
             "type": "ServiceRsyncd"
         },
@@ -353,24 +381,12 @@
             "type": "ServiceSmartd"
         },
         {
-            "modelId": "core/model/descriptors/service-smb.mjson",
-            "type": "ServiceSmb"
-        },
-        {
             "modelId": "core/model/descriptors/service-snmp.mjson",
             "type": "ServiceSnmp"
         },
         {
             "modelId": "core/model/descriptors/service-sshd.mjson",
             "type": "ServiceSshd"
-        },
-        {
-            "modelId": "core/model/descriptors/service-stanchion.mjson",
-            "type": "ServiceStanchion"
-        },
-        {
-            "modelId": "core/model/descriptors/service-swift.mjson",
-            "type": "ServiceSwift"
         },
         {
             "modelId": "core/model/descriptors/service-tftpd.mjson",
@@ -429,14 +445,6 @@
             "type": "ShareNfs"
         },
         {
-            "modelId": "core/model/descriptors/share-smb-extra-parameters.mjson",
-            "type": "ShareSmbExtraParameters"
-        },
-        {
-            "modelId": "core/model/descriptors/share-smb.mjson",
-            "type": "ShareSmb"
-        },
-        {
             "modelId": "core/model/descriptors/share-types.mjson",
             "type": "ShareTypes"
         },
@@ -451,6 +459,10 @@
         {
             "modelId": "core/model/descriptors/simulator-disk.mjson",
             "type": "SimulatorDisk"
+        },
+        {
+            "modelId": "core/model/descriptors/snapshot-info.mjson",
+            "type": "SnapshotInfo"
         },
         {
             "modelId": "core/model/descriptors/stat-alert.mjson",
@@ -491,6 +503,18 @@
         {
             "modelId": "core/model/descriptors/task.mjson",
             "type": "Task"
+        },
+        {
+            "modelId": "core/model/descriptors/throttle-plugin-read-fd.mjson",
+            "type": "ThrottlePluginReadFd"
+        },
+        {
+            "modelId": "core/model/descriptors/throttle-plugin-write-fd.mjson",
+            "type": "ThrottlePluginWriteFd"
+        },
+        {
+            "modelId": "core/model/descriptors/throttle-plugin.mjson",
+            "type": "ThrottlePlugin"
         },
         {
             "modelId": "core/model/descriptors/tunable.mjson",
@@ -555,6 +579,10 @@
         {
             "modelId": "core/model/descriptors/volume-import-params.mjson",
             "type": "VolumeImportParams"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-params.mjson",
+            "type": "VolumeParams"
         },
         {
             "modelId": "core/model/descriptors/volume-properties.mjson",

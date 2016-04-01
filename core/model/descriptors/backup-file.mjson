@@ -1,0 +1,37 @@
+{
+  "blueprint_backupfile_content_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "content_type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_backupfile_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_backupfile_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "BackupFile",
+      "propertyBlueprints": [
+        {"@": "blueprint_backupfile_content_type"},
+        {"@": "blueprint_backupfile_name"},
+        {"@": "blueprint_backupfile_size"}
+      ]
+    }
+  }
+}

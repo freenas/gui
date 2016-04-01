@@ -39,6 +39,16 @@
       "valueType": "String"
     }
   },
+  "blueprint_backupssh_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "backup-ssh"
+      ]
+    }
+  },
   "blueprint_backupssh_username": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -56,6 +66,7 @@
         {"@": "blueprint_backupssh_hostport"},
         {"@": "blueprint_backupssh_password"},
         {"@": "blueprint_backupssh_privkey"},
+        {"@": "blueprint_backupssh_type"},
         {"@": "blueprint_backupssh_username"}
       ]
     }

@@ -1,0 +1,50 @@
+{
+  "blueprint_snapshotinfo_created_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "created_at",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_snapshotinfo_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_snapshotinfo_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "FILESYSTEM",
+        "VOLUME"
+      ]
+    }
+  },
+  "blueprint_snapshotinfo_uuid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "uuid",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "SnapshotInfo",
+      "propertyBlueprints": [
+        {"@": "blueprint_snapshotinfo_created_at"},
+        {"@": "blueprint_snapshotinfo_name"},
+        {"@": "blueprint_snapshotinfo_type"},
+        {"@": "blueprint_snapshotinfo_uuid"}
+      ]
+    }
+  }
+}
