@@ -52,6 +52,7 @@ exports.Topologizer = Component.specialize({
             if (isFirstTime) {
                 this._topologyService = new TopologyService().init(this.application.dataService);
             }
+            this.profile = "";
         }
     },
 

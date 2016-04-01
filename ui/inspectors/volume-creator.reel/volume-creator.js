@@ -14,16 +14,40 @@ exports.VolumeCreator = Component.specialize({
         value: null
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object != object) {
+                this._object = this._initializeTopology(object);
+            }
+        }
+    },
+
     _initializeTopology: {
-        value: function () {
+        value: function (object) {
+            object.topology = this.application.dataService.getDataObject(Model.ZfsTopology);
+            object.topology.cache = [];
+            object.topology.data = [];
+            object.topology.log = [];
+            object.topology.spare = [];
+            return object;
+        }
+    },
+
+    enterDocument: {
+        value: function() {
             var self = this,
                 volumes;
+            if (this.disks) {
+                this.disks.map(function(x) { x.volume = null; });
+            }
             this.emptyDisksArray = this.application.dataService.getEmptyCollectionForType(Model.Disk);
-            this.object.topology = this.application.dataService.getDataObject(Model.ZfsTopology);
-            this.object.topology.cache = [];
-            this.object.topology.data = [];
-            this.object.topology.log = [];
-            this.object.topology.spare = [];
             return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                 self._volumeService = Volume.constructor;
                 return self.application.dataService.fetchData(Model.Volume)
@@ -51,15 +75,10 @@ exports.VolumeCreator = Component.specialize({
         }
     },
 
-    enterDocument: {
-        value: function() {
-            return this._initializeTopology();
-        }
-    },
-
     exitDocument: {
         value: function() {
-            this.disks.map(function(x) { delete x.volume; });
+            //this.disks.map(function(x) { x.volume = null; });
+            this.parentComponent.parentComponent.selectedObject = null;
         }
     },
 
@@ -84,26 +103,28 @@ exports.VolumeCreator = Component.specialize({
                 type, path;
             for (i = 0, vdevsLength = storageType.length; i < vdevsLength; i++) {
                 vdev = storageType[i];
-                for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
-                    disk = vdev.children[j];
-                    path = disk.path;
-                    if (path.indexOf('/dev/') != 0) {
-                        path = '/dev/' + path;
+                if (vdev.children) {
+                    for (j = 0, disksLength = vdev.children.length; j < disksLength; j++) {
+                        disk = vdev.children[j];
+                        path = disk.path;
+                        if (path.indexOf('/dev/') != 0) {
+                            path = '/dev/' + path;
+                        }
+                        vdev.children[j] = {
+                            path: path,
+                            type: 'disk'
+                        };
                     }
-                    vdev.children[j] = {
-                        path: path,
-                        type: 'disk'
-                    };
-                }
 
-                if (vdev.children.length > 1) {
-                    type = vdev.type || this._getDefaultVdevType(vdev.children.length);
-                    storageType[i] = {
-                        children: vdev.children,
-                        type: type
+                    if (vdev.children.length > 1) {
+                        type = vdev.type || this._getDefaultVdevType(vdev.children.length);
+                        storageType[i] = {
+                            children: vdev.children,
+                            type: type
+                        }
+                    } else {
+                        storageType[i] = vdev.children[0];
                     }
-                } else {
-                    storageType[i] = vdev.children[0];
                 }
             }
             return storageType;
