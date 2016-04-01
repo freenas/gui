@@ -1,32 +1,42 @@
 .TopologyItem {
     position: relative;
     clear: both;
+    background: #2F3233;
 }
 
-.TopologyItem:nth-child(1) .TopologyItem-title { background: #C5891D; }
-.TopologyItem:nth-child(2) .TopologyItem-title { background: #3F8F8F; }
-.TopologyItem:nth-child(3) .TopologyItem-title { background: #414DA4; }
-.TopologyItem:nth-child(4) .TopologyItem-title { background: #666; }
 
 .TopologyItem-title {
-    padding: .5em 1em .5em;
+    position: relative;
+    line-height: 2em;
+    padding: .5em 1em;
+    padding-left: 1.5em;
     font-weight: 400;
+    background: #232629;
+    border-top: 2px solid currentColor;
+    overflow: hidden;
 }
 
 .TopologyItem-title:before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: .5em;
+    left: -1.4em;
+    top: -1em;
+    height: 4em;
+    background: currentColor;
+    width: 2em;
+    transform: rotate(17deg);
 }
+
+.TopologyItem:nth-child(1) .TopologyItem-title { color: #D75B1B; }
+.TopologyItem:nth-child(2) .TopologyItem-title { color: #CB6614; }
+.TopologyItem:nth-child(3) .TopologyItem-title { color: #D68E2A; }
+.TopologyItem:nth-child(4) .TopologyItem-title { color: #929E9F; }
 
 .TopologyItem-grid {
     display: flex;
     padding: 1em;
     padding-bottom: 0;
-    min-height: 6em;
+    min-height: 7em;
 }
 
 .TopologyItem .Grid {
@@ -35,10 +45,10 @@
 }
 
 .TopologyItem .Grid-icon {
-    float: left;
     display: flex;
-    width: auto;
-    height: auto;
+    width:  auto;
+    /*height: auto;*/
+    /*margin-bottom: 0;*/
 }
 
 .TopologyItem .LabeledIcon-image > * {
@@ -48,12 +58,14 @@
 
 /* Vdev Container */
 
-.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon {
-    margin-right: 1em;
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon {
+    /*margin-right: 1em;*/
+    position: relative;
+    min-height: 7em;
 }
 
 /* Title */
-.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-title {
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title {
     position: relative;
     order: -1;
     text-align: left;
@@ -64,7 +76,7 @@
 }
 
 /* status icon */
-.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-title:after {
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title:after {
     content: '';
     position: absolute;
     width: .8em;
@@ -83,14 +95,14 @@
 
 .TopologyItem-dropZone {
     position: relative;
-    margin: .25em;
+    /*margin: .25em;*/
     margin-bottom: 1em;
     color: rgba(255,255,255,.4);
     border: 1px dashed rgba(255,255,255,.1);
     border-radius: 4px;
     /* $fix - can we make the size better here?*/
     width: 4.5em;
-    height: 5.3em;
+    height: 7.3em;
     text-align: center;
     flex-shrink: 0;
 }

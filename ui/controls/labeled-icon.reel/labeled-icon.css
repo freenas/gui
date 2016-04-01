@@ -11,27 +11,26 @@
 }
 
 .LabeledIcon-image > * {
-    box-sizing: border-box;
-    padding: .25em;
     width:  3.5em;
     height: 3.5em;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .LabeledIcon-image svg {
     width: 100%;
+    max-height: 3.5em;
 }
 
 .LabeledIcon-label {
     display: inline-block;
-    font-size:      14px;
+    font-size:      .8em;
     line-height:    1;
     max-width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding: .2em .5em .3em;
 }
 
 /* States */

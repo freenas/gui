@@ -6,7 +6,7 @@
 
 .Topology .DiskIcon {
     height: 3em;
-    width: 3em;
+    width:  3em;
 }
 
 @-webkit-keyframes blink {

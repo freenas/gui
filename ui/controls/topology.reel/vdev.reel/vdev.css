@@ -1,9 +1,21 @@
 .Vdev {
+    position: relative;
     background:rgba(0,0,0,.15);
     padding: .25em;
-    border: solid 1px #333;
-    border-bottom-left-radius:  4px;
-    border-bottom-right-radius: 4px;
+    border-color: transparent;
+}
+
+
+/* border */
+.Vdev:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    border-width: 1px;
 }
 
 .Topology.update-mode .Vdev.unhealthy {
@@ -11,22 +23,22 @@
 }
 
 .Vdev .LabeledIcon {
-    flex-basis: 4em;
+    /*flex-basis: 4em;*/
     margin-bottom: 0;
 }
 
 .Vdev .Grid-repetition {
-    display: flex;
+    /*display: flex;*/
 }
 
 .Vdev .LabeledIcon-image svg {
-    width:  3em;
-    height: 3em;
+    /*width:  3em;*/
+    /*height: 3em;*/
 }
 
 
 /*FIXME: @joshua FYI */
-.Vdev.willAcceptDrop {
+.Vdev.willAcceptDrop:before {
     -webkit-animation-direction: normal;
     -webkit-animation-duration: 1s;
     -webkit-animation-iteration-count: infinite;
@@ -40,7 +52,7 @@
     border-style: dashed;
 }
 
-.Vdev.acceptDrop {
+.Vdev.acceptDrop:before {
     border: 1px dashed rgba(43,156,216,1);
     background-color: rgba(43,156,216,0.1);
 }
