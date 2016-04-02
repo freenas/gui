@@ -332,6 +332,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 notification.modelType = detail.service.toCamelCase();
                 notification.service = detail.operation;
                 notification.data = detail.operation === "delete" ? detail.ids : detail.entities;
+                notification.startedTime = Date.now(); //todo need verification
 
                 this.dispatchEventNamed("modelChange", true, true, notification);
                 this._addNotification(notification);

@@ -3,7 +3,8 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/inspectors/available-disks.reel"},
-            "collectionNameExpression": "'Available disks'"
+            "collectionNameExpression": "'Available disks'",
+            "nameExpression": "path"
         }
     }
 }

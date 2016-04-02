@@ -33,7 +33,7 @@ exports.ApplicationDelegate = Montage.specialize({
 
     getUserInterfaceDescriptorForType: {
         value: function (modelType, object) {
-            var key = modelType.typeName,
+            var key = modelType.typeName || modelType,
                 subType = "";
 
             //Fixme: should be generic
@@ -46,7 +46,7 @@ exports.ApplicationDelegate = Montage.specialize({
 
             if (!userInterfaceDescriptorPromise) {
                 userInterfaceDescriptorPromise = new Promise(function (resolve, reject) {
-                    var userInterfaceDescriptorPrefix = modelType.typeName.split(/(?=[A-Z])/).join("-").toLowerCase(),
+                    var userInterfaceDescriptorPrefix = key.split(/(?=[A-Z])/).join("-").toLowerCase(),
                         objectUserInterfaceDescriptorId = ModelUserInterfaceDescriptorsFolderPath;
 
                     objectUserInterfaceDescriptorId += userInterfaceDescriptorPrefix + subType + UserInterfaceDescriptorSuffix;
