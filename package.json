@@ -7,6 +7,7 @@
         "blue-shark": "freenas/blue-shark#0ba949a94ac8ebe25a661df9f5356c8127327d83",
         "montage-data": "montagestudio/montage-data#3b6e725ade888b18be6118d618bcbe8d88456d5e",
         "digit": "montagejs/digit",
+        "frb": "~0.2.18",
         "validators": "~0.3.1"
     },
     "devDependencies": {
