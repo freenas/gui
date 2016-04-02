@@ -137,11 +137,22 @@ exports.Topologizer = Component.specialize({
         }
     },
 
+    _getTriangleEmentPosition: {
+        value: function() {
+            var boundingRect = this.triangleElement.getBoundingClientRect();
+            return {
+                x: boundingRect.left,
+                y: boundingRect.top
+            };
+        }
+    },
+
     handleMousedown: {
         value: function (event) {
+            var triangleElementPosition = this._getTriangleEmentPosition();
             this._targePosition = {
-                x: event.layerX,
-                y: event.layerY
+                x: event.pageX - triangleElementPosition.x,
+                y: event.pageY - triangleElementPosition.y
             };
             this.handlePosition = this._targePosition;
             this._pointerPosition = {
