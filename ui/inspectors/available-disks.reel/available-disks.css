@@ -12,9 +12,28 @@
     margin-top: 0;
 }
 
-/* $fix - this may need to be global */
-.AvailableDisks .FoldableSection-contentContainer {
-    padding-bottom: 0;
+/* $fix - Edits to disk icon size - same code as topology */
+
+.AvailableDisks .Grid-icon {
+    width: auto;
+    height: auto;
+    margin-bottom: 0;
 }
+
+.AvailableDisks .LabeledIcon-image {
+    max-height: 3.5em;
+}
+
+.AvailableDisks .LabeledIcon-image > * {
+    width: auto;
+    height: auto;
+}
+
+
+.AvailableDisks .DiskIcon {
+    width: 2.5em;
+    padding: .25em;
+}
+
 
 
