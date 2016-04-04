@@ -24,6 +24,7 @@ filter
 /* icon */
 
 .Notifications-filterButton {
+    display: none;
     position: absolute;
     right: 0;
     top: 50%;

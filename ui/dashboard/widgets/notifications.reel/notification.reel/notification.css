@@ -1,7 +1,7 @@
 .Notification {
     display: flex;
     align-items: flex-start;
-    padding: .75em .5em;
+    padding: .5em .5em;
 }
 
 .Notification:nth-child(even) {
@@ -9,16 +9,20 @@
 }
 
 .Notification-body {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     font-size: .85em;
     letter-spacing: .5px;
-    /*-webkit-font-smoothing: antialiased;*/
-    flex: 1;
+    margin-top: 0.1em;
 }
 
 .Notification-small {
     margin-top: .3em;
     font-size: .75em;
     color: rgba(255,255,255,.5);
+    margin-left: .5em;
 }
 
 /* Icon */
@@ -28,6 +32,7 @@
     width:  1.5em;
     height: 1.5em;
     margin-right: .5em;
+    flex-grow: 0;
 }
 
 .Notification--event svg { color: grey; }

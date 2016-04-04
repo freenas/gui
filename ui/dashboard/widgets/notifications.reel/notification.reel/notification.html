@@ -17,7 +17,8 @@
                 "element": {"#": "modelType"}
             },
             "bindings": {
-                "value": {"<-": "@owner.summary"}
+                "value": {"<-": "@owner.summary"},
+                "classList.has('hide')": {"<-": "!@owner.summary"}
             }
         },
         "service": {
@@ -26,7 +27,8 @@
                 "element": {"#": "service"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.service"}
+                "value": {"<-": "@owner.object.service"},
+                "classList.has('hide')": {"<-": "!@owner.object.service"}
             }
         },
         "state": {
@@ -35,7 +37,8 @@
                 "element": {"#": "state"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"}
+                "value": {"<-": "@owner.object.taskName"},
+                "classList.has('hide')": {"<-": "!@owner.object.taskName"}
             }
         },
         "converter": {
