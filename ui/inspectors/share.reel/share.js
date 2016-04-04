@@ -79,27 +79,31 @@ exports.Share = Component.specialize({
                 basename = this._filesystemService.basename(targetPath),
                 isDatasetPromise;
 
-            return this._filesystemService.listDir(this._filesystemService.dirname(targetPath)).then(function(children) {
-                if (children.filter(function(x) { return x.name == basename }).length > 0) {
-                    isDatasetPromise = self._volumeService.decodePath(targetPath).then(function(pathComponents) {
-                        return pathComponents[2].length == 0;
-                    });
-                } else {
-                    isDatasetPromise = Promise.resolve(true)
-                }
-                return isDatasetPromise;
-            }).then(function(isDataset) {
-                if (isDataset) {
-                    return self._volumeService.decodePath(targetPath).then(function(pathComponents) {
-                        self.object.target_type = 'DATASET';
-                        self.object.target_path = self._filesystemService.join(pathComponents[1], pathComponents[2]);
-                    });
-                } else {
-                    self.object.target_type = 'DIRECTORY';
-                    self.object.target_path = targetPath;
-                    return null;
-                }
-            });
+            if (!this.object.target_type) {
+                return this._filesystemService.listDir(this._filesystemService.dirname(targetPath)).then(function(children) {
+                    if (children.filter(function(x) { return x.name == basename }).length > 0) {
+                        isDatasetPromise = self._volumeService.decodePath(targetPath).then(function(pathComponents) {
+                            return pathComponents[2].length == 0;
+                        });
+                    } else {
+                        isDatasetPromise = Promise.resolve(true)
+                    }
+                    return isDatasetPromise;
+                }).then(function(isDataset) {
+                    if (isDataset) {
+                        return self._volumeService.decodePath(targetPath).then(function(pathComponents) {
+                            self.object.target_type = 'DATASET';
+                            self.object.target_path = self._filesystemService.join(pathComponents[1], pathComponents[2]);
+                        });
+                    } else {
+                        self.object.target_type = 'DIRECTORY';
+                        self.object.target_path = targetPath;
+                        return null;
+                    }
+                });
+            } else {
+                return Promise.resolve();
+            }
         }
     },
 
