@@ -13,12 +13,11 @@
             }
         },
         "profiles": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "blue-shark/ui/select.reel",
             "properties": {
                 "element": {"#": "profiles"},
-                "label": "Profile",
                 "options": [
-                    { "label": "",                  "value": ""},
+                    { "label": "Select a profile",  "value": ""},
                     { "label": "Media",             "value": "MEDIA" },
                     { "label": "Virtualization",    "value": "VIRTUALIZATION" },
                     { "label": "Backup",            "value": "BACKUP" },
@@ -67,13 +66,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Topologizer">
-        <div data-montage-id="profiles" class="Topologizer-profiles"></div>
-        <div>
+        <div class="Topologizer-graph">
             <div data-montage-id="triangle" class="Topologizer-triangle">
                 <svg width="124" height="108" viewBox="0 0 124 108" xmlns="http://www.w3.org/2000/svg">
                     <title>topologizer</title>
                     <g fill="none" fill-rule="evenodd">
-                    <path stroke="#9B9B9B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M62 7l55 95H7z"/>
+                    <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M62 7l55 95H7z"/>
                     <path class="Topologizer-color-speed" d="M62 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" stroke="#2E74C6" stroke-width="3" fill="#529CF3"/>
                     <path class="Topologizer-color-storage" d="M117 106c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" stroke="#87508F" stroke-width="3" fill="#BB78C5"/>
                     <path class="Topologizer-color-redundancy" d="M7 106c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z" stroke="#92650B" stroke-width="3" fill="#DE9B16"/></g></svg>
@@ -81,6 +79,7 @@
             </div>
         </div>
         <div class="Topologizer-legend">
+            <div data-montage-id="profiles" class="Topologizer-profiles g-margin-bottom"></div>
             <div class="Topologizer-legend-item">
                 <span class="Topologizer-legend-item-marker Topologizer-color-speed"></span>
                 <span class="Topologizer-legend-item-label">Speed</span>

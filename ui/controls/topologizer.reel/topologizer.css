@@ -6,7 +6,6 @@
     -o-user-select: none;
     user-select: none;
     padding: 1em;
-    padding-bottom: 2em;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -14,14 +13,13 @@
     background: rgba(0,0,0,.2);
 }
 
-.Topologizer > * {
-    flex-shrink: 0;
-    flex-grow: 0;
+.Topologizer-graph {
+    margin-left:  .5em;
 }
 
-.Topologizer-profiles {
-    width: 100%;
-    margin-bottom: .5em;
+.Topologizer-legend {
+    flex: 1;
+    margin-left: 2em;
 }
 
 .Topologizer-legend-item { display: flex; }
@@ -50,23 +48,32 @@
 
 .Topologizer-legend-item-score {
     font-weight: 400;
-    width: 1em;
+    width: 2em;
     text-align: right;
 }
 
-.Topologizer-legend-item-score.is-first-priority,
+/*.Topologizer-legend-item-score.is-first-priority,
 .Topologizer-legend-item-score.is-second-priority {
     font-weight: 600;
-}
+}*/
 
-.Topologizer-legend-item-score.is-first-priority {
+/*.Topologizer-legend-item-score.is-first-priority {
     text-decoration: underline;
-}
+}*/
+
+
 
 .Topologizer-triangle {
     position: relative;
     width: 110px;
     height: 95px;
+    cursor: pointer;
+    color: #9B9B9B;
+    transition: color .25s;
+}
+
+.Topologizer-triangle:hover {
+    color: #fff;
 }
 
 .Topologizer-triangle svg {
@@ -85,7 +92,7 @@
     position: absolute;
     margin-left: -.5em;
     margin-top:  -.5em;
-    border: 5px solid #ccc;
+    border: 5px solid currentColor;
     top:  50%;
     left: 50%;
     cursor: default;
