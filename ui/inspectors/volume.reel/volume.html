@@ -31,6 +31,16 @@
                 "value": {"<-": "@owner.object.properties.size.rawvalue"}
             }
         },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
         "shares": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -86,10 +96,12 @@
                 <div data-montage-id="size" class="Volume-header-info-size"></div>
             </div>
         </div>
-        <div data-montage-id="shares"></div>
-        <div data-montage-id="snapshots"></div>
-        <div data-montage-id="scrub"></div>
-        <div data-montage-id="topology"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="shares"></div>
+            <div data-montage-id="snapshots"></div>
+            <div data-montage-id="scrub"></div>
+            <div data-montage-id="topology"></div>
+        </div>
     </div>
 </body>
 </html>
