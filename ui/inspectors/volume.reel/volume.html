@@ -66,6 +66,12 @@
             "bindings": {
                 "object": {"<-": "@owner.object.topology"}
             }
+        },
+        "volumeIcon": {
+            "prototype": "ui/icons/volume.reel",
+            "properties": {
+                "element": {"#": "volumeIcon"}
+            }
         }
     }
     </script>
@@ -74,11 +80,9 @@
     <div data-montage-id="owner" class="Volume">
         <div class="Volume-header">
             <div class="Volume-header-icon">
-                <img src="256.png">
+                <div data-montage-id="volumeIcon"></div>
             </div>
             <div class="Volume-header-info">
-                <div>Status Info</div>
-                <div>Additional Info</div>
                 <div data-montage-id="size" class="Volume-header-info-size"></div>
             </div>
         </div>
