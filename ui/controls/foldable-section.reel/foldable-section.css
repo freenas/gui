@@ -29,6 +29,7 @@
 .FoldableSection .InspectorSectionTitle {
     margin-top:     0;
     margin-bottom:  0;
+    transition: background-color .25s, color .25s;
 }
 
 /* content */
@@ -69,12 +70,9 @@
     height: 1.4em;
     transform: rotate(90deg);
     color: #6D6D6D;
-    transition-property: color, transform;
-    /*transition-duration: .25s;*/
-    transition-timing-function: ease-in-out;
 }
 
-.FoldableSection-expand:hover svg { color: #fff; }
+.FoldableSection-expand:hover svg { color: currentColor; }
 
 .FoldableSection.is-expanded .FoldableSection-expand svg {
     transform: rotate(-90deg) rotateX(-180deg);
