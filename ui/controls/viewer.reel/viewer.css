@@ -11,7 +11,7 @@
     display: flex;
     flex-shrink: 0;
     flex-wrap: wrap;
-    background: rgba(25,71,129,0.1);
+    background: #2A2E33;
 }
 
 .Viewer-footer {
@@ -25,17 +25,23 @@
     margin-top: -2px;
     display: flex;
     align-items: center;
-    height:         43px;
-    line-height:    43px;
-    padding-left:   16px;
+    height:         3em;
+    line-height:    3em;
+    padding-left:   1em;
     position: relative;
     cursor: pointer;
     overflow: hidden;
     position: relative;
     outline: none;
-    background-color: #40AD40;
-    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.1));
+    background-color: #1E9440;
+    color: #DFE4E4;
+    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.15));
     box-shadow: inset 0 1px 0 rgba(255,255,255,.2);
+    transition: background-color .25s;
+}
+
+.Viewer-createButton:hover {
+    background-color: #0E722B;
 }
 
 .Viewer-createButton svg {
@@ -67,7 +73,6 @@
     text-shadow: 0 1px 1px rgba(0,0,0,.3);
 }
 
-.Viewer-createButton:hover { background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.25)); }
 
 .Viewer-createButton:hover > * { color: #FFF; }
 
