@@ -6,30 +6,4 @@
     margin: 0;
 }
 
-.VolumeCreator-header {
-    padding: 1em;
-    display: flex;
-    background: #B0BBBD;
-    color: #181A1D;
-}
 
-/* Icon */
-
-.VolumeCreator-header-icon {
-    width: 6em;
-    margin-right: 2em;
-}
-
-.VolumeCreator-header-icon img { width:  100%; }
-
-/* Info */
-
-.VolumeCreator-header-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.VolumeCreator-header-info-size {
-    font-size: 1.5em;
-}
