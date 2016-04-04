@@ -34,7 +34,7 @@
 
 .TopologyItem-grid {
     display: flex;
-    padding: 1em;
+    padding: .5em;
     padding-bottom: 0;
     min-height: 7em;
 }
@@ -59,6 +59,14 @@
 
 .TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon {
     height: auto;
+    margin-bottom: .5em;
+}
+
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-image {
+    background:rgba(0,0,0,.15);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.3);
 }
 
 /* Title */
@@ -69,20 +77,20 @@
     background: #222;
     border-top-right-radius: 4px;
     border-top-left-radius:  4px;
-    padding: .25em .25em .15em .25em;
+    padding: .25em .5em;
 }
 
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title {}
+
 /* status icon */
-.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title:after {
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title:before {
     content: '';
-    position: absolute;
-    width: .8em;
+    display: inline-block;
+    width:  .8em;
     height: .8em;
-    right: .5em;
-    top: 50%;
-    margin-top: -.4em;
     background: green;
     border-radius: .5em;
+    margin-bottom: .02em;
 }
 
 /* Grid Container*/
@@ -92,14 +100,13 @@
 
 .TopologyItem-dropZone {
     position: relative;
-    /*margin: .25em;*/
     margin-bottom: 1em;
     color: rgba(255,255,255,.4);
     border: 1px dashed rgba(255,255,255,.1);
     border-radius: 4px;
     /* $fix - can we make the size better here?*/
     width: 4.5em;
-    height: 7.3em;
+    height: 6.9em;
     text-align: center;
     flex-shrink: 0;
 }
