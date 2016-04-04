@@ -18,3 +18,8 @@
 .Permissions .Checkbox label:before {
     margin-right: 0;
 }
+
+.Permissions tr:not(:first-child) th {
+    width: 6.5em;
+    text-align: right;
+}
