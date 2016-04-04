@@ -31,6 +31,7 @@ exports.VolumeCreator = Component.specialize({
 
     _initializeTopology: {
         value: function (object) {
+            object = object || this._object;
             object.topology = this.application.dataService.getDataObject(Model.ZfsTopology);
             object.topology.cache = [];
             object.topology.data = [];
@@ -70,6 +71,7 @@ exports.VolumeCreator = Component.specialize({
                 }
                 Promise.all(disksVolumesPromises).then(function () {
                     self.disks = disks.filter(function (x) { return !x.volume });
+                    self.selectedObject = self.unassignedDisks;
                 });
             });
         }

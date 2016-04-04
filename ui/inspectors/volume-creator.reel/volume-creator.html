@@ -13,21 +13,6 @@
                 "unassignedDisks": {"<-": "@owner.disks.filter{!volume && !!status}"}
             }
         },
-
-        "bytesConverter": {
-            "prototype": "montage/core/converter/bytes-converter"
-        },
-
-        "size": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "size"},
-                "converter": {"@": "bytesConverter"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.properties.size.rawvalue"}
-            }
-        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -84,21 +69,11 @@
 </head>
 <body>
     <div data-montage-id="owner" class="VolumeCreator">
-        <div class="VolumeCreator-header">
-            <div class="VolumeCreator-header-icon">
-                <img src="256.png">
-            </div>
-            <div class="VolumeCreator-header-info">
-                <div>Status Info</div>
-                <div>Additional Info</div>
-                <div data-montage-id="size" class="VolumeCreator-header-info-size"></div>
-            </div>
-        </div>
+        <div data-montage-id="topologizer"></div>
         <div data-montage-id="inspector">
             <div class="g-margin-sides g-padding-top">
                 <div data-montage-id="name"></div>
             </div>
-            <div data-montage-id="topologizer"></div>
             <div data-montage-id="topology"></div>
             <div data-montage-id="availableDisks"></div>
         </div>
