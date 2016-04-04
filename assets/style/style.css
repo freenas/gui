@@ -33,7 +33,7 @@ body {
     font-family: 'Lato', 'helvetica neue', 'helvetica', 'sans-serif';
     font-weight: 300;
     background: #333;
-    color: #FFF;
+    color: #929E9F;
     display: flex;
     flex-direction: column;
 }
@@ -133,11 +133,6 @@ $Icons
     text-shadow: none;
 }
 
-/*label {
-    font-weight: 200;
-    color: rgba(255, 255, 255, .8);
-}*/
-
 /*input { height: 2em; }*/
 
 .ApplicationModal {
@@ -178,8 +173,16 @@ $Icons
     margin-right: 1em;
 }
 
+.g-margin-bottom {
+    margin-bottom: 1em;
+}
+
 /* typography  helpers */
 
 .bold {
     font-weight: 400;
+}
+
+.hide {
+    display: none;
 }
