@@ -6,6 +6,20 @@
     width: 100%;
 }
 
+.Configuration table {
+    /*background-color: #B0BBBD;*/
+    margin-bottom: 0;
+    /*color: #16171A;*/
+}
+
+.Configuration th {
+    text-align: left;
+    line-height: 1em;
+    padding: .5em 1em;
+    font-weight: 300;
+    color: #E9FDFF;
+}
+
 table {
     margin: 0;
     margin-bottom: 1em;
@@ -15,10 +29,17 @@ table {
 }
 
 thead {
-    background: #4F4F4F;
-    color: rgba(255,255,255,.8);
-    margin-bottom: 1em;
+    font-weight: 400;
+    /*background: #242628;*/
+    background: rgba(0,0,0,.2);
+    color: #fff;
+    line-height:1em;
 }
+
+thead td {
+    padding: .5em 1em;
+}
+
 tbody {}
 
 tr {
@@ -27,5 +48,10 @@ tr {
 
 td {
     margin: 0;
-    padding: .25em 1em;
+    padding: 0 1em;
+    line-height: 2em;
+}
+
+.Configuration table tr:nth-child(even) {
+    background-color: rgba(0,0,0,.1);
 }
