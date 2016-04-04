@@ -1,10 +1,13 @@
-.ShareCreator {
-
-}
+.ShareCreator {}
 
 .ShareCreator-header {
-    padding: 1em;
+    padding: .5em;
     display: flex;
+}
+
+/* $fix - header should be in cascading list */
+.ShareCreator-header > * {
+    line-height: 2em;
 }
 
 /* Icon */
