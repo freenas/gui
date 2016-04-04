@@ -1,16 +1,17 @@
 .ListItem {
     display: flex;
     align-items: center;
-    height: 43px;
-    line-height: 43px;
-    padding-left: 16px;
+    height:         3em;
+    line-height:    3em;
+    padding-left: 1em;
     position: relative;
     font-family: 'lato', 'Helvetica Neue', 'Helvetica', sans-serif;
     font-weight: 300;
     cursor: pointer;
     overflow: hidden;
     position: relative;
-    background: rgba(255,255,255,.05);
+    background-color: #232629;
+    transition: background-color .25s, color .25s;
 }
 
 .ListItem-label {
@@ -21,7 +22,12 @@
 }
 
 .ListItem:hover {
-    background: rgba(255,255,255,.1);
+    background-color: #33373B;
+    color: #FFF;
+}
+
+.ListItem:hover .ListItem-icon > * {
+    color: #fff;
 }
 
 /* gives the size to the icon */
@@ -30,6 +36,8 @@
     width:  1.8em;
     height: 1.8em;
     margin-right: 1em;
+    color: currentColor;
+    transition: color .25s;
 }
 
 /* List Item arrow */
@@ -38,7 +46,7 @@
     width: 1.4em;
     display: flex;
     margin-right: .5em;
-    color: #ddd;
+    color: currentColor;
 }
 
 .ListItem-arrow svg {
