@@ -58,6 +58,13 @@
                     "converter": {"@": "converter"}
                 }
             }
+        },
+        "progress": {
+            "prototype": "blue-shark/ui/progress.reel",
+            "properties": {
+                "element": {"#": "progress"},
+                "percentageComplete": 50
+            }
         }
     }
     </script>
@@ -72,6 +79,7 @@
             <div data-montage-id="service" class="Notification-small"></div>
             <div data-montage-id="state"></div>
             <div data-montage-id="timestamp" class="Notification-small"></div>
+            <div data-montage-id="progress" class="Notification-progress"></div>
         </div>
     </div>
 </body>
