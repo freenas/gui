@@ -48,21 +48,17 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
-
     authorizationPolicy: {
         value: DataService.AuthorizationPolicyType.UpfrontAuthorizationPolicy
     },
-
 
     providesAuthorization: {
         value: true
     },
 
-
     _authorizationServices: {
         value: null
     },
-
 
     authorizationServices: {
         get: function () {
@@ -70,11 +66,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
-
     authorizationPanel: {
         value: "ui/sign-in.reel"
     },
 
+    _keepAliveInterval: {
+        value: null
+    },
 
     loginWithCredentials: {
         value: function (_username, _password) {
@@ -85,6 +83,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 password : _password
             }).then(function (response) {
                 return self._startListenToBackendEvents().then(function () {
+                    if (self._keepAliveInterval) {
+                        clearInterval(self._keepAliveInterval)
+                    }
+                    self._keepAliveInterval = setInterval(function() {
+                        self.backendBridge.send("rpc", "call", {
+                            method: "session.whoami",
+                            args: []
+                        });
+                    }, 30000);
                     //FIXME:
                     //This is a response object. We need to extract data and turn it into
                     //a user objet using the User.objectDescriptor.
@@ -93,7 +100,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             });
         }
     },
-
 
 /*----------------------------------------------------------------------------------------------------------------------
                                                     DataService
