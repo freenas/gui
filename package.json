@@ -4,7 +4,7 @@
     "dependencies": {
         "collections": "montagejs/collections#master",
         "montage": "montagejs/montage#f08073367cfe4fa9e5a501ee0ae98d27c5afe240",
-        "blue-shark": "freenas/blue-shark#2402ac3af4d73abb1223ba373dd85b5121944abc",
+        "blue-shark": "freenas/blue-shark#dc5c7fbbb220149cc85903821e575f3357253391",
         "montage-data": "montagestudio/montage-data#3b6e725ade888b18be6118d618bcbe8d88456d5e",
         "digit": "montagejs/digit",
         "frb": "~0.2.18",
