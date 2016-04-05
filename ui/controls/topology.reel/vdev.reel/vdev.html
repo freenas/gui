@@ -11,13 +11,14 @@
                 "disksGrid": {"@": "disksGrid"}
             },
             "bindings": {
-                "classList.has('unhealthy')": {"<-": "@owner.object.status != 'ONLINE'"}
+                "classList.has('unhealthy')": {"<-": "@owner.object.status != 'ONLINE'"},
+                "children": {"<-": "@owner.object.children.defined() && @owner.object.children.length > 0 ? @owner.object.children : [@owner.object]"}
             }
         },
         "controller": {
             "prototype": "montage/core/range-controller",
             "bindings": {
-                "content": {"<-": "@owner.object.children.defined() && @owner.object.children.length > 0 ? @owner.object.children : [@owner.object]"}
+                "content": {"<-": "@owner.children"}
             }
         },
         "disksGrid": {
@@ -25,7 +26,7 @@
             "properties": {
                 "element": {"#": "disksGrid"},
                 "controller": {"@": "controller"},
-                "labelPath": "path",
+                "labelPath": "path.replace('/dev/', '')",
                 "icon": "ui/icons/disk.reel"
             }
         }

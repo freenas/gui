@@ -7,8 +7,22 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "allocationBarElement": {"#": "allocationBar"},
+                "parityBarElement": {"#": "parityBar"},
+                "usedBarElement": {"#": "usedBar"},
+                "availableBarElement": {"#": "availableBar"}
+            },
+            "bindings": {
+                "availableSize": {"<-": "@owner.vdevs.map{_availableSize}.sum()"},
+                "paritySize": {"<-": "@owner.vdevs.map{_paritySize}.sum()"},
+                "usedSize": {"<-": "@owner.vdevs.map{_usedSize}.sum()"},
+                "usableSize": {"<-": "@owner.availableSize + @owner.usedSize"},
+                "totalSize": {"<-": "@owner.usableSize + @owner.paritySize"}
             }
+        },
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
         },
         "name": {
             "prototype": "montage/ui/text.reel",
@@ -17,6 +31,26 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.name"}
+            }
+        },
+        "usableSize": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "usableSize"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.usableSize"}
+            }
+        },
+        "allocationBar": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "allocationBar"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.hasAllocationBar"}
             }
         },
         "controller": {
@@ -51,7 +85,17 @@
 <body>
     <div data-montage-id="owner" class="TopologyItem">
 
-        <div data-montage-id="name" class="TopologyItem-title"></div>
+        <div class="TopologyItem-title">
+            <span data-montage-id="name"></span>
+            <span class="TopologyItemTitle-size">
+                <span data-montage-id="usableSize"></span>
+            </span>
+            <div data-montage-id="allocationBar" class="TopologyItemTitle-allocation">
+                <div data-montage-id="parityBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-parity" title="Parity"></div>
+                <div data-montage-id="usedBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-used" title="Used"></div>
+                <div data-montage-id="availableBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-available" title="Available"></div>
+            </div>
+        </div>
 
         <div class="TopologyItem-grid">
             <div data-montage-id="vdevsGrid" class="TopologyItem-vdevsGrid"></div>

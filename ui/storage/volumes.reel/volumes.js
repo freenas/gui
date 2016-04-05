@@ -101,11 +101,11 @@ exports.Volumes = Component.specialize({
             var self = this;
 
             if (isFirstTime) {
-                self.addRangeAtPathChangeListener("shares", this, "handleSharesChange");
-                self.addRangeAtPathChangeListener("volumes", this, "handleVolumesChange");
-                self.addRangeAtPathChangeListener("_volumes", this, "handleVolumesChange");
-                self.addRangeAtPathChangeListener("disks", this, "handleDisksChange");
                 this._initializeServices().then(function() {
+                    self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
+                    self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
+                    self.addRangeAtPathChangeListener("_volumes", self, "handleVolumesChange");
+                    self.addRangeAtPathChangeListener("disks", self, "handleDisksChange");
                     self.type = Model.Volume;
                     self._listVolumes().then(function(volumes) {
                         self._volumes = volumes;
@@ -164,58 +164,50 @@ exports.Volumes = Component.specialize({
             }
             for (i = 0, volumesLength = addedVolumes.length; i < volumesLength; i++) {
                 volume = addedVolumes[i];
-                for (j = 0, disksLength = this.disks.length; i < disksLength; i++) {
-                    disk = this.disks[i];
-                    if (disk.status) {
-                        this._checkIfDiskIsAssignedToVolume(disk, volume);
-                    }
-                }
                 volume.shares = this.shares;
                 volume.snapshots = this.snapshots;
                 volume.disks = this.disks;
                 volume.scrubs = this._dataService.getDataObject(Model.Scrub);
                 this._volumesById[volume.id] = volume;
+                this._assignVolumeToDisks();
             }
         }
     },
 
     handleDisksChange: {
         value: function(disks) {
-            var self = this,
-                i, disksLength, disk,
-                j, volumesLength, volume,
-                disksVolumesPromises = [];
-            for (i = 0, disksLength = disks.length; i < disksLength; i++) {
-                disk = disks[i];
-                if (disk.status) {
-                    for (j = 0, volumesLength = this._volumes.length; j < volumesLength; j++) {
-                        volume = this._volumes[j];
-                        disksVolumesPromises.push(this._checkIfDiskIsAssignedToVolume(disk, volume));
-                    }
-                }
-            }
-            Promise.all(disksVolumesPromises).then(function() {
-                self._spareDisks.splice(0, self._spareDisks.length);
-                Array.prototype.push.apply(self._spareDisks, self.disks.filter(function(x) { return !x.volume }));
-            });
+            this._assignVolumeToDisks(disks);
         }
     },
 
-    _checkIfDiskIsAssignedToVolume: {
-        value: function (disk, volume) {
+    _assignVolumeToDisks: {
+        value: function (disks) {
+            disks = disks || this.disks;
             var self = this,
-                volumeDisksPromise;
-            if (this._volumeDisksPromises[volume.id]) {
-                volumeDisksPromise = this._volumeDisksPromises[volume.id];
-            } else {
-                this._volumeDisksPromises[volume.id] = volumeDisksPromise = this._volumeService.getVolumeDisks(volume.id);
-            }
-            return volumeDisksPromise.then(function(volumeDisks) {
-                delete self._volumeDisksPromises[volume.id];
-                volume.assignedDisks = volumeDisks;
-                if (volumeDisks.indexOf('/dev/' + disk.status.gdisk_name) != -1) {
-                    disk.volume = volume;
-                }
+                i, disksLength, disk;
+            disks = disks.filter(function (x) {
+                return !!x.status;
+            });
+            Promise.all(disks.map(function (x) {
+                return x.status
+            })).then(function () {
+                disks.map(function (x) {
+                    x._devicePath = '/dev/' + x.status.gdisk_name
+                });
+                self._volumeService.getDisksAllocation(disks.map(function (x) {
+                    return x._devicePath
+                })).then(function (disksAllocations) {
+                    for (i = 0, disksLength = disks.length; i < disksLength; i++) {
+                        disk = disks[i];
+                        if (disksAllocations[disk._devicePath]) {
+                            disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
+                        }
+                    }
+                    self._spareDisks.splice(0, self._spareDisks.length);
+                    Array.prototype.push.apply(self._spareDisks, self.disks.filter(function (x) {
+                        return !x.volume
+                    }));
+                });
             });
         }
     },

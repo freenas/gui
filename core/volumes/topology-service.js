@@ -198,6 +198,9 @@ exports.TopologyService = Montage.specialize({
                 };
             }
 
+            topology.cache = [];
+            topology.log = [];
+            topology.spare = [];
             topology.data = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
             return vdevRecommendation.priorities;
         }
