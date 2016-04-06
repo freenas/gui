@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Main</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "main"}
+            }
+        },
+        "groups": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "groups"},
+                "isSelectionEnabled": true
+            },
+            "bindings": {
+                "content": {"<-": "@owner.data"}
+            }
+        },
+        "group": {
+            "prototype": "gui/ui/accounts/group.reel",
+            "properties": {
+                "element": {"#": "group"}
+            },
+            "bindings": {
+                "object": {"<-": "@groups:iteration.object"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="main" class="Main">
+        <!-- for demo -->
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <symbol id="i-menu" viewBox="0 0 32 32">
+                <title>Menu Icon</title>
+                <g fill="currentColor" fill-rule="evenodd">
+                <rect x="14" y="14" width="6" height="6" rx="3"/>
+                <rect x="23" y="14" width="6" height="6" rx="3"/>
+                <rect x="5" y="14" width="6" height="6" rx="3"/></g>
+            </symbol>
+            <symbol id="i-plus" viewBox="0 0 32 32">
+                <title>Plus Icon</title>
+                <g fill="currentColor" fill-rule="evenodd"><path d="M15 3v27h2V2h-2v1z"/><path d="M3 17h27v-2H2v2h1z"/></g>
+            </symbol>
+        </svg>
+        <!-- end -->
+
+        <div data-montage-id="groups" class="xmultiple-select">
+            <div data-montage-id="group"></div>
+        </div>
+    </div>
+</body>
+</html>

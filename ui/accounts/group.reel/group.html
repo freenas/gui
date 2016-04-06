@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="group.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "nameInput": {"@": "name"},
+                "deleteButton": {"@": "deleteButton"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": { "@": "owner" }
+                }
+            ]
+        },
+        "name": {
+            "prototype": "blue-shark/ui/text-field.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "enabled": false
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "id": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "id"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.id"}
+            }
+        },
+        "sudo": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "sudo"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.sudo"},
+                "label": {"<-":"'sudo'"}
+            }
+        },
+        "menuButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "menuButton"}
+            }
+        },
+        "selectBox": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "selectBox"}
+            }
+        },
+        "editButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "editButton"},
+                "label": "Edit"
+            }
+        },
+        "deleteButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "deleteButton"},
+                "label": "Delete"
+            }
+        },
+        "saveButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "saveButton"},
+                "label": "Save"
+            }
+        },
+        "errorMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "errorMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "'Group name contains invalid characters'"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Group">
+        <div class="Group-info">
+            <div class="Group-id">
+                <div data-montage-id="id" class="Group-id-value"></div>
+            </div>
+            <div data-montage-id="name" class="Group-name"></div>
+            <div data-montage-id="sudo" class="Group-sudo"></div>
+        </div>
+        <div class="Group-menu">
+            <div data-montage-id="menuButton" class="Group-menuButton">
+                <svg class="Group-menuIcon"><use xlink:href="#i-menu"/></svg>
+                <svg class="Group-closeIcon"><use xlink:href="#i-plus"/></svg>
+            </div>
+            <div data-montage-id="selectBox" class="Group-selectBox"></div>
+            <div data-montage-id="editButton" class="Group-editButton Group-button"></div>
+            <div data-montage-id="saveButton" class="Group-saveButton Group-button"></div>
+            <div data-montage-id="deleteButton" class="Group-deleteButton Group-button"></div>
+        </div>
+        <div data-montage-id="errorMessage" class="Group-errorMessage"></div>
+    </div>
+</body>
+</html>
