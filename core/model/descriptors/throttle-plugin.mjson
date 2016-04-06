@@ -12,7 +12,10 @@
     "properties": {
       "name": "name",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "String",
+      "enumValues": [
+        "throttle"
+      ]
     }
   },
   "blueprint_throttleplugin_read_fd": {

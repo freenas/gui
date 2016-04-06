@@ -620,6 +620,222 @@
             }
         }
     },
+    "DsdConfiguration": {
+        "class": {
+            "activedirectoryContextFini": {
+                "method": "dsd.configuration.activedirectory_context_fini",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "activedirectoryContextInit": {
+                "method": "dsd.configuration.activedirectory_context_init",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "activedirectoryContextUpdate": {
+                "method": "dsd.configuration.activedirectory_context_update",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureActivedirectory": {
+                "method": "dsd.configuration.configure_activedirectory",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureHostname": {
+                "method": "dsd.configuration.configure_hostname",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureHosts": {
+                "method": "dsd.configuration.configure_hosts",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureKerberos": {
+                "method": "dsd.configuration.configure_kerberos",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureLdap": {
+                "method": "dsd.configuration.configure_ldap",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureNssldap": {
+                "method": "dsd.configuration.configure_nssldap",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureNsswitch": {
+                "method": "dsd.configuration.configure_nsswitch",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureOpenldap": {
+                "method": "dsd.configuration.configure_openldap",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configurePam": {
+                "method": "dsd.configuration.configure_pam",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureSamba": {
+                "method": "dsd.configuration.configure_samba",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "configureSssd": {
+                "method": "dsd.configuration.configure_sssd",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "create": {
+                "method": "dsd.configuration.create",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "delete": {
+                "method": "dsd.configuration.delete",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "directoryContextFini": {
+                "method": "dsd.configuration.directory_context_fini",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "directoryContextInit": {
+                "method": "dsd.configuration.directory_context_init",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "directoryContextUpdate": {
+                "method": "dsd.configuration.directory_context_update",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "disable": {
+                "method": "dsd.configuration.disable",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "dsIsActivedirectory": {
+                "method": "dsd.configuration.ds_is_activedirectory",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "dsIsLdap": {
+                "method": "dsd.configuration.ds_is_ldap",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "enable": {
+                "method": "dsd.configuration.enable",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getDcs": {
+                "method": "dsd.configuration.get_dcs",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getDirectoryServices": {
+                "method": "dsd.configuration.get_directory_services",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getGcs": {
+                "method": "dsd.configuration.get_gcs",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getKdcs": {
+                "method": "dsd.configuration.get_kdcs",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getKerberosTicket": {
+                "method": "dsd.configuration.get_kerberos_ticket",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getSupportedDirectories": {
+                "method": "dsd.configuration.get_supported_directories",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "joinActivedirectory": {
+                "method": "dsd.configuration.join_activedirectory",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "kerberosContextFini": {
+                "method": "dsd.configuration.kerberos_context_fini",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "kerberosContextInit": {
+                "method": "dsd.configuration.kerberos_context_init",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "kerberosContextUpdate": {
+                "method": "dsd.configuration.kerberos_context_update",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "ldapContextFini": {
+                "method": "dsd.configuration.ldap_context_fini",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "ldapContextInit": {
+                "method": "dsd.configuration.ldap_context_init",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "ldapContextUpdate": {
+                "method": "dsd.configuration.ldap_context_update",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "loadDirectoryservices": {
+                "method": "dsd.configuration.load_directoryservices",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "loadModules": {
+                "method": "dsd.configuration.load_modules",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "restartSamba": {
+                "method": "dsd.configuration.restart_samba",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "update": {
+                "method": "dsd.configuration.update",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "verify": {
+                "method": "dsd.configuration.verify",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "read": {
+                "method": "dsd.configuration.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "EtcdGeneration": {
         "class": {
             "generateAll": {
@@ -1518,6 +1734,16 @@
             }
         }
     },
+    "ServiceSmb": {
+        "instance": {
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.smb.update"
+            }
+        }
+    },
     "ServiceSnmp": {
         "instance": {
             "read": {
@@ -1850,6 +2076,34 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "share.nfs.update"
+            }
+        }
+    },
+    "ShareSmb": {
+        "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.smb.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.smb.delete"
+            },
+            "import": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.smb.import"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "share.smb.update"
             }
         }
     },

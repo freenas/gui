@@ -381,6 +381,10 @@
             "type": "ServiceSmartd"
         },
         {
+            "modelId": "core/model/descriptors/service-smb.mjson",
+            "type": "ServiceSmb"
+        },
+        {
             "modelId": "core/model/descriptors/service-snmp.mjson",
             "type": "ServiceSnmp"
         },
@@ -443,6 +447,14 @@
         {
             "modelId": "core/model/descriptors/share-nfs.mjson",
             "type": "ShareNfs"
+        },
+        {
+            "modelId": "core/model/descriptors/share-smb-extra-parameters.mjson",
+            "type": "ShareSmbExtraParameters"
+        },
+        {
+            "modelId": "core/model/descriptors/share-smb.mjson",
+            "type": "ShareSmb"
         },
         {
             "modelId": "core/model/descriptors/share-types.mjson",

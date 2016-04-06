@@ -18,6 +18,7 @@
     "ShareAfp": "entity-subscriber.share.afp.changed",
     "ShareIscsi": "entity-subscriber.share.iscsi.changed",
     "ShareNfs": "entity-subscriber.share.nfs.changed",
+    "ShareSmb": "entity-subscriber.share.smb.changed",
     "ShareWebdav": "entity-subscriber.share.webdav.changed",
     "StatAlert": "entity-subscriber.stat.alert.changed",
     "Support": "entity-subscriber.support.changed",
