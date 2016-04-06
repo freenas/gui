@@ -1,25 +1,34 @@
 /**
  * @module ui/inspector.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
+    Promise = require("montage/core/promise").Promise;
 
 /**
  * @class Inspector
  * @extends Component
  */
 exports.Inspector = Component.specialize(/** @lends Inspector# */ {
-    constructor: {
-        value: function Inspector() {
-            this.super();
-        }
-    },
 
     handleDeleteAction: {
         value: function(event) {
+            var self = this;
+
             if (typeof this.parentComponent.delete === 'function') {
-                this.parentComponent.delete();
+                var promise = this.parentComponent.delete();
+
+                if (Promise.is(promise)) {
+                    promise.then(function () {
+                        self._dismissInspector();
+                    });
+                } else {
+                    self._dismissInspector();
+                }
             } else if (this.object) {
-                this.application.dataService.deleteDataObject(this.object);
+                this.application.dataService.deleteDataObject(this.object).then(function () {
+                    self._dismissInspector();
+                });
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
@@ -48,6 +57,18 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
             }
             event.stopPropagation();
+        }
+    },
+
+    _dismissInspector: {
+        value: function () {
+            var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
+
+            if (cascadingListItem) {
+                cascadingListItem.cascadingList._pop();
+            } else {
+                console.warn('BUG: inspector component doesn\'t belong to the cascading');
+            }
         }
     }
 });
