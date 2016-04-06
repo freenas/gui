@@ -62,8 +62,11 @@
         "progress": {
             "prototype": "blue-shark/ui/progress.reel",
             "properties": {
-                "element": {"#": "progress"},
-                "percentageComplete": 50
+                "element": {"#": "progress"}
+            },
+            "bindings": {
+                "percentageComplete": {"<-": "@owner.object.progress"},
+                "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"}
             }
         }
     }

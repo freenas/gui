@@ -242,7 +242,11 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     startListenToTaskEvents: {
         value: function () {
-            return this.startListenToChangesOnModelIfNeeded(Model.Task);
+            var self = this;
+
+            return this.startListenToChangesOnModelIfNeeded(Model.Task).then(function () {
+                return self._backendBridge.subscribeToEvent("task.progress", self);
+            });
         }
     },
 
@@ -256,7 +260,11 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     stopListenToTaskEvents: {
         value: function () {
-            return this.stopListenToChangesOnModel(Model.Task);
+            var self = this;
+
+            return this.stopListenToChangesOnModel(Model.Task).then(function () {
+                return self._backendBridge.unSubscribeToEvent("task.progress", self);
+            });
         }
     },
 
@@ -306,12 +314,34 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
             if (eventType && this._listenersOnModelChangesMap.get(modelTypeName)) {
                 var self = this;
 
-                return this._backendBridge.subscribeToEvent(eventType, this).then(function () {
+                return this._backendBridge.unSubscribeToEvent(eventType, this).then(function () {
                     self._listenersOnModelChangesMap.set(modelTypeName, false);
                 });
             }
 
             return Promise.resolve();
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    handleTaskProgress: {
+        value: function (event) {
+            var detail = event.detail;
+
+            if (detail) {
+                var notification = this.findTaskWithJobId(detail.id);
+
+                if (notification) {
+                    notification.progress = detail.percentage;
+                }
+            }
         }
     },
 
@@ -372,6 +402,10 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                                 state === Notification.TASK_STATES.ABORTED;
 
                         if (isTaskDone) {
+                            if (taskReport.progress) {
+                                taskNotification.progress = taskReport.progress.percentage;
+                            }
+
                             this.handleTaskDone(jobId, taskReport);
 
                             if (this.dismissNotificationAfterDelay) {
@@ -687,6 +721,10 @@ var Notification = exports.Notification =  Montage.specialize({
 
     taskName: {
         value: null
+    },
+
+    progress: {
+        value: 0
     }
 
 
