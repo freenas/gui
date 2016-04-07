@@ -2,10 +2,10 @@ var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model;
 
 /**
- * @class NetworkInterfaceCreate
+ * @class NetworkInterfaceCreator
  * @extends Component
  */
-exports.NetworkInterfaceCreate = Component.specialize({
+exports.NetworkInterfaceCreator = Component.specialize({
     newVlan: {
         value: null
     },
@@ -21,21 +21,19 @@ exports.NetworkInterfaceCreate = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this.newVlan = this.createNewInterface();
-                this.newVlan.type = "VLAN";
-                this.newLagg = this.createNewInterface();
-                this.newLagg.type = "LAGG";
-                this.newBridge = this.createNewInterface();
-                this.newBridge.type = "BRIDGE";
+                this.newVlan = this.createNewInterface('VLAN');
+                this.newLagg = this.createNewInterface('LAGG');
+                this.newBridge = this.createNewInterface('BRIDGE');
             }
         }
     },
 
     createNewInterface: {
-        value: function() {
+        value: function(type) {
             var newInterface = this.application.dataService.getDataObject(Model.NetworkInterface);
+            newInterface.type = type;
+            newInterface._isNewObject = true;
             newInterface.aliases = [];
-            newInterface.enabled = false;
             // FIXME: Hacks around combination of name not being nullable in the middleware
             // and certain form elements initializing the bound value to null. Remove if
             // either issue is resolved.
