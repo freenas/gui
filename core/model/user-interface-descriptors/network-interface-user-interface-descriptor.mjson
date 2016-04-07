@@ -2,8 +2,8 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/interface.reel"},
-            "iconComponentModule":  {"%": "ui/icons/interface.reel"},
+            "inspectorComponentModule": {"%": "ui/inspectors/network-interface.reel"},
+            "iconComponentModule":  {"%": "ui/icons/network-interface.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/network-interface-create.reel"},
             "collectionNameExpression": "'Interfaces'",

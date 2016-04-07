@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="vlan.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "selectOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "id",
+                "valuePropertyName": "id"
+            }
+        },
+        "vlanTagConverter": {
+            "prototype": "core/converter/vlan-tag-converter"
+        },
+        "parent": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "parent"},
+                "converter": {"@": "selectOptionsConverter"},
+                "label": "Parent",
+                "hasOptionalValue": true
+            },
+            "bindings": {
+                "options": {"<-": "@owner.parentOptions"},
+                "selectedValue": {"<->": "@owner.object.parent"}
+            }
+        },
+        "tag": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "tag"},
+                "label": "Tag",
+                "converter": {"@": "vlanTagConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.tag"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Vlan">
+        <div data-montage-id="parent"></div>
+        <div data-montage-id="tag"></div>
+    </div>
+</body>
+</html>

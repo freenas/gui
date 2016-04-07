@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="network-interface.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "hasType": {"<-": "!!@owner.object && !!@owner.object.type"},
+                "type": {"<-": "@owner.hasType ? @owner.object.type : 'ETHER'"}
+            }
+        },
+        "interfaceTypeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "interfaceTypeSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.type"}
+            }
+        },
+        "ether": {
+            "prototype": "./interface.reel",
+            "properties": {
+                "element": {"#": "ether"}
+            }
+        },
+        "bridge": {
+            "prototype": "./bridge.reel",
+            "properties": {
+                "element": {"#": "bridge"}
+            }
+        },
+        "lagg": {
+            "prototype": "./lagg.reel",
+            "properties": {
+                "element": {"#": "lagg"}
+            }
+        },
+        "vlan": {
+            "prototype": "./vlan.reel",
+            "properties": {
+                "element": {"#": "vlan"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="NetworkInterfaceIcon">
+        <div data-montage-id="interfaceTypeSubstitution">
+            <div data-montage-id="ether" data-arg="ETHER"></div>
+            <div data-montage-id="bridge" data-arg="BRIDGE"></div>
+            <div data-montage-id="lagg" data-arg="LAGG"></div>
+            <div data-montage-id="vlan" data-arg="VLAN"></div>
+        </div>
+    </div>
+</body>
+</html>

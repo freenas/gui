@@ -2,16 +2,19 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="vlan.css">
+    <link rel="stylesheet" type="text/css" href="network-interface.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
             },
-            "_dev": {
-                "comment": "vlan.tag must be a number between 1 and 4095 inclusive."
+            "bindings": {
+                "aliases": {"<-": "[@owner.staticIP].concat(@owner.otherAliases)"}
             }
+        },
+        "interface_alias_converter": {
+            "prototype": "core/converter/interface-alias-converter"
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -25,15 +28,6 @@
                 "object": {"<-": "@owner.object"}
             }
         },
-        "enabledSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "enabledSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.editMode"}
-            }
-        },
         "overview": {
             "prototype": "ui/controls/interface-overview.reel",
             "properties": {
@@ -41,6 +35,15 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"}
+            }
+        },
+        "enabledSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "enabledSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.object.id"}
             }
         },
         "enabled": {
@@ -64,11 +67,17 @@
                 "placeholderValue": {"<-": "@owner.object.id"}
             }
         },
-        "selectOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
+        "ip_address": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "labelPropertyName": "id",
-                "valuePropertyName": "id"
+                "element": {"#": "ip_address"},
+                "label": "IPv4 Address",
+                "converter": {"@": "interface_alias_converter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.dhcp ? @owner.dhcpAlias : @owner.staticIP"},
+                "enabled": {"<-": "!@owner.object.dhcp"},
+                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
             }
         },
         "dhcp": {
@@ -81,35 +90,6 @@
                 "checked": {"<->": "@owner.object.dhcp"}
             }
         },
-        "interface_alias_converter": {
-            "prototype": "core/converter/interface-alias-converter"
-        },
-        "ip_address": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "ip_address"},
-                "label": "IPv4 Address",
-                "converter": {"@": "interface_alias_converter"}
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.dhcp ? @owner.dhcpAlias : @owner.staticIP[0]"},
-                "enabled": {"<-": "!@owner.object.dhcp"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
-            }
-        },
-        "parent": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "parent"},
-                "converter": {"@": "selectOptionsConverter"},
-                "label": "Parent",
-                "hasOptionalValue": true
-            },
-            "bindings": {
-                "options": {"<-": "@owner.parentOptions"},
-                "selectedValue": {"<->": "@owner.object.vlan.parent"}
-            }
-        },
         "rtadv": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -120,21 +100,58 @@
                 "checked": {"<->": "@owner.object.rtadv"}
             }
         },
-        "tag": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+        "interfaceTypeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "tag"},
-                "label": "Tag"
+                "element": {"#": "interfaceTypeSubstitution"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.vlan.tag"},
-                "converter": {"<-": "@owner.vlanTagConverter"}
+                "switchValue": {"<-": "@owner.object.type"}
             }
         },
-        "aliasTitle": {
+        "ether": {
+            "prototype": "./interface.reel",
+            "properties": {
+                "element": {"#": "ether"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "bridge": {
+            "prototype": "./bridge.reel",
+            "properties": {
+                "element": {"#": "bridge"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.bridge"},
+                "memberOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER'}"}
+            }
+        },
+        "lagg": {
+            "prototype": "./lagg.reel",
+            "properties": {
+                "element": {"#": "lagg"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"},
+                "portOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER'}"}
+            }
+        },
+        "vlan": {
+            "prototype": "./vlan.reel",
+            "properties": {
+                "element": {"#": "vlan"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.vlan"},
+                "parentOptions": {"<-": "@owner.interfaces.filter{type == 'ETHER' || type == 'LAGG'}"}
+            }
+        },
+        "aliasSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
-                "element": {"#": "aliasTitle"},
+                "element": {"#": "aliasSection"},
                 "title": "Aliases"
             }
         },
@@ -156,19 +173,23 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Vlan">
+    <div data-montage-id="owner" class="NetworkInterface">
         <div data-montage-id="inspector">
             <div data-montage-id="enabledSubstitution">
-                <div data-montage-id="overview" data-arg="editing"></div>
-                <div data-montage-id="enabled" data-arg="creating"></div>
+                <div data-montage-id="overview" data-arg="true"></div>
+                <div data-montage-id="enabled" data-arg="false"></div>
             </div>
             <div data-montage-id="interface_name"></div>
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
-            <div data-montage-id="parent"></div>
-            <div data-montage-id="tag"></div>
-            <div data-montage-id="aliasTitle">
+            <div data-montage-id="interfaceTypeSubstitution">
+                <div data-montage-id="ether" data-arg="ETHER"></div>
+                <div data-montage-id="lagg" data-arg="LAGG"></div>
+                <div data-montage-id="vlan" data-arg="VLAN"></div>
+                <div data-montage-id="bridge" data-arg="BRIDGE"></div>
+            </div>
+            <div data-montage-id="aliasSection">
                 <div data-montage-id="aliases"></div>
             </div>
         </div>

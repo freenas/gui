@@ -15,22 +15,7 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
 
     constructor: {
         value: function() {
-            this.super();
             this.validator = new IPv4WithNetmaskValidator();
-        }
-    },
-
-    __alias: {
-        value: null
-    },
-
-
-    _alias: {
-        set: function (alias) {
-            this.__alias = alias;
-        },
-        get: function () {
-            return this.__alias || (this.__alias = {});
         }
     },
 
@@ -40,8 +25,6 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
             if (typeof alias === 'string') {
                 result = alias;
             } else {
-                this._alias = alias;
-
                 if (alias && alias.address) {
                     result = alias.address;
                     if (alias.netmask) {
@@ -58,14 +41,11 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
             var result;
             if (this.validator.validate(value)) {
                 var aliasParts = value.split("/");
+                result = {};
                 if (typeof aliasParts[0] === "string") {
-                    if (aliasParts[0] === "") {
-                        this._alias.address = null;
-                        this._alias.type = null;
-                    } else {
-                        this._alias.address = aliasParts[0];
-                        // TODO: Check which type of IP this is; assign `type` accordingly;
-                        this._alias.type = "INET";
+                    if (aliasParts[0] !== "") {
+                        result.address = aliasParts[0];
+                        result.type = result.address.indexOf(':') != -1 ? "INET6" : "INET";
                     }
                 } else {
                     // FIXME: Does this need a fallback case to be safe/have expected
@@ -73,19 +53,14 @@ var IPv4WithNetmaskValidator = require("core/converter/validator/ipv4-with-netma
                 }
                 if (aliasParts[1]) {
                     if (typeof aliasParts[1] === "string") {
-                        if (aliasParts[1] === "") {
-                            this._alias.netmask = null;
-                        } else {
-                            this._alias.netmask = parseInt(aliasParts[1], 10);
+                        if (aliasParts[1] !== "") {
+                            result.netmask = parseInt(aliasParts[1], 10);
                         }
                     } else {
                         // FIXME: Does this need a fallback case to be safe/have expected
                         // behavior?
                     }
-                } else {
-                    this._alias.netmask = null;
                 }
-                result = this.__alias;
             } else {
                 result = value;
             }

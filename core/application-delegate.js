@@ -36,12 +36,6 @@ exports.ApplicationDelegate = Montage.specialize({
             var key = modelType.typeName || modelType,
                 subType = "";
 
-            //Fixme: should be generic
-            if (Model.NetworkInterface === modelType && object && object.type && object.type !== "ETHER") {
-                key += +"_" + object.type;
-                subType = "-" + object.type.toLowerCase()
-            }
-
             var userInterfaceDescriptorPromise = UserInterfaceDescriptorPromisesMap.get(key);
 
             if (!userInterfaceDescriptorPromise) {

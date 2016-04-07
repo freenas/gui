@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="lagg.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "_dev": {
+                "comment": "lagg.ports might benefit from a more complex way to display, add, and remove ports. A multiselect list will work in the meantime."
+            }
+        },
+        "selectProtocolConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "ports": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "ports"},
+                "label": "Ports",
+                "valuePropertyName": "id",
+                "labelPropertyName": "id"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.portOptions"},
+                "selectedValues": {"<->": "@owner.object.lagg.ports"}
+            }
+        },
+        "protocol": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "protocol"},
+                "converter": {"@": "selectProtocolConverter"},
+                "label": "Protocol"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.lagg.protocol"},
+                "options": {"<-": "@owner.laggProtocolOptions"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Lagg">
+        <div data-montage-id="ports"></div>
+        <div data-montage-id="protocol"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="bridge.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "_dev": {
+                "comment": "bridge.members might benefit from a more complex way to display, add, and remove members. A multiselect list will work in the meantime."
+            }
+        },
+        "members": {
+            "prototype": "blue-shark/ui/field-select-multiple.reel",
+            "properties": {
+                "element": {"#": "members"},
+                "label": "Members",
+                "valuePropertyName": "id",
+                "labelPropertyName": "id"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.memberOptions"},
+                "selectedValues": {"<->": "@owner.object.members"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Bridge">
+        <div data-montage-id="members"></div>
+    </div>
+</body>
+</html>
