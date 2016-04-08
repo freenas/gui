@@ -1,6 +1,5 @@
 .TableCell {
     display: block;
-    height: 19px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
