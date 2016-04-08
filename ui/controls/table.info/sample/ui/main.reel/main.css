@@ -1,0 +1,76 @@
+/* Setup code */
+
+body, html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.Main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.examples {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.boxes .box {
+    display: inline-block;
+    width: 800px;
+}
+
+.box {
+    display: inline-block;
+    width: 200px;
+    height: 100px;
+    background: pink;
+}
+
+.default-box,
+.vertical-box,
+.horizontal-box {
+    float: left;
+    margin-left: 1em;
+    position: relative;
+    outline: 1px solid #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* End Setup Code */
+
+.default-box {
+    position: relative;
+    height: 500px;
+    width: 300px;
+}
+
+.vertical-box {
+    position: relative;
+    height: 500px;
+    width: 300px;
+}
+
+.horizontal-box {
+    height: 200px;
+    width: 300px;
+    white-space: nowrap;
+    position: relative;
+}
+
+.Chart {
+    width: 800px;
+    height:600px;
+}

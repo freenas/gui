@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "content": [
+                    {"id": "foo", "value1": 12, "value2": 23},
+                    {"id": "bar", "value1": 34, "value2": 45},
+                    {"id": "baz", "value1": 56, "value2": 67},
+                    {"id": "oof", "value1": 21, "value2": 32},
+                    {"id": "rab", "value1": 43, "value2": 54},
+                    {"id": "zab", "value1": 65, "value2": 76}
+                ]
+            }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.content"}
+            }
+        },
+        "table": {
+            "prototype": "foo/ui/controls/table.reel",
+            "properties": {
+                "element": {"#": "table"},
+                "dataController": {"@": "controller"},
+                "columns": [
+                    {
+                        "label": "ID",
+                        "expression": "id",
+                        "type": "string"
+                    },
+                    {
+                        "label": "First value",
+                        "expression": "value1",
+                        "type": "number"
+                    },
+                    {
+                        "label": "Second value",
+                        "expression": "value2",
+                        "type": "number"
+                    },
+                    {
+                        "label": "sum",
+                        "expression": "value1+value2",
+                        "type": "number"
+                    }
+                ]
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="table"></div>
+    </div>
+</body>
+</html>
