@@ -12,33 +12,27 @@
             }
         },
         "chart": {
-            "prototype": "../chart.reel",
+            "prototype": "ui/controls/chart.reel",
             "properties": {
                 "element": {"#": "chart"},
-                "data": {
-                    "type": "line"
-                },
-                "axis": {
-                    "x": {
-                        "show": false
-                    },
-                    "y": {
-                        "min": 0,
-                        "max": 150
-                    }
-                },
-                "point": {
-                    "show": false
-                }
+                "updatePeriod": 10000,
+                "showLegend": true,
+                "showYAxis": true,
+                "yFormat": "s",
+                "isTimeSeries": true,
+                "useGuideline": true,
+                "title": "Network traffic"
+            },
+            "bindings": {
+                "series": {"<-": "@owner.series"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="NetworkTraffic">
-        <div class="NetworkTraffic-title">Network Traffic</div>
-        <div data-montage-id="chart" class="NetworkTraffic-chart"></div>
+    <div data-montage-id="owner" class="NetworkTraffic DashboardWidget">
+        <div data-montage-id="chart"></div>
     </div>
 </body>
 </html>

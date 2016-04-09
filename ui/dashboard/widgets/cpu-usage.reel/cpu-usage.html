@@ -12,50 +12,26 @@
             }
         },
         "chart": {
-            "prototype": "../chart.reel",
+            "prototype": "ui/controls/chart.reel",
             "properties": {
                 "element": {"#": "chart"},
-                "data": {
-                    "type": "area",
-                    "groups": [
-                        ["User", "System"]
-                    ]
-                },
-                "axis": {
-                    "x": {
-                        "show": false
-                    },
-                    "y": {
-                        "max": 100,
-                        "min": 0,
-                        "padding": {
-                            "top": 0,
-                            "bottom": 0
-                        },
-                        "tick": {
-                            "values": [0, 25, 50, 75, 100]
-                        }
-                    }
-                },
-                "point": {
-                    "show": false
-                },
-                "tooltip": {
-                    "format": {}
-                }
+                "updatePeriod": 10000,
+                "showYAxis": true,
+                "isTimeSeries": true,
+                "useGuideline": true,
+                "title": "CPU usage",
+                "isStacked": true
             },
             "bindings": {
-                "tooltip.format.value": {"<-": "@owner.percentageToString"},
-                "axis.y.tick.format": {"<-": "@owner.percentageToString"}
+                "series": {"<-": "@owner.series"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="CpuUsage">
-        <div class="CpuUsage-title">CPU Usage</div>
-        <div data-montage-id="chart" class="CpuUsage-chart"></div>
+    <div data-montage-id="owner" class="CpuUsage DashboardWidget">
+        <div data-montage-id="chart"></div>
     </div>
 </body>
 </html>

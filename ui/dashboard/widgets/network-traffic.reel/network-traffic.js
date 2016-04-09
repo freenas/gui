@@ -5,25 +5,6 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.NetworkTraffic = Component.specialize({
-
-    _generateRandomData: {
-        value: function (min, max, length) {
-            var randomData = [],
-                i;
-
-            for (i = 0; i < length; i++) {
-                randomData.push(Math.random() * (max - min) + min);
-            }
-            return randomData;
-        }
-    },
-
-    percentageToString: {
-        value: function (percentage) {
-            return Math.round(percentage) + "%";
-        }
-    },
-
     _updateInterval: {
         value: null
     },
@@ -31,12 +12,8 @@ exports.NetworkTraffic = Component.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
-                this.chart.data.columns = [
-                    ["igb0 Down"].concat(this._generateRandomData(0, 40, 31)),
-                    ["igb0 Up"].concat(this._generateRandomData(0, 25, 31))
-                ];
+                this.series = this._generateFakeData();
             }
-            //this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
         }
     },
 
@@ -46,15 +23,41 @@ exports.NetworkTraffic = Component.specialize({
         }
     },
 
-    _updateChart: {
-        value: function () {
-            this.chart.flow({
-                columns: [
-                    ["igb0 Down"].concat(this._generateRandomData(0, 40, 1)),
-                    ["igb0 Up"].concat(this._generateRandomData(0, 25, 1))
-                ]
-            });
+    _generateFakeData: {
+        value: function() {
+            //var self = this;
+            var sampleFrequency = 2000,
+                sampleCount = 50,
+                series = [
+                    {
+                        values: [],
+                        key: 'em0 UP',
+                        //color: "#ff0000"
+                    },
+                    {
+                        values: [],
+                        key: 'em0 DOWN',
+                        //color: "#00ff00"
+                    }
+                ],
+                x = Date.now() - (sampleCount * sampleFrequency);
+
+            while (series[0].values.length < sampleCount) {
+                series[0].values.push({x: x, y: Math.random()*(1024*1024)});
+                series[1].values.push({x: x, y: Math.random()*(1024*1024)});
+                x += sampleFrequency;
+            }
+
+            this.updateInterval1 = setInterval(function() {
+                series[0].values.push({x: Date.now(), y: Math.random()*(1024*1024)});
+                series[1].values.push({x: Date.now(), y: Math.random()*(1024*1024)});
+                if (series[0].values.length > sampleCount) {
+                    series[0].values.shift();
+                    series[1].values.shift();
+                }
+                //self.series = series.map(function(x) {x.values = x.values.slice(100); return x });
+            }, sampleFrequency);
+            return series;
         }
     }
-
 });

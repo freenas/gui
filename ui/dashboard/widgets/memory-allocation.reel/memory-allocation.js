@@ -6,59 +6,15 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.MemoryAllocation = Component.specialize({
-
-    _generateRandomData: {
-        value: function (min, max, length) {
-            var randomData = [],
-                i;
-
-            for (i = 0; i < length; i++) {
-                randomData.push(Math.random() * (max - min) + min);
-            }
-            return randomData;
-        }
-    },
-
-    humanize: {
-        value: function (value) {
-            return bytesConverter.convert(value);
-        }
-    },
-
-    humanizeRounding: {
-        value: function (value) {
-            return bytesConverter.convert(value);
-        }
-    },
-
     _updateInterval: {
         value: null
     },
 
     enterDocument: {
         value: function (isFirstTime) {
-            var columns,
-                free,
-                i, j;
-
             if (isFirstTime) {
-                this.chart.data.columns = [
-                    ["Free"],
-                    ["Active"].concat(this._generateRandomData(400000000, 500000000, 31)),
-                    ["Cache"].concat(this._generateRandomData(2000000, 3000000, 31)),
-                    ["Wired"].concat(this._generateRandomData(1100000000, 1300000000, 31)),
-                    ["Inactive"].concat(this._generateRandomData(200000000, 250000000, 31))
-                ];
-                columns = this.chart.data.columns;
-                for (i = 1; i < 32; i++) {
-                    free = 32768000000;
-                    for (j = 1; j < 5; j++) {
-                        free -= columns[j][i];
-                    }
-                    columns[0][i] = free;
-                }
+                this.series = this._generateFakeData();
             }
-            //this._updateInterval = setInterval(this._updateChart.bind(this), 2000);
         }
     },
 
@@ -68,25 +24,63 @@ exports.MemoryAllocation = Component.specialize({
         }
     },
 
-    _updateChart: {
-        value: function () {
-            var columns = [
-                    ["Free"],
-                    ["Active"].concat(this._generateRandomData(400000000, 500000000, 1)),
-                    ["Cache"].concat(this._generateRandomData(2000000, 3000000, 1)),
-                    ["Wired"].concat(this._generateRandomData(1100000000, 1300000000, 1)),
-                    ["Inactive"].concat(this._generateRandomData(200000000, 250000000, 1))
-                ], j;
+    _generateFakeData: {
+        value: function() {
+            var sampleFrequency = 2000,
+                sampleCount = 50,
+                series = [
+                    {
+                        values: [],
+                        key: 'Free',
+                        //color: "#ff0000"
+                    },
+                    {
+                        values: [],
+                        key: 'Active',
+                        //color: "#0000ff"
+                    },
+                    {
+                        values: [],
+                        key: 'Cache',
+                        //color: "#ffff00"
+                    },
+                    {
+                        values: [],
+                        key: 'Wired',
+                        //color: "#00ffff"
+                    },
+                    {
+                        values: [],
+                        key: 'Inactive',
+                        //color: "#ff00ff"
+                    }
+                ],
+                x = Date.now() - (sampleCount * sampleFrequency);
 
-            free = 32768000000;
-            for (j = 1; j < 5; j++) {
-                free -= columns[j][1];
+            while (series[0].values.length < sampleCount) {
+                series[0].values.push({x: x, y: Math.random()*(1024*1024*1024*16)});
+                series[1].values.push({x: x, y: Math.random()*(1024*1024*1024*8)});
+                series[2].values.push({x: x, y: Math.random()*(1024*1024*1024*4)});
+                series[3].values.push({x: x, y: Math.random()*(1024*1024*1024*2)});
+                series[4].values.push({x: x, y: Math.random()*(1024*1024*1024*1)});
+                x += sampleFrequency;
             }
-            columns[0][1] = free;
-            this.chart.flow({
-                columns: columns
-            });
+
+            this.updateInterval1 = setInterval(function() {
+                series[0].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*16)});
+                series[1].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*8)});
+                series[2].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*4)});
+                series[3].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*2)});
+                series[4].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*1)});
+                if (series[0].values.length > sampleCount) {
+                    series[0].values.shift();
+                    series[1].values.shift();
+                    series[2].values.shift();
+                    series[3].values.shift();
+                    series[4].values.shift();
+                }
+            }, sampleFrequency);
+            return series;
         }
     }
-
 });

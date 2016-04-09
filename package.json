@@ -2,12 +2,13 @@
     "name": "freenas-10-gui",
     "version": "0.3.0",
     "dependencies": {
-        "collections": "montagejs/collections#master",
-        "montage": "montagejs/montage#f08073367cfe4fa9e5a501ee0ae98d27c5afe240",
         "blue-shark": "freenas/blue-shark#c4067536be5796458a7e1f6609254b65cd578bc8",
-        "montage-data": "montagestudio/montage-data#3b6e725ade888b18be6118d618bcbe8d88456d5e",
+        "collections": "montagejs/collections#master",
+        "d3": "^3.5.16",
         "digit": "montagejs/digit",
         "frb": "~0.2.18",
+        "montage": "montagejs/montage#f08073367cfe4fa9e5a501ee0ae98d27c5afe240",
+        "montage-data": "montagestudio/montage-data#3b6e725ade888b18be6118d618bcbe8d88456d5e",
         "validators": "~0.3.1"
     },
     "devDependencies": {
@@ -24,14 +25,16 @@
         "run-tests.html",
         "test"
     ],
-    "bundle": [ "ui/main.reel" ],
+    "bundle": [
+        "ui/main.reel"
+    ],
     "scripts": {
-        "update-montage-data-cache" : "node ./tools/cli/update-montage-data-cache.js",
-        "clean-montage-data-cache" : "node ./tools/cli/clean-montage-data-cache.js",
-        "generate-descriptors" : "node ./tools/cli/generate.js descriptors -t ./core/model/descriptors",
-        "generate-model" : "node ./tools/cli/generate.js model ./core/model/descriptors/ -p ./core/model/descriptors -t ./core/model",
-        "generate-enumerations" : "node ./tools/cli/generate.js enumerations -t ./core/model/enumerations",
-        "generate-services" : "node ./tools/cli/generate.js services -t ./core/model",
+        "update-montage-data-cache": "node ./tools/cli/update-montage-data-cache.js",
+        "clean-montage-data-cache": "node ./tools/cli/clean-montage-data-cache.js",
+        "generate-descriptors": "node ./tools/cli/generate.js descriptors -t ./core/model/descriptors",
+        "generate-model": "node ./tools/cli/generate.js model ./core/model/descriptors/ -p ./core/model/descriptors -t ./core/model",
+        "generate-enumerations": "node ./tools/cli/generate.js enumerations -t ./core/model/enumerations",
+        "generate-services": "node ./tools/cli/generate.js services -t ./core/model",
         "warnings": "node ./tools/cli/generate.js descriptors -w --no-save"
     }
 }

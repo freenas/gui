@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="./nvd3/nv.d3.min.css">
+    <link rel="stylesheet" type="text/css" href="chart.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chartElement": {"#": "chart"}
+            }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title"}
+            }
+        },
+        "chart": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "chart"},
+                "hasTemplate": false
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Chart">
+        <div data-montage-id="title"></div>
+        <svg data-montage-id="chart" id="chart"></svg>
+    </div>
+</body>
+</html>

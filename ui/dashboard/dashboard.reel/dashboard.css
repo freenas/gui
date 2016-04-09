@@ -1,5 +1,4 @@
 .Dashboard {
-    background-color: #f8f8f8;
     min-height: 100%;
     border-right: 1px solid #e8e8e8;
 }
@@ -8,4 +7,10 @@
     display: flex;
     flex-flow: row wrap;
     padding: 4px;
+}
+
+.Dashboard-widgetsWrapper .DashboardWidget {
+    height: 240px;
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.25);
 }

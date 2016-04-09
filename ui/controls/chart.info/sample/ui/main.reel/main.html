@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "chart1": {
+            "prototype": "foo/ui/controls/chart.reel",
+            "properties": {
+                "element": {"#": "chart1"},
+                "updatePeriod": 2000,
+                "showYAxis": true,
+                "showXAxis": true,
+                "xFormat": "%X",
+                "isTimeSeries": true,
+                "interpolation": "basis",
+                "useGuideline": true,
+                "title": "CPU usage"
+            },
+            "bindings": {
+                "series": {"<-": "@owner.series1"}
+            }
+        },
+        "chart2": {
+            "prototype": "foo/ui/controls/chart.reel",
+            "properties": {
+                "element": {"#": "chart2"},
+                "updatePeriod": 500,
+                "interpolation": "foo",
+                "isStacked": true,
+                "title": "Network bandwidth"
+            },
+            "bindings": {
+                "series": {"<-": "@owner.series1"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <div data-montage-id="chart1"></div>
+        <div data-montage-id="chart2"></div>
+    </div>
+</body>
+</html>

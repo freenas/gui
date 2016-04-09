@@ -12,39 +12,28 @@
             }
         },
         "chart": {
-            "prototype": "../chart.reel",
+            "prototype": "ui/controls/chart.reel",
             "properties": {
                 "element": {"#": "chart"},
-                "data": {
-                    "type": "area-step"
-                },
-                "axis": {
-                    "x": {
-                        "show": false
-                    },
-                    "y": {
-                        "tick": {}
-                    }
-                },
-                "point": {
-                    "show": false
-                },
-                "tooltip": {
-                    "format": {}
-                }
+                "updatePeriod": 10000,
+                "showLegend": true,
+                "showYAxis": true,
+                "yFormat": "1.2s",
+                "isTimeSeries": true,
+                "title": "Memory allocation",
+                "isStacked": true,
+                "useGuideline": true
             },
             "bindings": {
-                "tooltip.format.value": {"<-": "@owner.humanize"},
-                "axis.y.tick.format": {"<-": "@owner.humanizeRounding"}
+                "series": {"<-": "@owner.series"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="MemoryAllocation">
-        <div class="MemoryAllocation-title">Memory Allocation</div>
-        <div data-montage-id="chart" class="MemoryAllocation-chart"></div>
+    <div data-montage-id="owner" class="MemoryAllocation DashboardWidget">
+        <div data-montage-id="chart"></div>
     </div>
 </body>
 </html>
