@@ -21,6 +21,7 @@ exports.ShareCreator = Component.specialize({
             newShare._isNewObject = true;
             newShare.description = '';
             newShare.properties = {};
+            newShare.permissions = {};
             newShare.volume = this.application.selectedVolume;
             return newShare;
         }

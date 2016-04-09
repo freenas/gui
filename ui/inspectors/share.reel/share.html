@@ -10,6 +10,20 @@
                 "element": {"#": "owner"}
             }
         },
+        "usersOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
+        "groupsOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -97,6 +111,30 @@
             "bindings": {
                 "properties": {"<-": "@owner.object.properties"}
             }
+        },
+        "ownerUser": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "ownerUser"},
+                "label": "Owner user",
+                "converter": {"@": "usersOptionsConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.permissions.user"},
+                "options": {"<-": "@owner.users"}
+            }
+        },
+        "ownerGroup": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "ownerGroup"},
+                "label": "Owner group",
+                "converter": {"@": "groupsOptionsConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.permissions.group"},
+                "options": {"<-": "@owner.groups"}
+            }
         }
     }
     </script>
@@ -113,6 +151,8 @@
                 <div data-arg="afp" data-montage-id="afp"></div>
                 <div data-arg="nfs" data-montage-id="nfs"></div>
             </div>
+            <div data-montage-id="ownerUser"></div>
+            <div data-montage-id="ownerGroup"></div>
         </div>
     </div>
 </body>

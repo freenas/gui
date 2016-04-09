@@ -43,8 +43,38 @@ exports.Share = Component.specialize({
         }
     },
 
+    users: {
+        value: []
+    },
+
+    groups: {
+        value: []
+    },
+
     pathConverter: {
         value: null
+    },
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            var self = this;
+            if (this._object != object) {
+                this.application.dataService.fetchData(Model.Group).then(function(groups) {
+                    self.groups = groups;
+                });
+                this.application.dataService.fetchData(Model.User).then(function(users) {
+                    self.users = users;
+                });
+                this._object = object
+            }
+        }
     },
 
     enterDocument: {
@@ -52,6 +82,9 @@ exports.Share = Component.specialize({
             var self = this;
             if (isFirsttime) {
                 this._filesystemService = this.application.filesystemService;
+                this.application.dataService.fetchData(Model.User).then(function(users) {
+                    self.users = users;
+                });
                 this._loadingPromise = this._loadVolumeService().then(function() {
                     self._loadPathConverter();
                 });
