@@ -32,6 +32,7 @@ exports.NetworkInterfaceCreator = Component.specialize({
         value: function(type) {
             var newInterface = this.application.dataService.getDataObject(Model.NetworkInterface);
             newInterface.type = type;
+            newInterface[type.toLowerCase()] = {};
             newInterface._isNewObject = true;
             newInterface.aliases = [];
             // FIXME: Hacks around combination of name not being nullable in the middleware

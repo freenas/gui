@@ -87,7 +87,7 @@
                 "label": "DHCP"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.dhcp"}
+                "checked": {"<->": "!!@owner.object.dhcp"}
             }
         },
         "rtadv": {
@@ -97,7 +97,7 @@
                 "label": "Auto-Configure IPv6"
             },
             "bindings": {
-                "checked": {"<->": "@owner.object.rtadv"}
+                "checked": {"<->": "!!@owner.object.rtadv"}
             }
         },
         "interfaceTypeSubstitution": {
