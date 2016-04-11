@@ -66,6 +66,7 @@
             },
             "bindings": {
                 "percentageComplete": {"<-": "@owner.object.progress"},
+                "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
                 "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"}
             }
         }
