@@ -287,7 +287,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                     if (hasRestrictions) {
                         forbiddenFields = restrictions.forbiddenFields || [];
-                        requiredFields = restrictions.requiredFields || [];
+                        requiredFields = restrictions.requiredFields.slice() || [];
                         unsatisfiedRequiredFieldsCount = requiredFields.length;
                     }
 
@@ -306,7 +306,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                                 requiredFieldIndex = requiredFields.indexOf(key);
                                 if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
                                     unsatisfiedRequiredFieldsCount--;
-                                    delete requiredFields[requiredFieldIndex];
+                                    requiredFields.splice(requiredFieldIndex, 1);
                                 }
 
                                 this._mapPropertyToRawData(data, object, key);
