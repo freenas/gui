@@ -289,7 +289,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                     if (hasRestrictions) {
                         forbiddenFields = restrictions.forbiddenFields || [];
-                        requiredFields = restrictions.requiredFields.slice() || [];
+                        requiredFields = restrictions.requiredFields? restrictions.requiredFields.slice() : [];
                         unsatisfiedRequiredFieldsCount = requiredFields.length;
                     }
 
