@@ -273,10 +273,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
              * @see comment in saveRawData.
              */
             if (modelHasNoId || object.id !== void 0) {
-                var isUpdate = modelHasNoId || object.id !== null,
-                    serviceDescriptor = isUpdate ?
-                        Services.findUpdateServiceForType(type) : // -> update case (fixme: delete...)
-                        Services.findCreateServiceForType(type); // -> create case
+                var isDelete = !!object._isToBeDeleted,
+                    isUpdate = modelHasNoId || object.id !== null,
+                    serviceDescriptor = isDelete ? Services.findDeleteServiceForType(type) :
+                        isUpdate ?
+                            Services.findUpdateServiceForType(type) : // -> update case
+                            Services.findCreateServiceForType(type); // -> create case
 
                 // todo: switch to a validator field, schemas
                 if (serviceDescriptor) {

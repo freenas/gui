@@ -14,7 +14,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     handleDeleteAction: {
         value: function(event) {
             var self = this;
-
+            this.object._isToBeDeleted = true;
             if (typeof this.parentComponent.delete === 'function') {
                 var promise = this.parentComponent.delete();
 
