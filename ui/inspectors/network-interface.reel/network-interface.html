@@ -21,11 +21,11 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canRevert": "true",
-                "canSave": "true",
-                "canDelete": "true"
+                "canSave": "true"
             },
             "bindings": {
-                "object": {"<-": "@owner.object"}
+                "object": {"<-": "@owner.object"},
+                "canDelete": {"<-": "@owner.object.type != 'ETHER'"}
             }
         },
         "overview": {
