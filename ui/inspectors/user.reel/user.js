@@ -13,6 +13,18 @@ exports.User = Component.specialize({
         value: null
     },
 
+    object: {
+        get: function () {
+            return this._object;
+        },
+        set: function (user) {
+            if (this._object != user) {
+                this._object = user;
+                this._loadGroups(user);
+            }
+        }
+    },
+
     additionalGroups: {
         value: null
     },
@@ -21,25 +33,20 @@ exports.User = Component.specialize({
         value: null
     },
 
-    object: {
-        set: function (user) {
-            var self = this;
-            this._object = user;
-
-            this.application.dataService.fetchData(Model.Group).then(function (groups) {
-                self.groupOptions = groups;
-                self.additionalGroups = user.groups ? groups.filter(function (x) { return user.groups.indexOf(x.id) > -1; }) : [];
-            });
-        },
-        get: function () {
-            return this._object;
-        }
-    },
-
     save: {
         value: function() {
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             this.application.dataService.saveDataObject(this.object);
+        }
+    },
+
+    _loadGroups: {
+        value: function() {
+            var self = this;
+            this.application.dataService.fetchData(Model.Group).then(function (groups) {
+                self.groupOptions = groups;
+                self.additionalGroups = self._object.groups ? groups.filter(function (x) { return self.object.groups.indexOf(x.id) > -1; }) : [];
+            });
         }
     }
 });

@@ -22,11 +22,16 @@
                 "canDelete": {"<-": "!@owner.object.builtin"}
             }
         },
+        "uidValidator": {
+            "prototype": "core/converter/validator/unix-account-id-validator"
+        },
         "uid": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "uid"},
-                "label": "User ID"
+                "label": "User ID",
+                "validator": {"@": "uidValidator"},
+                "errorMessage": "User ID must be between 0 and 4294967295"
             },
             "bindings": {
                 "value": {"<->": "+@owner.object.uid"}
