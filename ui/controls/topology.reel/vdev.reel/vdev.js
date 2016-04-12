@@ -58,11 +58,15 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                     vDevChildren = this.object.children;
 
                 if (vDevChildren) {
-                    for (var i = 0, l = vDevChildren.length; i < l; i++) {
-                        if (targetDisk === vDevChildren[i]) {
-                            response = false;
-                            break;
+                    if (!this._topologyItem.maxVdevType.maxDisks || vDevChildren.length < this._topologyItem.maxVdevType.maxDisks) {
+                        for (var i = 0, l = vDevChildren.length; i < l; i++) {
+                            if (targetDisk === vDevChildren[i]) {
+                                response = false;
+                                break;
+                            }
                         }
+                    } else {
+                        response = false;
                     }
                 }
             }
@@ -166,13 +170,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     _defineDefaultType: {
         value: function() {
             var childrenCount = this.children.length;
-            if (childrenCount > 2) {
-                this.object.type = 'raidz1';
-            } else if (childrenCount > 1) {
-                this.object.type = 'mirror';
-            } else {
-                this.object.type = 'disk';
-            }
+            this.object.type = this._topologyItem.allowedVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; })[0].value;
         }
     },
 

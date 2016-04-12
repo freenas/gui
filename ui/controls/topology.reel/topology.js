@@ -6,11 +6,11 @@ var Component = require("montage/ui/component").Component,
     TopologyService = require("core/volumes/topology-service").TopologyService;
 
 
-var ClASS_NAMES_FOR_MODES = {
-    READ: "read-mode",
-    CREATE: "create-mode",
-    UPDATE: "update-mode"
-};
+var CLASS_NAMES_FOR_MODES = {
+        READ: "read-mode",
+        CREATE: "create-mode",
+        UPDATE: "update-mode"
+    };
 
 
 /**
@@ -18,6 +18,37 @@ var ClASS_NAMES_FOR_MODES = {
  * @extends Component
  */
 var Topology = exports.Topology = Component.specialize({
+    VDEV_TYPES: {
+        value: {
+            DISK: {
+                id: 1,
+                value: 'disk',
+                minDisks: 1,
+                maxDisks: 1
+            },
+            MIRROR: {
+                id: 2,
+                value: 'mirror',
+                minDisks: 2
+            },
+            RAIDZ1: {
+                id: 3,
+                value: 'raidz1',
+                minDisks: 3
+            },
+            RAIDZ2: {
+                id: 4,
+                value: 'raidz2',
+                minDisks: 4
+            },
+            RAIDZ3: {
+                id: 5,
+                value: 'raidz3',
+                minDisks: 5
+            }
+        }
+    },
+
     _topologyService: {
         value: null
     },
@@ -194,9 +225,9 @@ var Topology = exports.Topology = Component.specialize({
         value: function (previousMode, newMode) {
             if (!this.classList.has(newMode)) {
                 if (previousMode) {
-                    this.classList.remove(ClASS_NAMES_FOR_MODES[previousMode]);
+                    this.classList.remove(CLASS_NAMES_FOR_MODES[previousMode]);
                 }
-                this.classList.add(ClASS_NAMES_FOR_MODES[newMode]);
+                this.classList.add(CLASS_NAMES_FOR_MODES[newMode]);
             }
         }
     }

@@ -32,5 +32,28 @@ exports.TopologyItem = Component.specialize(/** @lends TopologyItem# */ {
 
     editable: {
         value: false
+    },
+
+    enterDocument: {
+        value: function() {
+            this._orderAllowedVdevTypes();
+        }
+    },
+
+    _orderAllowedVdevTypes: {
+        value: function () {
+            var self = this;
+            this.allowedVdevTypes = Object.keys(this.vdevTypes)
+                .map(function (x) {
+                    return self.vdevTypes[x];
+                })
+                .filter(function (x) {
+                    return x.id <= self.maxVdevType.id;
+                })
+                .sort(function (a, b) {
+                    return a.id < b.id ? 1 : -1;
+                });
+        }
+
     }
 });

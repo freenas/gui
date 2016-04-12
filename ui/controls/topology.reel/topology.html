@@ -20,7 +20,9 @@
             "bindings": {
                 "vdevs": {"<-": "@owner.object.data"},
                 "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.DATA"}
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.DATA"},
+                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
+                "maxVdevType": {"<-": "@owner.VDEV_TYPES.RAIDZ3"}
             }
         },
         "cache": {
@@ -32,7 +34,9 @@
             "bindings": {
                 "vdevs": {"<-": "@owner.object.cache"},
                 "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.CACHE"}
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.CACHE"},
+                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
+                "maxVdevType": {"<-": "@owner.VDEV_TYPES.MIRROR"}
             }
         },
         "log": {
@@ -45,7 +49,9 @@
             "bindings": {
                 "vdevs": {"<-": "@owner.object.log"},
                 "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.LOG"}
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.LOG"},
+                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
+                "maxVdevType": {"<-": "@owner.VDEV_TYPES.MIRROR"}
             }
         },
         "spare": {
@@ -57,7 +63,9 @@
             "bindings": {
                 "vdevs": {"<-": "@owner.object.spare"},
                 "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"}
+                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"},
+                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
+                "maxVdevType": {"<-": "@owner.VDEV_TYPES.DISK"}
             }
         }
 
