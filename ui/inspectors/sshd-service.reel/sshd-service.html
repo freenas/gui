@@ -9,12 +9,101 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "sftp_log_level": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "sftp_log_level"},
+                "label": "SFTP Log Level"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.sftp_log_level"},
+                "options": {"<-": "@owner.SFTP_LOG_LEVELS"}
+            }
+        },
+        "allow_password_auth": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "allow_password_auth"},
+                "label": "Allow Password Auth"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.allow_password_auth"}
+            }
+        },
+        "port": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "port"},
+                "label": "Port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.port"}
+            }
+        },
+        "compression": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "compression"},
+                "label": "Enable Compression"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.compression"}
+            }
+        },
+        "sftp_log_facility": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "sftp_log_facility"},
+                "label": "Sftp Log Facility"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.sftp_log_facility"},
+                "options": {"<->": "@owner.SFTP_LOG_FACILITIES"}
+            }
+        },
+        "permit_root_login": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "permit_root_login"},
+                "label": "Permit root Login"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.permit_root_login"}
+            }
+        },"allow_port_forwarding": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "allow_port_forwarding"},
+                "label": "Allow Port Forwarding"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.permit_root_login"}
+            }
+        },
+        "allow_pubkey_auth": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "allow_pubkey_auth"},
+                "label": "Allow Pubkey Auth"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.allow_pubkey_auth"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SshdService">
+        <div data-montage-id="port"></div>
+        <div data-montage-id="permit_root_login"></div>
+        <div data-montage-id="allow_password_auth"></div>
+        <div data-montage-id="allow_pubkey_auth"></div>
+        <div data-montage-id="compression"></div>
+        <div data-montage-id="allow_port_forwarding"></div>
+        <div data-montage-id="sftp_log_level"></div>
+        <div data-montage-id="sftp_log_facility"></div>
     </div>
 </body>
 </html>

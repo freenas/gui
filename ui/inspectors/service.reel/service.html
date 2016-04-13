@@ -79,6 +79,15 @@
             "bindings": {
                 "object": {"<-": "@owner.object.config"}
             }
+        },
+        "sshd": {
+            "prototype": "ui/inspectors/sshd-service.reel",
+            "properties": {
+                "element": {"#": "sshd"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.config"}
+            }
         }
     }
     </script>
@@ -92,6 +101,7 @@
                 <div data-arg="smb" data-montage-id="smb"></div>
                 <div data-arg="afp" data-montage-id="afp"></div>
                 <div data-arg="nfs" data-montage-id="nfs"></div>
+                <div data-arg="sshd" data-montage-id="sshd"></div>
             </div>
         </div>
     </div>
