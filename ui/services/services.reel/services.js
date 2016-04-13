@@ -22,7 +22,8 @@ exports.Services = Component.specialize({
                 Model.populateObjectPrototypeForType(Model.ServicesCategory).then(function () {
                     return self._listServices();
                 }).then(function (services) {
-                    self.categories = [self._getServicesCategory('Sharing', services, ['smb'])];
+                    self.categories = [self._getServicesCategory('Sharing', services, ['smb']),
+                                       self._getServicesCategory('Management', services, ['sshd'])];
                 });
             }
         }
@@ -40,7 +41,7 @@ exports.Services = Component.specialize({
             category.name = name;
             category.services = services;
             category.types = typesInCategory.map(function(x) { return 'service-' + x; });
-            return category
+            return category;
         }
     }
 });
