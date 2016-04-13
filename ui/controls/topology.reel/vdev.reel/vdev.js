@@ -171,7 +171,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: function() {
             if (this._topologyItem) {
                 var childrenCount = this.children.length;
-                this.object.type = this._topologyItem.allowedVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; })[0].value;
+                this.object.type = this._topologyItem.allowedDefaultVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; })[0].value;
             }
         }
     },
