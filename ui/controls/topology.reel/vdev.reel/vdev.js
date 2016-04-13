@@ -38,6 +38,14 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             this._populateTopologyItem();
             AbstractDropZoneComponent.prototype.enterDocument.call(this, firstTime);
             this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
+            this._hasUserDefinedType = false;
+
+        }
+    },
+
+    prepareForActivationEvents: {
+        value: function() {
+            this.element.addEventListener('mouseleave', this, false);
         }
     },
 
@@ -169,7 +177,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _defineDefaultType: {
         value: function() {
-            if (this._topologyItem) {
+            if (this._topologyItem && !this._hasUserDefinedType) {
                 var childrenCount = this.children.length;
                 this.object.type = this._topologyItem.allowedDefaultVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; })[0].value;
             }
@@ -190,9 +198,30 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             }
 
             this._topologyItem = topologyItem;
+            this.vdevTypes = topologyItem.allowedVdevTypes;
 
             this.disksGrid.itemDraggable = this.editable;
             this.disksGrid.identifier = this.gridIdentifier;
+        }
+    },
+
+    handleDisplayVdevTypesAction: {
+        value: function(event) {
+            this.showVdevTypes = !this.showVdevTypes;
+        }
+    },
+
+    handleMouseleave: {
+        value: function() {
+            this.showVdevTypes = false;
+        }
+    },
+
+    handleVdevTypeButtonAction: {
+        value: function(event) {
+            this.object.type = event.target.value;
+            this._hasUserDefinedType = true;
+            this.showVdevTypes = false;
         }
     }
 

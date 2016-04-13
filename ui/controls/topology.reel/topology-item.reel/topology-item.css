@@ -85,29 +85,6 @@
     box-shadow: 0 1px 1px rgba(0,0,0,.3);
 }
 
-/* Title */
-.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title {
-    position: relative;
-    order: -1;
-    text-align: left;
-    background: #222;
-    border-top-right-radius: 4px;
-    border-top-left-radius:  4px;
-    padding: .25em .5em;
-}
-
-.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title {}
-
-/* status icon */
-.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon > .LabeledIcon-title:before {
-    content: '';
-    display: inline-block;
-    width:  .8em;
-    height: .8em;
-    background: green;
-    border-radius: .5em;
-    margin-bottom: .02em;
-}
 
 /* Grid Container*/
 .TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-image > * {

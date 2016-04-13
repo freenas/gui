@@ -42,18 +42,27 @@ exports.TopologyItem = Component.specialize(/** @lends TopologyItem# */ {
 
     _orderAllowedVdevTypes: {
         value: function () {
-            var self = this,
-                maxType = this.maxDefaultVdevType || this.maxVdevType;
-            this.allowedDefaultVdevTypes = Object.keys(this.vdevTypes)
+            var self = this;
+            this.allowedVdevTypes = Object.keys(this.vdevTypes)
                 .map(function (x) {
                     return self.vdevTypes[x];
                 })
                 .filter(function (x) {
-                    return x.id <= maxType.id;
+                    return x.id <= self.maxVdevType.id;
                 })
                 .sort(function (a, b) {
                     return a.id < b.id ? 1 : -1;
                 });
+            if (this.maxDefaultVdevType) {
+                this.allowedDefaultVdevTypes = this.allowedVdevTypes.filter(function (x) {
+                        return x.id <= self.maxDefaultVdevType.id;
+                    })
+                    .sort(function (a, b) {
+                        return a.id < b.id ? 1 : -1;
+                    });
+            } else {
+                this.allowedDefaultVdevTypes = this.allowedVdevTypes;
+            }
         }
 
     }
