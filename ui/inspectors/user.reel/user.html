@@ -34,7 +34,8 @@
                 "errorMessage": "User ID must be between 0 and 4294967295"
             },
             "bindings": {
-                "value": {"<->": "+@owner.object.uid"}
+                "value": {"<->": "+@owner.object.uid"},
+                "placeholderValue": {"<-": "!!@owner.nextUserId ? @owner.nextUserId : ''"}
             }
         },
         "username": {

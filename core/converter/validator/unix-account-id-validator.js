@@ -14,9 +14,13 @@ exports.UnixAccountIdValidator = Validator.specialize({
 
     validate: {
         value: function (accountId) {
-            var intValue = parseInt(accountId, 10);
-            return intValue == +accountId &&
-                this.MIN_VALUE <= intValue && intValue <= this.MAX_VALUE;
+            var result = true;
+            if (accountId) {
+                var intValue = parseInt(accountId, 10);
+                result = intValue == +accountId &&
+                    this.MIN_VALUE <= intValue && intValue <= this.MAX_VALUE;
+            }
+            return result;
         }
     }
 

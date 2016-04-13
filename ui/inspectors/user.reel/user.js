@@ -21,6 +21,9 @@ exports.User = Component.specialize({
             if (this._object != user) {
                 this._object = user;
                 this._loadGroups(user);
+                if (typeof user.uid != 'number') {
+                    this._getNextAvailableUserId();
+                }
             }
         }
     },
@@ -47,6 +50,17 @@ exports.User = Component.specialize({
                 self.groupOptions = groups;
                 self.additionalGroups = self._object.groups ? groups.filter(function (x) { return self.object.groups.indexOf(x.id) > -1; }) : [];
             });
+        }
+    },
+
+    _getNextAvailableUserId: {
+        value: function() {
+            var self = this;
+            return Model.populateObjectPrototypeForType(Model.User).then(function (User) {
+                return User.constructor.nextUid();
+            }).then(function(userId) {
+                self.nextUserId = userId;
+            })
         }
     }
 });
