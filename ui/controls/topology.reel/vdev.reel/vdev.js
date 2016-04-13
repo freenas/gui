@@ -35,8 +35,8 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     enterDocument: {
         value: function (firstTime) {
-            AbstractDropZoneComponent.prototype.enterDocument.call(this, firstTime);
             this._populateTopologyItem();
+            AbstractDropZoneComponent.prototype.enterDocument.call(this, firstTime);
             this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
         }
     },
@@ -169,8 +169,10 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _defineDefaultType: {
         value: function() {
-            var childrenCount = this.children.length;
-            this.object.type = this._topologyItem.allowedVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; })[0].value;
+            if (this._topologyItem) {
+                var childrenCount = this.children.length;
+                this.object.type = this._topologyItem.allowedVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; })[0].value;
+            }
         }
     },
 
