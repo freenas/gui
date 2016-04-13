@@ -56,15 +56,14 @@
                 "checked": {"<-": "@owner.object.enabled"}
             }
         },
-        "interface_name": {
+        "description": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "interface_name"},
-                "label": "Interface Name"
+                "element": {"#": "description"},
+                "label": "Description"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.name"},
-                "placeholderValue": {"<-": "@owner.object.id"}
+                "value": {"<->": "@owner.object.name"}
             }
         },
         "ip_address": {
@@ -179,7 +178,7 @@
                 <div data-montage-id="overview" data-arg="true"></div>
                 <div data-montage-id="enabled" data-arg="false"></div>
             </div>
-            <div data-montage-id="interface_name"></div>
+            <div data-montage-id="description"></div>
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
