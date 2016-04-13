@@ -62,6 +62,16 @@ exports.Topologizer = Component.specialize({
         }
     },
 
+    reset: {
+        value:function() {
+            this.handlePosition = {
+                x: 55,
+                y: 47.5
+            };
+            this.barycentricValues = [];
+        }
+    },
+
     _computeBarycentricValues: {
         value: function (x, y) {
             if (this._width && this._height) {

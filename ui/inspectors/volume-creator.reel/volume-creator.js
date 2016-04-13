@@ -37,6 +37,9 @@ exports.VolumeCreator = Component.specialize({
             object.topology.data = [];
             object.topology.log = [];
             object.topology.spare = [];
+            if (this.disks) {
+                this.disks.filter(function(x) { return x.volume == '/TEMP/'; }).map(function(x) { x.volume = null; });
+            }
             return object;
         }
     },
@@ -148,8 +151,8 @@ exports.VolumeCreator = Component.specialize({
 
     revert: {
         value: function() {
+            this.topologizer.reset();
             this._initializeTopology();
-
         }
     },
 
