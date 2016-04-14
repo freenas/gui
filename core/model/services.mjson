@@ -146,6 +146,34 @@
             }
         }
     },
+    "BackupS3": {
+        "instance": {
+            "get": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.s3.get"
+            },
+            "init": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.s3.init"
+            },
+            "list": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.s3.list"
+            },
+            "put": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "backup.s3.put"
+            }
+        }
+    },
     "BackupSsh": {
         "instance": {
             "delete": {
@@ -1483,15 +1511,6 @@
             }
         }
     },
-    "ReplicationHost": {
-        "instance": {
-            "read": {
-                "method": "replication.host.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "ReplicationLink": {
         "class": {
             "getOneLocal": {
@@ -1510,52 +1529,6 @@
                 "method": "replication.link.query",
                 "name": "call",
                 "namespace": "rpc"
-            }
-        }
-    },
-    "ReplicationTransport": {
-        "instance": {
-            "compress": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.transport.compress"
-            },
-            "decompress": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.transport.decompress"
-            },
-            "decrypt": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.transport.decrypt"
-            },
-            "encrypt": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.transport.encrypt"
-            },
-            "receive": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.transport.receive"
-            },
-            "send": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.transport.send"
-            },
-            "throttle": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.transport.throttle"
             }
         }
     },

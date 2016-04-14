@@ -37,6 +37,10 @@
             "type": "BackupFile"
         },
         {
+            "modelId": "core/model/descriptors/backup-s3.mjson",
+            "type": "BackupS3"
+        },
+        {
             "modelId": "core/model/descriptors/backup-ssh.mjson",
             "type": "BackupSsh"
         },
@@ -67,18 +71,6 @@
         {
             "modelId": "core/model/descriptors/calendar-task.mjson",
             "type": "CalendarTask"
-        },
-        {
-            "modelId": "core/model/descriptors/compress-plugin-read-fd.mjson",
-            "type": "CompressPluginReadFd"
-        },
-        {
-            "modelId": "core/model/descriptors/compress-plugin-write-fd.mjson",
-            "type": "CompressPluginWriteFd"
-        },
-        {
-            "modelId": "core/model/descriptors/compress-plugin.mjson",
-            "type": "CompressPlugin"
         },
         {
             "modelId": "core/model/descriptors/container-config.mjson",
@@ -165,18 +157,6 @@
             "type": "DisksAllocation"
         },
         {
-            "modelId": "core/model/descriptors/encrypt-plugin-read-fd.mjson",
-            "type": "EncryptPluginReadFd"
-        },
-        {
-            "modelId": "core/model/descriptors/encrypt-plugin-write-fd.mjson",
-            "type": "EncryptPluginWriteFd"
-        },
-        {
-            "modelId": "core/model/descriptors/encrypt-plugin.mjson",
-            "type": "EncryptPlugin"
-        },
-        {
             "modelId": "core/model/descriptors/encryption.mjson",
             "type": "Encryption"
         },
@@ -199,10 +179,6 @@
         {
             "modelId": "core/model/descriptors/ipmi.mjson",
             "type": "Ipmi"
-        },
-        {
-            "modelId": "core/model/descriptors/known-host.mjson",
-            "type": "KnownHost"
         },
         {
             "modelId": "core/model/descriptors/ldap-config.mjson",
@@ -307,10 +283,6 @@
         {
             "modelId": "core/model/descriptors/replication-link.mjson",
             "type": "ReplicationLink"
-        },
-        {
-            "modelId": "core/model/descriptors/replication-transport.mjson",
-            "type": "ReplicationTransport"
         },
         {
             "modelId": "core/model/descriptors/replication.mjson",
@@ -515,18 +487,6 @@
         {
             "modelId": "core/model/descriptors/task.mjson",
             "type": "Task"
-        },
-        {
-            "modelId": "core/model/descriptors/throttle-plugin-read-fd.mjson",
-            "type": "ThrottlePluginReadFd"
-        },
-        {
-            "modelId": "core/model/descriptors/throttle-plugin-write-fd.mjson",
-            "type": "ThrottlePluginWriteFd"
-        },
-        {
-            "modelId": "core/model/descriptors/throttle-plugin.mjson",
-            "type": "ThrottlePlugin"
         },
         {
             "modelId": "core/model/descriptors/tunable.mjson",

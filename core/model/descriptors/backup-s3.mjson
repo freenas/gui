@@ -1,0 +1,65 @@
+{
+  "blueprint_backups3_access_key": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "access_key",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_backups3_bucket": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bucket",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_backups3_folder": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "folder",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_backups3_region": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "region",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_backups3_secret_key": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "secret_key",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_backups3_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "backup-s3"
+      ]
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "BackupS3",
+      "propertyBlueprints": [
+        {"@": "blueprint_backups3_access_key"},
+        {"@": "blueprint_backups3_bucket"},
+        {"@": "blueprint_backups3_folder"},
+        {"@": "blueprint_backups3_region"},
+        {"@": "blueprint_backups3_secret_key"},
+        {"@": "blueprint_backups3_type"}
+      ]
+    }
+  }
+}
