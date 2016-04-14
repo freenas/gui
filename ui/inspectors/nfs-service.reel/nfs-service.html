@@ -13,7 +13,7 @@
         "bind_addresses": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
-                "element": "bind_addresses",
+                "element": {"#": "bind_addresses"},
                 "label": "Bind IP Addresses"
             },
             "bindings": {
@@ -23,7 +23,7 @@
         "rpclockd_port": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": "rpclockd_port",
+                "element": {"#": "rpclockd_port"},
                 "label": "rpc.lockd(8) bind port"
             },
             "bindings": {
@@ -33,7 +33,7 @@
         "v4": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": "v4",
+                "element": {"#": "v4"},
                 "label": "Enable NFSv4"
             },
             "bindings": {
@@ -43,7 +43,7 @@
         "servers": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": "servers",
+                "element": {"#": "servers"},
                 "label": "Number of Servers"
             },
             "bindings": {
@@ -53,7 +53,7 @@
         "mountd_port": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": "mountd_port",
+                "element": {"#": "mountd_port"},
                 "label": "mountd(8) bind port"
             },
             "bindings": {
@@ -63,7 +63,7 @@
         "nonroot": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": "nonroot",
+                "element": {"#": "nonroot"},
                 "label": "Allow non-root mount"
             },
             "bindings": {
@@ -73,7 +73,7 @@
         "v4_kerberos": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": "v4_kerberos",
+                "element": {"#": "v4_kerberos"},
                 "label": "Require Kerberos for NFSv4"
             },
             "bindings": {
@@ -83,7 +83,7 @@
         "udp": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": "udp",
+                "element": {"#": "udp"},
                 "label": "Serve UDP NFS clients"
             },
             "bindings": {
@@ -93,7 +93,7 @@
         "rpcstatd_port": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": "rpcstatd_port",
+                "element": {"#": "rpcstatd_port"},
                 "label": "rpc.statd(8) bind port"
             },
             "bindings": {
