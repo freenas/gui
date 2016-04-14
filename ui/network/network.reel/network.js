@@ -19,6 +19,9 @@ exports.Network = Component.specialize({
             if (firstTime) {
                 var self = this;
 
+                this.addPathChangeListener("overview.networkConfiguration.general.hostname", this, "_handleHostnameChange");
+                this.addRangeAtPathChangeListener("overview.interfaces", this, "_handleNetworkInterfacesRangeChange");
+
                 this.getNetworkOverview().then(function (networkOverview) {
                     self.overview = networkOverview;
                 });
@@ -49,7 +52,6 @@ exports.Network = Component.specialize({
             }).then(function () {
                 return self.getSystemGeneralConfig()
             }).then(function (systemGeneral) {
-                networkOverview.summary.hostname = systemGeneral.hostname;
                 networkOverview.networkConfiguration.general = systemGeneral;
                 return self._populateStaticRoutes(networkOverview);
             }).then(function () {
@@ -89,12 +91,40 @@ exports.Network = Component.specialize({
             var self = this;
 
             return this.application.dataService.fetchData(Model.NetworkInterface).then(function (networkInterfaces) {
-                networkOverview.summary.interfaces = self._getInterfacesSummaries(networkInterfaces);
                 networkOverview.interfaces = networkInterfaces;
             });
         }
     },
 
+    _handleNetworkInterfacesRangeChange: {
+        value: function (plus, minus, index) {
+            var overview = this.overview;
+
+            if (overview && overview.summary) {
+                var networkInterfacesSummary = overview.summary.interfaces || [];
+
+                if (plus.length) {
+                    this._getInterfacesSummaries(plus, networkInterfacesSummary);
+                }
+
+                if (minus.length) {
+                    for (var i = 0, length = minus.length; i < length; i++) {
+                        this._removeInterfaceFromInterfacesSummary(minus[i], networkInterfacesSummary);
+                    }
+                }
+
+                overview.summary.interfaces = networkInterfacesSummary;
+            }
+        }
+    },
+
+    _handleHostnameChange: {
+        value: function (hostname) {
+            if (this.overview && this.overview.summary) {
+                this.overview.summary.hostname = hostname;
+            }
+        }
+    },
 
     _populateStaticRoutes: {
         value: function (networkOverview) {
@@ -113,15 +143,13 @@ exports.Network = Component.specialize({
 
 
     _getInterfacesSummaries: {
-        value: function (networkInterfaces) {
-            var networkInterface,
-                interfaceSummary,
-                interfacesSummaries = [];
+        value: function (networkInterfaces, interfacesSummaries) {
+            var interfaceSummary;
+            interfacesSummaries = interfacesSummaries || [];
 
             for (var i = 0, length = networkInterfaces.length; i < length; i++) {
-                networkInterface = networkInterfaces[i];
                 interfaceSummary = {};
-                this._populateNetworkInterfaceStatus(networkInterface, interfaceSummary);
+                this._populateNetworkInterfaceStatus(networkInterfaces[i], interfaceSummary);
                 interfacesSummaries.push(interfaceSummary);
             }
 
@@ -129,6 +157,36 @@ exports.Network = Component.specialize({
         }
     },
 
+    _removeInterfaceFromInterfacesSummary: {
+        value: function (networkInterface, networkInterfacesSummary) {
+            // Fixme: @see _populateNetworkInterfaceStatus
+            if (Promise.is(networkInterface.status)) {
+                var self = this;
+
+                networkInterface.status.then(function () {
+                    self.__removeInterfaceFromInterfacesSummary(networkInterface, networkInterfacesSummary);
+                });
+            } else {
+                this.__removeInterfaceFromInterfacesSummary(networkInterface, networkInterfacesSummary);
+            }
+        }
+    },
+
+    __removeInterfaceFromInterfacesSummary: {
+        value: function (networkInterface, networkInterfacesSummary) {
+            var networkInterfaceName = networkInterface.status.name,
+                networkInterfaceSummary;
+
+            for (var i = 0, length = networkInterfacesSummary.length; i < length; i++) {
+                networkInterfaceSummary = networkInterfacesSummary[i];
+
+                if (networkInterfaceSummary.name === networkInterfaceName) {
+                    networkInterfacesSummary.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    },
 
     _populateNetworkInterfaceStatus: {
         value: function (networkInterface, interfaceSummary) {
