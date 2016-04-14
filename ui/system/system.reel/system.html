@@ -75,6 +75,12 @@
             "prototype": "../general.reel",
             "properties": {
                 "element": {"#": "general"}
+            },
+            "bindings": {
+                "hardware": {"<-": "@owner.hardware"},
+                "loadAvg": {"<-": "@owner.loadAvg"},
+                "time": {"<-": "@owner.time"},
+                "version": {"<-": "@owner.version"}
             }
         },
         "bootPool": {

@@ -9,13 +9,97 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
+        "hostname": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "hostname"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.hostname"}
+            }
+        },
+        "version": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "version"},
+                "label": "FreeNAS Version"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.version"}
+            }
+        },
+        "cpu_model": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "cpu_model"},
+                "label": "Platform"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.hardware.cpu_model"}
+            }
+        },
+        "memory": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "memory"},
+                "label": "Memory"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.memory_size"}
+            }
+        },
+        "systemTime": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "systemTime"},
+                "label": "System Time"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.time.system_time"}
+            }
+        },
+        "uptime": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "uptime"},
+                "label": "Uptime"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.time.uptime"}
+            }
+        },
+        "loadAverage": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "loadAverage"},
+                "label": "Load Average"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.loadAvg"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="General">
-        <i>system/general.reel</i>
+        <div data-montage-id="scrollView">
+            <div data-montage-id="hostname"></div>
+            <div data-montage-id="version"></div>
+            <div data-montage-id="cpu_model"></div>
+            <div data-montage-id="memory"></div>
+            <div data-montage-id="systemTime"></div>
+            <div data-montage-id="uptime"></div>
+            <div data-montage-id="loadAverage"></div>
+        </div>
     </div>
 </body>
 </html>
