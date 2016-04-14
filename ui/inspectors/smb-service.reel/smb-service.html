@@ -167,7 +167,7 @@
                 "label": "Unix extensions"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.unixext"}
+                "checked": {"<->": "@owner.object.unixext"}
             }
         },
         "zeroconf": {
@@ -177,7 +177,7 @@
                 "label": "Zeroconf share discovery"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.zeroconf"}
+                "checked": {"<->": "@owner.object.zeroconf"}
             }
         },
         "hostLookup": {
@@ -187,7 +187,7 @@
                 "label": "Hostnames lookups"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.hostlookup"}
+                "checked": {"<->": "@owner.object.hostlookup"}
             }
         },
         "minProtocol": {
@@ -220,17 +220,17 @@
                 "label": "Allow execute always"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.execute_always"}
+                "checked": {"<->": "@owner.object.execute_always"}
             }
         },
         "obeyPamRestrictions": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "obeyPamRestrictions"},
-                "label": "Obey pam restrictions"
+                "label": "Obey PAM restrictions"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.obey_pam_restrictions"}
+                "checked": {"<->": "@owner.object.obey_pam_restrictions"}
             }
         },
         "bindAddresses": {
