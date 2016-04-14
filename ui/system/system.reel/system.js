@@ -5,6 +5,10 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.System = Component.specialize({
+    _hostname: {
+        value: "freenas.local"
+    },
+
     _hardware: {
         value: {
             "cpu_clockrate": 2494,
@@ -33,6 +37,12 @@ exports.System = Component.specialize({
 
     _version: {
         value: "FreeNAS-10-MASTER-201604140930"
+    },
+
+    hostname: {
+        get: function() {
+            return this._hostname;
+        }
     },
 
     hardware: {

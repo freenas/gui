@@ -20,10 +20,11 @@
         "hostname": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
-                "element": {"#": "hostname"}
+                "element": {"#": "hostname"},
+                "label": "Hostname"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.hostname"}
+                "value": {"<-": "@owner.hostname"}
             }
         },
         "version": {
@@ -53,7 +54,7 @@
                 "label": "Memory"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.memory_size"}
+                "value": {"<-": "@owner.hardware.memory_size"}
             }
         },
         "systemTime": {
