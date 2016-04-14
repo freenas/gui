@@ -9,13 +9,86 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canRevert": "true",
+                "canSave": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"},
+                "canDelete": {"<-": "!@owner.object.builtin"}
+            }
+        },
+        "gidValidator": {
+            "prototype": "core/converter/validator/unix-account-id-validator"
+        },
+        "gidSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "gidSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.editMode"}
+            }
+        },
+        "gidEdit": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "gidEdit"},
+                "label": "Group ID",
+                "validator": {"@": "gidValidator"},
+                "errorMessage": "User ID must be between 0 and 4294967295"
+            },
+            "bindings": {
+                "value": {"<->": "+@owner.object.gid"},
+                "placeholderValue": {"<-": "!!@owner.nextGroupId ? @owner.nextGroupId : ''"}
+            }
+        },
+        "gidDisplay": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "gidDisplay"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.gid"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Group Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "sudo": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "sudo"},
+                "label": "Administrator Permissions"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.sudo"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Group">
-        <i>inspectors/group.reel</i>
+        <div data-montage-id="inspector">
+            <div data-montage-id="gidSubstitution">
+                <div data-montage-id="gidEdit" data-arg="creating"></div>
+                <div data-montage-id="gidDisplay" data-arg="editing"></div>
+            </div>
+            <div data-montage-id="name"></div>
+            <div data-montage-id="sudo"></div>
+        </div>
     </div>
 </body>
 </html>

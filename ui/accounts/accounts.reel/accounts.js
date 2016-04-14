@@ -11,7 +11,7 @@ exports.Accounts = Component.specialize({
         value: function (isFirstTime) {
             if (isFirstTime) {
                 this._listUsers();
-                this._prefetchGroups();
+                this._listGroups();
             }
         }
     },
@@ -26,9 +26,12 @@ exports.Accounts = Component.specialize({
         }
     },
 
-    _prefetchGroups: {
+    _listGroups: {
         value: function() {
-            return this.application.dataService.fetchData(Model.Group);
+            var self = this;
+            return this.application.dataService.fetchData(Model.Group).then(function (groups) {
+                self.groups = groups;
+            });
         }
     }
 

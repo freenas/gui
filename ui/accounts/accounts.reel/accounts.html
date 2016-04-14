@@ -51,9 +51,12 @@
             }
         },
         "groups": {
-            "prototype": "../../inspectors/group.reel",
+            "prototype": "ui/controls/cascading-list.reel",
             "properties": {
                 "element": {"#": "groups"}
+            },
+            "bindings": {
+                "root": {"<-": "@owner.groups"}
             }
         }
 

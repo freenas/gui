@@ -1,0 +1,13 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/inspectors/group.reel"},
+            "iconComponentModule": {"%": "ui/icons/group.reel"},
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "nameExpression": "name",
+            "collectionNameExpression": "'Groups'",
+            "creatorComponentModule": {"%": "ui/inspectors/group.reel"}
+        }
+    }
+}
