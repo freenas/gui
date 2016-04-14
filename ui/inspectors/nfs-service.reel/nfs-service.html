@@ -9,12 +9,111 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "bind_addresses": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": "bind_addresses",
+                "label": "Bind IP Addresses"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.bind_addresses"}
+            }
+        },
+        "rpclockd_port": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": "rpclockd_port",
+                "label": "rpc.lockd(8) bind port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.rpclockd_port"}
+            }
+        },
+        "v4": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": "v4",
+                "label": "Enable NFSv4"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.v4"}
+            }
+        },
+        "servers": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": "servers",
+                "label": "Number of Servers"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.servers"}
+            }
+        },
+        "mountd_port": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": "mountd_port",
+                "label": "mountd(8) bind port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.mountd_port"}
+            }
+        },
+        "nonroot": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": "nonroot",
+                "label": "Allow non-root mount"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.nonroot"}
+            }
+        },
+        "v4_kerberos": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": "v4_kerberos",
+                "label": "Require Kerberos for NFSv4"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.v4_kerberos"}
+            }
+        },
+        "udp": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": "udp",
+                "label": "Serve UDP NFS clients"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.udp"}
+            }
+        },
+        "rpcstatd_port": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": "rpcstatd_port",
+                "label": "rpc.statd(8) bind port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.rpcstatd_port"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="NfsService">
+        <div data-montage-id="v4"></div>
+        <div data-montage-id="v4_kerberos"></div>
+        <div data-montage-id="nonroot"></div>
+        <div data-montage-id="udp"></div>
+        <div data-montage-id="servers"></div>
+        <div data-montage-id="mountd_port"></div>
+        <div data-montage-id="rpcstatd_port"></div>
+        <div data-montage-id="rpclockd_port"></div>
+        <div data-montage-id="bind_addresses"></div>
     </div>
 </body>
 </html>
