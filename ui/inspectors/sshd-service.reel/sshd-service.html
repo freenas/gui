@@ -31,11 +31,19 @@
                 "checked": {"<->": "@owner.object.allow_password_auth"}
             }
         },
+        "portConverter": {
+            "prototype": "core/converter/ip-range-converter",
+            "properties": {
+                "from": 1,
+                "to": 65535
+            }
+        },
         "port": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "port"},
-                "label": "Port"
+                "label": "Port",
+                "converter": {"@": "portConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.port"}
