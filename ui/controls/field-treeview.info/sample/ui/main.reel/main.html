@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Main</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "main"}
+            }
+        },
+        "icons": {
+            "prototype": "gui/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        },
+        "default": {
+            "prototype": "gui/ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "default"},
+                "currentNode": {
+                    "name": "parentNode",
+                    "path": "/parentNode"
+                },
+                "data": [
+                    {"name": "item one", "path": "/parentNode/itemOne"},
+                    {"name": "item two", "path": "/parentNode/itemTwo"},
+                    {"name": "item three", "path": "/parentNode/itemThree"},
+                    {"name": "item four", "path": "/parentNode/itemFour"},
+                    {"name": "item five", "path": "/parentNode/itemFive"}
+                ]
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="main" class="Main inspector">
+        <!-- only needed for demo -->
+        <div data-montage-id="icons"></div>
+        <!-- end -->
+        <div data-montage-id="default"></div>
+        <p>test this text</p>
+    </div>
+</body>
+</html>

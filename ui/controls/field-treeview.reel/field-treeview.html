@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="field-treeview.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": { "@": "owner" }
+                }
+
+            ]
+        },
+        "field": {
+            "prototype": "blue-shark/ui/field.reel",
+            "properties": {
+                "element": {"#": "field"},
+                "label": "Current File"
+            }
+        },
+        "pathButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "pathButton"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.currentNode.path.defined() ? @owner.currentNode.path : 'Select a Folder'"}
+            }
+        },
+        "treeview": {
+            "prototype": "ui/controls/tree-view.reel",
+            "properties": {
+                "element": {"#": "treeview"}
+            },
+            "bindings": {
+                "data": {"<-": "@owner.data"},
+                "currentNode": {"<-": "@owner.currentNode"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="FieldTreeview">
+        <div data-montage-id="field">
+            <div data-montage-id="pathButton" class="FieldTreeview-pathButton">
+                <svg><use xlink:href="#i-folder"/></svg>
+            </div>
+        </div>
+        <div data-montage-id="treeview" class="FieldTreeview-treeView"></div>
+    </div>
+</body>
+</html>

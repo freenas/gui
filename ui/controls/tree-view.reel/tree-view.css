@@ -1,0 +1,66 @@
+.TreeView {
+    border: 1px solid #000;
+    border-radius: 4px;
+}
+
+.TreeView-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #000;
+}
+
+.TreeView-backButton {
+    flex-shrink: 0;
+    height: 2em;
+    width:  2em;
+    padding: .5em;
+    cursor: pointer;
+}
+
+.TreeView-backButton:hover {
+    background: rgba(255,255,255,.1);
+}
+
+.TreeView-backButton.montage--disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.TreeView-backButton svg {
+    width:  100%;
+    height: 100%;
+    transform: rotate(180deg);
+}
+
+/* input path */
+
+.TreeView-currentPath {
+    border-radius: 0;
+    border-color: transparent;
+    height: 2em;
+}
+
+/*
+
+Body
+
+*/
+
+.TreeView-body {
+    overflow: hidden;
+    position: relative;
+    height: 10em;
+}
+
+/*
+
+Footer
+
+*/
+
+.TreeView-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: .5em;
+    background: #222;
+}

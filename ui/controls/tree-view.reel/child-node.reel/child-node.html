@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="child-node.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.data.name"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ChildNode">
+        <div class="ChildNode-typeIcon">
+            <svg><use xlink:href="#i-folder"/></svg>
+        </div>
+        <div data-montage-id="name" class="ChildNode-name"></div>
+        <div class="ChildNode-arrow">
+            <svg><use xlink:href="#i-arrow"/></svg>
+        </div>
+    </div>
+</body>
+</html>

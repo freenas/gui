@@ -1,0 +1,38 @@
+.FieldTreeview {}
+
+.FieldTreeview-pathButton {
+    display: flex;
+    align-items: center;
+    line-height: 2em;
+    height: 2em;
+    padding: 0 .5em;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    transition-property: color, background-color;
+    transition-timing-function: ease-in-out;
+    transition-duration: .25s
+}
+
+.FieldTreeview-pathButton:hover {
+    color: #DFE4E4;
+    background: #2F3233;
+}
+
+.FieldTreeview-pathButton svg {
+    order: -1;
+    height: 100%;
+    width:  1.25em;
+    margin-right: .5em;
+}
+
+.FieldTreeview-treeView {
+    position: absolute;
+    visibility: hidden;
+}
+
+.FieldTreeview.isExpanded .FieldTreeview-treeView {
+    position: relative;
+    visibility: visible;
+}
