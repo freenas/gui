@@ -66,6 +66,9 @@
             "prototype": "montage/ui/button.reel",
             "properties": {
                 "element": {"#": "createButton"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.hasCreateEditor"}
             }
         },
         "scrollView": {

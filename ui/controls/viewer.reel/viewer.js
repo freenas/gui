@@ -8,18 +8,51 @@ var Component = require("montage/ui/component").Component,
  */
 exports.Viewer = Component.specialize({
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                this._object = object;
+
+                if (object) {
+                    var self = this;
+
+                    this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
+                        self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
+
+                    }).catch(function (error) {
+                        console.warn(error);
+                    });
+                }
+            }
+        },
+        get: function () {
+            return this._object;
+        }
+    },
+
+    hasCreateEditor: {
+        value: false
+    },
+
     handleCreateButtonAction: {
         value: function () {
-            var type = Array.isArray(this.object) ? this.object._meta_data.collectionModelType :
-                Object.getPrototypeOf(this.object).Type;
+            if (this.hasCreateEditor) {
+                var type = Array.isArray(this.object) && this.object._meta_data ?
+                    this.object._meta_data.collectionModelType : Object.getPrototypeOf(this.object).Type;
 
-            this.selectedObject = null;
-            if (type) {
-                var self = this;
-                //Fixme: getDataObject must return a promise!
-                return Model.populateObjectPrototypeForType(type).then(function () {
-                    self.parentCascadingListItem.selectedObject = self.application.dataService.getDataObject(type);
-                });
+                this.selectedObject = null;
+
+                if (type) {
+                    var self = this;
+                    //Fixme: getDataObject must return a promise!
+                    return Model.populateObjectPrototypeForType(type).then(function () {
+                        self.parentCascadingListItem.selectedObject = self.application.dataService.getDataObject(type);
+                    });
+                }
             }
         }
     },
