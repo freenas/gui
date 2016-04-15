@@ -9,12 +9,101 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "bind_addresses": {
+            "prototype": "blue-shark/ui/multiple-select.reel",
+            "properties": {
+                "element": {"#": "bind_addresses"},
+                "label": "Bind IP Addresses"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.bind_addresses"}
+            }
+        },
+        "max_connections": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "max_connections"},
+                "label": "Maximum Connections"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.max_connections"}
+            }
+        },
+        "guest_enable": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "guest_enable"},
+                "label": "Enable Guest Access"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.guest_enable"}
+            }
+        },
+        "homedir_enable": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "homedir_enable"},
+                "label": "Enable Home Directories"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.homedir_enable"}
+            }
+        },
+        "guest_user": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "guest_user"},
+                "label": "Guest User"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.guest_user"},
+                "options": {"<-": "@owner.users"}
+            }
+        },
+        "dbpath": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "dbpath"},
+                "label": "Database Path"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.dbpath"}
+            }
+        },
+        "homedir_path": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "homedir_path"},
+                "label": "Home Directories Root Path"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.homedir_path"}
+            }
+        },
+        "homedir_name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "homedir_name"},
+                "label": "Home Directory Share Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.homedir_name"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="AfpService">
+        <div data-montage-id="guest_enable"></div>
+        <div data-montage-id="guest_user"></div>
+        <div data-montage-id="homedir_enable"></div>
+        <div data-montage-id="homedir_path"></div>
+        <div data-montage-id="homedir_name"></div>
+        <div data-montage-id="max_connections"></div>
+        <div data-montage-id="dbpath"></div>
+        <div data-montage-id="bind_addresses"></div>
     </div>
 </body>
 </html>
