@@ -6,7 +6,7 @@
             "iconComponentModule": {"%": "ui/icons/group.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "name",
-            "collectionNameExpression": "gid < 1000 ? 'System Groups' : 'Standard Groups'",
+            "collectionNameExpression": "@owner.object.one().gid >= 1000 || !@owner.object.one() ? 'Standard Groups' : 'System Groups'",
             "creatorComponentModule": {"%": "ui/inspectors/group.reel"}
         }
     }

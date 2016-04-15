@@ -21,7 +21,7 @@ exports.CascadingListItem = Component.specialize({
                 if (data) {
                     var defaultInspectorId = this.constructor.DEFAULT_INSPECTOR_ID,
                         userInterfaceDescriptor = data.userInterfaceDescriptor,
-                        object = data.object;
+                        object = this.object = data.object;
 
                     this.isCollection = Array.isArray(object);
                     this.userInterfaceDescriptor = userInterfaceDescriptor;
@@ -50,6 +50,8 @@ exports.CascadingListItem = Component.specialize({
                             }
                         }
                     }
+                } else {
+                    this.object = null;
                 }
 
                 this._data = data;
