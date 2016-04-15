@@ -7,7 +7,12 @@ var Component = require("montage/ui/component").Component;
 exports.MemoryAllocation = Component.specialize({
     enterDocument: {
         value: function () {
-            this._fetchStatistics();
+            var self = this;
+            this._fetchStatistics().then(function() {
+                setInterval(function() {
+                    self._fetchStatistics();
+                }, 10000);
+            });
         }
     },
 
@@ -30,7 +35,7 @@ exports.MemoryAllocation = Component.specialize({
         value: function() {
             var self = this;
 
-            this.application.statisticsService.getDatasources().then(function(datasources) {
+            return this.application.statisticsService.getDatasources().then(function(datasources) {
                 self._addDatasourceToChart(datasources.memory, 'memory-active');
                 self._addDatasourceToChart(datasources.memory, 'memory-inactive');
                 self._addDatasourceToChart(datasources.memory, 'memory-cache');

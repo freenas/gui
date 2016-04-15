@@ -7,7 +7,12 @@ var Component = require("montage/ui/component").Component;
 exports.CpuUsage = Component.specialize({
     enterDocument: {
         value: function () {
-            this._fetchStatistics();
+            var self = this;
+            this._fetchStatistics().then(function() {
+                setInterval(function() {
+                    self._fetchStatistics();
+                }, 10000);
+            });
         }
     },
 
@@ -16,7 +21,7 @@ exports.CpuUsage = Component.specialize({
             suffix = suffix || 'value';
             var self = this,
                 path = source.children[metric].path.join('.') + '.' + suffix;
-            this.application.statisticsService.getDatasourceHistory(path).then(function (values) {
+            return this.application.statisticsService.getDatasourceHistory(path).then(function (values) {
                 self.chart.addSerie({
                     key: source.label + '.' + metric.replace('cpu-', ''),
                     values: values.map(function (value) {
@@ -31,7 +36,7 @@ exports.CpuUsage = Component.specialize({
         value: function() {
             var self = this;
 
-            this.application.statisticsService.getDatasources().then(function(datasources) {
+            return this.application.statisticsService.getDatasources().then(function(datasources) {
                 return Object.keys(datasources).filter(function(x) { return x.indexOf('cpu-') == 0; }).sort().map(function(x) { return datasources[x]; });
             }).then(function(cpus) {
                 var i, length, cpu;

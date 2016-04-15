@@ -1,5 +1,4 @@
 var Montage = require("montage").Montage,
-    Promise = require("montage/core/promise").Promise,
     BackEndBridgeModule = require("../backend/backend-bridge");
 
 var StatisticsService = exports.StatisticsService = Montage.specialize({
@@ -45,6 +44,12 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
             }]).then(function(response) {
                 return response.data.data;
             });
+        }
+    },
+
+    subscribeToUpdates: {
+        value: function(datasource, listener) {
+            return this._backendBridge.subscribeToEvent("statd." + datasource, listener);
         }
     },
 

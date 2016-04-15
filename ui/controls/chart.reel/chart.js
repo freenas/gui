@@ -107,7 +107,12 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     addSerie: {
         value: function(serie) {
-            this._series.push(serie);
+            var existingSerieIndex = this._series.map(function(x) { return x.key === serie.key; }).indexOf(true);
+            if (existingSerieIndex > -1) {
+                this._series.splice(existingSerieIndex, 1, serie);
+            } else {
+                this._series.push(serie);
+            }
             this.needsDraw = true;
         }
     },
