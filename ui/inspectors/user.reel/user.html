@@ -104,11 +104,17 @@
                 "groupOptions": {"<-": "@owner.groupOptions"}
             }
         },
+        "groupsSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "groupsSection"},
+                "title": "Additional Groups"
+            }
+        },
         "groups": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "groups"},
-                "label": "Additional Groups",
                 "labelPath": "name",
                 "placeholderValue": "Select a group",
                 "converter": {"@": "additionalGroupsConverter"}
@@ -180,7 +186,9 @@
             <div data-montage-id="full_name"></div>
             <div data-montage-id="password"></div>
             <div data-montage-id="group"></div>
-            <div data-montage-id="groups"></div>
+            <div data-montage-id="groupsSection">
+                <div data-montage-id="groups"></div>
+            </div>
             <div data-montage-id="home"></div>
             <div data-montage-id="shell"></div>
             <div data-montage-id="email"></div>
