@@ -1,0 +1,42 @@
+{
+  "blueprint_accountcategory_standarduser": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "standardUser",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_accountcategory_systemuser": {
+      "prototype": "montage/core/meta/property-blueprint",
+      "properties": {
+        "name": "systemUser",
+        "blueprint": {"@": "root"}
+      }
+    },
+  "blueprint_accountcategory_standardgroup": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "standardGroup",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_accountcategory_systemgroup": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "systemGroup",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "accountcategory",
+      "propertyBlueprints": [
+        {"@": "blueprint_accountcategory_standarduser"},
+        {"@": "blueprint_accountcategory_systemuser"},
+        {"@": "blueprint_accountcategory_standardgroup"},
+        {"@": "blueprint_accountcategory_systemgroup"}
+      ]
+    }
+  }
+}
