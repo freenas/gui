@@ -11,9 +11,6 @@ exports.Main = Component.specialize({
 
     enterDocument: {
         value: function (firsTime) {
-            if (firsTime) {
-                this.application.section = 'dashboard';
-            }
         }
     },
 

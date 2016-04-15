@@ -5,59 +5,41 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.CpuUsage = Component.specialize({
-    _updateInterval: {
-        value: null
-    },
-
     enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                this.series = this._generateFakeData();
-            }
-        }
-    },
-
-    exitDocument: {
         value: function () {
-            clearInterval(this._updateInterval);
+            this._fetchStatistics();
         }
     },
 
-    _generateFakeData: {
+    _addDatasourceToChart: {
+        value: function (cpu, metric) {
+            var self = this,
+                path = cpu.children[metric].path.join('.') + '.value';
+            this.application.statisticsService.getDatasourceHistory(path).then(function (values) {
+                self.chart.addSerie({
+                    key: cpu.label + '.' + metric.replace('cpu-', ''),
+                    values: values.map(function (value) {
+                        return {x: value[0] * 1000, y: +value[1]/100}
+                    })
+                });
+            })
+        }
+    },
+
+    _fetchStatistics: {
         value: function() {
-            //var self = this;
-            var sampleFrequency = 2000,
-                sampleCount = 50,
-                series = [
-                    {
-                        values: [],
-                        key: 'System',
-                        //color: "#ff0000"
-                    },
-                    {
-                        values: [],
-                        key: 'User',
-                        //color: "#00ff00"
-                    }
-                ],
-                x = Date.now() - (sampleCount * sampleFrequency);
+            var self = this;
 
-            while (series[0].values.length < sampleCount) {
-                series[0].values.push({x: x, y: Math.random()*.3});
-                series[1].values.push({x: x, y: Math.random()*.3});
-                x += sampleFrequency;
-            }
-
-            this.updateInterval1 = setInterval(function() {
-                series[0].values.push({x: Date.now(), y: Math.random()*.3});
-                series[1].values.push({x: Date.now() + Math.random()*10, y: Math.random() *.3});
-                if (series[0].values.length > sampleCount) {
-                    series[0].values.shift();
-                    series[1].values.shift();
+            this.application.statisticsService.getDatasources().then(function(datasources) {
+                return Object.keys(datasources).filter(function(x) { return x.indexOf('cpu-') == 0; }).sort().map(function(x) { return datasources[x]; });
+            }).then(function(cpus) {
+                var i, length, cpu;
+                for (i = 0, length = cpus.length; i < length; i++) {
+                    cpu = cpus[i];
+                    self._addDatasourceToChart(cpu, 'cpu-user');
+                    self._addDatasourceToChart(cpu, 'cpu-system');
                 }
-                //self.series = series.map(function(x) {x.values = x.values.slice(100); return x });
-            }, sampleFrequency);
-            return series;
+            });
         }
     }
 });

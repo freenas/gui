@@ -117,6 +117,7 @@ exports.SignIn = AuthorizationPanel.specialize({
                     // Don't keep any track of the password in memory.
                     this.password = this.userName = null;
 
+                    this.application.section = 'dashboard';
                 }, function (error) {
                     this.errorMessage = error.message || error;
 

@@ -4,7 +4,7 @@ require("./extras/string");
 var Deserializer = require("montage/core/serialization/deserializer/montage-deserializer").MontageDeserializer,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     FilesystemService = require("core/service/filesystem-service").FilesystemService,
-    Model = require("core/model/model").Model,
+    StatisticsService = require("core/service/statistics-service").StatisticsService,
     Montage = require("montage").Montage;
 
 
@@ -27,6 +27,7 @@ exports.ApplicationDelegate = Montage.specialize({
         value: function (app) {
             app.dataService = FreeNASService.instance;
             app.filesystemService = FilesystemService.instance;
+            app.statisticsService = StatisticsService.instance;
         }
     },
 

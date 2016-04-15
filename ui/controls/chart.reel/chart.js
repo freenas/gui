@@ -83,25 +83,25 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             if (this._series != series) {
                 var self = this,
                     i, length;
-                nvd3.addGraph(function() {
-                    self._createChart();
-                    self._formatYAxis();
-                    self._formatXAxis();
-
-                    if (series) {
-                        self._series = [];
-                        for (i = 0, length = series.length; i < length; i++) {
-                            self.addSerie(series[i]);
-                        }
+                if (series) {
+                    self._series = [];
+                    for (i = 0, length = series.length; i < length; i++) {
+                        self.addSerie(series[i]);
                     }
-                });
+                }
             }
         }
     },
 
     constructor: {
         value: function() {
-            this._series = [];
+            var self = this;
+            nvd3.addGraph(function() {
+                self._createChart();
+                self._formatYAxis();
+                self._formatXAxis();
+                self._series = [];
+            });
         }
     },
 
@@ -114,9 +114,11 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     draw: {
         value: function() {
-            d3.select(this.chartElement)
-                .datum(this._series)
-                .call(this._chart);
+            if (this._series && this._series.length > 0) {
+                d3.select(this.chartElement)
+                    .datum(this._series)
+                    .call(this._chart);
+            }
         }
     },
 
