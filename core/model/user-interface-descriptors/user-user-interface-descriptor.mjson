@@ -6,7 +6,7 @@
             "iconComponentModule": {"%": "ui/icons/user.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "username",
-            "collectionNameExpression": "'Users'",
+            "collectionNameExpression": "uid < 1000 ? 'System Users' : 'Standard Users'",
             "creatorComponentModule": {"%": "ui/inspectors/user.reel"}
         }
     }
