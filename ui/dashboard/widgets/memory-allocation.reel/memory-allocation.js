@@ -1,86 +1,42 @@
-var Component = require("montage/ui/component").Component,
-    bytesConverter = new (require("montage/core/converter/bytes-converter").BytesConverter)();
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class MemoryAllocation
  * @extends Component
  */
 exports.MemoryAllocation = Component.specialize({
-    _updateInterval: {
-        value: null
-    },
-
     enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                this.series = this._generateFakeData();
-            }
-        }
-    },
-
-    exitDocument: {
         value: function () {
-            clearInterval(this._updateInterval);
+            this._fetchStatistics();
         }
     },
 
-    _generateFakeData: {
+    _addDatasourceToChart: {
+        value: function (source, metric) {
+            var self = this,
+                path = source.children[metric].path.join('.') + '.value';
+            this.application.statisticsService.getDatasourceHistory(path).then(function (values) {
+                self.chart.addSerie({
+                    key: source.label + '.' + metric.replace('memory-', ''),
+                    values: values.map(function (value) {
+                        return {x: value[0] * 1000, y: +value[1]}
+                    })
+                });
+            })
+        }
+    },
+
+    _fetchStatistics: {
         value: function() {
-            var sampleFrequency = 2000,
-                sampleCount = 50,
-                series = [
-                    {
-                        values: [],
-                        key: 'Free',
-                        //color: "#ff0000"
-                    },
-                    {
-                        values: [],
-                        key: 'Active',
-                        //color: "#0000ff"
-                    },
-                    {
-                        values: [],
-                        key: 'Cache',
-                        //color: "#ffff00"
-                    },
-                    {
-                        values: [],
-                        key: 'Wired',
-                        //color: "#00ffff"
-                    },
-                    {
-                        values: [],
-                        key: 'Inactive',
-                        //color: "#ff00ff"
-                    }
-                ],
-                x = Date.now() - (sampleCount * sampleFrequency);
+            var self = this;
 
-            while (series[0].values.length < sampleCount) {
-                series[0].values.push({x: x, y: Math.random()*(1024*1024*1024*16)});
-                series[1].values.push({x: x, y: Math.random()*(1024*1024*1024*8)});
-                series[2].values.push({x: x, y: Math.random()*(1024*1024*1024*4)});
-                series[3].values.push({x: x, y: Math.random()*(1024*1024*1024*2)});
-                series[4].values.push({x: x, y: Math.random()*(1024*1024*1024*1)});
-                x += sampleFrequency;
-            }
-
-            this.updateInterval1 = setInterval(function() {
-                series[0].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*16)});
-                series[1].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*8)});
-                series[2].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*4)});
-                series[3].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*2)});
-                series[4].values.push({x: Date.now(), y: Math.random()*(1024*1024*1024*1)});
-                if (series[0].values.length > sampleCount) {
-                    series[0].values.shift();
-                    series[1].values.shift();
-                    series[2].values.shift();
-                    series[3].values.shift();
-                    series[4].values.shift();
-                }
-            }, sampleFrequency);
-            return series;
+            this.application.statisticsService.getDatasources().then(function(datasources) {
+                self._addDatasourceToChart(datasources.memory, 'memory-active');
+                self._addDatasourceToChart(datasources.memory, 'memory-inactive');
+                self._addDatasourceToChart(datasources.memory, 'memory-cache');
+                self._addDatasourceToChart(datasources.memory, 'memory-free');
+                self._addDatasourceToChart(datasources.memory, 'memory-wired');
+            });
         }
     }
 });

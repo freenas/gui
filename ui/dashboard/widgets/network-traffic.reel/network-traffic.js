@@ -5,59 +5,36 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.NetworkTraffic = Component.specialize({
-    _updateInterval: {
-        value: null
-    },
-
     enterDocument: {
-        value: function (isFirstTime) {
-            if (isFirstTime) {
-                this.series = this._generateFakeData();
-            }
-        }
-    },
-
-    exitDocument: {
         value: function () {
-            clearInterval(this._updateInterval);
+            this._fetchStatistics();
         }
     },
 
-    _generateFakeData: {
+    _addDatasourceToChart: {
+        value: function (source, metric, suffix) {
+            suffix = suffix || 'value';
+            var self = this,
+                path = source.children[metric].path.join('.') + '.' + suffix;
+            this.application.statisticsService.getDatasourceHistory(path).then(function (values) {
+                self.chart.addSerie({
+                    key: source.label + '.' + metric.replace('interface-', ''),
+                    values: values.map(function (value) {
+                        return {x: value[0] * 1000, y: +value[1]}
+                    })
+                });
+            })
+        }
+    },
+
+    _fetchStatistics: {
         value: function() {
-            //var self = this;
-            var sampleFrequency = 2000,
-                sampleCount = 50,
-                series = [
-                    {
-                        values: [],
-                        key: 'em0 UP',
-                        //color: "#ff0000"
-                    },
-                    {
-                        values: [],
-                        key: 'em0 DOWN',
-                        //color: "#00ff00"
-                    }
-                ],
-                x = Date.now() - (sampleCount * sampleFrequency);
+            var self = this;
 
-            while (series[0].values.length < sampleCount) {
-                series[0].values.push({x: x, y: Math.random()*(1024*1024)});
-                series[1].values.push({x: x, y: Math.random()*(1024*1024)});
-                x += sampleFrequency;
-            }
-
-            this.updateInterval1 = setInterval(function() {
-                series[0].values.push({x: Date.now(), y: Math.random()*(1024*1024)});
-                series[1].values.push({x: Date.now(), y: Math.random()*(1024*1024)});
-                if (series[0].values.length > sampleCount) {
-                    series[0].values.shift();
-                    series[1].values.shift();
-                }
-                //self.series = series.map(function(x) {x.values = x.values.slice(100); return x });
-            }, sampleFrequency);
-            return series;
+            this.application.statisticsService.getDatasources().then(function(datasources) {
+                self._addDatasourceToChart(datasources['interface-em0'], 'if_octets', 'rx');
+                self._addDatasourceToChart(datasources['interface-em0'], 'if_octets', 'tx');
+            });
         }
     }
 });

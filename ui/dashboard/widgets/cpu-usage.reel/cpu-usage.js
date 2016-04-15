@@ -12,12 +12,13 @@ exports.CpuUsage = Component.specialize({
     },
 
     _addDatasourceToChart: {
-        value: function (cpu, metric) {
+        value: function (source, metric, suffix) {
+            suffix = suffix || 'value';
             var self = this,
-                path = cpu.children[metric].path.join('.') + '.value';
+                path = source.children[metric].path.join('.') + '.' + suffix;
             this.application.statisticsService.getDatasourceHistory(path).then(function (values) {
                 self.chart.addSerie({
-                    key: cpu.label + '.' + metric.replace('cpu-', ''),
+                    key: source.label + '.' + metric.replace('cpu-', ''),
                     values: values.map(function (value) {
                         return {x: value[0] * 1000, y: +value[1]/100}
                     })

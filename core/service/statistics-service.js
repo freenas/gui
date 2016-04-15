@@ -1,4 +1,5 @@
 var Montage = require("montage").Montage,
+    Promise = require("montage/core/promise").Promise,
     BackEndBridgeModule = require("../backend/backend-bridge");
 
 var StatisticsService = exports.StatisticsService = Montage.specialize({
@@ -10,12 +11,25 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         value: null
     },
 
+    _datasources: {
+        value: null
+    },
+
+    constructor: {
+        value: function() {
+            this._datasources = {};
+        }
+    },
+
     getDatasources: {
         value: function(hostname) {
             hostname = hostname || 'localhost';
-            return this._callBackend("statd.output.get_data_sources_tree", []).then(function(response) {
-                return response.data.children[hostname].children;
-            });
+            if (!this._datasources[hostname]) {
+                this._datasources[hostname] = this._callBackend("statd.output.get_data_sources_tree", []).then(function(response) {
+                    return response.data.children[hostname].children;
+                });
+            }
+            return this._datasources[hostname];
         }
     },
 
