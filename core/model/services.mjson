@@ -2164,68 +2164,6 @@
             }
         }
     },
-    "Stat": {
-        "class": {
-            "normalize": {
-                "method": "stat.normalize",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        },
-        "instance": {
-            "read": {
-                "method": "stat.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
-    "StatAlert": {
-        "instance": {
-            "update": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "stat.alert_update"
-            }
-        }
-    },
-    "StatCpu": {
-        "instance": {
-            "read": {
-                "method": "stat.cpu.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
-    "StatDisk": {
-        "instance": {
-            "read": {
-                "method": "stat.disk.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
-    "StatNetwork": {
-        "instance": {
-            "read": {
-                "method": "stat.network.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
-    "StatSystem": {
-        "instance": {
-            "read": {
-                "method": "stat.system.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "StatdAlert": {
         "class": {
             "setAlert": {

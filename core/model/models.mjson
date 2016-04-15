@@ -449,10 +449,6 @@
             "type": "SnapshotInfo"
         },
         {
-            "modelId": "core/model/descriptors/stat-alert.mjson",
-            "type": "StatAlert"
-        },
-        {
             "modelId": "core/model/descriptors/stat.mjson",
             "type": "Stat"
         },
@@ -1039,6 +1035,10 @@
         {
             "modelId": "core/model/descriptors/zfs-vdev.mjson",
             "type": "ZfsVdev"
+        },
+        {
+            "modelId": "core/model/custom-descriptors/account-category.mjson",
+            "type": "AccountCategory"
         },
         {
             "modelId": "core/model/custom-descriptors/network-overview.mjson",

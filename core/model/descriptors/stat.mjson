@@ -1,25 +1,57 @@
 {
-  "blueprint_stat_alerts": {
+  "blueprint_stat_atime": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "alerts",
+      "name": "atime",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "StatAlert"
+      "valueType": "String"
     }
   },
-  "blueprint_stat_last_value": {
+  "blueprint_stat_ctime": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "last_value",
+      "name": "ctime",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_stat_mtime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mtime",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_stat_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_stat_permissions": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "permissions",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Permissions"
+    }
+  },
+  "blueprint_stat_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "size",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
   },
-  "blueprint_stat_name": {
+  "blueprint_stat_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "type",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -29,9 +61,13 @@
     "properties": {
       "name": "Stat",
       "propertyBlueprints": [
-        {"@": "blueprint_stat_alerts"},
-        {"@": "blueprint_stat_last_value"},
-        {"@": "blueprint_stat_name"}
+        {"@": "blueprint_stat_atime"},
+        {"@": "blueprint_stat_ctime"},
+        {"@": "blueprint_stat_mtime"},
+        {"@": "blueprint_stat_path"},
+        {"@": "blueprint_stat_permissions"},
+        {"@": "blueprint_stat_size"},
+        {"@": "blueprint_stat_type"}
       ]
     }
   }
