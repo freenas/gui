@@ -6,5 +6,5 @@
 }
 
 .List-item + .List-item > * {
-    border-top: none;
+    border-top-color: transparent;
 }

@@ -33,8 +33,8 @@
 /* gives the size to the icon */
 
 .ListItem-icon > * {
-    width:  1.8em;
-    height: 1.8em;
+    width:  1.9em;
+    height: 1.9em;
     margin-right: 1em;
     color: currentColor;
     transition: color .25s;
