@@ -3,10 +3,10 @@
     "version": "0.3.0",
     "dependencies": {
         "blue-shark": "freenas/blue-shark#db965f454ac33b40cd2f737c7e62fb268e19d264",
-        "collections": "montagejs/collections#master",
+        "collections": "montagejs/collections#503a1b3385cbe67334b08ac402e89dd50a5e1d04",
         "d3": "^3.5.16",
         "digit": "montagejs/digit",
-        "frb": "~0.2.18",
+        "frb": "0.2.19",
         "montage": "montagejs/montage#ab15531315ce73e4068356f24905c5fd599c9bb8",
         "montage-data": "montagestudio/montage-data#3b6e725ade888b18be6118d618bcbe8d88456d5e",
         "validators": "~0.3.1"
