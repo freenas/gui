@@ -76,13 +76,13 @@ exports.Accounts = Component.specialize({
                 entity = collection[i];
 
                 if (isGroup) {
-                    if (entity.gid < 1000) {
+                    if (entity.builtin) {
                         accountCategories.systemGroup.push(entity);
                     } else {
                         accountCategories.standardGroup.push(entity);
                     }
                 } else {
-                    if (entity.uid < 1000) {
+                    if (entity.builtin) {
                         accountCategories.systemUser.push(entity);
                     } else {
                         accountCategories.standardUser.push(entity);
@@ -102,13 +102,13 @@ exports.Accounts = Component.specialize({
                 entity = collection[i];
 
                 if (isGroup) {
-                    if (entity.gid < 1000) {
+                    if (entity.builtin) {
                         accountCategories.systemGroup.splice(accountCategories.systemGroup.indexOf(entity), 1);
                     } else {
                         accountCategories.standardGroup.splice(accountCategories.standardGroup.indexOf(entity), 1);
                     }
                 } else {
-                    if (entity.uid < 1000) {
+                    if (entity.builtin) {
                         accountCategories.systemUser.splice(accountCategories.systemUser.indexOf(entity), 1);
                     } else {
                         accountCategories.standardUser.splice(accountCategories.standardUser.indexOf(entity), 1);
