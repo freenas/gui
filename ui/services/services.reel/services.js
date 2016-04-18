@@ -23,7 +23,7 @@ exports.Services = Component.specialize({
                     return self._listServices();
                 }).then(function (services) {
                     self.categories = [self._getServicesCategory('Sharing', services, ['smb', 'nfs', 'afp']),
-                                       self._getServicesCategory('Management', services, ['sshd'])];
+                                       self._getServicesCategory('Management', services, ['sshd', 'smartd'])];
                 });
             }
         }

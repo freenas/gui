@@ -9,12 +9,68 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "power_mode": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "power_mode"},
+                "label": "Power Mode"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.power_mode"},
+                "options": {"<-": "@owner.SMARTD_POWER_MODES"}
+            }
+        },
+        "temp_difference": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "temp_difference"},
+                "label": "Temperature Difference"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.temp_difference"}
+            }
+        },
+        "temp_informational": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "temp_informational"},
+                "label": "Informational Temperature"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.temp_informational"}
+            }
+        },
+        "temp_critical": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "temp_critical"},
+                "label": "Critical Temperature"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.temp_critical"}
+            }
+        },
+        "interval": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "interval"},
+                "label": "Check Interval (minutes)"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.interval"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SmartdService">
+        <div data-montage-id="interval"></div>
+        <div data-montage-id="temp_difference"></div>
+        <div data-montage-id="temp_informational"></div>
+        <div data-montage-id="temp_critical"></div>
+        <div data-montage-id="power_mode"></div>
     </div>
 </body>
 </html>
