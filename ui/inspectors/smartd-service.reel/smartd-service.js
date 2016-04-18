@@ -1,7 +1,7 @@
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class SmartService
+ * @class SmartdService
  * @extends Component
  */
-exports.SmartService = Component.specialize();
+exports.SmartdService = Component.specialize();
