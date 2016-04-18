@@ -1,0 +1,90 @@
+{
+  "blueprint_replicationtransport_auth_token": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auth_token",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationtransport_auth_token_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auth_token_size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_replicationtransport_buffer_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "buffer_size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_replicationtransport_client_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "client_address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationtransport_estimated_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "estimated_size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_replicationtransport_receive_properties": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "receive_properties",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_replicationtransport_server_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "server_address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationtransport_server_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "server_port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_replicationtransport_transport_plugins": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "transport_plugins",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ReplicationTransport",
+      "propertyBlueprints": [
+        {"@": "blueprint_replicationtransport_auth_token"},
+        {"@": "blueprint_replicationtransport_auth_token_size"},
+        {"@": "blueprint_replicationtransport_buffer_size"},
+        {"@": "blueprint_replicationtransport_client_address"},
+        {"@": "blueprint_replicationtransport_estimated_size"},
+        {"@": "blueprint_replicationtransport_receive_properties"},
+        {"@": "blueprint_replicationtransport_server_address"},
+        {"@": "blueprint_replicationtransport_server_port"},
+        {"@": "blueprint_replicationtransport_transport_plugins"}
+      ]
+    }
+  }
+}

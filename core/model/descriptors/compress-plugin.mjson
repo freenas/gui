@@ -1,0 +1,60 @@
+{
+  "blueprint_compressplugin_buffer_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "buffer_size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_compressplugin_level": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "level",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "FAST",
+        "DEFAULT",
+        "BEST"
+      ]
+    }
+  },
+  "blueprint_compressplugin_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_compressplugin_read_fd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_fd",
+      "blueprint": {"@": "root"},
+      "valueType": "fd"
+    }
+  },
+  "blueprint_compressplugin_write_fd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "write_fd",
+      "blueprint": {"@": "root"},
+      "valueType": "fd"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "CompressPlugin",
+      "propertyBlueprints": [
+        {"@": "blueprint_compressplugin_buffer_size"},
+        {"@": "blueprint_compressplugin_level"},
+        {"@": "blueprint_compressplugin_name"},
+        {"@": "blueprint_compressplugin_read_fd"},
+        {"@": "blueprint_compressplugin_write_fd"}
+      ]
+    }
+  }
+}

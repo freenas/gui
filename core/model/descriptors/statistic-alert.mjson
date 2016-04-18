@@ -1,0 +1,64 @@
+{
+  "blueprint_statisticalert_alert_high": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "alert_high",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_statisticalert_alert_high_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "alert_high_enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_statisticalert_alert_low": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "alert_low",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_statisticalert_alert_low_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "alert_low_enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_statisticalert_normalized_alert_high": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "normalized_alert_high",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_statisticalert_normalized_alert_low": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "normalized_alert_low",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "StatisticAlert",
+      "propertyBlueprints": [
+        {"@": "blueprint_statisticalert_alert_high"},
+        {"@": "blueprint_statisticalert_alert_high_enabled"},
+        {"@": "blueprint_statisticalert_alert_low"},
+        {"@": "blueprint_statisticalert_alert_low_enabled"},
+        {"@": "blueprint_statisticalert_normalized_alert_high"},
+        {"@": "blueprint_statisticalert_normalized_alert_low"}
+      ]
+    }
+  }
+}

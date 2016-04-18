@@ -1,0 +1,56 @@
+{
+  "blueprint_statistic_alerts": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "alerts",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "StatisticAlert"
+    }
+  },
+  "blueprint_statistic_last_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "last_value",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_statistic_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_statistic_short_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "short_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_statistic_unit": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "unit",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "Statistic",
+      "propertyBlueprints": [
+        {"@": "blueprint_statistic_alerts"},
+        {"@": "blueprint_statistic_last_value"},
+        {"@": "blueprint_statistic_name"},
+        {"@": "blueprint_statistic_short_name"},
+        {"@": "blueprint_statistic_unit"}
+      ]
+    }
+  }
+}

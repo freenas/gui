@@ -1511,6 +1511,15 @@
             }
         }
     },
+    "ReplicationHost": {
+        "instance": {
+            "read": {
+                "method": "replication.host.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "ReplicationLink": {
         "class": {
             "getOneLocal": {
@@ -1529,6 +1538,64 @@
                 "method": "replication.link.query",
                 "name": "call",
                 "namespace": "rpc"
+            }
+        }
+    },
+    "ReplicationTransport": {
+        "class": {
+            "getEncryptionData": {
+                "method": "replication.transport.get_encryption_data",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "setEncryptionData": {
+                "method": "replication.transport.set_encryption_data",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "compress": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.transport.compress"
+            },
+            "decompress": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.transport.decompress"
+            },
+            "decrypt": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.transport.decrypt"
+            },
+            "encrypt": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.transport.encrypt"
+            },
+            "receive": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.transport.receive"
+            },
+            "send": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.transport.send"
+            },
+            "throttle": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.transport.throttle"
             }
         }
     },
@@ -2161,6 +2228,58 @@
                     ]
                 },
                 "task": "simulator.disk.update"
+            }
+        }
+    },
+    "Stat": {
+        "class": {
+            "normalize": {
+                "method": "stat.normalize",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "read": {
+                "method": "stat.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "StatCpu": {
+        "instance": {
+            "read": {
+                "method": "stat.cpu.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "StatDisk": {
+        "instance": {
+            "read": {
+                "method": "stat.disk.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "StatNetwork": {
+        "instance": {
+            "read": {
+                "method": "stat.network.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "StatSystem": {
+        "instance": {
+            "read": {
+                "method": "stat.system.query",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },

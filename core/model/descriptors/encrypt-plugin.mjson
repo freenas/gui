@@ -1,0 +1,82 @@
+{
+  "blueprint_encryptplugin_auth_token": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auth_token",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_encryptplugin_buffer_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "buffer_size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_encryptplugin_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_encryptplugin_read_fd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "read_fd",
+      "blueprint": {"@": "root"},
+      "valueType": "fd"
+    }
+  },
+  "blueprint_encryptplugin_remote": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_encryptplugin_renewal_interval": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "renewal_interval",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_encryptplugin_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_encryptplugin_write_fd": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "write_fd",
+      "blueprint": {"@": "root"},
+      "valueType": "fd"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "EncryptPlugin",
+      "propertyBlueprints": [
+        {"@": "blueprint_encryptplugin_auth_token"},
+        {"@": "blueprint_encryptplugin_buffer_size"},
+        {"@": "blueprint_encryptplugin_name"},
+        {"@": "blueprint_encryptplugin_read_fd"},
+        {"@": "blueprint_encryptplugin_remote"},
+        {"@": "blueprint_encryptplugin_renewal_interval"},
+        {"@": "blueprint_encryptplugin_type"},
+        {"@": "blueprint_encryptplugin_write_fd"}
+      ]
+    }
+  }
+}

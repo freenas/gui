@@ -73,6 +73,10 @@
             "type": "CalendarTask"
         },
         {
+            "modelId": "core/model/descriptors/compress-plugin.mjson",
+            "type": "CompressPlugin"
+        },
+        {
             "modelId": "core/model/descriptors/container-config.mjson",
             "type": "ContainerConfig"
         },
@@ -157,6 +161,10 @@
             "type": "DisksAllocation"
         },
         {
+            "modelId": "core/model/descriptors/encrypt-plugin.mjson",
+            "type": "EncryptPlugin"
+        },
+        {
             "modelId": "core/model/descriptors/encryption.mjson",
             "type": "Encryption"
         },
@@ -179,6 +187,10 @@
         {
             "modelId": "core/model/descriptors/ipmi.mjson",
             "type": "Ipmi"
+        },
+        {
+            "modelId": "core/model/descriptors/known-host.mjson",
+            "type": "KnownHost"
         },
         {
             "modelId": "core/model/descriptors/ldap-config.mjson",
@@ -283,6 +295,10 @@
         {
             "modelId": "core/model/descriptors/replication-link.mjson",
             "type": "ReplicationLink"
+        },
+        {
+            "modelId": "core/model/descriptors/replication-transport.mjson",
+            "type": "ReplicationTransport"
         },
         {
             "modelId": "core/model/descriptors/replication.mjson",
@@ -453,6 +469,14 @@
             "type": "Stat"
         },
         {
+            "modelId": "core/model/descriptors/statistic-alert.mjson",
+            "type": "StatisticAlert"
+        },
+        {
+            "modelId": "core/model/descriptors/statistic.mjson",
+            "type": "Statistic"
+        },
+        {
             "modelId": "core/model/descriptors/support-ticket.mjson",
             "type": "SupportTicket"
         },
@@ -483,6 +507,10 @@
         {
             "modelId": "core/model/descriptors/task.mjson",
             "type": "Task"
+        },
+        {
+            "modelId": "core/model/descriptors/throttle-plugin.mjson",
+            "type": "ThrottlePlugin"
         },
         {
             "modelId": "core/model/descriptors/tunable.mjson",
