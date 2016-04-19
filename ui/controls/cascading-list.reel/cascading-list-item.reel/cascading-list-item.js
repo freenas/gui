@@ -6,9 +6,11 @@ var Component = require("montage/ui/component").Component;
  */
 exports.CascadingListItem = Component.specialize({
 
+
     _data: {
         value: null
     },
+
 
     data: {
         get: function () {
@@ -60,39 +62,60 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
+
     isCollection: {
         value: false
     },
+
 
     inspectorComponentModuleId: {
         value: null
     },
 
+
     _selectedObject: {
         value: null
     },
+
 
     selectedObject: {
         get: function () {
             return this._selectedObject;
         },
-        set: function (value) {
-            if (this._selectedObject !== value) {
-                this._selectedObject = value;
-                if (value) {
-                    this.cascadingList.expand(value, this.data.columnIndex + 1);
+        set: function (selectedObject) {
+            if (this._selectedObject !== selectedObject) {
+                this._selectedObject = selectedObject;
+
+                if (selectedObject !== void 0 && selectedObject !== null) {
+                    this.cascadingList.expand(selectedObject, this.data.columnIndex + 1);
+
+                } else if (this.data.columnIndex < this.cascadingList._currentIndex) {
+                    this.cascadingList.popAtIndex(this.data.columnIndex + 1);
                 }
             }
         }
     },
 
+
     exitDocument: {
         value: function () {
+            this.selectedObject = null;
+
             if (this.content && this.content.component && this.content.component.selectedObject) {
                 this.content.component.selectedObject = null;
             }
         }
     },
+
+
+    dismiss: {
+        value: function () {
+            if (this._inDocument) {
+                this.cascadingList.popAtIndex(this.data.columnIndex);
+            }
+        }
+    },
+
 
     draw: {
         value: function () {

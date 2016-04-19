@@ -1,9 +1,7 @@
 /**
  * @module ui/inspector.reel
  */
-var Component = require("montage/ui/component").Component,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
-    Promise = require("montage/core/promise").Promise;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class Inspector
@@ -12,26 +10,17 @@ var Component = require("montage/ui/component").Component,
 exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleDeleteAction: {
-        value: function(event) {
-            var self = this;
-            this.object._isToBeDeleted = true;
-            if (typeof this.parentComponent.delete === 'function') {
-                var promise = this.parentComponent.delete();
+        value: function (event) {
+            this._isToBeDeleted = true;
 
-                if (Promise.is(promise)) {
-                    promise.then(function () {
-                        self._dismissInspector();
-                    });
-                } else {
-                    self._dismissInspector();
-                }
+            if (typeof this.parentComponent.delete === 'function') {
+                this.parentComponent.delete();
             } else if (this.object) {
-                this.application.dataService.deleteDataObject(this.object).then(function () {
-                    self._dismissInspector();
-                });
+                this.application.dataService.deleteDataObject(deletedObject);
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
+
             event.stopPropagation();
         }
     },
@@ -57,18 +46,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
             }
             event.stopPropagation();
-        }
-    },
-
-    _dismissInspector: {
-        value: function () {
-            var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
-
-            if (cascadingListItem) {
-                cascadingListItem.cascadingList._pop();
-            } else {
-                console.warn('BUG: inspector component doesn\'t belong to the cascading');
-            }
         }
     }
 });

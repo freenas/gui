@@ -46,6 +46,7 @@ exports.CascadingList = Component.specialize({
     _pop: {
         value: function () {
             this._stack.pop();
+            this._currentIndex--;
             this.needsDraw = true;
         }
     },
@@ -55,10 +56,24 @@ exports.CascadingList = Component.specialize({
         value: function () {
             while (this._stack.length) {
                 this._stack.pop();
+                this._currentIndex = -1;
             }
         }
     },
 
+    popAtIndex: {
+        value: function (index) {
+            if (index <= this._currentIndex && this._currentIndex !== -1) {
+                this._stack.pop();
+
+                if (index <= --this._currentIndex) {
+                    this.popAtIndex(index);
+                } else {
+                    this.needsDraw = true;
+                }
+            }
+        }
+    },
 
     expand: {
         value: function (object, columnIndex) {
@@ -73,6 +88,7 @@ exports.CascadingList = Component.specialize({
             }
 
             this._populateColumnWithObjectAndIndex(object, columnIndex);
+            this._currentIndex = columnIndex;
         }
     },
 
