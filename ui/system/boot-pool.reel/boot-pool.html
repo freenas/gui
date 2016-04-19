@@ -9,13 +9,48 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.bootEnvironments"}
+            }
+        },
+        "bootEnvironmentTable": {
+            "prototype": "ui/controls/table.reel",
+            "properties": {
+                "element": {"#": "bootEnvironmentTable"},
+                "dataController": {"@": "controller"},
+                "columns": [
+                    {
+                        "label": "Name",
+                        "expression": "realname",
+                        "type": "string"
+                    },
+                    {
+                        "label": "Active",
+                        "expression": "(active ? 'Current' : 'Inactive') + (on_reboot ? ', Next Reboot' : '')",
+                        "type": "string"
+                    },
+                    {
+                        "label": "Space Used",
+                        "expression": "space",
+                        "type": "string"
+                    },
+                    {
+                        "label": "Date Created",
+                        "expression": "''",
+                        "type": "string"
+                    }
+                ]
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="BootPool">
-        <i>system/boot-pool.reel</i>
+        <div data-montage-id="bootEnvironmentTable"></div>
     </div>
 </body>
 </html>
