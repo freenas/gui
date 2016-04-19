@@ -40,6 +40,20 @@
                 "value": {"<-": "@owner.bootVolume.status"}
             }
         },
+        "bootVolumeScrub": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "bootVolumeScrub"},
+                "value": "Scrub Now"
+            }
+        },
+        "createBootEnvironment": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "createBootEnvironment"},
+                "value": "Create Boot Environment"
+            }
+        },
         "controller": {
             "prototype": "montage/core/range-controller",
             "bindings": {
@@ -83,7 +97,9 @@
         <div data-montage-id="bootVolumeSize"></div>
         <div data-montage-id="bootVolumeUsed"></div>
         <div data-montage-id="bootVolumeCondition"></div>
+        <div data-montage-id="bootVolumeScrub"></div>
         <div data-montage-id="bootEnvironmentTable"></div>
+        <div data-montage-id="createBootEnvironment"></div>
     </div>
 </body>
 </html>
