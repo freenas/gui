@@ -15,96 +15,116 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
     },
 
     _bootEnvironments: {
-        value: [{
+        value: [
+                {
+                    "created": {
+                        "$date": "2016-04-15 09:20:00"
+                    },
+                    "on_reboot": false,
                     "realname": "default",
-                    "space": "390.0K",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "default"
+                    "mountpoint": "-",
+                    "id": "default",
+                    "space": "390.0K"
                 },
                 {
+                    "created": {
+                        "$date": "2016-04-15 09:24:00"
+                    },
+                    "on_reboot": false,
                     "realname": "Initial-Install",
-                    "space": "2.2M",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "Initial-Install"
+                    "mountpoint": "-",
+                    "id": "Initial-Install",
+                    "space": "2.2M"
                 },
                 {
+                    "created": {
+                        "$date": "2016-04-15 09:38:00"
+                    },
+                    "on_reboot": false,
                     "realname": "FreeNAS-10-MASTER-201604151347",
-                    "space": "2.5M",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "FreeNAS-10-MASTER-201604151347"
+                    "mountpoint": "-",
+                    "id": "FreeNAS-10-MASTER-201604151347",
+                    "space": "2.5M"
                 },
                 {
+                    "created": {
+                        "$date": "2016-04-15 10:12:00"
+                    },
+                    "on_reboot": false,
                     "realname": "FreeNAS-10-MASTER-201604151543",
-                    "space": "20.3M",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "FreeNAS-10-MASTER-201604151543"
+                    "mountpoint": "-",
+                    "id": "FreeNAS-10-MASTER-201604151543",
+                    "space": "20.3M"
                 },
                 {
+                    "created": {
+                        "$date": "2016-04-17 00:31:00"
+                    },
+                    "on_reboot": false,
                     "realname": "FreeNAS-10-MASTER-201604162130",
-                    "space": "20.1M",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "FreeNAS-10-MASTER-201604162130"
+                    "mountpoint": "-",
+                    "id": "FreeNAS-10-MASTER-201604162130",
+                    "space": "20.1M"
                 },
                 {
+                    "created": {
+                        "$date": "2016-04-18 09:33:00"
+                    },
+                    "on_reboot": false,
                     "realname": "FreeNAS-10-MASTER-201604180930",
-                    "space": "19.8M",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "FreeNAS-10-MASTER-201604180930"
+                    "mountpoint": "-",
+                    "id": "FreeNAS-10-MASTER-201604180930",
+                    "space": "19.8M"
                 },
                 {
+                    "created": {
+                        "$date": "2016-04-18 15:31:00"
+                    },
+                    "on_reboot": false,
                     "realname": "FreeNAS-10-MASTER-201604181954",
-                    "space": "20.2M",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "FreeNAS-10-MASTER-201604181954"
+                    "mountpoint": "-",
+                    "id": "FreeNAS-10-MASTER-201604181954",
+                    "space": "20.2M"
                 },
                 {
+                    "created": {
+                        "$date": "2016-04-18 16:42:00"
+                    },
+                    "on_reboot": false,
                     "realname": "FreeNAS-10-MASTER-201604182149",
-                    "space": "20.5M",
-                    "created": {},
                     "keep": null,
-                    "mountpoint": "-",
                     "active": false,
-                    "on_reboot": false,
-                    "id": "FreeNAS-10-MASTER-201604182149"
+                    "mountpoint": "-",
+                    "id": "FreeNAS-10-MASTER-201604182149",
+                    "space": "20.5M"
                 },
                 {
-                    "realname": "FreeNAS-10-MASTER-201604190930",
-                    "space": "881.0M",
-                    "created": {},
-                    "keep": null,
-                    "mountpoint": "/",
-                    "active": true,
+                    "created": {
+                        "$date": "2016-04-19 10:02:00"
+                    },
                     "on_reboot": true,
-                    "id": "FreeNAS-10-MASTER-201604190930"
-                }]
+                    "realname": "FreeNAS-10-MASTER-201604190930",
+                    "keep": null,
+                    "active": true,
+                    "mountpoint": "/",
+                    "id": "FreeNAS-10-MASTER-201604190930",
+                    "space": "881.0M"
+                }
+            ]
     },
 
     bootEnvironments: {
