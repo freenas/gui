@@ -10,6 +10,36 @@
                 "element": {"#": "owner"}
             }
         },
+        "bootVolumeSize": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeSize"},
+                "label": "Capacity"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.properties.size.rawvalue"}
+            }
+        },
+        "bootVolumeUsed": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeUsed"},
+                "label": "Space Used"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.properties.allocated.rawvalue + ' (' + @owner.bootVolume.properties.capacity.value + ')'"}
+            }
+        },
+        "bootVolumeCondition": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeCondition"},
+                "label": "Condition"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.status"}
+            }
+        },
         "controller": {
             "prototype": "montage/core/range-controller",
             "bindings": {
@@ -50,6 +80,9 @@
 </head>
 <body>
     <div data-montage-id="owner" class="BootPool">
+        <div data-montage-id="bootVolumeSize"></div>
+        <div data-montage-id="bootVolumeUsed"></div>
+        <div data-montage-id="bootVolumeCondition"></div>
         <div data-montage-id="bootEnvironmentTable"></div>
     </div>
 </body>
