@@ -12,7 +12,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     OPTIONS: {
         value: {
             updatePeriod: {
-                defaultValue: 30000,
+                defaultValue: 10000,
                 minimum: 500
             },
             interpolation: {
@@ -127,6 +127,15 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         }
     },
 
+    refresh: {
+        value: function() {
+            d3.select(this.chartElement)
+                .datum(this._series)
+                .transition().ease('quad')
+                .call(this._chart);
+        }
+    },
+
     enterDocument: {
         value: function() {
             var self = this;
@@ -134,21 +143,6 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 self._chart.update();
             });
 
-            var updatePeriod = Math.max(this.updatePeriod || this.OPTIONS.updatePeriod.default, this.OPTIONS.updatePeriod.minimum);
-            this._updateInterval = setInterval(function() {
-                d3.select(self.chartElement)
-                    .datum(self._series)
-                    .transition().ease('quad')
-                    .call(self._chart);
-            }, updatePeriod);
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            if (this._updateInterval) {
-                clearInterval(this._updateInterval);
-            }
         }
     },
 

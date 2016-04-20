@@ -12,17 +12,25 @@
             }
         },
         "chart": {
-            "prototype": "ui/controls/chart.reel",
+            "prototype": "../widget.reel",
             "properties": {
                 "element": {"#": "chart"},
-                "updatePeriod": 10000,
                 "showLegend": true,
                 "showYAxis": true,
                 "yFormat": "1.2s",
                 "isTimeSeries": true,
-                "title": "Memory allocation",
                 "isStacked": true,
-                "useGuideline": true
+                "useGuideline": true,
+                "title": "Memory allocation",
+                "source": "memory",
+                "metrics": [
+                    "memory-active",
+                    "memory-inactive",
+                    "memory-cache",
+                    "memory-free",
+                    "memory-wired"
+                ],
+                "removePrefix": "memory-"
             }
         }
     }

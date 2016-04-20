@@ -6,7 +6,7 @@
     padding: .25em;
 }
 
-.Dashboard-widgetsWrapper .DashboardWidget {
+.Dashboard * .DashboardWidget {
     height: 240px;
     flex-grow: 1;
 }

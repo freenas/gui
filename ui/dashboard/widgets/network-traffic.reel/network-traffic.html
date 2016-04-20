@@ -12,16 +12,23 @@
             }
         },
         "chart": {
-            "prototype": "ui/controls/chart.reel",
+            "prototype": "../widget.reel",
             "properties": {
                 "element": {"#": "chart"},
-                "updatePeriod": 10000,
                 "showLegend": true,
                 "showYAxis": true,
                 "yFormat": "1.2s",
                 "isTimeSeries": true,
                 "useGuideline": true,
-                "title": "Network traffic"
+                "metrics": [
+                    ["if_octets", "rx"],
+                    ["if_octets", "tx"]
+                ],
+                "removePrefix": "if_octets."
+            },
+            "bindings": {
+                "title": {"<-": "'Network traffic - ' + @owner.card"},
+                "source": {"<-": "'interface-' + @owner.card"}
             }
         }
     }

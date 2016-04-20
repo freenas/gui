@@ -7,21 +7,25 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "chart": {"@": "chart"}
+                "element": {"#": "owner"}
             }
         },
         "chart": {
-            "prototype": "ui/controls/chart.reel",
+            "prototype": "../widget.reel",
             "properties": {
                 "element": {"#": "chart"},
-                "updatePeriod": 10000,
                 "showLegend": true,
                 "showYAxis": true,
                 "isTimeSeries": true,
                 "isStacked": true,
                 "useGuideline": true,
-                "title": "CPU usage"
+                "title": "CPU usage",
+                "source": "aggregation-cpu-sum",
+                "metrics": [
+                    "cpu-user",
+                    "cpu-system"
+                ],
+                "removePrefix": "cpu-"
             }
         }
     }

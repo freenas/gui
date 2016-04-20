@@ -260,7 +260,9 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
      */
     subscribeToEvent: {
         value: function (event, listener) {
-            return this.subscribeToEvents([event], listener);
+            return this.subscribeToEvents([event], listener).then(function(eventTypes) {
+                return eventTypes[0];
+            });
         }
     },
 
@@ -281,7 +283,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
                 var self = this;
 
                 return this.send(EVENTS_NAME_SPACE, "subscribe", events).then(function () {
-                    self._addEventListeners(events, listener);
+                    return self._addEventListeners(events, listener);
                 });
             }
 
@@ -399,9 +401,13 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
     _addEventListeners: {
         value: function (events, listener, useCapture) {
             if (listener) {
+                var eventTypes = [], eventType;
                 for (var i  = 0, length = events.length; i < length; i++) {
-                    this.addEventListener(events[i].toCamelCase(), listener, useCapture);
+                    eventType = events[i].toCamelCase();
+                    this.addEventListener(eventType, listener, useCapture);
+                    eventTypes.push(eventType);
                 }
+                return eventTypes;
             }
         }
     },
