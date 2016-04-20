@@ -159,7 +159,8 @@ exports.VolumeCreator = Component.specialize({
     save: {
         value: function() {
             this._cleanupTopology();
-            this.application.dataService.saveDataObject(this.object);
+
+            return this.application.dataService.saveDataObject(this.object);
         }
     },
 

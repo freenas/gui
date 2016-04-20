@@ -39,7 +39,7 @@ exports.User = Component.specialize({
     save: {
         value: function() {
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            this.application.dataService.saveDataObject(this.object);
+            return this.application.dataService.saveDataObject(this.object);
         }
     },
 

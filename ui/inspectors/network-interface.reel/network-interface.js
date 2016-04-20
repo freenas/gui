@@ -53,7 +53,7 @@ exports.NetworkInterface = Component.specialize({
     save: {
         value: function() {
             this._flattenAliases();
-            this.application.dataService.saveDataObject(this.object);
+            return this.application.dataService.saveDataObject(this.object);
         }
     },
 

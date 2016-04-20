@@ -40,7 +40,8 @@ exports.NetworkConfiguration = Component.specialize(/** @lends NetworkConfigurat
             } else {
                 dhcpLeaseRenewalPromise = Promise.resolve();
             }
-            dhcpLeaseRenewalPromise.then(function() {
+
+            return dhcpLeaseRenewalPromise.then(function() {
                 self.application.dataService.saveDataObject(self.object);
                 self.application.dataService.saveDataObject(self.object.general);
             });

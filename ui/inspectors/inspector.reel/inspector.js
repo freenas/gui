@@ -1,7 +1,8 @@
 /**
  * @module ui/inspector.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Promise = require("montage/core/promise").Promise;
 
 /**
  * @class Inspector
@@ -14,9 +15,13 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             this._isToBeDeleted = true;
 
             if (typeof this.parentComponent.delete === 'function') {
-                this.parentComponent.delete();
+                var promise = this.parentComponent.delete();
+
+                if (Promise.is(promise)) {
+                    promise.catch(this._logError);
+                }
             } else if (this.object) {
-                this.application.dataService.deleteDataObject(this.object);
+                this.application.dataService.deleteDataObject(this.object).catch(this._logError);
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
@@ -39,13 +44,24 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     handleSaveAction: {
         value: function(event) {
             if (typeof this.parentComponent.save === 'function') {
-                this.parentComponent.save();
+                var promise = this.parentComponent.save();
+
+                if (Promise.is(promise)) {
+                    promise.catch(this._logError);
+                }
             } else if (this.object) {
-                this.application.dataService.saveDataObject(this.object);
+                this.application.dataService.saveDataObject(this.object).catch(this._logError);
             } else {
                 console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
             }
             event.stopPropagation();
+        }
+    },
+
+    _logError: {
+        value: function (message) {
+            //todo: provide UI
+            console.warn(JSON.stringify(message.error));
         }
     }
 });
