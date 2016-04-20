@@ -9,12 +9,44 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "updateNow": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "updateNow"},
+                "value": "Update and Reboot"
+            }
+        },
+        "downloadUpdate": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "downloadUpdate"},
+                "value": "Download Update"
+            }
+        },
+        "installUpdate": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "installUpdate"},
+                "value": "Install Pending Update"
+            }
+        },
+        "checkUpdate": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "checkUpdate"},
+                "value": "Check for Update"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Updates">
+        <div data-montage-id="updateNow"></div>
+        <div data-montage-id="downloadUpdate"></div>
+        <div data-montage-id="installUpdate"></div>
+        <div data-montage-id="checkUpdate"></div>
     </div>
 </body>
 </html>
