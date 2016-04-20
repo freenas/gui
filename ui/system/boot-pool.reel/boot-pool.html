@@ -68,23 +68,19 @@
                 "columns": [
                     {
                         "label": "Name",
-                        "expression": "realname",
-                        "type": "string"
+                        "expression": "realname"
                     },
                     {
                         "label": "Active",
-                        "expression": "(active ? 'Current' : 'Inactive') + (on_reboot ? ', Next Reboot' : '')",
-                        "type": "string"
+                        "expression": "(active ? 'Current' : 'Inactive') + (on_reboot ? ', Next Reboot' : '')"
                     },
                     {
                         "label": "Space Used",
-                        "expression": "space",
-                        "type": "string"
+                        "expression": "space"
                     },
                     {
                         "label": "Date Created",
-                        "expression": "created['$date']",
-                        "type": "string"
+                        "expression": "created['$date']"
                     }
                 ]
             }

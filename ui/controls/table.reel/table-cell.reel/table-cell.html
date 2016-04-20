@@ -9,11 +9,25 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+
+        "content": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "content"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner.componentModuleId"},
+                "object": {"<-": "@owner.value"},
+                "context": {"<-": "@owner.context"}
+            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="TableCell"></div>
+    <div data-montage-id="owner" class="TableCell">
+        <div data-montage-id="content" class="TableCell-content"></div>
+    </div>
 </body>
 </html>

@@ -59,6 +59,7 @@
                 "element": {"#": "cell"}
             },
             "bindings": {
+                "context": {"<-": "@rowRepetition:iteration.object"},
                 "value": {"<-": "@cellRepetition:iteration.object"},
                 "type": {"<-": "@owner.columns[@cellRepetition:iteration.index].type"}
             }
