@@ -16,7 +16,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             if (typeof this.parentComponent.delete === 'function') {
                 this.parentComponent.delete();
             } else if (this.object) {
-                this.application.dataService.deleteDataObject(deletedObject);
+                this.application.dataService.deleteDataObject(this.object);
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
