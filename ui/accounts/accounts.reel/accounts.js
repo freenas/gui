@@ -15,7 +15,7 @@ exports.Accounts = Component.specialize({
                     accountCategories,
                     self = this;
 
-                this.addPathChangeListener("groups", this, "_handleAccountChange");
+                this.addRangeAtPathChangeListener("groups", this, "_handleAccountChange");
                 this.addRangeAtPathChangeListener("users", this, "_handleAccountChange");
 
                 //Fixme: getDataObject needs to return a promise
