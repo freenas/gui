@@ -74,7 +74,7 @@ exports.CascadingListItem = Component.specialize({
 
 
     _selectedObject: {
-        value: null
+        value: void 0
     },
 
 
@@ -96,8 +96,7 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
-
-    exitDocument: {
+    resetSelection: {
         value: function () {
             this.selectedObject = null;
 

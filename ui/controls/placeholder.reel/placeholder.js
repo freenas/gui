@@ -74,6 +74,15 @@ exports.Placeholder = Component.specialize({
         value: false
     },
 
+    exitDocument: {
+        value: function () {
+            //Fixme: montage issue, not able to remove a class from the element when leaving the dom
+            if (this.element.classList.contains("selected")) {
+                this.element.classList.remove("selected");
+            }
+        }
+    },
+
 
     willDraw: {
         value: function () {

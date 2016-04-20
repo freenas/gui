@@ -18,12 +18,18 @@ exports.InspectorOption = Button.specialize({
 
     enterDocument: {
         value: function (firstTime) {
-            //fixme: can't use frb "classList.has('selected')": {"<-": "@owner.parentCascadingListItem.selectedObject == @owner.object"}
-            //fixme: the selection is not great at all.
-
             if (firstTime) {
                 this.parentCascadingListItem = this._findParentCascadingListItem(this);
                 this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "handleSelectionChange");
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            //Fixme: montage issue, not able to remove a class from the element when leaving the dom
+            if (this.element.classList.contains("selected")) {
+                this.element.classList.remove("selected");
             }
         }
     },

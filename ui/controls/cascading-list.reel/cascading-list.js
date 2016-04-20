@@ -28,6 +28,7 @@ exports.CascadingList = Component.specialize({
         },
         set: function (value) {
             this._root = value;
+
             if (value) {
                 this.expand(value);
             }
@@ -45,18 +46,43 @@ exports.CascadingList = Component.specialize({
 
     _pop: {
         value: function () {
+            this._resetCascadingListItemAtIndex(this._currentIndex);
             this._stack.pop();
             this._currentIndex--;
+        }
+    },
+
+    _resetCascadingListItemAtIndex: {
+        value: function (index) {
+            var cascadingListItem = this.cascadingListItemAtIndex(index);
+
+            if (cascadingListItem) {
+                cascadingListItem.resetSelection();
+            }
+        }
+    },
+
+    pop: {
+        value: function () {
+            this._pop();
             this.needsDraw = true;
         }
     },
 
-
-    _popAll: {
+    popAll: {
         value: function () {
             while (this._stack.length) {
-                this._stack.pop();
-                this._currentIndex = -1;
+                this._pop();
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this._resetCascadingListItemAtIndex(0);
+
+            if (this._currentIndex > 0) {
+                this.popAtIndex(1);
             }
         }
     },
@@ -64,12 +90,11 @@ exports.CascadingList = Component.specialize({
     popAtIndex: {
         value: function (index) {
             if (index <= this._currentIndex && this._currentIndex !== -1) {
-                this._stack.pop();
+                this._pop();
 
-                if (index <= --this._currentIndex) {
+                // the value of the property _currentIndex changed when _pop() has been called.
+                if (index <= this._currentIndex) {
                     this.popAtIndex(index);
-                } else {
-                    this.needsDraw = true;
                 }
             }
         }
@@ -84,11 +109,22 @@ exports.CascadingList = Component.specialize({
                     this._pop();
                 }
             } else {
-                this._popAll();
+                this.popAll();
             }
 
             this._populateColumnWithObjectAndIndex(object, columnIndex);
             this._currentIndex = columnIndex;
+        }
+    },
+
+
+    cascadingListItemAtIndex: {
+        value: function (index) {
+            if (index <= this._currentIndex) {
+                return this.repetition.childComponents[index];
+            }
+
+            return null;
         }
     },
 
