@@ -10,6 +10,34 @@
                 "element": {"#": "owner"}
             }
         },
+        "autoCheckUpdate": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autoCheckUpdate"},
+                "label": "Automatically Check for Update"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.config.check_auto"}
+            }
+        },
+        "trainSelect": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "trainSelect"},
+                "label": "Update Train"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.config.train"},
+                "options": {"<-": "@owner.trains"}
+            }
+        },
+        "saveUpdateConfig": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "saveUpdateConfig"},
+                "value": "Save Update Config"
+            }
+        },
         "updateNow": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -43,6 +71,9 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Updates">
+        <div data-montage-id="autoCheckUpdate"></div>
+        <div data-montage-id="trainSelect"></div>
+        <div data-montage-id="saveUpdateConfig"></div>
         <div data-montage-id="updateNow"></div>
         <div data-montage-id="downloadUpdate"></div>
         <div data-montage-id="installUpdate"></div>
