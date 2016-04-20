@@ -50,6 +50,26 @@ exports.Placeholder = Component.specialize({
     },
 
 
+    _context: {
+        value: null
+    },
+
+
+    context: {
+        get: function () {
+            return this._context;
+        },
+        set: function (context) {
+            if (this._context !== context) {
+                this._context = context;
+
+                if (this.component && !this._needsLoadComponent && context) {
+                    this.component.context = context;
+                }
+            }
+        }
+    },
+
     component: {
         value: null
     },
@@ -134,6 +154,7 @@ exports.Placeholder = Component.specialize({
                     self.component = new exports[Object.keys(exports)[0]]();
                     self.component.element = element;
                     self.component.object = self.object;
+                    self.component.context = self.context;
 
                     self.component.needsDraw = true;
                     self.component.attachToParentComponent();
