@@ -13,7 +13,7 @@
                 "allShares": {"<-": "@owner.object.shares"},
                 "shares": {"<-": "@owner.allShares.filter{volume == @owner.object}"},
                 "allSnapshots": {"<-": "@owner.object.snapshots"},
-                "snapshots": {"<-": "@owner.allSnapshots.filter{volume == @owner.object}"}
+                "snapshots": {"<-": "@owner.allSnapshots.filter{volume == @owner.object.id}"}
             }
         },
 
