@@ -9,13 +9,78 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "lifetime": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "lifetime"},
+                "label": "Lifetime (seconds)"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.lifetime"}
+            }
+        },
+        "replicable": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "replicable"},
+                "label": "Replicate Snapshot"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.replicable"}
+            }
+        },
+        "creationCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "creationCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!!@owner.object.id"}
+            }
+        },
+        "creation": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "creation"},
+                "label": "Creation Time"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.properties.creation.rawvalue"}
+            }
+        },
+        "used": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "used"},
+                "label": "Space Used"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.properties.used.rawvalue"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Snapshot">
-        Snapshot inspector
+        <div data-montage-id="name"></div>
+        <div data-montage-id="lifetime"></div>
+        <div data-montage-id="replicable"></div>
+        <div data-montage-id="creationCondition">
+            <div data-montage-id="used"></div>
+            <div data-montage-id="creation"></div>
+        </div>
     </div>
 </body>
 </html>

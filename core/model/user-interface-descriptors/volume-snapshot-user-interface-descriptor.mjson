@@ -5,6 +5,7 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Snapshots'",
             "inspectorComponentModule": {"%": "ui/inspectors/snapshot.reel"},
+            "creatorComponentModule": {"%": "ui/inspectors/snapshot.reel"},
             "nameExpression": "name"
         }
     }
