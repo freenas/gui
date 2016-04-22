@@ -25,7 +25,6 @@
 .SystemInfo-block {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     position: relative;
     flex: 1;
     padding: 2em;

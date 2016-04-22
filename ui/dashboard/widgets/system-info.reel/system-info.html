@@ -13,22 +13,19 @@
         "bytesConverter": {
             "prototype": "montage/core/converter/bytes-converter"
         },
+        "numberConverter": {
+            "prototype": "montage/core/converter/number-converter",
+            "properties": {
+                "decimals": 2
+            }
+        },
         "hostname": {
             "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "hostname"}
             },
             "bindings": {
-                "value": {"<-": "@owner.system.hostname"}
-            }
-        },
-        "platform": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "platform"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.system.platform"}
+                "value": {"<-": "@owner.systemInfo.uname.1"}
             }
         },
         "osVersion": {
@@ -37,16 +34,35 @@
                 "element": {"#": "osVersion"}
             },
             "bindings": {
-                "value": {"<-": "@owner.system.osVersion"}
+                "value": {"<-": "@owner.systemInfo.version"}
+            }
+        },
+        "uptime": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "uptime"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.time.uptime.round() + ' seconds'"}
+            }
+        },
+        "cpuCount": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "cpuCount"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.hardware.cpu_cores + (@owner.systemInfo.hardware.cpu_cores > 1 ? ' Cores' : ' Core')"}
             }
         },
         "cpuSpeed": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "cpuSpeed"}
+                "element": {"#": "cpuSpeed"},
+                "converter": {"@": "numberConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.system.cpu.frequency"}
+                "value": {"<-": "@owner.systemInfo.hardware.cpu_clockrate / 1000"}
             }
         },
         "cpuDetails": {
@@ -55,7 +71,7 @@
                 "element": {"#": "cpuDetails"}
             },
             "bindings": {
-                "value": {"<-": "@owner.system.cpu.cores + (@owner.system.cpu.cores > 1 ? ' Cores' : ' Core')"}
+                "value": {"<-": "@owner.systemInfo.hardware.cpu_model"}
             }
         },
         "memorySize": {
@@ -65,7 +81,7 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.system.memory"}
+                "value": {"<-": "@owner.systemInfo.hardware.memory_size"}
             }
         },
         "memoryDetails": {
@@ -77,22 +93,50 @@
                 "value": {"<-": "@owner.system.memoryDetails"}
             }
         },
-        "drivesSize": {
-            "prototype": "montage/ui/text.reel",
+        "disksTypeRepetition": {
+            "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "drivesSize"}
+                "element": {"#": "disksTypeRepetition"}
             },
             "bindings": {
-                "value": {"<-": "@owner.system.drivesSize"}
+                "content": {"<-": "@owner.systemInfo.disks.group{!!status.is_ssd}"}
             }
         },
-        "drivesDetails": {
+        "disksType": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "drivesDetails"}
+                "element": {"#": "disksType"}
             },
             "bindings": {
-                "value": {"<-": "@owner.system.drivesDetails"}
+                "value": {"<-": "@disksTypeRepetition:iteration.object.0 ? 'SSD' : 'HDD'"}
+            }
+        },
+        "disksSizeRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "disksSizeRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@disksTypeRepetition:iteration.object.1.filter{status.mediasize}.group{status.mediasize}"}
+            }
+        },
+        "disksSize": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "disksSize"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@disksSizeRepetition:iteration.object.0"}
+            }
+        },
+        "disksCount": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "disksCount"}
+            },
+            "bindings": {
+                "value": {"<-": "@disksSizeRepetition:iteration.object.1.length"}
             }
         }
     }
@@ -103,19 +147,21 @@
         <div class="SystemInfo-overview">
             <div data-montage-id="hostname" class="h1 SystemInfo-hostname"></div>
             <div class="g-margin-bottom">
-                <div class="h5">Platform</div>
-                <div data-montage-id="platform" class="c-grey-3"></div>
-            </div>
-            <div>
                 <div class="h5">Version</div>
                 <div data-montage-id="osVersion" class="c-grey-3"></div>
+            </div>
+            <div>
+                <div class="h5">Uptime</div>
+                <div data-montage-id="uptime" class="c-grey-3"></div>
             </div>
         </div>
         <div class="SystemInfo-dataSummary">
             <div class="SystemInfo-block">
                 <div class=" SystemInfo-block-title">Cpu</div>
-                <div data-montage-id="cpuSpeed" class="h3 SystemInfo-data"></div>
-                <div data-montage-id="cpuDetails" class="h3 SystemInfo-data"></div>
+                <div class="h3 SystemInfo-data">
+                    <span data-montage-id="cpuCount"></span> @<span data-montage-id="cpuSpeed"></span>GHz
+                </div>
+                <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
             </div>
             <div class="SystemInfo-block">
                 <div class=" SystemInfo-block-title">Memory</div>
@@ -124,8 +170,14 @@
             </div>
             <div class="SystemInfo-block">
                 <div class=" SystemInfo-block-title">Drives</div>
-                <div data-montage-id="drivesSize" class="h3 SystemInfo-data"></div>
-                <div data-montage-id="drivesDetails" class="h3 SystemInfo-data"></div>
+                <div data-montage-id="disksTypeRepetition">
+                    <div data-montage-id="disksType"></div>
+                    <div data-montage-id="disksSizeRepetition">
+                        <div class="h3 SystemInfo-data">
+                            <span data-montage-id="disksSize"></span>x<span data-montage-id="disksCount"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
