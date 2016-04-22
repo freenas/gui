@@ -1,7 +1,8 @@
 /**
  * @module ui/topology-item.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    VDEV_TYPES = require("ui/controls/topology.reel").Topology.VDEV_TYPES;
 
 /**
  * @class TopologyItem
@@ -43,9 +44,9 @@ exports.TopologyItem = Component.specialize(/** @lends TopologyItem# */ {
     _orderAllowedVdevTypes: {
         value: function () {
             var self = this;
-            this.allowedVdevTypes = Object.keys(this.vdevTypes)
+            this.allowedVdevTypes = Object.keys(VDEV_TYPES)
                 .map(function (x) {
-                    return self.vdevTypes[x];
+                    return VDEV_TYPES[x];
                 })
                 .filter(function (x) {
                     return x.id <= self.maxVdevType.id;

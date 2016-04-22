@@ -19,33 +19,8 @@ var CLASS_NAMES_FOR_MODES = {
  */
 var Topology = exports.Topology = Component.specialize({
     VDEV_TYPES: {
-        value: {
-            DISK: {
-                id: 1,
-                value: 'disk',
-                minDisks: 1,
-                maxDisks: 1
-            },
-            MIRROR: {
-                id: 2,
-                value: 'mirror',
-                minDisks: 2
-            },
-            RAIDZ1: {
-                id: 3,
-                value: 'raidz1',
-                minDisks: 3
-            },
-            RAIDZ2: {
-                id: 4,
-                value: 'raidz2',
-                minDisks: 4
-            },
-            RAIDZ3: {
-                id: 5,
-                value: 'raidz3',
-                minDisks: 5
-            }
+        get: function () {
+            return Topology.VDEV_TYPES;
         }
     },
 
@@ -251,6 +226,37 @@ var Topology = exports.Topology = Component.specialize({
             CACHE: "CACHE",
             HDDS: "HDDS",
             SSDS: "SSDS"
+        }
+    },
+
+    VDEV_TYPES: {
+        value: {
+            DISK: {
+                id: 1,
+                value: 'disk',
+                minDisks: 1,
+                maxDisks: 1
+            },
+            MIRROR: {
+                id: 2,
+                value: 'mirror',
+                minDisks: 2
+            },
+            RAIDZ1: {
+                id: 3,
+                value: 'raidz1',
+                minDisks: 3
+            },
+            RAIDZ2: {
+                id: 4,
+                value: 'raidz2',
+                minDisks: 4
+            },
+            RAIDZ3: {
+                id: 5,
+                value: 'raidz3',
+                minDisks: 5
+            }
         }
     }
 

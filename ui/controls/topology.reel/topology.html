@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "editable": {"<-": "@owner.mode != @owner.constructor.MODES.READ"}
             }
         },
 
@@ -20,9 +23,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.data"},
-                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE"},
+                "editable": {"<-": "@owner.editable"},
                 "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.DATA"},
-                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
                 "maxVdevType": {"<-": "@owner.VDEV_TYPES.RAIDZ3"},
                 "maxDefaultVdevType": {"<-": "@owner.VDEV_TYPES.RAIDZ1"}
             }
@@ -35,9 +37,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.cache"},
-                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
+                "editable": {"<-": "@owner.mode != @owner.constructor.MODES.READ"},
                 "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.CACHE"},
-                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
                 "maxVdevType": {"<-": "@owner.VDEV_TYPES.MIRROR"}
             }
         },
@@ -50,9 +51,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.log"},
-                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
+                "editable": {"<-": "@owner.editable"},
                 "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.LOG"},
-                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
                 "maxVdevType": {"<-": "@owner.VDEV_TYPES.MIRROR"}
             }
         },
@@ -64,9 +64,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.spare"},
-                "editable": {"<-": "@owner.mode == @owner.constructor.MODES.CREATE || @owner.mode ==  @owner.constructor.MODES.UPDATE"},
+                "editable": {"<-": "@owner.editable"},
                 "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"},
-                "vdevTypes": {"<-": "@owner.VDEV_TYPES"},
                 "maxVdevType": {"<-": "@owner.VDEV_TYPES.DISK"}
             }
         }
