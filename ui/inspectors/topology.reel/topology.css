@@ -1,5 +1,20 @@
-.Topology {}
+.TopologyEdit {
+    flex: 1;
+    min-width: 800px;
+    display: flex;
+}
 
-.Topology .Inspector-body {
+.TopologyEdit .Inspector-body {
     margin: 0;
+    display: flex;
+    flex: 1;
+}
+
+.TopologyEdit-content .Topology {
+    min-width: 500px;
+}
+
+.TopologyEdit-content {
+    display: flex;
+    flex: 1;
 }

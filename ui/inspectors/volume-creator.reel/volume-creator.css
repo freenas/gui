@@ -1,9 +1,22 @@
 .VolumeCreator {
-
+    min-width: 800px;
 }
 
 .VolumeCreator .Inspector-body {
     margin: 0;
+    display: flex;
+    flex: 1;
 }
 
+.VolumeCreator-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 500px;
+}
 
+.VolumeCreator-Topology {
+    flex: 1;
+    display: flex;
+    position: relative;
+}

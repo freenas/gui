@@ -6,13 +6,7 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.VolumeCreator = Component.specialize({
-    _volumeDisksPromises: {
-        value: {}
-    },
 
-    emptyDisksArray: {
-        value: null
-    },
 
     _object: {
         value: null
@@ -37,53 +31,11 @@ exports.VolumeCreator = Component.specialize({
             object.topology.data = [];
             object.topology.log = [];
             object.topology.spare = [];
+
             if (this.disks) {
-                this.disks.filter(function(x) { return x.volume == '/TEMP/'; }).map(function(x) { x.volume = null; });
+                this.disks.filter(function(x) { return x.volume == '/TEMP/'; }).forEach(function(x) { x.volume = null; });
             }
             return object;
-        }
-    },
-
-    enterDocument: {
-        value: function() {
-            var self = this,
-                volumes;
-            if (this.disks) {
-                this.disks.map(function(x) { x.volume = null; });
-            }
-            this.emptyDisksArray = this.application.dataService.getEmptyCollectionForType(Model.Disk);
-            return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
-                self._volumeService = Volume.constructor;
-                return self.application.dataService.fetchData(Model.Volume)
-            }).then(function (_volumes) {
-                volumes = _volumes;
-                return self.application.dataService.fetchData(Model.Disk);
-            }).then(function (disks) {
-                var i, disksLength, disk,
-                    j, volumesLength, volume,
-                    disksVolumesPromises = [];
-                for (i = 0, disksLength = disks.length; i < disksLength; i++) {
-                    disk = disks[i];
-                    disk.volume = null;
-                    if (disk.status) {
-                        for (j = 0, volumesLength = volumes.length; j < volumesLength; j++) {
-                            volume = volumes[j];
-                            disksVolumesPromises.push(self._checkIfDiskIsAssignedToVolume(disk, volume));
-                        }
-                    }
-                }
-                Promise.all(disksVolumesPromises).then(function () {
-                    self.disks = disks.filter(function (x) { return !x.volume });
-                    self.selectedObject = self.unassignedDisks;
-                });
-            });
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            //this.disks.map(function(x) { x.volume = null; });
-            this.parentComponent.parentComponent.selectedObject = null;
         }
     },
 
@@ -161,25 +113,6 @@ exports.VolumeCreator = Component.specialize({
             this._cleanupTopology();
 
             return this.application.dataService.saveDataObject(this.object);
-        }
-    },
-
-    _checkIfDiskIsAssignedToVolume: {
-        value: function (disk, volume) {
-            var self = this,
-                volumeDisksPromise;
-            if (this._volumeDisksPromises[volume.id]) {
-                volumeDisksPromise = this._volumeDisksPromises[volume.id];
-            } else {
-                this._volumeDisksPromises[volume.id] = volumeDisksPromise = this._volumeService.getVolumeDisks(volume.id);
-            }
-            return volumeDisksPromise.then(function(volumeDisks) {
-                delete self._volumeDisksPromises[volume.id];
-                volume.assignedDisks = volumeDisks;
-                if (volumeDisks.indexOf('/dev/' + disk.status.gdisk_name) != -1) {
-                    disk.volume = volume;
-                }
-            });
         }
     }
 

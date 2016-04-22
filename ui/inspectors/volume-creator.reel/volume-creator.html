@@ -11,20 +11,19 @@
                 "topologizer": {"@": "topologizer"}
             },
             "bindings": {
-                "unassignedDisks": {"<-": "@owner.disks.filter{!volume && !!status}"}
+                "disks": {"<-": "@availableDisks.disks"}
             }
         },
+
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canRevert": "true",
-                "canSave": "true"
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object"}
+                "canRevert": true,
+                "canSave": true
             }
         },
+
         "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -36,6 +35,7 @@
                 "value": {"<->": "@owner.object.id"}
             }
         },
+
         "topologizer": {
             "prototype": "ui/controls/topologizer.reel",
             "properties": {
@@ -43,9 +43,18 @@
             },
             "bindings": {
                 "topology": {"<-": "@owner.object.topology"},
-                "disks": {"<-": "@owner.disks.filter{!!status}"}
+                "disks": {"<-": "@availableDisks.disks.filter{!!status}"}
             }
         },
+
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
+
         "topology": {
             "prototype": "ui/controls/topology.reel",
             "properties": {
@@ -56,13 +65,11 @@
                 "object": {"<-": "@owner.object.topology"}
             }
         },
+
         "availableDisks": {
-            "prototype": "ui/controls/inspector-option.reel",
+            "prototype": "ui/inspectors/available-disks.reel",
             "properties": {
                 "element": {"#": "availableDisks"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.unassignedDisks.length > 0 ? @owner.unassignedDisks : @owner.emptyDisksArray"}
             }
         }
     }
@@ -70,12 +77,18 @@
 </head>
 <body>
     <div data-montage-id="owner" class="VolumeCreator">
-        <div data-montage-id="topologizer"></div>
         <div data-montage-id="inspector">
-            <div class="g-margin-sides g-padding-top">
-                <div data-montage-id="name"></div>
+            <div class="VolumeCreator-content">
+                <div data-montage-id="topologizer"></div>
+                <div class="g-margin-sides g-padding-top">
+                    <div data-montage-id="name"></div>
+                </div>
+                <div class="VolumeCreator-Topology">
+                    <div data-montage-id="scrollView">
+                        <div data-montage-id="topology"></div>
+                    </div>
+                </div>
             </div>
-            <div data-montage-id="topology"></div>
             <div data-montage-id="availableDisks"></div>
         </div>
     </div>

@@ -14,25 +14,38 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "isFooterHidden": "true"
+                "canDelete": true,
+                "canRevert": true,
+                "canSave": true
             }
         },
         "topology": {
             "prototype": "ui/controls/topology.reel",
             "properties": {
-                "element": {"#": "topology"}
+                "element": {"#": "topology"},
+                "mode": "UPDATE"
             },
             "bindings": {
                 "object": {"<->": "@owner.object"}
+            }
+        },
+
+        "availableDisks": {
+            "prototype": "ui/inspectors/available-disks.reel",
+            "properties": {
+                "element": {"#": "availableDisks"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Topology">
+    <div data-montage-id="owner" class="TopologyEdit">
         <div data-montage-id="inspector">
-            <div data-montage-id="topology"></div>
+            <div class="TopologyEdit-content">
+                <div data-montage-id="topology"></div>
+                <div data-montage-id="availableDisks"></div>
+            </div>
         </div>
     </div>
 </body>

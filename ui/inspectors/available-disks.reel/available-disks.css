@@ -1,4 +1,6 @@
-.AvailableDisks {}
+.AvailableDisks {
+    flex: 1;
+}
 
 .AvailableDisks-category.is-hidden {
     display: none;

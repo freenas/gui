@@ -1,4 +1,13 @@
-.Topology {}
+.Topology {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Topology-data {
+    flex: 1;
+    min-width: 500px;
+}
 
 .Topology .Inspector-body {
     margin: 0;

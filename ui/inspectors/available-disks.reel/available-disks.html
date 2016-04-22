@@ -10,14 +10,9 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "hdds": {"<-": "@owner.object.filter{!this.status.is_ssd}"},
-                "ssds": {"<-": "@owner.object.filter{this.status.is_ssd}"}
-            }
-        },
-        "inspector": {
-            "prototype": "ui/inspectors/inspector.reel",
-            "properties": {
-                "element": {"#": "inspector"}
+                "unassignedDisks": {"<-": "@owner.disks.filter{!volume && !!status}"},
+                "hdds": {"<-": "@owner.unassignedDisks.filter{!this.status.is_ssd}"},
+                "ssds": {"<-": "@owner.unassignedDisks.filter{this.status.is_ssd}"}
             }
         },
         "hddsCategory": {
@@ -51,10 +46,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="AvailableDisks">
-        <div data-montage-id="inspector">
-            <div data-montage-id="hddsCategory" class="AvailableDisks-category"></div>
-            <div data-montage-id="ssdsCategory" class="AvailableDisks-category"></div>
-        </div>
+        <div data-montage-id="hddsCategory" class="AvailableDisks-category"></div>
+        <div data-montage-id="ssdsCategory" class="AvailableDisks-category"></div>
     </div>
 </body>
 </html>
