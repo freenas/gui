@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="cron.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "enabledToggle": {
+            "prototype": "blue-shark/ui/field-toggle-switch.reel",
+            "properties": {
+                "element": {"#": "enabledToggle"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<-": "'true'"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description",
+                "placeholderValue": "enter a short description"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.description"}
+            }
+        },
+        "date": {
+            "prototype": "blue-shark/ui/field-date.reel",
+            "properties": {
+                "element": {"#": "date"},
+                "label": "Start"
+            }
+        },
+        "time": {
+            "prototype": "blue-shark/ui/time.reel",
+            "properties": {
+                "element": {"#": "time"},
+                "intervalInSeconds": 1800,
+                "enabled": false,
+                "format": "%H:%M",
+                "isDefaultNow": false
+            }
+        },
+        "repeatOption": {
+            "prototype": "./cron-list-item.reel",
+            "properties": {
+                "element": {"#": "repeatOption"},
+                "title": "Repeats",
+                "description": "never"
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Cron">
+        <div data-montage-id="enabledToggle"></div>
+        <div data-montage-id="description"></div>
+        <div class="Cron-start">
+            <div data-montage-id="date"></div>
+            <div data-montage-id="time"></div>
+        </div>
+        <div data-montage-id="repeatOption"></div>
+    </div>
+</body>
+</html>

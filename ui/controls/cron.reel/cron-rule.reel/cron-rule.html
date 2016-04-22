@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="cron-rule.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "selectorOptions": [
+                    {"value": "1", "label": "Every"},
+                    {"value": "2", "label": "On"}
+                ],
+                "frequencyTypes": [
+                    {"value": "1", "label": "Minute(s)"},
+                    {"value": "2", "label": "Hour(s)"},
+                    {"value": "3", "label": "Day(s)"},
+                    {"value": "4", "label": "Month(s)"},
+                    {"value": "5", "label": "Year(s)"}
+                ],
+                "onValues": [
+                    {"value": "Sun"},
+                    {"value": "Mon"},
+                    {"value": "Tues"},
+                    {"value": "Wed"},
+                    {"value": "Thurs"},
+                    {"value": "Fri"},
+                    {"value": "Sat"}
+                ]
+            }
+        },
+        "selector": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "selector"},
+                "selectedValue": "1"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.selectorOptions"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@selector.selectedValue"}
+            }
+        },
+        "frequencyNumber": {
+            "prototype": "blue-shark/ui/number-input.reel",
+            "properties": {
+                "element": {"#": "frequencyNumber"},
+                "min": 1
+            }
+        },
+        "frequencyType": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "frequencyType"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.frequencyTypes"}
+            }
+        },
+        "onType": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "onType"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.frequencyTypes"}
+            }
+        },
+        "onValues": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "onValues"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.onValues"}
+            }
+        },
+        "deleteButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "deleteButton"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CronRule">
+        <div>
+            <div data-montage-id="selector" class="CronRule-selector"></div>
+            <div data-montage-id="substitution">
+                <div data-arg="1" class="CronRule-controls CronRule-controls--every">
+                    <div data-montage-id="frequencyNumber" class="CronRule-control"></div>
+                    <div data-montage-id="frequencyType" class="CronRule-control"></div>
+                </div>
+                <div data-arg="2" class="CronRule-controls CronRule-controls--on">
+                    <div data-montage-id="onType" class="CronRule-control"></div>
+                    <div data-montage-id="onValues" class="CronRule-control"></div>
+                </div>
+            </div>
+        </div>
+        <div data-montage-id="deleteButton" class="CronRule-delete">remove</div>
+    </div>
+</body>
+</html>

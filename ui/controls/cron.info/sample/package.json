@@ -1,0 +1,15 @@
+{
+    "name": "button-sample",
+    "version": "0.1.0",
+    "dependencies": {
+        "blue-shark": "*",
+        "montage": "*"
+    },
+        "mappings": {
+            "foo": "../../../../",
+            "montage": "../../../../node_modules/montage",
+            "blue-shark": "../../../../node_modules/blue-shark"
+    }
+}
+
+

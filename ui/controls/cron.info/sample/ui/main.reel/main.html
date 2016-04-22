@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "rules": {
+            "prototype": "foo/ui/controls/cron.reel/cron-rules.reel",
+            "properties": {
+                "element": {"#": "rules"}
+            }
+        },
+        "listItem": {
+            "prototype": "foo/ui/controls/cron.reel/cron-list-item.reel",
+            "properties": {
+                "element": {"#": "listItem"},
+                "title": "Cron Job Title",
+                "description": "every 5 minutes on Monday - Friday"
+            }
+        },
+        "listItem2": {
+            "prototype": "foo/ui/controls/cron.reel/cron-list-item.reel",
+            "properties": {
+                "element": {"#": "listItem2"},
+                "title": "Cron Job Title",
+                "description": "every 5 minutes on Monday - Friday"
+            }
+        },
+        "default": {
+            "prototype": "foo/ui/controls/cron.reel",
+            "properties": {
+                "element": {"#": "default"}
+            }
+        },
+        "icons": {
+            "prototype": "foo/ui/icons.reel",
+            "properties": {
+                "element": {"#": "icons"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Main">
+        <!-- for demo only -->
+        <div data-montage-id="icons"></div>
+        <!-- end -->
+        <div class="inspector">
+            <div data-montage-id="listItem"></div>
+            <div data-montage-id="listItem2"></div>
+        </div>
+        <div class="inspector">
+            <div data-montage-id="default"></div>
+        </div>
+        <div class="inspector">
+            <div data-montage-id="rules"></div>
+        </div>
+    </div>
+</body>
+</html>
+

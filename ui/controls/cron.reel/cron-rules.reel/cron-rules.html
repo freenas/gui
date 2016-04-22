@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="cron-rules.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "rulesTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "rulesTitle"},
+                "value": "Rules"
+            }
+        },
+        "rules": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "rules"},
+                "content": [
+                    {"value": 1},
+                    {"value": 2}
+                ]
+            }
+        },
+        "rule": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "rule"}
+            },
+            "bindings": {
+                "data": {"<-": "@rules:iteration.object"}
+            }
+        },
+        "addRule": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "addRule"},
+                "value": "Add Rule"
+            }
+        },
+        "deleteEvent": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "deleteEvent"},
+                "value": "Delete All Rules"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CronRules">
+        <div data-montage-id="rulesTitle"></div>
+        <div data-montage-id="rules" class="CronRules-rules">
+            <div data-montage-id="rule" class="CronRules-rule"></div>
+        </div>
+        <button data-montage-id="deleteEvent" class="Button--alert Button--small"></button>
+        <button data-montage-id="addRule" class="Button--primary Button--small"></button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+/* $fix -  this is duplicate code just for the example */
+
+.ListItem {
+    display: flex;
+    align-items: center;
+    height:         3em;
+    line-height:    3em;
+    padding-left: 1em;
+    position: relative;
+    font-family: 'lato', 'Helvetica Neue', 'Helvetica', sans-serif;
+    font-weight: 300;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    border-top:     1px solid rgba(255,255,255,.2);
+    border-bottom:  1px solid rgba(255,255,255,.2);
+    background-color: #232629;
+    transition: background-color .25s, color .25s;
+}
+
+.ListItem + .ListItem {
+    border-top-color: transparent;
+}
+
+.ListItem-label {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ListItem:hover {
+    background-color: #33373B;
+    color: #FFF;
+}
+
+.ListItem:hover .ListItem-icon > * {
+    color: #fff;
+}
+
+/* gives the size to the icon */
+
+.ListItem-icon > * {
+    width:  1.9em;
+    height: 1.9em;
+    margin-right: 1em;
+    color: currentColor;
+    transition: color .25s;
+}
+
+/* List Item arrow */
+
+.ListItem-arrow {
+    width: 1.4em;
+    display: flex;
+    margin-right: .5em;
+    color: currentColor;
+}
+
+.ListItem-arrow svg {
+    align-self: center;
+    width:  2em;
+    height: 2em;
+}
+
+/* States ---------------------------------- */
+
+.selected > .ListItem {
+    background: #2B9CD8;
+    cursor: default;
+    color: #fff;
+}
+
+/* $fix - selected state shoudn't change */
+
+.ListItem:hover .ListItem-arrow {
+    color: #fafafa;
+}
+
+/* -------------------------------------- */
+
+.CronListItem {
+    padding: 1em;
+    flex-wrap: wrap;
+    align-items: auto;
+    margin-left:  -1em;
+    margin-right: -1em;
+    height: auto;
+    line-height: 1em;
+}
+
+.CronListItem .ListItem-label {
+    color: rgba(255,255,255,.8);
+}
+
+.CronListItem-info {
+    margin-top: -.5em;
+    width: 100%;
+    font-size: .85em;
+}
