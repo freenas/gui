@@ -200,3 +200,24 @@ $Icons
 .hide {
     display: none;
 }
+
+/* Table Styles */
+
+table {
+    margin: 0;
+    margin-bottom: 1em;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+thead {
+    font-weight: 400;
+    background: rgba(0,0,0,.2);
+    color: #fff;
+}
+
+thead td { padding: .5em 1em; }
+
+tr { height: 2em; }
+td { padding: 0 1em; }

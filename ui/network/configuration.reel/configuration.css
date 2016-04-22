@@ -20,38 +20,6 @@
     color: #E9FDFF;
 }
 
-table {
-    margin: 0;
-    margin-bottom: 1em;
-    border: none;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-thead {
-    font-weight: 400;
-    /*background: #242628;*/
-    background: rgba(0,0,0,.2);
-    color: #fff;
-    line-height:1em;
-}
-
-thead td {
-    padding: .5em 1em;
-}
-
-tbody {}
-
-tr {
-    padding: 1em;
-}
-
-td {
-    margin: 0;
-    padding: 0 1em;
-    line-height: 2em;
-}
-
 .Configuration table tr:nth-child(even) {
     background-color: rgba(0,0,0,.1);
 }
