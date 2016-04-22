@@ -1,10 +1,5 @@
 .List {}
 
-.List-item > * {
-    border-top:     1px solid rgba(255,255,255,.2);
-    border-bottom:  1px solid rgba(255,255,255,.2);
-}
-
 .List-item + .List-item > * {
     border-top-color: transparent;
 }

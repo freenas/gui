@@ -10,8 +10,14 @@
     cursor: pointer;
     overflow: hidden;
     position: relative;
+    border-top:     1px solid rgba(255,255,255,.2);
+    border-bottom:  1px solid rgba(255,255,255,.2);
     background-color: #232629;
     transition: background-color .25s, color .25s;
+}
+
+.ListItem + .ListItem {
+    border-top-color: transparent;
 }
 
 .ListItem-label {
