@@ -9,13 +9,34 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "thermometerRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "thermometerRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.cpu_temp_stats"}
+            }
+        },
+        "cpuThermometer": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "cpuThermometer"}
+            },
+            "bindings": {
+                "value": {"<-": "@thermometerRepetition:iteration.object.normalized_value + ' C'"},
+                "label": {"<-": "@thermometerRepetition:iteration.object.short_name"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Thermometer">
-        <i>hardware/thermometer.reel</i>
+        <div data-montage-id="thermometerRepetition">
+            <div data-montage-id="cpuThermometer"></div>
+        </div>
     </div>
 </body>
 </html>
