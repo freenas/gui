@@ -151,8 +151,9 @@ $Icons
 /* $sample - styles only used on .info samples */
 
 .inspector {
-    max-width: 20em;
+    max-width: 25em;
     padding: 0 1em;
+    outline: 1px solid grey;
 }
 
 .g-padding {

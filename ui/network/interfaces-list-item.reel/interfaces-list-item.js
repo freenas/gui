@@ -7,10 +7,4 @@ var ListItem = require("ui/controls/list.reel/list-item.reel/list-item").ListIte
  * @class InterfacesListItem
  * @extends Component
  */
-exports.InterfacesListItem = ListItem.specialize(/** @lends InterfacesListItem# */ {
-    constructor: {
-        value: function InterfacesListItem() {
-            this.super();
-        }
-    }
-});
+exports.InterfacesListItem = ListItem.specialize();
