@@ -67,20 +67,11 @@ exports.VolumeCreator = Component.specialize({
                         if (path.indexOf('/dev/') != 0) {
                             path = '/dev/' + path;
                         }
-                        vdev.children[j] = {
-                            path: path,
-                            type: 'disk'
-                        };
+                        vdev.children[j].path = path;
                     }
-
-                    if (vdev.children.length > 1) {
-                        type = vdev.type || this._getDefaultVdevType(vdev.children.length);
-                        storageType[i] = {
-                            children: vdev.children,
-                            type: type
-                        }
-                    } else {
-                        storageType[i] = vdev.children[0];
+                    if (vdev.children.length == 1) {
+                        vdev.path = vdev.children[0].path;
+                        vdev.children = [];
                     }
                 }
             }
@@ -96,8 +87,6 @@ exports.VolumeCreator = Component.specialize({
                 log: this._cleanupVdevs(this.object.topology.log),
                 spare: this._cleanupVdevs(this.object.topology.spare)
             };
-            this.object.type = 'zfs';
-            this.object._isNew = true;
         }
     },
 
@@ -110,8 +99,13 @@ exports.VolumeCreator = Component.specialize({
 
     save: {
         value: function() {
-            this._cleanupTopology();
-
+            //this._cleanupTopology();
+            this._cleanupVdevs(this.object.topology.data);
+            this._cleanupVdevs(this.object.topology.cache);
+            this._cleanupVdevs(this.object.topology.log);
+            this._cleanupVdevs(this.object.topology.spare);
+            this.object.type = 'zfs';
+            this.object._isNew = true;
             return this.application.dataService.saveDataObject(this.object);
         }
     }
