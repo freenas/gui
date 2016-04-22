@@ -10,6 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
+        "portConverter": {
+            "prototype": "core/converter/ip-range-converter",
+            "properties": {
+                "from": 1,
+                "to": 65535
+            }
+        },
         "bind_addresses": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
@@ -24,7 +31,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "rpclockd_port"},
-                "label": "rpc.lockd(8) bind port"
+                "label": "rpc.lockd(8) bind port",
+                "converter": {"@": "portConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.rpclockd_port"}
@@ -54,7 +62,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "mountd_port"},
-                "label": "mountd(8) bind port"
+                "label": "mountd(8) bind port",
+                "converter": {"@": "portConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.mountd_port"}
@@ -94,7 +103,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "rpcstatd_port"},
-                "label": "rpc.statd(8) bind port"
+                "label": "rpc.statd(8) bind port",
+                "converter": {"@": "portConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.rpcstatd_port"}
