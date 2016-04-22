@@ -241,6 +241,15 @@
             }
         }
     },
+    "BootPool": {
+        "instance": {
+            "read": {
+                "method": "boot.pool.get_config",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "CalendarTask": {
         "instance": {
             "command": {

@@ -31,6 +31,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_systemadvanced_home_directory_root": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "home_directory_root",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_systemadvanced_motd": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -104,6 +112,7 @@
         {"@": "blueprint_systemadvanced_console_cli"},
         {"@": "blueprint_systemadvanced_console_screensaver"},
         {"@": "blueprint_systemadvanced_debugkernel"},
+        {"@": "blueprint_systemadvanced_home_directory_root"},
         {"@": "blueprint_systemadvanced_motd"},
         {"@": "blueprint_systemadvanced_periodic_notify_user"},
         {"@": "blueprint_systemadvanced_powerd"},

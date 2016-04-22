@@ -12,7 +12,7 @@
     "properties": {
       "name": "created",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "datetime"
     }
   },
   "blueprint_bootenvironment_id": {
