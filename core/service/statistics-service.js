@@ -53,6 +53,12 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         }
     },
 
+    unSubscribeToUpdates: {
+        value: function(datasource, listener) {
+            return this._backendBridge.unSubscribeToEvent("statd." + datasource, listener);
+        }
+    },
+
     _callBackend: {
         value: function(method, args) {
             return this._backendBridge.send("rpc", "call", {

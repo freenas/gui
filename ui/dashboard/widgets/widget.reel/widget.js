@@ -5,11 +5,30 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Widget = Component.specialize({
+    _statisticsService: {
+        value: null
+    },
+
+    constructor: {
+        value: function() {
+            this._statisticsService = this.application.statisticsService;
+        }
+    },
+
     enterDocument: {
         value: function () {
             this._eventToSerie = {};
             this._subscribedUpdates = [];
             this._fetchStatistics();
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            var i, length;
+            for (i = 0, length = this._subscribedUpdates.length; i < length; i++) {
+                this._statisticsService.unSubscribeToUpdates(this._subscribedUpdates[i]);
+            }
         }
     },
 
@@ -30,12 +49,13 @@ exports.Widget = Component.specialize({
                 path = source.children[metric].path.join('.') + '.' + suffix,
                 serie = {
                     key: [metric, (hasSuffix ? suffix : '')].filter(function(x) { return x.length }).join('.').replace(prefix, '')
-                };
-            return self.application.statisticsService.subscribeToUpdates(path + '.pulse', self).then(function(eventType) {
+                },
+                event = path + '.pulse';
+            return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
                 self._eventToSerie[eventType] = serie;
-                self._subscribedUpdates.push(path + '.pulse');
+                self._subscribedUpdates.push(event);
             }).then(function() {
-                return self.application.statisticsService.getDatasourceHistory(path)
+                return self._statisticsService.getDatasourceHistory(path)
             }).then(function (values) {
                 serie.values = values.map(function (value) {
                         return {
@@ -52,7 +72,7 @@ exports.Widget = Component.specialize({
         value: function() {
             var self = this;
 
-            return this.application.statisticsService.getDatasources().then(function(datasources) {
+            return this._statisticsService.getDatasources().then(function(datasources) {
                 return Object.keys(datasources)
                     .filter(function(x) { return x === self.source; })
                     .sort()
