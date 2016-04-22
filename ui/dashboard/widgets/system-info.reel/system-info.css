@@ -1,113 +1,63 @@
 .SystemInfo {
+    margin: 1em;
+    margin-bottom: 0;
     display: flex;
-    flex: 100%;
-    flex-flow: row wrap;
-    background: url("underwater.jpg") center / cover;
-    color: white;
-    padding: 0 12px;
-    height: auto;
-    width: auto;
-    min-height: 130px;
-    min-width: 400px;
-    margin: 4px;
-    box-sizing: border-box;
-    box-shadow: 0 0 1px rgba(0, 0, 0, .4);
+    background: #16171A;
+    color: #E0E5E5;
+    box-shadow: 0 2px 0px rgba(0,0,0,.4);
 }
 
-.SystemInfo-software {
-    flex: 1 1 350px;
-    box-sizing: border-box;
-}
-
-.SystemInfo-table {
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    box-sizing: border-box;
-}
-
-.SystemInfo-tableProperty {
-    color: #eee;
-    font-size: 11.9px;
-    font-weight: 200;
-    line-height: 17px;
-    text-align: right;
-    text-transform: uppercase;
-    width: 20%;
-    white-space: nowrap;
-}
-
-.SystemInfo-tableValue {
-    color: white;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 20px;
-    display: block;
-    margin-left: 15px;
+.SystemInfo-overview {
+    flex: 1;
+    padding: 2em;
 }
 
 .SystemInfo-hostname {
-    font-size: 30px;
-    font-weight: 800;
-    line-height: 33px;
-    margin: 20px 0 10px 15px;
+    margin-top: -.5rem;
+    margin-bottom: 1rem;
 }
 
-.SystemInfo-hardware {
+.SystemInfo-dataSummary {
+    flex: 3;
     display: flex;
-    flex: 4 1 380px;
-    flex-flow: row wrap;
-    align-self: flex-end;
+}
+
+.SystemInfo-block {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 25px;
-}
-
-.SystemInfo-cpu,
-.SystemInfo-memory,
-.SystemInfo-drives {
+    position: relative;
     flex: 1;
-    border-top-width: 5px;
-    border-top-style: solid;
-    max-width: 150px;
-    padding: 5px 0 20px;
-    margin: 0 2.5%;
-    text-align: center;
-    font-weight: 200;
+    padding: 2em;
+    min-width: 8em;
+    color: #B1BCBE;
 }
 
-.SystemInfo-cpu {
-    border-top-color: rgba(1, 150, 216, .9);
-    background-image: linear-gradient(to bottom, rgba(1, 150, 216, .6), rgba(1, 150, 216, .1));
+/* border */
+.SystemInfo-block:before {
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 0em;
+    bottom: 0em;
+    border-left: 1px solid #3A4346;
 }
 
-.SystemInfo-memory {
-    border-top-color: rgba(184, 37, 47, .9);
-    background-image: linear-gradient(to bottom, rgba(184, 37, 47, .6), rgba(184, 37, 47, .1));
-}
-
-.SystemInfo-drives {
-    border-top-color: rgba(13, 201, 46, .9);
-    background-image: linear-gradient(to bottom, rgba(13, 201, 46, .6), rgba(13, 201, 46, .1));
-}
-
-.SystemInfo-property {
+.SystemInfo-block-title {
+    position: relative;
     text-transform: uppercase;
-    color: #eee;
-    display: block;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    font-weight: 600;
 }
 
-.SystemInfo-value {
-    display: block;
-    color: white;
-    font-size: 21px;
-    line-height: 30px;
+.SystemInfo-block-title:before {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid #3A4346;
 }
 
-.SystemInfo-details {
-    display: block;
-    color: white;
-    font-size: 11.9px;
-    line-height: 17px;
-}
+.SystemInfo-data + .SystemInfo-data { margin-top: .5em; }

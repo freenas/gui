@@ -3,18 +3,10 @@
 .Dashboard-widgetsWrapper {
     display: flex;
     flex-flow: row wrap;
-    padding: .25em;
+    padding: .5em;
 }
 
 .Dashboard * .DashboardWidget {
-    height: 240px;
+    height: 15em;
     flex-grow: 1;
-}
-
-.DashboardWidget .montage-Text {
-    color: #fff;
-    font-weight: 400;
-    padding: .5em;
-    padding-top: .4em;
-    background: #0F1213;
 }
