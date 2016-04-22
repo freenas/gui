@@ -124,6 +124,8 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                     .datum(this._series)
                     .call(this._chart);
             }
+            d3.selectAll('.nvd3')
+                .attr('transform', null);
         }
     },
 
@@ -133,6 +135,8 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 .datum(this._series)
                 .transition().ease('quad')
                 .call(this._chart);
+            d3.selectAll('.nvd3')
+                .attr('transform', null);
         }
     },
 
