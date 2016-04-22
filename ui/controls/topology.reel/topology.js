@@ -18,11 +18,6 @@ var CLASS_NAMES_FOR_MODES = {
  * @extends Component
  */
 var Topology = exports.Topology = Component.specialize({
-    VDEV_TYPES: {
-        get: function () {
-            return Topology.VDEV_TYPES;
-        }
-    },
 
     _topologyService: {
         value: null
@@ -50,12 +45,35 @@ var Topology = exports.Topology = Component.specialize({
         }
     },
 
+    templateDidLoad: {
+        value: function () {
+            //Optimisation, avoid using bindings for values that won't change.
+            var constructor = this.constructor,
+                vDevTypes = constructor.VDEV_TYPES,
+                identifiers = constructor.IDENTIFIERS;
+
+            this.dataTopologyItemComponent.gridIdentifier = identifiers.DATA;
+            this.dataTopologyItemComponent.maxVdevType = vDevTypes.RAIDZ3;
+            this.dataTopologyItemComponent.maxDefaultVdevType = vDevTypes.RAIDZ1;
+
+            this.cacheTopologyItemComponent.gridIdentifier = identifiers.CACHE;
+            this.cacheTopologyItemComponent.maxVdevType = vDevTypes.MIRROR;
+
+            this.logTopologyItemComponent.gridIdentifier = identifiers.LOG;
+            this.logTopologyItemComponent.maxVdevType = vDevTypes.MIRROR;
+
+            this.spareTopologyItemComponent.gridIdentifier = identifiers.SPARE;
+            this.spareTopologyItemComponent.maxVdevType = vDevTypes.DISK;
+        }
+    },
+
 
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
                 this._topologyService = new TopologyService().init(this.application.dataService);
             }
+
             this.addEventListener("vDevCreated", this, false);
             this.addEventListener("diskAddedToVDev", this, false);
         }

@@ -7,7 +7,11 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "dataTopologyItemComponent": {"@": "data"},
+                "cacheTopologyItemComponent": {"@": "cache"},
+                "logTopologyItemComponent": {"@": "log"},
+                "spareTopologyItemComponent": {"@": "spare"}
             },
             "bindings": {
                 "editable": {"<-": "@owner.mode != @owner.constructor.MODES.READ"}
@@ -23,10 +27,7 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.data"},
-                "editable": {"<-": "@owner.editable"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.DATA"},
-                "maxVdevType": {"<-": "@owner.VDEV_TYPES.RAIDZ3"},
-                "maxDefaultVdevType": {"<-": "@owner.VDEV_TYPES.RAIDZ1"}
+                "editable": {"<-": "@owner.editable"}
             }
         },
         "cache": {
@@ -37,9 +38,7 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.cache"},
-                "editable": {"<-": "@owner.mode != @owner.constructor.MODES.READ"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.CACHE"},
-                "maxVdevType": {"<-": "@owner.VDEV_TYPES.MIRROR"}
+                "editable": {"<-": "@owner.editable"}
             }
         },
         "log": {
@@ -51,9 +50,7 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.log"},
-                "editable": {"<-": "@owner.editable"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.LOG"},
-                "maxVdevType": {"<-": "@owner.VDEV_TYPES.MIRROR"}
+                "editable": {"<-": "@owner.editable"}
             }
         },
         "spare": {
@@ -64,9 +61,7 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.spare"},
-                "editable": {"<-": "@owner.editable"},
-                "gridIdentifier": {"<-": "@owner.constructor.IDENTIFIERS.SPARE"},
-                "maxVdevType": {"<-": "@owner.VDEV_TYPES.DISK"}
+                "editable": {"<-": "@owner.editable"}
             }
         }
 
