@@ -10,6 +10,27 @@
                 "element": {"#": "owner"}
             }
         },
+        "sizeConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+        "dateConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "MM/dd/yyyy hh:mm:ss tt"
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": "true",
+                "canRevert": "true",
+                "canSave": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
         "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -27,14 +48,14 @@
                 "label": "Lifetime (seconds)"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.lifetime"}
+                "value": {"<->": "@owner.lifetime"}
             }
         },
         "replicable": {
-            "prototype": "blue-shark/ui/checkbox.reel",
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "replicable"},
-                "label": "Replicate Snapshot"
+                "label": "Replicate"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.replicable"}
@@ -49,24 +70,26 @@
                 "condition": {"<-": "!!@owner.object.id"}
             }
         },
-        "creation": {
-            "prototype": "blue-shark/ui/field-text.reel",
-            "properties": {
-                "element": {"#": "creation"},
-                "label": "Creation Time"
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.properties.creation.rawvalue"}
-            }
-        },
         "used": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "used"},
-                "label": "Space Used"
+                "label": "Space Used",
+                "converter": {"@": "sizeConverter"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.properties.used.rawvalue"}
+            }
+        },
+        "creation": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "creation"},
+                "label": "Creation Time",
+                "converter": {"@": "dateConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.properties.creation.rawvalue * 1000"}
             }
         }
     }
@@ -74,12 +97,14 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Snapshot">
-        <div data-montage-id="name"></div>
-        <div data-montage-id="lifetime"></div>
-        <div data-montage-id="replicable"></div>
-        <div data-montage-id="creationCondition">
-            <div data-montage-id="used"></div>
-            <div data-montage-id="creation"></div>
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="lifetime"></div>
+            <div data-montage-id="replicable"></div>
+            <div data-montage-id="creationCondition">
+                <div data-montage-id="used"></div>
+                <div data-montage-id="creation"></div>
+            </div>
         </div>
     </div>
 </body>

@@ -575,7 +575,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     _mapPropertyToRawData: {
         value: function (rawData, object, propertyKey) {
             if (object.hasOwnProperty("_" + propertyKey)) { // filter unset values.
-                rawData[propertyKey] = object[propertyKey];
+                if (object[propertyKey] && typeof object[propertyKey] === 'object') {
+                    var childRawData = {};
+                    for (var childPropertyKey in object[propertyKey]) {
+                        this._mapPropertyToRawData(childRawData, object[propertyKey], childPropertyKey);
+                    }
+                    rawData[propertyKey] = childRawData;
+                } else {
+                    rawData[propertyKey] = object[propertyKey];
+                }
             }
         }
     },

@@ -8,9 +8,14 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
-    constructor: {
-        value: function Snapshot() {
-            this.super();
+    lifetime: {
+        get: function() {
+            return this.object.lifetime;
+        },
+        set: function(lifetime) {
+            if (this.object) {
+                this.object.lifetime = +lifetime;
+            }
         }
     }
 });
