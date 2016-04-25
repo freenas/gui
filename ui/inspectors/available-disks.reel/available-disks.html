@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "unassignedDisks": {"<-": "@owner.disks.filter{!volume && !!status}"},
+                "unassignedDisks": {"<-": "@owner.disks.filter{!volume && !!status && !isBoot}"},
                 "hdds": {"<-": "@owner.unassignedDisks.filter{!this.status.is_ssd}"},
                 "ssds": {"<-": "@owner.unassignedDisks.filter{this.status.is_ssd}"}
             }

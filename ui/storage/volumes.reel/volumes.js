@@ -201,11 +201,12 @@ exports.Volumes = Component.specialize({
                         disk = disks[i];
                         if (disksAllocations[disk._devicePath]) {
                             disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
+                            disk.isBoot = disksAllocations[disk._devicePath].type == 'BOOT';
                         }
                     }
                     self._spareDisks.splice(0, self._spareDisks.length);
                     Array.prototype.push.apply(self._spareDisks, self.disks.filter(function (x) {
-                        return !x.volume
+                        return !x.volume && !x.isBoot;
                     }));
                 });
             });
