@@ -30,7 +30,7 @@ exports.ShareCreator = Component.specialize({
     enterDocument: {
         value: function() {
             this.newSmbShare = this._createNewShare('smb');
-            this.newSmbShare.properties.browseable = true;
+            this.newSmbShare.properties._browseable = true;
             this.newNfsShare = this._createNewShare('nfs');
         }
     }
