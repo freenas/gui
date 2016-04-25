@@ -1,5 +1,6 @@
 .VolumeCreator {
-    min-width: 800px;
+    min-width: 60em;
+
 }
 
 .VolumeCreator .Inspector-body {
@@ -12,7 +13,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-width: 500px;
+    min-width: 42em;
 }
 
 .VolumeCreator-Topology {

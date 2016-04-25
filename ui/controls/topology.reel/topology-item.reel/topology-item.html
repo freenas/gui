@@ -77,13 +77,20 @@
             "bindings": {
                 "identifier": {"<-": "@owner.gridIdentifier"}
             }
+        },
+
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="TopologyItem">
-
         <div class="TopologyItem-title">
             <span data-montage-id="name"></span>
             <span class="TopologyItemTitle-size">
@@ -95,10 +102,13 @@
                 <div data-montage-id="availableBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-available" title="Available"></div>
             </div>
         </div>
-
         <div class="TopologyItem-grid">
-            <div data-montage-id="vdevsGrid" class="TopologyItem-vdevsGrid"></div>
-            <div data-montage-id="drop-zone" class="TopologyItem-dropZone"></div>
+            <div data-montage-id="scrollview">
+                <div>
+                    <div data-montage-id="drop-zone" class="TopologyItem-dropZone"></div>
+                    <div data-montage-id="vdevsGrid" class="TopologyItem-vdevsGrid"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

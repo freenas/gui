@@ -1,5 +1,4 @@
 .ScrollviewFooterWrapper .InspectorFooter {
-    background: rgba(0,0,0,.15);
     box-shadow: 0 -2px 6px rgba(0,0,0,.3);
 }
 
@@ -10,6 +9,7 @@
     flex-shrink: 0;
     justify-content: flex-start;
     margin: 0 -.5em;
+    background: #242628;
 }
 
 .InspectorFooter > * {

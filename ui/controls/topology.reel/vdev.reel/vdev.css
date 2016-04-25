@@ -37,6 +37,14 @@
     background-color: rgba(43,156,216,0.1);
 }
 
+.Vdev-grid {
+    justify-content: center;
+    background:rgba(0,0,0,.15);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.3);
+}
+
 
 /* Title */
 .Vdev-title {
@@ -78,12 +86,13 @@
 }
 
 .VdevTitle-arrow {
+    margin-left: .5em;
     display: none;
-    width: 0;
+    width:  0;
     height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid #929e9f;
+    border-left:    6px solid transparent;
+    border-right:   6px solid transparent;
+    border-top:     6px solid #929e9f;
 
 }
 
@@ -94,16 +103,30 @@
 .Vdev-types {
     display: none;
     position: absolute;
-    background: rgba(90,90,90,1);
-    color: white;
-    padding: 0.25em 1em;
+    left: 0;
+    background: #232629;
+    /*padding: .75em 1em;*/
     margin-left: 1em;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 2px rgba(0,0,0,.2);
+    z-index: 100;
+}
+
+.Vdev-types a {
+    display: block;
 }
 
 .Vdev-types.is-shown {
     display: block;
 }
 
+.VdevTypes-type {
+    padding: .5em 1em;
+}
+
 .VdevTypes-type:hover {
-    font-weight: bold;
+    color: #fff;
+    background: rgba(255,255,255,.1);
 }

@@ -1,6 +1,6 @@
 .TopologyDropZone {
-    margin: .25em;
-    margin-bottom: 1em;
+    /*margin: .25em;*/
+    margin-bottom: .5em;
     color: rgba(255,255,255,.4);
     border: 1px dashed rgba(43,156,216,0.5);
     border-radius: 4px;

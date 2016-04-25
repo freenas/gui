@@ -7,20 +7,19 @@
     user-select: none;
     padding: 1em;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     background: rgba(0,0,0,.2);
 }
 
-.Topologizer-graph {
-    margin-left:  .5em;
+.Topologizer > * {
+    margin: 0 3em;
 }
 
-.Topologizer-legend {
-    flex: 1;
-    margin-left: 2em;
-}
+.Topologizer-graph {}
+
+.Topologizer-legend { min-width: 12em; }
 
 .Topologizer-legend-item { display: flex; }
 

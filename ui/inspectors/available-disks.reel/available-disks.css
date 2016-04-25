@@ -1,5 +1,24 @@
 .AvailableDisks {
+    position: relative;
     flex: 1;
+    padding: 0 1em;
+    background-color: #2F3233;
+    overflow: hidden;
+    border-left: 2px solid #232629;
+}
+
+.AvailableDisks-title {
+    line-height: 2em;
+    padding: .5em 1em;
+    padding-left: 1.5em;
+    font-weight: 400;
+    background: #232629;
+    overflow: hidden;
+    margin: 0 -1em;
+}
+
+.AvailableDisks .FoldableSection:first-child {
+    margin-top: 0;
 }
 
 .AvailableDisks-category.is-hidden {
@@ -30,7 +49,6 @@
     width: auto;
     height: auto;
 }
-
 
 .AvailableDisks .DiskIcon {
     width: 2.5em;
