@@ -20,6 +20,8 @@
 .SystemInfo-dataSummary {
     flex: 3;
     display: flex;
+    justify-content: flex-end;
+    max-width: 60em;
 }
 
 .SystemInfo-block {
@@ -29,6 +31,7 @@
     flex: 1;
     padding: 2em;
     min-width: 8em;
+
     color: #B1BCBE;
 }
 
