@@ -10,6 +10,24 @@
                 "element": {"#": "owner"}
             }
         },
+        "positiveIntegerValidator": {
+            "prototype": "core/converter/validator/positive-integer-validator"
+        },
+        "integerValidator": {
+            "prototype": "core/converter/validator/integer-validator"
+        },
+        "temperatureConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "integerValidator"}
+            }
+        },
+        "temperatureDifferenceConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "positiveIntegerValidator"}
+            }
+        },
         "power_mode": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -25,7 +43,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "temp_difference"},
-                "label": "Temperature Difference"
+                "label": "Temperature Difference",
+                "converter": {"@": "temperatureDifferenceConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.temp_difference"}
@@ -35,7 +54,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "temp_informational"},
-                "label": "Informational Temperature"
+                "label": "Informational Temperature",
+                "converter": {"@": "temperatureConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.temp_informational"}
@@ -45,7 +65,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "temp_critical"},
-                "label": "Critical Temperature"
+                "label": "Critical Temperature",
+                "converter": {"@": "temperatureConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.temp_critical"}
