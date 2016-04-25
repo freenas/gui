@@ -35,7 +35,8 @@
                 "defaultModuleId": {"<-": "@owner.defaultModuleId"},
                 "labelPath": {"<-": "@owner.labelPath"},
                 "size": {"<-": "@owner.size"},
-                "enabled": {"<-": "@owner.itemDraggable"}
+                "enabled": {"<-": "!!@owner.itemDraggable"},
+                "delegate": {"<-": "@owner.delegate"}
             }
         }
     }

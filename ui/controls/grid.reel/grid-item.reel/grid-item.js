@@ -8,6 +8,14 @@ exports.GridItem = AbstractDraggableComponent.specialize({
 
     _placeHolderStrategy: {
         value: "hidden"
+    },
+
+    shouldAcceptDrag: {
+        value: function () {
+            var response = this.callDelegateMethod("shouldAcceptGridItemToDrag", this);
+
+            return typeof response === "boolean" ? response : true;
+        }
     }
 
 });
