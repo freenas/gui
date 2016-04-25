@@ -2,21 +2,29 @@
     display: flex;
     margin-top: 0;
     padding-bottom: 1em;
+    margin: 0 -1em;
     margin-bottom: 1em;
+    padding: 1em;
     border-bottom: 1px solid rgba(255,255,255,.15);
+    background: #DFE4E4;
+    color: #16171A;
+}
+
+.ShareOverview-iconContainer {
+    text-align: center;
+    width: 7.5em;
+    margin-right: 1em;
 }
 
 .ShareOverview-icon {
-    display: flex;
-    align-items: center;
+    display: inline-block;
     width:  6em;
     height: 6em;
-    margin-right: 2em;
 }
 
 .ShareOverview-icon svg {
-    color: #ccc;
     width: 100%;
+    height: 100%;
 }
 
 .ShareOverview-info {
@@ -24,4 +32,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.ShareOverview-title {
+    font-size: 2em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
 }

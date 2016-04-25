@@ -10,35 +10,27 @@
                 "element": {"#": "owner"}
             }
         },
-                "iconSubstitution": {
+        "iconSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
                 "element": {"#": "iconSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.type"}
+                "switchValue": {"<-": "@owner.object.target_type"}
             }
         },
-        "smbIcon": {
-            "prototype": "ui/icons/smb-share.reel",
+        "datasetIcon": {
+            "prototype": "ui/icons/dataset.reel",
             "properties": {
-                "element": {"#": "smbIcon"},
+                "element": {"#": "datasetIcon"},
                 "component.object": {"<-": "@owner.object"},
                 "component.size": {"<-": "size"}
             }
         },
-        "afpIcon": {
-            "prototype": "ui/icons/afp-share.reel",
+        "directoryIcon": {
+            "prototype": "ui/icons/directory.reel",
             "properties": {
-                "element": {"#": "afpIcon"},
-                "component.object": {"<-": "@owner.object"},
-                "component.size": {"<-": "size"}
-            }
-        },
-        "nfsIcon": {
-            "prototype": "ui/icons/nfs-share.reel",
-            "properties": {
-                "element": {"#": "nfsIcon"},
+                "element": {"#": "directoryIcon"},
                 "component.object": {"<-": "@owner.object"},
                 "component.size": {"<-": "size"}
             }
@@ -53,10 +45,9 @@
             }
         },
         "targetType": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "targetType"},
-                "label": "Target type"
+                "element": {"#": "targetType"}
             },
             "bindings": {
                 "value": {"<-": "@owner.object.target_type"}
@@ -76,14 +67,15 @@
 </head>
 <body>
     <div data-montage-id="owner" class="ShareOverview">
-        <div data-montage-id="iconSubstitution">
-            <div data-montage-id="smbIcon" data-arg="smb" class="ShareOverview-icon"></div>
-            <div data-montage-id="afpIcon" data-arg="afp" class="ShareOverview-icon"></div>
-            <div data-montage-id="nfsIcon" data-arg="nfs" class="ShareOverview-icon"></div>
+        <div class="ShareOverview-iconContainer">
+            <div data-montage-id="iconSubstitution">
+                <div data-montage-id="datasetIcon" data-arg="DATASET" class="ShareOverview-icon"></div>
+                <div data-montage-id="directoryIcon" data-arg="DIRECTORY" class="ShareOverview-icon"></div>
+            </div>
+            <div data-montage-id="targetType"></div>
         </div>
         <div class="ShareOverview-info">
-            <p data-montage-id="shareType" class="bold"></p>
-            <div data-montage-id="targetType"></div>
+            <p data-montage-id="shareType" class="ShareOverview-title"></p>
             <div data-montage-id="enabled"></div>
         </div>
     </div>

@@ -135,6 +135,20 @@
                 "selectedValue": {"<->": "@owner.object.permissions.group"},
                 "options": {"<-": "@owner.groups"}
             }
+        },
+        "globalServiceToggle": {
+            "prototype": "blue-shark/ui/toggle-switch.reel",
+            "properties": {
+                "element": {"#": "globalServiceToggle"},
+                "label": "Global SMB Service"
+            }
+        },
+        "globalServiceLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "globalServiceLabel"},
+                "value": "Global SMB Service"
+            }
         }
     }
     </script>
@@ -142,6 +156,10 @@
 <body>
     <div data-montage-id="owner" class="Share">
         <div data-montage-id="inspector">
+            <div class="Share-globalToggle">
+                <div data-montage-id="globalServiceLabel" class="Share-globalToggle-label"></div>
+                <div data-montage-id="globalServiceToggle"></div>
+            </div>
             <div data-montage-id="overview"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="target"></div>

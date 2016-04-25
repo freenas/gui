@@ -1,1 +1,15 @@
 .Share {}
+
+.Share-globalToggle {
+    display: flex;
+    padding: .5em 1em;
+    align-items: center;
+    margin: -1em;
+    margin-bottom: 0;
+    background: #0B1E29;
+    color: #E0E5E5;
+}
+
+.Share-globalToggle-label {
+    flex: 1;
+}
