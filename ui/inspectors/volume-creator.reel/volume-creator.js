@@ -68,6 +68,7 @@ exports.VolumeCreator = Component.specialize({
                             path = '/dev/' + path;
                         }
                         vdev.children[j].path = path;
+                        vdev.children[j].type = 'disk';
                     }
                     if (vdev.children.length == 1) {
                         vdev.path = vdev.children[0].path;
