@@ -11,7 +11,8 @@
 }
 
 .Chart svg {
-    padding: 1em;
+    padding-right: 2em;
+    padding-top: 1em;
     flex: 1;
     background: rgba(33, 33, 33, .7);
     border-bottom-left-radius: 4px;
