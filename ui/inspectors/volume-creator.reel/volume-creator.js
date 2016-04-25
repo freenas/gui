@@ -80,17 +80,6 @@ exports.VolumeCreator = Component.specialize({
         }
     },
 
-    _cleanupTopology: {
-        value: function() {
-            this.object.topology = {
-                data: this._cleanupVdevs(this.object.topology.data),
-                cache: this._cleanupVdevs(this.object.topology.cache),
-                log: this._cleanupVdevs(this.object.topology.log),
-                spare: this._cleanupVdevs(this.object.topology.spare)
-            };
-        }
-    },
-
     revert: {
         value: function() {
             this.topologizer.reset();
@@ -100,7 +89,6 @@ exports.VolumeCreator = Component.specialize({
 
     save: {
         value: function() {
-            //this._cleanupTopology();
             this._cleanupVdevs(this.object.topology.data);
             this._cleanupVdevs(this.object.topology.cache);
             this._cleanupVdevs(this.object.topology.log);
