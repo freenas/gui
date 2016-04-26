@@ -117,7 +117,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     enterDocument: {
         value: function (firstTime) {
             AbstractDropZoneComponent.prototype.enterDocument.call(this, firstTime);
-            this._populateTopologyItem();
+            this._defineVDevContext();
             this._cancelRangeAtPathChangeListener = this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
             this._hasUserDefinedType = false;
         }
@@ -173,7 +173,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                 response = !this.isVDevImmutable;
 
                 if (response) {
-                    var context = this._findContext();
+                    var context = CascadingList.findCascadingListItemContextWithComponent(this);
 
                     if (context) {
                         var initialDataTopology = context.object.data,
@@ -315,13 +315,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         }
     },
 
-    _findContext: {
-        value: function () {
-            return CascadingList.findCascadingListItemContextWithComponent(this);
-        }
-    },
-
-    _populateTopologyItem: {
+    _defineVDevContext: {
         value: function () {
             var allowedVDevTypes = null;
 
