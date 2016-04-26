@@ -12,7 +12,6 @@
             },
             "bindings": {
                 "classList.has('unhealthy')": {"<-": "@owner.object.status.defined() && @owner.object.status != 'ONLINE'"},
-                "children": {"<-": "@owner.object.children.defined() && @owner.object.children.length > 0 ? @owner.object.children : [@owner.object]"},
                 "vdevTypesOptions": {"<-": "@owner.vdevTypes.filter{minDisks <= @owner.children.length}.filter{maxDisks.defined() ? maxDisks >= @owner.children.length : true}"}
             },
             "listeners": [

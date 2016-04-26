@@ -1,5 +1,4 @@
 var AbstractDropZoneComponent = require("core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Topology = require("ui/controls/topology.reel").Topology;
 
 /**
@@ -7,32 +6,6 @@ var AbstractDropZoneComponent = require("core/drag-drop/abstract-dropzone-compon
  * @extends Component
  */
 exports.DisksCategory = AbstractDropZoneComponent.specialize({
-
-    _topology: {
-        value: null
-    },
-
-    object: {
-        get: function () {
-            if (!this._topology) {
-                var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
-
-                if (cascadingListItem) {
-                    var previousCascadingListItemContext = cascadingListItem.cascadingList._stack[cascadingListItem.data.columnIndex - 1];
-                    this._topology = previousCascadingListItemContext.object.topology;
-                }
-            }
-
-            return this._topology;
-        }
-    },
-
-    enterDocument: {
-        value: function (firstTime) {
-            AbstractDropZoneComponent.prototype.enterDocument.call(this, firstTime);
-            this._topology = null;
-        }
-    },
 
     shouldAcceptComponent: {
         value: function (diskGridItemComponent) {
@@ -63,7 +36,7 @@ exports.DisksCategory = AbstractDropZoneComponent.specialize({
                 sourceGridId = diskGridItemComponent.ownerComponent.identifier;
 
             if (disk && Topology.IDENTIFIERS[sourceGridId]) {
-                var collectionSource = Topology.prototype._findTopologyCollectionWithIdentifier.call(this, sourceGridId);
+                var collectionSource = Topology.prototype._findTopologyCollectionWithIdentifier.call(this.parentComponent, sourceGridId);
                 Topology.prototype._removeDiskFromTopologyCollection(vDev, collectionSource);
                 disk.volume = null;
             }

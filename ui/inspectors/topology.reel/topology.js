@@ -1,16 +1,170 @@
 /**
  * @module ui/topology.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Promise = require("montage/core/promise").Promise,
+    Model = require("core/model/model").Model;
 
 /**
  * @class Topology
  * @extends Component
  */
 exports.Topology = Component.specialize(/** @lends Topology# */ {
-    constructor: {
-        value: function Topology() {
-            this.super();
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        set: function (object) {
+            if (this._object !== object) {
+                this._object = object;
+                this._freeTopologyProxy();
+                this._populateTopologyProxyWithTopology(object);
+            }
+        },
+        get: function () {
+            return this._object;
+        }
+    },
+
+    _topologyProxy: {
+        value: null
+    },
+
+    topologyProxy: {
+        get: function () {
+            if (!this._topologyProxy) {
+                var self = this;
+
+                this._topologyProxy = Promise.all([
+                    Model.populateObjectPrototypeForType(Model.ZfsTopology),
+                    Model.populateObjectPrototypeForType(Model.ZfsVdev)
+                ]).then(function () {
+                    self._topologyProxy = self.application.dataService.getDataObject(Model.ZfsTopology);
+                    self._topologyProxy.cache = [];
+                    self._topologyProxy.log = [];
+                    self._topologyProxy.spare = [];
+                    self._topologyProxy.data = [];
+                });
+            }
+
+            return this._topologyProxy;
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this._clearDisk();
+            this._freeTopologyProxy();
+        }
+    },
+
+    _freeTopologyProxy: {
+        value: function () {
+            if (this._topologyProxy) {
+                this._topologyProxy.cache.clear();
+                this._topologyProxy.log.clear();
+                this._topologyProxy.spare.clear();
+                this._topologyProxy.data.clear();
+            }
+        }
+    },
+
+    _populateTopologyProxyWithTopology: {
+        value: function (topology) {
+            if (this.topologyProxy) {
+                if (Promise.is(this.topologyProxy)) {
+                    var self = this;
+
+                    this.topologyProxy.then(function () {
+                        self.__populateTopologyProxyWithTopology(topology);
+                    });
+                } else {
+                    this.__populateTopologyProxyWithTopology(topology);
+                }
+            }
+        }
+    },
+
+
+    __populateTopologyProxyWithTopology: {
+        value: function (topology) {
+            var topologyProxy = this._topologyProxy;
+
+            this.addVDevsToTopologyProxyVDevs(topology.data, topologyProxy.data);
+            this.addVDevsToTopologyProxyVDevs(topology.log, topologyProxy.log);
+            this.addVDevsToTopologyProxyVDevs(topology.spare, topologyProxy.spare);
+            this.addVDevsToTopologyProxyVDevs(topology.cache, topologyProxy.cache);
+
+            this.dispatchOwnPropertyChange("topologyProxy", this._topologyProxy);
+        }
+    },
+
+    addVDevsToTopologyProxyVDevs: {
+        value: function (vDevs, targetProxyVDevs) {
+            var proxyVDev, proxyVDevDisk, vDev, vDevChildren, i, ii , l, ll;
+
+            for (i = 0, l = vDevs.length; i < l; i++) {
+                proxyVDev = this._mapVDevToProxyVDev((vDev = vDevs[i]));
+                proxyVDev.children = [];
+                vDevChildren = vDev.children;
+
+                if (!vDevChildren || vDevChildren.length === 0) {
+                    proxyVDev.children.push(vDev);
+                } else {
+                    for (ii = 0, ll = vDevChildren.length; ii < ll; ii++) {
+                        proxyVDevDisk = this._mapVDevToProxyVDev(vDevChildren[ii]);
+                        proxyVDev.children.push(proxyVDevDisk);
+                    }
+                }
+
+                targetProxyVDevs.push(proxyVDev);
+            }
+        }
+    },
+
+    _mapVDevToProxyVDev: {
+        value: function (vDev) {
+            var propertyBlueprints = Model.ZfsVdev.objectPrototype.blueprint.propertyBlueprints,
+                proxyVDev = this.application.dataService.getDataObject(Model.ZfsVdev),
+                key;
+
+            for (var i = 0, length = propertyBlueprints.length; i < length; i++) {
+                key = propertyBlueprints[i].name;
+
+                if (key !== "children") {
+                    proxyVDev[key] = vDev[key];
+                }
+            }
+
+            return proxyVDev;
+        }
+    },
+
+    revert: {
+        value: function () {
+            this._clearDisk();
+            this._freeTopologyProxy();
+            this._populateTopologyProxyWithTopology(this.object);
+        }
+    },
+
+    _clearDisk: {
+        value: function () {
+            var disks = this.disks,
+                disk;
+
+            if (this.disks) {
+                for (var i = 0, length = disks.length; i < length; i++) {
+                    disk = disks[i];
+
+                    if (disk.volume === '/TEMP/') {
+                        disk.volume = null;
+                    }
+                }
+            }
         }
     }
+
 });
