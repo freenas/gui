@@ -79,7 +79,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     isVDevImmutable: {
         get: function () {
-            return this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA && this.isVDevRaidZType;
+            return this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA && this.isVDevRaidZType && !this.isNewVDev;
         }
     },
 
@@ -89,6 +89,12 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                 vDevTypes = Topology.VDEV_TYPES;
 
             return type === vDevTypes.RAIDZ1.value || type === vDevTypes.RAIDZ2.value || type === vDevTypes.RAIDZ3.value;
+        }
+    },
+
+    isNewVDev: {
+        get: function () {
+            return this.object ? !this.object.guid : true;
         }
     },
 
@@ -169,7 +175,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: function (diskGridItemComponent) {
             var response = this.editable;
 
-            if (this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA) {
+            if (this.isEditorMode && !this.isNewVDev && this.gridIdentifier === Topology.IDENTIFIERS.DATA) {
                 response = !this.isVDevImmutable;
 
                 if (response) {
@@ -304,7 +310,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             if (this.topologyItem && !this._hasUserDefinedType) {
                 var childrenCount = this.children.length;
 
-                if (this.isEditorMode) {
+                if (this.isEditorMode && !this.isNewVDev) {
                     if (!this.isVDevRaidZType) {
                         this.object.type = childrenCount > 1 ? Topology.VDEV_TYPES.MIRROR.value : Topology.VDEV_TYPES.DISK.value;
                     }
@@ -319,7 +325,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: function () {
             var allowedVDevTypes = null;
 
-            if (this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA) {
+            if (this.isEditorMode && !this.isNewVDev && this.gridIdentifier === Topology.IDENTIFIERS.DATA) {
                 var type = this.object.type;
 
                 if (type === Topology.VDEV_TYPES.DISK.value) {
@@ -341,10 +347,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     handleDisplayVdevTypesAction: {
         value: function (event) {
-            if (this.isVDevImmutable) {
-                return void 0;
-            }
-
             this.showVdevTypes = !this.showVdevTypes;
         }
     },
