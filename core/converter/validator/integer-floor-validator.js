@@ -4,9 +4,13 @@
 var Validator = require("montage/core/converter/converter").Validator,
     IntegerValidator = require("core/converter/validator/integer-validator").IntegerValidator;
 
-exports.PositiveIntegerValidator = Validator.specialize({
-    _MIN_VALUE: {
-        value: 1
+exports.IntegerFloorValidator = Validator.specialize({
+    floor: {
+        value: null
+    },
+
+    errorMessage: {
+        value: null
     },
 
     _integerValidator: {
@@ -23,14 +27,15 @@ exports.PositiveIntegerValidator = Validator.specialize({
         value: function (value) {
             try {
                 this._integerValidator.validate(value);
-                if (+value >= this._MIN_VALUE) {
-                    return true;
-                } else {
-                    throw new Error();
-                }
             } catch (e) {
-                throw new Error("Value must be a positive integer.");
+                throw new Error(this.errorMessage);
             }
+            if (+value >= this.floor) {
+                return true;
+            } else {
+                throw new Error(this.errorMessage);
+            }
+
         }
     }
 

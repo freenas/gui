@@ -11,7 +11,11 @@
             }
         },
         "positiveIntegerValidator": {
-            "prototype": "core/converter/validator/positive-integer-validator"
+            "prototype": "core/converter/validator/integer-floor-validator",
+            "properties": {
+                "floor": 1,
+                "errorMessage": "Value must be a positive integer."
+            }
         },
         "integerValidator": {
             "prototype": "core/converter/validator/integer-validator"
