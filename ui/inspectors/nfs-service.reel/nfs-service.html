@@ -17,6 +17,14 @@
                 "errorMessage": "Value must be a positive integer."
             }
         },
+        "portValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Value must be an integer between 1 and 65535"
+            }
+        },
         "serverNumberConverter": {
             "prototype": "core/converter/string-to-integer-converter",
             "properties": {
@@ -24,10 +32,9 @@
             }
         },
         "portConverter": {
-            "prototype": "core/converter/ip-range-converter",
+            "prototype": "core/converter/string-to-integer-or-null-converter",
             "properties": {
-                "from": 1,
-                "to": 65535
+                "validator": {"@": "portValidator"}
             }
         },
         "bind_addresses": {
