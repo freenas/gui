@@ -2,14 +2,16 @@
  * @module ui/topology.reel
  */
 var Component = require("montage/ui/component").Component,
+    VolumeCreator = require("ui/inspectors/volume-creator.reel").VolumeCreator,
     Promise = require("montage/core/promise").Promise,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Model = require("core/model/model").Model;
 
 /**
  * @class Topology
  * @extends Component
  */
-exports.Topology = Component.specialize(/** @lends Topology# */ {
+var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
     _object: {
         value: null
@@ -165,6 +167,36 @@ exports.Topology = Component.specialize(/** @lends Topology# */ {
                 }
             }
         }
+    },
+
+    save: {
+        value: function () {
+            var previousContextCascadingList = CascadingList.findPreviousContextWithComponent(this);
+
+            if (previousContextCascadingList) {
+                var volume = previousContextCascadingList.object,
+                    previousTopology = this.object;
+
+                this._cleanupVdevs(this.topologyProxy.data);
+                this._cleanupVdevs(this.topologyProxy.cache);
+                this._cleanupVdevs(this.topologyProxy.log);
+                this._cleanupVdevs(this.topologyProxy.spare);
+
+                volume._topology = this.topologyProxy;
+
+                return this.application.dataService.saveDataObject(volume).then(function () {
+                    console.log("updated")
+
+                }, function () {
+                    volume.topology = previousTopology;
+                });
+            }
+        }
     }
 
+
+
 });
+
+
+Topology.prototype._cleanupVdevs = VolumeCreator.prototype._cleanupVdevs;
