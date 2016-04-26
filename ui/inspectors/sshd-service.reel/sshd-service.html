@@ -31,11 +31,18 @@
                 "checked": {"<->": "@owner.object.allow_password_auth"}
             }
         },
-        "portConverter": {
-            "prototype": "core/converter/ip-range-converter",
+        "portValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
             "properties": {
-                "from": 1,
-                "to": 65535
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Value must be an integer between 1 and 65535"
+            }
+        },
+        "portConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "portValidator"}
             }
         },
         "port": {
