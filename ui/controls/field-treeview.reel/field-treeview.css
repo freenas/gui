@@ -35,4 +35,9 @@
 .FieldTreeview.isExpanded .FieldTreeview-treeView {
     position: relative;
     visibility: visible;
+    margin-bottom: 1em;
+}
+
+.FieldTreeview.isExpanded .FieldTreeview-pathButton {
+    visibility: hidden;
 }

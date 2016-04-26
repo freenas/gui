@@ -38,7 +38,32 @@ exports.Share = Component.specialize({
         set: function(targetPath) {
             var self = this;
             if (this._targetPath != targetPath) {
-                self._targetPath = targetPath;
+                if (targetPath) {
+                    self._targetPath = targetPath;
+                    self.getPathNode(targetPath).then(function(node) {
+                        node.isDataset = self._isPathADataset(targetPath);
+                        self.targetPathNode = node;
+                    });
+                }
+
+            }
+        }
+    },
+
+    _targetPathNode: {
+        value: null
+    },
+
+    targetPathNode: {
+        get: function() {
+            return this._targetPathNode;
+        },
+        set: function(targetPathNode) {
+            if (this._targetPathNode != targetPathNode) {
+                this._targetPathNode = targetPathNode;
+                if (targetPathNode && targetPathNode.path) {
+                    this.listChildren();
+                }
             }
         }
     },
@@ -72,6 +97,13 @@ exports.Share = Component.specialize({
                 this.application.dataService.fetchData(Model.User).then(function(users) {
                     self.users = users;
                 });
+                if (object && this._filesystemService) {
+                    if (object.target_path && object.target_type === 'DIRECTORY') {
+                        this.targetPath = object.target_path
+                    } else {
+                        this.targetPath = '/mnt/' + (object.target_path ? object.target_path : object.volume.id);
+                    }
+                }
                 this._object = object
             }
         }
@@ -88,10 +120,20 @@ exports.Share = Component.specialize({
                 this._loadingPromise = this._loadVolumeService().then(function() {
                     self._loadPathConverter();
                 });
+                this._loadingPromise.then(function() {
+                    if (self.object.target_path && self.object.target_type === 'DIRECTORY') {
+                        self.targetPath = self.object.target_path
+                    } else {
+                        self.targetPath = '/mnt/' + (self.object.target_path ? self.object.target_path : self.object.volume.id);
+                    }
+                });
             }
-            this._loadingPromise.then(function() {
-                self.targetPath = self.object.target_path || '';
-            });
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.targetPath = null;
         }
     },
 
@@ -168,6 +210,32 @@ exports.Share = Component.specialize({
                     }
                 };
                 self.targetPath = self.targetPath+'';
+            });
+        }
+    },
+
+    getPathNode: {
+        value: function(path) {
+            return this._filesystemService.stat(path);
+        }
+    },
+
+    _isPathADataset: {
+        value: function (path) {
+            return this.datasetsPath.indexOf(path) != -1;
+        }
+    },
+
+    listChildren: {
+        value: function() {
+            var self = this;
+            return this._filesystemService.listDir(this._targetPathNode.path).then(function(children) {
+                self.folders = children.filter(function(x) {
+                    return x.type === 'DIRECTORY'
+                }).map(function(x) {
+                    x.isDataset = self._isPathADataset(self._filesystemService.join(self._targetPathNode.path, x.name));
+                    return x;
+                });
             });
         }
     }

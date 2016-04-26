@@ -5,8 +5,9 @@
     display: flex;
     flex-direction: column;
     padding-left: .5em;
-    transition: transform .5s ease-in-out;
 }
+
+.CurrentNode.isTransitioning { transition: transform .5s ease-in-out; }
 
 .CurrentNode.isBefore   { transform: translateX(-100%); }
 .CurrentNode.isAfter    { transform: translateX(100%) }

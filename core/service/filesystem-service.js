@@ -43,6 +43,18 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
         }
     },
 
+
+    stat: {
+        value: function(path) {
+            var self = this;
+            return this._callBackend("filesystem.stat", [path]).then(function(response) {
+                var result = response.data;
+                result.name = self.basename(path);
+                return result;
+            });
+        }
+    },
+
     _callBackend: {
         value: function(method, args) {
             return this._backendBridge.send("rpc", "call", {

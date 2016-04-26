@@ -20,8 +20,10 @@
         "field": {
             "prototype": "blue-shark/ui/field.reel",
             "properties": {
-                "element": {"#": "field"},
-                "label": "Current File"
+                "element": {"#": "field"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.label"}
             }
         },
         "pathButton": {
@@ -30,7 +32,7 @@
                 "element": {"#": "pathButton"}
             },
             "bindings": {
-                "label": {"<-": "@owner.currentNode.path.defined() ? @owner.currentNode.path : 'Select a Folder'"}
+                "label": {"<-": "@owner.parentPath"}
             }
         },
         "treeview": {
@@ -39,8 +41,12 @@
                 "element": {"#": "treeview"}
             },
             "bindings": {
-                "data": {"<-": "@owner.data"},
-                "currentNode": {"<-": "@owner.currentNode"}
+                "root": {"<-": "@owner.root"},
+                "parent": {"<->": "@owner.parent"},
+                "parentPath": {"<->": "@owner.parentPath"},
+                "children": {"<-": "@owner.children"},
+                "originalValue": {"<-": "@owner.originalValue"},
+                "close": {"<->": "@owner.close"}
             }
         }
     }

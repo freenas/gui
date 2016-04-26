@@ -8,6 +8,10 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "targetPath": {"<-": "@owner.targetPathNode ? @owner.targetPathNode.path : ''"},
+                "datasetsPath": {"<-": "@owner.object.volume.datasets.map{mountpoint}"}
             }
         },
         "usersOptionsConverter": {
@@ -66,14 +70,16 @@
             }
         },
         "target": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "target"},
                 "label": "Target"
             },
             "bindings": {
-                "value": {"<->": "@owner.targetPath"},
-                "converter": {"<-": "@owner.pathConverter"}
+                "root": {"<-": "'/mnt/' + @owner.object.volume.id"},
+                "parent": {"<->": "@owner.targetPathNode"},
+                "parentPath": {"<->": "@owner.targetPath"},
+                "children": {"<-": "@owner.folders"}
             }
         },
         "substitution": {

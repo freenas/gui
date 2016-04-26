@@ -72,6 +72,9 @@ exports.Volumes = Component.specialize({
                 return self._listDisks();
             }).then(function (disks) {
                 self.disks = disks;
+                return self._listDatasets();
+            }).then(function (datasets) {
+                self.datasets = datasets;
             });
         }
     },
@@ -167,6 +170,7 @@ exports.Volumes = Component.specialize({
                 volume.shares = this.shares;
                 volume.snapshots = this.snapshots;
                 volume.disks = this.disks;
+                volume.datasets = this.datasets;
                 volume.scrubs = this._dataService.getDataObject(Model.Scrub);
                 this._volumesById[volume.id] = volume;
                 this._assignVolumeToDisks();
@@ -216,6 +220,12 @@ exports.Volumes = Component.specialize({
     _listSnapshots: {
         value: function() {
             return this._dataService.fetchData(Model.VolumeSnapshot);
+        }
+    },
+
+    _listDatasets: {
+        value: function() {
+            return this._dataService.fetchData(Model.VolumeDataset);
         }
     },
 

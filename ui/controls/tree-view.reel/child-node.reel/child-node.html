@@ -10,6 +10,15 @@
                 "element": {"#": "owner"}
             }
         },
+        "iconSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "iconSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.data.isDataset"}
+            }
+        },
         "name": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -25,7 +34,10 @@
 <body>
     <div data-montage-id="owner" class="ChildNode">
         <div class="ChildNode-typeIcon">
-            <svg><use xlink:href="#i-folder"/></svg>
+            <svg data-montage-id="iconSubstitution">
+                <use xlink:href="#i-dataset" data-arg="true"/>
+                <use xlink:href="#i-folder" data-arg="false"/>
+            </svg>
         </div>
         <div data-montage-id="name" class="ChildNode-name"></div>
         <div class="ChildNode-arrow">

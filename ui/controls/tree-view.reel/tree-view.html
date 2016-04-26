@@ -8,7 +8,8 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "currentNodeElement": {"@": "currentNode"}
+                "currentNode": {"@": "currentNode"},
+                "nextNode": {"@": "nextNode"}
             },
             "listeners": [
                 {
@@ -23,7 +24,7 @@
                 "element": {"#": "currentPath"}
             },
             "bindings": {
-                "value": {"<-": "@owner.currentNode.path"}
+                "value": {"<-": "@owner.parent.path"}
             }
         },
         "currentNode": {
@@ -32,18 +33,18 @@
                 "element": {"#": "currentNode"}
             },
             "bindings": {
-                "data": {"<-": "@owner.data"},
-                "currentNode": {"<-": "@owner.currentNode.name"}
+                "parent": {"<->": "@owner.parent"},
+                "children": {"<-": "@owner.children"}
             }
         },
-        "secondNode": {
+        "nextNode": {
             "prototype": "./current-node.reel",
             "properties": {
-                "element": {"#": "secondNode"}
+                "element": {"#": "nextNode"}
             },
             "bindings": {
-                "data": {"<-": "@owner.data"},
-                "currentNode": {"<-": "@owner.currentNode"}
+                "parent": {"<-": "@owner.parent"},
+                "children": {"<-": "@owner.children"}
             }
         },
         "backButton": {
@@ -79,7 +80,7 @@
         </div>
         <div class="TreeView-body">
             <div data-montage-id="currentNode" class="TreeView-currentNode"></div>
-            <div data-montage-id="secondNode" class="TreeView-currentNode isAfter"></div>
+            <div data-montage-id="nextNode" class="TreeView-currentNode isAfter"></div>
         </div>
         <div class="TreeView-footer">
             <div data-montage-id="cancel" class="Button--small"></div>
