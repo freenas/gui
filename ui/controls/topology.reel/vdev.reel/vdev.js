@@ -24,7 +24,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     topologyItem: {
         get: function () {
-            if (!this._topologyItem) {
+            if (!this._topologyItem && this._inDocument) {
                 var topologyItem = null,
                     currentComponent = this.parentComponent || this.findParentComponent();
 
@@ -49,20 +49,25 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     gridIdentifier: {
         get: function () {
-            return this.topologyItem.gridIdentifier;
+            if (this.topologyItem) {
+                return this.topologyItem.gridIdentifier;
+            }
         }
     },
 
     editable: {
         get: function () {
-            return this.topologyItem.editable;
+            if (this.topologyItem) {
+                return this.topologyItem.editable;
+            }
         }
     },
 
     mode: {
         get: function () {
-            return this.topologyItem.topologyComponent.mode;
-
+            if (this.topologyItem) {
+                return this.topologyItem.topologyComponent.mode;
+            }
         }
     },
 
