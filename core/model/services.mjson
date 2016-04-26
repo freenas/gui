@@ -1123,6 +1123,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getLoggingLevel": {
+                "method": "management.get_logging_level",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getPluginNames": {
                 "method": "management.get_plugin_names",
                 "name": "call",
@@ -1150,6 +1155,11 @@
             },
             "restart": {
                 "method": "management.restart",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "setLoggingLevel": {
+                "method": "management.set_logging_level",
                 "name": "call",
                 "namespace": "rpc"
             },
