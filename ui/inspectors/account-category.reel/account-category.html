@@ -19,43 +19,33 @@
             }
         },
 
-        "standardUser": {
+        "user": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "standardUser"}
+                "element": {"#": "user"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.standardUser"}
+                "object": {"<-": "@owner.object.user"}
             }
         },
 
-        "systemUser": {
+        "group": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "systemUser"}
+                "element": {"#": "group"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.systemUser"}
+                "object": {"<-": "@owner.object.group"}
             }
         },
 
-        "standardGroup": {
+        "system": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "standardGroup"}
+                "element": {"#": "system"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object.standardGroup"}
-            }
-        },
-
-        "systemGroup": {
-            "prototype": "ui/controls/inspector-option.reel",
-            "properties": {
-                "element": {"#": "systemGroup"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.systemGroup"}
+                "object": {"<-": "@owner.object.system"}
             }
         }
     }
@@ -64,10 +54,9 @@
 <body>
     <div data-montage-id="owner" class="AccountCategory">
         <div data-montage-id="scrollView">
-            <div data-montage-id="standardUser"></div>
-            <div data-montage-id="systemUser"></div>
-            <div data-montage-id="standardGroup"></div>
-            <div data-montage-id="systemGroup"></div>
+            <div data-montage-id="user"></div>
+            <div data-montage-id="group"></div>
+            <div data-montage-id="system"></div>
         </div>
     </div>
 </body>

@@ -1069,6 +1069,10 @@
             "type": "AccountCategory"
         },
         {
+            "modelId": "core/model/custom-descriptors/account-system.mjson",
+            "type": "AccountSystem"
+        },
+        {
             "modelId": "core/model/custom-descriptors/network-overview.mjson",
             "type": "NetworkOverview"
         },

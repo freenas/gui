@@ -1,0 +1,10 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "iconComponentModule": {"%": "ui/icons/group.reel"},
+            "collectionNameExpression": "'System'"
+        }
+    }
+}

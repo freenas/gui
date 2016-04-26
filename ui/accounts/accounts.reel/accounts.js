@@ -21,10 +21,9 @@ exports.Accounts = Component.specialize({
                 //Fixme: getDataObject needs to return a promise
                 return Model.populateObjectPrototypeForType(accountCategoryModelType).then(function () {
                     accountCategories = self.accountCategories = dataService.getDataObject(accountCategoryModelType);
-                    accountCategories.standardUser = dataService.getEmptyCollectionForType(Model.User);
-                    accountCategories.systemUser = dataService.getEmptyCollectionForType(Model.User);
-                    accountCategories.standardGroup = dataService.getEmptyCollectionForType(Model.Group);
-                    accountCategories.systemGroup = dataService.getEmptyCollectionForType(Model.Group);
+                    accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
+                    accountCategories.group = dataService.getEmptyCollectionForType(Model.Group);
+                    accountCategories.system = dataService.getEmptyCollectionForType(Model.AccountSystem);
 
                     return Promise.all([self._listUsers(), self._listGroups()]);
                 });
@@ -75,18 +74,12 @@ exports.Accounts = Component.specialize({
             for (var i = 0, length = collection.length; i < length; i++) {
                 entity = collection[i];
 
-                if (isGroup) {
-                    if (entity.builtin) {
-                        accountCategories.systemGroup.push(entity);
-                    } else {
-                        accountCategories.standardGroup.push(entity);
-                    }
+                if (entity.builtin) {
+                    accountCategories.system.push(entity);
+                } else if (isGroup) {
+                    accountCategories.group.push(entity);
                 } else {
-                    if (entity.builtin) {
-                        accountCategories.systemUser.push(entity);
-                    } else {
-                        accountCategories.standardUser.push(entity);
-                    }
+                    accountCategories.user.push(entity);
                 }
             }
         }
@@ -101,18 +94,12 @@ exports.Accounts = Component.specialize({
             for (var i = 0, length = collection.length; i < length; i++) {
                 entity = collection[i];
 
-                if (isGroup) {
-                    if (entity.builtin) {
-                        accountCategories.systemGroup.splice(accountCategories.systemGroup.indexOf(entity), 1);
-                    } else {
-                        accountCategories.standardGroup.splice(accountCategories.standardGroup.indexOf(entity), 1);
-                    }
+                if (entity.builtin) {
+                    accountCategories.system.splice(accountCategories.system.indexOf(entity), 1);
+                } else if (isGroup) {
+                    accountCategories.group.splice(accountCategories.group.indexOf(entity), 1);
                 } else {
-                    if (entity.builtin) {
-                        accountCategories.systemUser.splice(accountCategories.systemUser.indexOf(entity), 1);
-                    } else {
-                        accountCategories.standardUser.splice(accountCategories.standardUser.indexOf(entity), 1);
-                    }
+                    accountCategories.user.splice(accountCategories.user.indexOf(entity), 1);
                 }
             }
         }
