@@ -9,8 +9,8 @@
 
 .CurrentNode.isTransitioning { transition: transform .5s ease-in-out; }
 
-.CurrentNode.isBefore   { transform: translateX(-100%); }
-.CurrentNode.isAfter    { transform: translateX(100%) }
+.CurrentNode.isBefore   { transform: translateX(-101%); }
+.CurrentNode.isAfter    { transform: translateX(101%) }
 
 .CurrentNode-scrollview {
     position: relative;
@@ -41,6 +41,7 @@ parent node
     top: 0;
     bottom: 0;
     background-color: #2B9CD8;
+    z-index: 0;
 }
 
 .childSelected .CurrentNode-parentNode { background-color: grey; }
