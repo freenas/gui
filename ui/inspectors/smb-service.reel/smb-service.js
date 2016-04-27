@@ -38,7 +38,7 @@ exports.SmbService = Component.specialize({
     },
 
     users: {
-        value: []
+        value: null
     },
 
     enterDocument: {
