@@ -64,15 +64,24 @@
                 "checked": {"<->": "@owner.object.homedir_enable"}
             }
         },
+        "usersToOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
+
         "guest_user": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "guest_user"},
+                "converter": {"@": "usersToOptionsConverter"},
                 "label": "Guest User"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.guest_user"},
-                "options": {"<-": "@owner.users"}
+                "options": {"<-": "@owner.users"},
+                "selectedValue": {"<->": "@owner.object.guest_user"}
             }
         },
         "homedir_path": {
