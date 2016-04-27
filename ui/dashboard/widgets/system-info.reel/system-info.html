@@ -138,45 +138,57 @@
             "bindings": {
                 "value": {"<-": "@disksSizeRepetition:iteration.object.1.length"}
             }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SystemInfo">
-        <div class="SystemInfo-overview">
-            <div data-montage-id="hostname" class="h1 SystemInfo-hostname"></div>
-            <div class="g-margin-bottom">
-                <div class="h5">Version</div>
-                <div data-montage-id="osVersion" class="c-grey-3"></div>
-            </div>
-            <div>
-                <div class="h5">Uptime</div>
-                <div data-montage-id="uptime" class="c-grey-3"></div>
-            </div>
+        <div class="SystemInfo-header">
+            System Overview
         </div>
-        <div class="SystemInfo-dataSummary">
-            <div class="SystemInfo-block">
-                <div class=" SystemInfo-block-title">Cpu</div>
-                <div class="h3 SystemInfo-data">
-                    <span data-montage-id="cpuCount"></span> @<span data-montage-id="cpuSpeed"></span>GHz
-                </div>
-                <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
-            </div>
-            <div class="SystemInfo-block">
-                <div class=" SystemInfo-block-title">Memory</div>
-                <div data-montage-id="memorySize" class="h3 SystemInfo-data"></div>
-                <div data-montage-id="memoryDetails" class="h3 SystemInfo-data"></div>
-            </div>
-            <div class="SystemInfo-block">
-                <div class=" SystemInfo-block-title">Drives</div>
-                <div data-montage-id="disksTypeRepetition">
-                    <div data-montage-id="disksType"></div>
-                    <div data-montage-id="disksSizeRepetition">
-                        <div class="h3 SystemInfo-data">
-                            <span data-montage-id="disksSize"></span>x<span data-montage-id="disksCount"></span>
+        <div class="SystemInfo-body">
+            <div data-montage-id="scrollview">
+                <div class="SystemInfo-body-content">
+                    <dl>
+
+                        <dt>Hostname</dt>
+                        <dd data-montage-id="hostname" class="SystemInfo-hostname"></dd>
+
+                        <dt>Build</dt>
+                        <dd data-montage-id="osVersion"></dd>
+
+                        <dt>Uptime</dt>
+                        <dd data-montage-id="uptime"></dd>
+
+                        <dt>System Time</dt>
+                        <dd>Wed Apr 27 14:02:59 PDT 2016 (not implemented)</dd>
+
+                        <dt>Load Average</dt>
+                        <dd>0.55, 0.41, 0.18 (not implemented)</dd>
+
+                        <dt>Platform</dt>
+                        <dd>
+                            <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
+                            <span data-montage-id="cpuCount"></span> @ <span data-montage-id="cpuSpeed"></span>GHz
+                        </dd>
+                        <dt>Memory</dt>
+                        <dd data-montage-id="memorySize" class="SystemInfo-data"></dd>
+                        <dd data-montage-id="memoryDetails" class="SystemInfo-data"></dd>
+                        <div data-montage-id="disksTypeRepetition">
+                            <dt data-montage-id="disksType"></dt>
+                            <dd data-montage-id="disksSizeRepetition">
+                                <div><span data-montage-id="disksSize"></span> x <span data-montage-id="disksCount"></span></div>
+                            </dd>
                         </div>
-                    </div>
+                    </dl>
                 </div>
             </div>
         </div>

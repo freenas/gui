@@ -1,12 +1,12 @@
 .Dashboard {}
 
-.Dashboard-widgetsWrapper {
+.Dashboard-widgets {
     display: flex;
     flex-flow: row wrap;
     padding: .5em;
 }
 
-.Dashboard * .DashboardWidget {
-    height: 15em;
+.Dashboard-widget {
     flex-grow: 1;
+    margin: .5em;
 }
