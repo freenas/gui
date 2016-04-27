@@ -6,6 +6,8 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.SmbService = Component.specialize({
+
+    //Fixme: should probably an enum from the middleware.
     LOG_LEVELS: {
         get: function() {
             return [
@@ -18,6 +20,7 @@ exports.SmbService = Component.specialize({
         }
     },
 
+    //Fixme: should probably an enum from the middleware.
     PROTOCOLS: {
         get: function() {
             return [
