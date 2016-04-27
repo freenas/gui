@@ -10,6 +10,19 @@
                 "element": {"#": "owner"}
             }
         },
+        "positiveIntegerValidator": {
+            "prototype": "core/converter/validator/integer-floor-validator",
+            "properties": {
+                "floor": 1,
+                "errorMessage": "Value must be a positive integer."
+            }
+        },
+        "connectionsLimitConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "positiveIntegerValidator"}
+            }
+        },
         "bind_addresses": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
@@ -20,14 +33,15 @@
                 "values": {"<->": "@owner.object.bind_addresses"}
             }
         },
-        "max_connections": {
+        "connections_limit": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "max_connections"},
-                "label": "Maximum Connections"
+                "element": {"#": "connections_limit"},
+                "label": "Maximum Connections",
+                "converter": {"@": "connectionsLimitConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.max_connections"}
+                "value": {"<->": "@owner.object.connections_limit"}
             }
         },
         "guest_enable": {
@@ -91,7 +105,7 @@
         <div data-montage-id="homedir_enable"></div>
         <div data-montage-id="homedir_path"></div>
         <div data-montage-id="homedir_name"></div>
-        <div data-montage-id="max_connections"></div>
+        <div data-montage-id="connections_limit"></div>
         <div data-montage-id="bind_addresses"></div>
     </div>
 </body>
