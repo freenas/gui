@@ -2,7 +2,6 @@
  * @module ui/network-configuration.reel
  */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise;
 
 /**
@@ -33,7 +32,7 @@ exports.NetworkConfiguration = Component.specialize(/** @lends NetworkConfigurat
                 dhcpLeaseRenewalPromise;
             if (this.isGatewayDhcpAssigned && (this.object.gateway.ipv4 || this.object.gateway.ipv6)) {
                 this.object.gateway.ipv4 = this.object.gateway.ipv6 = null;
-                dhcpLeaseRenewalPromise = this.application.dataService.fetchData(Model.NetworkInterface).then(function(networkInterfaces) {
+                dhcpLeaseRenewalPromise = this.application.networkInterfacesSevice.getNetworkInterfaces().then(function(networkInterfaces) {
                     var defaultInterface = networkInterfaces.filter(function(x) { return x.dhcp; })[0];
                     return defaultInterface.renew(defaultInterface.id);
                 });

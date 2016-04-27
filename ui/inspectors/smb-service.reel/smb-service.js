@@ -44,20 +44,34 @@ exports.SmbService = Component.specialize({
         value: null
     },
 
+    templateDidLoad: {
+        value: function () {
+            this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
+            this._fetchUsers();
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                var self = this;
                 if (!this.object.filemask) {
                     this.object.filemask = '666';
                 }
                 if (!this.object.dirmask) {
                     this.object.dirmask = '777';
                 }
-                this.application.dataService.fetchData(Model.User).then(function(users) {
-                    self.users = users;
-                });
             }
         }
+    },
+
+    _fetchUsers: {
+        value: function () {
+            var self = this;
+
+            return this.application.dataService.fetchData(Model.User).then(function (users) {
+                self.users = users;
+            });
+        }
     }
+
 });

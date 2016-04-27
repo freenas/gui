@@ -234,13 +234,22 @@
                 "checked": {"<->": "@owner.object.obey_pam_restrictions"}
             }
         },
+
+        "interfaceAliasConverter": {
+            "prototype": "core/converter/interface-alias-converter"
+        },
+
         "bindAddresses": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "bindAddresses"},
-                "label": "Bind IP addresses"
+                "label": "Bind IP addresses",
+                "placeholderValue": "Select an alias",
+                "labelPath": "address + '/' + netmask",
+                "converter": {"@": "interfaceAliasConverter"}
             },
             "bindings": {
+                "options": {"<-": "@owner.networkInterfacesAliases.filter{!@owner.object.bind_addresses.has(this)}"},
                 "values": {"<->": "@owner.object.bind_addresses"}
             }
         }

@@ -88,9 +88,7 @@ exports.Network = Component.specialize({
 
     _populateNetworkInterfaces: {
         value: function (networkOverview) {
-            var self = this;
-
-            return this.application.dataService.fetchData(Model.NetworkInterface).then(function (networkInterfaces) {
+            return this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (networkInterfaces) {
                 networkOverview.interfaces = networkInterfaces;
             });
         }

@@ -738,6 +738,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;
 
+                this._instance = instance;
             }
 
             return instance;

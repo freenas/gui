@@ -1,5 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class NetworkInterface
@@ -28,7 +27,7 @@ exports.NetworkInterface = Component.specialize({
 
                 if (object) {
                     var self = this;
-                    this.application.dataService.fetchData(Model.NetworkInterface).then(function (networkInterfaces) {
+                    this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (networkInterfaces) {
                         self.interfaces = networkInterfaces;
                     }).then(function() {
                         self.isAddressSourceDhcp = !!object.dhcp;
