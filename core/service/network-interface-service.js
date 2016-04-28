@@ -28,17 +28,6 @@ var NetworkInterfaceService = exports.NetworkInterfaceService = Montage.speciali
             var networkInterface,
                 length, i;
 
-            if (plus && plus.length) {
-                for (i = 0, length = plus.length; i < length; i++) {
-                    networkInterface = plus[i];
-
-                    this._networkInterfacesAliasesListeners.set(
-                        networkInterface,
-                        Montage.addRangeAtPathChangeListener.call(networkInterface, "aliases", this, "handleNetworkInterfaceAliasesChange")
-                    );
-                }
-            }
-
             if (minus && minus.length) {
                 for (i = 0, length = minus.length; i < length; i++) {
                     networkInterface = minus[i];
@@ -53,26 +42,26 @@ var NetworkInterfaceService = exports.NetworkInterfaceService = Montage.speciali
                     }
                 }
             }
+
+            if (plus && plus.length) {
+                for (i = 0, length = plus.length; i < length; i++) {
+                    networkInterface = plus[i];
+
+                    this._networkInterfacesAliasesListeners.set(
+                        networkInterface,
+                        Montage.addRangeAtPathChangeListener.call(networkInterface, "aliases", this, "handleNetworkInterfaceAliasesChange")
+                    );
+                }
+            }
         }
     },
 
     handleNetworkInterfaceAliasesChange: {
         value: function (plus, minus) {
-            var length, i;
-
-            if (plus && plus.length) {
-                for (i = 0, length = plus.length; i < length; i++) {
-                    networkInterfaceAlias = plus[i];
-
-                    if (this.networkInterfacesAliases.indexOf(networkInterfaceAlias) === -1) {
-                        this.networkInterfacesAliases.push(networkInterfaceAlias);
-                    }
-                }
-            }
+            var networkInterfaceAlias, length, i;
 
             if (minus && minus.length) {
-                var networkInterfaceAlias,
-                    index;
+                var index;
 
                 for (i = 0, length = minus.length; i < length; i++) {
                     networkInterfaceAlias = minus[i];
@@ -80,6 +69,14 @@ var NetworkInterfaceService = exports.NetworkInterfaceService = Montage.speciali
                     if ((index = this.networkInterfacesAliases.indexOf(networkInterfaceAlias)) > -1) {
                         this.networkInterfacesAliases.splice(index, 1);
                     }
+                }
+            }
+
+            if (plus && plus.length) {
+                for (i = 0, length = plus.length; i < length; i++) {
+                    networkInterfaceAlias = plus[i];
+
+                    this.networkInterfacesAliases.push(networkInterfaceAlias);
                 }
             }
         }

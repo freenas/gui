@@ -59,10 +59,10 @@ exports.NetworkInterface = Component.specialize({
             for (var i = 0, j = 1; i < otherAliasesLength; i++ , j++) {
                 if (j < aliasesLength) {
                     if (aliases[j] !== otherAliases[i]) {
-                        aliases[j] = otherAliases[i];
+                        aliases.splice(j, 1, otherAliases[i]);
                     }
                 } else {
-                    aliases[j] =  otherAliases[i];
+                    aliases.push(otherAliases[i]);
                 }
             }
 
