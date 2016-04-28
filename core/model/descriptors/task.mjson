@@ -27,14 +27,18 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "error",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Error"
     }
   },
   "blueprint_task_finished_at": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "finished_at",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "IsoDatetime"
     }
   },
   "blueprint_task_id": {
@@ -81,7 +85,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "rusage",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Rusage"
     }
   },
   "blueprint_task_session": {
@@ -96,7 +102,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "started_at",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "IsoDatetime"
     }
   },
   "blueprint_task_state": {
@@ -120,7 +128,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "updated_at",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "IsoDatetime"
     }
   },
   "blueprint_task_user": {

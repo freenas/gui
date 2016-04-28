@@ -43,7 +43,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "permissions",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Permissions"
     }
   },
   "blueprint_share_properties": {

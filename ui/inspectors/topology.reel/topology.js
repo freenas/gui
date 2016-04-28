@@ -184,6 +184,11 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
                 volume._topology = this.topologyProxy;
 
+                // FIXME: Remove once the middleware stops sending erroneous data
+                if (!volume.providers_presence) {
+                    volume.providers_presence = 'NONE';
+                }
+
                 return this.application.dataService.saveDataObject(volume).then(function () {
                     console.log("updated")
 

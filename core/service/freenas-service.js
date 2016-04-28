@@ -6,7 +6,11 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     Services = require("../model/services").Services,
     Montage = require("montage/core/core").Montage,
     Model = require("../model/model").Model,
-    EMPTY_ARRAY = [];
+    propertyTypeService = require('../model/property-type-service').propertyTypeService,
+    EMPTY_ARRAY = [],
+    ACTION_DELETE = 'DELETE',
+    ACTION_UPDATE = 'UPDATE',
+    ACTION_CREATE = 'CREATE';
 
 
 /**
@@ -125,6 +129,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.VolumeSnapshot,
             Model.VolumeDataset,
             Model.Share,
+            Model.ShareSmb,
+            Model.ShareNfs,
+            Model.ShareAfp,
+            Model.Permissions,
             Model.ZfsTopology,
             Model.ZfsVdev,
             Model.User,
@@ -256,6 +264,101 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
+    _getServiceDescriptor: {
+        value: function (type, action) {
+            var serviceDescriptor;
+            switch (action) {
+                case ACTION_DELETE:
+                    serviceDescriptor = Services.findDeleteServiceForType(type);
+                    break;
+                case ACTION_UPDATE:
+                    serviceDescriptor = Services.findUpdateServiceForType(type);
+                    break;
+                case ACTION_CREATE:
+                    serviceDescriptor = Services.findCreateServiceForType(type);
+                    break;
+            }
+            return serviceDescriptor;
+
+        }
+    },
+
+    _mapToRawDataForActionUsingServiceDescriptor: {
+        value: function (object, data, action, serviceDescriptor) {
+        }
+    },
+
+    _mapToRawDataForAction: {
+        value: function (object, data, action) {
+            var objectPrototype = Object.getPrototypeOf(object),
+                type = objectPrototype.Type;
+            if (type) {
+                if (!action) {
+                    action = !!object._isToBeDeleted ? ACTION_DELETE :
+                        this._isModelTypeHasNoId(type) || object.id !== null ? ACTION_UPDATE : ACTION_CREATE;
+                }
+                var serviceDescriptor = this._getServiceDescriptor(type, action),
+                    restrictions = serviceDescriptor ? serviceDescriptor.restrictions : null,
+                    propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
+                    hasRestrictions = !!restrictions, requiredFields, isPropertyValueNullified, forbiddenFields,
+                    propertyDescriptor, propertyValue, key, requiredFieldIndex, unsatisfiedRequiredFieldsCount = 0;
+
+                if (hasRestrictions) {
+                    forbiddenFields = restrictions.forbiddenFields || [];
+                    requiredFields = restrictions.requiredFields ? restrictions.requiredFields.slice() : [];
+                    unsatisfiedRequiredFieldsCount = requiredFields.length;
+                }
+
+                for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
+                    propertyDescriptor = propertyDescriptors[i];
+                    key = propertyDescriptor.name;
+                    propertyValue = object[key];
+                    isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
+
+                    if (propertyDescriptor.mandatory && isPropertyValueNullified) {
+                        throw new Error("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
+                    }
+
+                    if (hasRestrictions) {
+                        if (forbiddenFields.indexOf(key) === -1) {
+                            requiredFieldIndex = requiredFields.indexOf(key);
+                            if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
+                                unsatisfiedRequiredFieldsCount--;
+                                requiredFields.splice(requiredFieldIndex, 1);
+                            }
+
+                            this._mapPropertyToRawDataForAction(data, object, key, action);
+                        }
+                    } else {
+                        this._mapPropertyToRawDataForAction(data, object, key, action);
+                    }
+                }
+
+                if (requiredFields && unsatisfiedRequiredFieldsCount > 0) {
+                    throw new Error("missing " + unsatisfiedRequiredFieldsCount + " required fields for type: '" +
+                        type.typeName + "': " + requiredFields.filter(function (x) {
+                            return x;
+                        }).join(', '));
+                }
+            } else {
+                var i, length;
+                if (typeof object.length !== 'undefined') {
+                    for (i = 0, length = object.length; i < length; i++) {
+                        data[i] = object[i];
+                    }
+                } else {
+                    console.warn('No type for object', object);
+                    var objectKeys = Object.keys(object), key;
+                    for (i = 0, length = objectKeys.length; i < length; i++) {
+                        key = objectKeys[i];
+                        if (object.hasOwnProperty('_' + key) || key.indexOf('_') != 0) {
+                            data[key] = object[key];
+                        }
+                    }
+                }
+            }
+        }
+    },
 
     /**
      * @function
@@ -274,58 +377,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
              * @see comment in saveRawData.
              */
             if (modelHasNoId || object.id !== void 0) {
-                var isDelete = !!object._isToBeDeleted,
-                    isUpdate = modelHasNoId || object.id !== null,
-                    serviceDescriptor = isDelete ? Services.findDeleteServiceForType(type) :
-                        isUpdate ?
-                            Services.findUpdateServiceForType(type) : // -> update case
-                            Services.findCreateServiceForType(type); // -> create case
-
-                // todo: switch to a validator field, schemas
-                if (serviceDescriptor) {
-                    var restrictions = serviceDescriptor.restrictions,
-                        propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
-                        hasRestrictions = !!restrictions, requiredFields, isPropertyValueNullified, forbiddenFields,
-                        propertyDescriptor, propertyValue, key, requiredFieldIndex, unsatisfiedRequiredFieldsCount = 0;
-
-                    if (hasRestrictions) {
-                        forbiddenFields = restrictions.forbiddenFields || [];
-                        requiredFields = restrictions.requiredFields? restrictions.requiredFields.slice() : [];
-                        unsatisfiedRequiredFieldsCount = requiredFields.length;
-                    }
-
-                    for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
-                        propertyDescriptor = propertyDescriptors[i];
-                        key = propertyDescriptor.name;
-                        propertyValue = object[key];
-                        isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
-
-                        if (propertyDescriptor.mandatory && isPropertyValueNullified) {
-                            throw new Error ("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
-                        }
-
-                        if (hasRestrictions) {
-                            if (forbiddenFields.indexOf(key) === -1) {
-                                requiredFieldIndex = requiredFields.indexOf(key);
-                                if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
-                                    unsatisfiedRequiredFieldsCount--;
-                                    requiredFields.splice(requiredFieldIndex, 1);
-                                }
-
-                                this._mapPropertyToRawData(data, object, key);
-                            }
-                        } else {
-                            this._mapPropertyToRawData(data, object, key);
-                        }
-                    }
-
-                    if (requiredFields && unsatisfiedRequiredFieldsCount > 0) {
-                        throw new Error ("missing " + unsatisfiedRequiredFieldsCount + " required fields for type: '" +
-                            type.typeName + "': " + requiredFields.filter(function(x) { return x; }).join(', '));
-                    }
-                } else {
-                    //todo warning
-                }
+                this._mapToRawDataForAction(object, data);
             } else {
                 //todo warning
             }
@@ -356,8 +408,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     rawValue = data[key];
 
                     if (propertyDescriptor.valueObjectPrototypeName && propertyDescriptor.valueType === "object") {
-                        this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue);
-
+                        this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue, data);
                     } else {
                         this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
                     }
@@ -446,10 +497,14 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      *
      */
     _mapObjectPropertyReferenceFromRawData: {
-        value: function (propertyDescriptor, object, key, rawValue) {
+        value: function (propertyDescriptor, object, key, rawValue, data) {
             var type = Model[propertyDescriptor.valueObjectPrototypeName],
                 self = this,
                 value;
+
+            if (!type) {
+                type = propertyTypeService.getTypeForObjectProperty(object, data, key);
+            }
 
             if (type && rawValue) {
                 //Fixme: hacky mapFromRawData need to return a promise
@@ -573,22 +628,13 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      * @description todo
      *
      */
-    _mapPropertyToRawData: {
-        value: function (rawData, object, propertyKey) {
+    _mapPropertyToRawDataForAction: {
+        value: function (rawData, object, propertyKey, action) {
             if (object.hasOwnProperty("_" + propertyKey) || typeof propertyKey === 'number') { // filter unset values.
                 if (object[propertyKey] && typeof object[propertyKey] === 'object') {
-                    var childPropertyKey,
-                        isArray = typeof object[propertyKey].length != 'undefined',
-                        childRawData = isArray ? [] : {};
-                    for (childPropertyKey in object[propertyKey]) {
-                        if (isArray) {
-                            childPropertyKey = +childPropertyKey;
-                        }
-                        this._mapPropertyToRawData(childRawData, object[propertyKey], childPropertyKey);
-                    }
-                    if (Object.keys(childRawData).length > 0 || isArray) {
-                        rawData[propertyKey] = childRawData;
-                    }
+                    var isArray = typeof object[propertyKey].length != 'undefined';
+                    rawData[propertyKey] = isArray ? [] : {};
+                    this._mapToRawDataForAction(object[propertyKey], rawData[propertyKey], action);
                 } else {
                     rawData[propertyKey] = object[propertyKey];
                 }

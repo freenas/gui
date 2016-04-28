@@ -19,7 +19,9 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "parameters",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "AlertEmitterEmail"
     }
   },
   "blueprint_alertfilter_predicates": {

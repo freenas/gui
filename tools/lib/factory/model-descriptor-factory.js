@@ -190,9 +190,7 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
 
             if (type !== void 0 && type !== null) {
                 if (typeof type === "string") {
-
                     setTypeOnPropertyDescriptor(type, propertyDescriptor);
-
                 } else if (Array.isArray(type)) {
                     //todo check if [0] !== null
                     setTypeOnPropertyDescriptor(property.type[0], propertyDescriptor);
@@ -200,6 +198,22 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
             } else if (property["$ref"]) {
                 setTypeOnPropertyDescriptor("object", propertyDescriptor);
                 propertyDescriptor.valueObjectPrototypeName = property["$ref"].toCamelCase();
+            } else if (property.oneOf) {
+                var possibleTypes = property.oneOf,
+                    typeNullIndex = possibleTypes.findIndex(function(x) { return x.type && x.type === "null" });
+                if (typeNullIndex != -1) {
+                    propertyDescriptor.nullable = true;
+                    possibleTypes.splice(typeNullIndex, 1);
+                }
+                if (possibleTypes.length == 1) {
+                    var possibleType = possibleTypes[0];
+                    if (possibleType['$ref']) {
+                        setTypeOnPropertyDescriptor("object", propertyDescriptor);
+                        propertyDescriptor.valueObjectPrototypeName = possibleType["$ref"].toCamelCase();
+                    } else if (possibleType.type) {
+                        setTypeOnPropertyDescriptor(possibleType.type, propertyDescriptor);
+                    }
+                }
             }
 
             if (property.readOnly) {

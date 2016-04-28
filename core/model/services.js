@@ -21,7 +21,11 @@ exports.Services = Montage.specialize(/* @lends Services# */null, {
 
     findServicesForType: {
         value: function (type) {
-            return servicesMJSON[typeof type === "string" ? type : type.typeName].instance;
+            var services = servicesMJSON[typeof type === "string" ? type : type.typeName];
+            if (services) {
+                return services.instance;
+            }
+            return null;
         }
     },
 

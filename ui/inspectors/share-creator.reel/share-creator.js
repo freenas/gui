@@ -15,13 +15,13 @@ exports.ShareCreator = Component.specialize({
     },
 
     _createNewShare: {
-        value: function (shareType) {
+        value: function (shareType, propertiesModel) {
             var newShare = this.application.dataService.getDataObject(Model.Share);
             newShare.type = shareType;
             newShare._isNewObject = true;
             newShare.description = '';
-            newShare.properties = {};
-            newShare.permissions = {};
+            newShare.properties = this.application.dataService.getDataObject(propertiesModel);
+            newShare.permissions = this.application.dataService.getDataObject(Model.Permissions);
             newShare.volume = this.application.selectedVolume;
             return newShare;
         }
@@ -29,9 +29,9 @@ exports.ShareCreator = Component.specialize({
 
     enterDocument: {
         value: function() {
-            this.newSmbShare = this._createNewShare('smb');
+            this.newSmbShare = this._createNewShare('smb', Model.ShareSmb);
             this.newSmbShare.properties._browseable = true;
-            this.newNfsShare = this._createNewShare('nfs');
+            this.newNfsShare = this._createNewShare('nfs', Model.ShareNfs);
         }
     }
 });
