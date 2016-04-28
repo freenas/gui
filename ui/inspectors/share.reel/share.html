@@ -145,15 +145,19 @@
         "globalServiceToggle": {
             "prototype": "blue-shark/ui/toggle-switch.reel",
             "properties": {
-                "element": {"#": "globalServiceToggle"},
-                "label": "Global SMB Service"
+                "element": {"#": "globalServiceToggle"}
+            },
+            "bindings": {
+                "label": {"<-": "'Global ' + @owner.object.type + ' Service'"}
             }
         },
         "globalServiceLabel": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "globalServiceLabel"},
-                "value": "Global SMB Service"
+                "element": {"#": "globalServiceLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "'Global ' + @owner.object.type + ' Service'"}
             }
         }
     }
