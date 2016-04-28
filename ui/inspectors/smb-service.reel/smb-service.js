@@ -72,6 +72,12 @@ exports.SmbService = Component.specialize({
                 self.users = users;
             });
         }
+    },
+
+    shouldMultipleSelectAcceptValue: {
+        value: function (multipleSelect, value) {
+            return this.networkInterfacesAliases.indexOf(value) > -1;
+        }
     }
 
 });
