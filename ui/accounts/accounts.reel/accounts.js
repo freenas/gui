@@ -10,8 +10,7 @@ exports.Accounts = Component.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
-                var accountCategoryModelType = Model.AccountCategory,
-                    dataService = this.application.dataService,
+                var dataService = this.application.dataService,
                     accountCategories,
                     self = this;
 
@@ -19,8 +18,8 @@ exports.Accounts = Component.specialize({
                 this.addRangeAtPathChangeListener("users", this, "_handleAccountChange");
 
                 //Fixme: getDataObject needs to return a promise
-                return Model.populateObjectPrototypeForType(accountCategoryModelType).then(function () {
-                    accountCategories = self.accountCategories = dataService.getDataObject(accountCategoryModelType);
+                return dataService.getNewInstanceForType(Model.AccountCategory).then(function (accountCategory) {
+                    accountCategories = self.accountCategories = accountCategory;
                     accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
                     accountCategories.group = dataService.getEmptyCollectionForType(Model.Group);
                     accountCategories.system = dataService.getEmptyCollectionForType(Model.AccountSystem);

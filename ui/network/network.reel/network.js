@@ -18,7 +18,7 @@ exports.Network = Component.specialize({
         value: function (firstTime) {
             if (firstTime) {
                 var self = this;
-
+                this._dataService = this.application.dataService;
                 this.addPathChangeListener("overview.networkConfiguration.general.hostname", this, "_handleHostnameChange");
                 this.addRangeAtPathChangeListener("overview.interfaces", this, "_handleNetworkInterfacesRangeChange");
 
@@ -36,14 +36,14 @@ exports.Network = Component.specialize({
                 networkOverview;
 
             //Fixme: getDataObject needs to return a promise
-            return Model.populateObjectPrototypeForType(Model.NetworkOverview).then(function () {
+            return this._dataService.getNewInstanceForType(Model.NetworkOverview).then(function (_networkOverview) {
+                networkOverview = _networkOverview;
                 //Fixme: need to add clever getter/setter on descriptors, defaultValue?
-                networkOverview = self.application.dataService.getDataObject(Model.NetworkOverview);
                 networkOverview.summary = {};
 
-                return Model.populateObjectPrototypeForType(Model.Ipmi);
-            }).then(function () {
-                networkOverview.ipmi = self.application.dataService.getDataObject(Model.Ipmi);
+                return self._dataService.getNewInstanceForType(Model.Ipmi);
+            }).then(function (ipmi) {
+                networkOverview.ipmi = ipmi;
                 return self._populateNetworkConfig(networkOverview);
             }).then(function () {
                 return self._populateNetworkStatus(networkOverview);

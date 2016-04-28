@@ -171,10 +171,18 @@ exports.Volumes = Component.specialize({
                 volume.snapshots = this.snapshots;
                 volume.disks = this.disks;
                 volume.datasets = this.datasets;
-                volume.scrubs = this._dataService.getDataObject(Model.Scrub);
+                this._loadScrubsForVolume(volume);
                 this._volumesById[volume.id] = volume;
                 this._assignVolumeToDisks();
             }
+        }
+    },
+
+    _loadScrubsForVolume: {
+        value: function(volume) {
+            this._dataService.getNewInstanceForType(Model.Scrub).then(function(scrub) {
+                volume.scrubs = scrub;
+            });
         }
     },
 

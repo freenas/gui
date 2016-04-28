@@ -106,9 +106,7 @@ var Topology = exports.Topology = Component.specialize({
                             self = this;
 
                         //Fixme: getDataObject needs to return a promise
-                        Model.populateObjectPrototypeForType(Model.ZfsVdev).then(function () {
-                            var vDev = self.application.dataService.getDataObject(Model.ZfsVdev);
-
+                        self.application.dataService.getNewInstanceForType(Model.ZfsVdev).then(function (vDev) {
                             //here: disk can be a model disk or ZfsVdev
                             vDev.children = [
                                 Object.getPrototypeOf(disk).Type === Model.ZfsVdev ?

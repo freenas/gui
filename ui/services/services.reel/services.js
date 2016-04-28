@@ -19,11 +19,13 @@ exports.Services = Component.specialize({
         value: function(isFirstTime) {
             if (isFirstTime) {
                 var self = this;
-                Model.populateObjectPrototypeForType(Model.ServicesCategory).then(function () {
-                    return self._listServices();
-                }).then(function (services) {
-                    self.categories = [self._getServicesCategory('Sharing', services, ['smb', 'nfs', 'afp']),
-                                       self._getServicesCategory('Management', services, ['sshd', 'smartd'])];
+                self._listServices().then(function (services) {
+                    return Promise.all([
+                        self._getServicesCategory('Sharing', services, ['smb', 'nfs', 'afp']),
+                        self._getServicesCategory('Management', services, ['sshd', 'smartd'])
+                    ]);
+                }).then(function(categories) {
+                    self.categories = categories;
                 });
             }
         }
@@ -37,11 +39,12 @@ exports.Services = Component.specialize({
 
     _getServicesCategory: {
         value: function(name, services, typesInCategory) {
-            var category = this.application.dataService.getDataObject(Model.ServicesCategory);
-            category.name = name;
-            category.services = services;
-            category.types = typesInCategory.map(function(x) { return 'service-' + x; });
-            return category;
+            return this.application.dataService.getNewInstanceForType(Model.ServicesCategory).then(function(category) {
+                category.name = name;
+                category.services = services;
+                category.types = typesInCategory.map(function(x) { return 'service-' + x; });
+                return category;
+            });
         }
     }
 });

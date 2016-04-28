@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/service.reel"},
-            "nameExpression": "config.type"
+            "nameExpression": "config.type.replace('service-', '')"
         }
     }
 }

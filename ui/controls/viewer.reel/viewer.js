@@ -49,8 +49,8 @@ exports.Viewer = Component.specialize({
                 if (type) {
                     var self = this;
                     //Fixme: getDataObject must return a promise!
-                    return Model.populateObjectPrototypeForType(type).then(function () {
-                        self.parentCascadingListItem.selectedObject = self.application.dataService.getDataObject(type);
+                    return self.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
+                        self.parentCascadingListItem.selectedObject = newInstance;
                     });
                 }
             }

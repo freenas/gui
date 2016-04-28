@@ -20,26 +20,40 @@ exports.NetworkInterfaceCreator = Component.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
+            var self = this;
             if (isFirstTime) {
-                this.newVlan = this.createNewInterface('VLAN');
-                this.newLagg = this.createNewInterface('LAGG');
-                this.newBridge = this.createNewInterface('BRIDGE');
+                this._dataService = this.application.dataService;
             }
+            this.createNewInterface('Vlan').then(function(vlan) {
+                self.newVlan = vlan;
+            });
+            this.createNewInterface('Lagg').then(function(lagg) {
+                self.newLagg = lagg;
+            });
+            this.createNewInterface('Bridge').then(function(bridge) {
+                self.newBridge = bridge;
+            });
         }
     },
 
     createNewInterface: {
         value: function(type) {
-            var newInterface = this.application.dataService.getDataObject(Model.NetworkInterface);
-            newInterface.type = type;
-            newInterface[type.toLowerCase()] = {};
-            newInterface._isNewObject = true;
-            newInterface.aliases = [];
-            // FIXME: Hacks around combination of name not being nullable in the middleware
-            // and certain form elements initializing the bound value to null. Remove if
-            // either issue is resolved.
-            newInterface.name = "";
-            return newInterface;
+            var self = this,
+                newInterface;
+            return this._dataService.getNewInstanceForType(Model.NetworkInterface).then(function(networkInterface) {
+                newInterface = networkInterface;
+                newInterface.type = type.toUpperCase();
+                newInterface._isNewObject = true;
+                newInterface.aliases = [];
+                // FIXME: Hacks around combination of name not being nullable in the middleware
+                // and certain form elements initializing the bound value to null. Remove if
+                // either issue is resolved.
+                newInterface.name = "";
+                return self._dataService.getNewInstanceForType(Model['NetworkInterface' + type]);
+            }).then(function(properties) {
+                newInterface[type.toLowerCase()] = properties;
+                return newInterface;
+            });
         }
     }
 
