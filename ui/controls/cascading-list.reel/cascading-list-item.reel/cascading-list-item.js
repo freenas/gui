@@ -96,6 +96,27 @@ exports.CascadingListItem = Component.specialize({
         }
     },
 
+    needToScrollIntoView: {
+        value: false
+    },
+
+    enterDocument: {
+        value: function (isFirstTime) {
+            if (isFirstTime) {
+                this.addEventListener("placeholderContentLoaded", this);
+            }
+        }
+    },
+
+    handlePlaceholderContentLoaded: {
+        value: function (event) {
+            if (event.detail === this.content) {
+                this.needToScrollIntoView = true;
+                this.needsDraw = true;
+            }
+        }
+    },
+
     resetSelection: {
         value: function () {
             this.selectedObject = null;
@@ -118,10 +139,13 @@ exports.CascadingListItem = Component.specialize({
 
     draw: {
         value: function () {
-            if (!this._element.clientWidth) {
-                this.needsDraw = true;
-            } else {
-                this.cascadingList.scrollView.scrollIntoView(false);
+            if (this.needToScrollIntoView) {
+                if (!this.content._element.clientWidth) {
+                    this.needsDraw = true;
+                } else {
+                    this.cascadingList.scrollView.scrollIntoView(false);
+                    this.needToScrollIntoView = false;
+                }
             }
         }
     }

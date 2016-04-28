@@ -94,6 +94,20 @@ exports.Placeholder = Component.specialize({
         value: false
     },
 
+    enterDocument: {
+        value: function () {
+            if (!this._isLoadingComponent && !this._needsLoadComponent) {
+                this._dispatchPlaceholderContentLoaded();
+            }
+        }
+    },
+
+    _dispatchPlaceholderContentLoaded: {
+        value: function () {
+            this.dispatchEventNamed("placeholderContentLoaded", true, true, this);
+        }
+    },
+
     exitDocument: {
         value: function () {
             //Fixme: montage issue, not able to remove a class from the element when leaving the dom
@@ -133,8 +147,8 @@ exports.Placeholder = Component.specialize({
             }
 
             if (this._needsLoadComponent) {
-                this._needsLoadComponent = false;
                 this._loadComponent(this._moduleId);
+                this._needsLoadComponent = false;
             }
         }
     },
@@ -145,6 +159,7 @@ exports.Placeholder = Component.specialize({
             var element = document.createElement("div"),
                 self = this;
 
+            this._isLoadingComponent = true;
             this._element.innerHTML = "";
             this._element.appendChild(element);
 
@@ -160,8 +175,14 @@ exports.Placeholder = Component.specialize({
                     self.component.attachToParentComponent();
                     self.component._oldEnterDocument = self.component.enterDocument;
                     self.component.enterDocument = function (isFirstTime) {
+                        if (self._isLoadingComponent) {
+                            self._dispatchPlaceholderContentLoaded();
+                            self._isLoadingComponent = false;
+                        }
+
                         self._needsUpdateComponent = true;
                         self.needsDraw = true;
+
                         if (this.enterDocument = this._oldEnterDocument) {
                             delete this._oldEnterDocument;
                             this.enterDocument(isFirstTime);
