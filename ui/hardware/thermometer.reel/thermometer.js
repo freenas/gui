@@ -14,7 +14,7 @@ exports.Thermometer = Component.specialize({
                     "alert_high": null,
                     "alert_high_enabled": false,
                     "alert_low_enabled": false,
-                    "normalized_alert_low": null,
+                    "normalized_alert_low": true,
                     "alert_low": null
                 },
                 "name": "localhost.cputemp-7.temperature.value",
@@ -25,7 +25,7 @@ exports.Thermometer = Component.specialize({
             {
                 "normalized_value": 39,
                 "alerts": {
-                    "normalized_alert_high": null,
+                    "normalized_alert_high": true,
                     "alert_high": null,
                     "alert_high_enabled": false,
                     "alert_low_enabled": false,
@@ -44,7 +44,7 @@ exports.Thermometer = Component.specialize({
                     "alert_high": null,
                     "alert_high_enabled": false,
                     "alert_low_enabled": false,
-                    "normalized_alert_low": null,
+                    "normalized_alert_low": true,
                     "alert_low": null
                 },
                 "name": "localhost.cputemp-6.temperature.value",
@@ -59,7 +59,7 @@ exports.Thermometer = Component.specialize({
                     "alert_high": null,
                     "alert_high_enabled": false,
                     "alert_low_enabled": false,
-                    "normalized_alert_low": null,
+                    "normalized_alert_low": true,
                     "alert_low": null
                 },
                 "name": "localhost.cputemp-0.temperature.value",
@@ -70,7 +70,7 @@ exports.Thermometer = Component.specialize({
             {
                 "normalized_value": 39,
                 "alerts": {
-                    "normalized_alert_high": null,
+                    "normalized_alert_high": true,
                     "alert_high": null,
                     "alert_high_enabled": false,
                     "alert_low_enabled": false,
@@ -89,7 +89,7 @@ exports.Thermometer = Component.specialize({
                     "alert_high": null,
                     "alert_high_enabled": false,
                     "alert_low_enabled": false,
-                    "normalized_alert_low": null,
+                    "normalized_alert_low": true,
                     "alert_low": null
                 },
                 "name": "localhost.cputemp-1.temperature.value",

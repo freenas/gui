@@ -10,23 +10,28 @@
                 "element": {"#": "owner"}
             }
         },
-        "thermometerRepetition": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "thermometerRepetition"}
-            },
+        "controller": {
+            "prototype": "montage/core/range-controller",
             "bindings": {
                 "content": {"<-": "@owner.cpu_temp_stats"}
             }
         },
-        "cpuThermometer": {
-            "prototype": "blue-shark/ui/field-text.reel",
+        "table": {
+            "prototype": "ui/controls/table.reel",
             "properties": {
-                "element": {"#": "cpuThermometer"}
-            },
-            "bindings": {
-                "value": {"<-": "@thermometerRepetition:iteration.object.normalized_value + ' C'"},
-                "label": {"<-": "@thermometerRepetition:iteration.object.short_name"}
+                "element": {"#": "table"},
+                "dataController": {"@": "controller"},
+                "columns": [
+                    {
+                        "label": "CPU",
+                        "expression": "short_name.slice(0, -12)"
+                    },
+                    {
+                        "label": "Temperature",
+                        "expression": "",
+                        "componentModuleId": "ui/hardware/thermometer.reel/temperature-status.reel"
+                    }
+                ]
             }
         }
     }
@@ -34,9 +39,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Thermometer">
-        <div data-montage-id="thermometerRepetition">
-            <div data-montage-id="cpuThermometer"></div>
-        </div>
+        <div data-montage-id="table"></div>
     </div>
 </body>
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="temperature-status.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-hot')": {"<-":"@owner.object.alerts.normalized_alert_high"},
+                "classList.has('is-warm')": {"<-":"@owner.object.alerts.normalized_alert_low"}
+            }
+        },
+        "value": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "value"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.normalized_value"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TemperatureStatus">
+        <div data-montage-id="value" class="TemperatureStatus-value"></div>
+    </div>
+</body>
+</html>
