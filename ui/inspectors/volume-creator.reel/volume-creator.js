@@ -17,25 +17,31 @@ exports.VolumeCreator = Component.specialize({
             return this._object;
         },
         set: function(object) {
+            var self = this;
             if (this._object != object) {
-                this._object = this._initializeTopology(object);
+                this._initializeTopology(object).then(function(_object) {
+                    self._object = _object;
+                })
             }
         }
     },
 
     _initializeTopology: {
         value: function (object) {
+            var self = this;
             object = object || this._object;
-            object.topology = this.application.dataService.getDataObject(Model.ZfsTopology);
-            object.topology.cache = [];
-            object.topology.data = [];
-            object.topology.log = [];
-            object.topology.spare = [];
+            return this.application.dataService.getNewInstanceForType(Model.ZfsTopology).then(function(topology) {
+                object.topology = topology;
+                object.topology.cache = [];
+                object.topology.data = [];
+                object.topology.log = [];
+                object.topology.spare = [];
 
-            if (this.disks) {
-                this.disks.filter(function(x) { return x.volume == '/TEMP/'; }).forEach(function(x) { x.volume = null; });
-            }
-            return object;
+                if (self.disks) {
+                    self.disks.filter(function(x) { return x.volume == '/TEMP/'; }).forEach(function(x) { x.volume = null; });
+                }
+                return object;
+            })
         }
     },
 

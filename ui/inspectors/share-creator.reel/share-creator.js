@@ -16,22 +16,35 @@ exports.ShareCreator = Component.specialize({
 
     _createNewShare: {
         value: function (shareType, propertiesModel) {
-            var newShare = this.application.dataService.getDataObject(Model.Share);
-            newShare.type = shareType;
-            newShare._isNewObject = true;
-            newShare.description = '';
-            newShare.properties = this.application.dataService.getDataObject(propertiesModel);
-            newShare.permissions = this.application.dataService.getDataObject(Model.Permissions);
-            newShare.volume = this.application.selectedVolume;
-            return newShare;
+            var self = this,
+                newShare;
+            return this.application.dataService.getNewInstanceForType(Model.Share).then(function(share) {
+                newShare = share;
+                newShare._isNewObject = true;
+                newShare.type = shareType;
+                newShare.description = '';
+                newShare.volume = self.application.selectedVolume;
+                return self.application.dataService.getNewInstanceForType(propertiesModel);
+            }).then(function(properties) {
+                newShare.properties = properties;
+                return self.application.dataService.getNewInstanceForType(Model.Permissions);
+            }).then(function(permissions) {
+                newShare.permissions = permissions;
+                return newShare;
+            });
         }
     },
 
     enterDocument: {
         value: function() {
-            this.newSmbShare = this._createNewShare('smb', Model.ShareSmb);
-            this.newSmbShare.properties._browseable = true;
-            this.newNfsShare = this._createNewShare('nfs', Model.ShareNfs);
+            var self = this;
+            this._createNewShare('smb', Model.ShareSmb).then(function(smbShare) {
+                self.newSmbShare = smbShare;
+                self.newSmbShare.properties._browseable = true;
+            });
+            this._createNewShare('nfs', Model.ShareNfs).then(function(nfsShare) {
+                self.newNfsShare = nfsShare;
+            });
         }
     }
 });
