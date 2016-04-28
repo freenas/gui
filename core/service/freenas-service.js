@@ -264,102 +264,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
-    _getServiceDescriptor: {
-        value: function (type, action) {
-            var serviceDescriptor;
-            switch (action) {
-                case ACTION_DELETE:
-                    serviceDescriptor = Services.findDeleteServiceForType(type);
-                    break;
-                case ACTION_UPDATE:
-                    serviceDescriptor = Services.findUpdateServiceForType(type);
-                    break;
-                case ACTION_CREATE:
-                    serviceDescriptor = Services.findCreateServiceForType(type);
-                    break;
-            }
-            return serviceDescriptor;
-
-        }
-    },
-
-    _mapToRawDataForActionUsingServiceDescriptor: {
-        value: function (object, data, action, serviceDescriptor) {
-        }
-    },
-
-    _mapToRawDataForAction: {
-        value: function (object, data, action) {
-            var objectPrototype = Object.getPrototypeOf(object),
-                type = objectPrototype.Type;
-            if (type) {
-                if (!action) {
-                    action = !!object._isToBeDeleted ? ACTION_DELETE :
-                        this._isModelTypeHasNoId(type) || object.id !== null ? ACTION_UPDATE : ACTION_CREATE;
-                }
-                var serviceDescriptor = this._getServiceDescriptor(type, action),
-                    restrictions = serviceDescriptor ? serviceDescriptor.restrictions : null,
-                    propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
-                    hasRestrictions = !!restrictions, requiredFields, isPropertyValueNullified, forbiddenFields,
-                    propertyDescriptor, propertyValue, key, requiredFieldIndex, unsatisfiedRequiredFieldsCount = 0;
-
-                if (hasRestrictions) {
-                    forbiddenFields = restrictions.forbiddenFields || [];
-                    requiredFields = restrictions.requiredFields ? restrictions.requiredFields.slice() : [];
-                    unsatisfiedRequiredFieldsCount = requiredFields.length;
-                }
-
-                for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
-                    propertyDescriptor = propertyDescriptors[i];
-                    key = propertyDescriptor.name;
-                    propertyValue = object[key];
-                    isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
-
-                    if (propertyDescriptor.mandatory && isPropertyValueNullified) {
-                        throw new Error("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
-                    }
-
-                    if (hasRestrictions) {
-                        if (forbiddenFields.indexOf(key) === -1) {
-                            requiredFieldIndex = requiredFields.indexOf(key);
-                            if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
-                                unsatisfiedRequiredFieldsCount--;
-                                requiredFields.splice(requiredFieldIndex, 1);
-                            }
-
-                            this._mapPropertyToRawDataForAction(data, object, key, action);
-                        }
-                    } else {
-                        this._mapPropertyToRawDataForAction(data, object, key, action);
-                    }
-                }
-
-                if (requiredFields && unsatisfiedRequiredFieldsCount > 0) {
-                    throw new Error("missing " + unsatisfiedRequiredFieldsCount + " required fields for type: '" +
-                        type.typeName + "': " + requiredFields.filter(function (x) {
-                            return x;
-                        }).join(', '));
-                }
-            } else {
-                var i, length;
-                if (typeof object.length !== 'undefined') {
-                    for (i = 0, length = object.length; i < length; i++) {
-                        data[i] = object[i];
-                    }
-                } else {
-                    console.warn('No type for object', object);
-                    var objectKeys = Object.keys(object), key;
-                    for (i = 0, length = objectKeys.length; i < length; i++) {
-                        key = objectKeys[i];
-                        if (object.hasOwnProperty('_' + key) || key.indexOf('_') != 0) {
-                            data[key] = object[key];
-                        }
-                    }
-                }
-            }
-        }
-    },
-
     /**
      * @function
      * @public
@@ -488,6 +392,106 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                                              DataService Private Functions
 ----------------------------------------------------------------------------------------------------------------------*/
 
+    _getServiceDescriptor: {
+        value: function (type, action) {
+            var serviceDescriptor;
+            switch (action) {
+                case ACTION_DELETE:
+                    serviceDescriptor = Services.findDeleteServiceForType(type);
+                    break;
+                case ACTION_UPDATE:
+                    serviceDescriptor = Services.findUpdateServiceForType(type);
+                    break;
+                case ACTION_CREATE:
+                    serviceDescriptor = Services.findCreateServiceForType(type);
+                    break;
+            }
+            return serviceDescriptor;
+
+        }
+    },
+
+    _mapToRawDataForActionUsingServiceDescriptor: {
+        value: function (object, data, action, serviceDescriptor) {
+        }
+    },
+
+    _mapToRawDataForAction: {
+        value: function (object, data, action) {
+            var objectPrototype = Object.getPrototypeOf(object),
+                type = objectPrototype.Type;
+            if (type) {
+                if (!action) {
+                    action = !!object._isToBeDeleted ? ACTION_DELETE :
+                        this._isModelTypeHasNoId(type) || object.id !== null ? ACTION_UPDATE : ACTION_CREATE;
+                }
+                var serviceDescriptor = this._getServiceDescriptor(type, action),
+                    restrictions = serviceDescriptor ? serviceDescriptor.restrictions : null,
+                    propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
+                    hasRestrictions = !!restrictions, requiredFields, isPropertyValueNullified, forbiddenFields,
+                    propertyDescriptor, propertyValue, key, requiredFieldIndex, unsatisfiedRequiredFieldsCount = 0;
+
+                if (hasRestrictions) {
+                    forbiddenFields = restrictions.forbiddenFields || [];
+                    requiredFields = restrictions.requiredFields ? restrictions.requiredFields.slice() : [];
+                    unsatisfiedRequiredFieldsCount = requiredFields.length;
+                }
+
+                for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
+                    propertyDescriptor = propertyDescriptors[i];
+                    key = propertyDescriptor.name;
+                    propertyValue = object[key];
+                    isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
+
+                    if (propertyDescriptor.mandatory && isPropertyValueNullified) {
+                        throw new Error("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
+                    }
+
+                    if (hasRestrictions) {
+                        if (forbiddenFields.indexOf(key) === -1) {
+                            requiredFieldIndex = requiredFields.indexOf(key);
+                            if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
+                                unsatisfiedRequiredFieldsCount--;
+                                requiredFields.splice(requiredFieldIndex, 1);
+                            }
+
+                            this._mapPropertyToRawDataForAction(data, object, key, action);
+                        }
+                    } else {
+                        this._mapPropertyToRawDataForAction(data, object, key, action);
+                    }
+                }
+
+                if (requiredFields && unsatisfiedRequiredFieldsCount > 0) {
+                    throw new Error("missing " + unsatisfiedRequiredFieldsCount + " required fields for type: '" +
+                        type.typeName + "': " + requiredFields.filter(function (x) {
+                            return x;
+                        }).join(', '));
+                }
+            } else {
+                var i, length;
+                if (typeof object.length !== 'undefined') {
+                    for (i = 0, length = object.length; i < length; i++) {
+                        if (typeof object[i] === 'object') {
+                            data[i] = {};
+                            this._mapToRawDataForAction(object[i], data[i], action);
+                        }else {
+                            data[i] = object[i];
+                        }
+                    }
+                } else {
+                    console.warn('No type for object', object);
+                    var objectKeys = Object.keys(object), key;
+                    for (i = 0, length = objectKeys.length; i < length; i++) {
+                        key = objectKeys[i];
+                        if (object.hasOwnProperty('_' + key) || key.indexOf('_') != 0) {
+                            data[key] = object[key];
+                        }
+                    }
+                }
+            }
+        }
+    },
 
     /**
      * @function
