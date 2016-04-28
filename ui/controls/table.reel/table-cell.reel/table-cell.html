@@ -7,7 +7,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "content": {"@": "content"}
             }
         },
 
@@ -18,8 +19,8 @@
             },
             "bindings": {
                 "moduleId": {"<-": "@owner.componentModuleId"},
-                "object": {"<-": "@owner.value"},
-                "context": {"<-": "@owner.context"}
+                "object": {"<-": "@owner.objectContext"},
+                "context": {"<-": "@owner.columnContext"}
             }
         }
     }

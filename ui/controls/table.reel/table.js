@@ -38,8 +38,10 @@ exports.Table = Component.specialize({
             return this._dataController;
         },
         set: function (value) {
-            this._dataController = value;
-            this._initOrderBy();
+            if (this._dataController !== value) {
+                this._dataController = value;
+                this._initOrderBy();
+            }
         }
     },
 

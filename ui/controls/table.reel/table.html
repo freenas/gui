@@ -50,19 +50,18 @@
                 "element": {"#": "cellRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.columns.map{@rowRepetition:iteration.object.path(expression)}"}
+                "content": {"<-": "@owner.columns"}
             }
         },
         "cell": {
             "prototype": "./table-cell.reel",
             "properties": {
-                "element": {"#": "cell"}
+                "element": {"#": "cell"},
+                "tableComponent": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@rowRepetition:iteration.object"},
-                "value": {"<-": "@cellRepetition:iteration.object"},
-                "componentModuleId": {"<-": "@owner.columns[@cellRepetition:iteration.index].componentModuleId"},
-                "type": {"<-": "@owner.columns[@cellRepetition:iteration.index].type"}
+                "objectContext": {"<-": "@rowRepetition:iteration.object"},
+                "columnContext": {"<-": "@cellRepetition:iteration.object"}
             }
         }
     }
