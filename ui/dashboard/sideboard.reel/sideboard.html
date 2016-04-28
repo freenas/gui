@@ -19,12 +19,26 @@
                 }
             ]
         },
-        "notifications": {
+        "alerts": {
             "prototype": "ui/dashboard/widgets/notifications.reel",
             "properties": {
-                "element": {"#": "notifications"}
+                "element": {"#": "alerts"},
+                "title": "Alerts",
+                "type": "ALERT",
+                "emptyText": "No Alerts Reported"
             }
         },
+
+        "tasks": {
+            "prototype": "ui/dashboard/widgets/notifications.reel",
+            "properties": {
+                "element": {"#": "tasks"},
+                "title": "Tasks",
+                "type": "TASK",
+                "emptyText": "No Current Tasks"
+            }
+        },
+
         "toggleSideboard": {
             "prototype": "montage/ui/button.reel",
             "properties": {
@@ -45,7 +59,8 @@
             </div>
 
             <div class="Sideboard-widgets">
-                <div data-montage-id="notifications"></div>
+                <div data-montage-id="alerts"></div>
+                <div data-montage-id="tasks"></div>
             </div>
         </div>
         <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard Sideboard-icon">

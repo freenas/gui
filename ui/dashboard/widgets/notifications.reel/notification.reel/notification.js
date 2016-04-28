@@ -74,8 +74,8 @@ exports.Notification = Component.specialize(/** @lends Notification# */ {
         value: function () {
             var objectTypeLowerCase = this.object.type.toLowerCase();
 
-            this.classList.add("Notification--" + objectTypeLowerCase);
-            this.notificationIcon.setAttributeNS('http://www.w3.org/1999/xlink','href', ("#i-" + objectTypeLowerCase));
+            // this.classList.add("Notification--" + objectTypeLowerCase);
+            // this.notificationIcon.setAttributeNS('http://www.w3.org/1999/xlink','href', ("#i-" + objectTypeLowerCase));
         }
     }
 });

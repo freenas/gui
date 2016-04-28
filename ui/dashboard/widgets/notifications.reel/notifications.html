@@ -19,32 +19,10 @@
         "title": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "title"},
-                "value": "Notification Center"
-            }
-        },
-        "alertsCheckbox": {
-            "prototype": "blue-shark/ui/checkbox.reel",
-            "properties": {
-                "element": {"#": "alertsCheckbox"},
-                "label": "Alerts",
-                "checked": true
-            }
-        },
-        "tasksCheckbox": {
-            "prototype": "blue-shark/ui/checkbox.reel",
-            "properties": {
-                "element": {"#": "tasksCheckbox"},
-                "label": "Tasks",
-                "checked": true
-            }
-        },
-        "eventsCheckbox": {
-            "prototype": "blue-shark/ui/checkbox.reel",
-            "properties": {
-                "element": {"#": "eventsCheckbox"},
-                "label": "Events",
-                "checked": true
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title"}
             }
         },
         "items": {
@@ -53,7 +31,7 @@
                 "element": {"#": "items"}
             },
             "bindings": {
-                "content": {"<-": "@owner.notificationCenter.notifications"}
+                "content": {"<-": "@owner.notificationCenter.notifications.filter{type == @owner.type}"}
             }
         },
         "item": {
@@ -72,20 +50,14 @@
                 "overflow": "scrollY"
             }
         },
-        "filterButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "filterButton"}
-            }
-        },
         "emptyState": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "emptyState"},
-                "value": "Nothing to see here"
+                "element": {"#": "emptyState"}
             },
             "bindings": {
-                "classList.has('is-hidden')": {"<-": "@items.content.length > 0"}
+                "classList.has('is-hidden')": {"<-": "@items.content.length > 0"},
+                "value": {"<-": "@owner.emptyText"}
             }
         }
     }
@@ -95,18 +67,8 @@
     <div data-montage-id="owner" class="Notifications">
         <div class="Notifications-header">
             <div data-montage-id="title" class="Notifications-title"></div>
-            <div data-montage-id="filterButton" class="Notifications-filterButton">
-                <svg >
-                    <use xlink:href="#i-filter"/>
-                </svg>
-            </div>
         </div>
         <div class="Notifications-body">
-            <div data-montage-id="notificationFilters" class="Notifications-filters">
-                <div data-montage-id="alertsCheckbox" class="Notifications-filter"></div>
-                <div data-montage-id="tasksCheckbox" class="Notifications-filter"></div>
-                <div data-montage-id="eventsCheckbox" class="Notifications-filter"></div>
-            </div>
             <div data-montage-id="itemsScrollview">
                 <div data-montage-id="items" class="Notifications-items">
                     <div data-montage-id="item"></div>
