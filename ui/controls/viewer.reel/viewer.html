@@ -37,7 +37,8 @@
         "controller": {
             "prototype": "montage/core/range-controller",
             "bindings": {
-                "content": {"<-": "@owner.object"}
+                "content": {"<-": "@owner.object"},
+                "sortPath": {"<-": "@owner.sortingKey"}
             }
         },
         "list": {

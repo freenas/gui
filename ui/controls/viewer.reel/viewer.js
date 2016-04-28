@@ -22,7 +22,7 @@ exports.Viewer = Component.specialize({
 
                     this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
                         self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
-
+                        self.sortingKey = UIDescriptor.nameExpression;
                     }).catch(function (error) {
                         console.warn(error);
                     });
