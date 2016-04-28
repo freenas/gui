@@ -376,6 +376,14 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
+    getNewInstanceForType: {
+        value: function(type) {
+            var self = this;
+            return Model.populateObjectPrototypeForType(type).then(function() {
+                return self.getDataObject(type);
+            });
+        }
+    },
 
     //FIXME: hacky
     getEmptyCollectionForType: {
@@ -783,6 +791,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 instance = new DataService();
 
                 //Fixme: hacky
+                instance.getNewInstanceForType = FreeNASService.prototype.getNewInstanceForType;
                 instance.getEmptyCollectionForType = FreeNASService.prototype.getEmptyCollectionForType;
 
                 DataService.mainService.addChildService(freeNASService);
