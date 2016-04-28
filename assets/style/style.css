@@ -57,6 +57,11 @@ dd {
     margin-bottom: .5em;
 }
 
+svg {
+    width: 100%;
+    height: 100%;
+}
+
 
 /********************
 

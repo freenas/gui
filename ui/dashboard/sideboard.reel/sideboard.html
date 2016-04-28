@@ -8,12 +8,27 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "bindings": {
+                "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "notifications": {
             "prototype": "ui/dashboard/widgets/notifications.reel",
             "properties": {
                 "element": {"#": "notifications"}
+            }
+        },
+        "toggleSideboard": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "toggleSideboard"}
             }
         }
     }
@@ -21,7 +36,21 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Sideboard">
-        <div data-montage-id="notifications"></div>
+        <div class="Sideboard-container">
+            <div class="Sideboard-icons">
+                <div class="Sideboard-icon"></div>
+                <div class="Sideboard-icon"></div>
+                <div class="Sideboard-icon"></div>
+                <div class="Sideboard-icon"></div>
+            </div>
+
+            <div class="Sideboard-widgets">
+                <div data-montage-id="notifications"></div>
+            </div>
+        </div>
+        <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard Sideboard-icon">
+            <svg><use xlink:href="#i-arrow"/></svg>
+        </div>
     </div>
 </body>
 </html>
