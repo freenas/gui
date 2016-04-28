@@ -30,20 +30,61 @@ exports.NetworkInterface = Component.specialize({
                     this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (networkInterfaces) {
                         self.interfaces = networkInterfaces;
                     }).then(function() {
-                        var aliasesLength = object.aliases.length;
-
                         if ((self.isAddressSourceDhcp = !!object.dhcp)) {
                             self.dhcpAlias = object.status.aliases.filter(function(x) { return x.type === "INET" })[0];
                         }
 
-                        if (aliasesLength) {
-                            self.staticIP = object.aliases.slice(0, 1)[0];
-
-                            if (aliasesLength > 1) {
-                                self.otherAliases = object.aliases.slice(1);
-                            }
-                        }
+                        self.handleAliasesChange();
                     });
+                }
+            }
+        }
+    },
+
+    enterDocument: {
+        value: function () {
+            this._subscribeToAliasesChanges();
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this._unsubscribeToAliasesChangesIfNeeded();
+
+            // set to null in order to apply hypothetical changes from the middleware
+            // if the same object is coming back.
+            this._object = null;
+        }
+    },
+
+    _unsubscribeToAliasesChangesIfNeeded: {
+        value: function () {
+            if (this._unsubscribeToAliasesChanges) {
+                this._unsubscribeToAliasesChanges();
+                this._unsubscribeToAliasesChanges = null;
+            }
+        }
+    },
+
+    /**
+     * @private
+     */
+    _subscribeToAliasesChanges: {
+        value: function () {
+            this._unsubscribeToAliasesChanges = this.addRangeAtPathChangeListener("object.aliases", this, "handleAliasesChange");
+        }
+    },
+
+    handleAliasesChange: {
+        value: function () {
+            var aliases = this.object.aliases,
+                aliasesLength = aliases.length;
+
+            if (aliasesLength) {
+                this.staticIP = aliases.slice(0, 1)[0];
+
+                if (aliasesLength > 1) {
+                    this.otherAliases = aliases.slice(1);
                 }
             }
         }
@@ -51,6 +92,8 @@ exports.NetworkInterface = Component.specialize({
 
     _flattenAliases: {
         value: function () {
+            this._unsubscribeToAliasesChangesIfNeeded();
+
             var aliases = this._object.aliases,
                 otherAliases = this.otherAliases,
                 aliasesLength = aliases.length,
@@ -69,6 +112,8 @@ exports.NetworkInterface = Component.specialize({
             if (++otherAliasesLength < aliases.length) { //aliases's length may have changed
                 aliases.splice(j, aliasesLength - otherAliasesLength);
             }
+
+            this._subscribeToAliasesChanges();
         }
     },
 
