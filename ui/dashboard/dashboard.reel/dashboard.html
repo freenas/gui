@@ -34,17 +34,26 @@
             "properties": {
                 "element": {"#": "memoryAllocation"}
             }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Dashboard">
-        <div class="Dashboard-widgets">
-            <div data-montage-id="systemInfo" class="Dashboard-widget"></div>
-            <div data-montage-id="cpuUsage" class="Dashboard-widget"></div>
-            <div data-montage-id="networkTrafficEm0" class="Dashboard-widget"></div>
-            <div data-montage-id="memoryAllocation" class="Dashboard-widget"></div>
+        <div data-montage-id="scrollview">
+            <div class="Dashboard-widgets">
+                <div data-montage-id="systemInfo" class="Dashboard-widget"></div>
+                <div data-montage-id="cpuUsage" class="Dashboard-widget"></div>
+                <div data-montage-id="networkTrafficEm0" class="Dashboard-widget"></div>
+                <div data-montage-id="memoryAllocation" class="Dashboard-widget"></div>
+            </div>
         </div>
     </div>
 </body>
