@@ -41,7 +41,8 @@ exports.SmbService = Component.specialize({
     },
 
     //Fixme: This isn't from the middleware at all. It's a copy paste of options
-    //from FreeNAS 9, because otherwise this field makes little sense.
+    //from FreeNAS 9, because otherwise this field makes little sense. However,
+    //as of the completion of Ticket #15045, this will no longer be the case.
     UNIX_CHARSETS: {
         get: function() {
             return [
@@ -56,7 +57,8 @@ exports.SmbService = Component.specialize({
     },
 
     //Fixme: This isn't from the middleware at all. It's a copy paste of options
-    //from FreeNAS 9, because otherwise this field makes little sense.
+    //from FreeNAS 9, because otherwise this field makes little sense. However,
+    //as of the completion of Ticket #15045, this will no longer be the case.
     DOS_CHARSETS: {
         get: function() {
             return [
