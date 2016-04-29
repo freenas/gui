@@ -40,6 +40,40 @@ exports.SmbService = Component.specialize({
         }
     },
 
+    //Fixme: This isn't from the middleware at all. It's a copy paste of options
+    //from FreeNAS 9, because otherwise this field makes little sense.
+    UNIX_CHARSETS: {
+        get: function() {
+            return [
+                "UTF-8",
+                "iso-8859-1",
+                "iso-8859-15",
+                "gb2312",
+                "EUC-JP",
+                "ASCII"
+            ];
+        }
+    },
+
+    //Fixme: This isn't from the middleware at all. It's a copy paste of options
+    //from FreeNAS 9, because otherwise this field makes little sense.
+    DOS_CHARSETS: {
+        get: function() {
+            return [
+                "CP437",
+                "CP850",
+                "CP852",
+                "CP866",
+                "CP932",
+                "CP949",
+                "CP950",
+                "CP1029",
+                "CP1251",
+                "ASCII"
+            ];
+        }
+    },
+
     users: {
         value: null
     },

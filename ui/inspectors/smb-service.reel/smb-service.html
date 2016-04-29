@@ -41,23 +41,25 @@
             }
         },
         "dosCharset": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "dosCharset"},
                 "label": "DOS charset"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.dos_charset"}
+                "selectedValue": {"<->": "@owner.object.dos_charset"},
+                "options": {"<-": "@owner.DOS_CHARSETS"}
             }
         },
         "unixCharset": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "unixCharset"},
                 "label": "UNIX charset"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.unix_charset"}
+                "selectedValue": {"<->": "@owner.object.unix_charset"},
+                "options": {"<-": "@owner.UNIX_CHARSETS"}
             }
         },
         "logLevel": {
