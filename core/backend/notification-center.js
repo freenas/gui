@@ -406,6 +406,34 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                                 taskNotification.progress = taskReport.progress.percentage;
                             }
 
+                            if (state === Notification.TASK_STATES.FAILED) {
+                                var errorMessage;
+
+                                if (taskReport.error) {
+                                    var error = taskReport.error,
+                                        information,
+                                        ll, ii,
+                                        extra;
+
+                                    errorMessage = error.message;
+
+                                    if ((extra = error.extra)) {
+                                        for (ii = 0, ll = extra.length; ii < ll; ii++) {
+                                            information = extra[ii];
+                                            errorMessage += "\n" + (
+                                                    information.path && information.path.length === 2 ?
+                                                    information.path[1] + ": " : ""
+                                                ) + information.message;
+                                        }
+                                    }
+                                } else {
+                                    //fixme: need a better fallback message
+                                    errorMessage = "task failed";
+                                }
+
+                                taskNotification.errorMessage = errorMessage;
+                            }
+
                             this.handleTaskDone(jobId, taskReport);
 
                             if (this.dismissNotificationAfterDelay) {
@@ -725,8 +753,11 @@ var Notification = exports.Notification =  Montage.specialize({
 
     progress: {
         value: 0
-    }
+    },
 
+    errorMessage: {
+        value: null
+    }
 
 }, {
 
