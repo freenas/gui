@@ -73,9 +73,16 @@ exports.Notification = Component.specialize(/** @lends Notification# */ {
     enterDocument: {
         value: function () {
             var objectTypeLowerCase = this.object.type.toLowerCase();
+        }
+    },
 
-            // this.classList.add("Notification--" + objectTypeLowerCase);
-            // this.notificationIcon.setAttributeNS('http://www.w3.org/1999/xlink','href', ("#i-" + objectTypeLowerCase));
+    infoExpanded: {
+        value: false
+    },
+
+    handleInfoToggleAction: {
+        value: function () {
+            this.infoExpanded = !this.infoExpanded;
         }
     }
 });

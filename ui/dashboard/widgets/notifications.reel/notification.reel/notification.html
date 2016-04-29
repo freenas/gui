@@ -8,6 +8,17 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ],
+            "bindings": {
+                "classList.has('has-infoExpanded')": {"<-": "@owner.infoExpanded"},
+                "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
+                "classList.has('success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
         },
         "modelType": {
@@ -65,8 +76,22 @@
             },
             "bindings": {
                 "percentageComplete": {"<-": "@owner.object.progress"},
-                "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
                 "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"}
+            }
+        },
+        "notificationMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "notificationMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.errorMessage"}
+            }
+        },
+        "infoToggle": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "infoToggle"}
             }
         }
     }
@@ -75,11 +100,21 @@
 <body>
     <div data-montage-id="owner" class="Notification">
         <div class="Notification-body">
-            <div data-montage-id="modelType"></div>
-            <div data-montage-id="service" class="Notification-small"></div>
-            <div data-montage-id="state"></div>
-            <div data-montage-id="timestamp" class="Notification-small"></div>
-            <div data-montage-id="progress" class="Notification-progress"></div>
+            <div class="Notification-overview">
+                <div>
+                    <div data-montage-id="modelType"></div>
+                    <div data-montage-id="service" class="Notification-service"></div>
+                    <div data-montage-id="state"></div>
+                </div>
+                <div>
+                    <div data-montage-id="timestamp" class="Notification-time"></div>
+                    <div data-montage-id="progress" class="Notification-progress"></div>
+                </div>
+            </div>
+            <div data-montage-id="infoToggle" class="Notification-infoToggle">
+                <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+            <div data-montage-id="notificationMessage" class="Notification-info"></div>
         </div>
     </div>
 </body>
