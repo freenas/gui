@@ -173,14 +173,14 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
      */
     responseType: {
         set: function (response) {
-            if (response === "json" || WebSocketClient.RESPONSE_TYPE.JSON) {
+            if (response === "json" || response === WebSocketClient.RESPONSE_TYPE.JSON) {
                 this._responseType = WebSocketClient.RESPONSE_TYPE.JSON;
-
-            } else if (response === "string" || WebSocketClient.RESPONSE_TYPE.STRING) {
+            } else if (response === "string" || response === WebSocketClient.RESPONSE_TYPE.STRING) {
                 this._responseType = WebSocketClient.RESPONSE_TYPE.STRING;
-
-            } else if (response === "binary" || WebSocketClient.RESPONSE_TYPE.BINARY) {
-                this._responseType = WebSocketClient.RESPONSE_TYPE.BINARY;
+            } else if (response === "binary_blob" || response === WebSocketClient.RESPONSE_TYPE.BINARY_BLOB) {
+                this._responseType = WebSocketClient.RESPONSE_TYPE.BINARY_BLOB;
+            } else if (response === "binary_arraybuffer" || response === WebSocketClient.RESPONSE_TYPE.BINARY_ARRAYBUFFER) {
+                this._responseType = WebSocketClient.RESPONSE_TYPE.BINARY_ARRAYBUFFER;
             }
         },
         get: function () {
@@ -226,7 +226,7 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
      */
     isConnected: {
         get: function () {
-            return this._socket.readyState === WebSocket.OPEN;
+            return this._socket && this._socket.readyState === WebSocket.OPEN;
         }
     },
 
@@ -400,6 +400,12 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
 
                 self = this;
 
+            if (this._responseType == WebSocketClient.RESPONSE_TYPE.BINARY_ARRAYBUFFER) {
+                socket.binaryType = 'arraybuffer'
+            } else if (this._responseType == WebSocketClient.RESPONSE_TYPE.BINARY_BLOB) {
+                socket.binaryType = 'blob'
+            }
+
             _currentAttempt = _currentAttempt || 1;
 
             socket.onerror = function (event) {
@@ -572,7 +578,8 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
         value: {
             STRING: 0,
             JSON: 1,
-            BINARY: 2
+            BINARY_BLOB: 2,
+            BINARY_ARRAYBUFFER: 3
         }
     },
 

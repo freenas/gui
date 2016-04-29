@@ -247,6 +247,11 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
         }
     },
 
+    sendRaw: {
+        value: function(rawMessage) {
+            this._connection.sendMessage(rawMessage);
+        }
+    },
 
     /**
      * @function
@@ -438,10 +443,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
 
 
 var _defaultBackendBridge;
-
-
 Object.defineProperty(exports, "defaultBackendBridge", {
-
     set: function (backendBridge) {
         _defaultBackendBridge = backendBridge;
     },
@@ -450,5 +452,4 @@ Object.defineProperty(exports, "defaultBackendBridge", {
                 _defaultBackendBridge = (new BackEndBridge()).initWithConfiguration(WebSocketConfiguration.defaultConfiguration)
             );
     }
-
 });

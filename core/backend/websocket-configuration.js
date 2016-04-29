@@ -61,9 +61,8 @@ WebSocketConfiguration.prototype._makeURL = function () {
 };
 
 
-var _defaultConfiguration = null;
-
-
+var _defaultConfiguration = null,
+    _shellConfiguration = null;
 Object.defineProperties(WebSocketConfiguration, {
     defaultConfiguration: {
         get: function () {
@@ -84,6 +83,28 @@ Object.defineProperties(WebSocketConfiguration, {
             }
 
             return _defaultConfiguration;
+        }
+    },
+
+    shellConfiguration: {
+        get: function () {
+            if (!_shellConfiguration) {
+                _shellConfiguration = new WebSocketConfiguration();
+
+                var domain = document.domain;
+
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "5000");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/shell");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 10000);
+
+                _shellConfiguration._store.set(
+                    WebSocketConfiguration.KEYS.HOST,
+                    (domain === "localhost" || domain === "127.0.0.1") ? "freenas.local" : domain
+                );
+            }
+
+            return _shellConfiguration;
         }
     }
 });
