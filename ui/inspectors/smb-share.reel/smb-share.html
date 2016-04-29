@@ -71,23 +71,27 @@
             }
         },
         "hostAllow": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "hostAllow"},
-                "label": "Hosts allow"
+                "label": "Hosts allow",
+                "placeholderValue": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this"
             },
             "bindings": {
-                "value": {"<->": "@owner.properties.hosts_allow"}
+                "values": {"<->": "@owner.properties.hosts_allow"}
             }
         },
         "hostDeny": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "hostDeny"},
-                "label": "Hosts deny"
+                "label": "Hosts deny",
+                "placeholderValue": "eg. 1.2.3.4 or hostname.local",
+                "labelPath": "this"
             },
             "bindings": {
-                "value": {"<->": "@owner.properties.hosts_deny"}
+                "values": {"<->": "@owner.properties.hosts_deny"}
             }
         },
         "vfsObjects": {
