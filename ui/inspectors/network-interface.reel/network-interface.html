@@ -157,12 +157,12 @@
                 "element": {"#": "aliases"},
                 "converter": {"@": "interface_alias_converter"},
                 "labelPath": "address + '/' + netmask",
-                "inputErrorMessage": "Please enter a valid IP address and netmask.",
-                "placeholderValue": "Enter alias name"
+                "inputErrorMessage": "Please enter a valid IP address and netmask."
             },
             "bindings": {
                 "values": {"<->": "@owner.otherAliases"},
-                "enabled": {"<-": "!@owner.object.dhcp"}
+                "enabled": {"<-": "!@owner.object.dhcp"},
+                "placeholderValue": {"<-": "!@owner.object.dhcp ? 'eg. 1.2.3.4/16' : ''"}
             }
         }
     }
