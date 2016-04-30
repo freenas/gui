@@ -31,10 +31,12 @@ the FreeNAS 10 GUI, run:
 from the root of where you cloned the GUI repo first.
 
 Once you have the environment bootstrapped, just for now do the following:
+
     1. edit core/backend/websocket-configuration.js and replace freenas.local
      with the name or IP address of your freenas10 instance (the middleware) if you have changed its name from freenas.local (the default).
      
     2. ./minit serve &
+    
 This will start the stand-alone web server so you can connect your web
 browser to localhost:8083
 
