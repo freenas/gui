@@ -1,0 +1,37 @@
+{
+  "blueprint_openfile_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_openfile_pid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "pid",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_openfile_process_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "process_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "OpenFile",
+      "propertyBlueprints": [
+        {"@": "blueprint_openfile_path"},
+        {"@": "blueprint_openfile_pid"},
+        {"@": "blueprint_openfile_process_name"}
+      ]
+    }
+  }
+}

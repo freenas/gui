@@ -29,6 +29,7 @@
     "properties": {
       "name": "guid",
       "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "String"
     }
   },
@@ -53,6 +54,7 @@
     "properties": {
       "name": "properties",
       "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "object",
       "valueObjectPrototypeName": "VolumeProperties"
     }
@@ -62,12 +64,8 @@
     "properties": {
       "name": "providers_presence",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "ALL",
-        "PART",
-        "NONE"
-      ]
+      "readOnly": true,
+      "valueType": "String"
     }
   },
   "blueprint_volume_topology": {

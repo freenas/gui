@@ -23,6 +23,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_knownhost_port": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "port",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_knownhost_pubkey": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -39,6 +47,7 @@
         {"@": "blueprint_knownhost_hostkey"},
         {"@": "blueprint_knownhost_id"},
         {"@": "blueprint_knownhost_name"},
+        {"@": "blueprint_knownhost_port"},
         {"@": "blueprint_knownhost_pubkey"}
       ]
     }

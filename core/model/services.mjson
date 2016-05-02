@@ -944,6 +944,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getOpenFiles": {
+                "method": "filesystem.get_open_files",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "listDir": {
                 "method": "filesystem.list_dir",
                 "name": "call",
@@ -1471,11 +1476,6 @@
                 "name": "call",
                 "namespace": "rpc"
             },
-            "getPublicKey": {
-                "method": "replication.get_public_key",
-                "name": "call",
-                "namespace": "rpc"
-            },
             "getReservedContainers": {
                 "method": "replication.get_reserved_containers",
                 "name": "call",
@@ -1483,11 +1483,6 @@
             },
             "getReservedShares": {
                 "method": "replication.get_reserved_shares",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "scanKeysOnHost": {
-                "method": "replication.scan_keys_on_host",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -2837,6 +2832,12 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "id",
+                        "topology"
+                    ]
+                },
                 "task": "volume.create"
             },
             "delete": {
