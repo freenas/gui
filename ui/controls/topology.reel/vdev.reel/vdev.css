@@ -87,6 +87,7 @@
     border-radius: .5em;
     margin-left: .5em;
     border: 1px solid currentColor;
+    outline: none;
 }
 
 .Vdev-deleteButton svg {
