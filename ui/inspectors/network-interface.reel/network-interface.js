@@ -77,14 +77,16 @@ exports.NetworkInterface = Component.specialize({
 
     handleAliasesChange: {
         value: function () {
-            var aliases = this.object.aliases,
-                aliasesLength = aliases.length;
+            if (this.object) {
+                var aliases = this.object.aliases,
+                    aliasesLength = aliases.length;
 
-            if (aliasesLength) {
-                this.staticIP = aliases.slice(0, 1)[0];
+                if (aliasesLength) {
+                    this.staticIP = aliases.slice(0, 1)[0];
 
-                if (aliasesLength > 1) {
-                    this.otherAliases = aliases.slice(1);
+                    if (aliasesLength > 1) {
+                        this.otherAliases = aliases.slice(1);
+                    }
                 }
             }
         }
