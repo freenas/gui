@@ -37,7 +37,7 @@ exports.TreeView = Component.specialize({
 
                     this._startTransition();
                 }
-                if (!this._parent) {
+                if (!this._parent && parent) {
                     var parentDirectory = this._filesystemService.dirname(parent.path);
                     while (parentDirectory.length > 0 && parentDirectory.length >= this._root.length) {
                         this._parentPathHistory.unshift(parentDirectory);
@@ -72,6 +72,14 @@ exports.TreeView = Component.specialize({
             if (isFirstTime) {
                 this._filesystemService = this.application.filesystemService;
             }
+            if (this._parent && (!this._parentPathHistory || this._parentPathHistory.length == 0)) {
+                var parentDirectory = this._filesystemService.dirname(this._parent.path);
+                while (parentDirectory.length > 0 && parentDirectory.length >= this._root.length) {
+                    this._parentPathHistory.unshift(parentDirectory);
+                    parentDirectory = this._filesystemService.dirname(parentDirectory);
+                }
+            }
+
         }
     },
 

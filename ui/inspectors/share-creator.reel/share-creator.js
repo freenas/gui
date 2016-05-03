@@ -40,6 +40,7 @@ exports.ShareCreator = Component.specialize({
             var self = this;
             this._createNewShare('smb', Model.ShareSmb).then(function(smbShare) {
                 self.newSmbShare = smbShare;
+                self.newSmbShare.properties.vfs_objects = [];
                 self.newSmbShare.properties._browseable = true;
             });
             this._createNewShare('nfs', Model.ShareNfs).then(function(nfsShare) {

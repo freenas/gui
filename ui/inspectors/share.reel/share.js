@@ -23,11 +23,27 @@ exports.Share = Component.specialize({
         value: null
     },
 
-    _targetPath: {
+
+    _loadingPromise: {
         value: null
     },
 
-    _loadingPromise: {
+    _folders: {
+        value: null
+    },
+
+    folder: {
+        get: function() {
+            return this._folders;
+        },
+        set: function(folders) {
+            if (this._folders != folders) {
+                this._folders = folders;
+            }
+        }
+    },
+
+    _targetPath: {
         value: null
     },
 
@@ -101,7 +117,7 @@ exports.Share = Component.specialize({
                     if (object.target_path && object.target_type === 'DIRECTORY') {
                         this.targetPath = object.target_path
                     } else {
-                        this.targetPath = '/mnt/' + (object.target_path ? object.target_path : object.volume.id);
+                        this.targetPath = this.datasetToPathConverter.convert(object.target_path ? object.target_path : object.volume.id);
                     }
                 }
                 this._object = object
@@ -124,7 +140,7 @@ exports.Share = Component.specialize({
                     if (self.object.target_path && self.object.target_type === 'DIRECTORY') {
                         self.targetPath = self.object.target_path
                     } else {
-                        self.targetPath = '/mnt/' + (self.object.target_path ? self.object.target_path : self.object.volume.id);
+                        self.targetPath = self.datasetToPathConverter.convert(self.object.target_path ? self.object.target_path : self.object.volume.id);
                     }
                 });
             }
@@ -141,9 +157,21 @@ exports.Share = Component.specialize({
         value: function() {
             var self = this;
 
+            this._setTargetPathOnObject();
+
             return this._addTargetTypeToObject().then(function () {
                 self.application.dataService.saveDataObject(self.object);
             });
+        }
+    },
+
+    _setTargetPathOnObject: {
+        value: function() {
+            var path = this._targetPath;
+            if (this.targetPathNode.isDataset) {
+                path = this.datasetToPathConverter.revert(path);
+            }
+            this.object.target_path = path;
         }
     },
 

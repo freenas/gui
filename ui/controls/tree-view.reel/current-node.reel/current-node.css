@@ -7,7 +7,7 @@
     padding-left: .5em;
 }
 
-.CurrentNode.isTransitioning { transition: transform .5s ease-in-out; }
+/*.CurrentNode.isTransitioning { transition: transform .5s ease-in-out; }*/
 
 .CurrentNode.isBefore   { transform: translateX(-101%); }
 .CurrentNode.isAfter    { transform: translateX(101%) }

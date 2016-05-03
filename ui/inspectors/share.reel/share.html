@@ -3,16 +3,23 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="share.css">
+    <!--"children": {"<-": "@owner.object.target_type == 'DATASET' ? @owner.datasetChildren : (@owner.object.target_type == 'DIRECTORY' ? @owner.directoryChildren : @owner.folders)"}-->
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "datasetToPathConverter": {"@": "datasetToPathConverter"}
             },
             "bindings": {
                 "targetPath": {"<-": "@owner.targetPathNode ? @owner.targetPathNode.path : ''"},
-                "datasetsPath": {"<-": "@owner.object.volume.datasets.map{mountpoint}"}
+                "datasetsPath": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
+                "datasetChildren": {"<-": "@owner.folders ? @owner.folders.filter{isDataset} : []"},
+                "directoryChildren": {"<-": "@owner.folders ? @owner.folders.filter{!isDataset} : []"}
             }
+        },
+        "datasetToPathConverter": {
+            "prototype": "core/converter/dataset-to-path-converter"
         },
         "usersOptionsConverter": {
             "prototype": "core/converter/select-option-converter",
@@ -46,7 +53,8 @@
                 "element": {"#": "overview"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object"}
+                "object": {"<-": "@owner.object"},
+                "targetType": {"<-": "@owner.targetPathNode.type == 'DIRECTORY' ? (@owner.targetPathNode.isDataset ? 'DATASET' : 'DIRECTORY') : 'NOT_A_DIRECTORY'"}
             }
         },
         "name": {
@@ -79,7 +87,7 @@
                 "root": {"<-": "'/mnt/' + @owner.object.volume.id"},
                 "parent": {"<->": "@owner.targetPathNode"},
                 "parentPath": {"<->": "@owner.targetPath"},
-                "children": {"<-": "@owner.folders"}
+                "children": {"<-": "@owner.object.target_type.defined() ? (@owner.object.target_type == 'DATASET' ? @owner.datasetChildren : @owner.directoryChildren) : @owner.folders"}
             }
         },
         "substitution": {
