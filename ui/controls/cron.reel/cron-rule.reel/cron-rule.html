@@ -1,45 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="cron-rule.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "selectorOptions": [
-                    {"value": "1", "label": "Every"},
-                    {"value": "2", "label": "On"}
-                ],
-                "frequencyTypes": [
-                    {"value": "1", "label": "Minute(s)"},
-                    {"value": "2", "label": "Hour(s)"},
-                    {"value": "3", "label": "Day(s)"},
-                    {"value": "4", "label": "Month(s)"},
-                    {"value": "5", "label": "Year(s)"}
-                ],
-                "onValues": [
-                    {"value": "Sun"},
-                    {"value": "Mon"},
-                    {"value": "Tues"},
-                    {"value": "Wed"},
-                    {"value": "Thurs"},
-                    {"value": "Fri"},
-                    {"value": "Sat"}
-                ]
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "selectedType": {"<-": "@selector.selectedValue"}
             }
         },
+
+        "cronLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "cronLabel"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.rule.field.label"}
+            }
+        },
+
         "selector": {
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "selector"},
-                "selectedValue": "1"
+                "element": {"#": "selector"}
             },
             "bindings": {
-                "options": {"<-": "@owner.selectorOptions"}
+                "options": {"<-": "@owner.constructor.SELECTOR_OPTIONS"},
+                "selectedValue": {"<-": "@owner.rule.type || @owner.constructor.SELECTOR_TYPES.EVERY"}
             }
         },
+
         "substitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -49,44 +43,26 @@
                 "switchValue": {"<-": "@selector.selectedValue"}
             }
         },
+
         "frequencyNumber": {
             "prototype": "blue-shark/ui/number-input.reel",
             "properties": {
                 "element": {"#": "frequencyNumber"},
                 "min": 1
-            }
-        },
-        "frequencyType": {
-            "prototype": "blue-shark/ui/select.reel",
-            "properties": {
-                "element": {"#": "frequencyType"}
             },
             "bindings": {
-                "options": {"<-": "@owner.frequencyTypes"}
+                "value": {"<->": "@owner.value"}
             }
         },
-        "onType": {
-            "prototype": "blue-shark/ui/select.reel",
-            "properties": {
-                "element": {"#": "onType"}
-            },
-            "bindings": {
-                "options": {"<-": "@owner.frequencyTypes"}
-            }
-        },
-        "onValues": {
+
+        "fieldValues": {
             "prototype": "blue-shark/ui/multiple-select-grid.reel",
             "properties": {
-                "element": {"#": "onValues"}
+                "element": {"#": "fieldValues"}
             },
             "bindings": {
-                "content": {"<-": "@owner.onValues"}
-            }
-        },
-        "deleteButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "deleteButton"}
+                "content": {"<-": "@owner.constructor.FIELD_VALUES[@owner.rule.field.index]"},
+                "selection": {"<->": "@owner.values"}
             }
         }
     }
@@ -94,20 +70,16 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CronRule">
-        <div>
-            <div data-montage-id="selector" class="CronRule-selector"></div>
-            <div data-montage-id="substitution">
-                <div data-arg="1" class="CronRule-controls CronRule-controls--every">
-                    <div data-montage-id="frequencyNumber" class="CronRule-control"></div>
-                    <div data-montage-id="frequencyType" class="CronRule-control"></div>
-                </div>
-                <div data-arg="2" class="CronRule-controls CronRule-controls--on">
-                    <div data-montage-id="onType" class="CronRule-control"></div>
-                    <div data-montage-id="onValues" class="CronRule-control"></div>
-                </div>
+        <div data-montage-id="cronLabel">label</div>
+        <div data-montage-id="selector" class="CronRule-selector"></div>
+        <div data-montage-id="substitution">
+            <div data-arg="EVERY" class="CronRule-controls CronRule-controls--every">
+                <div data-montage-id="frequencyNumber" class="CronRule-control"></div>
+            </div>
+            <div data-arg="ON" class="CronRule-controls CronRule-controls--on">
+                <div data-montage-id="fieldValues" class="CronRule-control"></div>
             </div>
         </div>
-        <div data-montage-id="deleteButton" class="CronRule-delete">remove</div>
     </div>
 </body>
 </html>

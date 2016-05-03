@@ -16,12 +16,6 @@
     border-bottom: 1px solid rgba(255,255,255,.1);
 }
 
-.CronRule-delete {
-    margin-top: .5em;
-    line-height: 1em;
-    color: #E0003A;
-}
-
 .CronRule-controls {
     margin-top: .5em;
     display: flex;
@@ -43,9 +37,3 @@
     margin-top: .5em;
     width: 100%;
 }
-
-.CronRule-delete {
-    display: inline-block;
-    cursor: pointer;
-}
-

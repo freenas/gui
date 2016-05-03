@@ -26,27 +26,20 @@
         "rules": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "rules"},
-                "content": [
-                    {"value": 1},
-                    {"value": 2}
-                ]
+                "element": {"#": "rules"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.rules"}
             }
         },
         "rule": {
             "prototype": "../cron-rule.reel",
             "properties": {
-                "element": {"#": "rule"}
+                "element": {"#": "rule"},
+                "rulesController": {"@": "owner"}
             },
             "bindings": {
-                "data": {"<-": "@rules:iteration.object"}
-            }
-        },
-        "addRule": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "addRule"},
-                "value": "Add Rule"
+                "rule": {"<-": "@rules:iteration.object"}
             }
         }
     }
@@ -58,9 +51,6 @@
         <div class="CronRules-rulesContainer">
             <div data-montage-id="rules" class="CronRules-rules">
                 <div data-montage-id="rule" class="CronRules-rule"></div>
-            </div>
-            <div class="CronRules-rules-footer">
-                <button data-montage-id="addRule" class="Button--create Button--small"></button>
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 /**
  * @module ui/cron-list-item.reel
  */
-var ListItem = require("ui/controls/list.reel/list-item.reel/list-item").ListItem;var Component = require("montage/ui/component").Component;
+var ListItem = require("ui/controls/list.reel/list-item.reel/list-item").ListItem;
+
 
 /**
  * @class CronListItem
