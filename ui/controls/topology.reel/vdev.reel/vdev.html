@@ -79,6 +79,12 @@
                 "labelPath": "path.replace('/dev/', '')",
                 "icon": "ui/icons/disk.reel"
             }
+        },
+        "deleteButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "deleteButton"}
+            }
         }
     }
     </script>
@@ -89,6 +95,9 @@
             <div class="VdevTitle-type">
                 <span data-montage-id="type"></span>
                 <div class="VdevTitle-arrow"></div>
+            </div>
+            <div data-montage-id="deleteButton" class="Vdev-deleteButton">
+                <svg><use xlink:href="#i-plus"/></svg>
             </div>
         </div>
         <div data-montage-id="vdevTypes" class="Vdev-types">

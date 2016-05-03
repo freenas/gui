@@ -7,7 +7,7 @@
 }
 
 .Topology.update-mode .Vdev.unhealthy {
-    border-color: red;
+    border-color: #E0003A;
 }
 
 .Vdev .Grid-icon.LabeledIcon {
@@ -67,22 +67,43 @@
 .Vdev-title:before {
     content: '';
     display: inline-block;
-    width:  .8em;
-    height: .8em;
+    width:  .5em;
+    height: .5em;
     background: green;
     border-radius: .5em;
     margin-bottom: .02em;
+    margin-right: .5em;
 }
 
 .Vdev.unhealthy .Vdev-title:before {
-    background: red;
+    background: #E0003A;
 }
 
+/* delete button */
+
+.Vdev-deleteButton {
+    height: 1em;
+    width:  1em;
+    border-radius: .5em;
+    margin-left: .5em;
+    border: 1px solid currentColor;
+}
+
+.Vdev-deleteButton svg {
+    padding: .15em;
+    transform: rotate(45deg);
+}
+
+.Vdev-deleteButton:hover {
+    background-color: #E0003A;
+    border-color: #E0003A;
+    color: #fff;
+}
 
 .VdevTitle-type {
     display: flex;
+    flex: 1;
     align-items: center;
-    padding-left: 0.5em;
 }
 
 .VdevTitle-arrow {
