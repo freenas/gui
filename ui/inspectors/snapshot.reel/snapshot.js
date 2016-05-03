@@ -21,5 +21,23 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
                 }
             }
         }
+    },
+
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object != object) {
+                this._object = object;
+                if (object.id == void 0) {
+                    this._object.replicable = true;
+                }
+            }
+        }
     }
 });
