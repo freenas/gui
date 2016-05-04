@@ -3,30 +3,53 @@ var Rule = exports.Rule = function Rule () {
 };
 
 Rule.CRON_FIELDS = {
+    SEC: {
+        name: "SEC",
+        label: "Second(s)",
+        mapKey: "second",
+        index: 0,
+        min: 0,
+        max: 59
+    },
     MIN: {
         value: "MIN",
         label: "Minute(s)",
-        index: 0
+        mapKey: "minute",
+        index: 1,
+        min: 0,
+        max: 59
     },
     HOURS: {
         name: "HOURS",
         label: "Hour(s)",
-        index: 1
-    },
-    DAYS_OF_MONTH: {
-        name: "DAYS_OF_MONTH",
-        label: "Day(s) of the month",
-        index: 2
-    },
-    MONTHS: {
-        name: "MONTHS",
-        label: "Month(s)",
-        index: 3
+        mapKey: "hour",
+        index: 2,
+        min: 0,
+        max: 23
     },
     DAYS_OF_WEEK: {
         name: "DAYS_OF_WEEK",
         label: "Day(s) of the week",
-        index: 4
+        mapKey: "day_of_week",
+        index: 3,
+        min: 0,
+        max: 6
+    },
+    DAYS_OF_MONTH: {
+        name: "DAYS_OF_MONTH",
+        label: "Day(s) of the month",
+        mapKey: "day",
+        index: 4,
+        min: 1,
+        max: 31
+    },
+    MONTHS: {
+        name: "MONTHS",
+        label: "Month(s)",
+        mapKey: "month",
+        index: 5,
+        min: 1,
+        max: 12
     }
 };
 
@@ -42,6 +65,16 @@ Rule.FIELD_VALUES = {
         _1: null,
         _2: null,
         3: [
+            {"value": 0, "label": "sun"},
+            {"value": 1, "label": "mon"},
+            {"value": 2, "label": "tues"},
+            {"value": 3, "label": "wed"},
+            {"value": 4, "label": "thurs"},
+            {"value": 5, "label": "fri"},
+            {"value": 6, "label": "sat"}
+        ],
+        _4: null,
+        5: [
             {"value": 0, "label": "jan"},
             {"value": 1, "label": "feb"},
             {"value": 2, "label": "mar"},
@@ -54,15 +87,6 @@ Rule.FIELD_VALUES = {
             {"value": 9, "label": "oct"},
             {"value": 10, "label": "nov"},
             {"value": 11, "label": "dec"}
-        ],
-        4: [
-            {"value": 0, "label": "sun"},
-            {"value": 1, "label": "mon"},
-            {"value": 2, "label": "tues"},
-            {"value": 3, "label": "wed"},
-            {"value": 4, "label": "thurs"},
-            {"value": 5, "label": "fri"},
-            {"value": 6, "label": "sat"}
         ]
 };
 
@@ -82,24 +106,88 @@ Object.defineProperties(Rule.FIELD_VALUES, {
 
     0: {
         get: function () {
-            return this._0 || (this._0 = _generateNumbers(0, 59));
+            return this._0 || (this._0 = _generateNumbers(Rule.CRON_FIELDS.SEC.min, Rule.CRON_FIELDS.SEC.max));
         }
     },
 
     1: {
         get: function () {
-            return this._1 || (this._1 = _generateNumbers(0, 23));
+            return this[0];
         }
     },
 
     2: {
         get: function () {
-            return this._2 || (this._2 = _generateNumbers(1, 31));
+            return this._2 || (this._2 = _generateNumbers(Rule.CRON_FIELDS.HOURS.min, Rule.CRON_FIELDS.HOURS.max));
+        }
+    },
+
+    4: {
+        get: function () {
+            return this._4 || (this._4 = _generateNumbers(
+                    Rule.CRON_FIELDS.DAYS_OF_MONTH.min, Rule.CRON_FIELDS.DAYS_OF_MONTH.max
+                ));
         }
     }
 
 });
 
+
+Rule.ParseString = function (string, cronField) {
+    var isAnyValue = string === "*",
+        isNumber = !isNaN(string),
+        dividerIndex, values;
+
+    if (isAnyValue) {
+        values = [0];
+    } else if (isNumber) {
+        values = [+string];
+    } else if ((dividerIndex = string.indexOf("/")) !== -1) {
+        var subString = string.substring(0, dividerIndex),
+            divider = string.substring(dividerIndex + 1);
+
+        if (subString.indexOf("-") !== -1) {
+            values = _parseRange(subString.split("-"), divider);
+        } else if (!isNaN(subString)) {
+            values = _parseRange([+subString, cronField.max], divider);
+        } else if (subString === "*") {
+            values = _parseRange([cronField.min, cronField.max], divider);
+        } else if (string.indexOf(",") !== -1) {
+            values = string.split(",");
+            values = values.concat(_parseRange([values.splice(values.length - 1)[0], cronField.max], divider));
+        }
+    } else if (subString.indexOf("-") !== -1) {
+        values = _parseRange(subString.split("-"));
+    } else if (string.indexOf(",") !== -1) {
+        values = string.split(",");
+    }
+
+    return {
+        type: isNumber || isAnyValue ? Rule.TYPES.EVERY : Rule.TYPES.ON,
+        values: values
+    };
+};
+
+
+function _parseRange (range, divider) {
+    var from = range[0],
+        to = range[1],
+        values = [];
+
+    if (divider) {
+        var number = to;
+
+        do {
+            values.push(number);
+        } while(number + 4 <= from)
+    } else {
+        for (var i = 0, length = from === 0 ? to + 1: to - from + 1; i < length; i++) {
+            values.push(from++);
+        }
+    }
+
+    return values;
+}
 
 Rule.prototype.field = null;
 Rule.prototype.type = Rule.TYPES.EVERY;

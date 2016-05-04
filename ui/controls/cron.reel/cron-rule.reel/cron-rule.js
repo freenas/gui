@@ -50,10 +50,10 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             } else {
                 if (this.mode === CronRule.MODES.EDITOR) {
                     this.value = this.selectedType === this.rule.type && this.rule.values.length === 1
-                        ? this.rule.values[0]: 1;
+                        ? this.rule.values[0]: 0;
 
                 } else {
-                    this.value = 1;
+                    this.value = 0;
                 }
             }
         }
