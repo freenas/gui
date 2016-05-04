@@ -65,16 +65,15 @@ exports.CronRules = Component.specialize(/** @lends CronRules# */ {
 
     _mapRulesWithScheduleObject: {
         value: function (scheduleObject) {
-            if (!this.rules.length) {
+            if (this.rules) {
                 var cronFields = Rule.CRON_FIELDS,
                     cronFieldKeys = Object.keys(cronFields),
-                    cronField, rawData, values,
-                    rule, i, l;
+                    cronField, rawData, values, mapValues,
+                    parsedValues, rule, i, l, ii, ll;
 
-                for (i = 0, l = cronFieldKeys.length; i < length; i++) {
+                for (i = 0, l = cronFieldKeys.length; i < l; i++) {
                     cronField = cronFields[cronFieldKeys[i]];
                     rule = this.rules[cronField.index];
-                    values = Rule.FIELD_VALUES[cronField.index];
                     rawData = scheduleObject[cronField.mapKey];//need to be parsed.
 
                     rule.values.clear();
@@ -82,7 +81,20 @@ exports.CronRules = Component.specialize(/** @lends CronRules# */ {
                     if (rawData) {
                         var parsedString = Rule.ParseString(rawData, cronField);
                         rule.type = parsedString.type;
-                        rule.values = parsedString.values;
+
+                        if (rule.type === Rule.TYPES.EVERY) {
+                            rule.values = parsedString.values;
+                        } else {
+                            values = Rule.FIELD_VALUES[cronField.index];
+                            parsedValues = parsedString.values;
+                            mapValues = [];
+
+                            for (ii = 0, ll = parsedValues.length; ii < ll; ii++) {
+                                mapValues.push(values[parsedValues[ii]]);
+                            }
+
+                            rule.values = mapValues;
+                        }
                     }
                 }
             }
