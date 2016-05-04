@@ -144,22 +144,26 @@ Rule.ParseString = function (string, cronField) {
         values = [+string];
     } else if ((dividerIndex = string.indexOf("/")) !== -1) {
         var subString = string.substring(0, dividerIndex),
-            divider = string.substring(dividerIndex + 1);
+            divider = +(string.substring(dividerIndex + 1));
 
         if (subString.indexOf("-") !== -1) {
-            values = _parseRange(subString.split("-"), divider);
+            values = _parseRange(_stringArrayToIntArray(subString.split("-")), divider);
         } else if (!isNaN(subString)) {
-            values = _parseRange([+subString, cronField.max], divider);
+            values = _parseRange([+subString, +cronField.max], divider);
         } else if (subString === "*") {
-            values = _parseRange([cronField.min, cronField.max], divider);
-        } else if (string.indexOf(",") !== -1) {
-            values = string.split(",");
-            values = values.concat(_parseRange([values.splice(values.length - 1)[0], cronField.max], divider));
+            values = _parseRange([+cronField.min, +cronField.max], divider);
+        } else if (subString.indexOf(",") !== -1) {
+            values = _stringArrayToIntArray(subString.split(","));
+            values = _mergeArray(values, _parseRange([values.splice(values.length - 1)[0], +cronField.max], divider));
+        } else {
+            console.warn("cron string not supported");
         }
-    } else if (subString.indexOf("-") !== -1) {
-        values = _parseRange(subString.split("-"));
+    } else if (string.indexOf("-") !== -1) {
+        values = _parseRange(string.split("-"));
     } else if (string.indexOf(",") !== -1) {
-        values = string.split(",");
+        values = _stringArrayToIntArray(string.split(","));
+    } else {
+        console.warn("cron string not supported");
     }
 
     return {
@@ -175,11 +179,11 @@ function _parseRange (range, divider) {
         values = [];
 
     if (divider) {
-        var number = to;
+        var number = from;
 
         do {
             values.push(number);
-        } while(number + 4 <= from)
+        } while((number = number + divider) <= to)
     } else {
         for (var i = 0, length = from === 0 ? to + 1: to - from + 1; i < length; i++) {
             values.push(from++);
@@ -187,6 +191,24 @@ function _parseRange (range, divider) {
     }
 
     return values;
+}
+
+function _stringArrayToIntArray (array) {
+    for (var i = 0, length = array.length; i < length; i++) {
+        array[i] = +array[i];
+    }
+
+    return array;
+}
+
+function _mergeArray (arrayA, arrayB) {
+    for (var i = 0, length = arrayB.length; i < length; i++) {
+        if (arrayA.indexOf(arrayB[i]) === -1) {
+            arrayA.push(arrayB[i]);
+        }
+    }
+
+    return arrayA;
 }
 
 Rule.prototype.field = null;
