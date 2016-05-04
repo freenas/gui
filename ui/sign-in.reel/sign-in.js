@@ -1,4 +1,5 @@
 var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").AuthorizationPanel,
+    Model = require("core/model/model").Model,
     KeyComposer = require("montage/composer/key-composer").KeyComposer;
 
 
@@ -109,20 +110,24 @@ exports.SignIn = AuthorizationPanel.specialize({
     handleSubmitAction: {
         value: function() {
             if (!this._isAuthenticating && this.userName && this.password) {
+                var self = this;
                 this.isAuthenticating = true;
 
-                this.dataService.loginWithCredentials(this.userName, this.password).bind(this).then(function (authorization) {
-                    this.authorizationManagerPanel.approveAuthorization(authorization);
+                this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
+                    self.authorizationManagerPanel.approveAuthorization(authorization);
 
                     // Don't keep any track of the password in memory.
-                    this.password = this.userName = null;
+                    self.password = self.userName = null;
 
-                    this.application.section = 'dashboard';
+                    self.application.section = 'dashboard';
+                    return self.application.dataService.fetchData(Model.Service).then(function(services) {
+                        return Promise.all(services.map(function(x) { return Promise.resolve(x.config).then(function() { return x; }); }));
+                    });
                 }, function (error) {
-                    this.errorMessage = error.message || error;
+                    self.errorMessage = error.message || error;
 
                 }).finally(function () {
-                    this.isAuthenticating = false;
+                    self.isAuthenticating = false;
                 });
             }
         }

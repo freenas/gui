@@ -3,7 +3,6 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="share.css">
-    <!--"children": {"<-": "@owner.object.target_type == 'DATASET' ? @owner.datasetChildren : (@owner.object.target_type == 'DIRECTORY' ? @owner.directoryChildren : @owner.folders)"}-->
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -156,7 +155,8 @@
                 "element": {"#": "globalServiceToggle"}
             },
             "bindings": {
-                "label": {"<-": "'Global ' + @owner.object.type + ' Service'"}
+                "label": {"<-": "'Global ' + @owner.object.type + ' Service'"},
+                "checked": {"<->": "@owner.isServiceStarted"}
             }
         },
         "globalServiceLabel": {

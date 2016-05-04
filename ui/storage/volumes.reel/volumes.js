@@ -64,18 +64,21 @@ exports.Volumes = Component.specialize({
     _loadDependencies: {
         value: function () {
             var self = this;
-            return this._listShares().then(function (shares) {
-                self.shares = shares;
-                return self._listSnapshots();
-            }).then(function (snapshots) {
-                self.snapshots = snapshots;
-                return self._listDisks();
-            }).then(function (disks) {
-                self.disks = disks;
-                return self._listDatasets();
-            }).then(function (datasets) {
-                self.datasets = datasets;
-            });
+            return Promise.all([
+                this._preloadServices(),
+                this._listShares().then(function (shares) {
+                    self.shares = shares;
+                    return self._listSnapshots();
+                }).then(function (snapshots) {
+                    self.snapshots = snapshots;
+                    return self._listDisks();
+                }).then(function (disks) {
+                    self.disks = disks;
+                    return self._listDatasets();
+                }).then(function (datasets) {
+                    self.datasets = datasets;
+                })
+            ]);
         }
     },
 
@@ -246,6 +249,17 @@ exports.Volumes = Component.specialize({
     _listDisks: {
         value: function() {
             return this._dataService.fetchData(Model.Disk);
+        }
+    },
+
+    _preloadServices: {
+        value: function() {
+/*
+            return this._dataService.fetchData(Model.Service).then(function(services) {
+                return Promise.all(services.map(function(x) { return Promise.resolve(x.config).then(function() { return x; }); }));
+            });
+*/
+            return true;
         }
     },
 

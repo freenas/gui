@@ -96,6 +96,42 @@ exports.Share = Component.specialize({
         value: null
     },
 
+    _service: {
+        value: null
+    },
+
+    service: {
+        get: function() {
+            return this._service;
+        },
+        set: function(service) {
+            if (this._service != service) {
+                this._service = service;
+            }
+            this.isServiceStarted = this._isServiceRunning();
+        }
+    },
+
+    _isServiceStarted: {
+        value: null
+    },
+
+    isServiceStarted: {
+        get: function() {
+            return this._isServiceStarted;
+        },
+        set: function(isServiceStarted) {
+            if (this._isServiceStarted !== isServiceStarted) {
+                if (isServiceStarted && !this._isServiceRunning()) {
+                    this._startService();
+                } else if (!isServiceStarted && this._isServiceRunning()) {
+                    this._stopService();
+                }
+                this._isServiceStarted = isServiceStarted;
+            }
+        }
+    },
+
     _object: {
         value: null
     },
@@ -113,11 +149,17 @@ exports.Share = Component.specialize({
                 this.application.dataService.fetchData(Model.User).then(function(users) {
                     self.users = users;
                 });
-                if (object && this._filesystemService) {
-                    if (object.target_path && object.target_type === 'DIRECTORY') {
-                        this.targetPath = object.target_path
-                    } else {
-                        this.targetPath = this.datasetToPathConverter.convert(object.target_path ? object.target_path : object.volume.id);
+                if (object) {
+                    this._getService(object).then(function (service) {
+                        self.service = service;
+                        self.isServiceStarted = service.state == 'RUNNING';
+                    });
+                    if (this._filesystemService) {
+                        if (object.target_path && object.target_type === 'DIRECTORY') {
+                            this.targetPath = object.target_path
+                        } else {
+                            this.targetPath = this.datasetToPathConverter.convert(object.target_path ? object.target_path : object.volume.id);
+                        }
                     }
                 }
                 this._object = object
@@ -160,7 +202,9 @@ exports.Share = Component.specialize({
             this._setTargetPathOnObject();
 
             return this._addTargetTypeToObject().then(function () {
-                self.application.dataService.saveDataObject(self.object);
+                return self.application.dataService.saveDataObject(self.object);
+            }).then(function() {
+                self.isServiceStarted = true;
             });
         }
     },
@@ -265,6 +309,39 @@ exports.Share = Component.specialize({
                     return x;
                 });
             });
+        }
+    },
+
+    _getService: {
+        value: function(object) {
+            var serviceName = 'service-' + object.type;
+            return this.application.dataService.fetchData(Model.Service).then(function(services) {
+                return services.filter(function (x) { return x.config && x.config.type == serviceName; })[0];
+            });
+        }
+    },
+
+    _isServiceRunning: {
+        value: function() {
+            return this.service && this.service.state == 'RUNNING';
+        }
+    },
+
+    _startService: {
+        value: function() {
+            var self = this;
+            if (this.service && !this._isServiceRunning()) {
+                this.service.manage(this.service.id, 'start');
+            }
+        }
+    },
+
+    _stopService: {
+        value: function() {
+            var self = this;
+            if (this.service && this._isServiceRunning()) {
+                this.service.manage(this.service.id, 'stop');
+            }
         }
     }
 });
