@@ -211,5 +211,20 @@ function _mergeArray (arrayA, arrayB) {
     return arrayA;
 }
 
+
 Rule.prototype.field = null;
 Rule.prototype.type = Rule.TYPES.EVERY;
+
+
+Rule.prototype.toCronExpression = function () {
+    var expression, value;
+
+    if (this.values.length < 2) {
+        value = this.values[0];
+        expression = value === void 0 || value === 0 ? "*" : "" + value;
+    } else {
+        expression = this.values.join(",");
+    }
+
+    return expression;
+};
