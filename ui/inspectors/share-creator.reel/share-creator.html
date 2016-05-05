@@ -38,6 +38,16 @@
             "bindings": {
                 "object": {"<-": "@owner.newNfsShare"}
             }
+        },
+        "afp": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "afp"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newAfpShare"}
+            }
         }
     }
     </script>
@@ -49,6 +59,7 @@
         </div>
         <div data-montage-id="smb"></div>
         <div data-montage-id="nfs"></div>
+        <div data-montage-id="afp"></div>
     </div>
 </body>
 </html>

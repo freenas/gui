@@ -14,6 +14,10 @@ exports.ShareCreator = Component.specialize({
         value: null
     },
 
+    newAfpShare: {
+        value: null
+    },
+
     _createNewShare: {
         value: function (shareType, propertiesModel) {
             var self = this,
@@ -45,6 +49,9 @@ exports.ShareCreator = Component.specialize({
             });
             this._createNewShare('nfs', Model.ShareNfs).then(function(nfsShare) {
                 self.newNfsShare = nfsShare;
+            });
+            this._createNewShare('afp', Model.ShareAfp).then(function(afpShare) {
+                self.newAfpShare = afpShare;
             });
         }
     }

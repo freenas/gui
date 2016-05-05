@@ -53,7 +53,7 @@ exports.Share = Component.specialize({
             }
             this._loadingPromise.then(function() {
                 self.targetPath = self.object.target_path || '';
-            })
+            });
         }
     },
 
