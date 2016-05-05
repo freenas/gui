@@ -28,6 +28,7 @@ exports.NetworkInterfaceCreator = Component.specialize({
                 self.newVlan = vlan;
             });
             this.createNewInterface('Lagg').then(function(lagg) {
+                lagg.lagg.protocol = 'NONE';
                 self.newLagg = lagg;
             });
             this.createNewInterface('Bridge').then(function(bridge) {
