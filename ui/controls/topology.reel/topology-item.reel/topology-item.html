@@ -77,13 +77,6 @@
             "bindings": {
                 "identifier": {"<-": "@owner.gridIdentifier"}
             }
-        },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
-            "properties": {
-                "element": {"#": "scrollview"},
-                "overflow": "scrollY"
-            }
         }
     }
     </script>
@@ -105,11 +98,7 @@
             <div data-montage-id="drop-zone" class="TopologyItem-dropZone"></div>
         </div>
         <div class="TopologyItem-grid">
-            <div class="TopologyItem-vdevsGrid">
-                <div data-montage-id="scrollview">
-                    <div data-montage-id="vdevsGrid"></div>
-                </div>
-            </div>
+            <div data-montage-id="vdevsGrid"></div>
         </div>
     </div>
 </body>

@@ -7,18 +7,7 @@
     border-left: 1px solid #232629;
 }
 
-
-
-/* has items */
-
-.TopologyItem.has-items {
-    flex: 1;
-
-    min-height: 9em;
-    max-height: 18em;
-}
-
-.TopologyItem.has-items .TopologyItem-vdevsGrid { flex: 1; }
+/*.TopologyItem.has-items .TopologyItem-vdevsGrid { flex: 1; }*/
 
 .TopologyItem-title {
     position: relative;
@@ -73,13 +62,19 @@
     flex-direction: column;
     flex: 1;
     flex-wrap: wrap;
-    /*padding: .5em .25em .25em .25em;*/
+}
+
+/* has items */
+
+.TopologyItem.has-items .TopologyItem-grid {
+    max-height: 18em;
+    overflow: scroll;
+    padding: .25em .25em .5em .25em;
 }
 
 .TopologyItem-dropZone {
     margin-left: 1em;
     width: 3em;
-    /*margin: 0em .25em .5em .25em;*/
 }
 
 .TopologyItem-vdevsGrid {
@@ -107,7 +102,7 @@
     padding: 0;
 }
 
-.TopologyItem-vdevsGrid .LabeledIcon-title { display: none; }
+.TopologyItem-grid .LabeledIcon-title { display: none; }
 
 
 /* Grid Container*/
