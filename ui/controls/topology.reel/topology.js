@@ -163,6 +163,27 @@ var Topology = exports.Topology = Component.specialize({
         }
     },
 
+    handleDeleteVDevAction: {
+        value: function (event) {
+            var vDevComponent = event.target.vDevComponent;
+
+            if (vDevComponent) {
+                var collection = this._findTopologyCollectionWithIdentifier(vDevComponent.gridIdentifier),
+                    vDev = vDevComponent.object,
+                    index;
+
+                if ((index = collection.indexOf(vDev)) !== -1) {
+                    collection.splice(index, 1);
+                    var vDevChildren = vDev.children;
+
+                    for (var i = 0, length = vDevChildren.length; i < length; i++) {
+                        vDevChildren[i]._disk.volume = null;
+                    }
+                }
+            }
+        }
+    },
+
 
     _findTopologyCollectionWithIdentifier: {
         value: function (identifier) {

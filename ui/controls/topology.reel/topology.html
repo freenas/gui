@@ -15,7 +15,13 @@
             },
             "bindings": {
                 "editable": {"<-": "@owner.mode != @owner.constructor.MODES.READ"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
 
         "data": {
