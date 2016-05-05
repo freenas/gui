@@ -242,7 +242,10 @@ exports.Share = Component.specialize({
         value: function() {
             var path = this._targetPath;
             if (this._targetType == 'DATASET') {
-                path = this.datasetToPathConverter.revert(path + '/' + this.object.name);
+                if (this.object._isNewObject) {
+                    path += '/' + this.object.name;
+                }
+                path = this.datasetToPathConverter.revert(path);
             }
             this.object.target_path = path;
         }

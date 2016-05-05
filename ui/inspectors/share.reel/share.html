@@ -14,7 +14,8 @@
                 "targetPath": {"<-": "@owner.targetPathNode ? @owner.targetPathNode.path : ''"},
                 "datasetsPath": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
                 "datasetChildren": {"<-": "@owner.folders ? @owner.folders.filter{isDataset} : []"},
-                "directoryChildren": {"<-": "@owner.folders ? @owner.folders.filter{!isDataset} : []"}
+                "directoryChildren": {"<-": "@owner.folders ? @owner.folders.filter{!isDataset} : []"},
+                "isPathReadOnly": {"<-": "!@owner.object._isNewObject && @owner.targetType == 'DATASET'"}
             }
         },
         "datasetToPathConverter": {
@@ -87,8 +88,8 @@
                 "parentPath": {"<->": "@owner.targetPath"},
                 "children": {"<-": "@owner.targetType == 'DATASET' ? @owner.datasetChildren : @owner.folders"},
                 "label": {"<-": "@owner.targetType != 'DATASET' ? 'Target' : 'Create target'"},
-                "readOnly": {"<-": "!@owner.object._isNewObject && @owner.targetType == 'DATASET'"},
-                "suffix": {"<-": "@owner.targetType == 'DATASET' ? @name.value || '' : ''"}
+                "readOnly": {"<-": "@owner.isPathReadOnly"},
+                "suffix": {"<-": "@owner.targetType == 'DATASET' && !@owner.isPathReadOnly ? @name.value || '' : ''"}
             }
         },
         "substitution": {
