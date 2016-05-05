@@ -6,7 +6,15 @@
     padding: .5em;
 }
 
+.Dashboard-repetition {
+    flex-grow: 1;
+}
+
 .Dashboard-widget {
     flex-grow: 1;
     margin: .5em;
+}
+
+.Dashboard-widget.is-hidden {
+    display: none;
 }

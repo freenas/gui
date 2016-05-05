@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "enabledInterfaces": {"<-": "@owner.interfaces.filter{enabled && type == 'ETHER'}.sorted{id}.map{id}"}
             }
         },
         "systemInfo": {
@@ -22,22 +25,34 @@
                 "element": {"#": "cpuUsage"}
             }
         },
-        "interfaceRepetition": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "interfaceRepetition"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.interfaces"}
-            }
-        },
-        "interfaceTraffic": {
+        "interfaceTraffic0": {
             "prototype": "../widgets/network-traffic.reel",
             "properties": {
-                "element": {"#": "interfaceTraffic"}
+                "element": {"#": "interfaceTraffic0"}
             },
             "bindings": {
-                "card": {"<-": "@interfaceRepetition:iteration.object.id"}
+                "card": {"<-": "@owner.enabledInterfaces.0"},
+                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.0"}
+            }
+        },
+        "interfaceTraffic1": {
+            "prototype": "../widgets/network-traffic.reel",
+            "properties": {
+                "element": {"#": "interfaceTraffic1"}
+            },
+            "bindings": {
+                "card": {"<-": "@owner.enabledInterfaces.1"},
+                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.1"}
+            }
+        },
+        "interfaceTraffic2": {
+            "prototype": "../widgets/network-traffic.reel",
+            "properties": {
+                "element": {"#": "interfaceTraffic2"}
+            },
+            "bindings": {
+                "card": {"<-": "@owner.enabledInterfaces.2"},
+                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.2"}
             }
         },
         "memoryAllocation": {
@@ -62,9 +77,9 @@
             <div class="Dashboard-widgets">
                 <div data-montage-id="systemInfo" class="Dashboard-widget"></div>
                 <div data-montage-id="cpuUsage" class="Dashboard-widget"></div>
-                <div data-montage-id="interfaceRepetition">
-                    <div data-montage-id="interfaceTraffic" class="Dashboard-widget"></div>
-                </div>
+                <div data-montage-id="interfaceTraffic0" class="Dashboard-widget"></div>
+                <div data-montage-id="interfaceTraffic1" class="Dashboard-widget"></div>
+                <div data-montage-id="interfaceTraffic2" class="Dashboard-widget"></div>
                 <div data-montage-id="memoryAllocation" class="Dashboard-widget"></div>
             </div>
         </div>
