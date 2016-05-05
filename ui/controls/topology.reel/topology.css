@@ -1,20 +1,14 @@
-.Topology {
-    flex: 1;
+.Topology {}
+
+/*.Topology-splitRow {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
 }
 
-.Topology-row {
-    display: flex;
-    flex-basis: 20rem;
-    flex-grow: 0;
-}
+.Topology-splitRow > * {
+    width: 100%;
+}*/
 
-.Topology-data {
-    flex: 1;
-    min-width: 100%;
-}
+.Topology-data {}
 
 .Topology .Inspector-body {
     margin: 0;
@@ -26,29 +20,13 @@
 }
 
 @-webkit-keyframes blink {
-    0% {
-        border-color: rgba(43,156,216,0.1);
-    }
-
-    50% {
-        border-color: rgba(43,156,216,0.5);
-    }
-
-    100% {
-        border-color: rgba(43,156,216,0.1);
-    }
+    0%      { border-color: rgba(43,156,216,0.1); }
+    50%     { border-color: rgba(43,156,216,0.5); }
+    100%    { border-color: rgba(43,156,216,0.1); }
 }
 
 @keyframes blink {
-    0% {
-        border-color: rgba(43,156,216,0.1);
-    }
-
-    50% {
-        border-color: rgba(43,156,216,0.5);
-    }
-
-    100% {
-        border-color: rgba(43,156,216,0.1);
-    }
+    0%      { border-color: rgba(43,156,216,0.1); }
+    50%     { border-color: rgba(43,156,216,0.5); }
+    100%    { border-color: rgba(43,156,216,0.1); }
 }

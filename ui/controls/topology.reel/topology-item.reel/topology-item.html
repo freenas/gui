@@ -18,7 +18,8 @@
                 "paritySize": {"<-": "@owner.vdevs.map{_paritySize}.sum()"},
                 "usedSize": {"<-": "@owner.vdevs.map{_usedSize}.sum()"},
                 "usableSize": {"<-": "@owner.availableSize + @owner.usedSize"},
-                "totalSize": {"<-": "@owner.usableSize + @owner.paritySize"}
+                "totalSize": {"<-": "@owner.usableSize + @owner.paritySize"},
+                "classList.has('has-items')": {"<-": "@controller.content.length > 0"}
             }
         },
         "bytesConverter": {
@@ -67,7 +68,6 @@
                 "icon": "ui/controls/topology.reel/vdev.reel"
             }
         },
-
         "dropZone": {
             "prototype": "../topology-dropzone.reel",
             "properties": {
@@ -78,7 +78,6 @@
                 "identifier": {"<-": "@owner.gridIdentifier"}
             }
         },
-
         "scrollview": {
             "prototype": "blue-shark/ui/scrollview.reel",
             "properties": {
@@ -92,21 +91,23 @@
 <body>
     <div data-montage-id="owner" class="TopologyItem">
         <div class="TopologyItem-title">
-            <span data-montage-id="name"></span>
-            <span class="TopologyItemTitle-size">
-                <span data-montage-id="usableSize"></span>
-            </span>
-            <div data-montage-id="allocationBar" class="TopologyItemTitle-allocation">
-                <div data-montage-id="parityBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-parity" title="Parity"></div>
-                <div data-montage-id="usedBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-used" title="Used"></div>
-                <div data-montage-id="availableBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-available" title="Available"></div>
+            <div>
+                <span data-montage-id="name"></span>
+                <span class="TopologyItemTitle-size">
+                    <span data-montage-id="usableSize"></span>
+                </span>
+                <div data-montage-id="allocationBar" class="TopologyItemTitle-allocation">
+                    <div data-montage-id="parityBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-parity" title="Parity"></div>
+                    <div data-montage-id="usedBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-used" title="Used"></div>
+                    <div data-montage-id="availableBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-available" title="Available"></div>
+                </div>
             </div>
+            <div data-montage-id="drop-zone" class="TopologyItem-dropZone"></div>
         </div>
         <div class="TopologyItem-grid">
-            <div data-montage-id="scrollview">
-                <div>
-                    <div data-montage-id="drop-zone" class="TopologyItem-dropZone"></div>
-                    <div data-montage-id="vdevsGrid" class="TopologyItem-vdevsGrid"></div>
+            <div class="TopologyItem-vdevsGrid">
+                <div data-montage-id="scrollview">
+                    <div data-montage-id="vdevsGrid"></div>
                 </div>
             </div>
         </div>

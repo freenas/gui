@@ -18,6 +18,11 @@
     max-height: 3.5em;
 }
 
+.Vdev .LabeledIcon-title {
+    /* overrides mreoving the container icon label */
+    display: block !important;
+}
+
 .Vdev.willAcceptDrop {
     -webkit-animation-direction: normal;
     -webkit-animation-duration: 1s;
@@ -38,7 +43,9 @@
 }
 
 .Vdev-grid {
+    display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     background:rgba(0,0,0,.15);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -115,7 +122,6 @@
     border-left:    6px solid transparent;
     border-right:   6px solid transparent;
     border-top:     6px solid #929e9f;
-
 }
 
 .VdevTitle-type span.has-options + .VdevTitle-arrow {
@@ -126,8 +132,8 @@
     display: none;
     position: absolute;
     left: 0;
-    background: #232629;
-    /*padding: .75em 1em;*/
+    background: #E0E5E5;
+    color: #16171A;
     margin-left: 1em;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -149,6 +155,6 @@
 }
 
 .VdevTypes-type:hover {
-    color: #fff;
-    background: rgba(255,255,255,.1);
+    /*color: #fff;*/
+    background: rgba(0,0,0,.1);
 }

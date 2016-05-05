@@ -1,42 +1,48 @@
 .AvailableDisks {
     position: relative;
-    flex: 1;
-    padding: 0 1em;
-    background-color: #2F3233;
-    overflow: hidden;
-    border-left: 2px solid #232629;
+    /*padding: 0 1em;*/
+
 }
 
 .AvailableDisks-title {
     line-height: 2em;
     padding: .5em 1em;
-    padding-left: 1.5em;
     font-weight: 400;
     background: #232629;
     overflow: hidden;
-    margin: 0 -1em;
 }
 
-.AvailableDisks .FoldableSection:first-child {
-    margin-top: 0;
+/* edits to remove offsets for lack of padding*/
+
+.AvailableDisks .FoldableSection {
+    margin: 0;
+    padding: 0;
 }
 
-.AvailableDisks-category.is-hidden {
-    display: none;
+.AvailableDisks .FoldableSection-expand {
+    padding-left:  1em;
 }
 
-.AvailableDisks .Inspector-body {
-    margin-top: 0;
+.AvailableDisks .FoldableSection-expand svg {
+    right: 1em;
 }
 
-.AvailableDisks-category:first-child .FoldableSection {
-    margin-top: 0;
+
+.AvailableDisks .FoldableSection-contentContainer {
+    padding: .5em;
 }
+
+
+.AvailableDisks-category.is-hidden { display: none; }
+
+.AvailableDisks .Inspector-body                         { margin-top: 0; }
+.AvailableDisks .FoldableSection:first-child            { margin-top: 0; }
+.AvailableDisks-category:first-child .FoldableSection   { margin-top: 0; }
 
 /* $fix - Edits to disk icon size - same code as topology */
 
 .AvailableDisks .Grid-icon {
-    width: auto;
+    width:  auto;
     height: auto;
     margin-bottom: 0;
 }

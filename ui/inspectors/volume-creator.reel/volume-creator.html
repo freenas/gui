@@ -47,14 +47,6 @@
             }
         },
 
-        "scrollView": {
-            "prototype": "blue-shark/ui/scrollview.reel",
-            "properties": {
-                "element": {"#": "scrollView"},
-                "overflow": "scrollY"
-            }
-        },
-
         "topology": {
             "prototype": "ui/controls/topology.reel",
             "properties": {
@@ -86,13 +78,11 @@
                     <div data-montage-id="name"></div>
                 </div>
                 <div data-montage-id="topologizer"></div>
-                <div class="VolumeCreator-Topology">
-                    <div data-montage-id="scrollView">
-                        <div data-montage-id="topology"></div>
-                    </div>
-                </div>
+                <div data-montage-id="topology" class="VolumeCreator-Topology"></div>
             </div>
-            <div data-montage-id="availableDisks"></div>
+        </div>
+        <div class="VolumeCreator-sidebar">
+            <div data-montage-id="availableDisks" class="VolumeCreator-availableDisks"></div>
         </div>
     </div>
 </body>
