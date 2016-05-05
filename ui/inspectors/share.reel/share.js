@@ -57,7 +57,15 @@ exports.Share = Component.specialize({
                 if (targetPath) {
                     self._targetPath = targetPath;
                     self.getPathNode(targetPath).then(function(node) {
-                        node.isDataset = self._isPathADataset(targetPath);
+                        if (node) {
+                            node.isDataset = self._isPathADataset(targetPath);
+                        } else {
+                            node = {
+                                name: self._filesystemService.dirname(targetPath),
+                                path: targetPath,
+                                isDataset: true
+                            };
+                        }
                         self.targetPathNode = node;
                     });
                 }
@@ -78,7 +86,28 @@ exports.Share = Component.specialize({
             if (this._targetPathNode != targetPathNode) {
                 this._targetPathNode = targetPathNode;
                 if (targetPathNode && targetPathNode.path) {
+                    if (!this._targetType) {
+                        this.targetType = this.object.target_type || targetPathNode.isDataset ? 'DATASET' : 'DIRECTORY';
+                    }
                     this.listChildren();
+                }
+            }
+        }
+    },
+
+    _targetType: {
+        value: null
+    },
+
+    targetType: {
+        get: function() {
+            return this._targetType;
+        },
+        set: function(targetType) {
+            if (this._targetType != targetType) {
+                this._targetType = targetType;
+                if (targetType == 'DATASET' && !this._targetPathNode.isDataset) {
+                    this._targetPath = this.datasetToPathConverter.convert(this.object.volume.id)
                 }
             }
         }
@@ -161,6 +190,7 @@ exports.Share = Component.specialize({
                             this.targetPath = this.datasetToPathConverter.convert(object.target_path ? object.target_path : object.volume.id);
                         }
                     }
+                    this.targetType = object.target_type;
                 }
                 this._object = object
             }
@@ -200,10 +230,9 @@ exports.Share = Component.specialize({
             var self = this;
 
             this._setTargetPathOnObject();
+            this.object.target_type = this._targetType;
 
-            return this._addTargetTypeToObject().then(function () {
-                return self.application.dataService.saveDataObject(self.object);
-            }).then(function() {
+            return self.application.dataService.saveDataObject(self.object).then(function() {
                 self.isServiceStarted = true;
             });
         }
@@ -212,8 +241,8 @@ exports.Share = Component.specialize({
     _setTargetPathOnObject: {
         value: function() {
             var path = this._targetPath;
-            if (this.targetPathNode.isDataset) {
-                path = this.datasetToPathConverter.revert(path);
+            if (this._targetType == 'DATASET') {
+                path = this.datasetToPathConverter.revert(path + '/' + this.object.name);
             }
             this.object.target_path = path;
         }
@@ -288,7 +317,13 @@ exports.Share = Component.specialize({
 
     getPathNode: {
         value: function(path) {
-            return this._filesystemService.stat(path);
+            return this._filesystemService.stat(path).then(function(stat) {
+                return stat;
+            }, function() {
+                return {
+                    path: path
+                };
+            });
         }
     },
 
@@ -301,11 +336,11 @@ exports.Share = Component.specialize({
     listChildren: {
         value: function() {
             var self = this;
-            return this._filesystemService.listDir(this._targetPathNode.path).then(function(children) {
+            return this._filesystemService.listDir(this._targetPath).then(function(children) {
                 self.folders = children.filter(function(x) {
                     return x.type === 'DIRECTORY'
                 }).map(function(x) {
-                    x.isDataset = self._isPathADataset(self._filesystemService.join(self._targetPathNode.path, x.name));
+                    x.isDataset = self._isPathADataset(self._filesystemService.join(self._targetPath, x.name));
                     return x;
                 });
             });

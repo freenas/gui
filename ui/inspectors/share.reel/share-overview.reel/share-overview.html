@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "iconSubstitution": {
             "prototype": "montage/ui/substitution.reel",
@@ -50,7 +56,45 @@
                 "element": {"#": "targetType"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.target_type"}
+                "value": {"<->": "@owner.targetType"},
+                "classList.has('has-options')": {"<-": "@owner.object._isNewObject"}
+            }
+        },
+        "displayPossibleTargetTypes": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "displayPossibleTargetTypes"}
+            }
+        },
+        "possibleTargetTypes": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "possibleTargetTypes"},
+                "content": [
+                    "DATASET",
+                    "DIRECTORY"
+                ]
+            },
+            "bindings": {
+                "classList.has('is-shown')": {"<-": "@owner.object._isNewObject && @owner.showTargetTypes"}
+            }
+        },
+        "possibleTargetTypeButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "possibleTargetTypeButton"}
+            },
+            "bindings": {
+                "value": {"<-": "@possibleTargetTypes:iteration.object"}
+            }
+        },
+        "possibleTargetType": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "possibleTargetType"}
+            },
+            "bindings": {
+                "value": {"<-": "@possibleTargetTypes:iteration.object"}
             }
         },
         "enabled": {
@@ -64,6 +108,8 @@
         }
     }
     </script>
+<!--
+-->
 </head>
 <body>
     <div data-montage-id="owner" class="ShareOverview">
@@ -72,7 +118,21 @@
                 <div data-montage-id="datasetIcon" data-arg="DATASET" class="ShareOverview-icon"></div>
                 <div data-montage-id="directoryIcon" data-arg="DIRECTORY" class="ShareOverview-icon"></div>
             </div>
+            <div data-montage-id="displayPossibleTargetTypes" class="Target-title">
+                <div class="TargetTitle-type">
+                    <span data-montage-id="targetType"></span>
+                    <div class="TargetTitle-arrow"></div>
+                </div>
+                <div data-montage-id="possibleTargetTypes" class="Target-types">
+                    <a data-montage-id="possibleTargetTypeButton">
+                        <div data-montage-id="possibleTargetType" class="TargetTypes-type"></div>
+                    </a>
+                </div>
+
+            </div>
+<!--
             <div data-montage-id="targetType"></div>
+-->
         </div>
         <div class="ShareOverview-info">
             <p data-montage-id="shareType" class="ShareOverview-title"></p>

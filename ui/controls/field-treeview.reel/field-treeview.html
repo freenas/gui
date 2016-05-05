@@ -32,7 +32,8 @@
                 "element": {"#": "pathButton"}
             },
             "bindings": {
-                "label": {"<-": "@owner.parentPath"}
+                "label": {"<-": "@owner.parentPath + '/' + @owner.suffix"},
+                "enabled": {"<-": "!@owner.readOnly"}
             }
         },
         "treeview": {
@@ -46,7 +47,8 @@
                 "parentPath": {"<->": "@owner.parentPath"},
                 "children": {"<-": "@owner.children"},
                 "originalValue": {"<-": "@owner.originalValue"},
-                "close": {"<->": "@owner.close"}
+                "close": {"<->": "@owner.close"},
+                "suffix": {"<-": "@owner.suffix"}
             }
         }
     }

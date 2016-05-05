@@ -21,10 +21,11 @@
         "currentPath": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "currentPath"}
+                "element": {"#": "currentPath"},
+                "enabled": false
             },
             "bindings": {
-                "value": {"<-": "@owner.parent.path"}
+                "value": {"<-": "@owner.parent.path + '/' + @owner.suffix"}
             }
         },
         "currentNode": {

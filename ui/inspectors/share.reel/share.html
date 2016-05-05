@@ -53,7 +53,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"},
-                "targetType": {"<-": "@owner.targetPathNode.type == 'DIRECTORY' ? (@owner.targetPathNode.isDataset ? 'DATASET' : 'DIRECTORY') : 'NOT_A_DIRECTORY'"}
+                "targetType": {"<->": "@owner.targetType"}
             }
         },
         "name": {
@@ -79,14 +79,16 @@
         "target": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
-                "element": {"#": "target"},
-                "label": "Target"
+                "element": {"#": "target"}
             },
             "bindings": {
                 "root": {"<-": "'/mnt/' + @owner.object.volume.id"},
-                "parent": {"<->": "@owner.targetPathNode"},
+                "parent": {"<-": "@owner.targetPathNode"},
                 "parentPath": {"<->": "@owner.targetPath"},
-                "children": {"<-": "@owner.object.target_type.defined() ? (@owner.object.target_type == 'DATASET' ? @owner.datasetChildren : @owner.directoryChildren) : @owner.folders"}
+                "children": {"<-": "@owner.targetType == 'DATASET' ? @owner.datasetChildren : @owner.folders"},
+                "label": {"<-": "@owner.targetType != 'DATASET' ? 'Target' : 'Create target'"},
+                "readOnly": {"<-": "!@owner.object._isNewObject && @owner.targetType == 'DATASET'"},
+                "suffix": {"<-": "@owner.targetType == 'DATASET' ? @name.value || '' : ''"}
             }
         },
         "substitution": {
