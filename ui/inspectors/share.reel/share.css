@@ -1,4 +1,6 @@
-.Share {}
+.Share {
+    min-width: 20em;
+}
 
 .Share-globalToggle {
     display: flex;
