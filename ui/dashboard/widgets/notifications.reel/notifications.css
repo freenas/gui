@@ -21,7 +21,7 @@
 .Notifications-body {
     position: relative;
     z-index: 1;
-    height: 12em;
+    height: 10em;
     overflow: hidden;
     background-color: #242628;
     border-bottom-right-radius: 2px;

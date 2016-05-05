@@ -1,5 +1,5 @@
 .Configuration {
-    flex: 1;
+    min-width: 26em;
 }
 
 .Configuration .ScrollviewContent {
@@ -7,9 +7,7 @@
 }
 
 .Configuration table {
-    /*background-color: #B0BBBD;*/
     margin-bottom: 0;
-    /*color: #16171A;*/
 }
 
 .Configuration th {

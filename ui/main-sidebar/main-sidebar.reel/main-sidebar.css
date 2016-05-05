@@ -1,7 +1,7 @@
 .MainSidebar {
     display: flex;
     flex-direction: column;
-    border-right: 1px solid rgba(0,0,0,.05);
+    border-right: 2px solid #0F1213;
     background-color: rgba(43, 156, 216, 1);
     background-size: 310px 195px;
     background-image: url(../../../assets/images/bg.png);
@@ -29,8 +29,8 @@
 
 @media (min-height: 40em) {
     .MainSidebar-freenasLogo {
-        height:  9em;
-        background-size: calc(100% - 4em);
+        height:  6em;
+        background-size: calc(100% - 3em);
         background-image: url(../../../assets/images/logo-stacked.png);
     }
 }

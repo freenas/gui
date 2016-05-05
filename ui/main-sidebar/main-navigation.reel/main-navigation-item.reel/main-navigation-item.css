@@ -3,32 +3,12 @@
     align-items: center;
     justify-content: center;
     flex: 1;
-    max-height: 3em;
-    min-height: 2em;
     position: relative;
     letter-spacing: .5px;
     color: rgba(255,255,255,.75);
     cursor: pointer;
+    font-size: .8em;
 }
-
-/* $fix - possible selection transition */
-
-/*.MainNavigationItem:before {
-    content: '';
-    position: absolute;
-    width:  100%;
-    height: 100%;
-    top:  0;
-    left: 0;
-    background: #2B9CD8;
-    z-index: -1;
-    transform: translateX(-100%);
-    transition: transform .2s ease-out;
-}
-
-.MainNavigationItem.selected:before {
-    transform: translateX(0);
-}*/
 
 .MainNavigationItem:hover {
     color: rgba(255,255,255, 1);
@@ -43,6 +23,8 @@
 
 @media (min-height: 40em) {
     .MainNavigationItem {
-        font-size: 1.2em;
+        flex: 0;
+        height: 3em;
+        font-size: 1em;
     }
 }
