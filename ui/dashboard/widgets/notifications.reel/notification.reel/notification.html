@@ -21,10 +21,10 @@
                 "classList.has('success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
         },
-        "modelType": {
+        "modelId": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "modelType"}
+                "element": {"#": "modelId"}
             },
             "bindings": {
                 "value": {"<-": "@owner.summary"},
@@ -102,9 +102,9 @@
         <div class="Notification-body">
             <div class="Notification-overview">
                 <div>
-                    <div data-montage-id="modelType"></div>
                     <div data-montage-id="service" class="Notification-service"></div>
                     <div data-montage-id="state"></div>
+                    <div data-montage-id="modelId"></div>
                 </div>
                 <div>
                     <div data-montage-id="timestamp" class="Notification-time"></div>

@@ -210,7 +210,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         args: [taskName, [object.id]]
                     }
                 ).then(function (response) {
-                    return self.notificationCenter.startTrackingTaskWithTaskAndJobId(taskName, response.data);
+                    return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
                 });
             }
 
@@ -251,7 +251,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                             args: [taskName, isUpdate && !modelHasNoId ? [object.id, rawData] : [rawData]]
                         }
                     ).then(function (response) {
-                        return self.notificationCenter.startTrackingTaskWithTaskAndJobId(taskName, response.data);
+                        return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
                     });
                 } else {
                     return Promise.reject(new Error(

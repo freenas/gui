@@ -24,26 +24,25 @@ exports.Notification = Component.specialize(/** @lends Notification# */ {
 
                     if (data && data.length) {
                         var self = this,
-                            entity = data[0],
-                            modelType = this.object.modelType;
+                            entity = data[0];
 
                         this.application.delegate.getUserInterfaceDescriptorForType(object.modelType).then(function (UIDescriptor) {
                             var nameExpression = UIDescriptor.nameExpression,
                                 typeOfEntity = typeof entity,
-                                summary = modelType;
+                                summary;
 
                             if (nameExpression && entity && typeOfEntity === "object") {
                                 var expressionValue = Evaluate(nameExpression, entity);
 
                                 if ((expressionValue === void 0 || expressionValue === null)) {
                                     if (entity.id !== void 0 && entity.id !== null) {
-                                        summary += ": " + entity.id;
+                                        summary = entity.id;
                                     }
                                 } else {
-                                    summary += ": " + expressionValue;
+                                    summary = expressionValue;
                                 }
                             } else if (typeOfEntity === "string") {
-                                summary += ": " + entity;
+                                summary =  entity;
                             }
 
                             self.summary = summary;
@@ -68,12 +67,6 @@ exports.Notification = Component.specialize(/** @lends Notification# */ {
 
     summary: {
         value: null
-    },
-
-    enterDocument: {
-        value: function () {
-            var objectTypeLowerCase = this.object.type.toLowerCase();
-        }
     },
 
     infoExpanded: {
