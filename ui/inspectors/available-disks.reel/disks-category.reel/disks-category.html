@@ -31,7 +31,7 @@
             "properties": {
                 "element": {"#": "grid"},
                 "controller": {"@": "controller"},
-                "labelPath": "status.gdisk_name",
+                "labelPath": "path.replace('/dev/', '')",
                 "itemDraggable": "true"
             },
             "bindings": {
@@ -45,7 +45,7 @@
 <body>
     <div data-montage-id="owner" class="AvailableDisksCategory">
         <div data-montage-id="section">
-            <div data-montage-id="grid"></div>
+            <div data-montage-id="grid" class="AvailableDisksCategory-grid"></div>
         </div>
     </div>
 </body>

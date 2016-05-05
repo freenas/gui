@@ -104,7 +104,7 @@ exports.TopologyService = Montage.specialize({
         value: function(disk) {
             var vdev = this._dataService.getDataObject(Model.ZfsVdev);
             disk.volume = '/TEMP/';
-            vdev.path = disk.status.gdisk_name;
+            vdev.path = disk.path;
             vdev._disk = disk;
             return vdev;
         }

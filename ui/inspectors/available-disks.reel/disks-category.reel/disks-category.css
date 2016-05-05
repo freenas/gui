@@ -10,6 +10,9 @@
     border: 1px dashed transparent;
 }
 
+.AvailableDisksCategory-grid {
+    min-height: 85px;
+}
 
 .AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before {
     -webkit-animation-direction: normal;

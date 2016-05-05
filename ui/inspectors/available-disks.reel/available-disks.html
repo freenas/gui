@@ -26,7 +26,7 @@
             },
             "bindings": {
                 "disks": {"<-": "@owner.hdds"},
-                "classList.has('is-hidden')": {"<-": "@owner.hdds.length == 0"}
+                "classList.has('is-hidden')": {"<-": "@owner.disks.filter{!status.is_ssd}.length == 0"}
             }
         },
         "ssdsCategory": {
@@ -39,7 +39,7 @@
             },
             "bindings": {
                 "disks": {"<-": "@owner.ssds"},
-                "classList.has('is-hidden')": {"<-": "@owner.ssds.length == 0"}
+                "classList.has('is-hidden')": {"<-": "@owner.disks.filter{status.is_ssd}.length == 0"}
             }
         }
     }

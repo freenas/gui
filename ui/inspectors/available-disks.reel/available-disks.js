@@ -65,9 +65,7 @@ exports.AvailableDisks = Component.specialize( {
             return volumeDisksPromise.then(function(volumeDisks) {
                 delete self._volumeDisksPromises[volume.id];
                 volume.assignedDisks = volumeDisks;
-                if (volumeDisks.indexOf('/dev/' + disk.status.gdisk_name) != -1) {
-                    disk.volume = volume;
-                }
+                if (volumeDisks.indexOf(disk.path) != -1) { disk.volume = volume; }
             });
         }
     }
