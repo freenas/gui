@@ -17,12 +17,24 @@ exports.Viewer = Component.specialize({
             if (this._object !== object) {
                 this._object = object;
 
+                //fixme: workaround for a range controller with a sort path. There is a issue
+                // for objects within a collection that doesn't have the property used for sorting.
+                // ex: sortingKey = "name"; object1: { name: 'foo'}, object2: {username: 'bar'}
+                // -> https://bugs.freenas.org/issues/15124
+                if (this.sortingKey) {
+                    this.sortingKey = null;
+                }
+
                 if (object) {
                     var self = this;
 
                     this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
                         self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
-                        self.sortingKey = UIDescriptor.nameExpression;
+
+                        if (UIDescriptor.nameExpression) {
+                            self.sortingKey = UIDescriptor.nameExpression;
+                        }
+
                     }).catch(function (error) {
                         console.warn(error);
                     });
