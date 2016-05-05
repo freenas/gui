@@ -1,5 +1,5 @@
 .ScrollviewFooterWrapper .InspectorFooter {
-    box-shadow: 0 -2px 6px rgba(0,0,0,.3);
+    background: #242628;
 }
 
 .InspectorFooter {
@@ -7,32 +7,28 @@
     padding: 1em;
     display: none;
     flex-shrink: 0;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin: 0 -.5em;
-    background: #242628;
+    border-top: 1px solid rgba(255,255,255,.2);
 }
 
-.InspectorFooter > * {
-    flex: .00001;
+.InspectorFooter-right {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
 }
-/* $fix - important classes can be removed after updating blue-shark */
 
-.InspectorFooter > .blueShark-Button {
-    visibility: hidden;
-    opacity: 0;
-    min-width: 0;
-    padding: 0;
-    margin-left:  0 !important;
-    margin-right: 0 !important;
+.InspectorFooter .blueShark-Button {
+    display: none;
     overflow: hidden;
-    transition: all .5s ease-in-out;
+    max-width: 8em;
 }
+
 .InspectorFooter-delete.blueShark-Button {
     color: rgb(200, 70, 70);
     background: rgba(150, 36, 36,.1);
     border: 1px solid rgb(150, 36, 36);
     box-shadow: none;
-    max-width: 8em;
 }
 
 .InspectorFooter-delete.blueShark-Button:hover {
@@ -49,10 +45,7 @@
 .InspectorFooter-delete.is-visible,
 .InspectorFooter-revert.is-visible,
 .InspectorFooter-save.is-visible {
-    flex: 1;
-    visibility: visible;
-    opacity: 1;
-    margin-left: .5em !important;
-    margin-right: .5em !important;
+    display: block;
+    margin-left:  .5em !important;
 }
 
