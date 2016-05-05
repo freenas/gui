@@ -22,11 +22,22 @@
                 "element": {"#": "cpuUsage"}
             }
         },
-        "networkTrafficEm0": {
+        "interfaceRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "interfaceRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.interfaces"}
+            }
+        },
+        "interfaceTraffic": {
             "prototype": "../widgets/network-traffic.reel",
             "properties": {
-                "element": {"#": "networkTrafficEm0"},
-                "card": "em0"
+                "element": {"#": "interfaceTraffic"}
+            },
+            "bindings": {
+                "card": {"<-": "@interfaceRepetition:iteration.object.id"}
             }
         },
         "memoryAllocation": {
@@ -51,7 +62,9 @@
             <div class="Dashboard-widgets">
                 <div data-montage-id="systemInfo" class="Dashboard-widget"></div>
                 <div data-montage-id="cpuUsage" class="Dashboard-widget"></div>
-                <div data-montage-id="networkTrafficEm0" class="Dashboard-widget"></div>
+                <div data-montage-id="interfaceRepetition">
+                    <div data-montage-id="interfaceTraffic" class="Dashboard-widget"></div>
+                </div>
                 <div data-montage-id="memoryAllocation" class="Dashboard-widget"></div>
             </div>
         </div>
