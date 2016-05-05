@@ -85,6 +85,9 @@
             "properties": {
                 "element": {"#": "deleteButton"},
                 "vDevComponent": {"@": "owner"}
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.canRemove"}
             }
         }
     }

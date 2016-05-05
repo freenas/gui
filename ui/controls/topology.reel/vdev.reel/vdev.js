@@ -126,6 +126,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             this._defineVDevContext();
             this._cancelRangeAtPathChangeListener = this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
             this._hasUserDefinedType = false;
+            this.canRemove = !(this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA && !this.isNewVDev);
         }
     },
 

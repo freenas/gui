@@ -167,7 +167,7 @@ var Topology = exports.Topology = Component.specialize({
         value: function (event) {
             var vDevComponent = event.target.vDevComponent;
 
-            if (vDevComponent) {
+            if (vDevComponent && vDevComponent.canRemove) {
                 var collection = this._findTopologyCollectionWithIdentifier(vDevComponent.gridIdentifier),
                     vDev = vDevComponent.object,
                     index;
