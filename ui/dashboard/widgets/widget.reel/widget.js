@@ -5,6 +5,22 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Widget = Component.specialize({
+    _source: {
+        value: null
+    },
+
+    source: {
+        get: function() {
+            return this._source;
+        },
+        set: function(source) {
+            if (this._source != source) {
+                this._source = source;
+                this._initializeData();
+            }
+        }
+    },
+
     _statisticsService: {
         value: null
     },
@@ -17,9 +33,7 @@ exports.Widget = Component.specialize({
 
     enterDocument: {
         value: function () {
-            this._eventToSerie = {};
-            this._subscribedUpdates = [];
-            this._fetchStatistics();
+            this._initializeData();
         }
     },
 
@@ -38,6 +52,14 @@ exports.Widget = Component.specialize({
                 return this.parentComponent.transformValue(value);
             }
             return value;
+        }
+    },
+
+    _initializeData: {
+        value: function() {
+            this._eventToSerie = {};
+            this._subscribedUpdates = [];
+            this._fetchStatistics();
         }
     },
 

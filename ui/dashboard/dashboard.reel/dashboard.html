@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "enabledInterfaces": {"<-": "@owner.interfaces.filter{enabled && type == 'ETHER'}.sorted{id}.map{id}"}
+                "enabledInterfaces": {"<-": "@owner.interfaces.filter{type == 'ETHER' && enabled}.sorted{id}"}
             }
         },
         "systemInfo": {
@@ -31,8 +31,8 @@
                 "element": {"#": "interfaceTraffic0"}
             },
             "bindings": {
-                "card": {"<-": "@owner.enabledInterfaces.0"},
-                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.0"}
+                "card": {"<-": "@owner.enabledInterfaces.0.id"},
+                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.0 || !@owner.enabledInterfaces.0.enabled"}
             }
         },
         "interfaceTraffic1": {
@@ -41,8 +41,8 @@
                 "element": {"#": "interfaceTraffic1"}
             },
             "bindings": {
-                "card": {"<-": "@owner.enabledInterfaces.1"},
-                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.1"}
+                "card": {"<-": "@owner.enabledInterfaces.1.id"},
+                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.1 || !@owner.enabledInterfaces.1.enabled"}
             }
         },
         "interfaceTraffic2": {
@@ -51,8 +51,8 @@
                 "element": {"#": "interfaceTraffic2"}
             },
             "bindings": {
-                "card": {"<-": "@owner.enabledInterfaces.2"},
-                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.2"}
+                "card": {"<-": "@owner.enabledInterfaces.2.id"},
+                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.2 || !@owner.enabledInterfaces.2.enabled"}
             }
         },
         "memoryAllocation": {
