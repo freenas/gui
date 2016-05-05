@@ -106,7 +106,7 @@ exports.Share = Component.specialize({
         set: function(targetType) {
             if (this._targetType != targetType) {
                 this._targetType = targetType;
-                if (targetType == 'DATASET' && !this._targetPathNode.isDataset) {
+                if (targetType == 'DATASET' && this._targetPathNode && !this._targetPathNode.isDataset) {
                     this._targetPath = this.datasetToPathConverter.convert(this.object.volume.id)
                 }
             }
