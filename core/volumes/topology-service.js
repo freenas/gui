@@ -178,6 +178,7 @@ exports.TopologyService = Montage.specialize({
                 disksGroups = this._getDisksGroups(disks),
                 dataDisks = disksGroups.shift();
 
+            disks.map(function(x) { x.volume = null; });
             if (dataDisks.length > 3) {
                 vdevRecommendation = this._getVdevRecommendation(redundancy, speed, storage);
             } else if (dataDisks.length > 2) {
