@@ -82,6 +82,17 @@
             "properties": {
                 "element": {"#": "volumeIcon"}
             }
+        },
+        "allocationBar": {
+            "prototype": "ui/controls/allocation-bar.reel",
+            "properties": {
+                "element": {"#": "allocationBar"}
+            },
+            "bindings": {
+                "totalSize": {"<-": "20"},
+                "usedSize": {"<-": "6"},
+                "paritySize": {"<-": "6"}
+            }
         }
     }
     </script>
@@ -89,13 +100,13 @@
 <body>
     <div data-montage-id="owner" class="Volume">
         <div class="Volume-header">
-            <div class="Volume-header-icon">
-                <div data-montage-id="volumeIcon"></div>
-            </div>
+            <div data-montage-id="volumeIcon" class="Volume-header-icon"></div>
             <div class="Volume-header-info">
-                <div data-montage-id="size" class="Volume-header-info-size"></div>
+                <div data-montage-id="size" class="Volume-header-diskSize"></div>
+                <small class="flush-bottom">Size</small>q
             </div>
         </div>
+        <div data-montage-id="allocationBar" class="Volume-allocationBar"></div>
         <div data-montage-id="inspector">
             <div data-montage-id="shares"></div>
             <div data-montage-id="snapshots"></div>

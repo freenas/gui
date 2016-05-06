@@ -1,15 +1,15 @@
 .AvailableDisks {
     position: relative;
-    /*padding: 0 1em;*/
-
 }
 
-.AvailableDisks-title {
-    line-height: 2em;
+.AvailableDisks-header {
     padding: .5em 1em;
-    font-weight: 400;
-    background: #232629;
-    overflow: hidden;
+    background: #E0E5E5;
+    color: #16171A;
+}
+
+.AvailableDisks-header p {
+    margin-bottom: 0;
 }
 
 /* edits to remove offsets for lack of padding*/
@@ -19,18 +19,11 @@
     padding: 0;
 }
 
-.AvailableDisks .FoldableSection-expand {
-    padding-left:  1em;
-}
+.AvailableDisks .FoldableSection-expand { padding-left:  1em; }
 
-.AvailableDisks .FoldableSection-expand svg {
-    right: 1em;
-}
+.AvailableDisks .FoldableSection-expand svg { right: 1em; }
 
-
-.AvailableDisks .FoldableSection-contentContainer {
-    padding: .5em;
-}
+.AvailableDisks .FoldableSection-contentContainer { padding: .5em; }
 
 
 .AvailableDisks-category.is-hidden { display: none; }

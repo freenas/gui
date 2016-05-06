@@ -211,6 +211,10 @@ $Icons
     margin-bottom: 1em;
 }
 
+.flush-bottom {
+    margin-bottom: 0;
+}
+
 /* typography  helpers */
 
 .bold {

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="allocation-bar.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "parityBarElement": {"#": "parityBar"},
+                "usedBarElement": {"#": "usedBar"},
+                "availableBarElement": {"#": "availableBar"}
+            }
+        },
+        "parityTitle": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "parityTitle"},
+                "value": "Parity"
+            }
+        },
+        "parityValue": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "parityValue"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.paritySize"}
+            }
+        },
+        "usedTitle": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "usedTitle"},
+                "value": "Used"
+            }
+        },
+        "usedValue": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "usedValue"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.usedSize"}
+            }
+        },
+        "availableTitle": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "availableTitle"},
+                "value": "Available"
+            }
+        },
+        "availableValue": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "availableValue"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.available"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="AllocationBar">
+        <div data-montage-id="parityBar" class="AllocationBar-segement AllocationBar-parity" title="Parity">
+            <div class="AllocationBar-segement-data">
+                <div data-montage-id="parityTitle"></div>
+                <div data-montage-id="parityValue"></div>
+            </div>
+        </div>
+        <div data-montage-id="usedBar" class="AllocationBar-segement AllocationBar-used" title="Used">
+            <div class="AllocationBar-segement-data">
+                <div data-montage-id="usedTitle"></div>
+                <div data-montage-id="usedValue"></div>
+            </div>
+        </div>
+        <div data-montage-id="availableBar" class="AllocationBar-segement AllocationBar-available" title="Available">
+            <div class="AllocationBar-segement-data">
+                <div data-montage-id="availableTitle"></div>
+                <div data-montage-id="availableValue"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

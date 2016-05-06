@@ -7,13 +7,11 @@
     border-left: 1px solid #232629;
 }
 
-/*.TopologyItem.has-items .TopologyItem-vdevsGrid { flex: 1; }*/
-
 .TopologyItem-title {
     position: relative;
-    line-height: 2em;
-    padding: .5em 1em;
-    padding-left: 1.5em;
+    height: 2em;
+    line-height: 1.7em;
+    padding: 0 1em;
     font-weight: 400;
     background: #232629;
     border-top: 2px solid currentColor;
@@ -21,14 +19,12 @@
     display: flex;
 }
 
-.TopologyItem-title div:first-child {
-    flex: 1;
-}
+.TopologyItem-title div:first-child { flex: 1; }
 
 .TopologyItem-title:before {
     content: '';
     position: absolute;
-    left: -1.4em;
+    left: -1.7em;
     top: -1em;
     height: 4em;
     background: currentColor;
@@ -36,18 +32,18 @@
     transform: rotate(17deg);
 }
 
-.TopologyItemTitle-size {
-    float: right;
+.TopologyItemTitle-size { float: right; }
+
+.TopologyItem-allocationBar {
+    display: none;
+    margin: -.25em;
+    margin-bottom: .25em;
+    height: 1.5em;
 }
 
-.TopologyItemTitle-allocation {
+.TopologyItem.has-items .TopologyItem-allocationBar {
     display: flex;
-    height: 5px;
 }
-
-.TopologyItemTitleAllocation-parity     { background-color: #2B9CD8; }
-.TopologyItemTitleAllocation-used       { background-color: #DE9B16; }
-.TopologyItemTitleAllocation-available  { background-color: #40AD40; }
 
 .TopologyItem:nth-child(1) .TopologyItem-title { color: #D75B1B; }
 .TopologyItem:nth-child(2) .TopologyItem-title { color: #CB6614; }
@@ -73,14 +69,14 @@
 }
 
 .TopologyItem-dropZone {
+    visibility: hidden;
+    top: 0;
+    bottom: 0;
+    left:  -1em;
+    right: 0;
+    position: absolute;
     margin-left: 1em;
-    width: 3em;
-}
-
-.TopologyItem-vdevsGrid {
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
+    z-index: 1;
 }
 
 .TopologyItem .Grid-icon {

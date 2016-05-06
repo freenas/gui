@@ -1,10 +1,8 @@
 .TopologyDropZone {
-    position: relative;
+    /*position: relative;*/
     color: rgba(255,255,255,.2);
     border-radius: 4px;
     border: 1px dashed currentColor;
-    /* $fix - can we make the size better here?*/
-    height: 2.5em;
     text-align: center;
     flex-shrink: 0;
 }
@@ -13,19 +11,20 @@
     box-sizing: content-box;
     content: "+";
     position: absolute;
-    font-size: 1.2em;
-    height: 1.4rem;
-    width:  1.4rem;
+    font-size: 1em;
+    height: 1rem;
+    width:  1rem;
     top: 50%;
-    margin-top: -.7rem;
+    margin-top: -.5rem;
     left: 50%;
-    margin-left: -.7rem;
-    line-height: 1.4rem;
-    border-radius: .7rem;
+    margin-left: -.5rem;
+    line-height: .9rem;
+    border-radius: .5rem;
     box-shadow: 0 0 0 1px currentColor;
 }
 
 .TopologyDropZone.willAcceptDrop {
+    visibility: visible;
     background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.25), rgba(43,156,216,0.25) 1px, transparent 1px, transparent 10px);
     background-size: 28px 28px;
     -webkit-animation-direction: normal;
@@ -41,6 +40,7 @@
 }
 
 .TopologyDropZone.acceptDrop {
+    visibility: visible;
     border: 1px dashed rgba(43,156,216,1);
     background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.75), rgba(43,156,216,0.75) 1px, transparent 1px, transparent 10px);
     background-size: 28px 28px;

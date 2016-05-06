@@ -7,19 +7,15 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "allocationBarElement": {"#": "allocationBar"},
-                "parityBarElement": {"#": "parityBar"},
-                "usedBarElement": {"#": "usedBar"},
-                "availableBarElement": {"#": "availableBar"}
+                "element": {"#": "owner"}
             },
             "bindings": {
+                "classList.has('has-items')": {"<-": "@controller.content.length > 0"},
                 "availableSize": {"<-": "@owner.vdevs.map{_availableSize}.sum()"},
                 "paritySize": {"<-": "@owner.vdevs.map{_paritySize}.sum()"},
                 "usedSize": {"<-": "@owner.vdevs.map{_usedSize}.sum()"},
                 "usableSize": {"<-": "@owner.availableSize + @owner.usedSize"},
-                "totalSize": {"<-": "@owner.usableSize + @owner.paritySize"},
-                "classList.has('has-items')": {"<-": "@controller.content.length > 0"}
+                "totalSize": {"<-": "@owner.usableSize + @owner.paritySize"}
             }
         },
         "bytesConverter": {
@@ -45,13 +41,15 @@
             }
         },
         "allocationBar": {
-            "prototype": "montage/ui/component",
+            "prototype": "ui/controls/allocation-bar.reel",
             "properties": {
-                "element": {"#": "allocationBar"},
-                "hasTemplate": false
+                "element": {"#": "allocationBar"}
             },
             "bindings": {
-                "classList.has('is-visible')": {"<-": "@owner.hasAllocationBar"}
+                "classList.has('is-visible')": {"<-": "@owner.hasAllocationBar"},
+                "totalSize": {"<-": "@owner.totalSize"},
+                "usedSize": {"<-": "@owner.usedSize"},
+                "paritySize": {"<-": "@owner.paritySize"}
             }
         },
         "controller": {
@@ -89,15 +87,11 @@
                 <span class="TopologyItemTitle-size">
                     <span data-montage-id="usableSize"></span>
                 </span>
-                <div data-montage-id="allocationBar" class="TopologyItemTitle-allocation">
-                    <div data-montage-id="parityBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-parity" title="Parity"></div>
-                    <div data-montage-id="usedBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-used" title="Used"></div>
-                    <div data-montage-id="availableBar" class="TopologyItemTitleAllocation-type TopologyItemTitleAllocation-available" title="Available"></div>
-                </div>
             </div>
             <div data-montage-id="drop-zone" class="TopologyItem-dropZone"></div>
         </div>
         <div class="TopologyItem-grid">
+            <div data-montage-id="allocationBar" class="TopologyItem-allocationBar"></div>
             <div data-montage-id="vdevsGrid"></div>
         </div>
     </div>
