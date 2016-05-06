@@ -10,10 +10,10 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "unassignedDisks": {"<-": "@owner.disks.filter{!volume && !!status && !isBoot}"},
+                "availableDisks": {"<-": "@owner.disks.filter{(!volume || volume == '/TEMP/') && !!status && !isBoot}"},
+                "unassignedDisks": {"<-": "@owner.availableDisks.filter{!volume}"},
                 "hdds": {"<-": "@owner.unassignedDisks.filter{!this.status.is_ssd}"},
-                "ssds": {"<-": "@owner.unassignedDisks.filter{this.status.is_ssd}"},
-                "classList.has('is-empty')": {"<-": "@owner.unassignedDisks"}
+                "ssds": {"<-": "@owner.unassignedDisks.filter{this.status.is_ssd}"}
             }
         },
         "hddsCategory": {

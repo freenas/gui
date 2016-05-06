@@ -10,8 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "disks": {"<-": "@availableDisks.disks"},
-                "classList.has('has-zeroAvailableDisks')": {"<-": "@availableDisks.disks.length > 0"}
+                "classList.has('has-availableDisks')": {"<-": "@availableDisks.availableDisks.length > 0"}
             }
         },
         "inspector": {

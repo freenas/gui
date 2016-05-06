@@ -11,7 +11,7 @@
                 "topologizer": {"@": "topologizer"}
             },
             "bindings": {
-                "disks": {"<-": "@availableDisks.disks"}
+                "disks": {"<-": "@availableDisks.availableDisks"}
             }
         },
 
@@ -43,7 +43,7 @@
             },
             "bindings": {
                 "topology": {"<-": "@owner.object.topology"},
-                "disks": {"<-": "@availableDisks.disks.filter{!!status}"}
+                "disks": {"<-": "@owner.disks"}
             }
         },
 

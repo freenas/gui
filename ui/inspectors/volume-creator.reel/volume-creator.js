@@ -38,7 +38,11 @@ exports.VolumeCreator = Component.specialize({
                 object.topology.spare = [];
 
                 if (self.disks) {
-                    self.disks.filter(function(x) { return x.volume == '/TEMP/'; }).forEach(function(x) { x.volume = null; });
+                    self.disks.map(function(x) {
+                        if (x.volume == '/TEMP/') {
+                            x.volume = null;
+                        }
+                    });
                 }
                 return object;
             })

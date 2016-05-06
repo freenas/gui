@@ -22,9 +22,17 @@ exports.AvailableDisks = Component.specialize( {
                 volumes;
 
             if (this.disks) {
-                this.disks.forEach(function(x) { x.volume = null; });
+                this.disks.map(function(x) {
+                    if (x.volume == '/TEMP/') {
+                        x.volume = null;
+                    }
+                });
             }
 
+            return this.application.dataService.fetchData(Model.Disk).then(function(disks) {
+                self.disks = disks;
+            });
+/*
             return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                 self._volumeService = Volume.constructor;
                 return self.application.dataService.fetchData(Model.Volume);
@@ -50,6 +58,7 @@ exports.AvailableDisks = Component.specialize( {
                     self.disks = disks.filter(function (x) { return !x.volume });
                 });
             });
+*/
         }
     },
 

@@ -64,21 +64,18 @@ exports.Volumes = Component.specialize({
     _loadDependencies: {
         value: function () {
             var self = this;
-            return Promise.all([
-                this._preloadServices(),
-                this._listShares().then(function (shares) {
-                    self.shares = shares;
-                    return self._listSnapshots();
-                }).then(function (snapshots) {
-                    self.snapshots = snapshots;
-                    return self._listDisks();
-                }).then(function (disks) {
-                    self.disks = disks;
-                    return self._listDatasets();
-                }).then(function (datasets) {
-                    self.datasets = datasets;
-                })
-            ]);
+            return this._listShares().then(function (shares) {
+                self.shares = shares;
+                return self._listSnapshots();
+            }).then(function (snapshots) {
+                self.snapshots = snapshots;
+                return self._listDisks();
+            }).then(function (disks) {
+                self.disks = disks;
+                return self._listDatasets();
+            }).then(function (datasets) {
+                self.datasets = datasets;
+            });
         }
     },
 
@@ -215,10 +212,6 @@ exports.Volumes = Component.specialize({
                             disk.isBoot = disksAllocations[disk._devicePath].type == 'BOOT';
                         }
                     }
-                    self._spareDisks.splice(0, self._spareDisks.length);
-                    Array.prototype.push.apply(self._spareDisks, self.disks.filter(function (x) {
-                        return !x.volume && !x.isBoot;
-                    }));
                 });
             });
         }
@@ -245,17 +238,6 @@ exports.Volumes = Component.specialize({
     _listDisks: {
         value: function() {
             return this._dataService.fetchData(Model.Disk);
-        }
-    },
-
-    _preloadServices: {
-        value: function() {
-/*
-            return this._dataService.fetchData(Model.Service).then(function(services) {
-                return Promise.all(services.map(function(x) { return Promise.resolve(x.config).then(function() { return x; }); }));
-            });
-*/
-            return true;
         }
     },
 
