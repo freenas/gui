@@ -47,7 +47,7 @@
                 "element": {"#": "shares"}
             },
             "bindings": {
-                "object": {"<-": "@owner.shares.length > 0 ? @owner.shares : @owner.emptyShares"}
+                "object": {"<-": "@owner.shares"}
             }
         },
         "snapshots": {
@@ -56,7 +56,7 @@
                 "element": {"#": "snapshots"}
             },
             "bindings": {
-                "object": {"<-": "@owner.snapshots.length > 0 ? @owner.snapshots : @owner.emptySnapshots"}
+                "object": {"<-": "@owner.snapshots"}
             }
         },
         "scrub": {

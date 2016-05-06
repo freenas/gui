@@ -1,19 +1,10 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class Volume
  * @extends Component
  */
 exports.Volume = Component.specialize({
-    emptyShares: {
-        value: null
-    },
-
-    emptySnapshots: {
-        value: null
-    },
-
     _shares: {
         value: null
     },
@@ -47,11 +38,7 @@ exports.Volume = Component.specialize({
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
-            if (isFirstTime) {
-                this.emptyShares = this.application.dataService.getEmptyCollectionForType(Model.Share);
-                this.emptySnapshots = this.application.dataService.getEmptyCollectionForType(Model.VolumeSnapshot);
-            }
+        value: function() {
             //Fixme: hacky, should use some selection object
             this.application.selectedVolume = this.object;
         }
