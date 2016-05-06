@@ -23,6 +23,7 @@
             "prototype": "gui/ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "default"},
+                "label": "test",
                 "currentNode": {
                     "name": "parentNode",
                     "path": "/parentNode"
@@ -35,6 +36,13 @@
                     {"name": "item five", "path": "/parentNode/itemFive"}
                 ]
             }
+        },
+        "text": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "text"},
+                "label": "test"
+            }
         }
     }
     </script>
@@ -45,6 +53,7 @@
         <div data-montage-id="icons"></div>
         <!-- end -->
         <div data-montage-id="default"></div>
+        <div data-montage-id="text"></div>
         <p>test this text</p>
     </div>
 </body>

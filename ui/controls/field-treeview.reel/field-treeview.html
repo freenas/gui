@@ -32,8 +32,16 @@
                 "element": {"#": "pathButton"}
             },
             "bindings": {
-                "label": {"<-": "@owner.parentPath + '/' + @owner.suffix"},
                 "enabled": {"<-": "!@owner.readOnly"}
+            }
+        },
+        "selectedPath": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "selectedPath"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.parentPath + '/' + @owner.suffix"}
             }
         },
         "treeview": {
@@ -58,6 +66,9 @@
     <div data-montage-id="owner" class="FieldTreeview">
         <div data-montage-id="field">
             <div data-montage-id="pathButton" class="FieldTreeview-pathButton">
+                <div class="FieldTreeview-selectedPath">
+                    <span data-montage-id="selectedPath"></span>
+                </div>
                 <svg><use xlink:href="#i-folder"/></svg>
             </div>
         </div>
