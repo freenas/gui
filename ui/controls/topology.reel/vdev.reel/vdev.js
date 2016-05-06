@@ -190,11 +190,11 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                         loop1:
                         for (var i = 0, l = initialDataTopology.length; i < l; i++) {
                             vDev = initialDataTopology[i];
-                            vDevChildren= vDev.children;
+                            vDevChildren = vDev.children;
 
                             if (vDevChildren && vDevChildren.length > 1) {
-                                for (ii = 0, ll  = vDevChildren; ii < ll; ii++) {
-                                    if (vDevChildren[ii] === targetDisk) {
+                                for (ii = 0, ll = vDevChildren.length; ii < ll; ii++) {
+                                    if (vDevChildren[ii].guid === targetDisk.guid) {
                                         response = false;
                                         break loop1;
                                     }
