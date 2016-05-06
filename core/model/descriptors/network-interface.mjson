@@ -23,6 +23,14 @@
       "valueType": "object"
     }
   },
+  "blueprint_networkinterface_created_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "created_at",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
   "blueprint_networkinterface_dhcp": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -122,6 +130,14 @@
       "valueObjectPrototypeName": "NetworkInterfaceType"
     }
   },
+  "blueprint_networkinterface_updated_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "updated_at",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
   "blueprint_networkinterface_vlan": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -138,6 +154,7 @@
         {"@": "blueprint_networkinterface_aliases"},
         {"@": "blueprint_networkinterface_bridge"},
         {"@": "blueprint_networkinterface_capabilities"},
+        {"@": "blueprint_networkinterface_created_at"},
         {"@": "blueprint_networkinterface_dhcp"},
         {"@": "blueprint_networkinterface_enabled"},
         {"@": "blueprint_networkinterface_id"},
@@ -150,6 +167,7 @@
         {"@": "blueprint_networkinterface_rtadv"},
         {"@": "blueprint_networkinterface_status"},
         {"@": "blueprint_networkinterface_type"},
+        {"@": "blueprint_networkinterface_updated_at"},
         {"@": "blueprint_networkinterface_vlan"}
       ]
     }

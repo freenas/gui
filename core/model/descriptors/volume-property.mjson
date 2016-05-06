@@ -4,6 +4,7 @@
     "properties": {
       "name": "rawvalue",
       "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "String"
     }
   },
@@ -12,6 +13,7 @@
     "properties": {
       "name": "source",
       "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "String",
       "enumValues": [
         "NONE",

@@ -1476,6 +1476,16 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getRelatedContainers": {
+                "method": "replication.get_related_containers",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getRelatedShares": {
+                "method": "replication.get_related_shares",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getReservedContainers": {
                 "method": "replication.get_reserved_containers",
                 "name": "call",
@@ -2247,6 +2257,21 @@
     },
     "Stat": {
         "class": {
+            "getDataSources": {
+                "method": "stat.get_data_sources",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getDataSourcesTree": {
+                "method": "stat.get_data_sources_tree",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getStats": {
+                "method": "stat.get_stats",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "normalize": {
                 "method": "stat.normalize",
                 "name": "call",
@@ -2332,11 +2357,9 @@
                 "method": "statd.output.get_data_sources_tree",
                 "name": "call",
                 "namespace": "rpc"
-            }
-        },
-        "instance": {
-            "read": {
-                "method": "statd.output.query",
+            },
+            "getStats": {
+                "method": "statd.output.get_stats",
                 "name": "call",
                 "namespace": "rpc"
             }

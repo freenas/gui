@@ -1,0 +1,37 @@
+{
+  "blueprint_getstatsparams_end": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "end",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
+  "blueprint_getstatsparams_frequency": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "frequency",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_getstatsparams_start": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "start",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "GetStatsParams",
+      "propertyBlueprints": [
+        {"@": "blueprint_getstatsparams_end"},
+        {"@": "blueprint_getstatsparams_frequency"},
+        {"@": "blueprint_getstatsparams_start"}
+      ]
+    }
+  }
+}

@@ -1,32 +1,32 @@
 {
-  "blueprint_reservedservice_id": {
+  "blueprint_replicationstatus_message": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "id",
+      "name": "message",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_reservedservice_link_name": {
+  "blueprint_replicationstatus_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "link_name",
+      "name": "size",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
-  "blueprint_reservedservice_name": {
+  "blueprint_replicationstatus_speed": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "speed",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
-  "blueprint_reservedservice_type": {
+  "blueprint_replicationstatus_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "status",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -34,12 +34,12 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ReservedService",
+      "name": "ReplicationStatus",
       "propertyBlueprints": [
-        {"@": "blueprint_reservedservice_id"},
-        {"@": "blueprint_reservedservice_link_name"},
-        {"@": "blueprint_reservedservice_name"},
-        {"@": "blueprint_reservedservice_type"}
+        {"@": "blueprint_replicationstatus_message"},
+        {"@": "blueprint_replicationstatus_size"},
+        {"@": "blueprint_replicationstatus_speed"},
+        {"@": "blueprint_replicationstatus_status"}
       ]
     }
   }

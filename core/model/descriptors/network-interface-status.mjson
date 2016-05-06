@@ -16,6 +16,14 @@
       "valueObjectPrototypeName": "NetworkInterfaceCapabilities"
     }
   },
+  "blueprint_networkinterfacestatus_cloned": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "cloned",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_networkinterfacestatus_flags": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -71,6 +79,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_networkinterfacestatus_members": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "members",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_networkinterfacestatus_mtu": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -87,6 +103,38 @@
       "valueType": "String"
     }
   },
+  "blueprint_networkinterfacestatus_nd6_flags": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nd6_flags",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_networkinterfacestatus_parent": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "parent",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkinterfacestatus_ports": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ports",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_networkinterfacestatus_tag": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tag",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -94,14 +142,20 @@
       "propertyBlueprints": [
         {"@": "blueprint_networkinterfacestatus_aliases"},
         {"@": "blueprint_networkinterfacestatus_capabilities"},
+        {"@": "blueprint_networkinterfacestatus_cloned"},
         {"@": "blueprint_networkinterfacestatus_flags"},
         {"@": "blueprint_networkinterfacestatus_link_address"},
         {"@": "blueprint_networkinterfacestatus_link_state"},
         {"@": "blueprint_networkinterfacestatus_media_options"},
         {"@": "blueprint_networkinterfacestatus_media_subtype"},
         {"@": "blueprint_networkinterfacestatus_media_type"},
+        {"@": "blueprint_networkinterfacestatus_members"},
         {"@": "blueprint_networkinterfacestatus_mtu"},
-        {"@": "blueprint_networkinterfacestatus_name"}
+        {"@": "blueprint_networkinterfacestatus_name"},
+        {"@": "blueprint_networkinterfacestatus_nd6_flags"},
+        {"@": "blueprint_networkinterfacestatus_parent"},
+        {"@": "blueprint_networkinterfacestatus_ports"},
+        {"@": "blueprint_networkinterfacestatus_tag"}
       ]
     }
   }

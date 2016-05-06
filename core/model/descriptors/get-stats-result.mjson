@@ -1,0 +1,19 @@
+{
+  "blueprint_getstatsresult_data": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "data",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "GetStatsResult",
+      "propertyBlueprints": [
+        {"@": "blueprint_getstatsresult_data"}
+      ]
+    }
+  }
+}

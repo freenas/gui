@@ -1,46 +1,18 @@
 {
-  "blueprint_replication_bandwidth_limit": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "bandwidth_limit",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_replication_cipher": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "cipher",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "NORMAL",
-        "FAST",
-        "DISABLED"
-      ]
-    }
-  },
-  "blueprint_replication_compression": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "compression",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "none",
-        "pigz",
-        "plzip",
-        "lz4",
-        "xz"
-      ]
-    }
-  },
   "blueprint_replication_followdelete": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "followdelete",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_lifetime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lifetime",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "blueprint_replication_recursive": {
@@ -67,20 +39,13 @@
       "valueType": "String"
     }
   },
-  "blueprint_replication_remote_hostkey": {
+  "blueprint_replication_transport_plugins": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_hostkey",
+      "name": "transport_plugins",
       "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_replication_remote_port": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "remote_port",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "ReplicationTransportPlugin"
     }
   },
   "root": {
@@ -88,15 +53,12 @@
     "properties": {
       "name": "Replication",
       "propertyBlueprints": [
-        {"@": "blueprint_replication_bandwidth_limit"},
-        {"@": "blueprint_replication_cipher"},
-        {"@": "blueprint_replication_compression"},
         {"@": "blueprint_replication_followdelete"},
+        {"@": "blueprint_replication_lifetime"},
         {"@": "blueprint_replication_recursive"},
         {"@": "blueprint_replication_remote"},
         {"@": "blueprint_replication_remote_dataset"},
-        {"@": "blueprint_replication_remote_hostkey"},
-        {"@": "blueprint_replication_remote_port"}
+        {"@": "blueprint_replication_transport_plugins"}
       ]
     }
   }

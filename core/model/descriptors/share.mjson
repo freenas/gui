@@ -31,6 +31,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_share_immutable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "immutable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_share_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -96,6 +104,7 @@
         {"@": "blueprint_share_enabled"},
         {"@": "blueprint_share_filesystem_path"},
         {"@": "blueprint_share_id"},
+        {"@": "blueprint_share_immutable"},
         {"@": "blueprint_share_name"},
         {"@": "blueprint_share_permissions"},
         {"@": "blueprint_share_properties"},

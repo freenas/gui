@@ -173,6 +173,14 @@
             "type": "Error"
         },
         {
+            "modelId": "core/model/descriptors/get-stats-params.mjson",
+            "type": "GetStatsParams"
+        },
+        {
+            "modelId": "core/model/descriptors/get-stats-result.mjson",
+            "type": "GetStatsResult"
+        },
+        {
             "modelId": "core/model/descriptors/group.mjson",
             "type": "Group"
         },
@@ -301,16 +309,16 @@
             "type": "ReplicationLink"
         },
         {
+            "modelId": "core/model/descriptors/replication-status.mjson",
+            "type": "ReplicationStatus"
+        },
+        {
             "modelId": "core/model/descriptors/replication-transport.mjson",
             "type": "ReplicationTransport"
         },
         {
             "modelId": "core/model/descriptors/replication.mjson",
             "type": "Replication"
-        },
-        {
-            "modelId": "core/model/descriptors/reserved-service.mjson",
-            "type": "ReservedService"
         },
         {
             "modelId": "core/model/descriptors/rsync-copy-rsync-properties.mjson",

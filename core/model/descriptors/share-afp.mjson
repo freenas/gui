@@ -42,6 +42,22 @@
       "valueObjectPrototypeName": "UnixPermissions"
     }
   },
+  "blueprint_shareafp_groups_allow": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "groups_allow",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_shareafp_groups_deny": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "groups_deny",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_shareafp_hosts_allow": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -142,6 +158,8 @@
         {"@": "blueprint_shareafp_default_directory_perms"},
         {"@": "blueprint_shareafp_default_file_perms"},
         {"@": "blueprint_shareafp_default_umask"},
+        {"@": "blueprint_shareafp_groups_allow"},
+        {"@": "blueprint_shareafp_groups_deny"},
         {"@": "blueprint_shareafp_hosts_allow"},
         {"@": "blueprint_shareafp_hosts_deny"},
         {"@": "blueprint_shareafp_no_stat"},
