@@ -14,7 +14,7 @@
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "hostAllow"},
-                "label": "Hosts allow",
+                "label": "Hosts Allow",
                 "placeholderValue": "eg. 1.2.3.4 or hostname.local",
                 "labelPath": "this"
             },
@@ -26,7 +26,7 @@
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "hostDeny"},
-                "label": "Hosts deny",
+                "label": "Hosts Deny",
                 "placeholderValue": "eg. 1.2.3.4 or hostname.local",
                 "labelPath": "this"
             },
@@ -84,18 +84,6 @@
                 "checked": {"<->": "@owner.properties.zero_dev_numbers"}
             }
         },
-        "hostDeny": {
-            "prototype": "blue-shark/ui/multiple-select.reel",
-            "properties": {
-                "element": {"#": "hostDeny"},
-                "label": "Hosts deny",
-                "placeholderValue": "eg. 1.2.3.4 or hostname.local",
-                "labelPath": "this"
-            },
-            "bindings": {
-                "values": {"<->": "@owner.properties.hosts_deny"}
-            }
-        },
         "fileMask": {
             "prototype": "ui/controls/unixPermissions.reel",
             "properties": {
@@ -120,10 +108,10 @@
             "prototype": "ui/controls/unixPermissions.reel",
             "properties": {
                 "element": {"#": "defaultUmask"},
-                "title": "Default mask"
+                "title": "Default umask"
             },
             "bindings": {
-                "modeBits": {"<->": "@owner.object.default_directory_perms"}
+                "modeBits": {"<->": "@owner.object.default_umask"}
             }
         },
         "advancedSection": {
