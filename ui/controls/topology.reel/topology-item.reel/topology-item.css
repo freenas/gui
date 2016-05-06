@@ -34,16 +34,17 @@
 
 .TopologyItemTitle-size { float: right; }
 
+/* allocation bar */
+
 .TopologyItem-allocationBar {
-    display: none;
-    margin: -.25em;
-    margin-bottom: .25em;
-    height: 1.5em;
+    display: none !important;
 }
 
 .TopologyItem.has-items .TopologyItem-allocationBar {
-    display: flex;
+    display: flex !important;
 }
+
+/* Sets the different colors */
 
 .TopologyItem:nth-child(1) .TopologyItem-title { color: #D75B1B; }
 .TopologyItem:nth-child(2) .TopologyItem-title { color: #CB6614; }

@@ -10,7 +10,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "disks": {"<-": "@availableDisks.disks"}
+                "disks": {"<-": "@availableDisks.disks"},
+                "classList.has('has-zeroAvailableDisks')": {"<-": "@availableDisks.disks.length > 0"}
             }
         },
         "inspector": {
@@ -50,8 +51,10 @@
         <div data-montage-id="inspector">
             <div class="TopologyEdit-content">
                 <div data-montage-id="topology"></div>
-                <div data-montage-id="availableDisks"></div>
             </div>
+        </div>
+        <div class="TopologyEdit-sidebar">
+            <div data-montage-id="availableDisks"></div>
         </div>
     </div>
 </body>
