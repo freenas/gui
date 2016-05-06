@@ -24,7 +24,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         value: function(hostname) {
             hostname = hostname || 'localhost';
             if (!this._datasources[hostname]) {
-                this._datasources[hostname] = this._callBackend("statd.output.get_data_sources_tree", []).then(function(response) {
+                this._datasources[hostname] = this._callBackend("stat.get_data_sources_tree", []).then(function(response) {
                     return response.data.children[hostname].children;
                 });
             }
@@ -37,9 +37,9 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
             periodInSecs = periodInSecs || 10;
             endDate = endDate || new Date();
             startDate = startDate || new Date(endDate.getTime() - (periodInSecs * 100 * 1000));
-            return this._callBackend("statd.output.query", [datasource, {
-                start:  startDate.toISOString(),
-                end:    endDate.toISOString(),
+            return this._callBackend("stat.get_stats", [datasource, {
+                start:  {"$date": startDate.toISOString()},
+                end:    {"$date": endDate.toISOString()},
                 frequency:  periodInSecs + 's'
             }]).then(function(response) {
                 return response.data.data;
