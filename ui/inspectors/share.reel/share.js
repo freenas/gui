@@ -190,6 +190,9 @@ exports.Share = Component.specialize({
                             this.targetPath = this.datasetToPathConverter.convert(object.target_path ? object.target_path : object.volume.id);
                         }
                     }
+                    if (!object.target_type) {
+                        object.target_type = 'DATASET';
+                    }
                     this.targetType = object.target_type;
                 }
                 this._object = object
@@ -208,14 +211,15 @@ exports.Share = Component.specialize({
                 this._loadingPromise = this._loadVolumeService().then(function() {
                     self._loadPathConverter();
                 });
-                this._loadingPromise.then(function() {
-                    if (self.object.target_path && self.object.target_type === 'DIRECTORY') {
-                        self.targetPath = self.object.target_path
-                    } else {
-                        self.targetPath = self.datasetToPathConverter.convert(self.object.target_path ? self.object.target_path : self.object.volume.id);
-                    }
-                });
             }
+            this._loadingPromise.then(function() {
+                if (self.object.target_path && self.object.target_type === 'DIRECTORY') {
+                    self.targetPath = self.object.target_path
+                } else {
+                    self.targetPath = self.datasetToPathConverter.convert(self.object.target_path ? self.object.target_path : self.object.volume.id);
+                }
+                self.targetType = self.object.target_type;
+            });
         }
     },
 
