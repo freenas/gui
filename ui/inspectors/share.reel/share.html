@@ -158,7 +158,7 @@
                 "element": {"#": "globalServiceToggle"}
             },
             "bindings": {
-                "label": {"<-": "'Global ' + @owner.object.type + ' Service'"},
+                "label": {"<-": "'Global ' + @owner.object.type.toUpperCase() + ' Service'"},
                 "checked": {"<->": "@owner.isServiceStarted"}
             }
         },
@@ -168,7 +168,7 @@
                 "element": {"#": "globalServiceLabel"}
             },
             "bindings": {
-                "value": {"<-": "'Global ' + @owner.object.type + ' Service'"}
+                "value": {"<-": "'Global ' + @owner.object.type.toUpperCase() + ' Service'"}
             }
         }
     }
