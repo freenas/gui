@@ -12,12 +12,12 @@ exports.TopologyDropzone = AbstractDropZoneComponent.specialize(/** @lends Topol
 
     shouldAcceptComponent: {
         value: function (diskGridItemComponent) {
-            var response = this.ownerComponent.editable !== void 0 ? this.ownerComponent.editable : true;
+            var response = this.ownerComponent.editable !== void 0 ? this.ownerComponent.editable : true,
+                vDevControllerContent = this.vDevController.content;
 
-            if (response) {
+            if (response && vDevControllerContent) {
                 /* targetDisk can be vdev or disk here */
                 var targetDisk = diskGridItemComponent.object,
-                    vDevControllerContent = this.vDevController.content,
                     vDev, vDevChildren, ll, ii;
 
                 loop1:

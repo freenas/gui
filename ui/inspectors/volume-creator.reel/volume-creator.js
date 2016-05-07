@@ -19,9 +19,13 @@ exports.VolumeCreator = Component.specialize({
         set: function(object) {
             var self = this;
             if (this._object != object) {
-                this._initializeTopology(object).then(function(_object) {
-                    self._object = _object;
-                })
+                if (!object.topology) {
+                    this._initializeTopology(object).then(function(_object) {
+                        self.object = _object;
+                    });
+                } else {
+                    self._object = object;
+                }
             }
         }
     },

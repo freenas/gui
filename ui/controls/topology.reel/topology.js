@@ -67,7 +67,6 @@ var Topology = exports.Topology = Component.specialize({
         }
     },
 
-
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
