@@ -31,14 +31,14 @@
                 "classList.has('hide')": {"<-": "!@owner.summary"}
             }
         },
-        "service": {
+        "jobId": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "service"}
+                "element": {"#": "jobId"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.service"},
-                "classList.has('hide')": {"<-": "!@owner.object.service"}
+                "value": {"<-": "@owner.object.jobId"},
+                "classList.has('hide')": {"<-": "!@owner.object.jobId"}
             }
         },
         "converter": {
@@ -92,10 +92,10 @@
         <div class="Notification-body">
             <div class="Notification-overview">
                 <div>
-                    <div data-montage-id="service" class="Notification-service"></div>
                     <div data-montage-id="taskSummary"></div>
                 </div>
                 <div>
+                    <div data-montage-id="jobId"></div>
                     <div data-montage-id="timestamp" class="Notification-time"></div>
                     <div data-montage-id="progress" class="Notification-progress"></div>
                 </div>
