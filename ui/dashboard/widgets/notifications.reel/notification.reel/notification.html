@@ -21,10 +21,10 @@
                 "classList.has('success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
         },
-        "modelId": {
+        "taskSummary": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "modelId"}
+                "element": {"#": "taskSummary"}
             },
             "bindings": {
                 "value": {"<-": "@owner.summary"},
@@ -39,16 +39,6 @@
             "bindings": {
                 "value": {"<-": "@owner.object.service"},
                 "classList.has('hide')": {"<-": "!@owner.object.service"}
-            }
-        },
-        "state": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "state"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.taskName"},
-                "classList.has('hide')": {"<-": "!@owner.object.taskName"}
             }
         },
         "converter": {
@@ -103,8 +93,7 @@
             <div class="Notification-overview">
                 <div>
                     <div data-montage-id="service" class="Notification-service"></div>
-                    <div data-montage-id="state"></div>
-                    <div data-montage-id="modelId"></div>
+                    <div data-montage-id="taskSummary"></div>
                 </div>
                 <div>
                     <div data-montage-id="timestamp" class="Notification-time"></div>
