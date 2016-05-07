@@ -1,10 +1,8 @@
 var Montage = require("montage").Montage,
+    application = require("montage/core/application").application,
     Model = require("core/model/model").Model;
 
-exports.TopologyService = Montage.specialize({
-    _instance: {
-        value: null
-    },
+var TopologyService = exports.TopologyService = Montage.specialize({
 
     _STORAGE: {
         value: "storage"
@@ -116,6 +114,43 @@ exports.TopologyService = Montage.specialize({
         }
     },
 
+    populateDiskWithinVDev: {
+        value: function (vDev) {
+            var self = this;
+
+            return this._dataService.fetchData(Model.Disk).then(function (disks) {
+                var children = vDev.children,
+                    tmpVDev;
+
+                for (var i = 0, l = children.length; i < l; i++) {
+                    tmpVDev = children[i];
+
+                    if (!tmpVDev._disk) {
+                        tmpVDev._disk = self._findDiskWithPath(disks, tmpVDev.path);
+                    }
+                }
+            });
+        }
+    },
+
+    _findDiskWithPath: {
+        value: function  (disks, path) {
+            var response,
+                disk;
+
+            for (var i = 0, length = disks.length; i < length; i++) {
+                disk = disks[i];
+
+                if (disk.path === path) {
+                    response = disk;
+                    break;
+                }
+            }
+
+            return disk;
+        }
+    },
+
     _buildVdevWithDisks: {
         value: function (type, disks) {
             var vdev = this._dataService.getDataObject(Model.ZfsVdev);
@@ -204,6 +239,15 @@ exports.TopologyService = Montage.specialize({
             topology.spare = [];
             topology.data = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
             return vdevRecommendation.priorities;
+        }
+    }
+}, {
+    instance: {
+        get: function() {
+            if (!this._instance) {
+                this._instance = new TopologyService().init(application.dataService);
+            }
+            return this._instance;
         }
     }
 });

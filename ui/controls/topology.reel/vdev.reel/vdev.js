@@ -5,7 +5,7 @@ var AbstractDropZoneComponent = require("core/drag-drop/abstract-dropzone-compon
     TopologyItem = require("ui/controls/topology.reel/topology-item.reel").TopologyItem,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Topology = require("ui/controls/topology.reel").Topology,
-    Model = require("core/model/model").Model;
+    TopologyService = require("core/volumes/topology-service").TopologyService;
 
 /**
  * @class Vdev
@@ -121,8 +121,21 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     },
 
     enterDocument: {
-        value: function (firstTime) {
-            AbstractDropZoneComponent.prototype.enterDocument.call(this, firstTime);
+        value: function (isFirstTime) {
+            AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
+
+            if (isFirstTime) {
+                this._topologyService = TopologyService.instance;
+            }
+
+            if (this.isEditorMode) {
+                var self = this;
+
+                this._topologyService.populateDiskWithinVDev(this.object).then(function () {
+                    self._calculateSizes();
+                });
+            }
+
             this._defineVDevContext();
             this._cancelRangeAtPathChangeListener = this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
             this._hasUserDefinedType = false;

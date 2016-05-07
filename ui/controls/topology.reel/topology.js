@@ -71,7 +71,7 @@ var Topology = exports.Topology = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this._topologyService = new TopologyService().init(this.application.dataService);
+                this._topologyService = TopologyService.instance;
             }
 
             this.addEventListener("vDevCreated", this, false);
