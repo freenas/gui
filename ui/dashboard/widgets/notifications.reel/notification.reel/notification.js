@@ -71,7 +71,7 @@ exports.Notification = Component.specialize(/** @lends Notification# */ {
                                         summary = "Update Volume " + (expressionValue || entity.id);
                                         break;
                                     case "volume.create":
-                                        summary = "Create Volume " + entity.name;
+                                        summary = "Create Volume " + entity.id;
                                         break;
                                     case "volume.delete":
                                         summary = "Delete Volume " + (expressionValue || entity.id);
