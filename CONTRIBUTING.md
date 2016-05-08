@@ -36,7 +36,7 @@ Once you have the environment bootstrapped, just for now do the following:
      with the name or IP address of your freenas10 instance (the middleware) if
      you have changed its name from freenas.local (the default).
      
-    2. ./minit serve &
+    2. minit serve &
     
 This will start the stand-alone web server so you can connect your web
 browser to localhost:8083
