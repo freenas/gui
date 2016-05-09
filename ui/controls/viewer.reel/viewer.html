@@ -10,7 +10,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "selectedObject": {"<->": "@controller.selection.0"}
+                "selectedObject": {"<->": "@controller.selection.0"},
+                "classList.has('has-items')": {"<-": "@owner.object.length > 0"}
             },
             "listeners": [
                 {

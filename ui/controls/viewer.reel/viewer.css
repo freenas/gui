@@ -2,16 +2,24 @@
 
 .Viewer > .Scrollview {
     position: absolute;
-    top: 3em;
+    top: 0em;
     bottom: 0;
     width: 100%;
 }
 
+.Viewer.has-items > .Scrollview {
+    top: 3em;
+}
+
 .Viewer-header {
-    display: flex;
+    display: none;
     flex-shrink: 0;
     flex-wrap: wrap;
     background: #2A2E33;
+}
+
+.Viewer.has-items .Viewer-header {
+    display: flex;
 }
 
 .Viewer-footer {
