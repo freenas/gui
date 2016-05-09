@@ -74,7 +74,7 @@ Object.defineProperties(WebSocketConfiguration, {
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "5000");
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/socket");
-                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 10000);
+                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
 
                 _defaultConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
@@ -96,7 +96,7 @@ Object.defineProperties(WebSocketConfiguration, {
                 _shellConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
                 _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "5000");
                 _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/shell");
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 10000);
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
 
                 _shellConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
