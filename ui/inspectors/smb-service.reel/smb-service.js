@@ -112,7 +112,14 @@ exports.SmbService = Component.specialize({
 
     shouldMultipleSelectAcceptValue: {
         value: function (multipleSelect, value) {
-            return this.networkInterfacesAliases.indexOf(value) > -1;
+            var interfacesAliases = this.networkInterfacesAliases,
+                response = false;
+
+            for (var i = 0, length = interfacesAliases.length; i < length && !response; i++) {
+                response = interfacesAliases[i].address === value;
+            }
+
+            return response;
         }
     }
 

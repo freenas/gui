@@ -237,22 +237,16 @@
             }
         },
 
-        "interfaceAliasConverter": {
-            "prototype": "core/converter/interface-alias-converter"
-        },
-
         "bindAddresses": {
             "prototype": "blue-shark/ui/multiple-select.reel",
             "properties": {
                 "element": {"#": "bindAddresses"},
                 "label": "Bind IP Addresses",
                 "placeholderValue": "eg. 1.2.3.4",
-                "labelPath": "address + '/' + netmask",
-                "delegate": {"@": "owner"},
-                "converter": {"@": "interfaceAliasConverter"}
+                "delegate": {"@": "owner"}
             },
             "bindings": {
-                "options": {"<-": "@owner.networkInterfacesAliases.filter{!@owner.object.bind_addresses.has(this)}"},
+                "options": {"<-": "@owner.networkInterfacesAliases.map{address}.filter{!@owner.object.bind_addresses.has(this)}"},
                 "values": {"<->": "@owner.object.bind_addresses"}
             }
         }
