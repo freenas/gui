@@ -1,0 +1,7 @@
+@keyframes rotatedPulse {
+    0%   { opacity: .3;}
+    50%  { opacity: 1; }
+    100%  { opacity: .3; transform: rotate(360deg);}
+}
+
+.Spinner svg { animation: rotatedPulse 1.2s infinite; }
