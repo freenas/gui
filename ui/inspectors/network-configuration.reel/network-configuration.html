@@ -185,7 +185,7 @@
             "bindings": {
                 "values": {"<->": "@owner.object.dns.search"},
                 "enabled": {"<-": "!@owner.object.dhcp.assign_dns"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. http://a.com:1234' : ''"}
+                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. example.com' : ''"}
             }
         },
         "dns_addresses": {
@@ -198,7 +198,7 @@
             "bindings": {
                 "values": {"<->": "@owner.object.dns.addresses"},
                 "enabled": {"<-": "!@owner.object.dhcp.assign_dns"},
-                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. 1.2.3.4/16' : ''"}
+                "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
             }
         }
     }
