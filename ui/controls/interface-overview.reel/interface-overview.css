@@ -26,6 +26,6 @@
     justify-content: center;
 }
 
-.InterfaceOverview-name:after {
+.InterfaceOverview-type:not(:empty):before {
     content: ' - ';
 }
