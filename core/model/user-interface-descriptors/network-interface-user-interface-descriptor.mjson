@@ -8,7 +8,7 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/network-interface-creator.reel"},
             "collectionNameExpression": "'Interfaces'",
-            "nameExpression": "!!id ? !!name ? name : id : 'New ' + type"
+            "nameExpression": "!!id ? !!name ? name : id : !!type ? 'New ' + type : 'Choose the share type to create'"
         }
     }
 }
