@@ -80,7 +80,7 @@ exports.Notification = Component.specialize(/** @lends Notification# */ {
                                         summary = "Update " + entity.type + " " + (expressionValue || entity.id);
                                         break;
                                     case "network.interface.create":
-                                        summary = "Create " + (entity.name ? entity.type + " " + entity.name : expressionValue);
+                                        summary = "Create new " + entity.type + " " + (entity.name ? entity.name : "");
                                         break;
                                     case "network.interface.delete":
                                         summary = "Delete " + entity.type + " " + (expressionValue || entity.id);
