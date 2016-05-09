@@ -6,7 +6,7 @@
             "collectionNameExpression": "'Volumes'",
             "inspectorComponentModule": {"%": "ui/inspectors/volume.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/volume-creator.reel"},
-            "nameExpression": "id"
+            "nameExpression": "id.defined() ? id : 'Create a volume'"
         }
     }
 }

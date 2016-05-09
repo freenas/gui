@@ -6,7 +6,7 @@
             "collectionNameExpression": "'Snapshots'",
             "inspectorComponentModule": {"%": "ui/inspectors/snapshot.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/snapshot.reel"},
-            "nameExpression": "name"
+            "nameExpression": "id.defined() ? id : 'Create a snapshot'"
         }
     }
 }
