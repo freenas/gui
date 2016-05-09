@@ -25,3 +25,7 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.InterfaceOverview-name:after {
+    content: ' - ';
+}

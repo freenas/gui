@@ -30,6 +30,15 @@
                 "value": {"<-": "@owner.object.status.media_type"}
             }
         },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.id"}
+            }
+        },
         "linkStatus": {
             "prototype": "ui/controls/link-status.reel",
             "properties": {
@@ -56,7 +65,10 @@
     <div data-montage-id="owner" class="InterfaceOverview">
         <div data-montage-id="interfaceIcon" class="InterfaceOverview-icon"></div>
         <div class="InterfaceOverview-info">
-            <p data-montage-id="media_type" class="bold"></p>
+            <p>
+                <span data-montage-id="name" class="InterfaceOverview-name"></span>
+                <span data-montage-id="media_type"></span>
+            </p>
             <div data-montage-id="linkStatus"></div>
             <div data-montage-id="enabled"></div>
         </div>
