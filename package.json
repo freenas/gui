@@ -2,7 +2,7 @@
   "name": "freenas-10-gui",
   "version": "0.3.0",
   "dependencies": {
-    "blue-shark": "freenas/blue-shark#16bdc8ec5b6564d83f5f4730095ccde535ec2245",
+    "blue-shark": "freenas/blue-shark#c6da65c2f4879a301f1bf216ad32660a19855846",
     "d3": "^3.5.16",
     "digit": "montagejs/digit",
     "collections": "montagejs/collections#11533b845b80d64472dc64a3d1d27caf17fb2817",
