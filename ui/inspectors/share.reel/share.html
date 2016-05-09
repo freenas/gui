@@ -137,7 +137,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.permissions.user"},
-                "options": {"<-": "@owner.users"}
+                "options": {"<-": "@owner.users.sorted{username}"}
             }
         },
         "ownerGroup": {
@@ -149,7 +149,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.permissions.group"},
-                "options": {"<-": "@owner.groups"}
+                "options": {"<-": "@owner.groups.sorted{name}"}
             }
         },
         "globalServiceToggle": {

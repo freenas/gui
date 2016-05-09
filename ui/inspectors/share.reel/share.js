@@ -171,13 +171,9 @@ exports.Share = Component.specialize({
         },
         set: function(object) {
             var self = this;
+            this._loadUsers();
+            this._loadGroups();
             if (this._object != object) {
-                this.application.dataService.fetchData(Model.Group).then(function(groups) {
-                    self.groups = groups;
-                });
-                this.application.dataService.fetchData(Model.User).then(function(users) {
-                    self.users = users;
-                });
                 if (object) {
                     this._getService(object).then(function (service) {
                         self.service = service;
@@ -203,11 +199,10 @@ exports.Share = Component.specialize({
     enterDocument: {
         value: function(isFirsttime) {
             var self = this;
+            this._loadUsers();
+            this._loadGroups();
             if (isFirsttime) {
                 this._filesystemService = this.application.filesystemService;
-                this.application.dataService.fetchData(Model.User).then(function(users) {
-                    self.users = users;
-                });
                 this._loadingPromise = this._loadVolumeService().then(function() {
                     self._loadPathConverter();
                 });
@@ -239,6 +234,28 @@ exports.Share = Component.specialize({
             return self.application.dataService.saveDataObject(self.object).then(function() {
                 self.isServiceStarted = true;
             });
+        }
+    },
+
+    _loadUsers: {
+        value: function() {
+            var self = this;
+            if (!this.users || this.users.length == 0) {
+                this.application.dataService.fetchData(Model.User).then(function(users) {
+                    self.users = users;
+                });
+            }
+        }
+    },
+
+    _loadGroups: {
+        value: function() {
+            var self = this;
+            if (!this.groups || this.groups.length == 0) {
+                this.application.dataService.fetchData(Model.Group).then(function(groups) {
+                    self.groups = groups;
+                });
+            }
         }
     },
 
