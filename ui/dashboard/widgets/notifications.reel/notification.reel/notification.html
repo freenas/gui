@@ -30,17 +30,7 @@
                 "value": {"<-": "@owner.summary"},
                 "classList.has('hide')": {"<-": "!@owner.summary"}
             }
-        },
-        "jobId": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "jobId"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.jobId"},
-                "classList.has('hide')": {"<-": "!@owner.object.jobId"}
-            }
-        },
+        }
         "converter": {
             "prototype": "montage/core/converter/date-converter",
             "properties": {
@@ -95,7 +85,6 @@
                     <div data-montage-id="taskSummary"></div>
                 </div>
                 <div>
-                    <div data-montage-id="jobId"></div>
                     <div data-montage-id="timestamp" class="Notification-time"></div>
                     <div data-montage-id="progress" class="Notification-progress"></div>
                 </div>
