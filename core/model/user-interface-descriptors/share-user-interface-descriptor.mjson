@@ -6,7 +6,7 @@
             "collectionNameExpression": "'Shares'",
             "inspectorComponentModule": {"%": "ui/inspectors/share.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/share-creator.reel"},
-            "nameExpression": "!!id ? name : 'New ' + type.toUpperCase() + ' share'"
+            "nameExpression": "!!id ? !!name ? name : id : !!type ? 'New ' + type : 'Choose a share type'"
         }
     }
 }
