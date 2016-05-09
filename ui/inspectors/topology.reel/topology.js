@@ -154,10 +154,10 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
     _clearDisk: {
         value: function () {
-            var disks = this.disks,
+            var disks = this.availableDisks,
                 disk;
 
-            if (this.disks) {
+            if (disks) {
                 for (var i = 0, length = disks.length; i < length; i++) {
                     disk = disks[i];
 
