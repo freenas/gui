@@ -89,7 +89,8 @@
                 "children": {"<-": "@owner.targetType == 'DATASET' ? @owner.datasetChildren : @owner.folders"},
                 "label": {"<-": "@owner.targetType != 'DATASET' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
-                "suffix": {"<-": "@owner.targetType == 'DATASET' && !@owner.isPathReadOnly ? @name.value || '' : ''"}
+                "suffix": {"<-": "@owner.targetType == 'DATASET' && !@owner.isPathReadOnly ? @name.value || '' : ''"},
+                "removePrefix": {"<-": "@owner.targetType == 'DATASET' ? '/mnt/' : ''"}
             }
         },
         "substitution": {

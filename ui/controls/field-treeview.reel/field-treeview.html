@@ -41,7 +41,7 @@
                 "element": {"#": "selectedPath"}
             },
             "bindings": {
-                "value": {"<-": "@owner.parentPath + '/' + @owner.suffix"}
+                "value": {"<-": "(@owner.parentPath + '/' + @owner.suffix).replace(@owner.removePrefix || '', '')"}
             }
         },
         "treeview": {
@@ -56,7 +56,8 @@
                 "children": {"<-": "@owner.children"},
                 "originalValue": {"<-": "@owner.originalValue"},
                 "close": {"<->": "@owner.close"},
-                "suffix": {"<-": "@owner.suffix"}
+                "suffix": {"<-": "@owner.suffix"},
+                "removePrefix": {"<-": "@owner.removePrefix || ''"}
             }
         }
     }
