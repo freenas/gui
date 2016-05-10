@@ -121,6 +121,9 @@ exports.Widget = Component.specialize({
         value: function(event) {
             var serie = this._eventToSerie[event.type];
             if (serie) {
+                if (!serie.values) {
+                    serie.values = [];
+                }
                 serie.values.shift();
                 serie.values.push({
                     x: event.detail.timestamp * 1000,
