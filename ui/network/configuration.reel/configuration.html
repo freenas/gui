@@ -41,7 +41,8 @@
                 "element": {"#": "defaultRouteIpv6"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.summary.defaultRoute.ipv6"}
+                "value": {"<-": "@owner.object.summary.defaultRoute.ipv6"},
+                "classList.has('hide')": {"<-": "!@owner.object.summary.defaultRoute.ipv6"}
             }
         },
         "interfaceRepetition": {
@@ -123,64 +124,65 @@
     <div data-montage-id="owner" class="Configuration">
         <div data-montage-id="scrollView">
             <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Hostname
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-montage-id="hostname"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>IPv4 Address</th>
-                            <th>IPv6 Address</th>
-                        </tr>
-                    </thead>
-                    <tbody data-montage-id="interfaceRepetition">
-                        <tr>
-                            <td data-montage-id="interfaceName"></td>
-                            <td data-montage-id="interfaceIpv4"></td>
-                            <td data-montage-id="interfaceIpv6"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nameserver</th>
-                        </tr>
-                    </thead>
-                    <tbody data-montage-id="nameserverRepetition">
-                        <tr>
-                            <td data-montage-id="nameserver"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Default Route</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-montage-id="defaultRouteIpv4"></td>
-                        </tr>
-                        <tr>
-                            <td data-montage-id="defaultRouteIpv6"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <div class="Configuration-overview">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Hostname
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-montage-id="hostname"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>IPv4 Address</th>
+                                <th>IPv6 Address</th>
+                            </tr>
+                        </thead>
+                        <tbody data-montage-id="interfaceRepetition">
+                            <tr>
+                                <td data-montage-id="interfaceName"></td>
+                                <td data-montage-id="interfaceIpv4"></td>
+                                <td data-montage-id="interfaceIpv6"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nameserver</th>
+                            </tr>
+                        </thead>
+                        <tbody data-montage-id="nameserverRepetition">
+                            <tr>
+                                <td data-montage-id="nameserver"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Default Route</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-montage-id="defaultRouteIpv4"></td>
+                            </tr>
+                            <tr>
+                                <td data-montage-id="defaultRouteIpv6"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div data-montage-id="networkConfiguration"></div>
                 <div data-montage-id="interfaceViewer"></div>
             </div>

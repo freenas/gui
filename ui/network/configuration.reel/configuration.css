@@ -6,6 +6,10 @@
     width: 100%;
 }
 
+.Configuration-overview {
+    border-bottom: 1px solid rgba(255,255,255,.2);
+}
+
 .Configuration table {
     margin-bottom: 0;
 }
