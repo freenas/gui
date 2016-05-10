@@ -3,9 +3,10 @@
 }
 
 .AvailableDisks-header {
-    padding: .5em 1em;
-    background: #E0E5E5;
-    color: #16171A;
+    height: 4em;
+    padding: .75em 1em;
+    background-color: rgba(255,255,255,.1);
+    color: #B1BCBE;
 }
 
 .AvailableDisks-header p {
