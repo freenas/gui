@@ -1,7 +1,6 @@
 .ServiceOverview {
     display: flex;
     margin-top: 0;
-    padding-bottom: 1em;
     margin-bottom: 1em;
     border-bottom: 1px solid rgba(255,255,255,.15);
 }
@@ -24,4 +23,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+/* $fix - temporararily removed */
+
+.ServiceOverview .FieldToggleSwitch {
+    display: none;
 }
