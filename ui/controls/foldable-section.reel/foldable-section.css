@@ -1,28 +1,7 @@
 .FoldableSection {
     position: relative;
-    margin: 1em -1em;
-    padding: 0 1em;
-    background: rgba(0,0,0,.1);
+    margin-bottom: 1em;
 }
-
-/*.FoldableSection:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,.1);
-}*/
-
-/*.FoldableSection:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 1em;
-    right: 1em;
-    border-bottom: 1px solid rgba(255,255,255,.1);
-}*/
 
 /* title */
 
@@ -37,6 +16,25 @@
 .FoldableSection-content {
     overflow: hidden;
     transition: all .3s ease-in-out;
+    margin: 0 -1em;
+    padding: 0 1em;
+    background: rgba(0,0,0,.1);
+}
+
+/* edits internal titles */
+
+.FoldableSection-content .InspectorSectionTitle {
+    background: none;
+    margin-bottom: 1em;
+}
+
+.FoldableSection-content .InspectorSectionTitle:before {
+    content: '';
+    position: absolute;
+    left: 1em;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1px solid rgba(255,255,255,.2);
 }
 
 .FoldableSection-contentContainer { padding: 1em 0; }
