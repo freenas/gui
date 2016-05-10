@@ -80,6 +80,37 @@ exports.SmbService = Component.specialize({
         value: null
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object != object) {
+                this._object = object;
+                if (this._object.filemask) {
+                    this.filemaskModes = {
+                        user: this._object.filemask.user,
+                        group: this._object.filemask.group,
+                        others: this._object.filemask.others
+                    };
+                    delete this._object.filemask.value;
+                }
+                if (this._object.dirmask) {
+                    this.dirmaskModes = {
+                        user: this._object.dirmask.user,
+                        group: this._object.dirmask.group,
+                        others: this._object.dirmask.others
+                    };
+                    delete this._object.dirmask.value;
+                }
+            }
+        }
+    },
+
     templateDidLoad: {
         value: function () {
             this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
@@ -89,13 +120,17 @@ exports.SmbService = Component.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            if (isFirstTime) {
-                if (!this.object.filemask) {
-                    this.object.filemask = '666';
-                }
-                if (!this.object.dirmask) {
-                    this.object.dirmask = '777';
-                }
+            if (this._object) {
+                this.filemaskModes = {
+                    user: this._object.filemask.user,
+                    group: this._object.filemask.group,
+                    others: this._object.filemask.others
+                };
+                this.dirmaskModes = {
+                    user: this._object.dirmask.user,
+                    group: this._object.dirmask.group,
+                    others: this._object.dirmask.others
+                };
             }
         }
     },
