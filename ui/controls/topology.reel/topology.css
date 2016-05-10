@@ -15,8 +15,8 @@
 }
 
 .Topology .DiskIcon {
-    width: 2.5em;
-    padding: .25em;
+    /*width: 2.5em;*/
+    /*padding: .25em;*/
 }
 
 @-webkit-keyframes blink {

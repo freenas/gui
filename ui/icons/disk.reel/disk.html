@@ -4,18 +4,44 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="disk.css">
     <script type="text/montage-serialization">
-    {
+       {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            }
+        },
+        "bytesConverter": {
+            "object": "./[defaultBytesConverter]"
+        },
+        "mediaSize": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "mediaSize"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.disk.mediasize"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.disk.status.is_ssd ? 'ssd' : 'hdd'"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="DiskIcon">
-        <img src="./hdd.svg" alt="">
+<div data-montage-id="owner" class="DiskIcon">
+    <div data-montage-id="substitution">
+        <img data-arg="hdd" src="./hdd.svg" alt="HDD Icon">
+        <img data-arg="ssd" src="./ssd.svg" alt="SSD Icon">
     </div>
+    <div data-montage-id="mediaSize" class="DiskIcon-mediaSize"></div>
+</div>
 </body>
 </html>

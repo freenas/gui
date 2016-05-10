@@ -42,7 +42,7 @@
 }
 
 .AvailableDisks .LabeledIcon-image {
-    max-height: 3.5em;
+    /*max-height: 3.5em;*/
 }
 
 .AvailableDisks .LabeledIcon-image > * {
@@ -51,8 +51,8 @@
 }
 
 .AvailableDisks .DiskIcon {
-    width: 2.5em;
-    padding: .25em;
+    /*width: 2.5em;*/
+    /*padding: .25em;*/
 }
 
 

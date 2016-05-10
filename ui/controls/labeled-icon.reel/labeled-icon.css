@@ -10,8 +10,8 @@
 }
 
 .LabeledIcon-image > * {
-    width:  3.5em;
-    height: 3.5em;
+    /*width:  3.5em;
+    height: 3.5em;*/
     display: flex;
     justify-content: center;
 }
@@ -20,7 +20,7 @@
 .LabeledIcon-image img {
     display: block;
     width: 100%;
-    max-height: 3.5em;
+    /*max-height: 3.5em;*/
 }
 
 .LabeledIcon-label {
