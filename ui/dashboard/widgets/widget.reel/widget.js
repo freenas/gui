@@ -85,6 +85,7 @@ exports.Widget = Component.specialize({
                             y: self.transformValue(+value[1])
                         }
                     });
+                serie.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
                 self.chart.addSerie(serie);
             });
         }
