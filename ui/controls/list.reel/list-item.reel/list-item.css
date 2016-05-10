@@ -13,10 +13,11 @@
     border-top:     1px solid rgba(255,255,255,.2);
     border-bottom:  1px solid rgba(255,255,255,.2);
     background-color: #232629;
-    transition: background-color .25s, color .25s;
+    transition: background-color .25s, color .25s, border-color .25s;
 }
 
-.ListItem + .ListItem {
+.ListItem + .ListItem,
+.ListItem:first-child {
     border-top-color: transparent;
 }
 

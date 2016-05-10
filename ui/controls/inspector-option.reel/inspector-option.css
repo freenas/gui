@@ -3,14 +3,15 @@
 }
 
 .InspectorOption > * {
-    border-top:     1px solid #888;
-    border-bottom:  1px solid #888;
+    border-top:     1px solid rgba(255,255,255,.2);
+    border-bottom:  1px solid rgba(255,255,255,.2);
 }
 
-.InspectorOption + .InspectorOption > * {
-    border-top: none;
+.InspectorOption + .InspectorOption > *,
+.InspectorOption:first-child > * {
+    border-top-color: transparent;
 }
 
 .InspectorOption.selected > * {
-    border: none;
+    border-color: #00A7FF;
 }
