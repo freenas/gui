@@ -20,6 +20,6 @@
 }
 
 .Permissions tr:not(:first-child) th {
-    width: 6.5em;
+    width: 7.5em;
     text-align: right;
 }
