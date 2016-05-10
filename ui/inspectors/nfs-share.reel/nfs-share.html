@@ -45,10 +45,11 @@
             }
         },
         "hosts": {
-            "prototype": "blue-shark/ui/multiple-select.reel",
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "hosts"},
-                "labelPath": "this"
+                "labelPath": "this",
+                "label": "Hosts"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts"},
@@ -107,11 +108,12 @@
             }
         },
         "security": {
-            "prototype": "blue-shark/ui/multiple-select.reel",
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "security"},
                 "draggable": "true",
-                "labelPath": "this"
+                "labelPath": "this",
+                "label": "Security"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.security"},
