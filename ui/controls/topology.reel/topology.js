@@ -2,8 +2,7 @@
  * @module ui/topology.reel
  */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    TopologyService = require("core/volumes/topology-service").TopologyService;
+    Model = require("core/model/model").Model;
 
 
 var CLASS_NAMES_FOR_MODES = {
@@ -70,7 +69,7 @@ var Topology = exports.Topology = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this._topologyService = TopologyService.instance;
+                this._topologyService = this.application.topologyService;
             }
 
             this.addEventListener("vDevCreated", this, false);

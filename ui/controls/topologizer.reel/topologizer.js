@@ -1,5 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    TopologyService = require("core/volumes/topology-service").TopologyService;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class Topologizer
@@ -50,7 +49,7 @@ exports.Topologizer = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                this._topologyService = TopologyService.instance;
+                this._topologyService = this.application.topologyService;
             }
             this.profile = "";
         }

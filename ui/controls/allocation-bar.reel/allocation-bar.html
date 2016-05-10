@@ -13,6 +13,9 @@
                 "availableBarElement": {"#": "availableBar"}
             }
         },
+        "bytesSizeConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
         "parityTitle": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -23,7 +26,8 @@
         "parityValue": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "parityValue"}
+                "element": {"#": "parityValue"},
+                "converter": {"@": "bytesSizeConverter"}
             },
             "bindings": {
                 "value": {"<-": "@owner.paritySize"}
@@ -42,7 +46,9 @@
                 "element": {"#": "usedValue"}
             },
             "bindings": {
-                "value": {"<-": "@owner.usedSize"}
+                "value": {"<-": "@owner.usedSize"},
+                "converter": {"@": "bytesSizeConverter"}
+
             }
         },
         "availableTitle": {
@@ -55,7 +61,9 @@
         "availableValue": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "availableValue"}
+                "element": {"#": "availableValue"},
+                "converter": {"@": "bytesSizeConverter"}
+
             },
             "bindings": {
                 "value": {"<-": "@owner.available"}

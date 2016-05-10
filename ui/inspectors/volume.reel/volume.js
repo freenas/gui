@@ -5,6 +5,22 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Volume = Component.specialize({
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object != object) {
+                this._object = object;
+            }
+            this._calculateParity();
+        }
+    },
+    
     _shares: {
         value: null
     },
@@ -38,7 +54,7 @@ exports.Volume = Component.specialize({
     },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirsttime) {
             //Fixme: hacky, should use some selection object
             this.application.selectedVolume = this.object;
         }
@@ -47,6 +63,23 @@ exports.Volume = Component.specialize({
     exitDocument: {
         value: function() {
             delete this.application.selectedVolume;
+        }
+    },
+
+    _calculateParity: {
+        value: function() {
+            if (this._object) {
+                var vdevs = this._object.topology.data,
+                    vdev, i, length,
+                    paritySize = 0;
+                for (i = 0, length = vdevs.length; i < length; i++) {
+                    vdev = vdevs[i];
+                    if (vdev.children) {
+                        paritySize += this.application.topologyService.getParitySizeOnAllocated(vdev.children.length, vdev.type, vdev.stats.allocated);
+                    }
+                }
+                this.paritySize = paritySize;
+            }
         }
     }
 });

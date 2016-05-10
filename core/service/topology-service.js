@@ -4,6 +4,10 @@ var Montage = require("montage").Montage,
 
 var TopologyService = exports.TopologyService = Montage.specialize({
 
+    RECORD_SIZE: {
+        value: 128
+    },
+    
     _STORAGE: {
         value: "storage"
     },
@@ -24,7 +28,14 @@ var TopologyService = exports.TopologyService = Montage.specialize({
         value: null
     },
 
-    constructor: {
+    init: {
+        value: function(dataService) {
+            this._dataService = dataService;
+            return this;
+        }
+    },
+
+    loadVdevRecommendations: {
         value: function() {
             var self = this;
             Model.populateObjectPrototypeForType(Model.ZfsVdev).then(function () {
@@ -37,10 +48,58 @@ var TopologyService = exports.TopologyService = Montage.specialize({
         }
     },
 
-    init: {
-        value: function(dataService) {
-            this._dataService = dataService;
-            return this;
+    getParitySizeOnAllocated: {
+        value: function(disksCount, vdevType, allocatedSize) {
+            var paritySize = 0;
+            switch (vdevType) {
+                case 'disk':
+                    break;
+                case 'mirror':
+                    paritySize = allocatedSize / 2;
+                    break;
+                case 'raidz1':
+                    paritySize = this._getRaidzParityRatioOnAllocated(disksCount, 1) * allocatedSize;
+                    break;
+                case 'raidz2':
+                    paritySize = this._getRaidzParityRatioOnAllocated(disksCount, 2) * allocatedSize;
+                    break;
+            }
+            return paritySize;
+        }
+    },
+
+    _getRaidzParityRatioOnAllocated: {
+        value: function(disksCount, raidzLevel) {
+            var precision = Math.pow(10, raidzLevel+1);
+            return (Math.ceil((this.RECORD_SIZE + raidzLevel * Math.floor((this.RECORD_SIZE + disksCount - raidzLevel - 1)/(disksCount - raidzLevel))) * precision) / this.RECORD_SIZE - precision) / precision;
+        }
+    },
+
+    getParitySizeOnTotal: {
+        value: function(disksCount, vdevType, totalSize) {
+            var paritySize = 0;
+            switch (vdevType) {
+                case 'disk':
+                    break;
+                case 'mirror':
+                    paritySize = totalSize / 2;
+                    break;
+                case 'raidz1':
+                    paritySize = this._getRaidzParityRatioOnTotal(disksCount, 1) * totalSize;
+                    break;
+                case 'raidz2':
+                    paritySize = this._getRaidzParityRatioOnTotal(disksCount, 2) * totalSize;
+                    break;
+            }
+            return paritySize;
+        }
+    },
+
+    _getRaidzParityRatioOnTotal: {
+        value: function(disksCount, raidzLevel) {
+            var precision = Math.pow(10, raidzLevel+1),
+                number = Math.ceil((this.RECORD_SIZE + raidzLevel * Math.floor((this.RECORD_SIZE + disksCount - raidzLevel - 1) / (disksCount - raidzLevel)))* precision) / this.RECORD_SIZE;
+            return (number - precision)/(number);
         }
     },
 

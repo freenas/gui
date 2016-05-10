@@ -89,9 +89,10 @@
                 "element": {"#": "allocationBar"}
             },
             "bindings": {
-                "totalSize": {"<-": "20"},
-                "usedSize": {"<-": "6"},
-                "paritySize": {"<-": "6"}
+                "totalSize": {"<-": "+@owner.object.properties.size.rawvalue"},
+                "usedSize": {"<-": "+@owner.object.properties.allocated.rawvalue"},
+                "paritySize": {"<-": "@owner.paritySize"},
+                "available": {"<-": "+@owner.object.properties.free.rawvalue"}
             }
         }
     }
