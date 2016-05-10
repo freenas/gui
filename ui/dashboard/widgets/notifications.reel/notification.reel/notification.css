@@ -1,6 +1,7 @@
 .Notification { position: relative; }
 
-.Notification:nth-child(even) { background: rgba(0,0,0,.1); }
+.Notification:nth-child(even) { background: rgba(0,0,0,.2); }
+.Notification:nth-child(odd) { background: rgba(0,0,0,.1); }
 
 /* Notification Border */
 
