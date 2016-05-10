@@ -243,5 +243,4 @@ thead {
 
 thead td { padding: .5em 1em; }
 
-tr { height: 2em; }
-td { padding: 0 1em; }
+td { height: 2em; padding: 0 1em; }
