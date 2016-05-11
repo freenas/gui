@@ -121,16 +121,22 @@ exports.SmbService = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (this._object) {
-                this.filemaskModes = {
-                    user: this._object.filemask.user,
-                    group: this._object.filemask.group,
-                    others: this._object.filemask.others
-                };
-                this.dirmaskModes = {
-                    user: this._object.dirmask.user,
-                    group: this._object.dirmask.group,
-                    others: this._object.dirmask.others
-                };
+                if (this._object.filemask) {
+                    this.filemaskModes = {
+                        user: this._object.filemask.user,
+                        group: this._object.filemask.group,
+                        others: this._object.filemask.others
+                    };
+                    delete this._object.filemask.value;
+                }
+                if (this._object.dirmask) {
+                    this.dirmaskModes = {
+                        user: this._object.dirmask.user,
+                        group: this._object.dirmask.group,
+                        others: this._object.dirmask.others
+                    };
+                    delete this._object.dirmask.value;
+                }
             }
         }
     },
