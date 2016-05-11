@@ -89,23 +89,26 @@
 /* delete button */
 
 .Vdev-deleteButton {
-    height: 1em;
-    width:  1em;
-    border-radius: .5em;
+    position: relative;
+    height: 1.2em;
+    width:  1.2em;
+    border-radius: .6em;
     margin-left: .5em;
-    border: 1px solid currentColor;
     outline: none;
 }
 
-.Vdev-deleteButton svg {
-    padding: .15em;
-    transform: rotate(45deg);
+.Vdev-deleteButton #close-circle {
+    fill: none;
+    stroke: currentColor;
 }
 
-.Vdev-deleteButton:hover {
-    background-color: #E0003A;
-    border-color: #E0003A;
-    color: #fff;
+.Vdev-deleteButton:hover #close-circle {
+    fill:   #E0003A;
+    stroke: #E0003A;
+}
+
+.Vdev-deleteButton:hover #close-x {
+    fill: #fff;
 }
 
 .VdevTitle-type {
