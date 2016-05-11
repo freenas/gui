@@ -316,6 +316,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             this.object.type = event.target.value;
             this._hasUserDefinedType = true;
             this.showVdevTypes = false;
+            this._calculateSizes();
         }
     }
 
