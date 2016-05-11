@@ -26,6 +26,18 @@
             "properties": {
                 "element": {"#": "chart"},
                 "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "!@owner.isSpinnerShown"}
+            }
+        },
+        "loading": {
+            "prototype": "ui/controls/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
+            },
+            "bindings": {
+                "classList.has('is-visible')": {"<-": "@owner.isSpinnerShown"}
             }
         }
     }
@@ -34,6 +46,7 @@
 <body>
     <div data-montage-id="owner" class="Chart">
         <div data-montage-id="title"></div>
+        <div data-montage-id="loading" class="Chart-loading"></div>
         <svg data-montage-id="chart" id="chart"></svg>
     </div>
 </body>

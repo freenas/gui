@@ -96,11 +96,20 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     constructor: {
         value: function() {
             var self = this;
-            nvd3.addGraph(function() {
-                self._createChart();
-                self._formatYAxis();
-                self._formatXAxis();
-                self._series = [];
+            nvd3.addGraph({
+                generate: function() {
+                    self._createChart();
+                    self._formatYAxis();
+                    self._formatXAxis();
+                    self._series = [];
+                },
+                callback: function() {
+                    self._chart.dispatch.on('renderEnd', function() {
+                        if (self.isSpinnerShown) {
+                            self.isSpinnerShown = false;
+                        }
+                    });
+                }
             });
         }
     },
@@ -139,6 +148,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     enterDocument: {
         value: function() {
             var self = this;
+            this.isSpinnerShown = true;
             nv.utils.windowResize(function(){
                 self._chart.update();
             });
