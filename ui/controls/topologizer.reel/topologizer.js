@@ -232,16 +232,16 @@ exports.Topologizer = Component.specialize({
 
     draw: {
         value: function () {
-            if (this._handlePosition && (this._isMoving || this.profileHasChanged)) {
+            if (this._targePosition && (this._isMoving || this.profileHasChanged)) {
                 //fixme: @joshua hacky
                 if (!this.handleElement.style.left) {
                     this.handleElement.style.left = "0px";
                     this.handleElement.style.top = "0px";
                 }
 
-                this.handleElement.style[this.constructor.cssTransform] = "translate3d(" + this._handlePosition.x + "px," + this._handlePosition.y + "px,0)";
                 this.profileHasChanged = false;
                 this.handlePosition = this._targePosition;
+                this.handleElement.style[this.constructor.cssTransform] = "translate3d(" + this._handlePosition.x + "px," + this._handlePosition.y + "px,0)";
                 var barycentricValues = this._barycentricValues;
                 this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
             }
@@ -258,25 +258,25 @@ exports.Topologizer = Component.specialize({
         value: function() {
             switch (this._profile) {
                 case 'MEDIA':
-                    this.handlePosition = {
+                    this._targePosition = {
                         x: 110,
                         y: 95
                     };
                     break;
                 case 'VIRTUALIZATION':
-                    this.handlePosition = {
+                    this._targePosition = {
                         x: 55,
                         y: 0
                     };
                     break;
                 case 'BACKUP':
-                    this.handlePosition = {
+                    this._targePosition = {
                         x: 0,
                         y: 95
                     };
                     break;
                 case 'OPTIMAL':
-                    this.handlePosition = {
+                    this._targePosition = {
                         x: 55,
                         y: 62.5
                     };
