@@ -189,6 +189,21 @@ exports.Share = Component.specialize({
                     if (!object.target_type) {
                         object.target_type = 'DATASET';
                     }
+                    var permissionsPromise;
+                    if (!object.permissions) {
+                        permissionsPromise = self.application.dataService.getNewInstanceForType(Model.Permissions);
+                    } else {
+                        permissionsPromise = Promise.resolve(object.permissions);
+                    }
+                    permissionsPromise.then(function(permissions) {
+                        if (!permissions.user) {
+                            permissions.user = 'root';
+                        }
+                        if (!permissions.group) {
+                            permissions.group = 'wheel';
+                        }
+                        object.permissions = permissions;
+                    });
                     this.targetType = object.target_type;
                 }
                 this._object = object
