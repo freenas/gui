@@ -33,15 +33,26 @@ exports.Topologizer = Component.specialize({
         }
     },
 
+    _barycentricRoundedValues: {
+        value: null
+    },
+
     barycentricValues: {
         get: function() {
-            return this._barycentricValues.map(function(x) { return Math.round(x * 10)});
+            if (!this._barycentricRoundedValues) {
+                this._barycentricRoundedValues = [];
+
+                for (var i = 0, length = this._barycentricValues.length; i < length; i++) {
+                    this._barycentricRoundedValues.push(Math.round(this._barycentricValues[i] * 10));
+                }
+            }
+
+            return this._barycentricRoundedValues;
         },
         set: function(barycentricValues) {
-            if (this._barycentricValues != barycentricValues) {
+            if (this._barycentricValues !== barycentricValues) {
                 this._barycentricValues = barycentricValues;
-                this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
-                this.needsDraw = true;
+                this._barycentricRoundedValues = null;
             }
         }
     },
@@ -50,6 +61,18 @@ exports.Topologizer = Component.specialize({
         value: function(isFirstTime) {
             if (isFirstTime) {
                 this._topologyService = this.application.topologyService;
+
+                if (!this.constructor.cssTransform) {// check for transform support
+                    if("webkitTransform" in this._element.style) {
+                        this.constructor.cssTransform = "webkitTransform";
+                    } else if("MozTransform" in this._element.style) {
+                        this.constructor.cssTransform = "MozTransform";
+                    } else if("oTransform" in this._element.style) {
+                        this.constructor.cssTransform= "oTransform";
+                    } else {
+                        this.constructor.cssTransform = "transform";
+                    }
+                }
             }
             this.profile = "";
         }
@@ -57,6 +80,7 @@ exports.Topologizer = Component.specialize({
 
     prepareForActivationEvents: {
         value: function () {
+            //Fixme: need to use the translate composer.
             this.triangleElement.addEventListener("mousedown", this, false);
         }
     },
@@ -158,7 +182,10 @@ exports.Topologizer = Component.specialize({
 
     handleMousedown: {
         value: function (event) {
+            event.preventDefault();
+
             var triangleElementPosition = this._getTriangleEmentPosition();
+
             this._targePosition = {
                 x: event.pageX - triangleElementPosition.x,
                 y: event.pageY - triangleElementPosition.y
@@ -171,7 +198,6 @@ exports.Topologizer = Component.specialize({
             document.addEventListener("mousemove", this, false);
             document.addEventListener("mouseup", this, false);
             this.profile = "";
-            event.preventDefault();
         }
     },
 
@@ -179,16 +205,19 @@ exports.Topologizer = Component.specialize({
         value: function (event) {
             this._targePosition.x += event.pageX - this._pointerPosition.x;
             this._targePosition.y += event.pageY - this._pointerPosition.y;
-            this.handlePosition = this._targePosition;
             this._pointerPosition = {
                 x: event.pageX,
                 y: event.pageY
             };
+
+            this._isMoving = true;
+            this.needsDraw = true;
         }
     },
 
     handleMouseup: {
         value: function (event) {
+            this._isMoving = false;
             document.removeEventListener("mousemove", this, false);
             document.removeEventListener("mouseup", this, false);
         }
@@ -203,9 +232,18 @@ exports.Topologizer = Component.specialize({
 
     draw: {
         value: function () {
-            if (this._handlePosition) {
-                this.handleElement.style.left = this._handlePosition.x + "px";
-                this.handleElement.style.top = this._handlePosition.y + "px";
+            if (this._handlePosition && this._isMoving) {
+                //fixme: @joshua hacky
+                if (!this.handleElement.style.left) {
+                    this.handleElement.style.left = "0px";
+                    this.handleElement.style.top = "0px";
+                }
+
+                this.handleElement.style[this.constructor.cssTransform] = "translate3d(" + this._handlePosition.x + "px," + this._handlePosition.y + "px,0)";
+
+                this.handlePosition = this._targePosition;
+                var barycentricValues = this._barycentricValues;
+                this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
             }
         }
     },

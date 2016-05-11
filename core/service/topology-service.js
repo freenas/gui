@@ -128,30 +128,36 @@ var TopologyService = exports.TopologyService = Montage.specialize({
     },
 
     _getDisksGroups: {
-        value: function(disks) {
+        value: function (disks) {
             var disksGroups = [],
                 groupsUniquer = {},
                 i, length, disk, key;
-            for (i = 0, length = disks.length; i < disks.length; i++) {
+
+            for (i = 0, length = disks.length; i < length; i++) {
                 disk = disks[i];
-                key = [disk.is_ssd, disk.mediasize, disk.max_rotation].join('_');
+                key = disk.is_ssd + '_' + disk.mediasize + '_' + disk.max_rotation;
+
                 if (!groupsUniquer[key]) {
                     groupsUniquer[key] = [];
                     disksGroups.push(groupsUniquer[key]);
                 }
+
                 // Make non ssd weighter than ssd
                 disk.isSpinning = 1/(1+disk.is_ssd);
                 groupsUniquer[key].push(disk);
             }
+
             return disksGroups.sort(function(a, b) {
                 var delta = b.length - a.length,
                     meaningfulSpecifications = ['isSpinning', 'size'],
                     diskA = a[0], diskB = b[0],
                     specification;
-                while (delta == 0 && meaningfulSpecifications.length > 0 && diskA) {
+
+                while (delta === 0 && meaningfulSpecifications.length > 0 && diskA) {
                     specification = meaningfulSpecifications.shift();
                     delta = +diskB[specification] - +diskA[specification];
                 }
+
                 return delta;
             });
         }
@@ -224,7 +230,10 @@ var TopologyService = exports.TopologyService = Montage.specialize({
             if (!vdev.children) {
                 vdev.children = [];
             }
-            Array.prototype.push.apply(vdev.children, disks.map(this.diskToVdev.bind(this)));
+
+            for (var i = 0, length = disks.length; i < length; i++) {
+                vdev.children.push(this.diskToVdev(disks[i]));
+            }
         }
     },
 
@@ -246,7 +255,9 @@ var TopologyService = exports.TopologyService = Montage.specialize({
             }
 
             if (disks.length > 0) {
-                disks.map(function(x) { x.volume = null });
+                //fixme: @pierre probably dead code
+                this._clearDisks(disks);
+
                 if (vdevs.length == 1) {
                     if (disks.length <= (size / 2)) {
                         this._addDisksToVdev(disks, vdevs[0]);
@@ -266,13 +277,24 @@ var TopologyService = exports.TopologyService = Montage.specialize({
         }
     },
 
+    _clearDisks: {
+        value: function (disks) {
+            var disk;
+
+            if (disks) {
+                for (var i = 0, length = disks.length; i < length; i++) {
+                    disk = disks[i].volume = null;
+                }
+            }
+        }
+    },
+
     generateTopology: {
         value: function(topology, disks, redundancy, speed, storage) {
             var vdevRecommendation,
                 disksGroups = this._getDisksGroups(disks),
                 dataDisks = disksGroups.shift();
 
-            disks.map(function(x) { x.volume = null; });
             if (dataDisks.length > 3) {
                 vdevRecommendation = this._getVdevRecommendation(redundancy, speed, storage);
             } else if (dataDisks.length > 2) {
@@ -293,10 +315,23 @@ var TopologyService = exports.TopologyService = Montage.specialize({
                 };
             }
 
-            topology.cache = [];
-            topology.log = [];
-            topology.spare = [];
+            this._clearDisks(disks);
+
+            //Avoid to create garbage and to dispatch useless changes.
+            if (topology.cache.length) {
+                topology.cache = [];
+            }
+
+            if (topology.log.length) {
+                topology.log = [];
+            }
+
+            if (topology.spare.length) {
+                topology.spare = [];
+            }
+
             topology.data = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
+
             return vdevRecommendation.priorities;
         }
     }
