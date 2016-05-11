@@ -6,11 +6,6 @@
 
 .DiskIcon-mediaSize {
     background: rgba(0,0,0,.9);
-    position: absolute;
-    top: 50%;
-    margin-top: -.5rem;
-    left:  0;
-    right: 0;
     font-size: .7em;
     border-radius: 2px;
     line-height: 1rem;
