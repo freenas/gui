@@ -7,7 +7,7 @@ var TopologyService = exports.TopologyService = Montage.specialize({
     RECORD_SIZE: {
         value: 128
     },
-    
+
     _STORAGE: {
         value: "storage"
     },
@@ -55,13 +55,17 @@ var TopologyService = exports.TopologyService = Montage.specialize({
                 case 'disk':
                     break;
                 case 'mirror':
-                    paritySize = allocatedSize / 2;
+                    // A mirror's parity amount is the number of disks minus one times the size of the disks.
+                    paritySize = (disksCount - 1) * (allocatedSize / disksCount);
                     break;
                 case 'raidz1':
                     paritySize = this._getRaidzParityRatioOnAllocated(disksCount, 1) * allocatedSize;
                     break;
                 case 'raidz2':
                     paritySize = this._getRaidzParityRatioOnAllocated(disksCount, 2) * allocatedSize;
+                    break;
+                case 'raidz3':
+                    paritySize = this._getRaidzParityRatioOnAllocated(disksCount, 3) * allocatedSize;
                     break;
             }
             return paritySize;
@@ -82,13 +86,17 @@ var TopologyService = exports.TopologyService = Montage.specialize({
                 case 'disk':
                     break;
                 case 'mirror':
-                    paritySize = totalSize / 2;
+                    // A mirror's parity amount is the number of disks minus one times the size of the disks.
+                    paritySize = (disksCount - 1) * (totalSize / disksCount);
                     break;
                 case 'raidz1':
                     paritySize = this._getRaidzParityRatioOnTotal(disksCount, 1) * totalSize;
                     break;
                 case 'raidz2':
                     paritySize = this._getRaidzParityRatioOnTotal(disksCount, 2) * totalSize;
+                    break;
+                case 'raidz3':
+                    paritySize = this._getRaidzParityRatioOnTotal(disksCount, 3) * totalSize;
                     break;
             }
             return paritySize;
