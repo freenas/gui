@@ -232,7 +232,7 @@ exports.Topologizer = Component.specialize({
 
     draw: {
         value: function () {
-            if (this._handlePosition && this._isMoving) {
+            if (this._handlePosition && (this._isMoving || this.profileHasChanged)) {
                 //fixme: @joshua hacky
                 if (!this.handleElement.style.left) {
                     this.handleElement.style.left = "0px";
@@ -240,7 +240,7 @@ exports.Topologizer = Component.specialize({
                 }
 
                 this.handleElement.style[this.constructor.cssTransform] = "translate3d(" + this._handlePosition.x + "px," + this._handlePosition.y + "px,0)";
-
+                this.profileHasChanged = false;
                 this.handlePosition = this._targePosition;
                 var barycentricValues = this._barycentricValues;
                 this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
@@ -282,6 +282,9 @@ exports.Topologizer = Component.specialize({
                     };
                     break;
             }
+
+            this.profileHasChanged = true;
+            this.needsDraw = true;
         }
     }
 
