@@ -46,6 +46,14 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
         }
     },
 
+    getLoad: {
+        value: function() {
+            return this._callBackend('load_avg').then(function(response) {
+                return response.data;
+            });
+        }
+    },
+
     _callBackend: {
         value: function(method, args) {
             args = args || [];

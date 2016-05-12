@@ -31,7 +31,9 @@ exports.Viewer = Component.specialize({
                     this.application.delegate.userInterfaceDescriptorForObject(object).then(function (UIDescriptor) {
                         self.hasCreateEditor = !!UIDescriptor.creatorComponentModule;
 
-                        if (UIDescriptor.nameExpression) {
+                        if (UIDescriptor.sortExpression) {
+                            self.sortingKey = UIDescriptor.sortExpression;
+                        } else if (UIDescriptor.nameExpression) {
                             self.sortingKey = UIDescriptor.nameExpression;
                         }
 

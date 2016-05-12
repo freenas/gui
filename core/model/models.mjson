@@ -1095,6 +1095,10 @@
         {
             "modelId": "core/model/custom-descriptors/services-category.mjson",
             "type": "ServicesCategory"
+        },
+        {
+            "modelId": "core/model/custom-descriptors/system-section.mjson",
+            "type": "SystemSection"
         }
     ]
 }

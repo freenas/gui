@@ -8,3 +8,17 @@
 .Inspector-body {
     margin: 1em;
 }
+
+.Inspector.is-loading .Inspector-body,
+.Inspector.is-loading .Inspector-footer
+{
+    display: none;
+}
+
+.Inspector .Inspector-loading {
+    display: none;
+}
+
+.Inspector.is-loading .Inspector-loading {
+    display: block;
+}

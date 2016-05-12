@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="system-section.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": false,
+                "canRevert": true,
+                "canSave": true
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"},
+                "isLoading": {"<-": "@owner.isLoading"}
+            }
+        },
+        "substitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "substitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.identifier"}
+            }
+        },
+        "general": {
+            "prototype": "./general.reel",
+            "properties": {
+                "element": {"#": "general"}
+            },
+            "bindings": {
+                "isLoading": {"<->": "@owner.isLoading"}
+            }
+        },
+        "bootPool": {
+            "prototype": "./boot-pool.reel",
+            "properties": {
+                "element": {"#": "bootPool"}
+            }
+        },
+        "updates": {
+            "prototype": "./updates/updates.reel",
+            "properties": {
+                "element": {"#": "updates"}
+            }
+        },
+        "dateAndTime": {
+            "prototype": "./date-and-time.reel",
+            "properties": {
+                "element": {"#": "dateAndTime"}
+            }
+        },
+        "languageAndRegion": {
+            "prototype": "./language-and-region.reel",
+            "properties": {
+                "element": {"#": "languageAndRegion"}
+            }
+        },
+        "powerManagement": {
+            "prototype": "./power-management.reel",
+            "properties": {
+                "element": {"#": "powerManagement"}
+            }
+        },
+        "serialConsole": {
+            "prototype": "./serial-console.reel",
+            "properties": {
+                "element": {"#": "serialConsole"}
+            }
+        },
+        "advanced": {
+            "prototype": "./advanced.reel",
+            "properties": {
+                "element": {"#": "advanced"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SystemSection">
+        <div data-montage-id="inspector">
+            <div data-montage-id="substitution" class="System-substitution">
+                <div data-montage-id="general" data-arg="general">General Section</div>
+                <div data-montage-id="bootPool" data-arg="bootPool">Boot Pool Section</div>
+                <div data-montage-id="updates" data-arg="updates">Updates Section</div>
+                <div data-montage-id="dateAndTime" data-arg="dateAndTime">Date & Time Section</div>
+                <div data-montage-id="languageAndRegion" data-arg="languageAndRegion">Language & Region Section</div>
+                <div data-montage-id="powerManagement" data-arg="powerManagement">Power Management Section</div>
+                <div data-montage-id="serialConsole" data-arg="serialConsole">Serial Console Section</div>
+                <div data-montage-id="advanced" data-arg="advanced">Advanced Section</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

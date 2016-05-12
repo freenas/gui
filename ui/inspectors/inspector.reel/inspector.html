@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-loading')": {"<-": "@owner.isLoading"}
             }
         },
         "scrollView": {
@@ -15,6 +18,12 @@
             "properties": {
                 "element": {"#": "scrollView"},
                 "overflow": "scrollY"
+            }
+        },
+        "loading": {
+            "prototype": "ui/controls/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
             }
         },
         "footer": {
@@ -42,10 +51,11 @@
 <body>
     <div data-montage-id="owner" class="Inspector">
         <div data-montage-id="scrollView">
+            <div data-montage-id="loading" class="Inspector-loading"></div>
             <div class="Inspector-body">
                 <div data-param="*"></div>
             </div>
-            <div data-montage-id="footer"></div>
+            <div data-montage-id="footer" class="Inspector-footer"></div>
         </div>
     </div>
 </body>

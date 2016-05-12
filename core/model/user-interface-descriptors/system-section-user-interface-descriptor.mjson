@@ -1,0 +1,12 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'System Section'",
+            "inspectorComponentModule": {"%": "ui/inspectors/system-section.reel"},
+            "nameExpression": "label",
+            "sortExpression": "order"
+        }
+    }
+}

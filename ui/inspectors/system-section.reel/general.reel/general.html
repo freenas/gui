@@ -10,12 +10,8 @@
                 "element": {"#": "owner"}
             }
         },
-        "scrollView": {
-            "prototype": "blue-shark/ui/scrollview.reel",
-            "properties": {
-                "element": {"#": "scrollView"},
-                "overflow": "scrollY"
-            }
+        "bytesSizeConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
         },
         "hostname": {
             "prototype": "blue-shark/ui/field-text.reel",
@@ -51,7 +47,8 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "memory"},
-                "label": "Memory"
+                "label": "Memory",
+                "converter": {"@": "bytesSizeConverter"}
             },
             "bindings": {
                 "value": {"<-": "@owner.hardware.memory_size"}
@@ -84,7 +81,7 @@
                 "label": "Load Average"
             },
             "bindings": {
-                "value": {"<-": "@owner.loadAvg"}
+                "value": {"<-": "(@owner.load.0 * 100).rounded() / 100"}
             }
         }
     }
@@ -92,15 +89,13 @@
 </head>
 <body>
     <div data-montage-id="owner" class="General">
-        <div data-montage-id="scrollView">
-            <div data-montage-id="hostname"></div>
-            <div data-montage-id="version"></div>
-            <div data-montage-id="cpu_model"></div>
-            <div data-montage-id="memory"></div>
-            <div data-montage-id="systemTime"></div>
-            <div data-montage-id="uptime"></div>
-            <div data-montage-id="loadAverage"></div>
-        </div>
+        <div data-montage-id="hostname"></div>
+        <div data-montage-id="version"></div>
+        <div data-montage-id="cpu_model"></div>
+        <div data-montage-id="memory"></div>
+        <div data-montage-id="systemTime"></div>
+        <div data-montage-id="uptime"></div>
+        <div data-montage-id="loadAverage"></div>
     </div>
 </body>
 </html>

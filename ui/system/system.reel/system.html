@@ -7,126 +7,16 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "currentSection": "general"
+                "element": {"#": "owner"}
             }
         },
-        "sectionSelector": {
-            "prototype": "../../controls/section-selector.reel",
+        "cascadingList": {
+            "prototype": "ui/controls/cascading-list.reel",
             "properties": {
-                "element": {"#": "sectionSelector"},
-                "sections": [
-                    {
-                        "identifier": "general",
-                        "label": "General",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "bootPool",
-                        "label": "Boot Pool",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "updates",
-                        "label": "Updates",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "dateAndTime",
-                        "label": "Date & Time",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "languageAndRegion",
-                        "label": "Language & Region",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "powerManagement",
-                        "label": "Power Management",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "serialConsole",
-                        "label": "Serial Console",
-                        "iconUrl": "path"
-                    },
-                    {
-                        "identifier": "advanced",
-                        "label": "Advanced",
-                        "iconUrl": "path"
-                    }
-                ]
+                "element": {"#": "cascadingList"}
             },
             "bindings": {
-                "currentSection": {"<->": "@owner.currentSection"}
-            }
-        },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "substitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.currentSection"}
-            }
-        },
-        "general": {
-            "prototype": "../general.reel",
-            "properties": {
-                "element": {"#": "general"}
-            },
-            "bindings": {
-                "hostname": {"<-": "@owner.hostname"},
-                "hardware": {"<-": "@owner.hardware"},
-                "loadAvg": {"<-": "@owner.loadAvg"},
-                "time": {"<-": "@owner.time"},
-                "version": {"<-": "@owner.version"}
-            }
-        },
-        "bootPool": {
-            "prototype": "../boot-pool.reel",
-            "properties": {
-                "element": {"#": "bootPool"}
-            }
-        },
-        "updates": {
-            "prototype": "../updates/updates.reel",
-            "properties": {
-                "element": {"#": "updates"}
-            }
-        },
-        "dateAndTime": {
-            "prototype": "../date-and-time.reel",
-            "properties": {
-                "element": {"#": "dateAndTime"}
-            }
-        },
-        "languageAndRegion": {
-            "prototype": "../language-and-region.reel",
-            "properties": {
-                "element": {"#": "languageAndRegion"}
-            }
-        },
-        "powerManagement": {
-            "prototype": "../power-management.reel",
-            "properties": {
-                "element": {"#": "powerManagement"}
-            }
-        },
-        "serialConsole": {
-            "prototype": "../serial-console.reel",
-            "properties": {
-                "element": {"#": "serialConsole"}
-            },
-            "bindings": {
-                "property": {"<-": "data"}
-            }
-        },
-        "advanced": {
-            "prototype": "../advanced.reel",
-            "properties": {
-                "element": {"#": "advanced"}
+                "root": {"<-": "@owner.sections"}
             }
         }
     }
@@ -134,17 +24,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="System">
-        <div data-montage-id="sectionSelector" class="System-navigation"></div>
-        <div data-montage-id="substitution" class="System-substitution">
-            <div data-montage-id="general" data-arg="general">General Section</div>
-            <div data-montage-id="bootPool" data-arg="bootPool">Boot Pool Section</div>
-            <div data-montage-id="updates" data-arg="updates">Updates Section</div>
-            <div data-montage-id="dateAndTime" data-arg="dateAndTime">Date & Time Section</div>
-            <div data-montage-id="languageAndRegion" data-arg="languageAndRegion">Language & Region Section</div>
-            <div data-montage-id="powerManagement" data-arg="powerManagement">Power Management Section</div>
-            <div data-montage-id="serialConsole" data-arg="serialConsole">Serial Console Section</div>
-            <div data-montage-id="advanced" data-arg="advanced">Advanced Section</div>
-        </div>
+        <div data-montage-id="cascadingList"></div>
     </div>
 </body>
 </html>
