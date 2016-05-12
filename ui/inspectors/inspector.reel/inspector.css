@@ -17,6 +17,12 @@
 
 .Inspector .Inspector-loading {
     display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.Inspector .Inspector-loading svg {
+    width: 5em;
 }
 
 .Inspector.is-loading .Inspector-loading {
