@@ -16,7 +16,6 @@
                 }
             ],
             "bindings": {
-                "classList.has('has-infoExpanded')": {"<-": "@owner.infoExpanded"},
                 "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
                 "classList.has('success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
@@ -67,12 +66,6 @@
             "bindings": {
                 "value": {"<-": "@owner.object.errorMessage"}
             }
-        },
-        "infoToggle": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "infoToggle"}
-            }
         }
     }
     </script>
@@ -89,7 +82,7 @@
                     <div data-montage-id="progress" class="Notification-progress"></div>
                 </div>
             </div>
-            <div data-montage-id="infoToggle" class="Notification-infoToggle">
+            <div class="Notification-arrow">
                 <svg><use xlink:href="#i-arrow"/></svg>
             </div>
             <div data-montage-id="notificationMessage" class="Notification-info"></div>

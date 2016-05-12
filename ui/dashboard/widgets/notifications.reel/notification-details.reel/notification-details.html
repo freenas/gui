@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="notification-details.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"}
+            }
+        },
+        "backButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "backButton"}
+            }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        },
+        "jobId": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "jobId"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type + '#: ' + @owner.object.jobId"}
+            }
+        },
+        "taskName": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "taskName"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.taskName"}
+            }
+        },
+        "state": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "state"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.state"}
+            }
+        },
+        "errorCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "errorCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!!@owner.object.errorMessage"}
+            }
+        },
+        "errorMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "errorMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.errorMessage"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="NotificationDetails">
+        <header>
+            <div data-montage-id="backButton" class="NotificationDetails-backButton">
+                <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+            <span data-montage-id="jobId" class="NotificationDetail-title"></span>
+        </header>
+        <main>
+            <div data-montage-id="scrollview">
+                <div>
+                    <div data-montage-id="errorCondition" class="NotificationDetails-errorMessage">
+                        <span data-montage-id="errorMessage"></span>
+                    </div>
+                    <p><span>Task Name:</span> <span data-montage-id="taskName"></span></p>
+                    <p><span>State:</span> <span data-montage-id="state"></span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

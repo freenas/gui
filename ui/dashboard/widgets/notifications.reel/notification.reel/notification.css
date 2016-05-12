@@ -1,7 +1,14 @@
-.Notification { position: relative; }
+.Notification {
+    position: relative;
+    cursor: pointer;
+    transition: background-color .25s ease-in-out;
+}
 
 .Notification:nth-child(even) { background: rgba(0,0,0,.2); }
 .Notification:nth-child(odd) { background: rgba(0,0,0,.1); }
+
+.Notification:hover { background: rgba(255,255,255,.05); }
+.Notification:active:before { background: #0C5688;}
 
 /* Notification Border */
 
@@ -42,18 +49,14 @@
     align-items: center;
 }
 
-.Notification-overview > div:first-child {
-    margin-bottom: .5em;
-}
+.Notification-overview > div:first-child { margin-bottom: .5em; }
 
 .Notification-time,
 .Notification-service {
     font-size: .75em;
 }
 
-.Notification-time {
-    margin-right: .5em;
-}
+.Notification-time { margin-right: .5em; }
 
 .Notification-progress {
     width:  80%;
@@ -81,37 +84,23 @@
     color: #fff;
 }
 
-.Notification.has-infoExpanded .Notification-info {
-    display: block;
-}
+.Notification.has-infoExpanded .Notification-info { display: block; }
 
-/* Toggle Button */
+/* Arrow */
 
-.Notification-infoToggle {
-    display: none;
+.Notification-arrow {
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: .5em;
-    outline: none;
-    cursor: pointer;
     transition: color .25s ease-in-out;
 }
 
-.Notification.error .Notification-infoToggle {
-    display: flex;
-}
-
-.Notification-infoToggle:hover {
-    color: #fff;
-}
-
-.Notification-infoToggle svg {
+.Notification-arrow svg {
     display: inline-block;
     height: 1.4em;
     width:  1.4em;
-    transform: rotate(90deg);
+    transition: color .25s ease-in-out;
 }
 
-.Notification.has-infoExpanded .Notification-infoToggle svg {
-    transform: rotate(-90deg);
-}
+.Notification:hover .Notification-arrow svg { color: #fff; }

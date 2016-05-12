@@ -3,12 +3,15 @@
     margin-bottom: 1em;
     overflow: hidden;
     border-radius: 4px;
-
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius:  2px;
 }
+
+
 
 .Notifications-header {
     position: relative;
-    background-color: #2F3233;
+    background-color: #404040;
     padding: .5em;
     border-top-right-radius: 2px;
     border-top-left-radius:  2px;
@@ -22,10 +25,12 @@
     position: relative;
     z-index: 1;
     height: 10em;
-    overflow: hidden;
     background-color: #242628;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius:  2px;
+    transition: transform .5s cubic-bezier(.7,0,.3,1);
+}
+
+.Notifications.is-expanded .Notifications-body {
+    transform: translateX(-100%);
 }
 
 /* Empty State */
