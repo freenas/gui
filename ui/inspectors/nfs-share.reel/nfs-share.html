@@ -8,6 +8,26 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "sortedUsers": {"<-": "@owner.users.sorted{builtin + username}"},
+                "sortedGroups": {"<-": "@owner.groups.sorted{builtin + name}"},
+                "mapUsers": {"<-": "[{username: ''}].concat(@owner.sortedUsers)"},
+                "mapGroups": {"<-": "[{name: ''}].concat(@owner.sortedGroups)"}
+            }
+        },
+        "usersOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "username",
+                "valuePropertyName": "username"
+            }
+        },
+        "groupsOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
             }
         },
         "readOnly": {
@@ -37,19 +57,12 @@
                 "title": "Advanced"
             }
         },
-        "hostsTitle": {
-            "prototype": "ui/controls/inspector-section-title.reel",
-            "properties": {
-                "element": {"#": "hostsTitle"},
-                "value": "Authorized hosts"
-            }
-        },
         "hosts": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "hosts"},
                 "labelPath": "this",
-                "label": "Hosts"
+                "label": "Authorized hosts"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.hosts"},
@@ -60,51 +73,48 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "maprootUser"},
-                "label": "Maproot user"
+                "label": "Maproot user",
+                "converter": {"@": "usersOptionsConverter"}
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.properties.maproot_user"},
-                "options": {"<-": "[{label: '', value: ''}].concat(@owner.users.map{{label: username, value: username}})"}
+                "options": {"<-": "@owner.mapUsers"}
             }
         },
         "maprootGroup": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "maprootGroup"},
-                "label": "Maproot group"
+                "label": "Maproot group",
+                "converter": {"@": "groupsOptionsConverter"}
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.properties.maproot_group"},
-                "options": {"<-": "[{label: '', value: ''}].concat(@owner.groups.map{{label: name, value: name}})"}
+                "options": {"<-": "@owner.mapGroups"}
             }
         },
         "mapallUser": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "mapallUser"},
-                "label": "Mapall user"
+                "label": "Mapall user",
+                "converter": {"@": "usersOptionsConverter"}
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.properties.mapall_user"},
-                "options": {"<-": "[{label: '', value: ''}].concat(@owner.users.map{{label: username, value: username}})"}
+                "options": {"<-": "@owner.mapUsers"}
             }
         },
         "mapallGroup": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "mapallGroup"},
-                "label": "Mapall group"
+                "label": "Mapall group",
+                "converter": {"@": "groupsOptionsConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.properties.mapall_group"},
-                "options": {"<-": "[{label: '', value: ''}].concat(@owner.groups.map{{label: name, value: name}})"}
-            }
-        },
-        "securityTitle": {
-            "prototype": "ui/controls/inspector-section-title.reel",
-            "properties": {
-                "element": {"#": "securityTitle"},
-                "value": "NFS v4 Security"
+                "options": {"<-": "@owner.mapGroups"}
             }
         },
         "security": {
@@ -113,7 +123,7 @@
                 "element": {"#": "security"},
                 "draggable": "true",
                 "labelPath": "this",
-                "label": "Security"
+                "label": "NFS v4 Security"
             },
             "bindings": {
                 "values": {"<->": "@owner.properties.security"},
