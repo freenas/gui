@@ -23,7 +23,7 @@ exports.General = Component.specialize(/** @lends General# */ {
                 loadingPromises = [];
             loadingPromises.push(
                 this.application.dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral) {
-                    self.hostname = systemGeneral[0].hostname;
+                    self.systemGeneral = systemGeneral[0];
                 }),
                 this.application.systemInfoService.getVersion().then(function(version) {
                     self.version = version;

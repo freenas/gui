@@ -364,6 +364,10 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 notification.data = detail.operation === "delete" ? detail.ids : detail.entities;
                 notification.startedTime = Date.now(); //todo need verification
 
+                if (typeof notification.data == 'undefined' && detail.data) {
+                    notification.data = detail.data.length ? detail.data : [detail.data];
+                }
+
                 this.dispatchEventNamed("modelChange", true, true, notification);
                 this._addNotification(notification);
             }

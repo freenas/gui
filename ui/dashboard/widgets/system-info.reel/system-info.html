@@ -19,13 +19,22 @@
                 "decimals": 2
             }
         },
+        "secondsToStringConverter": {
+            "prototype": "core/converter/seconds-to-string-converter"
+        },
+        "loadToStringConverter": {
+            "prototype": "core/converter/load-to-string-converter"
+        },
+        "iso8601ToStringConverter": {
+            "prototype": "core/converter/iso8601-to-string-converter"
+        },
         "hostname": {
             "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "hostname"}
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.uname.1"}
+                "value": {"<-": "@owner.systemInfo.general.hostname"}
             }
         },
         "osVersion": {
@@ -40,10 +49,31 @@
         "uptime": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "uptime"}
+                "element": {"#": "uptime"},
+                "converter": {"@": "secondsToStringConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.systemInfo.time.uptime.round() + ' seconds'"}
+                "value": {"<-": "@owner.systemInfo.time.uptime"}
+            }
+        },
+        "systemTime": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "systemTime"},
+                "converter": {"@": "iso8601ToStringConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.time.system_time"}
+            }
+        },
+        "loadAverage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "loadAverage"},
+                "converter": {"@": "loadToStringConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.load"}
             }
         },
         "cpuCount": {
@@ -169,10 +199,10 @@
                         <dd data-montage-id="uptime"></dd>
 
                         <dt>System Time</dt>
-                        <dd>Wed Apr 27 14:02:59 PDT 2016 (not implemented)</dd>
+                        <dd data-montage-id="systemTime"></dd>
 
                         <dt>Load Average</dt>
-                        <dd>0.55, 0.41, 0.18 (not implemented)</dd>
+                        <dd data-montage-id="loadAverage"></dd>
 
                         <dt>Platform</dt>
                         <dd>
