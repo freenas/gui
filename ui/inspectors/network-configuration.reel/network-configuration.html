@@ -17,8 +17,8 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canSave": "true",
-                "canRevert": "true"
+                "canSave": true,
+                "canRevert": true
             }
         },
         "hostname": {
@@ -46,7 +46,8 @@
             "properties": {
                 "element": {"#": "netwait_addresses"},
                 "label": "Netwait Addresses",
-                "labelPath": "this"
+                "labelPath": "this",
+                "isDraggable": true
             },
             "bindings": {
                 "values": {"<->": "@owner.object.netwait.addresses"},
@@ -77,7 +78,7 @@
             "properties": {
                 "element": {"#": "dhcp_settings"},
                 "title": "DHCP Settings",
-                "isExpanded": "true"
+                "isExpanded": true
             }
         },
         "dhcp_assign_gateway": {
@@ -114,7 +115,7 @@
             "properties": {
                 "element": {"#": "gatewaySettings"},
                 "title": "Gateway Settings",
-                "isExpanded": "true"
+                "isExpanded": true
             }
         },
         "gatewayIpv4": {
@@ -180,7 +181,7 @@
                 "element": {"#": "dns_search"},
                 "label": "Search Addresses",
                 "labelPath": "this",
-                "draggable": "true"
+                "isDraggable": true
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.search"},
@@ -193,7 +194,8 @@
             "properties": {
                 "element": {"#": "dns_addresses"},
                 "label": "IP Addresses",
-                "labelPath": "this"
+                "labelPath": "this",
+                "isDraggable": true
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.addresses"},
