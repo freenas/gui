@@ -26,8 +26,8 @@
                 "element": {"#": "taskSummary"}
             },
             "bindings": {
-                "value": {"<-": "@owner.summary"},
-                "classList.has('hide')": {"<-": "!@owner.summary"}
+                "value": {"<-": "@owner.object.taskReport.description.message"},
+                "classList.has('hide')": {"<-": "!@owner.object.taskReport.description.message"}
             }
         },
         "converter": {
