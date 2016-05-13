@@ -517,6 +517,10 @@
             "type": "TaskArgs"
         },
         {
+            "modelId": "core/model/descriptors/task-description.mjson",
+            "type": "TaskDescription"
+        },
+        {
             "modelId": "core/model/descriptors/task.mjson",
             "type": "Task"
         },

@@ -44,7 +44,8 @@
     "properties": {
       "name": "dirmask",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_serviceftp_display_login": {
@@ -68,7 +69,8 @@
     "properties": {
       "name": "filemask",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_serviceftp_fxp": {

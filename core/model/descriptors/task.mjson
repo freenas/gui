@@ -24,6 +24,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_task_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_task_error": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -158,6 +166,7 @@
         {"@": "blueprint_task_args"},
         {"@": "blueprint_task_created_at"},
         {"@": "blueprint_task_debugger"},
+        {"@": "blueprint_task_description"},
         {"@": "blueprint_task_error"},
         {"@": "blueprint_task_finished_at"},
         {"@": "blueprint_task_id"},

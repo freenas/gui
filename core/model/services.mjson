@@ -17,6 +17,12 @@
                 "method": "alert.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "send": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "alert.send"
             }
         }
     },
@@ -1553,6 +1559,11 @@
             },
             "localQuery": {
                 "method": "replication.link.local_query",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "syncQuery": {
+                "method": "replication.link.sync_query",
                 "name": "call",
                 "namespace": "rpc"
             }

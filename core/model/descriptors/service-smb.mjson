@@ -28,7 +28,8 @@
     "properties": {
       "name": "dirmask",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_servicesmb_domain_logons": {
@@ -76,7 +77,8 @@
     "properties": {
       "name": "filemask",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "UnixPermissions"
     }
   },
   "blueprint_servicesmb_guest_user": {

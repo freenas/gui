@@ -20,7 +20,8 @@
     "properties": {
       "name": "class",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "AlertClassId"
     }
   },
   "blueprint_alert_description": {
@@ -87,12 +88,13 @@
       "valueType": "number"
     }
   },
-  "blueprint_alert_source": {
+  "blueprint_alert_severity": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "source",
+      "name": "severity",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "AlertSeverity"
     }
   },
   "blueprint_alert_subtype": {
@@ -124,6 +126,19 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "SYSTEM",
+        "VOLUME",
+        "DISK"
+      ]
+    }
+  },
+  "blueprint_alert_user": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "user",
+      "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
@@ -143,11 +158,12 @@
         {"@": "blueprint_alert_last_emitted_at"},
         {"@": "blueprint_alert_one_shot"},
         {"@": "blueprint_alert_send_count"},
-        {"@": "blueprint_alert_source"},
+        {"@": "blueprint_alert_severity"},
         {"@": "blueprint_alert_subtype"},
         {"@": "blueprint_alert_target"},
         {"@": "blueprint_alert_title"},
-        {"@": "blueprint_alert_type"}
+        {"@": "blueprint_alert_type"},
+        {"@": "blueprint_alert_user"}
       ]
     }
   }
