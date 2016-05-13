@@ -405,6 +405,8 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                                 state === Notification.TASK_STATES.FAILED ||
                                 state === Notification.TASK_STATES.ABORTED;
 
+                        taskNotification.taskReport = taskReport;
+    
                         if (isTaskDone) {
                             if (taskReport.progress) {
                                 taskNotification.progress = taskReport.progress.percentage;
@@ -762,6 +764,10 @@ var Notification = exports.Notification =  Montage.specialize({
     },
 
     errorMessage: {
+        value: null
+    },
+
+    taskReport: {
         value: null
     }
 
