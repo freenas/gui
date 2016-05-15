@@ -10,7 +10,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"}
+                "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"},
+                "alertsCount": {"<-": "@owner.notifications.filter{type == 'ALERT'}.length"}
             },
             "listeners": [
                 {
@@ -39,6 +40,17 @@
             }
         },
 
+        "alertCount": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "alertCount"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.alertsCount"},
+                "classList.has('has-error')": {"<-": "@owner.alertsCount > 0"}
+            }
+        },
+
         "toggleSideboard": {
             "prototype": "montage/ui/button.reel",
             "properties": {
@@ -52,7 +64,7 @@
     <div data-montage-id="owner" class="Sideboard">
         <div class="Sideboard-container">
             <div class="Sideboard-icons">
-                <div class="Sideboard-icon"></div>
+                <div data-montage-id="alertCount" class="Sideboard-icon"></div>
                 <div class="Sideboard-icon"></div>
                 <div class="Sideboard-icon"></div>
                 <div class="Sideboard-icon"></div>
