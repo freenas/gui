@@ -798,6 +798,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     notificationCenter = new NotificationCenter().initWithBackendBridge(freeNASService.backendBridge);
 
                 instance = new DataService();
+                instance.host = freeNASService.backendBridge.host;
 
                 //Fixme: hacky
                 instance.getNewInstanceForType = FreeNASService.prototype.getNewInstanceForType;

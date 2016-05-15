@@ -36,6 +36,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
      */
     initWithConfiguration: {
         value: function (configuration) {
+            this.host = configuration.get(WebSocketConfiguration.KEYS.HOST);
             this._connection = new WebSocketClient().initWithUrl(configuration.get(WebSocketConfiguration.KEYS.URL));
             this._handlerPool = new HandlerPool().initWithHandlerTimeout(configuration.get(WebSocketConfiguration.KEYS.TIMEOUT));
 

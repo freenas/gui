@@ -9,14 +9,66 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "dateConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "d"
+            }
+        },
+        "timeConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "t"
+            }
+        },
+        "username": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "username"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.session.username"}
+            }
+        },
+        "host": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "host"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.session.host"}
+            }
+        },
+        "date": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "date"},
+                "converter": {"@": "dateConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.now"}
+            }
+        },
+        "time": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "time"},
+                "converter": {"@": "timeConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.now"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="CurrentUserSummary">
-        <div class="CurrentUserSummary-userAvatar">MJ</div>
-        <div>10.1.1.192</div>
+        <div data-montage-id="username" class="CurrentUserSummary-userAvatar">MJ</div>
+        <div data-montage-id="host"></div>
+        <div data-montage-id="date"></div>
+        <div data-montage-id="time"></div>
     </div>
 </body>
 </html>

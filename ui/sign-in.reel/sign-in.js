@@ -117,6 +117,8 @@ exports.SignIn = AuthorizationPanel.specialize({
                 this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
                     self.application.topologyService.loadVdevRecommendations();
                     self.authorizationManagerPanel.approveAuthorization(authorization);
+                    self.application.session.username = self.userName;
+                    self.application.session.host = self.application.dataService.host;
 
                     // Don't keep any track of the password in memory.
                     self.password = self.userName = null;
