@@ -8,63 +8,33 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ],
-            "bindings": {
-                "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
-                "classList.has('success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
         },
-        "taskSummary": {
-            "prototype": "montage/ui/text.reel",
+        "notificationSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
-                "element": {"#": "taskSummary"}
+                "element": {"#": "notificationSubstitution"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskReport.description.message"},
-                "classList.has('hide')": {"<-": "!@owner.object.taskReport.description"}
+                "switchValue": {"<-": "@owner.object.type"}
             }
         },
-        "converter": {
-            "prototype": "montage/core/converter/date-converter",
+        "taskNotification": {
+            "prototype": "./task-notification.reel",
             "properties": {
-                "pattern": "HH:mm:ss"
-            }
-        },
-        "timestamp": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "timestamp"}
+                "element": {"#": "taskNotification"}
             },
             "bindings": {
-                "value": {
-                    "<-": "@owner.object.startedTime",
-                    "converter": {"@": "converter"}
-                }
+                "object": {"<-": "@owner.object"}
             }
         },
-        "progress": {
-            "prototype": "blue-shark/ui/progress.reel",
+        "alertNotification": {
+            "prototype": "./alert-notification.reel",
             "properties": {
-                "element": {"#": "progress"}
+                "element": {"#": "alertNotification"}
             },
             "bindings": {
-                "percentageComplete": {"<-": "@owner.object.progress"},
-                "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"}
-            }
-        },
-        "notificationMessage": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "notificationMessage"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.errorMessage"}
+                "object": {"<-": "@owner.object"}
             }
         }
     }
@@ -72,20 +42,9 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Notification">
-        <div class="Notification-body">
-            <div class="Notification-overview">
-                <div>
-                    <div data-montage-id="taskSummary"></div>
-                </div>
-                <div>
-                    <div data-montage-id="timestamp" class="Notification-time"></div>
-                    <div data-montage-id="progress" class="Notification-progress"></div>
-                </div>
-            </div>
-            <div class="Notification-arrow">
-                <svg><use xlink:href="#i-arrow"/></svg>
-            </div>
-            <div data-montage-id="notificationMessage" class="Notification-info"></div>
+        <div data-montage-id="notificationSubstitution">
+            <div data-montage-id="taskNotification" data-arg="TASK"></div>
+            <div data-montage-id="alertNotification" data-arg="ALERT"></div>
         </div>
     </div>
 </body>

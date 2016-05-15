@@ -8,67 +8,33 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            }
+        },
+        "notificationSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "notificationSubstitution"}
             },
             "bindings": {
-                "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"}
+                "switchValue": {"<-": "@owner.object.type"}
             }
         },
-        "backButton": {
-            "prototype": "montage/ui/button.reel",
+        "taskNotification": {
+            "prototype": "./task-notification-details.reel",
             "properties": {
-                "element": {"#": "backButton"}
-            }
-        },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
-            "properties": {
-                "element": {"#": "scrollview"},
-                "overflow": "scrollY"
-            }
-        },
-        "jobId": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "jobId"}
+                "element": {"#": "taskNotification"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type + ' #' + @owner.object.jobId"}
+                "object": {"<-": "@owner.object"}
             }
         },
-        "taskName": {
-            "prototype": "montage/ui/text.reel",
+        "alertNotification": {
+            "prototype": "./alert-notification-details.reel",
             "properties": {
-                "element": {"#": "taskName"}
+                "element": {"#": "alertNotification"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.taskName"}
-            }
-        },
-        "state": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "state"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.state"}
-            }
-        },
-        "errorCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "errorCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "!!@owner.object.errorMessage"}
-            }
-        },
-        "errorMessage": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "errorMessage"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.errorMessage"}
+                "object": {"<-": "@owner.object"}
             }
         }
     }
@@ -76,23 +42,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="NotificationDetails">
-        <header>
-            <div data-montage-id="backButton" class="NotificationDetails-backButton">
-                <svg><use xlink:href="#i-arrow"/></svg>
-            </div>
-            <span data-montage-id="jobId" class="NotificationDetail-title"></span>
-        </header>
-        <main>
-            <div data-montage-id="scrollview">
-                <div>
-                    <div data-montage-id="errorCondition" class="NotificationDetails-errorMessage">
-                        <span data-montage-id="errorMessage"></span>
-                    </div>
-                    <p><span>Task Name:</span> <span data-montage-id="taskName"></span></p>
-                    <p><span>State:</span> <span data-montage-id="state"></span></p>
-                </div>
-            </div>
-        </main>
+        <div data-montage-id="notificationSubstitution">
+            <div data-montage-id="taskNotification" data-arg="TASK"></div>
+            <div data-montage-id="alertNotification" data-arg="ALERT"></div>
+        </div>
     </div>
 </body>
 </html>

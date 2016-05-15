@@ -276,6 +276,38 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
+    startListenToAlertEvents: {
+        value: function () {
+            var self = this;
+
+            return this.startListenToChangesOnModelIfNeeded(Model.Alert);
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    stopListenToAlertEvents: {
+        value: function () {
+            var self = this;
+
+            return this.stopListenToChangesOnModel(Model.Alert);
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     startListenToChangesOnModelIfNeeded: {
         value: function (modelType) {
             var modelTypeName = modelType.typeName || modelType,
@@ -286,7 +318,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                     self = this;
 
                 return this._backendBridge.subscribeToEvent(eventType, this).then(function () {
-                    if (modelType !== Model.Task && !self[handlerEventTypeName]) {
+                    if (modelType !== Model.Task && modelType !== Model.Alert && !self[handlerEventTypeName]) {
                         self[handlerEventTypeName] = self.handleEntityChanged;
                     }
 
@@ -370,6 +402,28 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
 
                 this.dispatchEventNamed("modelChange", true, true, notification);
                 this._addNotification(notification);
+            }
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
+    handleEntitySubscriberAlertChanged: {
+        value: function (event) {
+            var detail = event.detail;
+
+            if (detail && detail.entities) {
+                // Real "entities" for task events are in entities.args.
+                // Entities for task events are a mix between task status and involved entities.
+                var alertEntity = detail.entities[0],
+                    notification = this._createAlertNotification(alertEntity);
+                this._notifications.unshift(notification);
             }
         }
     },
@@ -626,6 +680,26 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
+    _createAlertNotification: {
+        value: function (alertEntity) {
+            var notification = this._createNotificationWithType(Notification.TYPES.ALERT);
+            notification.jobId = alertEntity.id;
+            notification.taskName = alertEntity.title;
+            notification.data = alertEntity;
+            notification.startedTime = Date.parse(alertEntity.created_date) || Date.now();
+
+            return notification;
+        }
+    },
+
+
+    /**
+     * @function
+     * @private
+     *
+     * @description todo
+     *
+     */
     _createTaskNotification: {
         value:function (jobId, taskName, startedTime) {
             var notification = this._createNotificationWithType(Notification.TYPES.TASK);
@@ -689,18 +763,15 @@ Object.defineProperty(exports, "defaultNotificationCenter", {
 
 var Notification = exports.Notification =  Montage.specialize({
 
-
     constructor: {
         value: function Notification (type) {
             this._type = type;
         }
     },
 
-
     _type: {
         value: null
     },
-
 
     type: {
         get: function () {
@@ -708,11 +779,9 @@ var Notification = exports.Notification =  Montage.specialize({
         }
     },
 
-
     _state: {
         value: null
     },
-
 
     state: {
         set: function (state) {
@@ -729,31 +798,25 @@ var Notification = exports.Notification =  Montage.specialize({
         }
     },
 
-
     jobId: {
         value: null
     },
-
 
     modelType: {
         value: null
     },
 
-
     service: {
         value: null
     },
-
 
     data: {
         value: null
     },
 
-
     startedTime: {
         value: null
     },
-
 
     taskName: {
         value: null
@@ -777,7 +840,8 @@ var Notification = exports.Notification =  Montage.specialize({
     TYPES: {
         value: {
             TASK: "TASK",
-            EVENT: "EVENT"
+            EVENT: "EVENT",
+            ALERT: "ALERT"
         }
     },
 

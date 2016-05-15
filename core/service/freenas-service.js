@@ -139,7 +139,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.Group,
             Model.SystemSection,
             Model.SystemGeneral,
-            Model.Service
+            Model.Service,
+            Model.Alert
         ]
     },
 
@@ -670,7 +671,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             var self = this;
 
             return this.notificationCenter.startListenToTaskEvents().then(function () {
-                self.notificationCenter.addEventListener("modelChange", self);
+                return self.notificationCenter.addEventListener("modelChange", self);
+            }).then(function() {
+                return Model.populateObjectPrototypeForType(Model.Alert);
+            }).then(function() {
+                self.modelsCache.set(Model.Alert.typeName, []);
+                return self.notificationCenter.startListenToAlertEvents();
             });
         }
     },
@@ -690,7 +696,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             var self = this;
 
             return this.notificationCenter.stopListenToTaskEvents().then(function () {
-                self.notificationCenter.removeEventListener("modelChange", self);
+                return self.notificationCenter.removeEventListener("modelChange", self);
+            }).then(function() {
+                return self.notificationCenter.stopListenToAlertEvents();
             });
         }
     },

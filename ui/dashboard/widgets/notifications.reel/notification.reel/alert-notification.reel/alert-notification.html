@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="alert-notification.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ],
+            "bindings": {
+                "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
+                "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
+                "classList.has('has-critical')": {"<-": "@owner.object.data.severity == 'CRITICAL'"}
+            }
+        },
+        "converter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "HH:mm:ss"
+            }
+        },
+        "summary": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "summary"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.taskName"},
+                "classList.has('hide')": {"<-": "!@owner.object.taskName"}
+            }
+        },
+        "timestamp": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "timestamp"}
+            },
+            "bindings": {
+                "value": {
+                    "<-": "@owner.object.startedTime",
+                    "converter": {"@": "converter"}
+                }
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="AlertNotification">
+        <div class="AlertNotification-body">
+            <div class="AlertNotification-overview">
+                <div>
+                    <div data-montage-id="summary"></div>
+                </div>
+                <div>
+                    <div data-montage-id="timestamp" class="AlertNotification-time"></div>
+                </div>
+            </div>
+            <div class="AlertNotification-arrow">
+                <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

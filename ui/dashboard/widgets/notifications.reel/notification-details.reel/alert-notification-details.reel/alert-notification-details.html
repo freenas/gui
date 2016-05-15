@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="alert-notification-details.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
+                "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
+                "classList.has('has-critical')": {"<-": "@owner.object.data.severity == 'CRITICAL'"}
+            }
+        },
+        "backButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "backButton"}
+            }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        },
+        "jobId": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "jobId"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type + ' #' + @owner.object.jobId"}
+            }
+        },
+        "taskName": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "taskName"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.taskName"}
+            }
+        },
+        "state": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "state"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.state"}
+            }
+        },
+        "description": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "description"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.data.description"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="AlertNotificationDetails">
+        <header>
+            <div data-montage-id="backButton" class="AlertNotificationDetails-backButton">
+                <svg><use xlink:href="#i-arrow"/></svg>
+            </div>
+            <span data-montage-id="jobId" class="NotificationDetail-title"></span>
+        </header>
+        <main>
+            <div data-montage-id="scrollview">
+                <div>
+                    <div data-montage-id="description"></div>
+                    <p><span>Alert Name:</span> <span data-montage-id="taskName"></span></p>
+                    <p><span>State:</span> <span data-montage-id="state"></span></p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

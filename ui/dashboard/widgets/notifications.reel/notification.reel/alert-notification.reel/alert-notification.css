@@ -1,0 +1,86 @@
+.AlertNotification {
+    position: relative;
+    cursor: pointer;
+    transition: background-color .25s ease-in-out;
+}
+
+.AlertNotification:nth-child(even) { background: rgba(0,0,0,.2); }
+.AlertNotification:nth-child(odd) { background: rgba(0,0,0,.1); }
+
+.AlertNotification:hover { background: rgba(255,255,255,.05); }
+.AlertNotification:active:before { background: #0C5688;}
+
+/* AlertNotification Border */
+
+.AlertNotification:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    border:1px solid transparent;
+}
+
+.AlertNotification.has-infoExpanded:before {
+    border-color: #DFE4E4;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius:  4px;
+}
+
+.AlertNotification.error:before { border-color: #E0003A; }
+
+.AlertNotification-body {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: .85em;
+    letter-spacing: .5px;
+    margin-top: 0.1em;
+}
+
+.AlertNotification-overview {
+    padding: .5em;
+    flex: 1;
+}
+
+.AlertNotification-overview > div {
+    display: flex;
+    align-items: center;
+}
+
+.AlertNotification-overview > div:first-child { margin-bottom: .5em; }
+
+.AlertNotification-time,
+.AlertNotification-service {
+    font-size: .75em;
+}
+
+.AlertNotification-time { margin-right: .5em; }
+
+.AlertNotification-progress {
+    width:  80%;
+    margin-left: .5em;
+}
+
+.AlertNotification.error .AlertNotification-progress  { background-color: #E0003A; }
+.AlertNotification.success .AlertNotification-progress .Progress-bar { background-color: #1E963F; }
+
+/* Arrow */
+
+.AlertNotification-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5em;
+    transition: color .25s ease-in-out;
+}
+
+.AlertNotification-arrow svg {
+    display: inline-block;
+    height: 1.4em;
+    width:  1.4em;
+    transition: color .25s ease-in-out;
+}
+
+.AlertNotification:hover .AlertNotification-arrow svg { color: #fff; }

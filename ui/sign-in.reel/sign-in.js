@@ -1,6 +1,7 @@
 var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").AuthorizationPanel,
     Model = require("core/model/model").Model,
-    KeyComposer = require("montage/composer/key-composer").KeyComposer;
+    KeyComposer = require("montage/composer/key-composer").KeyComposer,
+    notificationCenter = require("core/backend/notification-center").defaultNotificationCenter;
 
 
 /**
