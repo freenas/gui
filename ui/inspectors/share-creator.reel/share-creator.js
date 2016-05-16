@@ -26,6 +26,7 @@ exports.ShareCreator = Component.specialize({
                 newShare = share;
                 newShare._isNewObject = true;
                 newShare.type = shareType;
+                newShare.enabled = true;
                 newShare.description = '';
                 newShare.volume = self.application.selectedVolume;
                 return self.application.dataService.getNewInstanceForType(propertiesModel);
