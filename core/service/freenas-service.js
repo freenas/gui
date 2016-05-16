@@ -142,7 +142,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.Service,
             Model.Alert,
             Model.Update,
-            Model.UpdateTrain
+            Model.UpdateTrain,
+            Model.BootEnvironment
         ]
     },
 
@@ -785,6 +786,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             var readServiceDescriptor = Services.findReadServiceForType(modelType);
             return readServiceDescriptor && /\.get_config$/.test(readServiceDescriptor.method);
         }
+    },
+
+    callBackend: {
+        value: function (method, args) {
+            return this.backendBridge.send("rpc", "call", {
+                method: method,
+                args: args || []
+            });
+        }
     }
 
 
@@ -805,6 +815,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 //Fixme: hacky
                 instance.getNewInstanceForType = FreeNASService.prototype.getNewInstanceForType;
                 instance.getEmptyCollectionForType = FreeNASService.prototype.getEmptyCollectionForType;
+                instance.callBackend = FreeNASService.prototype.callBackend;
+                instance.backendBridge = BackEndBridgeModule.defaultBackendBridge;
 
                 DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;

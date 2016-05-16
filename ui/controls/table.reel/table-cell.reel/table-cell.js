@@ -53,7 +53,7 @@ exports.TableCell = Component.specialize({
             if (event.detail === this.content && this.content.moduleId !== this.constructor.DEFAULT_COMPONENT_MODULE_ID) {
                 var loadedComponent = this.content.component;
 
-                this.dispatchEventNamed( "customTableCellLoaded", true, true,
+                this.dispatchEventNamed("customTableCellLoaded", true, true,
                     {
                         loadedComponent: loadedComponent,
                         objectContext: this.objectContext,
