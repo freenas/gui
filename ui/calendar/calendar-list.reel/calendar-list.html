@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="calendar-list.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "days": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "days"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.data"}
+            }
+        },
+        "date": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "date"}
+            },
+            "bindings": {
+                "value": {"<-": "@days:iteration.object.date"}
+            }
+        },
+        "items": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "items"}
+            },
+            "bindings": {
+                "content": {"<-": "@days:iteration.object.events"}
+            }
+        },
+        "item": {
+            "prototype": "../calendar-list-item.reel",
+            "properties": {
+                "element": {"#": "item"}
+            },
+            "bindings": {
+                "object": {"<-": "@items:iteration.object"}
+            }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CalendarList">
+        <div data-montage-id="scrollview" class="">
+            <div data-montage-id="days" class="CalendarList-days">
+                <div class="CalendarList-day">
+                    <div data-montage-id="date" class="CalendarList-date"></div>
+                    <div data-montage-id="items" class="CalendarList-items">
+                        <div data-montage-id="item" class="CalendarList-item"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

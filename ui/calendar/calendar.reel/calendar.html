@@ -14,6 +14,18 @@
             "prototype": "../calendar-widget.reel",
             "properties": {
                 "element": {"#": "calendarWidget"}
+            },
+            "bindings": {
+                "taskObjects": {"<-": "@owner.taskObjects"}
+            }
+        },
+        "list": {
+            "prototype": "../calendar-list.reel",
+            "properties": {
+                "element": {"#": "list"}
+            },
+            "bindings": {
+                "data": {"<-": "@owner.events"}
             }
         }
     }
@@ -21,7 +33,16 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Calendar">
-        <table data-montage-id="calendarWidget"></table>
+        <div>
+            <table data-montage-id="calendarWidget" class="Calendar-calendarWidget"></table>
+            <div class="Calendar-events">
+                <h2>Agenda</h2>
+                <div data-montage-id="list" class="Calendar-eventsList"></div>
+            </div>
+        </div>
+        <div class="Calendar-inspector">
+            inspector / scheduler
+        </div>
     </div>
 </body>
 </html>

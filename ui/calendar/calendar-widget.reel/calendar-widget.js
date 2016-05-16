@@ -41,7 +41,7 @@ exports.CalendarWidget = Component.specialize({
     },
 
     _daysOfTheWeek: {
-        value: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        value: ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
     },
 
     daysOfTheWeek: {

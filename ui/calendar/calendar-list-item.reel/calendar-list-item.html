@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="calendar-list-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "type": {"#": "type"}
+            }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.title"}
+            }
+        },
+        "time": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "time"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.time"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CalendarListItem">
+        <span data-montage-id="time" class="CalendarListItem-time"></span>
+        <span data-montage-id="type" class="CalendarListItem-type"></span>
+        <span data-montage-id="title" class="CalendarListItem-title"></span>
+    </div>
+</body>
+</html>

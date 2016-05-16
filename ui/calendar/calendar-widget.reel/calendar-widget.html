@@ -7,7 +7,12 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "views": [
+                    {"value": "Day"},
+                    {"value": "Week"},
+                    {"value": "Month"}
+                ]
             }
         },
         "daysOfTheWeek": {
@@ -100,7 +105,8 @@
         "today": {
             "prototype": "montage/ui/button.reel",
             "properties": {
-                "element": {"#": "today"}
+                "element": {"#": "today"},
+                "label": "Today"
             },
             "listeners": [
                 {
@@ -108,6 +114,33 @@
                     "listener": {"@": "owner"}
                 }
             ]
+        },
+        "taskObjects": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "taskObjects"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.taskObjects"}
+            }
+        },
+        "taskObject": {
+            "prototype": "../task-object.reel",
+            "properties": {
+                "element": {"#": "taskObject"}
+            },
+            "bindings": {
+                "object": {"<-": "@taskObjects:iteration.object"}
+            }
+        },
+        "viewTabs": {
+            "prototype": "blue-shark/ui/tabs.reel",
+            "properties": {
+                "element": {"#": "viewTabs"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.views"}
+            }
         }
     }
     </script>
@@ -115,11 +148,25 @@
 <body>
     <table data-montage-id="owner" class="CalendarWidget">
         <caption>
-            <span data-montage-id="Calendar-month" class="CalendarWidget-month"></span>
-            <span data-montage-id="Calendar-year" class="CalendarWidget-year"></span>
-            <button data-montage-id="previousMonth" class="CalendarWidget-previousMonthButton">previous month</button>
-            <button data-montage-id="today" class="CalendarWidget-todayButton">Today</button>
-            <button data-montage-id="nextMonth" class="CalendarWidget-nextMonthButton">next month</button>
+            <div class="Calendar-navigation">
+                <button data-montage-id="today" class="CalendarWidget-todayButton"></button>
+                <div class="Calendar-navigation-buttons">
+                    <button data-montage-id="previousMonth" class="Calendar-navigation-button CalendarWidget-previousMonthButton">
+                        <svg><use xlink:href="#i-arrow"/></svg>
+                    </button>
+                    <button data-montage-id="nextMonth" class="Calendar-navigation-button CalendarWidget-nextMonthButton">
+                        <svg><use xlink:href="#i-arrow"/></svg>
+                    </button>
+                </div>
+                <div class="CalendarWidget-date">
+                    <span data-montage-id="Calendar-month" class="CalendarWidget-month"></span>
+                    <span data-montage-id="Calendar-year" class="CalendarWidget-year"></span>
+                </div>
+                <div data-montage-id="viewTabs" class="Calendar-viewTabs"></div>
+            </div>
+            <div data-montage-id="taskObjects" class="CalendarWidget-taskObjects">
+                <div data-montage-id="taskObject" class="CalendarWidget-taskObjects"></div>
+            </div>
         </caption>
         <thead>
             <tr data-montage-id="daysOfTheWeek">
@@ -129,7 +176,7 @@
         <tbody data-montage-id="weekRepetition">
             <tr data-montage-id="dayRepetition">
                 <td data-montage-id="day" class="CalendarWidget-day">
-                    <span ></span>
+                    <span></span>
                 </td>
             </tr>
         </tbody>
