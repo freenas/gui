@@ -20,12 +20,28 @@ exports.AllocationBar = Component.specialize(/** @lends AllocationBar# */ {
         set: function(totalSize) {
             if (this._totalSize != totalSize) {
                 this._totalSize = totalSize;
+                if (this.isTemplateLoaded) {
+                    this.setElementWidths();
+                }
             }
+        }
+    },
 
-            if (this.isTemplateLoaded) {
-                this.setElementWidths();
+    _paritySize: {
+        value: null
+    },
+
+    paritySize: {
+        get: function() {
+            return this._paritySize;
+        },
+        set: function(paritySize) {
+            if (this._paritySize != paritySize) {
+                this._paritySize = paritySize;
+                if (this.isTemplateLoaded) {
+                    this.setElementWidths();
+                }
             }
-
         }
     },
 
