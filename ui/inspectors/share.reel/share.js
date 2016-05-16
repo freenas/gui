@@ -243,6 +243,14 @@ exports.Share = Component.specialize({
         value: function() {
             var self = this;
 
+            if (this.object.type === 'nfs') {
+                var properties = this.object.properties;
+                properties.maproot_user = properties.maproot_user != ' - ' ? properties.maproot_user : null;
+                properties.maproot_group = properties.maproot_group != ' - ' ? properties.maproot_group : null;
+                properties.mapall_user = properties.mapall_user != ' - ' ? properties.mapall_user : null;
+                properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
+            }
+
             this._setTargetPathOnObject();
             this.object.target_type = this._targetType;
 

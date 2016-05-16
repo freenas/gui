@@ -12,8 +12,8 @@
             "bindings": {
                 "sortedUsers": {"<-": "@owner.users.sorted{builtin + username}"},
                 "sortedGroups": {"<-": "@owner.groups.sorted{builtin + name}"},
-                "mapUsers": {"<-": "[{username: ''}].concat(@owner.sortedUsers)"},
-                "mapGroups": {"<-": "[{name: ''}].concat(@owner.sortedGroups)"}
+                "mapUsers": {"<-": "[{username: ' - '}].concat(@owner.sortedUsers)"},
+                "mapGroups": {"<-": "[{name: ' - '}].concat(@owner.sortedGroups)"}
             }
         },
         "usersOptionsConverter": {
