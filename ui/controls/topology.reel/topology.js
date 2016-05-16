@@ -182,7 +182,6 @@ var Topology = exports.Topology = Component.specialize({
         }
     },
 
-
     _findTopologyCollectionWithIdentifier: {
         value: function (identifier) {
             var topologyIdentifiers = Topology.IDENTIFIERS,
@@ -206,7 +205,7 @@ var Topology = exports.Topology = Component.specialize({
                 for (var i = 0, l = topologyCollection.length; i < l; i++) {
                     vDev = topologyCollection[i];
 
-                    if (Object.getPrototypeOf(vDev).Type === ZfsVdevType) {
+                    if (Object.getPrototypeOf(vDev).Type === ZfsVdevType && vDev.children && vDev.children.length > 0) {
                         vDevDisks = vDev.children;
 
                         for (ii = 0, ll = vDevDisks.length; ii < ll ; ii++) {
@@ -222,7 +221,7 @@ var Topology = exports.Topology = Component.specialize({
                                 break loop1;
                             }
                         }
-                    } else if (vDev === disk) {
+                    } else if (vDev === disk || vDev.path === disk.path) {
                         topologyCollection.splice(i, 1);
                         break;
                     }
