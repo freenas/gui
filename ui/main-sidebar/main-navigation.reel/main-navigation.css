@@ -13,6 +13,10 @@
 /* Preferences Icon */
 
 .MainNavigation-preferences {
+/*
+ * FIXME: Display when implemented
+ */ 
+    display: none;
     position: relative;
     margin-top: .5em;
     z-index: 1;
