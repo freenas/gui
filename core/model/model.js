@@ -119,14 +119,14 @@ function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
 
             if (argumentsLength) {
                 if (argumentsLength === 1) {
-                    args = Array.isArray(arguments[0]) ? arguments[0] : [arguments[0]];
+                    args = [arguments[0]];
                 } else {
                     args = Array.apply(null, arguments);
                 }
             }
 
             if (isTask) {
-                args = args ? [serviceDescriptor.task, args] : [serviceDescriptor.task];
+                args = args ? [serviceDescriptor.task, args] : [serviceDescriptor.task, []];
             } else {
                 args = args ? args : EMPTY_ARRAY;
             }
