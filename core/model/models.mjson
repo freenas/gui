@@ -581,6 +581,18 @@
             "type": "VolumeAttributes"
         },
         {
+            "modelId": "core/model/descriptors/volume-dataset-casesensitivity-property.mjson",
+            "type": "VolumeDatasetCasesensitivityProperty"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-dataset-compression-property.mjson",
+            "type": "VolumeDatasetCompressionProperty"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-dataset-dedup-property.mjson",
+            "type": "VolumeDatasetDedupProperty"
+        },
+        {
             "modelId": "core/model/descriptors/volume-dataset-properties.mjson",
             "type": "VolumeDatasetProperties"
         },

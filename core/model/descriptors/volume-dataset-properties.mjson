@@ -21,18 +21,14 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "casesensitivity",
-      "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_volumedatasetproperties_compression": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "compression",
-      "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_volumedatasetproperties_compressratio": {
@@ -48,9 +44,7 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "dedup",
-      "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_volumedatasetproperties_logicalreferenced": {

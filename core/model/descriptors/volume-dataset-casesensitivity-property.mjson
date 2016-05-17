@@ -1,0 +1,23 @@
+{
+  "blueprint_volumedatasetcasesensitivityproperty_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "^sensitive$",
+        "^insensitive$",
+        "^mixed$"
+      ]
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VolumeDatasetCasesensitivityProperty",
+      "propertyBlueprints": [
+        {"@": "blueprint_volumedatasetcasesensitivityproperty_value"}
+      ]
+    }
+  }
+}

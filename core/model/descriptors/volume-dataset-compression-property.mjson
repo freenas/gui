@@ -1,0 +1,18 @@
+{
+  "blueprint_volumedatasetcompressionproperty_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VolumeDatasetCompressionProperty",
+      "propertyBlueprints": [
+        {"@": "blueprint_volumedatasetcompressionproperty_value"}
+      ]
+    }
+  }
+}
