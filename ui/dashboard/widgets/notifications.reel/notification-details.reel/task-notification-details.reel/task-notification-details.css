@@ -6,7 +6,6 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    transform: translateX(100%);
 }
 
 .TaskNotificationDetails:after {
