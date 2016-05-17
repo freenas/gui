@@ -36,7 +36,7 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
 
     _populateComponentIfNeeded: {
         value: function () {
-            if (!this._populatingPromise && (this.bootEnvironments || !this.bootVolume)) {
+            if (!this._populatingPromise && (!this.bootEnvironments || !this.bootVolume)) {
                 this._populatingPromise = Promise.all([this._getBootEnvironments(), this._getBootVolume()]).bind(this).then(function () {
                     this._populatingPromise = null;
                 });
