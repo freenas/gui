@@ -1,12 +1,34 @@
 .TableCell {
+    padding: 0 !important;
     position: relative;
-    display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    display: table-cell;
+}
+
+.TableCell:not(:last-child) {
+    border-right: 1px solid rgba(0,0,0,.1);
 }
 
 .TableCell-true:before {
     content: "✓";
     color: #0dc92e;
+}
+
+.TableCell-content {
+    padding: .5em;
+    max-width: 12em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.TableCell-content > .montage-Text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* sets min width of specific components */
+
+.TableCell-content > .blueShark-TextField {
+    min-width: 10em;
 }
