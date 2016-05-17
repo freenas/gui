@@ -77,3 +77,9 @@
     display: block;
     padding: .5rem;
 }
+
+/* alert levels */
+
+.AlertNotificationDetails.has-info header     { background: #BB8E00; }
+.AlertNotificationDetails.has-warning header  { background: #D95B1B; }
+.AlertNotificationDetails.has-critical header { background: #E0003A; }

@@ -40,7 +40,7 @@
 }
 
 .AlertNotification-overview {
-    padding: .5em;
+    margin-right: .25em;
     flex: 1;
 }
 
@@ -63,12 +63,12 @@
     margin-left: .5em;
 }
 
-.AlertNotification.error .AlertNotification-progress  { background-color: #E0003A; }
+.AlertNotification.error .AlertNotification-progress                 { background-color: #E0003A; }
 .AlertNotification.success .AlertNotification-progress .Progress-bar { background-color: #1E963F; }
 
-/* Arrow */
+/* controls */
 
-.AlertNotification-arrow {
+.AlertNotification-body {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,11 +76,35 @@
     transition: color .25s ease-in-out;
 }
 
-.AlertNotification-arrow svg {
+.AlertNotification-body svg {
     display: inline-block;
     height: 1.4em;
     width:  1.4em;
     transition: color .25s ease-in-out;
 }
 
+/* Close Button */
+
+.AlertNotification-close {
+    outline: none;
+    margin-right: .25em;
+}
+
+.AlertNotification-close {
+    position: relative;
+    z-index: 100;
+    margin-right: .25em;
+}
+
+.AlertNotification-close #i-close-bg { fill: transparent; }
+
+.AlertNotification-close:hover #i-close-bg      { fill: #E0003A; stroke: #E0003A;}
+.AlertNotification-close:hover #i-close-symbol  { fill: #fff; }
+
 .AlertNotification:hover .AlertNotification-arrow svg { color: #fff; }
+
+/* alert Levels */
+
+.AlertNotification.has-info:before     { border-color: #BB8E00; }
+.AlertNotification.has-warning:before  { border-color: #D95B1B; }
+.AlertNotification.has-critical:before { border-color: #E0003A; }

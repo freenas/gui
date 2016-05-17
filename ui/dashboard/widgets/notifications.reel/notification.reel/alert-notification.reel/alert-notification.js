@@ -31,11 +31,11 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
 
     infoExpanded: {
         value: false
-    }
+    },
 
-    // handleInfoToggleAction: {
-    //     value: function () {
-    //         this.infoExpanded = !this.infoExpanded;
-    //     }
-    // }
+    handleDismissButtonAction: {
+        value: function () {
+            console.log('dismiss');
+        }
+    }
 });
