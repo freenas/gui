@@ -2,6 +2,8 @@
  * @module ui/notification.reel
  */
 var Component = require("montage/ui/component").Component,
+    Promise = require("montage/core/promise").Promise,
+    Model = require("core/model/model").Model,
     Evaluate = require("frb/evaluate");
 
 /**
@@ -33,9 +35,32 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
         value: false
     },
 
+    enterDocument: {
+        value: function() {
+            this._loadAlertService();
+        }
+    },
+
     handleDismissButtonAction: {
         value: function () {
-            console.log('dismiss');
+            var self = this;
+            this._loadAlertService().then(function() {
+                self._alertService.dismiss(self._object.jobId);
+            });
+        }
+    },
+
+    _loadAlertService: {
+        value: function() {
+            var self = this;
+            if (this._alertService) {
+                return Promise.resolve(this._alertService);
+            } else {
+                return Model.populateObjectPrototypeForType(Model.Alert).then(function (Alert) {
+                    self._alertService = Alert.constructor;
+                });
+            }
         }
     }
+
 });

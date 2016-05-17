@@ -680,8 +680,12 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             }).then(function() {
                 return self.rootService.fetchData(Model.Alert);
             }).then(function(alerts) {
+                var alert;
                 for (var i = 0, length = alerts.length; i < length; i++) {
-                    self.notificationCenter.addAlert(alerts[i]);
+                    alert = alerts[i];
+                    if (!alert.dismissed) {
+                        self.notificationCenter.addAlert(alert);
+                    }
                 }
                 return self.notificationCenter.startListenToAlertEvents();
             });

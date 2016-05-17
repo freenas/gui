@@ -418,9 +418,18 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
             var detail = event.detail;
 
             if (detail && detail.entities) {
-                // Real "entities" for task events are in entities.args.
-                // Entities for task events are a mix between task status and involved entities.
-                this.addAlert(detail.entities[0]);
+                var operation = detail.operation;
+                if (operation == 'create') {
+                    this.addAlert(detail.entities[0]);
+                } else if (operation == 'update') {
+                    var notification;
+                    for (var i = this._notifications.length-1; i >= 0; i--) {
+                        notification = this._notifications[i];
+                        if (notification.type === 'ALERT' && detail.ids.indexOf(notification.data.id) != -1) {
+                            this._notifications.splice(i, 1);
+                        }
+                    }
+                }
             }
         }
     },

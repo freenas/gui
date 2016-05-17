@@ -11,7 +11,7 @@
             },
             "bindings": {
                 "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"},
-                "alertsCount": {"<-": "@owner.notifications.filter{type == 'ALERT'}.length"}
+                "alertsCount": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}.length"}
             },
             "listeners": [
                 {
