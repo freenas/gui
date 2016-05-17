@@ -16,6 +16,9 @@
             "properties": {
                 "element": {"#": "activate"},
                 "value": "Activate"
+            },
+            "bindings": {
+                "enabled": {"<-": "!@owner.object.on_reboot"}
             }
         },
 
@@ -24,6 +27,9 @@
             "properties": {
                 "element": {"#": "delete"},
                 "value": "Delete"
+            },
+            "bindings": {
+                "enabled": {"<-": "!@owner.object.active && !@owner.object.on_reboot"}
             }
         }
     }
