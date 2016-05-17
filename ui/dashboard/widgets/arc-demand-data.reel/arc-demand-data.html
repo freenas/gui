@@ -25,9 +25,11 @@
                 "source": "zfs_arc",
                 "metrics": [
                     "cache_result-demand_data-hit",
-                    "cache_result-demand_data-miss"
+                    "cache_result-demand_data-miss",
+                    "cache_result-demand_metadata-hit",
+                    "cache_result-demand_metadata-miss"
                 ],
-                "removePrefix": "cache_result-demand_data-"
+                "removePrefix": "cache_result-demand_"
             }
         }
     }
