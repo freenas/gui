@@ -140,7 +140,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.SystemSection,
             Model.SystemGeneral,
             Model.Service,
-            Model.Alert
+            Model.Alert,
+            Model.Update,
+            Model.UpdateTrain
         ]
     },
 

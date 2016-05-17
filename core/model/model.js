@@ -118,7 +118,11 @@ function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
                 args;
 
             if (argumentsLength) {
-                args = argumentsLength === 1 ? [arguments[0]] : Array.apply(null, arguments);
+                if (argumentsLength === 1) {
+                    args = Array.isArray(arguments[0]) ? arguments[0] : [arguments[0]];
+                } else {
+                    args = Array.apply(null, arguments);
+                }
             }
 
             if (isTask) {
@@ -135,7 +139,7 @@ function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
                 }
             ).then(function (response) {
                 if (isTask) {
-                    return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithTaskAndJobId(
+                    return NotificationCenterModule.defaultNotificationCenter.startTrackingTaskWithJobId(
                         isTask ? serviceDescriptor.task : serviceDescriptor.name + "." + serviceDescriptor.method,
                         response.data
                     );

@@ -8,6 +8,22 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-operations')": {"<-": "@owner.updateOps.defined() && @owner.updateOps.length > 0"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "trainSelectConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
             }
         },
         "autoCheckUpdate": {
@@ -24,7 +40,8 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "trainSelect"},
-                "label": "Update Train"
+                "label": "Update Train",
+                "converter": {"@": "trainSelectConverter"}
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.config.train"},
@@ -41,11 +58,11 @@
         "operationsController": {
             "prototype": "montage/core/range-controller",
             "bindings": {
-                "content": {"<-": "@owner.update_info.operations"}
+                "content": {"<-": "@owner.updateOps"}
             }
         },
         "operationsTableLabel": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
                 "element": {"#": "operationsTableLabel"},
                 "value": "Pending Update Operations"
@@ -115,11 +132,13 @@
         <div data-montage-id="autoCheckUpdate"></div>
         <div data-montage-id="trainSelect"></div>
         <div data-montage-id="saveUpdateConfig"></div>
-        <div data-montage-id="operationsTableLabel"></div>
-        <div data-montage-id="operationsTable"></div>
-        <div data-montage-id="updateNow"></div>
-        <div data-montage-id="downloadUpdate"></div>
-        <div data-montage-id="installUpdate"></div>
+        <div class="Updates-operations">
+            <div data-montage-id="operationsTableLabel"></div>
+            <div data-montage-id="operationsTable"></div>
+            <div data-montage-id="updateNow"></div>
+            <div data-montage-id="downloadUpdate"></div>
+            <div data-montage-id="installUpdate"></div>
+        </div>
         <div data-montage-id="checkUpdate"></div>
         <div data-montage-id="verify"></div>
     </div>

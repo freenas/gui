@@ -569,6 +569,20 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      * @description todo
      *
      */
+    startTrackingTaskWithJobId: {
+        value: function (task, jobId) {
+            return this.startTrackingTaskWithJobIdAndModel(task, jobId, null);
+        }
+    },
+
+
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     */
     startTrackingTaskWithJobIdAndModel: {
         value: function (task, jobId, model) {
             var self = this;
@@ -659,8 +673,10 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
             if (!tasksMap.get(jobId)) {
                 var notification = this._createTaskNotification(jobId, task.name || task, task.created_at);
                 tasksMap.set(jobId, notification);
-                notification.data = [model];
-                notification.modelType = Object.getPrototypeOf(model).Type
+                if (model) {
+                    notification.data = [model];
+                    notification.modelType = Object.getPrototypeOf(model).Type
+                }
 
                 this._addNotification(notification);
 

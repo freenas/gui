@@ -1,3 +1,9 @@
-.Updates {
+.Updates {}
 
+.Updates-operations {
+    display: none;
+}
+
+.Updates.has-operations .Updates-operations {
+    display: block;
 }

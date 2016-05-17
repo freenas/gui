@@ -1,118 +1,99 @@
 /**
  * @module ui/updates.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Promise = require("montage/core/promise").Promise,
+    Model = require("core/model/model").Model;
 
 /**
  * @class Updates
  * @extends Component
  */
 exports.Updates = Component.specialize(/** @lends Updates# */ {
-    constructor: {
-        value: function Updates() {
-            this.super();
-        }
-    },
-
-    _config: {
-        value:
-            {
-              "check_auto": true,
-              "update_server": "http://update.freenas.org/FreeNAS",
-              "train": "FreeNAS-10-Nightlies"
-            }
-    },
-
-    _trains: {
-        value: [
-                  {
-                    "name": "FreeNAS-9.3-STABLE",
-                    "current": false,
-                    "description": null,
-                    "sequence": null
-                  },
-                  {
-                    "name": "FreeNAS-10-Nightlies",
-                    "current": true,
-                    "description": "Installed OS",
-                    "sequence": "120da5424ffa96ff197238e4c682b899"
-                  },
-                  {
-                    "name": "FreeNAS-9.10-STABLE",
-                    "current": false,
-                    "description": null,
-                    "sequence": null
-                  },
-                  {
-                    "name": "FreeNAS-9.10-Nightlies",
-                    "current": false,
-                    "description": null,
-                    "sequence": null
-                  }
-                ]
-    },
-
-    _update_info: {
-        value: {
-          "notice": null,
-          "notes": null,
-          "downloaded": false,
-          "changelog": "",
-          "operations": [
-            {
-              "previous_name": "base-os",
-              "new_name": "base-os",
-              "operation": "upgrade",
-              "previous_version": "10-MASTER-201604162130-668203ad6da5e38b090a72879000b32d",
-              "new_version": "10-MASTER-201604192039-120da5424ffa96ff197238e4c682b899"
-            },
-            {
-              "previous_name": "freebsd-pkgdb",
-              "new_name": "freebsd-pkgdb",
-              "operation": "upgrade",
-              "previous_version": "10-MASTER-201604162130-668203ad6da5e38b090a72879000b32d",
-              "new_version": "10-MASTER-201604192039-120da5424ffa96ff197238e4c682b899"
-            },
-            {
-              "previous_name": "freenas-pkg-tools",
-              "new_name": "freenas-pkg-tools",
-              "operation": "upgrade",
-              "previous_version": "10-MASTER-201604142240-c042d707b5fc68af13493812b2ba23f7",
-              "new_version": "10-MASTER-201604192039-120da5424ffa96ff197238e4c682b899"
-            },
-            {
-              "previous_name": "freenasUI",
-              "new_name": "freenasUI",
-              "operation": "upgrade",
-              "previous_version": "10-MASTER-201604160150-40b904c49257cd1fb03cbe5fe02ab150",
-              "new_version": "10-MASTER-201604192039-120da5424ffa96ff197238e4c682b899"
-            },
-            {
-              "previous_name": "middleware",
-              "new_name": "middleware",
-              "operation": "upgrade",
-              "previous_version": "10-MASTER-201604160150-40b904c49257cd1fb03cbe5fe02ab150",
-              "new_version": "10-MASTER-201604192039-120da5424ffa96ff197238e4c682b899"
-            }
-          ]
-        }
-    },
-
     config: {
-        get: function() {
-            return this._config;
-        }
+        value: null
     },
 
     trains: {
-        get: function() {
-            return this._trains;
+        value: null
+    },
+
+    updateOps: {
+        value: null
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            var self = this;
+            this.isLoading = true;
+            if (isFirstTime) {
+                this._dataService = this.application.dataService;
+            }
+            this._loadUpdateService().then(function() {
+                var promises = [];
+                promises.push(
+                    self._dataService.fetchData(Model.Update).then(function(update) {
+                        return self.config = update[0];
+                    }),
+                    self._updateService.trains().then(function(trains) {
+                        return self.trains = trains;
+                    }),
+                    self._updateService.getUpdateOps().then(function(updateOps) {
+                        return self.updateOps = updateOps;
+                    })
+                );
+                return Promise.all(promises);
+            }).then(function() {
+                self.isLoading = false;
+            });
         }
     },
 
-    update_info: {
-        get: function() {
-            return this._update_info;
+    handleInstallUpdateAction: {
+        value: function() {
+            this.config.apply(true);
+        }
+    },
+
+    handleDownloadUpdateAction: {
+        value: function() {
+            this.config.download([]);
+        }
+    },
+
+    handleVerifyAction: {
+        value: function() {
+            this.config.verify([]);
+        }
+    },
+
+    handleCheckUpdateAction: {
+        value: function() {
+            var self = this;
+            this.config.check([]).then(function() {
+               return self._updateService.getUpdateOps()
+            }).then(function(updateOps) {
+                return self.updateOps = updateOps;
+            });
+        }
+    },
+
+    handleUpdateNowAction: {
+        value: function() {
+            this.config.updatenow(true);
+        }
+    },
+
+    _loadUpdateService: {
+        value: function() {
+            var self = this;
+            if (this._updateService) {
+                return Promise.resolve(this._updateService);
+            } else {
+                return Model.populateObjectPrototypeForType(Model.Update).then(function (Update) {
+                    self._updateService = Update.constructor;
+                });
+            }
         }
     }
 });
