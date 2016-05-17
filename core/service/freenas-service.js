@@ -678,7 +678,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             }).then(function() {
                 return Model.populateObjectPrototypeForType(Model.Alert);
             }).then(function() {
-                self.modelsCache.set(Model.Alert.typeName, []);
+                return self.rootService.fetchData(Model.Alert);
+            }).then(function(alerts) {
+                for (var i = 0, length = alerts.length; i < length; i++) {
+                    self.notificationCenter.addAlert(alerts[i]);
+                }
                 return self.notificationCenter.startListenToAlertEvents();
             });
         }
