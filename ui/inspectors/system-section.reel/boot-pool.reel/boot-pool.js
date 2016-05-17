@@ -16,6 +16,7 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         value: function (isFirstTime) {
             if (isFirstTime) {
                 this.addEventListener("customTableCellLoaded", this, false);
+                this.addEventListener("action", this, false);
             }
 
             this._populateComponentIfNeeded();
@@ -72,6 +73,20 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
 
             if (columnContext.label === "Name" && !loadedComponent.getBinding("value")) {
                 Bindings.defineBinding(loadedComponent, "value", {"<->": "object.realname"});
+            }
+        }
+    },
+
+    handleDeleteAction: {
+        value: function (event) {
+            var iteration = this.bootEnvironmentTable.findRowIterationContainingElement(event.target.element);
+
+            if (iteration && !iteration.object.on_reboot) {
+                var self = this;
+
+                return this.application.dataService.deleteDataObject(iteration.object).then(function () {
+                    self.bootEnvironments.splice(self.bootEnvironments.indexOf(iteration.object), 1);
+                });
             }
         }
     }

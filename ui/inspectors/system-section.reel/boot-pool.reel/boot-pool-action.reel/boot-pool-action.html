@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="boot-pool-action.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "activate": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "activate"},
+                "value": "Activate"
+            }
+        },
+
+        "delete": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "delete"},
+                "value": "Delete"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="BootPoolAction">
+        <button data-montage-id="activate"></button>
+        <button data-montage-id="delete"></button>
+    </div>
+</body>
+</html>

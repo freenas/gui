@@ -68,6 +68,12 @@ exports.Table = Component.specialize({
                 this._dataController.reversed = this._reversed;
             }
         }
+    },
+
+    findRowIterationContainingElement: {
+        value: function (element) {
+            return this.rowRepetition._findIterationContainingElement(element);
+        }
     }
 
 });
