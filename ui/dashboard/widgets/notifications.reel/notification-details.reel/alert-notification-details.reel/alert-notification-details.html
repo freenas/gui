@@ -46,15 +46,6 @@
                 "value": {"<-": "@owner.object.taskName"}
             }
         },
-        "state": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "state"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.state"}
-            }
-        },
         "description": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -79,8 +70,7 @@
             <div data-montage-id="scrollview">
                 <div>
                     <div data-montage-id="description"></div>
-                    <p><span>Alert Name:</span> <span data-montage-id="taskName"></span></p>
-                    <p><span>State:</span> <span data-montage-id="state"></span></p>
+                    <p><span>Message:</span> <span data-montage-id="taskName"></span></p>
                 </div>
             </div>
         </main>
