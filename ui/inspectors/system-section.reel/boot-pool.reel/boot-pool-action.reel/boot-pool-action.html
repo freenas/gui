@@ -22,6 +22,22 @@
             }
         },
 
+        "clone": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "clone"},
+                "value": "Clone"
+            }
+        },
+
+        "update": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "update"},
+                "value": "Update"
+            }
+        },
+
         "delete": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -38,6 +54,8 @@
 <body>
     <div data-montage-id="owner" class="BootPoolAction">
         <button data-montage-id="activate" class="Button--primary"></button>
+        <button data-montage-id="clone" class="Button--primary"></button>
+        <button data-montage-id="update" class="Button--primary"></button>
         <button data-montage-id="delete" class="Button--alert"></button>
     </div>
 </body>
