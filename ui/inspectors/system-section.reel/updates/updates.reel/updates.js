@@ -22,6 +22,10 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
         value: null
     },
 
+    _remoteConfig: {
+        value: null
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -33,7 +37,12 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
                 var promises = [];
                 promises.push(
                     self._dataService.fetchData(Model.Update).then(function(update) {
-                        return self.config = update[0];
+                        var config = update[0];
+                        self._remoteConfig = {
+                            check_auto: config.check_auto,
+                            train: config.train
+                        };
+                        return self.config = config;
                     }),
                     self._updateService.trains().then(function(trains) {
                         return self.trains = trains;
@@ -81,6 +90,19 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
     handleUpdateNowAction: {
         value: function() {
             this.config.updatenow(true);
+        }
+    },
+
+    handleSaveAction: {
+        value: function() {
+            this._dataService.saveDataObject(this.config);
+        }
+    },
+
+    handleRevertAction: {
+        value: function() {
+            this.config.check_auto = this._remoteConfig.check_auto;
+            this.config.train = this._remoteConfig.train;
         }
     },
 

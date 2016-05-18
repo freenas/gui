@@ -7,3 +7,11 @@
 .Updates.has-operations .Updates-operations {
     display: block;
 }
+
+.Updates.has-operations .Updates-noOperation {
+    display: none;
+}
+
+.Updates-settingsSection {
+    margin-top: 1em;
+}

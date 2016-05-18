@@ -19,6 +19,13 @@
                 }
             ]
         },
+        "settingsSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "settingsSection"},
+                "title": "Settings"
+            }
+        },
         "trainSelectConverter": {
             "prototype": "core/converter/select-option-converter",
             "properties": {
@@ -46,13 +53,6 @@
             "bindings": {
                 "selectedValue": {"<->": "@owner.config.train"},
                 "options": {"<-": "@owner.trains"}
-            }
-        },
-        "saveUpdateConfig": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "saveUpdateConfig"},
-                "value": "Save Update Config"
             }
         },
         "operationsController": {
@@ -123,15 +123,29 @@
                 "element": {"#": "verify"},
                 "value": "Verify Install"
             }
+        },
+        "noOperation": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "noOperation"},
+                "value": "No update available"
+            }
+        },
+        "settingsButtons": {
+            "prototype": "ui/controls/inspector-footer.reel",
+            "properties": {
+                "element": {"#": "settingsButtons"},
+                "canRevert": true,
+                "canSave": true
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Updates">
-        <div data-montage-id="autoCheckUpdate"></div>
-        <div data-montage-id="trainSelect"></div>
-        <div data-montage-id="saveUpdateConfig"></div>
+        <div data-montage-id="checkUpdate"></div>
+        <div data-montage-id="verify"></div>
         <div class="Updates-operations">
             <div data-montage-id="operationsTableLabel"></div>
             <div data-montage-id="operationsTable"></div>
@@ -139,8 +153,12 @@
             <div data-montage-id="downloadUpdate"></div>
             <div data-montage-id="installUpdate"></div>
         </div>
-        <div data-montage-id="checkUpdate"></div>
-        <div data-montage-id="verify"></div>
+        <div data-montage-id="noOperation" class="Updates-noOperation"></div>
+        <div data-montage-id="settingsSection" class="Updates-settingsSection">
+            <div data-montage-id="autoCheckUpdate"></div>
+            <div data-montage-id="trainSelect"></div>
+            <div data-montage-id="settingsButtons"></div>
+        </div>
     </div>
 </body>
 </html>
