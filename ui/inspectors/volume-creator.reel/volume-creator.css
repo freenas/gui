@@ -28,3 +28,7 @@
     overflow: hidden;
     border-left: 2px solid #232629;
 }
+
+.Inspector.is-locked + .VolumeCreator-sidebar {
+    pointer-events: none;
+}

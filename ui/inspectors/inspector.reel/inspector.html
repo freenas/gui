@@ -10,7 +10,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-loading')": {"<-": "@owner.isLoading"}
+                "classList.has('is-loading')": {"<-": "@owner.isLoading"},
+                "classList.has('is-locked')": {"<-": "@owner.isLocked"}
             }
         },
         "scrollView": {
@@ -24,6 +25,15 @@
             "prototype": "ui/controls/spinner.reel",
             "properties": {
                 "element": {"#": "loading"}
+            }
+        },
+        "lockMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "lockMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.lockMessage"}
             }
         },
         "footer": {
@@ -52,6 +62,9 @@
     <div data-montage-id="owner" class="Inspector">
         <div data-montage-id="scrollView">
             <div data-montage-id="loading" class="Inspector-loading"></div>
+            <div class="Inspector-locked">
+                <div data-montage-id="lockMessage"></div>
+            </div>
             <div class="Inspector-body">
                 <div data-param="*"></div>
             </div>
