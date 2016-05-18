@@ -105,9 +105,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 },
                 callback: function() {
                     self._chart.dispatch.on('renderEnd', function() {
-                        if (self.isSpinnerShown) {
-                            self.isSpinnerShown = false;
-                        }
+                        self.finishRendering();
                     });
                 }
             });
@@ -153,6 +151,14 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 self._chart.update();
             });
 
+        }
+    },
+
+    finishRendering: {
+        value: function() {
+            if (this.isSpinnerShown) {
+                this.isSpinnerShown = false;
+            }
         }
     },
 

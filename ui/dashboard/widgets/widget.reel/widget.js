@@ -1,4 +1,5 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Promise = require("montage/core/promise").Promise;
 
 /**
  * @class Widget
@@ -102,18 +103,24 @@ exports.Widget = Component.specialize({
                     .map(function(x) { return datasources[x]; });
             }).then(function(sources) {
                 var i, sourceLength, source,
-                    j, metricsLength, metric;
+                    j, metricsLength, metric,
+                    datasourcesPromises = [];
                 for (i = 0, sourceLength = sources.length; i < sourceLength; i++) {
                     source = sources[i];
                     for (j = 0, metricsLength = self.metrics.length; j < metricsLength; j++) {
                         metric = self.metrics[j];
                         if (typeof metric === 'object' && metric && metric.length) {
-                            self._addDatasourceToChart(source, metric[0], self.removePrefix, metric[1]);
+                            datasourcesPromises.push(self._addDatasourceToChart(source, metric[0], self.removePrefix, metric[1]));
                         } else {
-                            self._addDatasourceToChart(source, metric, self.removePrefix);
+                            datasourcesPromises.push(self._addDatasourceToChart(source, metric, self.removePrefix));
                         }
                     }
                 }
+                return Promise.all(datasourcesPromises);
+            }).then(function() {
+                setTimeout(function() {
+                    self.chart.finishRendering()
+                }, 1000);
             });
         }
     },
