@@ -50,6 +50,12 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             yFormat: {
                 defaultValue: '%'
             },
+            xLabel: {
+                defaultValue: null
+            },
+            yLabel: {
+                defaultValue: null
+            },
             showMinMax: {
                 defaultValue: false
             },
@@ -190,6 +196,9 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 .tickFormat(d3.format(this._getOptionValue('yFormat')))
                 .showMaxMin(this._getOptionValue('showMinMax'))
                 .staggerLabels(true);
+            if (this._getOptionValue('yLabel')) {
+                this._chart.yAxis.axisLabel(this._getOptionValue('yLabel'));
+            }
         }
     },
 
@@ -201,6 +210,9 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 .tickFormat(xFormatter)
                 .showMaxMin(this._getOptionValue('showMinMax'))
                 .staggerLabels(true);
+            if (this._getOptionValue('xLabel')) {
+                this._chart.xAxis.axisLabel(this._getOptionValue('xLabel'));
+            }
         }
     },
 

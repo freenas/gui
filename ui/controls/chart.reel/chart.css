@@ -54,3 +54,11 @@
 .Chart #chart.is-visible {
     display: inherit !important;
 }
+
+.Chart .nv-x .nv-axislabel {
+    transform: translate3d(0, -15px, 0);
+}
+
+.Chart .nv-y .nv-axislabel {
+    transform: translate3d(5px, 0, 0) rotate(-90deg);
+}
