@@ -19,6 +19,7 @@
 }
 
 .TaskNotificationDetails header {
+    position: relative;
     display: flex;
     align-items: center;
     background: #0C5688;
@@ -44,6 +45,17 @@
     cursor: pointer;
     outline: none;
 }
+
+.AlertNotificationDetails-backButton:before {
+    content: '';
+    position: absolute;
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+}
+
+.AlertNotificationDetails-backButton:hover:before { background: rgba(255,255,255,.1); }
 
 .TaskNotificationDetails-backButton svg {
     transform: rotate(180deg);
