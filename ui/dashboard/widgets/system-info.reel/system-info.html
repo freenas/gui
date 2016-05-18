@@ -66,16 +66,6 @@
                 "value": {"<-": "@owner.systemInfo.time.system_time"}
             }
         },
-        "loadAverage": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "loadAverage"},
-                "converter": {"@": "loadToStringConverter"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.systemInfo.load"}
-            }
-        },
         "cpuCount": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -200,9 +190,6 @@
 
                         <dt>System Time</dt>
                         <dd data-montage-id="systemTime"></dd>
-
-                        <dt>Load Average</dt>
-                        <dd data-montage-id="loadAverage"></dd>
 
                         <dt>Platform</dt>
                         <dd>
