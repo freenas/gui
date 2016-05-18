@@ -92,6 +92,7 @@ exports.Topologizer = Component.specialize({
                 y: 47.5
             };
             this.barycentricValues = [];
+            this._positionHandle();
         }
     },
 
@@ -241,7 +242,7 @@ exports.Topologizer = Component.specialize({
 
                 this.profileHasChanged = false;
                 this.handlePosition = this._targePosition;
-                this.handleElement.style[this.constructor.cssTransform] = "translate3d(" + this._handlePosition.x + "px," + this._handlePosition.y + "px,0)";
+                this._positionHandle();
                 var barycentricValues = this._barycentricValues;
                 this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
             }
@@ -251,6 +252,12 @@ exports.Topologizer = Component.specialize({
     didDraw: {
         value: function () {
             this.application.preventAnimation = false;
+        }
+    },
+
+    _positionHandle: {
+        value: function() {
+            this.handleElement.style[this.constructor.cssTransform] = "translate3d(" + this._handlePosition.x + "px," + this._handlePosition.y + "px,0)";
         }
     },
 
