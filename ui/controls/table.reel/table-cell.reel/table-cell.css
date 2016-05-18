@@ -2,6 +2,7 @@
     padding: 0 !important;
     position: relative;
     display: table-cell;
+    vertical-align: middle;
 }
 
 .TableCell:not(:last-child) {
@@ -15,16 +16,12 @@
 
 .TableCell-content {
     padding: .5em;
-    max-width: 12em;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .TableCell-content > .montage-Text {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    max-width: 10em;
 }
 
 /* sets min width of specific components */
