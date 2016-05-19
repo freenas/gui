@@ -19,7 +19,7 @@
                 "showYAxis": true,
                 "yFormat": "s",
                 "isTimeSeries": true,
-                "isStacked": true,
+                "isStacked": false,
                 "useGuideline": true,
                 "title": "ARC Demand Data",
                 "source": "zfs_arc",
@@ -29,7 +29,8 @@
                     "cache_result-demand_metadata-hit",
                     "cache_result-demand_metadata-miss"
                 ],
-                "removePrefix": "cache_result-demand_"
+                "removePrefix": "cache_result-demand_",
+                "yLabel": "Requests"
             }
         }
     }
