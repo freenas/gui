@@ -7,14 +7,24 @@
     border-bottom-left-radius:  2px;
 }
 
-
-
 .Notifications-header {
     position: relative;
     background-color: #404040;
     padding: .5em;
+    padding-left: 2.5em;
     border-top-right-radius: 2px;
     border-top-left-radius:  2px;
+}
+
+.Notifications-icon {
+    position: absolute;
+    left: .5em;
+    top: 50%;
+    margin-top: -.75em;
+    height: 1.5em;
+    width:  1.5em;
+    margin-right: .5em;
+    display: inline-block;
 }
 
 .Notifications-title {

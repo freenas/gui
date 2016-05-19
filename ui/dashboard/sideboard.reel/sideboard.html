@@ -11,7 +11,8 @@
             },
             "bindings": {
                 "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"},
-                "alertsCount": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}.length"}
+                "alerts": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}"},
+                "tasks": {"<-": "@owner.notifications.filter{type == 'TASK' && state == 'EXECUTING'}"}
             },
             "listeners": [
                 {
@@ -26,6 +27,7 @@
                 "element": {"#": "alerts"},
                 "title": "Alerts",
                 "type": "ALERT",
+                "icon": "i-alert",
                 "emptyText": "No Alerts Reported"
             }
         },
@@ -36,18 +38,8 @@
                 "element": {"#": "tasks"},
                 "title": "Tasks",
                 "type": "TASK",
+                "icon": "i-tasks",
                 "emptyText": "No Current Tasks"
-            }
-        },
-
-        "alertCount": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "alertCount"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.alertsCount"},
-                "classList.has('has-error')": {"<-": "@owner.alertsCount > 0"}
             }
         },
 
@@ -55,6 +47,28 @@
             "prototype": "montage/ui/button.reel",
             "properties": {
                 "element": {"#": "toggleSideboard"}
+            }
+        },
+
+        "tasksIcon": {
+            "prototype": "ui/dashboard/widgets/widget-icon.reel",
+            "properties": {
+                "element": {"#": "tasksIcon"},
+                "icon": "i-tasks"
+            },
+            "bindings": {
+                "data": {"<-": "@owner.tasks"}
+            }
+        },
+
+        "alertsIcon": {
+            "prototype": "ui/dashboard/widgets/widget-icon.reel",
+            "properties": {
+                "element": {"#": "alertsIcon"},
+                "icon": "i-alert"
+            },
+            "bindings": {
+                "data": {"<-": "@owner.alerts"}
             }
         }
     }
@@ -64,11 +78,8 @@
     <div data-montage-id="owner" class="Sideboard">
         <div class="Sideboard-container">
             <div class="Sideboard-icons">
-                <div class="Sideboard-icon">
-                    <svg><use xlink:href="#i-alert"/></svg>
-                    <div data-montage-id="alertCount" class="Sideboard-icon-badge"></div>
-                </div>
-                <div class="Sideboard-icon"></div>
+                <div data-montage-id="alertsIcon"></div>
+                <div data-montage-id="tasksIcon"></div>
             </div>
 
             <div class="Sideboard-widgets">
@@ -76,7 +87,7 @@
                 <div data-montage-id="tasks"></div>
             </div>
         </div>
-        <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard Sideboard-icon">
+        <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard">
             <svg><use xlink:href="#i-arrow"/></svg>
         </div>
     </div>

@@ -34,41 +34,6 @@
     padding: .5em;
 }
 
-.Sideboard-icon {
-    height: 2em;
-    width:  2em;
-    padding: .15em;
-    border-radius: 4px;
-    background: rgba(255,255,255,.1);
-}
-
-.Sideboard-icon.has-error {
-    background: red;
-    color: #16171A;
-}
-
-.Sideboard-icon + .Sideboard-icon { margin-top: .5em; }
-
-/* badge */
-
-.Sideboard-icon-badge {
-    display: none;
-    position: absolute;
-    top:    .15em;
-    transform:  translateX(-50%);
-    border-radius: .5rem;
-    padding: 0.2em 0.45em .25em;
-    font-size: 0.7em;
-    background: #B1BCBE;
-    color: #000;
-    line-height: 1em;
-    box-shadow: 0 2px 2px rgba(0,0,0,.3);
-}
-
-.Sideboard-icon-badge.has-error {
-    display: block;
-}
-
 .Sideboard-content {
     flex: 1;
     display: flex;
@@ -80,6 +45,9 @@
 }
 
 .Sideboard-toggleSideboard {
+    height: 2em;
+    width:  2em;
+    border-radius: 4px;
     background: rgba(255,255,255, .1);
     padding: .3em;
     margin-left: 1em;

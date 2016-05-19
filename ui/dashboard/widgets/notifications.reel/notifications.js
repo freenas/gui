@@ -11,6 +11,10 @@ exports.Notifications = Component.specialize({
         value: false
     },
 
+    svgIcon: {
+        value: null
+    },
+
     handleTransitionend: {
         value: function (e) {
             if (e.target === this.notificationsBody) {
@@ -26,6 +30,9 @@ exports.Notifications = Component.specialize({
             if(isFirstTime) {
                 this.notificationsBody.addEventListener("transitionend", this, false);
                 this.addRangeAtPathChangeListener("items.selection", this, "handleSelectionChange");
+                this.svgIcon = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+                this.svgIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "#" + this.icon);
+                this.iconElement.appendChild(this.svgIcon);
             }
         }
     },

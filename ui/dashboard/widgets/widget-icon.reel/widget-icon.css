@@ -1,0 +1,39 @@
+.WidgetIcon {
+    position: relative;
+    height: 2em;
+    width:  2em;
+    padding: .15em;
+    border-radius: 4px;
+    background: rgba(255,255,255,.1);
+}
+
+.WidgetIcon + .WidgetIcon { margin-top: 1em; }
+
+/* badge */
+
+.WidgetIcon-badge {
+    display: none;
+    position: absolute;
+    top:    -.5em;
+    transform:  translateX(-50%);
+    border-radius: .5rem;
+    padding: 0.2em 0.45em .25em;
+    font-size: 0.7em;
+    background: #B1BCBE;
+    color: #000;
+    line-height: 1em;
+    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+}
+
+.WidgetIcon.has-error,
+.WidgetIcon.has-info,
+.WidgetIcon.has-warning,
+.WidgetIcon.has-critical {
+    background: red;
+    color: #fff;
+}
+
+.WidgetIcon-badge.has-value,
+.WidgetIcon-badge.is-executing {
+    display: block;
+}

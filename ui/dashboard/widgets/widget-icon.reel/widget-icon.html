@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="widget-icon.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "iconElement": {"#": "icon"}
+            },
+            "bindings": {
+                "classList.has('has-error')": {"<-": "@owner.hasError"},
+                "classList.has('has-warning')": {"<-": "@owner.hasWarning"},
+                "classList.has('has-info')": {"<-": "@owner.hasInfo"},
+                "classList.has('has-critical')": {"<-": "@owner.hasCritical"}
+            }
+        },
+        "count": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "count"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.data.length"},
+                "classList.has('has-value')": {"<-": "@owner.data"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="WidgetIcon">
+        <svg data-montage-id="icon"></svg>
+        <div data-montage-id="count" class="WidgetIcon-badge"></div>
+    </div>
+</body>
+</html>
