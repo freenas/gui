@@ -5,9 +5,9 @@
       "name": "value",
       "blueprint": {"@": "root"},
       "enumValues": [
-        "^sensitive$",
-        "^insensitive$",
-        "^mixed$"
+        "sensitive",
+        "insensitive",
+        "mixed"
       ]
     }
   },
