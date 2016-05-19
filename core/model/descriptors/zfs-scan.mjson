@@ -20,7 +20,7 @@
     "properties": {
       "name": "end_time",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "datetime"
     }
   },
   "blueprint_zfsscan_errors": {
@@ -52,7 +52,7 @@
     "properties": {
       "name": "start_time",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "datetime"
     }
   },
   "blueprint_zfsscan_state": {
