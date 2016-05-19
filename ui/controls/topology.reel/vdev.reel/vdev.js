@@ -233,9 +233,9 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     },
 
     handleChildrenChange: {
-        value: function () {
+        value: function (addedChildren) {
             if (this.children) {
-                this._defineDefaultType();
+                this._defineDefaultType(!!addedChildren.length);
                 this._calculateSizes();
             }
         }
@@ -260,7 +260,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     },
 
     _defineDefaultType: {
-        value: function() {
+        value: function(isAdd) {
             if (this.topologyItem && !this._hasUserDefinedType) {
                 var childrenCount = this.children.length;
 
@@ -269,7 +269,10 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                         this.object.type = childrenCount > 1 ? Topology.VDEV_TYPES.MIRROR.value : Topology.VDEV_TYPES.DISK.value;
                     }
                 } else {
-                    this.object.type = this.topologyItem.allowedDefaultVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; })[0].value;
+                    var allowedDefaultVdevTypesValues = this.topologyItem.allowedDefaultVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; }).map(function(x) { return x.value; }); 
+                    if (!this.object.type || !isAdd || allowedDefaultVdevTypesValues.indexOf(this.object.type) != -1) {
+                        this.object.type = allowedDefaultVdevTypesValues[0];
+                    }
                 }
             }
         }
