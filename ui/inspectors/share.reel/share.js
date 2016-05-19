@@ -137,7 +137,7 @@ exports.Share = Component.specialize({
             if (this._service != service) {
                 this._service = service;
             }
-            this.isServiceStarted = this._isServiceRunning();
+            this.isServiceStarted = service.config.enable;
         }
     },
 
@@ -151,9 +151,9 @@ exports.Share = Component.specialize({
         },
         set: function(isServiceStarted) {
             if (this._isServiceStarted !== isServiceStarted) {
-                if (isServiceStarted && !this._isServiceRunning()) {
+                if (isServiceStarted) {
                     this._startService();
-                } else if (!isServiceStarted && this._isServiceRunning()) {
+                } else {
                     this._stopService();
                 }
                 this._isServiceStarted = isServiceStarted;
@@ -403,17 +403,12 @@ exports.Share = Component.specialize({
         }
     },
 
-    _isServiceRunning: {
-        value: function() {
-            return this.service && this.service.state == 'RUNNING';
-        }
-    },
-
     _startService: {
         value: function() {
             var self = this;
-            if (this.service && !this._isServiceRunning()) {
-                this.service.manage(this.service.id, 'start');
+            if (this.service && this.service.config && !this.service.config.enable) {
+                this.service.config.enable = true;
+                this.application.dataService.saveDataObject(this.service);
             }
         }
     },
@@ -421,8 +416,9 @@ exports.Share = Component.specialize({
     _stopService: {
         value: function() {
             var self = this;
-            if (this.service && this._isServiceRunning()) {
-                this.service.manage(this.service.id, 'stop');
+            if (this.service && this.service.config && this.service.config.enable) {
+                this.service.config.enable = false;
+                this.application.dataService.saveDataObject(this.service);
             }
         }
     }
