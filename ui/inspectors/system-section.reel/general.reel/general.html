@@ -91,6 +91,20 @@
             "bindings": {
                 "value": {"<-": "@owner.load"}
             }
+        },
+        "reboot": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "reboot"},
+                "value": "Reboot"
+            }
+        },
+        "shutdown": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "shutdown"},
+                "value": "Shutdown"
+            }
         }
     }
     </script>
@@ -104,6 +118,8 @@
         <div data-montage-id="systemTime"></div>
         <div data-montage-id="uptime"></div>
         <div data-montage-id="loadAverage"></div>
+        <div data-montage-id="reboot"></div>
+        <div data-montage-id="shutdown"></div>
     </div>
 </body>
 </html>
