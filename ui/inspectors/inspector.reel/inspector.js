@@ -2,6 +2,7 @@
  * @module ui/inspector.reel
  */
 var Component = require("montage/ui/component").Component,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Promise = require("montage/core/promise").Promise;
 
 /**
@@ -43,18 +44,52 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleSaveAction: {
         value: function(event) {
+            var promise;
+
             if (typeof this.parentComponent.save === 'function') {
-                var promise = this.parentComponent.save();
+                promise = this.parentComponent.save();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
             } else if (this.object) {
-                this.application.dataService.saveDataObject(this.object).catch(this._logError);
+                promise = this.application.dataService.saveDataObject(this.object).catch(this._logError);
             } else {
                 console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
             }
+
+            if (Promise.is(promise)) {
+                var self = this;
+
+                promise.then(function () {
+                    return self._resetCreateInspectorIfNeeded();
+                });
+            } else {
+                this._resetCreateInspectorIfNeeded();
+            }
+
             event.stopPropagation();
+        }
+    },
+
+    _resetCreateInspectorIfNeeded: {
+        value: function () {
+            if (this._inDocument) {
+                var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
+
+                if (cascadingListItem) {
+                    var self = this,
+                        context = cascadingListItem.data;
+
+                    return this.application.dataService.getNewInstanceForType(Object.getPrototypeOf(context.object).Type).then(function (newInstance) {
+                        context.object = newInstance;
+                    });
+                }
+
+                console.warn("cascadingListItemContext not existing, need investigating");
+            }
+
+            return Promise.resolve();
         }
     },
 
