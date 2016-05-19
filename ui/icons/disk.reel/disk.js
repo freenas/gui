@@ -25,4 +25,24 @@ exports.Disk = Component.specialize({
 
 });
 
-exports.defaultBytesConverter = new BytesConverter();
+exports.defaultBytesConverter = {
+    _converter: new BytesConverter(),
+    convert: function(size) {
+        var tmp = size,
+            magnitude = 0;
+        while (tmp >= 1) {
+            magnitude++;
+            tmp = tmp / 1024;
+        }
+        if (tmp >= 0.01) {
+            tmp = Math.round(tmp * 1024) * Math.pow(1024, magnitude - 1); 
+        } else {
+            tmp = size;
+        }
+        return this._converter.convert(tmp);
+    },
+
+    revert: function(string) {
+        return this._converter.revert(string);
+    }
+};
