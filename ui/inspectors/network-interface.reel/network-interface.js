@@ -24,6 +24,8 @@ exports.NetworkInterface = Component.specialize({
         set: function(object) {
             if (this._object !== object) {
                 this._object = object;
+                this.otherAliases = [];
+                this.staticIP = null;
 
                 if (object) {
                     var self = this;
