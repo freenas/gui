@@ -65,7 +65,7 @@
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
                 "element": {"#": "operationsTableLabel"},
-                "value": "Pending Update Operations"
+                "value": "Pending Package Upgrades"
             }
         },
         "operationsTable": {
@@ -96,13 +96,6 @@
                 "value": "Update and Reboot"
             }
         },
-        "downloadUpdate": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "downloadUpdate"},
-                "value": "Download Update"
-            }
-        },
         "installUpdate": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -110,10 +103,10 @@
                 "value": "Install Pending Update"
             }
         },
-        "checkUpdate": {
+        "checkDownload": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "checkUpdate"},
+                "element": {"#": "checkDownload"},
                 "value": "Check for Update"
             }
         },
@@ -144,14 +137,13 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Updates">
-        <div data-montage-id="checkUpdate"></div>
-        <div data-montage-id="verify"></div>
+        <div data-montage-id="updateNow"></div>
+        <div data-montage-id="checkDownload"></div>
+        <div data-montage-id="installUpdate"></div>
+        <div data-montage-id="verify" class='hide'></div>
         <div class="Updates-operations">
             <div data-montage-id="operationsTableLabel"></div>
             <div data-montage-id="operationsTable"></div>
-            <div data-montage-id="updateNow"></div>
-            <div data-montage-id="downloadUpdate"></div>
-            <div data-montage-id="installUpdate"></div>
         </div>
         <div data-montage-id="noOperation" class="Updates-noOperation"></div>
         <div data-montage-id="settingsSection" class="Updates-settingsSection">

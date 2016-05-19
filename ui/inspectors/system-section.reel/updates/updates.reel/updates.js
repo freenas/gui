@@ -64,23 +64,17 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
         }
     },
 
-    handleDownloadUpdateAction: {
-        value: function() {
-            this.config.download();
-        }
-    },
-
     handleVerifyAction: {
         value: function() {
             this.config.verify();
         }
     },
 
-    handleCheckUpdateAction: {
+    handleCheckDownloadAction: {
         value: function() {
             var self = this;
-            this.config.check().then(function() {
-               return self._updateService.getUpdateOps()
+            this.config.checkfetch().then(function() {
+               return self._updateService.getUpdateOps();
             }).then(function(updateOps) {
                 return self.updateOps = updateOps;
             });
