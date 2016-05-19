@@ -42,5 +42,17 @@ exports.General = Component.specialize(/** @lends General# */ {
                 self.isLoading = false;
             });
         }
+    },
+
+    handleRebootAction: {
+       value: function() {
+           this.application.systemService.reboot();
+       }
+    },
+
+    handleShutdownAction: {
+       value: function() {
+           this.application.systemService.shutdown();
+       }
     }
 });

@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "bytesSizeConverter": {
             "prototype": "montage/core/converter/bytes-converter"
