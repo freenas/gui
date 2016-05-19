@@ -23,7 +23,7 @@
                 "element": {"#": "hostname"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.summary.hostname"}
+                "value": {"<-": "@owner.object.networkConfiguration.general.hostname"}
             }
         },
         "defaultRouteIpv4": {
@@ -32,7 +32,7 @@
                 "element": {"#": "defaultRouteIpv4"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.summary.defaultRoute.ipv4"}
+                "value": {"<-": "@owner.object.networkConfiguration.gateway.ipv4"}
             }
         },
         "defaultRouteIpv6": {
@@ -41,8 +41,8 @@
                 "element": {"#": "defaultRouteIpv6"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.summary.defaultRoute.ipv6"},
-                "classList.has('hide')": {"<-": "!@owner.object.summary.defaultRoute.ipv6"}
+                "value": {"<-": "@owner.object.networkConfiguration.gateway.ipv6"},
+                "classList.has('hide')": {"<-": "!@owner.object.networkConfiguration.gateway.ipv6"}
             }
         },
         "interfaceRepetition": {
@@ -87,7 +87,7 @@
                 "element": {"#": "nameserverRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.nameservers"}
+                "content": {"<-": "@owner.object.networkConfiguration.dns.addresses"}
             }
         },
         "nameserver": {

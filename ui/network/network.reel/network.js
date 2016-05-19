@@ -46,11 +46,9 @@ exports.Network = Component.specialize({
                 networkOverview.ipmi = ipmi;
                 return self._populateNetworkConfig(networkOverview);
             }).then(function () {
-                return self._populateNetworkStatus(networkOverview);
-            }).then(function () {
                 return self._populateNetworkInterfaces(networkOverview);
             }).then(function () {
-                return self.getSystemGeneralConfig()
+                return self.getSystemGeneralConfig();
             }).then(function (systemGeneral) {
                 networkOverview.networkConfiguration.general = systemGeneral;
                 return self._populateStaticRoutes(networkOverview);
