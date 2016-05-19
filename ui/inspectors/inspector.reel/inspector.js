@@ -3,6 +3,7 @@
  */
 var Component = require("montage/ui/component").Component,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise;
 
 /**
@@ -82,7 +83,17 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                         contextObject = context.object;
 
                     if (!contextObject.id || contextObject._isNewObject) {
-                        return this.application.dataService.getNewInstanceForType(Object.getPrototypeOf(context.object).Type).then(function (newInstance) {
+                        var type = Object.getPrototypeOf(contextObject).Type;
+
+                        return this.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
+                            if (Model.NetworkInterface === type) { // FIXME!
+                                newInstance.type = contextObject.type;
+                                newInstance._isNewObject = true;
+                                newInstance.aliases = [];
+                                newInstance.name = "";
+                            }
+
+                            // context.object -> dispatch changes through bindings.
                             context.object = newInstance;
                         });
                     }
