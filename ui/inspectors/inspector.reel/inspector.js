@@ -78,15 +78,17 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
 
                 if (cascadingListItem) {
-                    var self = this,
-                        context = cascadingListItem.data;
+                    var context = cascadingListItem.data,
+                        contextObject = context.object;
 
-                    return this.application.dataService.getNewInstanceForType(Object.getPrototypeOf(context.object).Type).then(function (newInstance) {
-                        context.object = newInstance;
-                    });
+                    if (!contextObject.id || contextObject._isNewObject) {
+                        return this.application.dataService.getNewInstanceForType(Object.getPrototypeOf(context.object).Type).then(function (newInstance) {
+                            context.object = newInstance;
+                        });
+                    }
+                } else {
+                    console.warn("cascadingListItemContext not existing, need investigating");
                 }
-
-                console.warn("cascadingListItemContext not existing, need investigating");
             }
 
             return Promise.resolve();
