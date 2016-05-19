@@ -29,16 +29,48 @@
     display: block;
 }
 
+/* Locked Panel */
+
 .Inspector-locked {
-    display: none;
+    visibility: hidden;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
     z-index: 100;
-    background: #666666;
-    opacity: 0.5;
+    pointer-events: none;
 }
 
-.Inspector.is-locked .Inspector-locked {
+.Inspector.is-locked .Inspector-locked { visibility: visible; }
+
+.Inspector-locked .montage-Text {
+    position: absolute;
+    text-align: center;
+    line-height: 1em;
+    color: #FFF;
+    padding: 1em;
+    left: 50%;
+    top:  50%;
+    width: calc(100% - 2em);
+    transform: translate(-50%, -50%) scale(0);
+    transition: all .5s cubic-bezier(.88,.01,.24,1);
+}
+
+.Inspector.is-locked .Inspector-locked .montage-Text {
+    transform: translate(-50%, -50%) scale(1) ;
+}
+
+.Inspector-locked .montage-Text:before {
+    content: '';
     display: block;
+    position: absolute;
+    width:  500%;
+    padding-bottom: 540%;
+    transform: translate(-46%,-50%);
+    background-color: rgba(0,0,0,.8);
+    background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.25), rgba(43,156,216,0.25) 1px, transparent 1px, transparent 10px);
+    background-size: 28px 28px;
+    border-radius: 50%;
+    z-index: -1;
 }
