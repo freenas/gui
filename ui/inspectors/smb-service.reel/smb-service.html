@@ -129,7 +129,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.guest_user"},
-                "options": {"<-": "@owner.users"}
+                "options": {"<-": "@owner.users.sorted{builtin + username}"}
             }
         },
         "fileMask": {

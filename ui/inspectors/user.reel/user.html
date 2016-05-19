@@ -86,7 +86,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.group"},
-                "options": {"<-": "[{id: -1, name: ''}].concat(@owner.groupOptions)"}
+                "options": {"<-": "[{id: -1, name: ''}].concat(@owner.groupOptions).sorted{builtin + name}"}
             }
         },
         "additionalGroupsValidator": {
@@ -121,7 +121,7 @@
                 "converter": {"@": "additionalGroupsConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.groupOptions.filter{id != @owner.object.group}"},
+                "options": {"<-": "@owner.groupOptions.filter{id != @owner.object.group}.sorted{builtin + name}"},
                 "values": {"<->": "@owner.additionalGroups"}
             }
         },

@@ -81,7 +81,7 @@
                 "label": "Guest User"
             },
             "bindings": {
-                "options": {"<-": "@owner.users"},
+                "options": {"<-": "@owner.users.sorted{builtin + username}"},
                 "selectedValue": {"<->": "@owner.object.guest_user"}
             }
         },
