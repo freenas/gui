@@ -14,18 +14,29 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleDeleteAction: {
         value: function (event) {
+            var self = this,
+                promise;
+
             this._isToBeDeleted = true;
 
             if (typeof this.parentComponent.delete === 'function') {
-                var promise = this.parentComponent.delete();
+                promise = this.parentComponent.delete();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
             } else if (this.object) {
-                this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+                promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
+            }
+
+            if (Promise.is(promise)) {
+                this.isLocked = true;
+
+                promise.then(function () {
+                    self.isLocked = false;
+                });
             }
 
             event.stopPropagation();
@@ -61,9 +72,8 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             }
 
             if (Promise.is(promise)) {
-                var self = this;
-                
                 this.isLocked = true;
+
                 promise.then(function () {
                     self.isLocked = false;
                     return self._resetCreateInspectorIfNeeded();
