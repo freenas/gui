@@ -45,7 +45,8 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleSaveAction: {
         value: function(event) {
-            var promise;
+            var self = this,
+                promise;
 
             if (typeof this.parentComponent.save === 'function') {
                 promise = this.parentComponent.save();
@@ -61,8 +62,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
             if (Promise.is(promise)) {
                 var self = this;
-
+                
+                this.isLocked = true;
                 promise.then(function () {
+                    self.isLocked = false;
                     return self._resetCreateInspectorIfNeeded();
                 });
             } else {

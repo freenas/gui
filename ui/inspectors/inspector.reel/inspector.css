@@ -39,7 +39,6 @@
     right:  0;
     bottom: 0;
     z-index: 100;
-    pointer-events: none;
 }
 
 .Inspector.is-locked .Inspector-locked { visibility: visible; }
