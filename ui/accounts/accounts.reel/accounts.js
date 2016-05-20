@@ -20,11 +20,14 @@ exports.Accounts = Component.specialize({
                 //Fixme: getDataObject needs to return a promise
                 return dataService.getNewInstanceForType(Model.AccountCategory).then(function (accountCategory) {
                     accountCategories = self.accountCategories = accountCategory;
+                    accountCategories.isLoading = true;
                     accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
                     accountCategories.group = dataService.getEmptyCollectionForType(Model.Group);
                     accountCategories.system = dataService.getEmptyCollectionForType(Model.AccountSystem);
 
                     return Promise.all([self._listUsers(), self._listGroups()]);
+                }).then(function() {
+                    self.accountCategories.isLoading = false;
                 });
             }
         }

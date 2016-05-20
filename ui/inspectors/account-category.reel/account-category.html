@@ -8,6 +8,16 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-loading')": {"<-":"@owner.object.isLoading"}
+            }
+        },
+
+        "loading": {
+            "prototype": "ui/controls/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
             }
         },
 
@@ -53,7 +63,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="AccountCategory">
-        <div data-montage-id="scrollView">
+        <div data-montage-id="loading" class="AccountCategory-loading"></div>
+        <div data-montage-id="scrollView" class="AccountCategory-body">
             <div data-montage-id="user"></div>
             <div data-montage-id="group"></div>
             <div data-montage-id="system"></div>

@@ -1,3 +1,23 @@
 .AccountCategory {
 
 }
+
+.AccountCategory.is-loading .AccountCategory-body,
+.AccountCategory.is-loading .AccountCategory-footer
+{
+    display: none;
+}
+
+.AccountCategory .AccountCategory-loading {
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.AccountCategory .AccountCategory-loading svg {
+    width: 5em;
+}
+
+.AccountCategory.is-loading .AccountCategory-loading {
+    display: block;
+}
