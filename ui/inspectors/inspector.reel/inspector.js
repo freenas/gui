@@ -82,7 +82,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     var context = cascadingListItem.data,
                         contextObject = context.object;
 
-                    if (!contextObject.id || contextObject._isNewObject) {
+                    if (contextObject.id === null || contextObject._isNewObject || contextObject._isNew) {
                         var type = Object.getPrototypeOf(contextObject).Type;
 
                         return this.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
@@ -92,6 +92,9 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                                 newInstance.aliases = [];
                                 newInstance.name = "";
                             }
+
+                            context._isNewObject = contextObject._isNewObject;
+                            context._isNew = contextObject._isNew;
 
                             // context.object -> dispatch changes through bindings.
                             context.object = newInstance;
