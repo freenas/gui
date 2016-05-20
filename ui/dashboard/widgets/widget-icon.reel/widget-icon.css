@@ -1,10 +1,12 @@
 .WidgetIcon {
+    box-sizing: content-box;
     position: relative;
     height: 2em;
     width:  2em;
     padding: .15em;
     border-radius: 4px;
     background: rgba(255,255,255,.1);
+    border: 2px solid transparent;
 }
 
 .WidgetIcon + .WidgetIcon { margin-top: 1em; }
@@ -25,15 +27,28 @@
     box-shadow: 0 2px 2px rgba(0,0,0,.3);
 }
 
-.WidgetIcon.has-error,
-.WidgetIcon.has-info,
-.WidgetIcon.has-warning,
-.WidgetIcon.has-critical {
-    background: red;
+/* sets color levels */
+
+.WidgetIcon.has-error .WidgetIcon-badge,
+.WidgetIcon.has-critical .WidgetIcon-badge,
+.WidgetIcon.has-info .WidgetIcon-badge,
+.WidgetIcon.has-warning .WidgetIcon-badge {
     color: #fff;
 }
+
+
+.WidgetIcon.has-info .WidgetIcon-badge      { background-color: #BB8E00;}
+.WidgetIcon.has-info                        { border-color:     #BB8E00;}
+
+.WidgetIcon.has-warning .WidgetIcon-badge   { background-color: #D95B1B;}
+.WidgetIcon.has-warning                     { border-color:     #D95B1B;}
+
+.WidgetIcon.has-error .WidgetIcon-badge,
+.WidgetIcon.has-critical .WidgetIcon-badge { background-color: #E0003A; }
+.WidgetIcon.has-critical                   { border-color:     #E0003A; }
 
 .WidgetIcon-badge.has-value,
 .WidgetIcon-badge.is-executing {
     display: block;
 }
+

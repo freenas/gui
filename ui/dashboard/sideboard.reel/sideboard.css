@@ -29,7 +29,7 @@
 
 .Sideboard-icons {
     position: absolute;
-    left: -3.5em;
+    left: calc( -3.5em - 5px);
     top: .5em;
     padding: .5em;
 }

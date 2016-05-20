@@ -12,7 +12,7 @@
             "bindings": {
                 "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"},
                 "alerts": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}"},
-                "tasks": {"<-": "@owner.notifications.filter{type == 'TASK' && state == 'EXECUTING'}"}
+                "tasks": {"<-": "@owner.notifications.filter{type == 'TASK'}"}
             },
             "listeners": [
                 {
@@ -57,6 +57,7 @@
                 "icon": "i-tasks"
             },
             "bindings": {
+                "badgeValue": {"<-": "@owner.tasks.filter{state == 'EXECUTING'}.length"},
                 "data": {"<-": "@owner.tasks"}
             }
         },

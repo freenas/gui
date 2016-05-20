@@ -23,8 +23,8 @@
                 "element": {"#": "count"}
             },
             "bindings": {
-                "value": {"<-": "@owner.data.length"},
-                "classList.has('has-value')": {"<-": "@owner.data"}
+                "value": {"<-": "@owner.badgeValue.defined() ? @owner.badgeValue : @owner.data.length "},
+                "classList.has('has-value')": {"<-": "this.value > 0"}
             }
         }
     }
