@@ -243,4 +243,24 @@ thead {
 
 thead td { padding: .5em 1em; }
 
-td { height: 2em; padding: 0 1em; }
+td {
+    padding: .5em 1em;
+    line-height: 1em;
+}
+
+.table { display: table;}
+.thead {
+    display: table-header-group;
+    background: rgba(0,0,0,.2);
+}
+.tbody { display: table-row-group; }
+.td { display: table-cell; }
+.tr { display: table-row; }
+.th {
+    display: table-cell;
+    padding: .5em 1em;
+    line-height: 1em;
+    vertical-align: middle;
+}
+
+.table-row-group { display: table-row-group; }

@@ -51,34 +51,16 @@
                 "element": {"#": "interfaceRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.interfaces"}
+                "content": {"<-": "@owner.object.summary.interfaces.filter{ipv4 || ipv6}"}
             }
         },
-        "interfaceName": {
-            "prototype": "montage/ui/text.reel",
+        "interface": {
+            "prototype": "./interface-overview-item.reel",
             "properties": {
-                "element": {"#": "interfaceName"}
+                "element": {"#": "interface"}
             },
             "bindings": {
-                "value": {"<-": "@interfaceRepetition:iteration.object.name"}
-            }
-        },
-        "interfaceIpv4": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "interfaceIpv4"}
-            },
-            "bindings": {
-                "value": {"<-": "@interfaceRepetition:iteration.object.ipv4"}
-            }
-        },
-        "interfaceIpv6": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "interfaceIpv6"}
-            },
-            "bindings": {
-                "value": {"<-": "@interfaceRepetition:iteration.object.ipv6"}
+                "object": {"<-": "@interfaceRepetition:iteration.object"}
             }
         },
         "nameserverRepetition": {
@@ -116,6 +98,31 @@
             "bindings": {
                 "object": {"<-": "@owner.object.interfaces"}
             }
+        },
+        "disabledInterfaces": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "disabledInterfaces"},
+                "title": "Disabled Interfaces"
+            }
+        },
+        "disabledInterfacesRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "disabledInterfacesRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object.summary.interfaces.filter{!ipv4 && !ipv6}"}
+            }
+        },
+        "disabledInterface": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "disabledInterface"}
+            },
+            "bindings": {
+                "value": {"<-": "@disabledInterfacesRepetition:iteration.object.name"}
+            }
         }
     }
     </script>
@@ -139,22 +146,25 @@
                             </tr>
                         </tbody>
                     </table>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>IPv4 Addresses</th>
-                                <th>IPv6 Addresses</th>
-                            </tr>
-                        </thead>
-                        <tbody data-montage-id="interfaceRepetition">
-                            <tr>
-                                <td data-montage-id="interfaceName"></td>
-                                <td data-montage-id="interfaceIpv4"></td>
-                                <td data-montage-id="interfaceIpv6"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table">
+                        <div class="thead">
+                            <div class="tr">
+                                <div class="th">Interface</div>
+                                <div class="th">IPv4</div>
+                                <div class="th">IPv6</div>
+                            </div>
+                        </div>
+                        <div data-montage-id="interfaceRepetition" class="tbody">
+                            <div data-montage-id="interface"></div>
+                        </div>
+                    </div>
+
+                    <div data-montage-id="disabledInterfaces" class="Configuration-disabledInterfaces">
+                        <div data-montage-id="disabledInterfacesRepetition">
+                            <div data-montage-id="disabledInterface" class="Configuration-disabledInterface"></div>
+                        </div>
+                    </div>
+
                     <table>
                         <thead>
                             <tr>
@@ -166,6 +176,7 @@
                                 <td data-montage-id="nameserver"></td>
                             </tr>
                         </tbody>
+
                     </table>
                     <table>
                         <thead>

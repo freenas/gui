@@ -1,0 +1,11 @@
+.InterfaceOverviewItem { display: table-row; }
+
+.InterfaceOverviewItem:nth-child(even) { background-color: rgba(0,0,0,.1); }
+
+.InterfaceOverviewItem > * {
+    display: table-cell;
+    height: 2em;
+    padding: 0 1em;
+    vertical-align: middle;
+}
+

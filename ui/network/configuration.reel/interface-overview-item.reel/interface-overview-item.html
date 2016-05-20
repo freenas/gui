@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="interface-overview-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "interfaceName": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "interfaceName"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.name"}
+            }
+        },
+        "interfaceIpv4": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "interfaceIpv4"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.ipv4"}
+            }
+        },
+        "interfaceIpv6": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "interfaceIpv6"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.ipv6"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="InterfaceOverviewItem">
+        <div data-montage-id="interfaceName"></div>
+        <div data-montage-id="interfaceIpv4"></div>
+        <div data-montage-id="interfaceIpv6"></div>
+    </div>
+</body>
+</html>
