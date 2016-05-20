@@ -61,6 +61,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_disk_rname": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rname",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_disk_serial": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -114,6 +122,7 @@
         {"@": "blueprint_disk_mediasize"},
         {"@": "blueprint_disk_name"},
         {"@": "blueprint_disk_path"},
+        {"@": "blueprint_disk_rname"},
         {"@": "blueprint_disk_serial"},
         {"@": "blueprint_disk_smart"},
         {"@": "blueprint_disk_smart_options"},

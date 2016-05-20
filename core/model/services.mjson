@@ -1476,33 +1476,6 @@
         }
     },
     "Replication": {
-        "class": {
-            "datasetsFromLink": {
-                "method": "replication.datasets_from_link",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getRelatedContainers": {
-                "method": "replication.get_related_containers",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getRelatedShares": {
-                "method": "replication.get_related_shares",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getReservedContainers": {
-                "method": "replication.get_reserved_containers",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getReservedShares": {
-                "method": "replication.get_reserved_shares",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        },
         "instance": {
             "create": {
                 "method": "task.submit",
@@ -3020,6 +2993,11 @@
             },
             "getDependencies": {
                 "method": "zfs.dataset.get_dependencies",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getPropertiesAllowedValues": {
+                "method": "zfs.dataset.get_properties_allowed_values",
                 "name": "call",
                 "namespace": "rpc"
             },

@@ -3,7 +3,19 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "on",
+        "off",
+        "verify",
+        "sha256",
+        "sha256,verify",
+        "sha512",
+        "sha512,verify",
+        "skein",
+        "skein,verify",
+        "edonr,verify"
+      ]
     }
   },
   "root": {

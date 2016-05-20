@@ -68,6 +68,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_volume_rname": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rname",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_volume_scan": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -110,6 +118,7 @@
         {"@": "blueprint_volume_params"},
         {"@": "blueprint_volume_properties"},
         {"@": "blueprint_volume_providers_presence"},
+        {"@": "blueprint_volume_rname"},
         {"@": "blueprint_volume_scan"},
         {"@": "blueprint_volume_topology"},
         {"@": "blueprint_volume_type"}

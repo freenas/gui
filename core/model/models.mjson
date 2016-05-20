@@ -581,6 +581,10 @@
             "type": "VolumeAttributes"
         },
         {
+            "modelId": "core/model/descriptors/volume-dataset-atime-property.mjson",
+            "type": "VolumeDatasetAtimeProperty"
+        },
+        {
             "modelId": "core/model/descriptors/volume-dataset-casesensitivity-property.mjson",
             "type": "VolumeDatasetCasesensitivityProperty"
         },
