@@ -212,7 +212,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     deleteServiceDescriptor.namespace,
                     deleteServiceDescriptor.name, {
                         method: deleteServiceDescriptor.method,
-                        args: [taskName, [object.id]]
+                        args: [taskName, [object.persistedId]]
                     }
                 ).then(function (response) {
                     return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
@@ -253,7 +253,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
                             method: serviceDescriptor.method,
-                            args: [taskName, isUpdate && !modelHasNoId ? [object.id, rawData] : [rawData]]
+                            args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, rawData] : [rawData]]
                         }
                     ).then(function (response) {
                         return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
@@ -320,6 +320,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                         this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue, data);
                     } else {
                         this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
+
+                        if (key === "id") {
+                            this._mapObjectPropertyFromRawData(propertyDescriptor, object, "persistedId", rawValue);
+                        }
                     }
                 }
             }
@@ -768,7 +772,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 for (var i = 0, length = modelCache.length; i < length; i++) {
                     model = modelCache[i];
 
-                    if (model.id === modelId) {
+                    if (model.persistedId === modelId) {
                         index = i;
                         break
                     }
