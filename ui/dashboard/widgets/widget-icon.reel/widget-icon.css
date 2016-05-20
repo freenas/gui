@@ -43,9 +43,10 @@
 .WidgetIcon.has-warning .WidgetIcon-badge   { background-color: #D95B1B;}
 .WidgetIcon.has-warning                     { border-color:     #D95B1B;}
 
-.WidgetIcon.has-error .WidgetIcon-badge,
+
 .WidgetIcon.has-critical .WidgetIcon-badge { background-color: #E0003A; }
-.WidgetIcon.has-critical                   { border-color:     #E0003A; }
+.WidgetIcon.has-critical,
+.WidgetIcon.has-error                      { border-color:     #E0003A; }
 
 .WidgetIcon-badge.has-value,
 .WidgetIcon-badge.is-executing {
