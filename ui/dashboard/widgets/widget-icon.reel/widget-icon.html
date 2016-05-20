@@ -11,10 +11,10 @@
                 "iconElement": {"#": "icon"}
             },
             "bindings": {
-                "classList.has('has-error')": {"<-": "@owner.hasError"},
-                "classList.has('has-warning')": {"<-": "@owner.hasWarning"},
-                "classList.has('has-info')": {"<-": "@owner.hasInfo"},
-                "classList.has('has-critical')": {"<-": "@owner.hasCritical"}
+                "classList.has('has-error')": {"<-": "@owner.data.filter{state == 'FAILED'}.length > 0"},
+                "classList.has('has-warning')": {"<-": "@owner.data.filter{data.severity == 'WARNING'}.length > 0"},
+                "classList.has('has-info')": {"<-": "@owner.data.filter{data.severity == 'INFO'}.length > 0"},
+                "classList.has('has-critical')": {"<-": "@owner.data.filter{data.severity == 'CRITICAL'}.length > 0"}
             }
         },
         "count": {
