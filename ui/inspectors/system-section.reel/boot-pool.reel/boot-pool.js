@@ -16,7 +16,9 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         value: function (isFirstTime) {
             if (isFirstTime) {
                 this.addEventListener("customTableCellLoaded", this, false);
+                this.addRangeAtPathChangeListener("bootEnvironments", this, "_handleBootEnvironmentsChange");
                 this.addEventListener("action", this, false);
+                this.pendingBootEnvironmentNames = [];
             }
 
             this._populateComponentIfNeeded();
@@ -45,12 +47,25 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         }
     },
 
+    _handleBootEnvironmentsChange: {
+        value: function (plus, minus) {
+            if (plus && plus.length) {
+                var bootEnvironment;
+
+                for (var i = 0, length = plus.length; i < length; i++) {
+                    bootEnvironment = plus[i];
+                    bootEnvironment.onReboot = bootEnvironment.on_reboot;
+                }
+            }
+        }
+    },
+
     _getBootEnvironments: {
         value: function () {
             var self = this;
 
-            return this.application.dataService.fetchData(Model.BootEnvironment).then(function (bootEnvironment) {
-                self.bootEnvironments = bootEnvironment;
+            return this.application.dataService.fetchData(Model.BootEnvironment).then(function (bootEnvironments) {
+                self.bootEnvironments = bootEnvironments;
             });
         }
     },
@@ -81,14 +96,8 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         value: function (event) {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
-            if (bootEnvironment && !bootEnvironment.on_reboot && !bootEnvironment.active) {
-                var self = this;
-
-                return this.application.dataService.deleteDataObject(bootEnvironment).then(function () {
-                    // fixme: it seems like there is no event raised from the middleware,
-                    // when a boot Environment is modified.
-                    self.bootEnvironments.splice(self.bootEnvironments.indexOf(bootEnvironment), 1);
-                });
+            if (bootEnvironment && !bootEnvironment.onReboot && !bootEnvironment.active) {
+                return this.application.dataService.deleteDataObject(bootEnvironment);
             }
         }
     },
@@ -97,27 +106,29 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         value: function (event) {
             var nextBootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
-            if (nextBootEnvironment && !nextBootEnvironment.on_reboot) {
+            if (nextBootEnvironment && !nextBootEnvironment.onReboot) {
                 var currentBootEnvironment = this._findCurrentBootEnvironment();
-                nextBootEnvironment.on_reboot = true;
-                currentBootEnvironment.on_reboot = false;
+                nextBootEnvironment.onReboot = true;
+                currentBootEnvironment.onReboot = false;
 
-                return this._saveBootEnvironment(nextBootEnvironment).then(Function.noop, function () {
-                    // fixme: it seems like there is no event raised from the middleware,
-                    // when a boot Environment is modified.
-                    currentBootEnvironment.on_reboot = true;
-                    nextBootEnvironment.on_reboot = false;
+                return Model.BootEnvironment.objectPrototype.activate(nextBootEnvironment.persistedId).then(Function.noop, function () {
+                    currentBootEnvironment.onReboot = true;
+                    nextBootEnvironment.onReboot = false;
                 });
             }
         }
     },
 
-    handleUpdateAction: {
+    handleRenameAction: {
         value: function (event) {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (bootEnvironment) {
-                return this._saveBootEnvironment(bootEnvironment);
+                return this.application.dataService.saveDataObject(bootEnvironment).then(function () {
+                    // need to be done before we get the entity change event.
+                    //Fixme: need new version of the middleware for checking.
+                    bootEnvironment.persistedId = bootEnvironment.id;
+                });
             }
         }
     },
@@ -127,12 +138,16 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (bootEnvironment) {
-                // fixme: it seems like there is no event raised from the middleware,
-                // when a boot Environment is modified.
+                var cloneName = this._findAvailableBootEnvironmentNameWithName(bootEnvironment.persistedId),
+                    self = this;
+
                 return Model.BootEnvironment.objectPrototype.clone(
-                    this._findAvailableBootEnvironmentNameWithName(bootEnvironment.id),
-                    bootEnvironment.id
-                );
+                    //FIXME: not safe! should be done by the middleware!!
+                    cloneName,
+                    bootEnvironment.persistedId
+                ).finally(function () {
+                    self.pendingBootEnvironmentNames.splice(self.pendingBootEnvironmentNames.indexOf(cloneName), 1);
+                });
             }
         }
     },
@@ -142,22 +157,40 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var bootEnvironments = this.bootEnvironments,
                 regexLastIndex = /(-copy-([0-9]+)$)/,
                 dataBootEnvironmentName = regexLastIndex.exec(bootEnvironmentName),
-                regex, lastUsedBootEnvironmentIndex, bootEnvironment, i, length, tmpName,
-                availableBootEnvironmentName, data, bootEnvironmentId;
+                regexBootEnvironmentName, lastUsedBootEnvironmentIndex;
 
             if (dataBootEnvironmentName) {
                 lastUsedBootEnvironmentIndex = dataBootEnvironmentName[2];
                 bootEnvironmentName = bootEnvironmentName.replace(new RegExp(dataBootEnvironmentName[0]), "");
-                regex = new RegExp("^" + bootEnvironmentName + "-copy-[0-9]+$");
+                regexBootEnvironmentName = new RegExp("^" + bootEnvironmentName + "-copy-[0-9]+$");
             } else {
                 lastUsedBootEnvironmentIndex = 0;
-                regex = new RegExp("^" + bootEnvironmentName)
+                regexBootEnvironmentName = new RegExp("^" + bootEnvironmentName);
             }
 
-            for (i = 0, length = bootEnvironments.length; i < length; i++) {
-                bootEnvironmentId = bootEnvironments[i].id;
+            lastUsedBootEnvironmentIndex = this._findLastUsedBootEnvironmentIndex(
+                bootEnvironments, lastUsedBootEnvironmentIndex, regexLastIndex, regexBootEnvironmentName
+            );
 
-                if (regex.test(bootEnvironmentId)) {
+            lastUsedBootEnvironmentIndex = this._findLastUsedBootEnvironmentIndex(
+                this.pendingBootEnvironmentNames, lastUsedBootEnvironmentIndex, regexLastIndex, regexBootEnvironmentName
+            );
+
+            var availableBootEnvironmentNameWithName = bootEnvironmentName + "-copy-" + ++lastUsedBootEnvironmentIndex;
+            this.pendingBootEnvironmentNames.push(availableBootEnvironmentNameWithName);
+
+            return availableBootEnvironmentNameWithName;
+        }
+    },
+
+    _findLastUsedBootEnvironmentIndex: {
+        value: function (bootEnvironments, lastUsedBootEnvironmentIndex, regexLastIndex, regexBootEnvironmentName) {
+            var bootEnvironmentId, data;
+
+            for (var i = 0, length = bootEnvironments.length; i < length; i++) {
+                bootEnvironmentId = bootEnvironments[i].id || bootEnvironments[i];
+
+                if (regexBootEnvironmentName.test(bootEnvironmentId)) {
                     data = regexLastIndex.exec(bootEnvironmentId);
 
                     if (data && data[2] > lastUsedBootEnvironmentIndex) {
@@ -166,7 +199,7 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
                 }
             }
 
-            return bootEnvironmentName + "-copy-" + ++lastUsedBootEnvironmentIndex;
+            return lastUsedBootEnvironmentIndex;
         }
     },
 
@@ -178,20 +211,13 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         }
     },
 
-
-    _saveBootEnvironment: {
-        value: function (bootEnvironment) {
-            return this.application.dataService.saveDataObject(bootEnvironment);
-        }
-    },
-
     _findCurrentBootEnvironment: {
         value: function () {
             var response;
 
             if (this.bootEnvironments) {
                 for (var i = 0, length = this.bootEnvironments.length; i < length && !response; i++) {
-                    response = this.bootEnvironments[i].on_reboot ? this.bootEnvironments[i] : null;
+                    response = this.bootEnvironments[i].onReboot ? this.bootEnvironments[i] : null;
                 }
             }
 
