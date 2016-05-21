@@ -48,15 +48,6 @@
                 "status": {"<-": "@owner.object.status.link_state"},
                 "enabledState": {"<-": "@owner.object.enabled"}
             }
-        },
-        "enabled": {
-            "prototype": "blue-shark/ui/toggle-switch.reel",
-            "properties": {
-                "element": {"#": "enabled"}
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.enabled"}
-            }
         }
     }
     </script>
@@ -70,7 +61,6 @@
                 <span data-montage-id="media_type" class="InterfaceOverview-type"></span>
             </p>
             <div data-montage-id="linkStatus"></div>
-            <div data-montage-id="enabled"></div>
         </div>
     </div>
 </body>
