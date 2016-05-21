@@ -57,6 +57,16 @@
                 "targetType": {"<->": "@owner.targetType"}
             }
         },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.enabled"}
+            }
+        },
         "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -183,6 +193,7 @@
                 <div data-montage-id="globalServiceToggle"></div>
             </div>
             <div data-montage-id="overview"></div>
+            <div data-montage-id="enabled"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="target"></div>
             <div data-montage-id="description"></div>
