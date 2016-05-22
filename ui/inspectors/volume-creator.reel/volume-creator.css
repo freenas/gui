@@ -29,6 +29,7 @@
     border-left: 2px solid #232629;
 }
 
-.Inspector.is-locked + .VolumeCreator-sidebar {
-    pointer-events: none;
+.Inspector.is-locked + .VolumeCreator-sidebar .FoldableSection-content {
+    height: 0 !important;
+    pointer-event: none;
 }
