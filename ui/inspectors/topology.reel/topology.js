@@ -189,6 +189,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
                     volume.providers_presence = 'NONE';
                 }
 
+                this.isLocked = true;
                 return this.application.dataService.saveDataObject(volume).then(function () {
                     console.log("updated")
 

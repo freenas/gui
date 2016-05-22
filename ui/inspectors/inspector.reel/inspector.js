@@ -30,15 +30,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
-
-            if (Promise.is(promise)) {
-                this.isLocked = true;
-
-                promise.finally(function () {
-                    self.isLocked = false;
-                });
-            }
-
             event.stopPropagation();
         }
     },
@@ -72,7 +63,9 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             }
 
             if (Promise.is(promise)) {
-                this.isLocked = true;
+                if (this._isCreationInspector()) {
+                    this.isLocked = true;
+                }
 
                 promise.finally(function () {
                     self.isLocked = false;
@@ -88,6 +81,35 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     _resetCreateInspectorIfNeeded: {
         value: function () {
+            if (this._isCreationInspector()) {
+                var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this),
+                    context = cascadingListItem.data,
+                    contextObject = context.object,
+                    type = Object.getPrototypeOf(contextObject).Type;
+
+                return this.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
+                    if (Model.NetworkInterface === type) { // FIXME!
+                        newInstance.type = contextObject.type;
+                        newInstance._isNewObject = true;
+                        newInstance.aliases = [];
+                        newInstance.name = "";
+                    }
+
+                    context._isNewObject = contextObject._isNewObject;
+                    context._isNew = contextObject._isNew;
+
+                    // context.object -> dispatch changes through bindings.
+                    context.object = newInstance;
+                });
+            }
+
+            return Promise.resolve();
+        }
+    },
+
+    _isCreationInspector: {
+        value: function() {
+            result = false;
             if (this._inDocument) {
                 var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
 
@@ -95,30 +117,12 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     var context = cascadingListItem.data,
                         contextObject = context.object;
 
-                    if (contextObject.id === null || contextObject._isNewObject || contextObject._isNew) {
-                        var type = Object.getPrototypeOf(contextObject).Type;
-
-                        return this.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
-                            if (Model.NetworkInterface === type) { // FIXME!
-                                newInstance.type = contextObject.type;
-                                newInstance._isNewObject = true;
-                                newInstance.aliases = [];
-                                newInstance.name = "";
-                            }
-
-                            context._isNewObject = contextObject._isNewObject;
-                            context._isNew = contextObject._isNew;
-
-                            // context.object -> dispatch changes through bindings.
-                            context.object = newInstance;
-                        });
-                    }
+                    result = contextObject.id === null || contextObject._isNewObject || contextObject._isNew
                 } else {
                     console.warn("cascadingListItemContext not existing, need investigating");
                 }
             }
-
-            return Promise.resolve();
+            return result;
         }
     },
 

@@ -28,3 +28,8 @@
     overflow: hidden;
     border-left: 2px solid #232629;
 }
+
+.Inspector.is-locked + .TopologyEdit-sidebar .FoldableSection-content {
+    height: 0 !important;
+    pointer-event: none;
+}
