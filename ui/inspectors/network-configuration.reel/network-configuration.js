@@ -50,7 +50,7 @@ exports.NetworkConfiguration = Component.specialize(/** @lends NetworkConfigurat
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
-                if (this.object) {
+                if (this.object && this.object.status) {
                     if (!this.object.gateway.ipv4) {
                         this.object.gateway.ipv4 = this.object.status.gateway.ipv4;
                     }
