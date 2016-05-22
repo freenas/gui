@@ -32,6 +32,7 @@ exports.ShareCreator = Component.specialize({
                 return self.application.dataService.getNewInstanceForType(propertiesModel);
             }).then(function(properties) {
                 newShare.properties = properties;
+                newShare.properties.type = 'share-' + shareType;
                 return self.application.dataService.getNewInstanceForType(Model.Permissions);
             }).then(function(permissions) {
                 newShare.permissions = permissions;
