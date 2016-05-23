@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "navigation": {
             "prototype": "../main-navigation.reel",
@@ -21,13 +27,25 @@
             "properties": {
                 "element": {"#": "userSummary"}
             }
+        },
+        "logoButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "logoButton"}
+            },
+            "bindings": {
+                "classList.has('is-flipped')": {"<-": "@owner.isFlipped"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="MainSidebar">
-        <div class="MainSidebar-freenasLogo"></div>
+        <div data-montage-id="logoButton" class="logoButton">
+            <div class="MainSidebar-freenasLogo"></div>
+            <div class="MainSidebar-montageLogo"></div>
+        </div>
         <div data-montage-id="navigation" class="MainSidebar-navigation"></div>
         <div data-montage-id="userSummary" class="MainSidebar-userSummary"></div>
     </div>
