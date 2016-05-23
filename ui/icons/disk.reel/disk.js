@@ -15,7 +15,6 @@ exports.Disk = Component.specialize({
         set: function (object) {
             if (this._object !== object) {
                 this._object = object;
-                this.disk = object ? object._disk ? object._disk : object : null;
             }
         },
         get: function () {

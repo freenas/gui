@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "disk": {"<-": "@owner.object ? @owner.object._disk ? @owner.object._disk : @owner.object : null"}
             }
         },
         "bytesConverter": {
