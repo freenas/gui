@@ -4,8 +4,7 @@
 
 .InterfaceOverviewItem > * {
     display: table-cell;
-    height: 2em;
-    padding: 0 1em;
+    padding: .5em 1em;
     vertical-align: middle;
 }
 

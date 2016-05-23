@@ -104,6 +104,9 @@
             "properties": {
                 "element": {"#": "disabledInterfaces"},
                 "title": "Disabled Interfaces"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object.summary.interfaces.filter{!ipv4 && !ipv6}.length == 0"}
             }
         },
         "disabledInterfacesRepetition": {
@@ -122,6 +125,26 @@
             },
             "bindings": {
                 "value": {"<-": "@disabledInterfacesRepetition:iteration.object.name"}
+            }
+        },
+        "routesSection": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "routesSection"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.object.networkConfiguration.gateway.ipv4 &&!@owner.object.networkConfiguration.gateway.ipv6"}
+            }
+        },
+        "nameserverSection": {
+            "prototype": "montage/ui/component",
+            "properties": {
+                "element": {"#": "nameserverSection"},
+                "hasTemplate": false
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@nameserverRepetition.content.length == 0"}
             }
         }
     }
@@ -165,7 +188,7 @@
                         </div>
                     </div>
 
-                    <table>
+                    <table data-montage-id="nameserverSection">
                         <thead>
                             <tr>
                                 <th>Nameservers</th>
@@ -178,7 +201,7 @@
                         </tbody>
 
                     </table>
-                    <table>
+                    <table data-montage-id="routesSection" class="">
                         <thead>
                             <tr>
                                 <th>Default Route</th>
