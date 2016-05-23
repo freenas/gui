@@ -98,6 +98,12 @@ exports.SmbService = Component.specialize({
                         others: this._object.filemask.others
                     };
                     delete this._object.filemask.value;
+                } else {
+                    this.filemaskModes = {
+                        user: {},
+                        group: {},
+                        others: {}
+                    };
                 }
                 if (this._object.dirmask) {
                     this.dirmaskModes = {
@@ -106,6 +112,12 @@ exports.SmbService = Component.specialize({
                         others: this._object.dirmask.others
                     };
                     delete this._object.dirmask.value;
+                } else {
+                    this.dirmaskModes = {
+                        user: {},
+                        group: {},
+                        others: {}
+                    };
                 }
             }
         }
