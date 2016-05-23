@@ -7,9 +7,9 @@
     width: 100%;
 }
 
-.Viewer.has-items > .Scrollview {
-    top: 3em;
-}
+/* $fix - when serch is fixed this should be uncommented*/
+
+.Viewer.has-items > .Scrollview { /*top: 3em;*/ }
 
 .Viewer-header {
     display: none;
@@ -18,9 +18,9 @@
     background: #2A2E33;
 }
 
-.Viewer.has-items .Viewer-header {
-    display: flex;
-}
+/* $fix - when serch is fixed this should be uncommented*/
+
+/*.Viewer.has-items .Viewer-header { display: flex; }*/
 
 .Viewer-footer {
     flex-shrink: 0;
