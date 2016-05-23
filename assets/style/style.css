@@ -248,7 +248,10 @@ td {
     line-height: 1em;
 }
 
-.table { display: table;}
+.table {
+    display: table;
+    width: 100%;
+}
 .thead {
     display: table-header-group;
     background: rgba(0,0,0,.2);
