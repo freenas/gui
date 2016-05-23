@@ -10,7 +10,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"}
+                "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"},
+                "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"}
             }
         },
         "backButton": {
@@ -59,7 +60,7 @@
                 "element": {"#": "errorCondition"}
             },
             "bindings": {
-                "condition": {"<-": "!!@owner.object.errorMessage"}
+                "condition": {"<-": "!!@owner.object.errorMessage || @owner.object.taskReport.warnings.length > 0"}
             }
         },
         "errorMessage": {
@@ -69,6 +70,24 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.errorMessage"}
+            }
+        },
+        "warnings": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "warnings"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object.taskReport.warnings"}
+            }
+        },
+        "warning": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "warning"}
+            },
+            "bindings": {
+                "value": {"<-": "@warnings:iteration.object.message"}
             }
         }
     }
@@ -85,8 +104,11 @@
         <main>
             <div data-montage-id="scrollview">
                 <div>
-                    <div data-montage-id="errorCondition" class="TaskNotificationDetails-errorMessage">
-                        <span data-montage-id="errorMessage"></span>
+                    <div data-montage-id="errorCondition" class="TaskNotificationDetails-messages">
+                        <div data-montage-id="errorMessage" class="TaskNotificationDetails-errorMessage"></div>
+                        <div data-montage-id="warnings" >
+                            <div data-montage-id="warning" class="TaskNotificationDetails-warning"></div>
+                        </div>
                     </div>
                     <p><span>Task Name:</span> <span data-montage-id="taskName"></span></p>
                     <p><span>State:</span> <span data-montage-id="state"></span></p>

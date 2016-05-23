@@ -12,7 +12,7 @@
             },
             "bindings": {
                 "classList.has('has-error')": {"<-": "@owner.data.filter{state == 'FAILED'}.length > 0"},
-                "classList.has('has-warning')": {"<-": "@owner.data.filter{data.severity == 'WARNING'}.length > 0"},
+                "classList.has('has-warning')": {"<-": "@owner.data.filter{data.severity == 'WARNING'}.length > 0 || @owner.data.filter{taskReport.warnings[0]}.length > 0"},
                 "classList.has('has-info')": {"<-": "@owner.data.filter{data.severity == 'INFO'}.length > 0"},
                 "classList.has('has-critical')": {"<-": "@owner.data.filter{data.severity == 'CRITICAL'}.length > 0"}
             }

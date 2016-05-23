@@ -29,7 +29,8 @@
     border-bottom-left-radius:  4px;
 }
 
-.TaskNotification.error:before { border-color: #E0003A; }
+.TaskNotification.error:before       { border-color: #E0003A; }
+.TaskNotification.has-warning:before { border-color: #D95B1B; }
 
 .TaskNotification-body {
     display: flex;
@@ -63,8 +64,11 @@
     margin-left: .5em;
 }
 
-.TaskNotification.error .TaskNotification-progress  { background-color: #E0003A; }
-.TaskNotification.success .TaskNotification-progress .Progress-bar { background-color: #1E963F; }
+/* level states */
+
+.TaskNotification.success .TaskNotification-progress .Progress-bar      { background-color: #1E963F; }
+.TaskNotification.has-warning .TaskNotification-progress .Progress-bar  { background-color: #D95B1B; }
+.TaskNotification.error .TaskNotification-progress                      { background-color: #E0003A; }
 
 /* Info Container */
 

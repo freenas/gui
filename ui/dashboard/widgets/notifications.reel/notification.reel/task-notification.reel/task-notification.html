@@ -17,6 +17,7 @@
             ],
             "bindings": {
                 "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
+                "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"},
                 "classList.has('success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
         },

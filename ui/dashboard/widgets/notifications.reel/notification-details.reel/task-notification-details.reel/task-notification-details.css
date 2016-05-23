@@ -27,9 +27,8 @@
     padding: .5em;
 }
 
-.TaskNotificationDetails.has-error header {
-    background: #E0003A;
-}
+.TaskNotificationDetails.has-error header   { background: #E0003A; }
+.TaskNotificationDetails.has-warning header { background: #D95B1B; }
 
 .TaskNotificationDetails-title {
     flex: 1;
@@ -62,9 +61,7 @@
     transition: color .25s ease-in-out;
 }
 
-.TaskNotificationDetails-backButton:hover svg {
-    color: #FFF;
-}
+.TaskNotificationDetails-backButton:hover svg { color: #FFF; }
 
 .TaskNotificationDetails main {
     position: relative;
@@ -78,14 +75,21 @@
 
 .TaskNotificationDetails .ScrollviewContent { padding: .5rem; }
 
-.TaskNotificationDetails-errorMessage {
+.TaskNotificationDetails-messages {
     margin: -.5rem;
     margin-bottom: .5rem;
     background: #B40331;
     color: #fff;
 }
 
-.TaskNotificationDetails-errorMessage > span {
-    display: block;
+.TaskNotificationDetails-errorMessage,
+.TaskNotificationDetails-warning {
     padding: .5rem;
 }
+
+/* error message toggle */
+
+.TaskNotificationDetails-errorMessage                                    { display: none;  }
+.TaskNotificationDetails.has-error .TaskNotificationDetails-errorMessage { display: block; }
+
+.TaskNotificationDetails.has-warning .TaskNotificationDetails-messages { background-color: #C44D11; }
