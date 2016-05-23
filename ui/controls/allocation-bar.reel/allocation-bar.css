@@ -14,13 +14,11 @@
     top: 50%;
     margin-top: -.5rem;
     left: .25rem;
-    color: rgba(255,255,255,.6);
+    color: rgba(255,255,255,.8);
     display: flex;
 }
 
-.AllocationBar-segement-data > div:first-child {
-    margin-right: .25em;
-}
+.AllocationBar-segement-data > div:first-child { margin-right: .25em; }
 
 .AllocationBar-parity     { background-color: #672BD8; }
 .AllocationBar-used       { background-color: #DE9B16; }
