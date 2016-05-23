@@ -54,7 +54,7 @@
     top:  50%;
     width: calc(100% - 2em);
     transform: translate(-50%, -50%) scale(0);
-    transition: all .5s cubic-bezier(.88,.01,.24,1);
+    transition: all 1s cubic-bezier(.88,.01,.24,1);
 }
 
 .Inspector.is-locked .Inspector-locked .montage-Text {
@@ -68,7 +68,7 @@
     width:  500%;
     padding-bottom: 540%;
     transform: translate(-46%,-50%);
-    background-color: rgba(0,0,0,.8);
+    background-color: rgba(0,0,0,.5);
     background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.25), rgba(43,156,216,0.25) 1px, transparent 1px, transparent 10px);
     background-size: 28px 28px;
     border-radius: 50%;
