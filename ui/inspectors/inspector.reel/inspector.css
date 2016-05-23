@@ -5,24 +5,25 @@
     flex-direction: column;
 }
 
-.Inspector-body {
-    margin: 1em;
-}
+.Inspector-body { margin: 1em; }
 
 .Inspector.is-loading .Inspector-body,
-.Inspector.is-loading .Inspector-footer
-{
+.Inspector.is-loading .Inspector-footer {
     display: none;
 }
 
 .Inspector .Inspector-loading {
     display: none;
     width: 100%;
-    text-align: center;
 }
 
 .Inspector .Inspector-loading svg {
-    width: 5em;
+    position: absolute;
+    top:    2em;
+    width:  3em;
+    height: 3em;
+    left: 50%;
+    margin-left: -1.5em;
 }
 
 .Inspector.is-loading .Inspector-loading {
