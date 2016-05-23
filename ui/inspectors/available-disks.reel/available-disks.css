@@ -20,7 +20,10 @@
     padding: 0;
 }
 
-.AvailableDisks .FoldableSection-expand { padding-left:  1em; }
+.AvailableDisks .FoldableSection-expand {
+    padding-left:  1em;
+    margin: 0;
+}
 
 .AvailableDisks .FoldableSection-expand svg { right: 1em; }
 
@@ -41,18 +44,9 @@
     margin-bottom: 0;
 }
 
-.AvailableDisks .LabeledIcon-image {
-    /*max-height: 3.5em;*/
-}
-
 .AvailableDisks .LabeledIcon-image > * {
     width: auto;
     height: auto;
-}
-
-.AvailableDisks .DiskIcon {
-    /*width: 2.5em;*/
-    /*padding: .25em;*/
 }
 
 
