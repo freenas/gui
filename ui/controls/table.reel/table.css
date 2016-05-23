@@ -1,4 +1,4 @@
-.Table {}
+.Table { border: 1px solid #16171A; }
 
 .Table-header {
     cursor: pointer;
@@ -7,34 +7,36 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
-    border: 1px solid #16171A;
     border-bottom: none;
 }
 
 .Table-rowRepetition {
     background: rgba(0,0,0,.1);
-    border: 1px solid #16171A;
     border-top: none;
 }
 
 .Table-row:nth-of-type(even) { background-color: rgba(0,0,0,.1); }
 
-.Table-row:hover {
+/*.Table-row:hover {
     background-color: rgba(0,0,0,.2);
     color: #E0E5E5;
-}
+}*/
 
 .Table-label {
     position: relative;
     font-size: .8em;
-    padding: .25rem .5rem;
+    padding: .5rem;
     padding-right: 1.5rem;
     background: #16171A;
     color: #E0E5E5;
     font-weight: 200;
 }
 
-.Table-label:hover { background-image: linear-gradient(rgba(0,0,0,.2), rgba(0,0,0,.2)); }
+.Table-label:not(:last-child) { border-right: 1px solid #242628; }
+
+.Table-label:hover {
+    background-image: linear-gradient(rgba(2555,2555,2555,.05), rgba(2555,2555,2555,.05));
+}
 
 /* Selected Column */
 

@@ -229,7 +229,7 @@ $Icons
 
 table {
     margin: 0;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
     border: none;
     border-collapse: collapse;
     width: 100%;
@@ -241,11 +241,11 @@ thead {
     color: #fff;
 }
 
-thead td { padding: .5em 1em; }
+thead td { padding: .5rem 1rem; }
 
 td {
-    padding: .5em 1em;
-    line-height: 1em;
+    padding: .5rem 1rem;
+    line-height: 1rem;
 }
 
 .table {
@@ -261,8 +261,8 @@ td {
 .tr { display: table-row; }
 .th {
     display: table-cell;
-    padding: .5em 1em;
-    line-height: 1em;
+    padding: .5rem 1rem;
+    line-height: 1rem;
     vertical-align: middle;
 }
 
