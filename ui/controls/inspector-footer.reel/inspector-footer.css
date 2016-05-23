@@ -4,18 +4,20 @@
 }
 
 .InspectorFooter {
-    margin-top: 1em;
     padding: 1em;
     display: none;
     flex-shrink: 0;
     justify-content: space-between;
-    margin: 0 -.5em;
 }
 
 .InspectorFooter-right {
     display: flex;
     justify-content: flex-end;
     flex: 1;
+}
+
+.InspectorFooter-right button + button {
+    margin-left: .5em;
 }
 
 .InspectorFooter .blueShark-Button {
@@ -46,6 +48,5 @@
 .InspectorFooter-revert.is-visible,
 .InspectorFooter-save.is-visible {
     display: block;
-    margin-left:  .5em !important;
 }
 
