@@ -83,3 +83,7 @@
     transform: rotate(-90deg) rotateX(-180deg);
 }
 
+/* overrides */
+
+.FoldableSection .InspectorFooter { margin: 0 -1em; }
+
