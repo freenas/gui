@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "disk": {"<-": "@owner.object ? @owner.object._disk ? @owner.object._disk : @owner.object : null"}
+                "disk": {"<-": "@owner.object ? @owner.object._disk.defined() ? @owner.object._disk : @owner.object : null"}
             }
         },
         "bytesConverter": {
