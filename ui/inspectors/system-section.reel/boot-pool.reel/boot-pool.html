@@ -11,11 +11,15 @@
                 "bootEnvironmentTable": {"@": "bootEnvironmentTable"}
             }
         },
+        "bytesSizeConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
         "bootVolumeSize": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "bootVolumeSize"},
-                "label": "Capacity"
+                "label": "Capacity",
+                "converter": {"@": "bytesSizeConverter"}
             },
             "bindings": {
                 "value": {"<-": "@owner.bootVolume.properties.size.rawvalue"}
@@ -25,10 +29,21 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "bootVolumeUsed"},
-                "label": "Space Used"
+                "label": "Space Used",
+                "converter": {"@": "bytesSizeConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.bootVolume.properties.allocated.rawvalue + ' (' + @owner.bootVolume.properties.capacity.value + ')'"}
+                "value": {"<-": "@owner.bootVolume.properties.allocated.rawvalue"}
+            }
+        },
+        "bootVolumeCapacityUsed": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "bootVolumeCapacityUsed"},
+                "label": "Capacity Used"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.bootVolume.properties.capacity.value"}
             }
         },
         "bootVolumeCondition": {
@@ -71,7 +86,8 @@
                     },
                     {
                         "label": "Space Used",
-                        "expression": "space"
+                        "expression": "space",
+                        "componentModuleId": "ui/inspectors/system-section.reel/boot-pool.reel/size-cell.reel"
                     },
                     {
                         "label": "Date Created",
@@ -91,6 +107,7 @@
     <div data-montage-id="owner" class="BootPool">
         <div data-montage-id="bootVolumeSize"></div>
         <div data-montage-id="bootVolumeUsed"></div>
+        <div data-montage-id="bootVolumeCapacityUsed"></div>
         <div data-montage-id="bootVolumeCondition"></div>
         <p class="hide">
             <div data-montage-id="bootVolumeScrub" class="hide"></div>
