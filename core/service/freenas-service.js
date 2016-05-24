@@ -461,7 +461,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
 
                     if (propertyDescriptor.mandatory && isPropertyValueNullified) {
-                        throw new Error("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
+                        //FIXME: when montage-data will catch errors.
+                        console.error("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
                     }
 
                     if (hasRestrictions) {
@@ -480,7 +481,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 }
 
                 if (requiredFields && unsatisfiedRequiredFieldsCount > 0) {
-                    throw new Error("missing " + unsatisfiedRequiredFieldsCount + " required fields for type: '" +
+                    //FIXME: when montage-data will catch errors.
+                    console.error("missing " + unsatisfiedRequiredFieldsCount + " required fields for type: '" +
                         type.typeName + "': " + requiredFields.filter(function (x) {
                             return x;
                         }).join(', '));
