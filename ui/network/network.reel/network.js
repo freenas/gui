@@ -16,7 +16,7 @@ exports.Network = Component.specialize({
 
     enterDocument: {
         value: function (firstTime) {
-            if (firstTime) {
+            if (firstTime || !this.overview) {
                 var self = this;
                 this._dataService = this.application.dataService;
                 this.addPathChangeListener("overview.networkConfiguration.general.hostname", this, "_handleHostnameChange");
