@@ -8,8 +8,7 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "currentNode": {"@": "currentNode"},
-                "nextNode": {"@": "nextNode"}
+                "currentNode": {"@": "currentNode"}
             },
             "listeners": [
                 {
@@ -35,16 +34,6 @@
             },
             "bindings": {
                 "parent": {"<->": "@owner.parent"},
-                "children": {"<-": "@owner.children"}
-            }
-        },
-        "nextNode": {
-            "prototype": "./current-node.reel",
-            "properties": {
-                "element": {"#": "nextNode"}
-            },
-            "bindings": {
-                "parent": {"<-": "@owner.parent"},
                 "children": {"<-": "@owner.children"}
             }
         },
@@ -81,7 +70,6 @@
         </div>
         <div class="TreeView-body">
             <div data-montage-id="currentNode" class="TreeView-currentNode"></div>
-            <div data-montage-id="nextNode" class="TreeView-currentNode isAfter"></div>
         </div>
         <div class="TreeView-footer">
             <div data-montage-id="cancel"></div>
