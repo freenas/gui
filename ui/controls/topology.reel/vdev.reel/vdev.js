@@ -89,7 +89,13 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     isNewVDev: {
         get: function () {
-            return this.object ? !this.object.guid : true;
+            return !this.object.isExistingVDev;
+        }
+    },
+
+    canRemove: {
+        get: function () {
+            return !(this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA && !this.isNewVDev);
         }
     },
 
@@ -131,10 +137,10 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                 });
             }
 
-            this._defineVDevContext();
             this._cancelRangeAtPathChangeListener = this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
+            this._cancelIsNewVDevChangeListener = this.addPathChangeListener("object.isExistingVDev", this, "handleIsExistingVDevChange");
+            this._defineVDevContext();
             this._hasUserDefinedType = false;
-            this.canRemove = !(this.isEditorMode && this.gridIdentifier === Topology.IDENTIFIERS.DATA && !this.isNewVDev);
         }
     },
 
@@ -148,7 +154,15 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: function () {
             AbstractDropZoneComponent.prototype.exitDocument.call(this);
             this._cancelRangeAtPathChangeListener();
+            //FIXME: need investigation here, raise an error.
+            //this._cancelIsNewVDevChangeListener();
             this._topologyItem = void 0;
+        }
+    },
+
+    handleIsExistingVDevChange: {
+        value: function () {
+            this._defineVDevContext();
         }
     },
 
@@ -269,7 +283,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                         this.object.type = childrenCount > 1 ? Topology.VDEV_TYPES.MIRROR.value : Topology.VDEV_TYPES.DISK.value;
                     }
                 } else {
-                    var allowedDefaultVdevTypesValues = this.topologyItem.allowedDefaultVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; }).map(function(x) { return x.value; }); 
+                    var allowedDefaultVdevTypesValues = this.topologyItem.allowedDefaultVdevTypes.filter(function(x) { return childrenCount >= x.minDisks; }).map(function(x) { return x.value; });
                     if (!this.object.type || !isAdd || allowedDefaultVdevTypesValues.indexOf(this.object.type) != -1) {
                         this.object.type = allowedDefaultVdevTypesValues[0];
                     }
@@ -280,25 +294,31 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _defineVDevContext: {
         value: function () {
-            var allowedVDevTypes = null;
+            if (this._inDocument) {
+                var allowedVDevTypes = null;
 
-            if (this.isEditorMode && !this.isNewVDev && this.gridIdentifier === Topology.IDENTIFIERS.DATA) {
-                var type = this.object.type;
+                this.dispatchOwnPropertyChange("isNewVDev", this.isNewVDev);
+                this.dispatchOwnPropertyChange("isVDevImmutable", this.isVDevImmutable);
+                this.dispatchOwnPropertyChange("canRemove", this.canRemove);
 
-                if (type === Topology.VDEV_TYPES.DISK.value) {
-                    allowedVDevTypes = [Topology.VDEV_TYPES.DISK, Topology.VDEV_TYPES.MIRROR];
+                if (this.isEditorMode && !this.isNewVDev && this.gridIdentifier === Topology.IDENTIFIERS.DATA) {
+                    var type = this.object.type;
 
-                } else if (type === Topology.VDEV_TYPES.MIRROR) {
-                    allowedVDevTypes = [Topology.VDEV_TYPES.MIRROR];
-                } else {
-                    allowedVDevTypes = [Topology.VDEV_TYPES.DISK];
+                    if (type === Topology.VDEV_TYPES.DISK.value) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.DISK, Topology.VDEV_TYPES.MIRROR];
+
+                    } else if (type === Topology.VDEV_TYPES.MIRROR) {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.MIRROR];
+                    } else {
+                        allowedVDevTypes = [Topology.VDEV_TYPES.DISK];
+                    }
                 }
-            }
 
-            this.vdevTypes = allowedVDevTypes || this.topologyItem.allowedVdevTypes;
-            this.disksGrid.delegate = this;
-            this.disksGrid.itemDraggable = this.editable;
-            this.disksGrid.identifier = this.gridIdentifier;
+                this.vdevTypes = allowedVDevTypes || this.topologyItem.allowedVdevTypes;
+                this.disksGrid.delegate = this;
+                this.disksGrid.itemDraggable = this.editable;
+                this.disksGrid.identifier = this.gridIdentifier;
+            }
         }
     },
 

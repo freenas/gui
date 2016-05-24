@@ -1,4 +1,4 @@
-/**
+ /**
  * @module ui/topology.reel
  */
 var Component = require("montage/ui/component").Component,
@@ -21,7 +21,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
         set: function (object) {
             if (this._object !== object) {
                 this._object = object;
-                this._freeTopologyProxy();
+                this._topologyProxy = null;
                 this._populateTopologyProxyWithTopology(object);
             }
         },
@@ -43,11 +43,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
                     Model.populateObjectPrototypeForType(Model.ZfsTopology),
                     Model.populateObjectPrototypeForType(Model.ZfsVdev)
                 ]).then(function () {
-                    self._topologyProxy = self.application.dataService.getDataObject(Model.ZfsTopology);
-                    self._topologyProxy.cache = [];
-                    self._topologyProxy.log = [];
-                    self._topologyProxy.spare = [];
-                    self._topologyProxy.data = [];
+                    self._topologyProxy = self._getNewTopologyProxy();
                 });
             }
 
@@ -65,10 +61,11 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
     _freeTopologyProxy: {
         value: function () {
             if (this._topologyProxy) {
-                this._topologyProxy.cache.clear();
-                this._topologyProxy.log.clear();
-                this._topologyProxy.spare.clear();
-                this._topologyProxy.data.clear();
+                var topologyKeys = this.constructor.TOPOLOGY_KEYS;
+
+                for (var i = 0, l = topologyKeys.length; i < l; i++) {
+                    this._topologyProxy[topologyKeys[i]].clear();
+                }
             }
         }
     },
@@ -89,17 +86,33 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
         }
     },
 
-
     __populateTopologyProxyWithTopology: {
         value: function (topology) {
-            var topologyProxy = this._topologyProxy;
-
-            this.addVDevsToTopologyProxyVDevs(topology.data, topologyProxy.data);
-            this.addVDevsToTopologyProxyVDevs(topology.log, topologyProxy.log);
-            this.addVDevsToTopologyProxyVDevs(topology.spare, topologyProxy.spare);
-            this.addVDevsToTopologyProxyVDevs(topology.cache, topologyProxy.cache);
-
+            this._mapTopologyToTopologyProxy(topology, this._topologyProxy);
             this.dispatchOwnPropertyChange("topologyProxy", this._topologyProxy);
+        }
+    },
+
+    _mapTopologyToTopologyProxy: {
+        value: function (topology, topologyProxy) {
+            var topologyKeys = this.constructor.TOPOLOGY_KEYS;
+
+            for (var i = 0, l = topologyKeys.length; i < l; i++) {
+                this.addVDevsToTopologyProxyVDevs(topology[topologyKeys[i]], topologyProxy[topologyKeys[i]]);
+            }
+        }
+    },
+
+    _getNewTopologyProxy: {
+        value: function () {
+            var topologyProxy = this.application.dataService.getDataObject(Model.ZfsTopology),
+                topologyKeys = this.constructor.TOPOLOGY_KEYS;
+
+            for (var i = 0, l = topologyKeys.length; i < l; i++) {
+                topologyProxy[topologyKeys[i]] = [];
+            }
+
+            return topologyProxy;
         }
     },
 
@@ -111,6 +124,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
                 proxyVDev = this._mapVDevToProxyVDev((vDev = vDevs[i]));
                 proxyVDev.children = [];
                 vDevChildren = vDev.children;
+                proxyVDev.isExistingVDev = true;
 
                 if (!vDevChildren || vDevChildren.length === 0) {
                     proxyVDev.children.push(vDev);
@@ -169,18 +183,61 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
         }
     },
 
+    _updateTopologyProxyAfterSaving: {
+        value: function () {
+            var topologyKeys = this.constructor.TOPOLOGY_KEYS;
+
+            for (var i = 0, l = topologyKeys.length; i < l; i++) {
+                this._cleanupVdevs(this.topologyProxy[topologyKeys[i]]);
+            }
+        }
+    },
+
+    _populateMissingGuidToTopologyProxy: {
+        value: function (initialTopology) {
+            var mapPathToVdev = new Map(),
+                topologyKeys = this.constructor.TOPOLOGY_KEYS,
+                vDevs, vDev, i, ii, l, ll, vDevTmp;
+
+            for (i = 0, l = topologyKeys.length; i < l; i++) {
+                vDevs = initialTopology[topologyKeys[i]];
+
+                for (ii = 0, ll = vDevs.length; ii < ll; ii++) {
+                    vDev = vDevs[ii];
+
+                    mapPathToVdev.set(vDev.path, vDev);
+                }
+            }
+
+            for (i = 0, l = topologyKeys.length; i < l; i++) {
+                vDevs = this.topologyProxy[topologyKeys[i]];
+
+                for (ii = 0, ll = vDevs.length; ii < ll; ii++) {
+                    vDev = vDevs[ii];
+
+                    if (!vDev.guid) {
+                        vDev.guid = (vDevTmp = mapPathToVdev.get(vDev.path)) ? vDevTmp.guid : void 0;
+                    }
+                }
+            }
+        }
+    },
+
     save: {
         value: function () {
             var previousContextCascadingList = CascadingList.findPreviousContextWithComponent(this);
 
             if (previousContextCascadingList) {
                 var volume = previousContextCascadingList.object,
-                    previousTopology = this.object;
+                    topologyKeys = this.constructor.TOPOLOGY_KEYS,
+                    previousTopology = this.object,
+                    self = this;
 
-                this._cleanupVdevs(this.topologyProxy.data);
-                this._cleanupVdevs(this.topologyProxy.cache);
-                this._cleanupVdevs(this.topologyProxy.log);
-                this._cleanupVdevs(this.topologyProxy.spare);
+                for (var i = 0, l = topologyKeys.length; i < l; i++) {
+                    this._cleanupVdevs(this.topologyProxy[topologyKeys[i]]);
+                }
+
+                this._populateMissingGuidToTopologyProxy(volume.topology);
 
                 volume._topology = this.topologyProxy;
 
@@ -189,10 +246,14 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
                     volume.providers_presence = 'NONE';
                 }
 
-                this.isLocked = true;
                 return this.application.dataService.saveDataObject(volume).then(function () {
-                    console.log("updated")
+                    if (self._inDocument) {
+                        var context = CascadingList.findCascadingListItemContextWithComponent(self);
 
+                        if (context) {
+                            context.object = context.data.object = self.topologyProxy;
+                        }
+                    }
                 }, function () {
                     volume.topology = previousTopology;
                 });
@@ -201,6 +262,11 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
     }
 
 
+}, {
+
+    TOPOLOGY_KEYS: {
+        value: ["data", "cache", "log", "spare"]
+    }
 
 });
 
