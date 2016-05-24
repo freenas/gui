@@ -21,6 +21,10 @@ exports.Console = Component.specialize({
         value: null
     },
 
+    _isFirstMessage: {
+        value: true
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -51,6 +55,12 @@ exports.Console = Component.specialize({
         }
     },
 
+    draw: {
+        value: function() {
+            this._resizeTerminal();
+        }
+    },
+
     handleWebSocketMessage: {
         value: function(event) {
             var data = event.detail;
@@ -61,8 +71,24 @@ exports.Console = Component.specialize({
                     reader = new FileReader();
                 reader.addEventListener('loadend', function() {
                     self._term.write(reader.result);
+                    if (self._isFirstMessage) {
+                        self._isFirstMessage = false;
+                        self.needsDraw = true;
+                    }
                 });
                 reader.readAsBinaryString(data);
+            }
+        }
+    },
+
+    _resizeTerminal: {
+        value: function() {
+            if (this.terminalElement.firstElementChild) {
+                var line = this.terminalElement.firstElementChild.firstElementChild,
+                    container = this.terminalElement.parentElement,
+                    lines = Math.floor(container.offsetHeight / line.offsetHeight) - 2;
+                this._term.resize(80, lines);
+                this._term.options.geometry = this._term.geometry = [80, lines];
             }
         }
     }
