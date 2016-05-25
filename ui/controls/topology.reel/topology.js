@@ -175,7 +175,9 @@ var Topology = exports.Topology = Component.specialize({
                     var vDevChildren = vDev.children;
 
                     for (var i = 0, length = vDevChildren.length; i < length; i++) {
-                        vDevChildren[i]._disk.volume = null;
+                        if (vDevChildren[i]._disk) {
+                            vDevChildren[i]._disk.volume = null;
+                        }
                     }
                 }
             }

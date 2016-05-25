@@ -193,36 +193,6 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
         }
     },
 
-    _populateMissingGuidToTopologyProxy: {
-        value: function (initialTopology) {
-            var mapPathToVdev = new Map(),
-                topologyKeys = this.constructor.TOPOLOGY_KEYS,
-                vDevs, vDev, i, ii, l, ll, vDevTmp;
-
-            for (i = 0, l = topologyKeys.length; i < l; i++) {
-                vDevs = initialTopology[topologyKeys[i]];
-
-                for (ii = 0, ll = vDevs.length; ii < ll; ii++) {
-                    vDev = vDevs[ii];
-
-                    mapPathToVdev.set(vDev.path, vDev);
-                }
-            }
-
-            for (i = 0, l = topologyKeys.length; i < l; i++) {
-                vDevs = this.topologyProxy[topologyKeys[i]];
-
-                for (ii = 0, ll = vDevs.length; ii < ll; ii++) {
-                    vDev = vDevs[ii];
-
-                    if (!vDev.guid) {
-                        vDev.guid = (vDevTmp = mapPathToVdev.get(vDev.path)) ? vDevTmp.guid : void 0;
-                    }
-                }
-            }
-        }
-    },
-
     save: {
         value: function () {
             var previousContextCascadingList = CascadingList.findPreviousContextWithComponent(this);
@@ -237,8 +207,6 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
                     this._cleanupVdevs(this.topologyProxy[topologyKeys[i]]);
                 }
 
-                this._populateMissingGuidToTopologyProxy(volume.topology);
-
                 volume._topology = this.topologyProxy;
 
                 // FIXME: Remove once the middleware stops sending erroneous data
@@ -248,13 +216,32 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
                 this.isLocked = true;
                 return this.application.dataService.saveDataObject(volume).then(function () {
-                    if (self._inDocument) {
-                        var context = CascadingList.findCascadingListItemContextWithComponent(self);
+                    return new Promise(function (resolve, reject) {
+                        var _cancelChangeListener = volume.addPathChangeListener("topology", function (topologyUpdated) {
+                            //get the last updated topology object from the middleware.
+                            if (_cancelChangeListener) {
+                                _cancelChangeListener();
+                                return void 0;
+                            }
 
-                        if (context) {
-                            context.object = context.data.object = self.topologyProxy;
-                        }
-                    }
+                            if (self._inDocument) {
+                                var context = CascadingList.findCascadingListItemContextWithComponent(self);
+
+                                if (context) {
+                                    if (Promise.is(topologyUpdated)) {
+                                        return topologyUpdated.then(function () {
+                                            context.object = context.data.object = volume.topology;
+                                            resolve(volume.topology);
+                                        });
+                                    } else {
+                                        context.object = context.data.object = volume.topology;
+                                    }
+                                }
+                            }
+
+                            resolve(volume.topology)
+                        });
+                    });
                 }, function () {
                     volume.topology = previousTopology;
                 });
