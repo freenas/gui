@@ -23,8 +23,7 @@
 
 @media (min-height: 40em) {
     .MainNavigationItem {
-        flex: 0;
-        height: 3em;
+        max-height: 3em;
         font-size: 1em;
     }
 }
