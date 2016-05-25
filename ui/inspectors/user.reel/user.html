@@ -89,19 +89,13 @@
                 "options": {"<-": "[{id: -1, name: ' - ', builtin: false}].concat(@owner.groupOptions).sorted{builtin + name}"}
             }
         },
-        "additionalGroupsValidator": {
-            "prototype": "./[AdditionalGroupsValidator]",
-            "bindings": {
-                "groupOptions": {"<-": "@owner.groupOptions"}
-            }
-        },
         "additionalGroupsConverter": {
-            "prototype": "./[AdditionalGroupsConverter]",
+            "prototype": "core/converter/accounts-converter",
             "properties": {
-                "validator": {"@": "additionalGroupsValidator"}
+                "identifier": "name"
             },
             "bindings": {
-                "groupOptions": {"<-": "@owner.groupOptions"}
+                "accountOptions": {"<-": "@owner.groupOptions"}
             }
         },
         "groupsSection": {

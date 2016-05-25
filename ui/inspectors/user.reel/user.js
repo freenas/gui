@@ -60,30 +60,7 @@ exports.User = Component.specialize({
                 return User.constructor.nextUid();
             }).then(function(userId) {
                 self.nextUserId = userId;
-            })
-        }
-    }
-});
-
-exports.AdditionalGroupsConverter = Converter.specialize({
-    convert: {
-        value: function (groupId) {
-            return this.groupOptions.find(function(x){ return x.id === groupId });
-        }
-    },
-
-    revert: {
-        value: function (name) {
-            var newGroupValue = this.groupOptions.find(function(x) { return x.name === name });
-            return newGroupValue ? newGroupValue.id : null;
-        }
-    }
-});
-
-exports.AdditionalGroupsValidator = Validator.specialize({
-    validate: {
-        value: function (name) {
-            return !!this.groupOptions.find(function(x) { return x.name === name });
+            });
         }
     }
 });
