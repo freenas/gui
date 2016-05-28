@@ -14,14 +14,16 @@
     "validators": "~0.3.1"
   },
   "devDependencies": {
-    "montage-testing": "~0.4.0",
+    "chai": "^3.5.0",
     "commander": "~2.9.0",
-    "ws": "~1.0.1",
-    "prompt": "~0.3.0",
+    "json.sortify": "~1.0.2",
+    "mocha": "^2.5.3",
+    "montage-testing": "~0.4.0",
     "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
-    "rimraf": "~2.5.2",
     "progress": "~1.1.8",
-    "json.sortify": "~1.0.2"
+    "prompt": "~0.3.0",
+    "rimraf": "~2.5.2",
+    "ws": "~1.0.1"
   },
   "exclude": [
     "run-tests.html",

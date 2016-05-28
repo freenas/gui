@@ -1,5 +1,6 @@
 ### SublimeText ###
 *.sublime-workspace
+*.sublime-project
 
 ### PyCharm ###
 .idea
@@ -61,3 +62,4 @@ customSystem.js
 gulpfile.js
 
 *.info/**/node_modules
+
