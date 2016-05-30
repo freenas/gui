@@ -36,10 +36,38 @@ exports.User = Component.specialize({
         value: null
     },
 
+    _needReset: {
+        value: false
+    },
+
+    needReset: {
+        value: function() {
+            return this._needReset ;
+        }
+    },
+
     save: {
         value: function() {
+            var self = this ;
+            this._needReset = true ;
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            return this.application.dataService.saveDataObject(this.object);
+            /*
+                return new Promise(function (resolve, reject) {
+                        message.id = self._handlerPool.addHandler({
+                            resolve: resolve,
+                            reject: reject
+                        });
+
+                        self._connection.sendMessage(message);
+                    });
+            */
+            return this.application.dataService.saveDataObject(this.object).then(function(val) {
+                console.log(val) ;
+            }).catch(function(e) {
+                console.log(e) ;
+                console.log('User Inspector ERROR: do not reset form so user can fix error...') ;
+                self._needReset = false ;
+            });
         }
     },
 

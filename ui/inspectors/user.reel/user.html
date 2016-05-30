@@ -38,11 +38,16 @@
                 "placeholderValue": {"<-": "!!@owner.nextUserId ? @owner.nextUserId : ''"}
             }
         },
+        "notEmptyValidator": {
+            "prototype": "core/converter/validator/non-empty-string"
+        },
         "username": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "username"},
-                "label": "Username"
+                "label": "Username",
+                "validator": {"@": "notEmptyValidator"},
+                "errorMessage": "Username cannot be empty"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.username"}
@@ -129,7 +134,9 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "home"},
-                "label": "Home Directory"
+                "label": "Home Directory",
+                "validator": {"@":"notEmptyValidator"},
+                "errorMessage": "Home Directory cannot be empty"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.home"}
