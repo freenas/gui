@@ -51,21 +51,11 @@ exports.User = Component.specialize({
             var self = this ;
             this._needReset = true ;
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            /*
-                return new Promise(function (resolve, reject) {
-                        message.id = self._handlerPool.addHandler({
-                            resolve: resolve,
-                            reject: reject
-                        });
-
-                        self._connection.sendMessage(message);
-                    });
-            */
-            return this.application.dataService.saveDataObject(this.object).then(function(val) {
-                console.log(val) ;
-            }).catch(function(e) {
-                console.log(e) ;
+            return this.application.dataService.saveDataObject(this.object).catch(function(e) {
+                // FIXME: need to add more sophisiticated handling to errors on form...need to track breadcrumbs for
+                // tasks so restore form for failed tasks...will require some work to UI infrastructure
                 console.log('User Inspector ERROR: do not reset form so user can fix error...') ;
+                console.log(e) ;
                 self._needReset = false ;
             });
         }
