@@ -13,6 +13,10 @@ exports.NetworkInterface = Component.specialize({
         value: null
     },
 
+    mtu: {
+        value: 1472
+    },
+
     _object: {
         value: null
     },
@@ -26,6 +30,7 @@ exports.NetworkInterface = Component.specialize({
                 this._object = object;
                 this.otherAliases = [];
                 this.staticIP = null;
+                this.mtu = 0 ;
 
                 if (object) {
                     var self = this;
@@ -124,6 +129,8 @@ exports.NetworkInterface = Component.specialize({
     save: {
         value: function() {
             this._flattenAliases();
+            // BW: may be a more elegant way to do this but suppress MTU attribute if not set...
+            if( !this.object.mtu && this.object.mtu.length == 0 ) this.object.mtu = undefined ;
             return this.application.dataService.saveDataObject(this.object);
         }
     }
