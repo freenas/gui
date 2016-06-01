@@ -13,10 +13,6 @@ exports.NetworkInterface = Component.specialize({
         value: null
     },
 
-    mtu: {
-        value: 1472
-    },
-
     _object: {
         value: null
     },
@@ -129,8 +125,9 @@ exports.NetworkInterface = Component.specialize({
     save: {
         value: function() {
             this._flattenAliases();
-            // BW: may be a more elegant way to do this but suppress MTU attribute if not set...
-            if( !this.object.mtu && this.object.mtu.length == 0 ) this.object.mtu = undefined ;
+            if (!this._object.mtu) {
+               delete this._object.mtu;
+            }
             return this.application.dataService.saveDataObject(this.object);
         }
     }
