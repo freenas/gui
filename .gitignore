@@ -63,3 +63,5 @@ gulpfile.js
 
 *.info/**/node_modules
 
+# BW files
+bw*
