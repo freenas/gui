@@ -39,11 +39,3 @@
     height: 1.5em !Important;
     width: 100%;
 }
-
-/*
- * FIXME: Display when implemented
-*/
-.Volume-snapshots,
-.Volume-scrub {
-    display: none;
-}
