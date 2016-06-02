@@ -78,7 +78,7 @@
                 "converter": {"@": "sizeConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.properties.used.rawvalue"}
+                "value": {"<-": "parseInt{@owner.object.properties.used.rawvalue}"}
             }
         },
         "creation": {

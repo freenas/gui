@@ -17,7 +17,7 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
                 if (lifetime && lifetime.length > 0) {
                     this.object.lifetime = +lifetime;
                 } else {
-                    this.object.lifetime = null
+                    this.object.lifetime = null;
                 }
             }
         }
