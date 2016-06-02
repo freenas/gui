@@ -1,11 +1,23 @@
-var Component = require("montage/ui/component").Component;
+var Slot = require("montage/ui/slot.reel").Slot;
 
 
 /**
  * @class Placeholder
- * @extends Component
+ * @extends Slot
  */
-exports.Placeholder = Component.specialize({
+exports.Placeholder = Slot.specialize({
+
+
+    constructor: {
+        value: function () {
+            this._componentsMap = new Map();
+        }
+    },
+
+
+    hasTemplate: {
+        value: true
+    },
 
 
     _moduleId: {
@@ -18,7 +30,7 @@ exports.Placeholder = Component.specialize({
             return this._moduleId;
         },
         set: function (value) {
-            if (value && this._moduleId !== value) {
+            if (typeof value === "string" && value.length && this._moduleId !== value) {
                 this._moduleId = value;
                 this._needsLoadComponent = true;
                 this.needsDraw = true;
@@ -39,12 +51,7 @@ exports.Placeholder = Component.specialize({
         set: function (object) {
             if (this._object !== object) {
                 this._object = object;
-
-                if (this.component && !this._needsLoadComponent && object) {
-                    // if the component stay the same we can update directly the context,
-                    // otherwise it will be updated once the component would have been loaded.
-                    this.component.object = object;
-                }
+                this.needsDraw = true;
             }
         }
     },
@@ -62,13 +69,11 @@ exports.Placeholder = Component.specialize({
         set: function (context) {
             if (this._context !== context) {
                 this._context = context;
-
-                if (this.component && !this._needsLoadComponent && context) {
-                    this.component.context = context;
-                }
+                this.needsDraw = true;
             }
         }
     },
+
 
     component: {
         value: null
@@ -80,19 +85,10 @@ exports.Placeholder = Component.specialize({
     },
 
 
-    _previousComponent: {
-        value: null
-    },
-
-
-    _needsUpdateComponent: {
-        value: false
-    },
-
-
     _needsLoadComponent: {
         value: false
     },
+
 
     enterDocument: {
         value: function () {
@@ -102,11 +98,6 @@ exports.Placeholder = Component.specialize({
         }
     },
 
-    _dispatchPlaceholderContentLoaded: {
-        value: function () {
-            this.dispatchEventNamed("placeholderContentLoaded", true, true, this);
-        }
-    },
 
     exitDocument: {
         value: function () {
@@ -118,18 +109,64 @@ exports.Placeholder = Component.specialize({
     },
 
 
-    willDraw: {
+    _dispatchPlaceholderContentLoaded: {
         value: function () {
-            var width = this._element.clientWidth,
-                height = this._element.clientHeight;
+            this.dispatchEventNamed("placeholderContentLoaded", true, true, this);
+        }
+    },
 
-            if (!this.size || width !== this.size.width || height !== this.size.height) {
-                if (width && height) {
-                    this.size = {
-                        width: width,
-                        height: height
-                    };
+
+    _loadComponentIfNeeded: {
+        value: function () {
+            if (this._needsLoadComponent) {
+                var self = this,
+                    moduleId = this._moduleId,
+                    promise;
+
+                this._isLoadingComponent = true;
+                this._needsLoadComponent = false;
+
+                if (this._componentsMap.has(moduleId)) {
+                    promise = Promise.resolve(this._componentsMap.get(moduleId));
+                } else {
+                    promise = require.async(moduleId).then(function (exports) {
+                        var component = new exports[Object.keys(exports)[0]]();
+                        self._componentsMap.set(moduleId, component);
+
+                        return component;
+                    });
                 }
+
+                promise.then(function (component) {
+                    self.component = component;
+                    self._populateComponentContextIfNeeded();
+                    self.content = component;
+
+                    var oldEnterDocument = self.component.enterDocument;
+
+                    self.component.enterDocument = function (isFirstTime) {
+                        if (self._isLoadingComponent) {
+                            self._dispatchPlaceholderContentLoaded();
+                            self._isLoadingComponent = false;
+                        }
+
+                        if (this.enterDocument = oldEnterDocument) {
+                            this.enterDocument(isFirstTime);
+                        }
+                    }
+                });
+            }
+
+            return promise;
+        }
+    },
+
+
+    _populateComponentContextIfNeeded: {
+        value: function () {
+            if (this.component && !this._needsLoadComponent) {
+                this.component.object = this.object;
+                this.component.context = this.context;
             }
         }
     },
@@ -137,60 +174,10 @@ exports.Placeholder = Component.specialize({
 
     draw: {
         value: function () {
-            if (this._needsUpdateComponent) {
-                if (this._previousComponent) {
-                    this._previousComponent.detachFromParentComponent();
-                }
-
-                this._previousComponent = this.component;
-                this._needsUpdateComponent = false;
-            }
-
-            if (this._needsLoadComponent) {
-                this._loadComponent(this._moduleId);
-                this._needsLoadComponent = false;
-            }
-        }
-    },
-
-
-    _loadComponent: {
-        value: function (moduleId) {
-            var element = document.createElement("div"),
-                self = this;
-
-            this._isLoadingComponent = true;
-            this._element.innerHTML = "";
-            this._element.appendChild(element);
-
-            return require.async(moduleId).then(function (exports) {
-                if (element.parentNode) {
-                    // TODO: This is an ugly hack, fix
-                    self.component = new exports[Object.keys(exports)[0]]();
-                    self.component.element = element;
-                    self.component.object = self.object;
-                    self.component.context = self.context;
-
-                    self.component.needsDraw = true;
-                    self.component.attachToParentComponent();
-                    self.component._oldEnterDocument = self.component.enterDocument;
-                    self.component.enterDocument = function (isFirstTime) {
-                        if (self._isLoadingComponent) {
-                            self._dispatchPlaceholderContentLoaded();
-                            self._isLoadingComponent = false;
-                        }
-
-                        self._needsUpdateComponent = true;
-                        self.needsDraw = true;
-
-                        if (this.enterDocument = this._oldEnterDocument) {
-                            delete this._oldEnterDocument;
-                            this.enterDocument(isFirstTime);
-                        }
-                    }
-                }
-            });
+            this._loadComponentIfNeeded();
+            this._populateComponentContextIfNeeded();
         }
     }
+
 
 });
