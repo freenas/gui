@@ -3,6 +3,7 @@ var DataService = require("montage-data/logic/service/data-service").DataService
     DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
     NotificationCenterModule = require("../backend/notification-center"),
     NotificationCenter = NotificationCenterModule.NotificationCenter,
+    SelectionService = require("./selection-service").SelectionService,
     Services = require("../model/services").Services,
     Montage = require("montage/core/core").Montage,
     Model = require("../model/model").Model,
@@ -47,6 +48,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
             //Fixme: temporary cache
             this.modelsCache = new Map();
+
+            this._selectionService = SelectionService.instance;
 
             return this;
         }
@@ -256,6 +259,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                             args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, rawData] : [rawData]]
                         }
                     ).then(function (response) {
+                        self._selectionService.saveTaskSelection(response.data, object);
                         return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
                     });
                 } else {

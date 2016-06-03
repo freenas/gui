@@ -4,23 +4,20 @@ var Component = require("montage/ui/component").Component,
 
 exports.CascadingList = Component.specialize({
 
-
     constructor: {
         value: function () {
             this._stack = [];
+            this._selectionService = this.application.selectionService;
         }
     },
-
 
     _stack: {
         value: null
     },
 
-
     _root: {
         value: null
     },
-
 
     root: {
         get: function () {
@@ -35,14 +32,22 @@ exports.CascadingList = Component.specialize({
         }
     },
 
+    _defaultSelection: {
+        value: null
+    },
 
     _push: {
         value: function (object) {
             this._stack.push(object);
+            if (this._defaultSelection && this._defaultSelection.path.length > 0) {
+                var selectedObject = this._defaultSelection.path.shift();
+                this.cascadingListItemAtIndex(this._stack.length - 1).selectedObject = selectedObject;
+            } else {
+                this._selectionService.saveSectionSelection(this.application.section, this._getSelectionPath());
+            }
             this.needsDraw = true;
         }
     },
-
 
     _pop: {
         value: function () {
@@ -73,6 +78,17 @@ exports.CascadingList = Component.specialize({
         value: function () {
             while (this._stack.length) {
                 this._pop();
+            }
+        }
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            if (!isFirstTime && this.repetition) {
+                this._defaultSelection = this._selectionService.getSectionSelection(this.application.section);
+                if (this._defaultSelection && this._defaultSelection.path.length > 0) {
+                    this.cascadingListItemAtIndex(0).selectedObject = this._defaultSelection.path.shift();
+                }
             }
         }
     },
@@ -140,6 +156,16 @@ exports.CascadingList = Component.specialize({
                     columnIndex: columnIndex
                 });
             });
+        }
+    },
+
+    _getSelectionPath: {
+        value: function() {
+            var selectionPath = [];
+            for (var i = 0, length = this._stack.length-1; i < length; i++) {
+                selectionPath.push(this.cascadingListItemAtIndex(i).selectedObject);
+            }
+            return selectionPath;
         }
     }
 

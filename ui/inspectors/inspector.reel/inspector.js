@@ -67,9 +67,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     this.isLocked = true;
                 }
 
-                promise.finally(function () {
-                    self.isLocked = false;
+                promise.then(function() {
                     return self._resetCreateInspectorIfNeeded();
+                }).finally(function () {
+                    self.isLocked = false;
                 });
             } else {
                 this._resetCreateInspectorIfNeeded();
