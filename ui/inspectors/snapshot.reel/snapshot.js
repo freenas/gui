@@ -27,6 +27,10 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
         value: null
     },
 
+    pathDisplayMode: {
+        value: null
+    },
+
     object: {
         get: function() {
             return this._object;
@@ -36,6 +40,9 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
                 this._object = object;
                 if (object.id == void 0) {
                     this._object.replicable = true;
+                    this.pathDisplayMode = "select";
+                } else {
+                    this.pathDisplayMode = "display";
                 }
             }
         }
