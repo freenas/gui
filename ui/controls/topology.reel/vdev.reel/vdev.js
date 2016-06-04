@@ -113,8 +113,11 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     object: {
         set: function (object) {
-            this._object = object;
-            this.children = object ? object.children : null;
+            if (this.object !== object) {
+                this._object = object;
+                this.children = object ? object.children : null;
+                this._populateDiskWithinVDevIfNeeded();
+            }
         },
         get: function () {
             return this._object;
@@ -129,14 +132,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
                 this._topologyService = this.application.topologyService;
             }
 
-            if (this.isEditorMode) {
-                var self = this;
-
-                this._topologyService.populateDiskWithinVDev(this.object).then(function () {
-                    self._calculateSizes();
-                });
-            }
-
+            this._populateDiskWithinVDevIfNeeded();
             this._cancelRangeAtPathChangeListener = this.addRangeAtPathChangeListener("children", this, "handleChildrenChange");
             this._cancelIsNewVDevChangeListener = this.addPathChangeListener("object.isExistingVDev", this, "handleIsExistingVDevChange");
             this._defineVDevContext();
@@ -157,6 +153,18 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             //FIXME: need investigation here, raise an error.
             //this._cancelIsNewVDevChangeListener();
             this._topologyItem = void 0;
+        }
+    },
+
+    _populateDiskWithinVDevIfNeeded: {
+        value: function () {
+            if (this.isEditorMode && this.object && this._inDocument) {
+                var self = this;
+
+                this._topologyService.populateDiskWithinVDev(this.object).then(function () {
+                    self._calculateSizes();
+                });
+            }
         }
     },
 

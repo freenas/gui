@@ -31,5 +31,11 @@ exports.TaskNotification = Component.specialize(/** @lends TaskNotification# */ 
 
     infoExpanded: {
         value: false
+    },
+
+    handleRetryAction: {
+        value: function(event) {
+            this.application.section = this.application.selectionService.restoreTaskSelection(this._object.jobId);
+        }
     }
 });

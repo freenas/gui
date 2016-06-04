@@ -41,6 +41,35 @@
                 "value": {"<->": "@owner.object.name"}
             }
         },
+        "datasetSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "datasetSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.pathDisplayMode"}
+            }
+        },
+        "datasetSelector": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "datasetSelector"},
+                "label": "Dataset"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.dataset"}
+            }
+        },
+        "datasetDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "datasetDisplay"},
+                "label": "Dataset"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.dataset"}
+            }
+        },
         "lifetime": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -99,6 +128,10 @@
     <div data-montage-id="owner" class="Snapshot">
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
+            <div data-montage-id="datasetSubstitution">
+                <div data-montage-id="datasetSelector" data-arg="select"></div>
+                <div data-montage-id="datasetDisplay" data-arg="display"></div>
+            </div>
             <div data-montage-id="lifetime"></div>
             <div data-montage-id="replicable"></div>
             <div data-montage-id="creationCondition">

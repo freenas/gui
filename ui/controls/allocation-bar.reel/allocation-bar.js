@@ -14,14 +14,15 @@ exports.AllocationBar = Component.specialize(/** @lends AllocationBar# */ {
     },
 
     totalSize: {
-        get: function() {
+        get: function () {
             return this._totalSize;
         },
-        set: function(totalSize) {
-            if (this._totalSize != totalSize) {
+        set: function (totalSize) {
+            if (this._totalSize !== totalSize) {
                 this._totalSize = totalSize;
-                if (this.isTemplateLoaded) {
-                    this.setElementWidths();
+
+                if (this._inDocument) {
+                    this.needsDraw = true;
                 }
             }
         }
@@ -32,35 +33,29 @@ exports.AllocationBar = Component.specialize(/** @lends AllocationBar# */ {
     },
 
     paritySize: {
-        get: function() {
+        get: function () {
             return this._paritySize;
         },
-        set: function(paritySize) {
-            if (this._paritySize != paritySize) {
+        set: function (paritySize) {
+            if (this._paritySize !== paritySize) {
                 this._paritySize = paritySize;
-                if (this.isTemplateLoaded) {
-                    this.setElementWidths();
+
+                if (this._inDocument) {
+                    this.needsDraw = true;
                 }
             }
         }
     },
 
-    setElementWidths: {
+    draw: {
         value: function () {
             var parityWidth = Math.floor(100 * this.paritySize / this.totalSize),
                 usedWidth = Math.floor(100 * this.usedSize / this.totalSize);
+
             this.parityBarElement.style.width = parityWidth + '%';
             this.usedBarElement.style.width = usedWidth + '%';
             this.availableBarElement.style.width = (100 - (parityWidth+usedWidth)) + '%';
         }
-    },
-
-    templateDidLoad: {
-        value: function () {
-            this.isTemplateLoaded = true;
-            if (this.totalSize) {
-                this.setElementWidths();
-            }
-        }
     }
+
 });

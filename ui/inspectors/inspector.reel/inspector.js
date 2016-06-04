@@ -66,7 +66,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 if (this._isCreationInspector()) {
                     this.isLocked = true;
                 }
-
                 promise.finally(function () {
                     self.isLocked = false;
                     var needReset = true ;
