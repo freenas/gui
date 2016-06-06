@@ -139,16 +139,14 @@ exports.Placeholder = Slot.specialize({
 
                 promise.then(function (component) {
                     self.component = component;
+                    self._isLoadingComponent = false;
                     self._populateComponentContextIfNeeded();
                     self.content = component;
 
                     var oldEnterDocument = self.component.enterDocument;
 
                     self.component.enterDocument = function (isFirstTime) {
-                        if (self._isLoadingComponent) {
-                            self._dispatchPlaceholderContentLoaded();
-                            self._isLoadingComponent = false;
-                        }
+                        self._dispatchPlaceholderContentLoaded();
 
                         if (this.enterDocument = oldEnterDocument) {
                             this.enterDocument(isFirstTime);
@@ -164,7 +162,7 @@ exports.Placeholder = Slot.specialize({
 
     _populateComponentContextIfNeeded: {
         value: function () {
-            if (this.component && !this._needsLoadComponent) {
+            if (this.component && !this._needsLoadComponent && !this._isLoadingComponent) {
                 this.component.object = this.object;
                 this.component.context = this.context;
             }

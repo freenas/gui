@@ -153,11 +153,24 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         value: function() {
             var self = this;
             this.isSpinnerShown = true;
-            nv.utils.windowResize(function(){
+            this._clearHandleWindowResize = nv.utils.windowResize(function(){
                 self._chart.update();
-            });
+            }).clear;
 
         }
+    },
+
+    exitDocument: {
+        value: function () {
+            if (this._clearHandleWindowResize) {
+                this._clearHandleWindowResize();
+                this._clearHandleWindowResize = null;
+            }
+        }
+    },
+
+    _clearHandleWindowResize:{
+        value: null
     },
 
     finishRendering: {

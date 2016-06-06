@@ -72,7 +72,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
     _populateTopologyProxyWithTopology: {
         value: function (topology) {
-            if (this.topologyProxy) {
+            if (this.topologyProxy && topology) {
                 if (Promise.is(this.topologyProxy)) {
                     var self = this;
 
