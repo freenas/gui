@@ -250,7 +250,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 if (serviceDescriptor) {
                     var self = this,
-                        taskName = serviceDescriptor.task;
+                        taskName = serviceDescriptor.task,
+                        taskId;
 
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
@@ -259,8 +260,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                             args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, rawData] : [rawData]]
                         }
                     ).then(function (response) {
-                        self._selectionService.saveTaskSelection(response.data, object);
-                        return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
+                        taskId = response.data;
+                        self._selectionService.saveTaskSelection(taskId, object);
+                        return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, taskId, object);
+                    }).then(function() {
+                        return self._selectionService.removeTaskSelection(taskId);
                     });
                 } else {
                     return Promise.reject(new Error(

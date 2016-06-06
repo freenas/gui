@@ -73,6 +73,9 @@
             "properties": {
                 "element": {"#": "retry"},
                 "value": "Retry"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object.state != 'FAILED'"}
             }
         }
     }
