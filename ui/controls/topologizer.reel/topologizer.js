@@ -1,10 +1,12 @@
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    TranslateComposer = require("montage/composer/translate-composer").TranslateComposer;
 
 /**
  * @class Topologizer
  * @extends Component
  */
 exports.Topologizer = Component.specialize({
+
     _topologyService: {
         value: null
     },
@@ -49,11 +51,27 @@ exports.Topologizer = Component.specialize({
 
             return this._barycentricRoundedValues;
         },
-        set: function(barycentricValues) {
+        set: function (barycentricValues) {
             if (this._barycentricValues !== barycentricValues) {
                 this._barycentricValues = barycentricValues;
                 this._barycentricRoundedValues = null;
             }
+        }
+    },
+
+    __translateComposer: {
+        value: null
+    },
+
+    _translateComposer: {
+        get: function () {
+            if (!this.__translateComposer) {
+                this.__translateComposer = new TranslateComposer();
+                this.__translateComposer.hasMomentum = false;
+                this.addComposerForElement(this.__translateComposer, this.triangleElement);
+            }
+
+            return this.__translateComposer;
         }
     },
 
@@ -80,8 +98,7 @@ exports.Topologizer = Component.specialize({
 
     prepareForActivationEvents: {
         value: function () {
-            //Fixme: need to use the translate composer.
-            this.triangleElement.addEventListener("mousedown", this, false);
+            this._translateComposer.addEventListener("translateStart", this, false);
         }
     },
 
@@ -143,6 +160,7 @@ exports.Topologizer = Component.specialize({
                     if (y < 1) {
                         y = 1;
                     }
+
                     if (y >= this._height) {
                         y = this._height - 1;
                     }
@@ -150,7 +168,7 @@ exports.Topologizer = Component.specialize({
                     // TODO: This should be optimised by line/line intersection
                     for (x = 0; x < this._width; x++) {
                         if (this._valuesInRange(this._computeBarycentricValues(x, y))) {
-                            squaredDistance = (x - value.x) * (x - value.x);
+                            var squaredDistance = (x - value.x) * (x - value.x);
                             if (squaredDistance < best.distance) {
                                 best.distance = squaredDistance;
                                 best.x = x;
@@ -171,63 +189,53 @@ exports.Topologizer = Component.specialize({
         }
     },
 
-    _getTriangleEmentPosition: {
-        value: function() {
-            var boundingRect = this.triangleElement.getBoundingClientRect();
-            return {
-                x: boundingRect.left,
-                y: boundingRect.top
-            };
-        }
-    },
-
-    handleMousedown: {
+    handleTranslateStart: {
         value: function (event) {
-            event.preventDefault();
-
-            var triangleElementPosition = this._getTriangleEmentPosition();
+            var startPosition = this._translateComposer.pointerStartEventPosition,
+                triangleElementBoundingRect = this.triangleElement.getBoundingClientRect();
 
             this._targePosition = {
-                x: event.pageX - triangleElementPosition.x,
-                y: event.pageY - triangleElementPosition.y
+                x: startPosition.pageX - triangleElementBoundingRect.left,
+                y: startPosition.pageY - triangleElementBoundingRect.top
             };
-            this.handlePosition = this._targePosition;
-            this._pointerPosition = {
-                x: event.pageX,
-                y: event.pageY
-            };
-            document.addEventListener("mousemove", this, false);
-            document.addEventListener("mouseup", this, false);
+
+            this._translateComposer.translateX = this._targePosition.x;
+            this._translateComposer.translateY = this._targePosition.y;
+
+            this._translateComposer.addEventListener("translate", this, false);
+            this._translateComposer.addEventListener("translateEnd", this, false);
+
             this.profile = "";
+            this.needsDraw = true;
+
         }
     },
 
-    handleMousemove: {
+    handleTranslate: {
         value: function (event) {
-            this._targePosition.x += event.pageX - this._pointerPosition.x;
-            this._targePosition.y += event.pageY - this._pointerPosition.y;
-            this._pointerPosition = {
-                x: event.pageX,
-                y: event.pageY
-            };
+            this._targePosition.x = event.translateX;
+            this._targePosition.y = event.translateY;
 
             this._isMoving = true;
             this.needsDraw = true;
         }
     },
 
-    handleMouseup: {
+    handleTranslateEnd: {
         value: function (event) {
             this._isMoving = false;
-            document.removeEventListener("mousemove", this, false);
-            document.removeEventListener("mouseup", this, false);
+
+            this._translateComposer.removeEventListener("translate", this, false);
+            this._translateComposer.removeEventListener("translateEnd", this, false);
         }
     },
 
     willDraw: {
         value: function () {
-            this._width = this.triangleElement.clientWidth;
-            this._height = this.triangleElement.clientHeight;
+            if (!this._isMoving) {
+                this._width = this.triangleElement.clientWidth;
+                this._height = this.triangleElement.clientHeight;
+            }
         }
     },
 
