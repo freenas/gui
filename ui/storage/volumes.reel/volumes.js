@@ -121,11 +121,20 @@ exports.Volumes = Component.specialize({
                             volume.shares = self.shares;
                             volume.snapshots = self.snapshots;
                             volume.disks = self.disks;
+                            self._populateSettings(volume);
                         }
                         self.volumes = self._volumes;
                     });
                 });
             }
+        }
+    },
+
+    _populateSettings: {
+        value: function(volume) {
+            this._getVolumeSettings(volume).then(function(settings) {
+                volume.settings  = settings;
+            });
         }
     },
 
@@ -238,6 +247,15 @@ exports.Volumes = Component.specialize({
     _listDisks: {
         value: function() {
             return this._dataService.fetchData(Model.Disk);
+        }
+    },
+
+    _getVolumeSettings: {
+        value: function (volume) {
+            return this._dataService.getNewInstanceForType(Model.VolumeSettings).then(function (volumeSettings) {
+                volumeSettings.settings = volume;
+                return volumeSettings;
+            });
         }
     },
 
