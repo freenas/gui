@@ -12,6 +12,12 @@ var SelectionService = exports.SelectionService = Montage.specialize({
         value: null
     },
 
+    getCurrentSelection: {
+        value: function() {
+            return this.getSectionSelection(this._currentSection);
+        }
+    },
+
     getSectionSelection: {
         value: function(sectionName) {
             return this._selection.sections[sectionName];

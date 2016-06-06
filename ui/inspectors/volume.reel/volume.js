@@ -54,19 +54,6 @@ exports.Volume = Component.specialize({
         }
     },
 
-    enterDocument: {
-        value: function(isFirsttime) {
-            //Fixme: hacky, should use some selection object
-            this.application.selectedVolume = this.object;
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            delete this.application.selectedVolume;
-        }
-    },
-
     _calculateParity: {
         value: function() {
             if (this._object && this._object.topology) {
