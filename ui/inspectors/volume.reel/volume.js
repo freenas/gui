@@ -13,14 +13,15 @@ exports.Volume = Component.specialize({
         get: function() {
             return this._object;
         },
-        set: function(object) {
-            if (this._object != object) {
+        set: function (object) {
+            if (this._object !== object) {
                 this._object = object;
+
+                this._calculateParity();
             }
-            this._calculateParity();
         }
     },
-    
+
     _shares: {
         value: null
     },
@@ -68,7 +69,7 @@ exports.Volume = Component.specialize({
 
     _calculateParity: {
         value: function() {
-            if (this._object) {
+            if (this._object && this._object.topology) {
                 var vdevs = this._object.topology.data,
                     vdev, i, length,
                     paritySize = 0;
