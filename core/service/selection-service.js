@@ -55,7 +55,7 @@ var SelectionService = exports.SelectionService = Montage.specialize({
             if (taskSelection) {
                 section = taskSelection.section;
                 this._selection.sections[section] = {
-                    path: taskSelection.path
+                    path: taskSelection.path.slice()
                 };
             }
             return section;
