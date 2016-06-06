@@ -201,10 +201,10 @@ exports.Volumes = Component.specialize({
                 return !!x.status;
             });
             Promise.all(disks.map(function (x) {
-                return x.status
+                return x.status;
             })).then(function () {
-                disks.map(function (x) { x._devicePath = x.path });
-                self._volumeService.getDisksAllocation(disks.map(function (x) { return x._devicePath })).then(function (disksAllocations) {
+                disks.map(function (x) { x._devicePath = x.path; });
+                self._volumeService.getDisksAllocation(disks.map(function (x) { return x._devicePath; })).then(function (disksAllocations) {
                     for (i = 0, disksLength = disks.length; i < disksLength; i++) {
                         disk = disks[i];
                         if (disksAllocations[disk._devicePath]) {
