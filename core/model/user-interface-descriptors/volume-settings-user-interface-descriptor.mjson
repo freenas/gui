@@ -1,0 +1,9 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "inspectorComponentModule": {"%": "ui/inspectors/volume-settings.reel"},
+            "nameExpression": "'Settings'"
+        }
+    }
+}
