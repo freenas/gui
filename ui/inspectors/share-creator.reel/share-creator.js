@@ -28,7 +28,7 @@ exports.ShareCreator = Component.specialize({
                 newShare.type = shareType;
                 newShare.enabled = true;
                 newShare.description = '';
-                newShare.volume = self.application.selectedVolume;
+                newShare.volume = self._getCurrentVolume();
                 return self.application.dataService.getNewInstanceForType(propertiesModel);
             }).then(function(properties) {
                 newShare.properties = properties;
@@ -41,8 +41,22 @@ exports.ShareCreator = Component.specialize({
         }
     },
 
-    enterDocument: {
+    _getCurrentVolume: {
         value: function() {
+            var currentSelection = this._selectionService.getCurrentSelection();
+            for (var i = this.context.columnIndex - 1; i >= 0; i--) {
+                if (Object.getPrototypeOf(currentSelection.path[i]).Type == Model.Volume) {
+                    return currentSelection.path[i];
+                }
+            }
+        }
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this._selectionService = this.application.selectionService;
+            }
             var self = this;
             this._createNewShare('smb', Model.ShareSmb).then(function(smbShare) {
                 self.newSmbShare = smbShare;

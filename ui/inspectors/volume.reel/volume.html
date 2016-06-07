@@ -59,6 +59,15 @@
                 "object": {"<-": "@owner.snapshots"}
             }
         },
+        "settings": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "settings"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.settings"}
+            }
+        },
         "topology": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -103,6 +112,7 @@
             <div data-montage-id="shares"></div>
             <div data-montage-id="snapshots"></div>
             <div data-montage-id="topology"></div>
+            <div data-montage-id="settings"></div>
         </div>
     </div>
 </body>
