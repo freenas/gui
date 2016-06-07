@@ -41,7 +41,7 @@ var TopologyService = exports.TopologyService = Montage.specialize({
             Model.populateObjectPrototypeForType(Model.ZfsVdev).then(function () {
                 return Model.populateObjectPrototypeForType(Model.Volume);
             }).then(function (Volume) {
-                Volume.constructor.vdevRecommendations().then(function(vdevRecommendations){
+                Volume.constructor.services.vdevRecommendations().then(function(vdevRecommendations){
                     self._vdevRecommendations = vdevRecommendations;
                 });
             });

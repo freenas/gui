@@ -2,6 +2,7 @@
  * @module ui/updates.reel
  */
 var Component = require("montage/ui/component").Component,
+    UpdateService = require("core/service/update-service").UpdateService,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
@@ -26,33 +27,31 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
         value: null
     },
 
+    _updateService: {
+        value: null
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
             this.isLoading = true;
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
+                this._updateService = this.application.updateService;
             }
-            this._loadUpdateService().then(function() {
-                var promises = [];
-                promises.push(
-                    self._dataService.fetchData(Model.Update).then(function(update) {
-                        var config = update[0];
-                        self._remoteConfig = {
-                            check_auto: config.check_auto,
-                            train: config.train
-                        };
-                        return self.config = config;
-                    }),
-                    self._updateService.trains().then(function(trains) {
-                        return self.trains = trains;
-                    }),
-                    self._updateService.getUpdateOps().then(function(updateOps) {
-                        return self.updateOps = updateOps;
-                    })
-                );
-                return Promise.all(promises);
-            }).then(function() {
+            var promises = [
+                self._updateService.getConfig().then(function(config) {
+                    self._cacheRemoteConfig(config);
+                    return self.config = config;
+                }),
+                self._updateService.getTrains().then(function(trains) {
+                    return self.trains = trains;
+                }),
+                self._updateService.getUpdateOps().then(function(updateOps) {
+                    return self.updateOps = updateOps;
+                })
+            ];
+            Promise.all(promises).then(function() {
                 self.isLoading = false;
             });
         }
@@ -60,36 +59,38 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
 
     handleInstallUpdateAction: {
         value: function() {
-            this.config.apply(true);
+            this._updateService.applyUpdates(true);
         }
     },
 
     handleVerifyAction: {
         value: function() {
-            this.config.verify();
+            this._updateService.verify();
         }
     },
 
     handleCheckDownloadAction: {
         value: function() {
-            var self = this;
-            this.config.checkfetch().then(function() {
-               return self._updateService.getUpdateOps();
-            }).then(function(updateOps) {
-                return self.updateOps = updateOps;
-            });
+            this._updateService.checkAndDownload();
         }
     },
 
     handleUpdateNowAction: {
         value: function() {
-            this.config.updatenow(true);
+            this._updateService.updateNow(true);
         }
     },
 
     handleSaveAction: {
         value: function() {
-            this._dataService.saveDataObject(this.config);
+            var self = this,
+                config = {
+                    check_auto: this.config.check_auto,
+                    train: this.config.train
+                };
+            this._updateService.saveConfig().then(function() {
+                self._cacheRemoteConfig(config);
+            });
         }
     },
 
@@ -100,16 +101,12 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
         }
     },
 
-    _loadUpdateService: {
-        value: function() {
-            var self = this;
-            if (this._updateService) {
-                return Promise.resolve(this._updateService);
-            } else {
-                return Model.populateObjectPrototypeForType(Model.Update).then(function (Update) {
-                    self._updateService = Update.constructor;
-                });
-            }
+    _cacheRemoteConfig: {
+        value: function(config) {
+            this._remoteConfig = {
+                check_auto: config.check_auto,
+                train: config.train
+            };
         }
     }
 });

@@ -90,7 +90,7 @@ exports.Volumes = Component.specialize({
             var self = this;
             this._dataService = this.application.dataService;
             return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
-                self._volumeService = Volume.constructor;
+                self._volumeService = Volume.constructor.services;
             }).then(function() {
                 return Model.populateObjectPrototypeForType(Model.ZfsTopology);
             }).then(function() {

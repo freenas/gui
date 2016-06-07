@@ -111,7 +111,10 @@ function _applyServicesOnObject (instanceServices, object) {
 
 
 function _applyServiceOnPrototype (serviceName, serviceDescriptor, object) {
-    Object.defineProperty(object, serviceName, {
+    if (!object.services) {
+        object.services = {};
+    }
+    Object.defineProperty(object.services, serviceName, {
         value: function () {
             var argumentsLength = arguments.length,
                 isTask = !!serviceDescriptor.task,

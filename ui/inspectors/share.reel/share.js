@@ -334,7 +334,7 @@ exports.Share = Component.specialize({
         value: function() {
             var self = this;
             return Model.populateObjectPrototypeForType(Model.Volume).then(function(Volume) {
-                self._volumeService = Volume.constructor;
+                self._volumeService = Volume.constructor.services;
             });
         }
     },
