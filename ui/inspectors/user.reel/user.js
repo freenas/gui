@@ -36,28 +36,10 @@ exports.User = Component.specialize({
         value: null
     },
 
-    _needReset: {
-        value: false
-    },
-
-    needReset: {
-        value: function() {
-            return this._needReset ;
-        }
-    },
-
     save: {
         value: function() {
-            var self = this ;
-            this._needReset = true ;
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            return this.application.dataService.saveDataObject(this.object).catch(function(e) {
-                // FIXME: need to add more sophisiticated handling to errors on form...need to track breadcrumbs for
-                // tasks so restore form for failed tasks...will require some work to UI infrastructure
-                console.log('User Inspector ERROR: do not reset form so user can fix error...') ;
-                console.log(e) ;
-                self._needReset = false ;
-            });
+            return this.application.dataService.saveDataObject(this.object);
         }
     },
 

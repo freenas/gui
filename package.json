@@ -2,10 +2,10 @@
   "name": "freenas-10-gui",
   "version": "0.3.0",
   "dependencies": {
-    "bluebird": "^3.4.0",
-    "collections": "montagejs/collections#11533b845b80d64472dc64a3d1d27caf17fb2817",
     "blue-shark": "freenas/blue-shark#86b349758edba9c19fc4b855db12c710620d2099",
+    "d3": "^3.5.16",
     "digit": "montagejs/digit",
+    "collections": "montagejs/collections#11533b845b80d64472dc64a3d1d27caf17fb2817",
     "frb": "montagejs/frb#cfa5f526401eb6d6ff800144fc618b2bce85a818",
     "montage": "montagejs/montage#8183df63ab63c25842054b37ffaa0b68ae1c63ae",
     "montage-data": "montagestudio/montage-data#3b6e725ade888b18be6118d618bcbe8d88456d5e",
@@ -13,16 +13,14 @@
     "validators": "~0.3.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "commander": "~2.9.0",
-    "json.sortify": "~1.0.2",
-    "mocha": "^2.5.3",
     "montage-testing": "~0.4.0",
-    "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
-    "progress": "~1.1.8",
+    "commander": "~2.9.0",
+    "ws": "~1.0.1",
     "prompt": "~0.3.0",
+    "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
     "rimraf": "~2.5.2",
-    "ws": "~1.0.1"
+    "progress": "~1.1.8",
+    "json.sortify": "~1.0.2"
   },
   "exclude": [
     "run-tests.html",
