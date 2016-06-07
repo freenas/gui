@@ -28,7 +28,6 @@ exports.NetworkInterface = Component.specialize({
                 this.staticIP = null;
 
                 if (object) {
-                    console.log(this.object.status.capabilities) ;
                     var self = this;
                     this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (networkInterfaces) {
                         self.interfaces = networkInterfaces;
