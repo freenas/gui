@@ -61,6 +61,22 @@ exports.Volumes = Component.specialize({
         }
     },
 
+    _datasets: {
+        value: null
+    },
+
+    datasets: {
+        get: function () {
+            return this._datasets;
+        },
+
+        set: function (datasets) {
+            if (this._datasets != datasets) {
+                this._datasets= datasets;
+            }
+        }
+    },
+
     _loadDependencies: {
         value: function () {
             var self = this;
@@ -121,6 +137,7 @@ exports.Volumes = Component.specialize({
                             volume.shares = self.shares;
                             volume.snapshots = self.snapshots;
                             volume.disks = self.disks;
+                            volume.datasets = self.datasets;
                             self._populateSettings(volume);
                         }
                         self.volumes = self._volumes;
@@ -132,8 +149,19 @@ exports.Volumes = Component.specialize({
 
     _populateSettings: {
         value: function(volume) {
+            var self = this;
             this._getVolumeSettings(volume).then(function(settings) {
-                volume.settings  = settings;
+                var datasets = self.datasets;
+                volume.settings = settings;
+                console.log(self.datasets)
+                for ( var i = 0, length = datasets.length; i < length; i++) {
+                    console.log(datasets[i])
+                    console.log(volume)
+                    if (datasets[i].name === volume.id) {
+                        volume.rootDataset = datasets[i];
+                        break;
+                    }
+                }
             });
         }
     },
