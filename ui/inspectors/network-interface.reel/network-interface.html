@@ -97,6 +97,31 @@
                 "checked": {"<->": "!!@owner.object.rtadv"}
             }
         },
+        "mtuValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 576,
+                "ceiling": 9000,
+                "errorMessage": "Value must be an integer between 576 and 9000"
+            }
+        },
+        "mtuConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "mtuValidator"}
+            }
+        },
+        "mtu": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "mtu"},
+                "label": "MTU",
+                "converter": {"@": "mtuConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.mtu"}
+            }
+        },        
         "interfaceTypeSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -181,6 +206,7 @@
             <div data-montage-id="ip_address"></div>
             <div data-montage-id="dhcp"></div>
             <div data-montage-id="rtadv"></div>
+            <div data-montage-id="mtu"></div>
             <div data-montage-id="interfaceTypeSubstitution">
                 <div data-montage-id="ether" data-arg="ETHER"></div>
                 <div data-montage-id="lagg" data-arg="LAGG"></div>
