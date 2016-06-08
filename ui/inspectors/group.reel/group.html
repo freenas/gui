@@ -19,7 +19,9 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"},
-                "canDelete": {"<-": "!@owner.object.builtin"}
+                "canDelete": {"<-": "!@owner.object.builtin"},
+                "canRevert": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"},
+                "canSave": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"}
             }
         },
         "gidValidator": {
