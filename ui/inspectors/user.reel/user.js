@@ -60,7 +60,7 @@ exports.User = Component.specialize({
                 return User.constructor.nextUid();
             }).then(function(userId) {
                 self.nextUserId = userId;
-            })
+            });
         }
     }
 });
@@ -68,13 +68,13 @@ exports.User = Component.specialize({
 exports.AdditionalGroupsConverter = Converter.specialize({
     convert: {
         value: function (groupId) {
-            return this.groupOptions.find(function(x){ return x.id === groupId });
+            return this.groupOptions.find(function(x){ return x.id === groupId; });
         }
     },
 
     revert: {
         value: function (name) {
-            var newGroupValue = this.groupOptions.find(function(x) { return x.name === name });
+            var newGroupValue = this.groupOptions.find(function(x) { return x.name === name; });
             return newGroupValue ? newGroupValue.id : null;
         }
     }
@@ -83,7 +83,7 @@ exports.AdditionalGroupsConverter = Converter.specialize({
 exports.AdditionalGroupsValidator = Validator.specialize({
     validate: {
         value: function (name) {
-            return !!this.groupOptions.find(function(x) { return x.name === name });
+            return !!this.groupOptions.find(function(x) { return x.name === name; });
         }
     }
 });
