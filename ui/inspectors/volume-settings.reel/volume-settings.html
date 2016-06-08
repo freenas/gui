@@ -9,13 +9,114 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "canRevert": true
+            },
+            "bindings": {
+                "save": {"<-": "@owner.save"}
+            }
+        },
+        "compression": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "compression"},
+                "label": "Compression"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.settings.rootDataset.properties.compression.rawvalue"},
+                "options": {"<-": "@owner.COMPRESSION_OPTIONS"}
+            }
+        },
+        "dedup": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "dedup"},
+                "label": "Deduplication"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.settings.rootDataset.properties.dedup.rawvalue"},
+                "options": {"<-": "@owner.DEDUP_OPTIONS"}
+            }
+        },
+        "atime": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "atime"},
+                "label": "atime"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.settings.rootDataset.properties.atime.rawvalue"},
+                "options": {"<-": "@owner.ATIME_OPTIONS"}
+            }
+        },
+        "quota": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "quota"},
+                "label": "quota"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.settings.rootDataset.properties.quota.rawvalue"}
+            }
+        },
+        "refquota": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "refquota"},
+                "label": "refquota"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.settings.rootDataset.properties.refquota.rawvalue"}
+            }
+        },
+        "reservation": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "reservation"},
+                "label": "reservation"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.settings.rootDataset.properties.reservation.rawvalue"}
+            }
+        },
+        "refreservation": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "refreservation"},
+                "label": "refreservation"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.settings.rootDataset.properties.refreservation.rawvalue"}
+            }
+        },
+        "advancedSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advancedSection"},
+                "title": "Quotas and Reservations"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="VolumeSettings">
-        Volume Settings inspector
+        <div data-montage-id="inspector">
+            <div data-montage-id="compression"></div>
+            <div data-montage-id="dedup"></div>
+            <div data-montage-id="atime"></div>
+            <div data-montage-id="advancedSection">
+                <div data-montage-id="quota"></div>
+                <div data-montage-id="refquota"></div>
+                <div data-montage-id="reservation"></div>
+                <div data-montage-id="refreservation"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
