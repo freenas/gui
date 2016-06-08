@@ -42,5 +42,12 @@ exports.VolumeSettings = Component.specialize(/** @lends VolumeSettings# */ {
             "skein,verify",
             "edonr,verify"
         ]
+    },
+
+    ATIME_OPTIONS: {
+        value: [
+            "on",
+            "off"
+        ]
     }
 });
