@@ -124,9 +124,6 @@ exports.NetworkInterface = Component.specialize({
     save: {
         value: function() {
             this._flattenAliases();
-            if (!this._object.mtu) {
-               delete this._object.mtu;
-            }
             return this.application.dataService.saveDataObject(this.object);
         }
     }
