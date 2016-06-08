@@ -153,10 +153,7 @@ exports.Volumes = Component.specialize({
             this._getVolumeSettings(volume).then(function(settings) {
                 var datasets = self.datasets;
                 volume.settings = settings;
-                console.log(self.datasets)
                 for ( var i = 0, length = datasets.length; i < length; i++) {
-                    console.log(datasets[i])
-                    console.log(volume)
                     if (datasets[i].name === volume.id) {
                         volume.rootDataset = datasets[i];
                         break;
