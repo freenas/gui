@@ -57,7 +57,7 @@ exports.User = Component.specialize({
         value: function() {
             var self = this;
             return Model.populateObjectPrototypeForType(Model.User).then(function (User) {
-                return User.constructor.nextUid();
+                return User.constructor.services.nextUid();
             }).then(function(userId) {
                 self.nextUserId = userId;
             });
