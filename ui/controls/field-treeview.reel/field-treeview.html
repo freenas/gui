@@ -43,7 +43,7 @@
                 "element": {"#": "selectedPath"}
             },
             "bindings": {
-                "value": {"<-": "(@owner.selectedPath + '/' + @owner.suffix).replace(@owner.removePrefix || '', '')"}
+                "value": {"<-": "(@owner.selectedPath + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace(@owner.removePrefix || '', '')"}
             }
         },
         "treeview": {

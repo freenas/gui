@@ -24,6 +24,17 @@
                 "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"}
             }
         },
+        "filesystemTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false,
+                "isDatasetMode": false,
+                "root": "/"
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
         "uidValidator": {
             "prototype": "core/converter/validator/unix-account-id-validator"
         },
@@ -128,13 +139,14 @@
             }
         },
         "home": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "home"},
+                "controller": {"@": "filesystemTreeController"},
                 "label": "Home Directory"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.home"}
+                "selectedPath": {"<->": "@owner.object.home"}
             }
         },
         "sshpubkey": {

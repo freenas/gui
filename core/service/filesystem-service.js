@@ -31,7 +31,8 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
             if (!basename || basename.length == 0) {
                 return dirname;
             }
-            return dirname + this._SEP + basename;
+            var separator = dirname.substr(dirname.length - 1) == this._SEP ? '' : this._SEP;
+            return dirname + separator + basename;
         }
     },
 
