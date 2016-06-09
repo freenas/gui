@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="main-navigation.css">
     <script type="text/montage-serialization">
     {
@@ -51,30 +50,34 @@
                 ]
             }
         },
+
         "item": {
-            "prototype": "./main-navigation-item.reel",
+            "prototype": "montage/ui/component",
             "properties": {
-                "element": {"#": "item"}
+                "element": {"#": "item"},
+                "hasTemplate": false
             },
             "bindings": {
                 "iteration": {"<-": "@repetition:iteration"},
-                "iteration.selected": {"<->": "application.section == iteration.object.value"},
-                "title": {"<-": "iteration.object.label"},
-                "class": {"<-": "iteration.object.value"}
+                "iteration.selected": {"<->": "application.section == iteration.object.value"}
             }
         },
+
+        "itemLabel": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "item-label"}
+            },
+            "bindings": {
+                "value": {"<-": "@repetition:iteration.object.label"}
+            }
+        },
+
         "preferences": {
             "prototype": "montage/ui/button.reel",
             "properties": {
                 "element": {"#": "preferences"}
             },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"},
-                    "capture": false
-                }
-            ],
             "bindings": {
                 "classList.has('selected')": {"<-": "application.section == 'preferences'"}
             }
@@ -85,7 +88,9 @@
 <body>
     <div data-montage-id="owner" class="MainNavigation">
         <div data-montage-id="repetition" class="MainNavigation-repetition">
-            <div data-montage-id="item" class="MainNavigation-item"></div>
+            <div data-montage-id="item" class="MainNavigationItem">
+                <div data-montage-id="item-label"></div>
+            </div>
         </div>
         <div data-montage-id="preferences" class="MainNavigation-preferences">
             <svg>
