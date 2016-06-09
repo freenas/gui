@@ -1,7 +1,8 @@
 /**
  * @module ui/snapshot.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Model = require("core/model/model").Model;
 
 /**
  * @class Snapshot
@@ -23,11 +24,32 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
         }
     },
 
-    _object: {
+    pathDisplayMode: {
         value: null
     },
 
-    pathDisplayMode: {
+    _context: {
+        value: null
+    },
+
+    context: {
+        get: function() {
+            return this._context;
+        },
+        set: function(context) {
+            if (this._context != context) {
+                this._context = context;
+                if (!this.volume) {
+                    this.volume = this._getCurrentVolume();
+                }
+                if (this._object) {
+                    this._object.volume = this.volume.id;
+                }
+            }
+        }
+    },
+
+    _object: {
         value: null
     },
 
@@ -38,13 +60,32 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
         set: function(object) {
             if (this._object != object) {
                 this._object = object;
-                if (object.id == void 0) {
-                    this._object.replicable = true;
-                    this.pathDisplayMode = "select";
-                } else {
-                    this.pathDisplayMode = "display";
+                if (object) {
+                    if (object.id == void 0) {
+                        this._object.replicable = true;
+                        this.pathDisplayMode = "select";
+                    } else {
+                        this.pathDisplayMode = "display";
+                    }
+                    if (this.volume) {
+                        object.volume = this.volume.id;
+                    }
+                }
+            }
+        }
+    },
+
+    _getCurrentVolume: {
+        value: function() {
+            if (this._context) {
+                var currentSelection = this.application.selectionService.getCurrentSelection();
+                for (var i = this._context.columnIndex - 1; i >= 0; i--) {
+                    if (Object.getPrototypeOf(currentSelection.path[i]).Type == Model.Volume) {
+                        return currentSelection.path[i];
+                    }
                 }
             }
         }
     }
+
 });
