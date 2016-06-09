@@ -102,7 +102,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                 } else {
                     self.ancestors = null
                 }
-                this._service.listDir(path).then(function(children) {
+                return this._service.listDir(path).then(function(children) {
                     self.entry = {
                         path: path,
                         name: self._service.basename(path),
@@ -123,7 +123,10 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                             path = self._service.dirname(path);
                         }
                     }
+                    return self.entry;
                 });
+            } else {
+                return Promise.resolve();
             }
         }
     },

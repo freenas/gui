@@ -39,13 +39,8 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
         set: function(context) {
             if (this._context != context) {
                 this._context = context;
-                if (!this.volume) {
-                    this.volume = this._getCurrentVolume();
-                }
-                if (this._object) {
-                    this._object.volume = this.volume.id;
-                }
             }
+            this._loadVolume();
         }
     },
 
@@ -61,16 +56,29 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
             if (this._object != object) {
                 this._object = object;
                 if (object) {
+                    var self = this;
                     if (object.id == void 0) {
                         this._object.replicable = true;
                         this.pathDisplayMode = "select";
                     } else {
                         this.pathDisplayMode = "display";
                     }
-                    if (this.volume) {
-                        object.volume = this.volume.id;
+                    this._loadVolume();
+                    if (this.filesystemTreeController && !object.dataset) {
+                        this.filesystemTreeController.open(this.filesystemTreeController.root).then(function() {
+                            object.dataset = self.filesystemTreeController.selectedPath;
+                        });
                     }
                 }
+            }
+        }
+    },
+
+    _loadVolume: {
+        value: function() {
+            this.volume = this._getCurrentVolume();
+            if (this._object && this.volume) {
+                this._object.volume = this.volume.id;
             }
         }
     },

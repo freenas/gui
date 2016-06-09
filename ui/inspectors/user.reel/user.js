@@ -17,12 +17,15 @@ exports.User = Component.specialize({
         get: function () {
             return this._object;
         },
-        set: function (user) {
-            if (this._object != user) {
-                this._object = user;
-                this._loadGroups(user);
-                if (typeof user.uid != 'number') {
+        set: function (object) {
+            if (this._object != object) {
+                this._object = object;
+                this._loadGroups(object);
+                if (typeof object.uid != 'number') {
                     this._getNextAvailableUserId();
+                }
+                if (!object.home) {
+                    object.home = "/";
                 }
             }
         }
