@@ -9,12 +9,14 @@
             "properties": {
                 "element": {"#": "owner"}
             },
+            "bindings": {
+                "classList.has('isExpanded')": {"<-": "@owner.isExpanded"}
+            },
             "listeners": [
                 {
                     "type": "action",
                     "listener": { "@": "owner" }
                 }
-
             ]
         },
         "field": {
@@ -41,7 +43,7 @@
                 "element": {"#": "selectedPath"}
             },
             "bindings": {
-                "value": {"<-": "(@owner.parentPath + '/' + @owner.suffix).replace(@owner.removePrefix || '', '')"}
+                "value": {"<-": "(@owner.selectedPath + '/' + @owner.suffix).replace(@owner.removePrefix || '', '')"}
             }
         },
         "treeview": {
@@ -50,12 +52,9 @@
                 "element": {"#": "treeview"}
             },
             "bindings": {
-                "root": {"<-": "@owner.root"},
-                "parent": {"<->": "@owner.parent"},
-                "parentPath": {"<->": "@owner.parentPath"},
-                "children": {"<-": "@owner.children"},
-                "originalValue": {"<-": "@owner.originalValue"},
-                "close": {"<->": "@owner.close"},
+                "controller": {"<-": "@owner.controller"},
+                "isExpanded": {"<->": "@owner.isExpanded"},
+                "selectedPath": {"<->": "@owner.selectedPath"},
                 "suffix": {"<-": "@owner.suffix"},
                 "removePrefix": {"<-": "@owner.removePrefix || ''"}
             }

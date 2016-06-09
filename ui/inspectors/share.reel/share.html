@@ -8,14 +8,25 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "datasetToPathConverter": {"@": "datasetToPathConverter"}
+                "datasetToPathConverter": {"@": "datasetToPathConverter"},
+                "filesystemTreeController": {"@": "filesystemTreeController"}
             },
             "bindings": {
-                "targetPath": {"<-": "@owner.targetPathNode ? @owner.targetPathNode.path : ''"},
-                "datasetsPath": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
-                "datasetChildren": {"<-": "@owner.folders ? @owner.folders.filter{isDataset} : []"},
-                "directoryChildren": {"<-": "@owner.folders ? @owner.folders.filter{!isDataset} : []"},
-                "isPathReadOnly": {"<-": "!@owner.object._isNewObject && @owner.targetType == 'DATASET'"}
+                "datasetsPaths": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
+                "isPathReadOnly": {"<-": "!@owner.object._isNewObject && @owner.targetType == 'DATASET'"},
+                "volumePath": {"<-": "'/mnt/' + @owner.object.volume.id"}
+            }
+        },
+        "filesystemTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false
+            },
+            "bindings": {
+                "isDatasetMode": {"<-": "@owner.targetType == 'DATASET'"},
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "@owner.volumePath"},
+                "datasetsPaths": {"<-": "@owner.datasetsPaths"}
             }
         },
         "datasetToPathConverter": {
@@ -90,13 +101,11 @@
         "target": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
-                "element": {"#": "target"}
+                "element": {"#": "target"},
+                "controller": {"@": "filesystemTreeController"}
             },
             "bindings": {
-                "root": {"<-": "'/mnt/' + @owner.object.volume.id"},
-                "parent": {"<-": "@owner.targetPathNode"},
-                "parentPath": {"<->": "@owner.targetPath"},
-                "children": {"<-": "@owner.targetType == 'DATASET' ? @owner.datasetChildren : @owner.folders"},
+                "selectedPath": {"<->": "@owner.targetPath"},
                 "label": {"<-": "@owner.targetType != 'DATASET' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
                 "suffix": {"<-": "@owner.targetType == 'DATASET' && !@owner.isPathReadOnly ? @name.value || '' : ''"},

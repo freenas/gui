@@ -10,6 +10,9 @@
                 "element": {"#": "owner"},
                 "currentNode": {"@": "currentNode"}
             },
+            "bindings": {
+                "entry": {"<-": "@owner.controller.entry"}
+            },
             "listeners": [
                 {
                     "type": "action",
@@ -24,7 +27,7 @@
                 "enabled": false
             },
             "bindings": {
-                "value": {"<-": "(@owner.parent.path + '/' + @owner.suffix).replace(@owner.removePrefix, '')"}
+                "value": {"<-": "(@owner.entry.path + '/' + @owner.suffix).replace(@owner.removePrefix, '')"}
             }
         },
         "currentNode": {
@@ -33,8 +36,7 @@
                 "element": {"#": "currentNode"}
             },
             "bindings": {
-                "parent": {"<->": "@owner.parent"},
-                "children": {"<-": "@owner.children"}
+                "controller": {"<-": "@owner.controller"}
             }
         },
         "backButton": {

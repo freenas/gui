@@ -13,7 +13,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "selectedChild": {"<-": "@childNodes.selection"}
+                "selectedChild": {"<-": "@childNodes.selection"},
+                "entry": {"<-": "@owner.controller.entry"}
             }
         },
         "iconSubstitution": {
@@ -38,7 +39,7 @@
                 "element": {"#": "parentNodeName"}
             },
             "bindings": {
-                "value": {"<-": "@owner.parent.name"}
+                "value": {"<-": "@owner.entry.name"}
             }
         },
         "scrollview": {
@@ -55,7 +56,7 @@
                 "isSelectionEnabled": true
             },
             "bindings": {
-                "content": {"<-": "@owner.children"}
+                "content": {"<-": "@owner.entry.children"}
             }
         },
         "childNode": {

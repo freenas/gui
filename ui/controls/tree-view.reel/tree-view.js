@@ -9,110 +9,42 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.TreeView = Component.specialize({
-    _parentPathHistory: {
+    _selectedPath: {
         value: null
     },
 
-    _parent: {
-        value: null
-    },
-
-    _getAbsolutePath: {
-        value: function (parent) {
-            return (this._parent.path + '/' + parent.name).replace('//', '/');
-        }
-    },
-
-    parent: {
+    selectedPath: {
         get: function() {
-            return this._parent;
+            return this._selectedPath;
         },
-        set: function(parent) {
-            if (!this._filesystemService) {
-                this._filesystemService = this.application.filesystemService;
+        set: function(selectedPath) {
+            if (this._selectedPath !== selectedPath) {
+                this._selectedPath = selectedPath;
             }
-            if (this._parent != parent) {
-                if (this._parent && parent && !parent.path) {
-                    if (this.parentPath) {
-                        this._parentPathHistory.push(this.parentPath);
-                    }
-                    this.parentPath = this._getAbsolutePath(parent);
-                }
-                if (!this._parent && parent) {
-                    if (!parent.path) {
-                        parent.path = (this._parentPathHistory.slice(-1)[0] || this._root) + parent.name;
-                    }
-                    var parentDirectory = this._filesystemService.dirname(parent.path);
-                    while (parentDirectory.length > 0 && parentDirectory.length >= this._root.length) {
-                        this._parentPathHistory.unshift(parentDirectory);
-                        parentDirectory = this._filesystemService.dirname(parentDirectory);
-                    }
-                }
-                this._parent = parent;
+            if (!this._selectedPath && this.controller.root) {
+                this.selectedPath = this.controller.selectedPath;
             }
-        }
-    },
-
-    _root: {
-        value: null
-    },
-
-    root: {
-        get: function() {
-            return this._root;
-        },
-        set: function(root) {
-            if (this._root != root) {
-                this._root = root;
-                if (!this._parentPathHistory) {
-                    this._parentPathHistory = [];
-                }
-            }
-        }
-    },
-
-    enterDocument: {
-        value: function(isFirstTime) {
-            if (isFirstTime) {
-                this._filesystemService = this.application.filesystemService;
-            }
-            if (this._parent && (!this._parentPathHistory || this._parentPathHistory.length == 0)) {
-                var parentDirectory = this._filesystemService.dirname(this._parent.path);
-                while (parentDirectory.length > 0 && parentDirectory.length >= this._root.length) {
-                    this._parentPathHistory.unshift(parentDirectory);
-                    parentDirectory = this._filesystemService.dirname(parentDirectory);
-                }
-            }
-
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this._parentPathHistory = [];
-            this._parent = null;
-            this.close = true;
         }
     },
 
     handleBackButtonAction: {
         value: function () {
-            if (this._parentPathHistory.length > 0) {
-                this.parentPath = this._parentPathHistory.pop();
+            if (this.controller.parent) {
+                this.controller.open(this.controller.parent.path);
             }
         }
     },
 
     handleCancelAction: {
         value: function () {
-            this.parentPath = this.originalValue;
-            this.close = true;
+            this.isExpanded = false;
         }
     },
 
     handleSelectAction: {
         value: function () {
-            this.close = true;
+            this.selectedPath = this.controller.selectedPath;
+            this.isExpanded = false;
         }
     }
 });
