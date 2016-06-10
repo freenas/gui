@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -94,6 +100,13 @@
                 "value": {"<->": "@owner.object.settings.rootDataset.properties.refreservation.rawvalue"}
             }
         },
+        "scrub": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "scrub"},
+                "value": "Scrub"
+            }
+        },
         "advancedSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
@@ -116,6 +129,7 @@
                 <div data-montage-id="reservation"></div>
                 <div data-montage-id="refreservation"></div>
             </div>
+            <div data-montage-id="scrub"></div>
         </div>
     </div>
 </body>

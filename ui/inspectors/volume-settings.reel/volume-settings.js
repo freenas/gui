@@ -49,5 +49,15 @@ exports.VolumeSettings = Component.specialize(/** @lends VolumeSettings# */ {
             "on",
             "off"
         ]
+    },
+
+    object: {
+        value: null
+    },
+
+    handleScrubAction: {
+        value: function(event) {
+            this.object.settings.services.scrub(this.object.settings.id);
+        }
     }
 });
