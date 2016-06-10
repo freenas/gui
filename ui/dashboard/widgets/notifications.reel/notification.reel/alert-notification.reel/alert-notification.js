@@ -45,7 +45,7 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
         value: function () {
             var self = this;
             this._loadAlertService().then(function() {
-                self._alertService.dismiss(self._object.jobId);
+                self._alertService.services.dismiss(self._object.jobId);
             });
         }
     },
