@@ -102,15 +102,15 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                 } else {
                     self.ancestors = null
                 }
+                self.entry = {
+                    path: path,
+                    name: self._service.basename(path)
+                };
                 return this._service.listDir(path).then(function(children) {
-                    self.entry = {
-                        path: path,
-                        name: self._service.basename(path),
-                        children: children
-                            .filter(function(x) { return self.canListFiles || x.type == DIRECTORY; })
-                            .map(function(x) { return self._childToEntry(path, x); })
-                            .filter(function(x) { return !self.isDatasetMode || self._isEntryADataset(x); })
-                    };
+                    self.entry.children = children
+                        .filter(function(x) { return self.canListFiles || x.type == DIRECTORY; })
+                        .map(function(x) { return self._childToEntry(path, x); })
+                        .filter(function(x) { return !self.isDatasetMode || self._isEntryADataset(x); });
                     if (!self.ancestors) {
                         path = self._service.dirname(path);
                         self.ancestors = [];
