@@ -55,6 +55,12 @@ exports.VolumeSettings = Component.specialize(/** @lends VolumeSettings# */ {
         value: null
     },
 
+    save: {
+        value: function() {
+            return this.application.dataService.saveDataObject(this.object.settings.rootDataset);
+        }
+    },
+
     handleScrubAction: {
         value: function(event) {
             this.object.settings.services.scrub(this.object.settings.id);
