@@ -52,24 +52,8 @@
     "properties": {
       "name": "provider",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        null,
-        "ipv6tb@he.net",
-        "default@majimoto.net",
-        "default@dnsomatic.com",
-        "default@zoneedit.com",
-        "default@dynsip.org",
-        "dyndns@3322.org",
-        "default@freedns.afraid.org",
-        "default@no-ip.com",
-        "default@sitelutions.com",
-        "default@dhis.org",
-        "dyndns@dyndns.org",
-        "default@easydns.com",
-        "default@zerigo.com",
-        "default@tzo.com"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceDyndnsProvider"
     }
   },
   "blueprint_servicedyndns_type": {

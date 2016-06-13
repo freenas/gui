@@ -37,12 +37,8 @@
     "properties": {
       "name": "state",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "RUNNING",
-        "STOPPED",
-        "UNKNOWN"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceState"
     }
   },
   "root": {

@@ -33,6 +33,10 @@
             "type": "Alert"
         },
         {
+            "modelId": "core/model/descriptors/amazon-s3-credentials.mjson",
+            "type": "AmazonS3Credentials"
+        },
+        {
             "modelId": "core/model/descriptors/backup-file.mjson",
             "type": "BackupFile"
         },
@@ -117,8 +121,20 @@
             "type": "CryptoCertificate"
         },
         {
-            "modelId": "core/model/descriptors/directoryservice.mjson",
-            "type": "Directoryservice"
+            "modelId": "core/model/descriptors/directory-parameters.mjson",
+            "type": "DirectoryParameters"
+        },
+        {
+            "modelId": "core/model/descriptors/directory-status.mjson",
+            "type": "DirectoryStatus"
+        },
+        {
+            "modelId": "core/model/descriptors/directory.mjson",
+            "type": "Directory"
+        },
+        {
+            "modelId": "core/model/descriptors/directoryservice-config.mjson",
+            "type": "DirectoryserviceConfig"
         },
         {
             "modelId": "core/model/descriptors/disk-attach-params.mjson",
@@ -197,8 +213,16 @@
             "type": "Ipmi"
         },
         {
-            "modelId": "core/model/descriptors/known-host.mjson",
-            "type": "KnownHost"
+            "modelId": "core/model/descriptors/kerberos-keytab-entry.mjson",
+            "type": "KerberosKeytabEntry"
+        },
+        {
+            "modelId": "core/model/descriptors/kerberos-keytab.mjson",
+            "type": "KerberosKeytab"
+        },
+        {
+            "modelId": "core/model/descriptors/kerberos-realm.mjson",
+            "type": "KerberosRealm"
         },
         {
             "modelId": "core/model/descriptors/ldap-config.mjson",
@@ -261,6 +285,10 @@
             "type": "NetworkInterfaceLagg"
         },
         {
+            "modelId": "core/model/descriptors/network-interface-status-dhcp.mjson",
+            "type": "NetworkInterfaceStatusDhcp"
+        },
+        {
             "modelId": "core/model/descriptors/network-interface-status.mjson",
             "type": "NetworkInterfaceStatus"
         },
@@ -297,12 +325,20 @@
             "type": "OpenFile"
         },
         {
+            "modelId": "core/model/descriptors/peer.mjson",
+            "type": "Peer"
+        },
+        {
             "modelId": "core/model/descriptors/permissions.mjson",
             "type": "Permissions"
         },
         {
             "modelId": "core/model/descriptors/power-changed.mjson",
             "type": "PowerChanged"
+        },
+        {
+            "modelId": "core/model/descriptors/replication-credentials.mjson",
+            "type": "ReplicationCredentials"
         },
         {
             "modelId": "core/model/descriptors/replication-link.mjson",
@@ -367,6 +403,10 @@
         {
             "modelId": "core/model/descriptors/service-nfs.mjson",
             "type": "ServiceNfs"
+        },
+        {
+            "modelId": "core/model/descriptors/service-openvpn.mjson",
+            "type": "ServiceOpenvpn"
         },
         {
             "modelId": "core/model/descriptors/service-rsyncd.mjson",
@@ -477,6 +517,10 @@
             "type": "SnapshotInfo"
         },
         {
+            "modelId": "core/model/descriptors/ssh-credentials.mjson",
+            "type": "SshCredentials"
+        },
+        {
             "modelId": "core/model/descriptors/stat.mjson",
             "type": "Stat"
         },
@@ -581,20 +625,20 @@
             "type": "VolumeAttributes"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-atime-property.mjson",
-            "type": "VolumeDatasetAtimeProperty"
+            "modelId": "core/model/descriptors/volume-dataset-properties-atime.mjson",
+            "type": "VolumeDatasetPropertiesAtime"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-casesensitivity-property.mjson",
-            "type": "VolumeDatasetCasesensitivityProperty"
+            "modelId": "core/model/descriptors/volume-dataset-properties-casesensitivity.mjson",
+            "type": "VolumeDatasetPropertiesCasesensitivity"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-compression-property.mjson",
-            "type": "VolumeDatasetCompressionProperty"
+            "modelId": "core/model/descriptors/volume-dataset-properties-compression.mjson",
+            "type": "VolumeDatasetPropertiesCompression"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-dedup-property.mjson",
-            "type": "VolumeDatasetDedupProperty"
+            "modelId": "core/model/descriptors/volume-dataset-properties-dedup.mjson",
+            "type": "VolumeDatasetPropertiesDedup"
         },
         {
             "modelId": "core/model/descriptors/volume-dataset-properties.mjson",
@@ -609,16 +653,16 @@
             "type": "VolumeImportParams"
         },
         {
-            "modelId": "core/model/descriptors/volume-params.mjson",
-            "type": "VolumeParams"
-        },
-        {
             "modelId": "core/model/descriptors/volume-properties.mjson",
             "type": "VolumeProperties"
         },
         {
             "modelId": "core/model/descriptors/volume-property.mjson",
             "type": "VolumeProperty"
+        },
+        {
+            "modelId": "core/model/descriptors/volume-readonly-property.mjson",
+            "type": "VolumeReadonlyProperty"
         },
         {
             "modelId": "core/model/descriptors/volume-snapshot-holds.mjson",
@@ -655,6 +699,14 @@
         {
             "modelId": "core/model/descriptors/volume.mjson",
             "type": "Volume"
+        },
+        {
+            "modelId": "core/model/descriptors/winbind-directory-params.mjson",
+            "type": "WinbindDirectoryParams"
+        },
+        {
+            "modelId": "core/model/descriptors/winbind-directory-status.mjson",
+            "type": "WinbindDirectoryStatus"
         },
         {
             "modelId": "core/model/descriptors/zfs-dataset.mjson",

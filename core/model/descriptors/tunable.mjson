@@ -28,12 +28,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "LOADER",
-        "RC",
-        "SYSCTL"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "TunableType"
     }
   },
   "blueprint_tunable_value": {

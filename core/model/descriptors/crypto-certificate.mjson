@@ -62,14 +62,8 @@
     "properties": {
       "name": "digest_algorithm",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "SHA1",
-        "SHA224",
-        "SHA256",
-        "SHA384",
-        "SHA512"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "CryptoCertificateDigestalgorithm"
     }
   },
   "blueprint_cryptocertificate_dn": {
@@ -146,10 +140,18 @@
       "valueType": "number"
     }
   },
-  "blueprint_cryptocertificate_signedby": {
+  "blueprint_cryptocertificate_signing_ca_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "signedby",
+      "name": "signing_ca_id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_signing_ca_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "signing_ca_name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -167,16 +169,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "CA_EXISTING",
-        "CA_INTERMEDIATE",
-        "CA_INTERNAL",
-        "CERT_CSR",
-        "CERT_EXISTING",
-        "CERT_INTERMEDIATE",
-        "CERT_INTERNAL"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "CryptoCertificateType"
     }
   },
   "blueprint_cryptocertificate_valid_from": {
@@ -219,7 +213,8 @@
         {"@": "blueprint_cryptocertificate_privatekey"},
         {"@": "blueprint_cryptocertificate_privatekey_path"},
         {"@": "blueprint_cryptocertificate_serial"},
-        {"@": "blueprint_cryptocertificate_signedby"},
+        {"@": "blueprint_cryptocertificate_signing_ca_id"},
+        {"@": "blueprint_cryptocertificate_signing_ca_name"},
         {"@": "blueprint_cryptocertificate_state"},
         {"@": "blueprint_cryptocertificate_type"},
         {"@": "blueprint_cryptocertificate_valid_from"},

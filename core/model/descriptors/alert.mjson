@@ -126,12 +126,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "SYSTEM",
-        "VOLUME",
-        "DISK"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "AlertType"
     }
   },
   "blueprint_alert_user": {

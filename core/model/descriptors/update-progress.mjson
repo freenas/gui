@@ -60,11 +60,8 @@
     "properties": {
       "name": "operation",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "DOWNLOADING",
-        "INSTALLING"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "UpdateProgressOperation"
     }
   },
   "blueprint_updateprogress_percent": {

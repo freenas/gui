@@ -1,0 +1,91 @@
+{
+  "blueprint_directory_enabled": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enabled",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_directory_enumerate": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enumerate",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_directory_gid_range": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gid_range",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_directory_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_directory_parameters": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "parameters",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_directory_plugin": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "plugin",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_directory_priority": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "priority",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_directory_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_directory_uid_range": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "uid_range",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "Directory",
+      "propertyBlueprints": [
+        {"@": "blueprint_directory_enabled"},
+        {"@": "blueprint_directory_enumerate"},
+        {"@": "blueprint_directory_gid_range"},
+        {"@": "blueprint_directory_id"},
+        {"@": "blueprint_directory_parameters"},
+        {"@": "blueprint_directory_plugin"},
+        {"@": "blueprint_directory_priority"},
+        {"@": "blueprint_directory_status"},
+        {"@": "blueprint_directory_uid_range"}
+      ]
+    }
+  }
+}

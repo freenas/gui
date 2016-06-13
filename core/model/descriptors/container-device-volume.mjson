@@ -20,11 +20,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "VT9P",
-        "NFS"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ContainerDeviceVolumeType"
     }
   },
   "root": {

@@ -64,15 +64,8 @@
     "properties": {
       "name": "status",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "ONLINE",
-        "OFFLINE",
-        "DEGRADED",
-        "FAULTED",
-        "REMOVED",
-        "UNAVAIL"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsPoolStatus"
     }
   },
   "root": {

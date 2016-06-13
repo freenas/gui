@@ -36,13 +36,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "NONE",
-        "DENY",
-        "CHAP",
-        "CHAP_MUTUAL"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ShareIscsiAuthType"
     }
   },
   "blueprint_shareiscsiauth_users": {

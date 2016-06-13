@@ -24,6 +24,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_networkinterfacestatus_dhcp": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "dhcp",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_networkinterfacestatus_flags": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -46,12 +54,8 @@
     "properties": {
       "name": "link_state",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "LINK_STATE_UNKNOWN",
-        "LINK_STATE_DOWN",
-        "LINK_STATE_UP"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "NetworkInterfaceStatusLinkstate"
     }
   },
   "blueprint_networkinterfacestatus_media_options": {
@@ -143,6 +147,7 @@
         {"@": "blueprint_networkinterfacestatus_aliases"},
         {"@": "blueprint_networkinterfacestatus_capabilities"},
         {"@": "blueprint_networkinterfacestatus_cloned"},
+        {"@": "blueprint_networkinterfacestatus_dhcp"},
         {"@": "blueprint_networkinterfacestatus_flags"},
         {"@": "blueprint_networkinterfacestatus_link_address"},
         {"@": "blueprint_networkinterfacestatus_link_state"},

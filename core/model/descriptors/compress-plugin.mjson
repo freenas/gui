@@ -12,12 +12,8 @@
     "properties": {
       "name": "level",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "FAST",
-        "DEFAULT",
-        "BEST"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "CompressPluginLevel"
     }
   },
   "blueprint_compressplugin_name": {

@@ -20,13 +20,8 @@
     "properties": {
       "name": "mode",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "BRIDGED",
-        "NAT",
-        "HOSTONLY",
-        "MANAGEMENT"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ContainerDeviceNicMode"
     }
   },
   "root": {

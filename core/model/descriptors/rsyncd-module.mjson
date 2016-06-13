@@ -52,12 +52,8 @@
     "properties": {
       "name": "mode",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "READONLY",
-        "WRITEONLY",
-        "READWRITE"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "RsyncdModuleMode"
     }
   },
   "blueprint_rsyncdmodule_name": {

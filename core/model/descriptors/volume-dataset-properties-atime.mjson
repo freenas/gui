@@ -1,21 +1,19 @@
 {
-  "blueprint_volumedatasetatimeproperty_value": {
+  "blueprint_volumedatasetpropertiesatime_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
       "blueprint": {"@": "root"},
-      "enumValues": [
-        "on",
-        "off"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeDatasetPropertiesAtimeValue"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "VolumeDatasetAtimeProperty",
+      "name": "VolumeDatasetPropertiesAtime",
       "propertyBlueprints": [
-        {"@": "blueprint_volumedatasetatimeproperty_value"}
+        {"@": "blueprint_volumedatasetpropertiesatime_value"}
       ]
     }
   }

@@ -1,11 +1,10 @@
 {
-  "blueprint_networkhost_address": {
+  "blueprint_networkhost_addresses": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "address",
+      "name": "addresses",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "IpAddress"
+      "valueType": "array"
     }
   },
   "blueprint_networkhost_id": {
@@ -21,7 +20,7 @@
     "properties": {
       "name": "NetworkHost",
       "propertyBlueprints": [
-        {"@": "blueprint_networkhost_address"},
+        {"@": "blueprint_networkhost_addresses"},
         {"@": "blueprint_networkhost_id"}
       ]
     }

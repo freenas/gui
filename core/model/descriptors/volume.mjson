@@ -65,7 +65,8 @@
       "name": "providers_presence",
       "blueprint": {"@": "root"},
       "readOnly": true,
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeProviderspresence"
     }
   },
   "blueprint_volume_rname": {

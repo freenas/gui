@@ -30,11 +30,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "INET",
-        "INET6"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "NetworkInterfaceAliasType"
     }
   },
   "root": {

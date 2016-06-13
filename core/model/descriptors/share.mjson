@@ -79,13 +79,8 @@
     "properties": {
       "name": "target_type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "DATASET",
-        "ZVOL",
-        "DIRECTORY",
-        "FILE"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ShareTargettype"
     }
   },
   "blueprint_share_type": {

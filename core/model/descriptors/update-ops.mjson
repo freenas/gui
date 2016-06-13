@@ -20,12 +20,8 @@
     "properties": {
       "name": "operation",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "delete",
-        "install",
-        "upgrade"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "UpdateOpsOperation"
     }
   },
   "blueprint_updateops_previous_name": {

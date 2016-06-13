@@ -28,11 +28,8 @@
     "properties": {
       "name": "bootloader",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "BHYVELOAD",
-        "GRUB"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ContainerConfigBootloader"
     }
   },
   "blueprint_containerconfig_cloud_init": {

@@ -12,15 +12,7 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
-      "blueprint": {"@": "root"},
-      "readOnly": true,
-      "valueType": "String",
-      "enumValues": [
-        "NONE",
-        "DEFAULT",
-        "LOCAL",
-        "INHERITED"
-      ]
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_volumeproperty_value": {

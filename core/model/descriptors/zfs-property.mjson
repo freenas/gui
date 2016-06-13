@@ -12,14 +12,8 @@
     "properties": {
       "name": "source",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "NONE",
-        "DEFAULT",
-        "LOCAL",
-        "INHERITED",
-        "RECEIVED"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsPropertySource"
     }
   },
   "blueprint_zfsproperty_value": {

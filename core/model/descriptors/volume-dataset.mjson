@@ -45,11 +45,8 @@
     "properties": {
       "name": "permissions_type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "PERM",
-        "ACL"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeDatasetPermissionstype"
     }
   },
   "blueprint_volumedataset_properties": {
@@ -73,12 +70,7 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
-      "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "FILESYSTEM",
-        "VOLUME"
-      ]
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_volumedataset_volsize": {

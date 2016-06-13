@@ -4,13 +4,8 @@
     "properties": {
       "name": "acoustic_level",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "DISABLED",
-        "MINIMUM",
-        "MEDIUM",
-        "MAXIMUM"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "DiskAcousticlevel"
     }
   },
   "blueprint_disk_apm_mode": {

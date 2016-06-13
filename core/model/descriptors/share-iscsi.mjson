@@ -12,13 +12,8 @@
     "properties": {
       "name": "block_size",
       "blueprint": {"@": "root"},
-      "valueType": "number",
-      "enumValues": [
-        512,
-        1024,
-        2048,
-        4096
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ShareIscsiBlocksize"
     }
   },
   "blueprint_shareiscsi_ctl_lun": {
@@ -58,15 +53,8 @@
     "properties": {
       "name": "rpm",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "UNKNOWN",
-        "SSD",
-        "5400",
-        "7200",
-        "10000",
-        "15000"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ShareIscsiRpm"
     }
   },
   "blueprint_shareiscsi_serial": {

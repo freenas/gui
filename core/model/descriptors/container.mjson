@@ -76,12 +76,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "JAIL",
-        "VM",
-        "DOCKER"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ContainerType"
     }
   },
   "root": {

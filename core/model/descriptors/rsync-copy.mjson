@@ -68,11 +68,8 @@
       "name": "rsync_direction",
       "blueprint": {"@": "root"},
       "mandatory": true,
-      "valueType": "String",
-      "enumValues": [
-        "PUSH",
-        "PULL"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "RsyncCopyRsyncdirection"
     }
   },
   "blueprint_rsynccopy_rsync_mode": {
@@ -81,11 +78,8 @@
       "name": "rsync_mode",
       "blueprint": {"@": "root"},
       "mandatory": true,
-      "valueType": "String",
-      "enumValues": [
-        "MODULE",
-        "SSH"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "RsyncCopyRsyncmode"
     }
   },
   "blueprint_rsynccopy_rsync_properties": {

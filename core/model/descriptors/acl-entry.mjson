@@ -4,7 +4,8 @@
     "properties": {
       "name": "flags",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "object",
+      "valueObjectPrototypeName": "AclEntryFlags"
     }
   },
   "blueprint_aclentry_id": {
@@ -28,7 +29,8 @@
     "properties": {
       "name": "perms",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "object",
+      "valueObjectPrototypeName": "AclEntryPerms"
     }
   },
   "blueprint_aclentry_tag": {
@@ -36,16 +38,8 @@
     "properties": {
       "name": "tag",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "USER_OBJ",
-        "USER",
-        "GROUP_OBJ",
-        "GROUP",
-        "MASK",
-        "OTHER",
-        "EVERYONE"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "AclEntryTag"
     }
   },
   "blueprint_aclentry_text": {
@@ -61,11 +55,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "ALLOW",
-        "DENY"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "AclEntryType"
     }
   },
   "root": {

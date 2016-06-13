@@ -14,7 +14,7 @@
       "name": "compressratio",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumesnapshotproperties_creation": {
@@ -23,7 +23,7 @@
       "name": "creation",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumesnapshotproperties_referenced": {
@@ -32,7 +32,7 @@
       "name": "referenced",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumesnapshotproperties_used": {
@@ -41,7 +41,7 @@
       "name": "used",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "root": {

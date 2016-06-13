@@ -20,11 +20,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "FILESYSTEM",
-        "VOLUME"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "SnapshotInfoType"
     }
   },
   "blueprint_snapshotinfo_uuid": {

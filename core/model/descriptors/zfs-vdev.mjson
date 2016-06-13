@@ -46,15 +46,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "disk",
-        "file",
-        "mirror",
-        "raidz1",
-        "raidz2",
-        "raidz3"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ZfsVdevType"
     }
   },
   "root": {

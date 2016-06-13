@@ -230,19 +230,8 @@
     "properties": {
       "name": "tls_policy",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "ON",
-        "OFF",
-        "DATA",
-        "!DATA",
-        "AUTH",
-        "CTRL",
-        "CTRL+DATA",
-        "CTRL+!DATA",
-        "AUTH+DATA",
-        "AUTH+!DATA"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceFtpTlspolicy"
     }
   },
   "blueprint_serviceftp_tls_ssl_certificate": {

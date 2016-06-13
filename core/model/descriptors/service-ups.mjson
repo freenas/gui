@@ -84,11 +84,8 @@
     "properties": {
       "name": "mode",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "MASTER",
-        "SLAVE"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceUpsMode"
     }
   },
   "blueprint_serviceups_monitor_password": {
@@ -144,11 +141,8 @@
     "properties": {
       "name": "shutdown_mode",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "LOWBATT",
-        "BATT"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceUpsShutdownmode"
     }
   },
   "blueprint_serviceups_shutdown_timer": {

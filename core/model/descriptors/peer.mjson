@@ -1,13 +1,22 @@
 {
-  "blueprint_directoryservice_description": {
+  "blueprint_peer_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "description",
+      "name": "address",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_directoryservice_id": {
+  "blueprint_peer_credentials": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "credentials",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "PeerCredentials"
+    }
+  },
+  "blueprint_peer_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -15,7 +24,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_directoryservice_name": {
+  "blueprint_peer_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "name",
@@ -23,23 +32,28 @@
       "valueType": "String"
     }
   },
-  "blueprint_directoryservice_type": {
+  "blueprint_peer_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "enumValues": [
+        "replication",
+        "ssh",
+        "amazon-s3"
+      ]
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "Directoryservice",
+      "name": "Peer",
       "propertyBlueprints": [
-        {"@": "blueprint_directoryservice_description"},
-        {"@": "blueprint_directoryservice_id"},
-        {"@": "blueprint_directoryservice_name"},
-        {"@": "blueprint_directoryservice_type"}
+        {"@": "blueprint_peer_address"},
+        {"@": "blueprint_peer_credentials"},
+        {"@": "blueprint_peer_id"},
+        {"@": "blueprint_peer_name"},
+        {"@": "blueprint_peer_type"}
       ]
     }
   }

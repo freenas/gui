@@ -4,11 +4,8 @@
     "properties": {
       "name": "authentication",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "BASIC",
-        "DIGEST"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceWebdavAuthentication"
     }
   },
   "blueprint_servicewebdav_certificate": {

@@ -4,11 +4,8 @@
     "properties": {
       "name": "operation",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "SHUTDOWN",
-        "REBOOT"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "PowerChangedOperation"
     }
   },
   "root": {

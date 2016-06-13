@@ -12,7 +12,7 @@
       "name": "available",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_casesensitivity": {
@@ -35,7 +35,7 @@
       "name": "compressratio",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_dedup": {
@@ -96,7 +96,7 @@
       "name": "referenced",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_refquota": {
@@ -132,7 +132,7 @@
       "name": "used",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_usedbychildren": {
@@ -141,7 +141,7 @@
       "name": "usedbychildren",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_usedbydataset": {
@@ -150,7 +150,7 @@
       "name": "usedbydataset",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_usedbyrefreservation": {
@@ -159,7 +159,7 @@
       "name": "usedbyrefreservation",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_usedbysnapshots": {
@@ -168,7 +168,7 @@
       "name": "usedbysnapshots",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeReadonlyProperty"
     }
   },
   "blueprint_volumedatasetproperties_volblocksize": {

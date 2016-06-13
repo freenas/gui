@@ -1,13 +1,13 @@
 {
-  "blueprint_knownhost_hostkey": {
+  "blueprint_kerberosrealm_admin_server_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "hostkey",
+      "name": "admin_server_address",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_knownhost_id": {
+  "blueprint_kerberosrealm_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -15,26 +15,26 @@
       "valueType": "String"
     }
   },
-  "blueprint_knownhost_name": {
+  "blueprint_kerberosrealm_kdc_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "kdc_address",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_knownhost_port": {
+  "blueprint_kerberosrealm_password_server_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "port",
+      "name": "password_server_address",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
-  "blueprint_knownhost_pubkey": {
+  "blueprint_kerberosrealm_realm": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "pubkey",
+      "name": "realm",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -42,13 +42,13 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "KnownHost",
+      "name": "KerberosRealm",
       "propertyBlueprints": [
-        {"@": "blueprint_knownhost_hostkey"},
-        {"@": "blueprint_knownhost_id"},
-        {"@": "blueprint_knownhost_name"},
-        {"@": "blueprint_knownhost_port"},
-        {"@": "blueprint_knownhost_pubkey"}
+        {"@": "blueprint_kerberosrealm_admin_server_address"},
+        {"@": "blueprint_kerberosrealm_id"},
+        {"@": "blueprint_kerberosrealm_kdc_address"},
+        {"@": "blueprint_kerberosrealm_password_server_address"},
+        {"@": "blueprint_kerberosrealm_realm"}
       ]
     }
   }

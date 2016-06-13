@@ -62,11 +62,8 @@
     "properties": {
       "name": "v3_auth_type",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "MD5",
-        "SHA"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSnmpV3authtype"
     }
   },
   "blueprint_servicesnmp_v3_password": {
@@ -90,11 +87,8 @@
     "properties": {
       "name": "v3_privacy_protocol",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "AES",
-        "DES"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSnmpV3privacyprotocol"
     }
   },
   "blueprint_servicesnmp_v3_username": {

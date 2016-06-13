@@ -20,13 +20,8 @@
     "properties": {
       "name": "power_mode",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "NEVER",
-        "SLEEP",
-        "STANDBY",
-        "IDLE"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSmartdPowermode"
     }
   },
   "blueprint_servicesmartd_temp_critical": {

@@ -1,4 +1,12 @@
 {
+  "blueprint_servicesshd_allow_gssapi_auth": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "allow_gssapi_auth",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_servicesshd_allow_password_auth": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -68,20 +76,8 @@
     "properties": {
       "name": "sftp_log_facility",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "DAEMON",
-        "USER",
-        "AUTH",
-        "LOCAL0",
-        "LOCAL1",
-        "LOCAL2",
-        "LOCAL3",
-        "LOCAL4",
-        "LOCAL5",
-        "LOCAL6",
-        "LOCAL7"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSshdSftplogfacility"
     }
   },
   "blueprint_servicesshd_sftp_log_level": {
@@ -89,17 +85,8 @@
     "properties": {
       "name": "sftp_log_level",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "QUIET",
-        "FATAL",
-        "ERROR",
-        "INFO",
-        "VERBOSE",
-        "DEBUG",
-        "DEBUG2",
-        "DEBUG3"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSshdSftploglevel"
     }
   },
   "blueprint_servicesshd_type": {
@@ -117,6 +104,7 @@
     "properties": {
       "name": "ServiceSshd",
       "propertyBlueprints": [
+        {"@": "blueprint_servicesshd_allow_gssapi_auth"},
         {"@": "blueprint_servicesshd_allow_password_auth"},
         {"@": "blueprint_servicesshd_allow_port_forwarding"},
         {"@": "blueprint_servicesshd_allow_pubkey_auth"},

@@ -1,0 +1,38 @@
+{
+  "blueprint_volumereadonlyproperty_rawvalue": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "rawvalue",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "blueprint_volumereadonlyproperty_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_volumereadonlyproperty_value": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "value",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "VolumeReadonlyProperty",
+      "propertyBlueprints": [
+        {"@": "blueprint_volumereadonlyproperty_rawvalue"},
+        {"@": "blueprint_volumereadonlyproperty_source"},
+        {"@": "blueprint_volumereadonlyproperty_value"}
+      ]
+    }
+  }
+}

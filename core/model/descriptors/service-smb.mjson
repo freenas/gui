@@ -110,14 +110,8 @@
     "properties": {
       "name": "log_level",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "NONE",
-        "MINIMUM",
-        "NORMAL",
-        "FULL",
-        "DEBUG"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSmbLoglevel"
     }
   },
   "blueprint_servicesmb_max_protocol": {
@@ -125,21 +119,8 @@
     "properties": {
       "name": "max_protocol",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        "CORE",
-        "COREPLUS",
-        "LANMAN1",
-        "LANMAN2",
-        "NT1",
-        "SMB2",
-        "SMB2_02",
-        "SMB2_10",
-        "SMB2_22",
-        "SMB2_24",
-        "SMB3",
-        "SMB3_00"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSmbMaxprotocol"
     }
   },
   "blueprint_servicesmb_min_protocol": {
@@ -147,22 +128,8 @@
     "properties": {
       "name": "min_protocol",
       "blueprint": {"@": "root"},
-      "valueType": "String",
-      "enumValues": [
-        null,
-        "CORE",
-        "COREPLUS",
-        "LANMAN1",
-        "LANMAN2",
-        "NT1",
-        "SMB2",
-        "SMB2_02",
-        "SMB2_10",
-        "SMB2_22",
-        "SMB2_24",
-        "SMB3",
-        "SMB3_00"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSmbMinprotocol"
     }
   },
   "blueprint_servicesmb_netbiosname": {

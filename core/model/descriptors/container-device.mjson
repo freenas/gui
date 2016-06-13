@@ -22,13 +22,8 @@
       "name": "type",
       "blueprint": {"@": "root"},
       "mandatory": true,
-      "valueType": "String",
-      "enumValues": [
-        "DISK",
-        "CDROM",
-        "NIC",
-        "VOLUME"
-      ]
+      "valueType": "object",
+      "valueObjectPrototypeName": "ContainerDeviceType"
     }
   },
   "root": {
