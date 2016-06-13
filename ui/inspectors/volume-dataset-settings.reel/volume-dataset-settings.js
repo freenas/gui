@@ -1,13 +1,13 @@
 /**
- * @module ui/volume-settings.reel
+ * @module ui/volume-dataset-settings.reel
  */
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class VolumeSettings
+ * @class VolumeDatasetSettings
  * @extends Component
  */
-exports.VolumeSettings = Component.specialize(/** @lends VolumeSettings# */ {
+exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSettings# */ {
 
     COMPRESSION_OPTIONS: {
         value: [
@@ -53,17 +53,5 @@ exports.VolumeSettings = Component.specialize(/** @lends VolumeSettings# */ {
 
     object: {
         value: null
-    },
-
-    save: {
-        value: function() {
-            return this.application.dataService.saveDataObject(this.object.settings.rootDataset);
-        }
-    },
-
-    handleScrubAction: {
-        value: function(event) {
-            this.object.settings.services.scrub(this.object.settings.id);
-        }
     }
 });

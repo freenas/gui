@@ -2,29 +2,12 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="volume-settings.css">
+    <link rel="stylesheet" type="text/css" href="volume-dataset-settings.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ]
-        },
-        "inspector": {
-            "prototype": "ui/inspectors/inspector.reel",
-            "properties": {
-                "element": {"#": "inspector"},
-                "canSave": true,
-                "canRevert": true
-            },
-            "bindings": {
-                "save": {"<-": "@owner.save"}
             }
         },
         "compression": {
@@ -100,13 +83,6 @@
                 "value": {"<->": "@owner.object.settings.rootDataset.properties.refreservation.value"}
             }
         },
-        "scrub": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "scrub"},
-                "value": "Scrub"
-            }
-        },
         "advancedSection": {
             "prototype": "ui/controls/foldable-section.reel",
             "properties": {
@@ -118,18 +94,15 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="VolumeSettings">
-        <div data-montage-id="inspector">
-            <div data-montage-id="compression"></div>
-            <div data-montage-id="dedup"></div>
-            <div data-montage-id="atime"></div>
-            <div data-montage-id="advancedSection">
-                <div data-montage-id="quota"></div>
-                <div data-montage-id="refquota"></div>
-                <div data-montage-id="reservation"></div>
-                <div data-montage-id="refreservation"></div>
-            </div>
-            <div data-montage-id="scrub"></div>
+    <div data-montage-id="owner" class="VolumeDatasetSettings">
+        <div data-montage-id="compression"></div>
+        <div data-montage-id="dedup"></div>
+        <div data-montage-id="atime"></div>
+        <div data-montage-id="advancedSection">
+            <div data-montage-id="quota"></div>
+            <div data-montage-id="refquota"></div>
+            <div data-montage-id="reservation"></div>
+            <div data-montage-id="refreservation"></div>
         </div>
     </div>
 </body>
