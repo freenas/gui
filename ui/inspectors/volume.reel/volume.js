@@ -69,5 +69,11 @@ exports.Volume = Component.specialize({
                 this.paritySize = paritySize;
             }
         }
+    },
+
+    handleScrubAction: {
+        value: function(event) {
+            this.object.services.scrub(this.object.id);
+        }
     }
 });

@@ -14,7 +14,13 @@
                 "shares": {"<-": "@owner.allShares.filter{volume == @owner.object}"},
                 "allSnapshots": {"<-": "@owner.object.snapshots"},
                 "snapshots": {"<-": "@owner.allSnapshots.filter{volume == @owner.object.id}"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
 
         "bytesConverter": {
@@ -85,6 +91,13 @@
                 "paritySize": {"<-": "@owner.paritySize"},
                 "available": {"<-": "+@owner.object.properties.free.rawvalue"}
             }
+        },
+        "scrub": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "scrub"},
+                "value": "Scrub"
+            }
         }
     }
     </script>
@@ -103,6 +116,7 @@
             <div data-montage-id="shares"></div>
             <div data-montage-id="snapshots"></div>
             <div data-montage-id="topology"></div>
+            <div data-montage-id="scrub"></div>
         </div>
     </div>
 </body>
