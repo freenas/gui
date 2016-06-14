@@ -138,28 +138,11 @@ exports.Volumes = Component.specialize({
                             volume.snapshots = self.snapshots;
                             volume.disks = self.disks;
                             volume.datasets = self.datasets;
-                            self._populateSettings(volume);
                         }
                         self.volumes = self._volumes;
                     });
                 });
             }
-        }
-    },
-
-    _populateSettings: {
-        value: function(volume) {
-            var self = this;
-            this._getVolumeSettings(volume).then(function(settings) {
-                var datasets = self.datasets;
-                volume.settings = settings;
-                for ( var i = 0, length = datasets.length; i < length; i++) {
-                    if (datasets[i].name === volume.id) {
-                        volume.rootDataset = datasets[i];
-                        break;
-                    }
-                }
-            });
         }
     },
 
@@ -272,15 +255,6 @@ exports.Volumes = Component.specialize({
     _listDisks: {
         value: function() {
             return this._dataService.fetchData(Model.Disk);
-        }
-    },
-
-    _getVolumeSettings: {
-        value: function (volume) {
-            return this._dataService.getNewInstanceForType(Model.VolumeSettings).then(function (volumeSettings) {
-                volumeSettings.settings = volume;
-                return volumeSettings;
-            });
         }
     },
 

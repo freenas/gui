@@ -1171,10 +1171,6 @@
         {
             "modelId": "core/model/custom-descriptors/system-section.mjson",
             "type": "SystemSection"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/volume-settings.mjson",
-            "type": "VolumeSettings"
         }
     ]
 }
