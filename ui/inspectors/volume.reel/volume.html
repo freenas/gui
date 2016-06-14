@@ -13,7 +13,9 @@
                 "allShares": {"<-": "@owner.object.shares"},
                 "shares": {"<-": "@owner.allShares.filter{volume == @owner.object}"},
                 "allSnapshots": {"<-": "@owner.object.snapshots"},
-                "snapshots": {"<-": "@owner.allSnapshots.filter{volume == @owner.object.id}"}
+                "snapshots": {"<-": "@owner.allSnapshots.filter{volume == @owner.object.id}"},
+                "allDatasets": {"<-": "@owner.object.datasets"},
+                "datasets": {"<-": "@owner.allDatasets.filter{volume == @owner.object.id}"}
             },
             "listeners": [
                 {
@@ -74,6 +76,15 @@
                 "object": {"<-": "@owner.object.topology"}
             }
         },
+        "datasets": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "datasets"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.datasets"}
+            }
+        },
         "volumeIcon": {
             "prototype": "ui/icons/volume.reel",
             "properties": {
@@ -116,6 +127,7 @@
             <div data-montage-id="shares"></div>
             <div data-montage-id="snapshots"></div>
             <div data-montage-id="topology"></div>
+            <div data-montage-id="datasets"></div>
             <div data-montage-id="scrub"></div>
         </div>
     </div>
