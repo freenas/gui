@@ -4,7 +4,8 @@
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/volume-dataset.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
-            "collectionNameExpression": "'Datasets'"
+            "collectionNameExpression": "'Datasets'",
+            "nameExpression": "id"
         }
     }
 }
