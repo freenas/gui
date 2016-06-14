@@ -38,6 +38,22 @@ exports.Volume = Component.specialize({
         }
     },
 
+    _datasets: {
+        value: null
+    },
+
+    datasets: {
+        get: function() {
+            return this._datasets;
+        },
+        set: function(datasets) {
+            if (this._datasets != datasets) {
+                this._datasets = datasets;
+                this._datasets._meta_data = this.allDatasets._meta_data;
+            }
+        }
+    },
+
     _snapshots: {
         value: null
     },
