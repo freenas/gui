@@ -9,12 +9,69 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canRevert": "true",
+                "canSave": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"},
+                "canDelete": {"<-": "@owner.datasetType == 'child'"}
+            }
+        },
+        "nameSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "nameSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.datasetType"}
+            }
+        },
+        "nameEdit": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "nameEdit"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "nameDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "nameDisplay"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.name"}
+            }
+        },
+        "settings": {
+            "prototype": "ui/inspectors/volume-dataset-settings.reel",
+            "properties": {
+                "element": {"#": "settings"}
+            },
+            "bindings": {
+                "object": {"<->": "@owner.object.properties"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="VolumeDataset">
+        <div data-montage-id="inspector">
+            <div data-montage-id="nameSubstitution">
+                <div data-montage-id="nameEdit" data-arg="child"></div>
+                <div data-montage-id="nameDisplay" data-arg="root"></div>
+            </div>
+            <div data-montage-id="settings"></div>
+        </div>
     </div>
 </body>
 </html>
