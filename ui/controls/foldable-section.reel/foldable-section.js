@@ -8,6 +8,7 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
+
     _isExpanded: {
         value: null
     },
@@ -17,22 +18,11 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
             return this._isExpanded;
         },
         set: function (value) {
-            this._isExpanded = value;
-            if(!this.isFirstTime) {
-                this.setContentMaxHeight();
-            }
-        }
-    },
+            value = !!value;
 
-    isFirstTime: {
-        value: true
-    },
-
-    draw: {
-        value: function () {
-            if (this.isFirstTime) {
-                this.setContentMaxHeight();
-                this.isFirstTime = false;
+            if (this._isExpanded !== value) {
+                this._isExpanded = value;
+                this.needsDraw = true;
             }
         }
     },
@@ -45,7 +35,8 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
             this._mutationObserver.observe(this.element, {
                 subtree: true,
-                childList: true
+                childList: true,
+                attributes: true
             });
         }
     },
@@ -58,24 +49,11 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     handleMutations: {
         value: function (event) {
-            this.setContentMaxHeight();
-            this.needsDraw = true;
-        }
-    },
-
-    getContentHeight: {
-        value: function () {
-            return this.contentContainer.offsetHeight + "px";
-        }
-    },
-
-    setContentMaxHeight: {
-        value:  function () {
-            if (this.isExpanded) {
-                this.sectionContent.style.height = this.getContentHeight();
-            } else {
-                this.sectionContent.style.height = 0;
+            if (event.type === "attributes" && event.attributeName !== "style") {
+                return void 0;
             }
+
+            this.needsDraw = true;
         }
     },
 
@@ -84,5 +62,18 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
             this.isExpanded = !this.isExpanded;
             event.stopPropagation();
         }
+    },
+
+    willDraw: {
+        value: function () {
+            this._contentContainerHeight = this.contentContainer.offsetHeight ;
+        }
+    },
+
+    draw: {
+        value: function () {
+            this.sectionContent.style.height = this.isExpanded ? this._contentContainerHeight + "px" : 0;
+        }
     }
+
 });
