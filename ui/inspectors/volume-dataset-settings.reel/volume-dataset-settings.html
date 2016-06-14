@@ -17,7 +17,7 @@
                 "label": "Compression"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.settings.rootDataset.properties.compression.value"},
+                "selectedValue": {"<->": "@owner.object.compression.value"},
                 "options": {"<-": "@owner.COMPRESSION_OPTIONS"}
             }
         },
@@ -28,7 +28,7 @@
                 "label": "Deduplication"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.settings.rootDataset.properties.dedup.value"},
+                "selectedValue": {"<->": "@owner.object.dedup.value"},
                 "options": {"<-": "@owner.DEDUP_OPTIONS"}
             }
         },
@@ -39,7 +39,7 @@
                 "label": "atime"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.settings.rootDataset.properties.atime.value"},
+                "selectedValue": {"<->": "@owner.object.atime.value"},
                 "options": {"<-": "@owner.ATIME_OPTIONS"}
             }
         },
@@ -50,7 +50,7 @@
                 "label": "quota"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.settings.rootDataset.properties.quota.parsed"}
+                "value": {"<->": "@owner.object.quota.parsed"}
             }
         },
         "refquota": {
@@ -60,7 +60,7 @@
                 "label": "refquota"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.settings.rootDataset.properties.refquota.parsed"}
+                "value": {"<->": "@owner.object.refquota.parsed"}
             }
         },
         "reservation": {
@@ -70,7 +70,7 @@
                 "label": "reservation"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.settings.rootDataset.properties.reservation.parsed"}
+                "value": {"<->": "@owner.object.reservation.parsed"}
             }
         },
         "refreservation": {
@@ -80,7 +80,7 @@
                 "label": "refreservation"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.settings.rootDataset.properties.refreservation.parsed"}
+                "value": {"<->": "@owner.object.refreservation.parsed"}
             }
         },
         "advancedSection": {
