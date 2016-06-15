@@ -22,22 +22,6 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         }
     },
 
-    _object: {
-        value: null
-    },
-
-    object: {
-        get: function () {
-            return this._object;
-        },
-
-        set: function (object) {
-            this._object = object;
-            this._loadVolume();
-            this.datasetType = object.name === object.volume ? "root" : "child";
-        }
-    },
-
     volume: {
         value: null
     },
@@ -48,6 +32,12 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
 
     enterDocument: {
         value: function() {
+            this._loadVolume();
+            if ( this._object.rname || ( this._object.name === this._object.volume )) {
+                this.datasetType = "root";
+            } else {
+                this.datasetType = "child";
+            }
             this._object._isNew = !this._object.rname;
         }
     },
