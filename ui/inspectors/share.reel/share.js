@@ -61,14 +61,6 @@ exports.Share = Component.specialize({
         }
     },
 
-    users: {
-        value: []
-    },
-
-    groups: {
-        value: []
-    },
-
     pathConverter: {
         value: null
     },
@@ -119,8 +111,6 @@ exports.Share = Component.specialize({
         },
         set: function(object) {
             var self = this;
-            this._loadUsers();
-            this._loadGroups();
             if (this._object != object) {
                 if (object) {
                     this._getService(object).then(function (service) {
@@ -144,12 +134,10 @@ exports.Share = Component.specialize({
 
     enterDocument: {
         value: function(isFirsttime) {
-            var self = this;
-            this._loadUsers();
-            this._loadGroups();
             if (isFirsttime) {
                 this._loadVolumeService();
             }
+
             this.targetPath = this.object.target_path;
             this.targetType = this.object.target_type;
         }
@@ -177,7 +165,7 @@ exports.Share = Component.specialize({
             if (this.object._isNewObject && this.targetType == 'DATASET') {
                 this.object.target_path += '/' + this.object.name;
             }
-            
+
             this.object.target_type = this.targetType;
 
             return self.application.dataService.saveDataObject(self.object).then(function() {
@@ -203,28 +191,6 @@ exports.Share = Component.specialize({
         }
     },
 
-    _loadUsers: {
-        value: function() {
-            var self = this;
-            if (!this.users || this.users.length == 0) {
-                this.application.dataService.fetchData(Model.User).then(function(users) {
-                    self.users = users;
-                });
-            }
-        }
-    },
-
-    _loadGroups: {
-        value: function() {
-            var self = this;
-            if (!this.groups || this.groups.length == 0) {
-                this.application.dataService.fetchData(Model.Group).then(function(groups) {
-                    self.groups = groups;
-                });
-            }
-        }
-    },
-
     _loadVolumeService: {
         value: function() {
             var self = this;
@@ -233,7 +199,7 @@ exports.Share = Component.specialize({
             });
         }
     },
-    
+
     _getService: {
         value: function(object) {
             var serviceName = 'service-' + object.type;

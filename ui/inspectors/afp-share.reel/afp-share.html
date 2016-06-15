@@ -120,6 +120,15 @@
                 "element": {"#": "advancedSection"},
                 "title": "Advanced"
             }
+        },
+        "shareOwner": {
+            "prototype": "ui/inspectors/share.reel/share-owner.reel",
+            "properties": {
+                "element": {"#": "shareOwner"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
         }
     }
     </script>
@@ -138,6 +147,7 @@
             <div data-montage-id="hostAllow"></div>
             <div data-montage-id="hostDeny"></div>
         </div>
+        <div data-montage-id="shareOwner"></div>
     </div>
 </body>
 </html>

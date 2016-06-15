@@ -32,20 +32,6 @@
         "datasetToPathConverter": {
             "prototype": "core/converter/dataset-to-path-converter"
         },
-        "usersOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "username",
-                "valuePropertyName": "username"
-            }
-        },
-        "groupsOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "name",
-                "valuePropertyName": "name"
-            }
-        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -127,6 +113,7 @@
                 "element": {"#": "smb"}
             },
             "bindings": {
+                "object": {"<-": "@owner.object"},
                 "properties": {"<-": "@owner.object.properties"}
             }
         },
@@ -136,6 +123,7 @@
                 "element": {"#": "afp"}
             },
             "bindings": {
+                "object": {"<-": "@owner.object"},
                 "properties": {"<-": "@owner.object.properties"}
             }
         },
@@ -145,6 +133,7 @@
                 "element": {"#": "nfs"}
             },
             "bindings": {
+                "object": {"<-": "@owner.object"},
                 "properties": {"<-": "@owner.object.properties"}
             }
         },
@@ -156,30 +145,6 @@
             "bindings": {
                 "object": {"<-": "@owner.object"},
                 "properties": {"<-": "@owner.object.properties"}
-            }
-        },
-        "ownerUser": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "ownerUser"},
-                "label": "Owner user",
-                "converter": {"@": "usersOptionsConverter"}
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.permissions.user"},
-                "options": {"<-": "@owner.users.sorted{builtin + username}"}
-            }
-        },
-        "ownerGroup": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "ownerGroup"},
-                "label": "Owner group",
-                "converter": {"@": "groupsOptionsConverter"}
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.object.permissions.group"},
-                "options": {"<-": "@owner.groups.sorted{builtin + name}"}
             }
         },
         "globalServiceToggle": {
@@ -222,8 +187,6 @@
                 <div data-arg="nfs" data-montage-id="nfs"></div>
                 <div data-arg="iscsi" data-montage-id="iscsi"></div>
             </div>
-            <div data-montage-id="ownerUser"></div>
-            <div data-montage-id="ownerGroup"></div>
         </div>
     </div>
 </body>
