@@ -2,7 +2,8 @@
  * @module ui/share-owner.reel
  */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    Promise = require("montage/core/promise").Promise;
 
 
 /**
