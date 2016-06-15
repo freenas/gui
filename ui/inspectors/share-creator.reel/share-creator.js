@@ -57,6 +57,8 @@ exports.ShareCreator = Component.specialize({
             if (isFirstTime) {
                 this._selectionService = this.application.selectionService;
             }
+
+            //Todo: improve how the new object are created, should be done lazily.
             var self = this;
             this._createNewShare('smb', Model.ShareSmb).then(function(smbShare) {
                 self.newSmbShare = smbShare;
@@ -68,6 +70,36 @@ exports.ShareCreator = Component.specialize({
             });
             this._createNewShare('afp', Model.ShareAfp).then(function(afpShare) {
                 self.newAfpShare = afpShare;
+            });
+
+            var newIscsiShare;
+
+            this._createNewShare('iscsi', Model.ShareIscsiTarget).then(function (shareIscsiTarget) {
+                newIscsiShare = shareIscsiTarget;
+
+                return self.application.dataService.getNewInstanceForType(Model.ShareIscsi);
+            }).then(function (extent) {
+                newIscsiShare.__extent = extent;
+
+                return self.application.dataService.getNewInstanceForType(Model.ShareIscsiPortal);
+            }).then(function (portal) {
+                portal.discovery_auth_group = "NONE";
+                portal.discovery_auth_method = "NONE";
+                portal.listen = {
+                    port: 3260,
+                    address: "0.0.0.0"
+                };
+                newIscsiShare.__portal = portal;
+
+                return self.application.dataService.getNewInstanceForType(Model.ShareIscsiAuth);
+            }).then(function (iscsiAuth) {
+                newIscsiShare.__auth = iscsiAuth;
+
+                return self.application.dataService.getNewInstanceForType(Model.ShareIscsiUser);
+            }).then(function (iscsiUser) {
+                newIscsiShare._user = iscsiUser;
+
+                self.newIscsiShare = newIscsiShare;
             });
         }
     }

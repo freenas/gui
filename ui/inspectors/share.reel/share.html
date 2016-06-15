@@ -148,6 +148,16 @@
                 "properties": {"<-": "@owner.object.properties"}
             }
         },
+        "iscsi": {
+            "prototype": "ui/inspectors/i-scsi-share.reel",
+            "properties": {
+                "element": {"#": "iscsi"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"},
+                "properties": {"<-": "@owner.object.properties"}
+            }
+        },
         "ownerUser": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -210,6 +220,7 @@
                 <div data-arg="smb" data-montage-id="smb"></div>
                 <div data-arg="afp" data-montage-id="afp"></div>
                 <div data-arg="nfs" data-montage-id="nfs"></div>
+                <div data-arg="iscsi" data-montage-id="iscsi"></div>
             </div>
             <div data-montage-id="ownerUser"></div>
             <div data-montage-id="ownerGroup"></div>

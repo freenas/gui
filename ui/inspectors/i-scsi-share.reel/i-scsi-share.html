@@ -9,12 +9,295 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+
+        "extentSize": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "extentSize"},
+                "label": "Extent size"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__extent.size"}
+            }
+        },
+
+        "initiatorSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "initiatorSection"},
+                "title": "Initiator"
+            }
+        },
+
+        "initiatorAuthorizedNetwork": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "initiatorAuthorizedNetwork"},
+                "label": "Authorized Network",
+                "placeholderValue": "eg. 1.2.3.4 or hostname.local"
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.__auth.initiators"}
+            }
+        },
+
+        "portalSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "portalSection"},
+                "title": "Portal"
+            }
+        },
+
+        "discoveryAuthMethod": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "discoveryAuthMethod"},
+                "label": "Discovery auth method"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.authType"},
+                "selectedValue": {"<->": "@owner.object.__portal.discovery_auth_method"}
+            }
+        },
+
+        "discoveryAuthGroup": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "discoveryAuthGroup"},
+                "label": "Discovery auth group"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.authType"},
+                "selectedValue": {"<->": "@owner.object.__portal.discovery_auth_group"}
+            }
+        },
+
+        "iPAddress": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "iPAddress"},
+                "label": "IP address"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.networkInterfacesAliases.map{address}"},
+                "selectedValue": {"<->": "@owner.object.__portal.listen.address"}
+            }
+        },
+
+        "port": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "port"},
+                "label": "Port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__portal.listen.port"}
+            }
+        },
+
+        "authorizedAccessSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "authorizedAccessSection"},
+                "title": "Authorized access"
+            }
+        },
+
+        "groupId": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "groupId"},
+                "label": "Group ID"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__user.groupId"}
+            }
+        },
+
+        "user": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "user"},
+                "label": "User"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__user.name"}
+            }
+        },
+
+        "userSecret": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "userSecret"},
+                "passwordLabel1": "Secret",
+                "passwordLabel2": "Secret (confirm)",
+                "errorMessage": "Secrets don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__user.secret"}
+            }
+        },
+
+        "peerUser": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "peerUser"},
+                "label": "Peer"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__user.peer_name"},
+                "classList.has('hide')": {"<-": "@discoveryAuthMethod.selectedValue != 'CHAP'"}
+            }
+        },
+
+        "peerSecret": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "peerSecret"},
+                "passwordLabel1": "Peer secret",
+                "passwordLabel2": "Peer secret (confirm)",
+                "errorMessage": "Peer Secrets don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__user.peer_secret"},
+                "classList.has('hide')": {"<-": "@discoveryAuthMethod.selectedValue != 'CHAP'"}
+            }
+        },
+
+        "extentSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "extentSection"},
+                "title": "Extent"
+            }
+        },
+
+        "extentSerial": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "extentSerial"},
+                "label": "Serial"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__extent.serial"}
+            }
+        },
+
+        "extentLogicalBlockSize": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "extentLogicalBlockSize"},
+                "label": "Logical block size"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.iscsiBlocksize"},
+                "selectedValue": {"<->": "@owner.object.__extent.block_size"}
+            }
+        },
+
+        "extentDisablePhysicalBlockSize": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "extentDisablePhysicalBlockSize"},
+                "label": "Disable physical block size reporting"
+            },
+            "bindings": {
+                "value": {"<->": "!!@owner.object.__extent.physical_block_size"}
+            }
+        },
+
+        "extentAvailableSpaceThreshold": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "extentAvailableSpaceThreshold"},
+                "label": "Available space threshold"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__extent.available_space_threshold"}
+            }
+        },
+
+        "extentEnableTPC": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "extentEnableTPC"},
+                "label": "Enable TPC"
+            },
+            "bindings": {
+                "value": {"<->": "!!@owner.object.__extent.tpc"}
+            }
+        },
+
+        "extentXenInitiatorCompatMode": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "extentXenInitiatorCompatMode"},
+                "label": "Xen initiator compat mode",
+                "_comment": "missing"
+            }
+        },
+
+        "extentLUNRPM": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "extentLUNRPM"},
+                "label": "LUN RPM"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.iscsiRpm"},
+                "selectedValue": {"<->": "@owner.object.__extent.rpm"}
+            }
+        },
+
+        "extentReadOnly": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "extentReadOnly"},
+                "label": "Read-only",
+                "_comment": "missing"
+            }
         }
+
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="IScsiShare">
+        <div data-montage-id="extentSize"></div>
+
+        <div data-montage-id="extentSection">
+            <div data-montage-id="extentSerial"></div>
+            <div data-montage-id="extentLogicalBlockSize"></div>
+            <div data-montage-id="extentDisablePhysicalBlockSize"></div>
+            <div data-montage-id="extentAvailableSpaceThreshold"></div>
+            <div data-montage-id="extentEnableTPC"></div>
+            <div data-montage-id="extentXenInitiatorCompatMode"></div>
+            <div data-montage-id="extentLUNRPM"></div>
+            <div data-montage-id="extentReadOnly"></div>
+        </div>
+
+        <div data-montage-id="initiatorSection">
+            <div data-montage-id="initiatorAuthorizedNetwork"></div>
+        </div>
+
+        <div data-montage-id="portalSection">
+            <div data-montage-id="discoveryAuthMethod"></div>
+            <div data-montage-id="discoveryAuthGroup"></div>
+            <div data-montage-id="iPAddress"></div>
+            <div data-montage-id="port"></div>
+        </div>
+
+        <div data-montage-id="authorizedAccessSection">
+            <div data-montage-id="groupId"></div>
+            <div data-montage-id="user"></div>
+            <div data-montage-id="userSecret"></div>
+            <div data-montage-id="peerUser"></div>
+            <div data-montage-id="peerSecret"></div>
+        </div>
+
+
     </div>
 </body>
 </html>

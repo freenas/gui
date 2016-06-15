@@ -40,6 +40,16 @@
             "bindings": {
                 "object": {"<-": "@owner.newAfpShare"}
             }
+        },
+        "iscsi": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "iscsi"},
+                "isNewObject": "true"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.newIscsiShare"}
+            }
         }
     }
     </script>
@@ -49,6 +59,7 @@
         <div data-montage-id="smb"></div>
         <div data-montage-id="nfs"></div>
         <div data-montage-id="afp"></div>
+        <div data-montage-id="iscsi"></div>
     </div>
 </body>
 </html>
