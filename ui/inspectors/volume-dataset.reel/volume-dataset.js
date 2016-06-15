@@ -33,20 +33,20 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
     enterDocument: {
         value: function() {
             this._loadVolume();
-            if ( this._object.rname || ( this._object.name === this._object.volume )) {
+            if ( this.object.rname || ( this.object.name === this.object.volume )) {
                 this.datasetType = "root";
             } else {
                 this.datasetType = "child";
             }
-            this._object._isNew = !this._object.rname;
+            this.object._isNew = !this.object.rname;
         }
     },
 
     _loadVolume: {
         value: function() {
             this.volume = this._getCurrentVolume();
-            if (this._object && this.volume) {
-                this._object.volume = this.volume.id;
+            if (this.object && this.volume) {
+                this.object.volume = this.volume.id;
             }
         }
     },
