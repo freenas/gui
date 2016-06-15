@@ -17,7 +17,7 @@
                 "label": "Compression"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.compression.value"},
+                "selectedValue": {"<->": "@owner.object.compression.parsed"},
                 "options": {"<-": "@owner.COMPRESSION_OPTIONS"}
             }
         },
@@ -28,7 +28,7 @@
                 "label": "Deduplication"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.dedup.value"},
+                "selectedValue": {"<->": "@owner.object.dedup.parsed"},
                 "options": {"<-": "@owner.DEDUP_OPTIONS"}
             }
         },
@@ -39,7 +39,7 @@
                 "label": "atime"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.atime.value"},
+                "selectedValue": {"<->": "@owner.object.atime.parsed"},
                 "options": {"<-": "@owner.ATIME_OPTIONS"}
             }
         },
