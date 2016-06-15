@@ -9,21 +9,6 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
-    lifetime: {
-        get: function() {
-            return this.object.lifetime;
-        },
-        set: function(lifetime) {
-            if (this.object) {
-                if (lifetime && lifetime.length > 0) {
-                    this.object.lifetime = +lifetime;
-                } else {
-                    this.object.lifetime = null
-                }
-            }
-        }
-    },
-
     _expirationDate: {
         value: null
     },
@@ -90,6 +75,18 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
                         });
                     }
                 }
+            }
+        }
+    },
+
+    enterDocument: {
+        value: function() {
+            if (this._object.lifetime) {
+                var lifetime = this.object.lifetime;
+                this.expirationDate = new Date((+this.object.properties.creation.rawvalue + this.object.lifetime)*1000);
+                this.object.lifetime = lifetime;
+            } else {
+                this.expirationDate = null;
             }
         }
     },
