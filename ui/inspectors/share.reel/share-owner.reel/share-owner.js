@@ -19,6 +19,41 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
         value: null
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object !== object) {
+                this._object = object;
+
+                if (object) {
+                    this._ensureDefaultPermissionsAreSet(object);
+                }
+            }
+        }
+    },
+
+    _fetchUsersPromise: {
+        value: null
+    },
+
+    _fetchGroupsPromise: {
+        value: null
+    },
+
+    templateDidLoad: {
+        value: function () {
+            //Preload data before entering in the dom, in order to avoid graphic glitches
+            this._loadUsersIfNeeded();
+            this._loadGroupsIfNeeded();
+        }
+    },
+
     enterDocument: {
         value: function () {
             this._loadUsersIfNeeded();
@@ -26,13 +61,34 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
         }
     },
 
+    _ensureDefaultPermissionsAreSet: {
+        value: function (object) {
+            if (!object.permissions || !object.permissions.user || !object.permissions.group) {
+                var permissionsPromise = object.permissions ?
+                    Promise.resolve(object.permissions) : this.application.dataService.getNewInstanceForType(Model.Permissions);
+
+                permissionsPromise.then(function (permissions) {
+                    if (!permissions.user) {
+                        permissions.user = 'root';
+                    }
+                    if (!permissions.group) {
+                        permissions.group = 'wheel';
+                    }
+
+                    object.permissions = permissions;
+                });
+            }
+        }
+    },
+
     _loadUsersIfNeeded: {
         value: function() {
-            if (!this.users || this.users.length === 0) {
+            if ((!this._fetchGroupsPromise && !this.users) || this.users.length === 0) {
                 var self = this;
 
-                this.application.dataService.fetchData(Model.User).then(function (users) {
+                this._fetchUsersPromise = this.application.dataService.fetchData(Model.User).then(function (users) {
                     self.users = users;
+                    self._fetchUsersPromise = null;
                 });
             }
         }
@@ -40,11 +96,12 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
 
     _loadGroupsIfNeeded: {
         value: function() {
-            if (!this.groups || this.groups.length === 0) {
+            if ((!this._fetchGroupsPromise && !this.groups) || this.groups.length === 0) {
                 var self = this;
 
-                this.application.dataService.fetchData(Model.Group).then(function (groups) {
+                this._fetchGroupsPromise = this.application.dataService.fetchData(Model.Group).then(function (groups) {
                     self.groups = groups;
+                    self._fetchGroupsPromise = null;
                 });
             }
         }

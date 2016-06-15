@@ -123,7 +123,7 @@ exports.Share = Component.specialize({
                     if (!object.target_type) {
                         object.target_type = 'DATASET';
                     }
-                    this._ensureDefaultPermissionsAreSet(object);
+
                     this.targetPath = object.target_path;
                     this.targetType = object.target_type;
                 }
@@ -171,23 +171,6 @@ exports.Share = Component.specialize({
             return self.application.dataService.saveDataObject(self.object).then(function() {
                 self.isServiceStarted = true;
             });
-        }
-    },
-
-    _ensureDefaultPermissionsAreSet: {
-        value: function(object) {
-            if (!object.permissions || !object.permissions.user || !object.permissions.group) {
-                var permissionsPromise = object.permissions ? Promise.resolve(object.permissions) : self.application.dataService.getNewInstanceForType(Model.Permissions);
-                permissionsPromise.then(function(permissions) {
-                    if (!permissions.user) {
-                        permissions.user = 'root';
-                    }
-                    if (!permissions.group) {
-                        permissions.group = 'wheel';
-                    }
-                    object.permissions = permissions;
-                });
-            }
         }
     },
 
