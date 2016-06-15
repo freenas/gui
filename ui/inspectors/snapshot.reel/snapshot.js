@@ -24,6 +24,26 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
         }
     },
 
+    _expirationDate: {
+        value: null
+    },
+
+    expirationDate: {
+        get: function() {
+            return this._expirationDate;
+        },
+        set: function(expirationDate) {
+            if (this._expirationDate !== expirationDate) {
+                this._expirationDate = expirationDate;
+                if (expirationDate) {
+                    this.object.lifetime = Math.round((expirationDate.getTime() - Date.now()) / 1000);
+                } else {
+                    this.object.lifetime = null;
+                }
+            }
+        }
+    },
+
     pathDisplayMode: {
         value: null
     },

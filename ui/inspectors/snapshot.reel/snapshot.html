@@ -89,14 +89,16 @@
                 "value": {"<-": "@owner.object.dataset"}
             }
         },
-        "lifetime": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+        "expirationDate": {
+            "prototype": "blue-shark/ui/field-datetime.reel",
             "properties": {
-                "element": {"#": "lifetime"},
-                "label": "Lifetime (seconds)"
+                "element": {"#": "expirationDate"},
+                "label": "Expiration date",
+                "allowEmpty": true,
+                "intervalInSeconds": 300
             },
             "bindings": {
-                "value": {"<->": "@owner.lifetime"}
+                "value": {"<->": "@owner.expirationDate"}
             }
         },
         "replicable": {
@@ -151,7 +153,7 @@
                 <div data-montage-id="datasetSelector" data-arg="select"></div>
                 <div data-montage-id="datasetDisplay" data-arg="display"></div>
             </div>
-            <div data-montage-id="lifetime"></div>
+            <div data-montage-id="expirationDate"></div>
             <div data-montage-id="replicable"></div>
             <div data-montage-id="creationCondition">
                 <div data-montage-id="used"></div>
