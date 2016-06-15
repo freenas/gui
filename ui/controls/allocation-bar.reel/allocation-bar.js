@@ -20,10 +20,7 @@ exports.AllocationBar = Component.specialize(/** @lends AllocationBar# */ {
         set: function (totalSize) {
             if (this._totalSize !== totalSize) {
                 this._totalSize = totalSize;
-
-                if (this._inDocument) {
-                    this.needsDraw = true;
-                }
+                this.needsDraw = true;
             }
         }
     },
@@ -39,10 +36,7 @@ exports.AllocationBar = Component.specialize(/** @lends AllocationBar# */ {
         set: function (paritySize) {
             if (this._paritySize !== paritySize) {
                 this._paritySize = paritySize;
-
-                if (this._inDocument) {
-                    this.needsDraw = true;
-                }
+                this.needsDraw = true;
             }
         }
     },
