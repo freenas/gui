@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractShareInspector = require("ui/inspectors/share.reel/abstract-share-inspector").AbstractShareInspector,
     ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
     ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
     ShareIscsiAuthType = require("core/model/enumerations/share-iscsi-auth-type").ShareIscsiAuthType;
@@ -7,7 +7,7 @@ var Component = require("montage/ui/component").Component,
  * @class IScsiShare
  * @extends Component
  */
-exports.IScsiShare = Component.specialize({
+exports.IScsiShare = AbstractShareInspector.specialize({
 
     templateDidLoad: {
         value: function () {

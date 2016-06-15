@@ -1,11 +1,12 @@
-var Component = require("montage/ui/component").Component,
+var AbstractShareInspector = require("ui/inspectors/share.reel/abstract-share-inspector").AbstractShareInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class NfsShare
  * @extends Component
  */
-exports.NfsShare = Component.specialize({
+exports.NfsShare = AbstractShareInspector.specialize({
+
     securityOptions: {
         value: [
             "sys",

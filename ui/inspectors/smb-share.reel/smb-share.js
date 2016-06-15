@@ -1,7 +1,7 @@
-var Component = require("montage/ui/component").Component;
+var AbstractShareInspector = require("ui/inspectors/share.reel/abstract-share-inspector").AbstractShareInspector;
 
 /**
  * @class SmbShare
- * @extends Component
+ * @extends AbstractShareInspector
  */
-exports.SmbShare = Component.specialize();
+exports.SmbShare = AbstractShareInspector.specialize();

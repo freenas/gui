@@ -1,10 +1,10 @@
-var Component = require("montage/ui/component").Component;
+var AbstractShareInspector = require("ui/inspectors/share.reel/abstract-share-inspector").AbstractShareInspector;
 
 /**
  * @class AfpShare
  * @extends Component
  */
-exports.AfpShare = Component.specialize({
+exports.AfpShare = AbstractShareInspector.specialize({
 
     _object: {
         value: null
@@ -14,8 +14,10 @@ exports.AfpShare = Component.specialize({
         get: function() {
             return this._object;
         },
-        set: function(object) {
-            if (this._object != object) {
+        set: function (object) {
+            Object.getOwnPropertyDescriptor(AbstractShareInspector.prototype, "object").set.call(this, object);
+
+            if (this._object !== object) {
                 this._object = object;
                 if (this._object.default_file_perms) {
                     this.default_file_perms_modes = {
