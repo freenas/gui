@@ -22,7 +22,7 @@ exports.StringToIntegerConverter = Converter.specialize({
             if (isValid) {
                 return parseInt(stringToRevert);
             } else {
-                return stringToConvert;
+                return stringToRevert;
             }
         }
     }
