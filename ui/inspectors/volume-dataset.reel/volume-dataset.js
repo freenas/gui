@@ -46,6 +46,12 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         value: null
     },
 
+    enterDocument: {
+        value: function() {
+            this._object._isNew = !this._object.rname;
+        }
+    },
+
     _loadVolume: {
         value: function() {
             this.volume = this._getCurrentVolume();
