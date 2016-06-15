@@ -84,7 +84,7 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
 
     _loadUsersIfNeeded: {
         value: function() {
-            if ((!this._fetchGroupsPromise && !this.users) || this.users.length === 0) {
+            if ((!this._fetchGroupsPromise && !this.users) || (this.users && this.users.length === 0)) {
                 var self = this;
 
                 this._fetchUsersPromise = this.application.dataService.fetchData(Model.User).then(function (users) {
@@ -97,7 +97,7 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
 
     _loadGroupsIfNeeded: {
         value: function() {
-            if ((!this._fetchGroupsPromise && !this.groups) || this.groups.length === 0) {
+            if ((!this._fetchGroupsPromise && !this.groups) || (this.groups && this.groups.length === 0)) {
                 var self = this;
 
                 this._fetchGroupsPromise = this.application.dataService.fetchData(Model.Group).then(function (groups) {
