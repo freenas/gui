@@ -72,5 +72,12 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
                 }
             }
         }
+    },
+
+    save: {
+        value: function() {
+            this.object._isNew = !this.object.rname;
+            this.application.dataService.saveDataObject(this.object);
+        }
     }
 });
