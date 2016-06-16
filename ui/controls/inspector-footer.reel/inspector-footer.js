@@ -1,12 +1,10 @@
 /**
  * @module ui/inspector-footer.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
 
 /**
  * @class InspectorFooter
  * @extends Component
  */
-exports.InspectorFooter = Component.specialize({
-
-});
+exports.InspectorFooter = AbstractComponentActionDelegate.specialize();

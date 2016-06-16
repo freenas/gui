@@ -4,7 +4,9 @@
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
     TopologyItem = require("ui/controls/topology.reel/topology-item.reel").TopologyItem,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
-    Topology = require("ui/controls/topology.reel").Topology;
+    Topology = require("ui/controls/topology.reel").Topology,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
+
 
 /**
  * @class Vdev
@@ -127,6 +129,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     enterDocument: {
         value: function (isFirstTime) {
             AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
             if (isFirstTime) {
                 this._topologyService = this.application.topologyService;
@@ -142,6 +145,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     prepareForActivationEvents: {
         value: function() {
+            AbstractComponentActionDelegate.prototype.prepareForActivationEvents.call(this);
             this.element.addEventListener('mouseleave', this, false);
         }
     },
@@ -149,10 +153,38 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     exitDocument: {
         value: function () {
             AbstractDropZoneComponent.prototype.exitDocument.call(this);
+            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
+
             this._cancelRangeAtPathChangeListener();
             //FIXME: need investigation here, raise an error.
             //this._cancelIsNewVDevChangeListener();
             this._topologyItem = void 0;
+        }
+    },
+
+    /**
+     * override _addEventListener
+     * Need to manage mouseleave
+     */
+    _addEventListener: {
+        value: function () {
+            console.log("added vdev")
+            AbstractComponentActionDelegate.prototype._addEventListener.call(this);
+            this.element.addEventListener('mouseleave', this, false);
+        }
+    },
+
+    /**
+     * override _removeEventListenersIfNeeded
+     * Need to manage mouseleave
+     */
+    _removeEventListenersIfNeeded: {
+        value: function () {
+            AbstractComponentActionDelegate.prototype._removeEventListenersIfNeeded.call(this);
+
+            if (this.preparedForActivationEvents) {
+                this.element.removeEventListener('mouseleave', this, false);
+            }
         }
     },
 

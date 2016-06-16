@@ -1,14 +1,14 @@
 /**
  * @module ui/tree-view.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     Promise = require("montage/core/promise").Promise;
 
 /**
  * @class TreeView
  * @extends Component
  */
-exports.TreeView = Component.specialize({
+exports.TreeView = AbstractComponentActionDelegate.specialize({
     _selectedPath: {
         value: null
     },

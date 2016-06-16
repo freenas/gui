@@ -1,11 +1,12 @@
 var Component = require("montage/ui/component").Component,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter;
 
 /**
  * @class UnixPermissions
  * @extends Component
  */
-exports.UnixPermissions = Component.specialize({
+exports.UnixPermissions = AbstractComponentActionDelegate.specialize({
     converter: {
         value: new UnixPermissionsConverter()
     },

@@ -1,12 +1,13 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     CascadingListItem = require("ui/controls/cascading-list.reel/cascading-list-item.reel").CascadingListItem;
 
 /**
  * @class Viewer
  * @extends Component
  */
-exports.Viewer = Component.specialize({
+exports.Viewer = AbstractComponentActionDelegate.specialize({
 
     _object: {
         value: null

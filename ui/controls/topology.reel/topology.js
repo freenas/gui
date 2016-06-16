@@ -2,7 +2,8 @@
  * @module ui/topology.reel
  */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
 
 
 var CLASS_NAMES_FOR_MODES = {
@@ -68,6 +69,8 @@ var Topology = exports.Topology = Component.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
+
             if (isFirstTime) {
                 this._topologyService = this.application.topologyService;
             }
@@ -80,6 +83,7 @@ var Topology = exports.Topology = Component.specialize({
 
     exitDocument: {
         value: function() {
+            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
             this.removeEventListener("vDevCreated", this, false);
             this.removeEventListener("diskAddedToVDev", this, false);
         }

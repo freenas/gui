@@ -1,7 +1,8 @@
 /**
  * @module ui/controls/foldable-section.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
 
 /**
  * @class FoldableSection
@@ -29,6 +30,8 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     enterDocument: {
         value: function (isFirstTime) {
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
+
             if (isFirstTime) {
                 this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
             }
@@ -43,6 +46,7 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     exitDocument: {
         value: function () {
+            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
             this._mutationObserver.disconnect();
         }
     },

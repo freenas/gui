@@ -1,7 +1,7 @@
 /**
  * @module ui/cron-rules.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     Rule = require("ui/controls/cron.reel/rule").Rule,
     CronRule = require("ui/controls/cron.reel/cron-rule.reel").CronRule;
 
@@ -9,7 +9,7 @@ var Component = require("montage/ui/component").Component,
  * @class CronRules
  * @extends Component
  */
-exports.CronRules = Component.specialize(/** @lends CronRules# */ {
+exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRules# */ {
 
     _scheduleObject: {
         value: null
@@ -38,7 +38,8 @@ exports.CronRules = Component.specialize(/** @lends CronRules# */ {
     },
 
     enterDocument: {
-        value: function () {
+        value: function (isFirstTime) {
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
             this._initRulesIfNeeded();
         }
     },

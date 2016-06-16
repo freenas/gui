@@ -1,13 +1,13 @@
 /**
  * @module ui/field-treeview.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
 
 /**
  * @class FieldTreeview
  * @extends Component
  */
-exports.FieldTreeview = Component.specialize(/** @lends FieldTreeview# */ {
+exports.FieldTreeview = AbstractComponentActionDelegate.specialize(/** @lends FieldTreeview# */ {
     handlePathButtonAction: {
         value: function () {
             this.isExpanded = !this.isExpanded;
