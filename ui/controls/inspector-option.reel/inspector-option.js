@@ -44,10 +44,15 @@ exports.InspectorOption = Button.specialize({
         }
     },
 
-
-    handleAction: {
-        value: function () {
+    /**
+     * @override handlePress
+     * Don't dispath action event for perfomance purpose.
+     */
+    handlePress: {
+        value: function (event) {
+            this.active = false;
             this.parentCascadingListItem.selectedObject = this.object;
+            this._removeEventListeners();
         }
     },
 
