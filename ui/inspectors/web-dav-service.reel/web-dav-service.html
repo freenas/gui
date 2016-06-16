@@ -9,12 +9,63 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "httpPortValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "errorMessage": "Please enter a valid HTTP Port"
+            }
+        },
+        "httpPortConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "httpPortValidator"}
+            }
+        },
+        "httpPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "httpPort"},
+                "label": "HTTP Port",
+                "converter" : {"@": "httpPortConverter"},
+                "placeholderValue": 8080
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.http_port"}
+            }
+        },
+        "httpAuthentication": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "httpAuthentication"},
+                "label": "HTTP Authentication"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.authentication"},
+                "options": {"<-": "@owner.AUTHENTICATIONS"}
+            }
+        },
+        "password": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "passwordLabel1": "WebDAV Password",
+                "passwordLabel2": "Confirm WebDAV Password",
+                "errorMessage": "Passwords don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="WebDavService">
+        <div data-montage-id="httpPort"></div>
+        <div data-montage-id="httpAuthentication"></div>
+        <div data-montage-id="password"></div>
+        <div data-montage-id="password"></div>
     </div>
 </body>
 </html>
