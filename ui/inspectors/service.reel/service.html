@@ -62,6 +62,15 @@
                 "object": {"<-": "@owner.object.config"}
             }
         },
+        "webdav": {
+            "prototype": "ui/inspectors/web-dav-service.reel",
+            "properties": {
+                "element": {"#": "webdav"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.config"}
+            }
+        },
         "afp": {
             "prototype": "ui/inspectors/afp-service.reel",
             "properties": {
@@ -110,6 +119,7 @@
                 <div data-arg="smb" data-montage-id="smb"></div>
                 <div data-arg="afp" data-montage-id="afp"></div>
                 <div data-arg="nfs" data-montage-id="nfs"></div>
+                <div data-arg="webdav" data-montage-id="webdav"></div>
                 <div data-arg="sshd" data-montage-id="sshd"></div>
                 <div data-arg="smartd" data-montage-id="smartd"></div>
             </div>
