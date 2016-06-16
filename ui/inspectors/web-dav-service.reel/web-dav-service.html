@@ -9,12 +9,100 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "protocolsSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "protocolsSection"},
+                "title": "Protocos"
+            }
+        },
+        "protocols": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "protocols"},
+                "label": "Protocols",
+                "labelPath": "this",
+                "isDraggable": true,
+                "placeholderValue": "Select a protocol"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.PROTOCOL_OPTIONS"},
+                "values": {"<->": "@owner.object.protocol"}
+            }
+        },
+        "httpPortValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Value Port must be an integer between 1 and 65535"
+            }
+        },
+        "httpPortConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "httpPortValidator"}
+            }
+        },
+        "httpPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "httpPort"},
+                "label": "HTTP Port",
+                "converter" : {"@": "httpPortConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.http_port"}
+            }
+        },
+        "httpsPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "httpsPort"},
+                "label": "HTTPS Port",
+                "converter" : {"@": "httpPortConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.https_port"}
+            }
+        },
+        "httpAuthentication": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "httpAuthentication"},
+                "label": "HTTP Authentication"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.authentication"},
+                "options": {"<-": "@owner.AUTHENTICATIONS"}
+            }
+        },
+        "password": {
+            "prototype": "blue-shark/ui/field-password.reel",
+            "properties": {
+                "element": {"#": "password"},
+                "passwordLabel1": "WebDAV Password",
+                "passwordLabel2": "Confirm WebDAV Password",
+                "errorMessage": "Passwords don't match"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.password"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="WebDavService">
+        <div data-montage-id="protocolsSection">
+            <div data-montage-id="protocols"></div>
+        </div>
+        <div data-montage-id="httpPort"></div>
+        <div data-montage-id="httpsPort"></div>
+        <div data-montage-id="httpAuthentication"></div>
+        <div data-montage-id="password"></div>
+        <div data-montage-id="password"></div>
     </div>
 </body>
 </html>
