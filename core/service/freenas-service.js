@@ -410,7 +410,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         value: function(type) {
             var self = this;
             return Model.populateObjectPrototypeForType(type).then(function() {
-                return self.getDataObject(type);
+                var instance = self.getDataObject(type);
+                instance._isNew = true;
+                return instance;
             });
         }
     },
