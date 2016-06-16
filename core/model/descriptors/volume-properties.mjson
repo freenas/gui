@@ -5,7 +5,7 @@
       "name": "allocated",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyAllocated"
     }
   },
   "blueprint_volumeproperties_autoreplace": {
@@ -14,7 +14,7 @@
       "name": "autoreplace",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyAutoreplace"
     }
   },
   "blueprint_volumeproperties_capacity": {
@@ -23,7 +23,7 @@
       "name": "capacity",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyCapacity"
     }
   },
   "blueprint_volumeproperties_comment": {
@@ -32,7 +32,7 @@
       "name": "comment",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyComment"
     }
   },
   "blueprint_volumeproperties_dedupratio": {
@@ -41,7 +41,7 @@
       "name": "dedupratio",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyDedupratio"
     }
   },
   "blueprint_volumeproperties_delegation": {
@@ -50,7 +50,7 @@
       "name": "delegation",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyDelegation"
     }
   },
   "blueprint_volumeproperties_expandsize": {
@@ -59,7 +59,7 @@
       "name": "expandsize",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyExpandsize"
     }
   },
   "blueprint_volumeproperties_failmode": {
@@ -68,7 +68,7 @@
       "name": "failmode",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyFailmode"
     }
   },
   "blueprint_volumeproperties_fragmentation": {
@@ -77,7 +77,7 @@
       "name": "fragmentation",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyFragmentation"
     }
   },
   "blueprint_volumeproperties_free": {
@@ -86,7 +86,7 @@
       "name": "free",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyFree"
     }
   },
   "blueprint_volumeproperties_health": {
@@ -95,7 +95,7 @@
       "name": "health",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyHealth"
     }
   },
   "blueprint_volumeproperties_leaked": {
@@ -104,7 +104,7 @@
       "name": "leaked",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyLeaked"
     }
   },
   "blueprint_volumeproperties_readonly": {
@@ -113,7 +113,7 @@
       "name": "readonly",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyReadonly"
     }
   },
   "blueprint_volumeproperties_size": {
@@ -122,7 +122,7 @@
       "name": "size",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertySize"
     }
   },
   "blueprint_volumeproperties_version": {
@@ -131,7 +131,7 @@
       "name": "version",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumePropertyVersion"
     }
   },
   "root": {

@@ -1,30 +1,32 @@
 {
-  "blueprint_zfsproperty_parsed": {
+  "blueprint_volumedatasetpropertyquota_parsed": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "parsed",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeDatasetPropertyQuotaValue"
     }
   },
-  "blueprint_zfsproperty_rawvalue": {
+  "blueprint_volumedatasetpropertyquota_rawvalue": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "rawvalue",
       "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "String"
     }
   },
-  "blueprint_zfsproperty_source": {
+  "blueprint_volumedatasetpropertyquota_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "ZfsPropertySource"
+      "valueObjectPrototypeName": "VolumePropertySource"
     }
   },
-  "blueprint_zfsproperty_value": {
+  "blueprint_volumedatasetpropertyquota_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
@@ -35,12 +37,12 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ZfsProperty",
+      "name": "VolumeDatasetPropertyQuota",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsproperty_parsed"},
-        {"@": "blueprint_zfsproperty_rawvalue"},
-        {"@": "blueprint_zfsproperty_source"},
-        {"@": "blueprint_zfsproperty_value"}
+        {"@": "blueprint_volumedatasetpropertyquota_parsed"},
+        {"@": "blueprint_volumedatasetpropertyquota_rawvalue"},
+        {"@": "blueprint_volumedatasetpropertyquota_source"},
+        {"@": "blueprint_volumedatasetpropertyquota_value"}
       ]
     }
   }

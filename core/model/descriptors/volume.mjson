@@ -21,7 +21,7 @@
       "name": "encryption",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "Encryption"
+      "valueObjectPrototypeName": "VolumeEncryption"
     }
   },
   "blueprint_volume_guid": {

@@ -5,7 +5,7 @@
       "name": "clones",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeProperty"
+      "valueObjectPrototypeName": "VolumeSnapshotPropertyClones"
     }
   },
   "blueprint_volumesnapshotproperties_compressratio": {
@@ -14,7 +14,7 @@
       "name": "compressratio",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeReadonlyProperty"
+      "valueObjectPrototypeName": "VolumeSnapshotPropertyCompressratio"
     }
   },
   "blueprint_volumesnapshotproperties_creation": {
@@ -23,7 +23,7 @@
       "name": "creation",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeReadonlyProperty"
+      "valueObjectPrototypeName": "VolumeSnapshotPropertyCreation"
     }
   },
   "blueprint_volumesnapshotproperties_referenced": {
@@ -32,7 +32,7 @@
       "name": "referenced",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeReadonlyProperty"
+      "valueObjectPrototypeName": "VolumeSnapshotPropertyReferenced"
     }
   },
   "blueprint_volumesnapshotproperties_used": {
@@ -41,7 +41,7 @@
       "name": "used",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VolumeReadonlyProperty"
+      "valueObjectPrototypeName": "VolumeSnapshotPropertyUsed"
     }
   },
   "root": {

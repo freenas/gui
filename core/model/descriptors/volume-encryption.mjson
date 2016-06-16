@@ -1,46 +1,45 @@
 {
-  "blueprint_zfsproperty_parsed": {
+  "blueprint_volumeencryption_hashed_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "parsed",
+      "name": "hashed_password",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_zfsproperty_rawvalue": {
+  "blueprint_volumeencryption_key": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "rawvalue",
+      "name": "key",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_zfsproperty_source": {
+  "blueprint_volumeencryption_salt": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "source",
-      "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "ZfsPropertySource"
-    }
-  },
-  "blueprint_zfsproperty_value": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "value",
+      "name": "salt",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_volumeencryption_slot": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "slot",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ZfsProperty",
+      "name": "VolumeEncryption",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsproperty_parsed"},
-        {"@": "blueprint_zfsproperty_rawvalue"},
-        {"@": "blueprint_zfsproperty_source"},
-        {"@": "blueprint_zfsproperty_value"}
+        {"@": "blueprint_volumeencryption_hashed_password"},
+        {"@": "blueprint_volumeencryption_key"},
+        {"@": "blueprint_volumeencryption_salt"},
+        {"@": "blueprint_volumeencryption_slot"}
       ]
     }
   }

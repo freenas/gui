@@ -620,6 +620,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getgroupmembership": {
+                "method": "dscached.account.getgroupmembership",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getpwnam": {
                 "method": "dscached.account.getpwnam",
                 "name": "call",

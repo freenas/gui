@@ -1,30 +1,32 @@
 {
-  "blueprint_zfsproperty_parsed": {
+  "blueprint_volumepropertyallocated_parsed": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "parsed",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumePropertyAllocatedValue"
     }
   },
-  "blueprint_zfsproperty_rawvalue": {
+  "blueprint_volumepropertyallocated_rawvalue": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "rawvalue",
       "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "String"
     }
   },
-  "blueprint_zfsproperty_source": {
+  "blueprint_volumepropertyallocated_source": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "source",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "ZfsPropertySource"
+      "valueObjectPrototypeName": "VolumePropertySource"
     }
   },
-  "blueprint_zfsproperty_value": {
+  "blueprint_volumepropertyallocated_value": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "value",
@@ -35,12 +37,12 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ZfsProperty",
+      "name": "VolumePropertyAllocated",
       "propertyBlueprints": [
-        {"@": "blueprint_zfsproperty_parsed"},
-        {"@": "blueprint_zfsproperty_rawvalue"},
-        {"@": "blueprint_zfsproperty_source"},
-        {"@": "blueprint_zfsproperty_value"}
+        {"@": "blueprint_volumepropertyallocated_parsed"},
+        {"@": "blueprint_volumepropertyallocated_rawvalue"},
+        {"@": "blueprint_volumepropertyallocated_source"},
+        {"@": "blueprint_volumepropertyallocated_value"}
       ]
     }
   }
