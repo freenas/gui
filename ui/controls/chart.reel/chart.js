@@ -132,6 +132,16 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     draw: {
         value: function() {
+            if (this._needRefresh) {
+                d3.select(this.chartElement)
+                    .datum(this._series)
+                    .transition().ease('quad')
+                    .call(this._chart);
+
+                this._needRefresh = false;
+                return void 0;
+            }
+
             if (this._series && this._series.length > 0) {
                 d3.select(this.chartElement)
                     .datum(this._series)
@@ -141,11 +151,9 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     },
 
     refresh: {
-        value: function() {
-            d3.select(this.chartElement)
-                .datum(this._series)
-                .transition().ease('quad')
-                .call(this._chart);
+        value: function () {
+            this._needRefresh = true;
+            this.needsDraw = true;
         }
     },
 
