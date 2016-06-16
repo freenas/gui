@@ -8,18 +8,31 @@ var Component = require("montage/ui/component").Component,
  */
 exports.Accounts = Component.specialize({
 
+
+    _loadDataPromise: {
+        value: null
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
+                this.addRangeAtPathChangeListener("groups", this, "_handleAccountChange");
+                this.addRangeAtPathChangeListener("users", this, "_handleAccountChange");
+            }
+
+            this._loadDataIfNeeded();
+        }
+    },
+
+
+    _loadDataIfNeeded: {
+        value: function () {
+            if (!this._loadDataPromise && !this.accountCategories) {
                 var dataService = this.application.dataService,
                     accountCategories,
                     self = this;
 
-                this.addRangeAtPathChangeListener("groups", this, "_handleAccountChange");
-                this.addRangeAtPathChangeListener("users", this, "_handleAccountChange");
-
-                //Fixme: getDataObject needs to return a promise
-                return dataService.getNewInstanceForType(Model.AccountCategory).then(function (accountCategory) {
+                this._loadDataPromise = dataService.getNewInstanceForType(Model.AccountCategory).then(function (accountCategory) {
                     accountCategories = self.accountCategories = accountCategory;
                     accountCategories.isLoading = true;
                     accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
@@ -29,6 +42,7 @@ exports.Accounts = Component.specialize({
                     return Promise.all([self._listUsers(), self._listGroups()]);
                 }).then(function() {
                     self.accountCategories.isLoading = false;
+                    self._loadDataPromise = null;
                 });
             }
         }
