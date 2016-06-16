@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="./nvd3/nv.d3.min.css">
     <link rel="stylesheet" type="text/css" href="chart.css">
     <script type="text/montage-serialization">
@@ -10,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "chartElement": {"#": "chart"}
+            },
+            "bindings": {
+                "classList.has('is-spinner-shown')": {"<-": "@owner.isSpinnerShown"}
             }
         },
         "title": {
@@ -26,18 +28,12 @@
             "properties": {
                 "element": {"#": "chart"},
                 "hasTemplate": false
-            },
-            "bindings": {
-                "classList.has('is-visible')": {"<-": "!@owner.isSpinnerShown"}
             }
         },
         "loading": {
             "prototype": "ui/controls/spinner.reel",
             "properties": {
                 "element": {"#": "loading"}
-            },
-            "bindings": {
-                "classList.has('is-visible')": {"<-": "@owner.isSpinnerShown"}
             }
         }
     }
@@ -47,7 +43,7 @@
     <div data-montage-id="owner" class="Chart">
         <div data-montage-id="title"></div>
         <div data-montage-id="loading" class="Chart-loading"></div>
-        <svg data-montage-id="chart" id="chart"></svg>
+        <svg data-montage-id="chart" class="Chart-svg"></svg>
     </div>
 </body>
 </html>

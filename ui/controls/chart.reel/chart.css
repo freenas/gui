@@ -11,8 +11,7 @@
     background: rgba(33, 33, 33, .7);
 }
 
-.Chart #chart {
-    display: none !important;
+.Chart .Chart-svg {
     padding-right: 2em;
     padding-top: 1em;
     flex: 1;
@@ -39,7 +38,6 @@
 }
 
 .Chart-loading {
-    display: none;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -50,9 +48,14 @@
     color: #0C5688;
 }
 
-.Chart .is-visible,
-.Chart #chart.is-visible {
-    display: inherit !important;
+.Chart.is-spinner-shown .Chart-svg,
+.Chart .Chart-loading {
+    display: none;
+}
+
+.Chart.is-spinner-shown .Chart-loading,
+.Chart .Chart-svg {
+    display: block;
 }
 
 .Chart .nv-x .nv-axislabel {
