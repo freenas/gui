@@ -69,5 +69,12 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
             this.object._isNew = !this.object.rname;
             this.application.dataService.saveDataObject(this.object);
         }
+    },
+
+    delete: {
+        value: function() {
+            this.object.id = this.object.name;
+            this.application.dataService.deleteDataObject(this.object);
+        }
     }
 });
