@@ -1,8 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    Converter = require("montage/core/converter/converter").Converter,
-    Validator = require("montage/core/converter/converter").Validator;
-
+var Component = require("montage/ui/component").Component;
 /**
  * @class WebDavService
  * @extends Component
