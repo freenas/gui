@@ -1,5 +1,5 @@
 var Button = require("montage/ui/button.reel").Button,
-    CascadingListItem = require("ui/controls/cascading-list.reel/cascading-list-item.reel").CascadingListItem;
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
  * @class InspectorOption
@@ -11,15 +11,20 @@ exports.InspectorOption = Button.specialize({
         value: true
     },
 
-    parentCascadingListItem: {
+    _parentCascadingListItem: {
         value: null
     },
 
+    parentCascadingListItem: {
+        get: function () {
+            return this._parentCascadingListItem ||
+                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
+        }
+    },
 
     enterDocument: {
         value: function (firstTime) {
             if (firstTime) {
-                this.parentCascadingListItem = this._findParentCascadingListItem(this);
                 this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "handleSelectionChange");
             }
         }
@@ -53,23 +58,6 @@ exports.InspectorOption = Button.specialize({
             this.active = false;
             this.parentCascadingListItem.selectedObject = this.object;
             this._removeEventListeners();
-        }
-    },
-
-
-    _findParentCascadingListItem: {
-        value: function (component) {
-            var parentComponent = component.parentComponent;
-
-            if (parentComponent) {
-                if (parentComponent instanceof CascadingListItem) {
-                    return parentComponent;
-                }
-
-                return this._findParentCascadingListItem(parentComponent);
-            }
-
-            return null;
         }
     }
 

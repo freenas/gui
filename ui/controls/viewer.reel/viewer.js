@@ -1,7 +1,7 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
     AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
-    CascadingListItem = require("ui/controls/cascading-list.reel/cascading-list-item.reel").CascadingListItem;
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
  * @class Viewer
@@ -72,30 +72,14 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         }
     },
 
-    //Fixme: need selection controller.
     _parentCascadingListItem: {
         value: null
     },
 
     parentCascadingListItem: {
         get: function () {
-            return this._parentCascadingListItem || (this._parentCascadingListItem = this._findParentCascadingListItem(this));
-        }
-    },
-
-    _findParentCascadingListItem: {
-        value: function (component) {
-            var parentComponent = component.parentComponent;
-
-            if (parentComponent) {
-                if (parentComponent instanceof CascadingListItem) {
-                    return parentComponent;
-                }
-
-                return this._findParentCascadingListItem(parentComponent);
-            }
-
-            return null;
+            return this._parentCascadingListItem || 
+                (this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this));
         }
     }
 
