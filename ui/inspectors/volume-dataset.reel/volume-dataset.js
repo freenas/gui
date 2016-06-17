@@ -38,6 +38,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
             } else {
                 this.datasetType = "child";
             }
+            this._initializeProperties();
             this.object._isNew = !this.object.rname;
         }
     },
@@ -60,6 +61,46 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
                         return currentSelection.path[i];
                     }
                 }
+            }
+        }
+    },
+
+    _initializeProperties: {
+        value: function() {
+            var self = this,
+                dataService = this.application.dataService;
+            if (!this.object.properties) {
+                dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
+                    self.object.properties = newProperties;
+
+                    dataService.getNewInstanceForType(Model.VolumeDatasetPropertyAtime).then(function(newAtime) {
+                        self.object.properties.atime = newAtime;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCasesensitivity);
+                    }).then(function(newCasesensitivity) {
+                        self.object.properties.casesensitivity = newCasesensitivity;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCompression);
+                    }).then(function(newCompression) {
+                        self.object.properties.compression = newCompression;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyDedup);
+                    }).then(function(newDedup) {
+                        self.object.properties.dedup = newDedup;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyQuota);
+                    }).then(function(newQuota) {
+                        self.object.properties.quota = newQuota;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefquota);
+                    }).then(function(newRefquota) {
+                        self.object.properties.refquota = newRefquota;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
+                    }).then(function(newVolblocksize) {
+                        self.object.properties.volblocksize = newVolblocksize;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefReservation);
+                    }).then(function(newRefreservation) {
+                        self.object.properties.refreservation = newRefreservation;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation);
+                    }).then(function(newReservation) {
+                        self.object.properties.reservation = newReservation;
+                    });
+                });
             }
         }
     },
