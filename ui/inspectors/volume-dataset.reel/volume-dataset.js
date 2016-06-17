@@ -93,7 +93,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
                         return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
                     }).then(function(newVolblocksize) {
                         self.object.properties.volblocksize = newVolblocksize;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefReservation);
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation);
                     }).then(function(newRefreservation) {
                         self.object.properties.refreservation = newRefreservation;
                         return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation);
