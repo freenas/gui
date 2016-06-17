@@ -393,7 +393,9 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 var notification = this._createNotificationWithType(Notification.TYPES.EVENT);
                 notification.modelType = detail.service.toCamelCase();
                 notification.service = detail.operation;
-                notification.data = detail.operation === "delete" ? detail.ids : detail.entities;
+                notification.data = detail.operation === "delete" ?  detail.ids :
+                    detail.operation === "rename" ? detail.ids[0] : detail.entities;
+
                 notification.startedTime = Date.now(); //todo need verification
 
                 if (typeof notification.data == 'undefined' && detail.data) {
@@ -472,7 +474,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                                 state === Notification.TASK_STATES.ABORTED;
 
                         taskNotification.taskReport = taskReport;
-    
+
                         if (isTaskDone) {
                             if (taskReport.progress) {
                                 taskNotification.progress = taskReport.progress.percentage;

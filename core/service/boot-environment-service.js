@@ -92,11 +92,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
 
     persistBootEnvironmentRenaming: {
         value: function(bootEnvironment) {
-            return this._dataService.saveDataObject(bootEnvironment).then(function () {
-                // need to be done before we get the entity change event.
-                //Fixme: need new version of the middleware for checking.
-                bootEnvironment.persistedId = bootEnvironment.id;
-            });
+            return this._dataService.saveDataObject(bootEnvironment);
         }
     },
 
@@ -131,7 +127,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
             return lastUsedBootEnvironmentIndex;
         }
     },
-    
+
     _handleBootEnvironmentsChange: {
         value: function (plus, minus) {
             if (plus.length) {

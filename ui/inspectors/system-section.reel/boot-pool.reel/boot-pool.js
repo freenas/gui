@@ -87,7 +87,7 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (bootEnvironment) {
-                return this._bootEnvironmentService.persistBootEnvironmentRenaming(bootEnvironment);;
+                return this._bootEnvironmentService.persistBootEnvironmentRenaming(bootEnvironment);
             }
         }
     },
@@ -97,8 +97,6 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (bootEnvironment) {
-                var self = this;
-
                 return this._bootEnvironmentService.cloneBootEnvironment(bootEnvironment);
             }
         }

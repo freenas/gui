@@ -379,6 +379,18 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                             modelCache.splice(modelIndex, 1);
                         }
                     }
+                } else if (detail.service === "rename") { // Mostly use for renaming model object ids.
+                    if (data.length === 2) {
+                        // The data array contains both id the previousa and the new one [previousId, newId].
+                        model = this._findModelFromCacheWithTypeAndId(type, data[0]);
+
+                        if (model) {
+                            // We need to update the id and persistedId because the change could has been done by a third party.
+                            model.id = model.persistedId = data[1];
+                        }
+                    } else {
+                        console.warn("cannot handle the following rename event: " + JSON.stringify(detail));
+                    }
                 } else { // consider other operations as an update.
                     for (rawModel = data[i]; i < length; i++) {
                         model = this._findModelFromCacheWithTypeAndId(type, rawModel.id);
