@@ -28,7 +28,8 @@
     "properties": {
       "name": "listen",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "object",
+      "valueObjectPrototypeName": "ShareIscsiPortalListen"
     }
   },
   "blueprint_shareiscsiportal_tag": {

@@ -45,7 +45,8 @@
     "properties": {
       "name": "dos_charset",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSmbDoscharset"
     }
   },
   "blueprint_servicesmb_empty_password": {
@@ -187,7 +188,8 @@
     "properties": {
       "name": "unix_charset",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "ServiceSmbUnixcharset"
     }
   },
   "blueprint_servicesmb_unixext": {
