@@ -53,5 +53,9 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
 
     object: {
         value: null
+    },
+
+    datasetType: {
+        value: null
     }
 });
