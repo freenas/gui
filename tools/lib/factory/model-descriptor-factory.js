@@ -235,26 +235,6 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
     return modelDescriptor;
 }
 
-
-function getModelDescriptorWithNameAndEnum(name, enumeration) {
-    var modelDescriptor = createModelDescriptorWithName(name),
-        propertyDescriptor,
-        enumValue;
-
-    for (var i = 0, length = enumeration.length; i < length; i++) {
-        enumValue = enumeration[i];
-        propertyDescriptor = createPropertyDescriptorWithModelAndName(modelDescriptor, enumValue);
-
-        propertyDescriptor.defaultValue = enumValue;
-        setTypeOnPropertyDescriptor(typeof enumValue, propertyDescriptor);
-
-        modelDescriptor.addPropertyBlueprint(propertyDescriptor);
-    }
-
-    return modelDescriptor;
-}
-
-
 function setTypeOnPropertyDescriptor(type, propertyDescriptor) {
     if (type === "string") {
         type = "String"; //???
