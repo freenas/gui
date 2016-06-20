@@ -35,6 +35,14 @@ exports.Volumes = Component.specialize({
         value: null
     },
 
+    _sharePathDecodePromises: {
+        value: null
+    },
+
+    _diskAllocationPromises: {
+        value: null
+    },
+
     disks: {
         get: function() {
             return this._disks || [];
@@ -120,6 +128,8 @@ exports.Volumes = Component.specialize({
             var self = this;
 
             if (isFirstTime) {
+                this._diskAllocationPromises = {};
+                this._sharePathDecodePromises = {};
                 this._initializeServices().then(function() {
                     self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
                     self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
@@ -220,16 +230,22 @@ exports.Volumes = Component.specialize({
             Promise.all(disks.map(function (x) {
                 return x.status;
             })).then(function () {
-                disks.map(function (x) { x._devicePath = x.path; });
-                self._volumeService.getDisksAllocation(disks.map(function (x) { return x._devicePath; })).then(function (disksAllocations) {
-                    for (i = 0, disksLength = disks.length; i < disksLength; i++) {
-                        disk = disks[i];
-                        if (disksAllocations[disk._devicePath]) {
-                            disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
-                            disk.isBoot = disksAllocations[disk._devicePath].type == 'BOOT';
+                var unrequestedDisks = disks.filter(function(x) { console.log(x); return !self._diskAllocationPromises[x.path]; }).map(function(x) { x._devicePath = x.path; return x; });
+                if (unrequestedDisks.length > 0) {
+                    var diskAllocationPromise = self._volumeService.getDisksAllocation(unrequestedDisks.map(function(x) { return x._devicePath; })).then(function (disksAllocations) {
+                        for (i = 0, disksLength = disks.length; i < disksLength; i++) {
+                            disk = disks[i];
+                            if (disksAllocations[disk._devicePath]) {
+                                disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
+                                disk.isBoot = disksAllocations[disk._devicePath].type == 'BOOT';
+                            }
                         }
+                        return null;
+                    });
+                    for (var j = 0, length = unrequestedDisks.length; j < length; j++) {
+                        self._diskAllocationPromises[unrequestedDisks[j].path] = diskAllocationPromise;
                     }
-                });
+                }
             });
         }
     },
@@ -260,10 +276,13 @@ exports.Volumes = Component.specialize({
 
     _getContainingVolume: {
         value: function(share) {
-            var self = this;
-            return this._volumeService.decodePath(share.filesystem_path).then(function (decodedPath) {
-                return self._volumesById[decodedPath[0]];
-            });
+            if (!this._sharePathDecodePromises[share.filesystem_path]) {
+                var self = this;
+                this._sharePathDecodePromises[share.filesystem_path] = this._volumeService.decodePath(share.filesystem_path).then(function (decodedPath) {
+                    return self._volumesById[decodedPath[0]];
+                });
+            }
+            return this._sharePathDecodePromises[share.filesystem_path];
         }
     }
 
