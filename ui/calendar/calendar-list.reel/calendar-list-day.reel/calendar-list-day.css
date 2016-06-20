@@ -1,0 +1,16 @@
+.CalendarListDay {
+    margin-bottom: 1em;
+    display: none;
+}
+
+.CalendarListDay.has-events {
+    display: block;
+}
+
+.CalendarListDay-date {
+    font-weight: 400;
+    color: #B1BCBE;
+    font-size: 1em;
+    margin-bottom: .5rem;
+}
+

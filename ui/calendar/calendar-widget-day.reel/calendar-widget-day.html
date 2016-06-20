@@ -24,6 +24,24 @@
             "bindings": {
                 "value": {"<-": "@owner.data.date"}
             }
+        },
+        "tasks": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "tasks"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.todaysTasks.group{name}"}
+            }
+        },
+        "task": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "task"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.taskCategories.filter{value == @tasks:iteration.object.0}.0.name"}
+            }
         }
     }
     </script>
@@ -33,6 +51,11 @@
         <tr>
             <td data-montage-id="owner" class="CalendarWidgetDay">
                 <div data-montage-id="date" class="CalendarWidgetDay-date"></div>
+                <div class="CalendarWidgetDay-content">
+                    <div data-montage-id="tasks">
+                        <div data-montage-id="task" class="CalendarWidgetDayContent-task"></div>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>

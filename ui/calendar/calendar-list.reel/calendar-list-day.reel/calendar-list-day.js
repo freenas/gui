@@ -1,13 +1,13 @@
 /**
- * @module ui/calendar-widget-day.reel
+ * @module ui/calendar-list-day.reel
  */
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class CalendarWidgetDay
+ * @class CalendarListDay
  * @extends Component
  */
-exports.CalendarWidgetDay = Component.specialize({
+exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
@@ -28,8 +28,8 @@ exports.CalendarWidgetDay = Component.specialize({
     _handleTasksChange: {
         value: function() {
             var self = this;
-            this._calendarService.getTasksRunningOnDay(this.data).then(function(tasks) {
-                self.todaysTasks = tasks;
+            this._calendarService.getTasksScheduleOnDay(this.day).then(function(tasks) {
+                self.events = tasks;
             });
         }
     }

@@ -16,7 +16,7 @@
                 "element": {"#": "calendarWidget"}
             },
             "bindings": {
-                "taskObjects": {"<-": "@owner.taskObjects"}
+                "taskCategories": {"<-": "@owner.taskCategories"}
             }
         },
         "list": {
@@ -25,7 +25,7 @@
                 "element": {"#": "list"}
             },
             "bindings": {
-                "data": {"<-": "@owner.events"}
+                "days": {"<-": "@calendarWidget.days.filter{isCurrentMonth}"}
             }
         }
     }

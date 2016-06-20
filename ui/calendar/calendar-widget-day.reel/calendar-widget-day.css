@@ -49,3 +49,19 @@
 .CalendarWidgetDay-today .CalendarWidgetDay-date {
     color: #E0E5E5;
 }
+
+.CalendarWidgetDay-content {
+    position: relative;
+    top: 1em;
+    width: 100%;
+    height: calc(100% - 1em);
+    padding: 0 0.25em 0.25em;
+}
+
+.CalendarWidgetDayContent-task {
+    font-size: smaller;
+}
+
+.CalendarWidgetDay-otherMonth .CalendarWidgetDay-content {
+    display: none;
+}

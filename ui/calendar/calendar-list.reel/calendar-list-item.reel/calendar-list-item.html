@@ -9,6 +9,10 @@
             "properties": {
                 "element": {"#": "owner"},
                 "type": {"#": "type"}
+            },
+            "bindings": {
+                "classList.has('is-disabled')": {"<-": "!@owner.object.task.enabled"},
+                "classList.has('is-textual-schedule')": {"<-": "@owner.isTextualSchedule"}
             }
         },
         "title": {
@@ -17,7 +21,7 @@
                 "element": {"#": "title"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.title"}
+                "value": {"<-": "@owner.object.task.id"}
             }
         },
         "time": {
@@ -26,7 +30,7 @@
                 "element": {"#": "time"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.time"}
+                "value": {"<-": "@owner.schedule"}
             }
         }
     }

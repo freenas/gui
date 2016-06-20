@@ -13,6 +13,9 @@
                     {"value": "Week"},
                     {"value": "Month"}
                 ]
+            },
+            "bindings": {
+                "days": {"<-": "@owner._weeks.flatten()"}
             }
         },
         "daysOfTheWeek": {
@@ -75,7 +78,9 @@
                 "element": {"#": "day"}
             },
             "bindings": {
-                "data": {"<-": "@dayRepetition:iteration.object"}
+                "data": {"<-": "@dayRepetition:iteration.object"},
+                "tasks": {"<-": "@owner.tasks"},
+                "taskCategories": {"<-": "@owner.taskCategories"}
             }
         },
         "previousMonth": {
@@ -115,22 +120,22 @@
                 }
             ]
         },
-        "taskObjects": {
+        "taskCategories": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "taskObjects"}
+                "element": {"#": "taskCategories"}
             },
             "bindings": {
-                "content": {"<-": "@owner.taskObjects"}
+                "content": {"<-": "@owner.taskCategories"}
             }
         },
-        "taskObject": {
-            "prototype": "../task-object.reel",
+        "taskCategory": {
+            "prototype": "../task-category.reel",
             "properties": {
-                "element": {"#": "taskObject"}
+                "element": {"#": "taskCategory"}
             },
             "bindings": {
-                "object": {"<-": "@taskObjects:iteration.object"}
+                "object": {"<-": "@taskCategories:iteration.object"}
             }
         },
         "viewTabs": {
@@ -164,8 +169,8 @@
                 </div>
                 <div data-montage-id="viewTabs" class="Calendar-viewTabs"></div>
             </div>
-            <div data-montage-id="taskObjects" class="CalendarWidget-taskObjects">
-                <div data-montage-id="taskObject" class="CalendarWidget-taskObjects"></div>
+            <div data-montage-id="taskCategories" class="CalendarWidget-taskCategories">
+                <div data-montage-id="taskCategory" class="CalendarWidget-taskCategories"></div>
             </div>
         </caption>
         <thead>

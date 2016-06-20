@@ -16,34 +16,16 @@
                 "element": {"#": "days"}
             },
             "bindings": {
-                "content": {"<-": "@owner.data"}
+                "content": {"<-": "@owner.days"}
             }
         },
-        "date": {
-            "prototype": "montage/ui/text.reel",
+        "day": {
+            "prototype": "./calendar-list-day.reel",
             "properties": {
-                "element": {"#": "date"}
+                "element": {"#": "day"}
             },
             "bindings": {
-                "value": {"<-": "@days:iteration.object.date"}
-            }
-        },
-        "items": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "items"}
-            },
-            "bindings": {
-                "content": {"<-": "@days:iteration.object.events"}
-            }
-        },
-        "item": {
-            "prototype": "../calendar-list-item.reel",
-            "properties": {
-                "element": {"#": "item"}
-            },
-            "bindings": {
-                "object": {"<-": "@items:iteration.object"}
+                "day": {"<-": "@days:iteration.object"}
             }
         },
         "scrollview": {
@@ -61,10 +43,7 @@
         <div data-montage-id="scrollview" class="">
             <div data-montage-id="days" class="CalendarList-days">
                 <div class="CalendarList-day">
-                    <div data-montage-id="date" class="CalendarList-date"></div>
-                    <div data-montage-id="items" class="CalendarList-items">
-                        <div data-montage-id="item" class="CalendarList-item"></div>
-                    </div>
+                    <div data-montage-id="day"></div>
                 </div>
             </div>
         </div>

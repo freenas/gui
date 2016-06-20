@@ -7,18 +7,25 @@
     background: rgba(255,255,255,.1);
 }
 
+.CalendarListItem.is-disabled {
+    opacity: 0.5;
+}
+
 .CalendarListItem span {
     display: inline-block;
 }
 
+.CalendarListItem.is-textual-schedule .CalendarListItem-time {
+    font-size: smaller;
+}
+
 .CalendarListItem-time {
-    width: 4.5em;
+    width: 4.5rem;
     text-align: right;
-    margin-right: .5em;
+    margin-right: .5rem;
     font-weight: 400;
     color: #666;
 }
-
 
 .CalendarListItem-type {
     display: inline-block;

@@ -4,13 +4,13 @@
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class TaskObject
+ * @class TaskCategory
  * @extends Component
  */
-exports.TaskObject = Component.specialize(/** @lends TaskObject# */ {
+exports.TaskCategory = Component.specialize(/** @lends TaskCategory# */ {
     enterDocument: {
         value: function () {
-            this.classList.add('type-' + this.object.name);
+            this.classList.add('type-' + this.object.value.replace('.', '_'));
         }
     }
 });
