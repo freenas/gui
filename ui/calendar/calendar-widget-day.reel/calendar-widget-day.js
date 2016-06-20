@@ -8,29 +8,25 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.CalendarWidgetDay = Component.specialize({
-    enterDocument: {
-        value: function(isFirstTime) {
-            if (isFirstTime) {
-                this._calendarService = this.application.calendarService;
-            }
-            this._cancelListener = this.addRangeAtPathChangeListener("tasks", this, "_handleTasksChange");
-        }
+    _data: {
+        value: null
     },
 
-    exitDocument: {
-        value: function() {
-            if (typeof this._cancelListener === "function") {
-                this._cancelListener();
+    data: {
+        get: function() {
+            return this._data;
+        },
+        set: function(data) {
+console.log(data);
+            if (this._data !== data) {
+                this._data = data;
+                if (data) {
+                    var self = this;
+                    this.application.calendarService.getTasksScheduleOnDay(data).then(function(tasks) {
+                        self.tasks = tasks;
+                    });
+                }
             }
-        }
-    },
-
-    _handleTasksChange: {
-        value: function() {
-            var self = this;
-            this._calendarService.getTasksRunningOnDay(this.data).then(function(tasks) {
-                self.todaysTasks = tasks;
-            });
         }
     }
 });

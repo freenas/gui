@@ -8,29 +8,24 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
-    enterDocument: {
-        value: function(isFirstTime) {
-            if (isFirstTime) {
-                this._calendarService = this.application.calendarService;
-            }
-            this._cancelListener = this.addRangeAtPathChangeListener("tasks", this, "_handleTasksChange");
-        }
+    _day: {
+        value: null
     },
 
-    exitDocument: {
-        value: function() {
-            if (typeof this._cancelListener === "function") {
-                this._cancelListener();
+    day: {
+        get: function() {
+            return this._day;
+        },
+        set: function(day) {
+            if (this._day !== day) {
+                this._day = day;
+                if (day) {
+                    var self = this;
+                    this.application.calendarService.getTasksScheduleOnDay(day).then(function(tasks) {
+                        self.events = tasks;
+                    });
+                }
             }
-        }
-    },
-
-    _handleTasksChange: {
-        value: function() {
-            var self = this;
-            this._calendarService.getTasksScheduleOnDay(this.day).then(function(tasks) {
-                self.events = tasks;
-            });
         }
     }
 });

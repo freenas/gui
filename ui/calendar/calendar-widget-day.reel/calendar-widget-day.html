@@ -31,7 +31,7 @@
                 "element": {"#": "tasks"}
             },
             "bindings": {
-                "content": {"<-": "@owner.todaysTasks.group{name}"}
+                "content": {"<-": "@owner.tasks.map{task}.group{name}"}
             }
         },
         "task": {
