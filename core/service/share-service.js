@@ -85,7 +85,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     save: {
         value: function (shareObject) {
             //FIXME: workaround for the SELECT component. Future dead code.
-            if (shareObject.type === shareObject.type) {
+            if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
                 var properties = shareObject.properties;
 
                 properties.maproot_user = properties.maproot_user != ' - ' ? properties.maproot_user : null;
