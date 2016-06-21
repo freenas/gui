@@ -149,6 +149,7 @@ var ShareService = exports.ShareService = Montage.specialize({
 
 }, {
 
+    //FIXME: could probably be an enum
     SHARE_TYPES: {
         value: {
             AFP: "afp",
