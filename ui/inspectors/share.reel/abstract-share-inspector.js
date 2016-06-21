@@ -15,7 +15,6 @@ exports.AbstractShareInspector = Component.specialize({
             if (this._object !== object){
                 this._object = object;
                 this.properties = object ? object.properties : null;
-                console.log(this.properties)
             }
         },
         get: function () {
