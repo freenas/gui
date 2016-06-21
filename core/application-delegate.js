@@ -14,6 +14,7 @@ var Deserializer = require("montage/core/serialization/deserializer/montage-dese
     SystemInfoService = require("core/service/system-info-service").SystemInfoService,
     SystemDeviceService = require("core/service/system-device-service").SystemDeviceService,
     NetworkInterfaceService = require("core/service/network-interface-service").NetworkInterfaceService,
+    ShareService = require("core/service/share-service").ShareService,
     Montage = require("montage").Montage;
 
 
@@ -46,6 +47,7 @@ exports.ApplicationDelegate = Montage.specialize({
             app.systemInfoService = SystemInfoService.instance;
             app.systemDeviceService = SystemDeviceService.instance;
             app.networkInterfacesSevice = NetworkInterfaceService.instance;
+            app.shareService = ShareService.instance;
         }
     },
 

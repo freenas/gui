@@ -6,6 +6,7 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.ShareCreator = Component.specialize({
+
     newSmbShare: {
         value: null
     },
@@ -18,32 +19,14 @@ exports.ShareCreator = Component.specialize({
         value: null
     },
 
-    _createNewShare: {
-        value: function (shareType, propertiesModel) {
-            var self = this,
-                newShare;
-            return this.application.dataService.getNewInstanceForType(Model.Share).then(function(share) {
-                newShare = share;
-                newShare._isNewObject = true;
-                newShare.type = shareType;
-                newShare.enabled = true;
-                newShare.description = '';
-                newShare.volume = self._getCurrentVolume();
-                return self.application.dataService.getNewInstanceForType(propertiesModel);
-            }).then(function(properties) {
-                newShare.properties = properties;
-                newShare.properties.type = 'share-' + shareType;
-                return self.application.dataService.getNewInstanceForType(Model.Permissions);
-            }).then(function(permissions) {
-                newShare.permissions = permissions;
-                return newShare;
-            });
-        }
+    newIscsiShare: {
+        value: null
     },
 
     _getCurrentVolume: {
         value: function() {
             var currentSelection = this._selectionService.getCurrentSelection();
+
             for (var i = this.context.columnIndex - 1; i >= 0; i--) {
                 if (Object.getPrototypeOf(currentSelection.path[i]).Type == Model.Volume) {
                     return currentSelection.path[i];
@@ -56,50 +39,31 @@ exports.ShareCreator = Component.specialize({
         value: function(isFirstTime) {
             if (isFirstTime) {
                 this._selectionService = this.application.selectionService;
+                this._shareService = this.application.shareService;
             }
 
-            //Todo: improve how the new object are created, should be done lazily.
-            var self = this;
-            this._createNewShare('smb', Model.ShareSmb).then(function(smbShare) {
-                self.newSmbShare = smbShare;
-                self.newSmbShare.properties.vfs_objects = [];
-                self.newSmbShare.properties._browseable = true;
-            });
-            this._createNewShare('nfs', Model.ShareNfs).then(function(nfsShare) {
-                self.newNfsShare = nfsShare;
-            });
-            this._createNewShare('afp', Model.ShareAfp).then(function(afpShare) {
-                self.newAfpShare = afpShare;
-            });
+            this._populateNewShareObjectList();
+        }
+    },
 
-            var newIscsiShare;
+    _populateNewShareObjectList: {
+        value: function () {
+            // cache volume path.
+            var volume = this._getCurrentVolume(),
+                shareService = this._shareService;
 
-            this._createNewShare('iscsi', Model.ShareIscsiTarget).then(function (shareIscsiTarget) {
-                newIscsiShare = shareIscsiTarget;
-
-                return self.application.dataService.getNewInstanceForType(Model.ShareIscsi);
-            }).then(function (extent) {
-                newIscsiShare.__extent = extent;
-
-                return self.application.dataService.getNewInstanceForType(Model.ShareIscsiPortal);
-            }).then(function (portal) {
-                portal.discovery_auth_group = "NONE";
-                portal.discovery_auth_method = "NONE";
-                portal.listen = {
-                    port: 3260,
-                    address: "0.0.0.0"
-                };
-                newIscsiShare.__portal = portal;
-
-                return self.application.dataService.getNewInstanceForType(Model.ShareIscsiAuth);
-            }).then(function (iscsiAuth) {
-                newIscsiShare.__auth = iscsiAuth;
-
-                return self.application.dataService.getNewInstanceForType(Model.ShareIscsiUser);
-            }).then(function (iscsiUser) {
-                newIscsiShare._user = iscsiUser;
-
-                self.newIscsiShare = newIscsiShare;
+            //todo: block draw gate, in order to avoid some odd behavior.
+            Promise.all([
+                shareService.createSmbShare(volume),
+                shareService.createNfsShare(volume),
+                shareService.createAfpShare(volume),
+                shareService.createIscsiShare(volume)
+            ]).bind(this).then(function (shares) {
+                this.newSmbShare = shares[0];
+                this.newNfsShare = shares[1];
+                this.newAfpShare = shares[2];
+                this.newIscsiShare = shares[3];
+                //todo: can draw
             });
         }
     }

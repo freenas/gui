@@ -133,10 +133,14 @@ exports.Share = Component.specialize({
     },
 
     enterDocument: {
-        value: function(isFirsttime) {
-            if (isFirsttime) {
+        value: function(isFirstTime) {
+            if (isFirstTime) {
                 this._loadVolumeService();
+                this._shareService = this.application.shareService;
             }
+
+            //todo: block draw
+            this._shareService.populateShareObjectIfNeeded(this.object);
 
             this.targetPath = this.object.target_path;
             this.targetType = this.object.target_type;
