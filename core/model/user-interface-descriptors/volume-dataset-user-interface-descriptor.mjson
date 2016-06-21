@@ -6,7 +6,7 @@
             "creatorComponentModule": {"%": "ui/inspectors/volume-dataset.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Datasets'",
-            "nameExpression": "id"
+            "nameExpression": "name"
         }
     }
 }
