@@ -7,4 +7,10 @@ var Component = require("montage/ui/component").Component;
  * @class TaskNotificationDetails
  * @extends Component
  */
-exports.TaskNotificationDetails = Component.specialize(/** @lends TaskNotificationDetails# */ {});
+exports.TaskNotificationDetails = Component.specialize(/** @lends TaskNotificationDetails# */ {
+    handleRetryButtonAction: {
+        value: function(event) {
+            this.application.section = this.application.selectionService.restoreTaskSelection(this._object.jobId);
+        }
+    }
+});

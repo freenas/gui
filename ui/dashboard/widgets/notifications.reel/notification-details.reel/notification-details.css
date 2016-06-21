@@ -33,7 +33,7 @@
 
 .NotificationDetails-title {
     flex: 1;
-    text-align: center;
+    line-height: 1em;
     margin-right: 1em;
 }
 

@@ -67,16 +67,6 @@
             "bindings": {
                 "value": {"<-": "@owner.object.errorMessage"}
             }
-        },
-        "retry": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "retry"},
-                "value": "Retry"
-            },
-            "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object.state != 'FAILED'"}
-            }
         }
     }
     </script>
@@ -97,7 +87,6 @@
                 <svg><use xlink:href="#i-arrow"/></svg>
             </div>
             <div data-montage-id="notificationMessage" class="TaskNotification-info"></div>
-            <div data-montage-id="retry"></div>
         </div>
     </div>
 </body>

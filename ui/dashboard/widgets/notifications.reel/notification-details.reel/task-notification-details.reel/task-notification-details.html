@@ -89,6 +89,16 @@
             "bindings": {
                 "value": {"<-": "@warnings:iteration.object.message"}
             }
+        },
+        "retryButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "retryButton"},
+                "value": "Retry"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@owner.object.state != 'FAILED'"}
+            }
         }
     }
     </script>
@@ -99,14 +109,15 @@
             <div data-montage-id="backButton" class="TaskNotificationDetails-backButton">
                 <svg><use xlink:href="#i-arrow"/></svg>
             </div>
-            <span data-montage-id="jobId" class="NotificationDetail-title"></span>
+            <span data-montage-id="jobId" class="NotificationDetails-title"></span>
+            <button data-montage-id="retryButton" class="Button--primary Button--small"></button>
         </header>
         <main>
             <div data-montage-id="scrollview">
                 <div>
                     <div data-montage-id="errorCondition" class="TaskNotificationDetails-messages">
                         <div data-montage-id="errorMessage" class="TaskNotificationDetails-errorMessage"></div>
-                        <div data-montage-id="warnings" >
+                        <div data-montage-id="warnings" class="">
                             <div data-montage-id="warning" class="TaskNotificationDetails-warning"></div>
                         </div>
                     </div>

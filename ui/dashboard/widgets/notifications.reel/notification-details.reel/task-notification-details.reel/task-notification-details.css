@@ -32,8 +32,7 @@
 
 .TaskNotificationDetails-title {
     flex: 1;
-    text-align: center;
-    margin-right: 1em;
+    margin-right: .5em;
 }
 
 .TaskNotificationDetails-backButton {
@@ -54,7 +53,7 @@
     bottom: 0;
 }
 
-.TaskNotificationDetails-backButton:hover:before { background: rgba(255,255,255,.1); }
+.TaskNotificationDetails-backButton:hover:before { background: rgba(255,100,100,.2); }
 
 .TaskNotificationDetails-backButton svg {
     transform: rotate(180deg);
@@ -62,6 +61,11 @@
 }
 
 .TaskNotificationDetails-backButton:hover svg { color: #FFF; }
+
+.TaskNotificationDetails header [data-montage-id="retryButton"] {
+    position: relative;
+    z-index: 2;
+}
 
 .TaskNotificationDetails main {
     position: relative;
