@@ -156,23 +156,10 @@ exports.Share = Component.specialize({
     save: {
         value: function() {
             var self = this;
-
-            if (this.object.type === 'nfs') {
-                var properties = this.object.properties;
-                properties.maproot_user = properties.maproot_user != ' - ' ? properties.maproot_user : null;
-                properties.maproot_group = properties.maproot_group != ' - ' ? properties.maproot_group : null;
-                properties.mapall_user = properties.mapall_user != ' - ' ? properties.mapall_user : null;
-                properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
-            }
-
             this.object.target_path = this.filesystemTreeController.selectedPath;
-            if (this.object._isNewObject && this.targetType == 'DATASET') {
-                this.object.target_path += '/' + this.object.name;
-            }
-
             this.object.target_type = this.targetType;
 
-            return self.application.dataService.saveDataObject(self.object).then(function() {
+            return this._shareService.save(this.object).then(function() {
                 self.isServiceStarted = true;
             });
         }

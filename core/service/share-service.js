@@ -82,6 +82,26 @@ var ShareService = exports.ShareService = Montage.specialize({
         }
     },
 
+    save: {
+        value: function (shareObject) {
+            //FIXME: workaround for the SELECT component. Future dead code.
+            if (shareObject.type === shareObject.type) {
+                var properties = shareObject.properties;
+
+                properties.maproot_user = properties.maproot_user != ' - ' ? properties.maproot_user : null;
+                properties.maproot_group = properties.maproot_group != ' - ' ? properties.maproot_group : null;
+                properties.mapall_user = properties.mapall_user != ' - ' ? properties.mapall_user : null;
+                properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
+            }
+
+            if (shareObject._isNewObject && this.targetType == 'DATASET') {
+                shareObject.target_path += '/' + shareObject.name;
+            }
+
+            return this._dataService.saveDataObject(shareObject)
+        }
+    },
+
     _createNewShare: {
         value: function (shareType, volume) {
             return this._dataService.getNewInstanceForType(Model.Share).then(function(share) {
