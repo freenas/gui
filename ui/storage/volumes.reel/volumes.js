@@ -36,11 +36,11 @@ exports.Volumes = Component.specialize({
     },
 
     disks: {
-        get: function() {
+        get: function () {
             return this._disks || [];
         },
-        set: function(disks) {
-            if (this._disks != disks) {
+        set: function (disks) {
+            if (this._disks !== disks) {
                 this._disks = disks;
             }
         }
@@ -51,11 +51,11 @@ exports.Volumes = Component.specialize({
     },
 
     shares: {
-        get: function() {
+        get: function () {
             return this._shares;
         },
-        set: function(shares) {
-            if (this._shares != shares) {
+        set: function (shares) {
+            if (this._shares !== shares) {
                 this._shares = shares;
             }
         }
@@ -69,9 +69,8 @@ exports.Volumes = Component.specialize({
         get: function () {
             return this._datasets;
         },
-
         set: function (datasets) {
-            if (this._datasets != datasets) {
+            if (this._datasets !== datasets) {
                 this._datasets= datasets;
             }
         }
