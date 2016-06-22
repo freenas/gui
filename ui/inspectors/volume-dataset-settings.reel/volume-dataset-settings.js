@@ -73,7 +73,6 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 option;
             for (var i = 0, length = optionValues.length; i < length; i++) {
                 option = {};
-                console.log(optionValues[i], typeof optionValues[i])
                 if (optionValues[i] === "null" || optionValues[i] === null) {
                     option.value = "none";
                     if (this.datasetType === "child") {
