@@ -95,9 +95,11 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
                     }).then(function(newRefquota) {
                         newRefquota.source = "INHERITED";
                         self.object.properties.refquota = newRefquota;
+                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolsize);
+                    }).then(function(newVolsize) {
+                        self.object.properties.volsize = newVolsize;
                         return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
                     }).then(function(newVolblocksize) {
-                        newVolblocksize.source = "INHERITED";
                         self.object.properties.volblocksize = newVolblocksize;
                         return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation);
                     }).then(function(newRefreservation) {
