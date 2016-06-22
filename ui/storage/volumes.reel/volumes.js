@@ -104,6 +104,7 @@ exports.Volumes = Component.specialize({
         value: function () {
             var self = this;
             this._dataService = this.application.dataService;
+
             return Model.populateObjectPrototypeForType(Model.Volume).then(function (Volume) {
                 self._volumeService = Volume.constructor.services;
             }).then(function() {
@@ -121,25 +122,17 @@ exports.Volumes = Component.specialize({
             if (isFirstTime) {
                 this._diskAllocationPromises = {};
                 this._sharePathDecodePromises = {};
-                this._initializeServices().then(function() {
+                this._initializeServices().then(function () {
                     self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
                     self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
-                    self.addRangeAtPathChangeListener("_volumes", self, "handleVolumesChange");
                     self.addRangeAtPathChangeListener("disks", self, "handleDisksChange");
                     self.type = Model.Volume;
-                    self._listVolumes().then(function(volumes) {
+
+                    return self._listVolumes().then(function (volumes) {
                         self._volumes = volumes;
+
                         return self._loadDependencies();
                     }).then(function () {
-                        var volume,
-                            i, length;
-                        for (i = 0, length = self._volumes.length; i < length; i++) {
-                            volume = self._volumes[i];
-                            volume.shares = self.shares;
-                            volume.snapshots = self.snapshots;
-                            volume.disks = self.disks;
-                            volume.datasets = self.datasets;
-                        }
                         self.volumes = self._volumes;
                     });
                 });
@@ -167,8 +160,8 @@ exports.Volumes = Component.specialize({
 
     handleVolumesChange: {
         value: function(addedVolumes, removedVolumes) {
-            var volume, i, volumesLength,
-                disk, j, disksLength;
+            var volume, i, volumesLength, disk, j, disksLength;
+
             for (i = 0, volumesLength = removedVolumes.length; i < volumesLength; i++) {
                 volume = removedVolumes[i];
                 for (j = 0, disksLength = this.disks.length; i < disksLength; i++) {
@@ -178,6 +171,7 @@ exports.Volumes = Component.specialize({
                     }
                 }
             }
+
             for (i = 0, volumesLength = addedVolumes.length; i < volumesLength; i++) {
                 volume = addedVolumes[i];
                 volume.shares = this.shares;
