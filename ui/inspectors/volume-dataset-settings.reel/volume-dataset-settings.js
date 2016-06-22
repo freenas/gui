@@ -30,6 +30,33 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         value: null
     },
 
+    compressionSetting: {
+        set: function(value) {
+            if (this.object) {
+                this.object.compression = this._setInheritableProperty(value);
+            } else {
+                console.warn("Object not yet set!");
+            }
+        },
+
+        get: function() {
+            return this.object ? this._getInheritableProperty(this.object.compression) : "";
+        }
+    },
+
+    dedupSetting: {
+        set: function(value) {
+            if (this.object) {
+                this.object.dedup = this._setInheritableProperty(value);
+            } else {
+                console.warn("Object not yet set!");
+            }
+        },
+
+        get: function() {
+            return this.object ? this._getInheritableProperty(this.object.dedup) : "";
+        }
+    },
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {
@@ -60,6 +87,25 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 options.push(new Object(option));
             }
             return options;
+        }
+    },
+
+    _setInheritableProperty: {
+        value: function(value) {
+            var newDatasetProperty = {};
+            newDatasetProperty.source = value === "none" ? "INHERITED" : "LOCAL";
+            newDatasetProperty.parsed = value === "none" ? null : value;
+            return newDatasetProperty;
+        }
+    },
+
+    _getInheritableProperty: {
+        value: function(datasetProperty) {
+            if (datasetProperty.source === "INHERITED" || datasetProperty.parsed === null) {
+                return "none";
+            } else {
+                return datasetProperty.parsed;
+            }
         }
     }
 });

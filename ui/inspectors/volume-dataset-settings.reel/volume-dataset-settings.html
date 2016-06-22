@@ -21,7 +21,7 @@
                 "converter": {"@": "select-option-converter"}
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.compression.parsed"},
+                "selectedValue": {"<->": "@owner.compressionSetting"},
                 "options": {"<-": "@owner.compressionOptions"}
             }
         },
@@ -33,7 +33,7 @@
                 "converter": {"@": "select-option-converter"}
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.dedup.parsed"},
+                "selectedValue": {"<->": "@owner.dedupSetting"},
                 "options": {"<-": "@owner.dedupOptions"}
             }
         },
