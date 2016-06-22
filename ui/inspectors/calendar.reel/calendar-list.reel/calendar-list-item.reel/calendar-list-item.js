@@ -1,7 +1,8 @@
 /**
  * @module ui/calendar-list-item.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    PressComposer = require("montage/composer/press-composer").PressComposer;
 
 /**
  * @class CalendarListItem
@@ -45,6 +46,21 @@ exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ 
     enterDocument: {
         value: function () {
             this.classList.add('type-' + this.object.task.name.replace('.', '_').toLowerCase());
+        }
+    },
+
+    prepareForActivationEvents: {
+        value: function() {
+            var pressComposer = new PressComposer();
+            this.addComposer(pressComposer);
+            pressComposer.addEventListener("press", this);
+            this.element.addEventListener("mouseover", this);
+        }
+    },
+
+    handlePress: {
+        value: function(event) {
+            this.selectedTask = this.object.task;
         }
     },
 

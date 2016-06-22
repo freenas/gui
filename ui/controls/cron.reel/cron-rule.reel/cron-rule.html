@@ -19,7 +19,7 @@
                 "element": {"#": "cronLabel"}
             },
             "bindings": {
-                "value": {"<-": "@owner.rule.field.label"}
+                "value": {"<-": "@owner.label"}
             }
         },
 
@@ -30,7 +30,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.constructor.SELECTOR_OPTIONS"},
-                "selectedValue": {"<-": "@owner.rule.type || @owner.constructor.SELECTOR_TYPES.EVERY"}
+                "selectedValue": {"<->": "@owner.type"}
             }
         },
 
@@ -48,21 +48,21 @@
             "prototype": "blue-shark/ui/number-input.reel",
             "properties": {
                 "element": {"#": "frequencyNumber"},
-                "min": 0
+                "min": 1
             },
             "bindings": {
-                "value": {"<->": "@owner.value"}
+                "value": {"<->": "@owner.every"}
             }
         },
 
         "fieldValues": {
-            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "prototype": "blue-shark/ui/select.reel",
             "properties": {
                 "element": {"#": "fieldValues"}
             },
             "bindings": {
-                "content": {"<-": "@owner.constructor.FIELD_VALUES[@owner.rule.field.index]"},
-                "selection": {"<->": "@owner.values"}
+                "options": {"<-": "@owner.displayOptions"},
+                "selectedValue": {"<->": "@owner.on"}
             }
         }
     }
@@ -71,13 +71,15 @@
 <body>
     <div data-montage-id="owner" class="CronRule">
         <div data-montage-id="cronLabel">label</div>
-        <div data-montage-id="selector" class="CronRule-selector"></div>
-        <div data-montage-id="substitution">
-            <div data-arg="EVERY" class="CronRule-controls CronRule-controls--every">
-                <div data-montage-id="frequencyNumber" class="CronRule-control"></div>
-            </div>
-            <div data-arg="ON" class="CronRule-controls CronRule-controls--on">
-                <div data-montage-id="fieldValues" class="CronRule-control"></div>
+        <div class="CronRule-form">
+            <div data-montage-id="selector" class="CronRule-selector"></div>
+            <div data-montage-id="substitution" class="CronRule-substitution">
+                <div data-arg="EVERY" class="CronRule-controls CronRule-controls--every">
+                    <div data-montage-id="frequencyNumber" class="CronRule-control"></div>
+                </div>
+                <div data-arg="ON" class="CronRule-controls CronRule-controls--on">
+                    <div data-montage-id="fieldValues" class="CronRule-control"></div>
+                </div>
             </div>
         </div>
     </div>

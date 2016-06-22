@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="calendar.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "calendarWidget": {
+            "prototype": "./calendar-widget.reel",
+            "properties": {
+                "element": {"#": "calendarWidget"}
+            },
+            "bindings": {
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedPeriod": {"<->": "@owner.selectedPeriod"}
+            }
+        },
+        "list": {
+            "prototype": "./calendar-list.reel",
+            "properties": {
+                "element": {"#": "list"}
+            },
+            "bindings": {
+                "days": {"<-": "@calendarWidget.days.filter{isCurrentMonth}"},
+                "selectedTask": {"<->": "@owner.selectedObject"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Calendar">
+        <div>
+            <table data-montage-id="calendarWidget" class="Calendar-calendarWidget"></table>
+            <div class="Calendar-events">
+                <h2>Agenda</h2>
+                <div data-montage-id="list" class="Calendar-eventsList"></div>
+            </div>
+        </div>
+        <div data-montage-id="taskInspector" class="Calendar-inspector"></div>
+    </div>
+</body>
+</html>

@@ -4,23 +4,12 @@
 var Component = require("montage/ui/component").Component,
     Rule = require("ui/controls/cron.reel/rule").Rule;
 
+var EMPTY_STRING = "";
 /**
  * @class CronRule
  * @extends Component
  */
 var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
-
-    rulesController: {
-        value: null
-    },
-
-    rule: {
-        value: null
-    },
-
-    values: {
-        value: null
-    },
 
     selectedType: {
         value: null
@@ -28,13 +17,35 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
 
     enterDocument: {
         value: function () {
-            this._cancelSelectedTypeChangeListener = this.addPathChangeListener("selectedType", this, "handleSelectedTypeChange");
+            if (!this.options) {
+                if (typeof this.min === "number" && typeof this.max === "number") {
+                    var options = [];
+                    for (var i = this.min; i <= this.max; i++) {
+                        options.push({value: i, label: i + EMPTY_STRING});
+                    }
+                    this.displayOptions = options;
+                }
+            } else {
+                this.displayOptions = this.options.map(function(x) { return {value: x, label: x}; });
+            }
+
+            var parsedValue = parseInt(this.value);
+            if (isNaN(parsedValue)) {
+                var period = this.value.split('/')[1];
+                this.every = period ? +period : 1;
+                this.type = this.constructor.SELECTOR_TYPES.EVERY;
+            } else {
+                this.on = parsedValue;
+                this.type = this.constructor.SELECTOR_TYPES.ON;
+            }
+
+//            this._cancelSelectedTypeChangeListener = this.addPathChangeListener("selectedType", this, "handleSelectedTypeChange");
         }
     },
 
     exitDocument: {
        value: function () {
-           this._cancelSelectedTypeChangeListener();
+//           this._cancelSelectedTypeChangeListener();
        }
     },
 
@@ -46,14 +57,6 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
 
                 } else {
                     this.values = [];
-                }
-            } else {
-                if (this.mode === CronRule.MODES.EDITOR) {
-                    this.value = this.selectedType === this.rule.type && this.rule.values.length === 1
-                        ? this.rule.values[0]: 0;
-
-                } else {
-                    this.value = 0;
                 }
             }
         }

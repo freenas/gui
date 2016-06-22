@@ -16,6 +16,19 @@
     border-bottom: 1px solid rgba(255,255,255,.1);
 }
 
+.CronRule-form {
+    display: flex;
+    align-items: flex-end;
+}
+
+.CronRule-selector {
+    flex: 2;
+}
+
+.CronRule-substitution {
+    flex: 3;
+}
+
 .CronRule-controls {
     margin-top: .5em;
     display: flex;

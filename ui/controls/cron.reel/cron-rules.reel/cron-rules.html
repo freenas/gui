@@ -13,27 +13,125 @@
         "rulesTitle": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "rulesTitle"},
-                "value": "Rules"
-            }
-        },
-        "rules": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "rules"}
+                "element": {"#": "rulesTitle"}
             },
             "bindings": {
-                "content": {"<-": "@owner.rules"}
+                "value": {"<-": "@owner.label"}
             }
         },
-        "rule": {
+        "second": {
             "prototype": "../cron-rule.reel",
             "properties": {
-                "element": {"#": "rule"},
-                "rulesController": {"@": "owner"}
+                "element": {"#": "second"},
+                "label": "Second(s)",
+                "min": 0,
+                "max": 59
             },
             "bindings": {
-                "rule": {"<-": "@rules:iteration.object"}
+                "value": {"<-": "@owner.value.second"}
+            }
+        },
+        "minute": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "minute"},
+                "label": "Minute(s)",
+                "min": 0,
+                "max": 59
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value.minute"}
+            }
+        },
+        "hour": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "hour"},
+                "label": "Hour(s)",
+                "min": 0,
+                "max": 23
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value.hour"}
+            }
+        },
+        "day": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "day"},
+                "label": "Day(s)",
+                "min": 1,
+                "max": 31
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value.day"}
+            }
+        },
+        "day_of_week": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "day_of_week"},
+                "label": "Day(s) of week",
+                "options": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday"
+                ]
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value.day_of_week"}
+            }
+        },
+        "month": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "month"},
+                "label": "Month(s)",
+                "options": [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December"
+                ]
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value.month"}
+            }
+        },
+        "year": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "year"},
+                "label": "Year(s)",
+                "min": 1900,
+                "max": 2100
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value.year"}
+            }
+        },
+        "week": {
+            "prototype": "../cron-rule.reel",
+            "properties": {
+                "element": {"#": "week"},
+                "label": "Week(s)",
+                "min": 1,
+                "max": 54
+            },
+            "bindings": {
+                "value": {"<-": "@owner.value.week"}
             }
         }
     }
@@ -43,9 +141,16 @@
     <div data-montage-id="owner" class="CronRules">
         <div data-montage-id="rulesTitle"></div>
         <div class="CronRules-rulesContainer">
-            <div data-montage-id="rules" class="CronRules-rules">
-                <div data-montage-id="rule" class="CronRules-rule"></div>
-            </div>
+            <div data-montage-id="second"></div>
+            <div data-montage-id="minute"></div>
+            <div data-montage-id="hour"></div>
+            <div data-montage-id="day"></div>
+            <div data-montage-id="day_of_week"></div>
+            <div data-montage-id="week"></div>
+            <div data-montage-id="month"></div>
+            <div data-montage-id="year"></div>
+            <div data-montage-id="timezone"></div>
+            <div data-montage-id="coalesce"></div>
         </div>
     </div>
 </body>

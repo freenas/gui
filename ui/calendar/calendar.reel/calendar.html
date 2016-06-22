@@ -10,23 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
-        "calendarWidget": {
-            "prototype": "../calendar-widget.reel",
+        "cascadingList": {
+            "prototype": "ui/controls/cascading-list.reel",
             "properties": {
-                "element": {"#": "calendarWidget"}
+                "element": {"#": "cascadingList"}
             },
             "bindings": {
-                "taskCategories": {"<-": "@owner.taskCategories"},
-                "selectedPeriod": {"<->": "@owner.selectedPeriod"}
-            }
-        },
-        "list": {
-            "prototype": "../calendar-list.reel",
-            "properties": {
-                "element": {"#": "list"}
-            },
-            "bindings": {
-                "days": {"<-": "@calendarWidget.days.filter{isCurrentMonth}"}
+                "root": {"<-": "@owner.calendar"}
             }
         }
     }
@@ -34,16 +24,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Calendar">
-        <div>
-            <table data-montage-id="calendarWidget" class="Calendar-calendarWidget"></table>
-            <div class="Calendar-events">
-                <h2>Agenda</h2>
-                <div data-montage-id="list" class="Calendar-eventsList"></div>
-            </div>
-        </div>
-        <div class="Calendar-inspector">
-            inspector / scheduler
-        </div>
+        <div data-montage-id="cascadingList"></div>
     </div>
 </body>
 </html>

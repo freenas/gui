@@ -17,7 +17,6 @@ exports.CalendarWidgetDay = Component.specialize({
             return this._data;
         },
         set: function(data) {
-console.log(data);
             if (this._data !== data) {
                 this._data = data;
                 if (data) {

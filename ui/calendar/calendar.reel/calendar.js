@@ -23,9 +23,12 @@ exports.Calendar = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
-            this.application.calendarService.listTasks().then(function(tasks) {
-                self.tasks = tasks;
+            this.application.calendarService.getCalendarInstance().then(function(calendar) {
+                self.calendar = calendar;
             });
+//            this.application.calendarService.listTasks().then(function(tasks) {
+//                self.tasks = tasks;
+//            });
         }
     }
 

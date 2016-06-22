@@ -1,0 +1,18 @@
+.CalendarTask {
+    color: inherit;
+    min-width: 350px;
+}
+
+.CalendarTask-type {
+    color: #FFF;
+    font-weight: bolder;
+    padding: 0.125em;
+}
+
+.CalendarTask.type-rsync .CalendarTask-type         { background-color: #D95B1B; }
+.CalendarTask.type-volume_scrub .CalendarTask-type         { background-color: #093A51; }
+.CalendarTask.type-replication_replicate_dataset .CalendarTask-type   { background-color: #008C84; }
+.CalendarTask.type-disk_parallel_test .CalendarTask-type         { background-color: #990F82; }
+.CalendarTask.type-update_checkfetch .CalendarTask-type        { background-color: #C4A412; }
+.CalendarTask.type-snapshot .CalendarTask-type      { background-color: #6D2A2A; }
+

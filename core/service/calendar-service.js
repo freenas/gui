@@ -20,9 +20,39 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         value: null
     },
 
+    _calendar: {
+        value: null
+    },
+
+// FIXME: Should be a middleware provided enum
+    taskCategories: {
+        value: [
+            { name: "Scrub", value: "volume.scrub" },
+            { name: "Replication", value: "replication.replicate_dataset" },
+            { name: "Smart", value: "disk.parallel_test" },
+            { name: "Update", value: "update.checkfetch" },
+//            { name: "Snapshot", value: "" }
+        ]
+    },
+
     constructor: {
         value: function() {
             this._dataService = FreeNASService.instance;
+        }
+    },
+
+    getCalendarInstance: {
+        value: function() {
+            var calendarPromise;
+            if (!this._calendar) {
+                var self = this;
+                calendarPromise = this._dataService.getNewInstanceForType(Model.Calendar).then(function(calendar) {
+                    return self._calendar = calendar;
+                });
+            } else {
+                calendarPromise = Promise.resolve(this._calendar);
+            }
+            return calendarPromise;
         }
     },
 

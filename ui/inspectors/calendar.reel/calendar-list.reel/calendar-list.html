@@ -25,7 +25,8 @@
                 "element": {"#": "day"}
             },
             "bindings": {
-                "day": {"<-": "@days:iteration.object"}
+                "day": {"<-": "@days:iteration.object"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
             }
         },
         "scrollview": {

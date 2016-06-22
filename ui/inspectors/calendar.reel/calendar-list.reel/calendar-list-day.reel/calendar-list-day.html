@@ -37,7 +37,8 @@
                 "element": {"#": "item"}
             },
             "bindings": {
-                "object": {"<-": "@items:iteration.object"}
+                "object": {"<-": "@items:iteration.object"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
             }
         }
     }

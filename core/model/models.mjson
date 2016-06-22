@@ -939,6 +939,10 @@
         {
             "modelId": "core/model/custom-descriptors/system-section.mjson",
             "type": "SystemSection"
+        },
+        {
+            "modelId": "core/model/custom-descriptors/calendar.mjson",
+            "type": "Calendar"
         }
     ]
 }

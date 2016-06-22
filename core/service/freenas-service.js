@@ -41,7 +41,6 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
             if (this.authorizationPolicy === DataService.AuthorizationPolicyType.UpfrontAuthorizationPolicy) {
                 DataService.authorizationManager.authorizeService(this).then(function (authorization) {
-                    console.log("I'm Authorized!! ", authorization);
                 });
             }
 
@@ -148,6 +147,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.Update,
             Model.UpdateTrain,
             Model.BootEnvironment,
+            Model.Calendar,
             Model.CalendarTask
         ]
     },

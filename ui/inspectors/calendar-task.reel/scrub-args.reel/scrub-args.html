@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="scrub-args.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "optionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "valuePropertyName": "id",
+                "labelPropertyName": "id"
+            }
+        },
+        "volume": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "volume"},
+                "label": "Volume",
+                "converter": {"@": "optionConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.volumes"},
+                "selectedValue": {"<->": "@owner.args.0"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ScrubArgs">
+        <div data-montage-id="volume"></div>
+    </div>
+</body>
+</html>
