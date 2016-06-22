@@ -28,11 +28,11 @@ exports.Volumes = Component.specialize({
     },
 
     _sharePathDecodePromises: {
-        value: null
+        value: {}
     },
 
     _diskAllocationPromises: {
-        value: null
+        value: {}
     },
 
     disks: {
@@ -115,31 +115,27 @@ exports.Volumes = Component.specialize({
         }
     },
 
-    enterDocument: {
-        value: function (isFirstTime) {
+    templateDidLoad: {
+        value: function () {
             var self = this;
 
-            if (isFirstTime) {
-                this._diskAllocationPromises = {};
-                this._sharePathDecodePromises = {};
-                this._initializeServices().then(function () {
-                    self.type = Model.Volume;
+            this._initializeServices().then(function () {
+                self.type = Model.Volume;
 
-                    return self._listVolumes().then(function (volumes) {
-                        self._volumes = volumes;
+                return self._listVolumes().then(function (volumes) {
+                    self._volumes = volumes;
 
-                        return self._loadDependencies();
-                    }).then(function () {
-                        // Change listeners are set at the end of the initialization for security and performance reasons,
-                        // Indeed, once they are set on the properties they will be automatically called with all the populated data.
-                        self.volumes = self._volumes;
+                    return self._loadDependencies();
+                }).then(function () {
+                    // Change listeners are set at the end of the initialization for security and performance reasons,
+                    // Indeed, once they are set on the properties they will be automatically called with all the populated data.
+                    self.volumes = self._volumes;
 
-                        self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
-                        self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
-                        self.addRangeAtPathChangeListener("disks", self, "handleDisksChange");
-                    });
+                    self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
+                    self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
+                    self.addRangeAtPathChangeListener("disks", self, "handleDisksChange");
                 });
-            }
+            });
         }
     },
 
