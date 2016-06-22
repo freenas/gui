@@ -132,6 +132,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_cryptocertificate_selfsigned": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "selfsigned",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_cryptocertificate_serial": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -212,6 +220,7 @@
         {"@": "blueprint_cryptocertificate_organization"},
         {"@": "blueprint_cryptocertificate_privatekey"},
         {"@": "blueprint_cryptocertificate_privatekey_path"},
+        {"@": "blueprint_cryptocertificate_selfsigned"},
         {"@": "blueprint_cryptocertificate_serial"},
         {"@": "blueprint_cryptocertificate_signing_ca_id"},
         {"@": "blueprint_cryptocertificate_signing_ca_name"},
