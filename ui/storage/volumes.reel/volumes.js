@@ -123,9 +123,6 @@ exports.Volumes = Component.specialize({
                 this._diskAllocationPromises = {};
                 this._sharePathDecodePromises = {};
                 this._initializeServices().then(function () {
-                    self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
-                    self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
-                    self.addRangeAtPathChangeListener("disks", self, "handleDisksChange");
                     self.type = Model.Volume;
 
                     return self._listVolumes().then(function (volumes) {
@@ -133,7 +130,13 @@ exports.Volumes = Component.specialize({
 
                         return self._loadDependencies();
                     }).then(function () {
+                        // Change listeners are set at the end of the initialization for security and performance reasons,
+                        // Indeed, once they are set on the properties they will be automatically called with all the populated data.
                         self.volumes = self._volumes;
+
+                        self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
+                        self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
+                        self.addRangeAtPathChangeListener("disks", self, "handleDisksChange");
                     });
                 });
             }
