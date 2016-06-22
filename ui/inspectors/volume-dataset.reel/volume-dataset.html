@@ -19,7 +19,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"},
-                "canDelete": {"<-": "@owner.datasetType == 'child'"}
+                "canDelete": {"<-": "@owner.datasetLevel == 'child'"}
             }
         },
         "nameSubstitution": {
@@ -28,7 +28,7 @@
                 "element": {"#": "nameSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.datasetType"}
+                "switchValue": {"<-": "@owner.datasetLevel"}
             }
         },
         "nameEdit": {
@@ -58,7 +58,7 @@
             },
             "bindings": {
                 "object": {"<->": "@owner.object.properties"},
-                "datasetType": {"<-": "@owner.datasetType"}
+                "datasetLevel": {"<-": "@owner.datasetLevel"}
             }
         }
     }

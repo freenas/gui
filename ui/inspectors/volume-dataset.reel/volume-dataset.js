@@ -26,7 +26,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         value: null
     },
 
-    datasetType: {
+    datasetLevel: {
         value: null
     },
 
@@ -34,9 +34,9 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         value: function() {
             this._loadVolume();
             if ( this.object.rname && ( this.object.name === this.object.volume )) {
-                this.datasetType = "root";
+                this.datasetLevel = "root";
             } else {
-                this.datasetType = "child";
+                this.datasetLevel = "child";
             }
             this._initializeProperties();
             this.object._isNew = !this.object.rname;

@@ -26,6 +26,10 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         ]
     },
 
+    datasetLevel: {
+        value: null
+    },
+
     datasetType: {
         value: null
     },
@@ -75,7 +79,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 option = {};
                 if (optionValues[i] === "null" || optionValues[i] === null) {
                     option.value = "none";
-                    if (this.datasetType === "child") {
+                    if (this.datasetLevel === "child") {
                         option.label = "Inherit";
                     } else {
                         option.label = "Reset to Default";
