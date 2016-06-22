@@ -19,16 +19,8 @@ exports.Volumes = Component.specialize({
         value: {}
     },
 
-    _spareDisks: {
-        value: []
-    },
-
     _disks: {
         value: null
-    },
-
-    _volumeDisksPromises: {
-        value: {}
     },
 
     _volumes: {
