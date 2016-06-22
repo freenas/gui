@@ -93,12 +93,24 @@
             "type": "ContainerDeviceDisk"
         },
         {
+            "modelId": "core/model/descriptors/container-device-graphics.mjson",
+            "type": "ContainerDeviceGraphics"
+        },
+        {
             "modelId": "core/model/descriptors/container-device-nic.mjson",
             "type": "ContainerDeviceNic"
         },
         {
             "modelId": "core/model/descriptors/container-device-properties.mjson",
             "type": "ContainerDeviceProperties"
+        },
+        {
+            "modelId": "core/model/descriptors/container-device-usb-config.mjson",
+            "type": "ContainerDeviceUsbConfig"
+        },
+        {
+            "modelId": "core/model/descriptors/container-device-usb.mjson",
+            "type": "ContainerDeviceUsb"
         },
         {
             "modelId": "core/model/descriptors/container-device-volume.mjson",
