@@ -157,25 +157,20 @@ exports.Volumes = Component.specialize({
     },
 
     handleSharesChange: {
-        value: function(shares) {
-            var volumeNamePromise,
-                volumeNamesPromises = [],
-                share,
-                i, length;
-            for (i = 0, length = shares.length; i < length; i++) {
-                share = shares[i];
-                if (!share.volume) {
-                    volumeNamePromise = this._getContainingVolume(share);
-                } else {
-                    volumeNamePromise = Promise.resolve(share.volume);
+        value: function (plus, minus) {
+            if (plus && plus.length) {
+                var share, i, length;
+
+                for (i = 0, length = plus.length; i < length; i++) {
+                    share = plus[i];
+
+                    if (!share.volume) {
+                        this._setVolumeForShare(share);
+                    }
                 }
-                volumeNamesPromises.push(volumeNamePromise);
             }
-            Promise.all(volumeNamesPromises).then(function(volumeNames) {
-                for (i =0, length = shares.length; i < length; i++) {
-                    shares[i].volume = volumeNames[i];
-                }
-            });
+
+            //TODO: minus.
         }
     },
 
@@ -274,14 +269,24 @@ exports.Volumes = Component.specialize({
         }
     },
 
+    _setVolumeForShare: {
+        value: function (share) {
+            return this._getContainingVolume(share).then(function (volumeName) {
+                share.volume = volumeName;
+            });
+        }
+    },
+
     _getContainingVolume: {
-        value: function(share) {
+        value: function (share) {
             if (!this._sharePathDecodePromises[share.filesystem_path]) {
                 var self = this;
+
                 this._sharePathDecodePromises[share.filesystem_path] = this._volumeService.decodePath(share.filesystem_path).then(function (decodedPath) {
                     return self._volumesById[decodedPath[0]];
                 });
             }
+
             return this._sharePathDecodePromises[share.filesystem_path];
         }
     }
