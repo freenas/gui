@@ -33,13 +33,12 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
     enterDocument: {
         value: function() {
             this._loadVolume();
-            if ( this.object.rname && ( this.object.name === this.object.volume )) {
+            if ( !this.object._isNew && ( this.object.name === this.object.volume )) {
                 this.datasetLevel = "root";
             } else {
                 this.datasetLevel = "child";
             }
             this._initializeProperties();
-            this.object._isNew = !this.object.rname;
         }
     },
 
@@ -116,7 +115,6 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
 
     save: {
         value: function() {
-            this.object._isNew = !this.object.rname;
             this.application.dataService.saveDataObject(this.object);
         }
     },
