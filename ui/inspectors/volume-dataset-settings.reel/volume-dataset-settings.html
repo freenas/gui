@@ -10,26 +10,31 @@
                 "element": {"#": "owner"}
             }
         },
+        "select-option-converter": {
+            "prototype": "core/converter/select-option-converter"
+        },
         "compression": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "compression"},
-                "label": "Compression"
+                "label": "Compression",
+                "converter": {"@": "select-option-converter"}
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.compression.parsed"},
-                "options": {"<-": "@owner.COMPRESSION_OPTIONS"}
+                "options": {"<-": "@owner.compressionOptions"}
             }
         },
         "dedup": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "dedup"},
-                "label": "Deduplication"
+                "label": "Deduplication",
+                "converter": {"@": "select-option-converter"}
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.dedup.parsed"},
-                "options": {"<-": "@owner.DEDUP_OPTIONS"}
+                "options": {"<-": "@owner.dedupOptions"}
             }
         },
         "atime": {

@@ -1,7 +1,9 @@
 /**
  * @module ui/volume-dataset-settings.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
+    DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue;
 
 /**
  * @class VolumeDatasetSettings
@@ -9,39 +11,12 @@ var Component = require("montage/ui/component").Component;
  */
 exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSettings# */ {
 
-    COMPRESSION_OPTIONS: {
-        value: [
-            "on",
-            "off",
-            "lzjb",
-            "zle",
-            "lz4",
-            "gzip",
-            "gzip-1",
-            "gzip-2",
-            "gzip-3",
-            "gzip-4",
-            "gzip-5",
-            "gzip-6",
-            "gzip-7",
-            "gzip-8",
-            "gzip-9"
-        ]
+    compressionOptions: {
+        value: null
     },
 
-    DEDUP_OPTIONS: {
-        value: [
-            "on",
-            "off",
-            "verify",
-            "sha256",
-            "sha256,verify",
-            "sha512",
-            "sha512,verify",
-            "skein",
-            "skein,verify",
-            "edonr,verify"
-        ]
+    dedupOptions: {
+        value: null
     },
 
     ATIME_OPTIONS: {
@@ -53,5 +28,38 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
 
     datasetType: {
         value: null
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            if (isFirstTime) {
+                this.compressionOptions = this._intializeInheritablePropertyOptions(COMPRESSION_OPTIONS);
+                this.dedupOptions = this._intializeInheritablePropertyOptions(DEDUP_OPTIONS);
+            }
+        }
+    },
+
+    _intializeInheritablePropertyOptions: {
+        value: function(optionEnum) {
+            var optionValues = Object.keys(optionEnum),
+                options = [],
+                option;
+            for (var i = 0, length = optionValues.length; i < length; i++) {
+                option = {};
+                console.log(optionValues[i], typeof optionValues[i])
+                if (optionValues[i] === "null" || optionValues[i] === null) {
+                    option.value = "none";
+                    if (this.datasetType === "child") {
+                        option.label = "Inherit";
+                    } else {
+                        option.label = "Reset to Default";
+                    }
+                } else {
+                    option.label = option.value = optionValues[i];
+                }
+                options.push(new Object(option));
+            }
+            return options;
+        }
     }
 });
