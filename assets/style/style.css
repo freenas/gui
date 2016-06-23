@@ -225,6 +225,14 @@ $Icons
     display: none;
 }
 
+/* Flex Helpers */
+
+.flex-row { display: flex; }
+
+.flex-spaceBetween { justify-content: space-between; }
+
+.flex-alignItems-center { align-items: center; }
+
 /* Table Styles */
 
 table {
