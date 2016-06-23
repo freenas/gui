@@ -14,51 +14,50 @@ var generateEventTypesForEntities = require("../lib/generate-events").generateEv
 
 
 program
-    .version('0.0.1')
+    .version('0.0.2')
+    .option('-u, --username <username>', 'username that will be used to establish a connection with the middleware')
+    .option('-p, --password <password>', 'password that will be used to establish a connection with the middleware')
+    .option('-H, --host <host>', 'host that will be used to establish a connection with the middleware')
+    .option('-P, --port <port>', 'port that will be used to establish a connection with the middleware')
+    .option('-v, --verbose', "enable the verbose mode")
+    .option('-w, --warning', "log warning messages")
+    .option('-s, --secure', "establish a secure connection with the middleware")
     .parse(process.argv);
 
+program.save = true;
 
-Connect.authenticateIfNeeded().then(function () {
+Connect.authenticateIfNeeded(program.username, program.password, program).then(function () {
     var progressBar = new ProgressBar('processing [:bar] :percent :etas', { total: 6 });
 
     return cleanMontageDataCache(
         MontageDataConfig.EnumerationsDirectoryAbsolutePath,
         MontageDataConfig.DescriptorsDirectoryAbsolutePath).then(function () {
         progressBar.tick();
+        program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 
-        return generateServices({
-            target: MontageDataConfig.ModelDirectoryAbsolutePath,
-            save: true
-        }).then(function () {
+        return generateServices(program).then(function () {
             progressBar.tick();
+            program.target = MontageDataConfig.DescriptorsDirectoryAbsolutePath;
 
-            return generateDescriptors({
-                target: MontageDataConfig.DescriptorsDirectoryAbsolutePath,
-                save: true
-            }).then(function () {
+            return generateDescriptors(program).then(function () {
                 progressBar.tick();
+                program.target = MontageDataConfig.EnumerationsDirectoryAbsolutePath;
 
-                return generateEnumerations({
-                    target: MontageDataConfig.EnumerationsDirectoryAbsolutePath,
-                    save: true
-                }).then(function () {
+                return generateEnumerations(program).then(function () {
                     progressBar.tick();
+                    program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 
                     return generateModel(
                         [
                             MontageDataConfig.DescriptorsDirectoryAbsolutePath,
                             MontageDataConfig.CustomDescriptorsAbsolutePath
-                        ], {
-                            target: MontageDataConfig.ModelDirectoryAbsolutePath,
-                            save: true
-                        }
+                        ],
+                        program
                     ).then(function () {
                         progressBar.tick();
+                        program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 
-                        return generateEventTypesForEntities({
-                            target: MontageDataConfig.ModelDirectoryAbsolutePath,
-                            save: true
-                        }).then(function () {
+                        return generateEventTypesForEntities(program).then(function () {
                             progressBar.tick();
 
                             return null;
