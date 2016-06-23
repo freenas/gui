@@ -20,7 +20,7 @@
 
 /* buttons */
 
-.CalendarWidget button {
+.Calendar-navigation button {
     font-size: .8em;
     height: 2.5em;
     background: #2A2E33;
@@ -30,13 +30,11 @@
     outline: none;
 }
 
-.CalendarWidget button:not(.selected):not(.montage--disabled):hover,
-.CalendarWidget button:not(.montage--disabled):hover {
+.Calendar-navigation button:not(.selected):not(.montage--disabled):hover,
+.Calendar-navigation button:not(.montage--disabled):hover {
     background: #343739;
     color: #E0E5E5;
 }
-
-.CalendarWidget button:active {}
 
 .CalendarWidget-todayButton {
     height: 2rem;
@@ -101,4 +99,16 @@
 
 .CalendarWidget-day {
     height: 5.5em;
+}
+
+/*
+
+Media Queries
+
+*/
+
+@media (min-height: 60em) {
+    .CalendarWidget-day {
+        height: 8em;
+    }
 }

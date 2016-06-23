@@ -1,10 +1,17 @@
 .CalendarWidgetTask {
     cursor: pointer;
     display: none;
+    padding: 0 .25rem;
+}
+
+.CalendarWidgetTask:hover {
+    color: #fff;
+    background: rgba(255,255,255,.05);
 }
 
 .CalendarWidgetTask.is-visible {
-    display: inherit;
+    display: flex;
+    align-items: center;
 }
 
 .CalendarWidgetTask.is-disabled {
@@ -15,7 +22,11 @@
     background-color: #2B9CD8;
 }
 
-.CalendarWidgetTask.is-selected .CalendarWidgetTask-title {
+.CalendarWidgetDay-today .CalendarWidgetTask.is-selected {
+    background-color: #2B9CD8;
+}
+
+.CalendarWidgetTask.is-selected {
     color: #FFF;
 }
 

@@ -7,6 +7,11 @@
     margin-right: .5em;
 }
 
+.CalendarWidgetTask .TaskTypeIndicator {
+
+    margin-right: .25em;
+}
+
 .TaskTypeIndicator.type-rsync                           { color: #D95B1B; }
 .TaskTypeIndicator.type-volume_scrub                    { color: #093A51; }
 .TaskTypeIndicator.type-replication_replicate_dataset   { color: #008C84; }

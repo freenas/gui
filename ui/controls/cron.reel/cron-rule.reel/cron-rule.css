@@ -3,18 +3,17 @@
 }
 
 .CronRule:not(:last-child) {
-    margin-bottom: 1em;
-    padding-bottom: 1em;
+    margin-bottom:  1em;
 }
 
-.CronRule:not(:last-child):after {
+/*.CronRule:not(:last-child):after {
     position: absolute;
     content: '';
     bottom: 0;
     left:   0;
     right:  0;
     border-bottom: 1px solid rgba(255,255,255,.1);
-}
+}*/
 
 .CronRule-form {
     display: flex;
@@ -22,11 +21,12 @@
 }
 
 .CronRule-selector {
-    flex: 2;
+    width: 8em;
+    margin-right: 1em;
 }
 
 .CronRule-substitution {
-    flex: 3;
+    width: 8em;
 }
 
 .CronRule-controls {
@@ -40,10 +40,6 @@
 
 .CronRule-controls--every .CronRule-control + .CronRule-control {
     margin-left: .5em;
-}
-
-.CronRule .NumberInput {
-    max-width: 10em;
 }
 
 .CronRule .MultipleSelectGrid {

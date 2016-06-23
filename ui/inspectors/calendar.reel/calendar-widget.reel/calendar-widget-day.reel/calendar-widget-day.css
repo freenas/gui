@@ -56,7 +56,6 @@
     top: 1em;
     width: 100%;
     height: calc(100% - 1em);
-    padding: 0 0.25em 0.25em;
 }
 
 .CalendarWidgetDay-otherMonth .CalendarWidgetDay-content {

@@ -1,9 +1,9 @@
-.Calendar {
+/*.Calendar {
     flex: 1;
     display: flex;
     padding-left: 1em;
     background: #16171A;
-
+    outline: 1px solid red;
 }
 
 .Calendar > div:first-child {
@@ -37,4 +37,4 @@
 .Calendar-inspector {
     padding: 1em;
     border-left: 1px solid rgba(255,255,255,.2);
-}
+}*/

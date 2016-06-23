@@ -1,7 +1,8 @@
 /**
  * @module ui/calendar-list-day.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 /**
  * @class CalendarListDay
@@ -26,6 +27,12 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
                     });
                 }
             }
+        }
+    },
+
+    fullDate: {
+        get: function() {
+            return monthNames[this.day.month] + " " + this.day.date;
         }
     },
 

@@ -148,6 +148,14 @@
             "bindings": {
                 "options": {"<-": "@owner.views"}
             }
+        },
+        "createTaskButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "createTaskButton"},
+                "value": "Create",
+                "enabled": false
+            }
         }
     }
     </script>
@@ -171,8 +179,11 @@
                 </div>
                 <div data-montage-id="viewTabs" class="Calendar-viewTabs"></div>
             </div>
-            <div data-montage-id="taskCategories" class="CalendarWidget-taskCategories">
-                <div data-montage-id="taskCategory" class="CalendarWidget-taskCategories"></div>
+            <div class="flex-row flex-spaceBetween flex-alignItems-center">
+                <div data-montage-id="taskCategories" class="CalendarWidget-taskCategories">
+                    <div data-montage-id="taskCategory" class="CalendarWidget-taskCategories"></div>
+                </div>
+                <button data-montage-id="createTaskButton" class="Button--create">test</button>
             </div>
         </caption>
         <thead>
