@@ -2,8 +2,18 @@
     position: relative;
     margin: 1em -1em;
     margin-bottom: 1em;
-    background: #16171A;
+    /*background: blue;*/
     line-height: 3em;
+    color: #fff;
+}
+
+.InspectorSectionTitle:before {
+    content: '';
+    position: absolute;
+    left: 1em;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1px solid rgba(255,255,255,.2);
 }
 
 .InspectorSectionTitle-text {

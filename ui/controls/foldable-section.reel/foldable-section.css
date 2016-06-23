@@ -11,6 +11,10 @@
     background: none;
 }
 
+.FoldableSection .InspectorSectionTitle:before {
+    display: none;
+}
+
 /* content */
 
 .FoldableSection-content {
