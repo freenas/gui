@@ -1,0 +1,21 @@
+.CalendarWidgetTask {
+    cursor: pointer;
+    display: none;
+}
+
+.CalendarWidgetTask.is-visible {
+    display: inherit;
+}
+
+.CalendarWidgetTask.is-disabled {
+    opacity: 0.5;
+}
+
+.CalendarWidgetTask.is-selected {
+    background-color: #2B9CD8;
+}
+
+.CalendarWidgetTask.is-selected .CalendarWidgetTask-title {
+    color: #FFF;
+}
+

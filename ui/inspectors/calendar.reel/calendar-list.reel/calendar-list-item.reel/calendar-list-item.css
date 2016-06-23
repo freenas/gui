@@ -27,21 +27,8 @@
     color: #666;
 }
 
-.CalendarListItem-type {
-    display: inline-block;
-    width:  .8em;
-    height: .8em;
-    border-radius: 50%;
-    background-color: currentColor;
-    margin-right: .5em;
-}
-
 .CalendarListItem-title {
     color: #B1BCBE;
-}
-
-.CalendarListItem.is-selected {
-    background-color: #2B9CD8;
 }
 
 .CalendarListItem.is-selected {
@@ -52,12 +39,4 @@
 .CalendarListItem.is-selected .CalendarListItem-time {
     color: #FFF;
 }
-
-.CalendarListItem.type-rsync         { color: #D95B1B; }
-.CalendarListItem.type-volume_scrub         { color: #093A51; }
-.CalendarListItem.type-replication_replicate_dataset   { color: #008C84; }
-.CalendarListItem.type-disk_parallel_test         { color: #990F82; }
-.CalendarListItem.type-update_checkfetch        { color: #C4A412; }
-.CalendarListItem.type-snapshot      { color: #6D2A2A; }
-
 

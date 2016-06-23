@@ -7,13 +7,16 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "_maxDisplayedLines": 3
             },
             "bindings": {
                 "classList.has('CalendarWidgetDay-otherMonth')": {"<-": "!data.isCurrentMonth"},
                 "classList.has('CalendarWidgetDay-Sunday')": {"<-": "data.day == 0"},
                 "classList.has('CalendarWidgetDay-Saturday')": {"<-": "data.day == 6"},
-                "classList.has('CalendarWidgetDay-today')": {"<-": "data.isToday"}
+                "classList.has('CalendarWidgetDay-today')": {"<-": "data.isToday"},
+                "distinctTasks": {"<-": "@owner.tasks.map{task}.group{id}.map{.1.last()}"},
+                "tasksOverflow": {"<-": "@owner.distinctTasks.length > @owner._maxDisplayedLines"}
             }
         },
         "date": {
@@ -31,16 +34,27 @@
                 "element": {"#": "tasks"}
             },
             "bindings": {
-                "content": {"<-": "@owner.tasks.map{task}.group{name}"}
+                "content": {"<-": "@owner.distinctTasks"}
             }
         },
         "task": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "../calendar-widget-task.reel",
             "properties": {
                 "element": {"#": "task"}
             },
             "bindings": {
-                "value": {"<-": "@owner.taskCategories.filter{value == @tasks:iteration.object.0}.0.name"}
+                "object": {"<-": "@tasks:iteration.object"},
+                "selectedTask": {"<->": "@owner.selectedTask"},
+                "classList.has('is-visible')": {"<-": "@tasks:iteration.index < (@owner.tasksOverflow ? @owner._maxDisplayedLines - 1 : @owner._maxDisplayedLines)"}
+            }
+        },
+        "moreTasks": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "moreTasks"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.tasksOverflow ? (@owner.distinctTasks.length - @owner._maxDisplayedLines + 1) + ' more...' : ''"}
             }
         }
     }
@@ -55,6 +69,7 @@
                     <div data-montage-id="tasks">
                         <div data-montage-id="task" class="CalendarWidgetDayContent-task"></div>
                     </div>
+                    <div data-montage-id="moreTasks" class="CalendarWidgetDayContent-more"></div>
                 </div>
             </td>
         </tr>

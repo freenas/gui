@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="calendar-widget-task.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "type": {"#": "type"}
+            },
+            "bindings": {
+                "classList.has('is-disabled')": {"<-": "!@owner.object.enabled"},
+                "classList.has('is-selected')": {"<-": "@owner.object == @owner.selectedTask"}
+            }
+        },
+        "type": {
+            "prototype": "ui/inspectors/calendar.reel/task-type-indicator.reel",
+            "properties": {
+                "element": {"#": "type"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.id"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CalendarWidgetTask">
+        <span data-montage-id="type" class="CalendarWidgetTask-type"></span>
+        <span data-montage-id="title" class="CalendarWidgetTask-title"></span>
+    </div>
+</body>
+</html>

@@ -1,7 +1,8 @@
 /**
  * @module ui/calendar-widget-day.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    PressComposer = require("montage/composer/press-composer").PressComposer;
 
 /**
  * @class CalendarWidgetDay
@@ -26,6 +27,21 @@ exports.CalendarWidgetDay = Component.specialize({
                     });
                 }
             }
+        }
+    },
+
+    prepareForActivationEvents: {
+        value: function() {
+            var pressComposer = new PressComposer();
+            this.addComposer(pressComposer);
+            pressComposer.addEventListener("press", this);
+            this.element.addEventListener("mouseover", this);
+        }
+    },
+
+    handlePress: {
+        value: function(event) {
+            this.selectedDay = this.data;
         }
     }
 });

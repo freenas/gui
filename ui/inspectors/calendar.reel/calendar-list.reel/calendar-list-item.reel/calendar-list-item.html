@@ -16,6 +16,15 @@
                 "classList.has('is-selected')": {"<-": "@owner.object.task == @owner.selectedTask"}
             }
         },
+        "type": {
+            "prototype": "ui/inspectors/calendar.reel/task-type-indicator.reel",
+            "properties": {
+                "element": {"#": "type"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.task"}
+            }
+        },
         "title": {
             "prototype": "montage/ui/text.reel",
             "properties": {

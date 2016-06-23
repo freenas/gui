@@ -4,6 +4,8 @@
     border-right: 1px solid #16171A;
     border-top:   1px solid #16171A;
     background: #242628;
+    font-size: .8em;
+    cursor: pointer;
 }
 
 .CalendarWidgetDay-Sunday,
@@ -19,7 +21,6 @@
     position: absolute;
     top:    0rem;
     right:  0rem;
-    font-size: .8em;
     line-height: 1.4rem;
     text-align: center;
     width:  1.5rem;
@@ -58,10 +59,11 @@
     padding: 0 0.25em 0.25em;
 }
 
-.CalendarWidgetDayContent-task {
-    font-size: smaller;
-}
-
 .CalendarWidgetDay-otherMonth .CalendarWidgetDay-content {
     display: none;
 }
+
+.CalendarWidgetDayContent-more {
+    margin-left: 1rem;
+}
+

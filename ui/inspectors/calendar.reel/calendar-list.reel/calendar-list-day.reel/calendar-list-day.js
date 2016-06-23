@@ -27,5 +27,23 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
                 }
             }
         }
+    },
+
+    _selectedDay: {
+        value: null
+    },
+
+    selectedDay: {
+        get: function() {
+            return this._selectedDay;
+        },
+        set: function(selectedDay) {
+            if (this._selectedDay !== selectedDay) {
+                this._selectedDay = selectedDay;
+                if (selectedDay == this._day) {
+                    this.element.scrollIntoView();
+                }
+            }
+        }
     }
 });

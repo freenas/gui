@@ -17,7 +17,9 @@
             },
             "bindings": {
                 "taskCategories": {"<-": "@owner.taskCategories"},
-                "selectedPeriod": {"<->": "@owner.selectedPeriod"}
+                "selectedPeriod": {"<->": "@owner.selectedPeriod"},
+                "selectedTask": {"<->": "@owner.selectedObject"},
+                "selectedDay": {"<->": "@owner.selectedDay"}
             }
         },
         "list": {
@@ -27,7 +29,8 @@
             },
             "bindings": {
                 "days": {"<-": "@calendarWidget.days.filter{isCurrentMonth}"},
-                "selectedTask": {"<->": "@owner.selectedObject"}
+                "selectedTask": {"<->": "@owner.selectedObject"},
+                "selectedDay": {"<->": "@owner.selectedDay"}
             }
         }
     }

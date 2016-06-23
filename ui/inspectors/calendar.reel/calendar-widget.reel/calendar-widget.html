@@ -80,7 +80,9 @@
             "bindings": {
                 "data": {"<-": "@dayRepetition:iteration.object"},
                 "tasks": {"<-": "@owner.tasks"},
-                "taskCategories": {"<-": "@owner.taskCategories"}
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedTask": {"<->": "@owner.selectedTask"},
+                "selectedDay": {"<->": "@owner.selectedDay"}
             }
         },
         "previousMonth": {
