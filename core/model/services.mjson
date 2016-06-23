@@ -1650,18 +1650,6 @@
         }
     },
     "ServiceIpfs": {
-        "class": {
-            "info": {
-                "method": "service.ipfs.info",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "swarmPeers": {
-                "method": "service.ipfs.swarm_peers",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        },
         "instance": {
             "update": {
                 "method": "task.submit",
