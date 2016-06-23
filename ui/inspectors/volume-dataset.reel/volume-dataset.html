@@ -51,6 +51,30 @@
                 "value": {"<-": "@owner.object.id"}
             }
         },
+        "select-option-converter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "typeSelector": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "typeSelector"},
+                "label": "Dataset Type",
+                "converter": {"@": "select-option-converter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.type"},
+                "options": {"<-": "@owner.TYPE_OPTIONS"}
+            }
+        },
+        "typeCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "typeCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object._isNew"}
+            }
+        },
         "settings": {
             "prototype": "ui/inspectors/volume-dataset-settings.reel",
             "properties": {
@@ -70,6 +94,9 @@
             <div data-montage-id="nameSubstitution">
                 <div data-montage-id="nameEdit" data-arg="child"></div>
                 <div data-montage-id="nameDisplay" data-arg="root"></div>
+            </div>
+            <div data-montage-id="typeCondition">
+                <div data-montage-id="typeSelector"></div>
             </div>
             <div data-montage-id="settings"></div>
         </div>

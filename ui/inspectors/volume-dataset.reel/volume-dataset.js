@@ -10,6 +10,13 @@ var Component = require("montage/ui/component").Component,
  */
 exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
 
+    TYPE_OPTIONS: {
+        value: [
+            {label: "FILESYSTEM", value: "FILESYSTEM"},
+            {label: "ZVOL", value: "VOLUME"}
+        ]
+    },
+
     context: {
         get: function() {
             return this._context;
@@ -37,6 +44,9 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
                 this.datasetLevel = "root";
             } else {
                 this.datasetLevel = "child";
+            }
+            if (this.object._isNew) {
+                this.object.type = "FILESYSTEM";
             }
             this._initializeProperties();
         }
