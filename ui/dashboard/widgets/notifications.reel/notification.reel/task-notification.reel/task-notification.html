@@ -9,12 +9,6 @@
             "properties": {
                 "element": {"#": "owner"}
             },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ],
             "bindings": {
                 "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
                 "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"},
