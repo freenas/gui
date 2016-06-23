@@ -19,7 +19,7 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"},
-                "canDelete": {"<-": "@owner.datasetLevel == 'child'"}
+                "canDelete": {"<-": "@owner.datasetLevel == 'child' && !@owner.object._isNew"}
             }
         },
         "nameSubstitution": {
