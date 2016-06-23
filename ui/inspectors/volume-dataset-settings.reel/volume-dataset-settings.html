@@ -37,6 +37,15 @@
                 "options": {"<-": "@owner.dedupOptions"}
             }
         },
+        "typeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "typeSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.datasetType"}
+            }
+        },
         "atime": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -94,6 +103,26 @@
                 "element": {"#": "advancedSection"},
                 "title": "Quotas and Reservations"
             }
+        },
+        "volsize": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "volsize"},
+                "label": "Size"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.volsize.parsed"}
+            }
+        },
+        "volblocksize": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "volblocksize"},
+                "label": "Block Size"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.volblocksize.parsed"}
+            }
         }
     }
     </script>
@@ -102,12 +131,20 @@
     <div data-montage-id="owner" class="VolumeDatasetSettings">
         <div data-montage-id="compression"></div>
         <div data-montage-id="dedup"></div>
-        <div data-montage-id="atime"></div>
-        <div data-montage-id="advancedSection">
-            <div data-montage-id="quota"></div>
-            <div data-montage-id="refquota"></div>
-            <div data-montage-id="reservation"></div>
-            <div data-montage-id="refreservation"></div>
+        <div data-montage-id="typeSubstitution">
+            <div data-arg="FILESYSTEM">
+                <div data-montage-id="atime"></div>
+                <div data-montage-id="advancedSection">
+                    <div data-montage-id="quota"></div>
+                    <div data-montage-id="refquota"></div>
+                    <div data-montage-id="reservation"></div>
+                    <div data-montage-id="refreservation"></div>
+                </div>
+            </div>
+            <div data-arg="VOLUME">
+                <div data-montage-id="volsize"></div>
+                <div data-montage-id="volblocksize"></div>
+            </div>
         </div>
     </div>
 </body>
