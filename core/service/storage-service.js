@@ -4,6 +4,24 @@ var Montage = require("montage").Montage,
     Model = require("core/model/model").Model;
 
 var StorageService = exports.StorageService = Montage.specialize({
+
+    _SCALED_NUMERIC_RE_: {
+        value: /^(\d+\.?\d{0,3})([k,K,M,G,T,P,E,Z]?)?[iI]?[bB]?$/
+    },
+
+    _SIZE_PREFIX_EXPONENTS: {
+        value: {
+            k: 1,
+            K: 1,
+            M: 2,
+            G: 3,
+            T: 4,
+            P: 5,
+            E: 6,
+            Z: 7
+        }
+    },
+
     _instance: {
         value: null
     },
@@ -61,6 +79,27 @@ var StorageService = exports.StorageService = Montage.specialize({
                     return self._disks = disks;
                 });
             }
+        }
+    },
+
+    /* First shalt thou identify the Holy Prefix, then shalt thou multiply by a
+       power of 1024, no more, no less. 1024 shall be the number thou shalt
+       exponentiate, and the number of the exponentiation shall be 1024. 1000
+       shalt thou not exponentiate, neither multiply thou 2, excepting that thou
+       then proceed to 1024. 1012 is right out. Once the number 1024, being the
+       correct base, be exponentiated, then multipliest thou the Holy Result of
+       FreeNAS by thy desired value, which being parsed from user input, shall
+       first be confirmed to be a number.
+    */
+    _convertVolumeDatasetSizeProperty: {
+        value: function (size) {
+            if (typeof size === "string") {
+                var input = size.match(this._SCALED_NUMERIC_RE_),
+                    prefix = input[2],
+                    value = input[1];
+                return parseInt(prefix ? value * Math.pow(1024, this._SIZE_PREFIX_EXPONENTS[prefix]) : parseInt(value));
+            }
+            return null;
         }
     }
 
