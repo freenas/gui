@@ -115,13 +115,15 @@
             }
         },
         "volblocksize": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "volblocksize"},
-                "label": "Block Size"
+                "label": "Block Size",
+                "converter": {"@": "select-option-converter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.volblocksize.parsed"}
+                "selectedValue": {"<->": "@owner.object.properties.volblocksize.parsed"},
+                "options": {"<-": "@owner.VOLBLOCKSIZE_OPTIONS"}
             }
         }
     }
