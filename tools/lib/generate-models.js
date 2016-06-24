@@ -9,7 +9,7 @@ exports.generateModels = function generateModels (source, options) {
         var models = [],
             modelsMap = new Map();
 
-        modelsMap.set("Montage", true);
+        modelsMap.set("AbstractModel", true);
 
         return Promise.map(files, function (file) {
             return FS.readFileAtPath(Path.join(source, file)).then(function (data) {
