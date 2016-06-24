@@ -112,6 +112,7 @@ var StorageService = exports.StorageService = Montage.specialize({
                         dataset.properties.refquota = newRefquota;
                         return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
                     }).then(function(newVolblocksize) {
+                        newVolblocksize.parsed = 512;
                         dataset.properties.volblocksize = newVolblocksize;
                         return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation);
                     }).then(function(newRefreservation) {
