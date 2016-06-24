@@ -29,7 +29,7 @@ exports.generateModel = function generateModel (paths, options) {
 
                 var format = Path.parse(file);
 
-                if (format.ext === ".mjson") {
+                if (format.ext === ".mjson" || format.ext === ".js") {
                     models.push({
                         type: format.name.toCamelCase(),
                         modelId: Path.join(Path.relative(__dirname, descriptorFolderAbsolutePath).replace(/\.\.\//g, ""), file)

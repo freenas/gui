@@ -48,24 +48,25 @@ Connect.authenticateIfNeeded(program.username, program.password, program).then(f
 
                 return generateEnumerations(program).then(function () {
                     progressBar.tick();
-                    program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
+                    program.target = MontageDataConfig.ModelsDirectoryAbsolutePath;
 
-                    return generateModel(
-                        [
-                            MontageDataConfig.DescriptorsDirectoryAbsolutePath,
-                            MontageDataConfig.CustomDescriptorsAbsolutePath
-                        ],
-                        program
-                    ).then(function () {
+                    return generateModels(MontageDataConfig.DescriptorsDirectoryAbsolutePath, program).then(function () {
                         progressBar.tick();
                         program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 
-                        return generateEventTypesForEntities(program).then(function () {
+                        return generateModel(
+                            [
+                                MontageDataConfig.ModelsDirectoryAbsolutePath,
+                                MontageDataConfig.CustomDescriptorsAbsolutePath
+                            ],
+                            program
+                        ).then(function () {
                             progressBar.tick();
-                            program.target = MontageDataConfig.ModelsDirectoryAbsolutePath;
+                            program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 
-                            return generateModels(MontageDataConfig.DescriptorsDirectoryAbsolutePath, program).then(function () {
+                            return generateEventTypesForEntities(program).then(function () {
                                 progressBar.tick();
+                                program.target = MontageDataConfig.ModelsDirectoryAbsolutePath;
 
                                 return null;
                             });
