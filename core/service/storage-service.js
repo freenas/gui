@@ -137,11 +137,14 @@ var StorageService = exports.StorageService = Montage.specialize({
     */
     _convertVolumeDatasetSizeProperty: {
         value: function (size) {
+            var input, prefix, value;
             if (typeof size === "string") {
-                var input = size.match(this._SCALED_NUMERIC_RE_),
-                    prefix = input[2],
+                input = size.match(this._SCALED_NUMERIC_RE_);
+                if (typeof input === "array") {
+                    prefix = input[2];
                     value = input[1];
-                return parseInt(prefix ? value * Math.pow(1024, this._SIZE_PREFIX_EXPONENTS[prefix]) : parseInt(value));
+                    return parseInt(prefix ? value * Math.pow(1024, this._SIZE_PREFIX_EXPONENTS[prefix]) : parseInt(value));
+                }
             }
             return null;
         }
