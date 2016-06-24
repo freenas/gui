@@ -47,7 +47,7 @@ var PropertyTypeService = function() {
     };
 
     this.getTypeForObjectProperty = function(object, data, propertyKey) {
-        var objectTypeName = Object.getPrototypeOf(object).Type.typeName,
+        var objectTypeName = object.constructor.Type.typeName,
             objectMappings = this._mappings[objectTypeName];
         if (objectMappings) {
             var propertyMapping = objectMappings[propertyKey];

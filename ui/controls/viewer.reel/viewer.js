@@ -57,7 +57,7 @@ exports.Viewer = AbstractComponentActionDelegate.specialize({
         value: function () {
             if (this.hasCreateEditor) {
                 var type = Array.isArray(this.object) && this.object._meta_data ?
-                    this.object._meta_data.collectionModelType : Object.getPrototypeOf(this.object).Type;
+                    this.object._meta_data.collectionModelType : this.object.constructor.Type;
 
                 this.selectedObject = null;
 

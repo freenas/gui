@@ -689,7 +689,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 tasksMap.set(jobId, notification);
                 if (model) {
                     notification.data = [model];
-                    notification.modelType = Object.getPrototypeOf(model).Type
+                    notification.modelType = model.constructor.Type
                 }
 
                 this._addNotification(notification);

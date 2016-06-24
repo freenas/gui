@@ -111,8 +111,7 @@ var Topology = exports.Topology = Component.specialize({
                         self.application.dataService.getNewInstanceForType(Model.ZfsVdev).then(function (vDev) {
                             //here: disk can be a model disk or ZfsVdev
                             vDev.children = [
-                                Object.getPrototypeOf(disk).Type === Model.ZfsVdev ?
-                                    disk : self._topologyService.diskToVdev(disk)
+                                disk.constructor.Type === Model.ZfsVdev ? disk : self._topologyService.diskToVdev(disk)
                             ];
 
                             if (collectionSource) {
@@ -152,7 +151,7 @@ var Topology = exports.Topology = Component.specialize({
                         }
 
                         detail.vDevTarget.children.push(
-                            Object.getPrototypeOf(disk).Type === Model.ZfsVdev ?
+                            disk.constructor.Type === Model.ZfsVdev ?
                             disk : this._topologyService.diskToVdev(disk)
                         );
                     } else {
@@ -211,7 +210,7 @@ var Topology = exports.Topology = Component.specialize({
                 for (var i = 0, l = topologyCollection.length; i < l; i++) {
                     vDev = topologyCollection[i];
 
-                    if (Object.getPrototypeOf(vDev).Type === ZfsVdevType && vDev.children && vDev.children.length > 0) {
+                    if (vDev.constructor.Type === ZfsVdevType && vDev.children && vDev.children.length > 0) {
                         vDevDisks = vDev.children;
 
                         for (ii = 0, ll = vDevDisks.length; ii < ll ; ii++) {

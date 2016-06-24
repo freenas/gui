@@ -72,11 +72,11 @@ exports.Accounts = Component.specialize({
         value: function (plus, minus) {
             if (this.accountCategories) {
                 if (plus && plus.length) {
-                    this._addAccounts(plus, Object.getPrototypeOf(plus[0]).Type);
+                    this._addAccounts(plus, plus[0].constructor.Type);
                 }
 
                 if (minus && minus.length) {
-                    this._removeAccounts(minus, Object.getPrototypeOf(minus[0]).Type);
+                    this._removeAccounts(minus, minus[0].constructor.Type);
                 }
             }
         }

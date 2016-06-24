@@ -1,5 +1,4 @@
-var Montage = require("montage/core/core").Montage,
-    Promise = require("montage/core/promise").Promise,
+var Promise = require("montage/core/promise").Promise,
     Services = require("./services").Services,
     ObjectDescriptor = require("montage-data/logic/model/object-descriptor").ObjectDescriptor,
     ModelDescriptor = require("core/model/model-descriptor").ModelDescriptor,
@@ -40,16 +39,31 @@ function _initialize () {
     }
 
     _Model.populateObjectPrototypeForType = function (type) {
-        var objectDescriptor = this[typeof type === "string" ? type : type.typeName];
+        var objectDescriptor = _Model[typeof type === "string" ? type : type.typeName];
 
         if (!objectDescriptor) {
             return Promise.reject(new Error("wrong type given!"));
         }
 
-        if (!objectDescriptor.objectPrototype || objectDescriptor.objectPrototype !== Montage) {
-            return ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
-                var constructor = descriptor.newInstancePrototype(),
-                    objectPrototype = constructor.prototype,
+        if (!objectDescriptor.objectPrototype) {
+            var promise;
+
+            if (/\.js$/.test(objectDescriptor.modelId)) { // support js
+                promise = require.async(objectDescriptor.modelId).then(function (_exports) {
+                    return _exports[objectDescriptor.typeName];
+                });
+            } else { //support mjson: FIXME need to be removed once the migration to compiled files is done.
+                promise = ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
+                    return descriptor.newInstancePrototype();
+                });
+            }
+
+            // Set objectPrototype to a promise while building it
+            // in order to avoid to require for a second time the object Prototype.
+            objectDescriptor.objectPrototype = promise;
+
+            return promise.then(function (constructor) {
+                var objectPrototype = constructor.prototype,
                     classServices = Services.findClassServicesForType(type),
                     instanceServices = Services.findInstanceServicesForType(type);
 
@@ -61,11 +75,18 @@ function _initialize () {
                     _applyServicesOnObject(classServices, constructor);
                 }
 
-                objectPrototype.Type = type;
+                //FIXME need to be removed once the migration to compiled files is done.
+                if (!constructor.blueprint) {
+                    constructor.blueprint = objectPrototype.blueprint;
+                }
+
+                constructor.Type = objectPrototype.Type = type;
                 objectDescriptor.constructor = constructor;
 
                 return (objectDescriptor.objectPrototype = objectPrototype);
             });
+        } else if (Promise.is(objectDescriptor.objectPrototype)) {
+            return objectDescriptor.objectPrototype;
         }
 
         return Promise.resolve(type.objectPrototype);

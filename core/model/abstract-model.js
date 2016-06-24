@@ -7,7 +7,7 @@ var Montage = require("montage/core/core").Montage;
 exports.AbstractModel = Montage.specialize({
 
     _blueprint: {
-        value: {}
+        value: null
     },
 
     //FIXME: need to be removed when migration from blueprint to "compiled" models will be done.

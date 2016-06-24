@@ -142,7 +142,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
     _mapVDevToProxyVDev: {
         value: function (vDev) {
-            var propertyBlueprints = Model.ZfsVdev.objectPrototype.blueprint.propertyBlueprints,
+            var propertyBlueprints = Model.ZfsVdev.constructor.blueprint.propertyBlueprints,
                 proxyVDev = this.application.dataService.getDataObject(Model.ZfsVdev),
                 key;
 

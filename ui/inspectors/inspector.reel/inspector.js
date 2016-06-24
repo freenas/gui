@@ -86,7 +86,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this),
                     context = cascadingListItem.data,
                     contextObject = context.object,
-                    type = Object.getPrototypeOf(contextObject).Type;
+                    type = contextObject.constructor.Type;
 
                 return this.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
                     if (Model.NetworkInterface === type) { // FIXME!

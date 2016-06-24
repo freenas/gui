@@ -102,7 +102,7 @@ exports.ApplicationDelegate = Montage.specialize({
                 object = object[0];
             }
 
-            modelType = modelType || (object ? Object.getPrototypeOf(object).Type : null);
+            modelType = modelType || (object ? object.constructor.Type : null);
 
             if (modelType) {
                 userInterfaceDescriptorPromise = this.getUserInterfaceDescriptorForType(modelType, object);

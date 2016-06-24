@@ -66,7 +66,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
             if (this._context) {
                 var currentSelection = this.application.selectionService.getCurrentSelection();
                 for (var i = this._context.columnIndex - 1; i >= 0; i--) {
-                    if (Object.getPrototypeOf(currentSelection.path[i]).Type == Model.Volume) {
+                    if (currentSelection.path[i].constructor.Type == Model.Volume) {
                         return currentSelection.path[i];
                     }
                 }

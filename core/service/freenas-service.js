@@ -205,8 +205,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      */
     deleteRawData: {
         value: function (rawData, object) {
-            var objectPrototype = Object.getPrototypeOf(object),
-                type = objectPrototype.Type,
+            var type = object.constructor.Type,
                 deleteServiceDescriptor = Services.findDeleteServiceForType(type);
 
             if (deleteServiceDescriptor) {
@@ -238,7 +237,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      */
     saveRawData: {
         value: function (rawData, object) {
-            var type = Object.getPrototypeOf(object).Type,
+            var type = object.constructor.Type,
                 modelHasNoId = this._isModelTypeHasNoId(type);
 
             /**
@@ -288,8 +287,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      */
     mapToRawData: {
         value: function (object, data) {
-            var objectPrototype = Object.getPrototypeOf(object),
-                type = objectPrototype.Type,
+            var type = object.constructor.Type,
                 modelHasNoId = this._isModelTypeHasNoId(type);
 
             /**
@@ -313,7 +311,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      */
     mapFromRawData: {
         value: function (object, data) {
-            var propertyDescriptors = Object.getPrototypeOf(object).blueprint.propertyBlueprints,
+            var propertyDescriptors = object.constructor.blueprint.propertyBlueprints,
                 keys = Object.keys(data),
                 propertyDescriptor,
                 rawValue,
@@ -459,8 +457,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
     _mapToRawDataForAction: {
         value: function (object, data, action) {
-            var objectPrototype = Object.getPrototypeOf(object),
-                type = objectPrototype.Type;
+            var type = object.constructor.Type;
+
             if (type) {
                 if (!action) {
                     action = !!object._isToBeDeleted ? ACTION_DELETE :
@@ -468,7 +466,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 }
                 var serviceDescriptor = this._getServiceDescriptor(type, action),
                     restrictions = serviceDescriptor ? serviceDescriptor.restrictions : null,
-                    propertyDescriptors = objectPrototype.blueprint.propertyBlueprints,
+                    propertyDescriptors = object.constructor.blueprint.propertyBlueprints,
                     hasRestrictions = !!restrictions, requiredFields, isPropertyValueNullified, forbiddenFields,
                     propertyDescriptor, propertyValue, key, requiredFieldIndex, unsatisfiedRequiredFieldsCount = 0;
 
@@ -561,7 +559,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     self._mapObjectPropertyFromRawData(propertyDescriptor, object, key, value);
                 });
             } else if (rawValue) { //fallback
-                console.warn("model type: '" + propertyDescriptor.valueObjectPrototypeName + "' unknown");
+                //console.warn("model type: '" + propertyDescriptor.valueObjectPrototypeName + "' unknown");
                 this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
             } else {
                 console.warn("Cannot map empty property: '" + key + "'");

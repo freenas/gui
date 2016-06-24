@@ -28,7 +28,7 @@ exports.ShareCreator = Component.specialize({
             var currentSelection = this._selectionService.getCurrentSelection();
 
             for (var i = this.context.columnIndex - 1; i >= 0; i--) {
-                if (Object.getPrototypeOf(currentSelection.path[i]).Type == Model.Volume) {
+                if (currentSelection.path[i].constructor.Type == Model.Volume) {
                     return currentSelection.path[i];
                 }
             }
