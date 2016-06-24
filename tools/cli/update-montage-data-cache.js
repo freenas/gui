@@ -11,10 +11,11 @@ var generateEnumerations = require("../lib/generate-enumerations").generateEnume
 var generateModel = require("../lib/generate-model").generateModel;
 var generateServices = require("../lib/generate-services").generateServices;
 var generateEventTypesForEntities = require("../lib/generate-events").generateEventTypesForEntities;
+var generateModels = require("../lib/generate-models").generateModels;
 
 
 program
-    .version('0.0.2')
+    .version('0.0.3')
     .option('-u, --username <username>', 'username that will be used to establish a connection with the middleware')
     .option('-p, --password <password>', 'password that will be used to establish a connection with the middleware')
     .option('-H, --host <host>', 'host that will be used to establish a connection with the middleware')
@@ -27,11 +28,13 @@ program
 program.save = true;
 
 Connect.authenticateIfNeeded(program.username, program.password, program).then(function () {
-    var progressBar = new ProgressBar('processing [:bar] :percent :etas', { total: 6 });
+    var progressBar = new ProgressBar('processing [:bar] :percent :etas', { total: 7 });
 
     return cleanMontageDataCache(
         MontageDataConfig.EnumerationsDirectoryAbsolutePath,
-        MontageDataConfig.DescriptorsDirectoryAbsolutePath).then(function () {
+        MontageDataConfig.DescriptorsDirectoryAbsolutePath,
+        MontageDataConfig.ModelsDirectoryAbsolutePath
+    ).then(function () {
         progressBar.tick();
         program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 
@@ -59,8 +62,13 @@ Connect.authenticateIfNeeded(program.username, program.password, program).then(f
 
                         return generateEventTypesForEntities(program).then(function () {
                             progressBar.tick();
+                            program.target = MontageDataConfig.ModelsDirectoryAbsolutePath;
 
-                            return null;
+                            return generateModels(MontageDataConfig.DescriptorsDirectoryAbsolutePath, program).then(function () {
+                                progressBar.tick();
+
+                                return null;
+                            });
                         });
                     });
                 });

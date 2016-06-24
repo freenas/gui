@@ -104,3 +104,16 @@ exports.createDirectoryAtPath = function (path) {
         });
     });
 };
+
+
+exports.readFileAtPath = function readFileAtPath(path) {
+    return new Promise(function (resolve, reject) {
+        FS.readFile(path,function (error, data) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(data)
+            }
+        });
+    });
+};
