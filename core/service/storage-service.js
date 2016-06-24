@@ -153,7 +153,7 @@ var StorageService = exports.StorageService = Montage.specialize({
             var input, prefix, value;
             if (typeof size === "string") {
                 input = size.match(this._SCALED_NUMERIC_RE_);
-                if (typeof input === "array") {
+                if (input) {
                     prefix = input[2];
                     value = input[1];
                     return parseInt(prefix ? value * Math.pow(1024, this._SIZE_PREFIX_EXPONENTS[prefix]) : parseInt(value));
