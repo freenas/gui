@@ -1,0 +1,174 @@
+var Montage = require("montage/core/core").Montage;
+var DiskStatus = require("core/model/models/disk-status").DiskStatus;
+
+exports.Disk = Montage.specialize({
+    _acoustic_level: {
+        value: null
+    },
+    acoustic_level: {
+        set: function (value) {
+            if (this._acoustic_level !== value) {
+                this._acoustic_level = value;
+            }
+        },
+        get: function () {
+            return this._acoustic_level;
+        }
+    },
+    _apm_mode: {
+        value: null
+    },
+    apm_mode: {
+        set: function (value) {
+            if (this._apm_mode !== value) {
+                this._apm_mode = value;
+            }
+        },
+        get: function () {
+            return this._apm_mode;
+        }
+    },
+    _description: {
+        value: null
+    },
+    description: {
+        set: function (value) {
+            if (this._description !== value) {
+                this._description = value;
+            }
+        },
+        get: function () {
+            return this._description;
+        }
+    },
+    _id: {
+        value: null
+    },
+    id: {
+        set: function (value) {
+            if (this._id !== value) {
+                this._id = value;
+            }
+        },
+        get: function () {
+            return this._id;
+        }
+    },
+    _mediasize: {
+        value: null
+    },
+    mediasize: {
+        set: function (value) {
+            if (this._mediasize !== value) {
+                this._mediasize = value;
+            }
+        },
+        get: function () {
+            return this._mediasize;
+        }
+    },
+    _name: {
+        value: null
+    },
+    name: {
+        set: function (value) {
+            if (this._name !== value) {
+                this._name = value;
+            }
+        },
+        get: function () {
+            return this._name;
+        }
+    },
+    _path: {
+        value: null
+    },
+    path: {
+        set: function (value) {
+            if (this._path !== value) {
+                this._path = value;
+            }
+        },
+        get: function () {
+            return this._path;
+        }
+    },
+    _rname: {
+        value: null
+    },
+    rname: {
+        set: function (value) {
+            if (this._rname !== value) {
+                this._rname = value;
+            }
+        },
+        get: function () {
+            return this._rname;
+        }
+    },
+    _serial: {
+        value: null
+    },
+    serial: {
+        set: function (value) {
+            if (this._serial !== value) {
+                this._serial = value;
+            }
+        },
+        get: function () {
+            return this._serial;
+        }
+    },
+    _smart: {
+        value: null
+    },
+    smart: {
+        set: function (value) {
+            if (this._smart !== value) {
+                this._smart = value;
+            }
+        },
+        get: function () {
+            return this._smart;
+        }
+    },
+    _smart_options: {
+        value: null
+    },
+    smart_options: {
+        set: function (value) {
+            if (this._smart_options !== value) {
+                this._smart_options = value;
+            }
+        },
+        get: function () {
+            return this._smart_options;
+        }
+    },
+    _standby_mode: {
+        value: null
+    },
+    standby_mode: {
+        set: function (value) {
+            if (this._standby_mode !== value) {
+                this._standby_mode = value;
+            }
+        },
+        get: function () {
+            return this._standby_mode;
+        }
+    },
+    _status: {
+        value: null
+    },
+    status: {
+        set: function (value) {
+            if (this._status !== value) {
+                this._status = value;
+            }
+        },
+        get: function () {
+            return this._status || (this._status = new DiskStatus());
+        }
+    }
+});

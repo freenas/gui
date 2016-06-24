@@ -1,0 +1,43 @@
+var Montage = require("montage/core/core").Montage;
+
+exports.DiskStatusMultipath = Montage.specialize({
+    _members: {
+        value: null
+    },
+    members: {
+        set: function (value) {
+            if (this._members !== value) {
+                this._members = value;
+            }
+        },
+        get: function () {
+            return this._members;
+        }
+    },
+    _node: {
+        value: null
+    },
+    node: {
+        set: function (value) {
+            if (this._node !== value) {
+                this._node = value;
+            }
+        },
+        get: function () {
+            return this._node;
+        }
+    },
+    _status: {
+        value: null
+    },
+    status: {
+        set: function (value) {
+            if (this._status !== value) {
+                this._status = value;
+            }
+        },
+        get: function () {
+            return this._status;
+        }
+    }
+});

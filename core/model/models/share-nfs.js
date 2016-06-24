@@ -1,0 +1,121 @@
+var Montage = require("montage/core/core").Montage;
+
+exports.ShareNfs = Montage.specialize({
+    _alldirs: {
+        value: null
+    },
+    alldirs: {
+        set: function (value) {
+            if (this._alldirs !== value) {
+                this._alldirs = value;
+            }
+        },
+        get: function () {
+            return this._alldirs;
+        }
+    },
+    _hosts: {
+        value: null
+    },
+    hosts: {
+        set: function (value) {
+            if (this._hosts !== value) {
+                this._hosts = value;
+            }
+        },
+        get: function () {
+            return this._hosts;
+        }
+    },
+    _mapall_group: {
+        value: null
+    },
+    mapall_group: {
+        set: function (value) {
+            if (this._mapall_group !== value) {
+                this._mapall_group = value;
+            }
+        },
+        get: function () {
+            return this._mapall_group;
+        }
+    },
+    _mapall_user: {
+        value: null
+    },
+    mapall_user: {
+        set: function (value) {
+            if (this._mapall_user !== value) {
+                this._mapall_user = value;
+            }
+        },
+        get: function () {
+            return this._mapall_user;
+        }
+    },
+    _maproot_group: {
+        value: null
+    },
+    maproot_group: {
+        set: function (value) {
+            if (this._maproot_group !== value) {
+                this._maproot_group = value;
+            }
+        },
+        get: function () {
+            return this._maproot_group;
+        }
+    },
+    _maproot_user: {
+        value: null
+    },
+    maproot_user: {
+        set: function (value) {
+            if (this._maproot_user !== value) {
+                this._maproot_user = value;
+            }
+        },
+        get: function () {
+            return this._maproot_user;
+        }
+    },
+    _read_only: {
+        value: null
+    },
+    read_only: {
+        set: function (value) {
+            if (this._read_only !== value) {
+                this._read_only = value;
+            }
+        },
+        get: function () {
+            return this._read_only;
+        }
+    },
+    _security: {
+        value: null
+    },
+    security: {
+        set: function (value) {
+            if (this._security !== value) {
+                this._security = value;
+            }
+        },
+        get: function () {
+            return this._security;
+        }
+    },
+    _type: {
+        value: null
+    },
+    type: {
+        set: function (value) {
+            if (this._type !== value) {
+                this._type = value;
+            }
+        },
+        get: function () {
+            return this._type;
+        }
+    }
+});

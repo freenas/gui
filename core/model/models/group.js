@@ -1,0 +1,82 @@
+var Montage = require("montage/core/core").Montage;
+
+exports.Group = Montage.specialize({
+    _builtin: {
+        value: null
+    },
+    builtin: {
+        set: function (value) {
+            if (this._builtin !== value) {
+                this._builtin = value;
+            }
+        },
+        get: function () {
+            return this._builtin;
+        }
+    },
+    _gid: {
+        value: null
+    },
+    gid: {
+        set: function (value) {
+            if (this._gid !== value) {
+                this._gid = value;
+            }
+        },
+        get: function () {
+            return this._gid;
+        }
+    },
+    _id: {
+        value: null
+    },
+    id: {
+        set: function (value) {
+            if (this._id !== value) {
+                this._id = value;
+            }
+        },
+        get: function () {
+            return this._id;
+        }
+    },
+    _members: {
+        value: null
+    },
+    members: {
+        set: function (value) {
+            if (this._members !== value) {
+                this._members = value;
+            }
+        },
+        get: function () {
+            return this._members;
+        }
+    },
+    _name: {
+        value: null
+    },
+    name: {
+        set: function (value) {
+            if (this._name !== value) {
+                this._name = value;
+            }
+        },
+        get: function () {
+            return this._name;
+        }
+    },
+    _sudo: {
+        value: null
+    },
+    sudo: {
+        set: function (value) {
+            if (this._sudo !== value) {
+                this._sudo = value;
+            }
+        },
+        get: function () {
+            return this._sudo;
+        }
+    }
+});
