@@ -2,6 +2,9 @@
     cursor: pointer;
     display: none;
     padding: 0 .25rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .CalendarWidgetTask:hover {

@@ -101,6 +101,11 @@
     height: 5.5em;
 }
 
+.CalendarWidget-taskCategories {
+    display: flex;
+    align-items: center;
+}
+
 /*
 
 Media Queries
