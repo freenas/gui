@@ -8,7 +8,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
     _service: {
         value: null
     },
-    
+
     service: {
         get: function() {
             return this._service;
@@ -92,7 +92,10 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                 if (path.length > 1 && path[path.length-1] == '/') {
                     path = path.substr(0, path.length-1);
                 }
-                if (self.entry && self.entry.children.map(function(x) { return x.path; }).indexOf(path) != -1) {
+
+                // FIXME: @pierre there is an issue here when switching between shares
+                // self.entry.children can be undefined. Ticket: #16098
+                if (self.entry && self.entry.children && self.entry.children.map(function(x) { return x.path; }).indexOf(path) != -1) {
                     if (!self.ancestors) {
                         self.ancestors = [];
                     }
