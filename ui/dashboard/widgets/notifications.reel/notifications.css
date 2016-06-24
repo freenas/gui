@@ -32,7 +32,7 @@
 .Notifications-body {
     position: relative;
     z-index: 1;
-    height: 10em;
+    height: 14em;
     background-color: #242628;
     /*$fix - can't do because of absolute positioned detail view*/
     /*border-bottom-right-radius: 2px;
