@@ -137,7 +137,8 @@
                 "element": {"#": "taskCategory"}
             },
             "bindings": {
-                "object": {"<-": "@taskCategories:iteration.object"}
+                "object": {"<-": "@taskCategories:iteration.object"},
+                "newObject": {"<->": "@owner.selectedTask"}
             }
         },
         "viewTabs": {

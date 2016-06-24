@@ -10,13 +10,17 @@ exports.CalendarTask = Component.specialize({
             if (isFirstTime) {
                 this.taskCategories = this.application.calendarService.taskCategories;
             }
-            this.classList.add('type-' + this.object.name.replace('.', '_').toLowerCase());
+            if (this.object && this.object.name) {
+                this.classList.add('type-' + this.object.name.replace('.', '_').toLowerCase());
+            }
         }
     },
 
     exitDocument: {
         value: function() {
-            this.classList.remove('type-' + this.object.name.replace('.', '_').toLowerCase());
+            if (this.object && this.object.name) {
+                this.classList.remove('type-' + this.object.name.replace('.', '_').toLowerCase());
+            }
         }
     }
 

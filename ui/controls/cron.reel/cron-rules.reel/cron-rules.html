@@ -10,6 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
+        "optionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "valuePropertyName": "this",
+                "labelPropertyName": "this"
+            }
+        },
         "rulesTitle": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
@@ -28,7 +35,7 @@
                 "max": 59
             },
             "bindings": {
-                "value": {"<-": "@owner.value.second"}
+                "value": {"<->": "@owner.value.second"}
             }
         },
         "minute": {
@@ -40,7 +47,7 @@
                 "max": 59
             },
             "bindings": {
-                "value": {"<-": "@owner.value.minute"}
+                "value": {"<->": "@owner.value.minute"}
             }
         },
         "hour": {
@@ -52,7 +59,7 @@
                 "max": 23
             },
             "bindings": {
-                "value": {"<-": "@owner.value.hour"}
+                "value": {"<->": "@owner.value.hour"}
             }
         },
         "day": {
@@ -64,7 +71,7 @@
                 "max": 31
             },
             "bindings": {
-                "value": {"<-": "@owner.value.day"}
+                "value": {"<->": "@owner.value.day"}
             }
         },
         "day_of_week": {
@@ -73,17 +80,17 @@
                 "element": {"#": "day_of_week"},
                 "label": "Day(s) of week",
                 "options": [
+                    "Sunday",
                     "Monday",
                     "Tuesday",
                     "Wednesday",
                     "Thursday",
                     "Friday",
-                    "Saturday",
-                    "Sunday"
+                    "Saturday"
                 ]
             },
             "bindings": {
-                "value": {"<-": "@owner.value.day_of_week"}
+                "value": {"<->": "@owner.value.day_of_week"}
             }
         },
         "month": {
@@ -92,22 +99,22 @@
                 "element": {"#": "month"},
                 "label": "Month(s)",
                 "options": [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December"
+                    {"value": 1, "label": "January"},
+                    {"value": 2, "label": "February"},
+                    {"value": 3, "label": "March"},
+                    {"value": 4, "label": "April"},
+                    {"value": 5, "label": "May"},
+                    {"value": 6, "label": "June"},
+                    {"value": 7, "label": "July"},
+                    {"value": 8, "label": "August"},
+                    {"value": 9, "label": "September"},
+                    {"value": 10, "label": "October"},
+                    {"value": 11, "label": "November"},
+                    {"value": 12, "label": "December"}
                 ]
             },
             "bindings": {
-                "value": {"<-": "@owner.value.month"}
+                "value": {"<->": "@owner.value.month"}
             }
         },
         "year": {
@@ -119,7 +126,7 @@
                 "max": 2100
             },
             "bindings": {
-                "value": {"<-": "@owner.value.year"}
+                "value": {"<->": "@owner.value.year"}
             }
         },
         "week": {
@@ -131,7 +138,29 @@
                 "max": 54
             },
             "bindings": {
-                "value": {"<-": "@owner.value.week"}
+                "value": {"<->": "@owner.value.week"}
+            }
+        },
+        "timezone": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "timezone"},
+                "label": "Timezone",
+                "converter": {"@": "optionConverter"}
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.value.timezone"},
+                "options": {"<-": "@owner.TIMEZONES"}
+            }
+        },
+        "coalesce": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "coalesce"},
+                "label": "Coalesce"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.value.coalesce"}
             }
         }
     }

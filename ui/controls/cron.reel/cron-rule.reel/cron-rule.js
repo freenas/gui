@@ -10,9 +10,74 @@ var EMPTY_STRING = "";
  * @extends Component
  */
 var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
+    _on: {
+        value: null
+    },
+
+    on: {
+        get: function() {
+            return this._on;
+        },
+        set: function(on) {
+            if (this._on !== on) {
+                this._on = on;
+                if (this.selectedType === this.constructor.SELECTOR_TYPES.ON) {
+                    this.value = on;
+                }
+            }
+        }
+    },
+    
+    _every: {
+        value: null
+    },
+
+    every: {
+        get: function() {
+            return this._every;
+        },
+        set: function(every) {
+            if (this._every !== every) {
+                this._every = every;
+                if (this.selectedType === this.constructor.SELECTOR_TYPES.EVERY) {
+                    if (every > 1) {
+                        this.value = '*/' + every;
+                    } else {
+                        this.value = '*';
+                    }
+                }
+            }
+        }
+    },
+   
+    _selectedType: {
+        value: null
+    },
 
     selectedType: {
-        value: null
+        get: function() {
+            return this._selectedType;
+        },
+        set: function(selectedType) {
+            if (this._selectedType !== selectedType) {
+                this._selectedType = selectedType;
+                if (selectedType) {
+                    if (selectedType === this.constructor.SELECTOR_TYPES.ON) {
+                        if (this.displayOptions && this.displayOptions.length > 0) {
+                            this.value = this.displayOptions[0].value;
+                        } else {
+                            this.value = null;
+                        }
+                    } else {
+                        if (this.every > 1) {
+                            this.value = '*/' + this.every;
+                        } else {
+                            this.value = '*';
+                        }
+                    }
+                }
+            }
+        }
     },
 
     enterDocument: {
@@ -26,39 +91,32 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
                     this.displayOptions = options;
                 }
             } else {
-                this.displayOptions = this.options.map(function(x) { return {value: x, label: x}; });
+                this.displayOptions = this.options.map(function(x, i) {
+                    if (typeof x === "string") {
+                        return {value: i, label: x};
+                    } else {
+                        return x;
+                    }
+                });
             }
 
+            if (typeof this.value !== "string" && typeof this.value !== "number") {
+                this.value = '*';
+            }
             var parsedValue = parseInt(this.value);
             if (isNaN(parsedValue)) {
                 var period = this.value.split('/')[1];
-                this.every = period ? +period : 1;
                 this.type = this.constructor.SELECTOR_TYPES.EVERY;
+                this.every = period ? +period : 1;
             } else {
-                this.on = parsedValue;
                 this.type = this.constructor.SELECTOR_TYPES.ON;
+                this.on = parsedValue;
             }
-
-//            this._cancelSelectedTypeChangeListener = this.addPathChangeListener("selectedType", this, "handleSelectedTypeChange");
         }
-    },
-
-    exitDocument: {
-       value: function () {
-//           this._cancelSelectedTypeChangeListener();
-       }
     },
 
     handleSelectedTypeChange: {
         value: function () {
-            if (this.selectedType === this.constructor.SELECTOR_TYPES.ON) {
-                if (this.mode === CronRule.MODES.EDITOR) {
-                    this.values = this.selectedType === this.rule.type ? this.rule.values.slice() : [];
-
-                } else {
-                    this.values = [];
-                }
-            }
         }
     }
 
@@ -85,6 +143,19 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             }
 
             return this._SELECTOR_OPTIONS;
+        }
+    },
+
+    _EMPTY_VALUE: {
+        value: null
+    },
+
+    EMPTY_VALUE: {
+        get: function() {
+            if (!this._EMPTY_VALUE) {
+                this._EMPTY_VALUE = { value: null, label: ' - ' };
+            }
+            return this._EMPTY_VALUE;
         }
     }
 

@@ -3,6 +3,8 @@ var Montage = require("montage").Montage,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
+var EMPTY_STRING = '';
+
 var CalendarService = exports.CalendarService = Montage.specialize({
     _instance: {
         value: null
@@ -28,10 +30,10 @@ var CalendarService = exports.CalendarService = Montage.specialize({
     taskCategories: {
         value: [
             { name: "Scrub", value: "volume.scrub" },
-            { name: "Replication", value: "replication.replicate_dataset" },
+//            { name: "Replication", value: "replication.replicate_dataset" },
             { name: "Smart", value: "disk.parallel_test" },
             { name: "Update", value: "update.checkfetch" },
-//            { name: "Snapshot", value: "" }
+//            { name: "Snapshot", value: "volume.snapshot.create" }
         ]
     },
 
@@ -115,6 +117,17 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                     }
                 }
                 return tasksSchedule.sort(self._sortOccurrences);
+            });
+        }
+    },
+
+    getNewTask: {
+        value: function(type) {
+            return this._dataService.getNewInstanceForType(Model.CalendarTask).then(function(task) {
+                task.name = type;
+                task.args = [];
+                task.schedule = {};
+                return task;
             });
         }
     },
@@ -248,7 +261,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         value: function(day, schedule) {
             return  !!schedule &&
                     this._isValueMatchingSchedule(day.year, schedule.year) &&
-                    this._isValueMatchingSchedule(day.month, schedule.month) &&
+                    this._isValueMatchingSchedule(day.month+1, schedule.month) &&
                     this._isValueMatchingSchedule(day.date, schedule.day) &&
                     this._isValueMatchingSchedule(day.day, schedule.day_of_week);
         }
@@ -256,6 +269,9 @@ var CalendarService = exports.CalendarService = Montage.specialize({
 
     _isValueMatchingSchedule: {
         value: function(value, schedule) {
+            if (typeof schedule !== "string") {
+                schedule = EMPTY_STRING + schedule;
+            }
             var parts = schedule.split(','),
                 part;
             for (var i = 0, length = parts.length; i < length; i++) {

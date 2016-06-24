@@ -15,7 +15,11 @@ exports.SmartArgs = Component.specialize(/** @lends SmartArgs# */ {
             this.application.storageService.listDisks().then(function(disks) {
                 self.disks = disks;
             });
-            this.selectedDisks = this._objectToArray(this.args[0]);
+            if (this.args) {
+                this.selectedDisks = this._objectToArray(this.args[0]);
+            } else {
+                this.args = [];
+            }
             this.addRangeAtPathChangeListener("selectedDisks", this, "_handleSelectedDisksChange");
             this.testTypes = DiskSelftestType.members;
         }
