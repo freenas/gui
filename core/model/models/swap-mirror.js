@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SwapMirror = Montage.specialize({
+exports.SwapMirror = AbstractModel.specialize({
     _disks: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.SwapMirror = Montage.specialize({
         get: function () {
             return this._name;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "disks",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }]
     }
 });

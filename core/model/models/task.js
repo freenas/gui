@@ -1,8 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var Error = require("core/model/models/error").Error;
-var Rusage = require("core/model/models/rusage").Rusage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Task = Montage.specialize({
+exports.Task = AbstractModel.specialize({
     _args: {
         value: null
     },
@@ -65,7 +63,7 @@ exports.Task = Montage.specialize({
             }
         },
         get: function () {
-            return this._error || (this._error = new Error());
+            return this._error;
         }
     },
     _finished_at: {
@@ -156,7 +154,7 @@ exports.Task = Montage.specialize({
             }
         },
         get: function () {
-            return this._rusage || (this._rusage = new Rusage());
+            return this._rusage;
         }
     },
     _session: {
@@ -236,5 +234,87 @@ exports.Task = Montage.specialize({
         get: function () {
             return this._warnings;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "args",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "created_at",
+            valueObjectPrototypeName: "IsoDatetime",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "debugger",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "error",
+            valueObjectPrototypeName: "Error",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "finished_at",
+            valueObjectPrototypeName: "IsoDatetime",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "output",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "parent",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "resources",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "rusage",
+            valueObjectPrototypeName: "Rusage",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "session",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "started_at",
+            valueObjectPrototypeName: "IsoDatetime",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "state",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "updated_at",
+            valueObjectPrototypeName: "IsoDatetime",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "warnings",
+            valueType: "array"
+        }]
     }
 });

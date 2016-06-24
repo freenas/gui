@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceIpfs = Montage.specialize({
+exports.ServiceIpfs = AbstractModel.specialize({
     _enable: {
         value: null
     },
@@ -39,5 +39,20 @@ exports.ServiceIpfs = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

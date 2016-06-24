@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsDataset = Montage.specialize({
+exports.ZfsDataset = AbstractModel.specialize({
     _children: {
         value: null
     },
@@ -65,5 +65,30 @@ exports.ZfsDataset = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "children",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pool",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "DatasetType",
+            valueType: "object"
+        }]
     }
 });

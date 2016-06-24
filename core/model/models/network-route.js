@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkRoute = Montage.specialize({
+exports.NetworkRoute = AbstractModel.specialize({
     _gateway: {
         value: null
     },
@@ -65,5 +65,32 @@ exports.NetworkRoute = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "gateway",
+            valueObjectPrototypeName: "IpAddress",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "netmask",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "network",
+            valueObjectPrototypeName: "IpAddress",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "NetworkRouteType",
+            valueType: "object"
+        }]
     }
 });

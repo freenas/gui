@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsTopology = Montage.specialize({
+exports.ZfsTopology = AbstractModel.specialize({
     _cache: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.ZfsTopology = Montage.specialize({
         get: function () {
             return this._spare;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "cache",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "data",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "log",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "spare",
+            valueType: "array"
+        }]
     }
 });

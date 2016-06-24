@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareIscsi = Montage.specialize({
+exports.ShareIscsi = AbstractModel.specialize({
     _available_space_threshold: {
         value: null
     },
@@ -156,5 +156,58 @@ exports.ShareIscsi = Montage.specialize({
         get: function () {
             return this._vendor_id;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "available_space_threshold",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "block_size",
+            valueObjectPrototypeName: "ShareIscsiBlocksize",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "ctl_lun",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "device_id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "naa",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "physical_block_size",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "rpm",
+            valueObjectPrototypeName: "ShareIscsiRpm",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "serial",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "tpc",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "vendor_id",
+            valueType: "String"
+        }]
     }
 });

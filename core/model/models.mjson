@@ -1,919 +1,919 @@
 {
     "models": [
         {
-            "modelId": "core/model/descriptors/acl-entry-flags.mjson",
+            "modelId": "core/model/models/acl-entry-flags.js",
             "type": "AclEntryFlags"
         },
         {
-            "modelId": "core/model/descriptors/acl-entry-perms.mjson",
+            "modelId": "core/model/models/acl-entry-perms.js",
             "type": "AclEntryPerms"
         },
         {
-            "modelId": "core/model/descriptors/acl-entry.mjson",
+            "modelId": "core/model/models/acl-entry.js",
             "type": "AclEntry"
         },
         {
-            "modelId": "core/model/descriptors/activedirectory-config.mjson",
+            "modelId": "core/model/models/activedirectory-config.js",
             "type": "ActivedirectoryConfig"
         },
         {
-            "modelId": "core/model/descriptors/alert-class.mjson",
+            "modelId": "core/model/models/alert-class.js",
             "type": "AlertClass"
         },
         {
-            "modelId": "core/model/descriptors/alert-emitter-email.mjson",
+            "modelId": "core/model/models/alert-emitter-email.js",
             "type": "AlertEmitterEmail"
         },
         {
-            "modelId": "core/model/descriptors/alert-filter.mjson",
+            "modelId": "core/model/models/alert-filter.js",
             "type": "AlertFilter"
         },
         {
-            "modelId": "core/model/descriptors/alert.mjson",
+            "modelId": "core/model/models/alert.js",
             "type": "Alert"
         },
         {
-            "modelId": "core/model/descriptors/amazon-s3-credentials.mjson",
+            "modelId": "core/model/models/amazon-s3-credentials.js",
             "type": "AmazonS3Credentials"
         },
         {
-            "modelId": "core/model/descriptors/backup-file.mjson",
+            "modelId": "core/model/models/backup-file.js",
             "type": "BackupFile"
         },
         {
-            "modelId": "core/model/descriptors/backup-s3.mjson",
+            "modelId": "core/model/models/backup-s3.js",
             "type": "BackupS3"
         },
         {
-            "modelId": "core/model/descriptors/backup-ssh.mjson",
+            "modelId": "core/model/models/backup-ssh.js",
             "type": "BackupSsh"
         },
         {
-            "modelId": "core/model/descriptors/backup-state.mjson",
+            "modelId": "core/model/models/backup-state.js",
             "type": "BackupState"
         },
         {
-            "modelId": "core/model/descriptors/backup-types.mjson",
+            "modelId": "core/model/models/backup-types.js",
             "type": "BackupTypes"
         },
         {
-            "modelId": "core/model/descriptors/backup.mjson",
+            "modelId": "core/model/models/backup.js",
             "type": "Backup"
         },
         {
-            "modelId": "core/model/descriptors/boot-environment.mjson",
+            "modelId": "core/model/models/boot-environment.js",
             "type": "BootEnvironment"
         },
         {
-            "modelId": "core/model/descriptors/calendar-task-schedule.mjson",
+            "modelId": "core/model/models/calendar-task-schedule.js",
             "type": "CalendarTaskSchedule"
         },
         {
-            "modelId": "core/model/descriptors/calendar-task-status.mjson",
+            "modelId": "core/model/models/calendar-task-status.js",
             "type": "CalendarTaskStatus"
         },
         {
-            "modelId": "core/model/descriptors/calendar-task.mjson",
+            "modelId": "core/model/models/calendar-task.js",
             "type": "CalendarTask"
         },
         {
-            "modelId": "core/model/descriptors/compress-plugin.mjson",
+            "modelId": "core/model/models/compress-plugin.js",
             "type": "CompressPlugin"
         },
         {
-            "modelId": "core/model/descriptors/container-config.mjson",
+            "modelId": "core/model/models/container-config.js",
             "type": "ContainerConfig"
         },
         {
-            "modelId": "core/model/descriptors/container-device-cdrom.mjson",
+            "modelId": "core/model/models/container-device-cdrom.js",
             "type": "ContainerDeviceCdrom"
         },
         {
-            "modelId": "core/model/descriptors/container-device-disk.mjson",
+            "modelId": "core/model/models/container-device-disk.js",
             "type": "ContainerDeviceDisk"
         },
         {
-            "modelId": "core/model/descriptors/container-device-graphics.mjson",
+            "modelId": "core/model/models/container-device-graphics.js",
             "type": "ContainerDeviceGraphics"
         },
         {
-            "modelId": "core/model/descriptors/container-device-nic.mjson",
+            "modelId": "core/model/models/container-device-nic.js",
             "type": "ContainerDeviceNic"
         },
         {
-            "modelId": "core/model/descriptors/container-device-properties.mjson",
+            "modelId": "core/model/models/container-device-properties.js",
             "type": "ContainerDeviceProperties"
         },
         {
-            "modelId": "core/model/descriptors/container-device-usb-config.mjson",
+            "modelId": "core/model/models/container-device-usb-config.js",
             "type": "ContainerDeviceUsbConfig"
         },
         {
-            "modelId": "core/model/descriptors/container-device-usb.mjson",
+            "modelId": "core/model/models/container-device-usb.js",
             "type": "ContainerDeviceUsb"
         },
         {
-            "modelId": "core/model/descriptors/container-device-volume.mjson",
+            "modelId": "core/model/models/container-device-volume.js",
             "type": "ContainerDeviceVolume"
         },
         {
-            "modelId": "core/model/descriptors/container-device.mjson",
+            "modelId": "core/model/models/container-device.js",
             "type": "ContainerDevice"
         },
         {
-            "modelId": "core/model/descriptors/container.mjson",
+            "modelId": "core/model/models/container.js",
             "type": "Container"
         },
         {
-            "modelId": "core/model/descriptors/cpu-device.mjson",
+            "modelId": "core/model/models/cpu-device.js",
             "type": "CpuDevice"
         },
         {
-            "modelId": "core/model/descriptors/crypto-certificate.mjson",
+            "modelId": "core/model/models/crypto-certificate.js",
             "type": "CryptoCertificate"
         },
         {
-            "modelId": "core/model/descriptors/directory-parameters.mjson",
+            "modelId": "core/model/models/directory-parameters.js",
             "type": "DirectoryParameters"
         },
         {
-            "modelId": "core/model/descriptors/directory-status.mjson",
+            "modelId": "core/model/models/directory-status.js",
             "type": "DirectoryStatus"
         },
         {
-            "modelId": "core/model/descriptors/directory.mjson",
+            "modelId": "core/model/models/directory.js",
             "type": "Directory"
         },
         {
-            "modelId": "core/model/descriptors/directoryservice-config.mjson",
+            "modelId": "core/model/models/directoryservice-config.js",
             "type": "DirectoryserviceConfig"
         },
         {
-            "modelId": "core/model/descriptors/disk-attach-params.mjson",
+            "modelId": "core/model/models/disk-attach-params.js",
             "type": "DiskAttachParams"
         },
         {
-            "modelId": "core/model/descriptors/disk-device.mjson",
+            "modelId": "core/model/models/disk-device.js",
             "type": "DiskDevice"
         },
         {
-            "modelId": "core/model/descriptors/disk-metadata.mjson",
+            "modelId": "core/model/models/disk-metadata.js",
             "type": "DiskMetadata"
         },
         {
-            "modelId": "core/model/descriptors/disk-partition.mjson",
+            "modelId": "core/model/models/disk-partition.js",
             "type": "DiskPartition"
         },
         {
-            "modelId": "core/model/descriptors/disk-set-key-params.mjson",
+            "modelId": "core/model/models/disk-set-key-params.js",
             "type": "DiskSetKeyParams"
         },
         {
-            "modelId": "core/model/descriptors/disk-status-controller.mjson",
+            "modelId": "core/model/models/disk-status-controller.js",
             "type": "DiskStatusController"
         },
         {
-            "modelId": "core/model/descriptors/disk-status-multipath.mjson",
+            "modelId": "core/model/models/disk-status-multipath.js",
             "type": "DiskStatusMultipath"
         },
         {
-            "modelId": "core/model/descriptors/disk-status.mjson",
+            "modelId": "core/model/models/disk-status.js",
             "type": "DiskStatus"
         },
         {
-            "modelId": "core/model/descriptors/disk.mjson",
+            "modelId": "core/model/models/disk.js",
             "type": "Disk"
         },
         {
-            "modelId": "core/model/descriptors/disks-allocation.mjson",
+            "modelId": "core/model/models/disks-allocation.js",
             "type": "DisksAllocation"
         },
         {
-            "modelId": "core/model/descriptors/encrypt-plugin.mjson",
+            "modelId": "core/model/models/encrypt-plugin.js",
             "type": "EncryptPlugin"
         },
         {
-            "modelId": "core/model/descriptors/error.mjson",
+            "modelId": "core/model/models/error.js",
             "type": "Error"
         },
         {
-            "modelId": "core/model/descriptors/get-stats-params.mjson",
+            "modelId": "core/model/models/get-stats-params.js",
             "type": "GetStatsParams"
         },
         {
-            "modelId": "core/model/descriptors/get-stats-result.mjson",
+            "modelId": "core/model/models/get-stats-result.js",
             "type": "GetStatsResult"
         },
         {
-            "modelId": "core/model/descriptors/group.mjson",
+            "modelId": "core/model/models/group.js",
             "type": "Group"
         },
         {
-            "modelId": "core/model/descriptors/importable-disk.mjson",
+            "modelId": "core/model/models/importable-disk.js",
             "type": "ImportableDisk"
         },
         {
-            "modelId": "core/model/descriptors/ipfs-info.mjson",
+            "modelId": "core/model/models/ipfs-info.js",
             "type": "IpfsInfo"
         },
         {
-            "modelId": "core/model/descriptors/ipmi.mjson",
+            "modelId": "core/model/models/ipmi.js",
             "type": "Ipmi"
         },
         {
-            "modelId": "core/model/descriptors/kerberos-keytab-entry.mjson",
+            "modelId": "core/model/models/kerberos-keytab-entry.js",
             "type": "KerberosKeytabEntry"
         },
         {
-            "modelId": "core/model/descriptors/kerberos-keytab.mjson",
+            "modelId": "core/model/models/kerberos-keytab.js",
             "type": "KerberosKeytab"
         },
         {
-            "modelId": "core/model/descriptors/kerberos-realm.mjson",
+            "modelId": "core/model/models/kerberos-realm.js",
             "type": "KerberosRealm"
         },
         {
-            "modelId": "core/model/descriptors/ldap-config.mjson",
+            "modelId": "core/model/models/ldap-config.js",
             "type": "LdapConfig"
         },
         {
-            "modelId": "core/model/descriptors/mail-message-extra-headers.mjson",
+            "modelId": "core/model/models/mail-message-extra-headers.js",
             "type": "MailMessageExtraHeaders"
         },
         {
-            "modelId": "core/model/descriptors/mail-message.mjson",
+            "modelId": "core/model/models/mail-message.js",
             "type": "MailMessage"
         },
         {
-            "modelId": "core/model/descriptors/mail.mjson",
+            "modelId": "core/model/models/mail.js",
             "type": "Mail"
         },
         {
-            "modelId": "core/model/descriptors/network-config-dhcp.mjson",
+            "modelId": "core/model/models/network-config-dhcp.js",
             "type": "NetworkConfigDhcp"
         },
         {
-            "modelId": "core/model/descriptors/network-config-dns.mjson",
+            "modelId": "core/model/models/network-config-dns.js",
             "type": "NetworkConfigDns"
         },
         {
-            "modelId": "core/model/descriptors/network-config-gateway.mjson",
+            "modelId": "core/model/models/network-config-gateway.js",
             "type": "NetworkConfigGateway"
         },
         {
-            "modelId": "core/model/descriptors/network-config-netwait.mjson",
+            "modelId": "core/model/models/network-config-netwait.js",
             "type": "NetworkConfigNetwait"
         },
         {
-            "modelId": "core/model/descriptors/network-config.mjson",
+            "modelId": "core/model/models/network-config.js",
             "type": "NetworkConfig"
         },
         {
-            "modelId": "core/model/descriptors/network-device.mjson",
+            "modelId": "core/model/models/network-device.js",
             "type": "NetworkDevice"
         },
         {
-            "modelId": "core/model/descriptors/network-host.mjson",
+            "modelId": "core/model/models/network-host.js",
             "type": "NetworkHost"
         },
         {
-            "modelId": "core/model/descriptors/network-interface-alias.mjson",
+            "modelId": "core/model/models/network-interface-alias.js",
             "type": "NetworkInterfaceAlias"
         },
         {
-            "modelId": "core/model/descriptors/network-interface-bridge.mjson",
+            "modelId": "core/model/models/network-interface-bridge.js",
             "type": "NetworkInterfaceBridge"
         },
         {
-            "modelId": "core/model/descriptors/network-interface-capabilities.mjson",
+            "modelId": "core/model/models/network-interface-capabilities.js",
             "type": "NetworkInterfaceCapabilities"
         },
         {
-            "modelId": "core/model/descriptors/network-interface-lagg.mjson",
+            "modelId": "core/model/models/network-interface-lagg.js",
             "type": "NetworkInterfaceLagg"
         },
         {
-            "modelId": "core/model/descriptors/network-interface-status-dhcp.mjson",
+            "modelId": "core/model/models/network-interface-status-dhcp.js",
             "type": "NetworkInterfaceStatusDhcp"
         },
         {
-            "modelId": "core/model/descriptors/network-interface-status.mjson",
+            "modelId": "core/model/models/network-interface-status.js",
             "type": "NetworkInterfaceStatus"
         },
         {
-            "modelId": "core/model/descriptors/network-interface-vlan.mjson",
+            "modelId": "core/model/models/network-interface-vlan.js",
             "type": "NetworkInterfaceVlan"
         },
         {
-            "modelId": "core/model/descriptors/network-interface.mjson",
+            "modelId": "core/model/models/network-interface.js",
             "type": "NetworkInterface"
         },
         {
-            "modelId": "core/model/descriptors/network-route.mjson",
+            "modelId": "core/model/models/network-route.js",
             "type": "NetworkRoute"
         },
         {
-            "modelId": "core/model/descriptors/network-status-dns.mjson",
+            "modelId": "core/model/models/network-status-dns.js",
             "type": "NetworkStatusDns"
         },
         {
-            "modelId": "core/model/descriptors/network-status-gateway.mjson",
+            "modelId": "core/model/models/network-status-gateway.js",
             "type": "NetworkStatusGateway"
         },
         {
-            "modelId": "core/model/descriptors/network-status.mjson",
+            "modelId": "core/model/models/network-status.js",
             "type": "NetworkStatus"
         },
         {
-            "modelId": "core/model/descriptors/ntp-server.mjson",
+            "modelId": "core/model/models/ntp-server.js",
             "type": "NtpServer"
         },
         {
-            "modelId": "core/model/descriptors/open-file.mjson",
+            "modelId": "core/model/models/open-file.js",
             "type": "OpenFile"
         },
         {
-            "modelId": "core/model/descriptors/peer.mjson",
+            "modelId": "core/model/models/peer.js",
             "type": "Peer"
         },
         {
-            "modelId": "core/model/descriptors/permissions.mjson",
+            "modelId": "core/model/models/permissions.js",
             "type": "Permissions"
         },
         {
-            "modelId": "core/model/descriptors/power-changed.mjson",
+            "modelId": "core/model/models/power-changed.js",
             "type": "PowerChanged"
         },
         {
-            "modelId": "core/model/descriptors/replication-credentials.mjson",
+            "modelId": "core/model/models/replication-credentials.js",
             "type": "ReplicationCredentials"
         },
         {
-            "modelId": "core/model/descriptors/replication-link.mjson",
+            "modelId": "core/model/models/replication-link.js",
             "type": "ReplicationLink"
         },
         {
-            "modelId": "core/model/descriptors/replication-status.mjson",
+            "modelId": "core/model/models/replication-status.js",
             "type": "ReplicationStatus"
         },
         {
-            "modelId": "core/model/descriptors/replication-transport.mjson",
+            "modelId": "core/model/models/replication-transport.js",
             "type": "ReplicationTransport"
         },
         {
-            "modelId": "core/model/descriptors/replication.mjson",
+            "modelId": "core/model/models/replication.js",
             "type": "Replication"
         },
         {
-            "modelId": "core/model/descriptors/rsync-copy-rsync-properties.mjson",
+            "modelId": "core/model/models/rsync-copy-rsync-properties.js",
             "type": "RsyncCopyRsyncProperties"
         },
         {
-            "modelId": "core/model/descriptors/rsync-copy.mjson",
+            "modelId": "core/model/models/rsync-copy.js",
             "type": "RsyncCopy"
         },
         {
-            "modelId": "core/model/descriptors/rsyncd-module.mjson",
+            "modelId": "core/model/models/rsyncd-module.js",
             "type": "RsyncdModule"
         },
         {
-            "modelId": "core/model/descriptors/rusage.mjson",
+            "modelId": "core/model/models/rusage.js",
             "type": "Rusage"
         },
         {
-            "modelId": "core/model/descriptors/service-afp.mjson",
+            "modelId": "core/model/models/service-afp.js",
             "type": "ServiceAfp"
         },
         {
-            "modelId": "core/model/descriptors/service-dyndns.mjson",
+            "modelId": "core/model/models/service-dyndns.js",
             "type": "ServiceDyndns"
         },
         {
-            "modelId": "core/model/descriptors/service-ftp.mjson",
+            "modelId": "core/model/models/service-ftp.js",
             "type": "ServiceFtp"
         },
         {
-            "modelId": "core/model/descriptors/service-glusterd.mjson",
+            "modelId": "core/model/models/service-glusterd.js",
             "type": "ServiceGlusterd"
         },
         {
-            "modelId": "core/model/descriptors/service-ipfs.mjson",
+            "modelId": "core/model/models/service-ipfs.js",
             "type": "ServiceIpfs"
         },
         {
-            "modelId": "core/model/descriptors/service-iscsi.mjson",
+            "modelId": "core/model/models/service-iscsi.js",
             "type": "ServiceIscsi"
         },
         {
-            "modelId": "core/model/descriptors/service-lldp.mjson",
+            "modelId": "core/model/models/service-lldp.js",
             "type": "ServiceLldp"
         },
         {
-            "modelId": "core/model/descriptors/service-nfs.mjson",
+            "modelId": "core/model/models/service-nfs.js",
             "type": "ServiceNfs"
         },
         {
-            "modelId": "core/model/descriptors/service-openvpn.mjson",
+            "modelId": "core/model/models/service-openvpn.js",
             "type": "ServiceOpenvpn"
         },
         {
-            "modelId": "core/model/descriptors/service-rsyncd.mjson",
+            "modelId": "core/model/models/service-rsyncd.js",
             "type": "ServiceRsyncd"
         },
         {
-            "modelId": "core/model/descriptors/service-simulator.mjson",
+            "modelId": "core/model/models/service-simulator.js",
             "type": "ServiceSimulator"
         },
         {
-            "modelId": "core/model/descriptors/service-smartd.mjson",
+            "modelId": "core/model/models/service-smartd.js",
             "type": "ServiceSmartd"
         },
         {
-            "modelId": "core/model/descriptors/service-smb.mjson",
+            "modelId": "core/model/models/service-smb.js",
             "type": "ServiceSmb"
         },
         {
-            "modelId": "core/model/descriptors/service-snmp.mjson",
+            "modelId": "core/model/models/service-snmp.js",
             "type": "ServiceSnmp"
         },
         {
-            "modelId": "core/model/descriptors/service-sshd.mjson",
+            "modelId": "core/model/models/service-sshd.js",
             "type": "ServiceSshd"
         },
         {
-            "modelId": "core/model/descriptors/service-tftpd.mjson",
+            "modelId": "core/model/models/service-tftpd.js",
             "type": "ServiceTftpd"
         },
         {
-            "modelId": "core/model/descriptors/service-ups.mjson",
+            "modelId": "core/model/models/service-ups.js",
             "type": "ServiceUps"
         },
         {
-            "modelId": "core/model/descriptors/service-webdav.mjson",
+            "modelId": "core/model/models/service-webdav.js",
             "type": "ServiceWebdav"
         },
         {
-            "modelId": "core/model/descriptors/service.mjson",
+            "modelId": "core/model/models/service.js",
             "type": "Service"
         },
         {
-            "modelId": "core/model/descriptors/session.mjson",
+            "modelId": "core/model/models/session.js",
             "type": "Session"
         },
         {
-            "modelId": "core/model/descriptors/share-afp.mjson",
+            "modelId": "core/model/models/share-afp.js",
             "type": "ShareAfp"
         },
         {
-            "modelId": "core/model/descriptors/share-client-extra.mjson",
+            "modelId": "core/model/models/share-client-extra.js",
             "type": "ShareClientExtra"
         },
         {
-            "modelId": "core/model/descriptors/share-client.mjson",
+            "modelId": "core/model/models/share-client.js",
             "type": "ShareClient"
         },
         {
-            "modelId": "core/model/descriptors/share-iscsi-auth.mjson",
+            "modelId": "core/model/models/share-iscsi-auth.js",
             "type": "ShareIscsiAuth"
         },
         {
-            "modelId": "core/model/descriptors/share-iscsi-portal.mjson",
+            "modelId": "core/model/models/share-iscsi-portal.js",
             "type": "ShareIscsiPortal"
         },
         {
-            "modelId": "core/model/descriptors/share-iscsi-target.mjson",
+            "modelId": "core/model/models/share-iscsi-target.js",
             "type": "ShareIscsiTarget"
         },
         {
-            "modelId": "core/model/descriptors/share-iscsi-user.mjson",
+            "modelId": "core/model/models/share-iscsi-user.js",
             "type": "ShareIscsiUser"
         },
         {
-            "modelId": "core/model/descriptors/share-iscsi.mjson",
+            "modelId": "core/model/models/share-iscsi.js",
             "type": "ShareIscsi"
         },
         {
-            "modelId": "core/model/descriptors/share-nfs.mjson",
+            "modelId": "core/model/models/share-nfs.js",
             "type": "ShareNfs"
         },
         {
-            "modelId": "core/model/descriptors/share-smb-extra-parameters.mjson",
+            "modelId": "core/model/models/share-smb-extra-parameters.js",
             "type": "ShareSmbExtraParameters"
         },
         {
-            "modelId": "core/model/descriptors/share-smb.mjson",
+            "modelId": "core/model/models/share-smb.js",
             "type": "ShareSmb"
         },
         {
-            "modelId": "core/model/descriptors/share-types.mjson",
+            "modelId": "core/model/models/share-types.js",
             "type": "ShareTypes"
         },
         {
-            "modelId": "core/model/descriptors/share-webdav.mjson",
+            "modelId": "core/model/models/share-webdav.js",
             "type": "ShareWebdav"
         },
         {
-            "modelId": "core/model/descriptors/share.mjson",
+            "modelId": "core/model/models/share.js",
             "type": "Share"
         },
         {
-            "modelId": "core/model/descriptors/simulator-disk.mjson",
+            "modelId": "core/model/models/simulator-disk.js",
             "type": "SimulatorDisk"
         },
         {
-            "modelId": "core/model/descriptors/snapshot-info.mjson",
+            "modelId": "core/model/models/snapshot-info.js",
             "type": "SnapshotInfo"
         },
         {
-            "modelId": "core/model/descriptors/ssh-credentials.mjson",
+            "modelId": "core/model/models/ssh-credentials.js",
             "type": "SshCredentials"
         },
         {
-            "modelId": "core/model/descriptors/stat.mjson",
+            "modelId": "core/model/models/stat.js",
             "type": "Stat"
         },
         {
-            "modelId": "core/model/descriptors/statistic-alert.mjson",
+            "modelId": "core/model/models/statistic-alert.js",
             "type": "StatisticAlert"
         },
         {
-            "modelId": "core/model/descriptors/statistic.mjson",
+            "modelId": "core/model/models/statistic.js",
             "type": "Statistic"
         },
         {
-            "modelId": "core/model/descriptors/support-ticket.mjson",
+            "modelId": "core/model/models/support-ticket.js",
             "type": "SupportTicket"
         },
         {
-            "modelId": "core/model/descriptors/swap-mirror.mjson",
+            "modelId": "core/model/models/swap-mirror.js",
             "type": "SwapMirror"
         },
         {
-            "modelId": "core/model/descriptors/system-advanced.mjson",
+            "modelId": "core/model/models/system-advanced.js",
             "type": "SystemAdvanced"
         },
         {
-            "modelId": "core/model/descriptors/system-general.mjson",
+            "modelId": "core/model/models/system-general.js",
             "type": "SystemGeneral"
         },
         {
-            "modelId": "core/model/descriptors/system-time.mjson",
+            "modelId": "core/model/models/system-time.js",
             "type": "SystemTime"
         },
         {
-            "modelId": "core/model/descriptors/system-ui.mjson",
+            "modelId": "core/model/models/system-ui.js",
             "type": "SystemUi"
         },
         {
-            "modelId": "core/model/descriptors/task-args.mjson",
+            "modelId": "core/model/models/task-args.js",
             "type": "TaskArgs"
         },
         {
-            "modelId": "core/model/descriptors/task-description.mjson",
+            "modelId": "core/model/models/task-description.js",
             "type": "TaskDescription"
         },
         {
-            "modelId": "core/model/descriptors/task.mjson",
+            "modelId": "core/model/models/task.js",
             "type": "Task"
         },
         {
-            "modelId": "core/model/descriptors/throttle-plugin.mjson",
+            "modelId": "core/model/models/throttle-plugin.js",
             "type": "ThrottlePlugin"
         },
         {
-            "modelId": "core/model/descriptors/tunable.mjson",
+            "modelId": "core/model/models/tunable.js",
             "type": "Tunable"
         },
         {
-            "modelId": "core/model/descriptors/ui-transaction.mjson",
+            "modelId": "core/model/models/ui-transaction.js",
             "type": "UiTransaction"
         },
         {
-            "modelId": "core/model/descriptors/unix-mode-tuple.mjson",
+            "modelId": "core/model/models/unix-mode-tuple.js",
             "type": "UnixModeTuple"
         },
         {
-            "modelId": "core/model/descriptors/unix-permissions.mjson",
+            "modelId": "core/model/models/unix-permissions.js",
             "type": "UnixPermissions"
         },
         {
-            "modelId": "core/model/descriptors/update-info-notes.mjson",
+            "modelId": "core/model/models/update-info-notes.js",
             "type": "UpdateInfoNotes"
         },
         {
-            "modelId": "core/model/descriptors/update-info.mjson",
+            "modelId": "core/model/models/update-info.js",
             "type": "UpdateInfo"
         },
         {
-            "modelId": "core/model/descriptors/update-ops.mjson",
+            "modelId": "core/model/models/update-ops.js",
             "type": "UpdateOps"
         },
         {
-            "modelId": "core/model/descriptors/update-progress.mjson",
+            "modelId": "core/model/models/update-progress.js",
             "type": "UpdateProgress"
         },
         {
-            "modelId": "core/model/descriptors/update-train.mjson",
+            "modelId": "core/model/models/update-train.js",
             "type": "UpdateTrain"
         },
         {
-            "modelId": "core/model/descriptors/update.mjson",
+            "modelId": "core/model/models/update.js",
             "type": "Update"
         },
         {
-            "modelId": "core/model/descriptors/user-attributes.mjson",
+            "modelId": "core/model/models/user-attributes.js",
             "type": "UserAttributes"
         },
         {
-            "modelId": "core/model/descriptors/user.mjson",
+            "modelId": "core/model/models/user.js",
             "type": "User"
         },
         {
-            "modelId": "core/model/descriptors/volume-attributes.mjson",
+            "modelId": "core/model/models/volume-attributes.js",
             "type": "VolumeAttributes"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-properties.mjson",
+            "modelId": "core/model/models/volume-dataset-properties.js",
             "type": "VolumeDatasetProperties"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-atime.mjson",
+            "modelId": "core/model/models/volume-dataset-property-atime.js",
             "type": "VolumeDatasetPropertyAtime"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-available.mjson",
+            "modelId": "core/model/models/volume-dataset-property-available.js",
             "type": "VolumeDatasetPropertyAvailable"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-casesensitivity.mjson",
+            "modelId": "core/model/models/volume-dataset-property-casesensitivity.js",
             "type": "VolumeDatasetPropertyCasesensitivity"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-compression.mjson",
+            "modelId": "core/model/models/volume-dataset-property-compression.js",
             "type": "VolumeDatasetPropertyCompression"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-compressratio.mjson",
+            "modelId": "core/model/models/volume-dataset-property-compressratio.js",
             "type": "VolumeDatasetPropertyCompressratio"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-dedup.mjson",
+            "modelId": "core/model/models/volume-dataset-property-dedup.js",
             "type": "VolumeDatasetPropertyDedup"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-logicalreferenced.mjson",
+            "modelId": "core/model/models/volume-dataset-property-logicalreferenced.js",
             "type": "VolumeDatasetPropertyLogicalreferenced"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-logicalused.mjson",
+            "modelId": "core/model/models/volume-dataset-property-logicalused.js",
             "type": "VolumeDatasetPropertyLogicalused"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-numclones.mjson",
+            "modelId": "core/model/models/volume-dataset-property-numclones.js",
             "type": "VolumeDatasetPropertyNumclones"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-quota.mjson",
+            "modelId": "core/model/models/volume-dataset-property-quota.js",
             "type": "VolumeDatasetPropertyQuota"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-refcompressratio.mjson",
+            "modelId": "core/model/models/volume-dataset-property-refcompressratio.js",
             "type": "VolumeDatasetPropertyRefcompressratio"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-referenced.mjson",
+            "modelId": "core/model/models/volume-dataset-property-referenced.js",
             "type": "VolumeDatasetPropertyReferenced"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-refquota.mjson",
+            "modelId": "core/model/models/volume-dataset-property-refquota.js",
             "type": "VolumeDatasetPropertyRefquota"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-refreservation.mjson",
+            "modelId": "core/model/models/volume-dataset-property-refreservation.js",
             "type": "VolumeDatasetPropertyRefreservation"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-reservation.mjson",
+            "modelId": "core/model/models/volume-dataset-property-reservation.js",
             "type": "VolumeDatasetPropertyReservation"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-used.mjson",
+            "modelId": "core/model/models/volume-dataset-property-used.js",
             "type": "VolumeDatasetPropertyUsed"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-usedbychildren.mjson",
+            "modelId": "core/model/models/volume-dataset-property-usedbychildren.js",
             "type": "VolumeDatasetPropertyUsedbychildren"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-usedbydataset.mjson",
+            "modelId": "core/model/models/volume-dataset-property-usedbydataset.js",
             "type": "VolumeDatasetPropertyUsedbydataset"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-usedbyrefreservation.mjson",
+            "modelId": "core/model/models/volume-dataset-property-usedbyrefreservation.js",
             "type": "VolumeDatasetPropertyUsedbyrefreservation"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-usedbysnapshots.mjson",
+            "modelId": "core/model/models/volume-dataset-property-usedbysnapshots.js",
             "type": "VolumeDatasetPropertyUsedbysnapshots"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-volblocksize.mjson",
+            "modelId": "core/model/models/volume-dataset-property-volblocksize.js",
             "type": "VolumeDatasetPropertyVolblocksize"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-volsize.mjson",
+            "modelId": "core/model/models/volume-dataset-property-volsize.js",
             "type": "VolumeDatasetPropertyVolsize"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset-property-written.mjson",
+            "modelId": "core/model/models/volume-dataset-property-written.js",
             "type": "VolumeDatasetPropertyWritten"
         },
         {
-            "modelId": "core/model/descriptors/volume-dataset.mjson",
+            "modelId": "core/model/models/volume-dataset.js",
             "type": "VolumeDataset"
         },
         {
-            "modelId": "core/model/descriptors/volume-encryption.mjson",
+            "modelId": "core/model/models/volume-encryption.js",
             "type": "VolumeEncryption"
         },
         {
-            "modelId": "core/model/descriptors/volume-import-params.mjson",
+            "modelId": "core/model/models/volume-import-params.js",
             "type": "VolumeImportParams"
         },
         {
-            "modelId": "core/model/descriptors/volume-properties.mjson",
+            "modelId": "core/model/models/volume-properties.js",
             "type": "VolumeProperties"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-allocated.mjson",
+            "modelId": "core/model/models/volume-property-allocated.js",
             "type": "VolumePropertyAllocated"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-autoreplace.mjson",
+            "modelId": "core/model/models/volume-property-autoreplace.js",
             "type": "VolumePropertyAutoreplace"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-capacity.mjson",
+            "modelId": "core/model/models/volume-property-capacity.js",
             "type": "VolumePropertyCapacity"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-comment.mjson",
+            "modelId": "core/model/models/volume-property-comment.js",
             "type": "VolumePropertyComment"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-dedupratio.mjson",
+            "modelId": "core/model/models/volume-property-dedupratio.js",
             "type": "VolumePropertyDedupratio"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-delegation.mjson",
+            "modelId": "core/model/models/volume-property-delegation.js",
             "type": "VolumePropertyDelegation"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-expandsize.mjson",
+            "modelId": "core/model/models/volume-property-expandsize.js",
             "type": "VolumePropertyExpandsize"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-failmode.mjson",
+            "modelId": "core/model/models/volume-property-failmode.js",
             "type": "VolumePropertyFailmode"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-fragmentation.mjson",
+            "modelId": "core/model/models/volume-property-fragmentation.js",
             "type": "VolumePropertyFragmentation"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-free.mjson",
+            "modelId": "core/model/models/volume-property-free.js",
             "type": "VolumePropertyFree"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-health.mjson",
+            "modelId": "core/model/models/volume-property-health.js",
             "type": "VolumePropertyHealth"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-leaked.mjson",
+            "modelId": "core/model/models/volume-property-leaked.js",
             "type": "VolumePropertyLeaked"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-readonly.mjson",
+            "modelId": "core/model/models/volume-property-readonly.js",
             "type": "VolumePropertyReadonly"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-size.mjson",
+            "modelId": "core/model/models/volume-property-size.js",
             "type": "VolumePropertySize"
         },
         {
-            "modelId": "core/model/descriptors/volume-property-version.mjson",
+            "modelId": "core/model/models/volume-property-version.js",
             "type": "VolumePropertyVersion"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot-holds.mjson",
+            "modelId": "core/model/models/volume-snapshot-holds.js",
             "type": "VolumeSnapshotHolds"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot-properties.mjson",
+            "modelId": "core/model/models/volume-snapshot-properties.js",
             "type": "VolumeSnapshotProperties"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot-property-clones.mjson",
+            "modelId": "core/model/models/volume-snapshot-property-clones.js",
             "type": "VolumeSnapshotPropertyClones"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot-property-compressratio.mjson",
+            "modelId": "core/model/models/volume-snapshot-property-compressratio.js",
             "type": "VolumeSnapshotPropertyCompressratio"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot-property-creation.mjson",
+            "modelId": "core/model/models/volume-snapshot-property-creation.js",
             "type": "VolumeSnapshotPropertyCreation"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot-property-referenced.mjson",
+            "modelId": "core/model/models/volume-snapshot-property-referenced.js",
             "type": "VolumeSnapshotPropertyReferenced"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot-property-used.mjson",
+            "modelId": "core/model/models/volume-snapshot-property-used.js",
             "type": "VolumeSnapshotPropertyUsed"
         },
         {
-            "modelId": "core/model/descriptors/volume-snapshot.mjson",
+            "modelId": "core/model/models/volume-snapshot.js",
             "type": "VolumeSnapshot"
         },
         {
-            "modelId": "core/model/descriptors/volume-vdev-recommendation.mjson",
+            "modelId": "core/model/models/volume-vdev-recommendation.js",
             "type": "VolumeVdevRecommendation"
         },
         {
-            "modelId": "core/model/descriptors/volume-vdev-recommendations-redundancy.mjson",
+            "modelId": "core/model/models/volume-vdev-recommendations-redundancy.js",
             "type": "VolumeVdevRecommendationsRedundancy"
         },
         {
-            "modelId": "core/model/descriptors/volume-vdev-recommendations-speed.mjson",
+            "modelId": "core/model/models/volume-vdev-recommendations-speed.js",
             "type": "VolumeVdevRecommendationsSpeed"
         },
         {
-            "modelId": "core/model/descriptors/volume-vdev-recommendations-storage.mjson",
+            "modelId": "core/model/models/volume-vdev-recommendations-storage.js",
             "type": "VolumeVdevRecommendationsStorage"
         },
         {
-            "modelId": "core/model/descriptors/volume-vdev-recommendations.mjson",
+            "modelId": "core/model/models/volume-vdev-recommendations.js",
             "type": "VolumeVdevRecommendations"
         },
         {
-            "modelId": "core/model/descriptors/volume.mjson",
+            "modelId": "core/model/models/volume.js",
             "type": "Volume"
         },
         {
-            "modelId": "core/model/descriptors/winbind-directory-params.mjson",
+            "modelId": "core/model/models/winbind-directory-params.js",
             "type": "WinbindDirectoryParams"
         },
         {
-            "modelId": "core/model/descriptors/winbind-directory-status.mjson",
+            "modelId": "core/model/models/winbind-directory-status.js",
             "type": "WinbindDirectoryStatus"
         },
         {
-            "modelId": "core/model/descriptors/zfs-dataset-properties.mjson",
+            "modelId": "core/model/models/zfs-dataset-properties.js",
             "type": "ZfsDatasetProperties"
         },
         {
-            "modelId": "core/model/descriptors/zfs-dataset.mjson",
+            "modelId": "core/model/models/zfs-dataset.js",
             "type": "ZfsDataset"
         },
         {
-            "modelId": "core/model/descriptors/zfs-pool.mjson",
+            "modelId": "core/model/models/zfs-pool.js",
             "type": "ZfsPool"
         },
         {
-            "modelId": "core/model/descriptors/zfs-property.mjson",
+            "modelId": "core/model/models/zfs-property.js",
             "type": "ZfsProperty"
         },
         {
-            "modelId": "core/model/descriptors/zfs-scan.mjson",
+            "modelId": "core/model/models/zfs-scan.js",
             "type": "ZfsScan"
         },
         {
-            "modelId": "core/model/descriptors/zfs-snapshot-holds.mjson",
+            "modelId": "core/model/models/zfs-snapshot-holds.js",
             "type": "ZfsSnapshotHolds"
         },
         {
-            "modelId": "core/model/descriptors/zfs-snapshot-properties.mjson",
+            "modelId": "core/model/models/zfs-snapshot-properties.js",
             "type": "ZfsSnapshotProperties"
         },
         {
-            "modelId": "core/model/descriptors/zfs-snapshot.mjson",
+            "modelId": "core/model/models/zfs-snapshot.js",
             "type": "ZfsSnapshot"
         },
         {
-            "modelId": "core/model/descriptors/zfs-topology.mjson",
+            "modelId": "core/model/models/zfs-topology.js",
             "type": "ZfsTopology"
         },
         {
-            "modelId": "core/model/descriptors/zfs-vdev-extension.mjson",
+            "modelId": "core/model/models/zfs-vdev-extension.js",
             "type": "ZfsVdevExtension"
         },
         {
-            "modelId": "core/model/descriptors/zfs-vdev-stats.mjson",
+            "modelId": "core/model/models/zfs-vdev-stats.js",
             "type": "ZfsVdevStats"
         },
         {
-            "modelId": "core/model/descriptors/zfs-vdev.mjson",
+            "modelId": "core/model/models/zfs-vdev.js",
             "type": "ZfsVdev"
         },
         {
@@ -923,6 +923,10 @@
         {
             "modelId": "core/model/custom-descriptors/account-system.mjson",
             "type": "AccountSystem"
+        },
+        {
+            "modelId": "core/model/custom-descriptors/calendar.mjson",
+            "type": "Calendar"
         },
         {
             "modelId": "core/model/custom-descriptors/network-overview.mjson",
@@ -939,10 +943,6 @@
         {
             "modelId": "core/model/custom-descriptors/system-section.mjson",
             "type": "SystemSection"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/calendar.mjson",
-            "type": "Calendar"
         }
     ]
 }

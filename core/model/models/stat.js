@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var Permissions = require("core/model/models/permissions").Permissions;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Stat = Montage.specialize({
+exports.Stat = AbstractModel.specialize({
     _atime: {
         value: null
     },
@@ -64,7 +63,7 @@ exports.Stat = Montage.specialize({
             }
         },
         get: function () {
-            return this._permissions || (this._permissions = new Permissions());
+            return this._permissions;
         }
     },
     _size: {
@@ -92,5 +91,38 @@ exports.Stat = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "atime",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "ctime",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mtime",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "permissions",
+            valueObjectPrototypeName: "Permissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueType: "String"
+        }]
     }
 });

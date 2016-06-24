@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskStatusMultipath = Montage.specialize({
+exports.DiskStatusMultipath = AbstractModel.specialize({
     _members: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.DiskStatusMultipath = Montage.specialize({
         get: function () {
             return this._status;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "members",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "node",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueType: "String"
+        }]
     }
 });

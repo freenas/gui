@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkStatusGateway = Montage.specialize({
+exports.NetworkStatusGateway = AbstractModel.specialize({
     _ipv4: {
         value: null
     },
@@ -26,5 +26,19 @@ exports.NetworkStatusGateway = Montage.specialize({
         get: function () {
             return this._ipv6;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "ipv4",
+            valueObjectPrototypeName: "Ipv4Address",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "ipv6",
+            valueObjectPrototypeName: "Ipv6Address",
+            valueType: "object"
+        }]
     }
 });

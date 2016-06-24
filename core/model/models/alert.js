@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Alert = Montage.specialize({
+exports.Alert = AbstractModel.specialize({
     _active: {
         value: null
     },
@@ -220,5 +220,80 @@ exports.Alert = Montage.specialize({
         get: function () {
             return this._user;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "active",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "cancelled_at",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "class",
+            valueObjectPrototypeName: "AlertClassId",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "dismissed",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "dismissed_at",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "happened_at",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "last_emitted_at",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "one_shot",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "send_count",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "severity",
+            valueObjectPrototypeName: "AlertSeverity",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "subtype",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "target",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "title",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "AlertType",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }]
     }
 });

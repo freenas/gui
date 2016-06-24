@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Ipmi = Montage.specialize({
+exports.Ipmi = AbstractModel.specialize({
     _address: {
         value: null
     },
@@ -91,5 +91,37 @@ exports.Ipmi = Montage.specialize({
         get: function () {
             return this._vlan_id;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "address",
+            valueObjectPrototypeName: "Ipv4Address",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "dhcp",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "gateway"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "netmask",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "vlan_id",
+            valueType: "number"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.EncryptPlugin = Montage.specialize({
+exports.EncryptPlugin = AbstractModel.specialize({
     _auth_token: {
         value: null
     },
@@ -104,5 +104,41 @@ exports.EncryptPlugin = Montage.specialize({
         get: function () {
             return this._write_fd;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auth_token",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "buffer_size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "read_fd",
+            valueType: "fd"
+        }, {
+            mandatory: false,
+            name: "remote",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "renewal_interval",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "write_fd",
+            valueType: "fd"
+        }]
     }
 });

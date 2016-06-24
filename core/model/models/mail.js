@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Mail = Montage.specialize({
+exports.Mail = AbstractModel.specialize({
     _auth: {
         value: null
     },
@@ -91,5 +91,37 @@ exports.Mail = Montage.specialize({
         get: function () {
             return this._user;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auth",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "encryption",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "from",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pass",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "server",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }]
     }
 });

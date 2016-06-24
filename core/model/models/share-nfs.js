@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareNfs = Montage.specialize({
+exports.ShareNfs = AbstractModel.specialize({
     _alldirs: {
         value: null
     },
@@ -117,5 +117,44 @@ exports.ShareNfs = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "alldirs",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "hosts",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "mapall_group",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mapall_user",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "maproot_group",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "maproot_user",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "read_only",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "security",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

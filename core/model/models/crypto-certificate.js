@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.CryptoCertificate = Montage.specialize({
+exports.CryptoCertificate = AbstractModel.specialize({
     _certificate: {
         value: null
     },
@@ -312,5 +312,107 @@ exports.CryptoCertificate = Montage.specialize({
         get: function () {
             return this._valid_until;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "certificate",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "certificate_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "city",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "common",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "country",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "csr",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "csr_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "digest_algorithm",
+            valueObjectPrototypeName: "CryptoCertificateDigestalgorithm",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "dn",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "email",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "key_length",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "lifetime",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "organization",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "privatekey",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "privatekey_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "selfsigned",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "serial",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "signing_ca_id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "signing_ca_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "state",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "CryptoCertificateType",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "valid_from",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "valid_until",
+            valueType: "String"
+        }]
     }
 });

@@ -1,3 +1,3 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceUsbConfig = Montage.specialize({});
+exports.ContainerDeviceUsbConfig = AbstractModel.specialize({};

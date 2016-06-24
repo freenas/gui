@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var VolumeSnapshotProperties = require("core/model/models/volume-snapshot-properties").VolumeSnapshotProperties;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeSnapshot = Montage.specialize({
+exports.VolumeSnapshot = AbstractModel.specialize({
     _dataset: {
         value: null
     },
@@ -77,7 +76,7 @@ exports.VolumeSnapshot = Montage.specialize({
             }
         },
         get: function () {
-            return this._properties || (this._properties = new VolumeSnapshotProperties());
+            return this._properties;
         }
     },
     _replicable: {
@@ -105,5 +104,42 @@ exports.VolumeSnapshot = Montage.specialize({
         get: function () {
             return this._volume;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "dataset",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "holds",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "lifetime",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueObjectPrototypeName: "VolumeSnapshotProperties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "replicable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "volume",
+            valueType: "String"
+        }]
     }
 });

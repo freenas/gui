@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.StatisticAlert = Montage.specialize({
+exports.StatisticAlert = AbstractModel.specialize({
     _alert_high: {
         value: null
     },
@@ -78,5 +78,33 @@ exports.StatisticAlert = Montage.specialize({
         get: function () {
             return this._normalized_alert_low;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "alert_high",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "alert_high_enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "alert_low",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "alert_low_enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "normalized_alert_high",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "normalized_alert_low",
+            valueType: "number"
+        }]
     }
 });

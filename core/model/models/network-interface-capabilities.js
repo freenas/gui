@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var NetworkInterfaceCapabilities = require("core/model/models/network-interface-capabilities").NetworkInterfaceCapabilities;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterfaceCapabilities = Montage.specialize({
+exports.NetworkInterfaceCapabilities = AbstractModel.specialize({
     _add: {
         value: null
     },
@@ -12,7 +11,7 @@ exports.NetworkInterfaceCapabilities = Montage.specialize({
             }
         },
         get: function () {
-            return this._add || (this._add = new NetworkInterfaceCapabilities());
+            return this._add;
         }
     },
     _del: {
@@ -25,7 +24,21 @@ exports.NetworkInterfaceCapabilities = Montage.specialize({
             }
         },
         get: function () {
-            return this._del || (this._del = new NetworkInterfaceCapabilities());
+            return this._del;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "add",
+            valueObjectPrototypeName: "NetworkInterfaceCapabilities",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "del",
+            valueObjectPrototypeName: "NetworkInterfaceCapabilities",
+            valueType: "object"
+        }]
     }
 });

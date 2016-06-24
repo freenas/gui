@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareIscsiTarget = Montage.specialize({
+exports.ShareIscsiTarget = AbstractModel.specialize({
     _auth_group: {
         value: null
     },
@@ -65,5 +65,29 @@ exports.ShareIscsiTarget = Montage.specialize({
         get: function () {
             return this._portal_group;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auth_group",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "extents",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "portal_group",
+            valueType: "String"
+        }]
     }
 });

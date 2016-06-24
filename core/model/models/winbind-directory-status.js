@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.WinbindDirectoryStatus = Montage.specialize({
+exports.WinbindDirectoryStatus = AbstractModel.specialize({
     _domain_controller: {
         value: null
     },
@@ -52,5 +52,24 @@ exports.WinbindDirectoryStatus = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "domain_controller",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "joined",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "server_time",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

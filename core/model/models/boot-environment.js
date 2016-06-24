@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.BootEnvironment = Montage.specialize({
+exports.BootEnvironment = AbstractModel.specialize({
     _active: {
         value: null
     },
@@ -91,5 +91,37 @@ exports.BootEnvironment = Montage.specialize({
         get: function () {
             return this._space;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "active",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "created",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mountpoint",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "on_reboot",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "space",
+            valueType: "number"
+        }]
     }
 });

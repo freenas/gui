@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.GetStatsResult = Montage.specialize({
+exports.GetStatsResult = AbstractModel.specialize({
     _data: {
         value: null
     },
@@ -13,5 +13,13 @@ exports.GetStatsResult = Montage.specialize({
         get: function () {
             return this._data;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "data",
+            valueType: "array"
+        }]
     }
 });

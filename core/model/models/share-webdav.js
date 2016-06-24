@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareWebdav = Montage.specialize({
+exports.ShareWebdav = AbstractModel.specialize({
     _permission: {
         value: null
     },
@@ -39,5 +39,20 @@ exports.ShareWebdav = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "permission",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "read_only",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

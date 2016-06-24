@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Rusage = Montage.specialize({
+exports.Rusage = AbstractModel.specialize({
     _ru_idrss: {
         value: null
     },
@@ -208,5 +208,73 @@ exports.Rusage = Montage.specialize({
         get: function () {
             return this._ru_utime;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "ru_idrss",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_inblock",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_isrss",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_ixrss",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_majflt",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_maxrss",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_minflt",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_msgrcv",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_msgsnd",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_nivcsw",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_nsignals",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_nswap",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_nvcsw",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_oublock",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_stime",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ru_utime",
+            valueType: "number"
+        }]
     }
 });

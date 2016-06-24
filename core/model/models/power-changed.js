@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.PowerChanged = Montage.specialize({
+exports.PowerChanged = AbstractModel.specialize({
     _operation: {
         value: null
     },
@@ -13,5 +13,14 @@ exports.PowerChanged = Montage.specialize({
         get: function () {
             return this._operation;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "operation",
+            valueObjectPrototypeName: "PowerChangedOperation",
+            valueType: "object"
+        }]
     }
 });

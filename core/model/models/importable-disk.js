@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ImportableDisk = Montage.specialize({
+exports.ImportableDisk = AbstractModel.specialize({
     _fstype: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.ImportableDisk = Montage.specialize({
         get: function () {
             return this._size;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "fstype",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "label",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "size",
+            valueType: "number"
+        }]
     }
 });

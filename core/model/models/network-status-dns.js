@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkStatusDns = Montage.specialize({
+exports.NetworkStatusDns = AbstractModel.specialize({
     _addresses: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.NetworkStatusDns = Montage.specialize({
         get: function () {
             return this._search;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "addresses",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "search",
+            valueType: "array"
+        }]
     }
 });

@@ -1,8 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var AclEntryFlags = require("core/model/models/acl-entry-flags").AclEntryFlags;
-var AclEntryPerms = require("core/model/models/acl-entry-perms").AclEntryPerms;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.AclEntry = Montage.specialize({
+exports.AclEntry = AbstractModel.specialize({
     _flags: {
         value: null
     },
@@ -13,7 +11,7 @@ exports.AclEntry = Montage.specialize({
             }
         },
         get: function () {
-            return this._flags || (this._flags = new AclEntryFlags());
+            return this._flags;
         }
     },
     _id: {
@@ -52,7 +50,7 @@ exports.AclEntry = Montage.specialize({
             }
         },
         get: function () {
-            return this._perms || (this._perms = new AclEntryPerms());
+            return this._perms;
         }
     },
     _tag: {
@@ -93,5 +91,41 @@ exports.AclEntry = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "flags",
+            valueObjectPrototypeName: "AclEntryFlags",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "perms",
+            valueObjectPrototypeName: "AclEntryPerms",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "tag",
+            valueObjectPrototypeName: "AclEntryTag",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "text",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "AclEntryType",
+            valueType: "object"
+        }]
     }
 });

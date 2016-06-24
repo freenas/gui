@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.BackupFile = Montage.specialize({
+exports.BackupFile = AbstractModel.specialize({
     _content_type: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.BackupFile = Montage.specialize({
         get: function () {
             return this._size;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "content_type",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "size",
+            valueType: "number"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SystemGeneral = Montage.specialize({
+exports.SystemGeneral = AbstractModel.specialize({
     _console_keymap: {
         value: null
     },
@@ -65,5 +65,29 @@ exports.SystemGeneral = Montage.specialize({
         get: function () {
             return this._timezone;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "console_keymap",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "hostname",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "language",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "syslog_server",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "timezone",
+            valueType: "String"
+        }]
     }
 });

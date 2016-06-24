@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterfaceBridge = Montage.specialize({
+exports.NetworkInterfaceBridge = AbstractModel.specialize({
     _members: {
         value: null
     },
@@ -13,5 +13,13 @@ exports.NetworkInterfaceBridge = Montage.specialize({
         get: function () {
             return this._members;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "members",
+            valueType: "array"
+        }]
     }
 });

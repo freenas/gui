@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UpdateOps = Montage.specialize({
+exports.UpdateOps = AbstractModel.specialize({
     _new_name: {
         value: null
     },
@@ -65,5 +65,30 @@ exports.UpdateOps = Montage.specialize({
         get: function () {
             return this._previous_version;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "new_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "new_version",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "operation",
+            valueObjectPrototypeName: "UpdateOpsOperation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "previous_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "previous_version",
+            valueType: "String"
+        }]
     }
 });

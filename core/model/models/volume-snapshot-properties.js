@@ -1,11 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var VolumeSnapshotPropertyClones = require("core/model/models/volume-snapshot-property-clones").VolumeSnapshotPropertyClones;
-var VolumeSnapshotPropertyCompressratio = require("core/model/models/volume-snapshot-property-compressratio").VolumeSnapshotPropertyCompressratio;
-var VolumeSnapshotPropertyCreation = require("core/model/models/volume-snapshot-property-creation").VolumeSnapshotPropertyCreation;
-var VolumeSnapshotPropertyReferenced = require("core/model/models/volume-snapshot-property-referenced").VolumeSnapshotPropertyReferenced;
-var VolumeSnapshotPropertyUsed = require("core/model/models/volume-snapshot-property-used").VolumeSnapshotPropertyUsed;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeSnapshotProperties = Montage.specialize({
+exports.VolumeSnapshotProperties = AbstractModel.specialize({
     _clones: {
         value: null
     },
@@ -16,7 +11,7 @@ exports.VolumeSnapshotProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._clones || (this._clones = new VolumeSnapshotPropertyClones());
+            return this._clones;
         }
     },
     _compressratio: {
@@ -29,7 +24,7 @@ exports.VolumeSnapshotProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._compressratio || (this._compressratio = new VolumeSnapshotPropertyCompressratio());
+            return this._compressratio;
         }
     },
     _creation: {
@@ -42,7 +37,7 @@ exports.VolumeSnapshotProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._creation || (this._creation = new VolumeSnapshotPropertyCreation());
+            return this._creation;
         }
     },
     _referenced: {
@@ -55,7 +50,7 @@ exports.VolumeSnapshotProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._referenced || (this._referenced = new VolumeSnapshotPropertyReferenced());
+            return this._referenced;
         }
     },
     _used: {
@@ -68,7 +63,36 @@ exports.VolumeSnapshotProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._used || (this._used = new VolumeSnapshotPropertyUsed());
+            return this._used;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "clones",
+            valueObjectPrototypeName: "VolumeSnapshotPropertyClones",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "compressratio",
+            valueObjectPrototypeName: "VolumeSnapshotPropertyCompressratio",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "creation",
+            valueObjectPrototypeName: "VolumeSnapshotPropertyCreation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "referenced",
+            valueObjectPrototypeName: "VolumeSnapshotPropertyReferenced",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "used",
+            valueObjectPrototypeName: "VolumeSnapshotPropertyUsed",
+            valueType: "object"
+        }]
     }
 });

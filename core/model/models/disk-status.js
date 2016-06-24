@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskStatus = Montage.specialize({
+exports.DiskStatus = AbstractModel.specialize({
     _controller: {
         value: null
     },
@@ -337,5 +337,113 @@ exports.DiskStatus = Montage.specialize({
         get: function () {
             return this._swap_partition_uuid;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "controller",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "data_partition_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "data_partition_uuid",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "empty",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "encrypted",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "gdisk_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "interface",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "is_encrypted",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "is_multipath",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "is_ssd",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "lunid",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "max_rotation",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "mediasize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "model",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "multipath",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "partitions",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "schema",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sectorsize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "serial",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "smart_capable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "smart_enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "smart_status",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "swap_partition_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "swap_partition_uuid",
+            valueType: "String"
+        }]
     }
 });

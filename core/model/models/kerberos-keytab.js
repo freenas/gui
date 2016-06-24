@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.KerberosKeytab = Montage.specialize({
+exports.KerberosKeytab = AbstractModel.specialize({
     _entries: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.KerberosKeytab = Montage.specialize({
         get: function () {
             return this._name;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "entries",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "keytab",
+            valueType: "binary"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }]
     }
 });

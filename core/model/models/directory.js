@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Directory = Montage.specialize({
+exports.Directory = AbstractModel.specialize({
     _enabled: {
         value: null
     },
@@ -117,5 +117,45 @@ exports.Directory = Montage.specialize({
         get: function () {
             return this._uid_range;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "enumerate",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "gid_range",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "parameters",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "plugin",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "priority",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "uid_range",
+            valueType: "array"
+        }]
     }
 });

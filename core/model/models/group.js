@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Group = Montage.specialize({
+exports.Group = AbstractModel.specialize({
     _builtin: {
         value: null
     },
@@ -78,5 +78,33 @@ exports.Group = Montage.specialize({
         get: function () {
             return this._sudo;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "builtin",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "gid",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "members",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sudo",
+            valueType: "boolean"
+        }]
     }
 });

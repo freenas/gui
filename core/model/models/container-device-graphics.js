@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceGraphics = Montage.specialize({
+exports.ContainerDeviceGraphics = AbstractModel.specialize({
     _resolution: {
         value: null
     },
@@ -13,5 +13,14 @@ exports.ContainerDeviceGraphics = Montage.specialize({
         get: function () {
             return this._resolution;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "resolution",
+            valueObjectPrototypeName: "ContainerDeviceGraphicsResolution",
+            valueType: "object"
+        }]
     }
 });

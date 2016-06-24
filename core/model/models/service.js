@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Service = Montage.specialize({
+exports.Service = AbstractModel.specialize({
     _builtin: {
         value: null
     },
@@ -65,5 +65,31 @@ exports.Service = Montage.specialize({
         get: function () {
             return this._state;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "builtin",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "config",
+            valueObjectPrototypeName: "ServiceConfig",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pid",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "state",
+            valueObjectPrototypeName: "ServiceState",
+            valueType: "object"
+        }]
     }
 });

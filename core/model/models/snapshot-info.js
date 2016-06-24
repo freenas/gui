@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SnapshotInfo = Montage.specialize({
+exports.SnapshotInfo = AbstractModel.specialize({
     _created_at: {
         value: null
     },
@@ -52,5 +52,26 @@ exports.SnapshotInfo = Montage.specialize({
         get: function () {
             return this._uuid;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "created_at",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "SnapshotInfoType",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "uuid",
+            valueType: "String"
+        }]
     }
 });

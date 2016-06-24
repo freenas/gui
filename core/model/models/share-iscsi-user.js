@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareIscsiUser = Montage.specialize({
+exports.ShareIscsiUser = AbstractModel.specialize({
     _name: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.ShareIscsiUser = Montage.specialize({
         get: function () {
             return this._secret;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "peer_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "peer_secret",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "secret",
+            valueType: "String"
+        }]
     }
 });

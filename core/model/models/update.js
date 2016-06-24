@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Update = Montage.specialize({
+exports.Update = AbstractModel.specialize({
     _check_auto: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.Update = Montage.specialize({
         get: function () {
             return this._update_server;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "check_auto",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "train",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "update_server",
+            valueType: "String"
+        }]
     }
 });

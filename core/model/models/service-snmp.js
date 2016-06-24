@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceSnmp = Montage.specialize({
+exports.ServiceSnmp = AbstractModel.specialize({
     _auxiliary: {
         value: null
     },
@@ -156,5 +156,58 @@ exports.ServiceSnmp = Montage.specialize({
         get: function () {
             return this._v3_username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "community",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "contact",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "location",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "v3",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "v3_auth_type",
+            valueObjectPrototypeName: "ServiceSnmpV3authtype",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "v3_password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "v3_privacy_passphrase",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "v3_privacy_protocol",
+            valueObjectPrototypeName: "ServiceSnmpV3privacyprotocol",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "v3_username",
+            valueType: "String"
+        }]
     }
 });

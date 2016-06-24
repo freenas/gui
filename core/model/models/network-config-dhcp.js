@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkConfigDhcp = Montage.specialize({
+exports.NetworkConfigDhcp = AbstractModel.specialize({
     _assign_dns: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.NetworkConfigDhcp = Montage.specialize({
         get: function () {
             return this._assign_gateway;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "assign_dns",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "assign_gateway",
+            valueType: "boolean"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.BackupState = Montage.specialize({
+exports.BackupState = AbstractModel.specialize({
     _dataset: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.BackupState = Montage.specialize({
         get: function () {
             return this._snapshots;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "dataset",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "hostname",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "snapshots",
+            valueType: "array"
+        }]
     }
 });

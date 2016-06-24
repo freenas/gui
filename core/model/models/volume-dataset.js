@@ -1,8 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var Permissions = require("core/model/models/permissions").Permissions;
-var VolumeDatasetProperties = require("core/model/models/volume-dataset-properties").VolumeDatasetProperties;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeDataset = Montage.specialize({
+exports.VolumeDataset = AbstractModel.specialize({
     _id: {
         value: null
     },
@@ -65,7 +63,7 @@ exports.VolumeDataset = Montage.specialize({
             }
         },
         get: function () {
-            return this._permissions || (this._permissions = new Permissions());
+            return this._permissions;
         }
     },
     _permissions_type: {
@@ -91,7 +89,7 @@ exports.VolumeDataset = Montage.specialize({
             }
         },
         get: function () {
-            return this._properties || (this._properties = new VolumeDatasetProperties());
+            return this._properties;
         }
     },
     _rname: {
@@ -145,5 +143,55 @@ exports.VolumeDataset = Montage.specialize({
         get: function () {
             return this._volume;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mounted",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "mountpoint",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "permissions",
+            valueObjectPrototypeName: "Permissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "permissions_type",
+            valueObjectPrototypeName: "VolumeDatasetPermissionstype",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueObjectPrototypeName: "VolumeDatasetProperties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "rname",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "volsize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "volume",
+            valueType: "String"
+        }]
     }
 });

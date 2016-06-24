@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.RsyncCopyRsyncProperties = Montage.specialize({
+exports.RsyncCopyRsyncProperties = AbstractModel.specialize({
     _archive: {
         value: null
     },
@@ -117,5 +117,45 @@ exports.RsyncCopyRsyncProperties = Montage.specialize({
         get: function () {
             return this._times;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "archive",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "compress",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "delay_updates",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "delete",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "extra",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "preserve_attributes",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "preserve_permissions",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "recursive",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "times",
+            valueType: "boolean"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ThrottlePlugin = Montage.specialize({
+exports.ThrottlePlugin = AbstractModel.specialize({
     _buffer_size: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.ThrottlePlugin = Montage.specialize({
         get: function () {
             return this._write_fd;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "buffer_size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "read_fd",
+            valueType: "fd"
+        }, {
+            mandatory: false,
+            name: "write_fd",
+            valueType: "fd"
+        }]
     }
 });

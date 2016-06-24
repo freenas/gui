@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterfaceStatusDhcp = Montage.specialize({
+exports.NetworkInterfaceStatusDhcp = AbstractModel.specialize({
     _lease_ends_at: {
         value: null
     },
@@ -65,5 +65,30 @@ exports.NetworkInterfaceStatusDhcp = Montage.specialize({
         get: function () {
             return this._state;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "lease_ends_at",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "lease_starts_at",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "server_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "server_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "state",
+            valueObjectPrototypeName: "NetworkInterfaceDhcpState",
+            valueType: "object"
+        }]
     }
 });

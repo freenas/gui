@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.KerberosRealm = Montage.specialize({
+exports.KerberosRealm = AbstractModel.specialize({
     _admin_server_address: {
         value: null
     },
@@ -65,5 +65,29 @@ exports.KerberosRealm = Montage.specialize({
         get: function () {
             return this._realm;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "admin_server_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "kdc_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "password_server_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "realm",
+            valueType: "String"
+        }]
     }
 });

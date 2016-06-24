@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var AlertEmitterEmail = require("core/model/models/alert-emitter-email").AlertEmitterEmail;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.AlertFilter = Montage.specialize({
+exports.AlertFilter = AbstractModel.specialize({
     _emitter: {
         value: null
     },
@@ -38,7 +37,7 @@ exports.AlertFilter = Montage.specialize({
             }
         },
         get: function () {
-            return this._parameters || (this._parameters = new AlertEmitterEmail());
+            return this._parameters;
         }
     },
     _predicates: {
@@ -53,5 +52,26 @@ exports.AlertFilter = Montage.specialize({
         get: function () {
             return this._predicates;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "emitter",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "parameters",
+            valueObjectPrototypeName: "AlertEmitterEmail",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "predicates",
+            valueType: "array"
+        }]
     }
 });

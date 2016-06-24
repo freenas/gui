@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NtpServer = Montage.specialize({
+exports.NtpServer = AbstractModel.specialize({
     _address: {
         value: null
     },
@@ -91,5 +91,37 @@ exports.NtpServer = Montage.specialize({
         get: function () {
             return this._prefer;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "burst",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "iburst",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "maxpoll",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "minpoll",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "prefer",
+            valueType: "boolean"
+        }]
     }
 });

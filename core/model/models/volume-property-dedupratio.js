@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumePropertyDedupratio = Montage.specialize({
+exports.VolumePropertyDedupratio = AbstractModel.specialize({
     _parsed: {
         value: null
     },
@@ -52,5 +52,27 @@ exports.VolumePropertyDedupratio = Montage.specialize({
         get: function () {
             return this._value;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "parsed",
+            valueObjectPrototypeName: "VolumePropertyDedupratioValue",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "rawvalue",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "source",
+            valueObjectPrototypeName: "VolumePropertySource",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "value",
+            valueType: "String"
+        }]
     }
 });

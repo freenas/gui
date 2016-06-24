@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Error = Montage.specialize({
+exports.Error = AbstractModel.specialize({
     _code: {
         value: null
     },
@@ -65,5 +65,30 @@ exports.Error = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "code",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "extra",
+            valueObjectPrototypeName: "ValidationError",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "message",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "stacktrace",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueType: "String"
+        }]
     }
 });

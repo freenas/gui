@@ -1,29 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var VolumeDatasetPropertyAtime = require("core/model/models/volume-dataset-property-atime").VolumeDatasetPropertyAtime;
-var VolumeDatasetPropertyAvailable = require("core/model/models/volume-dataset-property-available").VolumeDatasetPropertyAvailable;
-var VolumeDatasetPropertyCasesensitivity = require("core/model/models/volume-dataset-property-casesensitivity").VolumeDatasetPropertyCasesensitivity;
-var VolumeDatasetPropertyCompression = require("core/model/models/volume-dataset-property-compression").VolumeDatasetPropertyCompression;
-var VolumeDatasetPropertyCompressratio = require("core/model/models/volume-dataset-property-compressratio").VolumeDatasetPropertyCompressratio;
-var VolumeDatasetPropertyDedup = require("core/model/models/volume-dataset-property-dedup").VolumeDatasetPropertyDedup;
-var VolumeDatasetPropertyLogicalreferenced = require("core/model/models/volume-dataset-property-logicalreferenced").VolumeDatasetPropertyLogicalreferenced;
-var VolumeDatasetPropertyLogicalused = require("core/model/models/volume-dataset-property-logicalused").VolumeDatasetPropertyLogicalused;
-var VolumeDatasetPropertyNumclones = require("core/model/models/volume-dataset-property-numclones").VolumeDatasetPropertyNumclones;
-var VolumeDatasetPropertyQuota = require("core/model/models/volume-dataset-property-quota").VolumeDatasetPropertyQuota;
-var VolumeDatasetPropertyRefcompressratio = require("core/model/models/volume-dataset-property-refcompressratio").VolumeDatasetPropertyRefcompressratio;
-var VolumeDatasetPropertyReferenced = require("core/model/models/volume-dataset-property-referenced").VolumeDatasetPropertyReferenced;
-var VolumeDatasetPropertyRefquota = require("core/model/models/volume-dataset-property-refquota").VolumeDatasetPropertyRefquota;
-var VolumeDatasetPropertyRefreservation = require("core/model/models/volume-dataset-property-refreservation").VolumeDatasetPropertyRefreservation;
-var VolumeDatasetPropertyReservation = require("core/model/models/volume-dataset-property-reservation").VolumeDatasetPropertyReservation;
-var VolumeDatasetPropertyUsed = require("core/model/models/volume-dataset-property-used").VolumeDatasetPropertyUsed;
-var VolumeDatasetPropertyUsedbychildren = require("core/model/models/volume-dataset-property-usedbychildren").VolumeDatasetPropertyUsedbychildren;
-var VolumeDatasetPropertyUsedbydataset = require("core/model/models/volume-dataset-property-usedbydataset").VolumeDatasetPropertyUsedbydataset;
-var VolumeDatasetPropertyUsedbyrefreservation = require("core/model/models/volume-dataset-property-usedbyrefreservation").VolumeDatasetPropertyUsedbyrefreservation;
-var VolumeDatasetPropertyUsedbysnapshots = require("core/model/models/volume-dataset-property-usedbysnapshots").VolumeDatasetPropertyUsedbysnapshots;
-var VolumeDatasetPropertyVolblocksize = require("core/model/models/volume-dataset-property-volblocksize").VolumeDatasetPropertyVolblocksize;
-var VolumeDatasetPropertyVolsize = require("core/model/models/volume-dataset-property-volsize").VolumeDatasetPropertyVolsize;
-var VolumeDatasetPropertyWritten = require("core/model/models/volume-dataset-property-written").VolumeDatasetPropertyWritten;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeDatasetProperties = Montage.specialize({
+exports.VolumeDatasetProperties = AbstractModel.specialize({
     _atime: {
         value: null
     },
@@ -34,7 +11,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._atime || (this._atime = new VolumeDatasetPropertyAtime());
+            return this._atime;
         }
     },
     _available: {
@@ -47,7 +24,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._available || (this._available = new VolumeDatasetPropertyAvailable());
+            return this._available;
         }
     },
     _casesensitivity: {
@@ -60,7 +37,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._casesensitivity || (this._casesensitivity = new VolumeDatasetPropertyCasesensitivity());
+            return this._casesensitivity;
         }
     },
     _compression: {
@@ -73,7 +50,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._compression || (this._compression = new VolumeDatasetPropertyCompression());
+            return this._compression;
         }
     },
     _compressratio: {
@@ -86,7 +63,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._compressratio || (this._compressratio = new VolumeDatasetPropertyCompressratio());
+            return this._compressratio;
         }
     },
     _dedup: {
@@ -99,7 +76,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._dedup || (this._dedup = new VolumeDatasetPropertyDedup());
+            return this._dedup;
         }
     },
     _logicalreferenced: {
@@ -112,7 +89,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._logicalreferenced || (this._logicalreferenced = new VolumeDatasetPropertyLogicalreferenced());
+            return this._logicalreferenced;
         }
     },
     _logicalused: {
@@ -125,7 +102,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._logicalused || (this._logicalused = new VolumeDatasetPropertyLogicalused());
+            return this._logicalused;
         }
     },
     _numclones: {
@@ -138,7 +115,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._numclones || (this._numclones = new VolumeDatasetPropertyNumclones());
+            return this._numclones;
         }
     },
     _quota: {
@@ -151,7 +128,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._quota || (this._quota = new VolumeDatasetPropertyQuota());
+            return this._quota;
         }
     },
     _refcompressratio: {
@@ -164,7 +141,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._refcompressratio || (this._refcompressratio = new VolumeDatasetPropertyRefcompressratio());
+            return this._refcompressratio;
         }
     },
     _referenced: {
@@ -177,7 +154,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._referenced || (this._referenced = new VolumeDatasetPropertyReferenced());
+            return this._referenced;
         }
     },
     _refquota: {
@@ -190,7 +167,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._refquota || (this._refquota = new VolumeDatasetPropertyRefquota());
+            return this._refquota;
         }
     },
     _refreservation: {
@@ -203,7 +180,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._refreservation || (this._refreservation = new VolumeDatasetPropertyRefreservation());
+            return this._refreservation;
         }
     },
     _reservation: {
@@ -216,7 +193,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._reservation || (this._reservation = new VolumeDatasetPropertyReservation());
+            return this._reservation;
         }
     },
     _used: {
@@ -229,7 +206,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._used || (this._used = new VolumeDatasetPropertyUsed());
+            return this._used;
         }
     },
     _usedbychildren: {
@@ -242,7 +219,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._usedbychildren || (this._usedbychildren = new VolumeDatasetPropertyUsedbychildren());
+            return this._usedbychildren;
         }
     },
     _usedbydataset: {
@@ -255,7 +232,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._usedbydataset || (this._usedbydataset = new VolumeDatasetPropertyUsedbydataset());
+            return this._usedbydataset;
         }
     },
     _usedbyrefreservation: {
@@ -268,7 +245,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._usedbyrefreservation || (this._usedbyrefreservation = new VolumeDatasetPropertyUsedbyrefreservation());
+            return this._usedbyrefreservation;
         }
     },
     _usedbysnapshots: {
@@ -281,7 +258,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._usedbysnapshots || (this._usedbysnapshots = new VolumeDatasetPropertyUsedbysnapshots());
+            return this._usedbysnapshots;
         }
     },
     _volblocksize: {
@@ -294,7 +271,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._volblocksize || (this._volblocksize = new VolumeDatasetPropertyVolblocksize());
+            return this._volblocksize;
         }
     },
     _volsize: {
@@ -307,7 +284,7 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._volsize || (this._volsize = new VolumeDatasetPropertyVolsize());
+            return this._volsize;
         }
     },
     _written: {
@@ -320,7 +297,126 @@ exports.VolumeDatasetProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._written || (this._written = new VolumeDatasetPropertyWritten());
+            return this._written;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "atime",
+            valueObjectPrototypeName: "VolumeDatasetPropertyAtime",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "available",
+            valueObjectPrototypeName: "VolumeDatasetPropertyAvailable",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "casesensitivity",
+            valueObjectPrototypeName: "VolumeDatasetPropertyCasesensitivity",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "compression",
+            valueObjectPrototypeName: "VolumeDatasetPropertyCompression",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "compressratio",
+            valueObjectPrototypeName: "VolumeDatasetPropertyCompressratio",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "dedup",
+            valueObjectPrototypeName: "VolumeDatasetPropertyDedup",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "logicalreferenced",
+            valueObjectPrototypeName: "VolumeDatasetPropertyLogicalreferenced",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "logicalused",
+            valueObjectPrototypeName: "VolumeDatasetPropertyLogicalused",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "numclones",
+            valueObjectPrototypeName: "VolumeDatasetPropertyNumclones",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "quota",
+            valueObjectPrototypeName: "VolumeDatasetPropertyQuota",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "refcompressratio",
+            valueObjectPrototypeName: "VolumeDatasetPropertyRefcompressratio",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "referenced",
+            valueObjectPrototypeName: "VolumeDatasetPropertyReferenced",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "refquota",
+            valueObjectPrototypeName: "VolumeDatasetPropertyRefquota",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "refreservation",
+            valueObjectPrototypeName: "VolumeDatasetPropertyRefreservation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "reservation",
+            valueObjectPrototypeName: "VolumeDatasetPropertyReservation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "used",
+            valueObjectPrototypeName: "VolumeDatasetPropertyUsed",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "usedbychildren",
+            valueObjectPrototypeName: "VolumeDatasetPropertyUsedbychildren",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "usedbydataset",
+            valueObjectPrototypeName: "VolumeDatasetPropertyUsedbydataset",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "usedbyrefreservation",
+            valueObjectPrototypeName: "VolumeDatasetPropertyUsedbyrefreservation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "usedbysnapshots",
+            valueObjectPrototypeName: "VolumeDatasetPropertyUsedbysnapshots",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "volblocksize",
+            valueObjectPrototypeName: "VolumeDatasetPropertyVolblocksize",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "volsize",
+            valueObjectPrototypeName: "VolumeDatasetPropertyVolsize",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "written",
+            valueObjectPrototypeName: "VolumeDatasetPropertyWritten",
+            valueType: "object"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkStatus = Montage.specialize({
+exports.NetworkStatus = AbstractModel.specialize({
     _dns: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.NetworkStatus = Montage.specialize({
         get: function () {
             return this._gateway;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "dns",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "gateway",
+            valueType: "object"
+        }]
     }
 });

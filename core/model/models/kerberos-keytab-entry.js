@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.KerberosKeytabEntry = Montage.specialize({
+exports.KerberosKeytabEntry = AbstractModel.specialize({
     _enctype: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.KerberosKeytabEntry = Montage.specialize({
         get: function () {
             return this._vno;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "enctype",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "principal",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "vno",
+            valueType: "number"
+        }]
     }
 });

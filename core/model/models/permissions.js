@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var UnixPermissions = require("core/model/models/unix-permissions").UnixPermissions;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Permissions = Montage.specialize({
+exports.Permissions = AbstractModel.specialize({
     _acl: {
         value: null
     },
@@ -38,7 +37,7 @@ exports.Permissions = Montage.specialize({
             }
         },
         get: function () {
-            return this._modes || (this._modes = new UnixPermissions());
+            return this._modes;
         }
     },
     _user: {
@@ -53,5 +52,26 @@ exports.Permissions = Montage.specialize({
         get: function () {
             return this._user;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "acl",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "group",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "modes",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }]
     }
 });

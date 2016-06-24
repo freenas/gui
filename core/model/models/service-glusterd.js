@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceGlusterd = Montage.specialize({
+exports.ServiceGlusterd = AbstractModel.specialize({
     _enable: {
         value: null
     },
@@ -39,5 +39,20 @@ exports.ServiceGlusterd = Montage.specialize({
         get: function () {
             return this._working_directory;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "working_directory",
+            valueType: "String"
+        }]
     }
 });

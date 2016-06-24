@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.IpfsInfo = Montage.specialize({
+exports.IpfsInfo = AbstractModel.specialize({
     _Addresses: {
         value: null
     },
@@ -65,5 +65,29 @@ exports.IpfsInfo = Montage.specialize({
         get: function () {
             return this._PublicKey;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "Addresses",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "AgentVersion",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "ID",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "ProtocolVersion",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "PublicKey",
+            valueType: "String"
+        }]
     }
 });

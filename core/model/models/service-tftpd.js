@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var UnixPermissions = require("core/model/models/unix-permissions").UnixPermissions;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceTftpd = Montage.specialize({
+exports.ServiceTftpd = AbstractModel.specialize({
     _allow_new_files: {
         value: null
     },
@@ -90,7 +89,7 @@ exports.ServiceTftpd = Montage.specialize({
             }
         },
         get: function () {
-            return this._umask || (this._umask = new UnixPermissions());
+            return this._umask;
         }
     },
     _username: {
@@ -105,5 +104,41 @@ exports.ServiceTftpd = Montage.specialize({
         get: function () {
             return this._username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "allow_new_files",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "umask",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "username",
+            valueType: "String"
+        }]
     }
 });

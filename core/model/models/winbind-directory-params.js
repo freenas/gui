@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.WinbindDirectoryParams = Montage.specialize({
+exports.WinbindDirectoryParams = AbstractModel.specialize({
     _allow_dns_updates: {
         value: null
     },
@@ -117,5 +117,44 @@ exports.WinbindDirectoryParams = Montage.specialize({
         get: function () {
             return this._username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "allow_dns_updates",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "dc_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "gcs_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "keytab",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "realm",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "site_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "username",
+            valueType: "String"
+        }]
     }
 });

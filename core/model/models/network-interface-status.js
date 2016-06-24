@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var NetworkInterfaceCapabilities = require("core/model/models/network-interface-capabilities").NetworkInterfaceCapabilities;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterfaceStatus = Montage.specialize({
+exports.NetworkInterfaceStatus = AbstractModel.specialize({
     _aliases: {
         value: null
     },
@@ -25,7 +24,7 @@ exports.NetworkInterfaceStatus = Montage.specialize({
             }
         },
         get: function () {
-            return this._capabilities || (this._capabilities = new NetworkInterfaceCapabilities());
+            return this._capabilities;
         }
     },
     _cloned: {
@@ -222,5 +221,81 @@ exports.NetworkInterfaceStatus = Montage.specialize({
         get: function () {
             return this._tag;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "aliases",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "capabilities",
+            valueObjectPrototypeName: "NetworkInterfaceCapabilities",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "cloned",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "dhcp",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "flags",
+            valueObjectPrototypeName: "NetworkInterfaceFlags",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "link_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "link_state",
+            valueObjectPrototypeName: "NetworkInterfaceStatusLinkstate",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "media_options",
+            valueObjectPrototypeName: "NetworkInterfaceMediaopts",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "media_subtype",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "media_type",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "members",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "mtu",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "nd6_flags",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "parent",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "ports",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "tag",
+            valueType: "String"
+        }]
     }
 });

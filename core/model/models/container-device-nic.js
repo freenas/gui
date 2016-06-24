@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceNic = Montage.specialize({
+exports.ContainerDeviceNic = AbstractModel.specialize({
     _bridge: {
         value: null
     },
@@ -39,5 +39,22 @@ exports.ContainerDeviceNic = Montage.specialize({
         get: function () {
             return this._mode;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "bridge",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "link_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mode",
+            valueObjectPrototypeName: "ContainerDeviceNicMode",
+            valueType: "object"
+        }]
     }
 });

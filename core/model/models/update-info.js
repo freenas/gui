@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var UpdateOps = require("core/model/models/update-ops").UpdateOps;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UpdateInfo = Montage.specialize({
+exports.UpdateInfo = AbstractModel.specialize({
     _changelog: {
         value: null
     },
@@ -64,7 +63,32 @@ exports.UpdateInfo = Montage.specialize({
             }
         },
         get: function () {
-            return this._operations || (this._operations = new UpdateOps());
+            return this._operations;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "changelog",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "downloaded",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "notes",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "notice",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "operations",
+            valueObjectPrototypeName: "UpdateOps",
+            valueType: "object"
+        }]
     }
 });

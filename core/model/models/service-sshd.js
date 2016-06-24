@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceSshd = Montage.specialize({
+exports.ServiceSshd = AbstractModel.specialize({
     _allow_gssapi_auth: {
         value: null
     },
@@ -156,5 +156,58 @@ exports.ServiceSshd = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "allow_gssapi_auth",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "allow_password_auth",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "allow_port_forwarding",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "allow_pubkey_auth",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "compression",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "permit_root_login",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "sftp_log_facility",
+            valueObjectPrototypeName: "ServiceSshdSftplogfacility",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "sftp_log_level",
+            valueObjectPrototypeName: "ServiceSshdSftploglevel",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

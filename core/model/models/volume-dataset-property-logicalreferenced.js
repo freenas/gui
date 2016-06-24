@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeDatasetPropertyLogicalreferenced = Montage.specialize({
+exports.VolumeDatasetPropertyLogicalreferenced = AbstractModel.specialize({
     _parsed: {
         value: null
     },
@@ -52,5 +52,27 @@ exports.VolumeDatasetPropertyLogicalreferenced = Montage.specialize({
         get: function () {
             return this._value;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "parsed",
+            valueObjectPrototypeName: "VolumeDatasetPropertyLogicalreferencedValue",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "rawvalue",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "source",
+            valueObjectPrototypeName: "VolumePropertySource",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "value",
+            valueType: "String"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterfaceVlan = Montage.specialize({
+exports.NetworkInterfaceVlan = AbstractModel.specialize({
     _parent: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.NetworkInterfaceVlan = Montage.specialize({
         get: function () {
             return this._tag;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "parent",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "tag",
+            valueType: "number"
+        }]
     }
 });

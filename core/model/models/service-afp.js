@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceAfp = Montage.specialize({
+exports.ServiceAfp = AbstractModel.specialize({
     _auxiliary: {
         value: null
     },
@@ -143,5 +143,52 @@ exports.ServiceAfp = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "bind_addresses",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "connections_limit",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "dbpath",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "guest_enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "guest_user",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "homedir_enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "homedir_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "homedir_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

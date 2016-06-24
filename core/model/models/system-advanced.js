@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SystemAdvanced = Montage.specialize({
+exports.SystemAdvanced = AbstractModel.specialize({
     _boot_scrub_internal: {
         value: null
     },
@@ -169,5 +169,61 @@ exports.SystemAdvanced = Montage.specialize({
         get: function () {
             return this._uploadcrash;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "boot_scrub_internal",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "console_cli",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "console_screensaver",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "debugkernel",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "home_directory_root",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "motd",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "periodic_notify_user",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "powerd",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "serial_console",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "serial_port",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "serial_speed",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "swapondrive",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "uploadcrash",
+            valueType: "boolean"
+        }]
     }
 });

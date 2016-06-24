@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var UnixPermissions = require("core/model/models/unix-permissions").UnixPermissions;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareAfp = Montage.specialize({
+exports.ShareAfp = AbstractModel.specialize({
     _afp3_privileges: {
         value: null
     },
@@ -38,7 +37,7 @@ exports.ShareAfp = Montage.specialize({
             }
         },
         get: function () {
-            return this._default_directory_perms || (this._default_directory_perms = new UnixPermissions());
+            return this._default_directory_perms;
         }
     },
     _default_file_perms: {
@@ -51,7 +50,7 @@ exports.ShareAfp = Montage.specialize({
             }
         },
         get: function () {
-            return this._default_file_perms || (this._default_file_perms = new UnixPermissions());
+            return this._default_file_perms;
         }
     },
     _default_umask: {
@@ -64,7 +63,7 @@ exports.ShareAfp = Montage.specialize({
             }
         },
         get: function () {
-            return this._default_umask || (this._default_umask = new UnixPermissions());
+            return this._default_umask;
         }
     },
     _groups_allow: {
@@ -261,5 +260,91 @@ exports.ShareAfp = Montage.specialize({
         get: function () {
             return this._zero_dev_numbers;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "afp3_privileges",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "comment",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "default_directory_perms",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "default_file_perms",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "default_umask",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "groups_allow",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "groups_deny",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "hosts_allow",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "hosts_deny",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "no_stat",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "read_only",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "ro_groups",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "ro_users",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "rw_groups",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "rw_users",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "time_machine",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "users_allow",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "users_deny",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "zero_dev_numbers",
+            valueType: "boolean"
+        }]
     }
 });

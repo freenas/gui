@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Replication = Montage.specialize({
+exports.Replication = AbstractModel.specialize({
     _followdelete: {
         value: null
     },
@@ -78,5 +78,34 @@ exports.Replication = Montage.specialize({
         get: function () {
             return this._transport_plugins;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "followdelete",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "lifetime",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "recursive",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "remote",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "remote_dataset",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "transport_plugins",
+            valueObjectPrototypeName: "ReplicationTransportPlugin",
+            valueType: "object"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceLldp = Montage.specialize({
+exports.ServiceLldp = AbstractModel.specialize({
     _country_code: {
         value: null
     },
@@ -65,5 +65,28 @@ exports.ServiceLldp = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "country_code",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "location",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "save_description",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

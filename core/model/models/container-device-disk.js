@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceDisk = Montage.specialize({
+exports.ContainerDeviceDisk = AbstractModel.specialize({
     _mode: {
         value: null
     },
@@ -26,5 +26,18 @@ exports.ContainerDeviceDisk = Montage.specialize({
         get: function () {
             return this._size;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "mode",
+            valueObjectPrototypeName: "ContainerDeviceDiskMode",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "size",
+            valueType: "number"
+        }]
     }
 });

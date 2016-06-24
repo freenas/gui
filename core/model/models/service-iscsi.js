@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceIscsi = Montage.specialize({
+exports.ServiceIscsi = AbstractModel.specialize({
     _base_name: {
         value: null
     },
@@ -65,5 +65,28 @@ exports.ServiceIscsi = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "base_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "isns_servers",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "pool_space_threshold",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ReplicationStatus = Montage.specialize({
+exports.ReplicationStatus = AbstractModel.specialize({
     _message: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.ReplicationStatus = Montage.specialize({
         get: function () {
             return this._status;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "message",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "speed",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueType: "String"
+        }]
     }
 });

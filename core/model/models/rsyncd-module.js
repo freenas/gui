@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.RsyncdModule = Montage.specialize({
+exports.RsyncdModule = AbstractModel.specialize({
     _auxiliary: {
         value: null
     },
@@ -130,5 +130,50 @@ exports.RsyncdModule = Montage.specialize({
         get: function () {
             return this._user;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "group",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "hosts_allow",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "hosts_deny",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "max_connections",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "mode",
+            valueObjectPrototypeName: "RsyncdModuleMode",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }]
     }
 });

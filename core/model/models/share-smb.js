@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareSmb = Montage.specialize({
+exports.ShareSmb = AbstractModel.specialize({
     _browseable: {
         value: null
     },
@@ -156,5 +156,56 @@ exports.ShareSmb = Montage.specialize({
         get: function () {
             return this._vfs_objects;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "browseable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "comment",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "extra_parameters",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "guest_ok",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "guest_only",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "hosts_allow",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "hosts_deny",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "read_only",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "recyclebin",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "show_hidden_files",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "vfs_objects",
+            valueType: "array"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsScan = Montage.specialize({
+exports.ZfsScan = AbstractModel.specialize({
     _bytes_processed: {
         value: null
     },
@@ -104,5 +104,41 @@ exports.ZfsScan = Montage.specialize({
         get: function () {
             return this._state;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "bytes_processed",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "bytes_to_process",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "end_time",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "errors",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "func",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "percentage",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "start_time",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "state",
+            valueType: "String"
+        }]
     }
 });

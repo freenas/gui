@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UnixModeTuple = Montage.specialize({
+exports.UnixModeTuple = AbstractModel.specialize({
     _execute: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.UnixModeTuple = Montage.specialize({
         get: function () {
             return this._write;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "execute",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "read",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "write",
+            valueType: "boolean"
+        }]
     }
 });

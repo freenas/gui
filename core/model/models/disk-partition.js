@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskPartition = Montage.specialize({
+exports.DiskPartition = AbstractModel.specialize({
     _label: {
         value: null
     },
@@ -78,5 +78,33 @@ exports.DiskPartition = Montage.specialize({
         get: function () {
             return this._uuid;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "label",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mediasize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "paths",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "uuid",
+            valueType: "String"
+        }]
     }
 });

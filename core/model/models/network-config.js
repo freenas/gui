@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkConfig = Montage.specialize({
+exports.NetworkConfig = AbstractModel.specialize({
     _autoconfigure: {
         value: null
     },
@@ -78,5 +78,33 @@ exports.NetworkConfig = Montage.specialize({
         get: function () {
             return this._netwait;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "autoconfigure",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "dhcp",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "dns",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "gateway",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "http_proxy",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "netwait",
+            valueType: "object"
+        }]
     }
 });

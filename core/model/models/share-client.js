@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareClient = Montage.specialize({
+exports.ShareClient = AbstractModel.specialize({
     _connected_at: {
         value: null
     },
@@ -65,5 +65,29 @@ exports.ShareClient = Montage.specialize({
         get: function () {
             return this._user;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "connected_at",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "extra",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "host",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "share",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SystemUi = Montage.specialize({
+exports.SystemUi = AbstractModel.specialize({
     _webui_http_port: {
         value: null
     },
@@ -78,5 +78,33 @@ exports.SystemUi = Montage.specialize({
         get: function () {
             return this._webui_protocol;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "webui_http_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "webui_http_redirect_https",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "webui_https_certificate",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "webui_https_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "webui_listen",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "webui_protocol",
+            valueType: "array"
+        }]
     }
 });

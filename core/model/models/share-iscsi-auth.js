@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ShareIscsiAuth = Montage.specialize({
+exports.ShareIscsiAuth = AbstractModel.specialize({
     _description: {
         value: null
     },
@@ -78,5 +78,34 @@ exports.ShareIscsiAuth = Montage.specialize({
         get: function () {
             return this._users;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "initiators",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "networks",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "ShareIscsiAuthType",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "users",
+            valueType: "array"
+        }]
     }
 });

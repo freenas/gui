@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceUsb = Montage.specialize({
+exports.ContainerDeviceUsb = AbstractModel.specialize({
     _config: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.ContainerDeviceUsb = Montage.specialize({
         get: function () {
             return this._device;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "config",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "device",
+            valueType: "String"
+        }]
     }
 });

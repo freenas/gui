@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var DiskStatus = require("core/model/models/disk-status").DiskStatus;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Disk = Montage.specialize({
+exports.Disk = AbstractModel.specialize({
     _acoustic_level: {
         value: null
     },
@@ -168,7 +167,65 @@ exports.Disk = Montage.specialize({
             }
         },
         get: function () {
-            return this._status || (this._status = new DiskStatus());
+            return this._status;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "acoustic_level",
+            valueObjectPrototypeName: "DiskAcousticlevel",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "apm_mode",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mediasize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "rname",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "serial",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "smart",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "smart_options",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "standby_mode",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueObjectPrototypeName: "DiskStatus",
+            valueType: "object"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceNfs = Montage.specialize({
+exports.ServiceNfs = AbstractModel.specialize({
     _bind_addresses: {
         value: null
     },
@@ -143,5 +143,52 @@ exports.ServiceNfs = Montage.specialize({
         get: function () {
             return this._v4_kerberos;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "bind_addresses",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "mountd_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "nonroot",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "rpclockd_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "rpcstatd_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "servers",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "udp",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "v4",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "v4_kerberos",
+            valueType: "boolean"
+        }]
     }
 });

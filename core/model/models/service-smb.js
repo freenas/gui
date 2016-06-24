@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var UnixPermissions = require("core/model/models/unix-permissions").UnixPermissions;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceSmb = Montage.specialize({
+exports.ServiceSmb = AbstractModel.specialize({
     _auxiliary: {
         value: null
     },
@@ -51,7 +50,7 @@ exports.ServiceSmb = Montage.specialize({
             }
         },
         get: function () {
-            return this._dirmask || (this._dirmask = new UnixPermissions());
+            return this._dirmask;
         }
     },
     _domain_logons: {
@@ -129,7 +128,7 @@ exports.ServiceSmb = Montage.specialize({
             }
         },
         get: function () {
-            return this._filemask || (this._filemask = new UnixPermissions());
+            return this._filemask;
         }
     },
     _guest_user: {
@@ -339,5 +338,119 @@ exports.ServiceSmb = Montage.specialize({
         get: function () {
             return this._zeroconf;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "bind_addresses",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "dirmask",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "domain_logons",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "dos_charset",
+            valueObjectPrototypeName: "ServiceSmbDoscharset",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "empty_password",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "execute_always",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "filemask",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "guest_user",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "hostlookup",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "local_master",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "log_level",
+            valueObjectPrototypeName: "ServiceSmbLoglevel",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "max_protocol",
+            valueObjectPrototypeName: "ServiceSmbMaxprotocol",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "min_protocol",
+            valueObjectPrototypeName: "ServiceSmbMinprotocol",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "netbiosname",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "obey_pam_restrictions",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "sid",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "syslog",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "time_server",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "unix_charset",
+            valueObjectPrototypeName: "ServiceSmbUnixcharset",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "unixext",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "workgroup",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "zeroconf",
+            valueType: "boolean"
+        }]
     }
 });

@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var Permissions = require("core/model/models/permissions").Permissions;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Share = Montage.specialize({
+exports.Share = AbstractModel.specialize({
     _description: {
         value: null
     },
@@ -90,7 +89,7 @@ exports.Share = Montage.specialize({
             }
         },
         get: function () {
-            return this._permissions || (this._permissions = new Permissions());
+            return this._permissions;
         }
     },
     _properties: {
@@ -144,5 +143,56 @@ exports.Share = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "filesystem_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "immutable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "permissions",
+            valueObjectPrototypeName: "Permissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueObjectPrototypeName: "ShareProperties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "target_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "target_type",
+            valueObjectPrototypeName: "ShareTargettype",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueType: "String"
+        }]
     }
 });

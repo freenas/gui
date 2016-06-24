@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DirectoryserviceConfig = Montage.specialize({
+exports.DirectoryserviceConfig = AbstractModel.specialize({
     _cache_enumerations: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.DirectoryserviceConfig = Montage.specialize({
         get: function () {
             return this._search_order;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "cache_enumerations",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "cache_lookups",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "cache_ttl",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "search_order",
+            valueType: "array"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.AlertEmitterEmail = Montage.specialize({
+exports.AlertEmitterEmail = AbstractModel.specialize({
     _addresses: {
         value: null
     },
@@ -26,5 +26,16 @@ exports.AlertEmitterEmail = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "addresses",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

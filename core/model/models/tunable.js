@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Tunable = Montage.specialize({
+exports.Tunable = AbstractModel.specialize({
     _comment: {
         value: null
     },
@@ -78,5 +78,34 @@ exports.Tunable = Montage.specialize({
         get: function () {
             return this._var;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "comment",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "TunableType",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "value",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "var",
+            valueType: "String"
+        }]
     }
 });

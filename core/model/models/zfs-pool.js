@@ -1,9 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var ZfsTopology = require("core/model/models/zfs-topology").ZfsTopology;
-var ZfsDataset = require("core/model/models/zfs-dataset").ZfsDataset;
-var ZfsScan = require("core/model/models/zfs-scan").ZfsScan;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsPool = Montage.specialize({
+exports.ZfsPool = AbstractModel.specialize({
     _groups: {
         value: null
     },
@@ -14,7 +11,7 @@ exports.ZfsPool = Montage.specialize({
             }
         },
         get: function () {
-            return this._groups || (this._groups = new ZfsTopology());
+            return this._groups;
         }
     },
     _guid: {
@@ -79,7 +76,7 @@ exports.ZfsPool = Montage.specialize({
             }
         },
         get: function () {
-            return this._root_dataset || (this._root_dataset = new ZfsDataset());
+            return this._root_dataset;
         }
     },
     _scan: {
@@ -92,7 +89,7 @@ exports.ZfsPool = Montage.specialize({
             }
         },
         get: function () {
-            return this._scan || (this._scan = new ZfsScan());
+            return this._scan;
         }
     },
     _status: {
@@ -107,5 +104,46 @@ exports.ZfsPool = Montage.specialize({
         get: function () {
             return this._status;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "groups",
+            valueObjectPrototypeName: "ZfsTopology",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "guid",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "hostname",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueObjectPrototypeName: "ZfsProperties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "root_dataset",
+            valueObjectPrototypeName: "ZfsDataset",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "scan",
+            valueObjectPrototypeName: "ZfsScan",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueObjectPrototypeName: "ZfsPoolStatus",
+            valueType: "object"
+        }]
     }
 });

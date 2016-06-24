@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsProperty = Montage.specialize({
+exports.ZfsProperty = AbstractModel.specialize({
     _parsed: {
         value: null
     },
@@ -52,5 +52,26 @@ exports.ZfsProperty = Montage.specialize({
         get: function () {
             return this._value;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "parsed",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "rawvalue",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "source",
+            valueObjectPrototypeName: "ZfsPropertySource",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "value",
+            valueType: "String"
+        }]
     }
 });

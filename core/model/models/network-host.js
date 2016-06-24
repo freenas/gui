@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkHost = Montage.specialize({
+exports.NetworkHost = AbstractModel.specialize({
     _addresses: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.NetworkHost = Montage.specialize({
         get: function () {
             return this._id;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "addresses",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }]
     }
 });

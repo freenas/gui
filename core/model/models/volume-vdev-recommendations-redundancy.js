@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var VolumeVdevRecommendation = require("core/model/models/volume-vdev-recommendation").VolumeVdevRecommendation;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeVdevRecommendationsRedundancy = Montage.specialize({
+exports.VolumeVdevRecommendationsRedundancy = AbstractModel.specialize({
     _redundancy: {
         value: null
     },
@@ -12,7 +11,7 @@ exports.VolumeVdevRecommendationsRedundancy = Montage.specialize({
             }
         },
         get: function () {
-            return this._redundancy || (this._redundancy = new VolumeVdevRecommendation());
+            return this._redundancy;
         }
     },
     _speed: {
@@ -25,7 +24,7 @@ exports.VolumeVdevRecommendationsRedundancy = Montage.specialize({
             }
         },
         get: function () {
-            return this._speed || (this._speed = new VolumeVdevRecommendation());
+            return this._speed;
         }
     },
     _storage: {
@@ -38,7 +37,26 @@ exports.VolumeVdevRecommendationsRedundancy = Montage.specialize({
             }
         },
         get: function () {
-            return this._storage || (this._storage = new VolumeVdevRecommendation());
+            return this._storage;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "redundancy",
+            valueObjectPrototypeName: "VolumeVdevRecommendation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "speed",
+            valueObjectPrototypeName: "VolumeVdevRecommendation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "storage",
+            valueObjectPrototypeName: "VolumeVdevRecommendation",
+            valueType: "object"
+        }]
     }
 });

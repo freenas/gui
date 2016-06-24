@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SshCredentials = Montage.specialize({
+exports.SshCredentials = AbstractModel.specialize({
     _hostkey: {
         value: null
     },
@@ -78,5 +78,32 @@ exports.SshCredentials = Montage.specialize({
         get: function () {
             return this._username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "hostkey",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "pubkey",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "username",
+            valueType: "String"
+        }]
     }
 });

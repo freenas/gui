@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskSetKeyParams = Montage.specialize({
+exports.DiskSetKeyParams = AbstractModel.specialize({
     _key: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.DiskSetKeyParams = Montage.specialize({
         get: function () {
             return this._slot;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "key",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "slot",
+            valueType: "number"
+        }]
     }
 });

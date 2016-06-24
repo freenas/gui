@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceUps = Montage.specialize({
+exports.ServiceUps = AbstractModel.specialize({
     _auxiliary: {
         value: null
     },
@@ -260,5 +260,90 @@ exports.ServiceUps = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "auxiliary_users",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "driver",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "driver_port",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "email_notify",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "email_recipients",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "email_subject",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "identifier",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mode",
+            valueObjectPrototypeName: "ServiceUpsMode",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "monitor_password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "monitor_remote",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "monitor_user",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "powerdown",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "remote_host",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "remote_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "shutdown_mode",
+            valueObjectPrototypeName: "ServiceUpsShutdownmode",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "shutdown_timer",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceSmartd = Montage.specialize({
+exports.ServiceSmartd = AbstractModel.specialize({
     _enable: {
         value: null
     },
@@ -91,5 +91,37 @@ exports.ServiceSmartd = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "interval",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "power_mode",
+            valueObjectPrototypeName: "ServiceSmartdPowermode",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "temp_critical",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "temp_difference",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "temp_informational",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

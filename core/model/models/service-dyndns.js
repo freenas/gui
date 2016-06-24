@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceDyndns = Montage.specialize({
+exports.ServiceDyndns = AbstractModel.specialize({
     _auxiliary: {
         value: null
     },
@@ -130,5 +130,49 @@ exports.ServiceDyndns = Montage.specialize({
         get: function () {
             return this._username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "domains",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "force_update_period",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ipserver",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "provider",
+            valueObjectPrototypeName: "ServiceDyndnsProvider",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "update_period",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "username",
+            valueType: "String"
+        }]
     }
 });

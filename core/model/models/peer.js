@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Peer = Montage.specialize({
+exports.Peer = AbstractModel.specialize({
     _address: {
         value: null
     },
@@ -65,5 +65,29 @@ exports.Peer = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "credentials",
+            valueObjectPrototypeName: "PeerCredentials",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

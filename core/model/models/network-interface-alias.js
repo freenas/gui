@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterfaceAlias = Montage.specialize({
+exports.NetworkInterfaceAlias = AbstractModel.specialize({
     _address: {
         value: null
     },
@@ -52,5 +52,28 @@ exports.NetworkInterfaceAlias = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "address",
+            valueObjectPrototypeName: "IpAddress",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "broadcast",
+            valueObjectPrototypeName: "Ipv4Address",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "netmask",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "NetworkInterfaceAliasType",
+            valueType: "object"
+        }]
     }
 });

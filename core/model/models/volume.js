@@ -1,10 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var VolumeEncryption = require("core/model/models/volume-encryption").VolumeEncryption;
-var VolumeProperties = require("core/model/models/volume-properties").VolumeProperties;
-var ZfsScan = require("core/model/models/zfs-scan").ZfsScan;
-var ZfsTopology = require("core/model/models/zfs-topology").ZfsTopology;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Volume = Montage.specialize({
+exports.Volume = AbstractModel.specialize({
     _attributes: {
         value: null
     },
@@ -41,7 +37,7 @@ exports.Volume = Montage.specialize({
             }
         },
         get: function () {
-            return this._encryption || (this._encryption = new VolumeEncryption());
+            return this._encryption;
         }
     },
     _guid: {
@@ -93,7 +89,7 @@ exports.Volume = Montage.specialize({
             }
         },
         get: function () {
-            return this._properties || (this._properties = new VolumeProperties());
+            return this._properties;
         }
     },
     _providers_presence: {
@@ -132,7 +128,7 @@ exports.Volume = Montage.specialize({
             }
         },
         get: function () {
-            return this._scan || (this._scan = new ZfsScan());
+            return this._scan;
         }
     },
     _topology: {
@@ -145,7 +141,7 @@ exports.Volume = Montage.specialize({
             }
         },
         get: function () {
-            return this._topology || (this._topology = new ZfsTopology());
+            return this._topology;
         }
     },
     _type: {
@@ -160,5 +156,62 @@ exports.Volume = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "attributes",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "encrypted",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "encryption",
+            valueObjectPrototypeName: "VolumeEncryption",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "guid",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "params",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueObjectPrototypeName: "VolumeProperties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "providers_presence",
+            valueObjectPrototypeName: "VolumeProviderspresence",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "rname",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "scan",
+            valueObjectPrototypeName: "ZfsScan",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "topology",
+            valueObjectPrototypeName: "ZfsTopology",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueType: "String"
+        }]
     }
 });

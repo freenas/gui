@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var UnixPermissions = require("core/model/models/unix-permissions").UnixPermissions;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceFtp = Montage.specialize({
+exports.ServiceFtp = AbstractModel.specialize({
     _anon_down_bandwidth: {
         value: null
     },
@@ -77,7 +76,7 @@ exports.ServiceFtp = Montage.specialize({
             }
         },
         get: function () {
-            return this._dirmask || (this._dirmask = new UnixPermissions());
+            return this._dirmask;
         }
     },
     _display_login: {
@@ -116,7 +115,7 @@ exports.ServiceFtp = Montage.specialize({
             }
         },
         get: function () {
-            return this._filemask || (this._filemask = new UnixPermissions());
+            return this._filemask;
         }
     },
     _fxp: {
@@ -404,5 +403,135 @@ exports.ServiceFtp = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "anon_down_bandwidth",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "anon_up_bandwidth",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "anonymous_path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "chroot",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "dirmask",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "display_login",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "filemask",
+            valueObjectPrototypeName: "UnixPermissions",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "fxp",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "ident",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "ip_connections",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "local_down_bandwidth",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "local_up_bandwidth",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "login_attempt",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "masquerade_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "max_clients",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "only_anonymous",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "only_local",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "passive_ports_max",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "passive_ports_min",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "resume",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "reverse_dns",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "root_login",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "timeout",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "tls",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "tls_options",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "tls_policy",
+            valueObjectPrototypeName: "ServiceFtpTlspolicy",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "tls_ssl_certificate",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

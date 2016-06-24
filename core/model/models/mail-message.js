@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.MailMessage = Montage.specialize({
+exports.MailMessage = AbstractModel.specialize({
     _attachments: {
         value: null
     },
@@ -78,5 +78,33 @@ exports.MailMessage = Montage.specialize({
         get: function () {
             return this._to;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "attachments",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "extra_headers",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "from",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "message",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "subject",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "to",
+            valueType: "array"
+        }]
     }
 });

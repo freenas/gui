@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ActivedirectoryConfig = Montage.specialize({
+exports.ActivedirectoryConfig = AbstractModel.specialize({
     _binddn: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.ActivedirectoryConfig = Montage.specialize({
         get: function () {
             return this._domain;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "binddn",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "bindpw",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "domain",
+            valueType: "String"
+        }]
     }
 });

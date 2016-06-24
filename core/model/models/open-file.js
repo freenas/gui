@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.OpenFile = Montage.specialize({
+exports.OpenFile = AbstractModel.specialize({
     _path: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.OpenFile = Montage.specialize({
         get: function () {
             return this._process_name;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pid",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "process_name",
+            valueType: "String"
+        }]
     }
 });

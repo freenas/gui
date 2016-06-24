@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsSnapshot = Montage.specialize({
+exports.ZfsSnapshot = AbstractModel.specialize({
     _dataset: {
         value: null
     },
@@ -78,5 +78,34 @@ exports.ZfsSnapshot = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "dataset",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "holds",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pool",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "DatasetType",
+            valueType: "object"
+        }]
     }
 });

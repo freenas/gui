@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeEncryption = Montage.specialize({
+exports.VolumeEncryption = AbstractModel.specialize({
     _hashed_password: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.VolumeEncryption = Montage.specialize({
         get: function () {
             return this._slot;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "hashed_password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "key",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "salt",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "slot",
+            valueType: "number"
+        }]
     }
 });

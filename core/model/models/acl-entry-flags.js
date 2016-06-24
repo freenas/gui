@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.AclEntryFlags = Montage.specialize({
+exports.AclEntryFlags = AbstractModel.specialize({
     _DIRECTORY_INHERIT: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.AclEntryFlags = Montage.specialize({
         get: function () {
             return this._NO_PROPAGATE_INHERIT;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "DIRECTORY_INHERIT",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "FILE_INHERIT",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "INHERIT_ONLY",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "NO_PROPAGATE_INHERIT",
+            valueType: "boolean"
+        }]
     }
 });

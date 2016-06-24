@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceCdrom = Montage.specialize({
+exports.ContainerDeviceCdrom = AbstractModel.specialize({
     _path: {
         value: null
     },
@@ -13,5 +13,13 @@ exports.ContainerDeviceCdrom = Montage.specialize({
         get: function () {
             return this._path;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }]
     }
 });

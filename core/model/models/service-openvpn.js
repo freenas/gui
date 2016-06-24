@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceOpenvpn = Montage.specialize({
+exports.ServiceOpenvpn = AbstractModel.specialize({
     _auxiliary: {
         value: null
     },
@@ -364,5 +364,120 @@ exports.ServiceOpenvpn = Montage.specialize({
         get: function () {
             return this._verb;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auxiliary",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "ca",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "cert",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "cipher",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "comp_lzo",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "crl_verify",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "dev",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "dh",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "group",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "keepalive_peer_down",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "keepalive_ping_interval",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "key",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "max_clients",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "persist_key",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "persist_tun",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "proto",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "server_bridge",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "server_bridge_extended",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "server_bridge_ip",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "server_bridge_netmask",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "server_bridge_range_begin",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "server_bridge_range_end",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "tls_auth",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "verb",
+            valueType: "number"
+        }]
     }
 });

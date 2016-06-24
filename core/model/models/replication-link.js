@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var ReplicationStatus = require("core/model/models/replication-status").ReplicationStatus;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ReplicationLink = Montage.specialize({
+exports.ReplicationLink = AbstractModel.specialize({
     _bidirectional: {
         value: null
     },
@@ -116,7 +115,7 @@ exports.ReplicationLink = Montage.specialize({
             }
         },
         get: function () {
-            return this._status || (this._status = new ReplicationStatus());
+            return this._status;
         }
     },
     _update_date: {
@@ -131,5 +130,50 @@ exports.ReplicationLink = Montage.specialize({
         get: function () {
             return this._update_date;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "bidirectional",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "datasets",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "master",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "partners",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "recursive",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "replicate_services",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueObjectPrototypeName: "ReplicationStatus",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "update_date",
+            valueType: "String"
+        }]
     }
 });

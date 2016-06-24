@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Session = Montage.specialize({
+exports.Session = AbstractModel.specialize({
     _active: {
         value: null
     },
@@ -78,5 +78,33 @@ exports.Session = Montage.specialize({
         get: function () {
             return this._username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "active",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "ended-at",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "resource",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "started-at",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "tty",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "username",
+            valueType: "String"
+        }]
     }
 });

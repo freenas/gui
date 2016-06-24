@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterfaceLagg = Montage.specialize({
+exports.NetworkInterfaceLagg = AbstractModel.specialize({
     _ports: {
         value: null
     },
@@ -26,5 +26,18 @@ exports.NetworkInterfaceLagg = Montage.specialize({
         get: function () {
             return this._protocol;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "ports",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "protocol",
+            valueObjectPrototypeName: "NetworkAggregationProtocols",
+            valueType: "object"
+        }]
     }
 });

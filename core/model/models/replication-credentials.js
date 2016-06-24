@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ReplicationCredentials = Montage.specialize({
+exports.ReplicationCredentials = AbstractModel.specialize({
     _hostkey: {
         value: null
     },
@@ -52,5 +52,24 @@ exports.ReplicationCredentials = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "hostkey",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "pubkey",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

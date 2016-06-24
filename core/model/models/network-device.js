@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkDevice = Montage.specialize({
+exports.NetworkDevice = AbstractModel.specialize({
     _description: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.NetworkDevice = Montage.specialize({
         get: function () {
             return this._name;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }]
     }
 });

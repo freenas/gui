@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var StatisticAlert = require("core/model/models/statistic-alert").StatisticAlert;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Statistic = Montage.specialize({
+exports.Statistic = AbstractModel.specialize({
     _alerts: {
         value: null
     },
@@ -12,7 +11,7 @@ exports.Statistic = Montage.specialize({
             }
         },
         get: function () {
-            return this._alerts || (this._alerts = new StatisticAlert());
+            return this._alerts;
         }
     },
     _last_value: {
@@ -66,5 +65,30 @@ exports.Statistic = Montage.specialize({
         get: function () {
             return this._unit;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "alerts",
+            valueObjectPrototypeName: "StatisticAlert",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "last_value",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "short_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "unit",
+            valueType: "String"
+        }]
     }
 });

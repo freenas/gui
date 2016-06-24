@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SupportTicket = Montage.specialize({
+exports.SupportTicket = AbstractModel.specialize({
     _attachments: {
         value: null
     },
@@ -104,5 +104,41 @@ exports.SupportTicket = Montage.specialize({
         get: function () {
             return this._username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: true,
+            name: "attachments",
+            valueType: "array"
+        }, {
+            mandatory: true,
+            name: "category",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "debug",
+            valueType: "boolean"
+        }, {
+            mandatory: true,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "subject",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "type",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "username",
+            valueType: "String"
+        }]
     }
 });

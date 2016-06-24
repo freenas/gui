@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskDevice = Montage.specialize({
+exports.DiskDevice = AbstractModel.specialize({
     _description: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.DiskDevice = Montage.specialize({
         get: function () {
             return this._name;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mediasize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }]
     }
 });

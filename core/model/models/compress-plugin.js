@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.CompressPlugin = Montage.specialize({
+exports.CompressPlugin = AbstractModel.specialize({
     _buffer_size: {
         value: null
     },
@@ -65,5 +65,30 @@ exports.CompressPlugin = Montage.specialize({
         get: function () {
             return this._write_fd;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "buffer_size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "level",
+            valueObjectPrototypeName: "CompressPluginLevel",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "read_fd",
+            valueType: "fd"
+        }, {
+            mandatory: false,
+            name: "write_fd",
+            valueType: "fd"
+        }]
     }
 });

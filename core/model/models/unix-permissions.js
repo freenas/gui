@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var UnixModeTuple = require("core/model/models/unix-mode-tuple").UnixModeTuple;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UnixPermissions = Montage.specialize({
+exports.UnixPermissions = AbstractModel.specialize({
     _group: {
         value: null
     },
@@ -12,7 +11,7 @@ exports.UnixPermissions = Montage.specialize({
             }
         },
         get: function () {
-            return this._group || (this._group = new UnixModeTuple());
+            return this._group;
         }
     },
     _others: {
@@ -25,7 +24,7 @@ exports.UnixPermissions = Montage.specialize({
             }
         },
         get: function () {
-            return this._others || (this._others = new UnixModeTuple());
+            return this._others;
         }
     },
     _user: {
@@ -38,7 +37,7 @@ exports.UnixPermissions = Montage.specialize({
             }
         },
         get: function () {
-            return this._user || (this._user = new UnixModeTuple());
+            return this._user;
         }
     },
     _value: {
@@ -53,5 +52,28 @@ exports.UnixPermissions = Montage.specialize({
         get: function () {
             return this._value;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "group",
+            valueObjectPrototypeName: "UnixModeTuple",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "others",
+            valueObjectPrototypeName: "UnixModeTuple",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueObjectPrototypeName: "UnixModeTuple",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "value",
+            valueType: "number"
+        }]
     }
 });

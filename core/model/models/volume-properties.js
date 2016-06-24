@@ -1,21 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var VolumePropertyAllocated = require("core/model/models/volume-property-allocated").VolumePropertyAllocated;
-var VolumePropertyAutoreplace = require("core/model/models/volume-property-autoreplace").VolumePropertyAutoreplace;
-var VolumePropertyCapacity = require("core/model/models/volume-property-capacity").VolumePropertyCapacity;
-var VolumePropertyComment = require("core/model/models/volume-property-comment").VolumePropertyComment;
-var VolumePropertyDedupratio = require("core/model/models/volume-property-dedupratio").VolumePropertyDedupratio;
-var VolumePropertyDelegation = require("core/model/models/volume-property-delegation").VolumePropertyDelegation;
-var VolumePropertyExpandsize = require("core/model/models/volume-property-expandsize").VolumePropertyExpandsize;
-var VolumePropertyFailmode = require("core/model/models/volume-property-failmode").VolumePropertyFailmode;
-var VolumePropertyFragmentation = require("core/model/models/volume-property-fragmentation").VolumePropertyFragmentation;
-var VolumePropertyFree = require("core/model/models/volume-property-free").VolumePropertyFree;
-var VolumePropertyHealth = require("core/model/models/volume-property-health").VolumePropertyHealth;
-var VolumePropertyLeaked = require("core/model/models/volume-property-leaked").VolumePropertyLeaked;
-var VolumePropertyReadonly = require("core/model/models/volume-property-readonly").VolumePropertyReadonly;
-var VolumePropertySize = require("core/model/models/volume-property-size").VolumePropertySize;
-var VolumePropertyVersion = require("core/model/models/volume-property-version").VolumePropertyVersion;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeProperties = Montage.specialize({
+exports.VolumeProperties = AbstractModel.specialize({
     _allocated: {
         value: null
     },
@@ -26,7 +11,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._allocated || (this._allocated = new VolumePropertyAllocated());
+            return this._allocated;
         }
     },
     _autoreplace: {
@@ -39,7 +24,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._autoreplace || (this._autoreplace = new VolumePropertyAutoreplace());
+            return this._autoreplace;
         }
     },
     _capacity: {
@@ -52,7 +37,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._capacity || (this._capacity = new VolumePropertyCapacity());
+            return this._capacity;
         }
     },
     _comment: {
@@ -65,7 +50,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._comment || (this._comment = new VolumePropertyComment());
+            return this._comment;
         }
     },
     _dedupratio: {
@@ -78,7 +63,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._dedupratio || (this._dedupratio = new VolumePropertyDedupratio());
+            return this._dedupratio;
         }
     },
     _delegation: {
@@ -91,7 +76,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._delegation || (this._delegation = new VolumePropertyDelegation());
+            return this._delegation;
         }
     },
     _expandsize: {
@@ -104,7 +89,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._expandsize || (this._expandsize = new VolumePropertyExpandsize());
+            return this._expandsize;
         }
     },
     _failmode: {
@@ -117,7 +102,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._failmode || (this._failmode = new VolumePropertyFailmode());
+            return this._failmode;
         }
     },
     _fragmentation: {
@@ -130,7 +115,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._fragmentation || (this._fragmentation = new VolumePropertyFragmentation());
+            return this._fragmentation;
         }
     },
     _free: {
@@ -143,7 +128,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._free || (this._free = new VolumePropertyFree());
+            return this._free;
         }
     },
     _health: {
@@ -156,7 +141,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._health || (this._health = new VolumePropertyHealth());
+            return this._health;
         }
     },
     _leaked: {
@@ -169,7 +154,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._leaked || (this._leaked = new VolumePropertyLeaked());
+            return this._leaked;
         }
     },
     _readonly: {
@@ -182,7 +167,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._readonly || (this._readonly = new VolumePropertyReadonly());
+            return this._readonly;
         }
     },
     _size: {
@@ -195,7 +180,7 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._size || (this._size = new VolumePropertySize());
+            return this._size;
         }
     },
     _version: {
@@ -208,7 +193,86 @@ exports.VolumeProperties = Montage.specialize({
             }
         },
         get: function () {
-            return this._version || (this._version = new VolumePropertyVersion());
+            return this._version;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "allocated",
+            valueObjectPrototypeName: "VolumePropertyAllocated",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "autoreplace",
+            valueObjectPrototypeName: "VolumePropertyAutoreplace",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "capacity",
+            valueObjectPrototypeName: "VolumePropertyCapacity",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "comment",
+            valueObjectPrototypeName: "VolumePropertyComment",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "dedupratio",
+            valueObjectPrototypeName: "VolumePropertyDedupratio",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "delegation",
+            valueObjectPrototypeName: "VolumePropertyDelegation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "expandsize",
+            valueObjectPrototypeName: "VolumePropertyExpandsize",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "failmode",
+            valueObjectPrototypeName: "VolumePropertyFailmode",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "fragmentation",
+            valueObjectPrototypeName: "VolumePropertyFragmentation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "free",
+            valueObjectPrototypeName: "VolumePropertyFree",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "health",
+            valueObjectPrototypeName: "VolumePropertyHealth",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "leaked",
+            valueObjectPrototypeName: "VolumePropertyLeaked",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "readonly",
+            valueObjectPrototypeName: "VolumePropertyReadonly",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "size",
+            valueObjectPrototypeName: "VolumePropertySize",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "version",
+            valueObjectPrototypeName: "VolumePropertyVersion",
+            valueType: "object"
+        }]
     }
 });

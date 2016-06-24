@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskAttachParams = Montage.specialize({
+exports.DiskAttachParams = AbstractModel.specialize({
     _key: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.DiskAttachParams = Montage.specialize({
         get: function () {
             return this._password;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "key",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }]
     }
 });

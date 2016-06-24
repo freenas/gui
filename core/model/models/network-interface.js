@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var NetworkInterfaceStatus = require("core/model/models/network-interface-status").NetworkInterfaceStatus;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.NetworkInterface = Montage.specialize({
+exports.NetworkInterface = AbstractModel.specialize({
     _aliases: {
         value: null
     },
@@ -194,7 +193,7 @@ exports.NetworkInterface = Montage.specialize({
             }
         },
         get: function () {
-            return this._status || (this._status = new NetworkInterfaceStatus());
+            return this._status;
         }
     },
     _type: {
@@ -235,5 +234,84 @@ exports.NetworkInterface = Montage.specialize({
         get: function () {
             return this._vlan;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "aliases",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "bridge",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "capabilities",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "created_at",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "dhcp",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "lagg",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "media",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mediaopts",
+            valueObjectPrototypeName: "NetworkInterfaceMediaopts",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "mtu",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "noipv6",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "rtadv",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueObjectPrototypeName: "NetworkInterfaceStatus",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "NetworkInterfaceType",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "updated_at",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "vlan",
+            valueType: "object"
+        }]
     }
 });

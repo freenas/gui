@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.User = Montage.specialize({
+exports.User = AbstractModel.specialize({
     _attributes: {
         value: null
     },
@@ -286,5 +286,97 @@ exports.User = Montage.specialize({
         get: function () {
             return this._username;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "attributes",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "builtin",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "email",
+            valueObjectPrototypeName: "Email",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "full_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "group",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "groups",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "home",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "lmhash",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "locked",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "nthash",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "origin"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "password_changed_at",
+            valueType: "datetime"
+        }, {
+            mandatory: false,
+            name: "password_disabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "shell",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sid",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sshpubkey",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sudo",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "uid",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "unixhash",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "username",
+            valueType: "String"
+        }]
     }
 });

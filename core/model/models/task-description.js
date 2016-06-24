@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.TaskDescription = Montage.specialize({
+exports.TaskDescription = AbstractModel.specialize({
     _format: {
         value: null
     },
@@ -39,5 +39,20 @@ exports.TaskDescription = Montage.specialize({
         get: function () {
             return this._name;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "format"
+        }, {
+            mandatory: false,
+            name: "message",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }]
     }
 });

@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SystemTime = Montage.specialize({
+exports.SystemTime = AbstractModel.specialize({
     _boot_time: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.SystemTime = Montage.specialize({
         get: function () {
             return this._uptime;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "boot_time",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "system_time",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "timezone",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "uptime",
+            valueType: "String"
+        }]
     }
 });

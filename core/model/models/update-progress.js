@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UpdateProgress = Montage.specialize({
+exports.UpdateProgress = AbstractModel.specialize({
     _details: {
         value: null
     },
@@ -156,5 +156,58 @@ exports.UpdateProgress = Montage.specialize({
         get: function () {
             return this._reboot;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "details",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "error",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "filesize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "finished",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "indeterminate",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "num_files_done",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "num_files_total",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "operation",
+            valueObjectPrototypeName: "UpdateProgressOperation",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "percent",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "pkg_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pkg_version",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "reboot",
+            valueType: "boolean"
+        }]
     }
 });

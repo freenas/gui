@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var CalendarTaskStatus = require("core/model/models/calendar-task-status").CalendarTaskStatus;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.CalendarTask = Montage.specialize({
+exports.CalendarTask = AbstractModel.specialize({
     _args: {
         value: null
     },
@@ -116,7 +115,48 @@ exports.CalendarTask = Montage.specialize({
             }
         },
         get: function () {
-            return this._status || (this._status = new CalendarTaskStatus());
+            return this._status;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "args",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "hidden",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "protected",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "schedule",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueObjectPrototypeName: "CalendarTaskStatus",
+            valueType: "object"
+        }]
     }
 });

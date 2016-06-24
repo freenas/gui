@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeVdevRecommendations = Montage.specialize({
+exports.VolumeVdevRecommendations = AbstractModel.specialize({
     _redundancy: {
         value: null
     },
@@ -39,5 +39,21 @@ exports.VolumeVdevRecommendations = Montage.specialize({
         get: function () {
             return this._storage;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "redundancy",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "speed",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "storage",
+            valueType: "object"
+        }]
     }
 });

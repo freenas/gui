@@ -1,7 +1,6 @@
-var Montage = require("montage/core/core").Montage;
-var ZfsVdev = require("core/model/models/zfs-vdev").ZfsVdev;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsVdevExtension = Montage.specialize({
+exports.ZfsVdevExtension = AbstractModel.specialize({
     _target_guid: {
         value: null
     },
@@ -25,7 +24,20 @@ exports.ZfsVdevExtension = Montage.specialize({
             }
         },
         get: function () {
-            return this._vdev || (this._vdev = new ZfsVdev());
+            return this._vdev;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "target_guid",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "vdev",
+            valueObjectPrototypeName: "ZfsVdev",
+            valueType: "object"
+        }]
     }
 });

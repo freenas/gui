@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerConfig = Montage.specialize({
+exports.ContainerConfig = AbstractModel.specialize({
     _boot_device: {
         value: null
     },
@@ -130,5 +130,50 @@ exports.ContainerConfig = Montage.specialize({
         get: function () {
             return this._vnc_port;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "boot_device",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "boot_directory",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "boot_partition",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "bootloader",
+            valueObjectPrototypeName: "ContainerConfigBootloader",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "cloud_init",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "memsize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "ncpus",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "vnc_enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "vnc_password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "vnc_port",
+            valueType: "number"
+        }]
     }
 });

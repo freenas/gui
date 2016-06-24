@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.AclEntryPerms = Montage.specialize({
+exports.AclEntryPerms = AbstractModel.specialize({
     _ADD_FILE: {
         value: null
     },
@@ -208,5 +208,73 @@ exports.AclEntryPerms = Montage.specialize({
         get: function () {
             return this._WRITE_NAMED_ATTRS;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "ADD_FILE",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "ADD_SUBDIRECTORY",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "APPEND_DATA",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "DELETE",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "DELETE_CHILD",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "EXECUTE",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "LIST_DIRECTORY",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "READ_ACL",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "READ_ATTRIBUTES",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "READ_DATA",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "READ_NAMED_ATTRS",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "SYNCHRONIZE",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "WRITE_ACL",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "WRITE_ATTRIBUTES",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "WRITE_DATA",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "WRITE_NAMED_ATTRS",
+            valueType: "boolean"
+        }]
     }
 });

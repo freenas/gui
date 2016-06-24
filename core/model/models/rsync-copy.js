@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.RsyncCopy = Montage.specialize({
+exports.RsyncCopy = AbstractModel.specialize({
     _path: {
         value: null
     },
@@ -143,5 +143,55 @@ exports.RsyncCopy = Montage.specialize({
         get: function () {
             return this._user;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: true,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "quiet",
+            valueType: "boolean"
+        }, {
+            mandatory: true,
+            name: "remote_host",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "remote_module",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "remote_path",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "remote_ssh_port",
+            valueType: "number"
+        }, {
+            mandatory: true,
+            name: "remote_user",
+            valueType: "String"
+        }, {
+            mandatory: true,
+            name: "rsync_direction",
+            valueObjectPrototypeName: "RsyncCopyRsyncdirection",
+            valueType: "object"
+        }, {
+            mandatory: true,
+            name: "rsync_mode",
+            valueObjectPrototypeName: "RsyncCopyRsyncmode",
+            valueType: "object"
+        }, {
+            mandatory: true,
+            name: "rsync_properties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "user",
+            valueType: "String"
+        }]
     }
 });

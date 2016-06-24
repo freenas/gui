@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.CalendarTaskStatus = Montage.specialize({
+exports.CalendarTaskStatus = AbstractModel.specialize({
     _current_run_progress: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.CalendarTaskStatus = Montage.specialize({
         get: function () {
             return this._next_run_time;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "current_run_progress",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "current_run_status",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "last_run_status",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "next_run_time",
+            valueType: "String"
+        }]
     }
 });

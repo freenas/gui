@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.SimulatorDisk = Montage.specialize({
+exports.SimulatorDisk = AbstractModel.specialize({
     _block_size: {
         value: null
     },
@@ -117,5 +117,46 @@ exports.SimulatorDisk = Montage.specialize({
         get: function () {
             return this._vendor;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "block_size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mediasize",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "model",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "online",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "rpm",
+            valueObjectPrototypeName: "SimulatorDiskRpm",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "serial",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "vendor",
+            valueType: "String"
+        }]
     }
 });

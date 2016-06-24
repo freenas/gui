@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.BackupS3 = Montage.specialize({
+exports.BackupS3 = AbstractModel.specialize({
     _access_key: {
         value: null
     },
@@ -78,5 +78,31 @@ exports.BackupS3 = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "access_key",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "bucket",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "folder",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "region",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "secret_key"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

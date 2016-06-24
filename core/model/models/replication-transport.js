@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ReplicationTransport = Montage.specialize({
+exports.ReplicationTransport = AbstractModel.specialize({
     _auth_token: {
         value: null
     },
@@ -117,5 +117,44 @@ exports.ReplicationTransport = Montage.specialize({
         get: function () {
             return this._transport_plugins;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "auth_token",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "auth_token_size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "buffer_size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "client_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "estimated_size",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "receive_properties"
+        }, {
+            mandatory: false,
+            name: "server_address",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "server_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "transport_plugins",
+            valueType: "array"
+        }]
     }
 });

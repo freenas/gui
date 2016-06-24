@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ServiceWebdav = Montage.specialize({
+exports.ServiceWebdav = AbstractModel.specialize({
     _authentication: {
         value: null
     },
@@ -104,5 +104,41 @@ exports.ServiceWebdav = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "authentication",
+            valueObjectPrototypeName: "ServiceWebdavAuthentication",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "certificate",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "enable",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "http_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "https_port",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "password",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "protocol",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "type"
+        }]
     }
 });

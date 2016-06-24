@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UpdateTrain = Montage.specialize({
+exports.UpdateTrain = AbstractModel.specialize({
     _current: {
         value: null
     },
@@ -52,5 +52,25 @@ exports.UpdateTrain = Montage.specialize({
         get: function () {
             return this._sequence;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "current",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sequence",
+            valueType: "String"
+        }]
     }
 });

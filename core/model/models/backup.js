@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Backup = Montage.specialize({
+exports.Backup = AbstractModel.specialize({
     _compression: {
         value: null
     },
@@ -91,5 +91,39 @@ exports.Backup = Montage.specialize({
         get: function () {
             return this._recursive;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "compression",
+            valueObjectPrototypeName: "BackupCompressionType",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "dataset",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "properties",
+            valueObjectPrototypeName: "BackupProperties",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "provider",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "recursive",
+            valueType: "boolean"
+        }]
     }
 });

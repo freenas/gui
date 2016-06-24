@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskMetadata = Montage.specialize({
+exports.DiskMetadata = AbstractModel.specialize({
     _disk: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.DiskMetadata = Montage.specialize({
         get: function () {
             return this._metadata;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "disk",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "metadata",
+            valueType: "String"
+        }]
     }
 });

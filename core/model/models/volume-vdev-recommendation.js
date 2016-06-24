@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeVdevRecommendation = Montage.specialize({
+exports.VolumeVdevRecommendation = AbstractModel.specialize({
     _drives: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.VolumeVdevRecommendation = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "drives",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueType: "String"
+        }]
     }
 });

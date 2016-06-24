@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VolumeImportParams = Montage.specialize({
+exports.VolumeImportParams = AbstractModel.specialize({
     _disks: {
         value: null
     },
@@ -26,5 +26,17 @@ exports.VolumeImportParams = Montage.specialize({
         get: function () {
             return this._key;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "disks",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "key",
+            valueType: "String"
+        }]
     }
 });

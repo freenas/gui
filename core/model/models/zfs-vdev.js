@@ -1,6 +1,6 @@
-var Montage = require("montage/core/core").Montage;
+var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsVdev = Montage.specialize({
+exports.ZfsVdev = AbstractModel.specialize({
     _children: {
         value: null
     },
@@ -78,5 +78,34 @@ exports.ZfsVdev = Montage.specialize({
         get: function () {
             return this._type;
         }
+    }
+}, {
+    propertyBlueprints: {
+        value: [{
+            mandatory: false,
+            name: "children",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "guid",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "path",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "stats",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "type",
+            valueObjectPrototypeName: "ZfsVdevType",
+            valueType: "object"
+        }]
     }
 });
