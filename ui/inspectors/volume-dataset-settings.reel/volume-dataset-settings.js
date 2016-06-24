@@ -26,6 +26,15 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         ]
     },
 
+    VOLBLOCKSIZE_OPTIONS: {
+        value: [
+            {label: "512", value: 512},
+            {label: "1024", value: 1024},
+            {label: "2048", value: 2048},
+            {label: "4096", value: 4096}
+        ]
+    },
+
     datasetLevel: {
         value: null
     },
