@@ -53,7 +53,7 @@
                 "label": "atime"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.atime.parsed"},
+                "selectedValue": {"<->": "@owner.object.properties.atime.parsed"},
                 "options": {"<-": "@owner.ATIME_OPTIONS"}
             }
         },
@@ -64,7 +64,7 @@
                 "label": "quota"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.quota.parsed"}
+                "value": {"<->": "@owner.object.properties.quota.value"}
             }
         },
         "refquota": {
@@ -74,7 +74,7 @@
                 "label": "refquota"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.refquota.parsed"}
+                "value": {"<->": "@owner.object.properties.refquota.value"}
             }
         },
         "reservation": {
@@ -84,7 +84,7 @@
                 "label": "reservation"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.reservation.parsed"}
+                "value": {"<->": "@owner.object.properties.reservation.value"}
             }
         },
         "refreservation": {
@@ -94,7 +94,7 @@
                 "label": "refreservation"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.refreservation.parsed"}
+                "value": {"<->": "@owner.object.properties.refreservation.value"}
             }
         },
         "advancedSection": {
@@ -111,7 +111,7 @@
                 "label": "Size"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.volsize.parsed"}
+                "value": {"<->": "@owner.object.volsize"}
             }
         },
         "volblocksize": {

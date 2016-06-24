@@ -45,29 +45,29 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
 
     compressionSetting: {
         set: function(value) {
-            if (this.object) {
-                this.object.compression = this._setInheritableProperty(value);
+            if (this.object && this.object.properties) {
+                this.object.properties.compression = this._setInheritableProperty(value);
             } else {
                 console.warn("Object not yet set!");
             }
         },
 
         get: function() {
-            return this.object ? this._getInheritableProperty(this.object.compression) : "";
+            return this.object.properties ? this._getInheritableProperty(this.object.properties.compression) : "none";
         }
     },
 
     dedupSetting: {
         set: function(value) {
-            if (this.object) {
-                this.object.dedup = this._setInheritableProperty(value);
+            if (this.object && this.object.properties) {
+                this.object.properties.dedup = this._setInheritableProperty(value);
             } else {
                 console.warn("Object not yet set!");
             }
         },
 
         get: function() {
-            return this.object ? this._getInheritableProperty(this.object.dedup) : "";
+            return this.object.properties ? this._getInheritableProperty(this.object.properties.dedup) : "none";
         }
     },
     enterDocument: {
