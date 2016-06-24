@@ -87,7 +87,7 @@ var SelectOption = exports.SelectOption = Montage.specialize({
     initWithLabelAndValue: {
         value: function (label, value) {
             this.label = label + "";
-            this.value = value + "";
+            this.value = value;
 
             return this;
         }
