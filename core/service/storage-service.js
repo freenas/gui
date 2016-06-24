@@ -82,6 +82,49 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
+    initializeDatasetProperties: {
+        value: function(dataset) {
+            var self = this;
+            if (!dataset.properties) {
+                this._dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
+                    dataset.properties = newProperties;
+
+                    self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyAtime).then(function(newAtime) {
+                        newAtime.source = "INHERITED";
+                        dataset.properties.atime = newAtime;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCasesensitivity);
+                    }).then(function(newCasesensitivity) {
+                        newCasesensitivity.source = "INHERITED";
+                        dataset.properties.casesensitivity = newCasesensitivity;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCompression);
+                    }).then(function(newCompression) {
+                        newCompression.source = "INHERITED";
+                        dataset.properties.compression = newCompression;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyDedup);
+                    }).then(function(newDedup) {
+                        newDedup.source = "INHERITED";
+                        dataset.properties.dedup = newDedup;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyQuota);
+                    }).then(function(newQuota) {
+                        dataset.properties.quota = newQuota;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefquota);
+                    }).then(function(newRefquota) {
+                        dataset.properties.refquota = newRefquota;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
+                    }).then(function(newVolblocksize) {
+                        dataset.properties.volblocksize = newVolblocksize;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation);
+                    }).then(function(newRefreservation) {
+                        dataset.properties.refreservation = newRefreservation;
+                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation);
+                    }).then(function(newReservation) {
+                        dataset.properties.reservation = newReservation;
+                    });
+                });
+            }
+        }
+    },
+
     /* First shalt thou identify the Holy Prefix, then shalt thou multiply by a
        power of 1024, no more, no less. 1024 shall be the number thou shalt
        exponentiate, and the number of the exponentiation shall be 1024. 1000

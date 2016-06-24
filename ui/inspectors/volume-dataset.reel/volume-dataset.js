@@ -48,7 +48,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
             if (this.object._isNew) {
                 this.object.type = "FILESYSTEM";
             }
-            this._initializeProperties();
+            this.application.storageService.initializeDatasetProperties(this.object);
         }
     },
 
@@ -70,57 +70,6 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
                         return currentSelection.path[i];
                     }
                 }
-            }
-        }
-    },
-
-    _initializeProperties: {
-        value: function() {
-            var self = this,
-                dataService = this.application.dataService;
-            if (!this.object.properties) {
-                dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
-                    self.object.properties = newProperties;
-
-                    dataService.getNewInstanceForType(Model.VolumeDatasetPropertyAtime).then(function(newAtime) {
-                        newAtime.source = "INHERITED";
-                        self.object.properties.atime = newAtime;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCasesensitivity);
-                    }).then(function(newCasesensitivity) {
-                        newCasesensitivity.source = "INHERITED";
-                        self.object.properties.casesensitivity = newCasesensitivity;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCompression);
-                    }).then(function(newCompression) {
-                        newCompression.source = "INHERITED";
-                        self.object.properties.compression = newCompression;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyDedup);
-                    }).then(function(newDedup) {
-                        newDedup.source = "INHERITED";
-                        self.object.properties.dedup = newDedup;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyQuota);
-                    }).then(function(newQuota) {
-                        newQuota.source = "INHERITED";
-                        self.object.properties.quota = newQuota;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefquota);
-                    }).then(function(newRefquota) {
-                        newRefquota.source = "INHERITED";
-                        self.object.properties.refquota = newRefquota;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolsize);
-                    }).then(function(newVolsize) {
-                        self.object.properties.volsize = newVolsize;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
-                    }).then(function(newVolblocksize) {
-                        self.object.properties.volblocksize = newVolblocksize;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation);
-                    }).then(function(newRefreservation) {
-                        newRefreservation.source = "INHERITED";
-                        self.object.properties.refreservation = newRefreservation;
-                        return dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation);
-                    }).then(function(newReservation) {
-                        newReservation.source = "INHERITED";
-                        self.object.properties.reservation = newReservation;
-                    });
-                });
             }
         }
     },
