@@ -57,11 +57,15 @@
                 "options": {"<-": "@owner.ATIME_OPTIONS"}
             }
         },
+        "sizeConverter": {
+            "prototype": "core/converter/validation-only-converter"
+        },
         "quota": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "quota"},
-                "label": "Quota"
+                "label": "Quota",
+                "converter": {"@": "sizeConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.properties.quota.value"}
@@ -71,7 +75,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "refquota"},
-                "label": "Refquota"
+                "label": "Refquota",
+                "converter": {"@": "sizeConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.properties.refquota.value"}
@@ -81,7 +86,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "reservation"},
-                "label": "Reservation"
+                "label": "Reservation",
+                "converter": {"@": "sizeConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.properties.reservation.value"}
@@ -91,7 +97,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "refreservation"},
-                "label": "Refreservation"
+                "label": "Refreservation",
+                "converter": {"@": "sizeConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.properties.refreservation.value"}
@@ -108,7 +115,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "volsize"},
-                "label": "Size"
+                "label": "Size",
+                "converter": {"@": "sizeConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.volsize"}
