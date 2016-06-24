@@ -75,12 +75,16 @@ function _toFileName (name, separator) {
 
 ModelObject.prototype.toJS = function () {
     var PROTOTYPE_DESCRIPTOR = "", REQUIRES = "",
-        i, length, property, _require;
+        i, length, property, _require,
+        // TODO: enable feature later
+        // Need to add class method +  prototype method on compiled files.
+        // Need to remove all the "manual" initilialization of the valueObjectPrototypeName within GUI
+       enableMultipleRequires = false;
 
     for (i = 0, length = this.properties.length; i < length; i++) {
         property = this.properties[i];
 
-        if (property.valueObjectPrototypeName && this.requiresMap.has(property.valueObjectPrototypeName)) {
+        if (enableMultipleRequires && property.valueObjectPrototypeName && this.requiresMap.has(property.valueObjectPrototypeName)) {
             PROTOTYPE_DESCRIPTOR += ((PROPERTY_OBJECT_TEMPLATE.replace(/<PROPERTY_NAME>/ig, property.name))
                 .replace(/<MODULE_NAME>/ig, property.valueObjectPrototypeName));
         } else {
@@ -94,10 +98,14 @@ ModelObject.prototype.toJS = function () {
 
     PROTOTYPE_DESCRIPTOR = "{" + PROTOTYPE_DESCRIPTOR + "}";
 
-    for (i = 0, length = this.requires.length; i < length; i++) {
-        _require = this.requires[i];
+    if (enableMultipleRequires) {
+        for (i = 0, length = this.requires.length; i < length; i++) {
+            _require = this.requires[i];
 
-        REQUIRES += ((REQUIRE_TEMPLATE.replace(/<MODULE_NAME>/ig, _require.name)).replace(/<MODULE_ID>/ig, _require.moduleId));
+            REQUIRES += ((REQUIRE_TEMPLATE.replace(/<MODULE_NAME>/ig, _require.name)).replace(/<MODULE_ID>/ig, _require.moduleId));
+        }
+    } else {
+        REQUIRES += ((REQUIRE_TEMPLATE.replace(/<MODULE_NAME>/ig, this.requires[0].name)).replace(/<MODULE_ID>/ig, this.requires[0].moduleId));
     }
 
     if (this.properties.length) {
