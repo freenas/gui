@@ -107,6 +107,22 @@
       "valueType": "String"
     }
   },
+  "blueprint_cryptocertificate_not_after": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "not_after",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_cryptocertificate_not_before": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "not_before",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_cryptocertificate_organization": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -217,6 +233,8 @@
         {"@": "blueprint_cryptocertificate_key_length"},
         {"@": "blueprint_cryptocertificate_lifetime"},
         {"@": "blueprint_cryptocertificate_name"},
+        {"@": "blueprint_cryptocertificate_not_after"},
+        {"@": "blueprint_cryptocertificate_not_before"},
         {"@": "blueprint_cryptocertificate_organization"},
         {"@": "blueprint_cryptocertificate_privatekey"},
         {"@": "blueprint_cryptocertificate_privatekey_path"},

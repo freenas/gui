@@ -170,6 +170,32 @@ exports.CryptoCertificate = AbstractModel.specialize({
             return this._name;
         }
     },
+    _not_after: {
+        value: null
+    },
+    not_after: {
+        set: function (value) {
+            if (this._not_after !== value) {
+                this._not_after = value;
+            }
+        },
+        get: function () {
+            return this._not_after;
+        }
+    },
+    _not_before: {
+        value: null
+    },
+    not_before: {
+        set: function (value) {
+            if (this._not_before !== value) {
+                this._not_before = value;
+            }
+        },
+        get: function () {
+            return this._not_before;
+        }
+    },
     _organization: {
         value: null
     },
@@ -367,6 +393,14 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "not_after",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "not_before",
             valueType: "String"
         }, {
             mandatory: false,
