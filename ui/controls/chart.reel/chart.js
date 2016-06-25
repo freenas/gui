@@ -2,7 +2,7 @@
  * @module ui/controls/chart.reel
  */
 var Component = require("montage/ui/component").Component,
-    nvd3 = require('./nvd3/nv.d3');
+    nvd3 = window.nv;
 
 /**
  * @class Chart
