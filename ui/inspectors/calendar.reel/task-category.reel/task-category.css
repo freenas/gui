@@ -19,7 +19,7 @@
     margin-right: .5em;
 }
 
-.TaskCategory.is-disabled .TaskCategory-type { background-color: none; }
+.TaskCategory.is-displayed .TaskCategory-type { background-color: currentColor; }
 
 .TaskCategory-name {
     font-size: .7em;

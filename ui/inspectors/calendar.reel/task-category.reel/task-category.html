@@ -8,6 +8,22 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-displayed')": {"<-": "@owner.object.isDisplayed"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "show": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "type"},
+                "hasTemplate": false
             }
         },
         "name": {
@@ -17,6 +33,13 @@
             },
             "bindings": {
                 "value": {"<-": "@owner.object.name"}
+            }
+        },
+        "new": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "new"},
+                "hasTemplate": false
             }
         }
     }

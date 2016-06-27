@@ -15,16 +15,13 @@ exports.TaskCategory = Component.specialize(/** @lends TaskCategory# */ {
         }
     },
 
-    prepareForActivationEvents: {
-        value: function() {
-            var pressComposer = new PressComposer();
-            this.addComposer(pressComposer);
-            pressComposer.addEventListener("press", this);
-            this.element.addEventListener("mouseover", this);
+    handleShowAction: {
+        value: function(event) {
+            this.object.isDisplayed = !this.object.isDisplayed;
         }
     },
 
-    handlePress: {
+    handleNewAction: {
         value: function(event) {
             var self = this;
             this.application.calendarService.getNewTask(this.object.value).then(function(task) {
