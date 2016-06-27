@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerConfig = AbstractModel.specialize({
+exports.VmConfig = AbstractModel.specialize({
+    _autostart: {
+        value: null
+    },
+    autostart: {
+        set: function (value) {
+            if (this._autostart !== value) {
+                this._autostart = value;
+            }
+        },
+        get: function () {
+            return this._autostart;
+        }
+    },
     _boot_device: {
         value: null
     },
@@ -135,6 +148,10 @@ exports.ContainerConfig = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "autostart",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
             name: "boot_device",
             valueType: "String"
         }, {
@@ -148,7 +165,7 @@ exports.ContainerConfig = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "bootloader",
-            valueObjectPrototypeName: "ContainerConfigBootloader",
+            valueObjectPrototypeName: "VmConfigBootloader",
             valueType: "object"
         }, {
             mandatory: false,

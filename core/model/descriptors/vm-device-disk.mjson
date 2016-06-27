@@ -1,14 +1,14 @@
 {
-  "blueprint_containerdevicedisk_mode": {
+  "blueprint_vmdevicedisk_mode": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "mode",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "ContainerDeviceDiskMode"
+      "valueObjectPrototypeName": "VmDeviceDiskMode"
     }
   },
-  "blueprint_containerdevicedisk_size": {
+  "blueprint_vmdevicedisk_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "size",
@@ -19,10 +19,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ContainerDeviceDisk",
+      "name": "VmDeviceDisk",
       "propertyBlueprints": [
-        {"@": "blueprint_containerdevicedisk_mode"},
-        {"@": "blueprint_containerdevicedisk_size"}
+        {"@": "blueprint_vmdevicedisk_mode"},
+        {"@": "blueprint_vmdevicedisk_size"}
       ]
     }
   }

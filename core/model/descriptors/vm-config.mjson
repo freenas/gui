@@ -1,5 +1,13 @@
 {
-  "blueprint_containerconfig_boot_device": {
+  "blueprint_vmconfig_autostart": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "autostart",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_vmconfig_boot_device": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "boot_device",
@@ -7,7 +15,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_containerconfig_boot_directory": {
+  "blueprint_vmconfig_boot_directory": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "boot_directory",
@@ -15,7 +23,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_containerconfig_boot_partition": {
+  "blueprint_vmconfig_boot_partition": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "boot_partition",
@@ -23,16 +31,16 @@
       "valueType": "String"
     }
   },
-  "blueprint_containerconfig_bootloader": {
+  "blueprint_vmconfig_bootloader": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "bootloader",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "ContainerConfigBootloader"
+      "valueObjectPrototypeName": "VmConfigBootloader"
     }
   },
-  "blueprint_containerconfig_cloud_init": {
+  "blueprint_vmconfig_cloud_init": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "cloud_init",
@@ -40,7 +48,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_containerconfig_memsize": {
+  "blueprint_vmconfig_memsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "memsize",
@@ -48,7 +56,7 @@
       "valueType": "number"
     }
   },
-  "blueprint_containerconfig_ncpus": {
+  "blueprint_vmconfig_ncpus": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "ncpus",
@@ -56,7 +64,7 @@
       "valueType": "number"
     }
   },
-  "blueprint_containerconfig_vnc_enabled": {
+  "blueprint_vmconfig_vnc_enabled": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "vnc_enabled",
@@ -64,7 +72,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_containerconfig_vnc_password": {
+  "blueprint_vmconfig_vnc_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "vnc_password",
@@ -72,7 +80,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_containerconfig_vnc_port": {
+  "blueprint_vmconfig_vnc_port": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "vnc_port",
@@ -83,18 +91,19 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ContainerConfig",
+      "name": "VmConfig",
       "propertyBlueprints": [
-        {"@": "blueprint_containerconfig_boot_device"},
-        {"@": "blueprint_containerconfig_boot_directory"},
-        {"@": "blueprint_containerconfig_boot_partition"},
-        {"@": "blueprint_containerconfig_bootloader"},
-        {"@": "blueprint_containerconfig_cloud_init"},
-        {"@": "blueprint_containerconfig_memsize"},
-        {"@": "blueprint_containerconfig_ncpus"},
-        {"@": "blueprint_containerconfig_vnc_enabled"},
-        {"@": "blueprint_containerconfig_vnc_password"},
-        {"@": "blueprint_containerconfig_vnc_port"}
+        {"@": "blueprint_vmconfig_autostart"},
+        {"@": "blueprint_vmconfig_boot_device"},
+        {"@": "blueprint_vmconfig_boot_directory"},
+        {"@": "blueprint_vmconfig_boot_partition"},
+        {"@": "blueprint_vmconfig_bootloader"},
+        {"@": "blueprint_vmconfig_cloud_init"},
+        {"@": "blueprint_vmconfig_memsize"},
+        {"@": "blueprint_vmconfig_ncpus"},
+        {"@": "blueprint_vmconfig_vnc_enabled"},
+        {"@": "blueprint_vmconfig_vnc_password"},
+        {"@": "blueprint_vmconfig_vnc_port"}
       ]
     }
   }

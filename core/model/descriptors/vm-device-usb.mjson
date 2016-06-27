@@ -1,5 +1,5 @@
 {
-  "blueprint_containerdeviceusb_config": {
+  "blueprint_vmdeviceusb_config": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "config",
@@ -7,7 +7,7 @@
       "valueType": "object"
     }
   },
-  "blueprint_containerdeviceusb_device": {
+  "blueprint_vmdeviceusb_device": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "device",
@@ -18,10 +18,10 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ContainerDeviceUsb",
+      "name": "VmDeviceUsb",
       "propertyBlueprints": [
-        {"@": "blueprint_containerdeviceusb_config"},
-        {"@": "blueprint_containerdeviceusb_device"}
+        {"@": "blueprint_vmdeviceusb_config"},
+        {"@": "blueprint_vmdeviceusb_device"}
       ]
     }
   }

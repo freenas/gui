@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DiskStatusController = AbstractModel.specialize({};
+exports.DiskStatusController = AbstractModel.specialize({});

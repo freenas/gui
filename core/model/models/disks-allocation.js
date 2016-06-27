@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DisksAllocation = AbstractModel.specialize({};
+exports.DisksAllocation = AbstractModel.specialize({});

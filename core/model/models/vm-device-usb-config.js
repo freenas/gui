@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceUsbConfig = AbstractModel.specialize({};
+exports.VmDeviceUsbConfig = AbstractModel.specialize({});

@@ -1,42 +1,43 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceUsb = AbstractModel.specialize({
-    _config: {
+exports.VmDeviceDisk = AbstractModel.specialize({
+    _mode: {
         value: null
     },
-    config: {
+    mode: {
         set: function (value) {
-            if (this._config !== value) {
-                this._config = value;
+            if (this._mode !== value) {
+                this._mode = value;
             }
         },
         get: function () {
-            return this._config;
+            return this._mode;
         }
     },
-    _device: {
+    _size: {
         value: null
     },
-    device: {
+    size: {
         set: function (value) {
-            if (this._device !== value) {
-                this._device = value;
+            if (this._size !== value) {
+                this._size = value;
             }
         },
         get: function () {
-            return this._device;
+            return this._size;
         }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "config",
+            name: "mode",
+            valueObjectPrototypeName: "VmDeviceDiskMode",
             valueType: "object"
         }, {
             mandatory: false,
-            name: "device",
-            valueType: "String"
+            name: "size",
+            valueType: "number"
         }]
     }
 });

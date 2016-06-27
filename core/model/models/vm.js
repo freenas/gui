@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Container = AbstractModel.specialize({
+exports.Vm = AbstractModel.specialize({
     _config: {
         value: null
     },
@@ -117,19 +117,6 @@ exports.Container = AbstractModel.specialize({
         get: function () {
             return this._template;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
@@ -168,11 +155,6 @@ exports.Container = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "template",
-            valueType: "object"
-        }, {
-            mandatory: false,
-            name: "type",
-            valueObjectPrototypeName: "ContainerType",
             valueType: "object"
         }]
     }

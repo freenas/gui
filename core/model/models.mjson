@@ -81,50 +81,6 @@
             "type": "CompressPlugin"
         },
         {
-            "modelId": "core/model/models/container-config.js",
-            "type": "ContainerConfig"
-        },
-        {
-            "modelId": "core/model/models/container-device-cdrom.js",
-            "type": "ContainerDeviceCdrom"
-        },
-        {
-            "modelId": "core/model/models/container-device-disk.js",
-            "type": "ContainerDeviceDisk"
-        },
-        {
-            "modelId": "core/model/models/container-device-graphics.js",
-            "type": "ContainerDeviceGraphics"
-        },
-        {
-            "modelId": "core/model/models/container-device-nic.js",
-            "type": "ContainerDeviceNic"
-        },
-        {
-            "modelId": "core/model/models/container-device-properties.js",
-            "type": "ContainerDeviceProperties"
-        },
-        {
-            "modelId": "core/model/models/container-device-usb-config.js",
-            "type": "ContainerDeviceUsbConfig"
-        },
-        {
-            "modelId": "core/model/models/container-device-usb.js",
-            "type": "ContainerDeviceUsb"
-        },
-        {
-            "modelId": "core/model/models/container-device-volume.js",
-            "type": "ContainerDeviceVolume"
-        },
-        {
-            "modelId": "core/model/models/container-device.js",
-            "type": "ContainerDevice"
-        },
-        {
-            "modelId": "core/model/models/container.js",
-            "type": "Container"
-        },
-        {
             "modelId": "core/model/models/cpu-device.js",
             "type": "CpuDevice"
         },
@@ -627,6 +583,50 @@
         {
             "modelId": "core/model/models/user.js",
             "type": "User"
+        },
+        {
+            "modelId": "core/model/models/vm-config.js",
+            "type": "VmConfig"
+        },
+        {
+            "modelId": "core/model/models/vm-device-cdrom.js",
+            "type": "VmDeviceCdrom"
+        },
+        {
+            "modelId": "core/model/models/vm-device-disk.js",
+            "type": "VmDeviceDisk"
+        },
+        {
+            "modelId": "core/model/models/vm-device-graphics.js",
+            "type": "VmDeviceGraphics"
+        },
+        {
+            "modelId": "core/model/models/vm-device-nic.js",
+            "type": "VmDeviceNic"
+        },
+        {
+            "modelId": "core/model/models/vm-device-properties.js",
+            "type": "VmDeviceProperties"
+        },
+        {
+            "modelId": "core/model/models/vm-device-usb-config.js",
+            "type": "VmDeviceUsbConfig"
+        },
+        {
+            "modelId": "core/model/models/vm-device-usb.js",
+            "type": "VmDeviceUsb"
+        },
+        {
+            "modelId": "core/model/models/vm-device-volume.js",
+            "type": "VmDeviceVolume"
+        },
+        {
+            "modelId": "core/model/models/vm-device.js",
+            "type": "VmDevice"
+        },
+        {
+            "modelId": "core/model/models/vm.js",
+            "type": "Vm"
         },
         {
             "modelId": "core/model/models/volume-attributes.js",

@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceNic = AbstractModel.specialize({
+exports.VmDeviceNic = AbstractModel.specialize({
     _bridge: {
         value: null
     },
@@ -53,7 +53,7 @@ exports.ContainerDeviceNic = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "mode",
-            valueObjectPrototypeName: "ContainerDeviceNicMode",
+            valueObjectPrototypeName: "VmDeviceNicMode",
             valueType: "object"
         }]
     }

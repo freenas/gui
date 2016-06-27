@@ -1,30 +1,30 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceVolume = AbstractModel.specialize({
-    _auto: {
+exports.VmDevice = AbstractModel.specialize({
+    _name: {
         value: null
     },
-    auto: {
+    name: {
         set: function (value) {
-            if (this._auto !== value) {
-                this._auto = value;
+            if (this._name !== value) {
+                this._name = value;
             }
         },
         get: function () {
-            return this._auto;
+            return this._name;
         }
     },
-    _destination: {
+    _properties: {
         value: null
     },
-    destination: {
+    properties: {
         set: function (value) {
-            if (this._destination !== value) {
-                this._destination = value;
+            if (this._properties !== value) {
+                this._properties = value;
             }
         },
         get: function () {
-            return this._destination;
+            return this._properties;
         }
     },
     _type: {
@@ -44,16 +44,16 @@ exports.ContainerDeviceVolume = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "auto",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
-            name: "destination",
+            name: "name",
             valueType: "String"
         }, {
-            mandatory: false,
+            mandatory: true,
+            name: "properties",
+            valueType: "object"
+        }, {
+            mandatory: true,
             name: "type",
-            valueObjectPrototypeName: "ContainerDeviceVolumeType",
+            valueObjectPrototypeName: "VmDeviceType",
             valueType: "object"
         }]
     }

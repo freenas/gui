@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ContainerDeviceGraphics = AbstractModel.specialize({
+exports.VmDeviceGraphics = AbstractModel.specialize({
     _resolution: {
         value: null
     },
@@ -19,7 +19,7 @@ exports.ContainerDeviceGraphics = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "resolution",
-            valueObjectPrototypeName: "ContainerDeviceGraphicsResolution",
+            valueObjectPrototypeName: "VmDeviceGraphicsResolution",
             valueType: "object"
         }]
     }

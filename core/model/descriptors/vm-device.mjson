@@ -1,37 +1,39 @@
 {
-  "blueprint_containerdevicenic_bridge": {
+  "blueprint_vmdevice_name": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "bridge",
+      "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_containerdevicenic_link_address": {
+  "blueprint_vmdevice_properties": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "link_address",
+      "name": "properties",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "mandatory": true,
+      "valueType": "object"
     }
   },
-  "blueprint_containerdevicenic_mode": {
+  "blueprint_vmdevice_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "mode",
+      "name": "type",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "object",
-      "valueObjectPrototypeName": "ContainerDeviceNicMode"
+      "valueObjectPrototypeName": "VmDeviceType"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ContainerDeviceNic",
+      "name": "VmDevice",
       "propertyBlueprints": [
-        {"@": "blueprint_containerdevicenic_bridge"},
-        {"@": "blueprint_containerdevicenic_link_address"},
-        {"@": "blueprint_containerdevicenic_mode"}
+        {"@": "blueprint_vmdevice_name"},
+        {"@": "blueprint_vmdevice_properties"},
+        {"@": "blueprint_vmdevice_type"}
       ]
     }
   }

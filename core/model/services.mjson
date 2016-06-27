@@ -305,109 +305,6 @@
             }
         }
     },
-    "Container": {
-        "class": {
-            "generateMac": {
-                "method": "container.generate_mac",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getContainerRoot": {
-                "method": "container.get_container_root",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getDefaultInterface": {
-                "method": "container.get_default_interface",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getDependencies": {
-                "method": "container.get_dependencies",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getDiskPath": {
-                "method": "container.get_disk_path",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getVolumePath": {
-                "method": "container.get_volume_path",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "supportedTypes": {
-                "method": "container.supported_types",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        },
-        "instance": {
-            "create": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.create"
-            },
-            "delete": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.delete"
-            },
-            "export": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.export"
-            },
-            "import": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.import"
-            },
-            "read": {
-                "method": "container.query",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "reboot": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.reboot"
-            },
-            "start": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.start"
-            },
-            "stop": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.stop"
-            },
-            "update": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "container.update"
-            }
-        }
-    },
-    "ContainerTemplate": {
-        "instance": {
-            "read": {
-                "method": "container.template.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "CryptoCertificate": {
         "instance": {
             "create": {
@@ -2746,6 +2643,99 @@
                     ]
                 },
                 "task": "user.update"
+            }
+        }
+    },
+    "Vm": {
+        "class": {
+            "generateMac": {
+                "method": "vm.generate_mac",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getDependencies": {
+                "method": "vm.get_dependencies",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getDiskPath": {
+                "method": "vm.get_disk_path",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getVmRoot": {
+                "method": "vm.get_vm_root",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getVolumePath": {
+                "method": "vm.get_volume_path",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.delete"
+            },
+            "export": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.export"
+            },
+            "import": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.import"
+            },
+            "read": {
+                "method": "vm.query",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "reboot": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.reboot"
+            },
+            "start": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.start"
+            },
+            "stop": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.stop"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.update"
+            }
+        }
+    },
+    "VmTemplate": {
+        "instance": {
+            "read": {
+                "method": "vm.template.query",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },

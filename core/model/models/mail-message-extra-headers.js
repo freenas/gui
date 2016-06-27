@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.MailMessageExtraHeaders = AbstractModel.specialize({};
+exports.MailMessageExtraHeaders = AbstractModel.specialize({});

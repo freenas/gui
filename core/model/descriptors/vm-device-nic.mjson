@@ -1,37 +1,37 @@
 {
-  "blueprint_containerdevicevolume_auto": {
+  "blueprint_vmdevicenic_bridge": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "auto",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_containerdevicevolume_destination": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "destination",
+      "name": "bridge",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_containerdevicevolume_type": {
+  "blueprint_vmdevicenic_link_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "type",
+      "name": "link_address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_vmdevicenic_mode": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mode",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "ContainerDeviceVolumeType"
+      "valueObjectPrototypeName": "VmDeviceNicMode"
     }
   },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ContainerDeviceVolume",
+      "name": "VmDeviceNic",
       "propertyBlueprints": [
-        {"@": "blueprint_containerdevicevolume_auto"},
-        {"@": "blueprint_containerdevicevolume_destination"},
-        {"@": "blueprint_containerdevicevolume_type"}
+        {"@": "blueprint_vmdevicenic_bridge"},
+        {"@": "blueprint_vmdevicenic_link_address"},
+        {"@": "blueprint_vmdevicenic_mode"}
       ]
     }
   }

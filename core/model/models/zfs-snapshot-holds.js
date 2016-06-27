@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ZfsSnapshotHolds = AbstractModel.specialize({};
+exports.ZfsSnapshotHolds = AbstractModel.specialize({});
