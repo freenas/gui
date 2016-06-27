@@ -34,7 +34,11 @@ var AbstractComponentActionDelegate = exports.AbstractComponentActionDelegate = 
 
     _addEventListenerIfNeeded: {
         value: function () {
-            if (this.preparedForActivationEvents) {
+            // FIXME: there is a bug in the event manager:
+            // -> It's possible to add several event listeners for the same listener and the event type.
+            // FIXME: Possible bug in within the placeholder:
+            // -> enterDocument gets call when the component is not in the document.
+            if (this.preparedForActivationEvents && this._inDocument) {
                 AbstractComponentActionDelegate.prototype._addEventListener.call(this);
             }
         }
