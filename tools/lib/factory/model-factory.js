@@ -6,7 +6,7 @@ var FS = require('../fs-promise');
 var Path = require('path');
 var beautify = require('js-beautify').js_beautify;
 
-var MODULE_FILE_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(<PROTOTYPE_DESCRIPTOR>;";
+var MODULE_FILE_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(<PROTOTYPE_DESCRIPTOR>);";
 var MODULE_FILE_CONSTRUCTOR_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(<PROTOTYPE_DESCRIPTOR>, <CONSTRUCTOR_DESCRIPTOR>);";
 var CONSTRUCTOR_PROPERTY_BLUEPRINTS_TEMPLATE = "{propertyBlueprints: { value: <PROPERTY_BLUEPRINTS> } }";
 var REQUIRE_TEMPLATE = 'var <MODULE_NAME> = require("<MODULE_ID>").<MODULE_NAME>;';
