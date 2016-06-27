@@ -13,6 +13,10 @@ exports.CalendarTask = Component.specialize({
             if (this.object && this.object.name) {
                 this.classList.add('type-' + this.object.name.replace('.', '_').toLowerCase());
             }
+            if (this.object._isNew) {
+                this.object.args = [];
+                this.object.schedule = {};
+            }
         }
     },
 

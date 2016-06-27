@@ -29,11 +29,12 @@ var CalendarService = exports.CalendarService = Montage.specialize({
 // FIXME: Should be a middleware provided enum
     taskCategories: {
         value: [
-            { name: "Scrub", value: "volume.scrub" },
+            { name: "Scrub", value: "volume.scrub", isDisplayed: true },
 //            { name: "Replication", value: "replication.replicate_dataset" },
-            { name: "Smart", value: "disk.parallel_test" },
-            { name: "Update", value: "update.checkfetch" },
-//            { name: "Snapshot", value: "volume.snapshot.create" }
+            { name: "Smart", value: "disk.parallel_test", isDisplayed: true },
+            { name: "Update", value: "update.checkfetch", isDisplayed: false },
+            { name: "Cron job", value: "calendar_task.command", isDisplayed: true },
+//            { name: "Snapshot", value: "volume.snapshot.create", isDisplayed: true }
         ]
     },
 
@@ -125,8 +126,6 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         value: function(type) {
             return this._dataService.getNewInstanceForType(Model.CalendarTask).then(function(task) {
                 task.name = type;
-                task.args = [];
-                task.schedule = {};
                 return task;
             });
         }

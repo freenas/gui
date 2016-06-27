@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="snapshot-args.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "filesystemTreeController": {"@": "filesystemTreeController"}
+            },
+            "bindings": {
+                "datasetsPaths": {"<-": "@owner.dataset.map{mountpoint}"}
+            }
+        },
+        "sizeConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+        "dateConverter": {
+            "prototype": "montage/core/converter/date-converter",
+            "properties": {
+                "pattern": "MM/dd/yyyy hh:mm:ss tt"
+            }
+        },
+        "filesystemTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false,
+                "isDatasetMode": true,
+                "root": "/mnt"
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "datasetsPaths": {"<-": "@owner.datasetsPaths"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Snapshot name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.args.0.name"}
+            }
+        },
+        "datasetSelector": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "datasetSelector"},
+                "controller": {"@": "filesystemTreeController"},
+                "label": "Dataset",
+                "removePrefix": "/mnt"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.args.0.dataset"}
+            }
+        },
+        "expirationDate": {
+            "prototype": "blue-shark/ui/field-datetime.reel",
+            "properties": {
+                "element": {"#": "expirationDate"},
+                "label": "Expiration date",
+                "allowEmpty": true,
+                "intervalInSeconds": 300
+            },
+            "bindings": {
+                "value": {"<->": "@owner.expirationDate"}
+            }
+        },
+        "replicable": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "replicable"},
+                "label": "Allow Replication"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.args.0.replicable"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SnapshotArgs">
+        <div data-montage-id="name"></div>
+        <div data-montage-id="datasetSelector" data-arg="select"></div>
+        <div data-montage-id="expirationDate"></div>
+        <div data-montage-id="replicable"></div>
+    </div>
+</body>
+</html>

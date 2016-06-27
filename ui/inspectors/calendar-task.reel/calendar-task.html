@@ -61,6 +61,24 @@
                 "switchValue": {"<-": "@owner.object.name"}
             }
         },
+        "cron": {
+            "prototype": "./cron-args.reel",
+            "properties": {
+                "element": {"#": "cron"}
+            },
+            "bindings": {
+                "args": {"<->": "@owner.object.args"}
+            }
+        },
+        "snapshot": {
+            "prototype": "./snapshot-args.reel",
+            "properties": {
+                "element": {"#": "snapshot"}
+            },
+            "bindings": {
+                "args": {"<->": "@owner.object.args"}
+            }
+        },
         "scrub": {
             "prototype": "./scrub-args.reel",
             "properties": {
@@ -110,8 +128,10 @@
             <div data-montage-id="description"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="args">
+                <div data-montage-id="snapshot" data-arg="volume.snapshot.create"></div>
                 <div data-montage-id="scrub" data-arg="volume.scrub"></div>
                 <div data-montage-id="smart" data-arg="disk.parallel_test"></div>
+                <div data-montage-id="cron" data-arg="calendar_task.command"></div>
             </div>
             <div data-montage-id="schedule"></div>
         </div>

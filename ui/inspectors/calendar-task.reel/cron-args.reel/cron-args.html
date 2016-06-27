@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="cron-args.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "command": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "command"},
+                "label": "Command"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.args.1"}
+            }
+        },
+        "user": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "user"},
+                "label": "User"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.args.0"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CronArgs">
+        <div data-montage-id="command"></div>
+        <div data-montage-id="user"></div>
+    </div>
+</body>
+</html>
