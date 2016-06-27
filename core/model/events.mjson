@@ -3,6 +3,7 @@
     "AlertFilter": "entity-subscriber.alert.filter.changed",
     "Backup": "entity-subscriber.backup.changed",
     "BootEnvironment": "entity-subscriber.boot.environment.changed",
+    "CalendarTask": "entity-subscriber.calendar_task.changed",
     "CryptoCertificate": "entity-subscriber.crypto.certificate.changed",
     "Directory": "entity-subscriber.directory.changed",
     "Disk": "entity-subscriber.disk.changed",

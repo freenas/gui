@@ -149,7 +149,7 @@ exports.findEventTypesForEntities = function findEventTypesForEntities (options)
                 eventTypeKey = eventTypeKeys[i];
 
                 if (eventTypeKey) {
-                    match = eventTypeKey.match(/^entity-subscriber\.([a-z\.-]+)\.changed$/i);
+                    match = eventTypeKey.match(/^entity-subscriber\.([a-z\.-_]+)\.changed$/i);
 
                     if (match && match.length === 2) {
                         eventTypes[match[1].toCamelCase()] = eventTypeKey;

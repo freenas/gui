@@ -37,6 +37,7 @@
     "generate-model": "node ./tools/cli/generate.js model ./core/model/descriptors/ -p ./core/model/descriptors -t ./core/model",
     "generate-enumerations": "node ./tools/cli/generate.js enumerations -t ./core/model/enumerations",
     "generate-services": "node ./tools/cli/generate.js services -t ./core/model",
+    "generate-events": "node ./tools/cli/generate-events.js -t ./core/model",
     "warnings": "node ./tools/cli/generate.js descriptors -w --no-save"
   }
 }
