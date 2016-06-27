@@ -94,7 +94,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 properties.mapall_group = properties.mapall_group != ' - ' ? properties.mapall_group : null;
             }
 
-            if (shareObject._isNewObject && this.targetType == 'DATASET') {
+            if (shareObject._isNewObject && shareObject.target_type == 'DATASET') {
                 shareObject.target_path += '/' + shareObject.name;
             }
 
