@@ -98,6 +98,9 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
 
     save: {
         value: function() {
+            if (this.object.type === "FILESYSTEM") {
+                this.object.properties.volblocksize = undefined;
+            }
             this.object.id = this.filesystemTreeController.selectedPath + "/" + this.name;
             this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
             this.application.dataService.saveDataObject(this.object);
