@@ -1,10 +1,9 @@
 .CalendarListDay {
     margin-bottom: 1em;
-    display: none;
 }
 
-.CalendarListDay.has-events {
-    display: block;
+.CalendarListDay.has-no-event {
+    display: none;
 }
 
 .CalendarListDay-date {

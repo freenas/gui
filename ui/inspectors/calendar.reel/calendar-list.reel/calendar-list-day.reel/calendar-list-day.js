@@ -9,6 +9,10 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
+    events: {
+        value: null
+    },
+
     _day: {
         value: null
     },
@@ -20,12 +24,7 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
         set: function(day) {
             if (this._day !== day) {
                 this._day = day;
-                if (day) {
-                    var self = this;
-                    this.application.calendarService.getTasksScheduleOnDay(day).then(function(tasks) {
-                        self.events = tasks;
-                    });
-                }
+                this._loadTasks();
             }
         }
     },
@@ -50,6 +49,23 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
                 if (selectedDay == this._day) {
                     this.element.scrollIntoView();
                 }
+            }
+        }
+    },
+
+    enterDocument: {
+        value: function() {
+            this._loadTasks();
+        }
+    },
+
+    _loadTasks: {
+        value: function() {
+            if (this._day) {
+                var self = this;
+                this.application.calendarService.getTasksScheduleOnDay(this._day).then(function(tasks) {
+                    self.events = tasks;
+                });
             }
         }
     }

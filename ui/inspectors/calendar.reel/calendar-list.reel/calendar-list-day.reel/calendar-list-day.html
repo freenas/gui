@@ -10,7 +10,9 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-events')": {"<-": "!!@owner.events && !!@owner.events.length"}
+                "displayedCategories": {"<-": "@owner.taskCategories.filter{isDisplayed}.map{value}"},
+                "displayedEvents": {"<-": "@owner.events.filter{@owner.displayedCategories.has(.task.name)}"},
+                "classList.has('has-no-event')": {"<-": "@owner.displayedEvents.length == 0"}
             }
         },
         "date": {
@@ -28,7 +30,7 @@
                 "element": {"#": "items"}
             },
             "bindings": {
-                "content": {"<-": "@owner.events"}
+                "content": {"<-": "@owner.displayedEvents"}
             }
         },
         "item": {
@@ -38,7 +40,8 @@
             },
             "bindings": {
                 "object": {"<-": "@items:iteration.object"},
-                "selectedTask": {"<->": "@owner.selectedTask"}
+                "selectedTask": {"<->": "@owner.selectedTask"},
+                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @items:iteration.object.task.name}.one()"}
             }
         }
     }

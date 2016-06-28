@@ -38,9 +38,14 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         ]
     },
 
+    _tasksPerDay: {
+        value: {}
+    },
+
     constructor: {
         value: function() {
             this._dataService = FreeNASService.instance;
+            this.addRangeAtPathChangeListener("_tasks", this, "_handleTasksChange");
         }
     },
 
@@ -67,8 +72,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 var self = this;
                 if (!this._dataPromise) {
                     this._dataPromise = this._dataService.fetchData(Model.CalendarTask).then(function(tasks) {
-                        self._tasks = tasks;
-                        return self._tasks;
+                        return self._tasks = tasks;
                     });
                 }
                 return this._dataPromise;
@@ -102,6 +106,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
     getTasksScheduleOnDay: {
         value: function(day) {
             var self = this,
+                key = day.year+'-'+day.month+'-'+day.date,
                 tasksPromise;
             if (this._tasks) {
                 tasksPromise = Promise.resolve(this._tasks);
@@ -109,15 +114,18 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 tasksPromise = this.listTasks();
             }
             return tasksPromise.then(function(tasks) {
-                var task,
-                    tasksSchedule = [];
+                var task, 
+                    tasksSchedule = self._tasksPerDay[key] ? self._tasksPerDay[key].tasks : [];
+                tasksSchedule.splice(0, tasksSchedule.length);
                 for (var i = 0, length = tasks.length; i < length; i++) {
                     task = tasks[i];
                     if (self._isDayMatchingSchedule(day, task.schedule)) {
-                        tasksSchedule = tasksSchedule.concat(self._getTaskOccurrencesPerDay(task));
+                        Array.prototype.push.apply(tasksSchedule, self._getTaskOccurrencesPerDay(task));
                     }
                 }
-                return tasksSchedule.sort(self._sortOccurrences);
+                tasksSchedule.sort(self._sortOccurrences);
+                self._tasksPerDay[key] = { day: day, tasks: tasksSchedule };
+                return tasksSchedule;
             });
         }
     },
@@ -283,6 +291,15 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                         return true;
                     }
                 }
+            }
+        }
+    },
+
+    _handleTasksChange: {
+        value: function() {
+            var days = Object.keys(this._tasksPerDay);
+            for (var i = 0, length = days.length; i < length; i++) {
+                this.getTasksScheduleOnDay(this._tasksPerDay[days[i]].day);
             }
         }
     }

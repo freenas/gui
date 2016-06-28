@@ -25,6 +25,7 @@
                 "element": {"#": "day"}
             },
             "bindings": {
+                "taskCategories": {"<-": "@owner.taskCategories"},
                 "day": {"<-": "@days:iteration.object"},
                 "selectedTask": {"<->": "@owner.selectedTask"},
                 "selectedDay": {"<->": "@owner.selectedDay"}

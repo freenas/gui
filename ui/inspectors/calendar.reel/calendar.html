@@ -28,6 +28,7 @@
                 "element": {"#": "list"}
             },
             "bindings": {
+                "taskCategories": {"<-": "@owner.taskCategories"},
                 "days": {"<-": "@calendarWidget.days.filter{isCurrentMonth}"},
                 "selectedTask": {"<->": "@owner.selectedObject"},
                 "selectedDay": {"<->": "@owner.selectedDay"}
