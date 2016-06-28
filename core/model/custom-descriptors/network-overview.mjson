@@ -30,7 +30,7 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "NetworkHost",
+      "name": "NetworkOverview",
       "propertyBlueprints": [
         {"@": "blueprint_networkconfiguration_summary"},
         {"@": "blueprint_networkconfiguration_staticroutes"},

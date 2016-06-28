@@ -30,7 +30,7 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "ServicesCategory",
+      "name": "SystemSection",
       "propertyBlueprints": [
         {"@": "blueprint_systemsection_identifier"},
         {"@": "blueprint_systemsection_label"},
