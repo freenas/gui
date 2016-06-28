@@ -26,20 +26,6 @@
     max-width: 8em;
 }
 
-.InspectorFooter-delete.blueShark-Button {
-    color: rgb(200, 70, 70);
-    background: rgba(150, 36, 36,.1);
-    border: 1px solid rgb(150, 36, 36);
-    box-shadow: none;
-}
-
-.InspectorFooter-delete.blueShark-Button:hover {
-    color: #FFF;
-    background: rgb(150, 36, 36);
-    box-shadow: none;
-}
-
-
 /* States ---------------------------------- */
 
 .InspectorFooter.is-visible { display: flex; }
