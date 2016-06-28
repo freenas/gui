@@ -4,15 +4,31 @@ var Path = require('path');
 var Promise = require('montage/core/promise').Promise;
 
 
-exports.generateModels = function generateModels (source, options) {
-    return FS.listDirectoryAtPath(source).then(function (files) {
-        var models = [],
+function _createFilesConcatPath (path) {
+    return function (files) {
+        return files.map(function (file) {
+
+            return Path.join(path, file);
+        });
+    };
+}
+
+exports.generateModels = function generateModels (paths, options) {
+    if (!Array.isArray(paths)) {
+        paths = [paths];
+    }
+
+    return Promise.map(paths, function (path) {
+        return FS.listDirectoryAtPath(path).then(_createFilesConcatPath(path));
+    }).then(function (filesFolders) {
+        var files = [].concat.apply([], filesFolders),
+            models = [],
             modelsMap = new Map();
 
         modelsMap.set("AbstractModel", true);
 
         return Promise.map(files, function (file) {
-            return FS.readFileAtPath(Path.join(source, file)).then(function (data) {
+            return FS.readFileAtPath(file).then(function (data) {
                 return JSON.parse(data);
             });
         }).then(function (data) {

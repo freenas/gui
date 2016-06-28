@@ -50,14 +50,16 @@ Connect.authenticateIfNeeded(program.username, program.password, program).then(f
                     progressBar.tick();
                     program.target = MontageDataConfig.ModelsDirectoryAbsolutePath;
 
-                    return generateModels(MontageDataConfig.DescriptorsDirectoryAbsolutePath, program).then(function () {
+                    return generateModels([
+                        MontageDataConfig.DescriptorsDirectoryAbsolutePath,
+                            MontageDataConfig.CustomDescriptorsAbsolutePath
+                        ], program).then(function () {
                         progressBar.tick();
                         program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 
                         return generateModel(
                             [
-                                MontageDataConfig.ModelsDirectoryAbsolutePath,
-                                MontageDataConfig.CustomDescriptorsAbsolutePath
+                                MontageDataConfig.ModelsDirectoryAbsolutePath
                             ],
                             program
                         ).then(function () {
