@@ -160,6 +160,12 @@ var StorageService = exports.StorageService = Montage.specialize({
             }
             return null;
         }
+    },
+
+    isRootDataset: {
+        value: function (dataset) {
+            return !dataset._isNew && ( dataset.name === dataset.volume );
+        }
     }
 
 }, {
