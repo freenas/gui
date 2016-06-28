@@ -93,7 +93,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                     if (this.datasetLevel === "child") {
                         option.label = "Inherit";
                     } else {
-                        option.label = "Reset to Default";
+                        option.label = "Default";
                     }
                 } else {
                     option.label = option.value = optionValues[i];
