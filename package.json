@@ -21,7 +21,8 @@
     "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
     "rimraf": "~2.5.2",
     "progress": "~1.1.8",
-    "json.sortify": "~1.0.2"
+    "json.sortify": "~1.0.2",
+    "js-beautify": "^1.6.3"
   },
   "exclude": [
     "run-tests.html",
