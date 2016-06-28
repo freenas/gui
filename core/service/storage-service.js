@@ -6,12 +6,11 @@ var Montage = require("montage").Montage,
 var StorageService = exports.StorageService = Montage.specialize({
 
     _SCALED_NUMERIC_RE_: {
-        value: /^(\d+\.?\d{0,3})([k,K,M,G,T,P,E,Z]?)?[iI]?[bB]?$/
+        value: /^(\d+\.?\d{0,3})([K,M,G,T,P,E,Z]?)?[I]?[B]?$/i
     },
 
     _SIZE_PREFIX_EXPONENTS: {
         value: {
-            k: 1,
             K: 1,
             M: 2,
             G: 3,
@@ -156,7 +155,7 @@ var StorageService = exports.StorageService = Montage.specialize({
                 if (input) {
                     prefix = input[2];
                     value = input[1];
-                    return parseInt(prefix ? value * Math.pow(1024, this._SIZE_PREFIX_EXPONENTS[prefix]) : parseInt(value));
+                    return parseInt(prefix ? value * Math.pow(1024, this._SIZE_PREFIX_EXPONENTS[prefix.toUpperCase()]) : parseInt(value));
                 }
             }
             return null;
