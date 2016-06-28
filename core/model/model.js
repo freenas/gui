@@ -46,23 +46,13 @@ function _initialize () {
         }
 
         if (!objectDescriptor.objectPrototype) {
-            var promise;
-
-            if (/\.js$/.test(objectDescriptor.modelId)) { // support js
-                promise = require.async(objectDescriptor.modelId).then(function (_exports) {
-                    return _exports[objectDescriptor.typeName];
-                });
-            } else { //support mjson: FIXME need to be removed once the migration to compiled files is done.
-                promise = ModelDescriptor.getDescriptorWithModelId(objectDescriptor.modelId, require).then(function (descriptor) {
-                    return descriptor.newInstancePrototype();
-                });
-            }
-
             // Set objectPrototype to a promise while building it
             // in order to avoid to require for a second time the object Prototype.
-            objectDescriptor.objectPrototype = promise;
 
-            return promise.then(function (constructor) {
+            return (objectDescriptor.objectPrototype = require.async(objectDescriptor.modelId).then(function (_exports) {
+                return _exports[objectDescriptor.typeName];
+
+            }).then(function (constructor) {
                 var objectPrototype = constructor.prototype,
                     classServices = Services.findClassServicesForType(type),
                     instanceServices = Services.findInstanceServicesForType(type);
@@ -84,7 +74,7 @@ function _initialize () {
                 objectDescriptor.constructor = constructor;
 
                 return (objectDescriptor.objectPrototype = objectPrototype);
-            });
+            }));
         } else if (Promise.is(objectDescriptor.objectPrototype)) {
             return objectDescriptor.objectPrototype;
         }
