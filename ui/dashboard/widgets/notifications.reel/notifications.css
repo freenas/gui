@@ -34,28 +34,7 @@
     z-index: 1;
     height: 14em;
     background-color: #242628;
-    /*$fix - can't do because of absolute positioned detail view*/
-    /*border-bottom-right-radius: 2px;
-    border-bottom-left-radius:  2px;*/
-    /*overflow: hidden;*/
     transition: transform .5s cubic-bezier(.7,0,.3,1);
-}
-
-/* possible bottom gradient to denote more items in list */
-
-/*.Notifications-body:before {
-    content: '';
-    position: absolute;
-    left:   0;
-    right:  0;
-    bottom: 0;
-    height: 1em;
-    background-image: linear-gradient(rgba(36,38,40,0),#242628 75%);
-    z-index: 1;
-}*/
-
-.Notifications.is-expanded .Notifications-body {
-    transform: translateX(-100%);
 }
 
 /* Empty State */

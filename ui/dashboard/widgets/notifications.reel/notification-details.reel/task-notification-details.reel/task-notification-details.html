@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="task-notification-details.css">
+    <link rel="stylesheet" type="text/css" href="../notification-details.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -19,19 +19,6 @@
                     "listener": {"@": "owner"}
                 }
             ]
-        },
-        "backButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "backButton"}
-            }
-        },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
-            "properties": {
-                "element": {"#": "scrollview"},
-                "overflow": "scrollY"
-            }
         },
         "jobId": {
             "prototype": "montage/ui/text.reel",
@@ -100,7 +87,7 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "retryButton"},
-                "value": "Retry"
+                "value": "Recreate"
             },
             "bindings": {
                 "classList.has('hide')": {"<-": "@owner.object.state != 'FAILED'"}
@@ -112,25 +99,21 @@
 <body>
     <div data-montage-id="owner" class="TaskNotificationDetails">
         <header>
-            <div data-montage-id="backButton" class="TaskNotificationDetails-backButton">
-                <svg><use xlink:href="#i-arrow"/></svg>
-            </div>
-            <span data-montage-id="jobId" class="NotificationDetails-title"></span>
+            <div data-montage-id="jobId" class="Notification-details-title"></div>
             <button data-montage-id="retryButton" class="Button--primary Button--small"></button>
         </header>
         <main>
-            <div data-montage-id="scrollview">
-                <div>
-                    <div data-montage-id="errorCondition" class="TaskNotificationDetails-messages">
-                        <div data-montage-id="errorMessage" class="TaskNotificationDetails-errorMessage"></div>
-                        <div data-montage-id="warnings" class="">
-                            <div data-montage-id="warning" class="TaskNotificationDetails-warning"></div>
-                        </div>
-                    </div>
-                    <p><span>Task Name:</span> <span data-montage-id="taskName"></span></p>
-                    <p><span>State:</span> <span data-montage-id="state"></span></p>
+            <h4>Description:</h4>
+            <div data-montage-id="errorCondition" class="Notification-details-messages">
+                <p data-montage-id="errorMessage" class="Notification-details-errorMessage"></p>
+                <div data-montage-id="warnings">
+                    <p data-montage-id="warning" class="Notification-details-warning"></p>
                 </div>
             </div>
+            <h4>Task Name:</h4>
+            <p data-montage-id="taskName"></p>
+            <h4>State:</h4>
+            <p data-montage-id="state"></p>
         </main>
     </div>
 </body>

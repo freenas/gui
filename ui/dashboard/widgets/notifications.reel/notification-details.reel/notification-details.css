@@ -1,81 +1,25 @@
-.NotificationDetails {
-    position: absolute;
-    top:    0;
-    bottom: 0;
-    left:   0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    transform: translateX(100%);
-}
-
-.NotificationDetails:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 1em;
-    left: 0;
-    right: 0;
-    background: linear-gradient(rgba(42,46,51,0),#2A2E33);
-}
-
-.NotificationDetails header {
-    display: flex;
-    align-items: center;
-    background: #0C5688;
-    color: #E0E5E5;
-    padding: .5em;
-}
-
-.NotificationDetails.has-error header {
-    background: #E0003A;
-}
-
-.NotificationDetails-title {
-    flex: 1;
-    line-height: 1em;
-    margin-right: 1em;
-}
-
-.NotificationDetails-backButton {
-    flex-grow: 0;
-    width:  1em;
-    height: 1em;
-    margin-right: .5em;
-    cursor: pointer;
-    outline: none;
-}
-
-.NotificationDetails-backButton svg {
-    transform: rotate(180deg);
-    transition: color .25s ease-in-out;
-}
-
-.NotificationDetails-backButton:hover svg {
-    color: #FFF;
-}
-
-.NotificationDetails main {
-    position: relative;
-    flex: 1;
-    display: flex;
-    background: #2A2E33;
+.Notification-details {
+    background: #242628;
     font-size: .8em;
 }
 
-.NotificationDetails .Scrollview { flex: 1; }
+.Notification-details main { padding: .5rem;}
 
-.NotificationDetails .ScrollviewContent { padding: .5rem; }
+.Notification-details h4 { margin: 0; }
 
-.NotificationDetails-errorMessage {
-    margin: -.5rem;
-    margin-bottom: .5rem;
-    background: #B40331;
-    color: #fff;
+.Notification-details main p:last-child { margin-bottom: 0; }
+
+.Notification-details header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem .5rem;
 }
 
-.NotificationDetails-errorMessage > span {
+.Notification-details-title {
     display: block;
-    padding: .5rem;
+    color: #939E9F;
+    font-weight: bold;
 }
 
+.Notification-details header button { align-self: center; }

@@ -11,15 +11,6 @@
                 "items": {"@": "items"},
                 "iconElement": {"#": "icon"},
                 "notificationsBody": {"#": "notificationsBody"}
-            },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ],
-            "bindings": {
-                "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
             }
         },
         "title": {
@@ -66,15 +57,6 @@
                 "classList.has('is-hidden')": {"<-": "@items.content.length > 0"},
                 "value": {"<-": "@owner.emptyText"}
             }
-        },
-        "notificationDetails": {
-            "prototype": "./notification-details.reel",
-            "properties": {
-                "element": {"#": "notificationDetails"}
-            },
-            "bindings": {
-                "object": {"<-": "@items.selection[0]"}
-            }
         }
     }
     </script>
@@ -92,7 +74,6 @@
                 </div>
                 <div data-montage-id="emptyState" class="Notifications-emptyState"></div>
             </div>
-            <div data-montage-id="notificationDetails"></div>
         </div>
     </div>
 </body>

@@ -27,9 +27,5 @@ exports.TaskNotification = Component.specialize(/** @lends TaskNotification# */ 
 
     UIDescriptor: {
         value: null
-    },
-
-    infoExpanded: {
-        value: false
     }
 });

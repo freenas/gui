@@ -31,9 +31,9 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
         value: null
     },
 
-    infoExpanded: {
-        value: false
-    },
+    // infoExpanded: {
+    //     value: false
+    // },
 
     enterDocument: {
         value: function() {

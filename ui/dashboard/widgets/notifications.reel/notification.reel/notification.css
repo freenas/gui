@@ -1,94 +1,73 @@
 .Notification {
     position: relative;
-    cursor: pointer;
-    transition: background-color .25s ease-in-out;
+    border-bottom:  2px solid rgba(255,255,255,.05);
+    background: rgba(0,0,0,.1)
 }
 
-.Notification:nth-child(even) { background: rgba(0,0,0,.2); }
-.Notification:nth-child(odd) { background: rgba(0,0,0,.1); }
+.Notification:nth-child(even)   { background: rgba(0,0,0,.2); }
 
-.Notification:hover { background: rgba(255,255,255,.05); }
-.Notification:active:before { background: #0C5688;}
-
-/* Notification Border */
-
-.Notification:before {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    border:1px solid transparent;
-}
-
-.Notification.has-infoExpanded:before {
-    border-color: #DFE4E4;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius:  4px;
-}
-
-.Notification.error:before { border-color: #E0003A; }
-
-.Notification-body {
+.Notification-header {
     display: flex;
     flex-wrap: wrap;
     font-size: .85em;
     letter-spacing: .5px;
-    margin-top: 0.1em;
+    align-items: center;
+    padding: .5em;
+    padding-left: calc(.5em + 3px);
+    padding-right: .25em;
+    transition: color .25s ease-in-out;
 }
 
-.Notification-overview {
-    padding: .5em;
-    flex: 1;
-}
+.Notification-overview { flex: 1; }
 
 .Notification-overview > div {
     display: flex;
     align-items: center;
 }
 
-.Notification-overview > div:first-child { margin-bottom: .5em; }
+.Notification-overview > div:first-child {
+    word-break: break-word;
+    margin-bottom: .5em;
+}
 
 .Notification-time,
 .Notification-service {
     font-size: .75em;
 }
 
-.Notification-time { margin-right: .5em; }
+.Notification-time { margin-right: .5rem; }
 
-.Notification-progress {
-    width:  80%;
-    margin-left: .5em;
+.Notification-progress { width:  100%; }
+
+.Notification.has-error .Notification-progress                  { background-color: #E0003A; }
+.Notification.has-success .Notification-progress .Progress-bar  { background-color: #1E963F; }
+
+/* Action Buttons */
+
+.Notification-actions {
+    position: relative;
+    display: flex;
+    height: 2em;
 }
 
-.Notification.error .Notification-progress  { background-color: #E0003A; }
-.Notification.success .Notification-progress .Progress-bar { background-color: #1E963F; }
-
-/* Info Container */
-
-.Notification-info {
-    display: none;
-    width: 100%;
-    padding: .5rem;
-    background: #DFE4E4;
-    color: #16171A;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius:  4px;
-    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+.Notification-actions > * {
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    margin:  0;
 }
 
-.Notification.error .Notification-info {
-    background-color: #E0003A;
-    color: #fff;
+.Notification-actions svg {
+    display block;
+    height: 2em;
+    width:  2em;
+    padding: .25em;
+    transition: color .25s ease-in-out;
 }
 
-.Notification.has-infoExpanded .Notification-info { display: block; }
+/* Expand Arrow */
 
-/* Arrow */
-
-.Notification-arrow {
+.Notification-expand {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -96,11 +75,19 @@
     transition: color .25s ease-in-out;
 }
 
-.Notification-arrow svg {
-    display: inline-block;
-    height: 1.4em;
-    width:  1.4em;
-    transition: color .25s ease-in-out;
-}
+.Notification-expand svg { transform: rotate(90deg); }
+.Notification-expand:hover svg { color: #fff; }
 
-.Notification:hover .Notification-arrow svg { color: #fff; }
+.Notification.is-expanded .Notification-expand svg { transform: rotate(270deg);  }
+
+/* Close Button */
+
+.Notification-close #i-close-bg { fill: transparent; }
+
+.Notification-close:hover #i-close-bg      { fill: #E0003A; stroke: #E0003A;}
+.Notification-close:hover #i-close-symbol  { fill: #fff; }
+
+/* Details Hide/Show */
+
+.Notification-details { display: none; }
+.Notification.is-expanded .Notification-details { display: block; }

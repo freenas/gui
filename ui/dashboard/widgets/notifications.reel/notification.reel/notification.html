@@ -8,6 +8,15 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ],
+            "bindings": {
+                "classList.has('is-expanded')": {"<-": "@owner.infoExpanded"}
             }
         },
         "notificationSubstitution": {

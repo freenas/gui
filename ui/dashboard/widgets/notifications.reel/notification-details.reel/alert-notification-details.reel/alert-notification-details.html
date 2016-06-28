@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="alert-notification-details.css">
+    <link rel="stylesheet" type="text/css" href="../notification-details.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -13,19 +13,6 @@
                 "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
                 "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
                 "classList.has('has-critical')": {"<-": "@owner.object.data.severity == 'CRITICAL'"}
-            }
-        },
-        "backButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "backButton"}
-            }
-        },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
-            "properties": {
-                "element": {"#": "scrollview"},
-                "overflow": "scrollY"
             }
         },
         "jobId": {
@@ -61,18 +48,13 @@
 <body>
     <div data-montage-id="owner" class="AlertNotificationDetails">
         <header>
-            <div data-montage-id="backButton" class="AlertNotificationDetails-backButton">
-                <svg><use xlink:href="#i-arrow"/></svg>
-            </div>
-            <span data-montage-id="jobId" class="NotificationDetail-title"></span>
+            <div data-montage-id="jobId" class="Notification-details-title"></div>
         </header>
         <main>
-            <div data-montage-id="scrollview">
-                <div>
-                    <p><span>Task Name:</span> <span data-montage-id="taskName"></span></p>
-                    <p><span>Description:</span> <span data-montage-id="description"></span></p>
-                </div>
-            </div>
+            <h4 class="bold">Task Name:</h4>
+            <p data-montage-id="taskName"></p>
+            <h4 class="bold">Description:</h4>
+            <p data-montage-id="description"></p>
         </main>
     </div>
 </body>

@@ -54,30 +54,48 @@
             "properties": {
                 "element": {"#": "dismissButton"}
             }
+        },
+        "expandButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "expandButton"}
+            }
+        },
+        "details": {
+            "prototype": "../../notification-details.reel/alert-notification-details.reel",
+            "properties": {
+                "element": {"#": "details"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="AlertNotification">
-        <div class="AlertNotification-body">
-            <div class="AlertNotification-overview">
+        <div class="Notification-header">
+            <div class="Notification-overview">
                 <div>
                     <div data-montage-id="summary"></div>
                 </div>
                 <div>
-                    <div data-montage-id="timestamp" class="AlertNotification-time"></div>
+                    <div data-montage-id="timestamp" class="Notification-time"></div>
                 </div>
             </div>
-            <div data-montage-id="dismissButton" class="AlertNotification-close">
-                <svg id="i-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <title>close</title><g fill="none" fill-rule="evenodd"><circle id="i-close-bg" stroke="#979797" fill="#D8D8D8" cx="12" cy="12" r="10"/><path id="i-close-symbol" d="M11.293 12l-3.89-3.89-.353-.353.707-.707.354.354 3.89 3.89 3.89-3.89.353-.354.707.707-.354.354-3.89 3.89 3.89 3.89.354.353-.707.707-.354-.354-3.89-3.89-3.89 3.89-.353.354-.707-.707.354-.354 3.89-3.89z" fill="#979797"/></g>
-                </svg>
-            </div>
-            <div class="AlertNotification-arrow">
-                <svg><use xlink:href="#i-arrow"/></svg>
+            <div class="Notification-actions">
+                <div data-montage-id="expandButton" class="Notification-expand">
+                    <svg><use xlink:href="#i-arrow"/></svg>
+                </div>
+                <div data-montage-id="dismissButton" class="Notification-close">
+                    <svg id="i-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <title>close</title><g fill="none" fill-rule="evenodd"><circle id="i-close-bg" stroke="#979797" fill="#D8D8D8" cx="12" cy="12" r="10"/><path id="i-close-symbol" d="M11.293 12l-3.89-3.89-.353-.353.707-.707.354.354 3.89 3.89 3.89-3.89.353-.354.707.707-.354.354-3.89 3.89 3.89 3.89.354.353-.707.707-.354-.354-3.89-3.89-3.89 3.89-.353.354-.707-.707.354-.354 3.89-3.89z" fill="#979797"/></g>
+                    </svg>
+                </div>
             </div>
         </div>
+        <div data-montage-id="details" class="Notification-details"></div>
     </div>
 </body>
 </html>

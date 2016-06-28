@@ -10,9 +10,9 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('error')": {"<-": "@owner.object.state == 'FAILED'"},
+                "classList.has('has-error')": {"<-": "@owner.object.state == 'FAILED'"},
                 "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"},
-                "classList.has('success')": {"<-": "@owner.object.state == 'FINISHED'"}
+                "classList.has('has-success')": {"<-": "@owner.object.state == 'FINISHED'"}
             }
         },
         "taskSummary": {
@@ -53,13 +53,19 @@
                 "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"}
             }
         },
-        "notificationMessage": {
-            "prototype": "montage/ui/text.reel",
+        "expandButton": {
+            "prototype": "montage/ui/button.reel",
             "properties": {
-                "element": {"#": "notificationMessage"}
+                "element": {"#": "expandButton"}
+            }
+        },
+        "details": {
+            "prototype": "../../notification-details.reel/task-notification-details.reel",
+            "properties": {
+                "element": {"#": "details"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.errorMessage"}
+                "object": {"<-": "@owner.object"}
             }
         }
     }
@@ -67,21 +73,23 @@
 </head>
 <body>
     <div data-montage-id="owner" class="TaskNotification">
-        <div class="TaskNotification-body">
-            <div class="TaskNotification-overview">
+        <div class="Notification-header">
+            <div class="Notification-overview">
                 <div>
                     <div data-montage-id="taskSummary"></div>
                 </div>
                 <div>
-                    <div data-montage-id="timestamp" class="TaskNotification-time"></div>
-                    <div data-montage-id="progress" class="TaskNotification-progress"></div>
+                    <div data-montage-id="timestamp" class="Notification-time"></div>
+                    <div data-montage-id="progress" class="Notification-progress"></div>
                 </div>
             </div>
-            <div class="TaskNotification-arrow">
-                <svg><use xlink:href="#i-arrow"/></svg>
+            <div class="Notification-actions">
+                <div data-montage-id="expandButton" class="Notification-expand">
+                    <svg><use xlink:href="#i-arrow"/></svg>
+                </div>
             </div>
-            <div data-montage-id="notificationMessage" class="TaskNotification-info"></div>
         </div>
+        <div data-montage-id="details" class="Notification-details"></div>
     </div>
 </body>
 </html>
