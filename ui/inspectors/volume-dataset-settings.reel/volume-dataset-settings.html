@@ -50,11 +50,12 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "atime"},
-                "label": "atime"
+                "label": "atime",
+                "converter": {"@": "select-option-converter"}
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.properties.atime.parsed"},
-                "options": {"<-": "@owner.ATIME_OPTIONS"}
+                "selectedValue": {"<->": "@owner.atimeSetting"},
+                "options": {"<-": "@owner.atimeOptions"}
             }
         },
         "sizeConverter": {

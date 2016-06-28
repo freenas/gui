@@ -19,11 +19,8 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         value: null
     },
 
-    ATIME_OPTIONS: {
-        value: [
-            "on",
-            "off"
-        ]
+    atimeOptions: {
+        value: null
     },
 
     VOLBLOCKSIZE_OPTIONS: {
@@ -70,6 +67,21 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
             return this.object.properties ? this._getInheritableProperty(this.object.properties.dedup) : "none";
         }
     },
+
+    atimeSetting: {
+        set: function(value) {
+            if (this.object && this.object.properties) {
+                this.object.properties.atime = this._setInheritableProperty(value);
+            } else {
+                console.warn("Object not yet set!");
+            }
+        },
+
+        get: function() {
+            return this.object.properties ? this._getInheritableProperty(this.object.properties.atime) : "none";
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var storageService = this.application.storageService;
@@ -77,6 +89,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 this.datasetLevel = storageService.isRootDataset(this.object) ? "root" : "child";
                 this.compressionOptions = this._intializeInheritablePropertyOptions(COMPRESSION_OPTIONS);
                 this.dedupOptions = this._intializeInheritablePropertyOptions(DEDUP_OPTIONS);
+                this._intializeAtimeOptions();
             }
         }
     },
@@ -101,6 +114,24 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 options.push(new Object(option));
             }
             return options;
+        }
+    },
+
+    _intializeAtimeOptions: {
+        value: function() {
+            var inheritOption,
+                atimeOptions = [
+                    {label: "on", value: true},
+                    {label: "off", value: false}
+                ];
+
+            if (this.datasetLevel === "child") {
+                inheritOption = {label: "Inherit", value: "none"};
+            } else {
+                inheritOption = {label: "Default", value: "none"};
+            }
+            atimeOptions.push(inheritOption);
+            this.atimeOptions = atimeOptions;
         }
     },
 
