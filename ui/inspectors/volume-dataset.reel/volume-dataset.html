@@ -7,7 +7,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "filesystemTreeController": {"@": "filesystemTreeController"}
             }
         },
         "inspector": {
@@ -22,6 +23,18 @@
                 "canDelete": {"<-": "@owner.datasetLevel == 'child' && !@owner.object._isNew"}
             }
         },
+        "filesystemTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false,
+                "isDatasetMode": true
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "'/mnt/' + @owner.volume.id"},
+                "datasetsPaths": {"<-": "@owner.volume.datasets.map{mountpoint}"}
+            }
+        },
         "nameSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -31,14 +44,26 @@
                 "switchValue": {"<-": "@owner.datasetLevel"}
             }
         },
-        "nameEdit": {
+        "nameInput": {
             "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "nameEdit"},
+             "properties": {
+                "element": {"#": "nameInput"},
                 "label": "Name"
+             },
+             "bindings": {
+                "value": {"<->": "@owner.name"}
+            }
+        },
+        "pathSelector": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "pathSelector"},
+                "controller": {"@": "filesystemTreeController"},
+                "label": "Path",
+                "removePrefix": "/mnt/"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.id"}
+                "selectedPath": {"<->": "@owner.targetPath"}
             }
         },
         "nameDisplay": {
@@ -93,7 +118,10 @@
     <div data-montage-id="owner" class="VolumeDataset">
         <div data-montage-id="inspector">
             <div data-montage-id="nameSubstitution">
-                <div data-montage-id="nameEdit" data-arg="child"></div>
+                <div data-arg="child">
+                    <div data-montage-id="nameInput"></div>
+                    <div data-montage-id="pathSelector"></div>
+                </div>
                 <div data-montage-id="nameDisplay" data-arg="root"></div>
             </div>
             <div data-montage-id="typeCondition">

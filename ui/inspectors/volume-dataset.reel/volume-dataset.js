@@ -37,6 +37,28 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         value: null
     },
 
+    name: {
+        value: null
+    },
+
+    _targetPath: {
+        value: null
+    },
+
+    targetPath: {
+        get: function() {
+            return this._targetPath;
+        },
+        set: function(targetPath) {
+            if (this._targetPath != targetPath) {
+                this._targetPath = targetPath;
+                if (this.filesystemTreeController && targetPath != this.filesystemTreeController.selectedPath) {
+                    this.filesystemTreeController.open(targetPath);
+                }
+            }
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             this._loadVolume();
@@ -56,7 +78,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         value: function() {
             this.volume = this._getCurrentVolume();
             if (this.object && this.volume) {
-                this.object.volume = this.volume.id;
+                this.object.volume = this.targetPath = this.volume.id;
             }
         }
     },
@@ -76,6 +98,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
 
     save: {
         value: function() {
+            this.object.id = this.filesystemTreeController.selectedPath + "/" + this.name;
             this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
             this.application.dataService.saveDataObject(this.object);
         }
