@@ -105,12 +105,5 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
             this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
             this.application.dataService.saveDataObject(this.object);
         }
-    },
-
-    delete: {
-        value: function() {
-            this.object.id = this.object.name;
-            this.application.dataService.deleteDataObject(this.object);
-        }
     }
 });
