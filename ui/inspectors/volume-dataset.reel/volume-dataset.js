@@ -61,16 +61,13 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
 
     enterDocument: {
         value: function(isFirstTime) {
+            var storageService = this.application.storageService;
             this._loadVolume();
-            if ( !this.object._isNew && ( this.object.name === this.object.volume )) {
-                this.datasetLevel = "root";
-            } else {
-                this.datasetLevel = "child";
-            }
+            this.datasetLevel = storageService.isRootDataset(this.object) ? "root" : "child";
             if (this.object._isNew) {
                 this.object.type = "FILESYSTEM";
             }
-            this.application.storageService.initializeDatasetProperties(this.object);
+            storageService.initializeDatasetProperties(this.object);
         }
     },
 

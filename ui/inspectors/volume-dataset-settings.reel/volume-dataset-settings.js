@@ -72,7 +72,9 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
     },
     enterDocument: {
         value: function(isFirstTime) {
+            var storageService = this.application.storageService;
             if (isFirstTime) {
+                this.datasetLevel = storageService.isRootDataset(this.object) ? "root" : "child";
                 this.compressionOptions = this._intializeInheritablePropertyOptions(COMPRESSION_OPTIONS);
                 this.dedupOptions = this._intializeInheritablePropertyOptions(DEDUP_OPTIONS);
             }
