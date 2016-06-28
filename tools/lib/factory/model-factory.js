@@ -96,7 +96,9 @@ ModelObject.prototype.toJS = function () {
         }
     }
 
-    PROTOTYPE_DESCRIPTOR = "{" + PROTOTYPE_DESCRIPTOR + "}";
+    if (PROTOTYPE_DESCRIPTOR && PROTOTYPE_DESCRIPTOR.length) {
+        PROTOTYPE_DESCRIPTOR = "{" + PROTOTYPE_DESCRIPTOR + "}";
+    }
 
     if (enableMultipleRequires) {
         for (i = 0, length = this.requires.length; i < length; i++) {
