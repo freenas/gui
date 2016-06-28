@@ -305,6 +305,35 @@
             }
         }
     },
+    "ContainerdDocker": {
+        "class": {
+            "getHostStatus": {
+                "method": "containerd.docker.get_host_status",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "queryContainers": {
+                "method": "containerd.docker.query_containers",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "queryImages": {
+                "method": "containerd.docker.query_images",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "start": {
+                "method": "containerd.docker.start",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "stop": {
+                "method": "containerd.docker.stop",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "CryptoCertificate": {
         "instance": {
             "create": {
@@ -502,6 +531,33 @@
                     ]
                 },
                 "task": "disk.update"
+            }
+        }
+    },
+    "DockerContainer": {
+        "instance": {
+            "read": {
+                "method": "docker.container.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "DockerHost": {
+        "instance": {
+            "read": {
+                "method": "docker.host.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "DockerImage": {
+        "instance": {
+            "read": {
+                "method": "docker.image.query",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },

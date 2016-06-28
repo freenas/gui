@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UserAttributes = AbstractModel.specialize({});
+exports.UserAttributes = AbstractModel.specialize();

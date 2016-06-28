@@ -48,6 +48,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_vmconfig_docker_host": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "docker_host",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_vmconfig_memsize": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -99,6 +107,7 @@
         {"@": "blueprint_vmconfig_boot_partition"},
         {"@": "blueprint_vmconfig_bootloader"},
         {"@": "blueprint_vmconfig_cloud_init"},
+        {"@": "blueprint_vmconfig_docker_host"},
         {"@": "blueprint_vmconfig_memsize"},
         {"@": "blueprint_vmconfig_ncpus"},
         {"@": "blueprint_vmconfig_vnc_enabled"},

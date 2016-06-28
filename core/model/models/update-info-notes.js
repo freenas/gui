@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.UpdateInfoNotes = AbstractModel.specialize({});
+exports.UpdateInfoNotes = AbstractModel.specialize();

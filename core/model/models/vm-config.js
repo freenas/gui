@@ -79,6 +79,19 @@ exports.VmConfig = AbstractModel.specialize({
             return this._cloud_init;
         }
     },
+    _docker_host: {
+        value: null
+    },
+    docker_host: {
+        set: function (value) {
+            if (this._docker_host !== value) {
+                this._docker_host = value;
+            }
+        },
+        get: function () {
+            return this._docker_host;
+        }
+    },
     _memsize: {
         value: null
     },
@@ -171,6 +184,10 @@ exports.VmConfig = AbstractModel.specialize({
             mandatory: false,
             name: "cloud_init",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "docker_host",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "memsize",

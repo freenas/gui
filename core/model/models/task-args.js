@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.TaskArgs = AbstractModel.specialize({});
+exports.TaskArgs = AbstractModel.specialize();

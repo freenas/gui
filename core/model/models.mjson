@@ -1,6 +1,14 @@
 {
     "models": [
         {
+            "modelId": "core/model/models/account-category.js",
+            "type": "AccountCategory"
+        },
+        {
+            "modelId": "core/model/models/account-system.js",
+            "type": "AccountSystem"
+        },
+        {
             "modelId": "core/model/models/acl-entry-flags.js",
             "type": "AclEntryFlags"
         },
@@ -75,6 +83,10 @@
         {
             "modelId": "core/model/models/calendar-task.js",
             "type": "CalendarTask"
+        },
+        {
+            "modelId": "core/model/models/calendar.js",
+            "type": "Calendar"
         },
         {
             "modelId": "core/model/models/compress-plugin.js",
@@ -265,6 +277,10 @@
             "type": "NetworkInterface"
         },
         {
+            "modelId": "core/model/models/network-overview.js",
+            "type": "NetworkOverview"
+        },
+        {
             "modelId": "core/model/models/network-route.js",
             "type": "NetworkRoute"
         },
@@ -335,6 +351,10 @@
         {
             "modelId": "core/model/models/rusage.js",
             "type": "Rusage"
+        },
+        {
+            "modelId": "core/model/models/scrub.js",
+            "type": "Scrub"
         },
         {
             "modelId": "core/model/models/service-afp.js",
@@ -411,6 +431,10 @@
         {
             "modelId": "core/model/models/service.js",
             "type": "Service"
+        },
+        {
+            "modelId": "core/model/models/services-category.js",
+            "type": "ServicesCategory"
         },
         {
             "modelId": "core/model/models/session.js",
@@ -511,6 +535,10 @@
         {
             "modelId": "core/model/models/system-general.js",
             "type": "SystemGeneral"
+        },
+        {
+            "modelId": "core/model/models/system-section.js",
+            "type": "SystemSection"
         },
         {
             "modelId": "core/model/models/system-time.js",
@@ -915,34 +943,6 @@
         {
             "modelId": "core/model/models/zfs-vdev.js",
             "type": "ZfsVdev"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/account-category.mjson",
-            "type": "AccountCategory"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/account-system.mjson",
-            "type": "AccountSystem"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/calendar.mjson",
-            "type": "Calendar"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/network-overview.mjson",
-            "type": "NetworkOverview"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/scrub.mjson",
-            "type": "Scrub"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/services-category.mjson",
-            "type": "ServicesCategory"
-        },
-        {
-            "modelId": "core/model/custom-descriptors/system-section.mjson",
-            "type": "SystemSection"
         }
     ]
 }
