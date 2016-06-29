@@ -22,7 +22,17 @@
     "rimraf": "~2.5.2",
     "progress": "~1.1.8",
     "json.sortify": "~1.0.2",
-    "js-beautify": "^1.6.3"
+    "js-beautify": "^1.6.3",
+    "browser-sync": "^2.13.0",
+    "cssnano": "^3.7.1",
+    "gulp": "^3.9.1",
+    "gulp-header": "^1.8.5",
+    "gulp-newer": "^1.2.0",
+    "gulp-postcss": "^6.1.1",
+    "gulp-rename": "^1.2.2",
+    "postcss-cssnext": "^2.6.0",
+    "postcss-discard-comments": "^2.0.4",
+    "postcss-import": "^8.1.2"
   },
   "exclude": [
     "run-tests.html",
