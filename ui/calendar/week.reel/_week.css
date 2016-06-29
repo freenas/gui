@@ -1,3 +1,87 @@
 .Week {
+    outline: 1px solid green;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Week-header {
+    display: flex;
+}
+
+.Week-main {
+    flex: 1;
+    display: flex;
+}
+
+.Week-content {
+    position: relative;
+    flex: 1;
+    display: flex;
+}
+
+.Week-days {
+    display: flex;
+    flex: 1;
+}
+
+.Week-day {
+    flex: 1;
+}
+
+.Week-row {
+    flex: 1;
+    display: flex;
+}
+
+.Week-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Week-column--axis {
+    flex: 1;
+    max-width: 3em;
+}
+
+.Week-hours {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Week-hour {
+    max-height: 2em;
+    flex: 1;
+}
+
+.Week-slots {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Week-slot {
+    flex: 1;
+    max-height: 2em;
+    outline: 1px solid grey;
+}
+
+.Week-events {
+    position: absolute;
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+}
+
+.Week-event {
+    position: absolute;
+    top: 5em;
+    left: calc(100% / 7 * 3) ;
+    height: 2em;
+    background: aqua;
+    width: calc(100% / 7);
 
 }
