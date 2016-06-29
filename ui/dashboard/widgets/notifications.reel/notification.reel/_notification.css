@@ -1,7 +1,7 @@
 .Notification {
     position: relative;
     border-bottom:  2px solid rgba(255,255,255,.05);
-    background: rgba(0,0,0,.1)
+    background: rgba(0,0,0,.1);
 }
 
 .Notification:nth-child(even)   { background: rgba(0,0,0,.2); }
@@ -58,7 +58,7 @@
 }
 
 .Notification-actions svg {
-    display block;
+    display: block;
     height: 2em;
     width:  2em;
     padding: .25em;
