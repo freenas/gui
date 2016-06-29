@@ -1,0 +1,35 @@
+.TopologyEdit {
+    min-width: 37em;
+}
+
+.TopologyEdit .Inspector {
+    /* magic number tided to sidebar width */
+    margin-right: 13.2em;
+}
+
+.TopologyEdit .Inspector-body {
+    margin: 0;
+}
+
+.TopologyEdit-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.TopologyEdit-sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    /* magic number tied to inspector margin */
+    width: 13.2em;
+    background-color: #2F3233;
+    overflow: hidden;
+    border-left: 2px solid #232629;
+}
+
+.Inspector.is-locked + .TopologyEdit-sidebar .FoldableSection-content {
+    height: 0 !important;
+    pointer-event: none;
+}

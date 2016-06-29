@@ -1,0 +1,53 @@
+.AvailableDisks {
+    position: relative;
+}
+
+.AvailableDisks-header {
+    height: 4em;
+    padding: .75em 1em;
+    background-color: rgba(255,255,255,.1);
+    color: #B1BCBE;
+}
+
+.AvailableDisks-header p {
+    margin-bottom: 0;
+}
+
+/* edits to remove offsets for lack of padding*/
+
+.AvailableDisks .FoldableSection {
+    margin: 0;
+    padding: 0;
+}
+
+.AvailableDisks .FoldableSection-expand {
+    padding-left:  1em;
+    margin: 0;
+}
+
+.AvailableDisks .FoldableSection-expand svg { right: 1em; }
+
+.AvailableDisks .FoldableSection-contentContainer { padding: .5em; }
+
+
+.AvailableDisks-category.is-hidden { display: none; }
+
+.AvailableDisks .Inspector-body                         { margin-top: 0; }
+.AvailableDisks .FoldableSection:first-child            { margin-top: 0; }
+.AvailableDisks-category:first-child .FoldableSection   { margin-top: 0; }
+
+/* $fix - Edits to disk icon size - same code as topology */
+
+.AvailableDisks .Grid-icon {
+    width:  auto;
+    height: auto;
+    margin-bottom: 0;
+}
+
+.AvailableDisks .LabeledIcon-image > * {
+    width: auto;
+    height: auto;
+}
+
+
+

@@ -1,0 +1,108 @@
+.TopologyItem {
+    position: relative;
+    clear: both;
+    background: #2F3233;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #232629;
+}
+
+.TopologyItem-title {
+    position: relative;
+    height: 2em;
+    line-height: 1.7em;
+    padding: 0 1em;
+    font-weight: 400;
+    background: #232629;
+    border-top: 2px solid currentColor;
+    overflow: hidden;
+    display: flex;
+}
+
+.TopologyItem-title div:first-child { flex: 1; }
+
+.TopologyItem-title:before {
+    content: '';
+    position: absolute;
+    left: -1.7em;
+    top: -1em;
+    height: 4em;
+    background: currentColor;
+    width: 2em;
+    transform: rotate(17deg);
+}
+
+.TopologyItemTitle-size { float: right; }
+
+/* allocation bar */
+
+.TopologyItem-allocationBar {
+    display: none !important;
+}
+
+.TopologyItem.has-items .TopologyItem-allocationBar {
+    display: flex !important;
+}
+
+/* Sets the different colors */
+
+.TopologyItem:nth-child(1) .TopologyItem-title { color: #D75B1B; }
+.TopologyItem:nth-child(2) .TopologyItem-title { color: #CB6614; }
+.TopologyItem:nth-child(3) .TopologyItem-title { color: #D68E2A; }
+.TopologyItem:nth-child(4) .TopologyItem-title { color: #929E9F; }
+
+/* Grid */
+
+.TopologyItem-grid {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+/* has items */
+
+.TopologyItem.has-items .TopologyItem-grid {
+    max-height: 18em;
+    overflow: scroll;
+    padding: .25em .25em .5em .25em;
+}
+
+.TopologyItem-dropZone {
+    visibility: hidden;
+    top: 0;
+    bottom: 0;
+    left:  -1em;
+    right: 0;
+    position: absolute;
+    margin-left: 1em;
+    z-index: 1;
+}
+
+.TopologyItem .Grid-icon {
+    display: flex;
+    width:  auto;
+    height: auto;
+    margin-bottom: 0;
+}
+
+.TopologyItem .LabeledIcon-image > * {
+    width: auto;
+    height: auto;
+}
+
+/* Vdev Container */
+
+.TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon {
+    margin: 0em .25em .5em .25em;
+    padding: 0;
+}
+
+.TopologyItem-grid .LabeledIcon-title { display: none; }
+
+
+/* Grid Container*/
+.TopologyItem-vdevsGrid > .Grid-repetition > .LabeledIcon > .LabeledIcon-image > * {
+    padding: 0;
+}

@@ -1,0 +1,93 @@
+.FieldTreeview {}
+
+.FieldTreeview-pathButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    line-height: 2em;
+    height: 2em;
+    padding: 0 .5em;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    background-color: #242628;
+    transition-property: color, background-color;
+    transition-timing-function: ease-in-out;
+    transition-duration: .25s;
+}
+
+.FieldTreeview-pathButton:hover {
+    color: #DFE4E4;
+    background: #2F3233;
+}
+
+.FieldTreeview-pathButton svg {
+    position: relative;
+    z-index: 200;
+    order: -1;
+    height: 100%;
+    width:  1.25em;
+    margin-right: .5em;
+}
+
+.FieldTreeview-treeView {
+    position: absolute;
+    visibility: hidden;
+}
+
+.FieldTreeview.isExpanded .FieldTreeview-treeView {
+    position: relative;
+    visibility: visible;
+    margin-bottom: 1em;
+}
+
+.FieldTreeview.isExpanded .FieldTreeview-pathButton {
+    visibility: hidden;
+}
+
+.FieldTreeview-selectedPath {
+    position: absolute;
+    left: 1.5em;
+    right: .5em;
+    top: 0;
+    bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    background-color: inherit;
+}
+
+.FieldTreeview-selectedPath:before {
+    content: '\02026';
+    position: absolute;
+    z-index: 1;
+    left: -1em;
+    background-color: inherit;
+    padding-left: 1em;
+    margin-left: 0.5em;
+}
+
+.FieldTreeview-selectedPath span {
+    min-width: 100%;
+    position: relative;
+    display: inline-block;
+    float: right;
+    overflow: visible;
+    background-color: inherit;
+    text-indent: 1.5em;
+}
+
+.FieldTreeview-selectedPath span:before {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    margin-top: -.5em;
+    bottom: 0;
+    width:  1em;
+    height: 1em;
+    background-color: inherit;
+    z-index: 200;
+    left: .25em;
+}

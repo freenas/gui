@@ -1,0 +1,35 @@
+.CalendarWidgetTask {
+    cursor: pointer;
+    display: none;
+    padding: 0 .25rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.CalendarWidgetTask:hover {
+    color: #fff;
+    background: rgba(255,255,255,.05);
+}
+
+.CalendarWidgetTask.is-visible.is-displayed {
+    display: flex;
+    align-items: center;
+}
+
+.CalendarWidgetTask.is-disabled {
+    opacity: 0.5;
+}
+
+.CalendarWidgetTask.is-selected {
+    background-color: #2B9CD8;
+}
+
+.CalendarWidgetDay-today .CalendarWidgetTask.is-selected {
+    background-color: #2B9CD8;
+}
+
+.CalendarWidgetTask.is-selected {
+    color: #FFF;
+}
+

@@ -1,0 +1,41 @@
+.Volume {}
+
+/* $fix - should this be a component */
+.Volume-header {
+    height: 4.5em;
+    display: flex;
+    background: #DFE4E4;
+    color: #181A1D;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Icon */
+
+.Volume-header-icon {
+    width:  3em;
+    height: 3em;
+    margin-right: 1em;
+}
+
+.Volume-header-icon img { width:  100%; }
+
+/* Info */
+
+.Volume-header-info {}
+
+
+.Volume-header-diskSize {
+    font-size: 1.5em;
+    font-weight: 400;
+    line-height: 1rem;
+}
+
+.Volume .Inspector-body {
+    margin: 0;
+}
+
+.Volume-allocationBar {
+    height: 1.5em !Important;
+    width: 100%;
+}

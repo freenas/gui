@@ -1,0 +1,23 @@
+.CurrentUserSummary {
+    text-align: center;
+    padding: 1em 0;
+    /*background: green;*/
+}
+
+.CurrentUserSummary-userAvatar {
+    display: inline-block;
+    width:  2rem;
+    height: 2rem;
+    font-size: .7em;
+    line-height: 2rem;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 1px solid #2B9CD8;
+    cursor: pointer;
+    color: #2B9CD8;
+}
+
+.CurrentUserSummary-userAvatar:hover {
+    background: #2B9CD8;
+    color: #FFF;
+}

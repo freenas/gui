@@ -1,0 +1,40 @@
+.Main {
+    flex: 1;
+    display: flex;
+}
+
+.Main-mainSidebar {
+    flex-shrink: 0;
+    width:  8em;
+}
+
+/*.Main-sideboard { width: 19em; }*/
+
+.Main-substitution {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: #15171B;
+    background-size: cover, 310px 310px;
+    background-image:
+        radial-gradient(
+            circle farthest-corner at center -5%,
+            rgba(255, 255, 255, .1),
+            rgba(0, 0, 0, .05)
+        ),
+        url(../../assets/images/bg.png);
+}
+
+.Main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-image:
+        radial-gradient(
+            circle farthest-corner at center -5%,
+            rgba(255, 255, 255, .1),
+            rgba(0, 0, 0, .1)
+        );
+}

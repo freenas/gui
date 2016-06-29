@@ -1,0 +1,31 @@
+.InterfaceOverview {
+    display: flex;
+    margin-top: 0;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.InterfaceOverview-icon {
+    display: flex;
+    align-items: center;
+    width:  6em;
+    height: 6em;
+    margin-right: 2em;
+}
+
+.InterfaceOverview-icon svg {
+    color: #ccc;
+    width: 100%;
+}
+
+.InterfaceOverview-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.InterfaceOverview-type:not(:empty):before {
+    content: ' - ';
+}

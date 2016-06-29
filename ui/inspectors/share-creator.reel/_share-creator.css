@@ -1,0 +1,32 @@
+.ShareCreator {}
+
+.ShareCreator-header {
+    padding: .5em;
+    display: flex;
+}
+
+/* $fix - header should be in cascading list */
+.ShareCreator-header > * {
+    line-height: 2em;
+}
+
+/* Icon */
+
+.ShareCreator-header-icon {
+    width: 6em;
+    margin-right: 2em;
+}
+
+.ShareCreator-header-icon img { width:  100%; }
+
+/* Info */
+
+.ShareCreator-header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ShareCreator-header-info-size {
+    font-size: 1.5em;
+}

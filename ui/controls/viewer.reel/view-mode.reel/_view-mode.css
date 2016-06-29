@@ -1,0 +1,96 @@
+.ViewMode {
+    display: flex;
+    flex: 1;
+}
+
+.ViewMode-selector { margin: .5em; }
+
+/* Search */
+
+.Viewer-search {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.Viewer-searchToggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: .4em;
+    height: 100%;
+    width: 2em;
+    padding: .6em 0;
+    cursor: pointer;
+    color: #ccc;
+    outline: none;
+    z-index: 1;
+    transition: opacity .2s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* toggle states */
+
+.Viewer-searchToggle:hover { color: #fff; }
+.Viewer-searchToggle.is-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* search input field */
+
+.Viewer-searchField.blueShark-TextField {
+    position: absolute;
+    right: 0;
+    width: 0;
+    height: 3em;
+    padding-right: 2.5em;
+    border-radius: 0;
+    visibility: hidden;
+    opacity: 0;
+    border-color: transparent;
+    background: rgba(0,0,0,.3);
+    transition-property: width, opacity, visibility;
+    transition-duration: .25s;
+    transition-timing-function: ease-in-out;
+}
+
+.Viewer-searchClearButton {
+    position: absolute;
+    right: .6em;
+    top: 50%;
+    margin-top: -.6em;
+    height: 1.2em;
+    width:  1.2em;
+    padding: .2em;
+    border-radius: .6em;
+    background: rgba(255,255,255,.8);
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: rotate(45deg);
+    transition-property: opacity, visibility, background-color;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+}
+
+.Viewer-searchClearButton:hover { background-color: #fff; }
+
+/* search states */
+
+.Viewer-search.is-expanded .Viewer-searchField.blueShark-TextField {
+    visibility: visible;
+    opacity: 1;
+    width: 100%;
+}
+
+.Viewer-searchClearButton.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+

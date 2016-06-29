@@ -1,0 +1,82 @@
+.Sideboard {
+    box-sizing: content-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #0F1214;
+    width: 15em;
+    overflow: hidden;
+    transition: margin .5s cubic-bezier(.7,0,.3,1);
+    will-change: margin;
+}
+
+.Sideboard.is-collapsed {
+    margin-right: -11.2em;
+}
+
+.Sideboard-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 1em;
+    transition: transform .5s cubic-bezier(.7,0,.3,1);
+}
+
+.is-collapsed .Sideboard-container {
+    transform: translateX(4em);
+}
+
+.Sideboard-icons {
+    position: absolute;
+    left: calc( -3.5em - 5px);
+    top: .5em;
+    padding: .5em;
+}
+
+.Sideboard-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Sideboard-widgets {
+    flex: 1;
+}
+
+.Sideboard-toggleSideboard {
+    height: 2em;
+    width:  2em;
+    border-radius: 4px;
+    background: rgba(255,255,255, .1);
+    padding: .3em;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    outline: none;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+/* expands toggle hit area*/
+.Sideboard.is-collapsed .Sideboard-toggleSideboard:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    /* matches width of collapsed sideboard */
+    width: 3.7em;
+    bottom: 0;
+}
+
+.Sideboard-toggleSideboard:hover {
+    color: #fff;
+    background: rgba(255,255,255, .15);
+}
+
+.Sideboard .Sideboard-toggleSideboard svg {
+    transition: transform .5s cubic-bezier(.7,0,.3,1);
+}
+
+.Sideboard.is-collapsed .Sideboard-toggleSideboard svg {
+    transform: rotateY(180deg);
+}

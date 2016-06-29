@@ -1,0 +1,15 @@
+.TaskNotification:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    width: 3px;
+    left: 0;
+    bottom: 0;
+}
+
+.TaskNotification.has-warning:before    { background-color: #D95B1B; }
+.TaskNotification.has-error:before      { background-color: #E0003A; }
+
+.TaskNotification.has-success .Notification-progress .Progress-bar  { background-color: #1E963F; }
+.TaskNotification.has-warning .Notification-progress .Progress-bar  { background-color: #D95B1B; }
+.TaskNotification.has-error .Notification-progress                  { background-color: #E0003A; }

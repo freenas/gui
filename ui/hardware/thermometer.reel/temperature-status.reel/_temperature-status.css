@@ -1,0 +1,15 @@
+.TemperatureStatus {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    padding: 0 .5em;
+    background-image: linear-gradient(#0D65A0, #0C5688);
+    color: #fff;
+}
+
+.TemperatureStatus.is-warm { background: linear-gradient(#DE7225, #D95B1B); }
+.TemperatureStatus.is-hot  { background: linear-gradient(#E0003A, #CC0337); }
