@@ -123,6 +123,15 @@
                 "value": {"<->": "@owner.object.volsize"}
             }
         },
+        "volblocksizeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "volblocksizeSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.volblocksizeDisplayMode"}
+            }
+        },
         "volblocksize": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -133,6 +142,16 @@
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.properties.volblocksize.parsed"},
                 "options": {"<-": "@owner.VOLBLOCKSIZE_OPTIONS"}
+            }
+        },
+        "volblocksizeDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "volblocksizeDisplay"},
+                "label": "Block Size"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.properties.volblocksize.parsed"}
             }
         }
     }
@@ -154,7 +173,10 @@
             </div>
             <div data-arg="VOLUME">
                 <div data-montage-id="volsize"></div>
-                <div data-montage-id="volblocksize"></div>
+                <div data-montage-id="volblocksizeSubstitution">
+                    <div data-montage-id="volblocksize" data-arg="edit"></div>
+                    <div data-montage-id="volblocksizeDisplay" data-arg="display"></div>
+                </div>
             </div>
         </div>
     </div>

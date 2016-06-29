@@ -40,6 +40,10 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         value: null
     },
 
+    volblocksizeDisplayMode: {
+        value: null
+    },
+
     compressionSetting: {
         set: function(value) {
             if (this.object && this.object.properties) {
@@ -90,6 +94,9 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 this.compressionOptions = this._intializeInheritablePropertyOptions(COMPRESSION_OPTIONS);
                 this.dedupOptions = this._intializeInheritablePropertyOptions(DEDUP_OPTIONS);
                 this._intializeAtimeOptions();
+            }
+            if (this.object.type === "VOLUME") {
+                this.volblocksizeDisplayMode = this.object._isNew ? "edit" : "display";
             }
         }
     },
