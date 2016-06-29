@@ -1,17 +1,1 @@
-.InspectorOption {
-    outline: none;
-}
-
-.InspectorOption > * {
-    border-top:     1px solid rgba(255,255,255,.2);
-    border-bottom:  1px solid rgba(255,255,255,.2);
-}
-
-.InspectorOption + .InspectorOption > *,
-.InspectorOption:first-child > * {
-    border-top-color: transparent;
-}
-
-.InspectorOption.selected > * {
-    border-color: #00A7FF;
-}
+.InspectorOption{outline:none}.InspectorOption>*{border-top:1px solid hsla(0,0%,100%,.2);border-bottom:1px solid hsla(0,0%,100%,.2)}.InspectorOption+.InspectorOption>*,.InspectorOption:first-child>*{border-top-color:transparent}.InspectorOption.selected>*{border-color:#00a7ff}
