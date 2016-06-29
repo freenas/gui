@@ -50,7 +50,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         },
 
         get: function() {
-            return this.object.properties ? this._getInheritableProperty(this.object.properties.compression) : "none";
+            return this.object.properties.compression ? this._getInheritableProperty(this.object.properties.compression) : "none";
         }
     },
 
@@ -64,7 +64,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         },
 
         get: function() {
-            return this.object.properties ? this._getInheritableProperty(this.object.properties.dedup) : "none";
+            return this.object.properties.dedup ? this._getInheritableProperty(this.object.properties.dedup) : "none";
         }
     },
 
@@ -78,7 +78,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         },
 
         get: function() {
-            return this.object.properties ? this._getInheritableProperty(this.object.properties.atime) : "none";
+            return this.object.properties.atime ? this._getInheritableProperty(this.object.properties.atime) : "none";
         }
     },
 
