@@ -57,7 +57,4 @@ freenas9-conf.json
 freenas10-conf.json
 customSystem.js
 
-# Exclude gulp files
-gulpfile.js
-
 *.info/**/node_modules
