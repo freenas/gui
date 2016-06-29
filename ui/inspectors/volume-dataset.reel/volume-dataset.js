@@ -66,6 +66,8 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
             this.datasetLevel = storageService.isRootDataset(this.object) ? "root" : "child";
             if (this.object._isNew) {
                 this.object.type = "FILESYSTEM";
+            } else {
+                this.name = this.object.name.split("/").pop();
             }
             storageService.initializeDatasetProperties(this.object);
         }
