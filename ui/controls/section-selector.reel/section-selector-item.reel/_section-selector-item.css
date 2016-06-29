@@ -1,0 +1,38 @@
+.SectionSelectorItem {
+    text-align: center;
+    cursor: pointer;
+    max-width: 5em;
+    padding: .5em .5em;
+}
+
+.SectionSelectorItem-icon {
+    border: 2px solid grey;
+    display: inline-block;
+    background: rgba(0,0,0,.2);
+    width:  3em;
+    height: 3em;
+    border-radius: .3em;
+}
+
+.SectionSelectorItem.selected .SectionSelectorItem-icon {
+    border-color: #2B9CD8;
+}
+
+.SectionSelectorItem-title {
+    display: none;
+}
+
+@media (min-width: 60em) {
+    .SectionSelectorItem {
+        font-size: 1.5em;
+    }
+
+    .SectionSelectorItem-title {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-top: .25em;
+        font-size: .6em;
+    }
+}

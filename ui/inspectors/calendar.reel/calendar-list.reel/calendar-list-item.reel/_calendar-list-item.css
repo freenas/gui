@@ -1,0 +1,48 @@
+.CalendarListItem {
+    padding: .2em 0 0.25em;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+}
+
+.CalendarListItem.is-displayed {
+    display: flex;
+}
+
+.CalendarListItem:hover {
+    background: rgba(255,255,255,.1);
+}
+
+.CalendarListItem.is-disabled {
+    opacity: 0.5;
+}
+
+.CalendarListItem span {
+    display: inline-block;
+}
+
+.CalendarListItem.is-textual-schedule .CalendarListItem-time {
+    font-size: smaller;
+}
+
+.CalendarListItem-time {
+    width: 4.5rem;
+    text-align: right;
+    margin-right: .5rem;
+    font-weight: 400;
+    color: #666;
+}
+
+.CalendarListItem-title {
+    color: #B1BCBE;
+}
+
+.CalendarListItem.is-selected {
+    background-color: #2B9CD8;
+}
+
+.CalendarListItem.is-selected .CalendarListItem-title,
+.CalendarListItem.is-selected .CalendarListItem-time {
+    color: #FFF;
+}
+

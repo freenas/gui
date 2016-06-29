@@ -1,0 +1,253 @@
+.Group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid grey;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background-color .25s ease-in-out;
+}
+
+.Group:hover { background-color: rgba(255,255,255,.1); }
+
+/* Group Content */
+
+.Group-info {
+    height: 3em;
+    display: flex;
+    align-items: center;
+    transition: transform .25s ease-in-out;
+}
+
+.Group.menu-is-open .Group-info { transform: translateX(-4em); }
+
+.Group-id {
+    text-align: center;
+    padding: .25em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 2.5rem;
+    line-height: 1rem;
+    background: #242628;
+    border-radius: 2px;
+    font-size: .7em;
+    margin-left: 1rem;
+    font-weight: 400;
+}
+
+/* name field */
+
+.Group-name {
+    margin-left: 1em;
+    max-width: 13em;
+}
+
+.Group-name.montage--disabled {
+    background: none;
+    color: #DFE4E4;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.Group.has-error .Group-name { border-color: #DF0039; }
+
+/* Sudo checkbox */
+
+.Group-sudo {
+    width: 11em;
+    margin-left: 1em;
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+}
+
+.Group.is-editing .Group-sudo {
+    opacity: 1;
+    transition: none;
+}
+
+/* Menu */
+
+.Group-menu {
+    position: absolute;
+    right: 0;
+    display: flex;
+    transform: translateX(9em);
+    transition: transform .25s ease-in-out;
+    margin-left: 1em;
+}
+
+.Group.menu-is-open .Group-menu { transform: translateX(0em); }
+.Group.is-editing   .Group-menu { transform: translateX(4.5em); }
+
+.Group-menuButton,
+.Group-button {
+    cursor: pointer;
+    outline: none;
+}
+
+.Group-menuButton:hover,
+.Group-button:hover {
+    background-image: linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.1));
+}
+
+/* Multiple Select - Checkbox */
+
+.Group-selectBox {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    margin-top: -.8em;
+    left: -.8em;
+    color: #555;
+    transform: translateX(-1.5em);
+    border-radius: 1em;
+    border: 1px solid #2A2E33;
+}
+
+.multiple-select .Group-selectBox {
+    opacity: 1;
+    visibility: visible;
+}
+
+.Group-selectBox:hover { color: #FFF; }
+
+.Group-selectBox label:before {
+    border-radius: 50%;
+    border: none;
+    margin-right: 0;
+}
+
+.Group-selectBox label:after {
+    font-size: 1em;
+    left: .2em;
+    opacity: 1;
+    top: .25em;
+    color: currentColor;
+}
+
+.Group.selected .Group-selectBox label:before { background: #149640; }
+
+.Group.selected .Group-selectBox label:after {
+    color: #fff;
+    opacity: 1;
+}
+
+/* menu toggle */
+
+.Group-menuButton {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: -.8em;
+    margin-top: -.8em;
+    height: 1.6em;
+    width:  1.6em;
+    transform: translateX(-1.5em);
+    border-radius: 2em;
+    background: #929E9F;
+    border: 1px solid #333;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0,.2);
+    transition: transform .25s ease-in-out;
+    overflow: hidden;
+}
+
+.Group-menuButton svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: #2F3233;
+    transition: transform .25s ease-in-out, opacity .25s ease-in-out;
+}
+
+.Group-closeIcon {
+    top: 1px;
+    padding: .2em;
+    opacity: 0;
+    transform: rotate(135deg);
+}
+
+.Group.menu-is-open .Group-menuIcon {
+    opacity: 0;
+    transform: rotate(-90deg);
+}
+
+.Group.menu-is-open .Group-closeIcon {
+    opacity: 1;
+    transform: rotate(45deg);
+}
+
+.multiple-select .Group-menuButton {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.multiple-select .Group-menuButton {
+    background: none;
+    border: 1px solid grey;
+    box-shadow: none;
+}
+
+.Group.menu-is-open .Group-menuButton {
+    transform: translateY(0);
+}
+
+/* Buttons */
+
+.Group-button {
+    line-height: 3rem;
+    width: 4.5rem;
+    padding: 0 .75rem;
+    color: #fff;
+    font-size: .8em;
+    text-align: center;
+}
+
+.Group-deleteButton {
+    background-color: #DF0039;
+}
+
+.Group-editButton {
+    background: grey;
+    transition: transform .25s ease-in-out;
+    transition-delay: .25s;
+}
+
+.Group.is-editing .Group-editButton {
+    transform: translateY(100%);
+    transition-delay: 0s;
+}
+
+.Group-saveButton {
+    position: absolute;
+    left: 0;
+    background: green;
+    transform: translateY(-100%);
+    z-index: -1;
+    transition: transform .25s ease-in-out;
+    transition-delay: .25s;
+}
+
+.Group.is-editing .Group-saveButton {
+    transition-delay: 0s;
+    transform: translateY(0);
+}
+
+/* error message */
+
+.Group-errorMessage {
+    /* added for when error is present */
+    display: none;
+    position: relative;
+    z-index: 1;
+    padding: .5em 1em;
+    line-height: 1em;
+    width: 100%;
+    color: #fff;
+    background: #DF0039;
+    border-top: 1px solid black;
+}
+
+.Group.has-error .Group-errorMessage {
+    display: block;
+}

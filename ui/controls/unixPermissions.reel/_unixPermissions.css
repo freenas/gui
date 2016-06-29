@@ -1,0 +1,25 @@
+.Permissions {
+    margin-bottom: 1em;
+}
+
+.Permissions-flags {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1em;
+
+    color: rgba(255,255,255,.8);
+}
+
+.Permissions th {
+    font-weight: 300;
+    padding-bottom: .5em;
+}
+
+.Permissions .Checkbox label:before {
+    margin-right: 0;
+}
+
+.Permissions tr:not(:first-child) th {
+    width: 6.5em;
+    text-align: right;
+}

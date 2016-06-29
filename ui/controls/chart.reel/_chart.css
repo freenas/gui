@@ -1,0 +1,67 @@
+.Chart {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 25em;
+    min-height: 15em;
+    width:  100%;
+    height: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    background: rgba(33, 33, 33, .7);
+}
+
+.Chart .Chart-svg {
+    padding-right: 2em;
+    padding-top: 1em;
+    flex: 1;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+}
+
+.Chart svg text {
+    fill: #E0E5E5;
+}
+
+.Chart svg g.tick line {
+    opacity: 0.25 !important;
+}
+
+.Chart .montage-Text {
+    padding: 1em;
+    line-height: 1em;
+    background: #404040;
+    color: #E0E5E5;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.Chart-loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -.5em;
+    margin-left: -1.5em;
+    width:  3em;
+    height: 3em;
+    color: #0C5688;
+}
+
+.Chart.is-spinner-shown .Chart-svg,
+.Chart .Chart-loading {
+    display: none;
+}
+
+.Chart.is-spinner-shown .Chart-loading,
+.Chart .Chart-svg {
+    display: block;
+}
+
+.Chart .nv-x .nv-axislabel {
+    transform: translate3d(0, -15px, 0);
+}
+
+.Chart .nv-y .nv-axislabel {
+    transform: translate3d(5px, 0, 0) rotate(-90deg);
+}

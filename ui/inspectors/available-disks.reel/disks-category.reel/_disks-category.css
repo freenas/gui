@@ -1,0 +1,34 @@
+.AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before,
+.AvailableDisksCategory.acceptDrop .FoldableSection-content:before {
+    content: '';
+    position: absolute;
+    /* set to match title height */
+    top: 3em;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px dashed transparent;
+}
+
+.AvailableDisksCategory-grid {
+    min-height: 85px;
+}
+
+.AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before {
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: blink;
+    -webkit-animation-timing-function: ease;
+    animation-direction: normal;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: blink;
+    animation-timing-function: ease;
+    border-style: dashed;
+}
+
+.AvailableDisksCategory.acceptDrop .FoldableSection-content:before {
+    border-color: rgba(43,156,216,1);
+    background-color: rgba(43,156,216,0.1);
+}

@@ -1,0 +1,57 @@
+.MainSidebar {
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid #0F1213;
+    background-color: rgba(43, 156, 216, 1);
+    background-size: 310px 195px;
+    background-image: url(../../../assets/images/bg.png);
+}
+
+/* Logo */
+
+.logoButton {
+    position: relative;
+    flex-shrink: 0;
+    height:  5em;
+    margin-bottom: 1em;
+    cursor: pointer;
+    outline: none;
+}
+
+.MainSidebar-freenasLogo,
+.MainSidebar-montageLogo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: center center;
+    background-size: calc(100% - 2em);
+    background-repeat: no-repeat;
+    transition: transform .45s cubic-bezier(.8,0,.2,1);
+}
+
+.MainSidebar-freenasLogo { background-image: url(../../../assets/images/logo.png); }
+.MainSidebar-montageLogo {
+    background-position: center 1px;
+    transform: translateX(100%);
+    background-image: url(../../../assets/images/montage_logo.png);
+}
+
+.logoButton.is-flipped .MainSidebar-freenasLogo { transform: translateX(-100%); }
+.logoButton.is-flipped .MainSidebar-montageLogo {
+    transform: translateX(0);
+}
+
+.MainSidebar-navigation { flex: 1; }
+
+.MainSidebar-userSummary { flex-shrink: 0; }
+
+
+@media (min-height: 40em) {
+    .MainSidebar-freenasLogo {
+        height:  6em;
+        background-size: calc(100% - 3em);
+        background-image: url(../../../assets/images/logo-stacked.png);
+    }
+}

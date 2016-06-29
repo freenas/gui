@@ -1,0 +1,35 @@
+.VolumeCreator {
+    min-width: 37em;
+}
+
+.VolumeCreator .Inspector {
+    /* magic number tided to sidebar width */
+    margin-right: 13.2em;
+}
+
+.VolumeCreator .Inspector-body { margin: 0; }
+
+.VolumeCreator-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.VolumeCreator-Topology {}
+
+.VolumeCreator-sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    /* magic number tied to inspector margin */
+    width: 13.2em;
+    background-color: #2F3233;
+    overflow: hidden;
+    border-left: 2px solid #232629;
+}
+
+.Inspector.is-locked + .VolumeCreator-sidebar .FoldableSection-content {
+    height: 0 !important;
+    pointer-event: none;
+}

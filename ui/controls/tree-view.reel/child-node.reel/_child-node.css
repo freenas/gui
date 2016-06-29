@@ -1,0 +1,41 @@
+.ChildNode {
+    display: flex;
+    align-items: center;
+    padding: .25em .5em;
+    cursor: pointer;
+    border-bottom: 1px solid currentColor;
+}
+
+.ChildNode:hover {
+    background-color: rgba(255,255,255,.1);
+}
+
+.ChildNode.selected {
+    background-color: #2B9CD8;
+    color: #FFF;
+}
+
+.ChildNode svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ChildNode-name {
+    flex: 1;
+    line-height: 1em;
+}
+
+.ChildNode-arrow,
+.ChildNode-typeIcon {
+    width:  1.5em;
+    height: 1.5em;
+    padding: .15em;
+}
+
+.ChildNode-typeIcon {
+    margin-right: .5em;
+}
+
+.ChildNode-arrow {
+    margin-right: -.25em;
+}

@@ -1,0 +1,80 @@
+.MainNavigation {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.MainNavigation-repetition {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Preferences Icon */
+
+.MainNavigation-preferences {
+/*
+ * FIXME: Display when implemented
+ */
+    display: none;
+    position: relative;
+    margin-top: .5em;
+    z-index: 1;
+    outline: none;
+    cursor: pointer;
+    height: 2em;
+}
+
+.MainNavigation-preferences:hover {
+    color: #fff;
+}
+
+.MainNavigation-preferences > svg {
+    width:  2em;
+    height: 100%;
+}
+
+.MainNavigation-preferences.selected:after {
+    content: '';
+    position: absolute;
+    width:  3em;
+    height: 3em;
+    left: 50%;
+    top:  50%;
+    margin-left: -1.5em;
+    margin-top:  -1.5em;
+    border-radius: 50%;
+    background: #2B9CD8;
+    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+    z-index: -1;
+}
+
+.MainNavigationItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    position: relative;
+    letter-spacing: .5px;
+    color: rgba(255,255,255,.75);
+    cursor: pointer;
+    font-size: .8em;
+}
+
+.MainNavigationItem:hover {
+    color: rgba(255,255,255, 1);
+    background: rgba(0,0,0,.1);
+}
+
+.MainNavigationItem.selected {
+    color: #FFF;
+    text-shadow: 0 1px 0 rgba(0,0,0,.5);
+    background: #2B9CD8;
+}
+
+@media (min-height: 40em) {
+    .MainNavigationItem {
+        max-height: 3em;
+        font-size: 1em;
+    }
+}

@@ -1,0 +1,65 @@
+.Modal {
+    /* comment this to show/hide */
+    opacity: 0;
+    visibility: hidden;
+    padding: 2em;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.85);
+    background-image: radial-gradient(rgba(43, 156, 216,.2),rgba(0,0,0,.5) 50%);
+    z-index: 1000;
+    transition: opacity .25s .5s;
+}
+
+.Modal.Modal--visible { opacity: 1; }
+
+
+.Modal-container {
+    max-width: 45em;
+    background-size: 310px 195px;
+    background-image: url(../../../assets/images/bg.png);
+    border-radius: .3em;
+    overflow: hidden;
+}
+
+.Modal-header {
+    background: #2B9CD8;
+    padding: 1em;
+    box-shadow: 0 2px 1px rgba(0,0,0,.3);
+}
+
+/* Modal Types - changes colors of header */
+
+.Modal-alert .Modal-header {
+    background: rgba(255,0,0,.9);
+}
+
+/* Modal Title */
+
+.Modal-title {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+}
+
+.Modal-body {
+    padding: 2em;
+}
+
+.Modal-message {
+    font-size: 1.5em;
+    line-height: 1.5;
+}
+
+.Modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2em;
+}

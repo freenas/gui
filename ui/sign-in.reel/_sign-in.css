@@ -1,0 +1,167 @@
+@keyframes denied {
+    20%  { transform: translateX(-8%); }
+    40%  { transform: translateX(8%);  }
+    60%  { transform: translateX(-8%); }
+    80%  { transform: translateX(8%);  }
+    100% { transform: translateX(0%);  }
+}
+
+.SignIn {
+    opacity: 0;
+    padding: 2em;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top:    0;
+    left:   0;
+    right:  0;
+    bottom: 0;
+    background-color: #000;
+    background-image: radial-gradient(rgba(43, 156, 216,.3),rgba(0,0,0,.5) 50%);
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1000;
+    transition: visibility .75s, opacity .25s .5s;
+}
+
+.SignIn.isAuthenticating {
+    outline: 1px solid green;
+}
+
+.montage-Overlay--visible .SignIn {
+    opacity: 1;
+}
+
+.SignIn-content {
+    position: relative;
+    padding: 2em;
+    width: 20em;
+    background-size: 310px 195px;
+    background-image: url(../../assets/images/bg.png);
+    transform: scale(0);
+    border-radius: 4px;
+    transition: transform .75s cubic-bezier(.62,-0.45,.93,.81);
+    overflow: hidden;
+}
+
+/* needed to fix background-image bleed on border radius */
+
+.SignIn-content:before {
+    background-color: rgba(255, 255, 255, .075);
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+/* error state */
+
+.SignIn.hasError .SignIn-content { animation: denied .5s ease-in-out; }
+
+/* visible state */
+
+.montage-Overlay--visible .SignIn-content { transform: scale(1); }
+
+/* Logo */
+
+.SignIn-logo {
+    margin-bottom: 2em;
+    width: 100%;
+}
+
+/* Sign In Main Message */
+
+.SignIn-infoText {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+/* Submit button */
+
+.SignIn-submit { margin-top: 2em; }
+
+@keyframes spin {
+    0%   {}
+    100% { transform: rotate(360deg); }
+}
+
+.isAuthenticating .SignIn-submit {
+    position: relative;
+    overflow: hidden;
+}
+
+.isAuthenticating .SignIn-submit:before {
+    position: absolute;
+    content: '';
+    background: rgba(0,0,0,.5);
+    left:0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.isAuthenticating .SignIn-submit:after {
+    position: absolute;
+    content: '';
+    background: white;
+    width: 2px;
+    height: 2em;
+    left: 50%;
+    margin-left: -1px;
+    top: 50%;
+    margin-top: -1em;
+    animation: spin .75s infinite;
+}
+
+/*
+
+field - wrapper for each input field
+
+$fix this should be a component or global class
+
+*/
+
+.field {
+    margin-bottom: .5em;
+}
+
+.SignIn .field input { margin-bottom: .25em; }
+
+/* field message */
+
+.field-message {
+    display: none;
+}
+
+/* error states*/
+
+.SignIn.hasError .field-message {
+    color: rgba(255,0,0,.8);
+    display: block;
+    margin-bottom: 1em;
+}
+
+.field.field-hasError input {
+    border: 1px solid rgba(255,0,0,.8);
+    background: rgba(255,0,0,.075);
+}
+
+/* $fix - error message could be global? */
+
+.error-message {
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.SignIn.hasError .error-message {
+    opacity: 1;
+    color: #FFF;
+    background: rgba(255,0,0,.7);
+    padding: .5em 2em;
+    margin: 0 -2em 2em -2em;
+}

@@ -1,0 +1,5 @@
+.List {}
+
+.List-item + .List-item > * {
+    border-top-color: transparent;
+}

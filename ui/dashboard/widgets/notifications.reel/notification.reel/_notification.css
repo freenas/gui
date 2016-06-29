@@ -1,0 +1,93 @@
+.Notification {
+    position: relative;
+    border-bottom:  2px solid rgba(255,255,255,.05);
+    background: rgba(0,0,0,.1)
+}
+
+.Notification:nth-child(even)   { background: rgba(0,0,0,.2); }
+
+.Notification-header {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: .85em;
+    letter-spacing: .5px;
+    align-items: center;
+    padding: .5em;
+    padding-left: calc(.5em + 3px);
+    padding-right: .25em;
+    transition: color .25s ease-in-out;
+}
+
+.Notification-overview { flex: 1; }
+
+.Notification-overview > div {
+    display: flex;
+    align-items: center;
+}
+
+.Notification-overview > div:first-child {
+    word-break: break-word;
+    margin-bottom: .5em;
+}
+
+.Notification-time,
+.Notification-service {
+    font-size: .75em;
+}
+
+.Notification-time { margin-right: .5rem; }
+
+.Notification-progress { width:  100%; }
+
+.Notification.has-error .Notification-progress                  { background-color: #E0003A; }
+.Notification.has-success .Notification-progress .Progress-bar  { background-color: #1E963F; }
+
+/* Action Buttons */
+
+.Notification-actions {
+    position: relative;
+    display: flex;
+    height: 2em;
+}
+
+.Notification-actions > * {
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    margin:  0;
+}
+
+.Notification-actions svg {
+    display block;
+    height: 2em;
+    width:  2em;
+    padding: .25em;
+    transition: color .25s ease-in-out;
+}
+
+/* Expand Arrow */
+
+.Notification-expand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5em;
+    transition: color .25s ease-in-out;
+}
+
+.Notification-expand svg { transform: rotate(90deg); }
+.Notification-expand:hover svg { color: #fff; }
+
+.Notification.is-expanded .Notification-expand svg { transform: rotate(270deg);  }
+
+/* Close Button */
+
+.Notification-close #i-close-bg { fill: transparent; }
+
+.Notification-close:hover #i-close-bg      { fill: #E0003A; stroke: #E0003A;}
+.Notification-close:hover #i-close-symbol  { fill: #fff; }
+
+/* Details Hide/Show */
+
+.Notification-details { display: none; }
+.Notification.is-expanded .Notification-details { display: block; }

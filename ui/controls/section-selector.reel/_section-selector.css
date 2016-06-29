@@ -1,0 +1,26 @@
+.SectionSelector {
+    height: 4.6em;
+    background-color: #242424;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
+    border-bottom: 1px solid rgba(255,255,255,.15);
+    display: flex;
+}
+
+.SectionSelector + * {
+    flex-grow: 1;
+    position: relative;
+}
+
+.SectionSelector-repetition {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: .25em;
+}
+
+.SectionSelector-item { flex-shrink: 0; }
+
+@media (min-width: 60em) {
+    .SectionSelector {
+        height: 8em;
+    }
+}

@@ -1,0 +1,107 @@
+.ViewSelect {
+    position: relative;
+    z-index: 1;
+    height: 2em;
+    width:  3.2em;
+}
+
+/* Current Option Button */
+
+.ViewSelect-currentOption {
+    position: relative;
+    display: flex;
+    font-size: 1em;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: #ddd;
+}
+
+.ViewSelect-currentIcon {
+    width:  2em;
+    height: 2em;
+    border: 1px solid grey;
+    margin-left: -1px;
+}
+
+.ViewSelect-arrowIcon {
+    flex: 1;
+    height:  2em;
+    padding: .2em;
+    color: #FFF;
+    border: 1px solid grey;
+}
+
+.ViewSelect-arrowIcon svg {
+    margin-top: -.25em;
+    width: 100%;
+    height: 2em;
+    transform: rotate(90deg);
+}
+
+/* Svg Icons */
+
+.ViewSelect-currentIcon svg,
+.ViewSelectOption svg {
+    width: 100%;
+    height: 2em;
+    height: 2em;
+    padding: .2em;
+    padding-bottom: .3em;
+    pointer-events: none;
+}
+
+/* Options */
+
+.ViewSelect-options {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    top: 0;
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 100;
+}
+
+.ViewSelect-currentOption:focus + .ViewSelect-options,
+.ViewSelect .ViewSelectOption:active {
+    visibility: visible;
+    opacity: 1;
+}
+
+/*
+
+States
+
+*/
+
+/* selected option */
+
+.ViewSelect .ViewSelectOption.selected {
+    order: -1;
+    background: none;
+    cursor: default;
+}
+.ViewSelect .ViewSelectOption.selected svg { display: none; }
+
+.ViewSelect-currentOption:focus ~ .ViewSelect-options,
+.ViewSelect-options:active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.ViewSelect .ViewSelectOption:not(.selected) {
+    margin-top: -1px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.3);
+    cursor: pointer;
+}
+
+.ViewSelect .ViewSelectOption:not(.selected):hover {
+    background: #555;
+    color: #FFF;
+}

@@ -1,0 +1,16 @@
+/*
+
+overrides
+
+*/
+
+.InterfacesListItem .NetworkInterfaceIcon { margin-right: .5rem; }
+
+/* removes link status text */
+.InterfacesListItem .LinkStatus .montage-Text { display: none; }
+
+.InterfacesListItem .LinkStatus {
+    font-size: .5em;
+    margin-bottom: 0;
+    margin-right: .5rem;
+}
