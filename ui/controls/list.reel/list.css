@@ -1,5 +1,1 @@
-.List {}
-
-.List-item + .List-item > * {
-    border-top-color: transparent;
-}
+.List-item+.List-item>*{border-top-color:transparent}
