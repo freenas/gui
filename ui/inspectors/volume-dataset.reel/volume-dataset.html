@@ -88,16 +88,8 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.type"},
-                "options": {"<-": "@owner.TYPE_OPTIONS"}
-            }
-        },
-        "typeCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "typeCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object._isNew"}
+                "options": {"<-": "@owner.TYPE_OPTIONS"},
+                "classList.has('hide')": {"<-": "!@owner.object._isNew"}
             }
         },
         "settings": {
@@ -122,9 +114,7 @@
                 </div>
                 <div data-montage-id="nameDisplay" data-arg="root"></div>
             </div>
-            <div data-montage-id="typeCondition">
-                <div data-montage-id="typeSelector"></div>
-            </div>
+            <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
         </div>
     </div>
