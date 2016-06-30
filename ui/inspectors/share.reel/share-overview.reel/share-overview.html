@@ -63,16 +63,7 @@
                 "element": {"#": "possibleTargetTypeButton"}
             },
             "bindings": {
-                "value": {"<-": "@possibleTargetTypes:iteration.object"}
-            }
-        },
-        "possibleTargetType": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "possibleTargetType"}
-            },
-            "bindings": {
-                "value": {"<-": "@possibleTargetTypes:iteration.object"}
+                "label": {"<-": "@possibleTargetTypes:iteration.object"}
             }
         },
         "enabled": {
@@ -99,8 +90,7 @@
                     <div class="TargetTitle-arrow"></div>
                 </div>
                 <div data-montage-id="possibleTargetTypes" class="Target-types">
-                    <a data-montage-id="possibleTargetTypeButton">
-                        <div data-montage-id="possibleTargetType" class="TargetTypes-type"></div>
+                    <a data-montage-id="possibleTargetTypeButton" class="TargetTypes-type">
                     </a>
                 </div>
 

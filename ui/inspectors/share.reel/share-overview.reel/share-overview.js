@@ -16,8 +16,8 @@ exports.ShareOverview = AbstractComponentActionDelegate.specialize(/** @lends Sh
     },
 
     handlePossibleTargetTypeButtonAction: {
-        value: function(event) {
-            this.targetType = event.target.value;
+        value: function (event) {
+            this.targetType = event.target.label;
             this.showTargetTypes = false;
         }
     }
