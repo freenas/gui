@@ -10,27 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
-        "iconSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
+        "iconPlaceholder": {
+            "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "iconSubstitution"}
+                "element": {"#": "icon"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.targetType"}
-            }
-        },
-        "datasetIcon": {
-            "prototype": "ui/icons/dataset.reel",
-            "properties": {
-                "element": {"#": "datasetIcon"},
-                "component.object": {"<-": "@owner.object"}
-            }
-        },
-        "directoryIcon": {
-            "prototype": "ui/icons/directory.reel",
-            "properties": {
-                "element": {"#": "directoryIcon"},
-                "component.object": {"<-": "@owner.object"}
+                "moduleId": {"<-": "@owner.targetType == 'DATASET' ? 'ui/icons/dataset.reel' : 'ui/icons/directory.reel'"}
             }
         },
         "shareType": {
@@ -106,10 +92,7 @@
 <body>
     <div data-montage-id="owner" class="ShareOverview">
         <div class="ShareOverview-iconContainer">
-            <div data-montage-id="iconSubstitution">
-                <div data-montage-id="datasetIcon" data-arg="DATASET" class="ShareOverview-icon"></div>
-                <div data-montage-id="directoryIcon" data-arg="DIRECTORY" class="ShareOverview-icon"></div>
-            </div>
+            <div data-montage-id="icon" class="ShareOverview-icon"></div>
             <div data-montage-id="displayPossibleTargetTypes" class="Target-title">
                 <div class="TargetTitle-type">
                     <span data-montage-id="targetType"></span>
