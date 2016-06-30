@@ -1,10 +1,10 @@
-var Component = require("montage/ui/component").Component;
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
 
 /**
  * @class ShareOverview
  * @extends Component
  */
-exports.ShareOverview = Component.specialize(/** @lends ShareOverview# */{
+exports.ShareOverview = AbstractComponentActionDelegate.specialize(/** @lends ShareOverview# */{
     showTargetTypes: {
         value: false
     },
