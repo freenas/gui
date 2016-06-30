@@ -38,7 +38,7 @@ var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
 
     parent: {
         get: function() {
-            if (this.entry) {
+            if (this.entry && this.entry.path !== this._root) {
                 return this.entry.parent;
             }
         }
@@ -171,6 +171,7 @@ var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
 
     _handleDatasetsPathsChange: {
         value: function() {
+            this._buildDatasetsTree();
         }
     }
 });
