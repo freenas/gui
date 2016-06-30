@@ -49,6 +49,18 @@ on a VM or spare machine somewhere.  It will call itself "freenas.local" by defa
 where mDNS is supported you don't even have to do step 1 above.  As soon as we have the ability to pass the
 middleware IP to minit, it will no longer be necessary to edit the websocket-configuration.js file.
 
+## Editing CSS in FreeNAS 10
+
+###This is required to edit css files!
+
+FreeNAS 10 Development environment also comes with [Gulp](http://gulpjs.com/) and [PostCSS](https://github.com/postcss/postcss) with [CSSNext](http://cssnext.io/features/). 
+
+To run simply type `gulp` and a browser-sync server will load.
+
+Make all css changes to documents labeled `_nameOfFile.css` These files get compiled by PostCSS and create a minified version `nameOfFile.css` in which the program will use.
+
+Upcoming: more explanation on `_config.css`, [blue-shark](https://github.com/freenas/blue-shark/), and plugins used with PostCSS
+
 ## How to work on FreeNAS
 
 Upcoming: Docs walking through the process of adding a top level feature.
