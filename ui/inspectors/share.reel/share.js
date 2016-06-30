@@ -121,7 +121,11 @@ exports.Share = Component.specialize({
                         object.target_path = '/mnt/' + object.volume.id;
                     }
                     if (!object.target_type) {
-                        object.target_type = 'DATASET';
+                        var shareServiceConstructor = this.application.shareService.constructor;
+
+                        object.target_type = object.type === shareServiceConstructor.SHARE_TYPES.ISCSI ?
+                            shareServiceConstructor.TARGET_TYPES.ZVOL :
+                            shareServiceConstructor.TARGET_TYPES.DATASET;
                     }
 
                     this.targetPath = object.target_path;

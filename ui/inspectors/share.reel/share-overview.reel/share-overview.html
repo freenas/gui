@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="share-overview.css">
     <script type="text/montage-serialization">
     {
@@ -16,7 +15,7 @@
                 "element": {"#": "icon"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.targetType == 'DATASET' ? 'ui/icons/dataset.reel' : 'ui/icons/directory.reel'"}
+                "moduleId": {"<-": "@owner.iconModuleId"}
             }
         },
         "shareType": {
@@ -47,13 +46,10 @@
         "possibleTargetTypes": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "possibleTargetTypes"},
-                "content": [
-                    "DATASET",
-                    "DIRECTORY"
-                ]
+                "element": {"#": "possibleTargetTypes"}
             },
             "bindings": {
+                "content": {"<-": "@owner.possibleTargetTypes"},
                 "classList.has('is-shown')": {"<-": "@owner.object._isNewObject && @owner.showTargetTypes"}
             }
         },
@@ -77,8 +73,6 @@
         }
     }
     </script>
-<!--
--->
 </head>
 <body>
     <div data-montage-id="owner" class="ShareOverview">
@@ -93,11 +87,7 @@
                     <a data-montage-id="possibleTargetTypeButton" class="TargetTypes-type">
                     </a>
                 </div>
-
             </div>
-<!--
-            <div data-montage-id="targetType"></div>
--->
         </div>
         <div class="ShareOverview-info">
             <p data-montage-id="shareType" class="ShareOverview-title"></p>

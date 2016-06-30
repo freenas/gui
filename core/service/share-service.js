@@ -1,4 +1,5 @@
 var Montage = require("montage").Montage,
+    ShareTargettype = require("core/model/enumerations/share-targettype").ShareTargettype,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     Promise = require("montage/core/promise").Promise,
@@ -156,6 +157,12 @@ var ShareService = exports.ShareService = Montage.specialize({
             SMB: "smb",
             NFS: "nfs",
             ISCSI: "iscsi"
+        }
+    },
+
+    TARGET_TYPES: {
+        get: function () {
+            return ShareTargettype;
         }
     },
 
