@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/calendar-task.reel"},
-            "nameExpression": "id"
+            "nameExpression": "id.defined() ? id : 'Create an event'"
         }
     }
 }
