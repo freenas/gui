@@ -43,7 +43,7 @@ exports.Group = Component.specialize({
             return Model.populateObjectPrototypeForType(Model.Group).then(function (Group) {
                 return Group.constructor.services.nextGid();
             }).then(function(groupId) {
-                self.nextGroupId = groupId;
+                self.nextGroupId = self.object.gid = groupId;
             });
         }
     }

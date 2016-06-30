@@ -62,7 +62,7 @@ exports.User = Component.specialize({
             return Model.populateObjectPrototypeForType(Model.User).then(function (User) {
                 return User.constructor.services.nextUid();
             }).then(function(userId) {
-                self.nextUserId = userId;
+                self.nextUserId = self.object.uid = userId;
             });
         }
     }
