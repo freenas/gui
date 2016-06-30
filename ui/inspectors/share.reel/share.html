@@ -8,25 +8,12 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "datasetToPathConverter": {"@": "datasetToPathConverter"},
-                "filesystemTreeController": {"@": "filesystemTreeController"}
+                "datasetToPathConverter": {"@": "datasetToPathConverter"}
             },
             "bindings": {
                 "datasetsPaths": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
                 "isPathReadOnly": {"<-": "!@owner.object._isNewObject && @owner.targetType == 'DATASET'"},
                 "volumePath": {"<-": "'/mnt/' + @owner.object.volume.id"}
-            }
-        },
-        "filesystemTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": false
-            },
-            "bindings": {
-                "isDatasetMode": {"<-": "@owner.targetType == 'DATASET'"},
-                "service": {"<-": "@owner.application.filesystemService"},
-                "root": {"<-": "@owner.volumePath"},
-                "datasetsPaths": {"<-": "@owner.datasetsPaths"}
             }
         },
         "datasetToPathConverter": {
@@ -87,15 +74,15 @@
         "target": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
-                "element": {"#": "target"},
-                "controller": {"@": "filesystemTreeController"}
+                "element": {"#": "target"}
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.targetPath"},
                 "label": {"<-": "@owner.targetType != 'DATASET' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
                 "suffix": {"<-": "@owner.targetType == 'DATASET' && !@owner.isPathReadOnly ? @name.value || '' : ''"},
-                "removePrefix": {"<-": "@owner.targetType == 'DATASET' ? '/mnt/' : ''"}
+                "removePrefix": {"<-": "@owner.targetType == 'DATASET' ? '/mnt/' : ''"},
+                "controller": {"<-": "@owner.targetController"}
             }
         },
         "substitution": {

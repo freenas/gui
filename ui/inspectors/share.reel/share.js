@@ -1,6 +1,8 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
-    Promise = require("montage/core/promise").Promise;
+    FileSystemController = require("core/controller/filesystem-tree-controller").FilesystemTreeController,
+    DataSetTreeController = require("core/controller/dataset-tree-controller").DatasetTreeController,
+    application = require("montage/core/application").application;
 
 /**
  * @class Share
@@ -54,8 +56,8 @@ exports.Share = Component.specialize({
         set: function(targetPath) {
             if (this._targetPath != targetPath) {
                 this._targetPath = targetPath;
-                if (this.filesystemTreeController && targetPath != this.filesystemTreeController.selectedPath) {
-                    this.filesystemTreeController.open(targetPath);
+                if (this.targetController && targetPath != this.targetController.selectedPath) {
+                    this.targetController.open(targetPath);
                 }
             }
         }
@@ -131,7 +133,119 @@ exports.Share = Component.specialize({
                     this.targetPath = object.target_path;
                     this.targetType = object.target_type;
                 }
-                this._object = object
+
+                this._object = object;
+                this._updateTargetController();
+                this.dispatchOwnPropertyChange("targetController", this.targetController);
+            }
+        }
+    },
+
+    isDatasetMode: {
+        get: function () {
+            return this.targetType === this.application.shareService.constructor.TARGET_TYPES.DATASET;
+        }
+    },
+
+    _targetType: {
+        value: null
+    },
+
+    targetType: {
+        set: function (targetType) {
+            if (this._targetType !== targetType) {
+                this._targetType = targetType;
+                this._updateTargetController();
+            }
+        },
+        get: function () {
+            return this._targetType;
+        }
+    },
+
+    _datasetsPaths: {
+        value: null
+    },
+
+    datasetsPaths: {
+        set: function (datasetsPaths) {
+            if (this._datasetsPaths !== datasetsPaths) {
+                this._datasetsPaths = datasetsPaths;
+                this._updateTargetController();
+            }
+        },
+        get: function () {
+            return this._datasetsPaths;
+        }
+    },
+
+    _volumePath: {
+        value: null
+    },
+
+    volumePath: {
+        set: function (volumePath) {
+            if (this._volumePath !== volumePath) {
+                this._volumePath = volumePath;
+                this._updateTargetController();
+            }
+        },
+        get: function () {
+            return this._volumePath;
+        }
+    },
+
+    targetController: {
+        get: function () {
+            if (this.object) {
+                return this.object.type === this.application.shareService.constructor.SHARE_TYPES.ISCSI ?
+                    this.dataSetTreeController : this.fileSystemController;
+            }
+        }
+    },
+
+    _fileSystemController: {
+        value: null
+    },
+
+    fileSystemController: {
+        get: function () {
+            if (!this._fileSystemController) {
+                this._fileSystemController = new FileSystemController();
+                this._fileSystemController.canListFiles = false;
+                this._fileSystemController.service = application.filesystemService;
+            }
+
+            return this._fileSystemController;
+        }
+    },
+
+    _dataSetTreeController: {
+        value: null
+    },
+
+    dataSetTreeController: {
+        get: function () {
+            if (!this._dataSetTreeController) {
+                this._dataSetTreeController = new DataSetTreeController();
+                this._dataSetTreeController.canListFiles = false;
+                this._dataSetTreeController.service = application.dataService;
+            }
+
+            return this._dataSetTreeController;
+        }
+    },
+
+    _updateTargetController: {
+        value: function () {
+            if (this.targetController) {
+                if (this.targetController === this._dataSetTreeController) {
+                    this._dataSetTreeController.root = this.object ? this.object.volume.id : null;
+                } else if (this.targetController === this._fileSystemController) {
+                    this._fileSystemController.root = this.volumePath;
+                    this._fileSystemController.isDatasetMode = this.isDatasetMode;
+                    this._fileSystemController.datasetsPaths = this.datasetsPaths;
+                }
             }
         }
     },
@@ -160,7 +274,7 @@ exports.Share = Component.specialize({
     save: {
         value: function() {
             var self = this;
-            this.object.target_path = this.filesystemTreeController.selectedPath;
+            this.object.target_path = this.targetController.selectedPath;
             this.object.target_type = this.targetType;
 
             return this._shareService.save(this.object).then(function() {
@@ -206,4 +320,5 @@ exports.Share = Component.specialize({
             }
         }
     }
+
 });
