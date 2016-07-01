@@ -9,11 +9,11 @@ var Component = require("montage/ui/component").Component;
  */
 exports.Event = Component.specialize(/** @lends Event# */ {
 
-    positionEvent: {
-        value: function(time) {
-            var hours =   parseInt(time.substring(0,2));
-            var minutes = parseInt(time.substring(3));
-            if(minutes > 0) {
+    _setY: {
+        value: function(hours, minutes) {
+            var hours =   parseInt(hours);
+            var minutes = parseInt(minutes);
+            if(minutes) {
                 // convert minutes into percentage and set correct decimal placement
                 minutes = minutes * (100/60) * .01;
                 return hours + minutes;
@@ -23,10 +23,36 @@ exports.Event = Component.specialize(/** @lends Event# */ {
         }
     },
 
-    enterDocument: {
+    _setX: {
         value: function() {
-            // multiply by height row (3) to get top position
-            this.element.style.top = this.positionEvent(this.object.time) * 3 + "em";
+            console.log("setY");
+        }
+    },
+
+    _setWidth: {
+        value: function(concurrentEvents) {
+            this.element.style.width = 100 / (concurrentEvents + 1) + '%';
+        }
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+
+            console.log(this.object);
+
+            if(!this.object.allDay) {
+                // adds style adjustment to position absolute
+                this.classList.add('has-time');
+                // multiply by height row (3) to get top position
+                this.element.style.top = this._setY(this.object.hours, this.object.minutes) * 3 + "em";
+                this._setWidth(this.object.concurrentEvents);
+            }
+
+            // sets type class
+
+            if (this.object && this.object.type) {
+                this.classList.add('type-' + this.object.type.replace('.', '_').toLowerCase());
+            }
         }
     }
 });

@@ -16,7 +16,7 @@
                 "element": {"#": "name"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.name"}
+                "value": {"<-": "@owner.object.id"}
             }
         }
     }
@@ -24,7 +24,9 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Event">
-        <div data-montage-id="name"></div>
+        <div class="Event-inner">
+            <div data-montage-id="name"></div>
+        </div>
     </div>
 </body>
 </html>

@@ -13,9 +13,40 @@
                 "hours":
                     ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
                 "events": [
-                    {"name": "event1", "time": "02:20"},
-                    {"name": "event2", "time": "12:30"},
-                    {"name": "event3", "time": "16:45"}
+                    {
+                        "id": "event1",
+                        "type": "rsync",
+                        "hours": "2",
+                        "minutes": "30",
+                        "concurrentEvents": 1,
+                        "allDay": false
+                    },
+                    {
+                        "id": "event2",
+                        "type": "snapshot",
+                        "hours": "2",
+                        "minutes": "30",
+                        "concurrentEvents": 1,
+                        "allDay": false
+                    },
+                    {
+                        "id": "event3",
+                        "type": "volume_scrub",
+                        "hours": "2",
+                        "minutes": "30",
+                        "concurrentEvents": 1,
+                        "allDay": false
+                    },
+                    {
+                        "id": "event4",
+                        "type": "volume_scrub",
+                        "allDay": true
+                    },
+                    {
+                        "id": "event5",
+                        "type": "snapshot",
+                        "allDay": true
+                    }
                 ]
 
             }
@@ -71,7 +102,7 @@
                 "element": {"#": "dayEvents"}
             },
             "bindings": {
-                "content": {"<-": "@owner.events"}
+                "content": {"<-": "@owner.events.filter{!allDay}"}
             }
         },
         "event": {
@@ -81,6 +112,24 @@
            },
            "bindings": {
                "object": {"<-": "@dayEvents:iteration.object"}
+           }
+       },
+       "recurringEvents": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "recurringEvents"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.events.filter{allDay}"}
+            }
+        },
+        "recurringEvent": {
+           "prototype": "./event.reel",
+           "properties": {
+               "element": {"#": "recurringEvent"}
+           },
+           "bindings": {
+               "object": {"<-": "@recurringEvents:iteration.object"}
            }
        }
     }
@@ -95,8 +144,8 @@
             <div data-montage-id="days" class="Week-days">
                 <div class="Week-day">
                     <div data-montage-id="day" class="Week-day-title"></div>
-                    <div class="Week-day-events">
-                        <div class="Event">placeholder</div>
+                    <div data-montage-id="recurringEvents" class="Week-day-events">
+                        <div data-montage-id="recurringEvent"></div>
                     </div>
                 </div>
             </div>

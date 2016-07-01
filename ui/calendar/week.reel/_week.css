@@ -1,7 +1,10 @@
 :root {
-    --hourHeight: 3em;
-    --calenderStrongLine: rgba(255,255,255,.3);
-    --calenderWeakLine: rgba(255,255,255,.1);
+    --bg: #242628;
+    --titleBg: #2a2e33;
+    --hourHeight: 3rem;
+    --calenderStrongLine: #16171a;
+    --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
+    --allDayBg: #1e2123;
 }
 
 .Week {
@@ -28,6 +31,7 @@ Header
 .Week-days {
     display: flex;
     flex: 1;
+    background: var(--titleBg);
 }
 
 .Week-day {
@@ -39,18 +43,20 @@ Header
 .Week-day-title {
     flex: 1;
     align-self: center;
-    padding: 0 .25em;
-    margin-bottom: .5em;
+    font-size: .8rem;
+    padding: .5rem .25rem;
+    color: #e0e5e5;
 }
 
 .Week-day-events {
     position: relative;
     min-height: 3em;
-    padding: .25em;
+    padding: .15em;
     padding-bottom: 1em;
     border-top:     1px solid var(--calenderStrongLine);
     border-bottom:  1px solid var(--calenderStrongLine);
     border-right:   1px solid var(--calenderStrongLine);
+    background: var(--allDayBg);
 
     @nest .Week-day:first-child &  {
         border-left:  1px solid var(--calenderStrongLine);
@@ -66,6 +72,7 @@ Main Content
 .Week-main {
     border: 1px solid var(--calenderStrongLine);
     overflow-y: scroll;
+    background-color: var(--bg);
 }
 
 .Week-content {
@@ -78,6 +85,7 @@ Main Content
 .Week-hours {
     flex: 1;
     position: relative;
+    background-color: var(--titleBg);
 
     /* Grid */
 
@@ -96,7 +104,8 @@ Main Content
 
 .Week-hour {
     text-align: right;
-    padding: 0 .5em;
+    font-size: .8rem;
+    padding: .25rem .5rem;
     position: relative;
     line-height: 1.5em;
     height: var(--hourHeight);
@@ -130,7 +139,7 @@ Main Content
     position: relative;
     flex: 1;
     flex-direction: column;
-    padding: 0 .25em;
+    padding: 0 .15em;
 
     &:not(:last-child):before {
         content: '';
@@ -148,6 +157,6 @@ Main Content
 
 .Week-column--axis {
     flex: 1;
-    max-width: calc(var(--hourHeight) * 1.5);
+    max-width: calc(var(--hourHeight));
 }
 

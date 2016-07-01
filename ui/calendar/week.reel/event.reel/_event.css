@@ -1,11 +1,37 @@
 .Event {
-    position: absolute;
-    height: 1.5em;
-    padding: 0 .5em;
-    padding-top: .05em;
-    color: #fff;
-    width: calc(100% - .5em);
-    background: grey;
+    border: 1px solid transparent;
     border-radius: 2px;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    /* $fix - can this be removed? */
+    transform: translateY(2px);
+    overflow: hidden;
+
+    &.has-time {
+        position: absolute;
+        width: calc(100% - .5em);
+    }
 }
+
+.Event-inner {
+    display: block;
+    width: 100%;
+    align-self: center;
+    height: 1.25em;
+    line-height: 1.25em;
+    padding: 0 .25em;
+    font-size: .85em;
+    color: #fff;
+    background: green;
+    border-radius: 2px;
+}
+
+
+
+.Event.type-rsync .Event-inner                             { background-color: #D95B1B; }
+.Event.type-volume_scrub .Event-inner                      { background-color: #093A51; }
+.Event.type-replication_replicate_dataset .Event-inner     { background-color: #008C84; }
+.Event.type-disk_parallel_test .Event-inner                { background-color: #990F82; }
+.Event.type-update_checkfetch .Event-inner                 { background-color: #C4A412; }
+.Event.type-snapshot .Event-inner                          { background-color: #6D2A2A; }
