@@ -30,7 +30,7 @@
     border-top-left-radius:     2px;
     border-bottom-left-radius:  2px;
     color: #E0E5E5;
-    background-color: currentColor;
+    background-color: grey;
 
 }
 
@@ -42,6 +42,7 @@
     height: 1.25rem;
     border-top-right-radius:    2px;
     border-bottom-right-radius: 2px;
+    background-color: grey;
 }
 
 .TaskCategory-new:before {
@@ -73,7 +74,7 @@
 .TaskCategory.type-update_checkfetch .TaskCategory-name,
 .TaskCategory.type-update_checkfetch .TaskCategory-new      { background-color: #C4A412; }
 
-.TaskCategory.type-snapshot                         { color: #6D2A2A; }
-.TaskCategory.type-snapshot .TaskCategory-name,
-.TaskCategory.type-snapshot .TaskCategory-new       { background-color: #6D2A2A; }
+.TaskCategory.type-volume_snapshot_dataset                         { color: #6D2A2A; }
+.TaskCategory.type-volume_snapshot_dataset .TaskCategory-name,
+.TaskCategory.type-volume_snapshot_dataset .TaskCategory-new       { background-color: #6D2A2A; }
 
