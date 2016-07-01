@@ -123,15 +123,22 @@ var ShareService = exports.ShareService = Montage.specialize({
 
             return this._dataService.getNewInstanceForType(Model.ShareIscsi).then(function (extent) {
                 shareIscsiObject.__extent = extent;
+                extent.type = shareIscsiObject.properties.type;
+
+                //@fixme: hacky -> object with no ids....
+                shareIscsiObject.__extent.id = null;
+
                 return self._dataService.getNewInstanceForType(Model.ShareIscsiPortal);
 
             }).then(function (portal) {
                 portal.discovery_auth_group = "NONE";
                 portal.discovery_auth_method = "NONE";
-                portal.listen = {
-                    port: 3260,
-                    address: "0.0.0.0"
-                };
+                portal.listen = [
+                    {
+                        port: 3260,
+                        address: "0.0.0.0"
+                    }
+                ];
 
                 shareIscsiObject.__portal = portal;
 
@@ -139,10 +146,11 @@ var ShareService = exports.ShareService = Montage.specialize({
 
             }).then(function (iscsiAuth) {
                 shareIscsiObject.__auth = iscsiAuth;
+                shareIscsiObject.__auth.type = "NONE";
                 return self._dataService.getNewInstanceForType(Model.ShareIscsiUser);
 
             }).then(function (iscsiUser) {
-                shareIscsiObject._user = iscsiUser;
+                shareIscsiObject.__user = iscsiUser;
                 return shareIscsiObject;
             });
         }
