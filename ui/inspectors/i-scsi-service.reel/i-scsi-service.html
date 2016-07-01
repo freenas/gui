@@ -9,12 +9,65 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "BaseName": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "baseName"},
+                "label": "Base Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.base_name"}
+            }
+        },
+        "poolSpaceThreshold": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "poolSpaceThreshold"},
+                "label": "Pool Available Space Threshold (%)",
+                "converter" : {"@": "poolSpaceThresholdConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.pool_space_threshold"}
+            }
+        },
+        "poolSpaceThresholdValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 100,
+                "errorMessage": "Value Port must be an integer between 1 and 99"
+            }
+        },
+        "poolSpaceThresholdConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "poolSpaceThresholdValidator"}
+            }
+        },
+        "iSNS_Servers": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "iSNS_Servers"},
+                "label": "ISNS Servers",
+                "labelPath": "this",
+                "isDraggable": true
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.isns_servers"},
+                "placeholderValue": {"<-": "!@owner.object.isns_servers ? 'eg. example.com' : ''"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="IScsiService">
+        <div data-montage-id="baseName"></div>
+        <div data-montage-id="poolSpaceThreshold"></div>
+        <div data-montage-id="iSNS_Servers"></div>
+
+        </div>
     </div>
 </body>
 </html>

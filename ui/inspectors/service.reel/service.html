@@ -71,6 +71,15 @@
                 "object": {"<-": "@owner.object.config"}
             }
         },
+        "iscsi": {
+            "prototype": "ui/inspectors/i-scsi-service.reel",
+            "properties": {
+                "element": {"#": "iscsi"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.config"}
+            }
+        },
         "afp": {
             "prototype": "ui/inspectors/afp-service.reel",
             "properties": {
@@ -120,6 +129,7 @@
                 <div data-arg="afp" data-montage-id="afp"></div>
                 <div data-arg="nfs" data-montage-id="nfs"></div>
                 <div data-arg="webdav" data-montage-id="webdav"></div>
+                <div data-arg="iscsi" data-montage-id="iscsi"></div>
                 <div data-arg="sshd" data-montage-id="sshd"></div>
                 <div data-arg="smartd" data-montage-id="smartd"></div>
             </div>
