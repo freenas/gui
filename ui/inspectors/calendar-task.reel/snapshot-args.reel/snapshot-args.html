@@ -8,65 +8,55 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "filesystemTreeController": {"@": "filesystemTreeController"}
-            },
-            "bindings": {
-                "datasetsPaths": {"<-": "@owner.dataset.map{mountpoint}"}
+                "datasetTreeController": {"@": "datasetTreeController"}
             }
         },
-        "sizeConverter": {
-            "prototype": "montage/core/converter/bytes-converter"
-        },
-        "dateConverter": {
-            "prototype": "montage/core/converter/date-converter",
-            "properties": {
-                "pattern": "MM/dd/yyyy hh:mm:ss tt"
-            }
-        },
-        "filesystemTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": false,
-                "isDatasetMode": true,
-                "root": "/mnt"
-            },
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
             "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"},
-                "datasetsPaths": {"<-": "@owner.datasetsPaths"}
-            }
-        },
-        "name": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "name"},
-                "label": "Snapshot name"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.args.0.name"}
+                "service": {"<-": "@owner.application.dataService"}
             }
         },
         "datasetSelector": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "datasetSelector"},
-                "controller": {"@": "filesystemTreeController"},
+                "controller": {"@": "datasetTreeController"},
                 "label": "Dataset",
                 "removePrefix": "/mnt"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.args.0.dataset"}
+                "selectedPath": {"<->": "@owner.args.0"}
             }
         },
-        "expirationDate": {
-            "prototype": "blue-shark/ui/field-datetime.reel",
+        "recursive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "expirationDate"},
-                "label": "Expiration date",
-                "allowEmpty": true,
-                "intervalInSeconds": 300
+                "element": {"#": "recursive"},
+                "label": "Recursive"
             },
             "bindings": {
-                "value": {"<->": "@owner.expirationDate"}
+                "checked": {"<->": "!!@owner.args.1"}
+            }
+        },
+        "lifetime": {
+            "prototype": "blue-shark/ui/field-duration.reel",
+            "properties": {
+                "element": {"#": "lifetime"},
+                "label": "Lifetime"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.args.2"}
+            }
+        },
+        "prefix": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "prefix"},
+                "label": "Prefix"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.args.3"}
             }
         },
         "replicable": {
@@ -76,7 +66,7 @@
                 "label": "Allow Replication"
             },
             "bindings": {
-                "checked": {"<->": "@owner.args.0.replicable"}
+                "checked": {"<->": "!!@owner.args.4"}
             }
         }
     }
@@ -84,9 +74,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="SnapshotArgs">
-        <div data-montage-id="name"></div>
+        <div data-montage-id="prefix"></div>
         <div data-montage-id="datasetSelector" data-arg="select"></div>
-        <div data-montage-id="expirationDate"></div>
+        <div data-montage-id="recursive"></div>
+        <div data-montage-id="lifetime"></div>
         <div data-montage-id="replicable"></div>
     </div>
 </body>

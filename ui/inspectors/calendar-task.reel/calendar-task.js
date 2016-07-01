@@ -26,6 +26,15 @@ exports.CalendarTask = Component.specialize({
                 this.classList.remove('type-' + this.object.name.replace('.', '_').toLowerCase());
             }
         }
+    },
+    
+    save: {
+        value: function() {
+            this.object.args = this.object.args.filter(function(x) { 
+                return !!x || (typeof x !== "undefined" && typeof x !== "object") ; 
+            });
+            this.application.dataService.saveDataObject(this.object);
+        }
     }
 
 });

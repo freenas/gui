@@ -84,6 +84,12 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         }
     },
 
+    constructor: {
+        value: function() {
+            this.addRangeAtPathChangeListener("datasetsPaths", this, "_handleDatasetsPathsChange");
+        }
+    },
+
     open: {
         value: function(path) {
             if (path) {
@@ -110,10 +116,9 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                     name: self._service.basename(path)
                 };
                 return this._service.listDir(path).then(function(children) {
-                    self.entry.children = children
-                        .filter(function(x) { return self.canListFiles || x.type == DIRECTORY; })
-                        .map(function(x) { return self._childToEntry(path, x); })
-                        .filter(function(x) { return !self.isDatasetMode || self._isEntryADataset(x); });
+                    self.entry.allChildren = children
+                        .map(function(x) { return self._childToEntry(path, x); });
+                    self._filterChildren();
                     if (!self.ancestors) {
                         path = self._service.dirname(path);
                         self.ancestors = [];
@@ -134,6 +139,31 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         }
     },
 
+    _filterChildren: {
+        value: function() {
+            var allChildren = this.entry.allChildren || [];
+            if (!this.canListFiles) {
+                this.entry.children = this._filterDirectories(allChildren);
+            }
+            if (this.isDatasetMode) {
+                this.entry.children = this._filterDatasets(allChildren);
+            }
+        }
+    },
+
+    _filterDirectories: {
+        value: function(children) {
+            return children.filter(function(x) { return x.type === DIRECTORY });
+        }
+    },
+
+    _filterDatasets: {
+        value: function(children) {
+            var self = this;
+            return children.filter(function(x) { return self._isEntryADataset(x); });
+        }
+    },
+
     _isEntryADataset: {
         value: function(entry) {
             return this.datasetsPaths.indexOf(entry.path) != -1;
@@ -146,6 +176,14 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                 path: this.service.join(parentPath, child.name),
                 name: child.name,
                 type: child.type
+            }
+        }
+    },
+
+    _handleDatasetsPathsChange: {
+        value: function() {
+            if (this.entry) {
+                this._filterChildren();
             }
         }
     }

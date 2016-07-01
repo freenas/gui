@@ -34,7 +34,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             { name: "Smart", value: "disk.parallel_test", isDisplayed: true },
             { name: "Update", value: "update.checkfetch", isDisplayed: false },
             { name: "Cron job", value: "calendar_task.command", isDisplayed: true },
-//            { name: "Snapshot", value: "volume.snapshot.create", isDisplayed: true }
+            { name: "Snapshot", value: "volume.snapshot_dataset", isDisplayed: true }
         ]
     },
 
