@@ -11,7 +11,12 @@
                 "days":
                     ["Sun 12/10", "Mon 12/11", "Tues 12/12", "Wed 12/13", "Thurs 12/14", "Fri 12/15", "Sat 12/16"],
                 "hours":
-                    ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00"]
+                    ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+                "events": [
+                    {"name": "event1", "time": "02:20"},
+                    {"name": "event2", "time": "12:30"},
+                    {"name": "event3", "time": "16:45"}
+                ]
 
             }
         },
@@ -60,15 +65,24 @@
                 "value": {"<-": "@hours:iteration.object"}
             }
         },
-        "hourSlots": {
+        "dayEvents": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "hourSlots"}
+                "element": {"#": "dayEvents"}
             },
             "bindings": {
-                "content": {"<-": "@owner.hours"}
+                "content": {"<-": "@owner.events"}
             }
-        }
+        },
+        "event": {
+           "prototype": "./event.reel",
+           "properties": {
+               "element": {"#": "event"}
+           },
+           "bindings": {
+               "object": {"<-": "@dayEvents:iteration.object"}
+           }
+       }
     }
 
     </script>
@@ -77,129 +91,35 @@
     <div data-montage-id="owner" class="Week">
 
         <header class="Week-header">
-            <div class="Week-column--axis">Title</div>
+            <div class="Week-column--axis"></div>
             <div data-montage-id="days" class="Week-days">
-                <div data-montage-id="day" class="Week-day"></div>
+                <div class="Week-day">
+                    <div data-montage-id="day" class="Week-day-title"></div>
+                    <div class="Week-day-events">
+                        <div class="Event">placeholder</div>
+                    </div>
+                </div>
             </div>
         </header>
 
         <main class="Week-main">
 
-            <div data-montage-id="hours" class="Week-column--axis Week-hours">
-                <div data-montage-id="hour" class="Week-hour">hour</div>
-            </div>
-
             <div class="Week-content">
-                <div data-montage-id="dayColumns" class="Week-days">
-                    <div class="Week-column">
-                        <div data-montage-id="hourSlots" class="Week-slots">
-                            <div class="Week-slot"></div>
+                <div data-montage-id="hours" class="Week-column--axis Week-hours">
+                    <div data-montage-id="hour" class="Week-hour"></div>
+                </div>
+
+                <div data-montage-id="dayColumns" class="Week-dayColumns">
+                    <div class="Week-dayColumn">
+                        <div data-montage-id="dayEvents" class="Week-events">
+                            <div data-montage-id="event"></div>
                         </div>
                     </div>
-                </div>
-                <div class="Week-events">
-                    <div class="Week-event">Event</div>
                 </div>
             </div>
 
         </main>
 
-
-
-
-
-
-
-        <!-- <table>
-            <thead>
-                <tr>
-                    <td>
-                        <div class="Calendar-header">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Time</th>
-                                        <th>Day 1</th>
-                                        <th>Day 2</th>
-                                        <th>Day 3</th>
-                                        <th>Day 4</th>
-                                        <th>Day 5</th>
-                                        <th>Day 6</th>
-                                        <th>Day 7</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="Calendar-grid">
-                            <div class="Calendar-bg">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="Calendar-rows">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td>12am</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>1am</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2am</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3am</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="Calendar-events">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="Calendar-eventWrapper   ">
-                                                    <div class="Calendar-event">Test</div>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table> -->
     </div>
 </body>
 </html>
