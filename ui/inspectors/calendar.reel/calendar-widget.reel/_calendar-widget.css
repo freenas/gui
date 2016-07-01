@@ -5,6 +5,10 @@
     border: 1px solid #16171A;
 }
 
+.CalendarWidget header {
+    margin-bottom: 1em;
+}
+
 .CalendarWidget td { padding: 0; }
 
 .CalendarWidget caption {

@@ -12,28 +12,11 @@
                     {"value": "Day"},
                     {"value": "Week"},
                     {"value": "Month"}
-                ]
+                ],
+                "currentView": "month"
             },
             "bindings": {
                 "days": {"<-": "@owner._weeks.flatten()"}
-            }
-        },
-        "daysOfTheWeek": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "daysOfTheWeek"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.daysOfTheWeekContentForRepetition"}
-            }
-        },
-        "dayOfTheWeek": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "dayOfTheWeek"}
-            },
-            "bindings": {
-                "value": {"<-" : "@daysOfTheWeek:iteration.object"}
             }
         },
         "month": {
@@ -52,37 +35,6 @@
             },
             "bindings": {
                 "value": {"<-" : "@owner._year"}
-            }
-        },
-        "weekRepetition": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "weekRepetition"}
-            },
-            "bindings": {
-                "content": {"<-" : "@owner._weeks"}
-            }
-        },
-        "dayRepetition": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "dayRepetition"}
-            },
-            "bindings": {
-                "content": {"<-": "@weekRepetition:iteration.object"}
-            }
-        },
-        "day": {
-            "prototype": "./calendar-widget-day.reel",
-            "properties": {
-                "element": {"#": "day"}
-            },
-            "bindings": {
-                "data": {"<-": "@dayRepetition:iteration.object"},
-                "tasks": {"<-": "@owner.tasks"},
-                "taskCategories": {"<-": "@owner.taskCategories"},
-                "selectedTask": {"<->": "@owner.selectedTask"},
-                "selectedDay": {"<->": "@owner.selectedDay"}
             }
         },
         "previousMonth": {
@@ -149,13 +101,43 @@
             "bindings": {
                 "options": {"<-": "@owner.views"}
             }
+        },
+        "viewSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "viewSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.currentView"}
+            }
+        },
+        "monthView": {
+            "prototype": "./calendar-widget-view-month.reel",
+            "properties": {
+                "element": {"#": "monthView"}
+            },
+            "bindings": {
+                "weeks": {"<-": "@owner._weeks"},
+                "tasks": {"<-": "@owner.tasks"},
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedTask": {"<->":"@owner.selectedTask"},
+                "selectedDay": {"<->":"@owner.selectedDay"},
+                "daysOfTheWeekContentForRepetition": {"<-":"@owner.daysOfTheWeekContentForRepetition"}
+            }
+        },
+        "weekView": {
+            "prototype": "ui/calendar/week.reel",
+            "properties": {
+                "element": {"#": "weekView"}
+            }
         }
+
     }
     </script>
 </head>
 <body>
-    <table data-montage-id="owner" class="CalendarWidget">
-        <caption>
+    <div data-montage-id="owner" class="CalendarWidget">
+        <header>
             <div class="Calendar-navigation">
                 <button data-montage-id="today" class="CalendarWidget-todayButton"></button>
                 <div class="Calendar-navigation-buttons">
@@ -177,19 +159,12 @@
                     <div data-montage-id="taskCategory" class="CalendarWidget-taskCategory"></div>
                 </div>
             </div>
-        </caption>
-        <thead>
-            <tr data-montage-id="daysOfTheWeek">
-                <td data-montage-id="dayOfTheWeek"></td>
-            </tr>
-        </thead>
-        <tbody data-montage-id="weekRepetition">
-            <tr data-montage-id="dayRepetition">
-                <td data-montage-id="day" class="CalendarWidget-day">
-                    <span></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        </header>
+        <main data-montage-id="viewSubstitution">
+            <div data-arg="month" data-montage-id="monthView"></div>
+            <div data-arg="week" data-montage-id="weekView"></div>
+            <div data-arg="day">day</div>
+        </main>
+    </div>
 </body>
 </html>

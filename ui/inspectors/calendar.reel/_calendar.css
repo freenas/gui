@@ -3,7 +3,8 @@
     display: flex;
     padding-left: 1em;
     background: #16171A;
-    min-width: 40em;
+    min-width: 50em;
+    padding-top: 1em;
 }
 
 .Calendar > div:first-child {
@@ -13,9 +14,7 @@
     margin-right: 1em;
 }
 
-.Calendar-calendarWidget {
-    /*flex: 1;*/
-}
+.Calendar-calendarWidget {}
 
 .Calendar-events {
     flex: 1;
