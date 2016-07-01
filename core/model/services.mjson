@@ -2506,6 +2506,15 @@
             }
         }
     },
+    "Test": {
+        "class": {
+            "rpcerror": {
+                "method": "test.rpcerror",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "Tunable": {
         "instance": {
             "create": {
