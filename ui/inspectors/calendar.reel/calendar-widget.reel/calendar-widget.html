@@ -9,38 +9,32 @@
             "properties": {
                 "element": {"#": "owner"},
                 "views": [
-                    {"value": "Day"},
-                    {"value": "Week"},
-                    {"value": "Month"}
+                    {"label": "Day", "value": "day"},
+                    {"label": "Week", "value": "week"},
+                    {"label": "Month", "value": "month"}
                 ],
-                "currentView": "month"
+                "widgets": {
+                    "week": {"@": "weekView"},
+                    "month": {"@": "monthView"}
+                }
             },
             "bindings": {
                 "days": {"<-": "@owner._weeks.flatten()"}
             }
         },
-        "month": {
+        "displayedPeriodLabel": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "Calendar-month"}
+                "element": {"#": "displayedPeriodLabel"}
             },
             "bindings": {
-                "value": {"<-" : "@owner._month"}
+                "value": {"<-" : "@owner.displayedPeriodLabel"}
             }
         },
-        "year": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "Calendar-year"}
-            },
-            "bindings": {
-                "value": {"<-" : "@owner._year"}
-            }
-        },
-        "previousMonth": {
+        "previous": {
             "prototype": "montage/ui/button.reel",
             "properties": {
-                "element": {"#": "previousMonth"}
+                "element": {"#": "previous"}
             },
             "listeners": [
                 {
@@ -49,10 +43,10 @@
                 }
             ]
         },
-        "nextMonth": {
+        "next": {
             "prototype": "montage/ui/button.reel",
             "properties": {
-                "element": {"#": "nextMonth"}
+                "element": {"#": "next"}
             },
             "listeners": [
                 {
@@ -99,7 +93,8 @@
                 "element": {"#": "viewTabs"}
             },
             "bindings": {
-                "options": {"<-": "@owner.views"}
+                "options": {"<-": "@owner.views"},
+                "selection": {"<->": "@owner.currentView"}
             }
         },
         "viewSubstitution": {
@@ -117,12 +112,11 @@
                 "element": {"#": "monthView"}
             },
             "bindings": {
-                "weeks": {"<-": "@owner._weeks"},
+                "displayedPeriodLabel": {"<->": "@owner.displayedPeriodLabel"},
                 "tasks": {"<-": "@owner.tasks"},
                 "taskCategories": {"<-": "@owner.taskCategories"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
-                "selectedDay": {"<->":"@owner.selectedDay"},
-                "daysOfTheWeekContentForRepetition": {"<-":"@owner.daysOfTheWeekContentForRepetition"}
+                "selectedDay": {"<->":"@owner.selectedDay"}
             }
         },
         "weekView": {
@@ -141,16 +135,15 @@
             <div class="Calendar-navigation">
                 <button data-montage-id="today" class="CalendarWidget-todayButton"></button>
                 <div class="Calendar-navigation-buttons">
-                    <button data-montage-id="previousMonth" class="Calendar-navigation-button CalendarWidget-previousMonthButton">
+                    <button data-montage-id="previous" class="Calendar-navigation-button CalendarWidget-previousMonthButton">
                         <svg><use xlink:href="#i-arrow"/></svg>
                     </button>
-                    <button data-montage-id="nextMonth" class="Calendar-navigation-button CalendarWidget-nextMonthButton">
+                    <button data-montage-id="next" class="Calendar-navigation-button CalendarWidget-nextMonthButton">
                         <svg><use xlink:href="#i-arrow"/></svg>
                     </button>
                 </div>
                 <div class="CalendarWidget-date">
-                    <span data-montage-id="Calendar-month" class="CalendarWidget-month"></span>
-                    <span data-montage-id="Calendar-year" class="CalendarWidget-year"></span>
+                    <span data-montage-id="displayedPeriodLabel" class="CalendarWidget-month"></span>
                 </div>
                 <div data-montage-id="viewTabs" class="Calendar-viewTabs"></div>
             </div>
@@ -163,7 +156,7 @@
         <main data-montage-id="viewSubstitution">
             <div data-arg="month" data-montage-id="monthView"></div>
             <div data-arg="week" data-montage-id="weekView"></div>
-            <div data-arg="day">day</div>
+            <div data-arg="day" data-montage-id="dayView">day</div>
         </main>
     </div>
 </body>

@@ -26,6 +26,35 @@ var CalendarService = exports.CalendarService = Montage.specialize({
         value: null
     },
 
+    MONTHS: {
+        value: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ]
+    },
+
+    DAYS_OF_WEEK: {
+        value: [
+            "Sun",
+            "Mon",
+            "Tues",
+            "Wed",
+            "Thurs",
+            "Fri",
+            "Sat"
+        ]
+    },
+        
 // FIXME: Should be a middleware provided enum
     taskCategories: {
         value: [
