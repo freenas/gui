@@ -889,6 +889,14 @@
             "type": "Volume"
         },
         {
+            "modelId": "core/model/models/winbind-directory-params.js",
+            "type": "WinbindDirectoryParams"
+        },
+        {
+            "modelId": "core/model/models/winbind-directory-status.js",
+            "type": "WinbindDirectoryStatus"
+        },
+        {
             "modelId": "core/model/models/zfs-dataset-properties.js",
             "type": "ZfsDatasetProperties"
         },

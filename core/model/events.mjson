@@ -40,6 +40,7 @@
     "Update": "entity-subscriber.update.changed",
     "User": "entity-subscriber.user.changed",
     "Vm": "entity-subscriber.vm.changed",
+    "VmSnapshot": "entity-subscriber.vm.snapshot.changed",
     "Volume": "entity-subscriber.volume.changed",
     "VolumeDataset": "entity-subscriber.volume.dataset.changed",
     "VolumeSnapshot": "entity-subscriber.volume.snapshot.changed",

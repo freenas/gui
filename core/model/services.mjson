@@ -2487,6 +2487,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "submitWithDownload": {
+                "method": "task.submit_with_download",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "submitWithEnv": {
                 "method": "task.submit_with_env",
                 "name": "call",
@@ -2510,6 +2515,11 @@
         "class": {
             "rpcerror": {
                 "method": "test.rpcerror",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "stream": {
+                "method": "test.stream",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -2792,6 +2802,15 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "vm.update"
+            }
+        }
+    },
+    "VmSnapshot": {
+        "instance": {
+            "read": {
+                "method": "vm.snapshot.query",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
