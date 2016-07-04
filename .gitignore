@@ -58,3 +58,7 @@ freenas10-conf.json
 customSystem.js
 
 *.info/**/node_modules
+
+# Exclude builds
+
+builds/

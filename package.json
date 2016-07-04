@@ -19,6 +19,7 @@
     "ws": "~1.0.1",
     "prompt": "~0.3.0",
     "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
+    "mop": "montagejs/mop#31108dfc9b6aec8d4984e25161d96bff63fa2e34",
     "rimraf": "~2.5.2",
     "progress": "~1.1.8",
     "json.sortify": "~1.0.2",
@@ -49,6 +50,7 @@
     "generate-enumerations": "node ./tools/cli/generate.js enumerations -t ./core/model/enumerations",
     "generate-services": "node ./tools/cli/generate.js services -t ./core/model",
     "generate-events": "node ./tools/cli/generate-events.js -t ./core/model",
+    "build": "node ./tools/build.js",
     "warnings": "node ./tools/cli/generate.js descriptors -w --no-save"
   }
 }
