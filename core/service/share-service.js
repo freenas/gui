@@ -46,7 +46,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                     propertiesModel,
                     self = this;
 
-                //Don't use a switch because there are slower.
+                //Don't use a switch because it is slower.
                 if (shareTypes.AFP === shareObject.type) {
                     propertiesModel = Model.ShareAfp;
                 } else if (shareTypes.NFS === shareObject.type) {
@@ -54,7 +54,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                 } else if (shareTypes.SMB === shareObject.type) {
                     propertiesModel = Model.ShareSmb;
                 } else if (shareTypes.ISCSI === shareObject.type) {
-                    propertiesModel = Model.ShareIscsiTarget;
+                    propertiesModel = Model.ShareIscsi;
                 } else {
                     return Promise.reject("unknown share type");
                 }
@@ -85,6 +85,10 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     save: {
         value: function (shareObject) {
+            if (shareObject.type === this.constructor.SHARE_TYPES.ISCSI) {
+                return this._saveIscsiShareObject(shareObject);
+            }
+
             //FIXME: workaround for the SELECT component. Future dead code.
             if (shareObject.type === this.constructor.SHARE_TYPES.NFS) {
                 var properties = shareObject.properties;
@@ -100,6 +104,28 @@ var ShareService = exports.ShareService = Montage.specialize({
             }
 
             return this._dataService.saveDataObject(shareObject)
+        }
+    },
+
+    _saveIscsiShareObject: {
+        value: function (shareObject) {
+            var self = this;
+
+            return self._dataService.saveDataObject(shareObject).then(function (extent) { // share + share-iscsi (share.properties)
+                var extentObject = {
+                        name: shareObject.name,
+                        number: 0
+                    },
+                    target = shareObject.__target;
+
+                if (Array.isArray(target.extents)) {
+                    target.extents.push(extentObject);
+                } else {
+                    target.extents = [extentObject];
+                }
+
+                return self._dataService.saveDataObject(target); // save share-iscsi-target
+            });
         }
     },
 
@@ -121,13 +147,8 @@ var ShareService = exports.ShareService = Montage.specialize({
         value: function (shareIscsiObject) {
             var self = this;
 
-            return this._dataService.getNewInstanceForType(Model.ShareIscsi).then(function (extent) {
-                shareIscsiObject.__extent = extent;
-                extent.type = shareIscsiObject.properties.type;
-
-                //@fixme: hacky -> object with no ids....
-                shareIscsiObject.__extent.id = null;
-
+            return this._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function (target) {
+                shareIscsiObject.__target = target;
                 return self._dataService.getNewInstanceForType(Model.ShareIscsiPortal);
 
             }).then(function (portal) {

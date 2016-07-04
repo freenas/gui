@@ -11,14 +11,19 @@
             }
         },
 
+        "numberConverter": {
+            "prototype": "core/converter/integer-converter"
+        },
+
         "extentSize": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "extentSize"},
+                "converter": {"@": "numberConverter"},
                 "label": "Extent size"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.__extent.size"}
+                "value": {"<->": "@owner.object.properties.size"}
             }
         },
 
@@ -181,7 +186,7 @@
                 "label": "Serial"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.__extent.serial"}
+                "value": {"<->": "@owner.object.properties.serial"}
             }
         },
 
@@ -193,7 +198,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.iscsiBlocksize"},
-                "selectedValue": {"<->": "@owner.object.__extent.block_size"}
+                "selectedValue": {"<->": "@owner.object.properties.block_size"}
             }
         },
 
@@ -204,7 +209,7 @@
                 "label": "Disable physical block size reporting"
             },
             "bindings": {
-                "value": {"<->": "!!@owner.object.__extent.physical_block_size"}
+                "value": {"<->": "!!@owner.object.properties.physical_block_size"}
             }
         },
 
@@ -215,7 +220,7 @@
                 "label": "Available space threshold"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.__extent.available_space_threshold"}
+                "value": {"<->": "@owner.object.properties.available_space_threshold"}
             }
         },
 
@@ -226,7 +231,7 @@
                 "label": "Enable TPC"
             },
             "bindings": {
-                "value": {"<->": "!!@owner.object.__extent.tpc"}
+                "value": {"<->": "!!@owner.object.properties.tpc"}
             }
         },
 
@@ -247,7 +252,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.iscsiRpm"},
-                "selectedValue": {"<->": "@owner.object.__extent.rpm"}
+                "selectedValue": {"<->": "@owner.object.properties.rpm"}
             }
         },
 
