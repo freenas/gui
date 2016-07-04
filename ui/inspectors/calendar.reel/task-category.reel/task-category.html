@@ -19,26 +19,19 @@
                 }
             ]
         },
-        "show": {
+        "taskButton": {
             "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "type"},
-                "hasTemplate": false
-            }
-        },
-        "name": {
-            "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "name"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.name"}
+                "label": {"<-": "@owner.object.name"}
             }
         },
-        "new": {
+        "create": {
             "prototype": "montage/ui/button.reel",
             "properties": {
-                "element": {"#": "new"},
+                "element": {"#": "create"},
                 "hasTemplate": false
             }
         }
@@ -47,9 +40,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="TaskCategory">
-        <span data-montage-id="type" class="TaskCategory-type"></span>
         <span data-montage-id="name" class="TaskCategory-name"></span>
-        <span data-montage-id="new" class="TaskCategory-new"></span>
+        <span data-montage-id="create" class="TaskCategory-create"></span>
     </div>
 </body>
 </html>

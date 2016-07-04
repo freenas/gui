@@ -15,13 +15,13 @@ exports.TaskCategory = Component.specialize(/** @lends TaskCategory# */ {
         }
     },
 
-    handleShowAction: {
+    handleTaskButtonAction: {
         value: function(event) {
             this.object.isDisplayed = !this.object.isDisplayed;
         }
     },
 
-    handleNewAction: {
+    handleCrateAction: {
         value: function(event) {
             var self = this;
             this.application.calendarService.getNewTask(this.object.value).then(function(task) {

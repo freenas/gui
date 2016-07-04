@@ -7,19 +7,24 @@
     -webkit-user-select: none;
     cursor: pointer;
     text-shadow: 0 1px 1px rgba(0,0,0,.2);
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    overflow: hidden;
 }
 
 .TaskCategory:not(:first-child) { margin-left: .5em; }
 
-.TaskCategory-type {
+/* .TaskCategory-type {
     width:  .8em;
     height: .8em;
     border-radius: 50%;
     border: 1px solid currentColor;
     margin-right: .5em;
-}
+} */
 
-.TaskCategory.is-displayed .TaskCategory-type { background-color: currentColor; }
+.TaskCategory.is-displayed {
+    background-color: currentColor;
+}
 
 .TaskCategory-name {
     font-size: .7em;
@@ -27,54 +32,56 @@
     align-self: center;
     line-height: 1.25rem;
     font-weight: bolder;
-    border-top-left-radius:     2px;
-    border-bottom-left-radius:  2px;
-    color: #E0E5E5;
-    background-color: grey;
-
+    min-width: 3.5rem;
+    color: grey;
 }
 
-.TaskCategory-new {
-    color: #FFF;
+.TaskCategory.is-displayed .TaskCategory-name {
+    color: #E0E5E5;
+}
+
+.TaskCategory-create {
+    color: rgba(255,255,255,.75);
     text-align: center;
     cursor: pointer;
     line-height: 1.25rem;
     height: 1.25rem;
-    border-top-right-radius:    2px;
-    border-bottom-right-radius: 2px;
-    background-color: grey;
 }
 
-.TaskCategory-new:before {
+.TaskCategory-create:before {
     content: "+";
     display: inline-block;
     padding: 0em .35rem;
     position: relative;
     top: -1px;
-    border-left: 1px solid rgba(0,0,0,.1);
+    border-left: 1px solid rgba(0,0,0,.2);
 }
 
-.TaskCategory.type-rsync                        { color: #D95B1B; }
-.TaskCategory.type-rsync .TaskCategory-name,
-.TaskCategory.type-rsync .TaskCategory-new      { background-color: #D95B1B; }
+.TaskCategory.type-rsync                            { color: #D95B1B; border-color: currentColor; }
+.TaskCategory.type-rsync.is-displayed .TaskCategory-name,
+.TaskCategory.type-rsync .TaskCategory-create       { background-color: #D95B1B; }
 
 .TaskCategory.type-volume_scrub                     { color: #093A51; }
-.TaskCategory.type-volume_scrub .TaskCategory-name,
-.TaskCategory.type-volume_scrub .TaskCategory-new   { background-color: #093A51; }
+.TaskCategory.type-volume_scrub.is-displayed .TaskCategory-name,
+.TaskCategory.type-volume_scrub .TaskCategory-create   { background-color: #093A51; }
 
 .TaskCategory.type-replication_replicate_dataset                        { color: #008C84; }
-.TaskCategory.type-replication_replicate_dataset .TaskCategory-name,
-.TaskCategory.type-replication_replicate_dataset .TaskCategory-new      { background-color: #008C84; }
+.TaskCategory.type-replication_replicate_dataset.is-displayed .TaskCategory-name,
+.TaskCategory.type-replication_replicate_dataset .TaskCategory-create      { background-color: #008C84; }
 
 .TaskCategory.type-disk_parallel_test                       { color: #990F82; }
-.TaskCategory.type-disk_parallel_test .TaskCategory-name,
-.TaskCategory.type-disk_parallel_test .TaskCategory-new     { background-color: #990F82; }
+.TaskCategory.type-disk_parallel_test.is-displayed .TaskCategory-name,
+.TaskCategory.type-disk_parallel_test .TaskCategory-create     { background-color: #990F82; }
 
 .TaskCategory.type-update_checkfetch                        { color: #C4A412; }
-.TaskCategory.type-update_checkfetch .TaskCategory-name,
-.TaskCategory.type-update_checkfetch .TaskCategory-new      { background-color: #C4A412; }
+.TaskCategory.type-update_checkfetch.is-displayed .TaskCategory-name,
+.TaskCategory.type-update_checkfetch .TaskCategory-create      { background-color: #C4A412; }
 
 .TaskCategory.type-volume_snapshot_dataset                         { color: #6D2A2A; }
-.TaskCategory.type-volume_snapshot_dataset .TaskCategory-name,
-.TaskCategory.type-volume_snapshot_dataset .TaskCategory-new       { background-color: #6D2A2A; }
+.TaskCategory.type-volume_snapshot_dataset.is-displayed .TaskCategory-name,
+.TaskCategory.type-volume_snapshot_dataset .TaskCategory-create       { background-color: #6D2A2A; }
+
+.TaskCategory.type-calendar_task_command                         { color: grey; }
+.TaskCategory.type-calendar_task_command.is-displayed .TaskCategory-name,
+.TaskCategory.type-calendar_task_command .TaskCategory-create       { background-color: grey; }
 

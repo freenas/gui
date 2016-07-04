@@ -2,34 +2,43 @@
     cursor: pointer;
     display: none;
     padding: 0 .25rem;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 1px;
+    border-radius: 2px;
+}
+
+.CalendarWidgetTask:hover {
+    background: rgba(255,255,255,.05);
+}
+
+.CalendarWidgetTask.is-visible.is-displayed {
+    display: block;
+}
+
+/* .CalendarWidgetTask.is-disabled {
+    opacity: 0.5;
+} */
+
+.CalendarWidgetTask-title {
+    color: #FFF;
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 100%;
 }
 
-.CalendarWidgetTask:hover {
-    color: #fff;
-    background: rgba(255,255,255,.05);
-}
-
-.CalendarWidgetTask.is-visible.is-displayed {
-    display: flex;
-    align-items: center;
-}
-
-.CalendarWidgetTask.is-disabled {
-    opacity: 0.5;
-}
+.CalendarWidgetTask.type-rsync                           { background-color: #D95B1B; }
+.CalendarWidgetTask.type-volume_scrub                    { background-color: #093A51; }
+.CalendarWidgetTask.type-replication_replicate_dataset   { background-color: #008C84; }
+.CalendarWidgetTask.type-disk_parallel_test              { background-color: #990F82; }
+.CalendarWidgetTask.type-update_checkfetch               { background-color: #C4A412; }
+.CalendarWidgetTask.type-snapshot                        { background-color: #6D2A2A; }
 
 .CalendarWidgetTask.is-selected {
+    color: #FFF;
     background-color: #2B9CD8;
 }
 
 .CalendarWidgetDay-today .CalendarWidgetTask.is-selected {
     background-color: #2B9CD8;
 }
-
-.CalendarWidgetTask.is-selected {
-    color: #FFF;
-}
-

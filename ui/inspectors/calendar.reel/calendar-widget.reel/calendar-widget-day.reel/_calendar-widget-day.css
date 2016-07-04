@@ -6,6 +6,7 @@
     background: #242628;
     font-size: .8em;
     cursor: pointer;
+    padding: 0 .25em;
 }
 
 .CalendarWidgetDay-Sunday,

@@ -5,11 +5,9 @@
     border: 1px solid #16171A;
 }
 
-.CalendarWidget header {
+.CalendarWidget > header {
     margin-bottom: 1em;
 }
-
-.CalendarWidget td { padding: 0; }
 
 .CalendarWidget caption {
     padding: 1em 0;
@@ -34,11 +32,16 @@
     outline: none;
 }
 
-.Calendar-navigation button:not(.selected):not(.montage--disabled):hover,
+.Calendar-navigation button:active {
+    background-color: #2089d3;
+    color: #fff;
+}
+
+/* .Calendar-navigation button:not(.selected):not(.montage--disabled):hover,
 .Calendar-navigation button:not(.montage--disabled):hover {
     background: #343739;
     color: #E0E5E5;
-}
+} */
 
 .CalendarWidget-todayButton {
     height: 2rem;
