@@ -1,6 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
