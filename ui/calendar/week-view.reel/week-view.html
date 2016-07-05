@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="week-view.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "hours":
+                    ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]
+            }
+        },
+        "dayHeaders": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "dayHeaders"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.days"}
+            }
+        },
+        "dayHeader": {
+            "prototype": "ui/calendar/day-header.reel",
+            "properties": {
+                "element": {"#": "dayHeader"}
+            },
+            "bindings": {
+                "data": {"<-": "@dayHeaders:iteration.object"},
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
+            }
+        },
+        "dayColumns": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "dayColumns"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.days"}
+            }
+        },
+        "dayColumn": {
+            "prototype": "ui/calendar/day-column.reel",
+            "properties": {
+                "element": {"#": "dayColumn"}
+            },
+            "bindings": {
+                "data": {"<-": "@dayColumns:iteration.object"},
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
+            }
+        },
+        "hours": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "hours"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.hours"}
+            }
+        },
+        "hour": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "hour"}
+            },
+            "bindings": {
+                "value": {"<-": "@hours:iteration.object"}
+            }
+       }
+    }
+
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="WeekView">
+
+        <header class="WeekView-header">
+            <div class="WeekView-column--axis"></div>
+            <div data-montage-id="dayHeaders" class="WeekView-days">
+                <div data-montage-id="dayHeader" class="WeekView-day"></div>
+            </div>
+        </header>
+
+        <main class="WeekView-main">
+
+            <div class="WeekView-content">
+                <div data-montage-id="hours" class="WeekView-column--axis WeekView-hours">
+                    <div data-montage-id="hour" class="WeekView-hour"></div>
+                </div>
+
+                <div data-montage-id="dayColumns" class="WeekView-dayColumns">
+                    <div data-montage-id="dayColumn" class="WeekView-dayColumn"></div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+</body>
+</html>

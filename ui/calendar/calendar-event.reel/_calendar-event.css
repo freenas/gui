@@ -1,0 +1,47 @@
+.CalendarEvent {
+    border: 1px solid transparent;
+    border-radius: 2px;
+    display: none;
+    position: absolute;
+    align-items: center;
+    cursor: pointer;
+    /* $fix - can this be removed? */
+    transform: translateY(2px);
+    overflow: hidden;
+
+    &.has-time {
+        width: calc(100% - .5em);
+    }
+
+    &.is-displayed {
+        display: flex;
+    }
+}
+
+
+
+.CalendarEvent-inner {
+    display: block;
+    width: 100%;
+    align-self: center;
+    height: 1.25em;
+    line-height: 1.25em;
+    padding: 0 .25em;
+    font-size: .85em;
+    color: #fff;
+    border-radius: 2px;
+}
+
+.CalendarEvent.type-rsync .CalendarEvent-inner                             { background-color: #D95B1B; }
+.CalendarEvent.type-volume_scrub .CalendarEvent-inner                      { background-color: #093A51; }
+.CalendarEvent.type-replication_replicate_dataset .CalendarEvent-inner     { background-color: #008C84; }
+.CalendarEvent.type-disk_parallel_test .CalendarEvent-inner                { background-color: #990F82; }
+.CalendarEvent.type-update_checkfetch .CalendarEvent-inner                 { background-color: #C4A412; }
+.CalendarEvent.type-volume_snapshot_dataset .CalendarEvent-inner           { background-color: #6D2A2A; }
+.CalendarEvent.type-calendar_task_command .CalendarEvent-inner             { background-color: grey; }
+
+.CalendarEvent.is-selected .CalendarEvent-inner {
+    color: #FFF;
+    background-color: #2B9CD8;
+}
+

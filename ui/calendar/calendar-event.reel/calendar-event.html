@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="calendar-event.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-displayed')": {"<-": "@owner.taskCategory.isDisplayed"},
+                "classList.has('is-selected')": {"<-": "@owner.selectedTask == @owner.object.task"}
+            }
+        },
+        "name": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "name"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.task.id"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="CalendarEvent">
+        <div class="CalendarEvent-inner">
+            <div data-montage-id="name"></div>
+        </div>
+    </div>
+</body>
+</html>
