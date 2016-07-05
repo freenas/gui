@@ -68,5 +68,18 @@ exports.SystemSection = AbstractModel.specialize({
             mandatory: false,
             name: "order"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'System Section'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/system-section.reel'
+            },
+            nameExpression: "label",
+            sortExpression: "order"
+        }
     }
 });

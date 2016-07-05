@@ -194,5 +194,20 @@ exports.Share = AbstractModel.specialize({
             name: "type",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Shares'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/share.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/share-creator.reel'
+            },
+            nameExpression: "!!id ? !!name ? name : id : !!type ? 'New ' + type.toUpperCase() + ' share' : 'Choose a share type'"
+        }
     }
 });

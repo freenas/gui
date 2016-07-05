@@ -141,5 +141,20 @@ exports.VolumeSnapshot = AbstractModel.specialize({
             name: "volume",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Snapshots'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/snapshot.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/snapshot.reel'
+            },
+            nameExpression: "id.defined() ? id : 'Create a snapshot'"
+        }
     }
 });

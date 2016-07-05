@@ -313,5 +313,26 @@ exports.NetworkInterface = AbstractModel.specialize({
             name: "vlan",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/network-interface.reel'
+            },
+            iconComponentModule: {
+                id: 'ui/icons/network-interface.reel'
+            },
+            collectionItemComponentModule: {
+                id: 'ui/network/interfaces-list-item.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/network-interface-creator.reel'
+            },
+            collectionNameExpression: "'Interfaces'",
+            nameExpression: "!!id ? !!name ? name : id : !!type ? 'New ' + type : 'Choose an interface type'"
+        }
     }
 });

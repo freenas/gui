@@ -92,5 +92,16 @@ exports.NetworkRoute = AbstractModel.specialize({
             valueObjectPrototypeName: "NetworkRouteType",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/static-route.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Static Routes'"
+        }
     }
 });

@@ -52,5 +52,17 @@ exports.ServicesCategory = AbstractModel.specialize({
             mandatory: false,
             name: "selector"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Services Categories'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/services-category.reel'
+            },
+            nameExpression: "name"
+        }
     }
 });

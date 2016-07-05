@@ -193,5 +193,20 @@ exports.VolumeDataset = AbstractModel.specialize({
             name: "volume",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/volume-dataset.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/volume-dataset.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Datasets'",
+            nameExpression: "name"
+        }
     }
 });

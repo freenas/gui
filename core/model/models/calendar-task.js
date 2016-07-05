@@ -158,5 +158,13 @@ exports.CalendarTask = AbstractModel.specialize({
             valueObjectPrototypeName: "CalendarTaskStatus",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/calendar-task.reel'
+            },
+            nameExpression: "id.defined() ? id : 'Create an event'"
+        }
     }
 });

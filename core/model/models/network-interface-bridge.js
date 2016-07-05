@@ -21,5 +21,16 @@ exports.NetworkInterfaceBridge = AbstractModel.specialize({
             name: "members",
             valueType: "array"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/bridge.reel'
+            },
+            iconComponentModule: {
+                id: 'ui/icons/bridge.reel'
+            },
+            nameExpression: "!!id ? status.name : 'New ' + type"
+        }
     }
 });

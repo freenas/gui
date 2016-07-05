@@ -39,5 +39,16 @@ exports.NetworkInterfaceLagg = AbstractModel.specialize({
             valueObjectPrototypeName: "NetworkAggregationProtocols",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/lagg.reel'
+            },
+            iconComponentModule: {
+                id: 'ui/icons/lagg.reel'
+            },
+            nameExpression: "!!id ? status.name : 'New ' + type"
+        }
     }
 });

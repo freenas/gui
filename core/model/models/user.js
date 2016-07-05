@@ -378,5 +378,23 @@ exports.User = AbstractModel.specialize({
             name: "username",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/user.reel'
+            },
+            iconComponentModule: {
+                id: 'ui/icons/user.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            nameExpression: "id.defined() ? username : 'Create a user'",
+            collectionNameExpression: "'Users'",
+            creatorComponentModule: {
+                id: 'ui/inspectors/user.reel'
+            }
+        }
     }
 });

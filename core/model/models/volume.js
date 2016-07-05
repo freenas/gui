@@ -213,5 +213,20 @@ exports.Volume = AbstractModel.specialize({
             name: "type",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Volumes'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/volume.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/volume-creator.reel'
+            },
+            nameExpression: "id.defined() ? id : 'Create a volume'"
+        }
     }
 });

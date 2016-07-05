@@ -72,5 +72,13 @@ exports.ZfsTopology = AbstractModel.specialize({
             name: "spare",
             valueType: "array"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/topology.reel'
+            },
+            nameExpression: "'Topology'"
+        }
     }
 });

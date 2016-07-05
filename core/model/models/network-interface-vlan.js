@@ -38,5 +38,16 @@ exports.NetworkInterfaceVlan = AbstractModel.specialize({
             name: "tag",
             valueType: "number"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/vlan.reel'
+            },
+            iconComponentModule: {
+                id: 'ui/icons/vlan.reel'
+            },
+            nameExpression: "!!id ? status.name : 'New ' + type"
+        }
     }
 });

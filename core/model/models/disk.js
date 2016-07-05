@@ -227,5 +227,14 @@ exports.Disk = AbstractModel.specialize({
             valueObjectPrototypeName: "DiskStatus",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/inspectors/available-disks.reel'
+            },
+            collectionNameExpression: "'Available disks'",
+            nameExpression: "path"
+        }
     }
 });

@@ -106,5 +106,16 @@ exports.NetworkConfig = AbstractModel.specialize({
             name: "netwait",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/network-configuration.reel'
+            },
+            iconComponentModule: {
+                id: 'ui/icons/network-configuration.reel'
+            },
+            nameExpression: "'Network Configuration'"
+        }
     }
 });

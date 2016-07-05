@@ -91,5 +91,13 @@ exports.Service = AbstractModel.specialize({
             valueObjectPrototypeName: "ServiceState",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/service.reel'
+            },
+            nameExpression: "config.type.replace('service-', '').toUpperCase()"
+        }
     }
 });

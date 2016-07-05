@@ -68,5 +68,13 @@ exports.NetworkOverview = AbstractModel.specialize({
             mandatory: false,
             name: "networkConfiguration"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/network/configuration.reel'
+            },
+            nameExpression: "'Overview'"
+        }
     }
 });

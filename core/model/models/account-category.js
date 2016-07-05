@@ -52,5 +52,13 @@ exports.AccountCategory = AbstractModel.specialize({
             mandatory: false,
             name: "system"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/account-category.reel'
+            },
+            nameExpression: "'Accounts'"
+        }
     }
 });

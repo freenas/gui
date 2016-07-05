@@ -123,5 +123,13 @@ exports.Ipmi = AbstractModel.specialize({
             name: "vlan_id",
             valueType: "number"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/ipmi.reel'
+            },
+            nameExpression: "'IPMI'"
+        }
     }
 });

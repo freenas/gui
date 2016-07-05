@@ -106,5 +106,23 @@ exports.Group = AbstractModel.specialize({
             name: "sudo",
             valueType: "boolean"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/group.reel'
+            },
+            iconComponentModule: {
+                id: 'ui/icons/group.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            nameExpression: "id.defined() ? name : 'Create a group'",
+            collectionNameExpression: "'Groups'",
+            creatorComponentModule: {
+                id: 'ui/inspectors/group.reel'
+            }
+        }
     }
 });
