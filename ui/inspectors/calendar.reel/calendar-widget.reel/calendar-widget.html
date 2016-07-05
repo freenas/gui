@@ -20,7 +20,13 @@
             },
             "bindings": {
                 "days": {"<-": "@owner.currentWidget.days"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "displayedPeriodLabel": {
             "prototype": "montage/ui/text.reel",
@@ -137,6 +143,13 @@
             "properties": {
                 "element": {"#": "dayView"}
             }
+        },
+        "createTask": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "createTask"},
+                "value": "Create"
+            }
         }
 
     }
@@ -164,6 +177,7 @@
                 <div data-montage-id="taskCategories" class="CalendarWidget-taskCategories">
                     <div data-montage-id="taskCategory" class="CalendarWidget-taskCategory"></div>
                 </div>
+                <button data-montage-id="createTask" class="Button--create"></button>
             </div>
         </header>
         <main data-montage-id="viewSubstitution">

@@ -24,12 +24,13 @@
             }
         },
         "type": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "type"}
+                "element": {"#": "type"},
+                "label": "Type"
             },
             "bindings": {
-                "value": {"<-": "@owner.taskCategories.filter{value == @owner.object.name}.map{name}"}
+                "options": {"<-": "@owner.taskCategories.map{name}"}
             }
         },
         "id": {
