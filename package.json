@@ -16,7 +16,7 @@
   "devDependencies": {
     "montage-testing": "~0.4.0",
     "commander": "~2.9.0",
-    "ws": "~1.0.1",
+    "ws": "~1.1.1",
     "prompt": "~0.3.0",
     "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
     "mop": "montagejs/mop#31108dfc9b6aec8d4984e25161d96bff63fa2e34",
