@@ -22,7 +22,7 @@
     "mop": "montagejs/mop#31108dfc9b6aec8d4984e25161d96bff63fa2e34",
     "rimraf": "~2.5.2",
     "progress": "~1.1.8",
-    "json.sortify": "^2.1.0",
+    "json.sortify": "^2.0.2",
     "js-beautify": "^1.6.3",
     "browser-sync": "^2.13.0",
     "cssnano": "^3.7.1",
