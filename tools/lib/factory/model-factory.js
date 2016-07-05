@@ -1,6 +1,6 @@
 require('../../../core/extras/string');
 require('montage/core/extras/string');
-require('json.sortify');
+JSON.sortify = require('json.sortify');
 
 var FS = require('../fs-promise');
 var Path = require('path');

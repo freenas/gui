@@ -3,7 +3,7 @@ var Promise = require('montage/core/promise').Promise;
 var Path = require('path');
 var Service = require('./backend/service');
 
-require('json.sortify');
+JSON.sortify = require('json.sortify');
 
 exports.generateServices = function generateServices (options) {
     return Service.findMethodsForServices(options).then(function (methodsForServices) {

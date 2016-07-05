@@ -2,7 +2,7 @@ var FS = require('./fs-promise');
 var Service = require('./backend/service');
 var Promise = require('montage/core/promise').Promise;
 var Path = require('path');
-require('json.sortify');
+JSON.sortify = require('json.sortify');
 
 
 exports.generateEventTypesForEntities = function generateEventTypesForEntities (options) {

@@ -1,7 +1,7 @@
 var FS = require('./fs-promise');
 var Path = require('path');
 var Promise = require('montage/core/promise').Promise;
-require('json.sortify');
+JSON.sortify = require('json.sortify');
 
 exports.generateModel = function generateModel (paths, options) {
     if (!Array.isArray(paths)) {
