@@ -70,7 +70,7 @@ function _initialize () {
                     constructor.blueprint = objectPrototype.blueprint;
                 }
 
-                constructor.Type = objectPrototype.Type = type;
+                constructor.Type = objectPrototype.Type = objectDescriptor;
                 objectDescriptor.constructor = constructor;
 
                 return (objectDescriptor.objectPrototype = objectPrototype);
@@ -79,7 +79,7 @@ function _initialize () {
             return objectDescriptor.objectPrototype;
         }
 
-        return Promise.resolve(type.objectPrototype);
+        return Promise.resolve(objectDescriptor.objectPrototype);
     };
 
     _Model.getModelIdForType = function (type) {
