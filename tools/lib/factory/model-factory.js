@@ -8,7 +8,11 @@ var beautify = require('js-beautify').js_beautify;
 
 var MODULE_FILE_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(<PROTOTYPE_DESCRIPTOR>);";
 var MODULE_FILE_CONSTRUCTOR_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(<PROTOTYPE_DESCRIPTOR>, <CONSTRUCTOR_DESCRIPTOR>);";
-var CONSTRUCTOR_PROPERTY_BLUEPRINTS_TEMPLATE = "{propertyBlueprints: { value: <PROPERTY_BLUEPRINTS> } }";
+var MODULE_FILE_ONLY_CONSTRUCTOR_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(null, <CONSTRUCTOR_DESCRIPTOR>);";
+var CONSTRUCTOR_PROPERTY_BLUEPRINTS_TEMPLATE = "propertyBlueprints: { value: <PROPERTY_BLUEPRINTS> }";
+var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_TEMPLATE = "userInterfaceDescriptor: { value: { <USER_INTERFACE_DESCRIPTOR> } } ";
+var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_MODULE_ID_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_MODULE_NAME>: { id: '<USER_INTERFACE_DESCRIPTOR_MODULE_ID>' }";
+var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>: \"<USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING>\"";
 var REQUIRE_TEMPLATE = 'var <MODULE_NAME> = require("<MODULE_ID>").<MODULE_NAME>;';
 var PROPERTY_TEMPLATE = '_<PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this._<PROPERTY_NAME> !== value) {this._<PROPERTY_NAME> = value;}}, get: function () {return this._<PROPERTY_NAME>;}}';
 var PROPERTY_OBJECT_TEMPLATE = '_<PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this._<PROPERTY_NAME> !== value) {this._<PROPERTY_NAME> = value;}}, get: function () {return this._<PROPERTY_NAME> || (this._<PROPERTY_NAME> = new <MODULE_NAME>());}}';
@@ -74,11 +78,11 @@ function _toFileName (name, separator) {
 
 
 ModelObject.prototype.toJS = function () {
-    var PROTOTYPE_DESCRIPTOR = "", REQUIRES = "",
-        i, length, property, _require,
+    var PROTOTYPE_DESCRIPTOR = "", REQUIRES = "", CONSTRUCTOR_DESCRIPTOR = "", CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR = "",
+        CONSTRUCTOR_DESCRIPTOR_BLUEPRINTS = "", constructorProperties = [], i, length, property, _require,
         // TODO: enable feature later
         // Need to add class method +  prototype method on compiled files.
-        // Need to remove all the "manual" initilialization of the valueObjectPrototypeName within GUI
+        // Need to remove all the "manual" initialization of the valueObjectPrototypeName within GUI
        enableMultipleRequires = false;
 
     for (i = 0, length = this.properties.length; i < length; i++) {
@@ -111,13 +115,61 @@ ModelObject.prototype.toJS = function () {
     }
 
     if (this.properties.length) {
-        var CONSTRUCTOR_DESCRIPTOR = CONSTRUCTOR_PROPERTY_BLUEPRINTS_TEMPLATE.replace(/<PROPERTY_BLUEPRINTS>/ig, JSON.sortify(this.properties));
-        CONSTRUCTOR_DESCRIPTOR = CONSTRUCTOR_DESCRIPTOR.replace(/\"([^(\")"]+)\":/g,"$1:");
+        constructorProperties.push((CONSTRUCTOR_PROPERTY_BLUEPRINTS_TEMPLATE
+            .replace(/<PROPERTY_BLUEPRINTS>/ig, JSON.sortify(this.properties)).replace(/\"([^(\")"]+)\":/g,"$1:")));
+    }
 
+    if (this.userInterfaceDescriptor && this.userInterfaceDescriptor.root) {
+        var userInterfaceDescriptorProperties = this.userInterfaceDescriptor.root.properties,
+            userInterfaceDescriptorPropertiesKeys = Object.keys(userInterfaceDescriptorProperties);
+
+        for (i = 0, length = userInterfaceDescriptorPropertiesKeys.length; i < length; i++) {
+            property = userInterfaceDescriptorProperties[userInterfaceDescriptorPropertiesKeys[i]];
+
+            if (typeof property === "object") {
+                CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += (
+                    (CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_MODULE_ID_TEMPLATE
+                        .replace(/<USER_INTERFACE_DESCRIPTOR_MODULE_NAME>/ig, userInterfaceDescriptorPropertiesKeys[i]))
+                        .replace(/<USER_INTERFACE_DESCRIPTOR_MODULE_ID>/ig, property["%"])
+                );
+            } else {
+                CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += (
+                    (CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING_TEMPLATE
+                        .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>/ig, userInterfaceDescriptorPropertiesKeys[i]))
+                        .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING>/ig, property)
+                );
+            }
+
+            if (length - 1 !== i) {
+                CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += ",";
+            }
+        }
+
+        constructorProperties.push(CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_TEMPLATE.replace(/<USER_INTERFACE_DESCRIPTOR>/ig, CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR));
+    }
+
+    if (constructorProperties.length) {
+        for (i = 0, length = constructorProperties.length; i < length; i++) {
+            CONSTRUCTOR_DESCRIPTOR += constructorProperties[i];
+
+            if (length - 1 !== i) {
+                CONSTRUCTOR_DESCRIPTOR += ",";
+            }
+        }
+
+        CONSTRUCTOR_DESCRIPTOR = "{" + CONSTRUCTOR_DESCRIPTOR + "}";
+    }
+
+
+    if (CONSTRUCTOR_DESCRIPTOR && PROTOTYPE_DESCRIPTOR) {
         return ((MODULE_FILE_CONSTRUCTOR_TEMPLATE.replace(/<EXPORT_NAME>/ig, this.name))
             .replace(/<PROTOTYPE_DESCRIPTOR>/ig, PROTOTYPE_DESCRIPTOR)
             .replace(/<REQUIRES>/ig, REQUIRES)
             .replace(/<CONSTRUCTOR_DESCRIPTOR>/ig, CONSTRUCTOR_DESCRIPTOR));
+    } else if (CONSTRUCTOR_DESCRIPTOR) {
+        return ((MODULE_FILE_ONLY_CONSTRUCTOR_TEMPLATE.replace(/<EXPORT_NAME>/ig, this.name))
+            .replace(/<CONSTRUCTOR_DESCRIPTOR>/ig, CONSTRUCTOR_DESCRIPTOR)
+            .replace(/<REQUIRES>/ig, REQUIRES));
     }
 
     return ((MODULE_FILE_TEMPLATE.replace(/<EXPORT_NAME>/ig, this.name))

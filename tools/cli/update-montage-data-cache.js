@@ -51,9 +51,9 @@ Connect.authenticateIfNeeded(program.username, program.password, program).then(f
                     program.target = MontageDataConfig.ModelsDirectoryAbsolutePath;
 
                     return generateModels([
-                        MontageDataConfig.DescriptorsDirectoryAbsolutePath,
+                            MontageDataConfig.DescriptorsDirectoryAbsolutePath,
                             MontageDataConfig.CustomDescriptorsAbsolutePath
-                        ], program).then(function () {
+                        ], program, MontageDataConfig.UserInterfaceDescriptorDirectoryAbsolutePath).then(function () {
                         progressBar.tick();
                         program.target = MontageDataConfig.ModelDirectoryAbsolutePath;
 

@@ -7,5 +7,6 @@ exports.MontageDataConfig = {
     DescriptorsDirectoryPath: "core/model/descriptors",
     DescriptorsDirectoryAbsolutePath: Path.join(__dirname, "../../core/model/descriptors"),
     ServicesDirectoryAbsolutePath: Path.join(__dirname, "../../core/model"),
+    UserInterfaceDescriptorDirectoryAbsolutePath: Path.join(__dirname, "../../core/model/user-interface-descriptors"),
     CustomDescriptorsAbsolutePath: Path.join(__dirname, "../../core/model/custom-descriptors")
 };
