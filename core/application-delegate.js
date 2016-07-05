@@ -1,8 +1,7 @@
 /*global require, exports, Error*/
 require("./extras/string");
 
-var Deserializer = require("montage/core/serialization/deserializer/montage-deserializer").MontageDeserializer,
-    FreeNASService = require("core/service/freenas-service").FreeNASService,
+var FreeNASService = require("core/service/freenas-service").FreeNASService,
     TopologyService = require("core/service/topology-service").TopologyService,
     SelectionService = require("core/service/selection-service").SelectionService,
     BootEnvironmentService = require("core/service/boot-environment-service").BootEnvironmentService,
@@ -16,12 +15,11 @@ var Deserializer = require("montage/core/serialization/deserializer/montage-dese
     SystemDeviceService = require("core/service/system-device-service").SystemDeviceService,
     NetworkInterfaceService = require("core/service/network-interface-service").NetworkInterfaceService,
     ShareService = require("core/service/share-service").ShareService,
+    Model = require("core/model/model").Model,
     Montage = require("montage").Montage;
 
 
-var ModelUserInterfaceDescriptorsFolderPath = "core/model/user-interface-descriptors/",
-    UserInterfaceDescriptorSuffix = "-user-interface-descriptor.mjson",
-    UserInterfaceDescriptorPromisesMap = new Map();
+var UserInterfaceDescriptorPromisesMap = new Map();
 
 
 exports.ApplicationDelegate = Montage.specialize({
@@ -55,27 +53,21 @@ exports.ApplicationDelegate = Montage.specialize({
 
 
     getUserInterfaceDescriptorForType: {
-        value: function (modelType, object) {
-            var key = modelType.typeName || modelType,
-                subType = "";
+        value: function (modelType) {
+            var key = modelType.typeName || modelType;
 
             var userInterfaceDescriptorPromise = UserInterfaceDescriptorPromisesMap.get(key);
 
             if (!userInterfaceDescriptorPromise) {
                 userInterfaceDescriptorPromise = new Promise(function (resolve, reject) {
-                    var userInterfaceDescriptorPrefix = key.split(/(?=[A-Z])/).join("-").toLowerCase(),
-                        objectUserInterfaceDescriptorId = ModelUserInterfaceDescriptorsFolderPath;
-
-                    objectUserInterfaceDescriptorId += userInterfaceDescriptorPrefix + subType + UserInterfaceDescriptorSuffix;
-
-                    require.async(objectUserInterfaceDescriptorId).then(function (userInterfaceDescriptor) {
-                        return new Deserializer().init(JSON.stringify(userInterfaceDescriptor), require)
-                            .deserializeObject().then(resolve);
-                    }, reject);
+                    Model.populateObjectPrototypeForType(key).then(function (objectPrototype) {
+                        resolve(objectPrototype.constructor.userInterfaceDescriptor)
+                    });
                 });
 
                 UserInterfaceDescriptorPromisesMap.set(key, userInterfaceDescriptorPromise);
             }
+
             return userInterfaceDescriptorPromise;
         }
     },
