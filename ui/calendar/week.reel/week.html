@@ -8,56 +8,28 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "days":
-                    ["Sun 12/10", "Mon 12/11", "Tues 12/12", "Wed 12/13", "Thurs 12/14", "Fri 12/15", "Sat 12/16"],
                 "hours":
-                    ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-                "events": [
-                    {
-                        "id": "event1",
-                        "type": "rsync",
-                        "hours": "2",
-                        "minutes": "30",
-                        "concurrentEvents": 1,
-                        "allDay": false
-                    },
-                    {
-                        "id": "event2",
-                        "type": "snapshot",
-                        "hours": "2",
-                        "minutes": "30",
-                        "concurrentEvents": 1,
-                        "allDay": false
-                    },
-                    {
-                        "id": "event3",
-                        "type": "volume_scrub",
-                        "hours": "2",
-                        "minutes": "30",
-                        "concurrentEvents": 1,
-                        "allDay": false
-                    },
-                    {
-                        "id": "event4",
-                        "type": "volume_scrub",
-                        "allDay": true
-                    },
-                    {
-                        "id": "event5",
-                        "type": "snapshot",
-                        "allDay": true
-                    }
-                ]
-
+                    ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]
             }
         },
-        "days": {
+        "dayHeaders": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
-                "element": {"#": "days"}
+                "element": {"#": "dayHeaders"}
             },
             "bindings": {
                 "content": {"<-": "@owner.days"}
+            }
+        },
+        "dayHeader": {
+            "prototype": "./day-header.reel",
+            "properties": {
+                "element": {"#": "dayHeader"}
+            },
+            "bindings": {
+                "data": {"<-": "@dayHeaders:iteration.object"},
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
             }
         },
         "dayColumns": {
@@ -69,13 +41,15 @@
                 "content": {"<-": "@owner.days"}
             }
         },
-        "day": {
-            "prototype": "montage/ui/text.reel",
+        "dayColumn": {
+            "prototype": "./day-column.reel",
             "properties": {
-                "element": {"#": "day"}
+                "element": {"#": "dayColumn"}
             },
             "bindings": {
-                "value": {"<-": "@days:iteration.object"}
+                "data": {"<-": "@dayColumns:iteration.object"},
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
             }
         },
         "hours": {
@@ -95,42 +69,6 @@
             "bindings": {
                 "value": {"<-": "@hours:iteration.object"}
             }
-        },
-        "dayEvents": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "dayEvents"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.events.filter{!allDay}"}
-            }
-        },
-        "event": {
-           "prototype": "./event.reel",
-           "properties": {
-               "element": {"#": "event"}
-           },
-           "bindings": {
-               "object": {"<-": "@dayEvents:iteration.object"}
-           }
-       },
-       "recurringEvents": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "recurringEvents"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.events.filter{allDay}"}
-            }
-        },
-        "recurringEvent": {
-           "prototype": "./event.reel",
-           "properties": {
-               "element": {"#": "recurringEvent"}
-           },
-           "bindings": {
-               "object": {"<-": "@recurringEvents:iteration.object"}
-           }
        }
     }
 
@@ -141,13 +79,8 @@
 
         <header class="Week-header">
             <div class="Week-column--axis"></div>
-            <div data-montage-id="days" class="Week-days">
-                <div class="Week-day">
-                    <div data-montage-id="day" class="Week-day-title"></div>
-                    <div data-montage-id="recurringEvents" class="Week-day-events">
-                        <div data-montage-id="recurringEvent"></div>
-                    </div>
-                </div>
+            <div data-montage-id="dayHeaders" class="Week-days">
+                <div data-montage-id="dayHeader" class="Week-day"></div>
             </div>
         </header>
 
@@ -159,11 +92,7 @@
                 </div>
 
                 <div data-montage-id="dayColumns" class="Week-dayColumns">
-                    <div class="Week-dayColumn">
-                        <div data-montage-id="dayEvents" class="Week-events">
-                            <div data-montage-id="event"></div>
-                        </div>
-                    </div>
+                    <div data-montage-id="dayColumn" class="Week-dayColumn"></div>
                 </div>
             </div>
 

@@ -123,6 +123,13 @@
             "prototype": "ui/calendar/week.reel",
             "properties": {
                 "element": {"#": "weekView"}
+            },
+            "bindings": {
+                "displayedPeriodLabel": {"<->": "@owner.displayedPeriodLabel"},
+                "events": {"<-": "@owner.tasks"},
+                "taskCategories": {"<-": "@owner.taskCategories"},
+                "selectedTask": {"<->":"@owner.selectedTask"},
+                "selectedDay": {"<->":"@owner.selectedDay"}
             }
         },
         "dayView": {

@@ -21,7 +21,7 @@ exports.TaskCategory = Component.specialize(/** @lends TaskCategory# */ {
         }
     },
 
-    handleCrateAction: {
+    handleCreateAction: {
         value: function(event) {
             var self = this;
             this.application.calendarService.getNewTask(this.object.value).then(function(task) {

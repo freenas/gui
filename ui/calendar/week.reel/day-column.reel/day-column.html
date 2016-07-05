@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="day-column.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "dayEvents": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "dayEvents"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.data.events.filter{hour != '*' && minute != '*' && second != '*'}"}
+            }
+        },
+        "event": {
+            "prototype": "../event.reel",
+            "properties": {
+               "element": {"#": "event"}
+            },
+            "bindings": {
+                "object": {"<-": "@dayEvents:iteration.object"},
+                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @dayEvents:iteration.object.task.name}.one()"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
+           }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DayColumn">
+        <div data-montage-id="dayEvents" class="Week-events">
+            <div data-montage-id="event"></div>
+        </div>
+    </div>
+</body>
+</html>

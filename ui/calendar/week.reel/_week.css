@@ -62,6 +62,10 @@ Header
     }
 }
 
+.Week-events {
+    display: flex;
+}
+
 /*
 
 Main Content

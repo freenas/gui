@@ -1,7 +1,7 @@
 .Event {
     border: 1px solid transparent;
     border-radius: 2px;
-    display: flex;
+    display: none;
     align-items: center;
     cursor: pointer;
     /* $fix - can this be removed? */
@@ -12,6 +12,10 @@
         position: absolute;
         width: calc(100% - .5em);
     }
+}
+
+.Event.is-displayed {
+    display: flex;
 }
 
 .Event-inner {
@@ -34,4 +38,11 @@
 .Event.type-replication_replicate_dataset .Event-inner     { background-color: #008C84; }
 .Event.type-disk_parallel_test .Event-inner                { background-color: #990F82; }
 .Event.type-update_checkfetch .Event-inner                 { background-color: #C4A412; }
-.Event.type-snapshot .Event-inner                          { background-color: #6D2A2A; }
+.Event.type-volume_snapshot_dataset .Event-inner           { background-color: #6D2A2A; }
+.Event.type-calendar_task_command .Event-inner             { background-color: grey; }
+
+.Event.is-selected .Event-inner {
+    color: #FFF;
+    background-color: #2B9CD8;
+}
+

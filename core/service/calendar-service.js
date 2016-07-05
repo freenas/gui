@@ -135,7 +135,6 @@ var CalendarService = exports.CalendarService = Montage.specialize({
     getTasksScheduleOnDay: {
         value: function(day) {
             var self = this,
-                key = day.year+'-'+day.month+'-'+day.date,
                 tasksPromise;
             if (this._tasks) {
                 tasksPromise = Promise.resolve(this._tasks);
@@ -143,18 +142,9 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 tasksPromise = this.listTasks();
             }
             return tasksPromise.then(function(tasks) {
-                var task, 
-                    tasksSchedule = self._tasksPerDay[key] ? self._tasksPerDay[key].tasks : [];
-                tasksSchedule.splice(0, tasksSchedule.length);
-                for (var i = 0, length = tasks.length; i < length; i++) {
-                    task = tasks[i];
-                    if (self._isDayMatchingSchedule(day, task.schedule)) {
-                        Array.prototype.push.apply(tasksSchedule, self._getTaskOccurrencesPerDay(task));
-                    }
-                }
-                tasksSchedule.sort(self._sortOccurrences);
-                self._tasksPerDay[key] = { day: day, tasks: tasksSchedule };
-                return tasksSchedule;
+                return self._buildScheduleFromTasksAndDay(tasks, day);
+            }).then(function(schedule) {
+                return self._addConcurrentTasksToSchedule(schedule);
             });
         }
     },
@@ -165,6 +155,88 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 task.name = type;
                 return task;
             });
+        }
+    },
+
+    _addConcurrentTasksToSchedule: {
+        value: function(schedule) {
+            var task, nextTask,
+                timeInMinutes, nextTimeInMinutes,
+                j, tasksLength;
+            for (var i = 0, length = schedule.length; i < length; i++) {
+                task = schedule[i];
+                task._concurrentTasks = task._concurrentTasks || [task];
+                if (typeof task.hour === 'number' && typeof task.minute === 'number') {
+                    timeInMinutes = task.hour * 60 + task.minute;
+                    for (j = i+1; j < length; j++) {
+                        nextTask = schedule[j];
+                        if (nextTask) {
+                            nextTask._concurrentTasks = nextTask._concurrentTasks || [nextTask];
+                            if (typeof nextTask.hour === 'number' && typeof nextTask.minute === 'number') {
+                                nextTimeInMinutes = nextTask.hour * 60 + nextTask.minute;
+                                if (nextTimeInMinutes < timeInMinutes + 30) {
+                                    task._concurrentTasks.push(nextTask);
+                                    nextTask._concurrentTasks.unshift(task);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (var i = 0, length = schedule.length; i < length; i++) {
+                task = schedule[i];
+                tasksLength = task._concurrentTasks.length;
+                task.concurrentEvents = tasksLength;
+                for (j = 0; j < tasksLength; j++) {
+                    if (task._concurrentTasks[j] == task) {
+                        task.concurrentIndex = j;
+                        break;
+                    }
+                }
+                delete task._concurrentTasks;
+            }
+/*
+                    var tasksInTimeSlot = [],
+                j, length,
+                task, scheduleInMinute;
+            for (var i = 0; i < 1440; i += 30) {
+                tasksInTimeSlot = [];
+                for (j = 0, length = schedule.length; j < length; j++) {
+                    task = schedule[j];
+                    scheduleInMinute = task.hour * 60 + task.minute;
+                    if (scheduleInMinute > i + 30) {
+                        break;
+                    }
+                    if (scheduleInMinute >= i) {
+                        tasksInTimeSlot.push(task);
+                    }
+                }
+                for (j = 0, length = tasksInTimeSlot.length; j < length; j++) {
+                    task = tasksInTimeSlot[j];
+                    task.concurrentEvents = length;
+                    task.concurrentIndex = j;
+                }
+            }
+*/
+            return schedule;
+        }
+    },
+
+    _buildScheduleFromTasksAndDay: {
+        value: function(tasks, day) {
+            var task, 
+                key = day.year+'-'+day.month+'-'+day.date,
+                tasksSchedule = this._tasksPerDay[key] ? this._tasksPerDay[key].tasks : [];
+            tasksSchedule.splice(0, tasksSchedule.length);
+            for (var i = 0, length = tasks.length; i < length; i++) {
+                task = tasks[i];
+                if (this._isDayMatchingSchedule(day, task.schedule)) {
+                    Array.prototype.push.apply(tasksSchedule, this._getTaskOccurrencesPerDay(task));
+                }
+            }
+            tasksSchedule.sort(this._sortOccurrences);
+            this._tasksPerDay[key] = { day: day, tasks: tasksSchedule, concurrentEvents: 1 };
+            return tasksSchedule;
         }
     },
 

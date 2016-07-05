@@ -8,6 +8,10 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-displayed')": {"<-": "@owner.taskCategory.isDisplayed"},
+                "classList.has('is-selected')": {"<-": "@owner.selectedTask == @owner.object.task"}
             }
         },
         "name": {
@@ -16,7 +20,7 @@
                 "element": {"#": "name"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.id"}
+                "value": {"<-": "@owner.object.task.id"}
             }
         }
     }

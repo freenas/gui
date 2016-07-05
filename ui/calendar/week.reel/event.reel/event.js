@@ -1,17 +1,66 @@
 /**
  * @module ui/event.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    PressComposer = require("montage/composer/press-composer").PressComposer;
 
 /**
  * @class Event
  * @extends Component
  */
 exports.Event = Component.specialize(/** @lends Event# */ {
+    enterDocument: {
+        value: function(isFirstTime) {
+            this._setPosition();
+            this.classList.add('type-' + this.object.task.name.replace('.', '_').toLowerCase());
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.classList.remove('type-' + this.object.task.name.replace('.', '_').toLowerCase());
+        }
+    },
+
+    prepareForActivationEvents: {
+        value: function() {
+            var pressComposer = new PressComposer();
+            this.addComposer(pressComposer);
+            pressComposer.addEventListener("press", this);
+            this.element.addEventListener("mouseover", this);
+        }
+    },
+
+    handlePress: {
+        value: function(event) {
+            this.selectedTask = this.object.task;
+        }
+    },
+
+    _resetStyle: {
+        value: function() {
+            this.element.style.position = '';
+            this.element.style.top = '';
+        }
+    },
+
+    _setPosition: {
+        value: function() {
+            if(!this.object.allDay) {
+                this.classList.add('has-time');
+                // multiply by height row (3) to get top position
+                this._resetStyle();
+                this.element.style.top = this._setY(this.object.hour, this.object.minute) * 3 + "em";
+                if (this.object.concurrentEvents > 1) {
+                    this.element.style.position = 'relative';
+                }
+            }
+        }
+    },
 
     _setY: {
         value: function(hours, minutes) {
-            var hours =   parseInt(hours);
+            var hours   = parseInt(hours);
             var minutes = parseInt(minutes);
             if(minutes) {
                 // convert minutes into percentage and set correct decimal placement
@@ -19,39 +68,6 @@ exports.Event = Component.specialize(/** @lends Event# */ {
                 return hours + minutes;
             } else {
                 return hours;
-            }
-        }
-    },
-
-    _setX: {
-        value: function() {
-            console.log("setY");
-        }
-    },
-
-    _setWidth: {
-        value: function(concurrentEvents) {
-            this.element.style.width = 100 / (concurrentEvents + 1) + '%';
-        }
-    },
-
-    enterDocument: {
-        value: function(isFirstTime) {
-
-            console.log(this.object);
-
-            if(!this.object.allDay) {
-                // adds style adjustment to position absolute
-                this.classList.add('has-time');
-                // multiply by height row (3) to get top position
-                this.element.style.top = this._setY(this.object.hours, this.object.minutes) * 3 + "em";
-                this._setWidth(this.object.concurrentEvents);
-            }
-
-            // sets type class
-
-            if (this.object && this.object.type) {
-                this.classList.add('type-' + this.object.type.replace('.', '_').toLowerCase());
             }
         }
     }

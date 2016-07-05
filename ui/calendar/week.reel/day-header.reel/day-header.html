@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="day-header.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "day": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "day"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.daysOfWeek[@owner.data.day] + ' ' + (@owner.data.month+1) + '/' + @owner.data.date"}
+            }
+       },
+       "recurringEvents": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "recurringEvents"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.data.events.filter{hour == '*' || minute == '*' || second == '*'}"}
+            }
+        },
+        "recurringEvent": {
+            "prototype": "../event.reel",
+            "properties": {
+               "element": {"#": "recurringEvent"}
+            },
+            "bindings": {
+                "object": {"<-": "@recurringEvents:iteration.object"},
+                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @recurringEvents:iteration.object.task.name}.one()"},
+                "selectedTask": {"<->": "@owner.selectedTask"}
+           }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DayHeader">
+        <div data-montage-id="day" class="Week-day-title"></div>
+        <div data-montage-id="recurringEvents" class="Week-day-events">
+            <div data-montage-id="recurringEvent"></div>
+        </div>
+    </div>
+</body>
+</html>
