@@ -29,7 +29,7 @@
             },
             "bindings": {
                 "taskCategories": {"<-": "@owner.taskCategories"},
-                "days": {"<-": "@calendarWidget.days.filter{isCurrentMonth}"},
+                "days": {"<-": "@calendarWidget.days"},
                 "selectedTask": {"<->": "@owner.selectedObject"},
                 "selectedDay": {"<->": "@owner.selectedDay"}
             }

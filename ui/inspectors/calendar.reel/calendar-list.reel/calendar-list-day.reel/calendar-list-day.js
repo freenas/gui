@@ -24,14 +24,11 @@ exports.CalendarListDay = Component.specialize(/** @lends CalendarListDay# */ {
         set: function(day) {
             if (this._day !== day) {
                 this._day = day;
-                this._loadTasks();
+                if (day) {
+                    this.fullDate = monthNames[day.month] + " " + day.date;
+                    this._loadTasks();
+                }
             }
-        }
-    },
-
-    fullDate: {
-        get: function() {
-            return monthNames[this.day.month] + " " + this.day.date;
         }
     },
 

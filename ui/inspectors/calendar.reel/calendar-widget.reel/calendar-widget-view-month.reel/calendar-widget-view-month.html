@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "days": {"<-": "@owner.weeks.flatten().filter{isCurrentMonth}"}
             }
         },
         "weekRepetition": {

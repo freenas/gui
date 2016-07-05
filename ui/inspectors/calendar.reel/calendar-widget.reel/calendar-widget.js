@@ -1,7 +1,7 @@
 var Component = require("montage/ui/component").Component;
 
 exports.CalendarWidget = Component.specialize({
-    _currentWidget: {
+    currentWidget: {
         value: null
     },
 
@@ -16,7 +16,7 @@ exports.CalendarWidget = Component.specialize({
         set: function(currentView) {
             if (this._currentView !== currentView) {
                 this._currentView = currentView;
-                this._currentWidget = this.widgets[currentView];
+                this.currentWidget = this.widgets[currentView];
             }
         }
     },
@@ -29,24 +29,24 @@ exports.CalendarWidget = Component.specialize({
 
     handlePreviousAction: {
         value: function () {
-            if (this._currentWidget && typeof this._currentWidget.gotoPrevious == "function") {
-                this._currentWidget.gotoPrevious();
+            if (this.currentWidget && typeof this.currentWidget.gotoPrevious == "function") {
+                this.currentWidget.gotoPrevious();
             }
         }
     },
 
     handleTodayAction: {
         value: function () {
-            if (this._currentWidget && typeof this._currentWidget.gotoToday == "function") {
-                this._currentWidget.gotoToday();
+            if (this.currentWidget && typeof this.currentWidget.gotoToday == "function") {
+                this.currentWidget.gotoToday();
             }
         }
     },
 
     handleNextAction: {
         value: function () {
-            if (this._currentWidget && typeof this._currentWidget.gotoNext == "function") {
-                this._currentWidget.gotoNext();
+            if (this.currentWidget && typeof this.currentWidget.gotoNext == "function") {
+                this.currentWidget.gotoNext();
             }
         }
     }
