@@ -1,7 +1,6 @@
 var AbstractShareInspector = require("ui/inspectors/share.reel/abstract-share-inspector").AbstractShareInspector,
     ShareIscsiRpm = require("core/model/enumerations/share-iscsi-rpm").ShareIscsiRpm,
-    ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize,
-    ShareIscsiAuthType = require("core/model/enumerations/share-iscsi-auth-type").ShareIscsiAuthType;
+    ShareIscsiBlocksize = require("core/model/enumerations/share-iscsi-blocksize").ShareIscsiBlocksize;
 
 /**
  * @class IScsiShare
@@ -14,17 +13,7 @@ exports.IScsiShare = AbstractShareInspector.specialize({
             this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
         }
     },
-
-    _authType: {
-        value: null
-    },
-
-    authType: {
-        get: function () {
-            return this._authType || (this._authType = ShareIscsiAuthType.members);
-        }
-    },
-
+    
     _iscsiRpm: {
         value: null
     },
@@ -42,21 +31,6 @@ exports.IScsiShare = AbstractShareInspector.specialize({
     iscsiBlocksize: {
         get: function () {
             return this._iscsiBlocksize || (this._iscsiBlocksize = ShareIscsiBlocksize.members);
-        }
-    },
-
-    extendTypes: {
-        get: function () {
-            return [
-                {
-                    label: "File",
-                    value: "File"
-                },
-                {
-                    label: "Device",
-                    value: "Device"
-                }
-            ]
         }
     }
 

@@ -149,31 +149,32 @@ var ShareService = exports.ShareService = Montage.specialize({
 
             return this._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function (target) {
                 shareIscsiObject.__target = target;
-                return self._dataService.getNewInstanceForType(Model.ShareIscsiPortal);
-
-            }).then(function (portal) {
-                portal.discovery_auth_group = "NONE";
-                portal.discovery_auth_method = "NONE";
-                portal.listen = [
-                    {
-                        port: 3260,
-                        address: "0.0.0.0"
-                    }
-                ];
-
-                shareIscsiObject.__portal = portal;
-
-                return self._dataService.getNewInstanceForType(Model.ShareIscsiAuth);
-
-            }).then(function (iscsiAuth) {
-                shareIscsiObject.__auth = iscsiAuth;
-                shareIscsiObject.__auth.type = "NONE";
-                return self._dataService.getNewInstanceForType(Model.ShareIscsiUser);
-
-            }).then(function (iscsiUser) {
-                shareIscsiObject.__user = iscsiUser;
-                return shareIscsiObject;
             });
+
+            //FIXME: need to be check with jakub
+            // .then(function (portal) {
+            //     portal.discovery_auth_group = "NONE";
+            //     portal.discovery_auth_method = "NONE";
+            //     portal.listen = [
+            //         {
+            //             port: 3260,
+            //             address: "0.0.0.0"
+            //         }
+            //     ];
+            //
+            //     shareIscsiObject.__portal = portal;
+            //
+            //     return self._dataService.getNewInstanceForType(Model.ShareIscsiAuth);
+            //
+            // }).then(function (iscsiAuth) {
+            //     shareIscsiObject.__auth = iscsiAuth;
+            //     shareIscsiObject.__auth.type = "NONE";
+            //     return self._dataService.getNewInstanceForType(Model.ShareIscsiUser);
+            //
+            // }).then(function (iscsiUser) {
+            //     shareIscsiObject.__user = iscsiUser;
+            //     return shareIscsiObject;
+            // })
         }
     }
 
