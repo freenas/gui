@@ -124,3 +124,173 @@ Media Queries
         height: 8em;
     }
 }
+
+
+/* Calendar View */
+
+:root {
+    --bg: #242628;
+    --titleBg: #2a2e33;
+    --hourHeight: 3rem;
+    --calenderStrongLine: #16171a;
+    --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
+    --allDayBg: #1e2123;
+}
+
+.CalendarView {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-height: 35em;
+}
+
+/*
+
+Header
+
+*/
+
+.CalendarView-header {
+    display: flex;
+    flex-shrink: 0;
+    /* added to match the CalendarView main border */
+    border: 1px solid transparent;
+}
+
+.CalendarView-days {
+    display: flex;
+    flex: 1;
+    background: var(--titleBg);
+}
+
+.CalendarView-day {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.CalendarView-day-title {
+    flex: 1;
+    align-self: center;
+    font-size: .8rem;
+    padding: .5rem .25rem;
+    color: #e0e5e5;
+}
+
+/* Recurring Events shown in Day Header */
+
+.CalendarView-day-events {
+    position: relative;
+    padding: .15em;
+    padding-bottom: 1em;
+    border-top:     1px solid var(--calenderStrongLine);
+    border-bottom:  1px solid var(--calenderStrongLine);
+    border-right:   1px solid var(--calenderStrongLine);
+    background: var(--allDayBg);
+
+    @nest .CalendarView-day:first-child &  {
+        border-left:  1px solid var(--calenderStrongLine);
+    }
+}
+
+.CalendarView-day-event,
+.CalendarView-day-event.has-time {
+    position: relative;
+}
+
+/*
+
+Main Content
+
+*/
+
+.CalendarView-main {
+    border: 1px solid var(--calenderStrongLine);
+    overflow-y: scroll;
+    background-color: var(--bg);
+}
+
+.CalendarView-content {
+    display: flex;
+    position: relative;
+}
+
+/* hours */
+
+.CalendarView-hours {
+    flex: 1;
+    position: relative;
+    background-color: var(--titleBg);
+
+    /* Grid */
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(var(--calenderStrongLine) 1px, transparent 1px);
+        background-size: var(--hourHeight) var(--hourHeight);
+        background-position: -1px -1px;
+    }
+}
+
+.CalendarView-hour {
+    text-align: right;
+    font-size: .8rem;
+    padding: .25rem .5rem;
+    position: relative;
+    line-height: 1.5em;
+    height: var(--hourHeight);
+    border-right: 1px solid var(--calenderStrongLine);
+}
+
+/* Day Columns */
+
+.CalendarView-dayColumns {
+    flex: 1;
+    display: flex;
+    position: relative;
+
+    /* Grid */
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(var(--calenderStrongLine) 1px, transparent 1px),
+                          linear-gradient(var(--calenderWeakLine) 1px, transparent 1px);
+        background-size: var(--hourHeight) var(--hourHeight), var(--hourHeight) var(--hourHeight);
+        background-position: -1px -1px, -1px calc(var(--hourHeight) / 2 - 1px);
+    }
+}
+
+.CalendarView-dayColumn {
+    position: relative;
+    flex: 1;
+    flex-direction: column;
+    padding: 0 .15em;
+
+    &:not(:last-child):before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 1px;
+        background: var(--calenderStrongLine);
+        z-index: 1;
+    }
+}
+
+/* Axis */
+
+.CalendarView-column--axis {
+    flex: 1;
+    max-width: calc(var(--hourHeight));
+}
