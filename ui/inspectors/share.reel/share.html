@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="share.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "datasetToPathConverter": {"@": "datasetToPathConverter"}
+                "datasetToPathConverter": {"@": "datasetToPathConverter"},
+                "_shareTypePlaceHolder": {"@": "shareTypePlaceHolder"}
             },
             "bindings": {
                 "datasetsPaths": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
@@ -85,48 +85,13 @@
                 "controller": {"<-": "@owner.targetController"}
             }
         },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
+        "shareTypePlaceHolder": {
+            "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "substitution"}
+                "element": {"#": "shareTypePlaceHolder"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.type"}
-            }
-        },
-        "smb": {
-            "prototype": "ui/inspectors/smb-share.reel",
-            "properties": {
-                "element": {"#": "smb"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object"}
-            }
-        },
-        "afp": {
-            "prototype": "ui/inspectors/afp-share.reel",
-            "properties": {
-                "element": {"#": "afp"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object"}
-            }
-        },
-        "nfs": {
-            "prototype": "ui/inspectors/nfs-share.reel",
-            "properties": {
-                "element": {"#": "nfs"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object"}
-            }
-        },
-        "iscsi": {
-            "prototype": "ui/inspectors/i-scsi-share.reel",
-            "properties": {
-                "element": {"#": "iscsi"}
-            },
-            "bindings": {
+                "moduleId": {"<-": "'ui/inspectors/' + @owner.object.type + '-share.reel'"},
                 "object": {"<-": "@owner.object"}
             }
         },
@@ -164,12 +129,7 @@
             <div data-montage-id="name"></div>
             <div data-montage-id="target"></div>
             <div data-montage-id="description"></div>
-            <div data-montage-id="substitution">
-                <div data-arg="smb" data-montage-id="smb"></div>
-                <div data-arg="afp" data-montage-id="afp"></div>
-                <div data-arg="nfs" data-montage-id="nfs"></div>
-                <div data-arg="iscsi" data-montage-id="iscsi"></div>
-            </div>
+            <div data-montage-id="shareTypePlaceHolder"></div>
         </div>
     </div>
 </body>

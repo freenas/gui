@@ -113,8 +113,9 @@ exports.Share = Component.specialize({
         },
         set: function(object) {
             var self = this;
-            if (this._object != object) {
+            if (this._object !== object) {
                 if (object) {
+
                     this._getService(object).then(function (service) {
                         self.service = service;
                         self.isServiceStarted = service.state == 'RUNNING';
@@ -251,7 +252,7 @@ exports.Share = Component.specialize({
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function (isFirstTime) {
             if (isFirstTime) {
                 this._loadVolumeService();
                 this._shareService = this.application.shareService;

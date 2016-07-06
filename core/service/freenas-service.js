@@ -136,6 +136,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.ShareNfs,
             Model.ShareAfp,
             Model.ShareIscsi,
+            Model.ServiceIscsi,
             Model.ShareIscsiAuth,
             Model.ShareIscsiTarget,
             Model.ShareIscsiUser,
