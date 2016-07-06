@@ -2,7 +2,7 @@
  * @module ui/link-status.reel
  */
 var Component = require("montage/ui/component").Component,
-    Bindings  = require("montage/core/core").Bindings;;
+    Bindings  = require("montage/core/core").Bindings;
 
 /**
  * @class LinkStatus
