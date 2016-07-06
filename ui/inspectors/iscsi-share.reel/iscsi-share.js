@@ -82,7 +82,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
             var index = this.targetNames.indexOf(this._targetName);
 
             if (this.object.name) {
-                var concatString = this.serviceIscsi.base_name + "_" + this.object.name;
+                var concatString = this.serviceIscsi.base_name + "." + this.object.name;
                 this._targetName.value = this._targetName.label = concatString;
 
                 if (index === -1) {
