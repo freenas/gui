@@ -40,8 +40,7 @@ exports.DefaultIcon = Component.specialize({
 
     _hash: {
         value: function (str) {
-            var FNV1_32A_INIT = 0x811c9dc5;
-            var hval = FNV1_32A_INIT;
+            var hval = 0x811c9dc5; //FNV1_32A_INIT
             for ( var i = str.length; i >= 0; i--)
             {
                 hval ^= str.charCodeAt(i) * 23;

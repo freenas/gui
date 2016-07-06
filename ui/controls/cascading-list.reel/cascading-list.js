@@ -40,8 +40,7 @@ exports.CascadingList = Component.specialize({
         value: function (object) {
             this._stack.push(object);
             if (this._defaultSelection && this._defaultSelection.path.length > 0) {
-                var selectedObject = this._defaultSelection.path.shift();
-                this.cascadingListItemAtIndex(this._stack.length - 1).selectedObject = selectedObject;
+                this.cascadingListItemAtIndex(this._stack.length - 1).selectedObject = this._defaultSelection.path.shift();
             } else {
                 this._selectionService.saveSectionSelection(this.application.section, this._getSelectionPath());
             }
