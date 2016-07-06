@@ -40,7 +40,7 @@
 
 /* search input field */
 
-.Viewer-searchField.blueShark-TextField {
+.Viewer-searchField.TextField {
     position: absolute;
     right: 0;
     width: 0;
@@ -81,7 +81,7 @@
 
 /* search states */
 
-.Viewer-search.is-expanded .Viewer-searchField.blueShark-TextField {
+.Viewer-search.is-expanded .Viewer-searchField.TextField {
     visibility: visible;
     opacity: 1;
     width: 100%;

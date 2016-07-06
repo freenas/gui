@@ -26,6 +26,6 @@
 
 /* sets min width of specific components */
 
-.TableCell-content > .blueShark-TextField {
+.TableCell-content > .TextField {
     min-width: 10em;
 }
