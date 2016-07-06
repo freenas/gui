@@ -10,7 +10,6 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-displayed')": {"<-": "@owner.taskCategory.isDisplayed"},
                 "classList.has('is-disabled')": {"<-": "!@owner.object.enabled"},
                 "classList.has('is-selected')": {"<-": "@owner.object == @owner.selectedTask"}
             }

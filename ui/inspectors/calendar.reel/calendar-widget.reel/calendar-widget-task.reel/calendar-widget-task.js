@@ -9,15 +9,36 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.CalendarWidgetTask = Component.specialize(/** @lends CalendarWidgetTask# */ {
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object !== object) {
+                if (this._object) {
+                    this.classList.remove('type-' + this._object.name.replace('.', '_').toLowerCase());
+                }
+                this._object = object;
+                if (object) {
+                    this.classList.add('type-' + object.name.replace('.', '_').toLowerCase());
+                }
+            }
+        }
+    },
+
     enterDocument: {
         value: function () {
-            this.classList.add('type-' + this.object.name.replace('.', '_').toLowerCase());
+            this.classList.add('type-' + this._object.name.replace('.', '_').toLowerCase());
         }
     },
 
     exitDocument: {
         value: function () {
-            this.classList.remove('type-' + this.object.name.replace('.', '_').toLowerCase());
+            this.classList.remove('type-' + this._object.name.replace('.', '_').toLowerCase());
         }
     },
 
