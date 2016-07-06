@@ -14,6 +14,7 @@
                     {"label": "Month", "value": "month"}
                 ],
                 "widgets": {
+                    "day": {"@": "dayView"},
                     "week": {"@": "weekView"},
                     "month": {"@": "monthView"}
                 }
@@ -124,6 +125,13 @@
             "prototype": "ui/calendar/day-view.reel",
             "properties": {
                 "element": {"#": "dayView"}
+            },
+            "bindings": {
+                "displayedPeriodLabel": {"<->": "@owner.displayedPeriodLabel"},
+                "events": {"<-": "@owner.tasks"},
+                "taskCategories": {"<-": "@owner.taskCategories.filter{isDisplayed}"},
+                "selectedTask": {"<->":"@owner.selectedTask"},
+                "selectedDay": {"<->":"@owner.selectedDay"}
             }
         },
         "createTask": {

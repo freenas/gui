@@ -36,7 +36,7 @@
                 "element": {"#": "dayHeader"}
             },
             "bindings": {
-                "data": {"<-": "@owner.data"},
+                "data": {"<-": "@owner.displayedDay"},
                 "taskCategories": {"<-": "@owner.taskCategories"},
                 "selectedTask": {"<->": "@owner.selectedTask"}
             }
@@ -47,7 +47,7 @@
                 "element": {"#": "dayColumn"}
             },
             "bindings": {
-                "data": {"<-": "@owner.data"},
+                "data": {"<-": "@owner.displayedDay"},
                 "taskCategories": {"<-": "@owner.taskCategories"},
                 "selectedTask": {"<->": "@owner.selectedTask"}
             }
