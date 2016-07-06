@@ -97,11 +97,7 @@ exports.ViewMode = Component.specialize({
 
     handleSearchToggleAction: {
         value: function () {
-            if (this.searchExpanded) {
-                this.searchExpanded = false;
-            } else {
-                this.searchExpanded = true;
-            }
+            this.searchExpanded = !this.searchExpanded;
         }
     },
 
