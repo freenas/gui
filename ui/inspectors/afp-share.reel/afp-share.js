@@ -76,5 +76,5 @@ exports.AfpShare = AbstractShareInspector.specialize({
                 }
             }
         }
-    },
+    }
 });
