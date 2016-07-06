@@ -110,7 +110,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     _isCreationInspector: {
         value: function() {
-            result = false;
+            var result = false;
             if (this._inDocument) {
                 var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
 
