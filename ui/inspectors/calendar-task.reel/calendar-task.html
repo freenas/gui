@@ -10,6 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
+        "optionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "value"
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -27,10 +34,12 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "type"},
-                "label": "Type"
+                "label": "Type",
+                "converter": {"@": "optionsConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.taskCategories.map{name}"}
+                "options": {"<-": "@owner.taskCategories"},
+                "selectedValue": {"<->": "@owner.object.name"}
             }
         },
         "id": {

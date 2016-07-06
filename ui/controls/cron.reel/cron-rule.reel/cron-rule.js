@@ -21,7 +21,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
         set: function(on) {
             if (this._on !== on) {
                 this._on = on;
-                if (this.selectedType === this.constructor.SELECTOR_TYPES.ON) {
+                if (this._selectedType === this.constructor.SELECTOR_TYPES.ON) {
                     this.value = on;
                 }
             }
@@ -39,7 +39,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
         set: function(every) {
             if (this._every !== every) {
                 this._every = every;
-                if (this.selectedType === this.constructor.SELECTOR_TYPES.EVERY) {
+                if (this._selectedType === this.constructor.SELECTOR_TYPES.EVERY) {
                     if (every > 1) {
                         this.value = '*/' + every;
                     } else {
@@ -63,16 +63,24 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
                 this._selectedType = selectedType;
                 if (selectedType) {
                     if (selectedType === this.constructor.SELECTOR_TYPES.ON) {
-                        if (this.displayOptions && this.displayOptions.length > 0) {
-                            this.value = this.displayOptions[0].value;
+                        if (this._on) {
+                            this.value = this._on;
                         } else {
-                            this.value = null;
+                            if (this.displayOptions && this.displayOptions.length > 0) {
+                                this.on = this.displayOptions[0].value;
+                            } else {
+                                this.on = null;
+                            }
                         }
                     } else {
-                        if (this.every > 1) {
-                            this.value = '*/' + this.every;
+                        if (this._every) {
+                            if (this._every > 1) {
+                                this.value = '*/' + this._every;
+                            } else {
+                                this.value = '*';
+                            }
                         } else {
-                            this.value = '*';
+                            this.every = 1;
                         }
                     }
                 }
@@ -101,7 +109,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             }
 
             if (typeof this.value !== "string" && typeof this.value !== "number") {
-                this.value = '*';
+                this.value = 0;
             }
             var parsedValue = parseInt(this.value);
             if (isNaN(parsedValue)) {
@@ -115,8 +123,11 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
         }
     },
 
-    handleSelectedTypeChange: {
-        value: function () {
+    exitDocument: {
+        value: function() {
+            this._selectedType = null;
+            this._on = null;
+            this._every = null;
         }
     }
 

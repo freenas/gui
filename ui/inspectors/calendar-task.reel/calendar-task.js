@@ -15,7 +15,6 @@ exports.CalendarTask = Component.specialize({
             }
             if (this.object._isNew) {
                 this.object.args = [];
-                this.object.schedule = {};
             }
         }
     },

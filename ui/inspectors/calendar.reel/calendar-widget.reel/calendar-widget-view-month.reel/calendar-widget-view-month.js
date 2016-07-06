@@ -95,7 +95,8 @@ exports.CalendarWidgetViewMonth = Component.specialize(/** @lends CalendarWidget
                         isToday:
                             (dayDate.getDate() === today.getDate()) &&
                             (dayDate.getFullYear() === today.getFullYear()) &&
-                            (dayDate.getMonth() === today.getMonth())
+                            (dayDate.getMonth() === today.getMonth()),
+                        rawDate: dayDate
                     });
                 }
                 weeks.push(week);

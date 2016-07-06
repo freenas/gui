@@ -56,7 +56,8 @@ exports.WeekView = Component.specialize({
                     isToday:
                         (dayDate.getDate() === today.getDate()) &&
                         (dayDate.getFullYear() === today.getFullYear()) &&
-                        (dayDate.getMonth() === today.getMonth())
+                        (dayDate.getMonth() === today.getMonth()),
+                    rawDate: dayDate
                 });
             }
             Promise.each(days, function(day) {

@@ -16,6 +16,7 @@
 
 .CalendarWidgetDay-otherMonth {
     background-color: #272A2D;
+    cursor: inherit;
 }
 
 .CalendarWidgetDay-date {
