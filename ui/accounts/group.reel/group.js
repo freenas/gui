@@ -31,7 +31,7 @@ exports.Group = Component.specialize(/** @lends Group# */ {
                 // hack to not set text to delete until transition is done
                 setTimeout(function(){
                     self.deleteButton.label = "Delete";
-                },250)
+                },250);
                 this._menuOpen = false;
             }
 
