@@ -55,7 +55,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     enterDocument: {
         value: function () {
-            if (this.object._isNew && !this._cancelPathChangeListener) {
+            if (this.object._isNewObject && !this._cancelPathChangeListener) {
                 this._cancelPathChangeListener = this.addPathChangeListener("object.name", this, "handleNameChange");
             }
         }
@@ -63,7 +63,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     exitDocument: {
         value: function () {
-            if (this.object._isNew && this._cancelPathChangeListener) {
+            if (this.object._isNewObject && this._cancelPathChangeListener) {
                 //FIXME: bug in collections?
                 //this._cancelPathChangeListener();
                 //this._cancelPathChangeListener = null;
@@ -84,6 +84,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
             if (this.object.name) {
                 var concatString = this.serviceIscsi.base_name + "." + this.object.name;
                 this._targetName.value = this._targetName.label = concatString;
+                this.targetIscsiNameSelectComponent.selectedValue = this._targetName.value;
 
                 if (index === -1) {
                     this.targetNames.push(this._targetName);

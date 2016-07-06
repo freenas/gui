@@ -6,7 +6,8 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "targetIscsiNameSelectComponent": {"@": "targetIscsiName"}
             }
         },
 
@@ -46,7 +47,7 @@
             }
         },
 
-        "targetName": {
+        "targetIscsiName": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "targetName"},
@@ -54,7 +55,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.targetNames"},
-                "selectedValue": {"<->": "@owner.object.__target.name"}
+                "selectedValue": {"<->": "@owner.object.__extent.id"}
             }
         },
 

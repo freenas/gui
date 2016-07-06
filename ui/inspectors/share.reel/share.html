@@ -78,10 +78,10 @@
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.targetPath"},
-                "label": {"<-": "@owner.targetType != 'DATASET' ? 'Target' : 'Create target'"},
+                "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
-                "suffix": {"<-": "@owner.targetType == 'DATASET' && !@owner.isPathReadOnly ? @name.value || '' : ''"},
-                "removePrefix": {"<-": "@owner.targetType == 'DATASET' ? '/mnt/' : ''"},
+                "suffix": {"<-": "@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL'  && !@owner.isPathReadOnly ? @name.value || '' : ''"},
+                "removePrefix": {"<-": "@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL' ? '/mnt/' : ''"},
                 "controller": {"<-": "@owner.targetController"}
             }
         },

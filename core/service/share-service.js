@@ -71,7 +71,10 @@ var ShareService = exports.ShareService = Montage.specialize({
                         shareObject.properties.vfs_objects = [];
                         shareObject.properties._browseable = true;
                     } else if (shareTypes.ISCSI === shareObject.type) {
-                        return self._populateShareIscsiObject(shareObject);
+                        return (shareObject.__extent = {
+                            id: null,
+                            lun: 0
+                        });
                     }
 
                     return shareObject;
@@ -111,12 +114,15 @@ var ShareService = exports.ShareService = Montage.specialize({
         value: function (shareObject) {
             var self = this;
 
-            return self._dataService.saveDataObject(shareObject).then(function (extent) { // share + share-iscsi (share.properties)
+            return self._dataService.saveDataObject(shareObject).then(function () { // share + share-iscsi (share.properties)
+                return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget);
+            }).then(function (target) {
                 var extentObject = {
                         name: shareObject.name,
-                        number: 0
-                    },
-                    target = shareObject.__target;
+                        number: shareObject.__extent.lun
+                    };
+
+                target.id = shareObject.__extent.id;
 
                 if (Array.isArray(target.extents)) {
                     target.extents.push(extentObject);
@@ -140,41 +146,6 @@ var ShareService = exports.ShareService = Montage.specialize({
 
                 return share;
             });
-        }
-    },
-
-    _populateShareIscsiObject: {
-        value: function (shareIscsiObject) {
-            var self = this;
-
-            return this._dataService.getNewInstanceForType(Model.ShareIscsiTarget).then(function (target) {
-                shareIscsiObject.__target = target;
-            });
-
-            //FIXME: need to be check with jakub
-            // .then(function (portal) {
-            //     portal.discovery_auth_group = "NONE";
-            //     portal.discovery_auth_method = "NONE";
-            //     portal.listen = [
-            //         {
-            //             port: 3260,
-            //             address: "0.0.0.0"
-            //         }
-            //     ];
-            //
-            //     shareIscsiObject.__portal = portal;
-            //
-            //     return self._dataService.getNewInstanceForType(Model.ShareIscsiAuth);
-            //
-            // }).then(function (iscsiAuth) {
-            //     shareIscsiObject.__auth = iscsiAuth;
-            //     shareIscsiObject.__auth.type = "NONE";
-            //     return self._dataService.getNewInstanceForType(Model.ShareIscsiUser);
-            //
-            // }).then(function (iscsiUser) {
-            //     shareIscsiObject.__user = iscsiUser;
-            //     return shareIscsiObject;
-            // })
         }
     }
 
