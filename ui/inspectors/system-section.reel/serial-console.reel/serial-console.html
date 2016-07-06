@@ -9,13 +9,69 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "enable_console_menu": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enable_console_menu"},
+                "label": "Enable Console Menu"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.serial_console"}
+            }
+        },
+        "serial_console": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "serial_console"},
+                "label": "Use Serial Console"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.console_cli"}
+            }
+        },
+        "serial_port": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "serial_port"},
+                "label": "Serial Port Address"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.serialPortOptions"},
+                "selectedValue": {"<->": "@owner.object.serial_port"}
+            }
+        },
+        "serial_port_speed": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "serial_port_speed"},
+                "label": "Serial Port Speed"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.PORT_SPEED_OPTIONS"},
+                "selectedValue": {"<->": "@owner.object.serial_speed"}
+            }
+        },
+        "enable_screensaver": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enable_screensaver"},
+                "label": "Enable Screen Saver"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.console_screensaver"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="SerialConsole">
-        <i>system/serial-console.reel</i>
+        <div data-montage-id="enable_console_menu"></div>
+        <div data-montage-id="serial_console"></div>
+        <div data-montage-id="serial_port"></div>
+        <div data-montage-id="serial_port_speed"></div>
+        <div data-montage-id="enable_screensaver"></div>
     </div>
 </body>
 </html>
