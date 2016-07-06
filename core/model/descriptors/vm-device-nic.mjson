@@ -7,6 +7,15 @@
       "valueType": "String"
     }
   },
+  "blueprint_vmdevicenic_device": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "device",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmDeviceNicDevice"
+    }
+  },
   "blueprint_vmdevicenic_link_address": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -30,6 +39,7 @@
       "name": "VmDeviceNic",
       "propertyBlueprints": [
         {"@": "blueprint_vmdevicenic_bridge"},
+        {"@": "blueprint_vmdevicenic_device"},
         {"@": "blueprint_vmdevicenic_link_address"},
         {"@": "blueprint_vmdevicenic_mode"}
       ]
