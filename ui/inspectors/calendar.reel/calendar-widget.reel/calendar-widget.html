@@ -120,7 +120,7 @@
             "bindings": {
                 "displayedPeriodLabel": {"<->": "@owner.displayedPeriodLabel"},
                 "tasks": {"<-": "@owner.tasks"},
-                "taskCategories": {"<-": "@owner.taskCategories"},
+                "taskCategories": {"<-": "@owner.taskCategories.filter{isDisplayed}"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
                 "selectedDay": {"<->":"@owner.selectedDay"}
             }
@@ -133,7 +133,7 @@
             "bindings": {
                 "displayedPeriodLabel": {"<->": "@owner.displayedPeriodLabel"},
                 "events": {"<-": "@owner.tasks"},
-                "taskCategories": {"<-": "@owner.taskCategories"},
+                "taskCategories": {"<-": "@owner.taskCategories.filter{isDisplayed}"},
                 "selectedTask": {"<->":"@owner.selectedTask"},
                 "selectedDay": {"<->":"@owner.selectedDay"}
             }

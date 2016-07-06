@@ -15,7 +15,6 @@
                 "classList.has('CalendarWidgetDay-Sunday')": {"<-": "data.day == 0"},
                 "classList.has('CalendarWidgetDay-Saturday')": {"<-": "data.day == 6"},
                 "classList.has('CalendarWidgetDay-today')": {"<-": "data.isToday"},
-                "distinctTasks": {"<-": "@owner.tasks.map{task}.group{id}.map{.1.last()}"},
                 "tasksOverflow": {"<-": "@owner.distinctTasks.length > @owner._maxDisplayedLines"}
             }
         },
