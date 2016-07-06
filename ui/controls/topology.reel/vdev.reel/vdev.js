@@ -168,7 +168,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
      */
     _addEventListener: {
         value: function () {
-            console.log("added vdev")
             AbstractComponentActionDelegate.prototype._addEventListener.call(this);
             this.element.addEventListener('mouseleave', this, false);
         }
