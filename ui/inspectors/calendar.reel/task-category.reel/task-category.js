@@ -1,8 +1,7 @@
 /**
  * @module ui/task-object.reel
  */
-var Component = require("montage/ui/component").Component,
-    PressComposer = require("montage/composer/press-composer").PressComposer;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class TaskCategory
@@ -16,8 +15,17 @@ exports.TaskCategory = Component.specialize(/** @lends TaskCategory# */ {
     },
 
     handleTaskButtonAction: {
-        value: function(event) {
+        value: function () {
             this.object.isDisplayed = !this.object.isDisplayed;
+        }
+    },
+
+    handleCreateAction: {
+        value: function () {
+            var self = this;
+            this.application.calendarService.getNewTask(this.object.value).then(function(task) {
+                self.newObject = task;
+            });
         }
     }
 });

@@ -43,7 +43,7 @@ exports.CalendarWidgetTask = Component.specialize(/** @lends CalendarWidgetTask#
     },
 
     prepareForActivationEvents: {
-        value: function() {
+        value: function () {
             var pressComposer = new PressComposer();
             this.addComposer(pressComposer);
             pressComposer.addEventListener("press", this);
@@ -52,7 +52,7 @@ exports.CalendarWidgetTask = Component.specialize(/** @lends CalendarWidgetTask#
     },
 
     handlePress: {
-        value: function(event) {
+        value: function () {
             this.selectedTask = this.object;
         }
     }

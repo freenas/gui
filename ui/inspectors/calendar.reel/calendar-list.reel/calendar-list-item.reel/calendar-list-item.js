@@ -59,7 +59,7 @@ exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ 
     },
 
     handlePress: {
-        value: function(event) {
+        value: function () {
             this.selectedTask = this.object.task;
         }
     },

@@ -1,8 +1,7 @@
 /**
  * @module ui/network-configuration.reel
  */
-var Component = require("montage/ui/component").Component,
-    Promise = require("montage/core/promise").Promise;
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class NetworkConfiguration

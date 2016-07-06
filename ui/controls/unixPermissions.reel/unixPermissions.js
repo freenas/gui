@@ -1,5 +1,4 @@
-var Component = require("montage/ui/component").Component,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     UnixPermissionsConverter = require("core/converter/unix-permissions-converter").UnixPermissionsConverter;
 
 /**
@@ -57,7 +56,7 @@ exports.UnixPermissions = AbstractComponentActionDelegate.specialize({
     },
 
     handleAction: {
-        value: function(event) {
+        value: function () {
             this.modeBits = this.converter.convert(this.modes);
         }
     }

@@ -21,7 +21,7 @@ exports.Calendar = Component.specialize({
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function () {
             var self = this;
             this.application.calendarService.getCalendarInstance().then(function(calendar) {
                 self.calendar = calendar;

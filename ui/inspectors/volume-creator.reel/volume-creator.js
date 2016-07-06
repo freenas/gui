@@ -70,8 +70,7 @@ exports.VolumeCreator = Component.specialize({
     _cleanupVdevs: {
         value: function (storageType) {
             var i, vdevsLength, vdev,
-                j, disksLength, disk,
-                type, path;
+                j, disksLength, disk, path;
             for (i = 0, vdevsLength = storageType.length; i < vdevsLength; i++) {
                 vdev = storageType[i];
                 if (vdev.children) {

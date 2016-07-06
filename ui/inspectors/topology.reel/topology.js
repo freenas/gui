@@ -216,7 +216,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
                 this.isLocked = true;
                 return this.application.dataService.saveDataObject(volume).then(function () {
-                    return new Promise(function (resolve, reject) {
+                    return new Promise(function (resolve) {
                         var _cancelChangeListener = volume.addPathChangeListener("topology", function (topologyUpdated) {
                             //get the last updated topology object from the middleware.
                             if (_cancelChangeListener) {

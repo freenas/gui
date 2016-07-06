@@ -55,8 +55,6 @@ exports.Table = Component.specialize({
 
     activeColumn: {
         set: function (value) {
-            var self;
-
             if (value) {
                 if (this._orderBy !== value.expression) {
                     this._orderBy = value.expression;

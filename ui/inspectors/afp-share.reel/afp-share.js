@@ -48,7 +48,7 @@ exports.AfpShare = AbstractShareInspector.specialize({
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function () {
             if (this._object) {
                 if (this._object.default_file_perms) {
                     this.default_file_perms_modes = {

@@ -1,8 +1,7 @@
 /**
  * @module ui/view-select.reel
  */
-var Component = require("montage/ui/component").Component,
-    PressComposer = require("montage/composer/press-composer").PressComposer;
+var Component = require("montage/ui/component").Component;
 
 
 

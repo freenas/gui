@@ -14,8 +14,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleDeleteAction: {
         value: function (event) {
-            var self = this,
-                promise;
+            var promise;
 
             this._isToBeDeleted = true;
 

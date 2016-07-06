@@ -30,7 +30,7 @@ exports.CurrentNode = Component.specialize(/** @lends CurrentNode# */ {
     },
 
     handleSelectionChange: {
-        value: function(plus, minus, index) {
+        value: function (plus) {
             if (plus.length > 0) {
                 this.controller.open(plus[0].path);
             }

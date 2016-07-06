@@ -93,7 +93,7 @@ exports.Network = Component.specialize({
     },
 
     _handleNetworkInterfacesRangeChange: {
-        value: function (plus, minus, index) {
+        value: function (plus, minus) {
             var overview = this.overview;
 
             if (overview && overview.summary) {

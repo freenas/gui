@@ -131,7 +131,7 @@ exports.SmbService = Component.specialize({
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function () {
             if (this._object) {
                 if (this._object.filemask) {
                     this.filemaskModes = {

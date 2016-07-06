@@ -8,7 +8,7 @@ var Component = require("montage/ui/component").Component,
 exports.WeekView = Component.specialize({
 
     enterDocument: {
-        value: function (isFirstTime) {
+        value: function () {
             this.gotoToday();
         }
     },

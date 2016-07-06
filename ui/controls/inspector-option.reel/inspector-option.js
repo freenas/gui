@@ -54,7 +54,7 @@ exports.InspectorOption = Button.specialize({
      * Don't dispath action event for perfomance purpose.
      */
     handlePress: {
-        value: function (event) {
+        value: function () {
             this.active = false;
             this.parentCascadingListItem.selectedObject = this.object;
             this._removeEventListeners();

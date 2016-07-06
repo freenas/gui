@@ -18,8 +18,7 @@ exports.AvailableDisks = Component.specialize( {
 
     enterDocument: {
         value: function() {
-            var self = this,
-                volumes;
+            var self = this;
 
             if (this.disks) {
                 this.disks.map(function(x) {

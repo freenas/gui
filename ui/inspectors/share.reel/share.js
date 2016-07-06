@@ -303,7 +303,6 @@ exports.Share = Component.specialize({
 
     _startService: {
         value: function() {
-            var self = this;
             if (this.service && this.service.config && !this.service.config.enable) {
                 this.service.config.enable = true;
                 this.application.dataService.saveDataObject(this.service);
@@ -313,7 +312,6 @@ exports.Share = Component.specialize({
 
     _stopService: {
         value: function() {
-            var self = this;
             if (this.service && this.service.config && this.service.config.enable) {
                 this.service.config.enable = false;
                 this.application.dataService.saveDataObject(this.service);

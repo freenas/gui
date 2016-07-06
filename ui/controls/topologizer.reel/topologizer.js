@@ -190,7 +190,7 @@ exports.Topologizer = Component.specialize({
     },
 
     handleTranslateStart: {
-        value: function (event) {
+        value: function () {
             var startPosition = this._translateComposer.pointerStartEventPosition,
                 triangleElementBoundingRect = this.triangleElement.getBoundingClientRect();
 
@@ -222,7 +222,7 @@ exports.Topologizer = Component.specialize({
     },
 
     handleTranslateEnd: {
-        value: function (event) {
+        value: function () {
             this._isMoving = false;
 
             this._translateComposer.removeEventListener("translate", this, false);

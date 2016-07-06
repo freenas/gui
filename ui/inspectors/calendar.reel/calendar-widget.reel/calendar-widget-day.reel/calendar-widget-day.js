@@ -79,7 +79,7 @@ exports.CalendarWidgetDay = Component.specialize({
     },
 
     handlePress: {
-        value: function(event) {
+        value: function () {
             var self = this;
             this.selectedDay = this.data;
             this.application.calendarService.getNewTask(this.data.rawDate).then(function(task) {

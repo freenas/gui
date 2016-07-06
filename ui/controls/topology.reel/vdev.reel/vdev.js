@@ -362,7 +362,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
     },
 
     handleDisplayVdevTypesAction: {
-        value: function (event) {
+        value: function () {
             this.showVdevTypes = !this.showVdevTypes;
         }
     },

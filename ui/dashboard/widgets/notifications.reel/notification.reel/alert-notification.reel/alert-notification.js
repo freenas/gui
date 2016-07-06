@@ -3,8 +3,7 @@
  */
 var Component = require("montage/ui/component").Component,
     Promise = require("montage/core/promise").Promise,
-    Model = require("core/model/model").Model,
-    Evaluate = require("frb/evaluate");
+    Model = require("core/model/model").Model;
 
 /**
  * @class AlertNotification

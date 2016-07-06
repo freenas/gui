@@ -1,8 +1,7 @@
 /**
  * @module ui/notification.reel
  */
-var Component = require("montage/ui/component").Component,
-    Evaluate = require("frb/evaluate");
+var Component = require("montage/ui/component").Component;
 
 /**
  * @class TaskNotification

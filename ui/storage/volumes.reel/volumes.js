@@ -140,7 +140,7 @@ exports.Volumes = Component.specialize({
     },
 
     handleSharesChange: {
-        value: function (plus, minus) {
+        value: function (plus) {
             if (plus && plus.length) {
                 var share, i, length;
 

@@ -88,7 +88,7 @@ exports.Volume = Component.specialize({
     },
 
     handleScrubAction: {
-        value: function(event) {
+        value: function () {
             this.object.services.scrub(this.object.id);
         }
     }

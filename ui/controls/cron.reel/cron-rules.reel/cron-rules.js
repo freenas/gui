@@ -113,7 +113,7 @@ exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRu
             if (this.rules) {
                 var rule;
 
-                for (var i = 0, l = this.rules.length; i < length; i++) {
+                for (var i = 0, l = this.rules.length; i < l; i++) {
                     rule = this.rules[i];
                     rule.values.clear();
                     rule.type = Rule.TYPES.EVERY;
