@@ -1,5 +1,5 @@
-.DayColumn {
-
+.DayColumn.is-today {
+    background: rgba(255,255,255,.05);
 }
 
 .DayColumn-events {

@@ -1,1 +1,1 @@
-.DayColumn-events{display:-webkit-box;display:-ms-flexbox;display:flex}
+.DayColumn.is-today{background:hsla(0,0%,100%,.05)}.DayColumn-events{display:-webkit-box;display:-ms-flexbox;display:flex}
