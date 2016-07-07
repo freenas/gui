@@ -174,5 +174,20 @@ exports.Vm = AbstractModel.specialize({
             name: "template",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Virtual Machines'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/virtual-machine.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/virtual-machine.reel'
+            },
+            nameExpression: "_isNew ? 'New VM' : name"
+        }
     }
 });
