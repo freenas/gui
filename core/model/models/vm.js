@@ -92,19 +92,6 @@ exports.Vm = AbstractModel.specialize({
             return this._name;
         }
     },
-    _parent: {
-        value: null
-    },
-    parent: {
-        set: function (value) {
-            if (this._parent !== value) {
-                this._parent = value;
-            }
-        },
-        get: function () {
-            return this._parent;
-        }
-    },
     _target: {
         value: null
     },
@@ -160,10 +147,6 @@ exports.Vm = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "name",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "parent",
             valueType: "String"
         }, {
             mandatory: false,

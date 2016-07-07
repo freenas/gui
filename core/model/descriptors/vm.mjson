@@ -55,14 +55,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_vm_parent": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "parent",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_vm_target": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -91,7 +83,6 @@
         {"@": "blueprint_vm_id"},
         {"@": "blueprint_vm_immutable"},
         {"@": "blueprint_vm_name"},
-        {"@": "blueprint_vm_parent"},
         {"@": "blueprint_vm_target"},
         {"@": "blueprint_vm_template"}
       ]

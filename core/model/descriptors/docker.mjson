@@ -1,0 +1,19 @@
+{
+  "blueprint_docker_image": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "image",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "Docker",
+      "propertyBlueprints": [
+        {"@": "blueprint_docker_image"}
+      ]
+    }
+  }
+}

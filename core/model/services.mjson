@@ -307,8 +307,18 @@
     },
     "ContainerdDocker": {
         "class": {
+            "create": {
+                "method": "containerd.docker.create",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getHostStatus": {
                 "method": "containerd.docker.get_host_status",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "pull": {
+                "method": "containerd.docker.pull",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -2728,6 +2738,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getDataset": {
+                "method": "vm.get_dataset",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getDependencies": {
                 "method": "vm.get_dependencies",
                 "name": "call",
@@ -2807,10 +2822,40 @@
     },
     "VmSnapshot": {
         "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.snapshot.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.snapshot.delete"
+            },
+            "publish": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.snapshot.publish"
+            },
             "read": {
                 "method": "vm.snapshot.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "rollback": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.snapshot.rollback"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.snapshot.update"
             }
         }
     },
@@ -3007,6 +3052,12 @@
     },
     "VolumeSnapshot": {
         "instance": {
+            "clone": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.snapshot.clone"
+            },
             "create": {
                 "method": "task.submit",
                 "name": "call",
@@ -3039,6 +3090,12 @@
                 "method": "volume.snapshot.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "rollback": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.snapshot.rollback"
             },
             "update": {
                 "method": "task.submit",

@@ -157,6 +157,10 @@
             "type": "DisksAllocation"
         },
         {
+            "modelId": "core/model/models/docker.js",
+            "type": "Docker"
+        },
+        {
             "modelId": "core/model/models/encrypt-plugin.js",
             "type": "EncryptPlugin"
         },
@@ -655,6 +659,10 @@
         {
             "modelId": "core/model/models/vm-device.js",
             "type": "VmDevice"
+        },
+        {
+            "modelId": "core/model/models/vm-snapshot.js",
+            "type": "VmSnapshot"
         },
         {
             "modelId": "core/model/models/vm.js",
