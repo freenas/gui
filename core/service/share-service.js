@@ -151,6 +151,16 @@ var ShareService = exports.ShareService = Montage.specialize({
                 return share;
             });
         }
+    },
+
+    fetchShareIscsiTarget: {
+        value: function () {
+            var self = this;
+
+            return this._dataService.fetchData(Model.ShareIscsiTarget).then(function (shareIscsiTargetCollection) {
+                return (self.shareIscsiTargetCollection = shareIscsiTargetCollection);
+            });
+        }
     }
 
 }, {
