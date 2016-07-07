@@ -37,7 +37,9 @@
   },
   "exclude": [
     "run-tests.html",
-    "test"
+    "test",
+    "tools",
+    "nas_ports"
   ],
   "bundle": [
     "ui/main.reel"
