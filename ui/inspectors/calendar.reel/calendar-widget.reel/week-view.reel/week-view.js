@@ -6,6 +6,20 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.WeekView = Component.specialize({
+    _monthsCache: {
+        value: null
+    },
+
+    _months: {
+        get: function() {
+            if (!this._monthsCache) {
+                this._monthsCache = this.application.calendarService.MONTHS.map(function(x) {
+                    return x.substr(0, 3);
+                });
+            }
+            return this._monthsCache;
+        }
+    },
 
     enterDocument: {
         value: function () {
@@ -66,6 +80,44 @@ exports.WeekView = Component.specialize({
                 });
             });
             this.days = days;
+            this.displayedPeriodLabel = this._getDisplayedLabel();
+        }
+    },
+
+    _getDisplayedLabel: {
+        value: function() {
+            var first = this.days[0],
+                last = this.days[6],
+                result;
+            if (first.year != last.year) {
+                result = [
+                    this._months[first.month],
+                    first.date + ',',
+                    first.year,
+                    '-',
+                    this._months[last.month],
+                    last.date + ',',
+                    last.year
+                ];
+            } else if (first.month != last.month) {
+                result = [
+                    this._months[first.month],
+                    first.date,
+                    '-',
+                    this._months[last.month],
+                    last.date + ',',
+                    last.year
+                ];
+            } else {
+                result = [
+                    this._months[first.month],
+                    first.date,
+                    '-',
+                    last.date + ',',
+                    last.year
+                ];
+            }
+            return result.join(' ');
         }
     }
 });

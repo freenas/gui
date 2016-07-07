@@ -6,6 +6,27 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.DayView = Component.specialize({
+    _monthsCache: {
+        value: null
+    },
+
+    _months: {
+        get: function() {
+            if (!this._monthsCache) {
+                this._monthsCache = this.application.calendarService.MONTHS.map(function(x) {
+                    return x.substr(0, 3);
+                });
+            }
+            return this._monthsCache;
+        }
+    },
+
+    _daysOfWeek: {
+        get: function() {
+            return this.application.calendarService.DAYS_OF_WEEK;
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             this.gotoToday();
@@ -58,8 +79,13 @@ exports.DayView = Component.specialize({
                 displayedDay.events = tasks;
             });
             this.displayedDay = displayedDay;
-            this.days = [];
-            this.days.push(this.displayedDay);
+            this.displayedPeriodLabel = [
+                this._daysOfWeek[displayedDay.day] + ',',
+                this._months[displayedDay.month],
+                displayedDay.date + ',',
+                displayedDay.year
+            ].join(' ');
+            this.days = [this.displayedDay];
         }
     }
 });
