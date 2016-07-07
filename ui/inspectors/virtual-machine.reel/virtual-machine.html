@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="virtual-machine.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "canRevert": true
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object"},
+                "canDelete": {"<-": "!@owner.object._isNew"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "selectOptionConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "vmTemplate": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "vmTemplate"},
+                "converter": {"@": "selectOptionConverter"},
+                "label": "Template"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.templateSetting"},
+                "options": {"<-": "@owner.templatesOptions"}
+            }
+        },
+        "volume": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "volume"},
+                "label": "Volume"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.volumeSetting"},
+                "options": {"<-": "@owner.volumeOptions"}
+            }
+        },
+        "description": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "description"},
+                "label": "Description"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.description"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VirtualMachine">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="vmTemplate"></div>
+            <div data-montage-id="volume"></div>
+            <div data-montage-id="description"></div>
+        </div>
+    </div>
+</body>
+</html>
