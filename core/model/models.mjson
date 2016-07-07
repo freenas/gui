@@ -613,6 +613,10 @@
             "type": "User"
         },
         {
+            "modelId": "core/model/models/virtual-machine-section.js",
+            "type": "VirtualMachineSection"
+        },
+        {
             "modelId": "core/model/models/vm-config.js",
             "type": "VmConfig"
         },
