@@ -185,7 +185,7 @@ Header
 
 /* Recurring Events shown in Day Header */
 
-.CalendarWidget-view-day-events {
+.CalendarWidget-allDayEvents {
     position: relative;
     padding: .15em;
     padding-bottom: 1em;
@@ -196,8 +196,8 @@ Header
     }
 }
 
-.CalendarWidget-view-day-event,
-.CalendarWidget-view-day-event.has-time {
+.CalendarWidget-event,
+.CalendarWidget-event.has-time {
     position: relative;
 }
 
@@ -297,4 +297,56 @@ Main Content
 .CalendarWidget-view-column--axis {
     flex: 1;
     max-width: calc(var(--hourHeight));
+}
+
+/* Calendar Events */
+
+.CalendarWidget-event {
+    font-size: 1rem;
+    display: none;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    position: absolute;
+    align-items: center;
+    cursor: pointer;
+    transform: translateY(2px);
+    overflow: hidden;
+
+    &.has-time {
+        width: calc(100% - .5em);
+    }
+
+    &.is-displayed {
+        display: flex;
+    }
+
+    &.is-visible {
+        display: block;
+        position: relative;
+    }
+}
+
+.CalendarWidget-event-inner {
+    display: block;
+    width: 100%;
+    align-self: center;
+    height: 1.25em;
+    line-height: 1.25em;
+    padding: 0 .25em;
+    font-size: .85em;
+    color: #fff;
+    border-radius: 2px;
+}
+
+.CalendarWidget-event.type-rsync .CalendarWidget-event-inner                             { background-color: #D95B1B; }
+.CalendarWidget-event.type-volume_scrub .CalendarWidget-event-inner                      { background-color: #093A51; }
+.CalendarWidget-event.type-replication_replicate_dataset .CalendarWidget-event-inner     { background-color: #008C84; }
+.CalendarWidget-event.type-disk_parallel_test .CalendarWidget-event-inner                { background-color: #990F82; }
+.CalendarWidget-event.type-update_checkfetch .CalendarWidget-event-inner                 { background-color: #C4A412; }
+.CalendarWidget-event.type-volume_snapshot_dataset .CalendarWidget-event-inner           { background-color: #6D2A2A; }
+.CalendarWidget-event.type-calendar_task_command .CalendarWidget-event-inner             { background-color: grey; }
+
+.CalendarWidget-event.is-selected .CalendarWidget-event-inner {
+    color: #FFF;
+    background-color: #2B9CD8;
 }

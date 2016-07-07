@@ -8,7 +8,7 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "_maxDisplayedLines": 3
+                "_maxDisplayedLines": 4
             },
             "bindings": {
                 "classList.has('CalendarWidgetDay-otherMonth')": {"<-": "!data.isCurrentMonth"},
@@ -54,7 +54,7 @@
                 "element": {"#": "moreTasks"}
             },
             "bindings": {
-                "value": {"<-": "@owner.tasksOverflow ? (@owner.distinctTasks.length - @owner._maxDisplayedLines + 1) + ' more...' : ''"}
+                "value": {"<-": "@owner.tasksOverflow ? (@owner.distinctTasks.length - @owner._maxDisplayedLines + 1) + ' more' : ''"}
             }
         }
     }
@@ -66,8 +66,8 @@
             <td data-montage-id="owner" class="CalendarWidgetDay">
                 <div data-montage-id="date" class="CalendarWidgetDay-date"></div>
                 <div class="CalendarWidgetDay-content">
-                    <div data-montage-id="tasks" class=CalendarWidgetDayContent-tasks>
-                        <div data-montage-id="task" class="CalendarWidgetDayContent-task"></div>
+                    <div data-montage-id="tasks" class=CalendarWidget-events>
+                        <div data-montage-id="task" class="CalendarWidget-event"></div>
                     </div>
                     <div data-montage-id="moreTasks" class="CalendarWidgetDayContent-more"></div>
                 </div>
