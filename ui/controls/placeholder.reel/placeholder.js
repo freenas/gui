@@ -82,7 +82,7 @@ exports.Placeholder = Slot.specialize({
 
     exitDocument: {
         value: function () {
-            // Reset content to ensure that component is detached from component tree 
+            // Reset content to ensure that component is detached from component tree
             // to ensure that its context is set when it's re-enter in the DOM
             this.content = null;
             //Fixme: montage issue, not able to remove a class from the element when leaving the dom
