@@ -102,8 +102,10 @@ exports.Placeholder = Slot.specialize({
         value: function () {
             var promise,
                 moduleId = this._moduleId;
-            if (this._needsLoadComponent && typeof this._moduleId === "string" && this._moduleId.length) {
+
+            if (this._needsLoadComponent && typeof moduleId === "string" && moduleId.length) {
                 var self = this;
+                this.content = null;
 
                 this._isLoadingComponent = true;
                 this._needsLoadComponent = false;
