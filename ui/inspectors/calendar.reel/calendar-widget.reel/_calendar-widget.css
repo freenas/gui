@@ -1,3 +1,13 @@
+:root {
+    --bg: #242628;
+    --titleBg: #2a2e33;
+    --hourHeight: 3rem;
+    --calenderStrongLine: #16171a;
+    --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
+    --allDayBg: #1e2123;
+}
+
+
 .CalendarWidget {
     flex-grow: 0;
     display: flex;
@@ -132,14 +142,7 @@
 
 /* Calendar View */
 
-:root {
-    --bg: #242628;
-    --titleBg: #2a2e33;
-    --hourHeight: 3rem;
-    --calenderStrongLine: #16171a;
-    --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
-    --allDayBg: #1e2123;
-}
+
 
 .CalendarWidget-view {
     flex: 1;
