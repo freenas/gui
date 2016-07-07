@@ -37,12 +37,6 @@
     color: #fff;
 }
 
-/* .Calendar-navigation button:not(.selected):not(.montage--disabled):hover,
-.Calendar-navigation button:not(.montage--disabled):hover {
-    background: #343739;
-    color: #E0E5E5;
-} */
-
 .CalendarWidget-todayButton {
     height: 2rem;
     padding: 0 1rem;
@@ -94,35 +88,29 @@
     border-bottom-right-radius:  4px;
 }
 
+/* Days Header Height */
+
 .CalendarWidget thead td {
     background: #2A2E33;
     color: #E0E5E5;
     font-weight: 200;
-    height:      2rem;
-    line-height: 2rem;
+    height:      1rem;
+    line-height: 1rem;
     font-size: .8em;
     text-align: center;
 }
 
 .CalendarWidget-day {
     height: 5.5em;
+
+    @media (min-height: 70em) {
+        height: 8em;
+      }
 }
 
 .CalendarWidget-taskCategories {
     display: flex;
     align-items: center;
-}
-
-/*
-
-Media Queries
-
-*/
-
-@media (min-height: 60em) {
-    .CalendarWidget-day {
-        height: 8em;
-    }
 }
 
 

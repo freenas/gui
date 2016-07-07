@@ -33,20 +33,29 @@
                 "selectedTask": {"<->": "@owner.selectedObject"},
                 "selectedDay": {"<->": "@owner.selectedDay"}
             }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Calendar">
-        <div>
-            <div data-montage-id="calendarWidget" class="Calendar-calendarWidget"></div>
-            <div class="Calendar-events">
-                <h2>Agenda</h2>
-                <div data-montage-id="list" class="Calendar-eventsList"></div>
+        <div data-montage-id="scrollview" class="Calendar-scrollview">
+            <div class="Calendar-wrapper">
+                <div data-montage-id="calendarWidget" class="Calendar-calendarWidget"></div>
+                <div class="Calendar-events">
+                    <h2>Agenda</h2>
+                    <div data-montage-id="list" class="Calendar-eventsList"></div>
+                </div>
             </div>
+            <div data-montage-id="taskInspector" class="Calendar-inspector"></div>
         </div>
-        <div data-montage-id="taskInspector" class="Calendar-inspector"></div>
     </div>
 </body>
 </html>
