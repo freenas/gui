@@ -59,6 +59,18 @@
             }
         },
 
+        "targetIscsiLun": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "targetIscsiLun"},
+                "converter": {"@": "numberConverter"},
+                "label": "LUN number"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.__extent.lun"}
+            }
+        },
+
         "extentDisablePhysicalBlockSize": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -121,6 +133,7 @@
 
         <div data-montage-id="advancedSection">
             <div data-montage-id="targetName"></div>
+            <div data-montage-id="targetIscsiLun"></div>
             <div data-montage-id="extentDisablePhysicalBlockSize"></div>
             <div data-montage-id="extentEnableTPC"></div>
             <div data-montage-id="extentXenInitiatorCompatMode"></div>
