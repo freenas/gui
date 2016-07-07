@@ -348,7 +348,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                     task: task
                 });
             } else {
-                for (second = 0; second < 60; second++) {
+                for (var second = 0; second < 60; second++) {
                     if (this._isSecondMatchingSchedule(second, task.schedule)) {
                         occurrences.push({
                             hour: hour,

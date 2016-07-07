@@ -75,7 +75,7 @@ var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
     open: {
         value: function(path) {
             var self = this,
-                reePromise;
+                treePromise;
             if (this._tree) {
                 treePromise = Promise.resolve(this._tree);
             } else {
@@ -104,9 +104,9 @@ var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
         value: function() {
             var datasets = this._datasets || [],
                 orphanEntries = [],
-                dataset, entry, name, volume, parentEntry,
-                depth,
-                j, childrenLength;
+                dataset, entry, name, volume,
+                depth, pathParts, ancestorEntry;
+            
             this._tree = {
                 name: '',
                 path: '',
@@ -122,7 +122,7 @@ var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
                     path: name,
                     volume: volume,
                     children: []
-                }
+                };
                 if (name.indexOf('/') == -1) {
                     entry.parent = this._tree;
                     this._tree.children.push(entry);

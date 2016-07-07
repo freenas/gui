@@ -127,7 +127,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                                 path: path,
                                 name: self._service.basename(path),
                                 type: DIRECTORY
-                            })
+                            });
                             path = self._service.dirname(path);
                         }
                     }
