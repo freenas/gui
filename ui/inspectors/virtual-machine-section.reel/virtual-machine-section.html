@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="virtual-machine-section.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('has-loading-spinner')": {"<-": "@owner.object.isLoading"}
+            }
+        },
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
+        "virtualMachines": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "virtualMachines"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.virtualMachines"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VirtualMachineSection">
+        <div data-montage-id="scrollView">
+            <div data-montage-id="virtualMachines"></div>
+            <!-- <div data-montage-id="templates"></div> -->
+        </div>
+    </div>
+</body>
+</html>
