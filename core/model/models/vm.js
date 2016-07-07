@@ -170,7 +170,7 @@ exports.Vm = AbstractModel.specialize({
             creatorComponentModule: {
                 id: 'ui/inspectors/virtual-machine.reel'
             },
-            nameExpression: "_isNew ? 'New VM' : name"
+            nameExpression: "_isNew.defined() && _isNew ? 'New VM' : name"
         }
     }
 });
