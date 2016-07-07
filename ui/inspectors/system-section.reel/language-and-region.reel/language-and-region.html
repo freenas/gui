@@ -9,13 +9,24 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "timezones": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "timezones"},
+                "label": "Timezones"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.timezoneOptions"},
+                "selectedValue": {"<->": "@owner.object.timezones"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="LanguageAndRegion">
-        <i>system/language-and-region.reel</i>
+        <div data-montage-id="timezones"></div>
     </div>
 </body>
 </html>
