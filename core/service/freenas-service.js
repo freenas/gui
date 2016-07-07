@@ -153,7 +153,9 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.UpdateTrain,
             Model.BootEnvironment,
             Model.Calendar,
-            Model.CalendarTask
+            Model.CalendarTask,
+            Model.Vm,
+            Model.VirtualMachineSection
         ]
     },
 
