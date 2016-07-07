@@ -1,13 +1,13 @@
 /**
- * @module ui/calendar-widget-view-month.reel
+ * @module ui/month-view.reel
  */
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class CalendarWidgetViewMonth
+ * @class MonthView
  * @extends Component
  */
-exports.CalendarWidgetViewMonth = Component.specialize(/** @lends CalendarWidgetViewMonth# */ {
+exports.MonthView = Component.specialize(/** @lends MonthView# */ {
     _months: {
         get: function() {
             return this.application.calendarService.MONTHS;
