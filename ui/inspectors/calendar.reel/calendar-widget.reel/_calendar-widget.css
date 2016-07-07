@@ -1,8 +1,18 @@
 .CalendarWidget {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
     position: relative;
     border-spacing: 0;
     font-weight: 200;
     border: 1px solid #16171A;
+
+    /* magic numbers :( */
+    height: 34.5em;
+
+    @media (min-height: 70em) {
+        height: 46em;
+    }
 }
 
 .CalendarWidget > header {
@@ -18,6 +28,12 @@
     color: #E0E5E5;
     font-size: 1.5em;
     flex: 1;
+}
+
+.CalendarWidget-substitution {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* buttons */
@@ -105,7 +121,7 @@
 
     @media (min-height: 70em) {
         height: 8em;
-      }
+    }
 }
 
 .CalendarWidget-taskCategories {
@@ -125,11 +141,10 @@
     --allDayBg: #1e2123;
 }
 
-.CalendarView {
+.CalendarWidget-view {
     flex: 1;
     display: flex;
     flex-direction: column;
-    max-height: 35em;
 }
 
 /*
@@ -138,26 +153,26 @@ Header
 
 */
 
-.CalendarView-header {
+.CalendarWidget-view-header {
     display: flex;
     flex-shrink: 0;
-    /* added to match the CalendarView main border */
+    /* added to match the CalendarWidget-view main border */
     border: 1px solid transparent;
 }
 
-.CalendarView-days {
+.CalendarWidget-view-days {
     display: flex;
     flex: 1;
     background: var(--titleBg);
 }
 
-.CalendarView-day {
+.CalendarWidget-view-day {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-.CalendarView-day-title {
+.CalendarWidget-view-day-title {
     flex: 1;
     align-self: center;
     font-size: .8rem;
@@ -167,22 +182,19 @@ Header
 
 /* Recurring Events shown in Day Header */
 
-.CalendarView-day-events {
+.CalendarWidget-view-day-events {
     position: relative;
     padding: .15em;
     padding-bottom: 1em;
-    border-top:     1px solid var(--calenderStrongLine);
-    border-bottom:  1px solid var(--calenderStrongLine);
-    border-right:   1px solid var(--calenderStrongLine);
     background: var(--allDayBg);
 
-    @nest .CalendarView-day:first-child &  {
-        border-left:  1px solid var(--calenderStrongLine);
+    @nest .CalendarWidget-view-day:not(:last-child) & {
+        border-right:   1px solid var(--calenderStrongLine);
     }
 }
 
-.CalendarView-day-event,
-.CalendarView-day-event.has-time {
+.CalendarWidget-view-day-event,
+.CalendarWidget-view-day-event.has-time {
     position: relative;
 }
 
@@ -192,20 +204,21 @@ Main Content
 
 */
 
-.CalendarView-main {
+.CalendarWidget-view-main {
+    position: relative;
+    flex: 1;
     border: 1px solid var(--calenderStrongLine);
-    overflow-y: scroll;
     background-color: var(--bg);
 }
 
-.CalendarView-content {
+.CalendarWidget-view-content {
     display: flex;
     position: relative;
 }
 
 /* hours */
 
-.CalendarView-hours {
+.CalendarWidget-view-hours {
     flex: 1;
     position: relative;
     background-color: var(--titleBg);
@@ -225,7 +238,7 @@ Main Content
     }
 }
 
-.CalendarView-hour {
+.CalendarWidget-view-hour {
     text-align: right;
     font-size: .8rem;
     padding: .25rem .5rem;
@@ -237,7 +250,7 @@ Main Content
 
 /* Day Columns */
 
-.CalendarView-dayColumns {
+.CalendarWidget-view-dayColumns {
     flex: 1;
     display: flex;
     position: relative;
@@ -258,7 +271,7 @@ Main Content
     }
 }
 
-.CalendarView-dayColumn {
+.CalendarWidget-view-dayColumn {
     position: relative;
     flex: 1;
     flex-direction: column;
@@ -278,7 +291,7 @@ Main Content
 
 /* Axis */
 
-.CalendarView-column--axis {
+.CalendarWidget-view-column--axis {
     flex: 1;
     max-width: calc(var(--hourHeight));
 }

@@ -69,7 +69,14 @@
             "bindings": {
                 "value": {"<-": "@hours:iteration.object"}
             }
-       }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        }
     }
 
     </script>
@@ -77,25 +84,25 @@
 <body>
     <div data-montage-id="owner" class="WeekView">
 
-        <header class="CalendarView-header">
-            <div class="CalendarView-column--axis"></div>
-            <div data-montage-id="dayHeaders" class="CalendarView-days">
-                <div data-montage-id="dayHeader" class="CalendarView-day"></div>
+        <header class="CalendarWidget-view-header">
+            <div class="CalendarWidget-view-column--axis"></div>
+            <div data-montage-id="dayHeaders" class="CalendarWidget-view-days">
+                <div data-montage-id="dayHeader" class="CalendarWidget-view-day"></div>
             </div>
         </header>
 
-        <main class="CalendarView-main">
+        <main class="CalendarWidget-view-main">
+            <div data-montage-id="scrollview" class="CalendarWidget-view-scrollview">
+                <div class="CalendarWidget-view-content">
+                    <div data-montage-id="hours" class="CalendarWidget-view-column--axis CalendarWidget-view-hours">
+                        <div data-montage-id="hour" class="CalendarWidget-view-hour"></div>
+                    </div>
 
-            <div class="CalendarView-content">
-                <div data-montage-id="hours" class="CalendarView-column--axis CalendarView-hours">
-                    <div data-montage-id="hour" class="CalendarView-hour"></div>
-                </div>
-
-                <div data-montage-id="dayColumns" class="CalendarView-dayColumns">
-                    <div data-montage-id="dayColumn" class="CalendarView-dayColumn"></div>
+                    <div data-montage-id="dayColumns" class="CalendarWidget-view-dayColumns">
+                        <div data-montage-id="dayColumn" class="CalendarWidget-view-dayColumn"></div>
+                    </div>
                 </div>
             </div>
-
         </main>
 
     </div>
