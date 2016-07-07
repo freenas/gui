@@ -14,8 +14,8 @@ var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_TEMPLATE = "userInterfaceDesc
 var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_MODULE_ID_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_MODULE_NAME>: { id: '<USER_INTERFACE_DESCRIPTOR_MODULE_ID>' }";
 var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>: \"<USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING>\"";
 var REQUIRE_TEMPLATE = 'var <MODULE_NAME> = require("<MODULE_ID>").<MODULE_NAME>;';
-var PROPERTY_TEMPLATE = '_<PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this._<PROPERTY_NAME> !== value) {this._<PROPERTY_NAME> = value;}}, get: function () {return this._<PROPERTY_NAME>;}}';
-var PROPERTY_OBJECT_TEMPLATE = '_<PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this._<PROPERTY_NAME> !== value) {this._<PROPERTY_NAME> = value;}}, get: function () {return this._<PROPERTY_NAME> || (this._<PROPERTY_NAME> = new <MODULE_NAME>());}}';
+var PROPERTY_TEMPLATE = '<PRIVATE_PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this.<PRIVATE_PROPERTY_NAME> !== value) {this.<PRIVATE_PROPERTY_NAME> = value;}}, get: function () {return this.<PRIVATE_PROPERTY_NAME>;}}';
+var PROPERTY_OBJECT_TEMPLATE = '<PRIVATE_PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this.<PRIVATE_PROPERTY_NAME> !== value) {this.<PRIVATE_PROPERTY_NAME> = value;}}, get: function () {return this.<PRIVATE_PROPERTY_NAME> || (this.<PRIVATE_PROPERTY_NAME> = new <MODULE_NAME>());}}';
 
 var ModelObject = function ModelObject (descriptor) {
     this.name = descriptor.root.properties.name;
@@ -79,7 +79,7 @@ function _toFileName (name, separator) {
 
 ModelObject.prototype.toJS = function () {
     var PROTOTYPE_DESCRIPTOR = "", REQUIRES = "", CONSTRUCTOR_DESCRIPTOR = "", CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR = "",
-        CONSTRUCTOR_DESCRIPTOR_BLUEPRINTS = "", constructorProperties = [], i, length, property, _require,
+        privatePropertyName, constructorProperties = [], i, length, property, _require, propertyName, propertyNameValid,
         // TODO: enable feature later
         // Need to add class method +  prototype method on compiled files.
         // Need to remove all the "manual" initialization of the valueObjectPrototypeName within GUI
@@ -87,12 +87,18 @@ ModelObject.prototype.toJS = function () {
 
     for (i = 0, length = this.properties.length; i < length; i++) {
         property = this.properties[i];
+        propertyNameValid = /^(?:[\$A-Z_a-z0-9])*$/.test(property.name);
+        propertyName = propertyNameValid ? property.name : '"' + property.name + '"';
+        privatePropertyName = propertyNameValid ? "_" + property.name : '"_' + property.name + '"';
 
         if (enableMultipleRequires && property.valueObjectPrototypeName && this.requiresMap.has(property.valueObjectPrototypeName)) {
-            PROTOTYPE_DESCRIPTOR += ((PROPERTY_OBJECT_TEMPLATE.replace(/<PROPERTY_NAME>/ig, property.name))
-                .replace(/<MODULE_NAME>/ig, property.valueObjectPrototypeName));
+            PROTOTYPE_DESCRIPTOR += ((PROPERTY_OBJECT_TEMPLATE
+                .replace(/<PROPERTY_NAME>/ig, propertyName))
+                .replace(/<MODULE_NAME>/ig, property.valueObjectPrototypeName))
+                .replace(/<PRIVATE_PROPERTY_NAME>/ig, privatePropertyName);
         } else {
-            PROTOTYPE_DESCRIPTOR += PROPERTY_TEMPLATE.replace(/<PROPERTY_NAME>/ig, property.name);
+            PROTOTYPE_DESCRIPTOR += (PROPERTY_TEMPLATE.replace(/<PROPERTY_NAME>/ig, propertyName))
+                .replace(/<PRIVATE_PROPERTY_NAME>/ig, privatePropertyName);
         }
 
         if (length - 1 !== i) {
