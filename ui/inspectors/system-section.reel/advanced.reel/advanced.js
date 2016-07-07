@@ -12,11 +12,5 @@ exports.Advanced = Component.specialize(/** @lends Advanced# */ {
         value: function Advanced() {
             this.super();
         }
-    },
-
-    SERIAL_PORT_OPTIONS: {
-        value: [
-            
-        ]
     }
 });
