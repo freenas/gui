@@ -23,3 +23,7 @@
 }
 
 .Notification-details header button { align-self: center; }
+
+.Notification-details-errorMessage {
+    word-break: break-word;
+}
