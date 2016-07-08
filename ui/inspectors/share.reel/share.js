@@ -76,10 +76,13 @@ exports.Share = Component.specialize({
             return this._service;
         },
         set: function(service) {
-            if (this._service != service) {
+            if (this._service !== service) {
                 this._service = service;
+
+                if (service) {
+                    this.isServiceStarted = service.config.enable;
+                }
             }
-            this.isServiceStarted = service.config.enable;
         }
     },
 
@@ -115,6 +118,10 @@ exports.Share = Component.specialize({
             var self = this;
             if (this._object !== object) {
                 if (object) {
+
+                    if (!object.volume) {
+                        console.error("@Pierre: Fixme");
+                    }
 
                     this._getService(object).then(function (service) {
                         self.service = service;

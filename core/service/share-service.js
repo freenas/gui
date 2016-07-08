@@ -2,6 +2,7 @@ var Montage = require("montage").Montage,
     ShareTargettype = require("core/model/enumerations/share-targettype").ShareTargettype,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
+    StorageService = require("core/service/storage-service").StorageService,
     Promise = require("montage/core/promise").Promise,
     Model = require("core/model/model").Model;
 
@@ -71,6 +72,9 @@ var ShareService = exports.ShareService = Montage.specialize({
                         shareObject.properties.vfs_objects = [];
                         shareObject.properties._browseable = true;
                     } else if (shareTypes.ISCSI === shareObject.type) {
+                        shareObject.properties.block_size = 512;
+                        shareObject.properties.size = 0;
+
                         return (shareObject.__extent = {
                             id: null,
                             lun: 0
@@ -116,7 +120,18 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     _saveIscsiShareObject: {
         value: function (shareObject) {
-            var self = this;
+            var self = this,
+                blockSize = shareObject.properties.block_size,
+                size = shareObject.properties.size;
+
+            //FIXME: add to the tool a way to override default setter.
+            if (typeof blockSize === "string") {
+                shareObject.properties.block_size = this._storageService._convertVolumeDatasetSizeProperty(blockSize);
+            }
+
+            if (typeof size === "string") {
+                shareObject.properties.size = this._storageService._convertVolumeDatasetSizeProperty(size);
+            }
 
             return self._dataService.saveDataObject(shareObject).then(function () { // share + share-iscsi (share.properties)
                 return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget);
@@ -186,8 +201,9 @@ var ShareService = exports.ShareService = Montage.specialize({
             if (!this._instance) {
                 this._instance = new ShareService();
                 this._instance._dataService = FreeNASService.instance;
-
+                this._instance._storageService = StorageService.instance;
             }
+
             return this._instance;
         }
     }
