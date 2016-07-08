@@ -14,13 +14,13 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canDelete": false,
-                "canRevert": false,
-                "canSave": false
+                "canDelete": false
             },
             "bindings": {
                 "object": {"<-": "@owner.object"},
-                "isLoading": {"<-": "@owner.isLoading"}
+                "isLoading": {"<-": "@owner.isLoading"},
+                "canSave": {"<-": "@owner.canSave"},
+                "canRevert": {"<-": "@owner.canRevert"}
             }
         },
         "substitution": {
