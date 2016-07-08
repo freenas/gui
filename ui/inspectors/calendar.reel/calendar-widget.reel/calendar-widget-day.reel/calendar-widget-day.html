@@ -54,7 +54,7 @@
                 "element": {"#": "moreTasks"}
             },
             "bindings": {
-                "value": {"<-": "@owner.tasksOverflow ? (@owner.distinctTasks.length - @owner._maxDisplayedLines + 1) + ' more' : ''"}
+                "value": {"<-": "@owner.tasksOverflow ? '+ ' + (@owner.distinctTasks.length - @owner._maxDisplayedLines + 1) + ' more' : ''"}
             }
         }
     }

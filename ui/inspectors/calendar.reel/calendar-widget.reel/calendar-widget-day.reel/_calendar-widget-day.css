@@ -66,5 +66,10 @@
 
 .CalendarWidgetDayContent-more {
     text-align: right;
+    line-height: 2em;
+
+    &:hover {
+        color: #FFF;
+    }
 }
 
