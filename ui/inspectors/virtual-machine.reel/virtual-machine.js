@@ -6,6 +6,10 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.VirtualMachine = Component.specialize({
+    editMode: {
+        value: null
+    },
+
     templates: {
         value: null
     },
@@ -59,6 +63,7 @@ exports.VirtualMachine = Component.specialize({
                 this._loadTemplates();
                 this._loadVolumes();
             }
+            this.editMode = !!this.object._isNew ? "edit" : "display";
         }
     },
 

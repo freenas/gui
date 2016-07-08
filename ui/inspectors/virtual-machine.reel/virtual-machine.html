@@ -35,10 +35,29 @@
         "selectOptionConverter": {
             "prototype": "core/converter/select-option-converter"
         },
-        "vmTemplate": {
+        "vmTemplateSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "vmTemplateSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.editMode"}
+            }
+        },
+        "vmTemplateDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "vmTemplateDisplay"},
+                "label": "Template"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.templateSetting"}
+            }
+        },
+        "vmTemplateEdit": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "vmTemplate"},
+                "element": {"#": "vmTemplateEdit"},
                 "converter": {"@": "selectOptionConverter"},
                 "label": "Template"
             },
@@ -47,10 +66,29 @@
                 "options": {"<-": "@owner.templatesOptions"}
             }
         },
-        "volume": {
+        "volumeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "volumeSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.editMode"}
+            }
+        },
+        "volumeDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "volumeDisplay"},
+                "label": "Volume"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.volumeSetting"}
+            }
+        },
+        "volumeEdit": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "volume"},
+                "element": {"#": "volumeEdit"},
                 "label": "Volume"
             },
             "bindings": {
@@ -75,8 +113,14 @@
     <div data-montage-id="owner" class="VirtualMachine">
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
-            <div data-montage-id="vmTemplate"></div>
-            <div data-montage-id="volume"></div>
+            <div data-montage-id="vmTemplateSubstitution">
+                <div data-montage-id="vmTemplateEdit" data-arg="edit"></div>
+                <div data-montage-id="vmTemplateDisplay" data-arg="display"></div>
+            </div>
+            <div data-montage-id="volumeSubstitution">
+                <div data-montage-id="volumeEdit" data-arg="edit"></div>
+                <div data-montage-id="volumeDisplay" data-arg="display"></div>
+            </div>
             <div data-montage-id="description"></div>
         </div>
     </div>
