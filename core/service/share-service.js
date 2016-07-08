@@ -121,6 +121,7 @@ var ShareService = exports.ShareService = Montage.specialize({
     _saveIscsiShareObject: {
         value: function (shareObject) {
             var self = this,
+                isNewShareObject = shareObject._isNewObject,
                 blockSize = shareObject.properties.block_size,
                 size = shareObject.properties.size;
 
@@ -134,7 +135,11 @@ var ShareService = exports.ShareService = Montage.specialize({
             }
 
             return self._dataService.saveDataObject(shareObject).then(function () { // share + share-iscsi (share.properties)
-                return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget);
+                if (isNewShareObject) {
+                    return self._dataService.getNewInstanceForType(Model.ShareIscsiTarget);
+                }
+                //TODO: Need to update extent object when the share name change?
+                // IF so maybe we should add the snapshoting!!
             }).then(function (target) {
                 var extentObject = {
                         name: shareObject.name,
