@@ -1,9 +1,0 @@
-{
-    "root": {
-        "prototype": "montage/core/meta/user-interface-descriptor",
-        "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/virtual-machine-section.reel"},
-            "nameExpression": "'Virtualization'"
-        }
-    }
-}

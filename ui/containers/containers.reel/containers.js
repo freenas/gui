@@ -3,10 +3,10 @@ var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model;
 
 /**
- * @class Virtualization
+ * @class Containers
  * @extends Component
  */
-exports.Virtualization = Component.specialize({
+exports.Containers = Component.specialize({
 
     _loadDataPromise: {
         value: null
@@ -20,7 +20,7 @@ exports.Virtualization = Component.specialize({
         value: null
     },
 
-    virtualMachineSection: {
+    containerSection: {
         value: null
     },
 
@@ -32,18 +32,18 @@ exports.Virtualization = Component.specialize({
 
     _loadDataIfNeeded: {
         value: function() {
-            if (!this._loadDataPromise && !this.virtualMachineSection ) {
+            if (!this._loadDataPromise && !this.containerSection ) {
                 var dataService = this.application.dataService,
                     virtualMachineService = this.application.virtualMachineService,
                     self = this;
 
-                this._loadDataPromise = dataService.getNewInstanceForType(Model.VirtualMachineSection).then(function(virtualMachineSection) {
-                    virtualMachineSection.isLoading = true;
-                    self.virtualMachineSection = virtualMachineSection;
+                this._loadDataPromise = dataService.getNewInstanceForType(Model.ContainerSection).then(function(containerSection) {
+                    containerSection.isLoading = true;
+                    self.containerSection = containerSection;
 
                     return Promise.all([self._listVirtualMachines(), self._listTemplates()]);
                 }).then(function() {
-                    self.virtualMachineSection.isLoading = false;
+                    self.containerSection.isLoading = false;
                     self._loadDataPromise = null;
                 });
             }
@@ -55,7 +55,7 @@ exports.Virtualization = Component.specialize({
             var self = this;
 
             return this.application.dataService.fetchData(Model.Vm).then(function(virtualMachines) {
-                self.virtualMachineSection.virtualMachines = virtualMachines;
+                self.containerSection.virtualMachines = virtualMachines;
             });
 
         }
@@ -66,7 +66,7 @@ exports.Virtualization = Component.specialize({
             var self = this;
 
             return this.application.virtualMachineService.getTemplates().then(function(templates) {
-                self.virtualMachineSection.templates = templates;
+                self.containerSection.templates = templates;
             });
         }
     }

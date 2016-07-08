@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="virtualization.css">
+    <link rel="stylesheet" type="text/css" href="containers.css">
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -9,21 +9,21 @@
                 "element": {"#": "owner"}
             }
         },
-        "virtualMachines": {
+        "containerSection": {
             "prototype": "ui/controls/cascading-list.reel",
             "properties": {
-                "element": {"#": "virtualMachines"}
+                "element": {"#": "containerSection"}
             },
             "bindings": {
-                "root": {"<-": "@owner.virtualMachineSection"}
+                "root": {"<-": "@owner.containerSection"}
             }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Virtualization">
-        <div data-montage-id="virtualMachines"></div>
+    <div data-montage-id="owner" class="Containers">
+        <div data-montage-id="containerSection"></div>
     </div>
 </body>
 </html>

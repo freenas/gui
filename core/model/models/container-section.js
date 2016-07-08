@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VirtualMachineSection = AbstractModel.specialize({
+exports.ContainerSection = AbstractModel.specialize({
     _virtualMachines: {
         value: null
     },
@@ -26,6 +26,19 @@ exports.VirtualMachineSection = AbstractModel.specialize({
         get: function () {
             return this._templates;
         }
+    },
+    _docker: {
+        value: null
+    },
+    docker: {
+        set: function (value) {
+            if (this._docker !== value) {
+                this._docker = value;
+            }
+        },
+        get: function () {
+            return this._docker;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -35,14 +48,17 @@ exports.VirtualMachineSection = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "templates"
+        }, {
+            mandatory: false,
+            name: "docker"
         }]
     },
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/virtual-machine-section.reel'
+                id: 'ui/inspectors/container-section.reel'
             },
-            nameExpression: "'Virtualization'"
+            nameExpression: "'Containers'"
         }
     }
 });
