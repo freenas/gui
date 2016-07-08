@@ -12,7 +12,7 @@
             },
             "bindings": {
                 "datasetsPaths": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
-                "isPathReadOnly": {"<-": "!@owner.object._isNewObject && @owner.targetType == 'DATASET'"},
+                "isPathReadOnly": {"<-": "!@owner.object._isNewObject && (@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL')"},
                 "volumePath": {"<-": "'/mnt/' + @owner.object.volume.id"}
             }
         },
@@ -80,7 +80,7 @@
                 "selectedPath": {"<->": "@owner.targetPath"},
                 "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
-                "suffix": {"<-": "@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL'  && !@owner.isPathReadOnly ? @name.value || '' : ''"},
+                "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},
                 "removePrefix": {"<-": "@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL' ? '/mnt/' : ''"},
                 "controller": {"<-": "@owner.targetController"}
             }
