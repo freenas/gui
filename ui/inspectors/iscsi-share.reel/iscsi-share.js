@@ -9,7 +9,6 @@ var AbstractShareInspector = require("ui/inspectors/share.reel/abstract-share-in
  */
 exports.IscsiShare = AbstractShareInspector.specialize({
 
-
     _iscsiRpm: {
         value: null
     },
@@ -33,8 +32,11 @@ exports.IscsiShare = AbstractShareInspector.specialize({
     templateDidLoad: {
         value: function () {
             this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
+            this._targetName = { label: null, value: null };
             this.targetNames = [];
+
             var self = this;
+
             this._findServiceIscsi().then(function (serviceIscsi) {
                 self.serviceIscsi = serviceIscsi;
             });
@@ -45,15 +47,16 @@ exports.IscsiShare = AbstractShareInspector.specialize({
         value: null
     },
 
+    targetNames: {
+        value: null
+    },
+
     enterDocument: {
         value: function () {
             if (this.object._isNewObject && !this._cancelPathChangeListener) {
-                this._targetName = {
-                    label: null,
-                    value: null
-                };
+                this._resetTargetName();
                 this._cancelPathChangeListener = this.addPathChangeListener("object.name", this, "handleNameChange");
-            } else if (!this.object._isNewObject && !this._targetName) { //FIXME: _isNewObject can be undefined
+            } else if (!this.object._isNewObject && !this._isTargetNameSelected) { //FIXME: _isNewObject can be undefined
                 this._populateIscsiTargets();
             }
         }
@@ -61,23 +64,25 @@ exports.IscsiShare = AbstractShareInspector.specialize({
 
     exitDocument: {
         value: function () {
-            if (this.object._isNewObject && this._cancelPathChangeListener) {
+            if (this._cancelPathChangeListener) {
                 //FIXME: bug in collections?
                 //this._cancelPathChangeListener();
-                //this._cancelPathChangeListener = null;
-                this._targetName = null;
-                this.targetNames.length = 0;
+                this._cancelPathChangeListener = null;
             }
+
+            this._resetTargetName();
+            this.targetNames.length = 0;
         }
     },
 
     handleNameChange: {
         value: function () {
             if (this.object._isNewObject) { //FIXME: Bug with collection can't remove the PathChangeListener
-                var index = this.targetNames.indexOf(this._targetName);
+                var index = this.targetNames.indexOf(this._targetName),
+                    shareName = this.object.name;
 
-                if (this.object.name) {
-                    var concatString = this.serviceIscsi.base_name + "." + this.object.name;
+                if (shareName) {
+                    var concatString = this.serviceIscsi.base_name + "." + shareName;
                     this._targetName.value = this._targetName.label = concatString;
                     this.targetIscsiNameSelectComponent.selectedValue = this._targetName.value;
 
@@ -99,6 +104,21 @@ exports.IscsiShare = AbstractShareInspector.specialize({
         }
     },
 
+    _resetTargetName: {
+        value: function () {
+            this._targetName.label = null;
+            this._targetName.value = null;
+
+            return this._targetName;
+        }
+    },
+
+    _isTargetNameSelected: {
+        get: function () {
+            return !!this._targetName.label && !!this._targetName.value;
+        }
+    },
+
     _populateIscsiTargets: {
         value: function () {
             var self = this;
@@ -110,18 +130,18 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                     shareIscsiTarget = shareIscsiTargetCollection[i];
 
                     if (shareIscsiTarget.extents.length) {
-                        if (!self._targetName) {
-                            for (ii = 0, ll = shareIscsiTarget.extents.length; i < ll; i++) {
-                                shareIscsiTargetExtent = shareIscsiTarget.extents[i];
+                        if (!this._isTargetNameSelected) {
+                            for (ii = 0, ll = shareIscsiTarget.extents.length; ii < ll; ii++) {
+                                shareIscsiTargetExtent = shareIscsiTarget.extents[ii];
 
                                 //TODO: support more than one extent?
                                 if (shareIscsiTargetExtent.name === self.object.name) {
                                     // Populate __extent property of the share object.
                                     // Not the best place for doing that.
                                     self.object.__extent = { id: shareIscsiTarget.id, lun: shareIscsiTargetExtent.number };
-                                    self.targetNames.push(
-                                        (self._targetName = { label: shareIscsiTarget.id, value: shareIscsiTarget.id })
-                                    );
+
+                                    self._targetName.value = self._targetName.label = shareIscsiTarget.id;
+                                    self.targetNames.push(self._targetName);
                                     break;
                                 }
                             }
