@@ -47,13 +47,15 @@ exports.CalendarEvent = Component.specialize(/** @lends Event# */ {
     _setPosition: {
         value: function() {
             if(!this.object.allDay) {
-                this.classList.add('has-time');
                 this._resetStyle();
                 // multiply by height row (3) to get top position
                 // $FIXME - this value (3) shouldn't be hard coded
                 this.element.style.top = this._setY(this.object.hour, this.object.minute) * 3 + "em";
-                if (this.object.concurrentEvents > 1) {
-                    this.element.style.position = 'relative';
+
+                // if event has concurrent events
+                if(this.object.concurrentIndex > 0) {
+                    this.classList.add('event-is-overlayed');
+                    this.element.style.left = (100 / (this.object.concurrentEvents) * this.object.concurrentIndex) + "%";
                 }
             }
         }

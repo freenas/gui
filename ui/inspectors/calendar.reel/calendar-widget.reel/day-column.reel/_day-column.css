@@ -21,11 +21,15 @@
         }
     }
 
+    @nest .DayView & {
+        box-shadow: none;
+    }
 
-    @apply --today-theme;
 }
 
 .DayColumn-events {
-    display: flex;
+    position: relative;
+    left: .25em;
+    width: calc(100% - .75em);
 }
 

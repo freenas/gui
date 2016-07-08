@@ -187,18 +187,13 @@ Header
 
 .CalendarWidget-allDayEvents {
     position: relative;
-    padding: .15em;
+    padding: .15em .25em;
     padding-bottom: 1em;
     background: var(--allDayBg);
 
     @nest .CalendarWidget-view-day:not(:last-child) & {
         border-right:   1px solid var(--calenderStrongLine);
     }
-}
-
-.CalendarWidget-event,
-.CalendarWidget-event.has-time {
-    position: relative;
 }
 
 /*
@@ -278,7 +273,7 @@ Main Content
     position: relative;
     flex: 1;
     flex-direction: column;
-    padding: 0 .15em;
+    /* padding: 0 .15rem; */
 
     &:not(:last-child):before {
         content: '';
@@ -299,9 +294,16 @@ Main Content
     max-width: calc(var(--hourHeight));
 }
 
-/* Calendar Events */
+/*
+
+Calendar Events
+
+*/
+
 
 .CalendarWidget-event {
+    /* width:  calc(100% - .5rem); */
+    width: 100%;
     font-size: 1rem;
     display: none;
     border: 1px solid transparent;
@@ -310,25 +312,31 @@ Main Content
     align-items: center;
     cursor: pointer;
     transform: translateY(2px);
-    overflow: hidden;
 
-    &.has-time {
-        width: calc(100% - .5em);
-    }
-
-    &.is-displayed {
-        display: flex;
-    }
-
+    /* $fixme - remove one of these classes */
+    &.is-displayed,
     &.is-visible {
         display: block;
+    }
+
+    &.event-is-overlayed {
+        /* same as calendar widget bg color */
+        border-color: #242628;
+        right: 0;
+        width: auto;
+    }
+
+    @nest .CalendarWidget-allDayEvents & {
         position: relative;
+    }
+
+    @nest .MonthView & {
+        position: relative;
+        width: auto;
     }
 }
 
 .CalendarWidget-event-inner {
-    display: block;
-    width: 100%;
     align-self: center;
     height: 1.25em;
     line-height: 1.25em;
@@ -336,6 +344,7 @@ Main Content
     font-size: .85em;
     color: #fff;
     border-radius: 2px;
+    overflow: hidden;
 }
 
 .CalendarWidget-event.type-rsync .CalendarWidget-event-inner                             { background-color: #D95B1B; }
