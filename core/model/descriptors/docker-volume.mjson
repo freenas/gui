@@ -1,0 +1,37 @@
+{
+  "blueprint_dockervolume_container_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "container_path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockervolume_host_path": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "host_path",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockervolume_readonly": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "readonly",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DockerVolume",
+      "propertyBlueprints": [
+        {"@": "blueprint_dockervolume_container_path"},
+        {"@": "blueprint_dockervolume_host_path"},
+        {"@": "blueprint_dockervolume_readonly"}
+      ]
+    }
+  }
+}

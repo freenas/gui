@@ -76,7 +76,8 @@
     "properties": {
       "name": "serial_port",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "SystemAdvancedSerialport"
     }
   },
   "blueprint_systemadvanced_serial_speed": {
@@ -84,7 +85,8 @@
     "properties": {
       "name": "serial_speed",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "object",
+      "valueObjectPrototypeName": "SystemAdvancedSerialspeed"
     }
   },
   "blueprint_systemadvanced_swapondrive": {

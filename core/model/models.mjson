@@ -161,6 +161,14 @@
             "type": "DisksAllocation"
         },
         {
+            "modelId": "core/model/models/docker-environment.js",
+            "type": "DockerEnvironment"
+        },
+        {
+            "modelId": "core/model/models/docker-volume.js",
+            "type": "DockerVolume"
+        },
+        {
             "modelId": "core/model/models/docker.js",
             "type": "Docker"
         },

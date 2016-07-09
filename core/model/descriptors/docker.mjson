@@ -1,4 +1,52 @@
 {
+  "blueprint_docker_command": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "command",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_docker_environment": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "environment",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
+  "blueprint_docker_expose_ports": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "expose_ports",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_docker_host": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "host",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_docker_hostname": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hostname",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_docker_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_docker_image": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -7,12 +55,54 @@
       "valueType": "String"
     }
   },
+  "blueprint_docker_memory_limit": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "memory_limit",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_docker_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_docker_ports": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ports",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_docker_volumes": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "volumes",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "Docker",
       "propertyBlueprints": [
-        {"@": "blueprint_docker_image"}
+        {"@": "blueprint_docker_command"},
+        {"@": "blueprint_docker_environment"},
+        {"@": "blueprint_docker_expose_ports"},
+        {"@": "blueprint_docker_host"},
+        {"@": "blueprint_docker_hostname"},
+        {"@": "blueprint_docker_id"},
+        {"@": "blueprint_docker_image"},
+        {"@": "blueprint_docker_memory_limit"},
+        {"@": "blueprint_docker_name"},
+        {"@": "blueprint_docker_ports"},
+        {"@": "blueprint_docker_volumes"}
       ]
     }
   }

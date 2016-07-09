@@ -312,6 +312,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "delete": {
+                "method": "containerd.docker.delete",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getHostStatus": {
                 "method": "containerd.docker.get_host_status",
                 "name": "call",
@@ -845,6 +850,15 @@
                     ]
                 },
                 "task": "group.update"
+            }
+        }
+    },
+    "Ipfs": {
+        "class": {
+            "hashToLink": {
+                "method": "ipfs.hash_to_link",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
@@ -2530,6 +2544,11 @@
             },
             "stream": {
                 "method": "test.stream",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "wrappedStream": {
+                "method": "test.wrapped_stream",
                 "name": "call",
                 "namespace": "rpc"
             }
