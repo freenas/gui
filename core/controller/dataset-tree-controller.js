@@ -43,7 +43,9 @@ exports.DatasetTreeController = Montage.specialize({
 
     selectedPath: {
         get: function() {
-            return this.entry.path;
+            if (this.entry) {
+                return this.entry.path;
+            }
         }
     },
 

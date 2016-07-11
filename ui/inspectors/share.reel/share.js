@@ -54,9 +54,10 @@ exports.Share = Component.specialize({
             return this._targetPath;
         },
         set: function(targetPath) {
-            if (this._targetPath != targetPath) {
+            if (this._targetPath !== targetPath) {
                 this._targetPath = targetPath;
-                if (this.targetController && targetPath != this.targetController.selectedPath) {
+
+                if (this._inDocument && targetPath && this.targetController && targetPath !== this.targetController.selectedPath) {
                     this.targetController.open(targetPath);
                 }
             }
