@@ -21,7 +21,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
                 this._selectedPath = selectedPath;
             }
             if (!this._selectedPath && this.controller.root) {
-                this.selectedPath = this.controller.selectedPath;
+                this._selectedPath = this.controller.selectedPath;
             }
         }
     },
