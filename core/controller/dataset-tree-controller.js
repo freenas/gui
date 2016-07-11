@@ -2,10 +2,7 @@ var Montage = require("montage").Montage,
     Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise;
 
-var DIRECTORY = 'DIRECTORY',
-    FILE = 'FILE';
-
-var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
+exports.DatasetTreeController = Montage.specialize({
     _service: {
         value: null
     },
@@ -73,30 +70,27 @@ var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
     },
 
     open: {
-        value: function(path) {
+        value: function (path) {
             var self = this,
                 treePromise;
+
             if (this._tree) {
                 treePromise = Promise.resolve(this._tree);
             } else {
                 if (!this._datasetsPromise) {
                     this._datasetsPromise = this._service.fetchData(Model.VolumeDataset);
                 }
-                treePromise = this._datasetsPromise.then(function(rawDatasets) {
+
+                treePromise = this._datasetsPromise.then(function (rawDatasets) {
                     self._datasets = rawDatasets;
-                    return self._buildDatasetsTree(rawDatasets);
+                    return self._buildDatasetsTree();
                 });
             }
-            return treePromise.then(function(tree) {
-                if (path) {
-                    self.entry = self._findEntry(path);
-                } else {
-                    self.entry = self._tree;
-                }
+
+            return treePromise.then(function () {
+                self.entry = path ? self._findEntry(path) : self._tree;
                 self.selectedVolume = self.entry.volume;
             });
-    
-    
         }
     },
 
@@ -106,7 +100,7 @@ var DatasetTreeController = exports.DatasetTreeController = Montage.specialize({
                 orphanEntries = [],
                 dataset, entry, name, volume,
                 depth, pathParts, ancestorEntry;
-            
+
             this._tree = {
                 name: '',
                 path: '',
