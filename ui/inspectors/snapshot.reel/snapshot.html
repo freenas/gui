@@ -8,11 +8,10 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "filesystemTreeController": {"@": "filesystemTreeController"}
+                "datasetTreeController": {"@": "datasetTreeController"}
             },
             "bindings": {
-                "datasetsPaths": {"<-": "@owner.volume.datasets.map{mountpoint}"},
-                "volumePath": {"<-": "'/mnt/' + @owner.volume.id"}
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
         },
         "sizeConverter": {
@@ -24,16 +23,11 @@
                 "pattern": "MM/dd/yyyy hh:mm:ss tt"
             }
         },
-        "filesystemTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": false,
-                "isDatasetMode": true
-            },
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
             "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"},
-                "root": {"<-": "@owner.volumePath"},
-                "datasetsPaths": {"<-": "@owner.datasetsPaths"}
+                "service": {"<-": "@owner.application.dataService"},
+                "root": {"<-": "@owner.volume.id"}
             }
         },
         "inspector": {
@@ -71,7 +65,7 @@
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "datasetSelector"},
-                "controller": {"@": "filesystemTreeController"},
+                "controller": {"@": "datasetTreeController"},
                 "label": "Dataset",
                 "removePrefix": "/mnt/"
             },

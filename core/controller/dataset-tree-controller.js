@@ -92,7 +92,7 @@ exports.DatasetTreeController = Montage.specialize({
 
             return treePromise.then(function () {
                 self.entry = path ? self._findEntry(path) : self._tree;
-                self.selectedVolume = self.entry.volume;
+                return self.selectedVolume = self.entry.volume;
             });
         }
     },

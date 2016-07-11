@@ -68,12 +68,6 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
                     } else {
                         this.pathDisplayMode = "display";
                     }
-                    this._loadVolume();
-                    if (this.filesystemTreeController && !object.dataset) {
-                        this.filesystemTreeController.open(this.filesystemTreeController.root).then(function() {
-                            object.dataset = self.filesystemTreeController.selectedPath;
-                        });
-                    }
                 }
             }
         }
@@ -88,6 +82,7 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
             } else {
                 this.expirationDate = null;
             }
+            this._loadVolume();
         }
     },
 
