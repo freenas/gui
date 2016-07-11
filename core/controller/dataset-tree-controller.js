@@ -56,15 +56,16 @@ exports.DatasetTreeController = Montage.specialize({
     },
 
     root: {
-        get: function() {
+        get: function () {
             return this._root;
         },
-        set: function(root) {
+        set: function (root) {
             if (this._root !== root) {
                 this._root = root;
-            }
-            if (this._root && this._service) {
-                this.open(this._root);
+
+                if (root && this._service) {
+                    this.open(root);
+                }
             }
         }
     },
