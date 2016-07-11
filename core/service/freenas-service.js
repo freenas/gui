@@ -1,4 +1,5 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
+    SnapshotService = require("montage-data/logic/service/snapshot-service").SnapshotService,
     BackEndBridgeModule = require("../backend/backend-bridge"),
     DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
     NotificationCenterModule = require("../backend/notification-center"),
@@ -48,6 +49,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             //Fixme: temporary cache
             this.modelsCache = new Map();
 
+            this._snapshotService = new SnapshotService();
             this._selectionService = SelectionService.instance;
 
             return this;
@@ -77,6 +79,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
     _keepAliveInterval: {
+        value: null
+    },
+
+    _snapshotService: {
         value: null
     },
 
@@ -233,6 +239,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     }
                 ).then(function (response) {
                     return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
+                }).then(function() {
+                    return self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
                 });
             }
 
@@ -264,14 +272,17 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 if (serviceDescriptor) {
                     var self = this,
+                        payload,
                         taskName = serviceDescriptor.task,
                         taskId;
+
+                    payload = this._snapshotService.getDifferenceWithSnapshotForTypeNameAndId(rawData, type.typeName, object.id);
 
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
                             method: serviceDescriptor.method,
-                            args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, rawData] : [rawData]]
+                            args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, payload] : [payload]]
                         }
                     ).then(function (response) {
                         taskId = response.data;
@@ -356,6 +367,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     }
                 }
             }
+            this._snapshotService.saveSnapshotForTypeNameAndId(data, object.constructor.Type.typeName, object.id);
         }
     },
 
@@ -433,6 +445,46 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 var instance = self.getDataObject(type);
                 instance._isNew = true;
                 return instance;
+            });
+        }
+    },
+
+    restoreSnapshotVersion: {
+        value: function(object) {
+            var self = this,
+                type = object.constructor.Type;
+            if (!object._isNew) {
+                var id = object.id,
+                    modelCache = this._findModelCacheForType(type),
+                    snapshot = this._snapshotService.getSnapshotForTypeNameAndId(type.typeName, id);
+                if (snapshot) {
+                    this.mapFromRawData(object, snapshot);
+                }
+                return Promise.resolve(object);
+            } else {
+                return this.getNewInstanceForType(type).then(function(cleanObject) {
+                    var childrenPromises = [],
+                        keys = Object.keys(object), key;
+                    for (var i = 0, length = keys.length; i < length; i++) {
+                        key = keys[i];
+                        if (key in cleanObject) {
+                            if (typeof object[key] === "object" && object[key] && object[key].constructor && object[key].constructor.Type) {
+                                childrenPromises.push(self._resetObjectPropertyToNewInstance(object, key));
+                            } else {
+                                object[key] = cleanObject[key];
+                            }
+                        }
+                    }
+                    return childrenPromises.length > 0 ? Promise.all(childrenPromises).then(function() { return object; }) : object;
+                });
+            }
+        }
+    },
+
+    _resetObjectPropertyToNewInstance: {
+        value: function(object, propertyName) {
+            return this.getNewInstanceForType(object[propertyName].constructor.Type).then(function(child) {
+                object[propertyName] = child;
             });
         }
     },
@@ -889,6 +941,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 //Fixme: hacky
                 instance.getNewInstanceForType = FreeNASService.prototype.getNewInstanceForType;
+                instance.restoreSnapshotVersion = FreeNASService.prototype.restoreSnapshotVersion.bind(freeNASService);
                 instance.getEmptyCollectionForType = FreeNASService.prototype.getEmptyCollectionForType;
                 instance.callBackend = FreeNASService.prototype.callBackend;
                 instance.backendBridge = BackEndBridgeModule.defaultBackendBridge;

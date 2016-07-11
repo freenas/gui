@@ -13,7 +13,8 @@
                     "ZVOL":         {"@": "datasetTreeController"},
                     "DIRECTORY":    {"@": "directoryTreeController"},
                     "FILE":         {"@": "fileTreeController"}
-                }
+                },
+                "inspector": {"@": "inspector"}
             },
             "bindings": {
                 "volumePath": {"<-": "'/mnt/' + @owner.volume.id"}
@@ -122,7 +123,7 @@
                 "element": {"#": "shareTypePlaceHolder"}
             },
             "bindings": {
-                "moduleId": {"<-": "'ui/inspectors/' + @owner.object.type + '-share.reel'"},
+                "moduleId": {"<-": "'ui/inspectors/share.reel/' + @owner.object.type + '-share.reel'"},
                 "object": {"<-": "@owner.object"}
             }
         },

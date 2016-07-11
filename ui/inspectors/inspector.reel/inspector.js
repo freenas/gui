@@ -35,8 +35,15 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleRevertAction: {
         value: function(event) {
+            var promise;
             if (typeof this.parentComponent.revert === 'function') {
-                this.parentComponent.revert();
+                promise = this.parentComponent.revert();
+
+                if (Promise.is(promise)) {
+                    promise.catch(this._logError);
+                }
+            } else if (this.object) {
+                promise = this.revert();
             } else {
                 console.warn('NOT IMPLEMENTED: revert() on', this.parentComponent.templateModuleId);
             }
@@ -130,6 +137,17 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
             }
             return result;
+        }
+    },
+
+    revert: {
+        value: function() {
+            var self = this;
+            return this.application.dataService.restoreSnapshotVersion(this.object).then(function(object) {
+                if (self.object._isNew) {
+                    self.object = object;
+                }
+            });
         }
     },
 
