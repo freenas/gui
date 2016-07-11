@@ -19,15 +19,12 @@ exports.Session = AbstractModel.specialize({
     },
     "ended-at": {
         set: function (value) {
-            if (this.
-                "_ended-at" !== value) {
-                this.
-                "_ended-at" = value;
+            if (this["_ended-at"] !== value) {
+                this["_ended-at"] = value;
             }
         },
         get: function () {
-            return this.
-            "_ended-at";
+            return this["_ended-at"];
         }
     },
     _resource: {
@@ -48,15 +45,12 @@ exports.Session = AbstractModel.specialize({
     },
     "started-at": {
         set: function (value) {
-            if (this.
-                "_started-at" !== value) {
-                this.
-                "_started-at" = value;
+            if (this["_started-at"] !== value) {
+                this["_started-at"] = value;
             }
         },
         get: function () {
-            return this.
-            "_started-at";
+            return this["_started-at"];
         }
     },
     _tty: {
