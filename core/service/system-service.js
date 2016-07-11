@@ -10,6 +10,10 @@ var SystemService = exports.SystemService = Montage.specialize({
         value: null
     },
 
+    _dataService: {
+        value: null
+    },
+
     _backendBridge: {
         value: null
     },
@@ -37,7 +41,7 @@ var SystemService = exports.SystemService = Montage.specialize({
                 method: 'task.submit',
                 args: [this._NAMESPACE + taskName, args]
             });
-            
+
         }
     },
 
@@ -49,8 +53,13 @@ var SystemService = exports.SystemService = Montage.specialize({
                 args: args
             });
         }
-    }
+    },
 
+    _fetchGeneral: {
+        value: function() {
+
+        }
+    }
 }, {
     instance: {
         get: function() {
