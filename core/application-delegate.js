@@ -13,6 +13,7 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     SystemService = require("core/service/system-service").SystemService,
     SystemInfoService = require("core/service/system-info-service").SystemInfoService,
     SystemDeviceService = require("core/service/system-device-service").SystemDeviceService,
+    SystemAdvancedService = require("core/service/system-advanced-service").SystemAdvancedService,
     NetworkInterfaceService = require("core/service/network-interface-service").NetworkInterfaceService,
     ShareService = require("core/service/share-service").ShareService,
     Model = require("core/model/model").Model,
@@ -49,6 +50,7 @@ exports.ApplicationDelegate = Montage.specialize({
             app.systemDeviceService = SystemDeviceService.instance;
             app.networkInterfacesSevice = NetworkInterfaceService.instance;
             app.shareService = ShareService.instance;
+            app.systemAdvancedService = SystemAdvancedService.instance;
             app.virtualMachineService = VirtualMachineService.instance;
         }
     },
