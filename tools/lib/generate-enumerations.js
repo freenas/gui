@@ -26,7 +26,7 @@ exports.generateEnumerations = function generateEnumerations (options) {
                                 schema = schemas[schemaKey];
 
                                 if (schema.enum) {
-                                    enumerations.push(EnumerationFactory.createEnumerationWithNameAndValues(schemaKey, schema.enum));
+                                    enumerations.push(EnumerationFactory.createEnumerationWithNameAndValues(schemaKey, schema.enum, schema.type));
                                 }
                             }
 

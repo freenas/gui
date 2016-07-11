@@ -7,8 +7,14 @@ require('montage/core/extras/string');
 var ENUM_FILE_TEMPLATE = "var Enum = require(\"montage/core/enum\").Enum;\n\nexports.<EXPORT_NAME> = new Enum().initWithMembersAndValues([<MEMBERS>], [<VALUES>]);\n";
 
 
-exports.createEnumerationWithNameAndValues = function (name, values) {
-    values = values.sort().map(function (value) { return "\"" + value + "\""});
+exports.createEnumerationWithNameAndValues = function (name, values, type) {
+    values = values.sort().map(function (value) {
+        if (type === "integer") {
+            return +value;
+        }
+
+        return "\"" + value + "\"";
+    });
 
     return {
         name: name,
