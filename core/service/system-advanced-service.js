@@ -18,7 +18,7 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
                 loadingPromises = [];
             loadingPromises.push(
                 this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
-                    consoleData.systemAdvanced = Object.assign({}, systemAdvanced);
+                    consoleData.systemAdvanced = systemAdvanced[0];
                 }),
                 Model.populateObjectPrototypeForType(Model.SystemAdvanced).then(function(SystemAdvanced){
                     return SystemAdvanced.constructor.services.serialPorts();

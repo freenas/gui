@@ -30,11 +30,15 @@
                 "checked": {"<->": "@owner.object.console_cli"}
             }
         },
+        "serialPortOptionConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
         "serial_port": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "serial_port"},
-                "label": "Serial Port Address"
+                "label": "Serial Port Address",
+                "converter": {"@": "serialPortOptionConverter"}
             },
             "bindings": {
                 "options" : {"<-": "@owner.serialPortOptions"},
@@ -48,7 +52,7 @@
                 "label": "Serial Port Speed"
             },
             "bindings": {
-                "options" : {"<-": "@owner.PORT_SPEED_OPTIONS"},
+                "options" : {"<-": "@owner.serialSpeedOptions"},
                 "selectedValue": {"<->": "@owner.object.serial_speed"}
             }
         },
@@ -69,9 +73,9 @@
     <div data-montage-id="owner" class="SerialConsole">
         <div data-montage-id="enable_console_menu"></div>
         <div data-montage-id="serial_console"></div>
+        <div data-montage-id="enable_screensaver"></div>
         <div data-montage-id="serial_port"></div>
         <div data-montage-id="serial_port_speed"></div>
-        <div data-montage-id="enable_screensaver"></div>
     </div>
 </body>
 </html>
