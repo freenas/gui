@@ -200,6 +200,42 @@ exports.Share = Component.specialize({
         }
     },
 
+    revert: {
+        value: function() {
+            var self = this,
+                shareService = this.application.shareService,
+                promise;
+            if (!this.object._isNew) {
+                return this.inspector.revert();
+            } else {
+                switch (this._object.type) {
+                    case this.application.shareService.constructor.SHARE_TYPES.SMB:
+                        promise = shareService.createSmbShare(this._object.volume);
+                        break;
+                    case this.application.shareService.constructor.SHARE_TYPES.NFS:
+                        promise = shareService.createNfsShare(this._object.volume);
+                        break;
+                    case this.application.shareService.constructor.SHARE_TYPES.AFP:
+                        promise = shareService.createAfpShare(this._object.volume);
+                        break;
+                    case this.application.shareService.constructor.SHARE_TYPES.ISCSI:
+                        promise = shareService.createIscsiShare(this._object.volume);
+                        break;
+                }
+                return promise.then(function(share) {
+                    return shareService.populateShareObjectIfNeeded(share);
+                }).then(function(share) {
+                    var keys = Object.keys(self.object),
+                        key;
+                    for (var i = 0, length = keys.length; i < length; i++) {
+                        key = keys[i];
+                        self.object[key] = share[key];
+                    }
+                });
+            }
+        }
+    },
+
     _loadVolumeService: {
         value: function() {
             var self = this;
