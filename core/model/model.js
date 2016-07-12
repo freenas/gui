@@ -1,7 +1,6 @@
 var Promise = require("montage/core/promise").Promise,
     Services = require("./services").Services,
     ObjectDescriptor = require("montage-data/logic/model/object-descriptor").ObjectDescriptor,
-    ModelDescriptor = require("core/model/model-descriptor").ModelDescriptor,
     backendBridge = require("../backend/backend-bridge").defaultBackendBridge,
     NotificationCenterModule = require("../backend/notification-center"),
     modelsMJSON = require("./models.mjson"),
