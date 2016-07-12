@@ -45,21 +45,18 @@ exports.Share = Component.specialize({
         }
     },
 
-    _targetPath: {
+    _targetType: {
         value: null
     },
 
-    targetPath: {
+    targetType: {
         get: function() {
-            return this._targetPath;
+            return this._targetType;
         },
-        set: function(targetPath) {
-            if (this._targetPath !== targetPath) {
-                this._targetPath = targetPath;
-
-                if (this._inDocument && targetPath && this.targetController && targetPath !== this.targetController.selectedPath) {
-                    this.targetController.open(targetPath);
-                }
+        set: function(targetType) {
+            if (this._targetType !== targetType) {
+                this._targetType = this._object.target_type = targetType;
+                this._openTreeController();
             }
         }
     },
@@ -128,167 +125,65 @@ exports.Share = Component.specialize({
                         self.service = service;
                         self.isServiceStarted = service.state == 'RUNNING';
                     });
-                    if (!object.target_path) {
-                        object.target_path = '/mnt/' + object.volume.id;
-                    }
+                    
+                    var shareServiceConstructor = this.application.shareService.constructor;
                     if (!object.target_type) {
-                        var shareServiceConstructor = this.application.shareService.constructor;
-
                         object.target_type = object.type === shareServiceConstructor.SHARE_TYPES.ISCSI ?
                             shareServiceConstructor.TARGET_TYPES.ZVOL :
                             shareServiceConstructor.TARGET_TYPES.DATASET;
                     }
 
-                    this.targetPath = object.target_path;
-                    this.targetType = object.target_type;
+                    this.isPathReadOnly = !object._isNew && 
+                                            (object.target_type == shareServiceConstructor.TARGET_TYPES.DATASET ||
+                                             object.target_type == shareServiceConstructor.TARGET_TYPES.ZVOL);
                 }
 
                 this._object = object;
-                this._updateTargetController();
-                this.dispatchOwnPropertyChange("targetController", this.targetController);
-            }
-        }
-    },
-
-    isDatasetMode: {
-        get: function () {
-            return this.targetType === this.application.shareService.constructor.TARGET_TYPES.DATASET;
-        }
-    },
-
-    _targetType: {
-        value: null
-    },
-
-    targetType: {
-        set: function (targetType) {
-            if (this._targetType !== targetType) {
-                this._targetType = targetType;
-                this._updateTargetController();
-            }
-        },
-        get: function () {
-            return this._targetType;
-        }
-    },
-
-    _datasetsPaths: {
-        value: null
-    },
-
-    datasetsPaths: {
-        set: function (datasetsPaths) {
-            if (this._datasetsPaths !== datasetsPaths) {
-                this._datasetsPaths = datasetsPaths;
-                this._updateTargetController();
-            }
-        },
-        get: function () {
-            return this._datasetsPaths;
-        }
-    },
-
-    _volumePath: {
-        value: null
-    },
-
-    volumePath: {
-        set: function (volumePath) {
-            if (this._volumePath !== volumePath) {
-                this._volumePath = volumePath;
-                this._updateTargetController();
-            }
-        },
-        get: function () {
-            return this._volumePath;
-        }
-    },
-
-    targetController: {
-        get: function () {
-            if (this.object) {
-                return this.object.type === this.application.shareService.constructor.SHARE_TYPES.ISCSI ?
-                    this.dataSetTreeController : this.fileSystemController;
-            }
-        }
-    },
-
-    _fileSystemController: {
-        value: null
-    },
-
-    fileSystemController: {
-        get: function () {
-            if (!this._fileSystemController) {
-                this._fileSystemController = new FileSystemController();
-                this._fileSystemController.canListFiles = false;
-                this._fileSystemController.service = application.filesystemService;
-            }
-
-            return this._fileSystemController;
-        }
-    },
-
-    _dataSetTreeController: {
-        value: null
-    },
-
-    dataSetTreeController: {
-        get: function () {
-            if (!this._dataSetTreeController) {
-                this._dataSetTreeController = new DataSetTreeController();
-                this._dataSetTreeController.canListFiles = false;
-                this._dataSetTreeController.service = application.dataService;
-            }
-
-            return this._dataSetTreeController;
-        }
-    },
-
-    _updateTargetController: {
-        value: function () {
-            if (this.targetController) {
-                if (this.targetController === this._dataSetTreeController) {
-                    this._dataSetTreeController.root = this.object ? this.object.volume.id : null;
-                } else if (this.targetController === this._fileSystemController) {
-                    this._fileSystemController.root = this.volumePath;
-                    this._fileSystemController.isDatasetMode = this.isDatasetMode;
-                    this._fileSystemController.datasetsPaths = this.datasetsPaths;
-                }
             }
         }
     },
 
     enterDocument: {
         value: function (isFirstTime) {
+            var self = this;
             if (isFirstTime) {
                 this._loadVolumeService();
                 this._shareService = this.application.shareService;
             }
 
             //todo: block draw
-            this._shareService.populateShareObjectIfNeeded(this.object);
+            this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
+                self.targetType = self._object.target_type;
+                if (!self._object.target_path) {
+                    self._openTreeController();
+                }
+            });
 
-            this.targetPath = this.object.target_path;
-            this.targetType = this.object.target_type;
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this.targetPath = null;
         }
     },
 
     save: {
         value: function() {
             var self = this;
-            this.object.target_path = this.targetController.selectedPath;
-            this.object.target_type = this.targetType;
-
             return this._shareService.save(this.object).then(function() {
                 self.isServiceStarted = true;
+
+            }, function(err) {
+                self._object.target_path = self.treeControllers[self.targetType].selectedPath;
+                throw err;
             });
+        }
+    },
+
+    _openTreeController: {
+        value: function() {
+            if (this.targetType) {
+                var self = this,
+                    treeController = this.treeControllers[this.targetType];
+                treeController.open().then(function() {
+                    self._object.target_path = treeController.selectedPath;
+                });
+            }
         }
     },
 
@@ -327,5 +222,4 @@ exports.Share = Component.specialize({
             }
         }
     }
-
 });

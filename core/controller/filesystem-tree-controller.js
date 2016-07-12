@@ -23,24 +23,6 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         }
     },
 
-    _isDatasetMode: {
-        value: null
-    },
-
-    isDatasetMode: {
-        get: function() {
-            return this._isDatasetMode;
-        },
-        set: function(isDatasetMode) {
-            if (this._isDatasetMode !== isDatasetMode) {
-                this._isDatasetMode = isDatasetMode;
-                if (this.entry) {
-                    this.open(this.entry.path);
-                }
-            }
-        }
-    },
-
     entry: {
         value: null
     },
@@ -59,10 +41,9 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
 
     selectedPath: {
         get: function() {
-            if (this.isDatasetMode) {
-                return this.entry.path.replace(this._root, this.service.basename(this._root));
+            if (this.entry) {
+                return this.entry.path;
             }
-            return this.entry.path;
         }
     },
 
@@ -77,96 +58,86 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         set: function(root) {
             if (this._root !== root) {
                 this._root = root;
+                
+                if (root && this._service) {
+                    this.open(this._root);
+                }
             }
-            if (this._root && this._service) {
-                this.open(this._root);
-            }
-        }
-    },
-
-    constructor: {
-        value: function() {
-            this.addRangeAtPathChangeListener("datasetsPaths", this, "_handleDatasetsPathsChange");
         }
     },
 
     open: {
         value: function(path) {
-            if (path) {
-                var self = this,
-                    root = this.root || '/';
-                if (path.length > 1 && path[path.length-1] == '/') {
-                    path = path.substr(0, path.length-1);
-                }
+            var self = this,
+                root = this.root || '/',
+                isDefault = !path;
+            path = path || root;
+            if (path.length > 1 && path[path.length-1] == '/') {
+                path = path.substr(0, path.length-1);
+            }
 
-                // FIXME: @pierre there is an issue here when switching between shares
-                // self.entry.children can be undefined. Ticket: #16098
-                if (self.entry && self.entry.children && self.entry.children.map(function(x) { return x.path; }).indexOf(path) != -1) {
-                    if (!self.ancestors) {
-                        self.ancestors = [];
-                    }
-                    self.ancestors.push(self.entry);
-                } else if (self.ancestors && self.ancestors.length && self.ancestors.slice(-1)[0].path === path) {
-                    self.ancestors.pop();
-                } else {
-                    self.ancestors = null
-                }
+            // FIXME: @pierre there is an issue here when switching between shares
+            // self.entry.children can be undefined. Ticket: #16098
+            if (this._isPathChildOfCurrentEntry(path)) {
+                this._addCurrentEntryToAncestors();
+            } else if (this._isPathLastAncestor(path)) {
+                self.ancestors.pop();
+            } else {
+                self.ancestors = null
+            }
+            return this._service.listDir(path).then(function(children) {
                 self.entry = {
                     path: path,
-                    name: self._service.basename(path)
+                    name: self._service.basename(path),
+                    children: self._filterChildren(children.map(function(x) { return self._childToEntry(path, x); }))
                 };
-                return this._service.listDir(path).then(function(children) {
-                    self.entry.allChildren = children
-                        .map(function(x) { return self._childToEntry(path, x); });
-                    self._filterChildren();
-                    if (!self.ancestors) {
+                if (!self.ancestors) {
+                    path = self._service.dirname(path);
+                    self.ancestors = [];
+                    while (path.indexOf(root) == 0) {
+                        self.ancestors.unshift({
+                            path: path,
+                            name: self._service.basename(path),
+                            type: DIRECTORY
+                        });
                         path = self._service.dirname(path);
-                        self.ancestors = [];
-                        while (path.indexOf(root) == 0) {
-                            self.ancestors.unshift({
-                                path: path,
-                                name: self._service.basename(path),
-                                type: DIRECTORY
-                            });
-                            path = self._service.dirname(path);
-                        }
                     }
-                    return self.entry;
-                });
-            } else {
-                return Promise.resolve();
+                }
+                return self.entry;
+            });
+        }
+    },
+
+    _isPathLastAncestor: {
+        value: function(path) {
+            return self.ancestors && 
+                self.ancestors.length && 
+                self.ancestors.slice(-1)[0].path === path;
+        }
+    },
+
+    _addCurrentEntryToAncestors: {
+        value: function() {
+            if (!this.ancestors) {
+                this.ancestors = [];
             }
+            this.ancestors.push(this.entry);
+        }
+    },
+
+    _isPathChildOfCurrentEntry: {
+        value: function(path) {
+            return this.entry && 
+                    this.entry.children && 
+                    this.entry.children.map(function(x) { 
+                        return x.path; 
+                    }).indexOf(path) != -1;
         }
     },
 
     _filterChildren: {
-        value: function() {
-            var allChildren = this.entry.allChildren || [];
-            if (!this.canListFiles) {
-                this.entry.children = this._filterDirectories(allChildren);
-            }
-            if (this.isDatasetMode) {
-                this.entry.children = this._filterDatasets(allChildren);
-            }
-        }
-    },
-
-    _filterDirectories: {
         value: function(children) {
-            return children.filter(function(x) { return x.type === DIRECTORY });
-        }
-    },
-
-    _filterDatasets: {
-        value: function(children) {
-            var self = this;
-            return children.filter(function(x) { return self._isEntryADataset(x); });
-        }
-    },
-
-    _isEntryADataset: {
-        value: function(entry) {
-            return this.datasetsPaths.indexOf(entry.path) != -1;
+            return this.canListFiles ? children : children.filter(function(x) { return x.type === DIRECTORY });
         }
     },
 
@@ -176,14 +147,6 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                 path: this.service.join(parentPath, child.name),
                 name: child.name,
                 type: child.type
-            }
-        }
-    },
-
-    _handleDatasetsPathsChange: {
-        value: function() {
-            if (this.entry) {
-                this._filterChildren();
             }
         }
     }

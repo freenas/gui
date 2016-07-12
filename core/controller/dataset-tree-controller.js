@@ -76,7 +76,7 @@ exports.DatasetTreeController = Montage.specialize({
         value: function (path) {
             var self = this,
                 treePromise;
-
+            path = path || this.root;
             if (this._tree) {
                 treePromise = Promise.resolve(this._tree);
             } else {

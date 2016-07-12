@@ -7,27 +7,54 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "datasetToPathConverter": {"@": "datasetToPathConverter"},
-                "_shareTypePlaceHolder": {"@": "shareTypePlaceHolder"}
+                "_shareTypePlaceHolder": {"@": "shareTypePlaceHolder"},
+                "treeControllers": {
+                    "DATASET":      {"@": "datasetTreeController"},
+                    "ZVOL":         {"@": "datasetTreeController"},
+                    "DIRECTORY":    {"@": "directoryTreeController"},
+                    "FILE":         {"@": "fileTreeController"}
+                }
             },
             "bindings": {
-                "datasetsPaths": {"<-": "@owner.object.volume.datasets.map{mountpoint}"},
-                "isPathReadOnly": {"<-": "!@owner.object._isNewObject && (@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL')"},
                 "volumePath": {"<-": "'/mnt/' + @owner.object.volume.id"}
             }
         },
-        "datasetToPathConverter": {
-            "prototype": "core/converter/dataset-to-path-converter"
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
+            "bindings": {
+                "service": {"<-": "@owner.application.dataService"},
+                "root": {"<-": "@owner.object.volume.id"}
+            }
+        },
+        "directoryTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "@owner.volumePath"}
+            }
+        },
+        "fileTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": true
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "@owner.volumePath"}
+            }
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canDelete": "true",
-                "canRevert": "true",
-                "canSave": "true"
+                "canRevert":    true,
+                "canSave":      true
             },
             "bindings": {
+                "canDelete": {"<-": "!@owner.object._isNew"},
                 "object": {"<-": "@owner.object"}
             }
         },
@@ -77,12 +104,11 @@
                 "element": {"#": "target"}
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.targetPath"},
+                "selectedPath": {"<->": "@owner.object.target_path"},
                 "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"},
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
                 "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},
-                "removePrefix": {"<-": "@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL' ? '/mnt/' : ''"},
-                "controller": {"<-": "@owner.targetController"}
+                "controller": {"<-": "@owner.treeControllers[@owner.targetType]"}
             }
         },
         "shareTypePlaceHolder": {
