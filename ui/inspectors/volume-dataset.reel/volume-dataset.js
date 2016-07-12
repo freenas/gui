@@ -17,18 +17,6 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         ]
     },
 
-    context: {
-        get: function() {
-            return this._context;
-        },
-        set: function(context) {
-            if (this._context != context) {
-                this._context = context;
-            }
-            this._loadVolume();
-        }
-    },
-
     volume: {
         value: null
     },
@@ -37,56 +25,66 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         value: null
     },
 
-    name: {
+    _path: {
         value: null
     },
 
-    _targetPath: {
-        value: null
-    },
-
-    targetPath: {
+    path: {
         get: function() {
-            return this._targetPath;
+            return this._path;
         },
-        set: function(targetPath) {
-            if (this._targetPath != targetPath) {
-                this._targetPath = targetPath;
-                if (this.filesystemTreeController && targetPath != this.filesystemTreeController.selectedPath) {
-                    this.filesystemTreeController.open(targetPath);
-                }
+        set: function(path) {
+            if (this._path !== path) {
+                this._path = path;
+                this._setObjectId();
+            }
+        }
+    },
+
+    _name: {
+        value: null
+    },
+
+    name: {
+        get: function() {
+            return this._name;
+        },
+        set: function(name) {
+            if (this._name !== name) {
+                this._name = name;
+                this._setObjectId();
             }
         }
     },
 
     enterDocument: {
         value: function () {
-            var storageService = this.application.storageService;
-            this._loadVolume();
-            this.datasetLevel = storageService.isRootDataset(this.object) ? "root" : "child";
+            this.volume = this._getCurrentVolume();
+
             if (this.object._isNew) {
                 this.object.type = "FILESYSTEM";
-            } else {
-                this.name = this.object.name.split("/").pop();
+                this.object.volume = this.path = this.volume.id;
+                this.name = null;
+                this.treeController.open();
             }
+            var storageService = this.application.storageService;
             storageService.initializeDatasetProperties(this.object);
         }
     },
 
-    _loadVolume: {
+    _setObjectId: {
         value: function() {
-            this.volume = this._getCurrentVolume();
-            if (this.object && this.volume) {
-                this.object.volume = this.targetPath = this.volume.id;
+            if (this._name && this._path && this.object) {
+                this.object.id = this.path + '/' + this._name;
             }
         }
     },
 
     _getCurrentVolume: {
         value: function() {
-            if (this._context) {
+            if (this.context) {
                 var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this._context.columnIndex - 1; i >= 0; i--) {
+                for (var i = this.context.columnIndex - 1; i >= 0; i--) {
                     if (currentSelection.path[i].constructor.Type == Model.Volume) {
                         return currentSelection.path[i];
                     }
@@ -100,7 +98,6 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
             if (this.object.type === "FILESYSTEM") {
                 this.object.properties.volblocksize = undefined;
             }
-            this.object.id = this.filesystemTreeController.selectedPath + "/" + this.name;
             this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
             this.application.dataService.saveDataObject(this.object);
         }

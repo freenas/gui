@@ -8,7 +8,10 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "filesystemTreeController": {"@": "filesystemTreeController"}
+                "treeController": {"@": "datasetTreeController"}
+            },
+            "bindings": {
+                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}    
             }
         },
         "inspector": {
@@ -20,19 +23,14 @@
             },
             "bindings": {
                 "object": {"<-": "@owner.object"},
-                "canDelete": {"<-": "@owner.datasetLevel == 'child' && !@owner.object._isNew"}
+                "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"}
             }
         },
-        "filesystemTreeController": {
-            "prototype": "core/controller/filesystem-tree-controller",
-            "properties": {
-                "canListFiles": false,
-                "isDatasetMode": true
-            },
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
             "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"},
-                "root": {"<-": "'/mnt/' + @owner.volume.id"},
-                "datasetsPaths": {"<-": "@owner.volume.datasets.map{mountpoint}"}
+                "service": {"<-": "@owner.application.dataService"},
+                "root": {"<-": "@owner.volume.id"}
             }
         },
         "nameSubstitution": {
@@ -41,7 +39,7 @@
                 "element": {"#": "nameSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.datasetLevel"}
+                "switchValue": {"<-": "@owner.mode"}
             }
         },
         "nameInput": {
@@ -58,12 +56,11 @@
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "pathSelector"},
-                "controller": {"@": "filesystemTreeController"},
-                "label": "Path",
-                "removePrefix": "/mnt/"
+                "controller": {"@": "datasetTreeController"},
+                "label": "Path"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.targetPath"}
+                "selectedPath": {"<->": "@owner.path"}
             }
         },
         "nameDisplay": {
@@ -108,11 +105,11 @@
     <div data-montage-id="owner" class="VolumeDataset">
         <div data-montage-id="inspector">
             <div data-montage-id="nameSubstitution">
-                <div data-arg="child">
+                <div data-arg="CREATE">
                     <div data-montage-id="nameInput"></div>
                     <div data-montage-id="pathSelector"></div>
                 </div>
-                <div data-montage-id="nameDisplay" data-arg="root"></div>
+                <div data-montage-id="nameDisplay" data-arg="EDIT"></div>
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>

@@ -164,7 +164,7 @@ var StorageService = exports.StorageService = Montage.specialize({
 
     isRootDataset: {
         value: function (dataset) {
-            return !dataset._isNew && ( dataset.name === dataset.volume );
+            return dataset.name === dataset.volume;
         }
     }
 
