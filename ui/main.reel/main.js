@@ -28,4 +28,3 @@ exports.Main = Component.specialize({
 
 });
 
-// FIXME: Selection needs to be managed by a selection controller

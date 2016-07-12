@@ -7,10 +7,7 @@ var Promise = require("montage/core/promise").Promise,
 
     EMPTY_ARRAY = [];
 
-
-//todo: need review with @benoit
 var _Model = null;
-
 
 Object.defineProperty(exports, "Model", {
     get: function () {
