@@ -6,7 +6,7 @@ var Montage = require("montage").Montage,
 var StorageService = exports.StorageService = Montage.specialize({
 
     _SCALED_NUMERIC_RE_: {
-        value: /^(\d+\.?\d{0,3})([K,M,G,T,P,E,Z]?)?[I]?[B]?$/i
+        value: /^(\d+\.?\d{0,3})([KMGTPEZ]?)?[I]?[B]?$/i
     },
 
     _SIZE_PREFIX_EXPONENTS: {
