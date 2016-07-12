@@ -16,14 +16,14 @@
                 }
             },
             "bindings": {
-                "volumePath": {"<-": "'/mnt/' + @owner.object.volume.id"}
+                "volumePath": {"<-": "'/mnt/' + @owner.volume.id"}
             }
         },
         "datasetTreeController": {
             "prototype": "core/controller/dataset-tree-controller",
             "bindings": {
                 "service": {"<-": "@owner.application.dataService"},
-                "root": {"<-": "@owner.object.volume.id"}
+                "root": {"<-": "@owner.volume.id"}
             }
         },
         "directoryTreeController": {
@@ -51,11 +51,16 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canRevert":    true,
-                "canSave":      true
+                "canSave":      true,
+                "keys": [
+                    "name",
+                    "type",
+                    "target_type"
+                ]
             },
             "bindings": {
                 "canDelete": {"<-": "!@owner.object._isNew"},
-                "object": {"<-": "@owner.object"}
+                "context": {"<-": "@owner.context"}
             }
         },
         "overview": {

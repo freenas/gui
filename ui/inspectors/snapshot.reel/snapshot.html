@@ -36,10 +36,14 @@
                 "element": {"#": "inspector"},
                 "canDelete": "true",
                 "canRevert": "true",
-                "canSave": "true"
+                "canSave": "true",
+                "keys": [
+                    "name",
+                    "dataset"
+                ]
             },
             "bindings": {
-                "object": {"<-": "@owner.object"}
+                "context": {"<-": "@owner.context"}
             }
         },
         "name": {

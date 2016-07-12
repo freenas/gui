@@ -99,7 +99,7 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
                 this.object.properties.volblocksize = undefined;
             }
             this.application.storageService.convertVolumeDatasetSizeProperties(this.object);
-            this.application.dataService.saveDataObject(this.object);
+            return this.application.dataService.saveDataObject(this.object);
         }
     }
 });

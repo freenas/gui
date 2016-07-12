@@ -16,7 +16,7 @@
                 "element": {"#": "inspector"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object"},
+                "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object.builtin"},
                 "canRevert": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"},
                 "canSave": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"}

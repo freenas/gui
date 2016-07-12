@@ -25,6 +25,7 @@ exports.CascadingListItem = Component.specialize({
                         userInterfaceDescriptor = data.userInterfaceDescriptor,
                         object = this.object = data.object;
 
+                    data.cascadingListItem = this;
                     this.isCollection = Array.isArray(object);
                     this.userInterfaceDescriptor = userInterfaceDescriptor;
 

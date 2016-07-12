@@ -67,15 +67,69 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
 
                 promise.then(function() {
-                    return self._resetCreateInspectorIfNeeded();
+                    if (self.keys && self.keys.length > 0) {
+                        return self._selectObjectInViewer();
+                    } else {
+                        return self._resetCreateInspectorIfNeeded();
+                    }
                 }).finally(function () {
                     self.isLocked = false;
                 });
             } else {
-                this._resetCreateInspectorIfNeeded();
+                return self._resetCreateInspectorIfNeeded();
             }
 
             event.stopPropagation();
+        }
+    },
+
+    _selectObjectInViewer: {
+        value: function() {
+            var self = this;
+            if (this._isCreationInspector()) {
+                var viewer = this._findParentViewer();
+                if (viewer) {
+                    var currentObject = viewer.object.filter(function(x) { return self._areKeysIdentical(x); })[0];
+                    if (currentObject) {
+                        viewer.cascadingListItem.selectedObject = currentObject;
+                    }
+                }
+            }
+        }
+    },
+
+    _areKeysIdentical: {
+        value: function(viewerObject) {
+            var result = false,
+                key;
+            if (this.keys && this.object) {
+                result = true;
+                for (var i = 0, length = this.keys.length; i < length; i++) {
+                    key = this.keys[i];
+                    if (this.object[key] !== viewerObject[key]) {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+    },
+
+    _findParentViewer: {
+        value: function() {
+            var result,
+                cascadingListItems = this.context.cascadingListItem.cascadingList._stack,
+                cascadingListItem;
+            for (var i = cascadingListItems.length -1; i >= 0; i--) {
+                cascadingListItem = cascadingListItems[i];
+                if (Array.isArray(cascadingListItem.object) && 
+                        cascadingListItem.object._meta_data.collectionModelType === this.object.constructor.Type) {
+                    result = cascadingListItem;
+                    break;
+                }
+            }
+            return result;
         }
     },
 

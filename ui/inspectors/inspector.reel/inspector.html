@@ -10,6 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
+                "object": {"<-": "@owner.context.object"},
                 "classList.has('is-loading')": {"<-": "@owner.isLoading"},
                 "classList.has('is-locked')": {"<-": "@owner.isLocked"}
             }

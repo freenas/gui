@@ -19,10 +19,13 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canRevert": "true",
-                "canSave": "true"
+                "canSave": "true",
+                "keys": [
+                    "id"
+                ]
             },
             "bindings": {
-                "object": {"<-": "@owner.object"},
+                "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"}
             }
         },

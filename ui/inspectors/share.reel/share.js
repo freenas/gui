@@ -117,10 +117,6 @@ exports.Share = Component.specialize({
             if (this._object !== object) {
                 if (object) {
 
-                    if (!object.volume) {
-                        console.error("@Pierre: Fixme");
-                    }
-
                     this._getService(object).then(function (service) {
                         self.service = service;
                         self.isServiceStarted = service.state == 'RUNNING';
@@ -150,6 +146,8 @@ exports.Share = Component.specialize({
                 this._loadVolumeService();
                 this._shareService = this.application.shareService;
             }
+
+            this.volume = this._getCurrentVolume();
 
             //todo: block draw
             this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
@@ -183,6 +181,19 @@ exports.Share = Component.specialize({
                 treeController.open().then(function() {
                     self._object.target_path = treeController.selectedPath;
                 });
+            }
+        }
+    },
+
+    _getCurrentVolume: {
+        value: function() {
+            if (this.context) {
+                var currentSelection = this.application.selectionService.getCurrentSelection();
+                for (var i = this.context.columnIndex - 1; i >= 0; i--) {
+                    if (currentSelection.path[i].constructor.Type == Model.Volume) {
+                        return currentSelection.path[i];
+                    }
+                }
             }
         }
     },
