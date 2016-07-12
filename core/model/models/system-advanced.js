@@ -211,8 +211,7 @@ exports.SystemAdvanced = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "serial_port",
-            valueObjectPrototypeName: "SystemAdvancedSerialport",
-            valueType: "object"
+            valueType: "String"
         }, {
             mandatory: false,
             name: "serial_speed",

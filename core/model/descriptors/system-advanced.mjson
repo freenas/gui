@@ -76,8 +76,7 @@
     "properties": {
       "name": "serial_port",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "SystemAdvancedSerialport"
+      "valueType": "String"
     }
   },
   "blueprint_systemadvanced_serial_speed": {
