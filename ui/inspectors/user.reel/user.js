@@ -24,9 +24,6 @@ exports.User = Component.specialize({
                 if (typeof object.uid != 'number') {
                     this._getNextAvailableUserId();
                 }
-                if (!object.home) {
-                    object.home = "/";
-                }
             }
         }
     },
@@ -37,6 +34,15 @@ exports.User = Component.specialize({
 
     groupOptions: {
         value: null
+    },
+
+    enterDocument: {
+        value: function() {
+            var self = this;
+            this.treeController.open(this._object.home).then(function() {
+                self._object.home = self.treeController.selectedPath;
+            });
+        }
     },
 
     save: {
