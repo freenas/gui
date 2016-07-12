@@ -552,9 +552,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
      */
     _mapObjectPropertyReferenceFromRawData: {
         value: function (propertyDescriptor, object, key, rawValue, data) {
-            var type = Model[propertyDescriptor.valueObjectPrototypeName],
-                self = this,
-                value;
+            var type = Model[propertyDescriptor.valueObjectPrototypeName];
 
             if (!type) {
                 type = propertyTypeService.getTypeForObjectProperty(object, data, key);
@@ -562,17 +560,29 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
             if (type && rawValue) {
                 //Fixme: hacky mapFromRawData need to return a promise
-                object[key] = Model.populateObjectPrototypeForType(type).then(function () {
-                    value = self.getDataObject(type);
-                    self.mapFromRawData(value, rawValue);
-                    self._mapObjectPropertyFromRawData(propertyDescriptor, object, key, value);
-                });
+                if (type.objectPrototype && !Promise.is(type.objectPrototype)) {
+                    this.__mapObjectPropertyReferenceFromRawData(type, rawValue, propertyDescriptor, object, key);
+                } else {
+                    var self = this;
+
+                    object[key] = Model.populateObjectPrototypeForType(type).then(function () {
+                        self.__mapObjectPropertyReferenceFromRawData(type, rawValue, propertyDescriptor, object, key);
+                    });
+                }
             } else if (rawValue) { //fallback
                 //console.warn("model type: '" + propertyDescriptor.valueObjectPrototypeName + "' unknown");
                 this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
             } else {
                 console.warn("Cannot map empty property: '" + key + "'");
             }
+        }
+    },
+
+    __mapObjectPropertyReferenceFromRawData: {
+        value: function (type, rawValue, propertyDescriptor, object, key) {
+            var value = this.getDataObject(type);
+            this.mapFromRawData(value, rawValue);
+            this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, value);
         }
     },
 
