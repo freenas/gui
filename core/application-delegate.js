@@ -1,5 +1,6 @@
 /*global require, exports, Error*/
 require("./extras/string");
+require("core/cache/cache");
 
 var FreeNASService = require("core/service/freenas-service").FreeNASService,
     TopologyService = require("core/service/topology-service").TopologyService,

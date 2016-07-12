@@ -12,6 +12,7 @@ var generateModel = require("../lib/generate-model").generateModel;
 var generateServices = require("../lib/generate-services").generateServices;
 var generateEventTypesForEntities = require("../lib/generate-events").generateEventTypesForEntities;
 var generateModels = require("../lib/generate-models").generateModels;
+var generateUICache = require("../lib/generate-ui-cache").generateUICache;
 
 
 program
@@ -28,7 +29,7 @@ program
 program.save = true;
 
 Connect.authenticateIfNeeded(program.username, program.password, program).then(function () {
-    var progressBar = new ProgressBar('processing [:bar] :percent :etas', { total: 7 });
+    var progressBar = new ProgressBar('processing [:bar] :percent :etas', { total: 8 });
 
     return cleanMontageDataCache(
         MontageDataConfig.EnumerationsDirectoryAbsolutePath,
@@ -68,9 +69,17 @@ Connect.authenticateIfNeeded(program.username, program.password, program).then(f
 
                             return generateEventTypesForEntities(program).then(function () {
                                 progressBar.tick();
-                                program.target = MontageDataConfig.ModelsDirectoryAbsolutePath;
+                                program.target = MontageDataConfig.CacheDirectoryAbsolutePath;
 
-                                return null;
+                                return generateUICache(
+                                    MontageDataConfig.CacheDirectoryAbsolutePath,
+                                    program,
+                                    MontageDataConfig.ModelsDirectoryPath
+                                ).then(function () {
+                                    progressBar.tick();
+
+                                    return null;
+                                });
                             });
                         });
                     });
