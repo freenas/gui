@@ -49,10 +49,8 @@ function _initialize () {
             // in order to avoid to require for a second time the object Prototype.
 
             return (objectDescriptor.objectPrototype = require.async(objectDescriptor.modelId).then(function (_exports) {
-                return _exports[objectDescriptor.typeName];
-
-            }).then(function (constructor) {
-                var objectPrototype = constructor.prototype,
+                var constructor = _exports[objectDescriptor.typeName],
+                    objectPrototype = constructor.prototype,
                     classServices = Services.findClassServicesForType(type),
                     instanceServices = Services.findInstanceServicesForType(type);
 
