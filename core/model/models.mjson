@@ -373,6 +373,10 @@
             "type": "Scrub"
         },
         {
+            "modelId": "core/model/models/serial-port-device.js",
+            "type": "SerialPortDevice"
+        },
+        {
             "modelId": "core/model/models/service-afp.js",
             "type": "ServiceAfp"
         },
