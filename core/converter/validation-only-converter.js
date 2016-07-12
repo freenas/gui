@@ -9,11 +9,7 @@ exports.ValidationOnlyConverter = Converter.specialize({
     revert: {
         value: function(value) {
             if (this.validator && typeof this.validator.validate === "function") {
-                try {
-                    this.validator.validate(value);
-                } catch (e) {
-                    throw e;
-                }
+                this.validator.validate(value);
             }
             return value;
         }
