@@ -51,8 +51,8 @@ function _initialize () {
             return (objectDescriptor.objectPrototype = require.async(objectDescriptor.modelId).then(function (_exports) {
                 var constructor = _exports[objectDescriptor.typeName],
                     objectPrototype = constructor.prototype,
-                    classServices = Services.findClassServicesForType(type),
-                    instanceServices = Services.findInstanceServicesForType(type);
+                    classServices = Services.findClassServicesForType(objectDescriptor),
+                    instanceServices = Services.findInstanceServicesForType(objectDescriptor);
 
                 if (instanceServices) {
                     _applyServicesOnObject(instanceServices, objectPrototype);
