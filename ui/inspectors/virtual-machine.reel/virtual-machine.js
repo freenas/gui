@@ -22,6 +22,46 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
+    _cpuSetting: {
+        value: null
+    },
+
+    cpuSetting: {
+        get: function() {
+            if (!!this._cpuSetting) {
+                return this._cpuSetting;
+            } else if (!!this.object.config && !!this.object.config.ncpus) {
+                return this.object.config.ncpus;
+            } else {
+                return "";
+            }
+        },
+
+        set: function(cpus) {
+            this._cpuSetting = cpus;
+        }
+    },
+
+    _memorySetting: {
+        value: null
+    },
+
+    memorySetting: {
+        get: function() {
+            if (!!this._memorySetting) {
+                return this._memorySetting;
+            } else if (!!this.object.config && !!this.object.config.memsize) {
+                return this.object.config.memsize;
+            } else {
+                return "";
+            }
+        },
+
+        set: function(memsize) {
+            this._memorySetting = memsize;
+        }
+    },
+
     templateSetting: {
         set: function(templateName) {
             var templates = this.templates,
@@ -64,6 +104,9 @@ exports.VirtualMachine = Component.specialize({
                 this._loadVolumes();
             }
             this.editMode = !!this.object._isNew ? "edit" : "display";
+            if (!this.object.config) {
+                this.object.config = {};
+            }
         }
     },
 
@@ -95,6 +138,14 @@ exports.VirtualMachine = Component.specialize({
                 volumeOptions.push({label:"---", value: "none"});
                 self.volumeOptions = volumeOptions;
             });
+        }
+    },
+
+    save: {
+        value: function() {
+            this.object.config.memsize = parseInt(this.memorySetting);
+            this.object.config.ncpus = parseInt(this.cpuSetting);
+            this.application.dataService.saveDataObject(this.object);
         }
     }
 });

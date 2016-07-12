@@ -105,6 +105,50 @@
             "bindings": {
                 "value": {"<->": "@owner.object.description"}
             }
+        },
+        "cpuValidator": {
+            "prototype": "core/converter/validator/integer-floor-validator",
+            "properties": {
+                "floor": 1,
+                "errorMessage": "A VM must have at least 1 CPU."
+            }
+        },
+        "cpuConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "cpuValidator"}
+            }
+        },
+        "cpu": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "cpu"},
+                "label": "CPU Cores",
+                "converter": {"@": "cpuConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.cpuSetting"}
+            }
+        },
+        "memory": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "memory"},
+                "label": "Memory"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.memorySetting"}
+            }
+        },
+        "autostart": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "autostart"},
+                "label": "Start at Boot"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.config.autostart"}
+            }
         }
     }
     </script>
@@ -122,6 +166,9 @@
                 <div data-montage-id="volumeDisplay" data-arg="display"></div>
             </div>
             <div data-montage-id="description"></div>
+            <div data-montage-id="cpu"></div>
+            <div data-montage-id="memory"></div>
+            <div data-montage-id="autostart"></div>
         </div>
     </div>
 </body>
