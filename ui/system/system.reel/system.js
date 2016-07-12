@@ -21,7 +21,6 @@ exports.System = Component.specialize({
 /* FIXME: Uncomment when implemented
                 sectionsPromises.push(this._createSection("advanced", "Hardware", "path", i++));
                 sectionsPromises.push(this._createSection("dateAndTime", "Date & Time", "path", i++));
-                sectionsPromises.push(this._createSection("languageAndRegion", "Language & Region", "path", i++));
                 sectionsPromises.push(this._createSection("powerManagement", "Power Management", "path", i++));
 */
                 Promise.all(sectionsPromises).then(function(sections) {
