@@ -29,6 +29,14 @@
     font-weight: 400;
 }
 
+/*@FIXME: @joshua */
+.Notifications-clear {
+    position: absolute;
+    top: 25%;
+    right: .5em;
+}
+/*@FIXME: @joshua */
+
 .Notifications-body {
     position: relative;
     z-index: 1;

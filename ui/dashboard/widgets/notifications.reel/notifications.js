@@ -51,6 +51,27 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
                 });
             }
         }
+    },
+
+    handleClearAction: {
+        value: function () {
+            if (this.type === "ALERT") {
+                var alerts = this.items.content,
+                    length = alerts.length, i;
+
+                if (length) {
+                    var promises = [];
+
+                    return this.application.alertServicePromise.then(function (alertService) {
+                        for (i = 0; i < length; i++) {
+                            promises.push(alertService.services.dismiss(alerts[i].jobId));
+                        }
+
+                        return Promise.all(promises);
+                    });
+                }
+            }
+        }
     }
 
 });

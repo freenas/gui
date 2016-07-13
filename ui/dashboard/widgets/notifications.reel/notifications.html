@@ -57,6 +57,16 @@
                 "classList.has('is-hidden')": {"<-": "@items.content.length > 0"},
                 "value": {"<-": "@owner.emptyText"}
             }
+        },
+        "clear": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "clear"},
+                "label": "clear"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "@items.content.length == 0 || @owner.type != 'ALERT'"}
+            }
         }
     }
     </script>
@@ -66,6 +76,7 @@
         <div class="Notifications-header">
             <svg data-montage-id="icon" class="Notifications-icon"></svg>
             <div data-montage-id="title" class="Notifications-title"></div>
+            <button data-montage-id="clear" class="Notifications-clear"></button>
         </div>
         <div data-montage-id="notificationsBody" class="Notifications-body">
             <div data-montage-id="itemsScrollview">
