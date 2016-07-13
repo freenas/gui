@@ -30,11 +30,5 @@ exports.Notification = Component.specialize(/** @lends Notification# */ {
 
     infoExpanded: {
         value: false
-    },
-
-    handleExpandButtonAction: {
-        value: function () {
-            this.infoExpanded = !this.infoExpanded;
-        }
     }
 });

@@ -1,4 +1,5 @@
 var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+    Notification = require("ui/dashboard/widgets/notifications.reel/notification.reel").Notification,
     notificationCenter = require("core/backend/notification-center").defaultNotificationCenter;
 
 /**
@@ -38,6 +39,28 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
     notificationCenter: {
         get: function () {
             return notificationCenter;
+        }
+    },
+
+    handleExpandButtonAction: {
+        value: function (event) {
+            var iteration = this.items._findIterationContainingElement(event.target.element);
+
+            if (iteration) {
+                var childComponents = iteration._childComponents,
+                    i = 0, length = childComponents.length,
+                    notificationComponent;
+
+                while (!notificationComponent && i < length) {
+                    if (childComponents[i] instanceof Notification) {
+                        notificationComponent = childComponents[i++];
+                    }
+                }
+
+                if (notificationComponent) {
+                    notificationComponent.infoExpanded = !notificationComponent.infoExpanded;
+                }
+            }
         }
     },
 
