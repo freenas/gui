@@ -51,7 +51,7 @@ exports.VirtualMachine = Component.specialize({
             if (!!this._memorySetting) {
                 return this._memorySetting;
             } else if (!!this.object.config && !!this.object.config.memsize) {
-                return this.object.config.memsize + "MB";
+                return this.object.config.memsize + "MiB";
             } else {
                 return "";
             }
