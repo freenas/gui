@@ -42,6 +42,16 @@ exports.Notifications = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    handleRetryButtonAction: {
+        value: function (event) {
+            var iteration = this.items._findIterationContainingElement(event.target.element);
+
+            if (iteration) {
+                this.application.section = this.application.selectionService.restoreTaskSelection(iteration.object.jobId);
+            }
+        }
+    },
+
     handleExpandButtonAction: {
         value: function (event) {
             var iteration = this.items._findIterationContainingElement(event.target.element);

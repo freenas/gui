@@ -11,13 +11,7 @@
             "bindings": {
                 "classList.has('has-error')": {"<-": "!!@owner.object.errorMessage"},
                 "classList.has('has-warning')": {"<-": "@owner.object.taskReport.warnings.length > 0"}
-            },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ]
+            }
         },
         "jobId": {
             "prototype": "montage/ui/text.reel",
