@@ -130,11 +130,27 @@
                 "value": {"<->": "@owner.cpuSetting"}
             }
         },
+        "memoryValidator": {
+            "prototype": "core/converter/validator/minimum-bytes-validator",
+            "properties": {
+                "allowDecimal": false,
+                "errorMessage": "Memory must be a positive integer size at least 1MB.",
+                "minPrefix": "M",
+                "minValue": 1
+            }
+        },
+        "memoryConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "memoryValidator"}
+            }
+        },
         "memory": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "memory"},
-                "label": "Memory"
+                "label": "Memory",
+                "converter": {"@": "memoryConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.memorySetting"}
