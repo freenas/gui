@@ -120,7 +120,7 @@ exports.VirtualMachine = Component.specialize({
                 for (var i = 0, length = templates.length; i < length; i++) {
                     templatesOptions.push({label: templates[i].template.name, value: templates[i].template.name});
                 }
-                templatesOptions.push({label:"---", value: "none"});
+                templatesOptions.unshift({label:"---", value: "none"});
                 self.templatesOptions = templatesOptions;
             });
         }
@@ -135,7 +135,7 @@ exports.VirtualMachine = Component.specialize({
                 for (var i=0, length=volumes.length; i < length; i++) {
                     volumeOptions.push({label:volumes[i].id, value: volumes[i].id });
                 }
-                volumeOptions.push({label:"---", value: "none"});
+                volumeOptions.unshift({label:"---", value: "none"});
                 self.volumeOptions = volumeOptions;
             });
         }
