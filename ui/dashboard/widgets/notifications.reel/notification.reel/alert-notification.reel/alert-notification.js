@@ -26,15 +26,6 @@ exports.AlertNotification = Component.specialize(/** @lends AlertNotification# *
 
     UIDescriptor: {
         value: null
-    },
-
-    handleDismissButtonAction: {
-        value: function () {
-            var self = this;
-            this.application.alertServicePromise.then(function (alertService) {
-                alertService.services.dismiss(self._object.jobId);
-            });
-        }
     }
 
 });

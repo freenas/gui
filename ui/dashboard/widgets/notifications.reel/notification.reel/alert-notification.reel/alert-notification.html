@@ -9,12 +9,6 @@
             "properties": {
                 "element": {"#": "owner"}
             },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ],
             "bindings": {
                 "classList.has('has-warning')": {"<-": "@owner.object.data.severity == 'WARNING'"},
                 "classList.has('has-info')": {"<-": "@owner.object.data.severity == 'INFO'"},
