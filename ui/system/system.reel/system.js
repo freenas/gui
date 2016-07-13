@@ -18,10 +18,13 @@ exports.System = Component.specialize({
                 sectionsPromises.push(this._createSection("updates", "Updates", "path", i++));
                 sectionsPromises.push(this._createSection("serialConsole", "Serial Console", "path", i++));
                 sectionsPromises.push(this._createSection("languageAndRegion", "Language & Region", "path", i++));
+                sectionsPromises.push(this._createSection("debug", "Debug", "path", i++));
+                sectionsPromises.push(this._createSection("systemInfo", "System Info", "path", i++));
 /* FIXME: Uncomment when implemented
+                sectionsPromises.push(this._createSection("kernel", "kernel", "path", i++));
                 sectionsPromises.push(this._createSection("advanced", "Hardware", "path", i++));
-                sectionsPromises.push(this._createSection("dateAndTime", "Date & Time", "path", i++));
                 sectionsPromises.push(this._createSection("powerManagement", "Power Management", "path", i++));
+                sectionsPromises.push(this._createSection("dateAndTime", "Date & Time", "path", i++));
 */
                 Promise.all(sectionsPromises).then(function(sections) {
                     self.sections = sections;
