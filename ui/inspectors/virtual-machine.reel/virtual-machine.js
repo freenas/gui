@@ -51,7 +51,7 @@ exports.VirtualMachine = Component.specialize({
             if (!!this._memorySetting) {
                 return this._memorySetting;
             } else if (!!this.object.config && !!this.object.config.memsize) {
-                return this.object.config.memsize;
+                return this.object.config.memsize + "MB";
             } else {
                 return "";
             }
@@ -143,7 +143,23 @@ exports.VirtualMachine = Component.specialize({
 
     save: {
         value: function() {
-            this.object.config.memsize = parseInt(this.memorySetting);
+            var parsedMemsize = this.memorySetting.match(this.application.storageService.SCALED_NUMERIC_RE_),
+                memsize,
+                memsizePrefix,
+                memsizeMultiplier = 1;
+
+            if (!!parsedMemsize) {
+                memsize = parseInt(parsedMemsize[1]);
+                if (!!parsedMemsize[2]) {
+                    memsizePrefix = parsedMemsize[2].charAt(0).toUpperCase();
+                    // We're going with 1024 no matter what. This is not up for
+                    // further discussion.
+                    memsizeMultiplier = Math.pow(1024, this.application.storageService.SIZE_PREFIX_EXPONENTS[memsizePrefix] - 2);
+                }
+            }
+
+
+            this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.config.ncpus = parseInt(this.cpuSetting);
             this.application.dataService.saveDataObject(this.object);
         }
