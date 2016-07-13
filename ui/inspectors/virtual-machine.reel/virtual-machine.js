@@ -57,8 +57,8 @@ exports.VirtualMachine = Component.specialize({
             }
         },
 
-        set: function(memsize) {
-            this._memorySetting = memsize;
+        set: function(memorySetting) {
+            this._memorySetting = memorySetting;
         }
     },
 
