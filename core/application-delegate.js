@@ -52,6 +52,27 @@ exports.ApplicationDelegate = Montage.specialize({
             app.shareService = ShareService.instance;
             app.systemAdvancedService = SystemAdvancedService.instance;
             app.virtualMachineService = VirtualMachineService.instance;
+
+            Object.defineProperties(app, {
+
+                _alertService: {
+                    value: null
+                },
+
+                alertServicePromise: {
+                    get: function () {
+                        var self = this;
+
+                        if (this._alertService) {
+                            return Promise.resolve(this._alertService);
+                        }
+
+                        return Model.populateObjectPrototypeForType(Model.Alert).then(function (Alert) {
+                            return (self._alertService = Alert.constructor);
+                        });
+                    }
+                }
+            })
         }
     },
 
