@@ -1,35 +1,47 @@
 .FoldableSection {
+    overflow: hidden;
     position: relative;
+    margin: 0 -1em;
     margin-bottom: 1em;
 }
 
-/* title */
+/*
+
+title
+
+*/
 
 .FoldableSection .InspectorSectionTitle {
     margin-top:     0;
     margin-bottom:  0;
-    background: none;
+    padding: 0 1rem;
 }
 
-.FoldableSection .InspectorSectionTitle:before {
-    display: none;
+/* removes underline */
+.FoldableSection .InspectorSectionTitle:before { display: none;}
+
+.FoldableSection-expand svg {
+    margin-right: 1rem;
 }
 
 /* content */
 
 .FoldableSection-content {
-    overflow: hidden;
-    transition: all .3s ease-in-out;
-    margin: 0 -1em;
+    transition: height .3s ease-in-out;
     padding: 0 1em;
     background: rgba(0,0,0,.1);
 }
 
-/* edits internal titles */
+/*
+
+edits internal titles
+
+*/
 
 .FoldableSection-content .InspectorSectionTitle {
     background: none;
     margin-bottom: 1em;
+    padding: 0;
 }
 
 .FoldableSection-content .InspectorSectionTitle:before {

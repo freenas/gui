@@ -28,12 +28,21 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
         }
     },
 
+    handleTransitionend: {
+        value: function (event) {
+            if (this._isExpanded) {
+                this.element.style.overflow = "visible";
+            }
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
             if (isFirstTime) {
                 this._mutationObserver = new MutationObserver(this.handleMutations.bind(this));
+                this.element.addEventListener("transitionend", this, false);
             }
 
             this._mutationObserver.observe(this.element, {
@@ -63,6 +72,9 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     handleExpandButtonAction: {
         value: function(event) {
+            if(this._isExpanded) {
+                this.element.style.overflow = "hidden";
+            }
             this.isExpanded = !this.isExpanded;
             event.stopPropagation();
         }
