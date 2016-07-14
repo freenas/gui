@@ -21,7 +21,8 @@ exports.Debug = Component.specialize(/** @lends Debug# */ {
                 this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
                     self.consoleData = consoleData;
                     self.object = consoleData.systemAdvanced;
-                })
+                    self.isLoading = false;
+                });
             }
         }
     }
