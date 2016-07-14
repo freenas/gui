@@ -95,20 +95,29 @@ exports.VirtualMachine = Component.specialize({
         },
 
         get: function() {
-            return !!this.object.target ? this.object.target : "none";
+            return !!this.object.target ? this.object.target : "%";
         }
     },
 
     enterDocument: {
         value: function(isFirstTime) {
+            var self = this,
+                loadingPromises = [];
             if (isFirstTime) {
-                this._loadTemplates();
-                this._loadVolumes();
+                loadingPromises.push(this._loadTemplates(), this._loadVolumes());
             }
+
             this.editMode = !!this.object._isNew ? "edit" : "display";
-            if (!this.object.config) {
-                this.object.config = {};
-            }
+
+            Promise.all(loadingPromises).then(function() {
+                if (!self.object.config) {
+                    self.object.config = {};
+                }
+                if (!!self.object._isNew) {
+                    self.templateSetting = "none";
+                    self.volumeSetting = "%";
+                }
+            });
         }
     },
 
@@ -117,7 +126,7 @@ exports.VirtualMachine = Component.specialize({
             var self = this,
             templatesOptions = [];
 
-            this.application.virtualMachineService.getTemplates().then(function(templates) {
+            return this.application.virtualMachineService.getTemplates().then(function(templates) {
                 self.templates = templates;
                 for (var i = 0, length = templates.length; i < length; i++) {
                     templatesOptions.push({label: templates[i].template.name, value: templates[i].template.name});
@@ -137,7 +146,11 @@ exports.VirtualMachine = Component.specialize({
                 for (var i=0, length=volumes.length; i < length; i++) {
                     volumeOptions.push({label:volumes[i].id, value: volumes[i].id });
                 }
-                volumeOptions.unshift({label:"---", value: "none"});
+                // FIXME: select-option-converter uses the string "none" as a
+                // sigil for an empty value. Since "none" is also a valid volume
+                // name, I'm replacing it with "%", which is not. This should be
+                // fixed once select-option-converter is.
+                volumeOptions.unshift({label:"---", value: "%"});
                 self.volumeOptions = volumeOptions;
             });
         }
@@ -160,9 +173,10 @@ exports.VirtualMachine = Component.specialize({
                 }
             }
 
-
             this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.config.ncpus = parseInt(this.cpuSetting);
+            this.object.template = this.object.template === "none" ? null : this.object.template ;
+            this.object.target = this.object.target === "%" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
         }
     }
