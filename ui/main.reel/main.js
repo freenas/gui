@@ -24,6 +24,24 @@ exports.Main = Component.specialize({
                 applicationModal.enterDocument(true);
             }
         }
+    },
+
+    _toggleDrawer: {
+        value: function () {
+            this.isDrawerOpen = !this.isDrawerOpen;
+        }
+    },
+
+    handleCloseButtonAction: {
+        value: function () { this._toggleDrawer(); }
+    },
+
+    handleOpenDrawerButtonAction: {
+        value: function () { this._toggleDrawer(); }
+    },
+
+    isDrawerOpen: {
+        value: true
     }
 
 });

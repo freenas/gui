@@ -10,7 +10,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "enabledInterfaces": {"<-": "@owner.interfaces.filter{type == 'ETHER' && enabled}.sorted{id}"}
+                "enabledInterfaces": {"<-": "@owner.interfaces.filter{type == 'ETHER' && enabled}.sorted{id}"},
+                "classList.has('drawer-is-open')": {"<-": "@owner.isDrawerOpen"}
             }
         },
         "systemInfo": {
@@ -73,11 +74,10 @@
                 "element": {"#": "loadAverage"}
             }
         },
-        "scrollview": {
-            "prototype": "blue-shark/ui/scrollview.reel",
+        "openDrawerButton": {
+            "prototype": "montage/ui/button.reel",
             "properties": {
-                "element": {"#": "scrollview"},
-                "overflow": "scrollY"
+                "element": {"#": "openDrawerButton"}
             }
         }
     }
@@ -85,7 +85,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Dashboard">
-        <div data-montage-id="scrollview">
+        <button data-montage-id="openDrawerButton" class="Dashboard-openDrawerButton">
+            <svg><use xlink:href="#i-circle-plus"/></svg>
+        </button>
+        <!-- <div data-montage-id="scrollview" class="Dashboard-scrollview"> -->
             <div class="Dashboard-widgets">
                 <div data-montage-id="systemInfo" class="Dashboard-widget"></div>
                 <div data-montage-id="cpuUsage" class="Dashboard-widget"></div>
@@ -96,7 +99,7 @@
                 <div data-montage-id="arcDemandData" class="Dashboard-widget"></div>
                 <div data-montage-id="loadAverage" class="Dashboard-widget"></div>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 </body>
 </html>

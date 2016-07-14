@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="drawer-item.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ],
+            "bindings": {
+                "classList.has('has-toggled')": {"<-": "@owner.hasToggled"}
+            }
+        },
+        "title": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.title"}
+            }
+        },
+        "description": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "description"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.description"}
+            }
+        },
+        "infoToggle": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "infoToggle"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DrawerItem">
+        <header>
+            <div data-montage-id="title" class="DrawerItem-title"></div>
+            <button data-montage-id="infoToggle" class="DrawerItem-infoToggle">
+                <svg><use xlink:href="#i-info"/></svg>
+            </button>
+        </header>
+        <main>
+            <div class="DrawerItem-content">
+                <div class="DrawerItem-front">
+                    <img src="../../../assets/images/graph-placeholder.jpg" alt="Graph Image placeholder">
+                </div>
+                <div class="DrawerItem-back">
+                    <div data-montage-id="description" class="DrawerItem-description"></div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+</body>
+</html>

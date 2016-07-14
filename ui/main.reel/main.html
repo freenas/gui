@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "main"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "mainSidebar": {
             "prototype": "../main-sidebar/main-sidebar.reel",
@@ -35,6 +41,9 @@
             "prototype": "../dashboard/dashboard.reel",
             "properties": {
                 "element": {"#": "dashboard"}
+            },
+            "bindings": {
+                "isDrawerOpen": {"<-": "@owner.isDrawerOpen"}
             }
         },
         "storage": {
@@ -108,6 +117,15 @@
             "properties": {
                 "element": {"#": "icons"}
             }
+        },
+        "drawer": {
+            "prototype": "ui/drawer.reel",
+            "properties": {
+                "element": {"#": "drawer"}
+            },
+            "bindings": {
+                "isDrawerOpen": {"<-": "@owner.isDrawerOpen"}
+            }
         }
     }
     </script>
@@ -116,22 +134,27 @@
     <div data-montage-id="main" class="Main">
         <div data-montage-id="icons"></div>
         <div data-montage-id="mainSidebar" class="Main-mainSidebar"></div>
-        <div class="Main-content">
-            <div data-montage-id="substitution" class="Main-substitution">
-                <div data-arg="dashboard" data-montage-id="dashboard"></div>
-                <div data-arg="storage" data-montage-id="storage"></div>
-                <div data-arg="accounts" data-montage-id="accounts"></div>
-                <div data-arg="network" data-montage-id="network"></div>
-                <div data-arg="hardware" data-montage-id="hardware"></div>
-                <div data-arg="system" data-montage-id="system"></div>
-                <div data-arg="services" data-montage-id="services"></div>
-                <div data-arg="console" data-montage-id="console"></div>
-                <div data-arg="calendar" data-montage-id="calendar"></div>
-                <div data-arg="containers" data-montage-id="containers"></div>
-                <div data-arg="preferences" data-montage-id="preferences"></div>
+        <main>
+            <div class="Main-wrapper">
+                <div class="Main-content">
+                    <div data-montage-id="substitution" class="Main-substitution">
+                        <div data-arg="dashboard" data-montage-id="dashboard"></div>
+                        <div data-arg="storage" data-montage-id="storage"></div>
+                        <div data-arg="accounts" data-montage-id="accounts"></div>
+                        <div data-arg="network" data-montage-id="network"></div>
+                        <div data-arg="hardware" data-montage-id="hardware"></div>
+                        <div data-arg="system" data-montage-id="system"></div>
+                        <div data-arg="services" data-montage-id="services"></div>
+                        <div data-arg="console" data-montage-id="console"></div>
+                        <div data-arg="calendar" data-montage-id="calendar"></div>
+                        <div data-arg="containers" data-montage-id="containers"></div>
+                        <div data-arg="preferences" data-montage-id="preferences"></div>
+                    </div>
+                </div>
+                <div data-montage-id="sideboard" class="Main-sideboard"></div>
             </div>
-        </div>
-        <div data-montage-id="sideboard" class="Main-sideboard"></div>
+            <div data-montage-id="drawer"></div>
+        </main>
         <div data-montage-id="modal" class="Main-modal"></div>
     </div>
 </body>

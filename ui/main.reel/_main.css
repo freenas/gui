@@ -3,6 +3,17 @@
     display: flex;
 }
 
+.Main > main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Main-wrapper {
+    flex: 1;
+    display: flex;
+}
+
 .Main-mainSidebar {
     flex-shrink: 0;
     width:  8em;

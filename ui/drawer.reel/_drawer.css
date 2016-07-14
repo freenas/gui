@@ -1,0 +1,45 @@
+.Drawer {
+    background-color: #191919;
+    user-select: none;
+    margin-bottom: -16.1em;
+
+    &.is-open {
+        margin-bottom: 0;
+    }
+}
+
+.Drawer > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    height: 3em;
+    padding: 0 1rem;
+}
+
+.Drawer-close {
+    height: 2.4em;
+    width:  2.4em;
+
+    &.is-open {
+        transform: translateY(0);
+    }
+}
+
+.Drawer-title {
+    font-size: 1em;
+    margin: 0;
+}
+
+.Drawer-items {
+    padding: 1em;
+    margin: 0;
+}
+
+.Drawer-item {
+    display: inline-block;
+
+    &:not(:last-child) {
+        margin-right: 1em;
+    }
+}

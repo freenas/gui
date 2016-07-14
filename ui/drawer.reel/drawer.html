@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="drawer.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-open')": {"<-": "@owner.isDrawerOpen"}
+            }
+        },
+        "items": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "items"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.items"}
+            }
+        },
+        "item": {
+            "prototype": "ui/drawer.reel/drawer-item.reel",
+            "properties": {
+                "element": {"#": "item"}
+            },
+            "bindings": {
+                "object": {"<-": "@items:iteration.object"}
+            }
+        },
+        "closeButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "closeButton"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Drawer">
+        <header>
+            <h1 class="Drawer-title">Drag to add widgets</h1>
+            <button data-montage-id="closeButton" class="Drawer-close">
+                <svg><use xlink:href="#i-close"/></svg>
+            </button>
+        </header>
+        <ul data-montage-id="items" class="Drawer-items">
+            <li data-montage-id="item" class="Drawer-item"></li>
+        </ul>
+    </div>
+</body>
+</html>

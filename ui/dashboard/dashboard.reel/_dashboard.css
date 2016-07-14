@@ -1,20 +1,42 @@
-.Dashboard {}
+.Dashboard {
+    overflow: auto;
+}
+
+.Dashboard-scrollview {}
 
 .Dashboard-widgets {
+    flex: 1;
     display: flex;
-    flex-flow: row wrap;
+    flex-wrap: wrap;
     padding: .5em;
 }
 
-.Dashboard-repetition {
-    flex-grow: 1;
-}
-
 .Dashboard-widget {
-    flex-grow: 1;
+    flex: 1;
     margin: .5em;
+    width: 25em;
+    height: 15em;
 }
 
 .Dashboard-widget.is-hidden {
     display: none;
+}
+
+.Dashboard-openDrawerButton {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    z-index: 1;
+    height: 5em;
+    width:  5em;
+    color: color(#fff alpha(.5));
+    outline: none;
+
+    & svg {
+        fill: green;
+    }
+
+    @nest .drawer-is-open & {
+        display: none;
+    }
 }
