@@ -43,6 +43,7 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                         self.serialPortOptions.push({label: consoleData.serialPorts[i].name, value: consoleData.serialPorts[i].name});
                     }
                     self.serialPortOptions.unshift({label:"---", value: "none"});
+                    self.isLoading = false;
                 });
             }
         }
