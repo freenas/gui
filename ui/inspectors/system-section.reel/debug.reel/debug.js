@@ -1,16 +1,28 @@
 /**
  * @module ui/debug.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Model = require("core/model/model").Model;
 
 /**
  * @class Debug
  * @extends Component
  */
 exports.Debug = Component.specialize(/** @lends Debug# */ {
-    constructor: {
-        value: function Debug() {
-            this.super();
+    consoleData: {
+        value: null
+    },
+
+    enterDocument: {
+        value: function(isFirstTime) {
+            var self = this;
+            if (isFirstTime) {
+                this.isLoading = true;
+                this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
+                    self.consoleData = consoleData;
+                    self.object = consoleData.systemAdvanced;
+                })
+            }
         }
     }
 });

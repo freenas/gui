@@ -9,12 +9,34 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+        "enable_debug_kernel": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enable_debug_kernel"},
+                "label": "Enable debug kernel"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.debugkernel"}
+            }
+        },
+        "uploadcrash": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "uploadcrash"},
+                "label": "Auto upload kernel crash dumps"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.uploadcrash"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Debug">
+        <div data-montage-id="enable_debug_kernel"></div>
+        <div data-montage-id="uploadcrash"></div>
     </div>
 </body>
 </html>
