@@ -1,6 +1,8 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    SystemDeviceService = require("core/service/system-device-service").SystemDeviceService;
+
 
 var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
 
@@ -12,6 +14,10 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
         value: null
     },
 
+    _systemDeviceService: {
+        value: null
+    },
+
     getSerialConsoleData: {
         value: function() {
             var consoleData = {},
@@ -20,9 +26,7 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
                 this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
                     consoleData.systemAdvanced = systemAdvanced[0];
                 }),
-                Model.populateObjectPrototypeForType(Model.SystemAdvanced).then(function(SystemAdvanced){
-                    return SystemAdvanced.constructor.services.serialPorts();
-                }).then(function(serialPorts) {
+                this._systemDeviceService.getSerialPorts().then(function(serialPorts) {
                     consoleData.serialPorts = serialPorts;
                 })
             );
@@ -39,6 +43,7 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
             if(!this._instance) {
                 this._instance = new SystemAdvancedService();
                 this._instance._dataService = FreeNASService.instance;
+                this._instance._systemDeviceService = SystemDeviceService.instance;
             }
             return this._instance;
         }
