@@ -1,4 +1,8 @@
-.Volume {}
+/*FIXME: @joshua*/
+.Volume .ScrubButton {
+    display: inline-block !important;
+}
+/*FIXME: @joshua*/
 
 /* $fix - should this be a component */
 .Volume-header {
