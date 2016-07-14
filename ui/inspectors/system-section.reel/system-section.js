@@ -17,11 +17,14 @@ exports.SystemSection = Component.specialize({
                 case "general":
                 case "serialConsole":
                 case "languageAndRegion":
+                case "debug":
+                case "hardware":
                     this.canSave = true;
                     this.canRevert = true;
                     break;
                 case "updates":
                 case "bootPool":
+                case "systemInfo":
                     this.canSave = false;
                     this.canRevert = false;
                     break;
