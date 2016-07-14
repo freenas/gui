@@ -22,6 +22,15 @@ var SystemDeviceService = exports.SystemDeviceService = Montage.specialize({
         }
     },
 
+    getSerialPorts: {
+        value: function() {
+            return this._callBackend('get_devices', ['serial_port']).then(function(response) {
+                return response.data;
+            });
+        }
+    },
+
+
     _callBackend: {
         value: function(method, args) {
             args = args || [];
