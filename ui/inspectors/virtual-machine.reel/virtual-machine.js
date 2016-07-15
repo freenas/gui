@@ -177,5 +177,23 @@ exports.VirtualMachine = Component.specialize({
             this.object.target = this.object.target === "%" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
         }
+    },
+
+    handleStartAction: {
+        value: function() {
+            this.object.services.start(this.object.id);
+        }
+    },
+
+    handleStopAction: {
+        value: function() {
+            this.object.services.stop(this.object.id);
+        }
+    },
+
+    handleRebootAction: {
+        value: function() {
+            this.object.services.reboot(this.object.id);
+        }
     }
 });

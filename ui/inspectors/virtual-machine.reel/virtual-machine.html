@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
@@ -165,6 +171,48 @@
             "bindings": {
                 "checked": {"<->": "@owner.object.config.autostart"}
             }
+        },
+        "startStopSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "startStopSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.status.state"}
+            }
+        },
+        "start": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "start"},
+                "value": "Start"
+            }
+        },
+        "stop": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "stop"},
+                "value": "Stop"
+            }
+        },
+        "rebootCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "rebootCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.object._isNew"}
+            }
+        },
+        "reboot": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "reboot"},
+                "value": "Reboot"
+            },
+            "bindings": {
+                "enabled": {"<-": "@owner.object.status.state == 'RUNNING'"}
+            }
         }
     }
     </script>
@@ -185,6 +233,13 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
+            <div data-montage-id="startStopSubstitution">
+                <div data-montage-id="start" data-arg="STOPPED"></div>
+                <div data-montage-id="stop" data-arg="RUNNING"></div>
+            </div>
+            <div data-montage-id="rebootCondition">
+                <div data-montage-id="reboot"></div>
+            </div>
         </div>
     </div>
 </body>
