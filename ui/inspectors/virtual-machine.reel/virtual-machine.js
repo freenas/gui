@@ -28,7 +28,7 @@ exports.VirtualMachine = Component.specialize({
 
     cpuSetting: {
         get: function() {
-            if (typeof this._cpuSetting === "string") {
+            if (typeof this._cpuSetting === "number") {
                 return this._cpuSetting;
             } else if (!!this.object.config && !!this.object.config.ncpus) {
                 return this.object.config.ncpus;
@@ -172,7 +172,7 @@ exports.VirtualMachine = Component.specialize({
             }
 
             this.object.config.memsize = memsize * memsizeMultiplier;
-            this.object.config.ncpus = parseInt(this.cpuSetting);
+            this.object.config.ncpus = this.cpuSetting;
             this.object.template = this.object.template === "none" ? null : this.object.template ;
             this.object.target = this.object.target === "%" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
