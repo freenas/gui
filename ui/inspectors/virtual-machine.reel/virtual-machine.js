@@ -28,13 +28,12 @@ exports.VirtualMachine = Component.specialize({
 
     cpuSetting: {
         get: function() {
-            if (!!this._cpuSetting) {
+            if (typeof this._cpuSetting === "string") {
                 return this._cpuSetting;
             } else if (!!this.object.config && !!this.object.config.ncpus) {
                 return this.object.config.ncpus;
-            } else {
-                return "";
             }
+            return "";
         },
 
         set: function(cpus) {
@@ -48,13 +47,12 @@ exports.VirtualMachine = Component.specialize({
 
     memorySetting: {
         get: function() {
-            if (!!this._memorySetting) {
+            if (typeof this._memorySetting === "string") {
                 return this._memorySetting;
             } else if (!!this.object.config && !!this.object.config.memsize) {
                 return this.object.config.memsize + "MiB";
-            } else {
-                return "";
             }
+            return "";
         },
 
         set: function(memorySetting) {
