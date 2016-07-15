@@ -31,6 +31,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_directory_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_directory_parameters": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -80,6 +88,7 @@
         {"@": "blueprint_directory_enumerate"},
         {"@": "blueprint_directory_gid_range"},
         {"@": "blueprint_directory_id"},
+        {"@": "blueprint_directory_name"},
         {"@": "blueprint_directory_parameters"},
         {"@": "blueprint_directory_plugin"},
         {"@": "blueprint_directory_priority"},

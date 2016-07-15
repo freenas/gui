@@ -2760,8 +2760,18 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getDependentDatasets": {
+                "method": "vm.get_dependent_datasets",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getDiskPath": {
                 "method": "vm.get_disk_path",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getReservedDatasets": {
+                "method": "vm.get_reserved_datasets",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -2833,6 +2843,13 @@
         }
     },
     "VmSnapshot": {
+        "class": {
+            "getDependentDatasets": {
+                "method": "vm.snapshot.get_dependent_datasets",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
         "instance": {
             "create": {
                 "method": "task.submit",

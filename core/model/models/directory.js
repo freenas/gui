@@ -53,6 +53,19 @@ exports.Directory = AbstractModel.specialize({
             return this._id;
         }
     },
+    _name: {
+        value: null
+    },
+    name: {
+        set: function (value) {
+            if (this._name !== value) {
+                this._name = value;
+            }
+        },
+        get: function () {
+            return this._name;
+        }
+    },
     _parameters: {
         value: null
     },
@@ -135,6 +148,10 @@ exports.Directory = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "name",
             valueType: "String"
         }, {
             mandatory: false,
