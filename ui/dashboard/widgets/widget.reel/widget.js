@@ -26,15 +26,14 @@ exports.Widget = Component.specialize({
         value: null
     },
 
+    _timezoneOffset: {
+        value: null
+    },
+
     constructor: {
         value: function() {
             this._statisticsService = this.application.statisticsService;
-        }
-    },
-
-    enterDocument: {
-        value: function () {
-            this._initializeData();
+            this._timezoneOffset = new Date().getTimezoneOffset()*60000;
         }
     },
 
@@ -58,11 +57,13 @@ exports.Widget = Component.specialize({
 
     _initializeData: {
         value: function() {
-            this._eventToSerie = {};
+            this._eventToKey = {};
             this._subscribedUpdates = [];
             this._fetchStatistics();
         }
     },
+
+
 
     _addDatasourceToChart: {
         value: function (source, metric, prefix, suffix) {
@@ -70,12 +71,13 @@ exports.Widget = Component.specialize({
             suffix = suffix || 'value';
             var self = this,
                 path = source.children[metric].path.join('.') + '.' + suffix,
+                key = [metric, (hasSuffix ? suffix : '')].filter(function(x) { return x.length }).join('.').replace(prefix, ''),
                 serie = {
-                    key: [metric, (hasSuffix ? suffix : '')].filter(function(x) { return x.length }).join('.').replace(prefix, '')
+                    key: key
                 },
                 event = path + '.pulse';
             return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                self._eventToSerie[eventType] = serie;
+                self._eventToKey[eventType] = key;
                 self._subscribedUpdates.push(event);
             }).then(function() {
                 return self._statisticsService.getDatasourceHistory(path)
@@ -119,7 +121,7 @@ exports.Widget = Component.specialize({
                 return Promise.all(datasourcesPromises);
             }).then(function() {
                 setTimeout(function() {
-                    self.chart.finishRendering()
+                    self.chart.finishRendering();
                 }, 1000);
             });
         }
@@ -127,17 +129,12 @@ exports.Widget = Component.specialize({
 
     handleEvent: {
         value: function(event) {
-            var serie = this._eventToSerie[event.type];
-            if (serie) {
-                if (!serie.values) {
-                    serie.values = [];
-                }
-                serie.values.shift();
-                serie.values.push({
-                    x: event.detail.timestamp * 1000,
+            var key = this._eventToKey[event.type];
+            if (key) {
+                this.chart.addPoint(key, {
+                    x: Math.floor((new Date(event.detail.timestamp.$date).getTime() - this._timezoneOffset) / 1000) * 1000,
                     y: this.transformValue(event.detail.value)
                 });
-                this.chart.refresh();
             }
         }
     }

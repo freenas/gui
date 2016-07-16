@@ -2,7 +2,7 @@
  * @module ui/controls/chart.reel
  */
 var Component = require("montage/ui/component").Component,
-    nvd3 = window.nv;
+    Plottable = window.Plottable;
 
 /**
  * @class Chart
@@ -77,103 +77,268 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         value: null
     },
 
-    _series: {
+    _datasets: {
         value: null
     },
 
-    series: {
-        get: function() {
-            return this._series;
-        },
-        set: function(series) {
-            if (this._series != series) {
-                var self = this,
-                    i, length;
-                if (series) {
-                    self._series = [];
-                    for (i = 0, length = series.length; i < length; i++) {
-                        self.addSerie(series[i]);
-                    }
-                }
-            }
-        }
+    _seriesList: {
+        value: null
     },
-
+    
     constructor: {
         value: function() {
-            var self = this;
-            nvd3.addGraph({
-                generate: function() {
-                    self._createChart();
-                    self._formatYAxis();
-                    self._formatXAxis();
-                    self._series = [];
-                },
-                callback: function() {
-                    self._chart.dispatch.on('renderEnd', function() {
-                        self.finishRendering();
-                    });
-                }
-            });
+            this._datasets = {};
+            this._seriesList = [];
         }
     },
 
     addSerie: {
-        value: function(serie) {
-            var existingSerieIndex = this._series.map(function(x) { return x.key === serie.key; }).indexOf(true);
-            if (existingSerieIndex > -1) {
-                this._series.splice(existingSerieIndex, 1, serie);
-            } else {
-                this._series.push(serie);
-            }
+        value: function(series) {
+            this._seriesList.push(series);
+            this._plot.addDataset(this._seriesToDataset(series));
+            this._colorScale.domain(this._colorScale.domain().concat([series.key]));
             this.needsDraw = true;
         }
     },
 
     draw: {
         value: function() {
-            if (this._needRefresh) {
-                d3.select(this.chartElement)
-                    .datum(this._series)
-                    .transition().ease('quad')
-                    .call(this._chart);
+            var datasets = this._plot.datasets();
+            if (datasets.length > 0) {
+                var times = datasets[0].data().map(function(x) { return x.x; }),
+                    dataset, metadata;
+                this._xScale.domain([
+                    times[0],
+                    times.slice(-1)[0]
+                ]);
 
-                this._needRefresh = false;
-                return void 0;
+                this._addDisplayedSeries();
+                this._chart.renderImmediately();
+                this._plot.renderImmediately();
             }
-
-            if (this._series && this._series.length > 0) {
-                d3.select(this.chartElement)
-                    .datum(this._series)
-                    .call(this._chart);
-            }
+            this._chart.redraw();
+            this._plot.redraw();
         }
     },
 
-    refresh: {
-        value: function () {
-            this._needRefresh = true;
-            this.needsDraw = true;
+    addPoint: {
+        value: function(key, point) {
+            var series = this._seriesList.filter(function(x) { return x.key === key; })[0];
+            if (series) {
+                var points = series.values;
+                if (points.slice(-1)[0].x < point.x) {
+                    point.name = series.key;
+                    points.shift();
+                    points.push(point);
+                    this._datasets[key] = this._seriesToDataset(series);
+                    this._refresh();
+                }
+            }
         }
     },
 
     enterDocument: {
-        value: function() {
+        value: function(isFirstTime) {
             var self = this;
             this.isSpinnerShown = true;
-            this._clearHandleWindowResize = nv.utils.windowResize(function(){
-                self._chart.update();
-            }).clear;
-
+            if (isFirstTime) {
+                this._setupX();
+                this._setupY();
+                this._setupLegend();
+                var graphGroup = this._setupPlot();
+                this._setupChart(graphGroup);
+                this._setupInteraction();
+            }
         }
     },
 
     exitDocument: {
         value: function () {
-            if (this._clearHandleWindowResize) {
-                this._clearHandleWindowResize();
-                this._clearHandleWindowResize = null;
+            this._plot.datasets([]);
+            this._seriesList = [];
+            this._datasets = {};
+            window.removeEventListener("resize", this._redrawChart.bind(this));
+        }
+    },
+
+    _addDisplayedSeries: {
+        value: function() {
+            var legendsContainer = this._legend.content()[0][0],
+                legendElements = legendsContainer.getElementsByClassName('legend-entry'),
+                disabledSeries = this._seriesList.filter(function(x) { return x.disabled; }).map(function(x) { return x.key; }),
+                legendElement, series,
+                datasets = [],
+                i, length;
+            for (i = 0, length = legendElements.length; i < length; i++) {
+                legendElement = legendElements.item(i);
+                if (disabledSeries.length > 0 && disabledSeries.indexOf(d3.select(legendElement).datum()) != -1) {
+                    legendElement.classList.add('is-disabled');
+                } else {
+                    legendElement.classList.remove('is-disabled');
+                }
             }
+            for (i = 0, length = this._seriesList.length; i < length; i++) {
+                series = this._seriesList[i];
+                if (!series.disabled) {
+                    datasets.push(this._seriesToDataset(series));        
+                }
+            }
+            this._plot.datasets(datasets);
+        }
+    },
+
+    _setupX: {
+        value: function() {
+            this._xScale = new Plottable.Scales.Linear();
+            this._xAxis = new Plottable.Axes.Numeric(this._xScale, "bottom")
+                .addClass('is-label-hidden')
+                .formatter(function(d) {
+                    return '';
+                });
+        }
+    },
+
+    _setupY: {
+        value: function() {
+            this._yScale = new Plottable.Scales.Linear().domainMin(0);
+            this._yAxis = new Plottable.Axes.Numeric(this._yScale, "left")
+                .formatter(new Plottable.Formatters.siSuffix(2));
+        }
+    },
+
+    _setupLegend: {
+        value: function() {
+            this._colorScale = new Plottable.Scales.Color('20');
+            this._legend = new Plottable.Components.Legend(this._colorScale);
+            this._legend.maxEntriesPerRow(Infinity);
+        }
+    },
+
+    _setupPlot: {
+        value: function() {
+            this._plot = this._getPlotComponent();
+            this._plot.x(function(d) { return d.x; }, this._xScale)
+                .y(function(d) { return d.y; }, this._yScale)
+                .attr("fill", function(d) { return d.name; }, this._colorScale)
+                .attr("stroke", function(d) { return d.name; }, this._colorScale);
+
+            return graphGroup = new Plottable.Components.Group([this._plot, this._legend]);
+        }
+    },
+
+    _setupChart: {
+        value: function(graphGroup) {
+            this._chart = new Plottable.Components.Table([
+                [this._yAxis, graphGroup],
+                [null, this._xAxis]
+            ]);
+            var gridline = new Plottable.Components.Gridlines(null, this._yScale);
+            
+            this._chart.renderTo(d3.select(this.chartElement));
+            gridline.renderTo(d3.select(this.chartElement));
+            window.addEventListener("resize", this._redrawChart.bind(this));
+        }
+    },
+
+    _setupInteraction: {
+        value: function() {
+            var self = this;
+            new Plottable.Interactions.Click()
+                .attachTo(this._legend)
+                .onClick(function(p) {
+                    var entity = self._legend.entitiesAt(p)[0];
+                    if (entity !== undefined) {
+                        var series = self._seriesList.filter(function(x) { return x.key === entity.datum; })[0];
+                        if (series) {
+                            series.disabled = !series.disabled;
+                            self.needsDraw = true;
+                        }
+                    }
+                });
+        }
+    },
+
+    _refresh: {
+        value: function() {
+            var series, key, metadata,
+                i, length;
+            if (this._seriesList.length <= Object.keys(this._datasets).length) {
+                var datasets = [];
+                this._alignEventsTime();
+                for (i = 0, length = this._seriesList.length; i < length; i++) {
+                    series = this._seriesList[i];
+                    key = series.key;
+                    if (!series.disabled && this._datasets[key]) {
+                        datasets.push(this._datasets[key]);
+                    }
+                }
+                this._datasets = {};
+                this._plot.datasets(datasets);
+                this.needsDraw = true;
+            }
+        }
+    },
+
+    _alignEventsTime: {
+        value: function() {
+            var keys = Object.keys(this._datasets),
+                firstDataset = this._datasets[keys[0]],
+                key, dataset, time, values,
+                differentLastTimes = [],
+                i, length;
+            if (keys.length > 0) {
+                for (var j = 0, pointsLength = firstDataset.length; j < pointsLength; j++) {
+                    for (i = 0, length = keys.length; i < length; i++) {
+                        key = keys[i];
+                        dataset = this._datasets[key];
+                        values = dataset.data();
+                        time = values[j].x;
+                        if (differentLastTimes.indexOf(time) == -1) {
+                            differentLastTimes.push(time);
+                        }
+                    }
+                    if (differentLastTimes.length > 1) {
+                        var max = Math.max.apply(null, differentLastTimes);
+                        for (i = 0, length = keys.length; i < length; i++) {
+                            key = keys[i];
+                            dataset = this._datasets[key];
+                            values = dataset.data();
+                            values[j].x = max;
+                        } 
+                    }
+                }
+            }
+        }
+    },
+
+    _getPlotComponent: {
+        value: function() {
+            switch (this.graphType) {
+                case 'stacked':
+                    return new Plottable.Plots.StackedArea();
+                case 'line':
+                default:
+                    return new Plottable.Plots.Line();
+            }
+        }
+    },
+
+    _redrawChart: {
+        value: function() {
+            this._chart.redraw();
+        }
+    },
+
+    _seriesToDataset: {
+        value: function(series) {
+            return new Plottable.Dataset(
+                series.values.map(function(x) {
+                    x.name = series.key;
+                    return x;
+                }), {
+                key:        series.key,
+                disabled:   series.disabled
+            });
         }
     },
 
