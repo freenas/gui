@@ -131,6 +131,19 @@ exports.VolumeDatasetProperties = AbstractModel.specialize({
             return this._quota;
         }
     },
+    _readonly: {
+        value: null
+    },
+    readonly: {
+        set: function (value) {
+            if (this._readonly !== value) {
+                this._readonly = value;
+            }
+        },
+        get: function () {
+            return this._readonly;
+        }
+    },
     _refcompressratio: {
         value: null
     },
@@ -351,6 +364,11 @@ exports.VolumeDatasetProperties = AbstractModel.specialize({
             mandatory: false,
             name: "quota",
             valueObjectPrototypeName: "VolumeDatasetPropertyQuota",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "readonly",
+            valueObjectPrototypeName: "VolumeDatasetPropertyReadonly",
             valueType: "object"
         }, {
             mandatory: false,

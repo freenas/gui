@@ -89,6 +89,15 @@
       "valueObjectPrototypeName": "VolumeDatasetPropertyQuota"
     }
   },
+  "blueprint_volumedatasetproperties_readonly": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "readonly",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VolumeDatasetPropertyReadonly"
+    }
+  },
   "blueprint_volumedatasetproperties_refcompressratio": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -221,6 +230,7 @@
         {"@": "blueprint_volumedatasetproperties_logicalused"},
         {"@": "blueprint_volumedatasetproperties_numclones"},
         {"@": "blueprint_volumedatasetproperties_quota"},
+        {"@": "blueprint_volumedatasetproperties_readonly"},
         {"@": "blueprint_volumedatasetproperties_refcompressratio"},
         {"@": "blueprint_volumedatasetproperties_referenced"},
         {"@": "blueprint_volumedatasetproperties_refquota"},

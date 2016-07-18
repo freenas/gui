@@ -67,6 +67,15 @@
       "valueType": "String"
     }
   },
+  "blueprint_volumedataset_temp_mountpoint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "temp_mountpoint",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
   "blueprint_volumedataset_type": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -103,6 +112,7 @@
         {"@": "blueprint_volumedataset_permissions_type"},
         {"@": "blueprint_volumedataset_properties"},
         {"@": "blueprint_volumedataset_rname"},
+        {"@": "blueprint_volumedataset_temp_mountpoint"},
         {"@": "blueprint_volumedataset_type"},
         {"@": "blueprint_volumedataset_volsize"},
         {"@": "blueprint_volumedataset_volume"}

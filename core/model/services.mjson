@@ -1111,11 +1111,6 @@
                 "method": "network.config.get_my_ips",
                 "name": "call",
                 "namespace": "rpc"
-            },
-            "getStatus": {
-                "method": "network.config.get_status",
-                "name": "call",
-                "namespace": "rpc"
             }
         },
         "instance": {

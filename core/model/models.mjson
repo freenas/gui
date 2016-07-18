@@ -729,6 +729,10 @@
             "type": "VolumeDatasetPropertyQuota"
         },
         {
+            "modelId": "core/model/models/volume-dataset-property-readonly.js",
+            "type": "VolumeDatasetPropertyReadonly"
+        },
+        {
             "modelId": "core/model/models/volume-dataset-property-refcompressratio.js",
             "type": "VolumeDatasetPropertyRefcompressratio"
         },

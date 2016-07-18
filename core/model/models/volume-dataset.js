@@ -105,6 +105,19 @@ exports.VolumeDataset = AbstractModel.specialize({
             return this._rname;
         }
     },
+    _temp_mountpoint: {
+        value: null
+    },
+    temp_mountpoint: {
+        set: function (value) {
+            if (this._temp_mountpoint !== value) {
+                this._temp_mountpoint = value;
+            }
+        },
+        get: function () {
+            return this._temp_mountpoint;
+        }
+    },
     _type: {
         value: null
     },
@@ -180,6 +193,10 @@ exports.VolumeDataset = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "rname",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "temp_mountpoint",
             valueType: "String"
         }, {
             mandatory: false,
