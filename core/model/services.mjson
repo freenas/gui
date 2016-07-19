@@ -2583,15 +2583,13 @@
                 "name": "call",
                 "namespace": "rpc"
             },
-            "release": {
-                "method": "ui.transaction.release",
+            "getOne": {
+                "method": "ui.transaction.get_one",
                 "name": "call",
                 "namespace": "rpc"
-            }
-        },
-        "instance": {
-            "read": {
-                "method": "ui.transaction.query",
+            },
+            "release": {
+                "method": "ui.transaction.release",
                 "name": "call",
                 "namespace": "rpc"
             }
