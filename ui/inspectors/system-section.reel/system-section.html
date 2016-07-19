@@ -32,15 +32,6 @@
                 "switchValue": {"<-": "@owner.object.identifier"}
             }
         },
-        "general": {
-            "prototype": "./general.reel",
-            "properties": {
-                "element": {"#": "general"}
-            },
-            "bindings": {
-                "isLoading": {"<->": "@owner.isLoading"}
-            }
-        },
         "bootPool": {
             "prototype": "./boot-pool.reel",
             "properties": {
@@ -98,12 +89,6 @@
                 "element": {"#": "advanced"}
             }
         },
-        "systemInfo": {
-            "prototype": "./system-info.reel",
-            "properties": {
-                "element": {"#": "systemInfo"}
-            }
-        },
         "hardware": {
             "prototype": "./hardware.reel",
             "properties": {
@@ -117,7 +102,6 @@
     <div data-montage-id="owner" class="SystemSection">
         <div data-montage-id="inspector">
             <div data-montage-id="substitution" class="System-substitution">
-                <div data-montage-id="general" data-arg="general"></div>
                 <div data-montage-id="bootPool" data-arg="bootPool"></div>
                 <div data-montage-id="updates" data-arg="updates">U</div>
                 <div data-montage-id="dateAndTime" data-arg="dateAndTime"></div>
@@ -126,7 +110,6 @@
                 <div data-montage-id="serialConsole" data-arg="serialConsole"></div>
                 <div data-montage-id="advanced" data-arg="advanced"></div>
                 <div data-montage-id="hardware" data-arg="hardware"></div>
-                <div data-montage-id="systemInfo" data-arg="systemInfo"></div>
                 <div data-montage-id="debug" data-arg="debug"></div>
             </div>
         </div>

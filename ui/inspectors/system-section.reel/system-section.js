@@ -14,7 +14,6 @@ exports.SystemSection = Component.specialize({
     object: {
         set: function(object) {
             switch (object.identifier) {
-                case "general":
                 case "serialConsole":
                 case "languageAndRegion":
                 case "debug":
@@ -24,7 +23,6 @@ exports.SystemSection = Component.specialize({
                     break;
                 case "updates":
                 case "bootPool":
-                case "systemInfo":
                     this.canSave = false;
                     this.canRevert = false;
                     break;
