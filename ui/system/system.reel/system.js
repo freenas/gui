@@ -15,7 +15,7 @@ exports.System = Component.specialize({
                     i = 0;
                 sectionsPromises.push(this._createSection("bootPool", "Boot Pool", "path", i++));
                 sectionsPromises.push(this._createSection("updates", "Updates", "path", i++));
-                sectionsPromises.push(this._createSection("serialConsole", "Serial Console", "path", i++));
+                sectionsPromises.push(this._createSection("serialConsole", "Console", "path", i++));
                 sectionsPromises.push(this._createSection("languageAndRegion", "Language & Region", "path", i++));
                 sectionsPromises.push(this._createSection("debug", "Debug", "path", i++));
                 sectionsPromises.push(this._createSection("hardware", "Hardware", "path", i++));
