@@ -9,31 +9,28 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# */ {
-    constructor: {
-        value: function LanguageAndRegion() {
-            this.super();
-        }
+    timezoneData: {
+        value: null
     },
 
     timezoneOptions: {
         value: null
     },
 
-
-    _getTimezones: {
-        value: function() {
-            var self = this;
-            return Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral) {
-                return SystemGeneral.constructor.services.timezones();
-            }).then(function(timezones) {
-                self.timezoneOptions = self.timezones = timezones;
-            });
-        }
-    },
-
     enterDocument: {
         value: function(isFirstTime) {
-            this._getTimezones();
+            var self = this;
+            if (isFirstTime) {
+                this.isLoading = true;
+                this.application.systemGeneralService.getTimezoneData().then(function(timezoneData) {
+                    self.timezoneData = timezoneData;
+                    self.timezoneOptions = [];
+                    for(var i=0; i<timezoneData.timezoneOptions.length; i++) {
+                        self.timezoneOptions.push({label: timezoneData.timezoneOptions[i], value: timezoneData.timezoneOptions[i]})
+                    }
+                    self.isLoading = false;
+                });
+            }
         }
     }
 });
