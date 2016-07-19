@@ -37,6 +37,12 @@ exports.Widget = Component.specialize({
         }
     },
 
+    enterDocument: {
+        value: function() {
+            this._initializeData();
+        }
+    },
+
     exitDocument: {
         value: function() {
             var i, length;
@@ -57,13 +63,13 @@ exports.Widget = Component.specialize({
 
     _initializeData: {
         value: function() {
-            this._eventToKey = {};
-            this._subscribedUpdates = [];
-            this._fetchStatistics();
+            if (!this._isFetchingStatistics && this._source) {
+                this._eventToKey = {};
+                this._subscribedUpdates = [];
+                this._fetchStatistics();
+            }
         }
     },
-
-
 
     _addDatasourceToChart: {
         value: function (source, metric, prefix, suffix) {
@@ -76,12 +82,8 @@ exports.Widget = Component.specialize({
                     key: key
                 },
                 event = path + '.pulse';
-            return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
-                self._eventToKey[eventType] = key;
-                self._subscribedUpdates.push(event);
-            }).then(function() {
-                return self._statisticsService.getDatasourceHistory(path)
-            }).then(function (values) {
+
+            return self._statisticsService.getDatasourceHistory(path).then(function (values) {
                 serie.values = values.map(function (value) {
                         return {
                             x: value[0] * 1000,
@@ -89,14 +91,21 @@ exports.Widget = Component.specialize({
                         }
                     });
                 serie.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
-                self.chart.addSerie(serie);
+                return self.chart.addSerie(serie);
+            }).then(function() {
+                 return self._statisticsService.subscribeToUpdates(event, self)
+            }).then(function(eventType) {
+                self._eventToKey[eventType] = key;
+                self._subscribedUpdates.push(event);
             });
+
         }
     },
 
     _fetchStatistics: {
         value: function() {
             var self = this;
+            this._isFetchingStatistics = true;
 
             return this._statisticsService.getDatasources().then(function(datasources) {
                 return Object.keys(datasources)
@@ -123,6 +132,7 @@ exports.Widget = Component.specialize({
                 setTimeout(function() {
                     self.chart.finishRendering();
                 }, 1000);
+                this._isFetchingStatistics = false;
             });
         }
     },

@@ -125,10 +125,20 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         value: function(key, point) {
             var series = this._seriesList.filter(function(x) { return x.key === key; })[0];
             if (series) {
-                var points = series.values;
-                if (points.slice(-1)[0].x < point.x) {
-                    point.name = series.key;
-                    points.shift();
+                var points = series.values,
+                    isPointToBeAdded = false;
+                if (points && point.length > 0) {
+                    if (points.slice(-1)[0].x < point.x) {
+                        point.name = series.key;
+                        if (points.length > 100) {
+                            points.shift();
+                        }
+                        isPointToBeAdded = true;
+                    }
+                } else {
+                    isPointToBeAdded = true;
+                }
+                if (isPointToBeAdded) {
                     points.push(point);
                     this._datasets[key] = this._seriesToDataset(series);
                     this._refresh();
