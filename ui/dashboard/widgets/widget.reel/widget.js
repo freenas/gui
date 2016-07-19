@@ -46,8 +46,10 @@ exports.Widget = Component.specialize({
     exitDocument: {
         value: function() {
             var i, length;
-            for (i = 0, length = this._subscribedUpdates.length; i < length; i++) {
-                this._statisticsService.unSubscribeToUpdates(this._subscribedUpdates[i]);
+            if (this._subscribedUpdates) {
+                for (i = 0, length = this._subscribedUpdates.length; i < length; i++) {
+                    this._statisticsService.unSubscribeToUpdates(this._subscribedUpdates[i]);
+                }
             }
         }
     },
