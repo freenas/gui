@@ -34,17 +34,20 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
 
     getKeymapsData: {
         value: function() {
-            var keymapData = {},
+            var keymapsData = {},
                 loadingPromises = [];
             loadingPromises.push(
+                this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
+                    keymapsData.console_keymap = systemGeneral[0].console_keymap;
+                }),
                 Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral){
                     return SystemGeneral.constructor.services.keymaps();
                 }).then(function(keymaps){
-                    keymapData.keymapOptions = keymaps;
+                    keymapsData.keymapsOptions = keymaps;
                 })
             );
             return Promise.all(loadingPromises).then(function() {
-                return keymapData;
+                return keymapsData;
             })
         }
     }
