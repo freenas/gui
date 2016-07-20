@@ -60,7 +60,7 @@ var _commonDescriptors  = {
 
     widgets: {
         get: function () {
-            return this._widgets || [];
+            return this._widgets || (this._widgets = []);
         }
     }
 
