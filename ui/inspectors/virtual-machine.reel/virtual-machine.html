@@ -91,6 +91,18 @@
                 "options": {"<-": "@owner.templatesOptions"}
             }
         },
+        "vmGuestType": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "vmGuestType"},
+                "converter": {"@": "selectOptionConverter"},
+                "label": "Guest Type"
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.guestTypeSetting"},
+                "options": {"<-": "@owner.guestTypeOptions"}
+            }
+        },
         "volumeSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -260,6 +272,7 @@
                 <div data-montage-id="volumeEdit" data-arg="edit"></div>
                 <div data-montage-id="volumeDisplay" data-arg="display"></div>
             </div>
+            <div data-montage-id="vmGuestType"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>

@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType;
 
 /**
  * @class VirtualMachine
@@ -11,6 +12,10 @@ exports.VirtualMachine = Component.specialize({
     },
 
     templates: {
+        value: null
+    },
+
+    guestTypeOptions: {
         value: null
     },
 
@@ -39,6 +44,21 @@ exports.VirtualMachine = Component.specialize({
         set: function(cpus) {
             this._cpuSetting = cpus;
         }
+    },
+
+    _guestTypeSetting: {
+        value: null
+    },
+
+    guestTypeSetting: {
+        get: function() {
+            return !!this.object && !!this.object.guest_type ? this.object.guest_type : "other";
+        },
+
+        set: function(value) {
+            this.object.guest_type = value;
+        }
+
     },
 
     _memorySetting: {
@@ -73,6 +93,7 @@ exports.VirtualMachine = Component.specialize({
                             this.memorySetting = template.config.memsize + "MiB";
                             this.cpuSetting = template.config.ncpus;
                             this.object.template = {name: template.template.name};
+                            this.object.guest_type = template.guest_type;
                             break;
                         }
                     }
@@ -94,6 +115,12 @@ exports.VirtualMachine = Component.specialize({
 
         get: function() {
             return !!this.object.target ? this.object.target : "%";
+        }
+    },
+
+    constructor: {
+        value: function() {
+            this._initializeGuestTypeOptions();
         }
     },
 
@@ -176,6 +203,17 @@ exports.VirtualMachine = Component.specialize({
             this.object.template = this.object.template === "none" ? null : this.object.template ;
             this.object.target = this.object.target === "%" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
+        }
+    },
+
+    _initializeGuestTypeOptions: {
+        value: function() {
+            var guestTypeOptions = [],
+                optionStrings = VmGuestType.members;
+            for (var i = 0, length = optionStrings.length; i < length; i++) {
+                guestTypeOptions.push({value:optionStrings[i], label: optionStrings[i]});
+            }
+            this.guestTypeOptions = guestTypeOptions;
         }
     },
 
