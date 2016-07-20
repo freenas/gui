@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="load-average.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chart": {"@": "chart"}
+            }
+        },
+        "chart": {
+            "prototype": "ui/dashboard/widgets/widget.reel",
+            "properties": {
+                "element": {"#": "chart"},
+                "showLegend": true,
+                "showYAxis": true,
+                "xFormat": ".3r",
+                "yFormat": "s",
+                "isTimeSeries": true,
+                "isStacked": false,
+                "useGuideline": true,
+                "title": "Load Average",
+                "source": "load",
+                "metrics": [
+                    ["load", "longterm"],
+                    ["load", "midterm"],
+                    ["load", "shortterm"]
+                ],
+                "removePrefix": "load."
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="LoadAverage">
+        <div data-montage-id="chart"></div>
+    </div>
+</body>
+</html>

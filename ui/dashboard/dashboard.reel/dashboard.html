@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="dashboard.css">
     <script type="text/montage-serialization">
     {
@@ -10,68 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "enabledInterfaces": {"<-": "@owner.interfaces.filter{type == 'ETHER' && enabled}.sorted{id}"},
                 "classList.has('drawer-is-open')": {"<-": "@owner.isDrawerOpen"}
-            }
-        },
-        "systemInfo": {
-            "prototype": "../widgets/system-info.reel",
-            "properties": {
-                "element": {"#": "systemInfo"}
-            }
-        },
-        "cpuUsage": {
-            "prototype": "../widgets/cpu-usage.reel",
-            "properties": {
-                "element": {"#": "cpuUsage"}
-            }
-        },
-        "interfaceTraffic0": {
-            "prototype": "../widgets/network-traffic.reel",
-            "properties": {
-                "element": {"#": "interfaceTraffic0"}
-            },
-            "bindings": {
-                "card": {"<-": "@owner.enabledInterfaces.0.id"},
-                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.0 || !@owner.enabledInterfaces.0.enabled"}
-            }
-        },
-        "interfaceTraffic1": {
-            "prototype": "../widgets/network-traffic.reel",
-            "properties": {
-                "element": {"#": "interfaceTraffic1"}
-            },
-            "bindings": {
-                "card": {"<-": "@owner.enabledInterfaces.1.id"},
-                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.1 || !@owner.enabledInterfaces.1.enabled"}
-            }
-        },
-        "interfaceTraffic2": {
-            "prototype": "../widgets/network-traffic.reel",
-            "properties": {
-                "element": {"#": "interfaceTraffic2"}
-            },
-            "bindings": {
-                "card": {"<-": "@owner.enabledInterfaces.2.id"},
-                "classList.has('is-hidden')": {"<-": "!@owner.enabledInterfaces.2 || !@owner.enabledInterfaces.2.enabled"}
-            }
-        },
-        "memoryAllocation": {
-            "prototype": "../widgets/memory-allocation.reel",
-            "properties": {
-                "element": {"#": "memoryAllocation"}
-            }
-        },
-        "arcDemandData": {
-            "prototype": "../widgets/arc-demand-data.reel",
-            "properties": {
-                "element": {"#": "arcDemandData"}
-            }
-        },
-        "loadAverage": {
-            "prototype": "../widgets/load-average.reel",
-            "properties": {
-                "element": {"#": "loadAverage"}
             }
         },
         "openDrawerButton": {
@@ -88,18 +26,9 @@
         <button data-montage-id="openDrawerButton" class="Dashboard-openDrawerButton">
             <svg><use xlink:href="#i-circle-plus"/></svg>
         </button>
-        <!-- <div data-montage-id="scrollview" class="Dashboard-scrollview"> -->
             <div class="Dashboard-widgets">
-                <div data-montage-id="systemInfo" class="Dashboard-widget"></div>
-                <div data-montage-id="cpuUsage" class="Dashboard-widget"></div>
-                <div data-montage-id="interfaceTraffic0" class="Dashboard-widget"></div>
-                <div data-montage-id="interfaceTraffic1" class="Dashboard-widget"></div>
-                <div data-montage-id="interfaceTraffic2" class="Dashboard-widget"></div>
-                <div data-montage-id="memoryAllocation" class="Dashboard-widget"></div>
-                <div data-montage-id="arcDemandData" class="Dashboard-widget"></div>
-                <div data-montage-id="loadAverage" class="Dashboard-widget"></div>
+
             </div>
-        <!-- </div> -->
     </div>
 </body>
 </html>

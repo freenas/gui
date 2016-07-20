@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="arc-demand-data.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chart": {"@": "chart"}
+            }
+        },
+        "chart": {
+            "prototype": "ui/dashboard/widgets/widget.reel",
+            "properties": {
+                "element": {"#": "chart"},
+                "showLegend": true,
+                "showYAxis": true,
+                "yFormat": "s",
+                "isTimeSeries": true,
+                "isStacked": false,
+                "useGuideline": true,
+                "title": "ARC Demand Data",
+                "source": "zfs_arc",
+                "metrics": [
+                    "cache_result-demand_data-hit",
+                    "cache_result-demand_data-miss",
+                    "cache_result-demand_metadata-hit",
+                    "cache_result-demand_metadata-miss"
+                ],
+                "removePrefix": "cache_result-demand_",
+                "yLabel": "Requests"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ArcDemandData">
+        <div data-montage-id="chart"></div>
+    </div>
+</body>
+</html>

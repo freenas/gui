@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="system-info.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "bytesConverter": {
+            "prototype": "montage/core/converter/bytes-converter"
+        },
+        "numberConverter": {
+            "prototype": "montage/core/converter/number-converter",
+            "properties": {
+                "decimals": 2
+            }
+        },
+        "secondsToStringConverter": {
+            "prototype": "core/converter/seconds-to-string-converter"
+        },
+        "loadToStringConverter": {
+            "prototype": "core/converter/load-to-string-converter"
+        },
+        "iso8601ToStringConverter": {
+            "prototype": "core/converter/iso8601-to-string-converter"
+        },
+        "hostname": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "hostname"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.general.hostname"}
+            }
+        },
+        "osVersion": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "osVersion"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.version"}
+            }
+        },
+        "uptime": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "uptime"},
+                "converter": {"@": "secondsToStringConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.time.uptime"}
+            }
+        },
+        "systemTime": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "systemTime"},
+                "converter": {"@": "iso8601ToStringConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.time.system_time"}
+            }
+        },
+        "cpuCount": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "cpuCount"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.hardware.cpu_cores + (@owner.systemInfo.hardware.cpu_cores > 1 ? ' Cores' : ' Core')"}
+            }
+        },
+        "cpuSpeed": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "cpuSpeed"},
+                "converter": {"@": "numberConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.hardware.cpu_clockrate / 1000"}
+            }
+        },
+        "cpuDetails": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "cpuDetails"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.hardware.cpu_model"}
+            }
+        },
+        "memorySize": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "memorySize"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.hardware.memory_size"}
+            }
+        },
+        "memoryDetails": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "memoryDetails"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.system.memoryDetails"}
+            }
+        },
+        "disksTypeRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "disksTypeRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.systemInfo.disks.group{!!status.is_ssd}"}
+            }
+        },
+        "disksType": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "disksType"}
+            },
+            "bindings": {
+                "value": {"<-": "@disksTypeRepetition:iteration.object.0 ? 'SSD' : 'HDD'"}
+            }
+        },
+        "disksSizeRepetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "disksSizeRepetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@disksTypeRepetition:iteration.object.1.filter{status.mediasize}.group{status.mediasize}"}
+            }
+        },
+        "disksSize": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "disksSize"},
+                "converter": {"@": "bytesConverter"}
+            },
+            "bindings": {
+                "value": {"<-": "@disksSizeRepetition:iteration.object.0"}
+            }
+        },
+        "disksCount": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "disksCount"}
+            },
+            "bindings": {
+                "value": {"<-": "@disksSizeRepetition:iteration.object.1.length"}
+            }
+        },
+        "scrollview": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollview"},
+                "overflow": "scrollY"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="SystemInfo">
+        <div class="SystemInfo-header">
+            System Overview
+        </div>
+        <div class="SystemInfo-body">
+            <div data-montage-id="scrollview">
+                <div class="SystemInfo-body-content">
+                    <dl>
+
+                        <dt>Hostname</dt>
+                        <dd data-montage-id="hostname" class="SystemInfo-hostname"></dd>
+
+                        <dt>Build</dt>
+                        <dd data-montage-id="osVersion"></dd>
+
+                        <dt>Uptime</dt>
+                        <dd data-montage-id="uptime"></dd>
+
+                        <dt>System Time</dt>
+                        <dd data-montage-id="systemTime"></dd>
+
+                        <dt>Platform</dt>
+                        <dd>
+                            <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
+                            <span data-montage-id="cpuCount"></span> @ <span data-montage-id="cpuSpeed"></span>GHz
+                        </dd>
+                        <dt>Memory</dt>
+                        <dd data-montage-id="memorySize" class="SystemInfo-data"></dd>
+                        <dd data-montage-id="memoryDetails" class="SystemInfo-data"></dd>
+                        <div data-montage-id="disksTypeRepetition">
+                            <dt data-montage-id="disksType"></dt>
+                            <dd data-montage-id="disksSizeRepetition">
+                                <div><span data-montage-id="disksSize"></span> x <span data-montage-id="disksCount"></span></div>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
