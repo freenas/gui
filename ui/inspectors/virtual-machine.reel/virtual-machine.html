@@ -28,6 +28,15 @@
                 "canDelete": {"<-": "!@owner.object._isNew"}
             }
         },
+        "stateCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "stateCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.object._isNew"}
+            }
+        },
         "state": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -239,7 +248,9 @@
 <body>
     <div data-montage-id="owner" class="VirtualMachine">
         <div data-montage-id="inspector">
-            <div data-montage-id="state"></div>
+            <div data-montage-id="stateCondition">
+                <div data-montage-id="state"></div>
+            </div>
             <div data-montage-id="name"></div>
             <div data-montage-id="vmTemplateSubstitution">
                 <div data-montage-id="vmTemplateEdit" data-arg="edit"></div>
