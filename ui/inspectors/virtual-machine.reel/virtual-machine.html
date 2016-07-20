@@ -172,13 +172,13 @@
                 "checked": {"<->": "@owner.object.config.autostart"}
             }
         },
-        "startStopSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
+        "startCondition": {
+            "prototype": "montage/ui/condition.reel",
             "properties": {
-                "element": {"#": "startStopSubstitution"}
+                "element": {"#": "startCondition"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.status.state"}
+                "condition": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
         "start": {
@@ -186,6 +186,15 @@
             "properties": {
                 "element": {"#": "start"},
                 "value": "Start"
+            }
+        },
+        "stopCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "stopCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.status.state != 'STOPPED'"}
             }
         },
         "stop": {
@@ -211,7 +220,7 @@
                 "value": "Reboot"
             },
             "bindings": {
-                "enabled": {"<-": "@owner.object.status.state == 'RUNNING'"}
+                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
             }
         }
     }
@@ -220,6 +229,7 @@
 <body>
     <div data-montage-id="owner" class="VirtualMachine">
         <div data-montage-id="inspector">
+            <div data-montage-id="state"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="vmTemplateSubstitution">
                 <div data-montage-id="vmTemplateEdit" data-arg="edit"></div>
@@ -233,9 +243,12 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
-            <div data-montage-id="startStopSubstitution">
-                <div data-montage-id="start" data-arg="STOPPED"></div>
-                <div data-montage-id="stop" data-arg="RUNNING"></div>
+            <div data-montage-id="devices"></div>
+            <div data-montage-id="startCondition">
+                <div data-montage-id="start"></div>
+            </div>
+            <div data-montage-id="stopCondition">
+                <div data-montage-id="stop"></div>
             </div>
             <div data-montage-id="rebootCondition">
                 <div data-montage-id="reboot"></div>
