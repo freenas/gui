@@ -1,8 +1,15 @@
 var Montage = require("montage").Montage,
+    WidgetService = require("core/service/widget-service").WidgetService,
     ApplicationContext = require("core/application-context").ApplicationContext;
 
 
 var ApplicationContextService = exports.ApplicationContextService = Montage.specialize({
+
+    _widgetService: {
+        get: function () {
+            return this.constructor._widgetService;
+        }
+    },
 
     save: {
         value: function () {
@@ -15,7 +22,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 var self = this,
                     constructor = this.constructor;
 
-                this._saveContextPromise = new Promise(function (resolve, reject) {
+                this._saveContextPromise = this._saveContextPromise = new Promise(function (resolve, reject) {
                     var applicationContextJSON = JSON.stringify(constructor.applicationContext);
 
                     if (this._dataSevice) { //TODO
@@ -31,7 +38,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 });
             }
 
-            return (this._saveContextPromise = saveContextPromise);
+            return saveContextPromise;
         }
     },
 
@@ -50,7 +57,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 var self = this,
                     constructor = this.constructor;
 
-                getContextPromise = new Promise(function (resolve, reject) {
+                getContextPromise = this._getContextPromise = new Promise(function (resolve, reject) {
                     var applicationContext;
 
                     if ((applicationContext = localStorage.getItem(constructor.LOCAL_STORAGE_KEY))) {
@@ -60,17 +67,19 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                         //applicationContext = this._dataSevice.
 
                     } else {
-                        applicationContext = new ApplicationContext();
+                        applicationContext = self._getDefaultApplicationContext();
                     }
 
                     resolve(applicationContext);
 
-                }).then(function () {
+                }).then(function (applicationContext) {
                     self._getContextPromise = null;
+
+                    return applicationContext;
                 });
             }
 
-            return (this._getContextPromise = getContextPromise);
+            return getContextPromise;
         }
     },
 
@@ -80,6 +89,17 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
             this.constructor.applicationContext = null;
 
             return this.get();
+        }
+    },
+
+    _getDefaultApplicationContext: {
+        value: function () {
+            return this._widgetService.getAvailableWidgets().then(function (widgets) {
+                var applicationContext = new ApplicationContext();
+                applicationContext.dashboardContext.widgets.push(widgets.get("system-info"));
+
+                return applicationContext;
+            });
         }
     }
 
@@ -93,6 +113,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
         get: function() {
             if (!this._instance) {
                 this._instance = new ApplicationContextService();
+                this._widgetService = WidgetService.instance;
             }
 
             return this._instance;
