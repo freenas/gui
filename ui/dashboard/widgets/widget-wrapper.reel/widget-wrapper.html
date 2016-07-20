@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="widget-wrapper.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+
+        "placeholder": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "placeholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "@owner.widget.moduleId"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="WidgetWrapper">
+        <div data-montage-id="placeholder"></div>
+    </div>
+</body>
+</html>

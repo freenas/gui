@@ -17,6 +17,27 @@
             "properties": {
                 "element": {"#": "openDrawerButton"}
             }
+        },
+
+        "widgets": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "widgets"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.applicationContext.dashboardContext.widgets"}
+            }
+        },
+
+        "widget-wrapper": {
+            "prototype": "ui/dashboard/widgets/widget-wrapper.reel",
+            "properties": {
+                "element": {"#": "widget-wrapper"}
+            },
+            "bindings": {
+                "widget": {"<-": "@widgets:iteration.object"},
+                "enabled": {"<-": "@owner.isDrawerOpen"}
+            }
         }
     }
     </script>
@@ -26,9 +47,9 @@
         <button data-montage-id="openDrawerButton" class="Dashboard-openDrawerButton">
             <svg><use xlink:href="#i-circle-plus"/></svg>
         </button>
-            <div class="Dashboard-widgets">
-
-            </div>
+        <div data-montage-id="widgets" class="Dashboard-widgets">
+            <div data-montage-id="widget-wrapper"></div>
+        </div>
     </div>
 </body>
 </html>
