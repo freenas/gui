@@ -1,0 +1,64 @@
+{
+  "blueprint_dockerhubimage_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockerhubimage_full_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "full_description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockerhubimage_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockerhubimage_namespace": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "namespace",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockerhubimage_star_count": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "star_count",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_dockerhubimage_updated_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "updated_at",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DockerHubImage",
+      "propertyBlueprints": [
+        {"@": "blueprint_dockerhubimage_description"},
+        {"@": "blueprint_dockerhubimage_full_description"},
+        {"@": "blueprint_dockerhubimage_id"},
+        {"@": "blueprint_dockerhubimage_namespace"},
+        {"@": "blueprint_dockerhubimage_star_count"},
+        {"@": "blueprint_dockerhubimage_updated_at"}
+      ]
+    }
+  }
+}

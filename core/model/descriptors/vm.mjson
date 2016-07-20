@@ -31,6 +31,15 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_vm_guest_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "guest_type",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmGuestType"
+    }
+  },
   "blueprint_vm_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -53,6 +62,13 @@
       "name": "name",
       "blueprint": {"@": "root"},
       "valueType": "String"
+    }
+  },
+  "blueprint_vm_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"}
     }
   },
   "blueprint_vm_target": {
@@ -80,9 +96,11 @@
         {"@": "blueprint_vm_description"},
         {"@": "blueprint_vm_devices"},
         {"@": "blueprint_vm_enabled"},
+        {"@": "blueprint_vm_guest_type"},
         {"@": "blueprint_vm_id"},
         {"@": "blueprint_vm_immutable"},
         {"@": "blueprint_vm_name"},
+        {"@": "blueprint_vm_status"},
         {"@": "blueprint_vm_target"},
         {"@": "blueprint_vm_template"}
       ]

@@ -1,32 +1,32 @@
 {
-  "blueprint_getstatsparams_end": {
+  "blueprint_dockerimage_host": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "end",
-      "blueprint": {"@": "root"},
-      "valueType": "datetime"
-    }
-  },
-  "blueprint_getstatsparams_frequency": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "frequency",
+      "name": "host",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
   },
-  "blueprint_getstatsparams_start": {
+  "blueprint_dockerimage_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "start",
+      "name": "id",
       "blueprint": {"@": "root"},
-      "valueType": "datetime"
+      "valueType": "String"
     }
   },
-  "blueprint_getstatsparams_timespan": {
+  "blueprint_dockerimage_names": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "timespan",
+      "name": "names",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_dockerimage_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "size",
       "blueprint": {"@": "root"},
       "valueType": "number"
     }
@@ -34,12 +34,12 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "GetStatsParams",
+      "name": "DockerImage",
       "propertyBlueprints": [
-        {"@": "blueprint_getstatsparams_end"},
-        {"@": "blueprint_getstatsparams_frequency"},
-        {"@": "blueprint_getstatsparams_start"},
-        {"@": "blueprint_getstatsparams_timespan"}
+        {"@": "blueprint_dockerimage_host"},
+        {"@": "blueprint_dockerimage_id"},
+        {"@": "blueprint_dockerimage_names"},
+        {"@": "blueprint_dockerimage_size"}
       ]
     }
   }

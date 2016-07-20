@@ -56,5 +56,20 @@ exports.VmDevice = AbstractModel.specialize({
             valueObjectPrototypeName: "VmDeviceType",
             valueType: "object"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Devices'",
+            inspectorComponentModule: {
+                id: 'ui/inspectors/virtual-machine-device.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/inspectors/virtual-machine-device.reel'
+            },
+            nameExpression: "_isNew.defined() && _isNew ? 'New Device' : name"
+        }
     }
 });

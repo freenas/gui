@@ -1,75 +1,75 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.GetStatsParams = AbstractModel.specialize({
-    _end: {
+exports.DockerImage = AbstractModel.specialize({
+    _host: {
         value: null
     },
-    end: {
+    host: {
         set: function (value) {
-            if (this._end !== value) {
-                this._end = value;
+            if (this._host !== value) {
+                this._host = value;
             }
         },
         get: function () {
-            return this._end;
+            return this._host;
         }
     },
-    _frequency: {
+    _id: {
         value: null
     },
-    frequency: {
+    id: {
         set: function (value) {
-            if (this._frequency !== value) {
-                this._frequency = value;
+            if (this._id !== value) {
+                this._id = value;
             }
         },
         get: function () {
-            return this._frequency;
+            return this._id;
         }
     },
-    _start: {
+    _names: {
         value: null
     },
-    start: {
+    names: {
         set: function (value) {
-            if (this._start !== value) {
-                this._start = value;
+            if (this._names !== value) {
+                this._names = value;
             }
         },
         get: function () {
-            return this._start;
+            return this._names;
         }
     },
-    _timespan: {
+    _size: {
         value: null
     },
-    timespan: {
+    size: {
         set: function (value) {
-            if (this._timespan !== value) {
-                this._timespan = value;
+            if (this._size !== value) {
+                this._size = value;
             }
         },
         get: function () {
-            return this._timespan;
+            return this._size;
         }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "end",
-            valueType: "datetime"
-        }, {
-            mandatory: false,
-            name: "frequency",
+            name: "host",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "start",
-            valueType: "datetime"
+            name: "id",
+            valueType: "String"
         }, {
             mandatory: false,
-            name: "timespan",
+            name: "names",
+            valueType: "array"
+        }, {
+            mandatory: false,
+            name: "size",
             valueType: "number"
         }]
     }

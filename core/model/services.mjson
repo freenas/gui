@@ -568,7 +568,25 @@
         }
     },
     "DockerImage": {
+        "class": {
+            "getHubImage": {
+                "method": "docker.image.get_hub_image",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "search": {
+                "method": "docker.image.search",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
         "instance": {
+            "pull": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.image.pull"
+            },
             "read": {
                 "method": "docker.image.query",
                 "name": "call",

@@ -165,6 +165,14 @@
             "type": "DockerEnvironment"
         },
         {
+            "modelId": "core/model/models/docker-hub-image.js",
+            "type": "DockerHubImage"
+        },
+        {
+            "modelId": "core/model/models/docker-image.js",
+            "type": "DockerImage"
+        },
+        {
             "modelId": "core/model/models/docker-volume.js",
             "type": "DockerVolume"
         },
@@ -675,6 +683,14 @@
         {
             "modelId": "core/model/models/vm-snapshot.js",
             "type": "VmSnapshot"
+        },
+        {
+            "modelId": "core/model/models/vm-status-natlease.js",
+            "type": "VmStatusNatlease"
+        },
+        {
+            "modelId": "core/model/models/vm-status.js",
+            "type": "VmStatus"
         },
         {
             "modelId": "core/model/models/vm.js",
