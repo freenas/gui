@@ -1,0 +1,19 @@
+{
+  "blueprint_dockerconfig_default_host": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "default_host",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DockerConfig",
+      "propertyBlueprints": [
+        {"@": "blueprint_dockerconfig_default_host"}
+      ]
+    }
+  }
+}

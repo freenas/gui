@@ -53,6 +53,19 @@ exports.Vm = AbstractModel.specialize({
             return this._enabled;
         }
     },
+    _guest_type: {
+        value: null
+    },
+    guest_type: {
+        set: function (value) {
+            if (this._guest_type !== value) {
+                this._guest_type = value;
+            }
+        },
+        get: function () {
+            return this._guest_type;
+        }
+    },
     _id: {
         value: null
     },
@@ -90,6 +103,19 @@ exports.Vm = AbstractModel.specialize({
         },
         get: function () {
             return this._name;
+        }
+    },
+    _status: {
+        value: null
+    },
+    status: {
+        set: function (value) {
+            if (this._status !== value) {
+                this._status = value;
+            }
+        },
+        get: function () {
+            return this._status;
         }
     },
     _target: {
@@ -138,6 +164,11 @@ exports.Vm = AbstractModel.specialize({
             valueType: "boolean"
         }, {
             mandatory: false,
+            name: "guest_type",
+            valueObjectPrototypeName: "VmGuestType",
+            valueType: "object"
+        }, {
+            mandatory: false,
             name: "id",
             valueType: "String"
         }, {
@@ -148,6 +179,9 @@ exports.Vm = AbstractModel.specialize({
             mandatory: false,
             name: "name",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "status"
         }, {
             mandatory: false,
             name: "target",
