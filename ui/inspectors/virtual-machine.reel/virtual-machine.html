@@ -28,6 +28,16 @@
                 "canDelete": {"<-": "!@owner.object._isNew"}
             }
         },
+        "state": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "state"},
+                "label": "Status"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.status.state"}
+            }
+        },
         "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
