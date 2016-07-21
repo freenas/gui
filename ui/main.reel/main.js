@@ -1,18 +1,12 @@
 
-var ComponentModule = require("montage/ui/component"),
-    Component = ComponentModule.Component,
-    rootComponent = ComponentModule.__root__;
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+    rootComponent = require("montage/ui/component").__root__;
 
 /**
  * @class Main
  * @extends Component
  */
-exports.Main = Component.specialize({
-
-    enterDocument: {
-        value: function (firsTime) {
-        }
-    },
+var Main = exports.Main = AbstractComponentActionDelegate.specialize({
 
     draw: {
         value: function () {
@@ -26,23 +20,16 @@ exports.Main = Component.specialize({
         }
     },
 
-    _toggleDrawer: {
-        value: function () {
-            this.isDrawerOpen = !this.isDrawerOpen;
-        }
-    },
-
-    handleCloseButtonAction: {
-        value: function () { this._toggleDrawer(); }
+    isDrawerOpen: {
+        value: false
     },
 
     handleOpenDrawerButtonAction: {
-        value: function () { this._toggleDrawer(); }
-    },
-
-    isDrawerOpen: {
-        value: true
+        value: function () {
+            this.application.isDrawerOpen = !this.application.isDrawerOpen;
+        }
     }
 
 });
 
+Main.prototype.handleCloseButtonAction = Main.prototype.handleOpenDrawerButtonAction;

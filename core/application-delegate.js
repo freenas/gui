@@ -78,7 +78,9 @@ exports.ApplicationDelegate = Montage.specialize({
                         });
                     }
                 }
-            })
+            });
+
+            app.isDrawerOpen = false;
         }
     },
 

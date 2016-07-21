@@ -8,13 +8,7 @@
         "owner": {
             "properties": {
                 "element": {"#": "main"}
-            },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ]
+            }
         },
         "mainSidebar": {
             "prototype": "../main-sidebar/main-sidebar.reel",
@@ -41,9 +35,6 @@
             "prototype": "../dashboard/dashboard.reel",
             "properties": {
                 "element": {"#": "dashboard"}
-            },
-            "bindings": {
-                "isDrawerOpen": {"<-": "@owner.isDrawerOpen"}
             }
         },
         "storage": {
@@ -122,9 +113,6 @@
             "prototype": "ui/drawer.reel",
             "properties": {
                 "element": {"#": "drawer"}
-            },
-            "bindings": {
-                "isDrawerOpen": {"<-": "@owner.isDrawerOpen"}
             }
         }
     }

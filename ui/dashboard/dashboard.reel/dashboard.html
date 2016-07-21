@@ -9,7 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('drawer-is-open')": {"<-": "@owner.isDrawerOpen"}
+                "classList.has('drawer-is-open')": {"<-": "@owner.application.isDrawerOpen"}
             }
         },
         "openDrawerButton": {
@@ -36,7 +36,7 @@
             },
             "bindings": {
                 "widget": {"<-": "@widgets:iteration.object"},
-                "enabled": {"<-": "@owner.isDrawerOpen"}
+                "enabled": {"<-": "@owner.application.isDrawerOpen"}
             }
         }
     }

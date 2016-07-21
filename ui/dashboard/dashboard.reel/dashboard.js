@@ -6,7 +6,6 @@ var Component = require("montage/ui/component").Component;
  */
 exports.Dashboard = Component.specialize({
 
-
     enterDocument: {
         value: function () {
             if (!this.applicationContext) {
@@ -16,6 +15,12 @@ exports.Dashboard = Component.specialize({
                     self.applicationContext = applicationContext;
                 });
             }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            this.application.isDrawerOpen = false;
         }
     }
 
