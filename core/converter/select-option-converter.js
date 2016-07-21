@@ -45,6 +45,9 @@ var SelectOptionConverter = exports.SelectOptionConverter = Converter.specialize
                 } else {
                     var valuePropertyName = this.valuePropertyName,
                         labelPropertyName = this.labelPropertyName,
+                        valuePath = this.valuePath,
+                        labelPath = this.labelPath,
+                        value, label,
                         item;
 
                     for (i = 0, length = values.length; i < length; i++) {
@@ -54,7 +57,14 @@ var SelectOptionConverter = exports.SelectOptionConverter = Converter.specialize
                             option = new SelectOption().initWithLabel(item);
 
                         } else {
-                            option = new SelectOption().initWithLabelAndValue(item[labelPropertyName], item[valuePropertyName]);
+                            if (valuePath && labelPath) {
+                                label = this._getPropertyFromItemAndPath(item, labelPath);
+                                value = this._getPropertyFromItemAndPath(item, valuePath);
+                            } else {
+                                label = item[labelPropertyName];
+                                value = item[valuePropertyName];
+                            }
+                            option = new SelectOption().initWithLabelAndValue(label, value);
                         }
 
                         options.push(option);
@@ -69,6 +79,17 @@ var SelectOptionConverter = exports.SelectOptionConverter = Converter.specialize
     revert: {
         value: function () {
             return this._values;
+        }
+    },
+
+    _getPropertyFromItemAndPath: {
+        value: function(item, path) {
+            var result = item,
+                pathParts = path.split('.');
+            while (pathParts.length > 0 && result) {
+                result = result[pathParts.shift()];
+            }
+            return result;
         }
     }
 
