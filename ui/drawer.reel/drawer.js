@@ -1,25 +1,50 @@
 /**
  * @module ui/drawer.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
+    Promise = require("montage/core/promise").Promise;
 
 /**
  * @class Drawer
  * @extends Component
  */
-exports.Drawer = Component.specialize(/** @lends Drawer# */ {
-    items: {
-        value: [
-            {
-                title: "Widget 1",
-                imgPreview: "imageUrl",
-                description: "this is the description of widget 1"
-            },
-            {
-                title: "Widget 2",
-                imgPreview: "imageUrl",
-                description: "this is the description of widget 2"
+exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
+
+    enterDocument: {
+        value: function (isFirstTime) {
+            AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
+
+            if (!this.applicationContext && !this._loadingPromise) {
+                var self = this;
+
+                this._loadingPromise = Promise.all([
+                    this.application.applicationContextService.get(),
+                    this.application.widgetService.getAvailableWidgets()
+                ]).then(function (arguments) {
+                    var applicationContext = arguments[0],
+                        availableWidgets = arguments[1];
+
+                    self.items = availableWidgets.toArray();
+                    self.userWidgets = applicationContext.dashboardContext.widgets;
+
+                    self.addRangeAtPathChangeListener("userWidgets", self, "_handleUserWidgetsChange");
+                }).finally(function () {
+                    self._loadingPromise = null;
+                });
             }
-        ]
+        }
+    },
+
+    _handleUserWidgetsChange: {
+        value: function (plus, minus) {
+            if (plus && plus.length) {
+                this.items.splice(this.items.indexOf(plus[0]), 1);
+            }
+
+            if (minus && minus.length) {
+                this.items.push(minus[0]);
+            }
+        }
     }
+
 });
