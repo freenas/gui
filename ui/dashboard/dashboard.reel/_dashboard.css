@@ -1,5 +1,9 @@
 .Dashboard {
     overflow: auto;
+    /*FIXME: @joshua*/
+    display: flex;
+    flex: 1;
+    /*FIXME: @joshua*/
 }
 
 .Dashboard-scrollview {}

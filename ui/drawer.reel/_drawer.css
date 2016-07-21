@@ -2,16 +2,16 @@
 .Drawer {
     background-color: #191919;
     user-select: none;
-    position: absolute;
-    bottom: 0;
-    left: 128px;
-    right: 0;
-    /*height: 16.1em;*/
-    height: 258px;
-    transform: translate3d(0px, 258px, 0px);
+    margin-top: -3em;
 
     &.is-open {
-        transform: translate3d(0px, 0px, 0px);
+         position: relative;
+         bottom: 0;
+         left: 0;
+         right: 0;
+         top: 0;
+         height: 16.1em;
+         margin-top: 0;
     }
 }
 
