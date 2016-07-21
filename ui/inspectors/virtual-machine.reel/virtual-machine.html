@@ -61,6 +61,13 @@
         "selectOptionConverter": {
             "prototype": "core/converter/select-option-converter"
         },
+        "templateOptionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPath": "template.name",
+                "valuePath":  "template.name"
+            }
+        },
         "vmTemplateSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -84,12 +91,12 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "vmTemplateEdit"},
-                "converter": {"@": "selectOptionConverter"},
+                "converter": {"@": "templateOptionConverter"},
                 "label": "Template"
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.templateSetting"},
-                "options": {"<-": "@owner.templatesOptions"}
+                "options": {"<-": "@owner.templates"}
             }
         },
         "vmGuestType": {

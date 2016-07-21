@@ -19,10 +19,6 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
-    templatesOptions: {
-        value: null
-    },
-
     volumeOptions: {
         value: null
     },
@@ -149,16 +145,10 @@ exports.VirtualMachine = Component.specialize({
 
     _loadTemplates: {
         value: function() {
-            var self = this,
-            templatesOptions = [];
+            var self = this;
 
             return this.application.virtualMachineService.getTemplates().then(function(templates) {
                 self.templates = templates;
-                for (var i = 0, length = templates.length; i < length; i++) {
-                    templatesOptions.push({label: templates[i].template.name, value: templates[i].template.name});
-                }
-                templatesOptions.unshift({label:"---", value: "none"});
-                self.templatesOptions = templatesOptions;
             });
         }
     },
