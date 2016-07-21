@@ -41,7 +41,7 @@ exports.Containers = Component.specialize({
                     containerSection.isLoading = true;
                     self.containerSection = containerSection;
 
-                    return Promise.all([self._listVirtualMachines(), self._listTemplates()]);
+                    return self._listVirtualMachines();
                 }).then(function() {
                     self.containerSection.isLoading = false;
                     self._loadDataPromise = null;
@@ -58,16 +58,6 @@ exports.Containers = Component.specialize({
                 self.containerSection.virtualMachines = virtualMachines;
             });
 
-        }
-    },
-
-    _listTemplates: {
-        value: function() {
-            var self = this;
-
-            return this.application.virtualMachineService.getTemplates().then(function(templates) {
-                self.containerSection.templates = templates;
-            });
         }
     }
 

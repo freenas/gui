@@ -129,20 +129,21 @@ exports.VirtualMachine = Component.specialize({
             var self = this,
                 loadingPromises = [];
             if (isFirstTime) {
+                this.isLoading = true;
                 loadingPromises.push(this._loadTemplates(), this._loadVolumes());
+                Promise.all(loadingPromises).then(function() {
+                    self.isLoading = false;
+                });
+            }
+            if (!self.object.config) {
+                self.object.config = {};
+            }
+            if (!!self.object._isNew) {
+                self.templateSetting = "none";
+                self.volumeSetting = "%";
             }
 
             this.editMode = !!this.object._isNew ? "edit" : "display";
-
-            Promise.all(loadingPromises).then(function() {
-                if (!self.object.config) {
-                    self.object.config = {};
-                }
-                if (!!self.object._isNew) {
-                    self.templateSetting = "none";
-                    self.volumeSetting = "%";
-                }
-            });
         }
     },
 

@@ -25,7 +25,8 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew"}
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
             }
         },
         "stateCondition": {
