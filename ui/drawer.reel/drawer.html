@@ -13,6 +13,13 @@
                 "classList.has('is-open')": {"<-": "@owner.isDrawerOpen"}
             }
         },
+        "horizontalScroll": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "horizontalScroll"},
+                "overflow": "scrollX"
+            }
+        },
         "items": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
@@ -48,9 +55,14 @@
                 <svg><use xlink:href="#i-close"/></svg>
             </button>
         </header>
-        <ul data-montage-id="items" class="Drawer-items">
-            <li data-montage-id="item" class="Drawer-item"></li>
-        </ul>
+        <div class="DrawerContent">
+            <div data-montage-id="horizontalScroll">
+                <ul data-montage-id="items" class="Drawer-items">
+                    <li data-montage-id="item" class="Drawer-item"></li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

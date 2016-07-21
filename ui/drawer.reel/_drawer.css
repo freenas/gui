@@ -1,12 +1,27 @@
+/*FIXME: @JOSHUA*/
 .Drawer {
     background-color: #191919;
     user-select: none;
-    margin-bottom: -16.1em;
+    position: absolute;
+    bottom: 0;
+    left: 128px;
+    right: 0;
+    /*height: 16.1em;*/
+    height: 258px;
+    transform: translate3d(0px, 258px, 0px);
 
     &.is-open {
-        margin-bottom: 0;
+        transform: translate3d(0px, 0px, 0px);
     }
 }
+
+.Drawer .DrawerContent {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+/*FIXME: @JOSHUA*/
 
 .Drawer > header {
     display: flex;
@@ -34,6 +49,8 @@
 .Drawer-items {
     padding: 1em;
     margin: 0;
+    display: flex;
+
 }
 
 .Drawer-item {
