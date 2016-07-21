@@ -20,13 +20,20 @@
                 "overflow": "scrollX"
             }
         },
-        "items": {
-            "prototype": "montage/ui/repetition.reel",
+        "contentController": {
+            "prototype": "montage/core/range-controller",
             "properties": {
-                "element": {"#": "items"}
+                "sortPath": "title"
             },
             "bindings": {
                 "content": {"<-": "@owner.items"}
+            }
+        },
+        "items": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "items"},
+                "contentController": {"@": "contentController"}
             }
         },
         "item": {
@@ -62,7 +69,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
 </body>
 </html>

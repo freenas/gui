@@ -25,7 +25,7 @@
                 "element": {"#": "widgets"}
             },
             "bindings": {
-                "content": {"<-": "@owner.applicationContext.dashboardContext.widgets"}
+                "content": {"<-": "@owner.userWidgets"}
             }
         },
 
@@ -35,7 +35,7 @@
                 "element": {"#": "widget-wrapper"}
             },
             "bindings": {
-                "widget": {"<-": "@widgets:iteration.object"},
+                "object": {"<-": "@widgets:iteration.object"},
                 "enabled": {"<-": "@owner.application.isDrawerOpen"}
             }
         }

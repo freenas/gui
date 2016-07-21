@@ -2,6 +2,7 @@
  * @module ui/drawer.reel
  */
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
+    WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
     Promise = require("montage/core/promise").Promise;
 
 /**
@@ -37,12 +38,30 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
 
     _handleUserWidgetsChange: {
         value: function (plus, minus) {
-            if (plus && plus.length) {
-                this.items.splice(this.items.indexOf(plus[0]), 1);
+            var index;
+
+            if (plus && plus.length && (index = this.items.indexOf(plus[0])) > -1) {
+                this.items.splice(index, 1);
             }
 
             if (minus && minus.length) {
                 this.items.push(minus[0]);
+            }
+        }
+    },
+
+    shouldAcceptComponent: {
+        value: function (widgetWrapperComponent) {
+            return this.userWidgets && widgetWrapperComponent instanceof WidgetWrapper;
+        }
+    },
+
+    handleComponentDrop: {
+        value: function (widgetWrapperComponent) {
+            var index;
+
+            if ((index = this.userWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
+                this.userWidgets.splice(index, 1);
             }
         }
     }

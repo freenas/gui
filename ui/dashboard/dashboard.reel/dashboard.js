@@ -1,18 +1,21 @@
-var Component = require("montage/ui/component").Component;
+var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
+    DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem;
 
 /**
  * @class Dashboard
  * @extends Component
  */
-exports.Dashboard = Component.specialize({
+exports.Dashboard = AbstractDropZoneComponent.specialize({
 
     enterDocument: {
-        value: function () {
-            if (!this.applicationContext) {
+        value: function (isFirstTime) {
+            AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
+
+            if (!this.userWidgets) {
                 var self = this;
 
                 this.application.applicationContextService.get().then(function (applicationContext) {
-                    self.applicationContext = applicationContext;
+                    self.userWidgets = applicationContext.dashboardContext.widgets;
                 });
             }
         }
@@ -21,6 +24,20 @@ exports.Dashboard = Component.specialize({
     exitDocument: {
         value: function () {
             this.application.isDrawerOpen = false;
+        }
+    },
+
+    shouldAcceptComponent: {
+        value: function (drawerItemComponent) {
+            return this.userWidgets && drawerItemComponent instanceof DrawerItem;
+        }
+    },
+
+    handleComponentDrop: {
+        value: function (drawerItemComponent) {
+            if (this.userWidgets.indexOf(drawerItemComponent.object) === -1) {
+                this.userWidgets.push(drawerItemComponent.object);
+            }
         }
     }
 

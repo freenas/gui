@@ -1,13 +1,13 @@
 /**
  * @module ui/drawer-item.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractDraggableComponent = require("blue-shark/core/drag-drop/abstract-draggable-component").AbstractDraggableComponent;
 
 /**
  * @class DrawerItem
  * @extends Component
  */
-exports.DrawerItem = Component.specialize(/** @lends DrawerItem# */ {
+exports.DrawerItem = AbstractDraggableComponent.specialize(/** @lends DrawerItem# */ {
 
     hasToggled: {
         value: false
@@ -17,5 +17,14 @@ exports.DrawerItem = Component.specialize(/** @lends DrawerItem# */ {
         value: function () {
             this.hasToggled = !this.hasToggled;
         }
+    },
+
+    _placeHolderStrategy: {
+        value: "hidden"
+    },
+
+    isGhostImageCenter: {
+        value: false
     }
+
 });
