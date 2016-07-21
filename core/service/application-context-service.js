@@ -1,6 +1,7 @@
 var Montage = require("montage").Montage,
     WidgetService = require("core/service/widget-service").WidgetService,
-    ApplicationContext = require("core/application-context").ApplicationContext;
+    ApplicationContext = require("core/application-context").ApplicationContext,
+    Promise = require("montage/core/promise").Promise;
 
 
 var ApplicationContextService = exports.ApplicationContextService = Montage.specialize({
