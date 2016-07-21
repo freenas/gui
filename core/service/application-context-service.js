@@ -76,7 +76,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 }).then(function (applicationContext) {
                     self._getContextPromise = null;
 
-                    return applicationContext;
+                    return (constructor.applicationContext = applicationContext);
                 });
             }
 
