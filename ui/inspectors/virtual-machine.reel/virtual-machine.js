@@ -23,25 +23,6 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
-    _cpuSetting: {
-        value: null
-    },
-
-    cpuSetting: {
-        get: function() {
-            if (typeof this._cpuSetting === "number") {
-                return this._cpuSetting;
-            } else if (!!this.object.config && !!this.object.config.ncpus) {
-                return this.object.config.ncpus;
-            }
-            return "";
-        },
-
-        set: function(cpus) {
-            this._cpuSetting = cpus;
-        }
-    },
-
     _guestTypeSetting: {
         value: null
     },
@@ -87,7 +68,7 @@ exports.VirtualMachine = Component.specialize({
                             template = templates[i];
                             this.object.config = new Object(template.config);
                             this.memorySetting = template.config.memsize + "MiB";
-                            this.cpuSetting = template.config.ncpus;
+                            this.object.config.ncpus = template.config.ncpus;
                             this.object.template = {name: template.template.name};
                             this.object.guest_type = template.guest_type;
                             break;
@@ -121,8 +102,8 @@ exports.VirtualMachine = Component.specialize({
                     self.isLoading = false;
                 });
             }
-            if (!self.object.config) {
-                self.object.config = {};
+            if (!this.object.config) {
+                this.object.config = {ncpus: ""};
             }
             if (!!self.object._isNew) {
                 self.templateSetting = "none";
