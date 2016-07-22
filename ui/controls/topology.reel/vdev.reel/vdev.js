@@ -154,8 +154,10 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: function () {
             AbstractDropZoneComponent.prototype.exitDocument.call(this);
             AbstractComponentActionDelegate.prototype.exitDocument.call(this);
-
-            this._cancelRangeAtPathChangeListener();
+            if (typeof this._cancelRangeAtPathChangeListener === 'function') {
+                this._cancelRangeAtPathChangeListener();
+                this._cancelRangeAtPathChangeListener = null;
+            }
             //FIXME: need investigation here, raise an error.
             //this._cancelIsNewVDevChangeListener();
             this._topologyItem = void 0;
