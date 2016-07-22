@@ -55,8 +55,11 @@ exports.Share = Component.specialize({
         },
         set: function(targetType) {
             if (this._targetType !== targetType) {
-                this._targetType = this._object.target_type = targetType;
-                this._openTreeController();
+                this._targetType = targetType;
+                if (this._object.target_type !== targetType) {
+                    this._object.target_type = targetType;
+                    this._openTreeController();
+                }
             }
         }
     },
