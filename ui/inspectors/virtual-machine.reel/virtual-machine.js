@@ -51,7 +51,7 @@ exports.VirtualMachine = Component.specialize({
                     for (var i = 0, length = templates.length; i<length; i++) {
                         if (templates[i].template.name === templateName) {
                             template = templates[i];
-                            this.object.config = new Object(template.config);
+                            this.object.config = {};
                             this.memorySetting = template.config.memsize + "MiB";
                             this.object.config.ncpus = template.config.ncpus;
                             this.object.template = {name: template.template.name};
