@@ -19,7 +19,7 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
-    volumeOptions: {
+    volumes: {
         value: null
     },
 
@@ -104,16 +104,6 @@ exports.VirtualMachine = Component.specialize({
         }
     },
 
-    volumeSetting: {
-        set: function(volumeName) {
-            this.object.target = volumeName;
-        },
-
-        get: function() {
-            return !!this.object.target ? this.object.target : "%";
-        }
-    },
-
     constructor: {
         value: function() {
             this._initializeGuestTypeOptions();
@@ -136,7 +126,6 @@ exports.VirtualMachine = Component.specialize({
             }
             if (!!self.object._isNew) {
                 self.templateSetting = "none";
-                self.volumeSetting = "%";
             }
 
             this.editMode = !!this.object._isNew ? "edit" : "display";
@@ -155,19 +144,10 @@ exports.VirtualMachine = Component.specialize({
 
     _loadVolumes: {
         value: function() {
-            var self = this,
-                volumeOptions = [];
+            var self = this;
 
             return this.application.dataService.fetchData(Model.Volume).then(function(volumes) {
-                for (var i=0, length=volumes.length; i < length; i++) {
-                    volumeOptions.push({label:volumes[i].id, value: volumes[i].id });
-                }
-                // FIXME: select-option-converter uses the string "none" as a
-                // sigil for an empty value. Since "none" is also a valid volume
-                // name, I'm replacing it with "%", which is not. This should be
-                // fixed once select-option-converter is.
-                volumeOptions.unshift({label:"---", value: "%"});
-                self.volumeOptions = volumeOptions;
+                self.volumes = volumes;
             });
         }
     },
@@ -192,7 +172,7 @@ exports.VirtualMachine = Component.specialize({
             this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.config.ncpus = this.cpuSetting;
             this.object.template = this.object.template === "none" ? null : this.object.template ;
-            this.object.target = this.object.target === "%" ? null : this.object.target;
+            this.object.target = this.object.target === "---" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
         }
     },
