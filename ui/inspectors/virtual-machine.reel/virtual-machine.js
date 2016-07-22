@@ -23,21 +23,6 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
-    _guestTypeSetting: {
-        value: null
-    },
-
-    guestTypeSetting: {
-        get: function() {
-            return !!this.object && !!this.object.guest_type ? this.object.guest_type : "other";
-        },
-
-        set: function(value) {
-            this.object.guest_type = value;
-        }
-
-    },
-
     _memorySetting: {
         value: null
     },
@@ -105,8 +90,8 @@ exports.VirtualMachine = Component.specialize({
             if (!this.object.config) {
                 this.object.config = {ncpus: ""};
             }
-            if (!!self.object._isNew) {
-                self.templateSetting = "none";
+            if (!this.object.guest_type) {
+                this.object.guest_type = "other";
             }
 
             this.editMode = !!this.object._isNew ? "edit" : "display";
