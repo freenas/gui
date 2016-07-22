@@ -1,6 +1,7 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
-    VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType;
+    VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType,
+    Dict = require("collections/dict").Dict;
 
 /**
  * @class VirtualMachine
@@ -15,21 +16,8 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
-    _GUEST_OPTION_LABELS: {
-        value: {
-            "linux32": "Linux (32-bit)",
-            "linux64": "Linux (64-bit)",
-            "freebsd32": "FreeBSD (32-bit)",
-            "freebsd64": "FreeBSD (64-bit)",
-            "netbsd32": "NetBSD (32-bit)",
-            "netbsd64": "NetBSD (64-bit)",
-            "openbsd32": "OpenBSD (32-bit)",
-            "openbsd64": "OpenBSD (64-bit)",
-            "windows64": "Windows (64-bit)",
-            "solaris64": "Solaris (64-bit)",
-            "other32": "Other (32-bit)",
-            "other64": "Other (64-bit)"
-        }
+    _guestOptionLabels: {
+        value: null
     },
 
     guestTypeOptions: {
@@ -89,6 +77,20 @@ exports.VirtualMachine = Component.specialize({
 
     constructor: {
         value: function() {
+            this._guestOptionLabels = new Dict({
+                "linux32": "Linux (32-bit)",
+                "linux64": "Linux (64-bit)",
+                "freebsd32": "FreeBSD (32-bit)",
+                "freebsd64": "FreeBSD (64-bit)",
+                "netbsd32": "NetBSD (32-bit)",
+                "netbsd64": "NetBSD (64-bit)",
+                "openbsd32": "OpenBSD (32-bit)",
+                "openbsd64": "OpenBSD (64-bit)",
+                "windows64": "Windows (64-bit)",
+                "solaris64": "Solaris (64-bit)",
+                "other32": "Other (32-bit)",
+                "other64": "Other (64-bit)"
+            });
             this._initializeGuestTypeOptions();
         }
     },
@@ -165,11 +167,7 @@ exports.VirtualMachine = Component.specialize({
                 optionValues = VmGuestType.members,
                 label;
             for (var i = 0, length = optionValues.length; i < length; i++) {
-                if (this._GUEST_OPTION_LABELS.hasOwnProperty(optionValues[i])) {
-                    label = this._GUEST_OPTION_LABELS[optionValues[i]];
-                } else {
-                    label = optionValues[i];
-                }
+                label = this._guestOptionLabels.get(optionValues[i], optionValues[i]);
                 guestTypeOptions.push({value: optionValues[i], label: label});
             }
             this.guestTypeOptions = guestTypeOptions;
