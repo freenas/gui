@@ -52,7 +52,7 @@ exports.VirtualMachine = Component.specialize({
                         if (templates[i].template.name === templateName) {
                             template = templates[i];
                             this.object.config = {};
-                            this.memorySetting = template.config.memsize + "MiB";
+                            this.object.config.memsize = template.config.memsize;
                             this.object.config.ncpus = template.config.ncpus;
                             this.object.template = {name: template.template.name};
                             this.object.guest_type = template.guest_type;
@@ -120,7 +120,7 @@ exports.VirtualMachine = Component.specialize({
 
     save: {
         value: function() {
-            var parsedMemsize = this.memorySetting.match(this.application.storageService.SCALED_NUMERIC_RE_),
+            var parsedMemsize = this.object.config.memsize.toString().match(this.application.storageService.SCALED_NUMERIC_RE_),
                 memsize,
                 memsizePrefix,
                 memsizeMultiplier = 1;
