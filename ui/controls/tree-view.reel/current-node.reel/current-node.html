@@ -3,9 +3,6 @@
 <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="current-node.css">
-<!--
-                "classList.has('isBefore')": {"<-": "@childNodes.selection.length > 0"},
--->
     <script type="text/montage-serialization">
     {
         "owner": {
@@ -15,6 +12,15 @@
             "bindings": {
                 "selectedChild": {"<-": "@childNodes.selection"},
                 "entry": {"<-": "@owner.controller.entry"}
+            }
+        },
+        "childNodesController": {
+            "prototype": "montage/core/range-controller",
+            "properties": {
+                "sortPath": "name"
+            },
+            "bindings": {
+                "content": {"<-": "@owner.entry.children"}
             }
         },
         "iconSubstitution": {
@@ -53,10 +59,8 @@
             "prototype": "montage/ui/repetition.reel",
             "properties": {
                 "element": {"#": "childNodes"},
-                "isSelectionEnabled": true
-            },
-            "bindings": {
-                "content": {"<-": "@owner.entry.children"}
+                "isSelectionEnabled": true,
+                "contentController": {"@": "childNodesController"}
             }
         },
         "childNode": {

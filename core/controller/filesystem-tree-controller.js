@@ -110,9 +110,9 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
 
     _isPathLastAncestor: {
         value: function(path) {
-            return self.ancestors && 
-                self.ancestors.length && 
-                self.ancestors.slice(-1)[0].path === path;
+            return this.ancestors && 
+                this.ancestors.length && 
+                this.ancestors.slice(-1)[0].path === path;
         }
     },
 
