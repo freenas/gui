@@ -48,6 +48,12 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this._close()
+        }
+    },
+
     handleBackButtonAction: {
         value: function () {
             if (this.controller.parent) {
@@ -58,7 +64,7 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
 
     handleCancelAction: {
         value: function () {
-            this.isExpanded = false;
+            this._close();
         }
     },
 
@@ -74,6 +80,13 @@ exports.TreeView = AbstractComponentActionDelegate.specialize({
             if (!this._selectedPath && this._controller && this._controller.root) {
                 this.selectedPath = this._controller.selectedPath;
             }
+        }
+    },
+
+    _close: {
+        value: function() {
+            this.isExpanded = false;
+            this.controller.open(this.selectedPath);
         }
     }
 });
