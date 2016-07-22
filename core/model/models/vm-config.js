@@ -118,19 +118,6 @@ exports.VmConfig = AbstractModel.specialize({
             return this._ncpus;
         }
     },
-    _vnc_enabled: {
-        value: null
-    },
-    vnc_enabled: {
-        set: function (value) {
-            if (this._vnc_enabled !== value) {
-                this._vnc_enabled = value;
-            }
-        },
-        get: function () {
-            return this._vnc_enabled;
-        }
-    },
     _vnc_password: {
         value: null
     },
@@ -142,19 +129,6 @@ exports.VmConfig = AbstractModel.specialize({
         },
         get: function () {
             return this._vnc_password;
-        }
-    },
-    _vnc_port: {
-        value: null
-    },
-    vnc_port: {
-        set: function (value) {
-            if (this._vnc_port !== value) {
-                this._vnc_port = value;
-            }
-        },
-        get: function () {
-            return this._vnc_port;
         }
     }
 }, {
@@ -198,16 +172,8 @@ exports.VmConfig = AbstractModel.specialize({
             valueType: "number"
         }, {
             mandatory: false,
-            name: "vnc_enabled",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
             name: "vnc_password",
             valueType: "String"
-        }, {
-            mandatory: false,
-            name: "vnc_port",
-            valueType: "number"
         }]
     }
 });

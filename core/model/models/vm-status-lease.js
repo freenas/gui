@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VmStatusNatlease = AbstractModel.specialize({
+exports.VmStatusLease = AbstractModel.specialize({
     _client_ip: {
         value: null
     },

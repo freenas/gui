@@ -653,6 +653,10 @@
             "type": "VmDeviceCdrom"
         },
         {
+            "modelId": "core/model/models/vm-device-config.js",
+            "type": "VmDeviceConfig"
+        },
+        {
             "modelId": "core/model/models/vm-device-disk.js",
             "type": "VmDeviceDisk"
         },
@@ -689,8 +693,8 @@
             "type": "VmSnapshot"
         },
         {
-            "modelId": "core/model/models/vm-status-natlease.js",
-            "type": "VmStatusNatlease"
+            "modelId": "core/model/models/vm-status-lease.js",
+            "type": "VmStatusLease"
         },
         {
             "modelId": "core/model/models/vm-status.js",

@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.VmStatus = AbstractModel.specialize({
+    _management_lease: {
+        value: null
+    },
+    management_lease: {
+        set: function (value) {
+            if (this._management_lease !== value) {
+                this._management_lease = value;
+            }
+        },
+        get: function () {
+            return this._management_lease;
+        }
+    },
     _nat_lease: {
         value: null
     },
@@ -31,8 +44,13 @@ exports.VmStatus = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "management_lease",
+            valueObjectPrototypeName: "VmStatusLease",
+            valueType: "object"
+        }, {
+            mandatory: false,
             name: "nat_lease",
-            valueObjectPrototypeName: "VmStatusNatlease",
+            valueObjectPrototypeName: "VmStatusLease",
             valueType: "object"
         }, {
             mandatory: false,

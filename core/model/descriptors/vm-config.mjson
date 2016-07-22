@@ -72,28 +72,12 @@
       "valueType": "number"
     }
   },
-  "blueprint_vmconfig_vnc_enabled": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vnc_enabled",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
   "blueprint_vmconfig_vnc_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "vnc_password",
       "blueprint": {"@": "root"},
       "valueType": "String"
-    }
-  },
-  "blueprint_vmconfig_vnc_port": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vnc_port",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
     }
   },
   "root": {
@@ -110,9 +94,7 @@
         {"@": "blueprint_vmconfig_docker_host"},
         {"@": "blueprint_vmconfig_memsize"},
         {"@": "blueprint_vmconfig_ncpus"},
-        {"@": "blueprint_vmconfig_vnc_enabled"},
-        {"@": "blueprint_vmconfig_vnc_password"},
-        {"@": "blueprint_vmconfig_vnc_port"}
+        {"@": "blueprint_vmconfig_vnc_password"}
       ]
     }
   }

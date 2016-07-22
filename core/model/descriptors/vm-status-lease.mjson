@@ -1,5 +1,5 @@
 {
-  "blueprint_vmstatusnatlease_client_ip": {
+  "blueprint_vmstatuslease_client_ip": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "client_ip",
@@ -9,9 +9,9 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "VmStatusNatlease",
+      "name": "VmStatusLease",
       "propertyBlueprints": [
-        {"@": "blueprint_vmstatusnatlease_client_ip"}
+        {"@": "blueprint_vmstatuslease_client_ip"}
       ]
     }
   }

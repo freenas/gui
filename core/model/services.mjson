@@ -2184,6 +2184,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "resize": {
+                "method": "shell.resize",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "spawn": {
                 "method": "shell.spawn",
                 "name": "call",

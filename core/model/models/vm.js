@@ -181,7 +181,9 @@ exports.Vm = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "status"
+            name: "status",
+            valueObjectPrototypeName: "VmStatus",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "target",

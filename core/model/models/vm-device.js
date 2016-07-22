@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.VmDevice = AbstractModel.specialize({
+    _config: {
+        value: null
+    },
+    config: {
+        set: function (value) {
+            if (this._config !== value) {
+                this._config = value;
+            }
+        },
+        get: function () {
+            return this._config;
+        }
+    },
     _name: {
         value: null
     },
@@ -43,6 +56,10 @@ exports.VmDevice = AbstractModel.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: true,
+            name: "config",
+            valueType: "object"
+        }, {
             mandatory: false,
             name: "name",
             valueType: "String"

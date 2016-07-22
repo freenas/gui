@@ -1,11 +1,20 @@
 {
+  "blueprint_vmstatus_management_lease": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "management_lease",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmStatusLease"
+    }
+  },
   "blueprint_vmstatus_nat_lease": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "nat_lease",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "VmStatusNatlease"
+      "valueObjectPrototypeName": "VmStatusLease"
     }
   },
   "blueprint_vmstatus_state": {
@@ -22,6 +31,7 @@
     "properties": {
       "name": "VmStatus",
       "propertyBlueprints": [
+        {"@": "blueprint_vmstatus_management_lease"},
         {"@": "blueprint_vmstatus_nat_lease"},
         {"@": "blueprint_vmstatus_state"}
       ]
