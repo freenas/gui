@@ -84,7 +84,7 @@
                 "label": "Template"
             },
             "bindings": {
-                "value": {"<-": "@owner.templateSetting"}
+                "value": {"<-": "!!@owner.object.template ? @owner.object.template.name : 'none'"}
             }
         },
         "vmTemplateEdit": {
@@ -96,7 +96,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.templateSetting"},
-                "options": {"<-": "@owner.templates"}
+                "options": {"<-": "[{template: {name: '---'}}].concat(@owner.templates)"}
             }
         },
         "vmGuestType": {

@@ -171,7 +171,7 @@ exports.VirtualMachine = Component.specialize({
 
             this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.config.ncpus = this.cpuSetting;
-            this.object.template = this.object.template === "none" ? null : this.object.template ;
+            this.object.template = this.object.template === "---" ? null : this.object.template ;
             this.object.target = this.object.target === "---" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
         }
