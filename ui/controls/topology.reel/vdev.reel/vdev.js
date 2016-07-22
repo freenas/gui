@@ -335,7 +335,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _defineVDevContext: {
         value: function () {
-            if (this._inDocument) {
+            if (this._inDocument && this.object) {
                 var allowedVDevTypes = null;
 
                 this.dispatchOwnPropertyChange("isNewVDev", this.isNewVDev);
