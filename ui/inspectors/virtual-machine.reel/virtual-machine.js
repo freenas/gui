@@ -15,6 +15,23 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
+    _GUEST_OPTION_LABELS: {
+        value: {
+            "linux32": "Linux (32-bit)",
+            "linux64": "Linux (64-bit)",
+            "freebsd32": "FreeBSD (32-bit)",
+            "freebsd64": "FreeBSD (64-bit)",
+            "netbsd32": "NetBSD (32-bit)",
+            "netbsd64": "NetBSD (64-bit)",
+            "openbsd32": "OpenBSD (32-bit)",
+            "openbsd64": "OpenBSD (64-bit)",
+            "windows64": "Windows (64-bit)",
+            "solaris64": "Solaris (64-bit)",
+            "other32": "Other (32-bit)",
+            "other64": "Other (64-bit)"
+        }
+    },
+
     guestTypeOptions: {
         value: null
     },
@@ -145,9 +162,15 @@ exports.VirtualMachine = Component.specialize({
     _initializeGuestTypeOptions: {
         value: function() {
             var guestTypeOptions = [],
-                optionStrings = VmGuestType.members;
-            for (var i = 0, length = optionStrings.length; i < length; i++) {
-                guestTypeOptions.push({value:optionStrings[i], label: optionStrings[i]});
+                optionValues = VmGuestType.members,
+                label;
+            for (var i = 0, length = optionValues.length; i < length; i++) {
+                if (this._GUEST_OPTION_LABELS.hasOwnProperty(optionValues[i])) {
+                    label = this._GUEST_OPTION_LABELS[optionValues[i]];
+                } else {
+                    label = optionValues[i];
+                }
+                guestTypeOptions.push({value: optionValues[i], label: label});
             }
             this.guestTypeOptions = guestTypeOptions;
         }
