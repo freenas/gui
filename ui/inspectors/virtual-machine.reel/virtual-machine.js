@@ -88,6 +88,7 @@ exports.VirtualMachine = Component.specialize({
                 "openbsd64": "OpenBSD (64-bit)",
                 "windows64": "Windows (64-bit)",
                 "solaris64": "Solaris (64-bit)",
+                "other": "Other",
                 "other32": "Other (32-bit)",
                 "other64": "Other (64-bit)"
             });
