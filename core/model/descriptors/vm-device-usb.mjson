@@ -12,7 +12,8 @@
     "properties": {
       "name": "device",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "VmDeviceUsbDevice"
     }
   },
   "root": {

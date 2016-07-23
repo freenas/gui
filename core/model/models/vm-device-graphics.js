@@ -13,6 +13,32 @@ exports.VmDeviceGraphics = AbstractModel.specialize({
         get: function () {
             return this._resolution;
         }
+    },
+    _vnc_enabled: {
+        value: null
+    },
+    vnc_enabled: {
+        set: function (value) {
+            if (this._vnc_enabled !== value) {
+                this._vnc_enabled = value;
+            }
+        },
+        get: function () {
+            return this._vnc_enabled;
+        }
+    },
+    _vnc_port: {
+        value: null
+    },
+    vnc_port: {
+        set: function (value) {
+            if (this._vnc_port !== value) {
+                this._vnc_port = value;
+            }
+        },
+        get: function () {
+            return this._vnc_port;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -21,6 +47,14 @@ exports.VmDeviceGraphics = AbstractModel.specialize({
             name: "resolution",
             valueObjectPrototypeName: "VmDeviceGraphicsResolution",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "vnc_enabled",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "vnc_port",
+            valueType: "number"
         }]
     }
 });

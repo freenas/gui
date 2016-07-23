@@ -36,7 +36,8 @@ exports.VmDeviceUsb = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "device",
-            valueType: "String"
+            valueObjectPrototypeName: "VmDeviceUsbDevice",
+            valueType: "object"
         }]
     }
 });

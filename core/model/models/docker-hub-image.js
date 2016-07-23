@@ -53,6 +53,19 @@ exports.DockerHubImage = AbstractModel.specialize({
             return this._namespace;
         }
     },
+    _pull_count: {
+        value: null
+    },
+    pull_count: {
+        set: function (value) {
+            if (this._pull_count !== value) {
+                this._pull_count = value;
+            }
+        },
+        get: function () {
+            return this._pull_count;
+        }
+    },
     _star_count: {
         value: null
     },
@@ -97,6 +110,10 @@ exports.DockerHubImage = AbstractModel.specialize({
             mandatory: false,
             name: "namespace",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "pull_count",
+            valueType: "number"
         }, {
             mandatory: false,
             name: "star_count",

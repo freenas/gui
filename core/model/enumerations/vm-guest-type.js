@@ -1,3 +1,3 @@
 var Enum = require("montage/core/enum").Enum;
 
-exports.VmGuestType = new Enum().initWithMembersAndValues(["boot2docker","centos","debian","fedora","freebsd","freenas","netbsd","openbsd","opensuse","other","other-linux","other-unix","pfsense","solaris","ubuntu"], ["boot2docker","centos","debian","fedora","freebsd","freenas","netbsd","openbsd","opensuse","other","other-linux","other-unix","pfsense","solaris","ubuntu"]);
+exports.VmGuestType = new Enum().initWithMembersAndValues(["freebsd32","freebsd64","linux64","netbsd64","openbsd32","openbsd64","other","solaris64","windows64"], ["freebsd32","freebsd64","linux64","netbsd64","openbsd32","openbsd64","other","solaris64","windows64"]);

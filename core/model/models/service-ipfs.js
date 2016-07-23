@@ -39,6 +39,19 @@ exports.ServiceIpfs = AbstractModel.specialize({
         get: function () {
             return this._type;
         }
+    },
+    _webui: {
+        value: null
+    },
+    webui: {
+        set: function (value) {
+            if (this._webui !== value) {
+                this._webui = value;
+            }
+        },
+        get: function () {
+            return this._webui;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -53,6 +66,10 @@ exports.ServiceIpfs = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "type"
+        }, {
+            mandatory: false,
+            name: "webui",
+            valueType: "boolean"
         }]
     }
 });

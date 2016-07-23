@@ -653,10 +653,6 @@
             "type": "VmDeviceCdrom"
         },
         {
-            "modelId": "core/model/models/vm-device-config.js",
-            "type": "VmDeviceConfig"
-        },
-        {
             "modelId": "core/model/models/vm-device-disk.js",
             "type": "VmDeviceDisk"
         },
@@ -667,10 +663,6 @@
         {
             "modelId": "core/model/models/vm-device-nic.js",
             "type": "VmDeviceNic"
-        },
-        {
-            "modelId": "core/model/models/vm-device-properties.js",
-            "type": "VmDeviceProperties"
         },
         {
             "modelId": "core/model/models/vm-device-usb-config.js",

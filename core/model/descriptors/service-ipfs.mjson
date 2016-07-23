@@ -25,6 +25,14 @@
       ]
     }
   },
+  "blueprint_serviceipfs_webui": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "webui",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -32,7 +40,8 @@
       "propertyBlueprints": [
         {"@": "blueprint_serviceipfs_enable"},
         {"@": "blueprint_serviceipfs_path"},
-        {"@": "blueprint_serviceipfs_type"}
+        {"@": "blueprint_serviceipfs_type"},
+        {"@": "blueprint_serviceipfs_webui"}
       ]
     }
   }
