@@ -6,6 +6,10 @@ var Component = require("montage/ui/component").Component;
  */
 exports.CurrentUserSummary = Component.specialize({
 
+    dotRegEx: {
+        value: /\./g
+    },
+
     _synchronizeClockTimeoutId: {
         value: null
     },

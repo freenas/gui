@@ -26,8 +26,6 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
     /*------------------------------------------------------------------------------------------------------------------
                                                     Public Functions
      -----------------------------------------------------------------------------------------------------------------*/
-
-
     /**
      * @public
      *
@@ -43,6 +41,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
             this._connection.delegate = this;
             this._connection.responseType = WebSocketClient.RESPONSE_TYPE.JSON;
             this._connection.addEventListener("webSocketMessage", this);
+            this._connection.addEventListener("webSocketStatusChange", this);
             this._connection.addEventListener("webSocketError", this);
 
             return this;
@@ -97,7 +96,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
     disconnect: {
         value: function (code, reason) {
             this._handlerPool.clear();
-
+            
             this._connection.disconnect(code, reason);
         }
     },
@@ -140,6 +139,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
             var response = event.detail;
 
             if (response) {
+                this.connectionStatus = this._connection.CONNECTION_CONNECTED;
                 if (response.namespace === RPC_NAME_SPACE && response.id) {
                     // try to find a deferred promise that will handle this message according to its UID.
                     var deferred = this._handlerPool.releaseHandler(response.id);
@@ -157,6 +157,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
                                 if (response.args.code === 13) {
                                     if (response.args.message === "Not logged in") {
                                         this.dispatchEventNamed("userDisconnected", true, true);
+                                        this.connectionStatus = this._connection.CONNECTION_DISCONNECTED;
                                     }
 
                                     deferred.reject(new Error(response.args.message));
@@ -189,6 +190,12 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
             if (event.detail.code === WebSocketClient.ERROR_CODE.CONNECTION_FAILED) {
                 this._handlerPool.rejectAll(event.detail.message);
             }
+        }
+    },
+
+    handleWebSocketStatusChange: {
+        value: function (event) {
+            this.connectionStatus = event.detail.status;
         }
     },
 

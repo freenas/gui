@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="traffic-light.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "legend": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "legend"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.text"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="TrafficLight">
+        <div class="TrafficLight-light"></div>
+        <div data-montage-id="legend"></div>
+        <div class="TrafficLight-after"></div>
+    </div>
+</body>
+</html>

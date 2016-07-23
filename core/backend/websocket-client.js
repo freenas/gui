@@ -19,7 +19,17 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
     /*------------------------------------------------------------------------------------------------------------------
                                                         Properties
      -----------------------------------------------------------------------------------------------------------------*/
+    CONNECTION_CONNECTING: {
+        value: "CONNECTING"
+    },
 
+    CONNECTION_CONNECTED: {
+        value: "CONNECTED"
+    },
+
+    CONNECTION_DISCONNECTED: {
+        value: "DISCONNECTED"
+    },
 
     /**
      * @type {Object}
@@ -106,7 +116,6 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
     _isConnecting: {
         value: false
     },
-
 
     /**
      * @type {Boolean}
@@ -267,7 +276,11 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
      */
     connect: {
         value: function () {
+            var self = this;
             if (!this._isConnecting) {
+                this.dispatchEventNamed("webSocketStatusChange", true, true, {
+                    status: this.CONNECTION_CONNECTING
+                });
                 this._isConnecting = true;
 
                 if (this._socket) {
@@ -279,6 +292,15 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
 
                     return new Promise(function (resolve, reject) {
                         self._connect(resolve, reject);
+                    }).then(function() {
+                        self.dispatchEventNamed("webSocketStatusChange", true, true, {
+                            status: self.CONNECTION_CONNECTED
+                        });
+                    }, function(err) {
+                        self.dispatchEventNamed("webSocketStatusChange", true, true, {
+                            status: self.CONNECTION_DISCONNECTED
+                        });
+                        throw err;
                     });
                 }
 
@@ -538,6 +560,9 @@ var WebSocketClient = exports.WebSocketClient = Target.specialize({
 
             socket.onclose = function (closeEvent) {
                 self.dispatchEventNamed("webSocketClose", true, true, closeEvent);
+                self.dispatchEventNamed("webSocketStatusChange", true, true, {
+                    status: self.CONNECTION_DISCONNECTED
+                });
                 self.disconnect();
             };
         }

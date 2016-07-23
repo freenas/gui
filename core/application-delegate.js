@@ -2,6 +2,7 @@
 require("./extras/string");
 
 var FreeNASService = require("core/service/freenas-service").FreeNASService,
+    BackEndBridgeModule = require("core/backend/backend-bridge"),
     TopologyService = require("core/service/topology-service").TopologyService,
     SelectionService = require("core/service/selection-service").SelectionService,
     BootEnvironmentService = require("core/service/boot-environment-service").BootEnvironmentService,
@@ -39,6 +40,7 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     willFinishLoading: {
         value: function (app) {
+            app.backendBridge = BackEndBridgeModule.defaultBackendBridge;
             app.dataService = FreeNASService.instance;
             app.topologyService = TopologyService.instance;
             app.selectionService = SelectionService.instance;

@@ -32,12 +32,18 @@
             }
         },
         "host": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "ui/controls/traffic-light.reel",
             "properties": {
-                "element": {"#": "host"}
+                "element": {"#": "host"},
+                "colorMapping": {
+                    "CONNECTED": "green",
+                    "CONNECTING": "yellow",
+                    "DISCONNECTED": "red"
+                }
             },
             "bindings": {
-                "value": {"<-": "@owner.session.host"}
+                "text": {"<-": "@owner.session.host.replace(@owner.dotRegEx, '. ')"},
+                "value": {"<-": "@owner.application.backendBridge.connectionStatus"}
             }
         },
         "date": {
@@ -65,8 +71,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CurrentUserSummary">
-        <div data-montage-id="username" class="CurrentUserSummary-userAvatar">MJ</div>
-        <div data-montage-id="host"></div>
+        <div data-montage-id="username" class="CurrentUserSummary-userAvatar"></div>
+        <div data-montage-id="host" class="CurrentUserSummary-host"></div>
         <div data-montage-id="date"></div>
         <div data-montage-id="time"></div>
     </div>

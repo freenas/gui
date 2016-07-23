@@ -21,3 +21,13 @@
     background: #2B9CD8;
     color: #FFF;
 }
+
+.CurrentUserSummary-host {
+    padding-left: .25em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    word-break: break-word;
+    hyphens: auto;
+    word-spacing: -.25em;
+}
