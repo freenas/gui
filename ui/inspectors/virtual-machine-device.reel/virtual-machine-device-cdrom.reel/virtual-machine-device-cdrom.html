@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="virtual-machine-device-cdrom.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "fileTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": true
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "/"}
+            }
+        },
+        "cdromPath": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "cdromPath"},
+                "label": "Image Path",
+                "controller": {"@": "fileTreeController"}
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.path"},
+                "readOnly": {"<-": "!@owner.editable"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VirtualMachineDeviceCdrom">
+        <div data-montage-id="cdromPath"></div>
+    </div>
+</body>
+</html>

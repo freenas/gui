@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="virtual-machine-device.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": false,
+                "canRevert": false,
+                "canDelete": false
+            }
+        },
+        "selectOptionConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "typeSelect": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "typeSelect"},
+                "label": "Device Type",
+                "converter": {"@": "selectOptionConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.deviceTypes"},
+                "selectedValue": {"<->": "@owner.object.type"}
+            }
+        },
+        "deviceTypePlaceholder": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "deviceTypePlaceholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "'ui/inspectors/virtual-machine-device.reel/virtual-machine-device-' + @owner.object.type.toLowerCase() + '.reel'"},
+                "object": {"<-": "@owner.object.properties"}
+            }
+        },
+        "add": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "add"},
+                "value": "Add Device"
+            }
+        },
+        "remove": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "remove"},
+                "value": "Remove Device"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VirtualMachineDevice">
+        <div data-montage-id="inspector">
+            <div data-montage-id="typeSelect"></div>
+            <div data-montage-id="deviceTypePlaceholder"></div>
+            <div data-montage-id="add"></div>
+            <div data-montage-id="remove"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="virtual-machine-device-disk.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "selectOptionConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "diskSize": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "diskSize"},
+                "label": "Disk Size"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.size"}
+            }
+        },
+        "diskMode": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "diskMode"},
+                "label": "Disk Mode",
+                "converter": {"@": "selectOptionConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.diskModeOptions"},
+                "selectedValue": {"<->": "@owner.object.mode"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VirtualMachineDeviceDisk">
+        <div data-montage-id="diskSize"></div>
+        <div data-montage-id="diskMode"></div>
+    </div>
+</body>
+</html>
