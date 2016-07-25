@@ -38,14 +38,20 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
 
     _handleUserWidgetsChange: {
         value: function (plus, minus) {
-            var index;
+            var index, i, length;
 
-            if (plus && plus.length && (index = this.items.indexOf(plus[0])) > -1) {
-                this.items.splice(index, 1);
+            if (plus && (length = plus.length)) {
+                for (i = 0; i < length; i++) {
+                    if ((index = this.items.indexOf(plus[i])) > -1) {
+                        this.items.splice(index, 1);
+                    }
+                }
             }
 
-            if (minus && minus.length) {
-                this.items.push(minus[0]);
+            if (minus && (length = minus.length)) {
+                for (i = 0; i < length; i++) {
+                    this.items.push(minus[i]);
+                }
             }
         }
     },
