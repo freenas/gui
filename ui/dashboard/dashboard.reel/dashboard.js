@@ -40,9 +40,15 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
         value: function (isFirstTime) {
             AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
 
-            if (!this.userWidgets) {
-                var self = this;
+            var self = this;
 
+            if (isFirstTime) {
+                window.nativeAddEventListener("beforeunload", function () {
+                    self.application.applicationContextService.save();
+                });
+            }
+
+            if (!this.userWidgets) {
                 this.application.applicationContextService.get().then(function (applicationContext) {
                     self.userWidgets = applicationContext.dashboardContext.widgets;
                 });
