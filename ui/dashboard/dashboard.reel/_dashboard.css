@@ -26,6 +26,12 @@
     display: none;
 }
 
+.Dashboard-widget.placeholder{
+    background: #0c5688;
+    min-width: 20px;
+    max-width: 20px;
+}
+
 .Dashboard-openDrawerButton {
     position: absolute;
     bottom: 1em;

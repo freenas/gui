@@ -10,7 +10,7 @@ var AbstractDraggableComponent = require("blue-shark/core/drag-drop/abstract-dra
 exports.WidgetWrapper = AbstractDraggableComponent.specialize(/** @lends WidgetWrapper# */ {
 
     _placeHolderStrategy: {
-        value: "hidden"
+        value: "remove"
     },
 
     isGhostImageCenter: {
