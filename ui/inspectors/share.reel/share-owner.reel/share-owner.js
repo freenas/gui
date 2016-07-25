@@ -33,7 +33,7 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
                 this._object = object;
 
                 if (object) {
-                    this._ensureDefaultPermissionsAreSet(object);
+                    this._ensureDefaultPermissionsAreSet();
                 }
             }
         }
@@ -59,14 +59,16 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
         value: function () {
             this._loadUsersIfNeeded();
             this._loadGroupsIfNeeded();
+            this._ensureDefaultPermissionsAreSet();
         }
     },
 
     _ensureDefaultPermissionsAreSet: {
         value: function (object) {
-            if (!object.permissions || !object.permissions.user || !object.permissions.group) {
-                var permissionsPromise = object.permissions ?
-                    Promise.resolve(object.permissions) : this.application.dataService.getNewInstanceForType(Model.Permissions);
+            var self = this;
+            if (!this._object.permissions || !this._object.permissions.user || !this._object.permissions.group) {
+                var permissionsPromise = this._object.permissions ?
+                    Promise.resolve(this._object.permissions) : this.application.dataService.getNewInstanceForType(Model.Permissions);
 
                 permissionsPromise.then(function (permissions) {
                     if (!permissions.user) {
@@ -76,7 +78,7 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
                         permissions.group = 'wheel';
                     }
 
-                    object.permissions = permissions;
+                    self._object.permissions = permissions;
                 });
             }
         }

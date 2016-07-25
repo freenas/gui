@@ -119,7 +119,6 @@ exports.Share = Component.specialize({
             var self = this;
             if (this._object !== object) {
                 if (object) {
-
                     this._getService(object).then(function (service) {
                         self.service = service;
                         self.isServiceStarted = service.state == 'RUNNING';
