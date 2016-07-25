@@ -1,4 +1,5 @@
-var Montage = require("montage").Montage;
+var Montage = require("montage").Montage,
+    WidgetService = require("core/service/widget-service").WidgetService;
 
 
 exports.ApplicationContext = Montage.specialize({
@@ -27,25 +28,62 @@ exports.ApplicationContext = Montage.specialize({
 
     FromJSON: {
         value: function (applicationContextJson) {
-            var applicationContextTmp;
+            var self = this;
 
-            try {
-                applicationContextTmp = JSON.parse(applicationContextJson);
-            } catch (error) {
-                throw error;
+            return WidgetService.instance.getAvailableWidgets().then(function (widgets) {
+                var applicationContextTmp;
+
+                try {
+                    applicationContextTmp = JSON.parse(applicationContextJson);
+                } catch (error) {
+                    throw error;
+                }
+
+                var applicationContext = new self();
+
+                if (applicationContextTmp._dashboardContext && applicationContextTmp._dashboardContext._widgets) {
+                    applicationContext.dashboardContext._widgets =
+                        self._findWidgetsFromAvailableWidgets(applicationContextTmp._dashboardContext._widgets, widgets);
+                }
+
+                if (applicationContextTmp._sideBarContext && applicationContextTmp._sideBarContext._widgets) {
+                    applicationContext.sideBarContext._widgets =
+                        self._findWidgetsFromAvailableWidgets(applicationContextTmp._sideBarContext._widgets, widgets);
+                }
+
+                return applicationContext;
+            });
+        }
+    },
+
+    _findWidgetsFromAvailableWidgets: {
+        value: function (rawWidgets, availableWidgets) {
+            var widget;
+
+            for (var i = 0, length = rawWidgets.length; i < length; i++) {
+                widget = this._findWidgetFromAvailableWidgetsWithTitle(availableWidgets, rawWidgets[i].title);
+
+                if (widget) {
+                    rawWidgets.splice(i, 1, widget);
+                } else {
+                    console.warn("no widget found for: " + rawWidgets[i].title);
+                }
             }
 
-            var applicationContext = new this();
+            return rawWidgets;
+        }
+    },
 
-            if (applicationContextTmp.dashboardContext) {
-                applicationContext.dashboardContext._widgets = applicationContextTmp.dashboardContext.widgets;
+    _findWidgetFromAvailableWidgetsWithTitle: {
+        value: function (availableWidgets, title) {
+            var mapIterator = availableWidgets.keys(),
+                key;
+
+            while ((key = mapIterator.next().value)) {
+                if (key === title) {
+                    return availableWidgets.get(key);
+                }
             }
-
-            if (applicationContextTmp.sideBarContext) {
-                applicationContext.sideBarContext._widgets = applicationContextTmp.sideBarContext.widgets;
-            }
-
-            return applicationContext;
         }
     }
 
