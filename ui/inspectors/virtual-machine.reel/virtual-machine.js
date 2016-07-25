@@ -61,6 +61,7 @@ exports.VirtualMachine = Component.specialize({
                             this.object.config.ncpus = template.config.ncpus;
                             this.object.template = {name: template.template.name};
                             this.object.guest_type = template.guest_type;
+                            this.object.devices = template.devices;
                             break;
                         }
                     }
@@ -99,13 +100,11 @@ exports.VirtualMachine = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             var self = this,
-                loadingPromises = [];
+                loadingPromises = [],
+                devicesPromise;
+            this.isLoading = true;
             if (isFirstTime) {
-                this.isLoading = true;
                 loadingPromises.push(this._loadTemplates(), this._loadVolumes());
-                Promise.all(loadingPromises).then(function() {
-                    self.isLoading = false;
-                });
             }
             if (!this.object.config) {
                 this.object.config = {ncpus: ""};
@@ -113,8 +112,39 @@ exports.VirtualMachine = Component.specialize({
             if (!this.object.guest_type) {
                 this.object.guest_type = "other";
             }
-
+            devicesPromise = this._populateDeviceList();
+            if (!!devicesPromise) {
+                loadingPromises.push(devicesPromise);
+            }
+            if (loadingPromises.length > 0) {
+                Promise.all(loadingPromises).then(function() {
+                    self.isLoading = false;
+                });
+            } else {
+                this.isLoading = false;
+            }
             this.editMode = !!this.object._isNew ? "edit" : "display";
+        }
+    },
+
+    _populateDeviceList: {
+        value: function() {
+            var self = this,
+                dataService = this.application.dataService,
+                devices = dataService.getEmptyCollectionForType(Model.VmDevice),
+                devicePromises = [];
+            if (!this.object.devices) {
+                this.object.devices = devices;
+            } else if (!this.object.devices._meta_data || this.object.devices._meta_data.collectionModelType !== devices._meta_data.collectionModelType) {
+                if (Array.isArray(this.object.devices)) {
+                    for (var i=0, devicesLength=this.object.devices.length; i<devicesLength; i++) {
+                        devicePromises.push(this._populateDevice(devices, this.object.devices[i], i));
+                    }
+                }
+                return Promise.all(devicePromises).then(function(){
+                    self.object.devices = devices;
+                });
+            }
         }
     },
 
@@ -159,6 +189,21 @@ exports.VirtualMachine = Component.specialize({
             this.object.template = this.object.template === "---" ? null : this.object.template ;
             this.object.target = this.object.target === "---" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
+        }
+    },
+
+    _populateDevice: {
+        value: function(devices, device, index) {
+            var keys = Object.keys(device);
+            return this.application.dataService.getNewInstanceForType(Model.VmDevice).then(function(newDevice) {
+                if (!device._meta_data && device.constructor.Type !== newDevice.constructor.Type) {
+                    for (var i=0, length = keys.length; i<length; i++) {
+                        newDevice[keys[i]] = device[keys[i]];
+                    }
+                    newDevice._isNew = false;
+                    devices[index] = newDevice;
+                }
+            });
         }
     },
 
