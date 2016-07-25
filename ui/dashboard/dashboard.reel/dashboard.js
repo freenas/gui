@@ -97,7 +97,7 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
                 } else {
                     this.userWidgets.push(draggableComponent.object);
                 }
-            } else if (draggableComponent instanceof WidgetWrapper) {
+            } else if (draggableComponent instanceof WidgetWrapper && this._placeHolderAnchor.component.object !== draggableObject) {
                 this.userWidgets.splice(previousIndex, 1);
 
                 indexObjectAnchor = this.userWidgets.indexOf(this._placeHolderAnchor.component.object);
