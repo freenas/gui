@@ -34,15 +34,28 @@
             "properties": {
                 "element": {"#": "loading"}
             }
+        },
+        "removeButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "removeButton"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="Chart">
-        <div data-montage-id="title"></div>
-        <div data-montage-id="loading" class="Chart-loading"></div>
-        <svg data-montage-id="chart" class="Chart-svg"></svg>
+        <header>
+            <div data-montage-id="title" class="Chart-title"></div>
+            <button data-montage-id="removeButton" class="Chart-removeButton">
+                <svg><use xlink:href="#i-trashCan"/></svg>
+            </button>
+        </header>
+        <div class="Chart-body">
+            <div data-montage-id="loading" class="Chart-loading"></div>
+            <svg data-montage-id="chart" class="Chart-svg"></svg>
+        </div>
     </div>
 </body>
 </html>
