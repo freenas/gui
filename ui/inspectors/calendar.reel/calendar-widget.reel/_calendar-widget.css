@@ -1,6 +1,7 @@
 :root {
     --bg: #242628;
-    --titleBg: #2a2e33;
+    --titleBg:  #2a2e33;
+    --buttonBg: #2a2e33;
     --hourHeight: 3rem;
     --calenderStrongLine: #16171a;
     --calenderWeakLine: color(var(--calenderStrongLine) alpha(.3));
@@ -51,11 +52,15 @@
 .Calendar-navigation button {
     font-size: .8em;
     height: 2.5em;
-    background: #2A2E33;
+    background-color: var(--buttonBg);
     color: #939E9F;
     border: 1px solid #0F1213;
     cursor: pointer;
     outline: none;
+
+    &:hover {
+        background-color: color(var(--buttonBg) lightness(25%));
+    }
 }
 
 .Calendar-navigation button:active {
@@ -99,7 +104,7 @@
     cursor: pointer;
 }
 
-.Calendar-navigation-button svg { width: 1.4em;}
+.Calendar-navigation-button svg { width: 1.4em; }
 
 .Calendar-navigation-button:first-child {
     border-top-left-radius:     4px;
@@ -273,7 +278,6 @@ Main Content
     position: relative;
     flex: 1;
     flex-direction: column;
-    /* padding: 0 .15rem; */
 
     &:not(:last-child):before {
         content: '';
@@ -301,7 +305,6 @@ Calendar Events
 */
 
 .CalendarWidget-event {
-    /* width:  calc(100% - .5rem); */
     width: 100%;
     font-size: 1rem;
     display: none;
@@ -319,8 +322,7 @@ Calendar Events
     }
 
     &.event-is-overlayed {
-        /* same as calendar widget bg color */
-        border-color: #242628;
+        border-color: var(--bg);
         right: 0;
         width: auto;
     }
