@@ -39,14 +39,12 @@ exports.Widget = Component.specialize({
 
     enterDocument: {
         value: function() {
-            this._isInDocument = true;
             this._initializeData();
         }
     },
 
     exitDocument: {
         value: function() {
-            this._isInDocument = false;
             var i, length;
             if (this._subscribedUpdates) {
                 for (i = 0, length = this._subscribedUpdates.length; i < length; i++) {
@@ -97,7 +95,7 @@ exports.Widget = Component.specialize({
                 serie.disabled = self.disabledMetrics && self.disabledMetrics.indexOf(metric) != -1;
                 return self.chart.addSerie(serie);
             }).then(function() {
-                if (self._isInDocument) {
+                if (self._inDocument) {
                     return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
                         self._eventToKey[eventType] = key;
                         self._subscribedUpdates.push(event);
