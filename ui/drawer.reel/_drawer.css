@@ -1,10 +1,10 @@
-/*FIXME: @JOSHUA*/
 .Drawer {
-    background-color: #191919;
+    background-color: #16171A;
     user-select: none;
-    margin-top: -3em;
+    display: none;
 
     &.is-open {
+        display: block;
          position: relative;
          bottom: 0;
          left: 0;
@@ -21,15 +21,15 @@
     right: 0;
     height: 100%;
 }
-/*FIXME: @JOSHUA*/
 
 .Drawer > header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #000;
+    align-items: center;
     height: 3em;
     padding: 0 1rem;
+    background: #242628;
 }
 
 .Drawer-close {
@@ -44,6 +44,8 @@
 .Drawer-title {
     font-size: 1em;
     margin: 0;
+    color: #e6e6e6;
+    /* font-weight: 200; */
 }
 
 .Drawer-items {
@@ -59,4 +61,10 @@
     &:not(:last-child) {
         margin-right: 1em;
     }
+}
+
+.Drawer .Dashboard-openDrawerButton {
+    position: relative;
+    right: auto;
+    bottom: auto;
 }

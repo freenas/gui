@@ -14,9 +14,10 @@
             }
         },
         "openDrawerButton": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "openDrawerButton"}
+                "element": {"#": "openDrawerButton"},
+                "value": "Edit Dashboard"
             }
         },
 
@@ -45,9 +46,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Dashboard">
-        <button data-montage-id="openDrawerButton" class="Dashboard-openDrawerButton">
-            <svg><use xlink:href="#i-circle-plus"/></svg>
-        </button>
+        <button data-montage-id="openDrawerButton" class="Dashboard-openDrawerButton"></button>
         <div data-montage-id="widgets" class="Dashboard-widgets">
             <div data-montage-id="widget-wrapper" class="Dashboard-widget"></div>
         </div>

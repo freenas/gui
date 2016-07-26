@@ -46,9 +46,10 @@
             }
         },
         "closeButton": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "closeButton"}
+                "element": {"#": "closeButton"},
+                "value": "Done Editing"
             }
         }
     }
@@ -58,9 +59,7 @@
     <div data-montage-id="owner" class="Drawer">
         <header>
             <h1 class="Drawer-title">Drag to add widgets</h1>
-            <button data-montage-id="closeButton" class="Drawer-close">
-                <svg><use xlink:href="#i-close"/></svg>
-            </button>
+            <button data-montage-id="closeButton" class="Dashboard-openDrawerButton"></button>
         </header>
         <div class="DrawerContent">
             <div data-montage-id="horizontalScroll">
