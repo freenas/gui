@@ -6,12 +6,6 @@ var Component = require("montage/ui/component").Component;
  */
 var AbstractComponentActionDelegate = exports.AbstractComponentActionDelegate = Component.specialize({
 
-
-    //Fixme: workaround for the eventManager
-    __ACTION_EVENT_SET: {
-        value: false
-    },
-
     enterDocument: {
         value: function () {
             AbstractComponentActionDelegate.prototype._addEventListenerIfNeeded.call(this);
@@ -40,11 +34,9 @@ var AbstractComponentActionDelegate = exports.AbstractComponentActionDelegate = 
 
     _addEventListenerIfNeeded: {
         value: function () {
-            // FIXME: there is a bug in the event manager:
-            // -> It's possible to add several event listeners for the same listener and the event type.
             // FIXME: Possible bug in within the placeholder:
             // -> enterDocument gets call when the component is not in the document.
-            if (this.preparedForActivationEvents && this._inDocument && !this.__ACTION_EVENT_SET) {
+            if (this.preparedForActivationEvents && this._inDocument) {
                 AbstractComponentActionDelegate.prototype._addEventListener.call(this);
             }
         }
@@ -52,7 +44,6 @@ var AbstractComponentActionDelegate = exports.AbstractComponentActionDelegate = 
 
     _addEventListener: {
         value: function () {
-            this.__ACTION_EVENT_SET = true;
             this.addEventListener("action", this, false);
         }
     },
@@ -60,7 +51,6 @@ var AbstractComponentActionDelegate = exports.AbstractComponentActionDelegate = 
     _removeEventListenersIfNeeded: {
         value: function () {
             if (this.preparedForActivationEvents) {
-                this.__ACTION_EVENT_SET = false;
                 this.removeEventListener("action", this, false);
             }
         }
