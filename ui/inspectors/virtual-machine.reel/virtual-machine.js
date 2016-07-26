@@ -58,13 +58,32 @@ exports.VirtualMachine = Component.specialize({
         set: function(object) {
             if (this._object !== object) {
                 this._object = object;
-                if (object && object.template) {
-                    this.templateName = object.template.name;
+                if (object) {
+                    if (object.template) {
+                        this.templateName = object.template.name;
+                    }
+                    if (object.config) {
+                        this.memorySize = object.config.memsize;
+                    }
                 }
             }
         }
     },
 
+    _memorySize: {
+        value: null
+    },
+
+    memorySize: {
+        get: function() {
+            return this._memorySize;
+        },
+        set: function(memorySize) {
+            if (this._memorySize !== memorySize) {
+                this._memorySize = memorySize;
+            }
+        }
+    },
     _templateName: {
         value: null
     },
@@ -146,13 +165,14 @@ exports.VirtualMachine = Component.specialize({
     exitDocument: {
         value: function() {
             this.templateName = null;
+            this.memorySize = null;
         }
     },
 
     _populateObjectWithTemplate: {
         value: function(template) {
             this.object.config = {};
-            this.object.config.memsize = template.config.memsize;
+            this.memorySize = this.object.config.memsize = template.config.memsize;
             this.object.config.ncpus = template.config.ncpus;
             this.object.template = {name: template.template.name};
             this.object.guest_type = template.guest_type;
@@ -205,7 +225,7 @@ exports.VirtualMachine = Component.specialize({
 
     save: {
         value: function() {
-            var parsedMemsize = this.object.config.memsize.toString().match(this.application.storageService.SCALED_NUMERIC_RE_),
+            var parsedMemsize = this._memorySize.toString().match(this.application.storageService.SCALED_NUMERIC_RE_),
                 memsize,
                 memsizePrefix,
                 memsizeMultiplier = 1;
