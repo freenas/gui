@@ -130,6 +130,7 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
     didComponentDragEnd: {
         value: function () {
             this._hasComponentDragging = false;
+            this._needsUpdatePlaceHolder = false;
             this._placeHolderAnchor = null;
             this._placeHolderAnchorPosition = null;
             this.needsDraw = true;
