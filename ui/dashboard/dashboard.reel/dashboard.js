@@ -1,4 +1,5 @@
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
     DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem;
 
@@ -39,6 +40,7 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
             var self = this;
 
@@ -58,7 +60,22 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
 
     exitDocument: {
         value: function () {
+            AbstractDropZoneComponent.prototype.exitDocument.call(this);
+            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
+
             this.application.isDrawerOpen = false;
+        }
+    },
+
+    handleRemoveWidgetButtonAction: {
+        value: function (event) {
+            if (this.application.isDrawerOpen) {
+                var iteration = this._widgetsRepetition._findIterationContainingElement(event.target.element);
+
+                if (iteration) {
+                    this.userWidgets.splice(this.userWidgets.indexOf(iteration.object), 1);
+                }
+            }
         }
     },
 

@@ -58,3 +58,10 @@
         display: none;
     }
 }
+
+
+/*FIXME: @joshua*/
+.Dashboard.drawer-is-open .Chart-removeButton {
+    display: block;
+}
+/*FIXME: @joshua*/
