@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="drawer.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "_drawerItems": {"@": "items"}
             },
             "bindings": {
                 "classList.has('is-open')": {"<-": "@owner.application.isDrawerOpen"}

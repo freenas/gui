@@ -2,7 +2,9 @@
  * @module ui/drawer.reel
  */
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
     WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
+    DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem,
     Promise = require("montage/core/promise").Promise;
 
 /**
@@ -14,6 +16,7 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
     enterDocument: {
         value: function (isFirstTime) {
             AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
             if (!this.applicationContext && !this._loadingPromise) {
                 var self = this;
@@ -32,6 +35,54 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
                 }).finally(function () {
                     self._loadingPromise = null;
                 });
+            }
+        }
+    },
+
+    exitDocument: {
+        value: function () {
+            AbstractDropZoneComponent.prototype.exitDocument.call(this);
+            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
+
+            this._unToggledCurrentDrawerItemIfNeeded();
+        }
+    },
+
+    handleInfoToggleAction: {
+        value: function (event) {
+            var iteration = this._drawerItems._findIterationContainingElement(event.target.element);
+
+            if (iteration) {
+                var component,
+                    i = 0;
+
+                while ((component = iteration._childComponents[i++])) {
+                    if (component instanceof DrawerItem) {
+                        component.hasToggled = !component.hasToggled;
+
+                        if (component.hasToggled && this._previousToggledDrawerItem && this._previousToggledDrawerItem !== component) {
+                            this._previousToggledDrawerItem.hasToggled = false;
+                        }
+
+                        this._previousToggledDrawerItem = component;
+                        break;
+                    }
+                }
+            }
+        }
+    },
+
+    handleCloseButtonAction: {
+        value: function () {
+            this.application.isDrawerOpen = false;
+            this._unToggledCurrentDrawerItemIfNeeded();
+        }
+    },
+
+    _unToggledCurrentDrawerItemIfNeeded: {
+        value: function () {
+            if (this._previousToggledDrawerItem) {
+                this._previousToggledDrawerItem.hasToggled = false;
             }
         }
     },

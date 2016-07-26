@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="drawer-item.css">
     <script type="text/montage-serialization">
     {
@@ -9,12 +8,6 @@
             "properties": {
                 "element": {"#": "owner"}
             },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ],
             "bindings": {
                 "classList.has('has-toggled')": {"<-": "@owner.hasToggled"}
             }

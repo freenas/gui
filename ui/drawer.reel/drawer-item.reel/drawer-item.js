@@ -12,13 +12,7 @@ exports.DrawerItem = AbstractDraggableComponent.specialize(/** @lends DrawerItem
     hasToggled: {
         value: false
     },
-
-    handleInfoToggleAction: {
-        value: function () {
-            this.hasToggled = !this.hasToggled;
-        }
-    },
-
+    
     _placeHolderStrategy: {
         value: "hidden"
     },

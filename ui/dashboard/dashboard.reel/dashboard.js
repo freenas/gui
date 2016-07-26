@@ -79,6 +79,12 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
         }
     },
 
+    handleOpenDrawerButtonAction: {
+        value: function () {
+            this.application.isDrawerOpen = true;
+        }
+    },
+
     shouldAcceptComponent: {
         value: function (draggableComponent) {
             return this.userWidgets && (draggableComponent instanceof DrawerItem || draggableComponent instanceof WidgetWrapper);
