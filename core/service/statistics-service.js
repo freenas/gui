@@ -43,8 +43,7 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
             endDate = endDate || new Date();
             startDate = startDate || new Date(endDate.getTime() - (periodInSecs * 100 * 1000));
             return this._callBackend("stat.get_stats", [datasource, {
-                start:  {"$date": startDate.toISOString()},
-                end:    {"$date": endDate.toISOString()},
+                timespan:   periodInSecs*100,
                 frequency:  periodInSecs + 's'
             }]).then(function(response) {
                 return response.data.data;

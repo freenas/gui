@@ -88,7 +88,7 @@ exports.Widget = Component.specialize({
             return self._statisticsService.getDatasourceHistory(path).then(function (values) {
                 serie.values = values.map(function (value) {
                         return {
-                            x: value[0] * 1000,
+                            x: self._dateToTimestamp(value[0]),
                             y: self.transformValue(+value[1])
                         }
                     });
@@ -148,10 +148,16 @@ exports.Widget = Component.specialize({
             var key = this._eventToKey[event.type];
             if (key) {
                 this.chart.addPoint(key, {
-                    x: Math.floor((new Date(event.detail.timestamp.$date).getTime() - this._timezoneOffset) / 1000) * 1000,
+                    x: this._dateToTimestamp(event.detail.timestamp),
                     y: this.transformValue(event.detail.value)
                 });
             }
+        }
+    },
+
+    _dateToTimestamp: {
+        value: function(date) {
+            return Math.floor((new Date(date.$date).getTime() - this._timezoneOffset) / 1000) * 1000
         }
     }
 });

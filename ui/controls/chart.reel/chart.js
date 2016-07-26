@@ -127,9 +127,8 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             if (series) {
                 var points = series.values,
                     isPointToBeAdded = false;
-                if (points && point.length > 0) {
+                if (points && points.length > 0) {
                     if (points.slice(-1)[0].x < point.x) {
-                        point.name = series.key;
                         if (points.length > 100) {
                             points.shift();
                         }
@@ -139,6 +138,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                     isPointToBeAdded = true;
                 }
                 if (isPointToBeAdded) {
+                    point.name = series.key;
                     points.push(point);
                     this._datasets[key] = this._seriesToDataset(series);
                     this._refresh();
