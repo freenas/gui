@@ -7,35 +7,33 @@
 
 .Notifications-header {
     position: relative;
+    display: flex;
+    align-items: center;
     background-color: #404040;
     padding: .5em;
-    padding-left: 2.5em;
     border-top-right-radius: 2px;
     border-top-left-radius:  2px;
 }
 
 .Notifications-icon {
-    position: absolute;
-    left: .5em;
-    top: 50%;
-    margin-top: -.75em;
     height: 1.5em;
     width:  1.5em;
     margin-right: .5em;
-    display: inline-block;
 }
 
 .Notifications-title {
     font-weight: 400;
+    flex: 1;
 }
 
-/*@FIXME: @joshua */
 .Notifications-clear {
-    position: absolute;
-    top: 25%;
-    right: .5em;
+    color: inherit;
+    padding: .5em 0;
+
+    &:hover {
+        color: color(#929E9F lightness(80%));
+    }
 }
-/*@FIXME: @joshua */
 
 .Notifications-body {
     position: relative;
