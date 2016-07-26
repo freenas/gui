@@ -18,6 +18,12 @@
             "bindings": {
                 "moduleId": {"<-": "@owner.object.moduleId"}
             }
+        },
+        "removeButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "removeButton"}
+            }
         }
     }
     </script>
@@ -25,6 +31,9 @@
 <body>
     <div data-montage-id="owner" class="WidgetWrapper">
         <div data-montage-id="placeholder"></div>
+        <button data-montage-id="removeButton" class="WidgetWrapper-removeButton">
+            <svg><use xlink:href="#i-trashCan"/></svg>
+        </button>
     </div>
 </body>
 </html>

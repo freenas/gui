@@ -30,24 +30,6 @@
     border-top-right-radius: 4px;
 }
 
-.Chart-removeButton {
-    display: none;
-    right: -.5rem;
-    top: -.5rem;
-    position: absolute;
-    width:  2rem;
-    height: 2rem;
-    background: #E0003A;
-    border-radius: 50%;
-    padding: .5rem;
-    color: #fff;
-    box-shadow: 0 2px 2px 1px rgba(0,0,0,.3);
-
-    &:hover {
-        background: color(#E0003A lightness(40%));
-    }
-}
-
 .Chart-body { overflow: hidden; }
 
 .Chart-loading {
