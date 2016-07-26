@@ -17,63 +17,62 @@
                 "content": [
                     {
                         "value": "dashboard",
-                        "label": "Dashboard"
+                        "label": "Dashboard",
+                        "icon": "dashboard"
                     },
                     {
                         "value": "storage",
-                        "label": "Storage"
+                        "label": "Storage",
+                        "icon": "storage"
                     },
                     {
                         "value": "accounts",
-                        "label": "Accounts"
+                        "label": "Accounts",
+                        "icon": "user"
                     },
                     {
                         "value": "network",
-                        "label": "Network"
+                        "label": "Network",
+                        "icon": "network"
                     },
                     {
                         "value": "system",
-                        "label": "Settings"
+                        "label": "Settings",
+                        "icon": "settings"
                     },
                     {
                         "value": "services",
-                        "label": "Services"
+                        "label": "Services",
+                        "icon": ""
                     },
                     {
                         "value": "console",
-                        "label": "Console"
+                        "label": "Console",
+                        "icon": ""
                     },
                     {
                         "value": "calendar",
-                        "label": "Calendar"
+                        "label": "Calendar",
+                        "icon": ""
                     },
                     {
                         "value": "containers",
-                        "label": "Containers"
+                        "label": "Containers",
+                        "icon": ""
                     }
                 ]
             }
         },
 
         "item": {
-            "prototype": "montage/ui/component",
+            "prototype": "ui/main-sidebar/main-navigation.reel/main-navigation-item.reel",
             "properties": {
-                "element": {"#": "item"},
-                "hasTemplate": false
+                "element": {"#": "item"}
             },
             "bindings": {
                 "iteration": {"<-": "@repetition:iteration"},
-                "iteration.selected": {"<->": "application.section == iteration.object.value"}
-            }
-        },
-
-        "itemLabel": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "item-label"}
-            },
-            "bindings": {
-                "value": {"<-": "@repetition:iteration.object.label"}
+                "object": {"<-": "iteration.object"},
+                "iteration.selected": {"<->": "application.section == object.value"}
             }
         },
 
@@ -92,9 +91,7 @@
 <body>
     <div data-montage-id="owner" class="MainNavigation">
         <div data-montage-id="repetition" class="MainNavigation-repetition">
-            <div data-montage-id="item" class="MainNavigationItem">
-                <div data-montage-id="item-label"></div>
-            </div>
+            <div data-montage-id="item"></div>
         </div>
         <div data-montage-id="preferences" class="MainNavigation-preferences">
             <svg>
