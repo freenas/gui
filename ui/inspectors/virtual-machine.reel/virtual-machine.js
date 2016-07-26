@@ -47,59 +47,73 @@ exports.VirtualMachine = Component.specialize({
         }
     },
 
+    _object: {
+        value: null
+    },
+
+    object: {
+        get: function() {
+            return this._object;
+        },
+        set: function(object) {
+            if (this._object !== object) {
+                this._object = object;
+                if (object && object.template) {
+                    this.templateName = object.template.name;
+                }
+            }
+        }
+    },
+
     _templateName: {
         value: null
     },
 
     templateName: {
+        get: function() {
+            return this._templateName;
+        },
         set: function(templateName) {
-            var templates = this.templates,
-                template;
-            if (templateName === null) {
-                this._templateName = null;
-            } else if (!!templates) {
-                if (!this.object.template || this.object.template.name !== templateName) {
+            var self = this;
+            if (this._templateName !== templateName) {
+                this._templateName = templateName;
+                this._loadTemplates().then(function(templates) {
                     for (var i = 0, length = templates.length; i<length; i++) {
-                        if (templates[i].template.name === templateName) {
-                            template = templates[i];
-                            this.object.config = {};
-                            this.object.config.memsize = template.config.memsize;
-                            this.object.config.ncpus = template.config.ncpus;
-                            this.object.template = {name: template.template.name};
-                            this.object.guest_type = template.guest_type;
-                            this.object.devices = template.devices;
+                        template = templates[i];
+                        if (template.template.name === templateName) {
+                            self._populateObjectWithTemplate(template);
                             break;
                         }
                     }
-                }
-            } else {
-                console.warn("Templates not loaded!");
+                });
             }
-        },
-
-        get: function() {
-            return this._templateName;
         }
     },
 
     constructor: {
         value: function() {
             this._guestOptionLabels = new Dict({
-                "linux32": "Linux (32-bit)",
-                "linux64": "Linux (64-bit)",
-                "freebsd32": "FreeBSD (32-bit)",
-                "freebsd64": "FreeBSD (64-bit)",
-                "netbsd32": "NetBSD (32-bit)",
-                "netbsd64": "NetBSD (64-bit)",
-                "openbsd32": "OpenBSD (32-bit)",
-                "openbsd64": "OpenBSD (64-bit)",
-                "windows64": "Windows (64-bit)",
-                "solaris64": "Solaris (64-bit)",
-                "other": "Other",
-                "other32": "Other (32-bit)",
-                "other64": "Other (64-bit)"
+                "linux32":      "Linux (32-bit)",
+                "linux64":      "Linux (64-bit)",
+                "freebsd32":    "FreeBSD (32-bit)",
+                "freebsd64":    "FreeBSD (64-bit)",
+                "netbsd32":     "NetBSD (32-bit)",
+                "netbsd64":     "NetBSD (64-bit)",
+                "openbsd32":    "OpenBSD (32-bit)",
+                "openbsd64":    "OpenBSD (64-bit)",
+                "windows64":    "Windows (64-bit)",
+                "solaris64":    "Solaris (64-bit)",
+                "other":        "Other",
+                "other32":      "Other (32-bit)",
+                "other64":      "Other (64-bit)"
             });
             this._initializeGuestTypeOptions();
+        }
+    },
+
+    templateDidLoad: {
+        value: function() {
+            this._loadTemplates();
         }
     },
 
@@ -109,6 +123,7 @@ exports.VirtualMachine = Component.specialize({
                 loadingPromises = [],
                 devicesPromise;
             this.isLoading = true;
+            this.editMode = this.object._isNew ? "edit" : "display";
             if (isFirstTime) {
                 loadingPromises.push(this._loadTemplates(), this._loadVolumes());
             }
@@ -119,23 +134,29 @@ exports.VirtualMachine = Component.specialize({
                 this.object.guest_type = "other";
             }
             devicesPromise = this._populateDeviceList();
-            if (!!devicesPromise) {
+            if (devicesPromise) {
                 loadingPromises.push(devicesPromise);
             }
-            if (loadingPromises.length > 0) {
-                Promise.all(loadingPromises).then(function() {
-                    self.isLoading = false;
-                });
-            } else {
-                this.isLoading = false;
-            }
-            this.editMode = !!this.object._isNew ? "edit" : "display";
+            Promise.all(loadingPromises).then(function() {
+                self.isLoading = false;
+            });
         }
     },
 
     exitDocument: {
         value: function() {
             this.templateName = null;
+        }
+    },
+
+    _populateObjectWithTemplate: {
+        value: function(template) {
+            this.object.config = {};
+            this.object.config.memsize = template.config.memsize;
+            this.object.config.ncpus = template.config.ncpus;
+            this.object.template = {name: template.template.name};
+            this.object.guest_type = template.guest_type;
+            this.object.devices = template.devices;
         }
     },
 
@@ -163,10 +184,12 @@ exports.VirtualMachine = Component.specialize({
     _loadTemplates: {
         value: function() {
             var self = this;
-
-            return this.application.virtualMachineService.getTemplates().then(function(templates) {
-                self.templates = templates;
-            });
+            if (!this._templatesPromise) {
+                this._templatesPromise = this.application.virtualMachineService.getTemplates().then(function(templates) {
+                    return self.templates = templates;
+                });
+            }
+            return this._templatesPromise;
         }
     },
 
