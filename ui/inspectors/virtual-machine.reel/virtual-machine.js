@@ -47,11 +47,17 @@ exports.VirtualMachine = Component.specialize({
         }
     },
 
-    templateSetting: {
+    _templateName: {
+        value: null
+    },
+
+    templateName: {
         set: function(templateName) {
             var templates = this.templates,
                 template;
-            if (!!templates) {
+            if (templateName === null) {
+                this._templateName = null;
+            } else if (!!templates) {
                 if (!this.object.template || this.object.template.name !== templateName) {
                     for (var i = 0, length = templates.length; i<length; i++) {
                         if (templates[i].template.name === templateName) {
@@ -72,7 +78,7 @@ exports.VirtualMachine = Component.specialize({
         },
 
         get: function() {
-            return !!this.object.template ? this.object.template.name : "none";
+            return this._templateName;
         }
     },
 
@@ -124,6 +130,12 @@ exports.VirtualMachine = Component.specialize({
                 this.isLoading = false;
             }
             this.editMode = !!this.object._isNew ? "edit" : "display";
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.templateName = null;
         }
     },
 
@@ -186,7 +198,7 @@ exports.VirtualMachine = Component.specialize({
             }
 
             this.object.config.memsize = memsize * memsizeMultiplier;
-            this.object.template = this.object.template === "---" ? null : this.object.template ;
+            this.object.template = this.templateName === "---" ? null : this.object.template;
             this.object.target = this.object.target === "---" ? null : this.object.target;
             this.application.dataService.saveDataObject(this.object);
         }
