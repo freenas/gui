@@ -21,13 +21,14 @@
 }
 
 .AvailableDisks .FoldableSection-expand {
-    padding-left:  1em;
-    margin: 0;
+    padding: 0;
+    margin:  0;
 }
 
 .AvailableDisks .FoldableSection-expand svg { right: 1em; }
 
-.AvailableDisks .FoldableSection-contentContainer { padding: .5em; }
+.AvailableDisks .FoldableSection-content { padding: 0; }
+.AvailableDisks .FoldableSection-contentContainer { padding: .5em 0 .5em .5em; }
 
 
 .AvailableDisks-category.is-hidden { display: none; }
