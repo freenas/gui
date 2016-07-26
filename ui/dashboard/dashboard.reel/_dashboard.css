@@ -24,9 +24,7 @@
     height: 15em;
 }
 
-.Dashboard-widget.is-hidden {
-    display: none;
-}
+.Dashboard-widget.is-hidden { display: none; }
 
 .Dashboard-widget.placeholder{
     background: #0c5688;
