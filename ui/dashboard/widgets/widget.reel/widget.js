@@ -140,7 +140,7 @@ exports.Widget = Component.specialize({
                 setTimeout(function() {
                     self.chart.finishRendering();
                 }, 1000);
-                this._isFetchingStatistics = false;
+                self._isFetchingStatistics = false;
             });
         }
     },
