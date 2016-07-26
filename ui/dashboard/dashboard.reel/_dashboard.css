@@ -3,6 +3,11 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+
+    & > main {
+        position: relative;
+        overflow-y: auto;
+    }
 }
 
 .Dashboard-widgets {
