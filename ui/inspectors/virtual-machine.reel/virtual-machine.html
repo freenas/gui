@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"}
             },
+            "bindings": {
+                "classList.has('has-actions')": {"<-": "!@owner.object._isNew"}
+            },
             "listeners": [
                 {
                     "type": "action",
@@ -228,29 +231,14 @@
                 "object": {"<->": "@owner.object.devices"}
             }
         },
-        "startCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "startCondition"}
-            },
-            "bindings": {
-                "condition": {"<-": "@owner.object.status.state == 'STOPPED'"}
-            }
-        },
         "start": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "start"},
                 "value": "Start"
-            }
-        },
-        "stopCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "stopCondition"}
             },
             "bindings": {
-                "condition": {"<-": "@owner.object.status.state != 'STOPPED'"}
+                "enabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
         "stop": {
@@ -258,15 +246,9 @@
             "properties": {
                 "element": {"#": "stop"},
                 "value": "Stop"
-            }
-        },
-        "rebootCondition": {
-            "prototype": "montage/ui/condition.reel",
-            "properties": {
-                "element": {"#": "rebootCondition"}
             },
             "bindings": {
-                "condition": {"<-": "!@owner.object._isNew"}
+                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
             }
         },
         "reboot": {
@@ -303,13 +285,9 @@
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
             <div data-montage-id="devices"></div>
-            <div data-montage-id="startCondition">
+            <div class="VirtualMachine-actions">
                 <div data-montage-id="start"></div>
-            </div>
-            <div data-montage-id="stopCondition">
                 <div data-montage-id="stop"></div>
-            </div>
-            <div data-montage-id="rebootCondition">
                 <div data-montage-id="reboot"></div>
             </div>
         </div>
