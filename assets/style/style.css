@@ -218,6 +218,10 @@ $Icons
     margin-bottom: 1em;
 }
 
+.g-negative-margin-top {
+    margin-top: -1em;
+}
+
 .flush-bottom {
     margin-bottom: 0;
 }

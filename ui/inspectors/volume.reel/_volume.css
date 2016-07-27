@@ -35,9 +35,9 @@
     line-height: 1rem;
 }
 
-.Volume .Inspector-body {
+/* .Volume .Inspector-body {
     margin: 0;
-}
+} */
 
 .Volume-allocationBar {
     height: 1.5em !Important;
