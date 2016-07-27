@@ -18,6 +18,7 @@ exports.SystemSection = Component.specialize({
                 case "languageAndRegion":
                 case "debug":
                 case "hardware":
+                case "WebUI":
                     this.canSave = true;
                     this.canRevert = true;
                     break;
