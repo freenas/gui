@@ -2,7 +2,8 @@
  * @module ui/controls/foldable-section.reel
  */
 var Component = require("montage/ui/component").Component,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+    KeyComposer = require("montage/composer/key-composer").KeyComposer;
 
 /**
  * @class FoldableSection
@@ -28,11 +29,10 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
         }
     },
 
-    handleTransitionend: {
-        value: function (event) {
-            if (this._isExpanded) {
-                this.element.style.overflow = "visible";
-            }
+    _toggleSection: {
+        value: function(event) {
+            this.isExpanded = !this.isExpanded;
+            event.stopPropagation();
         }
     },
 
@@ -50,6 +50,20 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
                 childList: true,
                 attributes: true
             });
+        }
+    },
+
+    prepareForActivationEvents: {
+        value: function() {
+                KeyComposer.createKey(this, "enter", "enter").addEventListener("keyPress", this);
+        }
+    },
+
+    handleEnterKeyPress: {
+        value: function(event) {
+            if(document.activeElement == this.element) {
+                this._toggleSection(event);
+            }
         }
     },
 
@@ -72,11 +86,7 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     handleExpandButtonAction: {
         value: function(event) {
-            if(this._isExpanded) {
-                this.element.style.overflow = "hidden";
-            }
-            this.isExpanded = !this.isExpanded;
-            event.stopPropagation();
+            this._toggleSection(event);
         }
     },
 

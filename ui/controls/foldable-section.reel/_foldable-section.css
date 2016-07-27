@@ -3,6 +3,20 @@
     position: relative;
     margin: 0 -1em;
     margin-bottom: 1em;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus .FoldableSection-expand:before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: calc(1em + 2px);
+        right: calc(1em + 2px);
+        bottom: 2px;
+        box-shadow: 0 0 2px 2px #2089D3;
+    }
 }
 
 /*
