@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="web-ui.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "protocols": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "protocols"},
+                "label": "Protocol"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.PROTOCOL_OPTIONS"},
+                "selectedValue": {"<->": "@owner.object.webui_protocol"}
+            }
+        },
+        "AllowAllIPAddress": {
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "properties": {
+                "element": {"#": "AllowAllIPAddress"},
+                "label": "ISNS Servers",
+                "labelPath": "this",
+                "isDraggable": true
+            },
+            "bindings": {
+                "values": {"<->": "@owner.object.webui_listen"},
+                "placeholderValue": {"<-": "!@owner.object.webui_listen ? 'eg. example.com' : ''"}
+            }
+        },
+        "RedirectHTTP": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "RedirectHTTP"},
+                "label": "Enable Redirect"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.webui_http_redirect_https"}
+            }
+        },
+        "httpPortValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "Port must be an integer between 1 and 65535"
+            }
+        },
+        "httpPortConverter": {
+            "prototype": "core/converter/string-to-integer-converter",
+            "properties": {
+                "validator": {"@": "httpPortValidator"}
+            }
+        },
+        "httpPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "httpPort"},
+                "label": "HTTP Port",
+                "converter" : {"@": "httpPortConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.webui_http_port"}
+            }
+        },
+        "httpsPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "httpsPort"},
+                "label": "HTTPS Port",
+                "converter" : {"@": "httpPortConverter"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.webui_https_port"}
+            }
+        },
+        "SSLCertificate": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "SSLCertificate"},
+                "label": "SSL/TLS Certificate"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.Webui_Https_Certificate_Options"},
+                "selectedValue": {"<->": "@owner.object.webui_https_certificate"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="WebUi">
+        <div data-montage-id="protocols"></div>
+        <div data-montage-id="httpPort"></div>
+        <div data-montage-id="httpsPort"></div>
+        <div data-montage-id="SSLCertificate"></div>
+        <div data-montage-id="RedirectHTTP"></div>
+        <div data-montage-id="AllowAllIPAddress"></div>
+    </div>
+</body>
+</html>
