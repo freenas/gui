@@ -13,6 +13,7 @@ exports.System = Component.specialize({
             if (isFirstTime) {
                 var sectionsPromises = [],
                     i = 0;
+                sectionsPromises.push(this._createSection("WebUI", "WebUI", "path", i++));
                 sectionsPromises.push(this._createSection("bootPool", "Boot Pool", "path", i++));
                 sectionsPromises.push(this._createSection("updates", "Updates", "path", i++));
                 sectionsPromises.push(this._createSection("serialConsole", "Console", "path", i++));
