@@ -134,7 +134,8 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.groupOptions.filter{id != @owner.object.group}.sorted{builtin + name}"},
-                "values": {"<->": "@owner.additionalGroups"}
+                "values": {"<->": "@owner.additionalGroups"},
+                "enabled": {"<-": "@groupsSection.isExpanded"}
             }
         },
         "home": {

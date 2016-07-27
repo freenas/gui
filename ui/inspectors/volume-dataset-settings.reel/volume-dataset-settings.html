@@ -69,7 +69,8 @@
                 "converter": {"@": "sizeConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.quota.value"}
+                "value": {"<->": "@owner.object.properties.quota.value"},
+                "enabled": {"<-": "@advancedSection.isExpanded"}
             }
         },
         "refquota": {
@@ -80,7 +81,8 @@
                 "converter": {"@": "sizeConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.refquota.value"}
+                "value": {"<->": "@owner.object.properties.refquota.value"},
+                "enabled": {"<-": "@advancedSection.isExpanded"}
             }
         },
         "reservation": {
@@ -91,7 +93,8 @@
                 "converter": {"@": "sizeConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.reservation.value"}
+                "value": {"<->": "@owner.object.properties.reservation.value"},
+                "enabled": {"<-": "@advancedSection.isExpanded"}
             }
         },
         "refreservation": {
@@ -102,7 +105,8 @@
                 "converter": {"@": "sizeConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.object.properties.refreservation.value"}
+                "value": {"<->": "@owner.object.properties.refreservation.value"},
+                "enabled": {"<-": "@advancedSection.isExpanded"}
             }
         },
         "advancedSection": {
