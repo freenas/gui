@@ -2,7 +2,6 @@
 require("./extras/string");
 
 var FreeNASService = require("core/service/freenas-service").FreeNASService,
-    BackEndBridgeModule = require("core/backend/backend-bridge"),
     TopologyService = require("core/service/topology-service").TopologyService,
     SelectionService = require("core/service/selection-service").SelectionService,
     BootEnvironmentService = require("core/service/boot-environment-service").BootEnvironmentService,
@@ -12,6 +11,7 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     FilesystemService = require("core/service/filesystem-service").FilesystemService,
     StatisticsService = require("core/service/statistics-service").StatisticsService,
     SystemService = require("core/service/system-service").SystemService,
+    SystemUIService = require("core/service/system-ui-service").SystemUIService,
     SystemInfoService = require("core/service/system-info-service").SystemInfoService,
     SystemDeviceService = require("core/service/system-device-service").SystemDeviceService,
     SystemGeneralService = require("core/service/system-general-service").SystemGeneralService,
@@ -40,7 +40,6 @@ exports.ApplicationDelegate = Montage.specialize({
      */
     willFinishLoading: {
         value: function (app) {
-            app.backendBridge = BackEndBridgeModule.defaultBackendBridge;
             app.dataService = FreeNASService.instance;
             app.topologyService = TopologyService.instance;
             app.selectionService = SelectionService.instance;
@@ -51,6 +50,7 @@ exports.ApplicationDelegate = Montage.specialize({
             app.filesystemService = FilesystemService.instance;
             app.statisticsService = StatisticsService.instance;
             app.systemService = SystemService.instance;
+            app.systemUIService = SystemUIService.instance;
             app.systemInfoService = SystemInfoService.instance;
             app.systemGeneralService = SystemGeneralService.instance;
             app.systemDeviceService = SystemDeviceService.instance;
