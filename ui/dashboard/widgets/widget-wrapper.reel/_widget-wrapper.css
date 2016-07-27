@@ -3,7 +3,7 @@
 }
 
 .WidgetWrapper-removeButton {
-    /* display: none; */
+    display: none;
     right: -.5rem;
     top: -.5rem;
     position: absolute;
