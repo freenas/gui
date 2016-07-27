@@ -35,10 +35,6 @@ exports.DrawerItem = AbstractDraggableComponent.specialize(/** @lends DrawerItem
 
     _placeHolderStrategy: {
         value: "hidden"
-    },
-
-    isGhostImageCenter: {
-        value: false
     }
 
 });

@@ -11,10 +11,6 @@ exports.WidgetWrapper = AbstractDraggableComponent.specialize(/** @lends WidgetW
 
     _placeHolderStrategy: {
         value: "remove"
-    },
-
-    isGhostImageCenter: {
-        value: false
     }
 
 });
