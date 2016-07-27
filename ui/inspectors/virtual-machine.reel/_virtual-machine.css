@@ -1,0 +1,11 @@
+.VirtualMachine {
+
+}
+
+.VirtualMachine-actions {
+    display: none;
+}
+
+.VirtualMachine.has-actions .VirtualMachine-actions {
+    display: flex;
+}
