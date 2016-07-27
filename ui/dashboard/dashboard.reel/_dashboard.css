@@ -57,9 +57,6 @@
     }
 }
 
-
-/*FIXME: @joshua*/
-.Dashboard.drawer-is-open .Chart-removeButton {
+.Dashboard.drawer-is-open .WidgetWrapper-removeButton {
     display: block;
 }
-/*FIXME: @joshua*/
