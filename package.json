@@ -7,7 +7,7 @@
     "d3": "^3.5.17",
     "digit": "montagejs/digit",
     "frb": "montagejs/frb#66ba657ae8e7ada7658df3beb6e924c500b7259c",
-    "montage": "montagejs/montage#e033b7fbe3cbf0d715272caf3117213dc5d84627",
+    "montage": "montagejs/montage#5d956966004ee4156319f57debbc83589341f8b1",
     "montage-data": "montagestudio/montage-data#3b6e725ade888b18be6118d618bcbe8d88456d5e",
     "plottable": "^2.2.0",
     "term.js": "0.0.7",
