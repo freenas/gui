@@ -2800,6 +2800,11 @@
                 "method": "vm.get_volume_path",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "requestWebvncConsole": {
+                "method": "vm.request_webvnc_console",
+                "name": "call",
+                "namespace": "rpc"
             }
         },
         "instance": {
