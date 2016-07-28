@@ -28,6 +28,10 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
+    webvncConsole: {
+        value: null
+    },
+
     _memorySetting: {
         value: null
     },
@@ -156,6 +160,7 @@ exports.VirtualMachine = Component.specialize({
             if (devicesPromise) {
                 loadingPromises.push(devicesPromise);
             }
+            loadingPromises.push(this._loadWebvncConsole());
             Promise.all(loadingPromises).then(function() {
                 self.isLoading = false;
             });
@@ -166,6 +171,7 @@ exports.VirtualMachine = Component.specialize({
         value: function() {
             this.templateName = null;
             this.memorySize = null;
+            this.webvncConsole = null;
         }
     },
 
@@ -219,6 +225,17 @@ exports.VirtualMachine = Component.specialize({
 
             return this.application.dataService.fetchData(Model.Volume).then(function(volumes) {
                 self.volumes = volumes;
+            });
+        }
+    },
+
+    _loadWebvncConsole: {
+        value: function () {
+            var self = this;
+            Model.populateObjectPrototypeForType(Model.Vm).then(function(Vm) {
+                return Vm.constructor.services.requestWebvncConsole(self.object.id);
+            }).then(function(webvncConsole) {
+                self.webvncConsole = webvncConsole;
             });
         }
     },
@@ -290,6 +307,12 @@ exports.VirtualMachine = Component.specialize({
     handleRebootAction: {
         value: function() {
             this.object.services.reboot(this.object.id);
+        }
+    },
+
+    handleWebvncConsoleAction: {
+        value: function() {
+            window.open(this.webvncConsole, this.object.name + " Container Console");
         }
     }
 });
