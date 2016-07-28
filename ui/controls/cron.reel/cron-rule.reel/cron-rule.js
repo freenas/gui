@@ -27,7 +27,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             }
         }
     },
-    
+
     _every: {
         value: null
     },
@@ -49,7 +49,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             }
         }
     },
-   
+
     _selectedType: {
         value: null
     },
@@ -86,6 +86,78 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
                 }
             }
         }
+    },
+
+    _minuteValues: {
+        value: null
+    },
+
+    _dayValues: {
+        value: null
+    },
+
+    _hourValues: {
+        value: null
+    },
+
+    minuteValues: {
+        get: function() {
+            if (!this._minuteValues) {
+                this._minuteValues = [];
+                for(var i = 0; i < 60; i++) {
+                    this._minuteValues.push(
+                        { "value" : i }
+                    );
+                }
+                return this._minuteValues;
+            } else {
+                return this._minuteValues
+            }
+        }
+    },
+
+    dayValues: {
+        get: function() {
+            if (!this._dayValues) {
+                this._dayValues = [];
+                for(var i = 1; i <= 31; i++) {
+                    this._dayValues.push(
+                        { "value" : i }
+                    );
+                }
+                return this._dayValues;
+            } else {
+                return this._dayValues
+            }
+        }
+    },
+
+    hourValues: {
+        get: function() {
+            if (!this._hourValues) {
+                this._hourValues = [];
+                for(var i = 0; i < 24; i++) {
+                    this._hourValues.push(
+                        { "value" : i }
+                    );
+                }
+                return this._hourValues;
+            } else {
+                return this._hourValues
+            }
+        }
+    },
+
+    daysOfWeek: {
+        value: [
+            {value: "Sun"},
+            {value: "Mon"},
+            {value: "Tues"},
+            {value: "Wed"},
+            {value: "Thur"},
+            {value: "Fri"},
+            {value: "Sat"}
+        ]
     },
 
     enterDocument: {

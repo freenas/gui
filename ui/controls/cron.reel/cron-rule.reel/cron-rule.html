@@ -6,20 +6,22 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "tempDisplayOptions": [
+                    {"value": "DAYS", "label": "Days"},
+                    {"value": "DAYSOFWEEK", "label": "Days of week"},
+                    {"value": "HOURS", "label": "Hours"},
+                    {"value": "MINUTES", "label": "Minutes"}
+                ],
+                "everyOptions": [
+                    {"value": "MONTHS", "label": "Months"},
+                    {"value": "DAYS", "label": "Days"},
+                    {"value": "HOURS", "label": "Hours"},
+                    {"value": "MINUTES", "label": "Minutes"}
+                ]
             },
             "bindings": {
                 "selectedType": {"<-": "@selector.selectedValue"}
-            }
-        },
-
-        "cronLabel": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "cronLabel"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.label"}
             }
         },
 
@@ -55,14 +57,75 @@
             }
         },
 
+        "frequencyValue": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "frequencyValue"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.everyOptions"}
+            }
+        },
+
         "fieldValues": {
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
                 "element": {"#": "fieldValues"}
             },
             "bindings": {
-                "options": {"<-": "@owner.displayOptions"},
+                "options": {"<-": "@owner.tempDisplayOptions"},
                 "selectedValue": {"<->": "@owner.on"}
+            }
+        },
+        "onSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "onSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@fieldValues.selectedValue"}
+            }
+        },
+        "dayValues": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "dayValues"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.dayValues"}
+            }
+        },
+        "minuteValues": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "minuteValues"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.minuteValues"}
+            }
+        },
+        "daysOfWeek": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "daysOfWeek"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.daysOfWeek"}
+            }
+        },
+        "hourValues": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "hourValues"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.hourValues"}
+            }
+        },
+        "removeRuleButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "removeRuleButton"}
             }
         }
     }
@@ -70,16 +133,33 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CronRule">
-        <div data-montage-id="cronLabel"></div>
         <div class="CronRule-form">
             <div data-montage-id="selector" class="CronRule-selector"></div>
             <div data-montage-id="substitution" class="CronRule-substitution">
                 <div data-arg="EVERY" class="CronRule-controls CronRule-controls--every">
                     <div data-montage-id="frequencyNumber" class="CronRule-control"></div>
+                    <div data-montage-id="frequencyValue" class="CronRule-control"></div>
                 </div>
                 <div data-arg="ON" class="CronRule-controls CronRule-controls--on">
                     <div data-montage-id="fieldValues" class="CronRule-control"></div>
+                    <div data-montage-id="onSubstitution">
+                        <div data-arg="DAYS">
+                            <div data-montage-id="dayValues"></div>
+                        </div>
+                        <div data-arg="DAYSOFWEEK">
+                            <div data-montage-id="daysOfWeek"></div>
+                        </div>
+                        <div data-arg="HOURS">
+                            <div data-montage-id="hourValues"></div>
+                        </div>
+                        <div data-arg="MINUTES">
+                            <div data-montage-id="minuteValues"></div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div data-montage-id="removeRuleButton" class="CronRule-removeButton Button--alert">
+                <svg><use xlink:href="#i-trashCan"/></svg>
             </div>
         </div>
     </div>

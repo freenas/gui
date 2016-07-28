@@ -1,39 +1,45 @@
 .CronRule {
     position: relative;
+    border-radius: 4px;
+    background: rgba(0,0,0,.1);
+    padding: .5em;
+
+    &:not(:last-child) {
+        margin-bottom: .5em;
+    }
 }
 
-.CronRule:not(:last-child) {
-    margin-bottom:  1em;
-}
+.CronRule-selector { margin-bottom: .5em;}
 
-.CronRule-form {
-    display: flex;
-    align-items: flex-end;
-}
-
-.CronRule-selector {
-    width: 8em;
-    margin-right: 1em;
-}
-
-.CronRule-substitution {
-    width: 10em;
-}
-
-.CronRule-controls {
-    margin-top: .5em;
-    display: flex;
-}
+.CronRule-controls { display: flex; }
 
 .CronRule-controls--on {
     flex-wrap: wrap;
+
+    & > div {
+        margin-bottom: .5em;
+    }
 }
 
-.CronRule-controls--every .CronRule-control + .CronRule-control {
-    margin-left: .5em;
+/* $fix - this might want to be global */
+.CronRule-removeButton.Button {
+    min-height: 2.5em;
+    min-width:  2.5em;
+    padding: 0;
+    text-align: center;
+
+    & svg {
+        margin: 0;
+        margin-bottom: .1em;
+    }
+
+    & span {
+        display: none;
+    }
 }
 
-.CronRule .MultipleSelectGrid {
-    margin-top: .5em;
-    width: 100%;
-}
+.CronRule-controls--every { margin-bottom: .5em; }
+
+.CronRule-controls--every .CronRule-control + .CronRule-control { margin-left: .5em;}
+
+.CronRule-control.NumberInput { max-width: 12em; }

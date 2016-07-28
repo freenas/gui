@@ -7,160 +7,69 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
-            }
-        },
-        "optionConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "valuePropertyName": "this",
-                "labelPropertyName": "this"
-            }
+                "element": {"#": "owner"},
+                "userRules": [],
+                "_rules": {"@": "rules"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "rulesTitle": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "rulesTitle"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.label"}
+                "element": {"#": "rulesTitle"},
+                "value": "Rules"
             }
         },
-        "second": {
+        "rules": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "rules"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.userRules"},
+                "classList.has('hide')": {"<-": "@owner.userRules.length == 0"}
+            }
+        },
+        "rule": {
             "prototype": "../cron-rule.reel",
             "properties": {
-                "element": {"#": "second"},
-                "label": "Second(s)",
-                "min": 0,
-                "max": 59
+                "element": {"#": "rule"},
+                "rulesController": {"@": "owner"}
             },
             "bindings": {
-                "value": {"<->": "@owner.value.second"}
+                "rule": {"<-": "@rules:iteration.object"}
             }
         },
-        "minute": {
-            "prototype": "../cron-rule.reel",
+        "addRuleButton": {
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "minute"},
-                "label": "Minute(s)",
-                "min": 0,
-                "max": 59
-            },
-            "bindings": {
-                "value": {"<->": "@owner.value.minute"}
+                "element": {"#": "addRuleButton"},
+                "value": "Add Rule"
             }
         },
-        "hour": {
-            "prototype": "../cron-rule.reel",
+        "clearAllButton": {
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "hour"},
-                "label": "Hour(s)",
-                "min": 0,
-                "max": 23
+                "element": {"#": "clearAllButton"},
+                "value": "Clear All"
             },
             "bindings": {
-                "value": {"<->": "@owner.value.hour"}
+                "classList.has('hide')": {"<-": "@owner.userRules.length == 0"}
             }
         },
-        "day": {
-            "prototype": "../cron-rule.reel",
+        "emptyMessage": {
+            "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "day"},
-                "label": "Day(s)",
-                "min": 1,
-                "max": 31
+                "element": {"#": "emptyMessage"},
+                "value": "Click the Add Rule button to create a recurring task schedule"
             },
             "bindings": {
-                "value": {"<->": "@owner.value.day"}
-            }
-        },
-        "day_of_week": {
-            "prototype": "../cron-rule.reel",
-            "properties": {
-                "element": {"#": "day_of_week"},
-                "label": "Day(s) of week",
-                "options": [
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday"
-                ]
-            },
-            "bindings": {
-                "value": {"<->": "@owner.value.day_of_week"}
-            }
-        },
-        "month": {
-            "prototype": "../cron-rule.reel",
-            "properties": {
-                "element": {"#": "month"},
-                "label": "Month(s)",
-                "options": [
-                    {"value": 1, "label": "January"},
-                    {"value": 2, "label": "February"},
-                    {"value": 3, "label": "March"},
-                    {"value": 4, "label": "April"},
-                    {"value": 5, "label": "May"},
-                    {"value": 6, "label": "June"},
-                    {"value": 7, "label": "July"},
-                    {"value": 8, "label": "August"},
-                    {"value": 9, "label": "September"},
-                    {"value": 10, "label": "October"},
-                    {"value": 11, "label": "November"},
-                    {"value": 12, "label": "December"}
-                ]
-            },
-            "bindings": {
-                "value": {"<->": "@owner.value.month"}
-            }
-        },
-        "year": {
-            "prototype": "../cron-rule.reel",
-            "properties": {
-                "element": {"#": "year"},
-                "label": "Year(s)",
-                "min": 1900,
-                "max": 2100
-            },
-            "bindings": {
-                "value": {"<->": "@owner.value.year"}
-            }
-        },
-        "week": {
-            "prototype": "../cron-rule.reel",
-            "properties": {
-                "element": {"#": "week"},
-                "label": "Week(s)",
-                "min": 1,
-                "max": 54
-            },
-            "bindings": {
-                "value": {"<->": "@owner.value.week"}
-            }
-        },
-        "timezone": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "timezone"},
-                "label": "Timezone",
-                "converter": {"@": "optionConverter"}
-            },
-            "bindings": {
-                "selectedValue": {"<->": "@owner.value.timezone"},
-                "options": {"<-": "@owner.TIMEZONES"}
-            }
-        },
-        "coalesce": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "coalesce"},
-                "label": "Coalesce"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.value.coalesce"}
+                "classList.has('hide')": {"<-": "@owner.userRules.length > 0"}
             }
         }
     }
@@ -169,17 +78,19 @@
 <body>
     <div data-montage-id="owner" class="CronRules">
         <div data-montage-id="rulesTitle"></div>
-        <div class="CronRules-rulesContainer">
-            <div data-montage-id="second"></div>
-            <div data-montage-id="minute"></div>
-            <div data-montage-id="hour"></div>
-            <div data-montage-id="day"></div>
-            <div data-montage-id="day_of_week"></div>
-            <div data-montage-id="week"></div>
-            <div data-montage-id="month"></div>
-            <div data-montage-id="year"></div>
-            <div data-montage-id="timezone"></div>
-            <div data-montage-id="coalesce"></div>
+        <p data-montage-id="emptyMessage" class="CronRules-emptyMessage"></p>
+        <div data-montage-id="rules" class="CronRules-rules">
+            <div data-montage-id="rule" class="CronRules-rule"></div>
+        </div>
+        <div class="CronRules-actions">
+            <div>
+                <button data-montage-id="clearAllButton" class="Button--alert"></button>
+            </div>
+            <div>
+                <button data-montage-id="addRuleButton" class="Button--create">
+                    <svg><use xlink:href="#i-plus"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 </body>
