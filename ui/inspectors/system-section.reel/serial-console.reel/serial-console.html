@@ -10,21 +10,11 @@
                 "element": {"#": "owner"}
             }
         },
-        "enable_console_menu": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "enable_console_menu"},
-                "label": "Enable Console Menu"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner.object.serial_console"}
-            }
-        },
         "serial_console": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "serial_console"},
-                "label": "Use Serial Console"
+                "label": "Use Serial Console CLI"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.console_cli"}
@@ -60,7 +50,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "enable_screensaver"},
-                "label": "Enable Screen Saver"
+                "label": "VGA Screen Saver"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.console_screensaver"}
@@ -82,11 +72,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="SerialConsole">
-        <div data-montage-id="enable_console_menu"></div>
         <div data-montage-id="serial_console"></div>
-        <div data-montage-id="enable_screensaver"></div>
         <div data-montage-id="serial_port"></div>
         <div data-montage-id="serial_port_speed"></div>
+        <div data-montage-id="enable_screensaver"></div>
         <div data-montage-id="keymaps"></div>
     </div>
 </body>
