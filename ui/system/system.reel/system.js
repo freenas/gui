@@ -20,6 +20,7 @@ exports.System = Component.specialize({
                 sectionsPromises.push(this._createSection("languageAndRegion", "Language & Region", "path", i++));
                 sectionsPromises.push(this._createSection("debug", "Debug", "path", i++));
                 sectionsPromises.push(this._createSection("hardware", "Hardware", "path", i++));
+                sectionsPromises.push(this._createSection("mail", "Alerts & Reporting", "path", i++));
 /* FIXME: Uncomment when implemented
                 sectionsPromises.push(this._createSection("kernel", "kernel", "path", i++));
                 sectionsPromises.push(this._createSection("advanced", "Hardware", "path", i++));
