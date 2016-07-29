@@ -50,6 +50,15 @@
                 "object": {"<-": "@owner.object.properties"}
             }
         },
+        "addRemoveSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "addRemoveSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.editMode"}
+            }
+        },
         "add": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -72,8 +81,10 @@
         <div data-montage-id="inspector">
             <div data-montage-id="typeSelect"></div>
             <div data-montage-id="deviceTypePlaceholder"></div>
-            <div data-montage-id="add"></div>
-            <div data-montage-id="remove"></div>
+            <div data-montage-id="addRemoveSubstitution">
+                <div data-montage-id="add" data-arg="create"></div>
+                <div data-montage-id="remove" data-arg="edit"></div>
+            </div>
         </div>
     </div>
 </body>

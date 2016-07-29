@@ -22,6 +22,10 @@ exports.VirtualMachineDevice = Component.specialize({
         value: null
     },
 
+    editMode: {
+        value: null
+    },
+
     constructor: {
         value: function() {
             var deviceTypes = Array.from(VmDeviceType.members);
@@ -37,6 +41,7 @@ exports.VirtualMachineDevice = Component.specialize({
             if (!this.object.type) {
                 this.object.type = "DISK";
             }
+            this.editMode = this.object._isNew ? "create" : "edit";
             // FIXME: @thibaultzanini to provide a better API for interacting with
             // parent collection/context.
             this.deviceList = CascadingList.findPreviousContextWithComponent(this).object;
