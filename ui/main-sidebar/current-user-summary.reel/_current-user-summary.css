@@ -1,33 +1,38 @@
 .CurrentUserSummary {
     text-align: center;
-    padding: 1em 0;
-    /*background: green;*/
+    margin-top: 1em;
+    margin-bottom: .5em;
+
+    & > *:not(:last-child) {
+       margin-bottom: .5em;
+    }
 }
 
-.CurrentUserSummary-userAvatar {
-    display: inline-block;
-    width:  2rem;
-    height: 2rem;
-    font-size: .7em;
-    line-height: 2rem;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-    border: 1px solid #2B9CD8;
-    cursor: pointer;
-    color: #2B9CD8;
-}
-
-.CurrentUserSummary-userAvatar:hover {
-    background: #2B9CD8;
-    color: #FFF;
+.CurrentUserSummary-time {
+    justify-content: space-around;
+    display: flex;
+    font-size: .8em;
 }
 
 .CurrentUserSummary-host {
-    padding-left: .25em;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-all;
     word-break: break-word;
     hyphens: auto;
     word-spacing: -.25em;
+
+}
+
+.CurrentUserSummary-host.TrafficLight {
+    display: block;
+
+    & .TrafficLight-light {
+        display: inline-block;
+        margin-bottom: .25em;
+    }
+}
+
+.CurrentUserSummary-host.TrafficLight .montage-Text {
+    margin: 0;
 }
