@@ -42,6 +42,9 @@ exports.VirtualMachineDevice = Component.specialize({
                 this.object.type = "DISK";
             }
             this.editMode = this.object._isNew ? "create" : "edit";
+            if (!this.object.properties) {
+                this.object.properties = {};
+            }
             // FIXME: @thibaultzanini to provide a better API for interacting with
             // parent collection/context.
             this.deviceList = CascadingList.findPreviousContextWithComponent(this).object;
