@@ -28,6 +28,16 @@
         "selectOptionConverter": {
             "prototype": "core/converter/select-option-converter"
         },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
         "typeSelect": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -79,6 +89,7 @@
 <body>
     <div data-montage-id="owner" class="VirtualMachineDevice">
         <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
             <div data-montage-id="typeSelect"></div>
             <div data-montage-id="deviceTypePlaceholder"></div>
             <div data-montage-id="addRemoveSubstitution">
