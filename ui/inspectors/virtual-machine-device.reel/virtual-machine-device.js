@@ -2,7 +2,8 @@ var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
     VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
     VmDeviceType = require("core/model/enumerations/vm-device-type").VmDeviceType,
-    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
+    Promise = require("montage/core/promise").Promise;
 
 /**
  * @class VirtualMachineDevice
@@ -62,7 +63,10 @@ exports.VirtualMachineDevice = Component.specialize({
 
     handleAddAction: {
         value: function() {
-
+            var self = this;
+            new Promise(function () {
+                self.object._isNew = false;
+            });
         }
     },
 
