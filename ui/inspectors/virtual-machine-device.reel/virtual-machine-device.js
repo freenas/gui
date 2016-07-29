@@ -1,7 +1,8 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
     VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
-    VmDeviceType = require("core/model/enumerations/vm-device-type").VmDeviceType;
+    VmDeviceType = require("core/model/enumerations/vm-device-type").VmDeviceType,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
  * @class VirtualMachineDevice
@@ -10,6 +11,10 @@ var Component = require("montage/ui/component").Component,
 exports.VirtualMachineDevice = Component.specialize({
 
     bootloaderOptions: {
+        value: null
+    },
+
+    deviceList: {
         value: null
     },
 
@@ -32,6 +37,15 @@ exports.VirtualMachineDevice = Component.specialize({
             if (!this.object.type) {
                 this.object.type = "DISK";
             }
+            // FIXME: @thibaultzanini to provide a better API for interacting with
+            // parent collection/context.
+            this.deviceList = CascadingList.findPreviousContextWithComponent(this).object;
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.deviceList = null;
         }
     },
 
