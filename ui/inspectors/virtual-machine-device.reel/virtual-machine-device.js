@@ -38,6 +38,10 @@ exports.VirtualMachineDevice = Component.specialize({
 
     enterDocument: {
         value: function() {
+            var deviceListContext = CascadingList.findPreviousContextWithComponent(this);
+            if (deviceListContext) {
+                this.deviceList = deviceListContext.object;
+            }
             if (!this.object.type) {
                 this.object.type = "DISK";
             }
@@ -47,7 +51,6 @@ exports.VirtualMachineDevice = Component.specialize({
             }
             // FIXME: @thibaultzanini to provide a better API for interacting with
             // parent collection/context.
-            this.deviceList = CascadingList.findPreviousContextWithComponent(this).object;
         }
     },
 
