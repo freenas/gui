@@ -57,7 +57,17 @@ exports.VirtualMachineDevice = Component.specialize({
 
     handleRemoveAction: {
         value: function() {
-
+            var deviceList = this.deviceList,
+                index = -1;
+            for (var i=0, length=deviceList.length; i<length; i++) {
+                if (deviceList[i].name === this.object.name) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                deviceList.splice(index, 1);
+            }
         }
     }
 });
