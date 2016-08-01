@@ -55,6 +55,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
         value: function () {
             this._clearDisk();
             this._freeTopologyProxy();
+            this._object = null;
         }
     },
 
