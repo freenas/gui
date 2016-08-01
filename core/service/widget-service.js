@@ -46,6 +46,12 @@ var WIDGETS = [
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/system-info.reel"
+    },
+    {
+        title: "disk-traffic",
+        description: null,
+        imgPreview: null,
+        moduleId: "ui/widgets/disk-traffic.reel"
     }
 ];
 
