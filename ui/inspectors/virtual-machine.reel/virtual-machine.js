@@ -160,7 +160,9 @@ exports.VirtualMachine = Component.specialize({
             if (devicesPromise) {
                 loadingPromises.push(devicesPromise);
             }
-            loadingPromises.push(this._loadWebvncConsole());
+            if (!this.object._isNew){
+                loadingPromises.push(this._loadWebvncConsole());
+            }
             Promise.all(loadingPromises).then(function() {
                 self.isLoading = false;
             });
