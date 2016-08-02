@@ -23,7 +23,7 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "AccountDirectoryService",
+      "name": "AccountDirectoryServices",
       "propertyBlueprints": [
         {"@": "blueprint_activeDirectory"},
         {"@": "blueprint_ldap"},

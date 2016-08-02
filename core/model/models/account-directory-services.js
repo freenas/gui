@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.AccountDirectoryService = AbstractModel.specialize({
+exports.AccountDirectoryServices = AbstractModel.specialize({
     _activeDirectory: {
         value: null
     },
