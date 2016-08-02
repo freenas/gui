@@ -38,10 +38,11 @@ exports.Accounts = Component.specialize({
                     accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
                     accountCategories.group = dataService.getEmptyCollectionForType(Model.Group);
                     accountCategories.system = dataService.getEmptyCollectionForType(Model.AccountSystem);
-                    accountCategories.directoryServices = dataService.getNewInstanceForType(Model.AccountDirectoryServices);
 
-                    return Promise.all([self._listUsers(), self._listGroups()]);
-                }).then(function() {
+                    return dataService.getNewInstanceForType(Model.AccountDirectoryServices).then(function (directoryServices) {
+                        accountCategories.directoryServices = directoryServices;
+                    });
+                }).then(Promise.all([self._listUsers(), self._listGroups()])).then(function() {
                     self.accountCategories.isLoading = false;
                     self._loadDataPromise = null;
                 });
