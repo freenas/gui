@@ -1446,6 +1446,7 @@
                         "datasets",
                         "replicate_services",
                         "bidirectional",
+                        "auto_recover",
                         "recursive"
                     ]
                 },
@@ -1475,6 +1476,11 @@
         "class": {
             "getOneLocal": {
                 "method": "replication.link.get_one_local",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getReplicationState": {
+                "method": "replication.link.get_replication_state",
                 "name": "call",
                 "namespace": "rpc"
             },

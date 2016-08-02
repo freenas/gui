@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.ReplicationLink = AbstractModel.specialize({
+    _auto_recover: {
+        value: null
+    },
+    auto_recover: {
+        set: function (value) {
+            if (this._auto_recover !== value) {
+                this._auto_recover = value;
+            }
+        },
+        get: function () {
+            return this._auto_recover;
+        }
+    },
     _bidirectional: {
         value: null
     },
@@ -38,6 +51,19 @@ exports.ReplicationLink = AbstractModel.specialize({
         },
         get: function () {
             return this._id;
+        }
+    },
+    _initial_master: {
+        value: null
+    },
+    initial_master: {
+        set: function (value) {
+            if (this._initial_master !== value) {
+                this._initial_master = value;
+            }
+        },
+        get: function () {
+            return this._initial_master;
         }
     },
     _master: {
@@ -135,6 +161,10 @@ exports.ReplicationLink = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "auto_recover",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
             name: "bidirectional",
             valueType: "boolean"
         }, {
@@ -144,6 +174,10 @@ exports.ReplicationLink = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "id",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "initial_master",
             valueType: "String"
         }, {
             mandatory: false,

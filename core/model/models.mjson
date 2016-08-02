@@ -5,6 +5,10 @@
             "type": "AccountCategory"
         },
         {
+            "modelId": "core/model/models/account-directory-service.js",
+            "type": "AccountDirectoryService"
+        },
+        {
             "modelId": "core/model/models/account-system.js",
             "type": "AccountSystem"
         },

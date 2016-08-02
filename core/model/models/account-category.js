@@ -39,6 +39,19 @@ exports.AccountCategory = AbstractModel.specialize({
         get: function () {
             return this._system;
         }
+    },
+    _directoryService: {
+        value: null
+    },
+    directoryService: {
+        set: function (value) {
+            if (this._directoryService !== value) {
+                this._directoryService = value;
+            }
+        },
+        get: function () {
+            return this._directoryService;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -51,6 +64,9 @@ exports.AccountCategory = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "system"
+        }, {
+            mandatory: false,
+            name: "directoryService"
         }]
     },
     userInterfaceDescriptor: {
