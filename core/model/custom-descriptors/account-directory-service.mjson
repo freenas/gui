@@ -1,0 +1,13 @@
+{
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "AccountDirectoryService",
+      "propertyBlueprints": [
+        {"@": "blueprint_activeDirectory"},
+        {"@": "blueprint_ldap"},
+        {"@": "blueprint_nis"}
+      ]
+    }
+  }
+}
