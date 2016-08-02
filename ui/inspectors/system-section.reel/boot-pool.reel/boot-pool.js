@@ -39,7 +39,7 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
         value: function () {
             if (!this._populatingPromise && (!this.bootEnvironments || !this.bootVolume)) {
                 this._populatingPromise = Promise.all([
-                        this._bootEnvironmentService.list(), 
+                        this._bootEnvironmentService.list(),
                         this._bootEnvironmentService.getBootVolumeConfig()
                 ]).bind(this).then(function (data) {
                     this.bootEnvironments = data[0];
@@ -67,7 +67,10 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (this._bootEnvironmentService.canDeleteBootEnvironment(bootEnvironment)) {
-                return this._bootEnvironmentService.delete(bootEnvironment);
+                return this._performAction(
+                    event,
+                    this._bootEnvironmentService.delete(bootEnvironment)
+                );
             }
         }
     },
@@ -77,7 +80,10 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var nextBootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (this._bootEnvironmentService.canActivateBootEnvironment(nextBootEnvironment)) {
-                this._bootEnvironmentService.activateBootEnvironment(nextBootEnvironment);
+                return this._performAction(
+                    event,
+                    this._bootEnvironmentService.activateBootEnvironment(nextBootEnvironment)
+                );
             }
         }
     },
@@ -87,7 +93,10 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (bootEnvironment) {
-                return this._bootEnvironmentService.persistBootEnvironmentRenaming(bootEnvironment);
+                return this._performAction(
+                    event,
+                    this._bootEnvironmentService.persistBootEnvironmentRenaming(bootEnvironment)
+                );
             }
         }
     },
@@ -97,7 +106,37 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
             var bootEnvironment = this._findBootEnvironmentFromActionEvent(event);
 
             if (bootEnvironment) {
-                return this._bootEnvironmentService.cloneBootEnvironment(bootEnvironment);
+                return this._performAction(
+                    event,
+                    this._bootEnvironmentService.cloneBootEnvironment(bootEnvironment)
+                );
+            }
+        }
+    },
+
+    _performAction: {
+        value: function (actionEvent, promise) {
+            var bootEnvironmentRow = this._findBootEnvironmentRowComponentWithElement(actionEvent.target.element);
+
+            if (bootEnvironmentRow) {
+                var className = this.constructor.ROW_PENDING_ACTION_CLASS_NAME;
+                bootEnvironmentRow.classList.add(className);
+
+                promise.finally(function () {
+                    bootEnvironmentRow.classList.remove(className);
+                });
+            }
+
+            return promise;
+        }
+    },
+
+    _findBootEnvironmentRowComponentWithElement: {
+        value: function (element) {
+            var iteration = this.bootEnvironmentTable.rowRepetition._findIterationContainingElement(element);
+
+            if (iteration) {
+                return iteration._childComponents[0];
             }
         }
     },
@@ -114,6 +153,10 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
 
     REAL_NAME_COMPONENT_MODULE_ID: {
         value: "blue-shark/ui/text-field.reel"
+    },
+
+    ROW_PENDING_ACTION_CLASS_NAME: {
+        value: "pending-action"
     }
 
 });
