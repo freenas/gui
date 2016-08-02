@@ -57,6 +57,16 @@
             "bindings": {
                 "object": {"<-": "@owner.object.system"}
             }
+        },
+
+        "directoryServices": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "directoryServices"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.directoryServices"}
+            }
         }
     }
     </script>
@@ -68,6 +78,7 @@
             <div data-montage-id="user"></div>
             <div data-montage-id="group"></div>
             <div data-montage-id="system"></div>
+            <div data-montage-id="directoryServices"></div>
         </div>
     </div>
 </body>
