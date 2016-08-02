@@ -63,6 +63,8 @@ exports.ApplicationDelegate = Montage.specialize({
             app.applicationContextService = ApplicationContextService.instance;
             app.widgetService = WidgetService.instance;
 
+            app.addOwnPropertyChangeListener("section", this);
+
             Object.defineProperties(app, {
 
                 _alertService: {
@@ -88,6 +90,13 @@ exports.ApplicationDelegate = Montage.specialize({
         }
     },
 
+    handleSectionChange: {
+        value: function(section, propertyName, app) {
+            if (!app.selectionService.getSectionSelection(section)) {
+                app.selectionService.saveSectionSelection(section, null);
+            }
+        }
+    },
 
     getUserInterfaceDescriptorForType: {
         value: function (modelType) {
