@@ -20,10 +20,10 @@
       "blueprint": {"@": "root"}
     }
   },
-  "blueprint_accountcategory_directoryservice": {
+  "blueprint_accountcategory_directoryService": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "directory service",
+      "name": "directoryService",
       "blueprint": {"@": "root"}
     }
   },
