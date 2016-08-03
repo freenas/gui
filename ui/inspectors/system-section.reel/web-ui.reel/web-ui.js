@@ -11,8 +11,9 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
 
     PROTOCOL_OPTIONS: {
         value: [
-            "HTTP",
-            "HTTPS"
+            {label: "HTTP", value: ["HTTP"]},
+            {label: "HTTPS", value: ["HTTPS"]},
+            {label: "HTTP + HTTPS", value: ["HTTP","HTTPS"]}
         ]
     },
 

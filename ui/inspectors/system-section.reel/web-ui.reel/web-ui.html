@@ -11,7 +11,7 @@
             }
         },
         "protocols": {
-            "prototype": "blue-shark/ui/field-multiple-select.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "protocols"},
                 "label": "Protocol"
@@ -38,7 +38,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "RedirectHTTP"},
-                "label": "Enable Redirect"
+                "label": "HTTP -> HTTPS Redirect"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.webui_http_redirect_https"}
