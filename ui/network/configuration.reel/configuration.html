@@ -45,6 +45,15 @@
                 "classList.has('hide')": {"<-": "!@owner.object.networkConfiguration.gateway.ipv6"}
             }
         },
+        "ipv6LabelCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "ipv6LabelCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.summary.interfaces.filter{enabled}.filter{ipv6.length > 0}.length > 0"}
+            }
+        },
         "interfaceRepetition": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
@@ -174,7 +183,9 @@
                             <div class="tr">
                                 <div class="th">Interface</div>
                                 <div class="th">IPv4</div>
-                                <div class="th">IPv6</div>
+                                <div data-montage-id="ipv6LabelCondition">
+                                    <div class="th">IPv6</div>
+                                </div>
                             </div>
                         </div>
                         <div data-montage-id="interfaceRepetition" class="tbody">
