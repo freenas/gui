@@ -156,7 +156,7 @@ exports.BootPool = Component.specialize(/** @lends BootPool# */ {
     },
 
     ROW_PENDING_ACTION_CLASS_NAME: {
-        value: "pending-action"
+        value: "is-pending"
     }
 
 });
