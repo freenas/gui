@@ -19,13 +19,31 @@
                 "value": {"<-": "@owner.object.name"}
             }
         },
+        "interfaceIpv4Repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "interfaceIpv4Repetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object.ipv4"}
+            }
+        },
         "interfaceIpv4": {
             "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "interfaceIpv4"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.ipv4"}
+                "value": {"<-": "@interfaceIpv4Repetition:iteration.object"}
+            }
+        },
+        "interfaceIpv6Repetition": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "interfaceIpv6Repetition"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object.ipv6"}
             }
         },
         "interfaceIpv6": {
@@ -34,7 +52,7 @@
                 "element": {"#": "interfaceIpv6"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.ipv6"}
+                "value": {"<-": "@interfaceIpv6Repetition:iteration.object"}
             }
         }
     }
@@ -43,8 +61,12 @@
 <body>
     <div data-montage-id="owner" class="InterfaceOverviewItem">
         <div data-montage-id="interfaceName"></div>
-        <div data-montage-id="interfaceIpv4"></div>
-        <div data-montage-id="interfaceIpv6"></div>
+        <div data-montage-id="interfaceIpv4Repetition">
+            <div data-montage-id="interfaceIpv4"></div>
+        </div>
+        <div data-montage-id="interfaceIpv6Repetition">
+            <div data-montage-id="interfaceIpv6"></div>
+        </div>
     </div>
 </body>
 </html>

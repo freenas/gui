@@ -210,19 +210,17 @@ exports.Network = Component.specialize({
             var aliases = networkInterface.status.aliases,
                 alias;
             interfaceSummary.name = networkInterface.status.name;
+            interfaceSummary.ipv4 = [];
+            interfaceSummary.ipv6 = [];
             for (var j = 0, aliasesLength = aliases.length; j < aliasesLength; j++) {
                 alias = aliases[j];
 
                 switch (alias.type) {
                     case "INET":
-                        if (!interfaceSummary.ipv4) {
-                            interfaceSummary.ipv4 = alias.address;
-                        }
+                        interfaceSummary.ipv4.push(alias.address);
                         break;
                     case "INET6":
-                        if (!interfaceSummary.ipv6) {
-                            interfaceSummary.ipv6 = alias.address;
-                        }
+                        interfaceSummary.ipv6.push(alias.address);
                         break;
                 }
             }
