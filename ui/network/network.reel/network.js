@@ -212,6 +212,7 @@ exports.Network = Component.specialize({
             interfaceSummary.name = networkInterface.status.name;
             interfaceSummary.ipv4 = [];
             interfaceSummary.ipv6 = [];
+            interfaceSummary.enabled = networkInterface.enabled;
             for (var j = 0, aliasesLength = aliases.length; j < aliasesLength; j++) {
                 alias = aliases[j];
 

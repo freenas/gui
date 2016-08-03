@@ -60,7 +60,7 @@
                 "element": {"#": "interfaceRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.interfaces.filter{ipv4 || ipv6}"}
+                "content": {"<-": "@owner.object.summary.interfaces.filter{enabled}"}
             }
         },
         "interface": {
@@ -115,7 +115,7 @@
                 "title": "Disabled Interfaces"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object.summary.interfaces.filter{!ipv4 && !ipv6}.length == 0"}
+                "classList.has('hide')": {"<-": "@owner.object.summary.interfaces.filter{!enabled}.length == 0"}
             }
         },
         "disabledInterfacesRepetition": {
@@ -124,7 +124,7 @@
                 "element": {"#": "disabledInterfacesRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.interfaces.filter{!ipv4 && !ipv6}"}
+                "content": {"<-": "@owner.object.summary.interfaces.filter{!enabled}"}
             }
         },
         "disabledInterface": {
