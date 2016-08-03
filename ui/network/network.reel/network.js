@@ -221,7 +221,9 @@ exports.Network = Component.specialize({
                         interfaceSummary.ipv4.push(alias.address);
                         break;
                     case "INET6":
-                        interfaceSummary.ipv6.push(alias.address);
+                        if (!alias.address.startsWith("fe80")) {
+                            interfaceSummary.ipv6.push(alias.address);
+                        }
                         break;
                 }
             }
