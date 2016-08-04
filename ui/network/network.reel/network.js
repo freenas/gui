@@ -207,7 +207,7 @@ exports.Network = Component.specialize({
 
     _populateNetworkInterfaceSummary: {
         value: function (networkInterface, interfaceSummary) {
-            var aliases = networkInterface.status.aliases,
+            var aliases = networkInterface.enabled ? networkInterface.status.aliases : networkInterface.aliases,
                 alias;
             interfaceSummary.name = networkInterface.status.name;
             interfaceSummary.ipv4 = [];
