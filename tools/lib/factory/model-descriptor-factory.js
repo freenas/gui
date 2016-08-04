@@ -191,6 +191,11 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
             if (type !== void 0 && type !== null) {
                 if (typeof type === "string") {
                     setTypeOnPropertyDescriptor(type, propertyDescriptor);
+
+                    if (type === "array" && property.items && property.items["$ref"]) {
+                        propertyDescriptor.valueObjectPrototypeName = property.items["$ref"].toCamelCase();
+                    }
+
                 } else if (Array.isArray(type)) {
                     //todo check if [0] !== null
                     setTypeOnPropertyDescriptor(property.type[0], propertyDescriptor);
