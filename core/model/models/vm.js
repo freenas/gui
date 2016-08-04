@@ -157,6 +157,7 @@ exports.Vm = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "devices",
+            valueObjectPrototypeName: "VmDevice",
             valueType: "array"
         }, {
             mandatory: false,

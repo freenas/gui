@@ -58,18 +58,22 @@ exports.ZfsTopology = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "cache",
+            valueObjectPrototypeName: "ZfsVdev",
             valueType: "array"
         }, {
             mandatory: false,
             name: "data",
+            valueObjectPrototypeName: "ZfsVdev",
             valueType: "array"
         }, {
             mandatory: false,
             name: "log",
+            valueObjectPrototypeName: "ZfsVdev",
             valueType: "array"
         }, {
             mandatory: false,
             name: "spare",
+            valueObjectPrototypeName: "ZfsVdev",
             valueType: "array"
         }]
     },

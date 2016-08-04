@@ -222,7 +222,8 @@
     "properties": {
       "name": "tls_options",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "ServiceFtpTlsoptionsItems"
     }
   },
   "blueprint_serviceftp_tls_policy": {

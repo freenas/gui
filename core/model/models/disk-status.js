@@ -411,6 +411,7 @@ exports.DiskStatus = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "partitions",
+            valueObjectPrototypeName: "DiskPartition",
             valueType: "array"
         }, {
             mandatory: false,

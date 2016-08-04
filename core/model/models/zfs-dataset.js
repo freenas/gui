@@ -71,6 +71,7 @@ exports.ZfsDataset = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "children",
+            valueObjectPrototypeName: "ZfsDataset",
             valueType: "array"
         }, {
             mandatory: false,

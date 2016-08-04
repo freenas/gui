@@ -84,7 +84,8 @@
     "properties": {
       "name": "volumes",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "DockerVolume"
     }
   },
   "root": {

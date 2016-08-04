@@ -84,6 +84,7 @@ exports.ZfsVdev = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "children",
+            valueObjectPrototypeName: "ZfsVdev",
             valueType: "array"
         }, {
             mandatory: false,

@@ -52,7 +52,8 @@
     "properties": {
       "name": "email_recipients",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "Email"
     }
   },
   "blueprint_serviceups_email_subject": {

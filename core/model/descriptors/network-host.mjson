@@ -4,7 +4,8 @@
     "properties": {
       "name": "addresses",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "IpAddress"
     }
   },
   "blueprint_networkhost_id": {
