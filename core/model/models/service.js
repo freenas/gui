@@ -97,7 +97,10 @@ exports.Service = AbstractModel.specialize({
             inspectorComponentModule: {
                 id: 'ui/inspectors/service.reel'
             },
-            nameExpression: "config.type.replace('service-', '').toUpperCase()"
+            nameExpression: "config.type.replace('service-', '').toUpperCase()",
+            collectionItemComponentModule: {
+                id: 'ui/services/services-list-item.reel'
+            }
         }
     }
 });
