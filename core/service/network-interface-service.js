@@ -9,6 +9,10 @@ var NetworkInterfaceService = exports.NetworkInterfaceService = Montage.speciali
         value: null
     },
 
+    _dataService: {
+        value: null
+    },
+
     networkInterfacesAliases: {
         get: function () {
             if (!this._networkInterfacesAliases) { //lazy fetching.
@@ -104,6 +108,14 @@ var NetworkInterfaceService = exports.NetworkInterfaceService = Montage.speciali
 
             return promise;
         }
+    },
+
+    getMyIps: {
+        value: function() {
+            return Model.populateObjectPrototypeForType(Model.NetworkConfig).then(function(networkConfig) {
+                return NetworkConfig.constructor.services.getMyIps();
+            });
+        }
     }
 
 }, {
@@ -111,6 +123,7 @@ var NetworkInterfaceService = exports.NetworkInterfaceService = Montage.speciali
         get: function() {
             if (!this._instance) {
                 this._instance = new NetworkInterfaceService();
+                this._instance._dataService = FreeNASService.instance;
             }
             return this._instance;
         }
