@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="viewer.css">
     <script type="text/montage-serialization">
     {
@@ -10,7 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "selectedObject": {"<->": "@controller.selection.0"},
+                "selectedObject": {"<->": "@list.selectedObject"},
                 "classList.has('has-items')": {"<-": "@owner.object.length > 0"}
             }
         },
