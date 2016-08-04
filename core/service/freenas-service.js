@@ -328,7 +328,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 keys = Object.keys(data),
                 propertyDescriptor,
                 rawValue,
-                key;
+                key,
+                j, valuesLength;
 
             for (var i = 0, n = keys.length; i < n; i ++) {
                 key = keys[i];
@@ -337,8 +338,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 if (propertyDescriptor) {
                     rawValue = data[key];
 
-                    if (propertyDescriptor.valueObjectPrototypeName && propertyDescriptor.valueType === "object") {
-                        this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue, data);
+                    if (propertyDescriptor.valueObjectPrototypeName) {
+                        if (propertyDescriptor.valueType === "object") {
+                            this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue, data);
+                        } else if (propertyDescriptor.valueType === "array") {
+                            object[key] = [];
+                            for (j = 0, valuesLength = rawValue.length; j < valuesLength; j++) {
+                                this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object[key], j, rawValue[j], data);
+                            }
+                        }
                     } else {
                         this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
 
@@ -439,6 +447,14 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
+    //FIXME: hacky, only used when fetching data without montage-data, which should never happen...
+    mapRawDataToType: {
+        value: function(data, type) {
+            var object = this.getDataObject(type);
+            this._firstServiceForType(type).mapFromRawData(object, data);
+            return object;
+        }
+    },
 
 /*----------------------------------------------------------------------------------------------------------------------
                                              DataService Private Functions
@@ -876,6 +892,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 instance.getEmptyCollectionForType = FreeNASService.prototype.getEmptyCollectionForType;
                 instance.callBackend = FreeNASService.prototype.callBackend;
                 instance.backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                instance.mapRawDataToType = FreeNASService.prototype.mapRawDataToType;
 
                 DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;
