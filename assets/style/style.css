@@ -200,6 +200,11 @@ $Icons
     padding: 1em;
 }
 
+.g-negative-margin-sides {
+    margin-left:  -1em;
+    margin-right: -1em;
+}
+
 .g-padding-vertical {
     padding-top:    1em;
     padding-bottom: 1em;
