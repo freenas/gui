@@ -49,6 +49,10 @@
             "type": "AmazonS3Credentials"
         },
         {
+            "modelId": "core/model/models/application-context.js",
+            "type": "ApplicationContext"
+        },
+        {
             "modelId": "core/model/models/backup-file.js",
             "type": "BackupFile"
         },
@@ -107,6 +111,10 @@
         {
             "modelId": "core/model/models/crypto-certificate.js",
             "type": "CryptoCertificate"
+        },
+        {
+            "modelId": "core/model/models/dashboard-context.js",
+            "type": "DashboardContext"
         },
         {
             "modelId": "core/model/models/directory-parameters.js",
@@ -531,6 +539,10 @@
         {
             "modelId": "core/model/models/share.js",
             "type": "Share"
+        },
+        {
+            "modelId": "core/model/models/side-bar-context.js",
+            "type": "SideBarContext"
         },
         {
             "modelId": "core/model/models/simulator-disk.js",

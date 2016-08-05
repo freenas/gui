@@ -3,19 +3,13 @@ var Montage = require("montage").Montage,
     application = require("montage/core/application").application,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     WidgetService = require("core/service/widget-service").WidgetService,
-    ApplicationContext = require("core/application-context").ApplicationContext,
     Promise = require("montage/core/promise").Promise;
 
-
-//FIXME: need to be remove once bug l32 will be fixed.
-window._secretApplicationContextSave = function _secretApplicationContextSave () {
-    return ApplicationContextService.instance.save(true);
-};
 
 var ApplicationContextService = exports.ApplicationContextService = Montage.specialize({
 
     save: {
-        value: function (_secret) {
+        value: function () {
             var saveContextPromise;
 
             if (this._saveContextPromise) {
@@ -26,23 +20,11 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     constructor = this.constructor;
 
                 this._saveContextPromise = this._saveContextPromise = new Promise(function (resolve, reject) {
-                    var promise;
+                    resolve(self.findCurrentUser().then(function (user) {
+                        user.attributes = constructor.applicationContext;
 
-                    //FIXME: @pierre freenas-service L277 self._selectionService.saveTaskSelection(taskId, object);??
-                    if (self._dataService && _secret) { //experimental
-                        promise = self.findCurrentUser().then(function (user) {
-                            user.attributes = constructor.applicationContext;
-
-                            self._dataService.saveDataObject(user).then(function () {
-                                return self._saveApplicationContextLocally(constructor.applicationContext);
-                            });
-                        });
-                    } else {
-                        promise = self._saveApplicationContextLocally(constructor.applicationContext);
-                    }
-
-                    resolve(promise);
-
+                        return self._dataService.saveDataObject(user);
+                    }));
                 }).then(function () {
                     self._saveContextPromise = null;
                 });
@@ -70,13 +52,10 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 getContextPromise = this._getContextPromise = new Promise(function (resolve, reject) {
                     var applicationContext;
 
-                    if ((applicationContext = localStorage.getItem(constructor.LOCAL_STORAGE_KEY))) {
-                        applicationContext = ApplicationContext.FromJSON(applicationContext);
-
-                    } else if (self._dataService) {
+                    if (self._dataService) {
                         applicationContext = self.findCurrentUser().then(function (user) {
                             if (user.attributes && user.attributes.dashboardContext) {
-                                return ApplicationContext.FromJSON(applicationContext);
+                                return self._populateWidgetToApplicationContext(user.attributes);
                             }
 
                             return self._getDefaultApplicationContext();
@@ -88,11 +67,6 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
                     resolve(applicationContext);
 
-                }).catch(function (error) {
-                    if (error instanceof SyntaxError && localStorage.getItem(constructor.LOCAL_STORAGE_KEY)) {
-                        localStorage.removeItem(constructor.LOCAL_STORAGE_KEY);
-                        return self._getDefaultApplicationContext();
-                    }
                 }).then(function (applicationContext) {
                     self._getContextPromise = null;
 
@@ -146,27 +120,73 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     _getDefaultApplicationContext: {
         value: function () {
-            return this._widgetService.getAvailableWidgets().then(function (widgets) {
-                var applicationContext = new ApplicationContext();
-                applicationContext.dashboardContext.widgets.push(widgets.get("system-info"));
+            var self = this;
 
-                return applicationContext;
+            return this._widgetService.getAvailableWidgets().then(function (widgets) {
+                return self._dataService.getNewInstanceForType(Model.ApplicationContext).then(function (applicationContext) {
+                    return Promise.all([
+                        self._dataService.getNewInstanceForType(Model.DashboardContext),
+                        self._dataService.getNewInstanceForType(Model.SideBarContext)
+                    ]).then(function (models) {
+                        applicationContext.dashboardContext = models[0];
+                        applicationContext.sideBarContext = models[1];
+                        applicationContext.dashboardContext.widgets = [widgets.get("system-info")];
+                        applicationContext.sideBarContext.widgets = [];
+
+                        return applicationContext;
+                    });
+                });
             });
         }
     },
 
-    _saveApplicationContextLocally: {
-        value: function () {
-            var applicationContextJSON = JSON.stringify(this.constructor.applicationContext);
-            return localStorage.setItem(this.constructor.LOCAL_STORAGE_KEY, applicationContextJSON);
+    _populateWidgetToApplicationContext: {
+        value: function (applicationRawContext) {
+            var self = this;
+
+
+
+            return this._widgetService.getAvailableWidgets().then(function (widgets) {
+                self._findWidgetsFromAvailableWidgets(applicationRawContext.dashboardContext.widgets, widgets);
+                self._findWidgetsFromAvailableWidgets(applicationRawContext.sideBarContext.widgets, widgets);
+                debugger
+                return applicationRawContext;
+            });
+        }
+    },
+
+    _findWidgetsFromAvailableWidgets: {
+        value: function (rawWidgets, availableWidgets) {
+            var widget;
+
+            for (var i = 0, length = rawWidgets.length; i < length; i++) {
+                widget = this._findWidgetFromAvailableWidgetsWithTitle(availableWidgets, rawWidgets[i].title);
+
+                if (widget) {
+                    rawWidgets.splice(i, 1, widget);
+                } else {
+                    console.warn("no widget found for: " + rawWidgets[i].title);
+                }
+            }
+
+            return rawWidgets;
+        }
+    },
+
+    _findWidgetFromAvailableWidgetsWithTitle: {
+        value: function (availableWidgets, title) {
+            var mapIterator = availableWidgets.keys(),
+                key;
+
+            while ((key = mapIterator.next().value)) {
+                if (key === title) {
+                    return availableWidgets.get(key);
+                }
+            }
         }
     }
 
 }, {
-
-    LOCAL_STORAGE_KEY: {
-        value: 'gui-application-context'
-    },
 
     instance: {
         get: function() {
