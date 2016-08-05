@@ -47,12 +47,14 @@ var PropertyTypeService = function() {
     };
 
     this.getTypeForObjectProperty = function(object, data, propertyKey) {
-        var objectTypeName = object.constructor.Type.typeName,
-            objectMappings = this._mappings[objectTypeName];
-        if (objectMappings) {
-            var propertyMapping = objectMappings[propertyKey];
-            if (propertyMapping) {
-                return propertyMapping.mapping[data[propertyMapping.discriminator]];
+        if (object && object.constructor && object.constructor.Type) {
+            var objectTypeName = object.constructor.Type.typeName,
+                objectMappings = this._mappings[objectTypeName];
+            if (objectMappings) {
+                var propertyMapping = objectMappings[propertyKey];
+                if (propertyMapping) {
+                    return propertyMapping.mapping[data[propertyMapping.discriminator]];
+                }
             }
         }
         return null;
