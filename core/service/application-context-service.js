@@ -83,6 +83,11 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
                     resolve(applicationContext);
 
+                }).catch(function (error) {
+                    if (error instanceof SyntaxError && localStorage.getItem(constructor.LOCAL_STORAGE_KEY)) {
+                        localStorage.removeItem(constructor.LOCAL_STORAGE_KEY);
+                        return self._getDefaultApplicationContext();
+                    }
                 }).then(function (applicationContext) {
                     self._getContextPromise = null;
 
