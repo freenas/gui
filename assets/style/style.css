@@ -275,6 +275,7 @@ td {
 .table {
     display: table;
     width: 100%;
+    table-layout: fixed;
 }
 .thead {
     display: table-header-group;
@@ -287,7 +288,6 @@ td {
     display: table-cell;
     padding: .5rem 1rem;
     line-height: 1rem;
-    vertical-align: middle;
 }
 
 .table-row-group { display: table-row-group; }
