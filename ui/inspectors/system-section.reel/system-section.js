@@ -22,11 +22,13 @@ exports.SystemSection = Component.specialize({
                 case "mail":
                     this.canSave = true;
                     this.canRevert = true;
+                    this.hasTable = false;
                     break;
                 case "updates":
                 case "bootPool":
                     this.canSave = false;
                     this.canRevert = false;
+                    this.hasTable = true;
                     break;
             }
             this._object = object;
