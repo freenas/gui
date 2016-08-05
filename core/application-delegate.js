@@ -26,7 +26,8 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     Montage = require("montage").Montage;
 
 
-var UserInterfaceDescriptorPromisesMap = new Map();
+var UserInterfaceDescriptorPromisesMap = new Map(),
+    EMPTY_ARRAY = [];
 
 
 exports.ApplicationDelegate = Montage.specialize({
@@ -93,7 +94,7 @@ exports.ApplicationDelegate = Montage.specialize({
     handleSectionChange: {
         value: function(section, propertyName, app) {
             if (!app.selectionService.getSectionSelection(section)) {
-                app.selectionService.saveSectionSelection(section, null);
+                app.selectionService.saveSectionSelection(section, EMPTY_ARRAY);
             }
         }
     },
