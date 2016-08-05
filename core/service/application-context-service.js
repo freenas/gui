@@ -149,8 +149,8 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
     //TODO: throw an error?
     _saveApplicationContextLocally: {
         value: function () {
-            var applicationContextJSON = JSON.stringify(constructor.applicationContext);
-            return localStorage.setItem(constructor.LOCAL_STORAGE_KEY, applicationContextJSON);
+            var applicationContextJSON = JSON.stringify(this.constructor.applicationContext);
+            return localStorage.setItem(this.constructor.LOCAL_STORAGE_KEY, applicationContextJSON);
         }
     }
 
