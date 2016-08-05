@@ -7,10 +7,15 @@ var Montage = require("montage").Montage,
     Promise = require("montage/core/promise").Promise;
 
 
+//FIXME: need to be remove once bug l32 will be fixed.
+window._secretApplicationContextSave = function _secretApplicationContextSave () {
+    return ApplicationContextService.instance.save(true);
+};
+
 var ApplicationContextService = exports.ApplicationContextService = Montage.specialize({
 
     save: {
-        value: function () {
+        value: function (_secret) {
             var saveContextPromise;
 
             if (this._saveContextPromise) {
@@ -24,7 +29,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     var promise;
 
                     //FIXME: @pierre freenas-service L277 self._selectionService.saveTaskSelection(taskId, object);??
-                    if (self._dataService && false) { //experimental
+                    if (self._dataService && _secret) { //experimental
                         promise = self.findCurrentUser().then(function (user) {
                             user.attributes = constructor.applicationContext;
 
