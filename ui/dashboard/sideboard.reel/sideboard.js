@@ -1,13 +1,15 @@
-var Component = require("montage/ui/component").Component,
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
     notificationCenter = require("core/backend/notification-center").defaultNotificationCenter;
 
 /**
  * @class Sideboard
  * @extends Component
  */
-exports.Sideboard = Component.specialize({
+exports.Sideboard = AbstractComponentActionDelegate.specialize({
     enterDocument: {
-        value: function() {
+        value: function (isFirstTime) {
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
+
             this.notifications = notificationCenter.notifications;
         }
     },
@@ -21,4 +23,5 @@ exports.Sideboard = Component.specialize({
             this.isCollapsed = !this.isCollapsed;
         }
     }
+    
 });
