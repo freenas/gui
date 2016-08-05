@@ -1,4 +1,12 @@
 {
+  "blueprint_replicationlink_auto_recover": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auto_recover",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_replicationlink_bidirectional": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -19,6 +27,14 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationlink_initial_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "initial_master",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -85,9 +101,11 @@
     "properties": {
       "name": "ReplicationLink",
       "propertyBlueprints": [
+        {"@": "blueprint_replicationlink_auto_recover"},
         {"@": "blueprint_replicationlink_bidirectional"},
         {"@": "blueprint_replicationlink_datasets"},
         {"@": "blueprint_replicationlink_id"},
+        {"@": "blueprint_replicationlink_initial_master"},
         {"@": "blueprint_replicationlink_master"},
         {"@": "blueprint_replicationlink_name"},
         {"@": "blueprint_replicationlink_partners"},

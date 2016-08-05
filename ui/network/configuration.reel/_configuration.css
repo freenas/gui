@@ -41,8 +41,8 @@
 
 /* Foldable Section Overriedes */
 
-.Configuration-disabledInterfaces { margin-bottom: 0; }
-.Configuration-disabledInterfaces .InspectorSectionTitle { margin: 0; }
+.Configuration-disabledInterfaces { margin: 0; }
+.Configuration-disabledInterfaces .InspectorSectionTitle { margin: 0; padding: 0; }
 .Configuration-disabledInterfaces .FoldableSection-content { margin: 0; padding: 0;}
 .Configuration-disabledInterfaces .FoldableSection-contentContainer { padding: 0; }
 .Configuration-disabledInterfaces .FoldableSection-expand svg { margin-right: 1em; }

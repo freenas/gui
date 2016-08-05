@@ -47,6 +47,75 @@
 
 .MainSidebar-userSummary { flex-shrink: 0; }
 
+.MainSidebar-globalActions {
+    position: relative;
+    background: #0F1213;
+
+    & > * {
+        min-width: 0;
+    }
+
+    & svg {
+        height: 1.4em;
+        width: 1.4em;
+    }
+}
+
+.MainSidebar-globalActions-button {
+    display: flex;
+    padding: .5em;
+    cursor: pointer;
+
+    &:focus {
+        background: rgba(255,255,255,.05);
+    }
+
+    &:focus + .MainSidebar-globalActions-options {
+        display: block;
+    }
+}
+
+.MainSidebar-user {
+    width: 100%;
+    word-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: .5em;
+}
+
+.MainSidebar-globalActions-options {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: 0;
+    bottom: 100%;
+    list-style: none;
+    margin: 0;
+    border-top-right-radius: 4px;
+    border-top-left-radius:  4px;
+
+    & li {
+        background: #16171A;
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
+
+        &:hover {
+            background: #242628;
+        }
+    }
+
+    & button {
+        width: 100%;
+        text-align: left;
+        padding: .5em;
+        color: #e6e6e6;
+        font-size: 1em;
+        font-weight: 200;
+        font-family: inherit;
+        cursor: pointer;
+    }
+}
+
 
 @media (min-height: 40em) {
     .MainSidebar-freenasLogo {

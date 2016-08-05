@@ -227,6 +227,7 @@ exports.NetworkInterfaceStatus = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "aliases",
+            valueObjectPrototypeName: "NetworkInterfaceAlias",
             valueType: "array"
         }, {
             mandatory: false,
@@ -283,6 +284,7 @@ exports.NetworkInterfaceStatus = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "nd6_flags",
+            valueObjectPrototypeName: "NetworkInterfaceNd6Flag",
             valueType: "array"
         }, {
             mandatory: false,

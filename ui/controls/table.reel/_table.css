@@ -17,10 +17,13 @@
 
 .Table-row:nth-of-type(even) { background-color: rgba(0,0,0,.1); }
 
-/*.Table-row:hover {
-    background-color: rgba(0,0,0,.2);
-    color: #E0E5E5;
-}*/
+.Table-row.is-pending {
+    pointer-events: none;
+    opacity: .25;
+    background: green;
+    background: rgba(0,0,0,.5);
+
+}
 
 .Table-label {
     position: relative;

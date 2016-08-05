@@ -32,6 +32,7 @@ exports.NetworkStatusDns = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "addresses",
+            valueObjectPrototypeName: "IpAddress",
             valueType: "array"
         }, {
             mandatory: false,

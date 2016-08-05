@@ -1,4 +1,4 @@
-var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
     ShareService = require("core/service/share-service").ShareService;
 
 /**

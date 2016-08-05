@@ -290,6 +290,7 @@ exports.ServiceUps = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "email_recipients",
+            valueObjectPrototypeName: "Email",
             valueType: "array"
         }, {
             mandatory: false,

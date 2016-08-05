@@ -1,4 +1,5 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
+    SnapshotService = require("montage-data/logic/service/snapshot-service").SnapshotService,
     BackEndBridgeModule = require("../backend/backend-bridge"),
     DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
     NotificationCenterModule = require("../backend/notification-center"),
@@ -48,6 +49,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             //Fixme: temporary cache
             this.modelsCache = new Map();
 
+            this._snapshotService = new SnapshotService();
             this._selectionService = SelectionService.instance;
 
             return this;
@@ -77,6 +79,10 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
     },
 
     _keepAliveInterval: {
+        value: null
+    },
+
+    _snapshotService: {
         value: null
     },
 
@@ -152,6 +158,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
             Model.SystemAdvanced,
             Model.SystemDevice,
             Model.Service,
+            Model.NetworkConfig,
+            Model.Mail,
             Model.Alert,
             Model.Update,
             Model.UpdateTrain,
@@ -231,6 +239,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     }
                 ).then(function (response) {
                     return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, response.data, object);
+                }).then(function() {
+                    return self._snapshotService.removeSnapshotForTypeNameAndId(type.typeName, object.id);
                 });
             }
 
@@ -262,14 +272,17 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 if (serviceDescriptor) {
                     var self = this,
+                        payload,
                         taskName = serviceDescriptor.task,
                         taskId;
+
+                    payload = this._snapshotService.getDifferenceWithSnapshotForTypeNameAndId(rawData, type.typeName, object.id);
 
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
                             method: serviceDescriptor.method,
-                            args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, rawData] : [rawData]]
+                            args: [taskName, isUpdate && !modelHasNoId ? [object.persistedId, payload] : [payload]]
                         }
                     ).then(function (response) {
                         taskId = response.data;
@@ -326,7 +339,8 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 keys = Object.keys(data),
                 propertyDescriptor,
                 rawValue,
-                key;
+                key,
+                j, valuesLength;
 
             for (var i = 0, n = keys.length; i < n; i ++) {
                 key = keys[i];
@@ -335,8 +349,15 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                 if (propertyDescriptor) {
                     rawValue = data[key];
 
-                    if (propertyDescriptor.valueObjectPrototypeName && propertyDescriptor.valueType === "object") {
-                        this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue, data);
+                    if (propertyDescriptor.valueObjectPrototypeName) {
+                        if (propertyDescriptor.valueType === "object") {
+                            this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue, data);
+                        } else if (propertyDescriptor.valueType === "array") {
+                            object[key] = [];
+                            for (j = 0, valuesLength = rawValue.length; j < valuesLength; j++) {
+                                this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object[key], j, rawValue[j], data);
+                            }
+                        }
                     } else {
                         this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
 
@@ -346,6 +367,7 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
                     }
                 }
             }
+            this._snapshotService.saveSnapshotForTypeNameAndId(data, object.constructor.Type.typeName, object.id);
         }
     },
 
@@ -427,6 +449,46 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
+    restoreSnapshotVersion: {
+        value: function(object) {
+            var self = this,
+                type = object.constructor.Type;
+            if (!object._isNew) {
+                var id = object.id,
+                    modelCache = this._findModelCacheForType(type),
+                    snapshot = this._snapshotService.getSnapshotForTypeNameAndId(type.typeName, id);
+                if (snapshot) {
+                    this.mapFromRawData(object, snapshot);
+                }
+                return Promise.resolve(object);
+            } else {
+                return this.getNewInstanceForType(type).then(function(cleanObject) {
+                    var childrenPromises = [],
+                        keys = Object.keys(object), key;
+                    for (var i = 0, length = keys.length; i < length; i++) {
+                        key = keys[i];
+                        if (key in cleanObject) {
+                            if (typeof object[key] === "object" && object[key] && object[key].constructor && object[key].constructor.Type) {
+                                childrenPromises.push(self._resetObjectPropertyToNewInstance(object, key));
+                            } else {
+                                object[key] = cleanObject[key];
+                            }
+                        }
+                    }
+                    return childrenPromises.length > 0 ? Promise.all(childrenPromises).then(function() { return object; }) : object;
+                });
+            }
+        }
+    },
+
+    _resetObjectPropertyToNewInstance: {
+        value: function(object, propertyName) {
+            return this.getNewInstanceForType(object[propertyName].constructor.Type).then(function(child) {
+                object[propertyName] = child;
+            });
+        }
+    },
+
     //FIXME: hacky
     getEmptyCollectionForType: {
         value: function (type) {
@@ -437,6 +499,14 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
         }
     },
 
+    //FIXME: hacky, only used when fetching data without montage-data, which should never happen...
+    mapRawDataToType: {
+        value: function(data, type) {
+            var object = this.getDataObject(type);
+            this._firstServiceForType(type).mapFromRawData(object, data);
+            return object;
+        }
+    },
 
 /*----------------------------------------------------------------------------------------------------------------------
                                              DataService Private Functions
@@ -871,9 +941,11 @@ var FreeNASService = exports.FreeNASService = DataService.specialize({
 
                 //Fixme: hacky
                 instance.getNewInstanceForType = FreeNASService.prototype.getNewInstanceForType;
+                instance.restoreSnapshotVersion = FreeNASService.prototype.restoreSnapshotVersion.bind(freeNASService);
                 instance.getEmptyCollectionForType = FreeNASService.prototype.getEmptyCollectionForType;
                 instance.callBackend = FreeNASService.prototype.callBackend;
                 instance.backendBridge = BackEndBridgeModule.defaultBackendBridge;
+                instance.mapRawDataToType = FreeNASService.prototype.mapRawDataToType;
 
                 DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;

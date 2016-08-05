@@ -189,6 +189,7 @@ exports.Docker = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "volumes",
+            valueObjectPrototypeName: "DockerVolume",
             valueType: "array"
         }]
     }

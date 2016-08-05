@@ -13,22 +13,13 @@
         "dateConverter": {
             "prototype": "montage/core/converter/date-converter",
             "properties": {
-                "pattern": "d"
+                "pattern": "M/d/yy"
             }
         },
         "timeConverter": {
             "prototype": "montage/core/converter/date-converter",
             "properties": {
                 "pattern": "T"
-            }
-        },
-        "username": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "username"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.session.username"}
             }
         },
         "host": {
@@ -71,10 +62,11 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CurrentUserSummary">
-        <div data-montage-id="username" class="CurrentUserSummary-userAvatar"></div>
         <div data-montage-id="host" class="CurrentUserSummary-host"></div>
-        <div data-montage-id="date"></div>
-        <div data-montage-id="time"></div>
+        <div class="CurrentUserSummary-time">
+            <div data-montage-id="date"></div>
+            <div data-montage-id="time"></div>
+        </div>
     </div>
 </body>
 </html>

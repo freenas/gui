@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="sideboard.css">
     <script type="text/montage-serialization">
     {
@@ -13,13 +12,7 @@
                 "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"},
                 "alerts": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}"},
                 "tasks": {"<-": "@owner.notifications.filter{type == 'TASK'}"}
-            },
-            "listeners": [
-                {
-                    "type": "action",
-                    "listener": {"@": "owner"}
-                }
-            ]
+            }
         },
         "alerts": {
             "prototype": "ui/widgets/notifications.reel",

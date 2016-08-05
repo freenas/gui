@@ -260,6 +260,16 @@
             "bindings": {
                 "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
             }
+        },
+        "webvncConsole": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "webvncConsole"},
+                "value": "Launch Graphical Console"
+            },
+            "bindings": {
+                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
+            }
         }
     }
     </script>
@@ -284,11 +294,12 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
-            <div data-montage-id="devices"></div>
+            <div data-montage-id="devices" class="g-negative-margin-sides"></div>
             <div class="VirtualMachine-actions">
                 <div data-montage-id="start"></div>
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
+                <div data-montage-id="webvncConsole"></div>
             </div>
         </div>
     </div>

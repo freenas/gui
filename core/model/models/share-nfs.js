@@ -151,6 +151,7 @@ exports.ShareNfs = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "security",
+            valueObjectPrototypeName: "ShareNfsSecurityItems",
             valueType: "array"
         }, {
             mandatory: false,

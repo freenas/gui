@@ -519,6 +519,7 @@ exports.ServiceFtp = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "tls_options",
+            valueObjectPrototypeName: "ServiceFtpTlsoptionsItems",
             valueType: "array"
         }, {
             mandatory: false,

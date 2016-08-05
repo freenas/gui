@@ -20,7 +20,8 @@
     "properties": {
       "name": "devices",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "VmDevice"
     }
   },
   "blueprint_vm_enabled": {

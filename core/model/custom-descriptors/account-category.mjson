@@ -20,6 +20,13 @@
       "blueprint": {"@": "root"}
     }
   },
+  "blueprint_accountcategory_directoryService": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "directoryService",
+      "blueprint": {"@": "root"}
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -27,7 +34,8 @@
       "propertyBlueprints": [
         {"@": "blueprint_accountcategory_user"},
         {"@": "blueprint_accountcategory_group"},
-        {"@": "blueprint_accountcategory_system"}
+        {"@": "blueprint_accountcategory_system"},
+        {"@": "blueprint_accountcategory_directoryService"}
       ]
     }
   }

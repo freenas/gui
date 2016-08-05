@@ -3,7 +3,7 @@
  */
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate;
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 
 var CLASS_NAMES_FOR_MODES = {

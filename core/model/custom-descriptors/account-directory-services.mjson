@@ -1,0 +1,34 @@
+{
+ "blueprint_activeDirectory": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "activeDirectory",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_ldap": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ldap",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "blueprint_nis": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "nis",
+      "blueprint": {"@": "root"}
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "AccountDirectoryServices",
+      "propertyBlueprints": [
+        {"@": "blueprint_activeDirectory"},
+        {"@": "blueprint_ldap"},
+        {"@": "blueprint_nis"}
+      ]
+    }
+  }
+}

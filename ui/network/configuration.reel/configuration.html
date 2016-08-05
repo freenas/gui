@@ -45,13 +45,22 @@
                 "classList.has('hide')": {"<-": "!@owner.object.networkConfiguration.gateway.ipv6"}
             }
         },
+        "ipv6LabelCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "ipv6LabelCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.summary.interfaces.filter{enabled}.filter{ipv6.length > 0}.length > 0"}
+            }
+        },
         "interfaceRepetition": {
             "prototype": "montage/ui/repetition.reel",
             "properties": {
                 "element": {"#": "interfaceRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.interfaces.filter{ipv4 || ipv6}"}
+                "content": {"<-": "@owner.object.summary.interfaces.filter{enabled}"}
             }
         },
         "interface": {
@@ -106,7 +115,7 @@
                 "title": "Disabled Interfaces"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.object.summary.interfaces.filter{!ipv4 && !ipv6}.length == 0"}
+                "classList.has('hide')": {"<-": "@owner.object.summary.interfaces.filter{!enabled}.length == 0"}
             }
         },
         "disabledInterfacesRepetition": {
@@ -115,16 +124,25 @@
                 "element": {"#": "disabledInterfacesRepetition"}
             },
             "bindings": {
-                "content": {"<-": "@owner.object.summary.interfaces.filter{!ipv4 && !ipv6}"}
+                "content": {"<-": "@owner.object.summary.interfaces.filter{!enabled}"}
             }
         },
         "disabledInterface": {
-            "prototype": "montage/ui/text.reel",
+            "prototype": "./interface-overview-item.reel",
             "properties": {
                 "element": {"#": "disabledInterface"}
             },
             "bindings": {
-                "value": {"<-": "@disabledInterfacesRepetition:iteration.object.name"}
+                "object": {"<-": "@disabledInterfacesRepetition:iteration.object"}
+            }
+        },
+        "disabledIpv6LabelCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "disabledIpv6LabelCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.summary.interfaces.filter{!enabled}.filter{ipv6.length > 0}.length > 0"}
             }
         },
         "routesSection": {
@@ -174,7 +192,9 @@
                             <div class="tr">
                                 <div class="th">Interface</div>
                                 <div class="th">IPv4</div>
-                                <div class="th">IPv6</div>
+                                <div data-montage-id="ipv6LabelCondition">
+                                    <div class="th">IPv6</div>
+                                </div>
                             </div>
                         </div>
                         <div data-montage-id="interfaceRepetition" class="tbody">
@@ -183,8 +203,19 @@
                     </div>
 
                     <div data-montage-id="disabledInterfaces" class="Configuration-disabledInterfaces">
-                        <div data-montage-id="disabledInterfacesRepetition">
-                            <div data-montage-id="disabledInterface" class="Configuration-disabledInterface"></div>
+                        <div class="table">
+                            <div class="thead">
+                                <div class="tr">
+                                    <div class="th">Interface</div>
+                                    <div class="th">IPv4</div>
+                                    <div data-montage-id="disabledIpv6LabelCondition">
+                                        <div class="th">IPv6</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-montage-id="disabledInterfacesRepetition" class="tbody">
+                                <div data-montage-id="disabledInterface"></div>
+                            </div>
                         </div>
                     </div>
 

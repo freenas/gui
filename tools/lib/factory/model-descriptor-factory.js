@@ -191,6 +191,9 @@ function getModelDescriptorWithNameAndSchema(name, schema) {
             if (type !== void 0 && type !== null) {
                 if (typeof type === "string") {
                     setTypeOnPropertyDescriptor(type, propertyDescriptor);
+                    if (type === "array" && property.items) {
+                        setArrayTypeOnPropertyDescriptor(property.items, propertyDescriptor);
+                    }
                 } else if (Array.isArray(type)) {
                     //todo check if [0] !== null
                     setTypeOnPropertyDescriptor(property.type[0], propertyDescriptor);
@@ -244,4 +247,10 @@ function setTypeOnPropertyDescriptor(type, propertyDescriptor) {
     }
 
     propertyDescriptor.valueType = type;
+}
+
+function setArrayTypeOnPropertyDescriptor(items, propertyDescriptor) {
+    if (items && typeof items === "object" && items['$ref']) {
+        propertyDescriptor.valueObjectPrototypeName = items['$ref'].toCamelCase();
+    }
 }

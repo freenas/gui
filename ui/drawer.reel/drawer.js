@@ -2,7 +2,7 @@
  * @module ui/drawer.reel
  */
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
     WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
     DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem,
     Promise = require("montage/core/promise").Promise;
@@ -18,23 +18,8 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
             AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
             AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
 
-            if (!this.applicationContext && !this._loadingPromise) {
-                var self = this;
-
-                this._loadingPromise = Promise.all([
-                    this.application.applicationContextService.get(),
-                    this.application.widgetService.getAvailableWidgets()
-                ]).then(function (arguments) {
-                    var applicationContext = arguments[0],
-                        availableWidgets = arguments[1];
-
-                    self.items = availableWidgets.toArray();
-                    self.userWidgets = applicationContext.dashboardContext.widgets;
-
-                    self.addRangeAtPathChangeListener("userWidgets", self, "_handleUserWidgetsChange");
-                }).finally(function () {
-                    self._loadingPromise = null;
-                });
+            if (isFirstTime) {
+                this.application.addEventListener("userLogged", this, false);
             }
         }
     },
@@ -45,6 +30,27 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
             AbstractComponentActionDelegate.prototype.exitDocument.call(this);
 
             this._unToggledCurrentDrawerItemIfNeeded();
+        }
+    },
+
+    handleUserLogged: {
+        value: function () {
+            var self = this;
+
+            this._loadingPromise = Promise.all([
+                this.application.applicationContextService.get(),
+                this.application.widgetService.getAvailableWidgets()
+            ]).then(function (arguments) {
+                var applicationContext = arguments[0],
+                    availableWidgets = arguments[1];
+
+                self.items = availableWidgets.toArray();
+                self.userWidgets = applicationContext.dashboardContext.widgets;
+
+                self.addRangeAtPathChangeListener("userWidgets", self, "_handleUserWidgetsChange");
+            }).finally(function () {
+                self._loadingPromise = null;
+            });
         }
     },
 

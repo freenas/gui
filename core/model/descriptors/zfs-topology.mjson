@@ -4,7 +4,8 @@
     "properties": {
       "name": "cache",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "ZfsVdev"
     }
   },
   "blueprint_zfstopology_data": {
@@ -12,7 +13,8 @@
     "properties": {
       "name": "data",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "ZfsVdev"
     }
   },
   "blueprint_zfstopology_log": {
@@ -20,7 +22,8 @@
     "properties": {
       "name": "log",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "ZfsVdev"
     }
   },
   "blueprint_zfstopology_spare": {
@@ -28,7 +31,8 @@
     "properties": {
       "name": "spare",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "ZfsVdev"
     }
   },
   "root": {

@@ -1,5 +1,5 @@
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delege").AbstractComponentActionDelegate,
+    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
     WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
     DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem;
 

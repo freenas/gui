@@ -41,30 +41,32 @@ var createModelWithDescriptor = exports.createModelWithDescriptor = function cre
         for (i = 0, length = propertyBlueprints.length; i < length; i++) {
             property = descriptor[propertyBlueprints[i]["@"]];
 
-            propertyDescriptor = {
-                name: property.properties.name,
-                valueType: property.properties.valueType,
-                mandatory: !!property.properties.mandatory
-            };
+            if (property) {
+                propertyDescriptor = {
+                    name: property.properties.name,
+                    valueType: property.properties.valueType,
+                    mandatory: !!property.properties.mandatory
+                };
 
-            if (property.properties.valueObjectPrototypeName) {
-                propertyDescriptor.valueObjectPrototypeName = property.properties.valueObjectPrototypeName;
+                if (property.properties.valueObjectPrototypeName) {
+                    propertyDescriptor.valueObjectPrototypeName = property.properties.valueObjectPrototypeName;
 
-                if (!model.requiresMap.has(propertyDescriptor.valueObjectPrototypeName)) {
-                    model.requiresMap.set(propertyDescriptor.valueObjectPrototypeName, true);
+                    if (!model.requiresMap.has(propertyDescriptor.valueObjectPrototypeName)) {
+                        model.requiresMap.set(propertyDescriptor.valueObjectPrototypeName, true);
 
-                    model.requires.push({
-                        name: propertyDescriptor.valueObjectPrototypeName,
-                        moduleId: "core/model/models/" + _toFileName(propertyDescriptor.valueObjectPrototypeName, "-")
-                    });
+                        model.requires.push({
+                            name: propertyDescriptor.valueObjectPrototypeName,
+                            moduleId: "core/model/models/" + _toFileName(propertyDescriptor.valueObjectPrototypeName, "-")
+                        });
+                    }
                 }
-            }
 
-            if (property.properties.readyOnly) {
-                propertyDescriptor.readyOnly = true;
-            }
+                if (property.properties.readyOnly) {
+                    propertyDescriptor.readyOnly = true;
+                }
 
-            model.properties.push(propertyDescriptor);
+                model.properties.push(propertyDescriptor);
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="services-category.css">
     <script type="text/montage-serialization">
     {
@@ -10,7 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "categoryServices": {"<-": "@owner.object.services.filter{@owner.object.types.has(this.config.type)}"}
+                "categoryServices": {"<-": "@owner.object.services.filter{@owner.object.types.has(this.config.type)}"},
+                "selectedObject": {"<->": "@services.selectedObject"}
             }
         },
         "overview": {
@@ -30,19 +30,10 @@
             }
         },
         "services": {
-            "prototype": "montage/ui/repetition.reel",
+            "prototype": "ui/controls/list.reel",
             "properties": {
                 "element": {"#": "services"},
-                "contentController": {"@": "controller"}
-            }
-        },
-        "service": {
-            "prototype": "ui/controls/inspector-option.reel",
-            "properties": {
-                "element": {"#": "service"}
-            },
-            "bindings": {
-                "object": {"<-": "@services:iteration.object"}
+                "controller": {"@": "controller"}
             }
         }
     }
@@ -51,9 +42,7 @@
 <body>
     <div data-montage-id="owner" class="Share">
         <div data-montage-id="overview"></div>
-        <div data-montage-id="services">
-            <div data-montage-id="service"></div>
-        </div>
+        <div data-montage-id="services"></div>
     </div>
 </body>
 </html>

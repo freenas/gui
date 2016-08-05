@@ -6,13 +6,13 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.VirtualMachineDeviceUsb = Component.specialize({
-    usbDeviceOptions: {
+    usbTypeOptions: {
         value: null
     },
 
     constructor: {
         value: function() {
-            this.usbDeviceOptions = VmDeviceUsbDevice.members;
+            this.usbTypeOptions = VmDeviceUsbDevice.members;
         }
     }
 });

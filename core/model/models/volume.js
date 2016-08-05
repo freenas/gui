@@ -14,19 +14,6 @@ exports.Volume = AbstractModel.specialize({
             return this._attributes;
         }
     },
-    _encrypted: {
-        value: null
-    },
-    encrypted: {
-        set: function (value) {
-            if (this._encrypted !== value) {
-                this._encrypted = value;
-            }
-        },
-        get: function () {
-            return this._encrypted;
-        }
-    },
     _encryption: {
         value: null
     },
@@ -66,6 +53,19 @@ exports.Volume = AbstractModel.specialize({
             return this._id;
         }
     },
+    _key_encrypted: {
+        value: null
+    },
+    key_encrypted: {
+        set: function (value) {
+            if (this._key_encrypted !== value) {
+                this._key_encrypted = value;
+            }
+        },
+        get: function () {
+            return this._key_encrypted;
+        }
+    },
     _params: {
         value: null
     },
@@ -77,6 +77,19 @@ exports.Volume = AbstractModel.specialize({
         },
         get: function () {
             return this._params;
+        }
+    },
+    _password_encrypted: {
+        value: null
+    },
+    password_encrypted: {
+        set: function (value) {
+            if (this._password_encrypted !== value) {
+                this._password_encrypted = value;
+            }
+        },
+        get: function () {
+            return this._password_encrypted;
         }
     },
     _properties: {
@@ -165,10 +178,6 @@ exports.Volume = AbstractModel.specialize({
             valueType: "object"
         }, {
             mandatory: false,
-            name: "encrypted",
-            valueType: "boolean"
-        }, {
-            mandatory: false,
             name: "encryption",
             valueObjectPrototypeName: "VolumeEncryption",
             valueType: "object"
@@ -182,8 +191,16 @@ exports.Volume = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
+            name: "key_encrypted",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
             name: "params",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "password_encrypted",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "properties",

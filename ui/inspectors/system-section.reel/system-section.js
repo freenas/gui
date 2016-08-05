@@ -19,6 +19,7 @@ exports.SystemSection = Component.specialize({
                 case "debug":
                 case "hardware":
                 case "WebUI":
+                case "mail":
                     this.canSave = true;
                     this.canRevert = true;
                     break;

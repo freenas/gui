@@ -140,7 +140,8 @@
     "properties": {
       "name": "partitions",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "DiskPartition"
     }
   },
   "blueprint_diskstatus_schema": {

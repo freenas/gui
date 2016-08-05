@@ -130,6 +130,7 @@ exports.SignIn = AuthorizationPanel.specialize({
                     self.errorMessage = error.message || error;
 
                 }).finally(function () {
+                    self.application.dispatchEventNamed("userLogged");
                     self.isAuthenticating = false;
                 });
             }

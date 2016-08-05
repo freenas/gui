@@ -240,6 +240,7 @@ exports.NetworkInterface = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "aliases",
+            valueObjectPrototypeName: "NetworkInterfaceAlias",
             valueType: "array"
         }, {
             mandatory: false,

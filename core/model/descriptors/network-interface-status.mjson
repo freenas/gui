@@ -4,7 +4,8 @@
     "properties": {
       "name": "aliases",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "NetworkInterfaceAlias"
     }
   },
   "blueprint_networkinterfacestatus_capabilities": {
@@ -112,7 +113,8 @@
     "properties": {
       "name": "nd6_flags",
       "blueprint": {"@": "root"},
-      "valueType": "array"
+      "valueType": "array",
+      "valueObjectPrototypeName": "NetworkInterfaceNd6Flag"
     }
   },
   "blueprint_networkinterfacestatus_parent": {

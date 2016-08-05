@@ -58,6 +58,7 @@ exports.KerberosKeytab = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "entries",
+            valueObjectPrototypeName: "KerberosKeytabEntry",
             valueType: "array"
         }, {
             mandatory: false,

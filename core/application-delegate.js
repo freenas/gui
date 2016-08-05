@@ -10,6 +10,7 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     UpdateService = require("core/service/update-service").UpdateService,
     FilesystemService = require("core/service/filesystem-service").FilesystemService,
     StatisticsService = require("core/service/statistics-service").StatisticsService,
+    MailService = require("core/service/mail-service").MailService,
     SystemService = require("core/service/system-service").SystemService,
     SystemUIService = require("core/service/system-ui-service").SystemUIService,
     SystemInfoService = require("core/service/system-info-service").SystemInfoService,
@@ -25,7 +26,8 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     Montage = require("montage").Montage;
 
 
-var UserInterfaceDescriptorPromisesMap = new Map();
+var UserInterfaceDescriptorPromisesMap = new Map(),
+    EMPTY_ARRAY = [];
 
 
 exports.ApplicationDelegate = Montage.specialize({
@@ -49,6 +51,7 @@ exports.ApplicationDelegate = Montage.specialize({
             app.updateService = UpdateService.instance;
             app.filesystemService = FilesystemService.instance;
             app.statisticsService = StatisticsService.instance;
+            app.mailService = MailService.instance;
             app.systemService = SystemService.instance;
             app.systemUIService = SystemUIService.instance;
             app.systemInfoService = SystemInfoService.instance;
@@ -60,6 +63,8 @@ exports.ApplicationDelegate = Montage.specialize({
             app.virtualMachineService = VirtualMachineService.instance;
             app.applicationContextService = ApplicationContextService.instance;
             app.widgetService = WidgetService.instance;
+
+            app.addOwnPropertyChangeListener("section", this);
 
             Object.defineProperties(app, {
 
@@ -86,6 +91,13 @@ exports.ApplicationDelegate = Montage.specialize({
         }
     },
 
+    handleSectionChange: {
+        value: function(section, propertyName, app) {
+            if (!app.selectionService.getSectionSelection(section)) {
+                app.selectionService.saveSectionSelection(section, EMPTY_ARRAY);
+            }
+        }
+    },
 
     getUserInterfaceDescriptorForType: {
         value: function (modelType) {
