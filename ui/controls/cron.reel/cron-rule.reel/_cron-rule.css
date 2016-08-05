@@ -18,8 +18,11 @@
 
     & > div {
         margin-bottom: .5em;
+        width: 100%;
     }
 }
+
+.CronRule .MultipleSelectGrid-option { min-width: 2.5em; }
 
 /* $fix - this might want to be global */
 .CronRule-removeButton.Button {
@@ -27,15 +30,20 @@
     min-width:  2.5em;
     padding: 0;
     text-align: center;
+    background: none;
+    box-shadow: none;
+    color: #666;
+
+    &:before { border-color: #666; }
+
+    &:hover:before { border-color: #E0003A; }
 
     & svg {
         margin: 0;
         margin-bottom: .1em;
     }
-
-    & span {
-        display: none;
-    }
+    /* removes text element */
+    & span { display: none; }
 }
 
 .CronRule-controls--every { margin-bottom: .5em; }
