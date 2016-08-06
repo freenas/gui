@@ -9,6 +9,10 @@ var Component = require("montage/ui/component").Component,
  */
 exports.User = Component.specialize({
 
+    userType: {
+        value: null
+    },
+
     _object: {
         value: null
     },
@@ -42,6 +46,13 @@ exports.User = Component.specialize({
             this.treeController.open(this._object.home).then(function() {
                 self._object.home = self.treeController.selectedPath;
             });
+            this.userType = this.object.builtin && this.object.uid !== 0 ? "system" : "user";
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.userType = null;
         }
     },
 

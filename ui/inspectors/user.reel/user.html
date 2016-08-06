@@ -38,10 +38,19 @@
         "uidValidator": {
             "prototype": "core/converter/validator/unix-account-id-validator"
         },
-        "uid": {
+        "systemUserSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "systemUserSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.userType"}
+            }
+        },
+        "uidEdit": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "uid"},
+                "element": {"#": "uidEdit"},
                 "label": "User ID",
                 "validator": {"@": "uidValidator"},
                 "errorMessage": "User ID must be between 0 and 4294967295"
@@ -50,14 +59,34 @@
                 "value": {"<->": "+@owner.object.uid"}
             }
         },
-        "username": {
+        "uidDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "uidDisplay"},
+                "label": "User ID"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.uid"}
+            }
+        },
+        "usernameEdit": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "username"},
+                "element": {"#": "usernameEdit"},
                 "label": "Username"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.username"}
+            }
+        },
+        "usernameDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "usernameDisplay"},
+                "label": "Username"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.username"}
             }
         },
         "password": {
@@ -72,14 +101,24 @@
                 "value": {"<->": "@owner.object.password"}
             }
         },
-        "full_name": {
+        "fullNameEdit": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "full_name"},
+                "element": {"#": "fullNameEdit"},
                 "label": "Display Name"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.full_name"}
+            }
+        },
+        "fullNameDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "fullNameDisplay"},
+                "label": "Display Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.full_name"}
             }
         },
         "groupOptionConverter": {
@@ -89,16 +128,26 @@
                 "labelPropertyName": "name"
             }
         },
-        "group": {
+        "groupEdit": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
-                "element": {"#": "group"},
+                "element": {"#": "groupEdit"},
                 "converter": {"@": "groupOptionConverter"},
                 "label": "Primary Group"
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.group"},
                 "options": {"<-": "[{id: -1, name: ' - ', builtin: false}].concat(@owner.groupOptions).sorted{builtin + name}"}
+            }
+        },
+        "groupDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "groupDisplay"},
+                "label": "Primary Group"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.groupOptions.filter{id == @owner.object.group}.name"}
             }
         },
         "additionalGroupsValidator": {
@@ -138,10 +187,10 @@
                 "enabled": {"<-": "@groupsSection.isExpanded"}
             }
         },
-        "home": {
+        "homeEdit": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
-                "element": {"#": "home"},
+                "element": {"#": "homeEdit"},
                 "controller": {"@": "filesystemTreeController"},
                 "label": "Home Directory"
             },
@@ -149,44 +198,94 @@
                 "selectedPath": {"<->": "@owner.object.home"}
             }
         },
-        "sshpubkey": {
+        "homeDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "homeDisplay"},
+                "label": "Home Directory"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.home"}
+            }
+        },
+        "sshpubkeyEdit": {
             "prototype": "blue-shark/ui/field-text-area.reel",
             "properties": {
-                "element": {"#": "sshpubkey"},
+                "element": {"#": "sshpubkeyEdit"},
                 "label": "SSH Public Key"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.sshpubkey"}
             }
         },
-        "password_disabled": {
+        "sshpubkeyDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "sshpubkeyDisplay"},
+                "label": "SSH Public Key"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.sshpubkey"}
+            }
+        },
+        "passwordDisabledEdit": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "password_disabled"},
+                "element": {"#": "passwordDisabledEdit"},
                 "label": "Disable Password"
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.password_disabled"}
             }
         },
-        "locked": {
+        "passwordDisabledDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "passwordDisabledDisplay"},
+                "label": "Password Disabled"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.password_disabled ? 'Yes' : 'No'"}
+            }
+        },
+        "lockedEdit": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "locked"},
+                "element": {"#": "lockedEdit"},
                 "label": "Lock Account"
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.locked"}
             }
         },
-        "sudo": {
+        "lockedDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "lockedDisplay"},
+                "label": "Account Locked"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.locked ? 'Yes' : 'No'"}
+            }
+        },
+        "sudoEdit": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "sudo"},
+                "element": {"#": "sudoEdit"},
                 "label": "Superuser"
             },
             "bindings": {
-                "checked": {"<-": "!!@owner.object.sudo"}
+                "checked": {"<->": "!!@owner.object.sudo"}
+            }
+        },
+        "sudoDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "sudoDisplay"},
+                "label": "Superuser"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.sudo ? 'Yes' : 'No'"}
             }
         }
     }
@@ -195,22 +294,42 @@
 <body>
     <div data-montage-id="owner" class="User">
         <div data-montage-id="inspector">
-            <div data-montage-id="uid"></div>
-            <div data-montage-id="username"></div>
-            <div data-montage-id="password"></div>
-            <div data-montage-id="full_name"></div>
-            <div data-montage-id="password"></div>
-            <div data-montage-id="group"></div>
-            <div data-montage-id="groupsSection">
-                <div data-montage-id="groups"></div>
+            <div data-montage-id="systemUserSubstitution">
+                <div data-arg="user">
+                    <div data-montage-id="uidEdit"></div>
+                    <div data-montage-id="usernameEdit"></div>
+                    <div data-montage-id="password"></div>
+                    <div data-montage-id="fullNameEdit"></div>
+                    <div data-montage-id="passwordEdit"></div>
+                    <div data-montage-id="groupEdit"></div>
+                    <div data-montage-id="groupsSection">
+                        <div data-montage-id="groups"></div>
+                    </div>
+                    <div data-montage-id="homeEdit"></div>
+                    <div data-montage-id="shellEdit"></div>
+                    <div data-montage-id="emailEdit"></div>
+                    <div data-montage-id="sshpubkeyEdit"></div>
+                    <div data-montage-id="passwordDisabledEdit"></div>
+                    <div data-montage-id="lockedEdit"></div>
+                    <div data-montage-id="sudoEdit"></div>
+                </div>
+                <div data-arg="system">
+                    <div data-montage-id="uidDisplay"></div>
+                    <div data-montage-id="usernameDisplay"></div>
+                    <div data-montage-id="fullNameDisplay"></div>
+                    <div data-montage-id="groupDisplay"></div>
+                    <!--<div data-montage-id="groupsSectionDisplay">
+                        <div data-montage-id="groups"></div>
+                    </div>-->
+                    <div data-montage-id="homeDisplay"></div>
+                    <div data-montage-id="shellDisplay"></div>
+                    <div data-montage-id="emailDisplay"></div>
+                    <div data-montage-id="sshpubkeyDisplay"></div>
+                    <div data-montage-id="passwordDisabledDisplay"></div>
+                    <div data-montage-id="lockedDisplay"></div>
+                    <div data-montage-id="sudoDisplay"></div>
+                </div>
             </div>
-            <div data-montage-id="home"></div>
-            <div data-montage-id="shell"></div>
-            <div data-montage-id="email"></div>
-            <div data-montage-id="sshpubkey"></div>
-            <div data-montage-id="password_disabled"></div>
-            <div data-montage-id="locked"></div>
-            <div data-montage-id="sudo"></div>
         </div>
     </div>
 </body>
