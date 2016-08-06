@@ -10,8 +10,8 @@
     "montage": "freenas/montage#c68147d5a3093bf181b0213472c42510bbd4a26b",
     "montage-data": "montagestudio/montage-data#ba17f20a52d0493f418b45072ed9698e689d8c0f",
     "plottable": "^2.2.0",
-    "term.js": "0.0.7",
-    "validators": "~0.3.1"
+    "validators": "~0.3.1",
+    "xterm": "^1.0.0"
   },
   "devDependencies": {
     "browser-sync": "^2.13.0",

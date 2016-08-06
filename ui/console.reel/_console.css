@@ -4,6 +4,7 @@
     flex-direction: column;
     background: #000000;
 }
+
 .Console-terminal {
     display: flex;
 }
@@ -14,7 +15,9 @@
     font-size: 1.2em;
     color: currentColor !important;
     background: transparent;
+    outline: none;
 }
+
 .Console .terminal-cursor {
     background: currentColor;
 }

@@ -2,7 +2,7 @@ var Component = require("montage/ui/component").Component,
     BackendBridge = require('core/backend/backend-bridge'),
     WebSocketClient = require("core/backend/websocket-client").WebSocketClient,
     WebSocketConfiguration = require("core/backend/websocket-configuration").WebSocketConfiguration,
-    Terminal = require('term.js/src/term');
+    Terminal = require('xterm/src/xterm');
 
 /**
  * @class Console
@@ -89,14 +89,14 @@ exports.Console = Component.specialize({
                 if (!self._term) {
                     self._term = new Terminal({
                         cols: 80,
-                        rows: 24,
+                        rows: 1,
                         screenKeys: true
                     });
                     self._term.open(self.terminalElement);
                 }
                 return self._defaultBackendBridge.send('rpc', 'call', {
                     method: 'shell.spawn',
-                    args: ['/usr/local/bin/cli', self._getColumns(), 24]
+                    args: ['/usr/local/bin/cli', self._getColumns(), 1]
                 });
             }).then(function(response) {
                 self._term.on('data', function(data) {
@@ -111,8 +111,8 @@ exports.Console = Component.specialize({
 
     _resizeTerminal: {
         value: function() {
-            if (this.terminalElement.firstElementChild) {
-                var line = this.terminalElement.firstElementChild.firstElementChild,
+            if (this._term) {
+                var line = this._term.children[0],
                     container = this.terminalElement.parentElement,
                     lines = Math.floor(container.offsetHeight / line.offsetHeight) - 2,
                     columns = this._getColumns();
@@ -124,13 +124,12 @@ exports.Console = Component.specialize({
 
     _getColumns: {
         value: function() {
-            var fontSize = Number(getComputedStyle(this.terminalElement.firstElementChild, "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
+            var fontSize = Number(getComputedStyle(this._term.children[0], "").fontSize.match(/(\d*(\.\d*)?)px/)[1]);
             this.terminalElement.firstElementChild.style.display = 'none';
-            var currentWidth = this.terminalElement.getBoundingClientRect().width,
-                offset = this._oldWidth && this._oldWidth > currentWidth ? 16 : 4;
+            var currentWidth = this.terminalElement.getBoundingClientRect().width;
             this.terminalElement.firstElementChild.style.display = 'block';
             this._oldWidth = currentWidth;
-            return Math.floor(currentWidth / fontSize * 1.6) - offset;
+            return Math.floor(currentWidth / fontSize * 1.6) - 4;
         }
     }
 });
