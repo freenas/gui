@@ -38,14 +38,13 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
             var self = this;
 
             this._loadingPromise = Promise.all([
-                this.application.applicationContextService.get(),
+                this.application.applicationContextService.findCurrentUser(),
                 this.application.widgetService.getAvailableWidgets()
             ]).then(function (arguments) {
-                var applicationContext = arguments[0],
-                    availableWidgets = arguments[1];
+                var availableWidgets = arguments[1];
 
                 self.items = availableWidgets.toArray();
-                self.userWidgets = applicationContext.dashboardContext.widgets;
+                self.currentUser = arguments[0];
 
                 self.addRangeAtPathChangeListener("userWidgets", self, "_handleUserWidgetsChange");
             }).finally(function () {
@@ -106,9 +105,17 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
             }
 
             if (minus && (length = minus.length)) {
-                for (i = 0; i < length; i++) {
-                    this.items.push(minus[i]);
-                }
+                var self = this;
+
+                this.application.widgetService.getAvailableWidgets().then(function (widgets) {
+                    widgets = widgets.toArray(); //@todo: change widgets to array and not a map
+
+                    for (i = 0; i < length; i++) {
+                        if (widgets.indexOf(minus[i]) > -1) {
+                            self.items.push(minus[i]);
+                        }
+                    }
+                });
             }
         }
     },

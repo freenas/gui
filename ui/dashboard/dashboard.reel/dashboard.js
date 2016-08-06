@@ -51,8 +51,9 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
             }
 
             if (!this.userWidgets) {
-                this.application.applicationContextService.get().then(function (applicationContext) {
-                    self.userWidgets = applicationContext.dashboardContext.widgets;
+                this.application.applicationContextService.findCurrentUser().then(function (user) {
+                    self.currentUser = user;
+                    //userWidgets is set by a binding.
                 });
             }
         }

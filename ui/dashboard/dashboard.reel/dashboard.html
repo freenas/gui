@@ -10,6 +10,7 @@
                 "_widgetsRepetition": {"@": "widgets"}
             },
             "bindings": {
+                "userWidgets": {"<-": "@owner.currentUser.attributes.dashboardContext.widgets"},
                 "classList.has('drawer-is-open')": {"<-": "@owner.application.isDrawerOpen"}
             }
         },

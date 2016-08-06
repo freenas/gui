@@ -16,17 +16,12 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 saveContextPromise = this._saveContextPromise;
 
             } else {
-                var self = this,
-                    constructor = this.constructor;
+                var self = this;
 
-                this._saveContextPromise = this._saveContextPromise = new Promise(function (resolve, reject) {
-                    resolve(self.findCurrentUser().then(function (user) {
-                        user.attributes = constructor.applicationContext;
-
-                        return self._dataService.saveDataObject(user);
-                    }));
-                }).then(function () {
+                this._saveContextPromise = this._saveContextPromise = self.findCurrentUser().then(function (user) {
                     self._saveContextPromise = null;
+
+                    return self._dataService.saveDataObject(user);
                 });
             }
 
@@ -39,38 +34,19 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
         value: function () {
             var getContextPromise;
 
-            if (this.constructor.applicationContext) {
-                getContextPromise = Promise.resolve(this.constructor.applicationContext);
+            if (this._currentUser && this._currentUser.attributes) {
+                getContextPromise = Promise.resolve(this._currentUser.attributes);
 
             } else if (this._getContextPromise) {
                 getContextPromise = this._getContextPromise;
 
             } else {
-                var self = this,
-                    constructor = this.constructor;
+                var self = this;
 
-                getContextPromise = this._getContextPromise = new Promise(function (resolve, reject) {
-                    var applicationContext;
-
-                    if (self._dataService) {
-                        applicationContext = self.findCurrentUser().then(function (user) {
-                            if (user.attributes && user.attributes.dashboardContext) {
-                                return self._populateWidgetToApplicationContext(user.attributes);
-                            }
-
-                            return self._getDefaultApplicationContext();
-                        });
-
-                    } else {
-                        applicationContext = self._getDefaultApplicationContext();
-                    }
-
-                    resolve(applicationContext);
-
-                }).then(function (applicationContext) {
+                getContextPromise = this._getContextPromise = self.findCurrentUser().then(function (user) {
                     self._getContextPromise = null;
 
-                    return (constructor.applicationContext = applicationContext);
+                    return user.attributes;
                 });
             }
 
@@ -87,11 +63,12 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
         }
     },
 
-
     //TODO: session service?
     findCurrentUser: {
         value: function () {
-            var sessionUsername = application.session.username;
+            var sessionUsername = application.session.username,
+                self = this,
+                currentUser;
 
             if (sessionUsername) {
                 if (this._currentUser && this._currentUser.username === sessionUsername) {
@@ -100,17 +77,25 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
                 this._currentUser = null;
 
-                var self = this;
-
                 return this._dataService.fetchData(Model.User).then(function (users) {
                     for (var i = 0, length = users.length; i < length; i++) {
                         if (users[i].username === sessionUsername) {
-                            self._currentUser = users[i];
-                            break;
+                            return users[i];
                         }
                     }
+                }).then(function (user) {
+                    currentUser = user;
 
-                    return self._currentUser;
+                    if (user.attributes && user.attributes.dashboardContext) {
+                        return user.attributes;
+                    }
+
+                    return self._getDefaultApplicationContext();
+                }).then(function (applicationContext) {
+                    currentUser.attributes = applicationContext;
+                    self.addPathChangeListener("_currentUser.attributes", self, "_handleRawApplicationContext");
+
+                    return (self._currentUser = currentUser);
                 });
             }
 
@@ -120,38 +105,45 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     _getDefaultApplicationContext: {
         value: function () {
-            var self = this;
+            if (this._widgetService) {
+                var self = this;
 
-            return this._widgetService.getAvailableWidgets().then(function (widgets) {
-                return self._dataService.getNewInstanceForType(Model.ApplicationContext).then(function (applicationContext) {
-                    return Promise.all([
-                        self._dataService.getNewInstanceForType(Model.DashboardContext),
-                        self._dataService.getNewInstanceForType(Model.SideBarContext)
-                    ]).then(function (models) {
-                        applicationContext.dashboardContext = models[0];
-                        applicationContext.sideBarContext = models[1];
-                        applicationContext.dashboardContext.widgets = [widgets.get("system-info")];
-                        applicationContext.sideBarContext.widgets = [];
+                return this._widgetService.getAvailableWidgets().then(function (widgets) {
+                    return self._dataService.getNewInstanceForType(Model.ApplicationContext).then(function (applicationContext) {
+                        return Promise.all([
+                            self._dataService.getNewInstanceForType(Model.DashboardContext),
+                            self._dataService.getNewInstanceForType(Model.SideBarContext)
+                        ]).then(function (models) {
+                            applicationContext.dashboardContext = models[0];
+                            applicationContext.sideBarContext = models[1];
+                            applicationContext.dashboardContext.widgets = [widgets.get("system-info")];
+                            applicationContext.sideBarContext.widgets = [];
 
-                        return applicationContext;
+                            return applicationContext;
+                        });
                     });
                 });
-            });
+            }
         }
     },
 
-    _populateWidgetToApplicationContext: {
+    _handleRawApplicationContext: {
         value: function (applicationRawContext) {
-            var self = this;
+            if (this._widgetService && applicationRawContext) {
+                var dashboardContextWidgets = applicationRawContext.dashboardContext.widgets || [],
+                    sideBarContextWidgets = applicationRawContext.sideBarContext.widgets || [],
+                    self = this;
 
+                applicationRawContext.sideBarContext.widgets = null;
+                applicationRawContext.dashboardContext.widgets = null;
 
+                this._widgetService.getAvailableWidgets().then(function (widgets) {
+                    applicationRawContext.dashboardContext.widgets = self._findWidgetsFromAvailableWidgets(dashboardContextWidgets, widgets);
+                    applicationRawContext.sideBarContext.widgets = self._findWidgetsFromAvailableWidgets(sideBarContextWidgets, widgets);
 
-            return this._widgetService.getAvailableWidgets().then(function (widgets) {
-                self._findWidgetsFromAvailableWidgets(applicationRawContext.dashboardContext.widgets, widgets);
-                self._findWidgetsFromAvailableWidgets(applicationRawContext.sideBarContext.widgets, widgets);
-                debugger
-                return applicationRawContext;
-            });
+                    return applicationRawContext;
+                });
+            }
         }
     },
 
