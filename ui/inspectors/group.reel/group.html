@@ -56,24 +56,53 @@
                 "value": {"<-": "@owner.object.gid"}
             }
         },
-        "name": {
+        "systemGroupSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "systemGroupSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.groupType"}
+            }
+        },
+        "nameEdit": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "name"},
+                "element": {"#": "nameEdit"},
                 "label": "Group Name"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.name"}
             }
         },
-        "sudo": {
+        "nameDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "nameDisplay"},
+                "label": "Group Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.name"}
+            }
+        },
+        "sudoEdit": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
-                "element": {"#": "sudo"},
+                "element": {"#": "sudoEdit"},
                 "label": "Administrator Permissions"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.sudo"}
+            }
+        },
+        "sudoDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "sudoDisplay"},
+                "label": "Administrator Permissions"
+            },
+            "bindings": {
+                "value": {"<-": "!!@owner.object.sudo ? 'Yes' : 'No'"}
             }
         }
     }
@@ -86,8 +115,16 @@
                 <div data-montage-id="gidEdit" data-arg="creating"></div>
                 <div data-montage-id="gidDisplay" data-arg="editing"></div>
             </div>
-            <div data-montage-id="name"></div>
-            <div data-montage-id="sudo"></div>
+            <div data-montage-id="systemGroupSubstitution">
+                <div data-arg="user">
+                    <div data-montage-id="nameEdit"></div>
+                    <div data-montage-id="sudoEdit"></div>
+                </div>
+                <div data-arg="system">
+                    <div data-montage-id="nameDisplay"></div>
+                    <div data-montage-id="sudoDisplay"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

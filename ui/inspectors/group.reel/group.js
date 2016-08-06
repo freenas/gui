@@ -18,6 +18,10 @@ exports.Group = Component.specialize({
         value: null
     },
 
+    groupType: {
+        value: null
+    },
+
     object: {
         get: function () {
             return this._object;
@@ -34,6 +38,18 @@ exports.Group = Component.specialize({
                     this.editMode = "editing";
                 }
             }
+        }
+    },
+
+    enterDocument: {
+        value: function () {
+            this.groupType = this.object.builtin && this.object.gid !== 0 ? "system" : "user";
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.groupType = null;
         }
     },
 
