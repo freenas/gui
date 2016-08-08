@@ -11,8 +11,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1em;
-    height: 3em;
+    padding: .75em;
+    /* height: 3em; */
     line-height: 1em;
     background: #404040;
     color: #e0e5e5;
