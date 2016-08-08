@@ -20,6 +20,7 @@ exports.SystemSection = Component.specialize({
                 case "hardware":
                 case "WebUI":
                 case "mail":
+                case "system":
                     this.canSave = true;
                     this.canRevert = true;
                     this.hasTable = false;
