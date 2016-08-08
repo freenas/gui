@@ -33,7 +33,7 @@ exports.Accounts = Component.specialize({
                     accountCategories,
                     self = this;
 
-                this._loadDataPromise = dataService.getNewInstanceForType(Model.AccountCategory).then(function (accountCategory) {
+                return this._loadDataPromise = dataService.getNewInstanceForType(Model.AccountCategory).then(function (accountCategory) {
                     accountCategories = self.accountCategories = accountCategory;
                     accountCategories.isLoading = true;
                     accountCategories.user = dataService.getEmptyCollectionForType(Model.User);
@@ -41,7 +41,7 @@ exports.Accounts = Component.specialize({
                     accountCategories.system = dataService.getEmptyCollectionForType(Model.AccountSystem);
 
                     return dataService.getNewInstanceForType(Model.AccountDirectoryServices).then(function (directoryServices) {
-                        accountCategories.directoryServices = directoryServices;
+                        return (accountCategories.directoryServices = directoryServices);
                     }).then(Promise.all([self._listUsers(), self._listGroups()])).then(function() {
                         self.accountCategories.isLoading = false;
                         self._loadDataPromise = null;
