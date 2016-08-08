@@ -1,3 +1,5 @@
+/* $fix - this should probably pull from the general widget styles */
+
 .SystemInfo {
     min-width: 25em;
     display: flex;
@@ -7,7 +9,7 @@
 }
 
 .SystemInfo-header {
-    padding: 1em;
+    padding: .75em;
     line-height: 1em;
     background: #404040;
     color: #E0E5E5;
@@ -36,6 +38,4 @@
     border-bottom-right-radius: 4px;
 }
 
-.SystemInfo-body-content {
-    padding: 1em;
-}
+.SystemInfo-body-content { padding: 1em; }
