@@ -11,6 +11,7 @@
 .SystemInfo-header {
     padding: .75em;
     line-height: 1em;
+    height: 2.5em;
     background: #404040;
     color: #E0E5E5;
     border-top-left-radius: 4px;
