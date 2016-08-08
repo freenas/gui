@@ -9,7 +9,8 @@
             "properties": {
                 "element": {"#": "owner"},
                 "contentContainer": {"#": "contentContainer"},
-                "sectionContent": {"#": "sectionContent"}
+                "sectionContent": {"#": "sectionContent"},
+                "expandButton": {"#":"expandButton"}
             },
             "bindings": {
                 "classList.has('is-expanded')": {"<-": "@owner.isExpanded"}
@@ -40,13 +41,13 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="FoldableSection" tabindex="0">
-        <div data-montage-id="expandButton" class="FoldableSection-expand">
+    <div data-montage-id="owner" class="FoldableSection">
+        <button data-montage-id="expandButton" class="FoldableSection-expand">
             <div data-montage-id="sectionTitle"></div>
             <svg>
                 <use xlink:href="#i-arrow"/>
             </svg>
-        </div>
+        </button>
         <div data-montage-id="sectionContent" class="FoldableSection-content">
             <div data-montage-id="contentContainer" class="FoldableSection-contentContainer">
                 <div data-param="*"></div>
