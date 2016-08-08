@@ -118,6 +118,19 @@ exports.Volume = AbstractModel.specialize({
             return this._providers_presence;
         }
     },
+    _readOnly: {
+        value: null
+    },
+    readOnly: {
+        set: function (value) {
+            if (this._readOnly !== value) {
+                this._readOnly = value;
+            }
+        },
+        get: function () {
+            return this._readOnly;
+        }
+    },
     _rname: {
         value: null
     },
@@ -211,6 +224,9 @@ exports.Volume = AbstractModel.specialize({
             name: "providers_presence",
             valueObjectPrototypeName: "VolumeProviderspresence",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "readOnly"
         }, {
             mandatory: false,
             name: "rname",

@@ -53,6 +53,19 @@ exports.User = AbstractModel.specialize({
             return this._full_name;
         }
     },
+    _gid: {
+        value: null
+    },
+    gid: {
+        set: function (value) {
+            if (this._gid !== value) {
+                this._gid = value;
+            }
+        },
+        get: function () {
+            return this._gid;
+        }
+    },
     _group: {
         value: null
     },
@@ -305,6 +318,10 @@ exports.User = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "full_name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "gid",
             valueType: "String"
         }, {
             mandatory: false,

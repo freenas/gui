@@ -33,6 +33,15 @@
       "valueType": "String"
     }
   },
+  "blueprint_user_gid": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "gid",
+      "blueprint": {"@": "root"},
+      "readOnly": true,
+      "valueType": "String"
+    }
+  },
   "blueprint_user_group": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -133,6 +142,7 @@
     "properties": {
       "name": "sid",
       "blueprint": {"@": "root"},
+      "readOnly": true,
       "valueType": "String"
     }
   },
@@ -185,6 +195,7 @@
         {"@": "blueprint_user_builtin"},
         {"@": "blueprint_user_email"},
         {"@": "blueprint_user_full_name"},
+        {"@": "blueprint_user_gid"},
         {"@": "blueprint_user_group"},
         {"@": "blueprint_user_groups"},
         {"@": "blueprint_user_home"},
