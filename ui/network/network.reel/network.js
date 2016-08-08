@@ -210,6 +210,7 @@ exports.Network = Component.specialize({
             var aliases = networkInterface.enabled ? networkInterface.status.aliases : networkInterface.aliases,
                 alias;
             interfaceSummary.name = networkInterface.status.name;
+            interfaceSummary.link_state = networkInterface.status.link_state;
             interfaceSummary.ipv4 = [];
             interfaceSummary.ipv6 = [];
             interfaceSummary.enabled = networkInterface.enabled;

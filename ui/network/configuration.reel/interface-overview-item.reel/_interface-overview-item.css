@@ -6,5 +6,19 @@
     display: table-cell;
     padding: .5em 1em;
     vertical-align: middle;
+    position: relative;
 }
+
+.InterfaceOverviewItem-name { padding-left: 1.25rem; }
+
+.InterfaceOverviewItem-status {
+    position: absolute;
+    font-size: .5em;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+}
+
+.InterfaceOverviewItem-status .TrafficLight-legend { display: none; }
 

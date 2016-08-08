@@ -54,13 +54,27 @@
             "bindings": {
                 "value": {"<-": "@interfaceIpv6Repetition:iteration.object"}
             }
+        },
+        "status": {
+            "prototype": "ui/controls/link-status.reel",
+            "properties": {
+                "element": {"#": "status"}
+            },
+            "bindings": {
+                "status": {"<-": "@owner.object.link_state"},
+                "enabledState": {"<-": "@owner.object.enabled"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="InterfaceOverviewItem">
-        <div data-montage-id="interfaceName"></div>
+
+        <div>
+            <div data-montage-id="status" class="InterfaceOverviewItem-status"></div>
+            <div data-montage-id="interfaceName" class="InterfaceOverviewItem-name"></div>
+        </div>
         <div data-montage-id="interfaceIpv4Repetition">
             <div data-montage-id="interfaceIpv4"></div>
         </div>
