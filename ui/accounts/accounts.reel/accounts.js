@@ -16,6 +16,7 @@ exports.Accounts = Component.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
+                //TODO: Could probably be set after getting the data (performance improvement)
                 this.addRangeAtPathChangeListener("groups", this, "_handleAccountChange");
                 this.addRangeAtPathChangeListener("users", this, "_handleAccountChange");
             }
@@ -41,10 +42,10 @@ exports.Accounts = Component.specialize({
 
                     return dataService.getNewInstanceForType(Model.AccountDirectoryServices).then(function (directoryServices) {
                         accountCategories.directoryServices = directoryServices;
+                    }).then(Promise.all([self._listUsers(), self._listGroups()])).then(function() {
+                        self.accountCategories.isLoading = false;
+                        self._loadDataPromise = null;
                     });
-                }).then(Promise.all([self._listUsers(), self._listGroups()])).then(function() {
-                    self.accountCategories.isLoading = false;
-                    self._loadDataPromise = null;
                 });
             }
         }
