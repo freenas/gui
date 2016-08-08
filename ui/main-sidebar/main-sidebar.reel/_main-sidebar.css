@@ -95,6 +95,19 @@
     border-top-right-radius: 4px;
     border-top-left-radius:  4px;
 
+    /* extends hit area over main button for UX */
+
+    &:before {
+        position: absolute;
+        content: '';
+        bottom: -3rem;
+        left: 0;
+        right: 0;
+        height: 3rem;
+        background: transparent;
+        cursor: pointer;
+    }
+
     & li {
         background: #16171A;
         box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
