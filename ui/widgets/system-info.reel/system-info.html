@@ -9,6 +9,12 @@
                 "element": {"#": "owner"}
             }
         },
+        "widget": {
+            "prototype": "ui/dashboard/widgets/widget.reel",
+            "properties": {
+                "element": {"#": "widget"}
+            }
+        },
         "bytesConverter": {
             "prototype": "montage/core/converter/bytes-converter"
         },
@@ -169,42 +175,41 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="SystemInfo">
-        <div class="SystemInfo-header">
-            System Overview
-        </div>
-        <div class="SystemInfo-body">
-            <div data-montage-id="scrollview">
-                <div class="SystemInfo-body-content">
-                    <dl>
+    <div data-montage-id="owner">
+        <div data-montage-id="widget">
+            <div data-arg="widget-title">System Overview</div>
+            <div data-arg="widget-content">
+                <div data-montage-id="scrollview">
+                    <div class="SystemInfo-body-content">
+                        <dl>
+                            <dt>Hostname</dt>
+                            <dd data-montage-id="hostname" class="SystemInfo-hostname"></dd>
 
-                        <dt>Hostname</dt>
-                        <dd data-montage-id="hostname" class="SystemInfo-hostname"></dd>
+                            <dt>Build</dt>
+                            <dd data-montage-id="osVersion"></dd>
 
-                        <dt>Build</dt>
-                        <dd data-montage-id="osVersion"></dd>
+                            <dt>Uptime</dt>
+                            <dd data-montage-id="uptime"></dd>
 
-                        <dt>Uptime</dt>
-                        <dd data-montage-id="uptime"></dd>
+                            <dt>System Time</dt>
+                            <dd data-montage-id="systemTime"></dd>
 
-                        <dt>System Time</dt>
-                        <dd data-montage-id="systemTime"></dd>
-
-                        <dt>Platform</dt>
-                        <dd>
-                            <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
-                            <span data-montage-id="cpuCount"></span> @ <span data-montage-id="cpuSpeed"></span>GHz
-                        </dd>
-                        <dt>Memory</dt>
-                        <dd data-montage-id="memorySize" class="SystemInfo-data"></dd>
-                        <dd data-montage-id="memoryDetails" class="SystemInfo-data"></dd>
-                        <div data-montage-id="disksTypeRepetition">
-                            <dt data-montage-id="disksType"></dt>
-                            <dd data-montage-id="disksSizeRepetition">
-                                <div><span data-montage-id="disksSize"></span> x <span data-montage-id="disksCount"></span></div>
+                            <dt>Platform</dt>
+                            <dd>
+                                <div data-montage-id="cpuDetails" class="SystemInfo-data"></div>
+                                <span data-montage-id="cpuCount"></span> @ <span data-montage-id="cpuSpeed"></span>GHz
                             </dd>
-                        </div>
-                    </dl>
+                            <dt>Memory</dt>
+                            <dd data-montage-id="memorySize" class="SystemInfo-data"></dd>
+                            <dd data-montage-id="memoryDetails" class="SystemInfo-data"></dd>
+                            <div data-montage-id="disksTypeRepetition">
+                                <dt data-montage-id="disksType"></dt>
+                                <dd data-montage-id="disksSizeRepetition">
+                                    <div><span data-montage-id="disksSize"></span> x <span data-montage-id="disksCount"></span></div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>

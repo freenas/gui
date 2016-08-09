@@ -10,10 +10,25 @@
                 "chart": {"@": "chart"}
             }
         },
-        "chart": {
+        "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "chart"},
+                "element": {"#": "widget"}
+            }
+        },
+        "text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "'Network traffic - ' + @owner.card"}
+            }
+        },
+        "chart": {
+            "prototype": "ui/dashboard/widgets/chart-live.reel",
+            "properties": {
+                "element": {"#": "chart-live"},
                 "showLegend": true,
                 "showYAxis": true,
                 "yFormat": "1.2s",
@@ -35,7 +50,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="NetworkTraffic DashboardWidget">
-        <div data-montage-id="chart"></div>
+        <div data-montage-id="widget">
+            <div data-montage-id="title" data-arg="widget-title"></div>
+            <div data-arg="widget-content">
+                <div data-montage-id="chart-live"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

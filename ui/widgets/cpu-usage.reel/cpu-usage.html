@@ -9,16 +9,21 @@
                 "element": {"#": "owner"}
             }
         },
-        "chart": {
+        "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "chart"},
+                "element": {"#": "widget"}
+            }
+        },
+        "chart": {
+            "prototype": "ui/dashboard/widgets/chart-live.reel",
+            "properties": {
+                "element": {"#": "chart-live"},
                 "showLegend": true,
                 "showYAxis": true,
                 "isTimeSeries": true,
                 "graphType": "stacked",
                 "useGuideline": true,
-                "title": "CPU usage",
                 "source": "aggregation-cpu-sum",
                 "metrics": [
                     "cpu-user",
@@ -32,7 +37,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="CpuUsage">
-        <div data-montage-id="chart"></div>
+        <div data-montage-id="widget">
+            <div data-arg="widget-title">CPU usage</div>
+            <div data-arg="widget-content">
+                <div data-montage-id="chart-live"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -6,14 +6,19 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "chart": {"@": "chart"}
+                "element": {"#": "owner"}
+            }
+        },
+        "widget": {
+            "prototype": "ui/dashboard/widgets/widget.reel",
+            "properties": {
+                "element": {"#": "widget"}
             }
         },
         "chart": {
-            "prototype": "ui/dashboard/widgets/widget.reel",
+            "prototype": "ui/dashboard/widgets/chart-live.reel",
             "properties": {
-                "element": {"#": "chart"},
+                "element": {"#": "chart-live"},
                 "showLegend": true,
                 "showYAxis": true,
                 "xFormat": ".3r",
@@ -21,7 +26,6 @@
                 "isTimeSeries": true,
                 "isStacked": false,
                 "useGuideline": true,
-                "title": "Load Average",
                 "source": "load",
                 "metrics": [
                     ["load", "longterm"],
@@ -35,8 +39,13 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="LoadAverage">
-        <div data-montage-id="chart"></div>
+    <div data-montage-id="owner">
+        <div data-montage-id="widget">
+            <div data-arg="widget-title">Load Average</div>
+            <div data-arg="widget-content">
+                <div data-montage-id="chart-live"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
