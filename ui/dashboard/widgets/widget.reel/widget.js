@@ -22,23 +22,24 @@ exports.Widget = Component.specialize({
         }
     },
 
-    _statisticsService: {
-        value: null
-    },
-
     _timezoneOffset: {
-        value: null
+        get: function () {
+            if (!this.constructor._timezoneOffset) {
+                this.constructor._timezoneOffset = new Date().getTimezoneOffset() * 60000;
+            }
+
+            return this.constructor._timezoneOffset;
+        }
     },
 
-    constructor: {
-        value: function() {
-            this._statisticsService = this.application.statisticsService;
-            this._timezoneOffset = new Date().getTimezoneOffset()*60000;
+    _statisticsService: {
+        get: function() {
+            return this.application.statisticsService;
         }
     },
 
     enterDocument: {
-        value: function() {
+        value: function () {
             this._initializeData();
         }
     },
