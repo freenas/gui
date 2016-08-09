@@ -6,8 +6,11 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "chart": {"@": "chart"}
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "enabledInterfaces": {"<-": "this.interfaces.filter{type == 'ETHER' && enabled}.sorted{id}"},
+                "card": {"<-": "this.context.selectedInterface.id || this.enabledInterfaces.0.id"}
             }
         },
         "widget": {
@@ -41,7 +44,6 @@
                 "removePrefix": "if_octets."
             },
             "bindings": {
-                "title": {"<-": "'Network traffic - ' + @owner.card"},
                 "source": {"<-": "'interface-' + @owner.card"}
             }
         }
