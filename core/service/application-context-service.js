@@ -116,7 +116,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                         ]).then(function (models) {
                             applicationContext.dashboardContext = models[0];
                             applicationContext.sideBarContext = models[1];
-                            applicationContext.dashboardContext.widgets = [widgets.get("system-info")];
+                            applicationContext.dashboardContext.widgets = [widgets.get("ui/widgets/system-info.reel")];
                             applicationContext.sideBarContext.widgets = [];
 
                             return applicationContext;
