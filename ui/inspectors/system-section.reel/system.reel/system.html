@@ -70,12 +70,44 @@
             "bindings": {
                 "value": {"<->": "@owner.systemAdvancedData.motd"}
             }
+        },
+        "factoryRestore": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "factoryRestore"},
+                "value": "Factory Restore"
+            }
+        },
+        "downloadConfig": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "downloadConfig"},
+                "value": "Download Configuration File"
+            }
+        },
+        "uploadConfig": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "uploadConfig"},
+                "value": "Upload Configuration File"
+            }
+        },
+        "noOperation": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "noOperation"},
+                "value": "System Settings"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="System">
+        <div data-montage-id="downloadConfig"></div>
+        <div data-montage-id="uploadConfig"></div>
+        <div data-montage-id="factoryRestore"></div>
+        <div data-montage-id="noOperation" class="Updates-noOperation"></div>
         <div data-montage-id="hostname"></div>
         <div data-montage-id="syslog_server"></div>
         <div data-montage-id="powerd"></div>
