@@ -77,13 +77,6 @@
       "valueObjectPrototypeName": "VolumeProviderspresence"
     }
   },
-  "blueprint_volume_readOnly": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "readOnly",
-      "blueprint": {"@": "root"}
-    }
-  },
   "blueprint_volume_rname": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -135,7 +128,6 @@
         {"@": "blueprint_volume_password_encrypted"},
         {"@": "blueprint_volume_properties"},
         {"@": "blueprint_volume_providers_presence"},
-        {"@": "blueprint_volume_readOnly"},
         {"@": "blueprint_volume_rname"},
         {"@": "blueprint_volume_scan"},
         {"@": "blueprint_volume_topology"},
