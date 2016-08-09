@@ -25,10 +25,6 @@
             "type": "AclEntry"
         },
         {
-            "modelId": "core/model/models/activedirectory-config.js",
-            "type": "ActivedirectoryConfig"
-        },
-        {
             "modelId": "core/model/models/alert-class.js",
             "type": "AlertClass"
         },

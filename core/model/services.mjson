@@ -421,15 +421,6 @@
             }
         }
     },
-    "DirectoryserviceActivedirectory": {
-        "instance": {
-            "read": {
-                "method": "directoryservice.activedirectory.get_config",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "DirectoryserviceLdap": {
         "instance": {
             "read": {
@@ -571,6 +562,11 @@
         "class": {
             "getHubImage": {
                 "method": "docker.image.get_hub_image",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "readme": {
+                "method": "docker.image.readme",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -2453,11 +2449,6 @@
                 "name": "call",
                 "namespace": "rpc"
             },
-            "time": {
-                "method": "system.info.time",
-                "name": "call",
-                "namespace": "rpc"
-            },
             "unameFull": {
                 "method": "system.info.uname_full",
                 "name": "call",
@@ -2472,6 +2463,11 @@
     },
     "SystemTime": {
         "instance": {
+            "read": {
+                "method": "system.time.get_config",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "update": {
                 "method": "task.submit",
                 "name": "call",
