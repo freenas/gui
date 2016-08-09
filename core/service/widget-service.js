@@ -9,49 +9,57 @@ var WIDGETS = [
         title: "arc-demand-data",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/arc-demand-data.reel"
+        moduleId: "ui/widgets/arc-demand-data.reel",
+        allowMultiple: false
     },
     {
         title: "cpu-usage",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/cpu-usage.reel"
+        moduleId: "ui/widgets/cpu-usage.reel",
+        allowMultiple: false
     },
     {
         title: "load-average",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/load-average.reel"
+        moduleId: "ui/widgets/load-average.reel",
+        allowMultiple: false
     },
     {
         title: "memory-allocation",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/memory-allocation.reel"
+        moduleId: "ui/widgets/memory-allocation.reel",
+        allowMultiple: false
     },
     {
         title: "network-traffic",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/network-traffic.reel"
+        moduleId: "ui/widgets/network-traffic.reel",
+        allowMultiple: true
     },
     {
         title: "notifications",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/notifications.reel"
+        moduleId: "ui/widgets/notifications.reel",
+        allowMultiple: false
     },
     {
         title: "system-info",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/system-info.reel"
+        moduleId: "ui/widgets/system-info.reel",
+        allowMultiple: false
     },
     {
         title: "disk-traffic",
         description: null,
         imgPreview: null,
-        moduleId: "ui/widgets/disk-traffic.reel"
+        moduleId: "ui/widgets/disk-traffic.reel",
+        allowMultiple: false
     }
 ];
 
@@ -82,7 +90,7 @@ exports.WidgetService = Montage.specialize({
                     for (var i = 0, length = widgets.length; i < length; i++) {
                         widget = widgets[i];
 
-                        widgetsMap.set(widget.title, widget);
+                        widgetsMap.set(widget.moduleId, widget);
                     }
 
                     self._widgetsMap = widgetsMap;

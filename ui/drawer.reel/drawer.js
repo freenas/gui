@@ -105,12 +105,21 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
                 }
             }
 
-            if (plus && (length = plus.length)) {
-                for (i = 0; i < length; i++) {
-                    if ((index = this._findWidgetIndexWithModuleId(this.items, plus[i].moduleId)) > -1) {
-                        this.items.splice(index, 1);
+            if (plus && plus.length) {
+                var self = this,
+                    moduleId;
+
+                this.application.widgetService.getAvailableWidgets().then(function (widgets) {
+                    for (i = 0, length = plus.length; i < length; i++) {
+                        moduleId = plus[i].moduleId;
+
+                        if (!widgets.get(moduleId).allowMultiple &&
+                            (index = self._findWidgetIndexWithModuleId(self.items, moduleId)) > -1) {
+
+                            self.items.splice(index, 1);
+                        }
                     }
-                }
+                });
             }
 
             if (minus && (length = minus.length)) {
