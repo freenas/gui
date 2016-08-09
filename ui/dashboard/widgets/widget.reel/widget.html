@@ -7,6 +7,36 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('flip')": {"<-": "this.isFlipped"}
+            }
+        },
+
+        "infoWidgetButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "infoWidgetButton"},
+                "label": "info"
+            },
+            "bindings": {
+                "classList.has('hide')": {"<-": "!@owner.hasSettings"}
+            }
+        },
+
+        "cancelSettingWidgetButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancel"},
+                "value": "Cancel"
+            }
+        },
+
+        "saveSettingWidgetButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "save"},
+                "value": "Save"
             }
         }
     }
@@ -14,9 +44,24 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Widget">
-        <div data-param="widget-title" class="Widget-header"></div>
-        <div data-param="widget-content" class="Widget-content"></div>
-        <div data-param="widget-settings" class="Widget-settings"></div>
+        <div class="Widget-flipper">
+            <div class="Widget-front">
+                <div data-param="widget-title" class="Widget-header"></div>
+                <div data-param="widget-content" class="Widget-content"></div>
+                <div class="Widget-footer">
+                    <div data-montage-id="infoWidgetButton" class="Widget-info"></div>
+                </div>
+            </div>
+            <div class="Widget-back">
+                <div class="Widget-header">Settings</div>
+                <div data-param="widget-settings" class="Widget-content"></div>
+                <div class="Widget-footer">
+                    <div data-montage-id="saveSettingWidgetButton" class="Widget-save-setting"></div>
+                    <button data-montage-id="cancel" class="WidgetSettings-cancel Button--secondary"></button>
+                    <button data-montage-id="save" class="WidgetSettings-save Button--primary"></button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -1,13 +1,14 @@
 var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-dropzone-component").AbstractDropZoneComponent,
     AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
     WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
+    Widget = require("ui/dashboard/widgets/widget.reel").Widget,
     DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem;
 
 /**
  * @class Dashboard
  * @extends Component
  */
-exports.Dashboard = AbstractDropZoneComponent.specialize({
+var Dashboard = exports.Dashboard = AbstractDropZoneComponent.specialize({
 
     _widgetPlaceHolderElement: {
         value: null
@@ -80,6 +81,28 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
         }
     },
 
+    handleInfoWidgetButtonAction: {
+        value: function (event) {
+            var component = this._findWidgetComponentWithElement(event.target.element);
+
+            if (component) {
+                component.isFlipped = !component.isFlipped;
+            }
+
+            return component;
+        }
+    },
+
+    handleSaveSettingWidgetButtonAction: {
+        value: function (event) {
+            var component = this.handleInfoWidgetButtonAction(event);
+
+            if (component) {
+                this.application.applicationContextService.save();
+            }
+        }
+    },
+
     handleOpenDrawerButtonAction: {
         value: function () {
             this.application.isDrawerOpen = true;
@@ -116,18 +139,21 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
         value: function (draggableComponent) {
             var indexObjectAnchor, index,
                 draggableObject = draggableComponent.object,
-                previousIndex = this.userWidgets.indexOf(draggableComponent.object);
+                previousIndex = this.userWidgets.indexOf(draggableObject);
 
             if (draggableComponent instanceof DrawerItem && previousIndex === -1) {
+                draggableObject = Object.clone(draggableComponent.object);
+                draggableObject.context = {};
+
                 if (this._placeHolderAnchor) {
                     indexObjectAnchor = this.userWidgets.indexOf(this._placeHolderAnchor.component.object);
                     index = this._shouldInsertBeforePlaceHolder ? indexObjectAnchor : indexObjectAnchor + 1;
 
                     this.userWidgets.splice(index, 0, draggableObject);
                 } else {
-                    this.userWidgets.push(draggableComponent.object);
+                    this.userWidgets.push(draggableObject);
                 }
-            } else if (draggableComponent instanceof WidgetWrapper && this._placeHolderAnchor.component.object !== draggableObject) {
+            } else if (draggableComponent instanceof WidgetWrapper && this._placeHolderAnchor.component.object !== draggableObject && previousIndex > -1) {
                 this.userWidgets.splice(previousIndex, 1);
 
                 indexObjectAnchor = this.userWidgets.indexOf(this._placeHolderAnchor.component.object);
@@ -173,24 +199,36 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
     _findWidgetWrapperComponentFromPoint: {
         value: function (pointerPositionX, pointerPositionY) {
             var element = document.elementFromPoint(pointerPositionX, pointerPositionY);
-            return element ? this._findWidgetWrapperComponentFromElement(element) : null;
+            return element ? this._findWidgetWrapperComponentWithElement(element) : null;
         }
     },
 
-    _findWidgetWrapperComponentFromElement: {
+    _findWidgetWrapperComponentWithElement: {
         value: function (element) {
-            var component = this._findCloserComponentFromElement(element),
-                widgetWrapperComponent;
+            return this._findComponentFromElementAndConstructor(element, WidgetWrapper);
+        }
+    },
 
-            while (component && !widgetWrapperComponent && component !== this) {
-                if (component instanceof WidgetWrapper) {
-                    widgetWrapperComponent = component;
+    _findWidgetComponentWithElement: {
+        value: function (element) {
+            return this._findComponentFromElementAndConstructor(element, Widget);
+        }
+    },
+
+    _findComponentFromElementAndConstructor: {
+        value: function (element, constructor) {
+            var component = this._findCloserComponentFromElement(element),
+                candidateComponent;
+
+            while (component && !candidateComponent && component !== this) {
+                if (component instanceof constructor) {
+                    candidateComponent = component;
                 } else {
                     component = component.parentComponent;
                 }
             }
 
-            return widgetWrapperComponent;
+            return candidateComponent;
         }
     },
 
@@ -258,3 +296,6 @@ exports.Dashboard = AbstractDropZoneComponent.specialize({
     }
 
 });
+
+
+Dashboard.prototype.handleCancelSettingWidgetButtonAction = Dashboard.prototype.handleInfoWidgetButtonAction;
