@@ -25,6 +25,10 @@ exports.Console = Component.specialize({
         value: true
     },
 
+    _areEventsRegistered: {
+        value: false
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -99,9 +103,12 @@ exports.Console = Component.specialize({
                     args: ['/usr/local/bin/cli', self._getColumns(), 1]
                 });
             }).then(function(response) {
-                self._term.on('data', function(data) {
-                    self._shellClient.sendMessage(data);
-                });
+                if (!self._areEventsregistered) {
+                    self._term.on('data', function(data) {
+                        self._shellClient.sendMessage(data);
+                    });
+                    self._areEventsregistered = true;
+                }
                 self._shellClient.addEventListener('webSocketMessage', self, false);
                 self._shellClient.addEventListener('webSocketClose', self, false);
                 self._shellClient.sendMessage(JSON.stringify({token: response.data}));
