@@ -13,15 +13,6 @@
                 "classList.has('is-spinner-shown')": {"<-": "@owner.isSpinnerShown"}
             }
         },
-        "title": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "title"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.title"}
-            }
-        },
         "chart": {
             "prototype": "montage/ui/component",
             "properties": {
@@ -40,13 +31,8 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Chart">
-        <header>
-            <div data-montage-id="title" class="Chart-title"></div>
-        </header>
-        <div class="Chart-body">
-            <div data-montage-id="loading" class="Chart-loading"></div>
-            <svg data-montage-id="chart" class="Chart-svg"></svg>
-        </div>
+        <div data-montage-id="loading" class="Chart-loading"></div>
+        <svg data-montage-id="chart" class="Chart-svg"></svg>
     </div>
 </body>
 </html>

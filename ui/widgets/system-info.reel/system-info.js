@@ -88,4 +88,5 @@ exports.SystemInfo = Component.specialize({
             return this.application.systemInfoService.getLoad();
         }
     }
+    
 });

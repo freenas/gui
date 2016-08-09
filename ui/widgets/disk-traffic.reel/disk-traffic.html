@@ -11,17 +11,22 @@
                 "chart": {"@": "chart"}
             }
         },
-        "chart": {
+        "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
-                "element": {"#": "chart"},
+                "element": {"#": "widget"}
+            }
+        },
+        "chart": {
+            "prototype": "ui/dashboard/widgets/chart-live.reel",
+            "properties": {
+                "element": {"#": "chart-live"},
                 "showLegend": true,
                 "showYAxis": true,
                 "yFormat": "1.2s",
                 "isTimeSeries": true,
                 "graphType": "stacked",
                 "useGuideline": true,
-                "title": "Disk I/O",
                 "source": "disk-*",
                 "metrics": [
                     ["disk_octets", "read"],
@@ -35,7 +40,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="DiskTraffic DashboardWidget">
-        <div data-montage-id="chart"></div>
+        <div data-montage-id="widget">
+            <div data-arg="widget-title">Disk I/O</div>
+            <div data-arg="widget-content">
+                <div data-montage-id="chart-live"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

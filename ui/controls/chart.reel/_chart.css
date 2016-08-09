@@ -1,13 +1,6 @@
 .Chart {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 25em;
-    min-height: 15em;
     width:  100%;
     height: 100%;
-    border-radius: 4px;
-    background: rgba(33, 33, 33, .7);
 }
 
 .Chart .Chart-svg {
@@ -19,19 +12,6 @@
 .Chart svg text { fill: #E0E5E5 !important; }
 
 .Chart svg g.tick line { opacity: 0.25 !important; }
-
-.Chart header {
-    position: relative;
-    padding: .75em;
-    line-height: 1em;
-    height: 2.5em;
-    background: #404040;
-    color: #E0E5E5;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-
-.Chart-body { overflow: hidden; }
 
 .Chart-loading {
     position: absolute;

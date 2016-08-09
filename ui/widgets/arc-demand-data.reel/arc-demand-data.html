@@ -6,21 +6,25 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "chart": {"@": "chart"}
+                "element": {"#": "owner"}
+            }
+        },
+        "widget": {
+            "prototype": "ui/dashboard/widgets/widget.reel",
+            "properties": {
+                "element": {"#": "widget"}
             }
         },
         "chart": {
-            "prototype": "ui/dashboard/widgets/widget.reel",
+            "prototype": "ui/dashboard/widgets/chart-live.reel",
             "properties": {
-                "element": {"#": "chart"},
+                "element": {"#": "chart-live"},
                 "showLegend": true,
                 "showYAxis": true,
                 "yFormat": "s",
                 "isTimeSeries": true,
                 "isStacked": false,
                 "useGuideline": true,
-                "title": "ARC Demand Data",
                 "source": "zfs_arc",
                 "metrics": [
                     "cache_result-demand_data-hit",
@@ -37,7 +41,12 @@
 </head>
 <body>
     <div data-montage-id="owner" class="ArcDemandData">
-        <div data-montage-id="chart"></div>
+        <div data-montage-id="widget">
+            <div data-arg="widget-title">ARC Demand Data</div>
+            <div data-arg="widget-content">
+                <div data-montage-id="chart-live"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

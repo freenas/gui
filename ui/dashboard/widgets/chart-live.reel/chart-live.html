@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="chart-live.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "chart": {"@": "chart"}
+            }
+        },
+        "chart": {
+            "prototype": "ui/controls/chart.reel",
+            "properties": {
+                "element": {"#": "chart"}
+            },
+            "bindings": {
+                "title": {"<-": "@owner.title"},
+                "updatePeriod": {"<-": "@owner.updatePeriod || 30000"},
+                "showLegend": {"<-": "@owner.showLegend.defined() ? @owner.showLegend : true"},
+                "showXAxis": {"<-": "@owner.showXAxis.defined() ? @owner.showXAxis : true"},
+                "showYAxis": {"<-": "@owner.showYAxis.defined() ? @owner.showYAxis : true"},
+                "yFormat": {"<-": "@owner.yFormat.defined() ? @owner.yFormat : '%'"},
+                "isTimeSeries": {"<-": "@owner.isTimeSeries.defined() ? @owner.isTimeSeries : true"},
+                "graphType": {"<-": "@owner.graphType.defined() ? @owner.graphType.toLowerCase() : 'line'"},
+                "useGuideline": {"<-": "@owner.useGuideline.defined() ? @owner.useGuideline : true"},
+                "xLabel": {"<-": "@owner.xLabel"},
+                "yLabel": {"<-": "@owner.yLabel"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner">
+        <div data-montage-id="chart"></div>
+    </div>
+</body>
+</html>
