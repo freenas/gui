@@ -223,6 +223,10 @@ $Icons
     margin-bottom: 1em;
 }
 
+.g-margin-bottom--half {
+    margin-bottom: .5em;
+}
+
 .g-negative-margin-top {
     margin-top: -1em;
 }
@@ -244,6 +248,11 @@ $Icons
 /* Flex Helpers */
 
 .flex-row { display: flex; }
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
 
 .flex-spaceBetween { justify-content: space-between; }
 
