@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
+    Promise = require("montage/core/promise").Promise,
     Converter = require("montage/core/converter/converter").Converter,
     Validator = require("montage/core/converter/converter").Validator;
 
@@ -8,6 +9,10 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.User = Component.specialize({
+
+    shellOptions: {
+        value: null
+    },
 
     userType: {
         value: null
@@ -41,12 +46,23 @@ exports.User = Component.specialize({
     },
 
     enterDocument: {
-        value: function() {
-            var self = this;
-            this.treeController.open(this._object.home).then(function() {
-                self._object.home = self.treeController.selectedPath;
-            });
+        value: function(isFirstTime) {
+            var self = this,
+                loadingPromises = [],
+                shell;
+            this.isLoading = true;
+            loadingPromises.push(
+                this.treeController.open(this._object.home).then(function() {
+                    self._object.home = self.treeController.selectedPath;
+                })
+            );
+            if (isFirstTime) {
+                loadingPromises.push(this._getShellOptions());
+            }
             this.userType = this.object.builtin && this.object.uid !== 0 ? "system" : "user";
+            Promise.all(loadingPromises).then(function() {
+                self.isLoading = false;
+            });
         }
     },
 
@@ -80,6 +96,19 @@ exports.User = Component.specialize({
                 return User.constructor.services.nextUid();
             }).then(function(userId) {
                 self.nextUserId = self.object.uid = userId;
+            });
+        }
+    },
+
+    _getShellOptions: {
+        value: function() {
+            var self = this;
+            this.shellOptions = [];
+            return this.application.accountsService.getShells().then(function(shells){
+                for (var i=0, length=shells.length; i<length; i++) {
+                    shell = shells[i].split("/");
+                    self.shellOptions.push({label: shell[shell.length -1], value: shells[i]});
+                }
             });
         }
     }

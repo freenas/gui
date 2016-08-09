@@ -208,6 +208,31 @@
                 "value": {"<-": "@owner.object.home"}
             }
         },
+        "shellConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "shellEdit": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "shellEdit"},
+                "label": "Shell",
+                "converter": {"@": "shellConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.shellOptions"},
+                "selectedValue": {"<->": "@owner.object.shell"}
+            }
+        },
+        "shellDisplay": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "shellDisplay"},
+                "label": "Shell"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.shell"}
+            }
+        },
         "sshpubkeyEdit": {
             "prototype": "blue-shark/ui/field-text-area.reel",
             "properties": {
