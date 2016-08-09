@@ -49,7 +49,6 @@ exports.System = Component.specialize(/** @lends System# */ {
                         self.datasetOptions.push({label:"Boot Pool", value:bootPool["id"]});
                     }),
                     this.application.storageService.listVolumes().then(function(volumesList) {
-                        console.log(volumesList);
                         for (var i = 0; i < volumesList.length; i++) {
                             self.datasetOptions.push({label:volumesList[i]["id"], value:volumesList[i]["id"]});
                         }
