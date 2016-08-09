@@ -6,7 +6,7 @@ var Component = require("montage/ui/component").Component,
  * @class System
  * @extends Component
  */
-exports.System = Component.specialize({
+exports.Settings = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
