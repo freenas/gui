@@ -129,51 +129,9 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
     _handleRawApplicationContext: {
         value: function (applicationRawContext) {
-            if (this._widgetService && applicationRawContext) {
-                var dashboardContextWidgets = applicationRawContext.dashboardContext.widgets || [],
-                    sideBarContextWidgets = applicationRawContext.sideBarContext.widgets || [],
-                    self = this;
-
-                applicationRawContext.sideBarContext.widgets = null;
-                applicationRawContext.dashboardContext.widgets = null;
-
-                this._widgetService.getAvailableWidgets().then(function (widgets) {
-                    applicationRawContext.dashboardContext.widgets = self._findWidgetsFromAvailableWidgets(dashboardContextWidgets, widgets);
-                    applicationRawContext.sideBarContext.widgets = self._findWidgetsFromAvailableWidgets(sideBarContextWidgets, widgets);
-
-                    return applicationRawContext;
-                });
-            }
-        }
-    },
-
-    _findWidgetsFromAvailableWidgets: {
-        value: function (rawWidgets, availableWidgets) {
-            var widget;
-
-            for (var i = 0, length = rawWidgets.length; i < length; i++) {
-                widget = this._findWidgetFromAvailableWidgetsWithTitle(availableWidgets, rawWidgets[i].title);
-
-                if (widget) {
-                    rawWidgets.splice(i, 1, widget);
-                } else {
-                    console.warn("no widget found for: " + rawWidgets[i].title);
-                }
-            }
-
-            return rawWidgets;
-        }
-    },
-
-    _findWidgetFromAvailableWidgetsWithTitle: {
-        value: function (availableWidgets, title) {
-            var mapIterator = availableWidgets.keys(),
-                key;
-
-            while ((key = mapIterator.next().value)) {
-                if (key === title) {
-                    return availableWidgets.get(key);
-                }
+            if (applicationRawContext) {
+                applicationRawContext.dashboardContext.widgets = applicationRawContext.dashboardContext.widgets || [];
+                applicationRawContext.sideBarContext.widgets = applicationRawContext.sideBarContext.widgets || [];
             }
         }
     }

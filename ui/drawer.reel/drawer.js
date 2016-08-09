@@ -96,27 +96,42 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
         value: function (plus, minus) {
             var index, i, length;
 
+            if (plus.length && minus.length) {
+                for (i = 0; i < minus.length; i++) {
+                    if ((index = this._findWidgetIndexWithModuleId(plus, minus[i].moduleId)) > -1) {
+                        plus.splice(index, 1);
+                        minus.splice(i--, 1);
+                    }
+                }
+            }
+
             if (plus && (length = plus.length)) {
                 for (i = 0; i < length; i++) {
-                    if ((index = this.items.indexOf(plus[i])) > -1) {
+                    if ((index = this._findWidgetIndexWithModuleId(this.items, plus[i].moduleId)) > -1) {
                         this.items.splice(index, 1);
                     }
                 }
             }
 
             if (minus && (length = minus.length)) {
-                var self = this;
-
-                this.application.widgetService.getAvailableWidgets().then(function (widgets) {
-                    widgets = widgets.toArray(); //@todo: change widgets to array and not a map
-
-                    for (i = 0; i < length; i++) {
-                        if (widgets.indexOf(minus[i]) > -1) {
-                            self.items.push(minus[i]);
-                        }
+                for (i = 0; i < length; i++) {
+                    if (this._findWidgetIndexWithModuleId(this.items, minus[i].moduleId) === -1) {
+                        this.items.push(minus[i]);
                     }
-                });
+                }
             }
+        }
+    },
+
+    _findWidgetIndexWithModuleId: {
+        value: function (array, moduleId) {
+            for (var i = 0, length = array.length; i < length; i++) {
+                if (array[i].moduleId === moduleId) {
+                    return i;
+                }
+            }
+
+            return -1;
         }
     },
 

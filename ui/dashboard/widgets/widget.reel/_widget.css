@@ -3,7 +3,9 @@
     display: flex;
     height: 15em;
     flex-direction: column;
-    border-radius: 4px;
+    background: #16171A;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .Widget-header {
@@ -17,22 +19,33 @@
 }
 
 .Widget-content {
-    background: #16171A;
     flex: 1;
     position: relative;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
     overflow: hidden;
 }
 
-.Widget-content:after {
-    position: absolute;
-    content: '';
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1em;
-    background-image: linear-gradient(rgba(0,0,0,0), #16171A);
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+.Widget-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.Widget-flipper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.Widget-front, .Widget-back {
+    flex: 1;
+    flex-direction: column;
+}
+
+
+.Widget.flip .Widget-back, .Widget .Widget-front {
+    display: flex;
+}
+
+.Widget.flip .Widget-front, .Widget .Widget-back {
+    display: none;
 }

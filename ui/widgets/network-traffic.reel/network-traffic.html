@@ -10,7 +10,7 @@
             },
             "bindings": {
                 "enabledInterfaces": {"<-": "this.interfaces.filter{type == 'ETHER' && enabled}.sorted{id}"},
-                "card": {"<-": "this.context.selectedInterface.id || this.enabledInterfaces.0.id"}
+                "card": {"<-": "this.object.context.selectedInterface || this.enabledInterfaces.0.id"}
             }
         },
         "widget": {
@@ -46,16 +46,38 @@
             "bindings": {
                 "source": {"<-": "'interface-' + @owner.card"}
             }
+        },
+        "selectOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "id",
+                "valuePropertyName": "id"
+            }
+        },
+        "selectCard": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "selectCard"},
+                "converter": {"@": "selectOptionsConverter"},
+                "label": "Network Interface"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.enabledInterfaces"},
+                "selectedValue": {"<->": "@owner.object.context.selectedInterface"}
+            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="NetworkTraffic DashboardWidget">
+    <div data-montage-id="owner" class="NetworkTraffic">
         <div data-montage-id="widget">
             <div data-montage-id="title" data-arg="widget-title"></div>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
+            </div>
+            <div data-arg="widget-settings">
+                <div data-montage-id="selectCard"></div>
             </div>
         </div>
     </div>
