@@ -80,49 +80,6 @@ exports.SmbService = Component.specialize({
         value: null
     },
 
-    _object: {
-        value: null
-    },
-
-    object: {
-        get: function() {
-            return this._object;
-        },
-        set: function(object) {
-            if (this._object != object) {
-                this._object = object;
-                if (this._object.filemask) {
-                    this.filemaskModes = {
-                        user: this._object.filemask.user,
-                        group: this._object.filemask.group,
-                        others: this._object.filemask.others
-                    };
-                    delete this._object.filemask.value;
-                } else {
-                    this.filemaskModes = {
-                        user: {},
-                        group: {},
-                        others: {}
-                    };
-                }
-                if (this._object.dirmask) {
-                    this.dirmaskModes = {
-                        user: this._object.dirmask.user,
-                        group: this._object.dirmask.group,
-                        others: this._object.dirmask.others
-                    };
-                    delete this._object.dirmask.value;
-                } else {
-                    this.dirmaskModes = {
-                        user: {},
-                        group: {},
-                        others: {}
-                    };
-                }
-            }
-        }
-    },
-
     templateDidLoad: {
         value: function () {
             this.networkInterfacesAliases = this.application.networkInterfacesSevice.networkInterfacesAliases;
@@ -132,24 +89,65 @@ exports.SmbService = Component.specialize({
 
     enterDocument: {
         value: function () {
-            if (this._object) {
-                if (this._object.filemask) {
-                    this.filemaskModes = {
-                        user: this._object.filemask.user,
-                        group: this._object.filemask.group,
-                        others: this._object.filemask.others
-                    };
-                    delete this._object.filemask.value;
-                }
-                if (this._object.dirmask) {
-                    this.dirmaskModes = {
-                        user: this._object.dirmask.user,
-                        group: this._object.dirmask.group,
-                        others: this._object.dirmask.others
-                    };
-                    delete this._object.dirmask.value;
-                }
+            if (this.object.filemask) {
+                this.filemaskModes = {
+                    user: this.object.filemask.user,
+                    group: this.object.filemask.group,
+                    others: this.object.filemask.others
+                };
+                delete this.object.filemask.value;
+            } else {
+                this.filemaskModes = {
+                    user: {
+                        read: false,
+                        write: false,
+                        execute: false
+                    },
+                    group: {
+                        read: false,
+                        write: false,
+                        execute: false
+                    },
+                    others: {
+                        read: false,
+                        write: false,
+                        execute: false
+                    }
+                };
             }
+            if (this.object.dirmask) {
+                this.dirmaskModes = {
+                    user: this.object.dirmask.user,
+                    group: this.object.dirmask.group,
+                    others: this.object.dirmask.others
+                };
+                delete this.object.dirmask.value;
+            } else {
+                this.dirmaskModes = {
+                    user: {
+                        read: false,
+                        write: false,
+                        execute: false
+                    },
+                    group: {
+                        read: false,
+                        write: false,
+                        execute: false
+                    },
+                    others: {
+                        read: false,
+                        write: false,
+                        execute: false
+                    }
+                };
+            }
+        }
+    },
+
+    save: {
+        value: function() {
+            this.object.filemask = this.filemaskModes;
+            this.object.dirmask = this.dirmaskModes;
         }
     },
 

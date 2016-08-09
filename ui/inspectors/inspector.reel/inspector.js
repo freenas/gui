@@ -63,7 +63,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     promise.catch(this._logError);
                 }
             } else if (this.object) {
-                promise = this.application.dataService.saveDataObject(this.object).catch(this._logError);
+                promise = this.save();
             } else {
                 console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
             }
@@ -87,6 +87,12 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             }
 
             event.stopPropagation();
+        }
+    },
+
+    save: {
+        value: function() {
+            return this.application.dataService.saveDataObject(this.object).catch(this._logError);
         }
     },
 

@@ -1,9 +1,9 @@
 var Component = require("montage/ui/component").Component;
 /**
- * @class WebDavService
+ * @class WebdavService
  * @extends Component
  */
-exports.WebDavService = Component.specialize({
+exports.WebdavService = Component.specialize({
 
     //document for web-dav sharing:
     //http://doc.freenas.org/9.10/freenas_services.html#webdav

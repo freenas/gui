@@ -7,10 +7,12 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "inspector": {"@": "inspector"}
             },
             "bindings": {
-                "name": {"<-": "@owner.object.config.type.replace('service-', '')"}
+                "name": {"<-": "@owner.object.config.type.replace('service-', '')"},
+                "configComponent": {"<-": "@config.component"}
             }
         },
         "inspector": {
@@ -44,75 +46,13 @@
                 "object": {"<-": "@owner.object"}
             }
         },
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
+        "config": {
+            "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "substitution"}
+                "element": {"#": "config"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.name"}
-            }
-        },
-        "smb": {
-            "prototype": "ui/inspectors/smb-service.reel",
-            "properties": {
-                "element": {"#": "smb"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.config"}
-            }
-        },
-        "webdav": {
-            "prototype": "ui/inspectors/web-dav-service.reel",
-            "properties": {
-                "element": {"#": "webdav"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.config"}
-            }
-        },
-        "iscsi": {
-            "prototype": "ui/inspectors/i-scsi-service.reel",
-            "properties": {
-                "element": {"#": "iscsi"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.config"}
-            }
-        },
-        "afp": {
-            "prototype": "ui/inspectors/afp-service.reel",
-            "properties": {
-                "element": {"#": "afp"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.config"}
-            }
-        },
-        "nfs": {
-            "prototype": "ui/inspectors/nfs-service.reel",
-            "properties": {
-                "element": {"#": "nfs"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.config"}
-            }
-        },
-        "sshd": {
-            "prototype": "ui/inspectors/sshd-service.reel",
-            "properties": {
-                "element": {"#": "sshd"}
-            },
-            "bindings": {
-                "object": {"<-": "@owner.object.config"}
-            }
-        },
-        "smartd": {
-            "prototype": "ui/inspectors/smartd-service.reel",
-            "properties": {
-                "element": {"#": "smartd"}
-            },
-            "bindings": {
+                "moduleId": {"<-": "'ui/inspectors/service.reel/' + @owner.name + '-service.reel'"},
                 "object": {"<-": "@owner.object.config"}
             }
         }
@@ -124,15 +64,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="overview"></div>
             <div data-montage-id="enabled"></div>
-            <div data-montage-id="substitution">
-                <div data-arg="smb" data-montage-id="smb"></div>
-                <div data-arg="afp" data-montage-id="afp"></div>
-                <div data-arg="nfs" data-montage-id="nfs"></div>
-                <div data-arg="webdav" data-montage-id="webdav"></div>
-                <div data-arg="iscsi" data-montage-id="iscsi"></div>
-                <div data-arg="sshd" data-montage-id="sshd"></div>
-                <div data-arg="smartd" data-montage-id="smartd"></div>
-            </div>
+            <div data-montage-id="config"></div>
         </div>
     </div>
 </body>

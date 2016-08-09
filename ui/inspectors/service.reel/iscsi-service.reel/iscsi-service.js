@@ -1,10 +1,10 @@
 var Component = require("montage/ui/component").Component;
 
 /**
- * @class IScsiService
+ * @class IscsiService
  * @extends Component
  */
-exports.IScsiService = Component.specialize({
+exports.IscsiService = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             if (isFirstTime) {

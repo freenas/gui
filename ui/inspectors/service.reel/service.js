@@ -19,5 +19,14 @@ exports.Service = Component.specialize({
                 });
             }
         }
+    },
+
+    save: {
+        value: function() {
+            if (this.configComponent && typeof this.configComponent.save === 'function') {
+                this.configComponent.save();
+            }
+            this.inspector.save();
+        }
     }
 });
