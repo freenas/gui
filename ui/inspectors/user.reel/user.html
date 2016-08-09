@@ -38,6 +38,15 @@
         "uidValidator": {
             "prototype": "core/converter/validator/unix-account-id-validator"
         },
+        "uidNameSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "uidNameSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "!!@owner.object.builtin ? 'system' : 'luser'"}
+            }
+        },
         "systemUserSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -121,6 +130,15 @@
                 "value": {"<-": "@owner.object.full_name"}
             }
         },
+        "groupSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "groupSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
+            }
+        },
         "groupOptionConverter": {
             "prototype": "core/converter/select-option-converter",
             "properties": {
@@ -150,6 +168,16 @@
                 "value": {"<-": "@owner.groupOptions.filter{id == @owner.object.group}.name"}
             }
         },
+        "groupDisplayRoot": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "groupDisplayRoot"},
+                "label": "Primary Group"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.groupOptions.filter{id == @owner.object.group}.name"}
+            }
+        },
         "additionalGroupsValidator": {
             "prototype": "./[AdditionalGroupsValidator]",
             "bindings": {
@@ -163,6 +191,15 @@
             },
             "bindings": {
                 "groupOptions": {"<-": "@owner.groupOptions"}
+            }
+        },
+        "groupsCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "groupsCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.uid != 0"}
             }
         },
         "groupsSection": {
@@ -187,6 +224,15 @@
                 "enabled": {"<-": "@groupsSection.isExpanded"}
             }
         },
+        "homeSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "homeSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
+            }
+        },
         "homeEdit": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
@@ -202,6 +248,16 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "homeDisplay"},
+                "label": "Home Directory"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.home"}
+            }
+        },
+        "homeDisplayRoot": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "homeDisplayRoot"},
                 "label": "Home Directory"
             },
             "bindings": {
@@ -273,6 +329,15 @@
                 "value": {"<-": "!!@owner.object.password_disabled ? 'Yes' : 'No'"}
             }
         },
+        "lockedSudoCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "lockedSudoCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.uid != 0"}
+            }
+        },
         "lockedEdit": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -319,33 +384,45 @@
 <body>
     <div data-montage-id="owner" class="User">
         <div data-montage-id="inspector">
-            <div data-montage-id="systemUserSubstitution">
-                <div data-arg="user">
+            <div data-montage-id="uidNameSubstitution">
+                <div data-arg="luser">
                     <div data-montage-id="uidEdit"></div>
                     <div data-montage-id="usernameEdit"></div>
-                    <div data-montage-id="password"></div>
-                    <div data-montage-id="fullNameEdit"></div>
-                    <div data-montage-id="passwordEdit"></div>
-                    <div data-montage-id="groupEdit"></div>
-                    <div data-montage-id="groupsSection">
-                        <div data-montage-id="groups"></div>
-                    </div>
-                    <div data-montage-id="homeEdit"></div>
-                    <div data-montage-id="shellEdit"></div>
-                    <div data-montage-id="emailEdit"></div>
-                    <div data-montage-id="sshpubkeyEdit"></div>
-                    <div data-montage-id="passwordDisabledEdit"></div>
-                    <div data-montage-id="lockedEdit"></div>
-                    <div data-montage-id="sudoEdit"></div>
                 </div>
                 <div data-arg="system">
                     <div data-montage-id="uidDisplay"></div>
                     <div data-montage-id="usernameDisplay"></div>
+                </div>
+            </div>
+            <div data-montage-id="systemUserSubstitution">
+                <div data-arg="user">
+                    <div data-montage-id="password"></div>
+                    <div data-montage-id="fullNameEdit"></div>
+                    <div data-montage-id="groupSubstitution">
+                        <div data-montage-id="groupEdit" data-arg="luser"></div>
+                        <div data-montage-id="groupDisplayRoot" data-arg="root"></div>
+                    </div>
+                    <div data-montage-id="groupsCondition">
+                        <div data-montage-id="groupsSection">
+                            <div data-montage-id="groups"></div>
+                        </div>
+                    </div>
+                    <div data-montage-id="homeSubstitution">
+                        <div data-montage-id="homeEdit" data-arg="luser"></div>
+                        <div data-montage-id="homeDisplayRoot" data-arg="root"></div>
+                    </div>
+                    <div data-montage-id="shellEdit"></div>
+                    <div data-montage-id="emailEdit"></div>
+                    <div data-montage-id="sshpubkeyEdit"></div>
+                    <div data-montage-id="passwordDisabledEdit"></div>
+                    <div data-montage-id="lockedSudoCondition">
+                        <div data-montage-id="lockedEdit"></div>
+                        <div data-montage-id="sudoEdit"></div>
+                    </div>
+                </div>
+                <div data-arg="system">
                     <div data-montage-id="fullNameDisplay"></div>
                     <div data-montage-id="groupDisplay"></div>
-                    <!--<div data-montage-id="groupsSectionDisplay">
-                        <div data-montage-id="groups"></div>
-                    </div>-->
                     <div data-montage-id="homeDisplay"></div>
                     <div data-montage-id="shellDisplay"></div>
                     <div data-montage-id="emailDisplay"></div>
