@@ -101,10 +101,6 @@
             "type": "CompressPlugin"
         },
         {
-            "modelId": "core/model/models/container-section.js",
-            "type": "ContainerSection"
-        },
-        {
             "modelId": "core/model/models/cpu-device.js",
             "type": "CpuDevice"
         },

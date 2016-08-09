@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
-            "collectionItemComponentModule": {"%": "ui/containers/containers-list-item.reel"},
+            "collectionItemComponentModule": {"%": "ui/virtualization/virtualization-list-item.reel"},
             "collectionNameExpression": "'Virtual Machines'",
             "inspectorComponentModule": {"%": "ui/inspectors/virtual-machine.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/virtual-machine.reel"},

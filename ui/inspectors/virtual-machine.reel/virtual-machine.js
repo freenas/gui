@@ -274,7 +274,7 @@ exports.VirtualMachine = Component.specialize({
 
     handleWebvncConsoleAction: {
         value: function() {
-            window.open(this.webvncConsole, this.object.name + " Container Console");
+            window.open(this.webvncConsole, this.object.name + " VM Console");
         }
     }
 });

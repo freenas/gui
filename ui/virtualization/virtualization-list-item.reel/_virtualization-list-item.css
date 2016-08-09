@@ -5,9 +5,9 @@ overrides
 */
 
 /* removes link status text */
-.ContainersListItem .TrafficLight .montage-Text { display: none; }
+.VirtualizationListItem .TrafficLight .montage-Text { display: none; }
 
-.ContainersListItem .TrafficLight {
+.VirtualizationListItem .TrafficLight {
     font-size: .5em;
     margin-bottom: 0;
     margin-right: 1rem;

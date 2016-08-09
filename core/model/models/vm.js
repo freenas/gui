@@ -201,7 +201,7 @@ exports.Vm = AbstractModel.specialize({
                 id: 'ui/controls/viewer.reel'
             },
             collectionItemComponentModule: {
-                id: 'ui/containers/containers-list-item.reel'
+                id: 'ui/virtualization/virtualization-list-item.reel'
             },
             collectionNameExpression: "'Virtual Machines'",
             inspectorComponentModule: {

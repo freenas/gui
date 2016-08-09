@@ -3,24 +3,16 @@ var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model;
 
 /**
- * @class Containers
+ * @class Virtualization
  * @extends Component
  */
-exports.Containers = Component.specialize({
+exports.Virtualization = Component.specialize({
 
     _loadDataPromise: {
         value: null
     },
 
-    templates: {
-        value: null
-    },
-
     virtualMachines: {
-        value: null
-    },
-
-    containerSection: {
         value: null
     },
 
@@ -32,18 +24,15 @@ exports.Containers = Component.specialize({
 
     _loadDataIfNeeded: {
         value: function() {
-            if (!this._loadDataPromise && !this.containerSection ) {
+            if (!this._loadDataPromise && !this.virtualMachines ) {
                 var dataService = this.application.dataService,
                     virtualMachineService = this.application.virtualMachineService,
                     self = this;
 
-                this._loadDataPromise = dataService.getNewInstanceForType(Model.ContainerSection).then(function(containerSection) {
-                    containerSection.isLoading = true;
-                    self.containerSection = containerSection;
+                this.isLoading = true;
 
-                    return self._listVirtualMachines();
-                }).then(function() {
-                    self.containerSection.isLoading = false;
+                this._loadDataPromise = this._listVirtualMachines().then(function() {
+                    self.isLoading = false;
                     self._loadDataPromise = null;
                 });
             }
@@ -55,9 +44,8 @@ exports.Containers = Component.specialize({
             var self = this;
 
             return this.application.dataService.fetchData(Model.Vm).then(function(virtualMachines) {
-                self.containerSection.virtualMachines = virtualMachines;
+                self.virtualMachines = virtualMachines;
             });
-
         }
     }
 
