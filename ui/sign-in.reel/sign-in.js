@@ -7,7 +7,7 @@ var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").Aut
  * @class SignIn
  * @extends Component
  */
-exports.SignIn = AuthorizationPanel.specialize({
+var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
     userName: {
         value: void 0
@@ -112,6 +112,7 @@ exports.SignIn = AuthorizationPanel.specialize({
             if (!this._isAuthenticating && this.userName && this.password) {
                 var self = this;
                 this.isAuthenticating = true;
+                this.errorMessage = null;
 
                 this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
                     self.application.topologyService.loadVdevRecommendations();
@@ -130,9 +131,29 @@ exports.SignIn = AuthorizationPanel.specialize({
                     self.errorMessage = error.message || error;
 
                 }).finally(function () {
-                    self.application.dispatchEventNamed("userLogged");
+                    if (!self.errorMessage) {
+                        self.application.dispatchEventNamed("userLogged");
+                    } else {
+                        self.element.addEventListener(
+                            typeof WebKitAnimationEvent !== "undefined" ? "webkitAnimationEnd" : "animationend", self, false
+                        );
+                    }
+
                     self.isAuthenticating = false;
                 });
+            }
+        }
+    },
+
+    handleAnimationend: {
+        value: function () {
+            if (this.errorMessage) {
+                this.passwordTextField.value = null;
+                this.passwordTextField.element.focus();
+
+                this.element.removeEventListener(
+                    typeof WebKitAnimationEvent !== "undefined" ? "webkitAnimationEnd" : "animationend", this, false
+                );
             }
         }
     },
@@ -146,3 +167,5 @@ exports.SignIn = AuthorizationPanel.specialize({
     }
 
 });
+
+SignIn.prototype.handleWebkitAnimationEnd = SignIn.prototype.handleAnimationend;
