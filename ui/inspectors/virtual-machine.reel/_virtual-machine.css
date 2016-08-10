@@ -1,9 +1,10 @@
 .VirtualMachine {
-
+    min-width: 21em;
 }
 
 .VirtualMachine-actions {
     display: none;
+    margin-bottom: 1em;
 }
 
 .VirtualMachine.has-actions .VirtualMachine-actions {
