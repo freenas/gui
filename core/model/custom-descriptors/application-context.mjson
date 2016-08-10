@@ -8,13 +8,13 @@
       "valueObjectPrototypeName": "DashboardContext"
     }
   },
-  "sideBarContext": {
+  "sideBoardContext": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "sideBarContext",
+      "name": "sideBoardContext",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "SideBarContext"
+      "valueObjectPrototypeName": "sideBoardContext"
     }
   },
   "root": {
@@ -23,7 +23,7 @@
       "name": "ApplicationContext",
       "propertyBlueprints": [
         {"@": "dashboardContext"},
-        {"@": "sideBarContext"}
+        {"@": "sideBoardContext"}
       ]
     }
   }

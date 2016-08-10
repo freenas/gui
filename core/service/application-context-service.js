@@ -8,20 +8,35 @@ var Montage = require("montage").Montage,
 
 var ApplicationContextService = exports.ApplicationContextService = Montage.specialize({
 
+    constructor: {
+        value: function () {
+            application.addEventListener("userLogged", this, false);
+        }
+    },
+
+    handleUserLogged: {
+        value: function () {
+            var self = this;
+
+            window.nativeAddEventListener("beforeunload", function () {
+                self.save();
+            });
+        }
+    },
+
     save: {
         value: function () {
             var saveContextPromise;
 
             if (this._saveContextPromise) {
                 saveContextPromise = this._saveContextPromise;
-
             } else {
                 var self = this;
 
-                this._saveContextPromise = this._saveContextPromise = self.findCurrentUser().then(function (user) {
-                    self._saveContextPromise = null;
-
+                return (this._saveContextPromise = this._saveContextPromise = self.findCurrentUser().then(function (user) {
                     return self._dataService.saveDataObject(user);
+                })).finally(function () {
+                    self._saveContextPromise = null;
                 });
             }
 
@@ -44,9 +59,9 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                 var self = this;
 
                 getContextPromise = this._getContextPromise = self.findCurrentUser().then(function (user) {
-                    self._getContextPromise = null;
-
                     return user.attributes;
+                }).finally(function () {
+                    self._getContextPromise = null;
                 });
             }
 
@@ -112,12 +127,15 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     return self._dataService.getNewInstanceForType(Model.ApplicationContext).then(function (applicationContext) {
                         return Promise.all([
                             self._dataService.getNewInstanceForType(Model.DashboardContext),
-                            self._dataService.getNewInstanceForType(Model.SideBarContext)
+                            self._dataService.getNewInstanceForType(Model.sideBoardContext)
                         ]).then(function (models) {
                             applicationContext.dashboardContext = models[0];
-                            applicationContext.sideBarContext = models[1];
+                            applicationContext.sideBoardContext = models[1];
                             applicationContext.dashboardContext.widgets = [widgets.get("ui/widgets/system-info.reel")];
-                            applicationContext.sideBarContext.widgets = [];
+                            applicationContext.sideBoardContext.widgets = [
+                                widgets.get("ui/widgets/alerts.reel"),
+                                widgets.get("ui/widgets/tasks.reel")
+                            ];
 
                             return applicationContext;
                         });
@@ -130,8 +148,12 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
     _handleRawApplicationContext: {
         value: function (applicationRawContext) {
             if (applicationRawContext) {
+                if (!applicationRawContext.sideBoardContext) {
+                    applicationRawContext.sideBoardContext = {};
+                }
+
                 applicationRawContext.dashboardContext.widgets = applicationRawContext.dashboardContext.widgets || [];
-                applicationRawContext.sideBarContext.widgets = applicationRawContext.sideBarContext.widgets || [];
+                applicationRawContext.sideBoardContext.widgets = applicationRawContext.sideBoardContext.widgets || [];
             }
         }
     }
