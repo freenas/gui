@@ -14,17 +14,17 @@ exports.ApplicationContext = AbstractModel.specialize({
             return this._dashboardContext;
         }
     },
-    _sideBarContext: {
+    _sideBoardContext: {
         value: null
     },
-    sideBarContext: {
+    sideBoardContext: {
         set: function (value) {
-            if (this._sideBarContext !== value) {
-                this._sideBarContext = value;
+            if (this._sideBoardContext !== value) {
+                this._sideBoardContext = value;
             }
         },
         get: function () {
-            return this._sideBarContext;
+            return this._sideBoardContext;
         }
     }
 }, {
@@ -36,8 +36,8 @@ exports.ApplicationContext = AbstractModel.specialize({
             valueType: "object"
         }, {
             mandatory: false,
-            name: "sideBarContext",
-            valueObjectPrototypeName: "SideBarContext",
+            name: "sideBoardContext",
+            valueObjectPrototypeName: "sideBoardContext",
             valueType: "object"
         }]
     }

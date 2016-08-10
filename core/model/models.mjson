@@ -533,8 +533,8 @@
             "type": "Share"
         },
         {
-            "modelId": "core/model/models/side-bar-context.js",
-            "type": "SideBarContext"
+            "modelId": "core/model/models/side-board-context.js",
+            "type": "SideBoardContext"
         },
         {
             "modelId": "core/model/models/simulator-disk.js",
