@@ -6,6 +6,13 @@ var Montage = require("montage").Montage,
 // Need help from the middleware.
 var WIDGETS = [
     {
+        title: "alerts",
+        description: null,
+        imgPreview: null,
+        moduleId: "ui/widgets/alerts.reel",
+        allowMultiple: false
+    },
+    {
         title: "arc-demand-data",
         description: null,
         imgPreview: null,
@@ -52,6 +59,13 @@ var WIDGETS = [
         description: null,
         imgPreview: null,
         moduleId: "ui/widgets/system-info.reel",
+        allowMultiple: false
+    },
+    {
+        title: "tasks",
+        description: null,
+        imgPreview: null,
+        moduleId: "ui/widgets/tasks.reel",
         allowMultiple: false
     },
     {
