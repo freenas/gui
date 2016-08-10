@@ -1,5 +1,7 @@
 var Montage = require("montage").Montage,
-    BackEndBridgeModule = require("../backend/backend-bridge");
+    BackEndBridgeModule = require("../backend/backend-bridge"),
+    FreeNASService = require("core/service/freenas-service").FreeNASService,
+    Model = require("core/model/model").Model;
 
 var SystemInfoService = exports.SystemInfoService = Montage.specialize({
     _NAMESPACE: {
@@ -7,6 +9,10 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
     },
 
     _instance: {
+        value: null
+    },
+
+    _dataService: {
         value: null
     },
 
@@ -40,8 +46,8 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
 
     getTime: {
         value: function() {
-            return this._callBackend('time').then(function(response) {
-                return response.data;
+            return this._dataService.fetchData(Model.SystemTime).then(function(systemTime) {
+                return systemTime[0];
             });
         }
     },
@@ -69,6 +75,7 @@ var SystemInfoService = exports.SystemInfoService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new SystemInfoService();
+                this._instance._dataService = FreeNASService.instance;
                 this._instance._backendBridge = BackEndBridgeModule.defaultBackendBridge;
             }
             return this._instance;
