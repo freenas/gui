@@ -48,13 +48,6 @@ var WIDGETS = [
         allowMultiple: true
     },
     {
-        title: "notifications",
-        description: null,
-        imgPreview: null,
-        moduleId: "ui/widgets/notifications.reel",
-        allowMultiple: false
-    },
-    {
         title: "system-info",
         description: null,
         imgPreview: null,
