@@ -10,13 +10,13 @@
                 "element": {"#": "owner"}
             }
         },
-        "label": {
-            "prototype": "montage/ui/text.reel",
+        "listItem": {
+            "prototype": "ui/controls/list.reel/list-item.reel",
             "properties": {
-                "element": {"#": "label"}
+                "element": {"#": "listItem"}
             },
             "bindings": {
-                "value": {"<-": "@owner.isCollection ? path(@owner.userInterfaceDescriptor.collectionNameExpression) : @owner.object.path(@owner.userInterfaceDescriptor.nameExpression)"}
+                "object": {"<-": "@owner.object"}
             }
         },
         "status": {
@@ -38,11 +38,9 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="VirtualizationListItem ListItem">
-        <div data-montage-id="status" class="NetworkInterfaceIcon-status"></div>
-        <div data-montage-id="label" class="ListItem-label"></div>
-        <div class="ListItem-arrow">
-            <svg><use xlink:href="#i-arrow"/></svg>
+    <div data-montage-id="owner" class="VirtualizationListItem">
+        <div data-montage-id="listItem">
+            <div data-montage-id="status"></div>
         </div>
     </div>
 </body>
