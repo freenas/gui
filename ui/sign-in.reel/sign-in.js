@@ -122,21 +122,21 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
                     // Don't keep any track of the password in memory.
                     self.password = self.userName = null;
-
                     self.application.section = 'dashboard';
+
                     return self.application.dataService.fetchData(Model.Service).then(function(services) {
                         return Promise.all(services.map(function(x) { return Promise.resolve(x.config).then(function() { return x; }); }));
                     });
                 }, function (error) {
                     self.errorMessage = error.message || error;
-
                 }).finally(function () {
-                    if (!self.errorMessage) {
-                        self.application.dispatchEventNamed("userLogged");
-                    } else {
+                    if (self.errorMessage) {
                         self.element.addEventListener(
                             typeof WebKitAnimationEvent !== "undefined" ? "webkitAnimationEnd" : "animationend", self, false
                         );
+                    } else {
+                        //FIXME: kind of hacky
+                        self.application.dispatchEventNamed("userLogged");
                     }
 
                     self.isAuthenticating = false;
