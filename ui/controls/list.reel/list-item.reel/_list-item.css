@@ -68,6 +68,11 @@
     background: #2B9CD8;
     cursor: default;
     color: #fff;
+
+    @nest .CascadingListItem:not(:nth-last-child(2)) & {
+        background: color(#2B9CD8 blackness(35%));
+        border-color: color(#2B9CD8 blackness(35%));
+    }
 }
 
 /* $fix - selected state shoudn't change */
