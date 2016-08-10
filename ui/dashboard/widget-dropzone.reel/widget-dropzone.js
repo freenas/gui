@@ -45,15 +45,6 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
         value: function (isFirstTime) {
             AbstractDropZoneComponent.prototype.enterDocument.call(this, isFirstTime);
             AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
-
-            if (!this.userWidgets) {
-                var self = this;
-
-                this.application.applicationContextService.findCurrentUser().then(function (user) {
-                    self.currentUser = user;
-                    //userWidgets is set by a binding.
-                });
-            }
         }
     },
 
@@ -93,7 +84,7 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
 
     shouldAcceptComponent: {
         value: function (draggableComponent) {
-            return this.userWidgets && (draggableComponent instanceof DrawerItem || draggableComponent instanceof WidgetWrapper);
+            return (draggableComponent instanceof DrawerItem || draggableComponent instanceof WidgetWrapper);
         }
     },
 

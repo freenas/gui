@@ -20,6 +20,14 @@
             }
         },
 
+        "widgetDropzone": {
+            "prototype": "ui/dashboard/widget-dropzone.reel",
+            "properties": {
+                "element": {"#": "widget-dropzone"},
+                "widgetsPath": "sideBoardContext.widgets" 
+            }
+        },
+
         "tasksIcon": {
             "prototype": "ui/dashboard/widgets/widget-icon.reel",
             "properties": {
@@ -53,9 +61,7 @@
                 <div data-montage-id="tasksIcon"></div>
             </div>
 
-            <div class="Sideboard-widgets">
-                
-            </div>
+            <div data-montage-id="widget-dropzone" class="Sideboard-widgets"></div>
         </div>
         <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard">
             <svg><use xlink:href="#i-arrow"/></svg>
