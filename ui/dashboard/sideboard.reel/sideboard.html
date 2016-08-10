@@ -9,30 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"},
-                "alerts": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}"},
-                "tasks": {"<-": "@owner.notifications.filter{type == 'TASK'}"}
-            }
-        },
-        "alerts": {
-            "prototype": "ui/widgets/notifications.reel",
-            "properties": {
-                "element": {"#": "alerts"},
-                "title": "Alerts",
-                "type": "ALERT",
-                "icon": "i-alert",
-                "emptyText": "No Alerts Reported"
-            }
-        },
-
-        "tasks": {
-            "prototype": "ui/widgets/notifications.reel",
-            "properties": {
-                "element": {"#": "tasks"},
-                "title": "Tasks",
-                "type": "TASK",
-                "icon": "i-tasks",
-                "emptyText": "No Current Tasks"
+                "classList.has('is-collapsed')": {"<-" : "@owner.isCollapsed"}
             }
         },
 
@@ -51,7 +28,7 @@
             },
             "bindings": {
                 "badgeValue": {"<-": "@owner.tasks.filter{state == 'EXECUTING'}.length"},
-                "data": {"<-": "@owner.tasks"}
+                "data": {"<-": "@owner.notifications.filter{type == 'TASK'}"}
             }
         },
 
@@ -62,7 +39,7 @@
                 "icon": "i-alert"
             },
             "bindings": {
-                "data": {"<-": "@owner.alerts"}
+                "data": {"<-": "@owner.notifications.filter{type == 'ALERT' && !data.dismissed}"}
             }
         }
     }
@@ -77,8 +54,7 @@
             </div>
 
             <div class="Sideboard-widgets">
-                <div data-montage-id="alerts"></div>
-                <div data-montage-id="tasks"></div>
+                
             </div>
         </div>
         <div data-montage-id="toggleSideboard" class="Sideboard-toggleSideboard">
