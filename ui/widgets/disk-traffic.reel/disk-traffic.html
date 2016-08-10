@@ -8,9 +8,6 @@
             "properties": {
                 "element": {"#": "owner"},
                 "chart": {"@": "chart"}
-            },
-            "bindings": {
-                "disk": {"<-": "this.object.context.selectedDisk || this.disks.0.name"}
             }
         },
         "widget": {
@@ -35,8 +32,8 @@
                 "showLegend": true,
                 "showYAxis": true,
                 "yFormat": "1.2s",
-                "isTimeSeries": true,
-                "useGuideline": true,
+                "isTimeSeries": false,
+                "graphType": "stackedBar",
                 "metrics": [
                     ["disk_octets", "read"],
                     ["disk_octets", "write"]
@@ -44,26 +41,7 @@
                 "removePrefix": "disk_octets."
             },
             "bindings": {
-                "source": {"<-": "'disk-' + @owner.disk"}
-            }
-        },
-        "selectOptionsConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPropertyName": "name",
-                "valuePropertyName": "name"
-            }
-        },
-        "selectCard": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "selectCard"},
-                "converter": {"@": "selectOptionsConverter"},
-                "label": "Network Interface"
-            },
-            "bindings": {
-                "options": {"<-": "@owner.disks"},
-                "selectedValue": {"<->": "@owner.object.context.selectedDisk"}
+                "sources": {"<-": "@owner.disks.map{'disk-' + name}"}
             }
         }
     }
@@ -75,9 +53,6 @@
             <div data-montage-id="title" data-arg="widget-title"></div>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
-            </div>
-            <div data-arg="widget-settings">
-                <div data-montage-id="selectCard"></div>
             </div>
         </div>
     </div>
