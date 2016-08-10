@@ -5,6 +5,11 @@
 .VirtualMachine-actions {
     display: none;
     margin-bottom: 1em;
+
+    /* adds spacing for buttons */
+    & > *:not(:first-child) {
+        margin-left: .5em;
+    }
 }
 
 .VirtualMachine.has-actions .VirtualMachine-actions {
