@@ -20,6 +20,17 @@
                 "options" : {"<-": "@owner.timezoneOptions"},
                 "selectedValue": {"<->": "@owner.timezoneData.timezone"}
             }
+        },
+        "keymaps": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "keymaps"},
+                "label": "Keyboard Preference"
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.keymapsOptions"},
+                "selectedValue": {"<->": "@owner.keymapsData.console_keymap"}
+            }
         }
     }
     </script>
@@ -27,6 +38,7 @@
 <body>
     <div data-montage-id="owner" class="LanguageAndRegion">
         <div data-montage-id="timezones"></div>
+        <div data-montage-id="keymaps"></div>
     </div>
 </body>
 </html>

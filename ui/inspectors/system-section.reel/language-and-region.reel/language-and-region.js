@@ -17,6 +17,10 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: null
     },
 
+    keymapsOptions: {
+        value: null
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -28,8 +32,15 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                     for(var i=0; i<timezoneData.timezoneOptions.length; i++) {
                         self.timezoneOptions.push({label: timezoneData.timezoneOptions[i], value: timezoneData.timezoneOptions[i]})
                     }
-                    self.isLoading = false;
                 });
+                this.application.systemGeneralService.getKeymapsData().then(function(keymapsData) {
+                    self.keymapsData = keymapsData;
+                    self.keymapsOptions = [];
+                    for(var i=0; i<keymapsData.keymapsOptions.length; i++) {
+                        self.keymapsOptions.push({label: keymapsData.keymapsOptions[i][1], value: keymapsData.keymapsOptions[i][0]});
+                    }
+                });
+                self.isLoading = false;
             }
         }
     }
