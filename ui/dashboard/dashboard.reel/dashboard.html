@@ -6,11 +6,9 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "_widgetsRepetition": {"@": "widgets"}
+                "element": {"#": "owner"}
             },
             "bindings": {
-                "userWidgets": {"<-": "@owner.currentUser.attributes.dashboardContext.widgets"},
                 "classList.has('drawer-is-open')": {"<-": "@owner.application.isDrawerOpen"}
             }
         },
@@ -21,25 +19,10 @@
                 "value": "Edit Dashboard"
             }
         },
-
-        "widgets": {
-            "prototype": "montage/ui/repetition.reel",
+        "widgetDropzone": {
+            "prototype": "ui/dashboard/widget-dropzone.reel",
             "properties": {
-                "element": {"#": "widgets"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.userWidgets"}
-            }
-        },
-
-        "widget-wrapper": {
-            "prototype": "ui/dashboard/widgets/widget-wrapper.reel",
-            "properties": {
-                "element": {"#": "widget-wrapper"}
-            },
-            "bindings": {
-                "object": {"<-": "@widgets:iteration.object"},
-                "enabled": {"<-": "@owner.application.isDrawerOpen"}
+                "element": {"#": "widget-dropzone"}
             }
         }
     }
@@ -48,9 +31,7 @@
 <body>
     <div data-montage-id="owner" class="Dashboard">
         <main>
-            <div data-montage-id="widgets" class="Dashboard-widgets">
-                <div data-montage-id="widget-wrapper" class="Dashboard-widget"></div>
-            </div>
+            <div data-montage-id="widget-dropzone"></div>
         </main>
         <button data-montage-id="openDrawerButton" class="Dashboard-openDrawerButton"></button>
     </div>

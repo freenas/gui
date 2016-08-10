@@ -256,7 +256,7 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
             if (this._needsUpdatePlaceHolder) {
                 if (!this._widgetPlaceHolderElement) {
                     this._widgetPlaceHolderElement = document.createElement("div");
-                    this._widgetPlaceHolderElement.classList.add("Dashboard-widget");
+                    this._widgetPlaceHolderElement.classList.add("WidgetDropzone-widget");
                     this._widgetPlaceHolderElement.classList.add("placeholder");
                 }
 
