@@ -28,7 +28,6 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
         value: function () {
             AbstractDropZoneComponent.prototype.exitDocument.call(this);
             AbstractComponentActionDelegate.prototype.exitDocument.call(this);
-
             this._unToggledCurrentDrawerItemIfNeeded();
         }
     },
@@ -40,13 +39,13 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
             this._loadingPromise = Promise.all([
                 this.application.applicationContextService.findCurrentUser(),
                 this.application.widgetService.getAvailableWidgets()
-            ]).then(function (arguments) {
-                var availableWidgets = arguments[1];
-
+            ]).then(function (response) {
+                var availableWidgets = response[1];
                 self.items = availableWidgets.toArray();
-                self.currentUser = arguments[0];
+                self.currentUser = response[0];
 
-                self.addRangeAtPathChangeListener("userWidgets", self, "_handleUserWidgetsChange");
+                self.addRangeAtPathChangeListener("dashboardWidgets", self, "_handleWidgetsChange");
+                self.addRangeAtPathChangeListener("sideBoardWidgets", self, "_handleWidgetsChange");
             }).finally(function () {
                 self._loadingPromise = null;
             });
@@ -58,8 +57,7 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
             var iteration = this._drawerItems._findIterationContainingElement(event.target.element);
 
             if (iteration) {
-                var component,
-                    i = 0;
+                var component, i = 0;
 
                 while ((component = iteration._childComponents[i++])) {
                     if (component instanceof DrawerItem) {
@@ -92,7 +90,7 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
         }
     },
 
-    _handleUserWidgetsChange: {
+    _handleWidgetsChange: {
         value: function (plus, minus) {
             var index, i, length;
 
@@ -146,7 +144,7 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
 
     shouldAcceptComponent: {
         value: function (widgetWrapperComponent) {
-            return this.userWidgets && widgetWrapperComponent instanceof WidgetWrapper;
+            return widgetWrapperComponent instanceof WidgetWrapper;
         }
     },
 
@@ -154,8 +152,10 @@ exports.Drawer = AbstractDropZoneComponent.specialize(/** @lends Drawer# */ {
         value: function (widgetWrapperComponent) {
             var index;
 
-            if ((index = this.userWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
-                this.userWidgets.splice(index, 1);
+            if ((index = this.dashboardWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
+                this.dashboardWidgets.splice(index, 1);
+            } else if ((index = this.sideBoardWidgets.indexOf(widgetWrapperComponent.object)) > -1) {
+                this.sideBoardWidgets.splice(index, 1);
             }
         }
     }

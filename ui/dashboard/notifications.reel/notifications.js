@@ -1,5 +1,5 @@
 var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
-    Notification = require("ui/widgets/notifications.reel/notification.reel").Notification,
+    Notification = require("ui/dashboard/notifications.reel/notification.reel").Notification,
     notificationCenter = require("core/backend/notification-center").defaultNotificationCenter;
 
 /**

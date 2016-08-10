@@ -10,7 +10,8 @@
                 "_drawerItems": {"@": "items"}
             },
             "bindings": {
-                "userWidgets": {"<-": "@owner.currentUser.attributes.dashboardContext.widgets"},
+                "dashboardWidgets": {"<-": "@owner.currentUser.attributes.dashboardContext.widgets"},
+                "sideBoardWidgets": {"<-": "@owner.currentUser.attributes.sideBoardContext.widgets"},
                 "classList.has('is-open')": {"<-": "@owner.application.isDrawerOpen"}
             }
         },
