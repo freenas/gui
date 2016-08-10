@@ -1,3 +1,27 @@
 .WidgetDropzone {
+    flex: 1;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
 
+
+.WidgetDropzone-widgets {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    padding: .5em;
+}
+
+.WidgetDropzone-widget {
+    flex: 1;
+    margin: .5em;
+    width: 25em;
+    height: 15em;
+}
+
+.WidgetDropzone-widget.placeholder {
+    background: #0c5688;
+    min-width: 20px;
+    max-width: 20px;
 }

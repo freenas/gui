@@ -7,29 +7,8 @@
     & > main {
         position: relative;
         overflow-y: auto;
+        flex: 1;
     }
-}
-
-.Dashboard-widgets {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    padding: .5em;
-}
-
-.Dashboard-widget {
-    flex: 1;
-    margin: .5em;
-    width: 25em;
-    height: 15em;
-}
-
-.Dashboard-widget.is-hidden { display: none; }
-
-.Dashboard-widget.placeholder{
-    background: #0c5688;
-    min-width: 20px;
-    max-width: 20px;
 }
 
 .Dashboard-openDrawerButton {
