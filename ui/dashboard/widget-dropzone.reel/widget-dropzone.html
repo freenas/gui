@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="widget-dropzone.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_widgetsRepetition": {"@": "widgets"}
+            },
+            "bindings": {
+                "userWidgets": {"<-": "@owner.currentUser.attributes.dashboardContext.widgets"}
+            }
+        },
+
+        "widgets": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "widgets"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.userWidgets"}
+            }
+        },
+
+        "widget-wrapper": {
+            "prototype": "ui/dashboard/widgets/widget-wrapper.reel",
+            "properties": {
+                "element": {"#": "widget-wrapper"}
+            },
+            "bindings": {
+                "object": {"<-": "@widgets:iteration.object"},
+                "enabled": {"<-": "@owner.application.isDrawerOpen"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="WidgetDropzone">
+        <div data-montage-id="widgets" class="Dashboard-widgets">
+            <div data-montage-id="widget-wrapper" class="Dashboard-widget"></div>
+        </div>
+    </div>
+</body>
+</html>
