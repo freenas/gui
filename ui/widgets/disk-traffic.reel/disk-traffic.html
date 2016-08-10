@@ -8,12 +8,24 @@
             "properties": {
                 "element": {"#": "owner"},
                 "chart": {"@": "chart"}
+            },
+            "bindings": {
+                "disk": {"<-": "this.object.context.selectedDisk || this.disks.0.name"}
             }
         },
         "widget": {
             "prototype": "ui/dashboard/widgets/widget.reel",
             "properties": {
                 "element": {"#": "widget"}
+            }
+        },
+        "text": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "title"}
+            },
+            "bindings": {
+                "value": {"<-": "'Disk I/O - ' + @owner.disk"}
             }
         },
         "chart": {
@@ -24,14 +36,34 @@
                 "showYAxis": true,
                 "yFormat": "1.2s",
                 "isTimeSeries": true,
-                "graphType": "stacked",
                 "useGuideline": true,
-                "source": "disk-*",
                 "metrics": [
                     ["disk_octets", "read"],
                     ["disk_octets", "write"]
                 ],
                 "removePrefix": "disk_octets."
+            },
+            "bindings": {
+                "source": {"<-": "'disk-' + @owner.disk"}
+            }
+        },
+        "selectOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "name",
+                "valuePropertyName": "name"
+            }
+        },
+        "selectCard": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "selectCard"},
+                "converter": {"@": "selectOptionsConverter"},
+                "label": "Network Interface"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.disks"},
+                "selectedValue": {"<->": "@owner.object.context.selectedDisk"}
             }
         }
     }
@@ -40,9 +72,12 @@
 <body>
     <div data-montage-id="owner" class="DiskTraffic">
         <div data-montage-id="widget">
-            <div data-arg="widget-title">Disk I/O</div>
+            <div data-montage-id="title" data-arg="widget-title"></div>
             <div data-arg="widget-content">
                 <div data-montage-id="chart-live"></div>
+            </div>
+            <div data-arg="widget-settings">
+                <div data-montage-id="selectCard"></div>
             </div>
         </div>
     </div>

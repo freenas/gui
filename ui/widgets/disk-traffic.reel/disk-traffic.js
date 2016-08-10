@@ -1,16 +1,22 @@
 /**
  * @module ui/disk-traffic.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Model = require("core/model/model").Model;
 
 /**
  * @class DiskTraffic
  * @extends Component
  */
 exports.DiskTraffic = Component.specialize(/** @lends DiskTraffic# */ {
-    constructor: {
-        value: function DiskTraffic() {
-            this.super();
+    enterDocument: {
+        value: function() {
+            if (!this.interfaces) {
+                var self = this;
+                this.application.dataService.fetchData(Model.Disk).then(function (disks) {
+                    self.disks = disks;
+                });
+            }
         }
     }
 });
