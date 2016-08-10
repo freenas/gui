@@ -64,7 +64,7 @@
 
 /* States ---------------------------------- */
 
-.selected > .ListItem {
+.selected .ListItem {
     background: #2B9CD8;
     cursor: default;
     color: #fff;
