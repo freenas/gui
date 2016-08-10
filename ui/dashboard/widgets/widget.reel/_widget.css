@@ -9,7 +9,8 @@
 }
 
 .Widget-header {
-    padding: .75em;
+    display: flex;
+    padding: .25em;
     line-height: 1em;
     height: 2.5em;
     background: #404040;

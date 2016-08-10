@@ -7,18 +7,7 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "items": {"@": "items"},
-                "iconElement": {"#": "icon"},
-                "notificationsBody": {"#": "notificationsBody"}
-            }
-        },
-        "title": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "title"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.title"}
+                "items": {"@": "items"}
             }
         },
         "items": {
@@ -56,34 +45,17 @@
                 "classList.has('is-hidden')": {"<-": "@items.content.length > 0"},
                 "value": {"<-": "@owner.emptyText"}
             }
-        },
-        "clear": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "clear"},
-                "label": "clear all"
-            },
-            "bindings": {
-                "classList.has('hide')": {"<-": "@items.content.length == 0 || @owner.type != 'ALERT'"}
-            }
         }
     }
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Notifications">
-        <div class="Notifications-header">
-            <svg data-montage-id="icon" class="Notifications-icon"></svg>
-            <div data-montage-id="title" class="Notifications-title"></div>
-            <button data-montage-id="clear" class="Notifications-clear"></button>
-        </div>
-        <div data-montage-id="notificationsBody" class="Notifications-body">
-            <div data-montage-id="itemsScrollview">
-                <div data-montage-id="items" class="Notifications-items">
-                    <div data-montage-id="item"></div>
-                </div>
-                <div data-montage-id="emptyState" class="Notifications-emptyState"></div>
+    <div data-montage-id="owner" class="Notifications-body">
+        <div data-montage-id="itemsScrollview">
+            <div data-montage-id="items" class="Notifications-items">
+                <div data-montage-id="item"></div>
             </div>
+            <div data-montage-id="emptyState" class="Notifications-emptyState"></div>
         </div>
     </div>
 </body>

@@ -1,0 +1,20 @@
+
+.Notifications-icon {
+    height: 1.5em;
+    width:  1.5em;
+    margin-right: .5em;
+}
+
+.Notifications-title {
+    font-weight: 400;
+    flex: 1;
+}
+
+.Notifications-clear {
+    color: inherit;
+    padding: .5em 0;
+
+    &:hover {
+        color: color(#929E9F lightness(80%));
+    }
+}

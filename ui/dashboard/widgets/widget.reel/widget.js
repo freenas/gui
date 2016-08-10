@@ -16,7 +16,7 @@ exports.Widget = Component.specialize({
 
     enterDocument: {
         value: function (firstTime) {
-            if (firstTime) {
+            if (firstTime && this._domArguments) {
                 this.hasSettings = !!this._domArguments["widget-settings"];
             }
         }
