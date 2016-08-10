@@ -47,7 +47,6 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                         self.serialPortOptions.push({label: consoleData.serialPorts[i].name, value: consoleData.serialPorts[i].name});
                     }
                     self.serialPortOptions.unshift({label:"---", value: "none"});
-                    self.isLoading = false;
                 });
                 this.application.systemGeneralService.getKeymapsData().then(function(keymapsData) {
                     self.keymapsData = keymapsData;
@@ -55,8 +54,8 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                     for(var i=0; i<keymapsData.keymapsOptions.length; i++) {
                         self.keymapsOptions.push({label: keymapsData.keymapsOptions[i][1], value: keymapsData.keymapsOptions[i][0]});
                     }
-                    self.isLoading = false;
-                })
+                });
+                self.isLoading = false;
             }
         }
     }
