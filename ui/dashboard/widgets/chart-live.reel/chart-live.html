@@ -8,6 +8,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "chart": {"@": "chart"}
+            },
+            "bindings": {
+                "datasources": {"<-": "@owner.sources.defined() ? @owner.sources : [@owner.source]"}
             }
         },
         "chart": {

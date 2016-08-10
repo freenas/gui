@@ -92,7 +92,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         }
     },
 
-    addSerie: {
+    addSeries: {
         value: function(series) {
             this._seriesList.push(series);
             this._plot.addDataset(this._seriesToDataset(series));
@@ -105,12 +105,14 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
         value: function() {
             var datasets = this._plot.datasets();
             if (datasets.length > 0) {
-                var times = datasets[0].data().map(function(x) { return x.x; }),
-                    dataset, metadata;
-                this._xScale.domain([
-                    times[0],
-                    times.slice(-1)[0]
-                ]);
+                if (this.isTimeSeries) {
+                    var times = datasets[0].data().map(function(x) { return x.x; }),
+                        dataset, metadata;
+                    this._xScale.domain([
+                        times[0],
+                        times.slice(-1)[0]
+                    ]);
+                }
 
                 this._addDisplayedSeries();
                 this._chart.renderImmediately();
@@ -144,6 +146,30 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                     this._refresh();
                 }
             }
+        }
+    },
+
+    setValue: {
+        value: function(key, value) {
+            var series = this._seriesList.filter(function(x) { return x.key === key; })[0];
+            if (!series) {
+                series = {
+                    key: key,
+                    values: []
+                };
+                this.addSeries(series);
+            }
+            var seriesSource = series.values.filter(function(x) { return x.x === value.x; })[0];
+            if (seriesSource) {
+                seriesSource.y = value.y;
+            } else {
+                if (this._xScale.domain().indexOf(value.x) == -1) {
+                    this._xScale.domain(this._xScale.domain().concat(value.x));
+                }
+                series.values.push(value);
+            }
+            this._datasets[key] = this._seriesToDataset(series);
+            this._refresh();
         }
     },
 
@@ -199,12 +225,17 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
 
     _setupX: {
         value: function() {
-            this._xScale = new Plottable.Scales.Linear();
-            this._xAxis = new Plottable.Axes.Numeric(this._xScale, "bottom")
-                .addClass('is-label-hidden')
-                .formatter(function(d) {
-                    return '';
-                });
+            if (this.isTimeSeries) {
+                this._xScale = new Plottable.Scales.Linear();
+                this._xAxis = new Plottable.Axes.Numeric(this._xScale, "bottom");
+                this._xAxis.addClass('is-label-hidden')
+                    .formatter(function(d) {
+                        return '';
+                    });
+            } else {
+                this._xScale = new Plottable.Scales.Category();
+                this._xAxis = new Plottable.Axes.Category(this._xScale, "bottom");
+            }
         }
     },
 
@@ -232,7 +263,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                 .attr("fill", function(d) { return d.name; }, this._colorScale)
                 .attr("stroke", function(d) { return d.name; }, this._colorScale);
 
-            return graphGroup = new Plottable.Components.Group([this._plot, this._legend]);
+            return new Plottable.Components.Group([this._plot, this._legend]);
         }
     },
 
@@ -324,6 +355,10 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     _getPlotComponent: {
         value: function() {
             switch (this.graphType) {
+                case 'clusteredbar':
+                    return new Plottable.Plots.ClusteredBar();
+                case 'stackedbar':
+                    return new Plottable.Plots.StackedBar();
                 case 'stacked':
                     return new Plottable.Plots.StackedArea();
                 case 'line':

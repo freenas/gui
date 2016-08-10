@@ -51,6 +51,17 @@ var StatisticsService = exports.StatisticsService = Montage.specialize({
         }
     },
 
+    getDatasourceCurrentValue: {
+        value: function(datasource) {
+            return this._callBackend("stat.get_stats", [datasource, {
+                timespan:   20,
+                frequency:  '10s'
+            }]).then(function(response) {
+                return response.data.data.slice(-1);
+            });
+        }
+    },
+
     subscribeToUpdates: {
         value: function(datasource, listener) {
             if (this._subscribedUpdates.indexOf(datasource) == -1) {
