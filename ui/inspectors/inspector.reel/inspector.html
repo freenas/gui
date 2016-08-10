@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="inspector.css">
     <script type="text/montage-serialization">
     {
@@ -20,6 +19,9 @@
             "properties": {
                 "element": {"#": "scrollView"},
                 "overflow": "scrollY"
+            },
+            "bindings": {
+                "delegate": {"<-": "@owner.scrollViewDelegate"}
             }
         },
         "loading": {

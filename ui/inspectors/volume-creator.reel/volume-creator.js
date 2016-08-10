@@ -100,6 +100,12 @@ exports.VolumeCreator = Component.specialize({
         }
     },
 
+    shouldScrollViewComputeBoundaries: {
+        value: function () {
+            return !this.topologizer._isMoving;
+        }
+    },
+
     save: {
         value: function() {
             var self = this;
