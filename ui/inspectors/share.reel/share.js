@@ -165,9 +165,14 @@ exports.Share = Component.specialize({
     save: {
         value: function() {
             var self = this;
+            if (this.object._isNew) {
+                this.isPathReadOnly = true;
+            }
             return this._shareService.save(this.object).then(function() {
                 self.isServiceStarted = true;
-
+                if (self.object._isNew) {
+                    self.isPathReadOnly = false;
+                }
             }, function(err) {
                 self._object.target_path = self.treeControllers[self.targetType].selectedPath;
                 throw err;
