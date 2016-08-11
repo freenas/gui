@@ -1,5 +1,7 @@
 .WidgetWrapper {
     position: relative;
+    width: 33%;
+    max-width: calc(50% - 1em);
 
     @nest .Main.drawer-is-open & {
         cursor: grab;
@@ -9,7 +11,16 @@
         margin-left:    0;
         margin-right:   0;
         margin-top:     0;
+        width: 100%;
+        max-width: 100%;
     }
+
+    &.isDragging {
+        opacity: .75;
+    }
+
+    &.Widget-size-2 { width: 50%; }
+    &.Widget-size-3 { width: 100%; max-width: 100%;}
 }
 
 .WidgetWrapper-removeButton {
