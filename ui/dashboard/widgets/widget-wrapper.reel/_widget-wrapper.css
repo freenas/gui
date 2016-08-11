@@ -1,9 +1,18 @@
 .WidgetWrapper {
     position: relative;
+
+    @nest .Main.drawer-is-open & {
+        cursor: grab;
+    }
+
+    @nest .Sideboard & {
+        margin-left:    0;
+        margin-right:   0;
+        margin-top:     0;
+    }
 }
 
 .WidgetWrapper-removeButton {
-    display: none;
     right: -.5rem;
     top: -.5rem;
     position: absolute;
@@ -14,8 +23,16 @@
     padding: .5rem;
     color: #fff;
     box-shadow: 0 2px 2px 1px rgba(0,0,0,.3);
+    visibility: hidden;
+    transform: scale(0);
+    transition: transform .25s ease-in-out, visibility .25s ease-in-out;
 
     &:hover {
         background: color(#E0003A lightness(40%));
+    }
+
+    @nest .Main.drawer-is-open & {
+        visibility: visible;
+        transform: scale(1);
     }
 }

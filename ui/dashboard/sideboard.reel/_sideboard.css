@@ -8,11 +8,16 @@
     overflow: hidden;
     transition: margin .5s cubic-bezier(.7,0,.3,1);
     will-change: margin;
+
+    &.is-collapsed {
+        margin-right: -11.2em;
+    }
+
+    @nest .drawer-is-open & {
+        margin-right: 0;
+    }
 }
 
-.Sideboard.is-collapsed {
-    margin-right: -11.2em;
-}
 
 .Sideboard-container {
     flex: 1;
@@ -21,10 +26,13 @@
     position: relative;
     padding: 1em;
     transition: transform .5s cubic-bezier(.7,0,.3,1);
-}
 
-.is-collapsed .Sideboard-container {
-    transform: translateX(4em);
+    @nest .is-collapsed & {
+        transform: translateX(4em);
+    }
+    @nest .drawer-is-open & {
+        transform: translateX(0);
+    }
 }
 
 .Sideboard-icons {
@@ -55,6 +63,13 @@
     outline: none;
     border-color: transparent;
     cursor: pointer;
+    visibility: visible;
+    opacity: 1;
+
+    @nest .drawer-is-open & {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 /* expands toggle hit area*/

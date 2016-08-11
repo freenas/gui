@@ -35,7 +35,3 @@
         display: none;
     }
 }
-
-.Dashboard.drawer-is-open .WidgetWrapper-removeButton {
-    display: block;
-}

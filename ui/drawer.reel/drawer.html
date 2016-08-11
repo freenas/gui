@@ -11,8 +11,7 @@
             },
             "bindings": {
                 "dashboardWidgets": {"<-": "@owner.currentUser.attributes.dashboardContext.widgets"},
-                "sideBoardWidgets": {"<-": "@owner.currentUser.attributes.sideBoardContext.widgets"},
-                "classList.has('is-open')": {"<-": "@owner.application.isDrawerOpen"}
+                "sideBoardWidgets": {"<-": "@owner.currentUser.attributes.sideBoardContext.widgets"}
             }
         },
         "horizontalScroll": {
@@ -61,9 +60,12 @@
     <div data-montage-id="owner" class="Drawer">
         <header>
             <h1 class="Drawer-title">Drag to add widgets</h1>
-            <button data-montage-id="closeButton" class="Dashboard-openDrawerButton"></button>
+            <button data-montage-id="closeButton" class="Button--create"></button>
         </header>
         <div class="DrawerContent">
+            <div class="Drawer-overlay">
+                <svg><use xlink:href="#i-trashCan"/></svg>
+            </div>
             <div data-montage-id="horizontalScroll">
                 <ul data-montage-id="items" class="Drawer-items">
                     <li data-montage-id="item" class="Drawer-item"></li>

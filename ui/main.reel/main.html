@@ -7,6 +7,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "main"}
+            },
+            "bindings": {
+                "classList.has('drawer-is-open')": {"<-": "@owner.application.isDrawerOpen"}
             }
         },
         "mainSidebar": {
@@ -137,10 +140,10 @@
                         <div data-arg="virtualization" data-montage-id="virtualization"></div>
                         <div data-arg="preferences" data-montage-id="preferences"></div>
                     </div>
-                    <div data-montage-id="drawer"></div>
                 </div>
                 <div data-montage-id="sideboard" class="Main-sideboard"></div>
             </div>
+                <div data-montage-id="drawer"></div>
         </main>
         <div data-montage-id="modal" class="Main-modal"></div>
     </div>
