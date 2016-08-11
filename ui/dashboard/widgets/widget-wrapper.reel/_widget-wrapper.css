@@ -1,6 +1,6 @@
 .WidgetWrapper {
     position: relative;
-    width: 33%;
+    width: calc(33% - .825em);
     max-width: calc(50% - 1em);
 
     @nest .Main.drawer-is-open & {
