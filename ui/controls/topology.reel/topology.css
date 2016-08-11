@@ -1,1 +1,1 @@
-.Topology .Inspector-body{margin:0}
+.Topology .flex-row>*{-webkit-box-flex:1;-ms-flex:1;flex:1}.Topology .Inspector-body{margin:0}@-webkit-keyframes blink{0%{border-color:rgba(43,156,216,.1)}50%{border-color:rgba(43,156,216,.5)}to{border-color:rgba(43,156,216,.1)}}@keyframes blink{0%{border-color:rgba(43,156,216,.1)}50%{border-color:rgba(43,156,216,.5)}to{border-color:rgba(43,156,216,.1)}}

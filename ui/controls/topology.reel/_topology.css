@@ -1,23 +1,12 @@
-.Topology {}
+.Topology {
 
-/*.Topology-splitRow {
-    display: flex;
+    /* log & cache */
+    & .flex-row > * {
+        flex: 1;
+    }
 }
 
-.Topology-splitRow > * {
-    width: 100%;
-}*/
-
-.Topology-data {}
-
-.Topology .Inspector-body {
-    margin: 0;
-}
-
-.Topology .DiskIcon {
-    /*width: 2.5em;*/
-    /*padding: .25em;*/
-}
+.Topology .Inspector-body { margin: 0; }
 
 @-webkit-keyframes blink {
     0%      { border-color: rgba(43,156,216,0.1); }

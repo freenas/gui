@@ -46,10 +46,10 @@
 
 /* Sets the different colors */
 
-.TopologyItem:nth-child(1) .TopologyItem-title { color: #D75B1B; }
-.TopologyItem:nth-child(2) .TopologyItem-title { color: #CB6614; }
-.TopologyItem:nth-child(3) .TopologyItem-title { color: #D68E2A; }
-.TopologyItem:nth-child(4) .TopologyItem-title { color: #929E9F; }
+.Topology-data .TopologyItem-title { color: #D75B1B; }
+.Topology-cache .TopologyItem-title { color: #CB6614; }
+.Topology-log .TopologyItem-title { color: #D68E2A; }
+.Topology-spare .TopologyItem-title { color: #929E9F; }
 
 /* Grid */
 
