@@ -33,12 +33,45 @@
                 "object": {"<-": "@widgets:iteration.object"},
                 "enabled": {"<-": "@owner.application.isDrawerOpen"}
             }
+        },
+
+        "condition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "condition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@widgets.content.length == 0"}
+            }
+        },
+
+        "emptyMessageTitle": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "emptyMessageTitle"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.title + ' is sad'"}
+            }
+        },
+        "addWidgetsButton": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "addWidgetsButton"},
+                "value": "Add Widgets"
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="WidgetDropzone">
+        <div data-montage-id="condition">
+            <div data-montage-id="emptyMessage" class="Dashboard-emptyMessage">
+                <div data-montage-id="emptyMessageTitle" class="Dashboard-emptyMessage-title"></div>
+                <div data-montage-id="addWidgetsButton" class="Button--create Button--large"></div>
+            </div>
+        </div>
         <div data-montage-id="widgets" class="WidgetDropzone-widgets">
             <div data-montage-id="widget-wrapper" class="WidgetDropzone-widget"></div>
         </div>

@@ -58,17 +58,20 @@
     border-radius: 4px;
     background: rgba(255,255,255, .1);
     padding: .3em;
-    margin-left: 1em;
-    margin-bottom: 1em;
     outline: none;
     border-color: transparent;
     cursor: pointer;
     visibility: visible;
     opacity: 1;
+    transition: transform .5s cubic-bezier(.7,0,.3,1);
 
     @nest .drawer-is-open & {
         visibility: hidden;
         opacity: 0;
+    }
+
+    @nest .is-collapsed & {
+        transform: translateX(-4em);
     }
 }
 

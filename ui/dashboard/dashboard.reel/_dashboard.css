@@ -5,6 +5,7 @@
     flex: 1;
 
     & > main {
+        display: flex;
         position: relative;
         overflow-y: auto;
         flex: 1;

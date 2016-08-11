@@ -1,4 +1,6 @@
-.WidgetDropzone {}
+.WidgetDropzone {
+    flex: 1;
+}
 
 
 .WidgetDropzone-widgets {
@@ -21,10 +23,6 @@
 
 .WidgetDropzone-widget.placeholder {
     position: relative;
-    /* background: #0c5688;
-    background: green;
-    min-width: 20px;
-    max-width: 20px; */
 
     &:before {
         content: '';
@@ -33,4 +31,31 @@
         height: 2em;
         background: green;
     }
+}
+
+.Dashboard-emptyMessage {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px dashed grey;
+    padding: 1em;
+    background: rgba(255,255,255,.05);
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .35s ease-in-out, visibility .35s ease-in-out;
+
+    @nest .drawer-is-open & {
+        visibility: hidden;
+        opacity: 0;
+        transition: none;
+    }
+}
+
+.Dashboard-emptyMessage-title {
+    font-size: 1.25em;
+    margin-bottom: 1em;
 }
