@@ -6,13 +6,13 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
     WidgetWrapper = require("ui/dashboard/widgets/widget-wrapper.reel").WidgetWrapper,
     Widget = require("ui/dashboard/widgets/widget.reel").Widget,
     DrawerItem = require("ui/drawer.reel/drawer-item.reel").DrawerItem;
-    
+
 /**
  * @class WidgetDropzone
  * @extends Component
  */
 var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.specialize(/** @lends WidgetDropzone# */ {
-    
+
     _widgetPlaceHolderElement: {
         value: null
     },
@@ -265,6 +265,12 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
             } else if (!this._hasComponentDragging && this._widgetPlaceHolderElement && this._widgetPlaceHolderElement.parentNode) {
                 this._widgetPlaceHolderElement.parentNode.removeChild(this._widgetPlaceHolderElement);
             }
+        }
+    },
+
+    handleAddWidgetsButtonAction: {
+        value: function () {
+            this.application.isDrawerOpen = true;
         }
     }
 
