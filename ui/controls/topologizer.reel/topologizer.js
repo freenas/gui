@@ -256,7 +256,7 @@ exports.Topologizer = Component.specialize({
                     barycentricValues = this.barycentricValues;
 
                 if (!previousBarycentricValues || 
-                    this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
+                    !this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
                     //this.priorities?
                     this.priorities = this._topologyService.generateTopology(
                         this.topology, 
