@@ -68,6 +68,7 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
                     } else {
                         this.pathDisplayMode = "display";
                     }
+                    this.expirationDate = this._getExpirationDate();
                 }
             }
         }
@@ -75,14 +76,17 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
 
     enterDocument: {
         value: function() {
-            if (this._object.lifetime && this._object.properties) {
-                var lifetime = this.object.lifetime;
-                this.expirationDate = new Date((+this.object.properties.creation.rawvalue + this.object.lifetime)*1000);
-                this.object.lifetime = lifetime;
-            } else {
-                this.expirationDate = null;
-            }
+            this.expirationDate = this._getExpirationDate();
             this._loadVolume();
+        }
+    },
+
+    revert: {
+        value: function() {
+            var self = this;
+            this.inspector.revert().then(function() {
+                self.expirationDate = self._getExpirationDate();
+            });
         }
     },
 
@@ -105,6 +109,21 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
                     }
                 }
             }
+        }
+    },
+
+    _getExpirationDate: {
+        value: function() {
+            if (this._object.lifetime && this._object.properties) {
+                return new Date((+this.object.properties.creation.rawvalue + this.object.lifetime)*1000);
+            }
+            return null;
+        }
+    },
+
+    _handleLifetimeChange: {
+        value: function() {
+            this.expirationDate = this._getExpirationDate();
         }
     }
 

@@ -153,6 +153,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 if (self.object._isNew) {
                     self.object = object;
                 }
+                return self.object;
             });
         }
     },
