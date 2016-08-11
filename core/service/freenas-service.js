@@ -1,4 +1,5 @@
 var DataService = require("montage-data/logic/service/data-service").DataService,
+    RawDataService = require("montage-data/logic/service/raw-data-service").RawDataService,
     SnapshotService = require("montage-data/logic/service/snapshot-service").SnapshotService,
     BackEndBridgeModule = require("../backend/backend-bridge"),
     DataObjectDescriptor = require("montage-data/logic/model/data-object-descriptor").DataObjectDescriptor,
@@ -21,7 +22,7 @@ var DataService = require("montage-data/logic/service/data-service").DataService
  * @class
  * @extends external:DataService
  */
-var FreeNASService = exports.FreeNASService = DataService.specialize({
+var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
 
 /*----------------------------------------------------------------------------------------------------------------------
