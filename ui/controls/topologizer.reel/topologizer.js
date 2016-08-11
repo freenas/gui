@@ -251,9 +251,37 @@ exports.Topologizer = Component.specialize({
                 this.profileHasChanged = false;
                 this.handlePosition = this._targePosition;
                 this._positionHandle();
-                var barycentricValues = this._barycentricValues;
-                this.priorities = this._topologyService.generateTopology(this.topology, this.disks, barycentricValues[0], barycentricValues[1], barycentricValues[2]);
+                
+                var previousBarycentricValues = this._previousBarycentricValues,
+                    barycentricValues = this.barycentricValues;
+
+                if (!previousBarycentricValues || 
+                    this._areBarycentricValuesEqual(previousBarycentricValues, barycentricValues)) {
+                    //this.priorities?
+                    this.priorities = this._topologyService.generateTopology(
+                        this.topology, 
+                        this.disks, 
+                        barycentricValues[0], 
+                        barycentricValues[1], 
+                        barycentricValues[2]
+                    );
+                }
+
+                this._previousBarycentricValues = barycentricValues;
             }
+        }
+    },
+
+    _areBarycentricValuesEqual: {
+        value: function (a, b) {
+            if (a === b) return true;
+            if ((!a || !b) || (a.length !== b.length )) return false;
+
+            for (var i = 0, length = a.length; i < length; i++) {
+                if (a[i] !== b[i]) return false;
+            }
+
+            return true;
         }
     },
 
