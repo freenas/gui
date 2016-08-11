@@ -1,0 +1,36 @@
+.WidgetDropzone {}
+
+
+.WidgetDropzone-widgets {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    padding: .5em;
+
+    @nest .Sideboard & {
+        padding: 0;
+    }
+}
+
+.WidgetDropzone-widget {
+    flex: 1;
+    margin: .5em;
+    width: 25em;
+    height: 15em;
+}
+
+.WidgetDropzone-widget.placeholder {
+    position: relative;
+    /* background: #0c5688;
+    background: green;
+    min-width: 20px;
+    max-width: 20px; */
+
+    &:before {
+        content: '';
+        position: absolute;
+        width: 2em;
+        height: 2em;
+        background: green;
+    }
+}
