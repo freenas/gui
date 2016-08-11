@@ -1,9 +1,8 @@
 # Contributing to the FreeNAS 10 GUI
 
-FreeNAS 10 is a green-field project, and we're looking for contributors who are
-ready to take nothing and turn it into something. We provide a dev environment
-that makes iterating incredibly fast, and provides tools like sourcemaps and
-live-updating to make debugging as easy as possible.
+FreeNAS 10 is a ground-up rewrite of FreeNAS, and we're looking for
+contributors who are prepared to work with an entirely new code base.
+Our dev environment is designed to make iterating quick and easy.
 
 ## Getting Started
 
@@ -35,7 +34,7 @@ from the root of where you cloned the GUI repo first.
 Once you have the environment bootstrapped, just for now do the following:
 
     1. edit core/backend/websocket-configuration.js and replace freenas.local
-     wit`h the name or IP address of your freenas10 instance (the middleware) if
+     with the name or IP address of your freenas10 instance (the middleware) if
      you have changed its name from freenas.local (the default).
 
     2. minit serve &
