@@ -9,7 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('flip')": {"<-": "this.isFlipped"}
+                "classList.has('flip')": {"<-": "this.isFlipped"},
+                "classList.has('has-settings')": {"<-": "@owner.hasSettings"}
             }
         },
 
@@ -18,9 +19,6 @@
             "properties": {
                 "element": {"#": "infoWidgetButton"},
                 "value": "Settings"
-            },
-            "bindings": {
-                "classList.has('hide')": {"<-": "!@owner.hasSettings"}
             }
         },
 

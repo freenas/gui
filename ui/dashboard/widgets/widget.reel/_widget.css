@@ -57,9 +57,10 @@
         border-radius: var(--widget-border-radius);
         background: rgba(0,0,0,.75);
         transition: visibility .35s ease-in-out, opacity .35s ease-in-out;
+        z-index: 2;
     }
 
-    @nest .drawer-is-open &:before {
+    @nest .drawer-is-open .has-settings &:before {
         visibility: visible;
         opacity: 1;
     }
@@ -125,13 +126,14 @@
 
 .Widget-info {
     position: absolute;
+    z-index: 10;
     left: 1em;
     bottom:  1em;
     visibility: hidden;
     opacity: 0;
     transition: visibility .35s ease-in-out, opacity .35s ease-in-out;
 
-    @nest .drawer-is-open & {
+    @nest .drawer-is-open .has-settings & {
         visibility: visible;
         opacity: 1;
     }
