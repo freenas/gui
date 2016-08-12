@@ -152,6 +152,11 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     applicationRawContext.sideBoardContext = {};
                 }
 
+                //@fixme: remove for beta
+                if (!applicationRawContext.sideBarContext) {
+                    delete applicationRawContext.sideBarContext;
+                }
+
                 applicationRawContext.dashboardContext.widgets = applicationRawContext.dashboardContext.widgets || [];
                 applicationRawContext.sideBoardContext.widgets = applicationRawContext.sideBoardContext.widgets || [];
             }
