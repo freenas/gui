@@ -10,31 +10,26 @@
                 "element": {"#": "owner"}
             }
         },
-        "select-option-converter": {
-            "prototype": "core/converter/select-option-converter"
-        },
         "compression": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "compression"},
-                "label": "Compression",
-                "converter": {"@": "select-option-converter"}
+                "label": "Compression"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.compressionSetting"},
-                "options": {"<-": "@owner.compressionOptions"}
+                "options": {"<-": "@owner.compressionOptions"},
+                "selectedValue": {"<->": "@owner.compression"}
             }
         },
         "dedup": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "dedup"},
-                "label": "Deduplication",
-                "converter": {"@": "select-option-converter"}
+                "label": "Deduplication"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.dedupSetting"},
-                "options": {"<-": "@owner.dedupOptions"}
+                "options": {"<-": "@owner.dedupOptions"},
+                "selectedValue": {"<->": "@owner.dedup"}
             }
         },
         "typeSubstitution": {
@@ -50,12 +45,11 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "atime"},
-                "label": "atime",
-                "converter": {"@": "select-option-converter"}
+                "label": "atime"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.atimeSetting"},
-                "options": {"<-": "@owner.atimeOptions"}
+                "options": {"<-": "@owner.atimeOptions"},
+                "selectedValue": {"<->": "@owner.atime"}
             }
         },
         "sizeConverter": {
@@ -140,8 +134,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "volblocksize"},
-                "label": "Block Size",
-                "converter": {"@": "select-option-converter"}
+                "label": "Block Size"
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.properties.volblocksize.parsed"},

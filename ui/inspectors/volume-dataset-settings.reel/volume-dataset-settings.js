@@ -5,23 +5,15 @@ var Component = require("montage/ui/component").Component,
     COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
     DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue;
 
+var ATIME_OPTIONS = {on: true, off: false, null: null},
+    DEFAULT_OPTION = { label: "Default", value: "none"},
+    INHERIT_OPTION = { label: "Inherit", value: "none"};
+
 /**
  * @class VolumeDatasetSettings
  * @extends Component
  */
 exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSettings# */ {
-
-    compressionOptions: {
-        value: null
-    },
-
-    dedupOptions: {
-        value: null
-    },
-
-    atimeOptions: {
-        value: null
-    },
 
     VOLBLOCKSIZE_OPTIONS: {
         value: [
@@ -32,91 +24,135 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         ]
     },
 
-    datasetLevel: {
-        value: null
-    },
-
-    datasetType: {
-        value: null
-    },
-
     volblocksizeDisplayMode: {
         value: null
     },
 
-    compressionSetting: {
-        set: function(value) {
-            if (this.object && this.object.properties) {
-                this.object.properties.compression = this._setInheritableProperty(value);
-            } else {
-                console.warn("Object not yet set!");
-            }
-        },
+    _compression: {
+        value: null    
+    },
 
+    compression: {
         get: function() {
-            return !!this.object.properties && !!this.object.properties.compression ? this._getInheritableProperty(this.object.properties.compression) : "none";
+            return this._compression;
+        },
+        set: function(compression) {
+            if (this._compression !== compression) {
+                this._compression = compression;
+
+                if (this._canUpdateObjectProperty('compression') && this.object.properties.compression.parsed !== compression) {
+                    this.object.properties.compression.source = this._getPropertySourceFromValue(compression);
+                    this.object.properties.compression.parsed = this.object.properties.compression.source === "INHERITED" ? null : compression;
+                }
+            }
         }
     },
 
-    dedupSetting: {
-        set: function(value) {
-            if (this.object && this.object.properties) {
-                this.object.properties.dedup = this._setInheritableProperty(value);
-            } else {
-                console.warn("Object not yet set!");
-            }
-        },
+    _dedup: {
+        value: null    
+    },
 
+    dedup: {
         get: function() {
-            return !!this.object.properties && !!this.object.properties.dedup ? this._getInheritableProperty(this.object.properties.dedup) : "none";
+            return this._dedup;
+        },
+        set: function(dedup) {
+            if (this._dedup !== dedup) {
+                this._dedup = dedup;
+
+                if (this._canUpdateObjectProperty('dedup') && this.object.properties.dedup.parsed !== dedup) {
+                    this.object.properties.dedup.source = this._getPropertySourceFromValue(dedup);
+                    this.object.properties.dedup.parsed = this.object.properties.dedup.source === "INHERITED" ? null : dedup;
+                }
+            }
         }
     },
 
-    atimeSetting: {
-        set: function(value) {
-            if (this.object && this.object.properties) {
-                this.object.properties.atime = this._setInheritableProperty(value);
-            } else {
-                console.warn("Object not yet set!");
-            }
-        },
+    _atime: {
+        value: null    
+    },
 
+    atime: {
         get: function() {
-            return !!this.object.properties && !!this.object.properties.atime ? this._getInheritableProperty(this.object.properties.atime) : "none";
+            return this._atime;
+        },
+        set: function(atime) {
+            if (this._atime !== atime) {
+                this._atime = atime;
+
+                if (this._canUpdateObjectProperty('atime') && this.object.properties.atime.parsed !== atime) {
+                    this.object.properties.atime.source = this._getPropertySourceFromValue(atime);
+                    this.object.properties.atime.parsed = this.object.properties.atime.source === "INHERITED" ? null : atime;
+                }
+            }
         }
     },
 
     enterDocument: {
         value: function(isFirstTime) {
-            var storageService = this.application.storageService;
+            this._isLoaded = false;
             if (isFirstTime) {
-                this.datasetLevel = storageService.isRootDataset(this.object) ? "root" : "child";
-                this.compressionOptions = this._intializeInheritablePropertyOptions(COMPRESSION_OPTIONS);
-                this.dedupOptions = this._intializeInheritablePropertyOptions(DEDUP_OPTIONS);
-                this._intializeAtimeOptions();
+                this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
+                this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
+                this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
+            }
+            this.isRootDataset = this.application.storageService.isRootDataset(this.object);
+            var label = this.isRootDataset ? "Default": "Inherit";
+            this._replaceLabel(this.compressionOptions, label);
+            this._replaceLabel(this.dedupOptions, label);
+            this._replaceLabel(this.atimeOptions, label);
+            if (this.object.properties) {
+                this.compression = this._isInheritedProperty(this.object.properties.compression) ? "none": this.object.properties.compression.parsed;
+                this.dedup = this._isInheritedProperty(this.object.properties.dedup) ? "none": this.object.properties.dedup.parsed;
+                this.atime = this._isInheritedProperty(this.object.properties.atime) ? "none": this.object.properties.atime.parsed;
             }
             if (this.object.type === "VOLUME") {
                 this.volblocksizeDisplayMode = this.object._isNew ? "edit" : "display";
             }
+            this._isLoaded = true;
         }
     },
 
-    _intializeInheritablePropertyOptions: {
-        value: function(optionEnum) {
-            var optionValues = Object.keys(optionEnum),
-                options = [],
-                option;
-            for (var i = 0, length = optionValues.length; i < length; i++) {
+    exitDocument: {
+        value: function() {
+            this._isLoaded = false;
+            this.compression = null;
+            this.dedup = null;
+            this.atime = null;
+        }    
+    },
+
+    _replaceLabel: {
+        value: function(list, label) {
+            var entry;
+            for (var i = 0, length = list.length; i < length; i++) {
+                entry = list[i];
+                if (entry.value === "none") {
+                    entry.label = label;
+                    break;
+                }
+            }
+        }
+    },
+
+    _canUpdateObjectProperty: {
+        value: function(propertyName) {
+            return this._isLoaded && this.object && this.object.properties && this.object.properties[propertyName];
+        }
+    },
+
+    _initializePropertyOptions: {
+        value: function(optionEnum, isRoot) {
+            var keys = Object.keys(optionEnum), key,
+                options = [], option;
+            for (var i = 0, length = keys.length; i < length; i++) {
+                key = keys[i];
                 option = {};
-                if (optionValues[i] === "null" || optionValues[i] === null) {
+                if (key === "null" || key === null) {
                     option.value = "none";
-                    if (this.datasetLevel === "child") {
-                        option.label = "Inherit";
-                    } else {
-                        option.label = "Default";
-                    }
                 } else {
-                    option.label = option.value = optionValues[i];
+                    option.label = key;
+                    option.value = optionEnum[key];
                 }
                 options.push(new Object(option));
             }
@@ -124,40 +160,15 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
         }
     },
 
-    _intializeAtimeOptions: {
-        value: function() {
-            var inheritOption,
-                atimeOptions = [
-                    {label: "on", value: true},
-                    {label: "off", value: false}
-                ];
-
-            if (this.datasetLevel === "child") {
-                inheritOption = {label: "Inherit", value: "none"};
-            } else {
-                inheritOption = {label: "Default", value: "none"};
-            }
-            atimeOptions.push(inheritOption);
-            this.atimeOptions = atimeOptions;
+    _isInheritedProperty: {
+        value: function(property) {
+            return property.source === "INHERITED" || property.parsed === null;
         }
     },
 
-    _setInheritableProperty: {
-        value: function(value) {
-            var newDatasetProperty = {};
-            newDatasetProperty.source = value === "none" ? "INHERITED" : "LOCAL";
-            newDatasetProperty.parsed = value === "none" ? null : value;
-            return newDatasetProperty;
-        }
-    },
-
-    _getInheritableProperty: {
-        value: function(datasetProperty) {
-            if (datasetProperty.source === "INHERITED" || datasetProperty.parsed === null) {
-                return "none";
-            } else {
-                return datasetProperty.parsed;
-            }
+    _getPropertySourceFromValue: {
+        value: function(property) {
+            return property === "none" ? "INHERITED" : "LOCAL";
         }
     }
 });
