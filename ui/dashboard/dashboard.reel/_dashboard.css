@@ -25,13 +25,6 @@
     color: color(#fff alpha(.5));
     border-radius: 4px;
 
-    & svg {
-        fill: green;
-        height: 1.4rem;
-        width:  1.4rem;
-        transform: rotate(90deg);
-    }
-
     @nest .drawer-is-open & {
         display: none;
     }
