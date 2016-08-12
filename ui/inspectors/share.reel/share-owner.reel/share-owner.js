@@ -64,23 +64,8 @@ exports.ShareOwner = Component.specialize(/** @lends ShareOwner# */ {
     },
 
     _ensureDefaultPermissionsAreSet: {
-        value: function (object) {
-            var self = this;
-            if (!this._object.permissions || !this._object.permissions.user || !this._object.permissions.group) {
-                var permissionsPromise = this._object.permissions ?
-                    Promise.resolve(this._object.permissions) : this.application.dataService.getNewInstanceForType(Model.Permissions);
-
-                permissionsPromise.then(function (permissions) {
-                    if (!permissions.user) {
-                        permissions.user = 'root';
-                    }
-                    if (!permissions.group) {
-                        permissions.group = 'wheel';
-                    }
-
-                    self._object.permissions = permissions;
-                });
-            }
+        value: function () {
+            return this.application.shareService.ensureDefaultPermissionsAreSet(this._object);
         }
     },
 

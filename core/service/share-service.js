@@ -42,10 +42,11 @@ var ShareService = exports.ShareService = Montage.specialize({
 
     populateShareObjectIfNeeded: {
         value: function (shareObject) {
+            var self = this,
+                populatedSharePromise;
             if (!shareObject.properties) {
                 var shareTypes = this.constructor.SHARE_TYPES,
-                    propertiesModel,
-                    self = this;
+                    propertiesModel;
 
                 //Don't use a switch because it is slower.
                 if (shareTypes.AFP === shareObject.type) {
@@ -60,7 +61,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                     return Promise.reject("unknown share type");
                 }
 
-                return this._dataService.getNewInstanceForType(propertiesModel).then(function(properties) {
+                populatedSharePromise = this._dataService.getNewInstanceForType(propertiesModel).then(function(properties) {
                     shareObject.properties = properties;
                     shareObject.properties.type = 'share-' + shareObject.type;
                     return self._dataService.getNewInstanceForType(Model.Permissions);
@@ -71,6 +72,8 @@ var ShareService = exports.ShareService = Montage.specialize({
                     if (shareTypes.SMB === shareObject.type) {
                         shareObject.properties.vfs_objects = [];
                         shareObject.properties._browseable = true;
+                        shareObject.properties.hosts_allow = [];
+                        shareObject.properties.hosts_deny = [];
                     } else if (shareTypes.ISCSI === shareObject.type) {
                         shareObject.properties.block_size = 512;
                         shareObject.properties.size = 0;
@@ -84,9 +87,35 @@ var ShareService = exports.ShareService = Montage.specialize({
                     return shareObject;
                 });
 
+            } else {
+                populatedSharePromise = Promise.resolve(shareObject);
             }
 
-            return Promise.resolve(shareObject);
+            return populatedSharePromise.then(function(populatedShareObject) {
+                return self.ensureDefaultPermissionsAreSet(populatedShareObject);
+            });
+        }
+    },
+
+    ensureDefaultPermissionsAreSet: {
+        value: function(share) {
+            if (!share.permissions || !share.permissions.user || !share.permissions.group) {
+                var permissionsPromise = share.permissions ?
+                    Promise.resolve(share.permissions) : this._dataService.getNewInstanceForType(Model.Permissions);
+
+                return permissionsPromise.then(function (permissions) {
+                    if (!permissions.user) {
+                        permissions.user = 'root';
+                    }
+                    if (!permissions.group) {
+                        permissions.group = 'wheel';
+                    }
+
+                    share.permissions = permissions;
+                    return share;
+                });
+            }
+            return Promise.resolve(share);
         }
     },
 

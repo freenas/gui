@@ -234,8 +234,11 @@ exports.Share = Component.specialize({
                         key;
                     for (var i = 0, length = keys.length; i < length; i++) {
                         key = keys[i];
-                        self.object[key] = share[key];
+                        if (key.indexOf('_') != 0 || typeof self.object[key.substr(1)] == 'undefined') {
+                            self.object[key] = share[key];
+                        }
                     }
+                    self._openTreeController();
                 });
             }
         }
