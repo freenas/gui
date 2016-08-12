@@ -17,7 +17,7 @@
     "NetworkHost": "entity-subscriber.network.host.changed",
     "NetworkInterface": "entity-subscriber.network.interface.changed",
     "NetworkRoute": "entity-subscriber.network.route.changed",
-    "Ntpservers": "entity-subscriber.ntpservers.changed",
+    "NtpServer": "entity-subscriber.ntp_server.changed",
     "Peer": "entity-subscriber.peer.changed",
     "Power": "entity-subscriber.power.changed",
     "ReplicationLink": "entity-subscriber.replication.link.changed",

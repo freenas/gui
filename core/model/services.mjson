@@ -1340,12 +1340,35 @@
             }
         }
     },
-    "Ntpservers": {
+    "NtpServer": {
         "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "address"
+                    ]
+                },
+                "task": "ntp_server.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "ntp_server.delete"
+            },
             "read": {
-                "method": "ntpservers.query",
+                "method": "ntp_server.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "ntp_server.update"
             }
         }
     },
