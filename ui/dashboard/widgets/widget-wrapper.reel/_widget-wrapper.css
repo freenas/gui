@@ -1,7 +1,6 @@
 .WidgetWrapper {
     position: relative;
-    width: calc(33% - .825em);
-    max-width: calc(50% - 1em);
+    width: 100%;
 
     @nest .Main.drawer-is-open & {
         cursor: grab;
@@ -17,6 +16,16 @@
 
     &.isDragging {
         opacity: .75;
+    }
+
+    @media (min-width: 65em) {
+        width: calc(50% - 1em);
+        max-width: 100%;
+    }
+
+    @media (min-width: 90em) {
+        width: calc(33% - .825em);
+        max-width: calc(50% - 1em);
     }
 
     &.Widget-size-2 { width: 50%; }
