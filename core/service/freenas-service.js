@@ -504,7 +504,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
     mapRawDataToType: {
         value: function(data, type) {
             var object = this.getDataObject(type);
-            this._firstServiceForType(type).mapFromRawData(object, data);
+            this._childServiceMap.get(type)[0].mapFromRawData(object, data);
             return object;
         }
     },
