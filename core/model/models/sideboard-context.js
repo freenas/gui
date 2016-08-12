@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.sideBoardContext = AbstractModel.specialize({
+exports.SideboardContext = AbstractModel.specialize({
     _widgets: {
         value: null
     },

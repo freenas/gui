@@ -10,7 +10,7 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "sideBoardContext",
+      "name": "SideboardContext",
       "propertyBlueprints": [
         {"@": "widgets"}
       ]

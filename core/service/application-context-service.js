@@ -127,7 +127,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     return self._dataService.getNewInstanceForType(Model.ApplicationContext).then(function (applicationContext) {
                         return Promise.all([
                             self._dataService.getNewInstanceForType(Model.DashboardContext),
-                            self._dataService.getNewInstanceForType(Model.sideBoardContext)
+                            self._dataService.getNewInstanceForType(Model.SideboardContext)
                         ]).then(function (models) {
                             applicationContext.dashboardContext = models[0];
                             applicationContext.sideBoardContext = models[1];
