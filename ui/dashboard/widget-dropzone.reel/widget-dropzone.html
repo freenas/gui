@@ -45,15 +45,26 @@
             }
         },
 
+        "emptyState": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "emptyState"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.application.isDrawerOpen"}
+            }
+        },
+
         "emptyMessageTitle": {
             "prototype": "montage/ui/text.reel",
             "properties": {
                 "element": {"#": "emptyMessageTitle"}
             },
             "bindings": {
-                "value": {"<-": "@owner.title + ' is sad'"}
+                "value": {"<-": "@owner.title + ' is sad.'"}
             }
         },
+
         "addWidgetsButton": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -67,10 +78,16 @@
 <body>
     <div data-montage-id="owner" class="WidgetDropzone">
         <div data-montage-id="condition">
-            <div data-montage-id="emptyMessage" class="Dashboard-emptyMessage">
-                <div data-montage-id="emptyMessageTitle" class="Dashboard-emptyMessage-title"></div>
-                <div data-montage-id="addWidgetsButton" class="Button--create Button--large"></div>
+            <div data-montage-id="emptyState">
+                <div data-arg="true" class="Dashboard-dragExample">
+                    <svg width="62" height="44" viewBox="0 0 62 44" xmlns="http://www.w3.org/2000/svg"><title>dragExample</title><g fill="none" fill-rule="evenodd"><rect stroke="#666" stroke-dasharray="3,2,3,2" x="1" y="9" width="60" height="34" rx="2"/><path fill="#666" d="M12 6h37v15H12z"/><path d="M13.002 1h34.996C49.104 1 50 1.897 50 3.006v16.988C50 21.102 49.1 22 47.998 22H13.002C11.896 22 11 21.103 11 19.994V3.006C11 1.898 11.9 1 13.002 1zM49 6v14.067c0 .515-.438.933-.996.933H12.996c-.55 0-.996-.427-.996-.933V6h37z" fill="#222"/><path d="M13 20.067L15.054 14l3.043 1.975 3.946-3.253L26.973 14l5.24-6 4.35 4.1 2.382 3.708 3.09-4.606 3.555.927 1.547-2.72" stroke="#999" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 3.5h10" stroke="#C5C5C5" stroke-linecap="square"/><path d="M29.143 26.815V16.243S29.475 15 30.873 15s1.575 1.243 1.575 1.243v6.982s.24-2.027 1.893-1.72c1.653.305 1.413 2.652 1.413 2.652s.416-1.943 1.97-1.555c1.555.388 1.32 2.7 1.32 2.7s.44-1.817 1.808-1.59c1.37.227 1.376 1.414 1.376 1.414v6.82s-.47 2.08-1.73 3.362c-1.26 1.283-2.772 1.824-2.772 1.824h-6.85s-2.535-1.445-3.99-5.45c-1.574-3.783-2.842-5.706-2.842-5.706s-.255-1.326.49-1.82c.744-.492 1.983 0 1.983 0l2.628 2.66z" stroke="#333" stroke-linecap="round" stroke-linejoin="round" fill="#CCC"/></g></svg>
+                </div>
+                <div data-arg="false" class="Dashboard-emptyMessage">
+                    <div data-montage-id="emptyMessageTitle" class="Dashboard-emptyMessage-title"></div>
+                    <div data-montage-id="addWidgetsButton" class="Button--create Button--large"></div>
+                </div>
             </div>
+
         </div>
         <div data-montage-id="widgets" class="WidgetDropzone-widgets">
             <div data-montage-id="widget-wrapper" class="WidgetDropzone-widget"></div>
