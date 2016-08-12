@@ -122,6 +122,9 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
                     // Don't keep any track of the password in memory.
                     self.password = self.userName = null;
+
+                    //FIXME: kind of hacky
+                    self.application.dispatchEventNamed("userLogged");
                     self.application.section = 'dashboard';
 
                     return self.application.dataService.fetchData(Model.Service).then(function(services) {
@@ -134,9 +137,6 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                         self.element.addEventListener(
                             typeof WebKitAnimationEvent !== "undefined" ? "webkitAnimationEnd" : "animationend", self, false
                         );
-                    } else {
-                        //FIXME: kind of hacky
-                        self.application.dispatchEventNamed("userLogged");
                     }
 
                     self.isAuthenticating = false;
