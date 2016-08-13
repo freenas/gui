@@ -230,16 +230,31 @@ exports.Share = Component.specialize({
                 return promise.then(function(share) {
                     return shareService.populateShareObjectIfNeeded(share);
                 }).then(function(share) {
-                    var keys = Object.keys(self.object),
-                        key;
-                    for (var i = 0, length = keys.length; i < length; i++) {
-                        key = keys[i];
-                        if (key.indexOf('_') != 0 || typeof self.object[key.substr(1)] == 'undefined') {
-                            self.object[key] = share[key];
-                        }
-                    }
+                    self._deepCopy(share, self.object);
+                    self.object.target_type = self.targetType;
                     self._openTreeController();
                 });
+            }
+        }
+    },
+
+    _deepCopy: {
+        value: function(source, target) {
+            var keys = Object.keys(target),
+                key, property;
+            for (var i = 0, length = keys.length; i < length; i++) {
+                key = keys[i];
+                if (key.indexOf('_') == 0 && typeof target[key.substr(1)] !== 'undefined') {
+                    key = key.substr(1);
+                }
+                property = source[key];
+                if (property && typeof property === 'object' && !Array.isArray(property)) {
+                    this._deepCopy(property, target[key]);
+                } else if (typeof target[key] === 'boolean') {
+                    target[key] = !!property;
+                } else {
+                    target[key] = property;
+                }
             }
         }
     },

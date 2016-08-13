@@ -16,17 +16,15 @@ exports.NfsShare = AbstractShareInspector.specialize({
         ]
     },
 
-    enterDocument: {
-        value: function(isFirstTime) {
+    templateDidLoad: {
+        value: function() {
             var self = this;
-            if (isFirstTime) {
-                this._loadUsers().then(function(users) {
-                    self.users = users;
-                });
-                this._loadGroups().then(function(groups) {
-                    self.groups = groups;
-                });
-            }
+            this._loadUsers().then(function(users) {
+                self.users = users;
+            });
+            this._loadGroups().then(function(groups) {
+                self.groups = groups;
+            });
         }
     },
 
