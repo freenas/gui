@@ -297,9 +297,39 @@ var TopologyService = exports.TopologyService = Montage.specialize({
         }
     },
 
+    _areVdevDifferents: {
+        value: function(a, b) {
+            var aDisks, bDisks,
+                j, disksLength,
+                result = a.length != b.length;
+            if (!result) {
+                for (var i = 0, length = a.length; i < length; i++) {
+                    if (a[i].children.length != b[i].children.length) {
+                        result = true;
+                        break;
+                    } else {
+                        aDisks = a[i].children.map(function(x) { return x._disk.path }).sort();
+                        bDisks = b[i].children.map(function(x) { return x._disk.path }).sort();
+                        for (j=0, disksLength = aDisks.length; j < disksLength; j++) {
+                            if (aDisks[j] != bDisks[j]) {
+                                result = true;
+                                break;
+                            }
+                        }
+                        if (result) {
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+    },
+
     generateTopology: {
         value: function(topology, disks, redundancy, speed, storage) {
             var vdevRecommendation,
+                newTopology,
                 disksGroups = this._getDisksGroups(disks),
                 dataDisks = disksGroups.shift();
 
@@ -338,7 +368,10 @@ var TopologyService = exports.TopologyService = Montage.specialize({
                 topology.spare = [];
             }
 
-            topology.data = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
+            newTopology = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
+            if (this._areVdevDifferents(newTopology, topology.data)) {
+                topology.data = newTopology;
+            }
 
             return vdevRecommendation.priorities;
         }
