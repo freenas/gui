@@ -14,9 +14,11 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleDeleteAction: {
         value: function (event) {
-            var promise;
+            var self = this,
+                promise;
 
             this._isToBeDeleted = true;
+            this.isLocked = true;
 
             if (typeof this.parentComponent.delete === 'function') {
                 promise = this.parentComponent.delete();
@@ -26,6 +28,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
             } else if (this.object) {
                 promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+                promise.then(function(){ self.isLocked = false; })
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
@@ -136,7 +139,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 cascadingListItem;
             for (var i = cascadingListItems.length -1; i >= 0; i--) {
                 cascadingListItem = cascadingListItems[i];
-                if (Array.isArray(cascadingListItem.object) && 
+                if (Array.isArray(cascadingListItem.object) &&
                         cascadingListItem.object._meta_data.collectionModelType === this.object.constructor.Type) {
                     result = cascadingListItem;
                     break;
