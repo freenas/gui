@@ -45,6 +45,33 @@
             "bindings": {
                 "value": {"<-": "@owner.session.username"}
             }
+        },
+        "reboot": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "reboot"},
+                "label": "Reboot"
+            }
+        },
+        "shutdown": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "shutdown"},
+                "label": "Shutdown"
+            }
+        },
+        "logout": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "logout"},
+                "label": "Logout"
+            }
+        },
+        "globalActionsButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "globalActionsButton"}
+            }
         }
     }
     </script>
@@ -63,12 +90,10 @@
                 <svg><use xlink:href="#i-power"/></svg>
             </div>
             <ul class="MainSidebar-globalActions-options">
-                <li><button>Lock Screen</button></li>
-                <li><button>Logout</button></li>
-                <li><button>Reboot</button></li>
-                <li><button>Shutdown</button></li>
+                <li><button data-montage-id="logout"></button></li>
+                <li><button data-montage-id="reboot"></button></li>
+                <li><button data-montage-id="shutdown"></button></li>
             </ul>
-
         </div>
     </div>
 </body>

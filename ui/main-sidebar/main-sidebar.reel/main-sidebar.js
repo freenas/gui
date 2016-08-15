@@ -27,5 +27,23 @@ exports.MainSidebar = Component.specialize({
                 this.session = this.application.session;
             }
         }
+    },
+
+    handleRebootAction: {
+        value: function () {
+            this.application.systemService.reboot();
+        }
+    },
+
+    handleShutdownAction: {
+        value: function () {
+            this.application.systemService.shutdown();
+        }
+    },
+
+    handleLogoutAction: {
+        value: function () {
+            location.reload();
+        }
     }
 });
