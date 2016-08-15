@@ -47,9 +47,9 @@
 /* Sets the different colors */
 
 .Topology-data .TopologyItem-title { color: #D75B1B; }
-.Topology-cache .TopologyItem-title { color: #CB6614; }
-.Topology-log .TopologyItem-title { color: #D68E2A; }
-.Topology-spare .TopologyItem-title { color: #929E9F; }
+.Topology-cache .TopologyItem-title { color: #D68E2A; }
+.Topology-log .TopologyItem-title { color: #929E9F; }
+.Topology-spare .TopologyItem-title { color: #CB6614; }
 
 /* Grid */
 
