@@ -18,7 +18,7 @@
 .Notifications-body {
     position: relative;
     z-index: 1;
-    height: 14em;
+    flex: 1;
     background-color: #242628;
     transition: transform .5s cubic-bezier(.7,0,.3,1);
 }
@@ -31,8 +31,8 @@
     color: rgba(255,255,255,.5);
     width:100%;
     top:  50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
+    line-height: 1rem;
 }
 
 .Notifications-emptyState.is-hidden { display: none; }
