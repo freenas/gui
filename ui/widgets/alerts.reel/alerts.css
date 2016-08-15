@@ -5,10 +5,7 @@
     margin-right: .5em;
 }
 
-.Notifications-title {
-    font-weight: 400;
-    flex: 1;
-}
+.Notifications-title { flex: 1; }
 
 .Notifications-clear {
     color: inherit;
