@@ -19,10 +19,8 @@
         "text": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "title"}
-            },
-            "bindings": {
-                "value": {"<-": "'Disk I/O - ' + @owner.disk"}
+                "element": {"#": "title"},
+                "value": "Disk I/O"
             }
         },
         "chart": {
@@ -38,7 +36,8 @@
                     ["disk_octets", "read"],
                     ["disk_octets", "write"]
                 ],
-                "removePrefix": "disk_octets."
+                "removePrefix": "disk_octets.",
+                "removeSourcePrefix": "disk-"
             },
             "bindings": {
                 "sources": {"<-": "@owner.disks.map{'disk-' + name}"}

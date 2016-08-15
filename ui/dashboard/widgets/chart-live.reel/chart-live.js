@@ -113,19 +113,20 @@ exports.ChartLive = Component.specialize({
                 serie = {
                     key: key
                 },
-                event = path + '.pulse';
+                event = path + '.pulse',
+                label = self.removeSourcePrefix ? source.label.replace(self.removeSourcePrefix, "") : source.label;
 
             return self._statisticsService.getDatasourceCurrentValue(path).then(function (value) {
                 var currentValue = value ?  +value[1] : 0;
                 return self.chart.setValue(key, {
-                    x: source.label,
+                    x: label,
                     y: self.transformValue(currentValue)
                 });
             }).then(function() {
                 if (self._inDocument) {
                     return self._statisticsService.subscribeToUpdates(event, self).then(function(eventType) {
                         self._eventToKey[eventType] = key;
-                        self._eventToSource[eventType] = source.label;
+                        self._eventToSource[eventType] = label;
                         self._subscribedUpdates.push(event);
            });
                 } else {
