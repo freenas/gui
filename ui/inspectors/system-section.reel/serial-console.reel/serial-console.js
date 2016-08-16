@@ -58,5 +58,16 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                 self.isLoading = false;
             }
         }
+    },
+
+    save: {
+        value: function() {
+            var savingPromises = [];
+            savingPromises.push(
+                this.application.dataService.saveDataObject(this.keymapsData),
+                this.application.dataService.saveDataObject(this.consoleData)
+            );
+            return Promise.all(savingPromises);
+        }
     }
 });
