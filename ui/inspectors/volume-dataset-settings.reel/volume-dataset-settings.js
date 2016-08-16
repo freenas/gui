@@ -3,7 +3,8 @@
  */
 var Component = require("montage/ui/component").Component,
     COMPRESSION_OPTIONS = require("core/model/enumerations/volume-dataset-property-compression-value").VolumeDatasetPropertyCompressionValue,
-    DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue;
+    DEDUP_OPTIONS = require("core/model/enumerations/volume-dataset-property-dedup-value").VolumeDatasetPropertyDedupValue,
+    VOLBLOCKSIZE_OPTIONS = require("core/model/enumerations/volume-dataset-property-volblocksize-value").VolumeDatasetPropertyVolblocksizeValue;
 
 var ATIME_OPTIONS = {on: true, off: false, null: null},
     DEFAULT_OPTION = { label: "Default", value: "none"},
@@ -15,21 +16,12 @@ var ATIME_OPTIONS = {on: true, off: false, null: null},
  */
 exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSettings# */ {
 
-    VOLBLOCKSIZE_OPTIONS: {
-        value: [
-            {label: "512", value: 512},
-            {label: "1024", value: 1024},
-            {label: "2048", value: 2048},
-            {label: "4096", value: 4096}
-        ]
-    },
-
     volblocksizeDisplayMode: {
         value: null
     },
 
     _compression: {
-        value: null    
+        value: null
     },
 
     compression: {
@@ -49,7 +41,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
     },
 
     _dedup: {
-        value: null    
+        value: null
     },
 
     dedup: {
@@ -69,7 +61,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
     },
 
     _atime: {
-        value: null    
+        value: null
     },
 
     atime: {
@@ -95,6 +87,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 this.compressionOptions = this._initializePropertyOptions(COMPRESSION_OPTIONS);
                 this.dedupOptions = this._initializePropertyOptions(DEDUP_OPTIONS);
                 this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
+                this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
             }
             this.isRootDataset = this.application.storageService.isRootDataset(this.object);
             var label = this.isRootDataset ? "Default": "Inherit";
@@ -119,7 +112,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
             this.compression = null;
             this.dedup = null;
             this.atime = null;
-        }    
+        }
     },
 
     _replaceLabel: {
