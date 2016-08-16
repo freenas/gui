@@ -25,6 +25,9 @@
         },
         "controller": {
             "prototype": "montage/core/range-controller",
+            "properties": {
+                "sortPath": "config.type"
+            },
             "bindings": {
                 "content": {"<-": "@owner.categoryServices"}
             }
