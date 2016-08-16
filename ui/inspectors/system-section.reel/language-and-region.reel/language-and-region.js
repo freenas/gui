@@ -43,5 +43,16 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                 self.isLoading = false;
             }
         }
+    },
+
+    save: {
+        value: function() {
+            var savingPromises = [];
+            savingPromises.push(
+                this.application.dataService.saveDataObject(this.timezoneData),
+                this.application.dataService.saveDataObject(this.keymapsData)
+            );
+            return Promise.all(savingPromises);
+        }
     }
 });
