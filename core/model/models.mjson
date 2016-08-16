@@ -53,6 +53,10 @@
             "type": "BackupFile"
         },
         {
+            "modelId": "core/model/models/backup-providers.js",
+            "type": "BackupProviders"
+        },
+        {
             "modelId": "core/model/models/backup-s3.js",
             "type": "BackupS3"
         },
@@ -63,10 +67,6 @@
         {
             "modelId": "core/model/models/backup-state.js",
             "type": "BackupState"
-        },
-        {
-            "modelId": "core/model/models/backup-types.js",
-            "type": "BackupTypes"
         },
         {
             "modelId": "core/model/models/backup.js",
@@ -353,20 +353,8 @@
             "type": "ReplicationCredentials"
         },
         {
-            "modelId": "core/model/models/replication-link.js",
-            "type": "ReplicationLink"
-        },
-        {
-            "modelId": "core/model/models/replication-status.js",
-            "type": "ReplicationStatus"
-        },
-        {
             "modelId": "core/model/models/replication-transport.js",
             "type": "ReplicationTransport"
-        },
-        {
-            "modelId": "core/model/models/replication.js",
-            "type": "Replication"
         },
         {
             "modelId": "core/model/models/rsync-copy-rsync-properties.js",
@@ -539,10 +527,6 @@
         {
             "modelId": "core/model/models/simulator-disk.js",
             "type": "SimulatorDisk"
-        },
-        {
-            "modelId": "core/model/models/snapshot-info.js",
-            "type": "SnapshotInfo"
         },
         {
             "modelId": "core/model/models/ssh-credentials.js",

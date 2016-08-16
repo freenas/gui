@@ -53,19 +53,6 @@ exports.BootEnvironment = AbstractModel.specialize({
             return this._mountpoint;
         }
     },
-    _name: {
-        value: null
-    },
-    name: {
-        set: function (value) {
-            if (this._name !== value) {
-                this._name = value;
-            }
-        },
-        get: function () {
-            return this._name;
-        }
-    },
     _on_reboot: {
         value: null
     },
@@ -77,6 +64,19 @@ exports.BootEnvironment = AbstractModel.specialize({
         },
         get: function () {
             return this._on_reboot;
+        }
+    },
+    _realname: {
+        value: null
+    },
+    realname: {
+        set: function (value) {
+            if (this._realname !== value) {
+                this._realname = value;
+            }
+        },
+        get: function () {
+            return this._realname;
         }
     },
     _space: {
@@ -112,12 +112,12 @@ exports.BootEnvironment = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "name",
-            valueType: "String"
-        }, {
-            mandatory: false,
             name: "on_reboot",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "realname",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "space",

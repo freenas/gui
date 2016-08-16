@@ -88,8 +88,8 @@
     },
     "Backup": {
         "class": {
-            "supportedTypes": {
-                "method": "backup.supported_types",
+            "supportedProviders": {
+                "method": "backup.supported_providers",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -537,6 +537,15 @@
                     ]
                 },
                 "task": "disk.update"
+            }
+        }
+    },
+    "Docker": {
+        "instance": {
+            "read": {
+                "method": "docker.get_config",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
@@ -1451,90 +1460,7 @@
             }
         }
     },
-    "Replication": {
-        "instance": {
-            "create": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "restrictions": {
-                    "requiredFields": [
-                        "name",
-                        "partners",
-                        "master",
-                        "datasets",
-                        "replicate_services",
-                        "bidirectional",
-                        "auto_recover",
-                        "recursive"
-                    ]
-                },
-                "task": "replication.create"
-            },
-            "delete": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.delete"
-            },
-            "sync": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.sync"
-            },
-            "update": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "replication.update"
-            }
-        }
-    },
-    "ReplicationLink": {
-        "class": {
-            "getOneLocal": {
-                "method": "replication.link.get_one_local",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getReplicationState": {
-                "method": "replication.link.get_replication_state",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "localQuery": {
-                "method": "replication.link.local_query",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "syncQuery": {
-                "method": "replication.link.sync_query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        },
-        "instance": {
-            "read": {
-                "method": "replication.link.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "ReplicationTransport": {
-        "class": {
-            "getEncryptionData": {
-                "method": "replication.transport.get_encryption_data",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "setEncryptionData": {
-                "method": "replication.transport.set_encryption_data",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        },
         "instance": {
             "compress": {
                 "method": "task.submit",
@@ -3148,12 +3074,6 @@
                     ]
                 },
                 "task": "volume.snapshot.create"
-            },
-            "dataset": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "volume.snapshot_dataset"
             },
             "delete": {
                 "method": "task.submit",

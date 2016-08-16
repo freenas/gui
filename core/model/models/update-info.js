@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.UpdateInfo = AbstractModel.specialize({
+    _available: {
+        value: null
+    },
+    available: {
+        set: function (value) {
+            if (this._available !== value) {
+                this._available = value;
+            }
+        },
+        get: function () {
+            return this._available;
+        }
+    },
     _changelog: {
         value: null
     },
@@ -25,6 +38,32 @@ exports.UpdateInfo = AbstractModel.specialize({
         },
         get: function () {
             return this._downloaded;
+        }
+    },
+    _installed: {
+        value: null
+    },
+    installed: {
+        set: function (value) {
+            if (this._installed !== value) {
+                this._installed = value;
+            }
+        },
+        get: function () {
+            return this._installed;
+        }
+    },
+    _installed_version: {
+        value: null
+    },
+    installed_version: {
+        set: function (value) {
+            if (this._installed_version !== value) {
+                this._installed_version = value;
+            }
+        },
+        get: function () {
+            return this._installed_version;
         }
     },
     _notes: {
@@ -65,10 +104,27 @@ exports.UpdateInfo = AbstractModel.specialize({
         get: function () {
             return this._operations;
         }
+    },
+    _version: {
+        value: null
+    },
+    version: {
+        set: function (value) {
+            if (this._version !== value) {
+                this._version = value;
+            }
+        },
+        get: function () {
+            return this._version;
+        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "available",
+            valueType: "boolean"
+        }, {
             mandatory: false,
             name: "changelog",
             valueType: "array"
@@ -76,6 +132,14 @@ exports.UpdateInfo = AbstractModel.specialize({
             mandatory: false,
             name: "downloaded",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "installed",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "installed_version",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "notes",
@@ -89,6 +153,10 @@ exports.UpdateInfo = AbstractModel.specialize({
             name: "operations",
             valueObjectPrototypeName: "UpdateOps",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "version",
+            valueType: "String"
         }]
     }
 });

@@ -1,4 +1,12 @@
 {
+  "blueprint_updateinfo_available": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "available",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_updateinfo_changelog": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -13,6 +21,22 @@
       "name": "downloaded",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
+    }
+  },
+  "blueprint_updateinfo_installed": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "installed",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_updateinfo_installed_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "installed_version",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_updateinfo_notes": {
@@ -40,16 +64,28 @@
       "valueObjectPrototypeName": "UpdateOps"
     }
   },
+  "blueprint_updateinfo_version": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "version",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "UpdateInfo",
       "propertyBlueprints": [
+        {"@": "blueprint_updateinfo_available"},
         {"@": "blueprint_updateinfo_changelog"},
         {"@": "blueprint_updateinfo_downloaded"},
+        {"@": "blueprint_updateinfo_installed"},
+        {"@": "blueprint_updateinfo_installed_version"},
         {"@": "blueprint_updateinfo_notes"},
         {"@": "blueprint_updateinfo_notice"},
-        {"@": "blueprint_updateinfo_operations"}
+        {"@": "blueprint_updateinfo_operations"},
+        {"@": "blueprint_updateinfo_version"}
       ]
     }
   }
