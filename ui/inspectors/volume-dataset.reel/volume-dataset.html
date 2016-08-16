@@ -11,7 +11,7 @@
                 "treeController": {"@": "datasetTreeController"}
             },
             "bindings": {
-                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}    
+                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}
             }
         },
         "inspector": {
@@ -63,7 +63,8 @@
                 "label": "Path"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.path"}
+                "selectedPath": {"<->": "@owner.path"},
+                "suffix": {"<-": "@owner.name"}
             }
         },
         "nameDisplay": {
