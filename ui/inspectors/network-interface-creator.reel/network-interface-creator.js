@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
  * @class NetworkInterfaceCreator
@@ -18,11 +19,18 @@ exports.NetworkInterfaceCreator = Component.specialize({
         value: null
     },
 
+    parentCascadingListItem: {
+        get: function () {
+            return CascadingList.findCascadingListItemContextWithComponent(this);
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
+                this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "_handleSelectionChange");
             }
             this.createNewInterface('Vlan').then(function(vlan) {
                 self.newVlan = vlan;
@@ -34,6 +42,9 @@ exports.NetworkInterfaceCreator = Component.specialize({
             this.createNewInterface('Bridge').then(function(bridge) {
                 self.newBridge = bridge;
             });
+            if (this.parentCascadingListItem) {
+                this.parentCascadingListItem.selectedObject = null;
+            }
         }
     },
 
@@ -55,6 +66,16 @@ exports.NetworkInterfaceCreator = Component.specialize({
                 newInterface[type.toLowerCase()] = properties;
                 return newInterface;
             });
+        }
+    },
+
+    _handleSelectionChange: {
+        value: function () {
+            if (this.parentCascadingListItem && this.parentCascadingListItem.selectedObject) {
+                if (this._inDocument) {
+                    this.parentCascadingListItem.cascadingList.pop();
+                }
+            }
         }
     }
 
