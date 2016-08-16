@@ -19,7 +19,7 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
         value: null
     },
 
-    updateOps: {
+    info: {
         value: null
     },
 
@@ -47,8 +47,8 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
                 self._updateService.getTrains().then(function(trains) {
                     return self.trains = trains;
                 }),
-                self._updateService.getUpdateOps().then(function(updateOps) {
-                    return self.updateOps = updateOps;
+                self._updateService.getInfo().then(function(info) {
+                    return self.info = info;
                 })
             ];
             Promise.all(promises).then(function() {

@@ -54,11 +54,11 @@ var UpdateService = exports.UpdateService = Montage.specialize({
         }
     },
 
-    getUpdateOps: {
+    getInfo: {
         value: function() {
             var self = this;
             return this._loadRemoteService().then(function() {
-                return self._remoteService.getUpdateOps();
+                return self._remoteService.updateInfo();
             });
         }
     },

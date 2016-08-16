@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-operations')": {"<-": "@owner.updateOps.defined() && @owner.updateOps.length > 0"}
+                "classList.has('has-operations')": {"<-": "@owner.info.defined() && @owner.info.operations.length > 0"}
             },
             "listeners": [
                 {
@@ -58,7 +58,7 @@
         "operationsController": {
             "prototype": "montage/core/range-controller",
             "bindings": {
-                "content": {"<-": "@owner.updateOps"}
+                "content": {"<-": "@owner.info.operations"}
             }
         },
         "operationsTableLabel": {
