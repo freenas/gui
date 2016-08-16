@@ -115,9 +115,9 @@ exports.VolumeCreator = Component.specialize({
             this._cleanupVdevs(this.object.topology.spare);
             this.object.type = 'zfs';
             this.object._isNew = true;
-            this.isLocked = true;
+            this.object.__isLocked = true;
             return this.application.dataService.saveDataObject(this.object).then(function() {
-                self.isLocked = false;
+                self.object.__isLocked = false;
             });
         }
     }

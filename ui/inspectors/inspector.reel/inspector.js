@@ -11,6 +11,13 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.Inspector = Component.specialize(/** @lends Inspector# */ {
+    enterDocument: {
+        value: function() {
+            if (this.object) {
+                this.object.__isLocked = false;
+            }
+        }
+    },
 
     handleDeleteAction: {
         value: function (event) {
@@ -18,7 +25,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 promise;
 
             this._isToBeDeleted = true;
-            this.isLocked = true;
+            this.object.__isLocked = true;
 
             if (typeof this.parentComponent.delete === 'function') {
                 promise = this.parentComponent.delete();
@@ -28,7 +35,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
             } else if (this.object) {
                 promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
-                promise.then(function(){ self.isLocked = false; })
+                promise.then(function(){ self.object.__isLocked = false; });
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
@@ -73,7 +80,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
             if (Promise.is(promise)) {
                 if (this._isCreationInspector()) {
-                    this.isLocked = true;
+                    this.object.__isLocked = true;
                 }
 
                 promise.then(function() {
@@ -83,7 +90,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                         return self._resetCreateInspectorIfNeeded();
                     }
                 }).finally(function () {
-                    self.isLocked = false;
+                    self.object.__isLocked = false;
                 });
             } else {
                 return self._resetCreateInspectorIfNeeded();
@@ -101,14 +108,19 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     _selectObjectInViewer: {
         value: function() {
-            var self = this;
+            var self = this,
+                objectOpen = false;
             if (this._isCreationInspector()) {
                 var viewer = this._findParentViewer();
                 if (viewer) {
                     var currentObject = viewer.object.filter(function(x) { return self._areKeysIdentical(x); })[0];
                     if (currentObject) {
                         viewer.cascadingListItem.selectedObject = currentObject;
+                        objectOpen = true;
                     }
+                }
+                if (!objectOpen) {
+                    this._resetCreateInspectorIfNeeded();
                 }
             }
         }
