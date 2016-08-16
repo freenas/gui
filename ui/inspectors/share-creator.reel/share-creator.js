@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
  * @class ShareCreator
@@ -23,15 +24,9 @@ exports.ShareCreator = Component.specialize({
         value: null
     },
 
-    _getCurrentVolume: {
-        value: function() {
-            var currentSelection = this._selectionService.getCurrentSelection();
-
-            for (var i = this.context.columnIndex - 1; i >= 0; i--) {
-                if (currentSelection.path[i].constructor.Type == Model.Volume) {
-                    return currentSelection.path[i];
-                }
-            }
+    parentCascadingListItem: {
+        get: function () {
+            return CascadingList.findCascadingListItemContextWithComponent(this);
         }
     },
 
@@ -40,9 +35,25 @@ exports.ShareCreator = Component.specialize({
             if (isFirstTime) {
                 this._selectionService = this.application.selectionService;
                 this._shareService = this.application.shareService;
+                this.addPathChangeListener("parentCascadingListItem.selectedObject", this, "_handleSelectionChange");
             }
 
             this._populateNewShareObjectList();
+            if (this.parentCascadingListItem) {
+                this.parentCascadingListItem.selectedObject = null;
+            }
+        }
+    },
+
+    _getCurrentVolume: {
+        value: function() {
+            var currentSelection = this._selectionService.getCurrentSelection();
+
+            for (var i = currentSelection.path.length - 1; i >= 0; i--) {
+                if (currentSelection.path[i].constructor.Type == Model.Volume) {
+                    return currentSelection.path[i];
+                }
+            }
         }
     },
 
@@ -65,6 +76,16 @@ exports.ShareCreator = Component.specialize({
                 this.newIscsiShare = shares[3];
                 //todo: can draw
             });
+        }
+    },
+
+    _handleSelectionChange: {
+        value: function () {
+            if (this.parentCascadingListItem && this.parentCascadingListItem.selectedObject) {
+                if (this._inDocument) {
+                    this.parentCascadingListItem.cascadingList.pop();
+                }
+            }
         }
     }
 });

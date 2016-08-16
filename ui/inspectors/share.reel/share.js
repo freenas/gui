@@ -196,7 +196,7 @@ exports.Share = Component.specialize({
         value: function() {
             if (this.context) {
                 var currentSelection = this.application.selectionService.getCurrentSelection();
-                for (var i = this.context.columnIndex - 1; i >= 0; i--) {
+                for (var i = currentSelection.path.length - 1; i >= 0; i--) {
                     if (currentSelection.path[i].constructor.Type == Model.Volume) {
                         return currentSelection.path[i];
                     }
