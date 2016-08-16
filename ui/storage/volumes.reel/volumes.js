@@ -193,8 +193,13 @@ exports.Volumes = Component.specialize({
     },
 
     handleDisksChange: {
-        value: function(disks) {
-            this._assignVolumeToDisks(disks);
+        value: function(addedDisks, removedDisks) {
+            var disk;
+            for (var i = 0, length = removedDisks.length; i < length; i++) {
+                disk = removedDisks[i];
+                delete this._diskAllocationPromises[disk.path];
+            }
+            this._assignVolumeToDisks(addedDisks);
         }
     },
 
@@ -218,6 +223,7 @@ exports.Volumes = Component.specialize({
                                 disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
                                 disk.isBoot = disksAllocations[disk._devicePath].type == 'BOOT';
                             }
+                            delete self._diskAllocationPromises[disk._devicePath];
                         }
                         return null;
                     });
