@@ -66,7 +66,7 @@ exports.System = Component.specialize(/** @lends System# */ {
             var savingPromises = [];
             savingPromises.push(
                 this.application.dataService.saveDataObject(this.systemGeneralData),
-                this.application.dataService.saveDataObject(this.systemAdvancedData)
+                this.application.dataService.saveDataObject(this.consoleData)
             );
             return Promise.all(savingPromises);
         }
