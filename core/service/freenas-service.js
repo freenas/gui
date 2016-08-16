@@ -461,6 +461,14 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     modelCache = this._findModelCacheForType(type),
                     snapshot = this._snapshotService.getSnapshotForTypeNameAndId(type.typeName, id);
                 if (snapshot) {
+                    var keys = Object.keys(object),
+                        key;
+                    for (var i = 0, length = keys.length; i < length; i++) {
+                        key = keys[i];
+                        if (key !== 'id' && key !== '_id') {
+                            object[key] = null;
+                        }
+                    }
                     this.mapFromRawData(object, snapshot);
                 }
                 return Promise.resolve(object);
@@ -470,7 +478,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         keys = Object.keys(object), key;
                     for (var i = 0, length = keys.length; i < length; i++) {
                         key = keys[i];
-                        if (key in cleanObject) {
+                        if (key in cleanObject && (key[0] !== '_' && !(key.slice(1) in object))) {
                             if (typeof object[key] === "object" && object[key] && object[key].constructor && object[key].constructor.Type) {
                                 childrenPromises.push(self._resetObjectPropertyToNewInstance(object, key));
                             } else {

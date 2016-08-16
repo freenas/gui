@@ -28,6 +28,7 @@ exports.NetworkInterface = Component.specialize({
                 this.staticIP = null;
 
                 if (object) {
+                    this.interfaceType = this.object.type
                     var self = this;
                     this.application.networkInterfacesSevice.getNetworkInterfaces().then(function (networkInterfaces) {
                         self.interfaces = networkInterfaces;
@@ -52,7 +53,7 @@ exports.NetworkInterface = Component.specialize({
     exitDocument: {
         value: function () {
             this._unsubscribeToAliasesChangesIfNeeded();
-
+            this.interfaceType = null;
             // set to null in order to apply hypothetical changes from the middleware
             // if the same object is coming back.
             this._object = null;
@@ -81,7 +82,7 @@ exports.NetworkInterface = Component.specialize({
         value: function () {
             if (this.object) {
                 var aliases = this.object.aliases,
-                    aliasesLength = aliases.length;
+                    aliasesLength = aliases ? aliases.length : 0;
 
                 if (aliasesLength) {
                     this.staticIP = aliases.slice(0, 1)[0];
@@ -89,6 +90,9 @@ exports.NetworkInterface = Component.specialize({
                     if (aliasesLength > 1) {
                         this.otherAliases = aliases.slice(1);
                     }
+                } else {
+                    this.staticIP = null;
+                    this.otherAliases = [];
                 }
             }
         }
@@ -125,6 +129,15 @@ exports.NetworkInterface = Component.specialize({
         value: function() {
             this._flattenAliases();
             return this.application.dataService.saveDataObject(this.object);
+        }
+    },
+
+    revert: {
+        value: function() {
+            var self = this;
+            return this.inspector.revert().then(function() {
+                self.object.type = self.interfaceType;
+            });
         }
     }
 });
