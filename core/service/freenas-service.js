@@ -511,6 +511,76 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
         }
     },
 
+    clone: {
+        value: function(object) {
+            if (object) {
+                var result = Object.create(null),
+                    keys = Object.keys(object),
+                    key, temp, j, arrayLength, arrayKeys;
+                for (var i = 0, length = keys.length; i < length; i++) {
+                    key = keys[i];
+                    if (Array.isArray(object[key])) {
+                        result[key] = this._getArrayClone(object[key]);
+                    } else if (typeof object[key] === "object") {
+                        result[key] = this.clone(object[key]);
+                    } else {
+                        result[key] = object[key];
+                    }
+                }
+            } else {
+                result = object;
+            }
+            return result;
+        }
+    },
+
+    _getArrayClone: {
+        value: function(array) {
+            var result = [],
+                value;
+            for (var i = 0, length = array.length; i < length; i++) {
+                value = array[i];
+                if (Array.isArray(value)) {
+                    result.push(this._getArrayClone(value));
+                } else if (typeof value === "object") {
+                    result.push(this.clone(value));
+                } else {
+                    result.push(value);
+                }
+            }
+            return result;
+        }
+    },
+
+    _areSameValues: {
+        value: function(a, b) {
+            var result = a === b;
+            if (!result) {
+                if (typeof a === "object" && typeof b === "object") {
+                    result = !!a === !!b;
+                    if (result) {
+                        var aKeys = Object.keys(a).sort(), aValue,
+                            bKeys = Object.keys(b).sort(), bValue,
+                            key;
+                        result = aKeys.filter(function(x) { return a[x] !== null }).length === bKeys.filter(function(x) { return b[x] !== null }).length;
+                        if (result) {
+                            for (var i = 0, length = bKeys.length; i < length; i++) {
+                                key = bKeys[i];
+                                aValue = a[key];
+                                bValue = b[key];
+                                if (!this._areSameValues(aValue, bValue)) {
+                                    result = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+    },
+
 /*----------------------------------------------------------------------------------------------------------------------
                                              DataService Private Functions
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -949,6 +1019,9 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 instance.callBackend = FreeNASService.prototype.callBackend;
                 instance.backendBridge = BackEndBridgeModule.defaultBackendBridge;
                 instance.mapRawDataToType = FreeNASService.prototype.mapRawDataToType;
+                instance.clone = FreeNASService.prototype.clone;
+                instance._getArrayClone = FreeNASService.prototype._getArrayClone;
+                instance._isSameValue = FreeNASService.prototype._isSameValue;
 
                 DataService.mainService.addChildService(freeNASService);
                 NotificationCenterModule.defaultNotificationCenter = notificationCenter;
