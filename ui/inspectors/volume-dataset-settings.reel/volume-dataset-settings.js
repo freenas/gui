@@ -99,9 +99,7 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 this.dedup = this._isInheritedProperty(this.object.properties.dedup) ? "none": this.object.properties.dedup.parsed;
                 this.atime = this._isInheritedProperty(this.object.properties.atime) ? "none": this.object.properties.atime.parsed;
             }
-            if (this.object.type === "VOLUME") {
-                this.volblocksizeDisplayMode = this.object._isNew ? "edit" : "display";
-            }
+            this.volblocksizeDisplayMode = this.object._isNew ? "edit" : "display";
             this._isLoaded = true;
         }
     },
