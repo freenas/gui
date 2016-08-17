@@ -63,7 +63,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
             this.timezoneData.timezone = this._originalTimezoneData.timezone;
             this.keymapsData.console_keymap = this._originalKeymapsData.console_keymap;
         }
-    }
+    },
 
     _snapshotDataObjectsIfNecessary: {
         value: function() {
