@@ -2,7 +2,7 @@
  * @module ui/language-and-region.reel
  */
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model
+    Model = require("core/model/model").Model;
 
 /**
  * @class LanguageAndRegion
