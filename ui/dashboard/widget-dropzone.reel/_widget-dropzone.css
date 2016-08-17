@@ -9,7 +9,7 @@
     padding: .5em;
 
     @nest .Sideboard & {
-        padding: 0;
+        padding: 1em;
     }
 }
 
