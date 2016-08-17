@@ -160,6 +160,23 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
         }
     },
 
+    shouldScrollViewComputeBoundaries: {
+        value: function (scrollView, response, mutations) {
+            if (response) {
+                var widgetsRepetitionElement = this._widgetsRepetition.element;
+                response = false;
+
+                for (var i = 0, length = mutations.length; i < length && !response; i++) {
+                    if(mutations[i].target.parentNode === widgetsRepetitionElement) {
+                        response = true;
+                    }
+                }
+            }
+            
+            return response;
+        }
+    },
+
     _findPositionFromTranslateEvent: {
         value: function (translateEvent) {
             return {
