@@ -14,12 +14,17 @@
     text-align: center;
     width: 7.5em;
     margin-right: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .ShareOverview-icon {
     display: inline-block;
     width:  6em;
     height: 6em;
+    display: flex;
 }
 
 .ShareOverview-icon svg {
@@ -39,7 +44,6 @@
     margin-bottom: 1rem;
     text-transform: uppercase;
 }
-
 
 .TargetTitle-type {
     display: flex;
