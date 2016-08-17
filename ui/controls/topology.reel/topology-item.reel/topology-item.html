@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="topology-item.css">
     <script type="text/montage-serialization">
     {
@@ -10,12 +9,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-items')": {"<-": "@controller.content.length > 0"},
-                "availableSize": {"<-": "@owner.vdevs.map{_availableSize}.sum()"},
-                "paritySize": {"<-": "@owner.vdevs.map{_paritySize}.sum()"},
-                "usedSize": {"<-": "@owner.vdevs.map{_usedSize}.sum()"},
-                "usableSize": {"<-": "@owner.availableSize + @owner.usedSize"},
-                "totalSize": {"<-": "@owner.usableSize + @owner.paritySize"}
+                "classList.has('has-items')": {"<-": "@controller.content.length > 0"}
             }
         },
         "bytesConverter": {
@@ -37,7 +31,7 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.usableSize"}
+                "value": {"<-": "@owner.vdevs.map{_availableSize}.sum() + @allocationBar.usedSize"}
             }
         },
         "allocationBar": {
@@ -47,10 +41,10 @@
             },
             "bindings": {
                 "classList.has('is-visible')": {"<-": "@owner.hasAllocationBar"},
-                "totalSize": {"<-": "@owner.totalSize"},
-                "usedSize": {"<-": "@owner.usedSize"},
-                "paritySize": {"<-": "@owner.paritySize"},
-                "available": {"<-": "@owner.totalSize - (@owner.usedSize + @owner.paritySize)"}
+                "totalSize": {"<-": "@usableSize.value + @allocationBar.paritySize"},
+                "usedSize": {"<-": "@owner.vdevs.map{_usedSize}.sum()"},
+                "paritySize": {"<-": "@owner.vdevs.map{_paritySize}.sum()"},
+                "available": {"<-": "@allocationBar.totalSize - (@allocationBar.usedSize + @allocationBar.paritySize)"}
             }
         },
         "controller": {
