@@ -33,6 +33,8 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
             var self = this,
                 speed = SystemAdvancedSerialspeed;
             if (isFirstTime){
+                this._dataService = this.application.dataService;
+                this._snapshotDataObjectsIfNecessary();
                 this.isLoading = true;
                 this.serialSpeedOptions = [];
                 for(var i=0; i<speed.members.length; i++){
@@ -68,6 +70,26 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                 this.application.dataService.saveDataObject(this.consoleData)
             );
             return Promise.all(savingPromises);
+        }
+    },
+    revert: {
+        value: function() {
+            this.object.console_cli = this._originalConsoleData.console_cli;
+            this.object.serial_port = this._originalConsoleData.serial_port;
+            this.object.serial_speed = this._originalConsoleData.serial_speed;
+            this.object.console_screensaver = this._originalConsoleData.console_screensaver;
+            this.keymapsData.console_keymap = this._originalConsoleData.console_keymap;
+        }
+    },
+
+    _snapshotDataObjectsIfNecessary: {
+        value: function() {
+            if (!this._originalConsoleData) {
+                this._originalConsoleData = this._dataService.clone(this.consoleData);
+            }
+            if (!this._originalKeymapsData) {
+                this._originalKeymapsData = this._dataService.clone(this.keymapsData);
+            }
         }
     }
 });
