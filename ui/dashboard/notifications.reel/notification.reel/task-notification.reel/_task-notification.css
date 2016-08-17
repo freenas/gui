@@ -12,4 +12,4 @@
 
 .TaskNotification.has-success .Notification-progress .Progress-bar  { background-color: #1E963F; }
 .TaskNotification.has-warning .Notification-progress .Progress-bar  { background-color: #D95B1B; }
-.TaskNotification.has-error .Notification-progress                  { background-color: #E0003A; }
+.TaskNotification.has-error .Progress-wrapper                       { background-color: #E0003A; }

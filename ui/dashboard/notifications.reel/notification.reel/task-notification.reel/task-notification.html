@@ -6,7 +6,13 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "statusMap": {
+                    "FAILED": "error",
+                    "FINISHED": "success",
+                    "EXECUTING": "active",
+                    "WAITING": "pending"
+                }
             },
             "bindings": {
                 "classList.has('has-error')": {"<-": "@owner.object.state == 'FAILED'"},
@@ -49,7 +55,8 @@
             },
             "bindings": {
                 "percentageComplete": {"<-": "@owner.object.progress"},
-                "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"}
+                "classList.has('hide')": {"<-": "@owner.object.type != 'TASK'"},
+                "status": {"<-": "@owner.statusMap[@owner.object.state]"}
             }
         },
         "expandButton": {

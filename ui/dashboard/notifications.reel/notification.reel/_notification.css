@@ -18,7 +18,10 @@
     transition: color .25s ease-in-out;
 }
 
-.Notification-overview { flex: 1; }
+.Notification-overview {
+    flex: 1;
+    margin-right: .5rem;
+}
 
 .Notification-overview > div {
     display: flex;
@@ -39,15 +42,12 @@
 
 .Notification-progress { width:  100%; }
 
-.Notification.has-error .Notification-progress                  { background-color: #E0003A; }
-.Notification.has-success .Notification-progress .Progress-bar  { background-color: #1E963F; }
-
 /* Action Buttons */
 
 .Notification-actions {
     position: relative;
     display: flex;
-    height: 2em;
+    align-self: flex-start;
 }
 
 .Notification-actions > * {
@@ -68,10 +68,7 @@
 /* Expand Arrow */
 
 .Notification-expand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: .5em;
+    margin-top: -.25em;
     transition: color .25s ease-in-out;
 }
 
