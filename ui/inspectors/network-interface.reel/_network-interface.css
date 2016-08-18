@@ -1,3 +1,5 @@
 .NetworkInterface {
     min-width: 25em;
 }
+
+.NetworkInterfaceIcon { flex: 1; }
