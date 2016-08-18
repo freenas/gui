@@ -24,9 +24,3 @@
     flex-direction: column;
     justify-content: center;
 }
-
-/* $fix - temporararily removed */
-
-.ServiceOverview .FieldToggleSwitch {
-    display: none;
-}

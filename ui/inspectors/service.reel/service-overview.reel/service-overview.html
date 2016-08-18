@@ -58,16 +58,6 @@
             "bindings": {
                 "value": {"<-": "@owner.object.state"}
             }
-        },
-        "running": {
-            "prototype": "blue-shark/ui/field-toggle-switch.reel",
-            "properties": {
-                "element": {"#": "running"},
-                "label": "Started"
-            },
-            "bindings": {
-                "checked": {"<-": "@owner.object.state == 'RUNNING'"}
-            }
         }
     }
     </script>
@@ -82,7 +72,6 @@
         <div class="ServiceOverview-info">
             <p data-montage-id="serviceType" class="bold"></p>
             <div data-montage-id="state"></div>
-            <div data-montage-id="running"></div>
         </div>
     </div>
 </body>
