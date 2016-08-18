@@ -61,15 +61,6 @@
             "bindings": {
                 "label": {"<-": "@possibleTargetTypes:iteration.object"}
             }
-        },
-        "enabled": {
-            "prototype": "blue-shark/ui/toggle-switch.reel",
-            "properties": {
-                "element": {"#": "enabled"}
-            },
-            "bindings": {
-                "checked": {"<->": "!!@owner.object.enabled"}
-            }
         }
     }
     </script>
@@ -91,7 +82,6 @@
         </div>
         <div class="ShareOverview-info">
             <p data-montage-id="shareType" class="ShareOverview-title"></p>
-            <div data-montage-id="enabled" style="display: none;"></div>
         </div>
     </div>
 </body>
