@@ -8,9 +8,8 @@
     border-left: 1px solid #232629;
     max-height: 21rem;
 
-    &.has-items.Topology-data {
-        flex: 1;
-    }
+    /* allows data to grow larger than data */
+    &.has-items.Topology-data { flex: 1; }
 }
 
 /*
