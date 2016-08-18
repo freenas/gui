@@ -1,5 +1,4 @@
 .Topology {
-
     /* log & cache */
     & .flex-row > * {
         flex: 1;
@@ -7,15 +6,3 @@
 }
 
 .Topology .Inspector-body { margin: 0; }
-
-@-webkit-keyframes blink {
-    0%      { border-color: rgba(43,156,216,0.1); }
-    50%     { border-color: rgba(43,156,216,0.5); }
-    100%    { border-color: rgba(43,156,216,0.1); }
-}
-
-@keyframes blink {
-    0%      { border-color: rgba(43,156,216,0.1); }
-    50%     { border-color: rgba(43,156,216,0.5); }
-    100%    { border-color: rgba(43,156,216,0.1); }
-}
