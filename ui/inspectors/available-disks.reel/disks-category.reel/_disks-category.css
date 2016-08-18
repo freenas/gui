@@ -11,7 +11,7 @@
 }
 
 .AvailableDisksCategory-grid {
-    min-height: 85px;
+    min-height: 6.5em;
 }
 
 .AvailableDisksCategory.willAcceptDrop .FoldableSection-content:before {

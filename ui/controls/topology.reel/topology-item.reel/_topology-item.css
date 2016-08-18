@@ -1,11 +1,23 @@
+:root {
+    --topologyItemMaxHeight: 18em;
+}
+
 .TopologyItem {
     position: relative;
-    clear: both;
     background: #2F3233;
-    display: flex;
-    flex-direction: column;
     border-left: 1px solid #232629;
+    max-height: 21rem;
+
+    &.has-items.Topology-data {
+        flex: 1;
+    }
 }
+
+/*
+
+Title
+
+*/
 
 .TopologyItem-title {
     position: relative;
@@ -16,57 +28,67 @@
     background: #232629;
     border-top: 2px solid currentColor;
     overflow: hidden;
-    display: flex;
+
+    /* left decoration */
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: -1.7em;
+        top: -1em;
+        height: 4em;
+        background: currentColor;
+        width: 2em;
+        transform: rotate(17deg);
+    }
 }
 
-.TopologyItem-title div:first-child { flex: 1; }
-
-.TopologyItem-title:before {
-    content: '';
-    position: absolute;
-    left: -1.7em;
-    top: -1em;
-    height: 4em;
-    background: currentColor;
-    width: 2em;
-    transform: rotate(17deg);
-}
+.TopologyItem-title-content { flex: 1; }
 
 .TopologyItemTitle-size { float: right; }
 
-/* allocation bar */
+
+/************************
+
+allocation bar
+
+*************************/
 
 .TopologyItem-allocationBar {
     display: none !important;
-}
 
-.TopologyItem.has-items .TopologyItem-allocationBar {
-    display: flex !important;
+    @nest .TopologyItem.has-items & {
+        display: flex !important;
+    }
 }
 
 /* Sets the different colors */
 
-.Topology-data .TopologyItem-title { color: #D75B1B; }
+.Topology-data .TopologyItem-title  { color: #D75B1B; }
 .Topology-cache .TopologyItem-title { color: #D68E2A; }
-.Topology-log .TopologyItem-title { color: #929E9F; }
+.Topology-log .TopologyItem-title   { color: #929E9F; }
 .Topology-spare .TopologyItem-title { color: #CB6614; }
 
-/* Grid */
 
-.TopologyItem-grid {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    flex-wrap: wrap;
+/************************
+
+Grid
+
+*************************/
+
+
+.vdevs-grid > .Grid-repetition:not(:empty) {
+    /* height: 10em; */
 }
 
-/* has items */
+.TopologyItem-grid {
 
-.TopologyItem.has-items .TopologyItem-grid {
-    max-height: 18em;
-    overflow: scroll;
-    padding: .25em .25em .5em .25em;
+    @nest .TopologyItem.has-items & {
+        max-height: var(--topologyItemMaxHeight);
+        /* using native scrolling */
+        overflow: scroll;
+        padding: .25em .25em .5em .25em;
+    }
 }
 
 .TopologyItem-dropZone {
@@ -77,7 +99,7 @@
     right: 0;
     position: absolute;
     margin-left: 1em;
-    z-index: 1;
+    outline: 1px solid green;
 }
 
 .TopologyItem .Grid-icon {
@@ -92,7 +114,11 @@
     height: auto;
 }
 
-/* Vdev Container */
+/************************
+
+Vdev Container
+
+************************/
 
 .TopologyItem-vdevsGrid > .Grid-repetition > .GridItem > .LabeledIcon {
     margin: 0em .25em .5em .25em;

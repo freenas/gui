@@ -323,6 +323,12 @@ td {
     100% { opacity: 1; }
 }
 
+@keyframes blink {
+    0%      { border-color: rgba(43,156,216,0.1); }
+    50%     { border-color: rgba(43,156,216,0.5); }
+    100%    { border-color: rgba(43,156,216,0.1); }
+}
+
 .has-loading-spinner {
     position: relative;
 }

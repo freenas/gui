@@ -37,18 +37,10 @@
 .AvailableDisks .FoldableSection:first-child            { margin-top: 0; }
 .AvailableDisks-category:first-child .FoldableSection   { margin-top: 0; }
 
+
 /* $fix - Edits to disk icon size - same code as topology */
 
-.AvailableDisks .Grid-icon {
-    width:  auto;
-    height: auto;
-    margin-bottom: 0;
-}
-
-.AvailableDisks .LabeledIcon-image > * {
-    width: auto;
-    height: auto;
-}
+.AvailableDisks .GridItem { height: 6.5em; }
 
 
 
