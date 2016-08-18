@@ -81,30 +81,14 @@ exports.Share = Component.specialize({
                 this._service = service;
 
                 if (service) {
-                    this.isServiceStarted = service.config.enable;
+                    this.serviceEnabled = service.config.enable;
                 }
             }
         }
     },
 
-    _isServiceStarted: {
+    serviceEnabled: {
         value: null
-    },
-
-    isServiceStarted: {
-        get: function() {
-            return this._isServiceStarted;
-        },
-        set: function(isServiceStarted) {
-            if (this._isServiceStarted !== isServiceStarted) {
-                if (isServiceStarted) {
-                    this._startService();
-                } else {
-                    this._stopService();
-                }
-                this._isServiceStarted = isServiceStarted;
-            }
-        }
     },
 
     _object: {
@@ -121,9 +105,9 @@ exports.Share = Component.specialize({
                 if (object) {
                     this._getService(object).then(function (service) {
                         self.service = service;
-                        self.isServiceStarted = service.state == 'RUNNING';
+                        self.serviceEnabled = service.state == 'RUNNING';
                     });
-                    
+
                     var shareServiceConstructor = this.application.shareService.constructor;
                     if (!object.target_type) {
                         object.target_type = object.type === shareServiceConstructor.SHARE_TYPES.ISCSI ?
@@ -131,7 +115,7 @@ exports.Share = Component.specialize({
                             shareServiceConstructor.TARGET_TYPES.DATASET;
                     }
 
-                    this.isPathReadOnly = !object._isNew && 
+                    this.isPathReadOnly = !object._isNew &&
                                             (object.target_type == shareServiceConstructor.TARGET_TYPES.DATASET ||
                                              object.target_type == shareServiceConstructor.TARGET_TYPES.ZVOL);
                 }
@@ -169,7 +153,13 @@ exports.Share = Component.specialize({
                 this.isPathReadOnly = true;
             }
             return this._shareService.save(this.object).then(function() {
-                self.isServiceStarted = true;
+                if (self.serviceEnabled !== self.service.config.enable) {
+                    if (self.serviceEnabled) {
+                        self._startService();
+                    } else {
+                        self._stopService();
+                    }
+                }
                 if (self.object._isNew) {
                     self.isPathReadOnly = false;
                 }
