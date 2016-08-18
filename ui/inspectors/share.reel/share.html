@@ -104,19 +104,10 @@
                 "value": {"<->": "@owner.object.description"}
             }
         },
-        "targetSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "targetSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'edit' : 'display'"}
-            }
-        },
-        "targetEdit": {
+        "target": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
-                "element": {"#": "targetEdit"}
+                "element": {"#": "target"}
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.object.target_path"},
@@ -124,16 +115,6 @@
                 "readOnly": {"<-": "@owner.isPathReadOnly"},
                 "suffix": {"<-": "(@owner.targetType == 'DATASET' || @owner.targetType == 'ZVOL') && !@owner.isPathReadOnly ? @name.value || '' : ''"},
                 "controller": {"<-": "@owner.treeControllers[@owner.targetType]"}
-            }
-        },
-        "targetDisplay": {
-            "prototype": "blue-shark/ui/field-text.reel",
-            "properties": {
-                "element": {"#": "targetDisplay"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.object.target_path"},
-                "label": {"<-": "@owner.targetType != 'DATASET' || @owner.targetType != 'ZVOL' ? 'Target' : 'Create target'"}
             }
         },
         "shareTypePlaceHolder": {
@@ -178,10 +159,7 @@
             <div data-montage-id="overview"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="name"></div>
-            <div data-montage-id="targetSubstitution">
-                <div data-montage-id="targetEdit" data-arg="edit"></div>
-                <div data-montage-id="targetDisplay" data-arg="display"></div>
-            </div>
+            <div data-montage-id="target"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="shareTypePlaceHolder"></div>
         </div>
