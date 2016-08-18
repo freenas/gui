@@ -12,7 +12,7 @@ Rule.CRON_FIELDS = {
         max: 59
     },
     MIN: {
-        value: "MIN",
+        name: "MIN",
         label: "Minute(s)",
         mapKey: "minute",
         index: 1,
@@ -59,6 +59,8 @@ Rule.TYPES = {
     ON: "ON"
 };
 
+
+Rule.NO_INTERVAL = [0];
 
 Rule.FIELD_VALUES = {
         _0: null,
@@ -136,38 +138,35 @@ Object.defineProperties(Rule.FIELD_VALUES, {
 Rule.ParseString = function (string, cronField) {
     var isAnyValue = string === "*",
         isNumber = !isNaN(string),
-        dividerIndex, values;
+        dividerIndex, values, type;
 
     if (isAnyValue) {
-        values = [0];
+        values = Rule.NO_INTERVAL;
+        type = Rule.TYPES.EVERY;
     } else if (isNumber) {
         values = [+string];
+        type = Rule.TYPES.ON;
     } else if ((dividerIndex = string.indexOf("/")) !== -1) {
-        var subString = string.substring(0, dividerIndex),
-            divider = +(string.substring(dividerIndex + 1));
-
-        if (subString.indexOf("-") !== -1) {
-            values = _parseRange(_stringArrayToIntArray(subString.split("-")), divider);
-        } else if (!isNaN(subString)) {
-            values = _parseRange([+subString, +cronField.max], divider);
-        } else if (subString === "*") {
-            values = _parseRange([+cronField.min, +cronField.max], divider);
-        } else if (subString.indexOf(",") !== -1) {
-            values = _stringArrayToIntArray(subString.split(","));
-            values = _mergeArray(values, _parseRange([values.splice(values.length - 1)[0], +cronField.max], divider));
+        type = Rule.TYPES.EVERY;
+        var divider = +(string.substring(dividerIndex + 1));
+        if (!isNaN(divider)) {
+            values = [divider];
         } else {
             console.warn("cron string not supported");
         }
     } else if (string.indexOf("-") !== -1) {
         values = _parseRange(string.split("-"));
+        type = Rule.TYPES.ON;
     } else if (string.indexOf(",") !== -1) {
         values = _stringArrayToIntArray(string.split(","));
+        type = Rule.TYPES.ON;
     } else {
         console.warn("cron string not supported");
     }
 
     return {
-        type: isNumber || isAnyValue ? Rule.TYPES.EVERY : Rule.TYPES.ON,
+        type: type,
+        field: cronField,
         values: values
     };
 };

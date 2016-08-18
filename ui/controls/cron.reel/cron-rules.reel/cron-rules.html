@@ -7,9 +7,7 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "userRules": [],
-                "_rules": {"@": "rules"}
+                "element": {"#": "owner"}
             },
             "listeners": [
                 {
@@ -31,8 +29,8 @@
                 "element": {"#": "rules"}
             },
             "bindings": {
-                "content": {"<-": "@owner.userRules"},
-                "classList.has('hide')": {"<-": "@owner.userRules.length == 0"}
+                "content": {"<-": "@owner.rules"},
+                "classList.has('hide')": {"<-": "@owner.rules.length == 0"}
             }
         },
         "rule": {
@@ -42,7 +40,8 @@
                 "rulesController": {"@": "owner"}
             },
             "bindings": {
-                "rule": {"<-": "@rules:iteration.object"}
+                "rule": {"<-": "@rules:iteration.object"},
+                "usedFields": {"<-": "@owner.rules.map{ field.name }"}
             }
         },
         "addRuleButton": {

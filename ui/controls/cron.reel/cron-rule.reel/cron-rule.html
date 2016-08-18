@@ -6,120 +6,71 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"},
-                "tempDisplayOptions": [
-                    {"value": "DAYS", "label": "Days"},
-                    {"value": "DAYSOFWEEK", "label": "Days of week"},
-                    {"value": "HOURS", "label": "Hours"},
-                    {"value": "MINUTES", "label": "Minutes"}
-                ],
-                "everyOptions": [
-                    {"value": "MONTHS", "label": "Months"},
-                    {"value": "DAYS", "label": "Days"},
-                    {"value": "HOURS", "label": "Hours"},
-                    {"value": "MINUTES", "label": "Minutes"}
-                ]
+                "element": {"#": "owner"}
             },
-            "bindings": {
-                "selectedType": {"<-": "@selector.selectedValue"}
-            }
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
-
-        "selector": {
+        "type": {
             "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "selector"}
+                "element": {"#": "type"}
             },
             "bindings": {
-                "options": {"<-": "@owner.constructor.SELECTOR_OPTIONS"},
-                "selectedValue": {"<->": "@owner.type"}
+                "selectedValue": {"<->": "@owner.rule.type"},
+                "options": {"<-": "@owner.typeOptions"}
             }
         },
-
-        "substitution": {
-            "prototype": "montage/ui/substitution.reel",
+        "unit": {
+            "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "substitution"}
+                "element": {"#": "unit"}
             },
             "bindings": {
-                "switchValue": {"<-": "@selector.selectedValue"}
+                "selectedValue": {"<->": "@owner.rule.field"},
+                "options": {"<-": "@owner.availableUnitOptions"}
             }
         },
-
-        "frequencyNumber": {
+        "showEvery": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "showEvery"}
+            },
+            "bindings": {
+                "condition": {"<-": "@type.selectedValue == @owner.TYPES.EVERY"}
+            }
+        },
+        "every": {
             "prototype": "blue-shark/ui/number-input.reel",
             "properties": {
-                "element": {"#": "frequencyNumber"},
+                "element": {"#": "every"},
                 "min": 1
             },
             "bindings": {
-                "value": {"<->": "@owner.every"}
+                "value": {"<->": "@owner.rule.values.0"}
             }
         },
-
-        "frequencyValue": {
-            "prototype": "blue-shark/ui/select.reel",
+        "showOn": {
+            "prototype": "montage/ui/condition.reel",
             "properties": {
-                "element": {"#": "frequencyValue"}
+                "element": {"#": "showOn"}
             },
             "bindings": {
-                "options": {"<-": "@owner.everyOptions"}
+                "condition": {"<-": "@type.selectedValue == @owner.TYPES.ON"}
             }
         },
-
-        "fieldValues": {
-            "prototype": "blue-shark/ui/select.reel",
-            "properties": {
-                "element": {"#": "fieldValues"}
-            },
-            "bindings": {
-                "options": {"<-": "@owner.tempDisplayOptions"},
-                "selectedValue": {"<->": "@owner.on"}
-            }
-        },
-        "onSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "onSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@fieldValues.selectedValue"}
-            }
-        },
-        "dayValues": {
+        "on": {
             "prototype": "blue-shark/ui/multiple-select-grid.reel",
             "properties": {
-                "element": {"#": "dayValues"}
+                "element": {"#": "on"}
             },
             "bindings": {
-                "content": {"<-": "@owner.dayValues"}
-            }
-        },
-        "minuteValues": {
-            "prototype": "blue-shark/ui/multiple-select-grid.reel",
-            "properties": {
-                "element": {"#": "minuteValues"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.minuteValues"}
-            }
-        },
-        "daysOfWeek": {
-            "prototype": "blue-shark/ui/multiple-select-grid.reel",
-            "properties": {
-                "element": {"#": "daysOfWeek"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.daysOfWeek"}
-            }
-        },
-        "hourValues": {
-            "prototype": "blue-shark/ui/multiple-select-grid.reel",
-            "properties": {
-                "element": {"#": "hourValues"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.hourValues"}
+                "selectedValues": {"<->": "@owner.rule.values"},
+                "content": {"<-": "@owner.onValues[@unit.selectedValue.name] || []"}
             }
         },
         "removeRuleButton": {
@@ -134,29 +85,13 @@
 <body>
     <div data-montage-id="owner" class="CronRule">
         <div class="CronRule-form">
-            <div data-montage-id="selector" class="CronRule-selector"></div>
-            <div data-montage-id="substitution" class="CronRule-substitution">
-                <div data-arg="EVERY" class="CronRule-controls CronRule-controls--every">
-                    <div data-montage-id="frequencyNumber" class="CronRule-control"></div>
-                    <div data-montage-id="frequencyValue" class="CronRule-control"></div>
-                </div>
-                <div data-arg="ON" class="CronRule-controls CronRule-controls--on">
-                    <div data-montage-id="fieldValues" class="CronRule-control"></div>
-                    <div data-montage-id="onSubstitution">
-                        <div data-arg="DAYS">
-                            <div data-montage-id="dayValues"></div>
-                        </div>
-                        <div data-arg="DAYSOFWEEK">
-                            <div data-montage-id="daysOfWeek"></div>
-                        </div>
-                        <div data-arg="HOURS">
-                            <div data-montage-id="hourValues"></div>
-                        </div>
-                        <div data-arg="MINUTES">
-                            <div data-montage-id="minuteValues"></div>
-                        </div>
-                    </div>
-                </div>
+            <div data-montage-id="type" class="CronRule-selector"></div>
+            <div data-montage-id="showEvery">
+                <div data-montage-id="every" class="CronRule-control"></div>
+            </div>
+            <div data-montage-id="unit" class="CronRule-control"></div>
+            <div data-montage-id="showOn">
+                <div data-montage-id="on" class="CronRule-control"></div>
             </div>
             <div data-montage-id="removeRuleButton" class="CronRule-removeButton Button--alert">
                 <svg><use xlink:href="#i-trashCan"/></svg>

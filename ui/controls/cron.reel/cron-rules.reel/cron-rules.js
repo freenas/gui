@@ -11,25 +11,45 @@ var AbstractComponentActionDelegate = require("core/ui/abstract-component-action
  */
 exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRules# */ {
 
-    _scheduleObject: {
+    _value: {
         value: null
     },
 
-    scheduleObject: {
-        set: function (scheduleObject) {
-            if (this._scheduleObject !== scheduleObject) {
-                this._scheduleObject = scheduleObject;
-
-                if (scheduleObject) {
-                    this._initRulesIfNeeded();
-                    this._mapRulesWithScheduleObject(scheduleObject);
-                } else {
-                    this._resetRules();
+    value: {
+        get: function() {
+            var result;
+            if (this.rules) {
+                var rule, resultString;
+                result = {};
+                for (var i = 0, length = this.rules.length; i < length; i++) {
+                    rule = this.rules[i];
+                    resultString = null;
+                    if (rule.type === Rule.TYPES.ON && rule.values.length > 0) {
+                        resultString = rule.values.join(',');
+                    } else if (rule.type === Rule.TYPES.EVERY) {
+                        if (rule.values.length === 1) {
+                            if (rule.values[0] === 1) {
+                                resultString = '*';
+                            } else {
+                                resultString = '*/' + rule.values[0];
+                            }
+                        }
+                    }
+                    if (resultString && resultString.length > 0) {
+                        result[rule.field.mapKey] = resultString;
+                    } 
                 }
             }
+            return result;
         },
-        get: function () {
-            return this._scheduleObject;
+        set: function(value) {
+            if (this._value !== value) {
+                this._value = value;
+                this.rules = [];
+                if (value) {
+                    this._initRulesIfNeeded();    
+                }
+            }
         }
     },
 
@@ -53,64 +73,17 @@ exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRu
             if (!this.rules.length) {
                 var cronFields = Rule.CRON_FIELDS,
                     cronFieldKeys = Object.keys(cronFields),
-                    rule;
+                    field, rule;
 
                 for (var i = 0, length = cronFieldKeys.length; i < length; i++) {
-                    rule = new Rule();
-                    rule.field = cronFields[cronFieldKeys[i]];
-                    this.rules.push(rule);
-                }
-            }
-        }
-    },
-
-    _mapRulesWithScheduleObject: {
-        value: function (scheduleObject) {
-            if (this.rules) {
-                var cronFields = Rule.CRON_FIELDS,
-                    cronFieldKeys = Object.keys(cronFields),
-                    cronField, rawData, values, mapValues,
-                    parsedValues, rule, i, l, ii, ll;
-
-                for (i = 0, l = cronFieldKeys.length; i < l; i++) {
-                    cronField = cronFields[cronFieldKeys[i]];
-                    rule = this.rules[cronField.index];
-                    rawData = scheduleObject[cronField.mapKey];//need to be parsed.
-
-                    rule.values.clear();
-
-                    if (rawData) {
-                        var parsedString = Rule.ParseString(rawData, cronField);
-                        rule.type = parsedString.type;
-
-                        if (rule.type === Rule.TYPES.EVERY) {
-                            rule.values = parsedString.values;
-                        } else {
-                            values = Rule.FIELD_VALUES[cronField.index];
-                            parsedValues = parsedString.values;
-                            mapValues = [];
-
-                            for (ii = 0, ll = parsedValues.length; ii < ll; ii++) {
-                                mapValues.push(values[parsedValues[ii]]);
-                            }
-
-                            rule.values = mapValues;
+                    field = cronFields[cronFieldKeys[i]];
+                    value = this._value[field.mapKey];
+                    if (value) {
+                        rule = Rule.ParseString(value, field);
+                        if (rule.type !== Rule.TYPES.EVERY || rule.values !== Rule.NO_INTERVAL) {
+                            this.rules.push(rule);
                         }
                     }
-                }
-            }
-        }
-    },
-
-    _resetRules: {
-        value: function () {
-            if (this.rules) {
-                var rule;
-
-                for (var i = 0, l = this.rules.length; i < length; i++) {
-                    rule = this.rules[i];
-                    rule.values.clear();
-                    rule.type = Rule.TYPES.EVERY;
                 }
             }
         }
@@ -119,21 +92,21 @@ exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRu
     handleAddRuleButtonAction: {
         value: function () {
             var rule = {};
-            this.userRules.push(rule);
+            this.rules.push(rule);
         }
     },
 
     handleClearAllButtonAction: {
         value: function () {
-            this.userRules = [];
+            this.rules = [];
         }
     },
 
-    handleRemoveRuleButtonAction: {
-        value: function (event) {
-            var iteration = this._rules._findIterationContainingElement(event.target.element);
-            if(iteration) {
-                this.userRules.splice(iteration.index, 1);
+    removeRule: {
+        value: function (rule) {
+            var ruleIndex = this.rules.indexOf(rule);
+            if(ruleIndex > -1) {
+                this.rules.splice(ruleIndex, 1);
             }
         }
     }
