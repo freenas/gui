@@ -88,6 +88,7 @@ exports.VirtualMachine = Component.specialize({
             }
         }
     },
+
     _templateName: {
         value: null
     },
@@ -156,8 +157,11 @@ exports.VirtualMachine = Component.specialize({
             if (!this.object.guest_type) {
                 this.object.guest_type = "other";
             }
-            if (!this.object._isNew){
+            if (!this.object._isNew) {
                 loadingPromises.push(this._loadWebvncConsole());
+            }
+            if (this.object._isNew) {
+                this.object.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
             }
             Promise.all(loadingPromises).then(function() {
                 self.isLoading = false;
@@ -180,6 +184,7 @@ exports.VirtualMachine = Component.specialize({
             this.object.config.ncpus = template.config.ncpus;
             this.object.template = {name: template.template.name};
             this.object.guest_type = template.guest_type;
+            // FIXME: Contaminates the template
             this.object.devices = template.devices;
         }
     },
