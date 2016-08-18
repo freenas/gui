@@ -53,6 +53,7 @@ exports.CascadingList = Component.specialize({
             this._resetCascadingListItemAtIndex(this._currentIndex);
             this._stack.pop();
             this._currentIndex--;
+            this._selectionService.saveSectionSelection(this.application.section, this._getSelectionPath());
         }
     },
 

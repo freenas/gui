@@ -78,22 +78,12 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
             }
 
-            if (Promise.is(promise)) {
-                if (this._isCreationInspector()) {
-                    this.object.__isLocked = true;
+            if (this._isCreationInspector()) {
+                this.object.__isLocked = true;
+                var viewer = this._findParentViewer();
+                if (viewer) {
+                    viewer.cascadingListItem.selectedObject = null;
                 }
-
-                promise.then(function() {
-                    if (self.keys && self.keys.length > 0) {
-                        return self._selectObjectInViewer();
-                    } else {
-                        return self._resetCreateInspectorIfNeeded();
-                    }
-                }).finally(function () {
-                    self.object.__isLocked = false;
-                });
-            } else {
-                return self._resetCreateInspectorIfNeeded();
             }
 
             event.stopPropagation();
@@ -103,44 +93,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     save: {
         value: function() {
             return this.application.dataService.saveDataObject(this.object).catch(this._logError);
-        }
-    },
-
-    _selectObjectInViewer: {
-        value: function() {
-            var self = this,
-                objectOpen = false;
-            if (this._isCreationInspector()) {
-                var viewer = this._findParentViewer();
-                if (viewer) {
-                    var currentObject = viewer.object.filter(function(x) { return self._areKeysIdentical(x); })[0];
-                    if (currentObject) {
-                        viewer.cascadingListItem.selectedObject = currentObject;
-                        objectOpen = true;
-                    }
-                }
-                if (!objectOpen) {
-                    this._resetCreateInspectorIfNeeded();
-                }
-            }
-        }
-    },
-
-    _areKeysIdentical: {
-        value: function(viewerObject) {
-            var result = false,
-                key;
-            if (this.keys && this.object) {
-                result = true;
-                for (var i = 0, length = this.keys.length; i < length; i++) {
-                    key = this.keys[i];
-                    if (this.object[key] !== viewerObject[key]) {
-                        result = false;
-                        break;
-                    }
-                }
-            }
-            return result;
         }
     },
 
@@ -170,34 +122,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
                 return self.object;
             });
-        }
-    },
-
-    _resetCreateInspectorIfNeeded: {
-        value: function () {
-            if (this._isCreationInspector()) {
-                var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this),
-                    context = cascadingListItem.data,
-                    contextObject = context.object,
-                    type = contextObject.constructor.Type;
-
-                return this.application.dataService.getNewInstanceForType(type).then(function (newInstance) {
-                    if (Model.NetworkInterface === type) { // FIXME!
-                        newInstance.type = contextObject.type;
-                        newInstance._isNewObject = true;
-                        newInstance.aliases = [];
-                        newInstance.name = "";
-                    }
-
-                    context._isNewObject = contextObject._isNewObject;
-                    context._isNew = contextObject._isNew;
-
-                    // context.object -> dispatch changes through bindings.
-                    context.object = newInstance;
-                });
-            }
-
-            return Promise.resolve();
         }
     },
 
