@@ -8,6 +8,24 @@ var AbstractComponentActionDelegate = require("core/ui/abstract-component-action
  * @extends Component
  */
 exports.TreeView = AbstractComponentActionDelegate.specialize({
+    _isExpanded: {
+        value: null
+    },
+
+    isExpanded: {
+        get: function() {
+            return this._isExpanded;
+        },
+        set: function(isExpanded) {
+            this._isExpanded = isExpanded;
+            if (isExpanded) {
+                if (this._controller) {
+                    this._controller.open(this._selectedPath);
+                }
+            }
+        }
+    },
+
     _selectedPath: {
         value: null
     },
