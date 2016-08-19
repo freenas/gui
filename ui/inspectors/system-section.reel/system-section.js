@@ -45,5 +45,11 @@ exports.SystemSection = Component.specialize({
 
     canRevert: {
         value: null
+    },
+
+    enterDocument: {
+        value: function (isFirstTime) {
+            this.classList.toggle(this.object.identifier);
+        }
     }
 });
