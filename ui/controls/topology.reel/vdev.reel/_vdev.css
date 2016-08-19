@@ -2,17 +2,26 @@
     position: relative;
     border-bottom-left-radius:  4px;
     border-bottom-right-radius: 4px;
-    border-color: transparent;
-    border: 1px dashed transparent;
     min-width: 5.5em;
 
-    &.willAcceptDrop {
-        animation-direction: normal;
-        animation-duration: 1s;
-        animation-iteration-count: infinite;
-        animation-name: blink;
-        animation-timing-function: ease;
-        border-style: dashed;
+    &:before {
+        position: absolute;
+        content: '';
+        top:    1.75em;
+        left:   0;
+        right:  0;
+        bottom: 0;
+    }
+
+    &.willAcceptDrop:before {
+        animation: blink 1s infinite ease;
+        border: 1px dashed rgba(43,156,216,1);
+    }
+
+    &.acceptDrop:before {
+        background-image: repeating-linear-gradient(-45deg, rgba(43,156,216,0.75), rgba(43,156,216,0.75) 1px, transparent 1px, transparent 10px);
+        background-size: 28px 28px;
+        border: 1px dashed rgba(43,156,216,1);
     }
 }
 
@@ -29,7 +38,6 @@
     display: flex;
     flex-direction: column;
     padding: .25em;
-    /* text-align: center; */
 }
 
 .Vdev .Grid-icon.LabeledIcon .LabeledIcon-image {
@@ -39,11 +47,6 @@
 .Vdev .LabeledIcon-title {
     /* overrides removing the container icon label */
     display: block !important;
-}
-
-.Vdev.acceptDrop {
-    border-color: rgba(43,156,216,1);
-    background-color: rgba(43,156,216,0.1);
 }
 
 .Vdev-grid {
