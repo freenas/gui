@@ -31,6 +31,15 @@
                 "options" : {"<-": "@owner.keymapsOptions"},
                 "selectedValue": {"<->": "@owner.keymapsData.console_keymap"}
             }
+        },
+        "timezonepicker": {
+            "prototype": "ui/controls/timezone-picker.reel",
+            "properties": {
+                "element": {"#": "timezonepicker"}
+            },
+            "bindings": {
+                "timezone": {"<->": "@owner.timezoneData.timezone"}
+            }
         }
     }
     </script>
@@ -39,6 +48,7 @@
     <div data-montage-id="owner" class="LanguageAndRegion">
         <div data-montage-id="timezones"></div>
         <div data-montage-id="keymaps"></div>
+        <div data-montage-id="timezonepicker"></div>
     </div>
 </body>
 </html>
