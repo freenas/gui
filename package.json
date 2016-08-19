@@ -11,7 +11,8 @@
     "montage-data": "montagestudio/montage-data#647f5208fcefbc89c405d1afea205c8184fddeda",
     "plottable": "^2.2.0",
     "validators": "~0.3.1",
-    "xterm": "^1.0.0"
+    "xterm": "^1.0.0",
+    "maphilight": "~1.2.3"
   },
   "devDependencies": {
     "browser-sync": "^2.13.0",
