@@ -29,6 +29,13 @@
             "bindings": {
                 "checked": {"<->": "@owner.object.uploadcrash"}
             }
+        },
+        "launchDebugger": {
+            "prototype": "blue-shark/ui/field-toggle-switch.reel",
+            "properties": {
+                "element": {"#": "launchDebugger"},
+                "label": "Remote Debug"
+            }
         }
     }
     </script>
@@ -37,6 +44,7 @@
     <div data-montage-id="owner" class="Debug">
         <div data-montage-id="enable_debug_kernel"></div>
         <div data-montage-id="uploadcrash"></div>
+        <div data-montage-id="launchDebugger"></div>
     </div>
 </body>
 </html>
