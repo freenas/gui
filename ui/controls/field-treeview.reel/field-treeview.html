@@ -16,10 +16,12 @@
         "field": {
             "prototype": "blue-shark/ui/field.reel",
             "properties": {
-                "element": {"#": "field"}
+                "element": {"#": "field"},
+                "errorMessage": "Invalid path"
             },
             "bindings": {
-                "label": {"<-": "@owner.label"}
+                "label": {"<-": "@owner.label"},
+                "hasError": {"<-": "@treeview.isPathInvalid"}
             }
         },
         "pathButton": {

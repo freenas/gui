@@ -66,8 +66,12 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         }
     },
 
+    isPathInvalid: {
+        value: false
+    },
+
     open: {
-        value: function(path) {
+        value: function(path, isPathInvalid) {
             var self = this,
                 root = this.root || '/',
                 isDefault = !path;
@@ -86,6 +90,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                 self.ancestors = null
             }
             return this._service.listDir(path).then(function(children) {
+                self.isPathInvalid = !!isPathInvalid;
                 self.entry = {
                     path: path,
                     name: self._service.basename(path),
@@ -104,6 +109,9 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                     }
                 }
                 return self.entry;
+            },
+            function() {
+                self.open(root, true);
             });
         }
     },

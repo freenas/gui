@@ -140,7 +140,12 @@ exports.DatasetTreeController = Montage.specialize({
                 }
             }
             if (this.entry) {
-                this.entry = this._findEntry(this.entry.path);
+                var newEntry = this._findEntry(this.entry.path);
+                if (newEntry) {
+                    this.entry = newEntry;
+                } else {
+                    this.entry = this._findEntry(this.root);
+                }
             }
         }
     },
