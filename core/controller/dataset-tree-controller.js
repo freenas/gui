@@ -74,21 +74,22 @@ exports.DatasetTreeController = Montage.specialize({
 
     open: {
         value: function (path) {
-            var self = this,
-                treePromise;
+            var self = this;
             path = path || this.root;
-            if (this._tree) {
-                treePromise = Promise.resolve(this._tree);
-            } else {
-                if (!this._datasetsPromise) {
-                    this._datasetsPromise = this._service.fetchData(Model.VolumeDataset);
-                }
-
-                treePromise = this._datasetsPromise.then(function (rawDatasets) {
-                    self._datasets = rawDatasets;
-                    return self._buildDatasetsTree();
-                });
+            if (!this._datasetsPromise) {
+                this._datasetsPromise = this._service.fetchData(Model.VolumeDataset);
             }
+
+            var treePromise = this._datasetsPromise.then(function (rawDatasets) {
+                self._datasets = rawDatasets;
+                self._datasetsPromise = null;
+                self._buildDatasetsTree();
+                if (!self._hasDatasetListener) {
+                    self.addRangeAtPathChangeListener("_datasets", self, "_buildDatasetsTree");
+                    self._hasDatasetListener = true;
+                }
+                return null;
+            });
 
             return treePromise.then(function () {
                 self.entry = path ? self._findEntry(path) : self._tree;
@@ -138,6 +139,9 @@ exports.DatasetTreeController = Montage.specialize({
                     }
                 }
             }
+            if (this.entry) {
+                this.entry = this._findEntry(this.entry.path);
+            }
         }
     },
 
@@ -163,12 +167,6 @@ exports.DatasetTreeController = Montage.specialize({
                 depth++;
             }
             return entry;
-        }
-    },
-
-    _handleDatasetsPathsChange: {
-        value: function() {
-            this._buildDatasetsTree();
         }
     }
 });
