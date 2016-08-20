@@ -242,7 +242,8 @@ var WidgetDropzone = exports.WidgetDropzone = AbstractDropZoneComponent.speciali
                 var placeHolder = this._placeHolderAnchor,
                     placeHolderAnchorBoundingClientRect = placeHolder.getBoundingClientRect();
 
-                this._shouldInsertBeforePlaceHolder = this._placeHolderAnchorPosition.x <
+                this._shouldInsertBeforePlaceHolder = !window.matchMedia("(min-width:65em)").matches ? this._placeHolderAnchorPosition.y <
+                    placeHolderAnchorBoundingClientRect.top + (placeHolderAnchorBoundingClientRect.height/2) : this._placeHolderAnchorPosition.x <
                     placeHolderAnchorBoundingClientRect.left + (placeHolderAnchorBoundingClientRect.width/2);
 
                 if (this._widgetPlaceHolderElement && this._widgetPlaceHolderElement.parentNode) {
