@@ -33,7 +33,6 @@ exports.User = Component.specialize({
                 if (typeof object.uid != 'number') {
                     this._getNextAvailableUserId();
                 }
-                this._openHomeDirectory();
             }
         }
     },
@@ -52,7 +51,9 @@ exports.User = Component.specialize({
                 loadingPromises = [],
                 shell;
             this.isLoading = true;
-            loadingPromises.push(this._openHomeDirectory());
+            if (this._object._isNew) {
+                loadingPromises.push(this._openHomeDirectory(this._object));
+            }
             if (isFirstTime) {
                 loadingPromises.push(this._getShellOptions());
             }
@@ -84,17 +85,17 @@ exports.User = Component.specialize({
                     self._getNextAvailableUserId();
                 }
                 self._object.password = null;
-                return self._openHomeDirectory();
+                return null;
             });
         }
     },
 
     _openHomeDirectory: {
-        value: function() {
+        value: function(user) {
             if (this.treeController) {
                 var self = this;
-                return this.treeController.open(this._object.home).then(function() {
-                    return self._object.home = self.treeController.selectedPath;
+                return this.treeController.open().then(function() {
+                    return user.home = self.treeController.selectedPath;
                 });
             }
         }
