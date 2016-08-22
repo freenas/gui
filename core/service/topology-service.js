@@ -281,6 +281,13 @@ var TopologyService = exports.TopologyService = Montage.specialize({
                     }
                 }
             }
+            var i, length, vdev;
+            for (i = 0, length = vdevs.length; i < length; i++) {
+                vdev = vdevs[i];
+                if (vdev.children && vdev.children.length == 1) {
+                    vdev.type = 'disk';
+                }
+            }
             return vdevs;
         }
     },
@@ -328,52 +335,56 @@ var TopologyService = exports.TopologyService = Montage.specialize({
 
     generateTopology: {
         value: function(topology, disks, redundancy, speed, storage) {
-            var vdevRecommendation,
-                newTopology,
-                disksGroups = this._getDisksGroups(disks),
-                dataDisks = disksGroups.shift();
+            if (disks && disks.length > 0) {
+                var vdevRecommendation,
+                    newTopology,
+                    disksGroups = this._getDisksGroups(disks),
+                    dataDisks = disksGroups.shift();
 
-            if (dataDisks.length > 3) {
-                vdevRecommendation = this._getVdevRecommendation(redundancy, speed, storage);
-            } else if (dataDisks.length > 2) {
-                vdevRecommendation = {
-                    recommendation: {
-                        type: 'raidz1',
-                        drives: 3
-                    },
-                    priorities: []
-                };
+                if (dataDisks.length > 3) {
+                    vdevRecommendation = this._getVdevRecommendation(redundancy, speed, storage);
+                } else if (dataDisks.length > 2) {
+                    vdevRecommendation = {
+                        recommendation: {
+                            type: 'raidz1',
+                            drives: 3
+                        },
+                        priorities: []
+                    };
+                } else {
+                    vdevRecommendation = {
+                        recommendation: {
+                            type: 'mirror',
+                            drives: 2
+                        },
+                        priorities: []
+                    };
+                }
+
+                this._clearDisks(disks);
+
+                //Avoid to create garbage and to dispatch useless changes.
+                if (topology.cache.length) {
+                    topology.cache = [];
+                }
+
+                if (topology.log.length) {
+                    topology.log = [];
+                }
+
+                if (topology.spare.length) {
+                    topology.spare = [];
+                }
+
+                newTopology = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
+                if (this._areVdevDifferents(newTopology, topology.data)) {
+                    topology.data = newTopology;
+                }
+
+                return vdevRecommendation.priorities;
             } else {
-                vdevRecommendation = {
-                    recommendation: {
-                        type: 'mirror',
-                        drives: 2
-                    },
-                    priorities: []
-                };
+                return topology;
             }
-
-            this._clearDisks(disks);
-
-            //Avoid to create garbage and to dispatch useless changes.
-            if (topology.cache.length) {
-                topology.cache = [];
-            }
-
-            if (topology.log.length) {
-                topology.log = [];
-            }
-
-            if (topology.spare.length) {
-                topology.spare = [];
-            }
-
-            newTopology = this._buildDataVdevsWithDisks(vdevRecommendation.recommendation.type, vdevRecommendation.recommendation.drives, dataDisks);
-            if (this._areVdevDifferents(newTopology, topology.data)) {
-                topology.data = newTopology;
-            }
-
-            return vdevRecommendation.priorities;
         }
     }
 }, {
