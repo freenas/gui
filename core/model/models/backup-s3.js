@@ -99,7 +99,8 @@ exports.BackupS3 = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "secret_key"
+            name: "secret_key",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "type"

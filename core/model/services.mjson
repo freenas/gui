@@ -317,6 +317,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "deleteImage": {
+                "method": "containerd.docker.delete_image",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getHostStatus": {
                 "method": "containerd.docker.get_host_status",
                 "name": "call",
@@ -391,6 +396,39 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "crypto.certificate.update"
+            }
+        }
+    },
+    "DebugRemote": {
+        "class": {
+            "getStatus": {
+                "method": "debug.remote.get_status",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "DebugdManagement": {
+        "class": {
+            "connect": {
+                "method": "debugd.management.connect",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "disconnect": {
+                "method": "debugd.management.disconnect",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "status": {
+                "method": "debugd.management.status",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "upload": {
+                "method": "debugd.management.upload",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
@@ -550,11 +588,42 @@
         }
     },
     "DockerContainer": {
+        "class": {
+            "requestSerialConsole": {
+                "method": "docker.container.request_serial_console",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
         "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.container.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.container.delete"
+            },
             "read": {
                 "method": "docker.container.query",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "start": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.container.start"
+            },
+            "stop": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.container.stop"
             }
         }
     },
@@ -569,11 +638,6 @@
     },
     "DockerImage": {
         "class": {
-            "getHubImage": {
-                "method": "docker.image.get_hub_image",
-                "name": "call",
-                "namespace": "rpc"
-            },
             "readme": {
                 "method": "docker.image.readme",
                 "name": "call",
@@ -586,6 +650,12 @@
             }
         },
         "instance": {
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.image.delete"
+            },
             "pull": {
                 "method": "task.submit",
                 "name": "call",
@@ -1455,6 +1525,55 @@
             },
             "waitForService": {
                 "method": "plugin.wait_for_service",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "Replication": {
+        "instance": {
+            "create": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "name",
+                        "partners",
+                        "master",
+                        "datasets",
+                        "replicate_services",
+                        "bidirectional",
+                        "auto_recover",
+                        "recursive"
+                    ]
+                },
+                "task": "replication.create"
+            },
+            "delete": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.delete"
+            },
+            "sync": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.sync"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "replication.update"
+            }
+        }
+    },
+    "ReplicationLink": {
+        "instance": {
+            "read": {
+                "method": "replication.link.query",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -2712,43 +2831,8 @@
     },
     "Vm": {
         "class": {
-            "generateMac": {
-                "method": "vm.generate_mac",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getDataset": {
-                "method": "vm.get_dataset",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getDependencies": {
-                "method": "vm.get_dependencies",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getDependentDatasets": {
-                "method": "vm.get_dependent_datasets",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getDiskPath": {
-                "method": "vm.get_disk_path",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getReservedDatasets": {
-                "method": "vm.get_reserved_datasets",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getVmRoot": {
-                "method": "vm.get_vm_root",
-                "name": "call",
-                "namespace": "rpc"
-            },
-            "getVolumePath": {
-                "method": "vm.get_volume_path",
+            "requestSerialConsole": {
+                "method": "vm.request_serial_console",
                 "name": "call",
                 "namespace": "rpc"
             },
@@ -2815,13 +2899,6 @@
         }
     },
     "VmSnapshot": {
-        "class": {
-            "getDependentDatasets": {
-                "method": "vm.snapshot.get_dependent_datasets",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        },
         "instance": {
             "create": {
                 "method": "task.submit",
@@ -3068,12 +3145,17 @@
                         "id"
                     ],
                     "requiredFields": [
-                        "volume",
                         "dataset",
                         "name"
                     ]
                 },
                 "task": "volume.snapshot.create"
+            },
+            "dataset": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "volume.snapshot_dataset"
             },
             "delete": {
                 "method": "task.submit",

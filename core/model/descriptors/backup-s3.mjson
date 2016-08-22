@@ -35,7 +35,8 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "secret_key",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_backups3_type": {

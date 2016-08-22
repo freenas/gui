@@ -169,8 +169,20 @@
             "type": "DockerConfig"
         },
         {
-            "modelId": "core/model/models/docker-environment.js",
-            "type": "DockerEnvironment"
+            "modelId": "core/model/models/docker-container-environment.js",
+            "type": "DockerContainerEnvironment"
+        },
+        {
+            "modelId": "core/model/models/docker-container.js",
+            "type": "DockerContainer"
+        },
+        {
+            "modelId": "core/model/models/docker-host-status.js",
+            "type": "DockerHostStatus"
+        },
+        {
+            "modelId": "core/model/models/docker-host.js",
+            "type": "DockerHost"
         },
         {
             "modelId": "core/model/models/docker-hub-image.js",
@@ -183,10 +195,6 @@
         {
             "modelId": "core/model/models/docker-volume.js",
             "type": "DockerVolume"
-        },
-        {
-            "modelId": "core/model/models/docker.js",
-            "type": "Docker"
         },
         {
             "modelId": "core/model/models/encrypt-plugin.js",
@@ -349,12 +357,28 @@
             "type": "PowerChanged"
         },
         {
+            "modelId": "core/model/models/remote-debug-status.js",
+            "type": "RemoteDebugStatus"
+        },
+        {
             "modelId": "core/model/models/replication-credentials.js",
             "type": "ReplicationCredentials"
         },
         {
+            "modelId": "core/model/models/replication-link.js",
+            "type": "ReplicationLink"
+        },
+        {
+            "modelId": "core/model/models/replication-status.js",
+            "type": "ReplicationStatus"
+        },
+        {
             "modelId": "core/model/models/replication-transport.js",
             "type": "ReplicationTransport"
+        },
+        {
+            "modelId": "core/model/models/replication.js",
+            "type": "Replication"
         },
         {
             "modelId": "core/model/models/rsync-copy-rsync-properties.js",
@@ -529,6 +553,10 @@
             "type": "SimulatorDisk"
         },
         {
+            "modelId": "core/model/models/snapshot-info.js",
+            "type": "SnapshotInfo"
+        },
+        {
             "modelId": "core/model/models/ssh-credentials.js",
             "type": "SshCredentials"
         },
@@ -631,6 +659,10 @@
         {
             "modelId": "core/model/models/user-attributes.js",
             "type": "UserAttributes"
+        },
+        {
+            "modelId": "core/model/models/user-origin.js",
+            "type": "UserOrigin"
         },
         {
             "modelId": "core/model/models/user.js",

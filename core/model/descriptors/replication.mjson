@@ -1,0 +1,65 @@
+{
+  "blueprint_replication_followdelete": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "followdelete",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_lifetime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "lifetime",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_replication_recursive": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recursive",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_remote": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_remote_dataset": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "remote_dataset",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_transport_plugins": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "transport_plugins",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ReplicationTransportPlugin"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "Replication",
+      "propertyBlueprints": [
+        {"@": "blueprint_replication_followdelete"},
+        {"@": "blueprint_replication_lifetime"},
+        {"@": "blueprint_replication_recursive"},
+        {"@": "blueprint_replication_remote"},
+        {"@": "blueprint_replication_remote_dataset"},
+        {"@": "blueprint_replication_transport_plugins"}
+      ]
+    }
+  }
+}

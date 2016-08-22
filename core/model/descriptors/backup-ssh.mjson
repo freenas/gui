@@ -53,7 +53,8 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "username",
-      "blueprint": {"@": "root"}
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {

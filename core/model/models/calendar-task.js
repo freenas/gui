@@ -14,19 +14,6 @@ exports.CalendarTask = AbstractModel.specialize({
             return this._args;
         }
     },
-    _description: {
-        value: null
-    },
-    description: {
-        set: function (value) {
-            if (this._description !== value) {
-                this._description = value;
-            }
-        },
-        get: function () {
-            return this._description;
-        }
-    },
     _enabled: {
         value: null
     },
@@ -117,6 +104,19 @@ exports.CalendarTask = AbstractModel.specialize({
         get: function () {
             return this._status;
         }
+    },
+    _task: {
+        value: null
+    },
+    task: {
+        set: function (value) {
+            if (this._task !== value) {
+                this._task = value;
+            }
+        },
+        get: function () {
+            return this._task;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -124,10 +124,6 @@ exports.CalendarTask = AbstractModel.specialize({
             mandatory: false,
             name: "args",
             valueType: "array"
-        }, {
-            mandatory: false,
-            name: "description",
-            valueType: "String"
         }, {
             mandatory: false,
             name: "enabled",
@@ -157,6 +153,10 @@ exports.CalendarTask = AbstractModel.specialize({
             name: "status",
             valueObjectPrototypeName: "CalendarTaskStatus",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "task",
+            valueType: "String"
         }]
     },
     userInterfaceDescriptor: {

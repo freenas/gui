@@ -1,0 +1,46 @@
+{
+  "blueprint_replicationstatus_message": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "message",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationstatus_size": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "size",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_replicationstatus_speed": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "speed",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_replicationstatus_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ReplicationStatus",
+      "propertyBlueprints": [
+        {"@": "blueprint_replicationstatus_message"},
+        {"@": "blueprint_replicationstatus_size"},
+        {"@": "blueprint_replicationstatus_speed"},
+        {"@": "blueprint_replicationstatus_status"}
+      ]
+    }
+  }
+}

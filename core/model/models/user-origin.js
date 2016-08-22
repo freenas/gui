@@ -1,24 +1,24 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.VmStatusLease = AbstractModel.specialize({
-    _client_ip: {
+exports.UserOrigin = AbstractModel.specialize({
+    _directory: {
         value: null
     },
-    client_ip: {
+    directory: {
         set: function (value) {
-            if (this._client_ip !== value) {
-                this._client_ip = value;
+            if (this._directory !== value) {
+                this._directory = value;
             }
         },
         get: function () {
-            return this._client_ip;
+            return this._directory;
         }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "client_ip",
+            name: "directory",
             valueType: "String"
         }]
     }

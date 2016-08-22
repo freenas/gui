@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Docker = AbstractModel.specialize({
+exports.DockerContainer = AbstractModel.specialize({
     _command: {
         value: null
     },
@@ -105,17 +105,17 @@ exports.Docker = AbstractModel.specialize({
             return this._memory_limit;
         }
     },
-    _name: {
+    _names: {
         value: null
     },
-    name: {
+    names: {
         set: function (value) {
-            if (this._name !== value) {
-                this._name = value;
+            if (this._names !== value) {
+                this._names = value;
             }
         },
         get: function () {
-            return this._name;
+            return this._names;
         }
     },
     _ports: {
@@ -129,6 +129,19 @@ exports.Docker = AbstractModel.specialize({
         },
         get: function () {
             return this._ports;
+        }
+    },
+    _status: {
+        value: null
+    },
+    status: {
+        set: function (value) {
+            if (this._status !== value) {
+                this._status = value;
+            }
+        },
+        get: function () {
+            return this._status;
         }
     },
     _volumes: {
@@ -180,12 +193,16 @@ exports.Docker = AbstractModel.specialize({
             valueType: "number"
         }, {
             mandatory: false,
-            name: "name",
-            valueType: "String"
+            name: "names",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "ports",
             valueType: "array"
+        }, {
+            mandatory: false,
+            name: "status",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "volumes",

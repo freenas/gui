@@ -99,7 +99,8 @@ exports.AmazonS3Credentials = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "secret_key"
+            name: "secret_key",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "type"

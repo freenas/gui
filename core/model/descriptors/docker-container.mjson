@@ -1,5 +1,5 @@
 {
-  "blueprint_docker_command": {
+  "blueprint_dockercontainer_command": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "command",
@@ -7,7 +7,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_docker_environment": {
+  "blueprint_dockercontainer_environment": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "environment",
@@ -15,7 +15,7 @@
       "valueType": "object"
     }
   },
-  "blueprint_docker_expose_ports": {
+  "blueprint_dockercontainer_expose_ports": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "expose_ports",
@@ -23,7 +23,7 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_docker_host": {
+  "blueprint_dockercontainer_host": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "host",
@@ -31,7 +31,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_docker_hostname": {
+  "blueprint_dockercontainer_hostname": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "hostname",
@@ -39,7 +39,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_docker_id": {
+  "blueprint_dockercontainer_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "id",
@@ -47,7 +47,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_docker_image": {
+  "blueprint_dockercontainer_image": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "image",
@@ -55,7 +55,7 @@
       "valueType": "String"
     }
   },
-  "blueprint_docker_memory_limit": {
+  "blueprint_dockercontainer_memory_limit": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "memory_limit",
@@ -63,15 +63,15 @@
       "valueType": "number"
     }
   },
-  "blueprint_docker_name": {
+  "blueprint_dockercontainer_names": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "name",
+      "name": "names",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
-  "blueprint_docker_ports": {
+  "blueprint_dockercontainer_ports": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "ports",
@@ -79,7 +79,15 @@
       "valueType": "array"
     }
   },
-  "blueprint_docker_volumes": {
+  "blueprint_dockercontainer_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockercontainer_volumes": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "volumes",
@@ -91,19 +99,20 @@
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
-      "name": "Docker",
+      "name": "DockerContainer",
       "propertyBlueprints": [
-        {"@": "blueprint_docker_command"},
-        {"@": "blueprint_docker_environment"},
-        {"@": "blueprint_docker_expose_ports"},
-        {"@": "blueprint_docker_host"},
-        {"@": "blueprint_docker_hostname"},
-        {"@": "blueprint_docker_id"},
-        {"@": "blueprint_docker_image"},
-        {"@": "blueprint_docker_memory_limit"},
-        {"@": "blueprint_docker_name"},
-        {"@": "blueprint_docker_ports"},
-        {"@": "blueprint_docker_volumes"}
+        {"@": "blueprint_dockercontainer_command"},
+        {"@": "blueprint_dockercontainer_environment"},
+        {"@": "blueprint_dockercontainer_expose_ports"},
+        {"@": "blueprint_dockercontainer_host"},
+        {"@": "blueprint_dockercontainer_hostname"},
+        {"@": "blueprint_dockercontainer_id"},
+        {"@": "blueprint_dockercontainer_image"},
+        {"@": "blueprint_dockercontainer_memory_limit"},
+        {"@": "blueprint_dockercontainer_names"},
+        {"@": "blueprint_dockercontainer_ports"},
+        {"@": "blueprint_dockercontainer_status"},
+        {"@": "blueprint_dockercontainer_volumes"}
       ]
     }
   }

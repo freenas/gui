@@ -1,0 +1,119 @@
+{
+  "blueprint_replicationlink_auto_recover": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auto_recover",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replicationlink_bidirectional": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bidirectional",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replicationlink_datasets": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "datasets",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_replicationlink_id": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "id",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationlink_initial_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "initial_master",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationlink_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "master",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationlink_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replicationlink_partners": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "partners",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_replicationlink_recursive": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "recursive",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replicationlink_replicate_services": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "replicate_services",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replicationlink_status": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "ReplicationStatus"
+    }
+  },
+  "blueprint_replicationlink_update_date": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "update_date",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ReplicationLink",
+      "propertyBlueprints": [
+        {"@": "blueprint_replicationlink_auto_recover"},
+        {"@": "blueprint_replicationlink_bidirectional"},
+        {"@": "blueprint_replicationlink_datasets"},
+        {"@": "blueprint_replicationlink_id"},
+        {"@": "blueprint_replicationlink_initial_master"},
+        {"@": "blueprint_replicationlink_master"},
+        {"@": "blueprint_replicationlink_name"},
+        {"@": "blueprint_replicationlink_partners"},
+        {"@": "blueprint_replicationlink_recursive"},
+        {"@": "blueprint_replicationlink_replicate_services"},
+        {"@": "blueprint_replicationlink_status"},
+        {"@": "blueprint_replicationlink_update_date"}
+      ]
+    }
+  }
+}

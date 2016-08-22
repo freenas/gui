@@ -355,7 +355,8 @@ exports.User = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "origin"
+            name: "origin",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "password",

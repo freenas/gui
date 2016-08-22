@@ -1,3 +1,3 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.DockerEnvironment = AbstractModel.specialize();
+exports.DockerContainerEnvironment = AbstractModel.specialize();

@@ -119,7 +119,8 @@ exports.BackupSsh = AbstractModel.specialize({
             name: "type"
         }, {
             mandatory: false,
-            name: "username"
+            name: "username",
+            valueType: "String"
         }]
     }
 });
