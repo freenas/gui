@@ -6,7 +6,12 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "filters": [
+                    {"value": "one", "label": "One", "checked": false},
+                    {"value": "two", "label": "Two", "checked": false},
+                    {"value": "three", "label": "Three", "checked": true}
+                ]
             },
             "bindings": {
                 "selectedObject": {"<->": "@list.selectedObject"},
@@ -43,6 +48,15 @@
                 "element": {"#": "scrollView"},
                 "overflow": "scrollY"
             }
+        },
+        "controls": {
+            "prototype": "./viewer-controls.reel",
+            "properties": {
+                "element": {"#": "controls"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.filters"}
+            }
         }
     }
     </script>
@@ -51,6 +65,7 @@
     <div data-montage-id="owner" class="Viewer">
         <div data-montage-id="scrollView">
             <div class="content">
+                <div data-montage-id="controls" class="Viewer-controls"></div>
                 <div data-montage-id="list" class="Viewer-list"></div>
             </div>
             <div class="Viewer-footer">
