@@ -39,7 +39,7 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.taskCategories"},
-                "selectedValue": {"<->": "@owner.object.name"}
+                "selectedValue": {"<->": "@owner.object.task"}
             }
         },
         "id": {
@@ -59,7 +59,7 @@
                 "label": "Description"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.task"}
+                "value": {"<->": "@owner.object.name"}
             }
         },
         "args": {
@@ -68,7 +68,7 @@
                 "element": {"#": "args"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.object.name"}
+                "switchValue": {"<-": "@owner.object.task"}
             }
         },
         "cron": {
