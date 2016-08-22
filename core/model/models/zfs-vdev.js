@@ -97,10 +97,12 @@ exports.ZfsVdev = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "stats",
+            readOnly: true,
             valueType: "object"
         }, {
             mandatory: false,
             name: "status",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,

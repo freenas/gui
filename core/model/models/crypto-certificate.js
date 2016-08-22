@@ -348,6 +348,7 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "certificate_path",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -368,6 +369,7 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "csr_path",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -377,6 +379,7 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "dn",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -413,6 +416,7 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "privatekey_path",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -442,10 +446,12 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "valid_from",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
             name: "valid_until",
+            readOnly: true,
             valueType: "String"
         }]
     }

@@ -61,8 +61,8 @@ var createModelWithDescriptor = exports.createModelWithDescriptor = function cre
                     }
                 }
 
-                if (property.properties.readyOnly) {
-                    propertyDescriptor.readyOnly = true;
+                if (property.properties.readOnly) {
+                    propertyDescriptor.readOnly = true;
                 }
 
                 model.properties.push(propertyDescriptor);

@@ -640,27 +640,29 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
                 for (var i = 0, length = propertyDescriptors.length; i < length; i++) {
                     propertyDescriptor = propertyDescriptors[i];
-                    key = propertyDescriptor.name;
-                    propertyValue = object[key];
-                    isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
+                    if (!propertyDescriptor.readOnly) {
+                        key = propertyDescriptor.name;
+                        propertyValue = object[key];
+                        isPropertyValueNullified = propertyValue === null || propertyValue === void 0;
 
-                    if (propertyDescriptor.mandatory && isPropertyValueNullified) {
-                        //FIXME: when montage-data will catch errors.
-                        console.error("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
-                    }
+                        if (propertyDescriptor.mandatory && isPropertyValueNullified) {
+                            //FIXME: when montage-data will catch errors.
+                            console.error("missing mandatory field '" + key + "' for type: '" + type.typeName + "'");
+                        }
 
-                    if (hasRestrictions) {
-                        if (forbiddenFields.indexOf(key) === -1) {
-                            requiredFieldIndex = requiredFields.indexOf(key);
-                            if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
-                                unsatisfiedRequiredFieldsCount--;
-                                requiredFields.splice(requiredFieldIndex, 1);
+                        if (hasRestrictions) {
+                            if (forbiddenFields.indexOf(key) === -1) {
+                                requiredFieldIndex = requiredFields.indexOf(key);
+                                if (requiredFieldIndex > -1 && !isPropertyValueNullified) {
+                                    unsatisfiedRequiredFieldsCount--;
+                                    requiredFields.splice(requiredFieldIndex, 1);
+                                }
+
+                                this._mapPropertyToRawDataForAction(data, object, key, action);
                             }
-
+                        } else {
                             this._mapPropertyToRawDataForAction(data, object, key, action);
                         }
-                    } else {
-                        this._mapPropertyToRawDataForAction(data, object, key, action);
                     }
                 }
 

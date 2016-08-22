@@ -53,6 +53,7 @@ exports.Update = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "update_server",
+            readOnly: true,
             valueType: "String"
         }]
     }

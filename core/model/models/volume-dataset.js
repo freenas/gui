@@ -170,6 +170,7 @@ exports.VolumeDataset = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "mountpoint",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -197,6 +198,7 @@ exports.VolumeDataset = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "temp_mountpoint",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,

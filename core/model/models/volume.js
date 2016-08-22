@@ -184,6 +184,7 @@ exports.Volume = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "guid",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -204,11 +205,13 @@ exports.Volume = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "properties",
+            readOnly: true,
             valueObjectPrototypeName: "VolumeProperties",
             valueType: "object"
         }, {
             mandatory: false,
             name: "providers_presence",
+            readOnly: true,
             valueObjectPrototypeName: "VolumeProviderspresence",
             valueType: "object"
         }, {

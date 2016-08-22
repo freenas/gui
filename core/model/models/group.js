@@ -84,6 +84,7 @@ exports.Group = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "builtin",
+            readOnly: true,
             valueType: "boolean"
         }, {
             mandatory: false,
@@ -96,6 +97,7 @@ exports.Group = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "members",
+            readOnly: true,
             valueType: "array"
         }, {
             mandatory: false,

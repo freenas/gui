@@ -63,6 +63,7 @@ exports.VolumePropertyDelegation = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "rawvalue",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,

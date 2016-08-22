@@ -157,6 +157,7 @@ exports.Share = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "filesystem_path",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,

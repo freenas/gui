@@ -101,6 +101,7 @@ exports.BootEnvironment = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "created",
+            readOnly: true,
             valueType: "datetime"
         }, {
             mandatory: false,
@@ -109,18 +110,22 @@ exports.BootEnvironment = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "mountpoint",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
             name: "on_reboot",
+            readOnly: true,
             valueType: "boolean"
         }, {
             mandatory: false,
             name: "realname",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
             name: "space",
+            readOnly: true,
             valueType: "number"
         }]
     }

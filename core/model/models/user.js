@@ -309,6 +309,7 @@ exports.User = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "builtin",
+            readOnly: true,
             valueType: "boolean"
         }, {
             mandatory: false,
@@ -322,6 +323,7 @@ exports.User = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "gid",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -373,6 +375,7 @@ exports.User = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "sid",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
