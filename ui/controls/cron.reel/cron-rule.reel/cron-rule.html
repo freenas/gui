@@ -13,7 +13,10 @@
                     "type": "action",
                     "listener": {"@": "owner"}
                 }
-            ]
+            ],
+            "bindings": {
+                "classList.has('CronRule-is-every')": { "<-": "@type.selectedValue == @owner.TYPES.EVERY"}
+            }
         },
         "type": {
             "prototype": "blue-shark/ui/select.reel",
@@ -86,12 +89,14 @@
     <div data-montage-id="owner" class="CronRule">
         <div class="CronRule-form">
             <div data-montage-id="type" class="CronRule-selector"></div>
-            <div data-montage-id="showEvery">
-                <div data-montage-id="every" class="CronRule-control"></div>
-            </div>
-            <div data-montage-id="unit" class="CronRule-control"></div>
-            <div data-montage-id="showOn">
-                <div data-montage-id="on" class="CronRule-control"></div>
+            <div class="CronRule-controlWrapper">
+                <div data-montage-id="showEvery" class="CronRule-every">
+                    <div data-montage-id="every" class="CronRule-control"></div>
+                </div>
+                <div data-montage-id="unit" class="CronRule-control"></div>
+                <div data-montage-id="showOn" class="CronRule-on">
+                    <div data-montage-id="on" class="CronRule-control"></div>
+                </div>
             </div>
             <div data-montage-id="removeRuleButton" class="CronRule-removeButton Button--alert">
                 <svg><use xlink:href="#i-trashCan"/></svg>

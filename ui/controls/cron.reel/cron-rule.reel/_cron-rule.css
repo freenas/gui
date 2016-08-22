@@ -22,7 +22,30 @@
     }
 }
 
-.CronRule .MultipleSelectGrid-option { min-width: 2.5em; }
+.CronRule .MultipleSelectGrid-option {
+    font-size: 0.8em;
+    height:    2em;
+    padding: .25em;
+    line-height: 1.6em;
+}
+
+.CronRule .MultipleSelectGrid-option:first-child:nth-last-child(n+8),
+.CronRule .MultipleSelectGrid-option:first-child:nth-last-child(n+8)~.MultipleSelectGrid-option {
+    min-width: 3.1rem;
+}
+
+.CronRule .MultipleSelectGrid-option:first-child:nth-last-child(n+13),
+.CronRule .MultipleSelectGrid-option:first-child:nth-last-child(n+13)~.MultipleSelectGrid-option {
+    min-width: 1.56rem;
+}
+
+.CronRule-controlWrapper {
+
+    /* sets number control and setting side by side */
+    @nest .CronRule-is-every & {
+        display: flex;
+    }
+}
 
 /* $fix - this might want to be global */
 .CronRule-removeButton.Button {
@@ -50,4 +73,14 @@
 
 .CronRule-controls--every .CronRule-control + .CronRule-control { margin-left: .5em;}
 
-.CronRule-control.NumberInput { max-width: 12em; }
+.CronRule-control.NumberInput {
+    max-width: 12em;
+}
+
+.CronRule-control {
+    margin-bottom: .5rem;
+
+    @nest .CronRule-every & {
+        margin-right: .5rem;
+    }
+}
