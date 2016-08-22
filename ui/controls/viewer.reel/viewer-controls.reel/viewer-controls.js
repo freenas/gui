@@ -14,7 +14,6 @@ exports.ViewerControls = Component.specialize(/** @lends ViewerControls# */ {
 
     handleFilterButtonAction: {
         value: function () {
-            console.log("clicked");
             this.filtersExpanded = !this.filtersExpanded;
         }
     }
