@@ -39,6 +39,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
+            this._clearObjectSelection();
             event.stopPropagation();
         }
     },
@@ -80,10 +81,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
             if (this._isCreationInspector()) {
                 this.object.__isLocked = true;
-                var viewer = this._findParentViewer();
-                if (viewer) {
-                    viewer.cascadingListItem.selectedObject = null;
-                }
+                this._clearObjectSelection();
             }
 
             event.stopPropagation();
@@ -93,6 +91,15 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     save: {
         value: function() {
             return this.application.dataService.saveDataObject(this.object).catch(this._logError);
+        }
+    },
+
+    _clearObjectSelection: {
+        value: function() {
+            var viewer = this._findParentViewer();
+            if (viewer) {
+                viewer.cascadingListItem.selectedObject = null;
+            }
         }
     },
 
