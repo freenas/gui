@@ -41,10 +41,18 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
 
     selectedPath: {
         get: function() {
-            if (this.entry) {
-                return this.entry.path;
+            if (this.canListFiles && this._selectedFile) {
+                return this._selectedFile.path;
+            } else {
+                if (this.entry) {
+                    return this.entry.path;
+                }
             }
         }
+    },
+
+    _selectedFile: {
+        value: null
     },
 
     _root: {
@@ -80,39 +88,45 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                 path = path.substr(0, path.length-1);
             }
 
-            // FIXME: @pierre there is an issue here when switching between shares
-            // self.entry.children can be undefined. Ticket: #16098
-            if (this._isPathChildOfCurrentEntry(path)) {
-                this._addCurrentEntryToAncestors();
-            } else if (this._isPathLastAncestor(path)) {
-                self.ancestors.pop();
+            var selectedEntry = this._getPathEntry(path);
+            if (selectedEntry && selectedEntry.type === FILE && this.canListFiles) {
+                this._selectedFile = selectedEntry;
             } else {
-                self.ancestors = null
-            }
-            return this._service.listDir(path).then(function(children) {
-                self.isPathInvalid = !!isPathInvalid;
-                self.entry = {
-                    path: path,
-                    name: self._service.basename(path),
-                    children: self._filterChildren(children.map(function(x) { return self._childToEntry(path, x); }))
-                };
-                if (!self.ancestors) {
-                    path = self._service.dirname(path);
-                    self.ancestors = [];
-                    while (path.indexOf(root) == 0) {
-                        self.ancestors.unshift({
-                            path: path,
-                            name: self._service.basename(path),
-                            type: DIRECTORY
-                        });
-                        path = self._service.dirname(path);
-                    }
+                this._selectedFile = null;
+                // FIXME: @pierre there is an issue here when switching between shares
+                // self.entry.children can be undefined. Ticket: #16098
+                if (selectedEntry) {
+                    this._addCurrentEntryToAncestors();
+                } else if (this._isPathLastAncestor(path)) {
+                    self.ancestors.pop();
+                } else {
+                    self.ancestors = null
                 }
-                return self.entry;
-            },
-            function() {
-                self.open(root, true);
-            });
+                return this._service.listDir(path).then(function(children) {
+                    self.isPathInvalid = !!isPathInvalid;
+                    self.entry = {
+                        path: path,
+                        name: self._service.basename(path),
+                        children: self._filterChildren(children.map(function(x) { return self._childToEntry(path, x); }))
+                    };
+                    if (!self.ancestors) {
+                        path = self._service.dirname(path);
+                        self.ancestors = [];
+                        while (path.indexOf(root) == 0) {
+                            self.ancestors.unshift({
+                                path: path,
+                                name: self._service.basename(path),
+                                type: DIRECTORY
+                            });
+                            path = self._service.dirname(path);
+                        }
+                    }
+                    return self.entry;
+                },
+                function() {
+                    self.open(root, true);
+                });
+            }
         }
     },
 
@@ -140,6 +154,14 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                     this.entry.children.map(function(x) { 
                         return x.path; 
                     }).indexOf(path) != -1;
+        }
+    },
+
+    _getPathEntry: {
+        value: function(path) {
+            return this.entry &&
+                    this.entry.children &&
+                    this.entry.children.filter(function(x) { return x.path === path; })[0];
         }
     },
 
