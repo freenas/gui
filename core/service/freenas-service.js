@@ -281,6 +281,8 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
                     payload = this._snapshotService.getDifferenceWithSnapshotForTypeNameAndId(rawData, type.typeName, object.id);
 
+                    var temporaryTaskId = this._selectionService.saveTemporaryTaskSelection(object);
+
                     return this.backendBridge.send(
                         serviceDescriptor.namespace,
                         serviceDescriptor.name, {
@@ -289,7 +291,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         }
                     ).then(function (response) {
                         taskId = response.data;
-                        self._selectionService.saveTaskSelection(taskId, object);
+                        self._selectionService.persistTaskSelection(temporaryTaskId, taskId);
                         return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, taskId, object);
                     }).then(function() {
                         return self._selectionService.removeTaskSelection(taskId);

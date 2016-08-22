@@ -1,4 +1,5 @@
-var Montage = require("montage").Montage;
+var Montage = require("montage").Montage,
+    Uuid = require("montage/core/uuid").Uuid;
 
 var SelectionService = exports.SelectionService = Montage.specialize({
     _selection: {
@@ -39,12 +40,24 @@ var SelectionService = exports.SelectionService = Montage.specialize({
         }
     },
 
-    saveTaskSelection: {
-        value: function(taskId, object) {
-            this._selection.tasks[taskId] = {
+    saveTemporaryTaskSelection: {
+        value: function(object) {
+            var temporaryId = Uuid.generate();
+            this._selection.tasks[temporaryId] = {
                 section: this._currentSection,
                 path: this._selection.sections[this._currentSection].path.slice()
             };
+            return temporaryId;
+        }
+    },
+
+    persistTaskSelection: {
+        value: function(temporaryId, taskId) {
+            var taskSelection = this._selection.tasks[temporaryId];
+            if (taskSelection) {
+                this._selection.tasks[taskId] = taskSelection;
+                delete this._selection.tasks[temporaryId];
+            }
         }
     },
 
