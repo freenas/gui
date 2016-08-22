@@ -58,7 +58,7 @@
                 "value": "Clear All"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.userRules.length == 0"}
+                "classList.has('hide')": {"<-": "@owner.rules.length == 0"}
             }
         },
         "emptyMessage": {
@@ -68,7 +68,7 @@
                 "value": "Click the Add Rule button to create a recurring task schedule"
             },
             "bindings": {
-                "classList.has('hide')": {"<-": "@owner.userRules.length > 0"}
+                "classList.has('hide')": {"<-": "@owner.rules.length > 0"}
             }
         }
     }
