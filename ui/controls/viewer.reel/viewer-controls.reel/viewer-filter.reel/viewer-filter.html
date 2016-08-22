@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="viewer-filter.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "checkbox": {
+            "prototype": "blue-shark/ui/checkbox.reel",
+            "properties": {
+                "element": {"#": "checkbox"}
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.checked"},
+                "label": {"<-": "@owner.object.label"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ViewerFilter">
+        <div data-montage-id="checkbox"></div>
+    </div>
+</body>
+</html>

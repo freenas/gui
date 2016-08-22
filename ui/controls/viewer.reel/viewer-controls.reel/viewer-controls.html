@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="viewer-controls.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ],
+            "bindings": {
+                "classList.has('filters-expanded')": {"<-": "@owner.filtersExpanded"}
+            }
+        },
+        "searchField": {
+            "prototype": "blue-shark/ui/input-search.reel",
+            "properties": {
+                "element": {"#": "searchField"}
+            }
+        },
+        "filterButton": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "filterButton"}
+            }
+        },
+        "filters": {
+            "prototype": "montage/ui/repetition.reel",
+            "properties": {
+                "element": {"#": "filters"}
+            },
+            "bindings": {
+                "content": {"<-": "@owner.object"}
+            }
+        },
+        "filter": {
+            "prototype": "./viewer-filter.reel",
+            "properties": {
+                "element": {"#": "filter"}
+            },
+            "bindings": {
+                "object": {"<-": "@filters:iteration.object"}
+            }
+        },
+        "filtersTitle": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "filtersTitle"},
+                "value": "Filters"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="ViewerControls">
+        <div class="ViewerControls-header">
+            <div data-montage-id="searchField" class="ViewerControls-searchField"></div>
+            <div data-montage-id="filterButton" class="ViewerControls-filterButton">
+                <svg class="ViewerControls-filterButton-filter"><use xlink:href="#i-filter"/></svg>
+                <svg class="ViewerControls-filterButton-close"><use xlink:href="#i-plus" /></svg>
+            </div>
+        </div>
+        <div class="ViewerControls-filters">
+            <div data-montage-id="filtersTitle" class="ViewerControls-filters-title"></div>
+            <div data-montage-id="filters" >
+                <div data-montage-id="filter" class="ViewerControls-filter"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+.ViewerControls {
+    position: relative;
+    z-index: 1;
+}
+
+.ViewerControls-header {
+    display:flex;
+}
+
+.ViewerControls-searchField {
+    flex: 1;
+}
+
+.ViewerControls-searchField .InputSearch-field {
+    border-radius: 0;
+}
+
+.ViewerControls-filterButton {
+    width:  2em;
+    height: 2em;
+    padding: .35em;
+    background: color(#e0e5e5 blackness(20%));
+    cursor: pointer;
+    color: #16171a;
+    border-left: 1px solid currentColor;
+    border-right: none;
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        background-color: color(#e0e5e5 blackness(30%));
+    }
+
+    @nest .ViewerControls.filters-expanded & {
+        background: #2F3233;
+        color: #fff;
+        border-color: transparent;
+    }
+}
+
+.ViewerControls-filterButton svg {
+    width:  100%;
+    height: 100%;
+}
+
+.ViewerControls-filterButton-filter {
+    display: block;
+
+    @nest .ViewerControls.filters-expanded & {
+        display: none;
+    }
+}
+
+.ViewerControls-filterButton-close {
+    display: none;
+    transform: rotate(45deg);
+
+    @nest .ViewerControls.filters-expanded & {
+        display: block;
+    }
+}
+
+.ViewerControls-filters {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background: #2F3233;
+    padding: 1em;
+    box-shadow: 0 2px 2px rgba(0,0,0,0);
+    transform: translateY(-100%);
+    transition: all .35s ease-in-out;
+
+   @nest .ViewerControls.filters-expanded & {
+        transform: translateY(0%);
+        box-shadow: 0 2px 2px rgba(0,0,0,.3);
+    }
+}
+
+.ViewerControls-filters-title {
+    margin-top: -1em;
+}
