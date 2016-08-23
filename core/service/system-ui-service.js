@@ -13,16 +13,15 @@ var SystemUIService = exports.SystemUIService = Montage.specialize({
 
     getUIData: {
         value: function() {
-            var systemUIData = {},
-                loadingPromises = [];
-            loadingPromises.push(
-                this._dataService.fetchData(Model.SystemUi).then(function(SystemUi){
-                    systemUIData.systemUI = SystemUi[0];
-                })
-            );
-            return Promise.all(loadingPromises).then(function() {
-                return systemUIData;
-            });
+            return  this._dataService.fetchData(Model.SystemUi).then(function(systemUi){
+                        return systemUi[0];
+                    });
+        }
+    },
+
+    saveUIData: {
+        value: function(uiData) {
+            return this._dataService.saveDataObject(uiData);
         }
     }
 
