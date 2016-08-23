@@ -24,6 +24,12 @@ var MailService = exports.MailService = Montage.specialize({
                 return mailData;
             });
         }
+    },
+
+    saveMailData: {
+        value: function(mailData) {
+            return this._dataService.saveDataObject(mailData);
+        }
     }
 }, {
     instance: {
