@@ -459,6 +459,15 @@
             }
         }
     },
+    "Directoryservice": {
+        "instance": {
+            "read": {
+                "method": "directoryservice.get_config",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "Discovery": {
         "class": {
             "getEventTypes": {
@@ -2973,6 +2982,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "getDiskLabel": {
+                "method": "volume.get_disk_label",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "getDisksAllocation": {
                 "method": "volume.get_disks_allocation",
                 "name": "call",
@@ -3222,6 +3236,11 @@
             },
             "getCapabilities": {
                 "method": "zfs.pool.get_capabilities",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getDiskLabel": {
+                "method": "zfs.pool.get_disk_label",
                 "name": "call",
                 "namespace": "rpc"
             },

@@ -825,6 +825,10 @@
             "type": "VolumeDataset"
         },
         {
+            "modelId": "core/model/models/volume-disk-label.js",
+            "type": "VolumeDiskLabel"
+        },
+        {
             "modelId": "core/model/models/volume-encryption.js",
             "type": "VolumeEncryption"
         },
