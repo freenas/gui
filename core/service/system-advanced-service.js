@@ -20,19 +20,9 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
 
     getSerialConsoleData: {
         value: function() {
-            var consoleData = {},
-                loadingPromises = [];
-            loadingPromises.push(
-                this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
-                    consoleData.systemAdvanced = systemAdvanced[0];
-                }),
-                this._systemDeviceService.getSerialPorts().then(function(serialPorts) {
-                    consoleData.serialPorts = serialPorts;
-                })
-            );
-            return Promise.all(loadingPromises).then(function() {
-                return consoleData;
-            });
+                return this._dataService.fetchData(Model.SystemAdvanced).then(function(systemAdvanced) {
+                    return systemAdvanced[0];
+                });
         }
     },
 
