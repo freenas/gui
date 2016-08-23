@@ -99,7 +99,6 @@
             "bindings": {
                 "totalSize": {"<-": "+@owner.object.properties.size.rawvalue"},
                 "usedSize": {"<-": "+@owner.object.properties.allocated.rawvalue"},
-                "paritySize": {"<-": "@owner.paritySize"},
                 "available": {"<-": "+@owner.object.properties.free.rawvalue"}
             }
         },
