@@ -358,7 +358,13 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         if (propertyDescriptor.valueType === "object") {
                             this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object, key, rawValue, data);
                         } else if (propertyDescriptor.valueType === "array") {
-                            object[key] = [];
+                            var type = Model[propertyDescriptor.valueObjectPrototypeName];
+
+                            if (!type) {
+                                type = propertyTypeService.getTypeForObjectProperty(object, data, key);
+                            }
+
+                            object[key] = this.getEmptyCollectionForType(type);
                             for (j = 0, valuesLength = rawValue.length; j < valuesLength; j++) {
                                 this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object[key], j, rawValue[j], data);
                             }
