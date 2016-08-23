@@ -31,12 +31,12 @@ exports.TimezonePicker = Component.specialize(/** @lends TimezonePicker# */ {
             $(this.imageElement).timezonePicker({
               pin: '.timezone-pin',
               fillColor: 'FFCCCC',
-              changeHandler: this.handleChange.bind(this)
+              changeHandler: this._handleChange.bind(this)
             });
         }
     },
 
-    handleChange: {
+    _handleChange: {
         value: function(timezone, country, offset) {
             this.timezone = timezone;
             this.country = country;
