@@ -8,6 +8,24 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.TimezonePicker = Component.specialize(/** @lends TimezonePicker# */ {
+    _timezone: {
+        value: null
+    },
+
+    timezone: {
+        get: function() {
+            return this._timezone;
+        },
+        set: function(timezone) {
+            if (this._timezone !== timezone) {
+                this._timezone = timezone;
+                if (timezone) {
+                    $(this.imageElement).timezonePicker('updateTimezone', timezone);
+                }
+            }
+        }
+    },
+
     draw: {
         value: function() {
             $(this.imageElement).timezonePicker({
@@ -17,6 +35,7 @@ exports.TimezonePicker = Component.specialize(/** @lends TimezonePicker# */ {
             });
         }
     },
+
     handleChange: {
         value: function(timezone, country, offset) {
             this.timezone = timezone;
