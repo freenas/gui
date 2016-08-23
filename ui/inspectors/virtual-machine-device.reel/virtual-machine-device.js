@@ -64,9 +64,8 @@ exports.VirtualMachineDevice = Component.specialize({
     handleAddAction: {
         value: function() {
             var self = this;
-            new Promise(function () {
-                self.object._isNew = false;
-            });
+            self.object._isNew = false;
+            this.deviceList.push(this.object);
         }
     },
 
