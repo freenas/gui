@@ -7,7 +7,15 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "sectionComponent": {
+                    "WebUI": {"@": "WebUI"},
+                    "languageAndRegion": {"@": "languageAndRegion"},
+                    "system": {"@": "system"},
+                    "serialConsole": {"@": "serialConsole"},
+                    "debug": {"@": "debug"},
+                    "mail": {"@": "mail"}
+                }
             },
             "bindings": {
                 "classList.has('has-table')": {"<-": "@owner.hasTable"}
