@@ -13,7 +13,6 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
  * @extends Component
  */
 exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
-
     _topologyItem: {
         value: void 0
     },
@@ -42,7 +41,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             return this._topologyItem;
         }
     },
-
 
     gridIdentifier: {
         get: function () {
@@ -140,6 +138,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             this._cancelIsNewVDevChangeListener = this.addPathChangeListener("object.isExistingVDev", this, "handleIsExistingVDevChange");
             this._defineVDevContext();
             this._hasUserDefinedType = false;
+            this._cancelSelectedDiskListener = this.addRangeAtPathChangeListener("selectedDisk", this, "_handleSelectedDiskChange");
         }
     },
 
@@ -157,6 +156,10 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             if (typeof this._cancelRangeAtPathChangeListener === 'function') {
                 this._cancelRangeAtPathChangeListener();
                 this._cancelRangeAtPathChangeListener = null;
+            }
+            if (typeof this._cancelSelectedDiskListener === "function") {
+                this._cancelSelectedDiskListener();
+                this._cancelSelectedDiskListener = null;
             }
             //FIXME: need investigation here, raise an error.
             //this._cancelIsNewVDevChangeListener();
@@ -185,6 +188,14 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
             if (this.preparedForActivationEvents) {
                 this.element.removeEventListener('mouseleave', this, false);
+            }
+        }
+    },
+
+    _handleSelectedDiskChange: {
+        value: function() {
+            if (this.selectedDisk && this.selectedDisk.length == 1) {
+                this.topologyItem.selectedDisk = this.selectedDisk;
             }
         }
     },

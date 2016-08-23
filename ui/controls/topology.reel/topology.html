@@ -28,7 +28,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.data"},
-                "editable": {"<-": "@owner.editable"}
+                "editable": {"<-": "@owner.editable"},
+                "selectedDisk": {"<->": "@owner.selectedDisk"}
             }
         },
         "cache": {
@@ -40,7 +41,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.cache"},
-                "editable": {"<-": "@owner.editable"}
+                "editable": {"<-": "@owner.editable"},
+                "selectedDisk": {"<->": "@owner.selectedDisk"}
             }
         },
         "log": {
@@ -53,7 +55,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.log"},
-                "editable": {"<-": "@owner.editable"}
+                "editable": {"<-": "@owner.editable"},
+                "selectedDisk": {"<->": "@owner.selectedDisk"}
             }
         },
         "spare": {
@@ -65,7 +68,8 @@
             },
             "bindings": {
                 "vdevs": {"<-": "@owner.object.spare"},
-                "editable": {"<-": "@owner.editable"}
+                "editable": {"<-": "@owner.editable"},
+                "selectedDisk": {"<->": "@owner.selectedDisk"}
             }
         }
     }

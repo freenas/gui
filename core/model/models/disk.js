@@ -230,6 +230,9 @@ exports.Disk = AbstractModel.specialize({
     },
     userInterfaceDescriptor: {
         value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/disk.reel'
+            },
             collectionInspectorComponentModule: {
                 id: 'ui/inspectors/available-disks.reel'
             },

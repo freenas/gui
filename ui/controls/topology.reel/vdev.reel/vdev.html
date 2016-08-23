@@ -61,7 +61,8 @@
         "controller": {
             "prototype": "montage/core/range-controller",
             "bindings": {
-                "content": {"<-": "@owner.children"}
+                "content": {"<-": "@owner.children"},
+                "selection": {"<->": "@owner.selectedDisk"}
             }
         },
         "disksGrid": {

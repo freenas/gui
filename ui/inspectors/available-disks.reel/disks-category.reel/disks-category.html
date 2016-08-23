@@ -23,7 +23,8 @@
         "controller": {
             "prototype": "montage/core/range-controller",
             "bindings": {
-                "content": {"<-": "@owner.disks"}
+                "content": {"<-": "@owner.disks"},
+                "selection": {"<->": "@owner.selectedDisk"}
             }
         },
         "grid": {

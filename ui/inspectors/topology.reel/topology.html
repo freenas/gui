@@ -33,7 +33,8 @@
                 "mode": "UPDATE"
             },
             "bindings": {
-                "object": {"<-": "@owner.topologyProxy"}
+                "object": {"<-": "@owner.topologyProxy"},
+                "selectedDisk": {"<->": "@owner.topologySelectedDisk"}
             }
         },
 
@@ -43,7 +44,8 @@
                 "element": {"#": "availableDisks"}
             },
             "bindings": {
-                "object": {"<-": "@owner.topologyProxy"}
+                "object": {"<-": "@owner.topologyProxy"},
+                "selectedDisk": {"<->": "@owner.availableSelectedDisk"}
             }
         }
     }
