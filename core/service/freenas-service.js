@@ -511,7 +511,12 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
     //FIXME: hacky
     getEmptyCollectionForType: {
         value: function (type) {
-            var collection = [];
+            return this.setTypeForCollection([], type);
+        }
+    },
+
+    setTypeForCollection: {
+        value: function (collection, type) {
             collection._meta_data = {collectionModelType: type};
 
             return collection;
@@ -1034,6 +1039,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 instance.getNewInstanceForType = FreeNASService.prototype.getNewInstanceForType;
                 instance.restoreSnapshotVersion = FreeNASService.prototype.restoreSnapshotVersion.bind(freeNASService);
                 instance.getEmptyCollectionForType = FreeNASService.prototype.getEmptyCollectionForType;
+                instance.setTypeForCollection = FreeNASService.prototype.setTypeForCollection;
                 instance.callBackend = FreeNASService.prototype.callBackend;
                 instance.backendBridge = BackEndBridgeModule.defaultBackendBridge;
                 instance.mapRawDataToType = FreeNASService.prototype.mapRawDataToType;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="directory-services.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "bindings": {
+                "classList.has('is-loading')": {"<-":"@owner.object.isLoading"},
+                "selectedObject": {"<->": "@directoryServices.selectedObject"}
+            }
+        },
+
+        "loading": {
+            "prototype": "ui/controls/spinner.reel",
+            "properties": {
+                "element": {"#": "loading"}
+            }
+        },
+
+        "scrollView": {
+            "prototype": "blue-shark/ui/scrollview.reel",
+            "properties": {
+                "element": {"#": "scrollView"},
+                "overflow": "scrollY"
+            }
+        },
+
+        "controller": {
+            "prototype": "montage/core/range-controller",
+            "bindings": {
+                "content": {"<-": "@owner.directoryServices"}
+            }
+        },
+
+        "directoryServices": {
+            "prototype": "ui/controls/list.reel",
+            "properties": {
+                "element": {"#": "directoryServices"},
+                "controller": {"@": "controller"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DirectoryServices">
+        <div data-montage-id="loading" class="DirectoryServices-loading"></div>
+        <div data-montage-id="scrollView" class="DirectoryServices-body">
+            <div data-montage-id="directoryServices"></div>
+        </div>
+    </div>
+</body>
+</html>
