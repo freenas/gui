@@ -36,8 +36,7 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 this.application.systemUIService.getUIData().then(function(uiData) {
-                    self.uiData = uiData;
-                    self.object = uiData.systemUI;
+                    self.object = uiData;
                 });
                 Model.populateObjectPrototypeForType(Model.NetworkConfig).then(function(networkConfig) {
                     return networkConfig.constructor.services.getMyIps();
@@ -54,6 +53,12 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
                 });
                 self.isLoading = false;
             }
+        }
+    },
+
+    save: {
+        value: function() {
+            return this.application.systemUIService.saveUIData(this.object);
         }
     }
 
