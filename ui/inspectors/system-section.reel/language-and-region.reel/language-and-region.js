@@ -9,10 +9,6 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# */ {
-    timezoneData: {
-        value: null
-    },
-
     timezoneOptions: {
         value: null
     },
@@ -20,6 +16,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
     keymapsOptions: {
         value: null
     },
+
 
     enterDocument: {
         value: function(isFirstTime) {
