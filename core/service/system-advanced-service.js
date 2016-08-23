@@ -34,6 +34,12 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
                 return consoleData;
             });
         }
+    },
+
+    saveAdvanceData: {
+        value: function(advanceData) {
+            return this._dataService.saveDataObject(advanceData);
+        }
     }
 
 
