@@ -38,6 +38,7 @@ exports.Settings = Component.specialize({
     _createSection: {
         value: function(identifier, label, icon, order) {
             return this.application.dataService.getNewInstanceForType(Model.SystemSection).then(function(section) {
+                section._isNew = false;
                 section.identifier = identifier;
                 section.label = label;
                 section.icon = icon;
