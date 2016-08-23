@@ -89,5 +89,20 @@ exports.Peer = AbstractModel.specialize({
             mandatory: false,
             name: "type"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Peers'",
+            inspectorComponentModule: {
+                id: 'ui/sections/peering/inspectors/peer.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/sections/peering/inspectors/peer.reel'
+            },
+            nameExpression: "name.defined() ? name : 'Create a peer'"
+        }
     }
 });

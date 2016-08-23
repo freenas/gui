@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="peer.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "inspectorComponent": {"@": "inspector"}
+            },
+            "bindings": {
+                "credentialsComponent": {"<-": "@credentials.component"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true,
+                "canRevert": true,
+                "canDelete": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "type": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "type"},
+                "label": "Type",
+                "options": [
+                    {"label": "ssh", "value": "ssh"}
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.object.type"}
+            }
+        },
+        "address": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "address"},
+                "label": "Address"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.address"}
+            }
+        },
+        "credentials": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "credentials"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.object.type + '-credentials.reel'"},
+                "object": {"<-": "@owner.object.credentials"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Peer">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="type"></div>
+            <div data-montage-id="address"></div>
+            <div data-montage-id="credentials"></div>
+        </div>
+    </div>
+</body>
+</html>

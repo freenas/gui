@@ -24,6 +24,14 @@ var PropertyTypeService = function() {
                 }
             }
         },
+        Peer: {
+            credentials: {
+                discriminator: 'type',
+                mapping: {
+                    ssh:   Model.SshCredentials
+                }
+            }
+        },
         NetworkInterface: {
             vlan: {
                 discriminator: 'type',

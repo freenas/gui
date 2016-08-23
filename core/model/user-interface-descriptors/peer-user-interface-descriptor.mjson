@@ -1,0 +1,13 @@
+{
+    "root": {
+        "prototype": "montage/core/meta/user-interface-descriptor",
+        "properties": {
+            "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
+            "collectionNameExpression": "'Peers'",
+            "inspectorComponentModule": {"%": "ui/sections/peering/inspectors/peer.reel"},
+            "creatorComponentModule": {"%": "ui/sections/peering/inspectors/peer.reel"},
+            "nameExpression": "name.defined() ? name : 'Create a peer'"
+        }
+    }
+}
+
