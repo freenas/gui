@@ -51,5 +51,13 @@ exports.SystemSection = Component.specialize({
         value: function (isFirstTime) {
             this.classList.toggle(this.object.identifier);
         }
+    },
+
+    save: {
+        value: function() {
+            if (this.sectionComponent[this.object.identifier] && typeof this.sectionComponent[this.object.identifier].save === "function") {
+                this.sectionComponent[this.object.identifier].save();
+            }
+        }
     }
 });
