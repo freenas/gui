@@ -72,8 +72,8 @@ Object.defineProperties(WebSocketConfiguration, {
                 var domain = document.domain;
 
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
-                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "5000");
-                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/socket");
+                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "80");
+                _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/socket");
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 60000);
 
                 _defaultConfiguration._store.set(
@@ -94,8 +94,8 @@ Object.defineProperties(WebSocketConfiguration, {
                 var domain = document.domain;
 
                 _shellConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "5000");
-                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/shell");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PORT, "80");
+                _shellConfiguration._store.set(WebSocketConfiguration.KEYS.PATH, "/dispatcher/shell");
                 _shellConfiguration._store.set(WebSocketConfiguration.KEYS.TIMEOUT, 30000);
 
                 _shellConfiguration._store.set(
