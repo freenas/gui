@@ -9,15 +9,8 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('is-loading')": {"<-":"@owner.object.isLoading"},
+                "classList.has('has-loading-spinner')": {"<-":"@owner.object.isLoading"},
                 "selectedObject": {"<->": "@directoryServices.selectedObject"}
-            }
-        },
-
-        "loading": {
-            "prototype": "ui/controls/spinner.reel",
-            "properties": {
-                "element": {"#": "loading"}
             }
         },
 
@@ -49,7 +42,6 @@
 </head>
 <body>
     <div data-montage-id="owner" class="DirectoryServices">
-        <div data-montage-id="loading" class="DirectoryServices-loading"></div>
         <div data-montage-id="scrollView" class="DirectoryServices-body">
             <div data-montage-id="directoryServices"></div>
         </div>
