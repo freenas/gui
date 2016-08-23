@@ -4,7 +4,7 @@
     "properties": {
       "name": "command",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "array"
     }
   },
   "blueprint_dockercontainer_environment": {

@@ -47,14 +47,6 @@
       "valueType": "object"
     }
   },
-  "blueprint_directory_plugin": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "plugin",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_directory_priority": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -69,6 +61,20 @@
       "name": "status",
       "blueprint": {"@": "root"},
       "valueType": "object"
+    }
+  },
+  "blueprint_directory_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "file",
+        "local",
+        "winbind",
+        "freeipa"
+      ]
     }
   },
   "blueprint_directory_uid_range": {
@@ -90,9 +96,9 @@
         {"@": "blueprint_directory_id"},
         {"@": "blueprint_directory_name"},
         {"@": "blueprint_directory_parameters"},
-        {"@": "blueprint_directory_plugin"},
         {"@": "blueprint_directory_priority"},
         {"@": "blueprint_directory_status"},
+        {"@": "blueprint_directory_type"},
         {"@": "blueprint_directory_uid_range"}
       ]
     }

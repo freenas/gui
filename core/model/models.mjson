@@ -5,10 +5,6 @@
             "type": "AccountCategory"
         },
         {
-            "modelId": "core/model/models/account-directory-services.js",
-            "type": "AccountDirectoryServices"
-        },
-        {
             "modelId": "core/model/models/account-system.js",
             "type": "AccountSystem"
         },
@@ -111,6 +107,10 @@
         {
             "modelId": "core/model/models/directory-parameters.js",
             "type": "DirectoryParameters"
+        },
+        {
+            "modelId": "core/model/models/directory-services.js",
+            "type": "DirectoryServices"
         },
         {
             "modelId": "core/model/models/directory-status.js",
@@ -239,10 +239,6 @@
         {
             "modelId": "core/model/models/kerberos-realm.js",
             "type": "KerberosRealm"
-        },
-        {
-            "modelId": "core/model/models/ldap-config.js",
-            "type": "LdapConfig"
         },
         {
             "modelId": "core/model/models/mail-message-extra-headers.js",

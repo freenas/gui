@@ -162,7 +162,7 @@ exports.DockerContainer = AbstractModel.specialize({
         value: [{
             mandatory: false,
             name: "command",
-            valueType: "String"
+            valueType: "array"
         }, {
             mandatory: false,
             name: "environment",

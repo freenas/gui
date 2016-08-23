@@ -79,19 +79,6 @@ exports.Directory = AbstractModel.specialize({
             return this._parameters;
         }
     },
-    _plugin: {
-        value: null
-    },
-    plugin: {
-        set: function (value) {
-            if (this._plugin !== value) {
-                this._plugin = value;
-            }
-        },
-        get: function () {
-            return this._plugin;
-        }
-    },
     _priority: {
         value: null
     },
@@ -116,6 +103,19 @@ exports.Directory = AbstractModel.specialize({
         },
         get: function () {
             return this._status;
+        }
+    },
+    _type: {
+        value: null
+    },
+    type: {
+        set: function (value) {
+            if (this._type !== value) {
+                this._type = value;
+            }
+        },
+        get: function () {
+            return this._type;
         }
     },
     _uid_range: {
@@ -159,10 +159,6 @@ exports.Directory = AbstractModel.specialize({
             valueType: "object"
         }, {
             mandatory: false,
-            name: "plugin",
-            valueType: "String"
-        }, {
-            mandatory: false,
             name: "priority",
             valueType: "number"
         }, {
@@ -171,8 +167,20 @@ exports.Directory = AbstractModel.specialize({
             valueType: "object"
         }, {
             mandatory: false,
+            name: "type",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "uid_range",
             valueType: "array"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/directory-services.reel/directory-service.reel'
+            },
+            nameExpression: "plugin"
+        }
     }
 });

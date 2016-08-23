@@ -2,7 +2,7 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
-            "inspectorComponentModule": {"%": "ui/inspectors/account-directory-services.reel"},
+            "inspectorComponentModule": {"%": "ui/inspectors/directory-services.reel"},
             "iconComponentModule": {"%": "ui/icons/freenas-icon.reel"},
             "nameExpression": "'Directory Services'"
         }

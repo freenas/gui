@@ -459,15 +459,6 @@
             }
         }
     },
-    "DirectoryserviceLdap": {
-        "instance": {
-            "read": {
-                "method": "directoryservice.ldap.get_config",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "Discovery": {
         "class": {
             "getEventTypes": {
@@ -570,8 +561,7 @@
                         "path",
                         "id",
                         "mediasize",
-                        "status",
-                        "description"
+                        "status"
                     ]
                 },
                 "task": "disk.update"
