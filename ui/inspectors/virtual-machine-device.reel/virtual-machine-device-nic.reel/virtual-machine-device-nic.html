@@ -38,15 +38,14 @@
             }
         },
         "nicLinkAddress": {
-            "prototype": "blue-shark/ui/field-select.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "nicLinkAddress"},
-                "label": "MAC Address",
-                "converter": {"@": "selectOptionConverter"}
+                "label": "MAC Address"
             },
             "bindings": {
                 "options": {"<-": "@owner.nicLinkAddressOptions"},
-                "selectedValue": {"<->": "@owner.object.link_address"}
+                "value": {"<->": "@owner.object.link_address"}
             }
         },
         "nicMode": {
