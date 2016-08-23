@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="directory-service.css">
     <script type="text/montage-serialization">
     {
@@ -9,12 +8,52 @@
             "properties": {
                 "element": {"#": "owner"}
             }
+        },
+
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canRevert":    true,
+                "canRevert":    false,
+                "canSave":      true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+
+        "content": {
+            "prototype": "ui/controls/placeholder.reel",
+            "properties": {
+                "element": {"#": "directory-placeholder"}
+            },
+            "bindings": {
+                "moduleId": {"<-": "'ui/inspectors/directory-services.reel/' + @owner.object.type + '-service.reel'"},
+                "object": {"<-": "@owner.object"}
+            }
+        },
+
+        "enabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.object.enabled"}
+            }
         }
+
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="DirectoryService">
+        <div data-montage-id="inspector">
+            <div data-montage-id="directory-placeholder"></div>
+            <div data-montage-id="enabled"></div>
+        </div>
     </div>
 </body>
 </html>

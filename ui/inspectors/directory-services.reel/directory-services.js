@@ -62,7 +62,7 @@ exports.DirectoryServices = Component.specialize({
 
             Promise.all(promises).then(function (directoryServices) {
                 for (i = 0, length = directoryServices.length; i < length; i++) {
-                    directoryServicesMap.set(directoryServices[i].plugin, directoryServices[i]);
+                    directoryServicesMap.set(directoryServices[i].type, directoryServices[i]);
                 }
 
                 self.directoryServices = self.application.dataService.setTypeForCollection(
@@ -78,7 +78,7 @@ exports.DirectoryServices = Component.specialize({
             var directoryTypesKeyValues = this.constructor.DIRECTORY_TYPES_KEY_VALUES;
 
             return this.application.dataService.getNewInstanceForType(Model.Directory).then(function (directory) {
-                directory.plugin = directoryTypesKeyValues[type];
+                directory.type = directoryTypesKeyValues[type];
 
                 return directory;
             });
