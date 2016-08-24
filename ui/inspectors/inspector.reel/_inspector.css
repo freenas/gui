@@ -3,6 +3,11 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 15em;
+
+    & .Scrollview-transform {
+        flex: none;
+    }
 }
 
 .Inspector-body { margin: 1em; }
