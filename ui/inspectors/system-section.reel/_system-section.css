@@ -1,10 +1,4 @@
-.SystemSection {
-    min-width: 25em;
-
-    &.languageAndRegion {
-        min-width: 39.5em;
-    }
-}
+.SystemSection {}
 
 .SystemSection.has-table {
     min-width: 45em;
