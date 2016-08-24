@@ -67,7 +67,6 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: function() {
             if (!this._generalData) {
                 this._generalData = this._dataService.clone(this.generalData);
-                console.log(this._generalData, this.generalData);
             }
         }
     }
