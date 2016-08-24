@@ -67,7 +67,13 @@ exports.VirtualMachine = Component.specialize({
                         this.templateName = object.template.name;
                     }
                     if (object.config) {
-                        this.memorySize = object.config.memsize;
+                        if (object._isNew) {
+                            this.memorySize = object.config.memsize;
+                        } else {
+                            if (typeof this.object.config.memsize === "number") {
+                                this.memorySize = this._convertMemsizeToString(this.object.config.memsize);
+                            }
+                        }
                     }
                 }
             }
@@ -180,7 +186,8 @@ exports.VirtualMachine = Component.specialize({
     _populateObjectWithTemplate: {
         value: function(template) {
             this.object.config = {};
-            this.memorySize = this.object.config.memsize = template.config.memsize;
+            this.memorySize = this._convertMemsizeToString(template.config.memsize);
+            this.object.config.memsize = template.config.memsize;
             this.object.config.ncpus = template.config.ncpus;
             this.object.template = {name: template.template.name};
             this.object.guest_type = template.guest_type;
@@ -256,6 +263,28 @@ exports.VirtualMachine = Component.specialize({
                 guestTypeOptions.push({value: optionValues[i], label: label});
             }
             this.guestTypeOptions = guestTypeOptions;
+        }
+    },
+
+    _convertMemsizeToString: {
+        value: function(memsize) {
+            var prefixIndex = 2,
+                result = memsize,
+                sizePrefixes = Object.keys(this.application.storageService.SIZE_PREFIX_EXPONENTS);
+
+            while (result % 1024 === 0) {
+                prefixIndex++;
+                result = result / 1024;
+            }
+
+            for (var i = 1, length = sizePrefixes.length; i<=length; i++) {
+                if (this.application.storageService.SIZE_PREFIX_EXPONENTS[sizePrefixes[i]] === prefixIndex) {
+                    result += sizePrefixes[i] + "iB";
+                    break;
+                }
+                result += "";
+            }
+            return result;
         }
     },
 
