@@ -66,7 +66,7 @@
                 "element": {"#": "addRemoveSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.editMode"}
+                "switchValue": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'create' : 'edit'"}
             }
         },
         "add": {

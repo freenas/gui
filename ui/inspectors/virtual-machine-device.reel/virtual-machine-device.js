@@ -23,10 +23,6 @@ exports.VirtualMachineDevice = Component.specialize({
         value: null
     },
 
-    editMode: {
-        value: null
-    },
-
     constructor: {
         value: function() {
             var deviceTypes = Array.from(VmDeviceType.members);
@@ -46,7 +42,6 @@ exports.VirtualMachineDevice = Component.specialize({
             if (!this.object.type) {
                 this.object.type = "DISK";
             }
-            this.editMode = this.object._isNew ? "create" : "edit";
             if (!this.object.properties) {
                 this.object.properties = {};
             }
