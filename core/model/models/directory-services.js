@@ -7,7 +7,7 @@ exports.DirectoryServices = AbstractModel.specialize(null, {
                 id: 'ui/inspectors/directory-services.reel'
             },
             iconComponentModule: {
-                id: 'ui/icons/freenas-icon.reel'
+                id: 'ui/icons/directory-services.reel'
             },
             nameExpression: "'Directory Services'"
         }
