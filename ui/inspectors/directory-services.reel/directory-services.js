@@ -48,7 +48,7 @@ exports.DirectoryServices = Component.specialize({
             for (i = 0, length = directories.length; i < length; i++) {
                 directoryService = directories[i];
 
-                if ((directoryTypesValueKey = directoryTypesValueKeys[directoryService.plugin])) {
+                if ((directoryTypesValueKey = directoryTypesValueKeys[directoryService.type]) && directoryService.name) {
                     directoryServicesMap.set(directoryTypesValueKey, directoryService);
                     directoryService.label = directoryTypesLabels[directoryService.type];
                 }

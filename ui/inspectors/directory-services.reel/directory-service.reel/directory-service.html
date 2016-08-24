@@ -10,6 +10,17 @@
             }
         },
 
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -50,6 +61,7 @@
 <body>
     <div data-montage-id="owner" class="DirectoryService">
         <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
             <div data-montage-id="directory-placeholder"></div>
             <div data-montage-id="enabled"></div>
         </div>
