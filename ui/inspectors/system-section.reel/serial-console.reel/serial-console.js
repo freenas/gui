@@ -15,6 +15,10 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
         value: null
     },
 
+    generalData: {
+        value: null
+    },
+
     serialPortOptions: {
         value: null
     },
@@ -38,24 +42,27 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
                 this.isLoading = true;
                 this.serialSpeedOptions = [];
                 for(var i=0; i<speed.members.length; i++){
-                    this.serialSpeedOptions.push({label: speed.members[i], value: speed[speed.members[i]]})
+                    this.serialSpeedOptions.push({label: speed.members[i], value: speed[speed.members[i]]});
                 }
                 this.serialSpeedOptions.unshift({label: "---", value: "none"});
-                this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
-                    self.consoleData = consoleData;
-                    self.object = consoleData.systemAdvanced;
+                this.application.systemAdvancedService.getSerialConsoleData().then(function(systemAdvanced) {
+                    self.object = systemAdvanced;
+                });
+                this.application.systemDeviceService.getSerialPorts().then(function(serialPorts) {
                     self.serialPortOptions = [];
-                    for(var i=0; i<consoleData.serialPorts.length; i++) {
-                        self.serialPortOptions.push({label: consoleData.serialPorts[i].name, value: consoleData.serialPorts[i].name});
+                    for(var i=0; i<serialPorts.length; i++) {
+                        self.serialPortOptions.push({label: serialPorts[i].name, value: serialPorts[i].name});
                     }
                     self.serialPortOptions.unshift({label:"---", value: "none"});
                 });
-                this.application.systemGeneralService.getKeymapsData().then(function(keymapsData) {
-                    self.keymapsData = keymapsData;
+                this.application.systemGeneralService.getKeymapOptions().then(function(keymapsData) {
                     self.keymapsOptions = [];
-                    for(var i=0; i<keymapsData.keymapsOptions.length; i++) {
-                        self.keymapsOptions.push({label: keymapsData.keymapsOptions[i][1], value: keymapsData.keymapsOptions[i][0]});
+                    for(var i=0; i<keymapsData.length; i++) {
+                        self.keymapsOptions.push({label: keymapsData[i][1], value: keymapsData[i][0]});
                     }
+                });
+                this.application.systemGeneralService.getConsoleKeymap().then(function(generalData) {
+                    self.generalData = generalData;
                 });
                 self.isLoading = false;
             }
@@ -66,8 +73,8 @@ exports.SerialConsole = Component.specialize(/** @lends SerialConsole# */ {
         value: function() {
             var savingPromises = [];
             savingPromises.push(
-                this.application.dataService.saveDataObject(this.keymapsData),
-                this.application.dataService.saveDataObject(this.consoleData)
+                this.application.systemGeneralService.saveGeneralData(this.generalData),
+                this.application.systemAdvancedService.saveAdvanceData(this.object)
             );
             return Promise.all(savingPromises);
         }
