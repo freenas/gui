@@ -59,5 +59,13 @@ exports.SystemSection = Component.specialize({
                 this.sectionComponent[this.object.identifier].save();
             }
         }
+    },
+
+    revert: {
+        value: function() {
+            if (this.sectionComponent[this.object.identifier] && typeof this.sectionComponent[this.object.identifier].revert === "function") {
+                this.sectionComponent[this.object.identifier].revert();
+            }
+        }
     }
 });
