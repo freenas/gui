@@ -14,21 +14,39 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
 
     getTimezoneData: {
         value: function() {
-            var timezoneData = {},
-                loadingPromises = [];
-            loadingPromises.push(
-                this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
-                    timezoneData.timezone = systemGeneral[0].timezone;
-                }),
-                Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral){
-                    return SystemGeneral.constructor.services.timezones();
-                }).then(function(timezones){
-                    timezoneData.timezoneOptions = timezones;
-                })
-            );
-            return Promise.all(loadingPromises).then(function() {
-                return timezoneData;
+            return  this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
+                    return systemGeneral[0];
+                });
+        }
+    },
+
+    getTimezoneOptions: {
+        value : function() {
+            return Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral){
+                return SystemGeneral.constructor.services.timezones();
             });
+        }
+    },
+
+    getKeymapOptions: {
+        value: function() {
+            //this func returns keymap options list
+            //selected(actual) keymap value not included
+            //so anti-humanity
+            //I have to implement like this, against my will
+            return Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral){
+                return SystemGeneral.constructor.services.keymaps();
+            });
+        }
+    },
+
+    getConsoleKeymap: {
+        value: function() {
+            //this one returns THE REAL keymap value
+            //One keymap to rule them all
+            return  this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
+                        return systemGeneral[0];
+                    });
         }
     },
 
@@ -38,7 +56,7 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
                 loadingPromises = [];
             loadingPromises.push(
                 this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
-                    keymapsData.console_keymap = systemGeneral[0].console_keymap;
+                    keymapsData.console_keymap = systemGeneral[0];
                 }),
                 Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral){
                     return SystemGeneral.constructor.services.keymaps();
@@ -50,7 +68,14 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
                 return keymapsData;
             })
         }
+    },
+
+    saveGeneralData: {
+        value: function(generalObject) {
+            return this._dataService.saveDataObject(generalObject);
+        }
     }
+
 }, {
     instance: {
         get: function() {
