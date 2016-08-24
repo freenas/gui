@@ -246,7 +246,8 @@ exports.Volume = AbstractModel.specialize({
             creatorComponentModule: {
                 id: 'ui/inspectors/volume-creator.reel'
             },
-            nameExpression: "id.defined() ? id : 'Create a volume'"
+            nameExpression: "name.defined() ? name : id.defined() ? id : 'Create a volume'",
+            sortExpression: "name.defined() + '' + id"
         }
     }
 });

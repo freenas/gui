@@ -108,6 +108,13 @@
                 "element": {"#": "scrub"},
                 "value": "Scrub"
             }
+        },
+        "export": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "export"},
+                "value": "Export"
+            }
         }
     }
     </script>
@@ -129,7 +136,10 @@
                 <div data-montage-id="topology"></div>
                 <div data-montage-id="datasets"></div>
             </div>
-            <div data-montage-id="scrub" data-arg="footer-additional-button" class="ScrubButton"></div>
+            <div data-arg="footer-additional-button" class="ActionButtons">
+                <div data-montage-id="export"></div>
+                <div data-montage-id="scrub"></div>
+            </div>
         </div>
     </div>
 </body>

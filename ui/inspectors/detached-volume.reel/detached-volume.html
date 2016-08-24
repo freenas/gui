@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="detached-volume.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "inspectorComponent": {"@": "inspector"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": "true"
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"}
+            }
+        },
+        "topology": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "topology"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.object.topology"}
+            }
+        },
+        "volumeIcon": {
+            "prototype": "ui/icons/volume.reel",
+            "properties": {
+                "element": {"#": "volumeIcon"}
+            }
+        },
+        "import": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "import"},
+                "value": "Import"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DetachedVolume">
+        <div class="DetachedVolume-header">
+            <div data-montage-id="volumeIcon" class="DetachedVolume-header-icon"></div>
+        </div>
+        <div data-montage-id="inspector">
+            <div class="g-negative-margin-sides">
+                <div data-montage-id="topology" class="g-negative-margin-top"></div>
+            </div>
+            <div data-montage-id="import" data-arg="footer-additional-button" class="ImportButton"></div>
+        </div>
+    </div>
+</body>
+</html>

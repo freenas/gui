@@ -11,7 +11,8 @@
             },
             "bindings": {
                 "availableDisks": {"<-": "@availableDisks.availableDisks"},
-                "classList.has('has-availableDisks')": {"<-": "@availableDisks.availableDisks.length > 0"}
+                "classList.has('has-availableDisks')": {"<-": "@availableDisks.availableDisks.length > 0"},
+                "classList.has('is-detached')": {"<-": "!!@owner.object._isDetached"}
             }
         },
         "inspector": {

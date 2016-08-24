@@ -35,3 +35,15 @@
     height: 0 !important;
     pointer-event: none;
 }
+
+.TopologyEdit.is-detached {
+    min-width: 24em;
+}
+
+.TopologyEdit.is-detached .Inspector {
+    margin-right: inherit;
+}
+
+.TopologyEdit.is-detached .TopologyEdit-sidebar {
+    display: none;
+}

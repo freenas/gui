@@ -110,8 +110,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 cascadingListItem;
             for (var i = cascadingListItems.length -1; i >= 0; i--) {
                 cascadingListItem = cascadingListItems[i];
-                if (Array.isArray(cascadingListItem.object) &&
-                        cascadingListItem.object._meta_data.collectionModelType === this.object.constructor.Type) {
+                if (Array.isArray(cascadingListItem.object)) {
                     result = cascadingListItem;
                     break;
                 }

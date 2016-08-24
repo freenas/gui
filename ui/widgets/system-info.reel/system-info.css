@@ -1,13 +1,1 @@
-.SystemInfo-body-content{
-    padding:1em
-}
-
-.SystemInfo .Widget-content:after {
-    position: absolute;
-    content: '';
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1em;
-    background-image: linear-gradient(rgba(0,0,0,0), #16171A);
-}
+.SystemInfo-body-content{padding:1em}

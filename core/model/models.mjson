@@ -105,6 +105,10 @@
             "type": "DashboardContext"
         },
         {
+            "modelId": "core/model/models/detached-volume.js",
+            "type": "DetachedVolume"
+        },
+        {
             "modelId": "core/model/models/directory-parameters.js",
             "type": "DirectoryParameters"
         },

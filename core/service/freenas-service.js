@@ -134,6 +134,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.Calendar,
             Model.CalendarTask,
             Model.DashboardContext,
+            Model.DetachedVolume,
             Model.Disk,
             Model.Group,
             Model.Ipmi,
@@ -526,9 +527,12 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
     //FIXME: hacky, only used when fetching data without montage-data, which should never happen...
     mapRawDataToType: {
         value: function(data, type) {
-            var object = this.getDataObject(type);
-            this._childServiceMap.get(type)[0].mapFromRawData(object, data);
-            return object;
+            var self = this;
+            return Model.populateObjectPrototypeForType(type).then(function() {
+                var object = self.getDataObject(type);
+                self._childServiceMap.get(type)[0].mapFromRawData(object, data);
+                return object;
+            });
         }
     },
 

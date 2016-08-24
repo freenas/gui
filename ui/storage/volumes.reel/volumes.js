@@ -35,6 +35,10 @@ exports.Volumes = Component.specialize({
         value: {}
     },
 
+    _VOLUMES_METADATA: {
+        value: { collectionModelType: Model.Volume }
+    },
+
     disks: {
         get: function () {
             return this._disks || [];
@@ -46,34 +50,20 @@ exports.Volumes = Component.specialize({
         }
     },
 
-    _shares: {
-        value: null
-    },
-
     shares: {
-        get: function () {
-            return this._shares;
-        },
-        set: function (shares) {
-            if (this._shares !== shares) {
-                this._shares = shares;
-            }
-        }
-    },
-
-    _datasets: {
         value: null
     },
 
     datasets: {
-        get: function () {
-            return this._datasets;
-        },
-        set: function (datasets) {
-            if (this._datasets !== datasets) {
-                this._datasets= datasets;
-            }
-        }
+        value: null
+    },
+
+    allVolumes: {
+        value: null
+    },
+
+    detachedVolumes: {
+        value: null
     },
 
     _loadDependencies: {
@@ -89,7 +79,11 @@ exports.Volumes = Component.specialize({
                 self.disks = disks;
                 return self._listDatasets();
             }).then(function (datasets) {
-                self.datasets = datasets;
+                return self.datasets = datasets;
+            }).then(function() {
+                return self._listDetachedVolumes();
+            }).then(function(detachedVolumes) {
+                return self.detachedVolumes = detachedVolumes;
             });
         }
     },
@@ -97,6 +91,22 @@ exports.Volumes = Component.specialize({
     _listVolumes: {
         value: function () {
             return this._dataService.fetchData(Model.Volume);
+        }
+    },
+
+    _listDetachedVolumes: {
+        value: function() {
+            var self = this;
+            return this._volumeService.find().then(function(rawDetachedVolumes) {
+                return Promise.all(rawDetachedVolumes.filter(function(x) {
+                    return x.status === "ONLINE";
+                }).map(function(x) {
+                    return self._dataService.mapRawDataToType(x, Model.DetachedVolume).then(function(detachedVolume) {
+                        detachedVolume.topology._isDetached = true;
+                        return detachedVolume;
+                    });
+                }));
+            });
         }
     },
 
@@ -119,6 +129,7 @@ exports.Volumes = Component.specialize({
         value: function () {
             var self = this;
 
+
             this._initializeServices().then(function () {
                 self.type = Model.Volume;
 
@@ -129,9 +140,8 @@ exports.Volumes = Component.specialize({
                 }).then(function () {
                     // Change listeners are set at the end of the initialization for security and performance reasons,
                     // Indeed, once they are set on the properties they will be automatically called with all the populated data.
-                    self.volumes = self._volumes;
 
-                    self.addRangeAtPathChangeListener("volumes", self, "handleVolumesChange");
+                    self.addRangeAtPathChangeListener("_volumes", self, "handleVolumesChange");
                     self.addRangeAtPathChangeListener("shares", self, "handleSharesChange");
                     self.addRangeAtPathChangeListener("disks", self, "handleDisksChange");
                 });
@@ -159,7 +169,8 @@ exports.Volumes = Component.specialize({
 
     handleVolumesChange: {
         value: function(addedVolumes, removedVolumes) {
-            var volume, i, volumesLength, disk, j, disksLength;
+            var self = this,
+                volume, i, volumesLength, disk, j, disksLength;
 
             for (i = 0, volumesLength = removedVolumes.length; i < volumesLength; i++) {
                 volume = removedVolumes[i];
@@ -181,6 +192,7 @@ exports.Volumes = Component.specialize({
                 this._volumesById[volume.id] = volume;
                 this._assignVolumeToDisks();
             }
+            return self._buildAllVolumes();
         }
     },
 
@@ -192,14 +204,34 @@ exports.Volumes = Component.specialize({
         }
     },
 
+    _buildAllVolumes: {
+        value: function() {
+            var self = this;
+            return this._listDetachedVolumes().then(function(detachedVolumes) {
+                var allVolumes = Array.prototype.concat.apply(self._volumes, detachedVolumes);
+                allVolumes._meta_data = { collectionModelType: Model.Volume };
+                var volumesIds = allVolumes.map(function(x) { return x.guid ? x.id + '_' + x.guid : x.id; });
+                volumesIds.sort();
+                var knownVolumesIds = volumesIds.join(':');
+                if (self._knownVolumes !== knownVolumesIds) {
+                    self._knownVolumes = knownVolumesIds;
+                    self.allVolumes = allVolumes;
+                }
+            });
+        }
+    },
+
     handleDisksChange: {
         value: function(addedDisks, removedDisks) {
-            var disk;
+            var self = this,
+                disk;
             for (var i = 0, length = removedDisks.length; i < length; i++) {
                 disk = removedDisks[i];
                 delete this._diskAllocationPromises[disk.path];
             }
-            this._assignVolumeToDisks(addedDisks);
+            return this._assignVolumeToDisks(addedDisks).then(function() {
+                return self._buildAllVolumes();
+            });
         }
     },
 
@@ -211,7 +243,7 @@ exports.Volumes = Component.specialize({
             disks = disks.filter(function (x) {
                 return !!x.status;
             });
-            Promise.all(disks.map(function (x) {
+            return Promise.all(disks.map(function (x) {
                 return x.status;
             })).then(function () {
                 var unrequestedDisks = disks.filter(function(x) { return !self._diskAllocationPromises[x.path]; }).map(function(x) { x._devicePath = x.path; return x; });
