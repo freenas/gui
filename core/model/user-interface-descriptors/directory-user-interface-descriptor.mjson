@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/directory-services.reel/directory-service.reel"},
-            "collectionItemComponentModule": {"%": "ui/network/interfaces-list-item.reel"},
+            "collectionItemComponentModule": {"%": "ui/inspectors/directory-services.reel/directory-service-item-list.reel/"},
             "nameExpression": "label"
         }
     }
