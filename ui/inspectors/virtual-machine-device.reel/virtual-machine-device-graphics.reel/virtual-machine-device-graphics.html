@@ -13,6 +13,20 @@
         "selectOptionConverter": {
             "prototype": "core/converter/select-option-converter"
         },
+        "integerRangeValidator": {
+            "prototype": "core/converter/validator/integer-range-validator",
+            "properties": {
+                "floor": 1,
+                "ceiling": 65535,
+                "errorMessage": "VNC Port must be between 1 and 65535"
+            }
+        },
+        "integerConverter": {
+            "prototype": "core/converter/string-to-integer-or-null-converter",
+            "properties": {
+                "validator": {"@": "integerRangeValidator"}
+            }
+        },
         "graphicsResolution": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -22,7 +36,28 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.graphicsResolutionOptions"},
-                "selectedValue": {"<->": "owner.object.resolution"}
+                "selectedValue": {"<->": "@owner.object.resolution"}
+            }
+        },
+        "vncPort": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "vncPort"},
+                "converter": {"@": "integerConverter"},
+                "label": "VNC Port"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.vnc_port"}
+            }
+        },
+        "vncEnabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "vncEnabled"},
+                "label": "VNC Enabled"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.vnc_enabled"}
             }
         }
     }
@@ -31,6 +66,8 @@
 <body>
     <div data-montage-id="owner" class="VirtualMachineDeviceGraphics">
         <div data-montage-id="graphicsResolution"></div>
+        <div data-montage-id="vncPort"></div>
+        <div data-montage-id="vncEnabled"></div>
     </div>
 </body>
 </html>
