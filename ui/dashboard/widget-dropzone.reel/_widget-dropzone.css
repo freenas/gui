@@ -1,5 +1,10 @@
 .WidgetDropzone {
     flex: 1;
+    display: flex;
+}
+
+.WidgetDropzone-wrapper {
+    flex: 1;
 }
 
 .WidgetDropzone-widgets {
