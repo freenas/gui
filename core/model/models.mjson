@@ -205,6 +205,10 @@
             "type": "Error"
         },
         {
+            "modelId": "core/model/models/freeipa-directory-params.js",
+            "type": "FreeipaDirectoryParams"
+        },
+        {
             "modelId": "core/model/models/get-stats-params.js",
             "type": "GetStatsParams"
         },
