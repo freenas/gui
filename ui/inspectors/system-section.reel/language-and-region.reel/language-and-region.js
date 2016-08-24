@@ -25,19 +25,23 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                 this._dataService = this.application.dataService;
                 this._snapshotDataObjectsIfNecessary();
                 this.isLoading = true;
-                this.application.systemGeneralService.getTimezoneData().then(function(timezoneData) {
-                    self.timezoneData = timezoneData;
+                this.application.systemGeneralService.getTimezoneData().then(function(systemGeneral) {
+                    self.timezoneData = systemGeneral.timezone;
+                });
+                this.application.systemGeneralService.getTimezoneOptions().then(function(timezoneOptions) {
                     self.timezoneOptions = [];
-                    for(var i=0; i<timezoneData.timezoneOptions.length; i++) {
-                        self.timezoneOptions.push({label: timezoneData.timezoneOptions[i], value: timezoneData.timezoneOptions[i]})
+                    for(var i=0; i<timezoneOptions.length; i++) {
+                        self.timezoneOptions.push({label: timezoneOptions[i], value: timezoneOptions[i]})
                     }
                 });
-                this.application.systemGeneralService.getKeymapsData().then(function(keymapsData) {
-                    self.keymapsData = keymapsData;
+                this.application.systemGeneralService.getKeymapOptions().then(function(keymapsData) {
                     self.keymapsOptions = [];
-                    for(var i=0; i<keymapsData.keymapsOptions.length; i++) {
-                        self.keymapsOptions.push({label: keymapsData.keymapsOptions[i][1], value: keymapsData.keymapsOptions[i][0]});
+                    for(var i=0; i<keymapsData.length; i++) {
+                        self.keymapsOptions.push({label: keymapsData[i][1], value: keymapsData[i][0]});
                     }
+                });
+                this.application.systemGeneralService.getConsoleKeymap().then(function(generalData) {
+                    self.generalData = generalData;
                 });
                 self.isLoading = false;
             }
@@ -46,12 +50,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
 
     save: {
         value: function() {
-            var savingPromises = [];
-            savingPromises.push(
-                this.application.dataService.saveDataObject(this.timezoneData),
-                this.application.dataService.saveDataObject(this.keymapsData)
-            );
-            return Promise.all(savingPromises);
+            return this.application.systemGeneralService.saveGeneralData(this.generalData);
         }
     },
 
