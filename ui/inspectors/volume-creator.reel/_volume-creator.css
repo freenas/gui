@@ -1,10 +1,12 @@
-.VolumeCreator {
-    min-width: 37em;
+.CascadingListItem-VolumeCreator.CascadingListItem {
+    flex: 1;
+    min-width: 37.25em;
+    max-width: 50em;
 }
 
 .VolumeCreator .Inspector {
     /* magic number tided to sidebar width */
-    margin-right: 13.2em;
+    margin-right: 12.2em;
 }
 
 .VolumeCreator .Inspector-body {
@@ -31,7 +33,7 @@
     bottom: 0;
     right: 0;
     /* magic number tied to inspector margin */
-    width: 13.2em;
+    width: 12.2em;
     background-color: #2F3233;
     overflow: hidden;
     border-left: 2px solid #232629;

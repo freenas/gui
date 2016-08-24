@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
 /**
  * @class VolumeCreator
@@ -26,6 +27,25 @@ exports.VolumeCreator = Component.specialize({
                 } else {
                     self._object = object;
                 }
+            }
+        }
+    },
+
+    _parentCascadingListItem: {
+        value: null
+    },
+
+    exitDocument: {
+        value: function () {
+            this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
+        }
+    },
+
+    enterDocument: {
+        value: function () {
+            this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
+            if (this._parentCascadingListItem) {
+                this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");
             }
         }
     },
