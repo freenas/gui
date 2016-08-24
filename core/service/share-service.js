@@ -159,11 +159,11 @@ var ShareService = exports.ShareService = Montage.specialize({
 
             //FIXME: add to the tool a way to override default setter.
             if (typeof blockSize === "string") {
-                shareObject.properties.block_size = this._storageService._convertVolumeDatasetSizeProperty(blockSize);
+                shareObject.properties.block_size = this._storageService.convertSizeStringToBytes(blockSize);
             }
 
             if (typeof size === "string") {
-                shareObject.properties.size = this._storageService._convertVolumeDatasetSizeProperty(size);
+                shareObject.properties.size = this._storageService.convertSizeStringToBytes(size);
             }
 
             return self._dataService.saveDataObject(shareObject).then(function () { // share + share-iscsi (share.properties)

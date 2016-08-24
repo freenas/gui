@@ -128,12 +128,12 @@ var StorageService = exports.StorageService = Montage.specialize({
     convertVolumeDatasetSizeProperties: {
         value: function(dataset) {
             if (dataset.type === "FILESYSTEM") {
-                dataset.properties.quota.parsed = this._convertVolumeDatasetSizeProperty(dataset.properties.quota.value);
-                dataset.properties.refquota.parsed = this._convertVolumeDatasetSizeProperty(dataset.properties.refquota.value);
-                dataset.properties.reservation.parsed = this._convertVolumeDatasetSizeProperty(dataset.properties.reservation.value);
-                dataset.properties.refreservation.parsed = this._convertVolumeDatasetSizeProperty(dataset.properties.refreservation.value);
+                dataset.properties.quota.parsed = this.convertSizeStringToBytes(dataset.properties.quota.value);
+                dataset.properties.refquota.parsed = this.convertSizeStringToBytes(dataset.properties.refquota.value);
+                dataset.properties.reservation.parsed = this.convertSizeStringToBytes(dataset.properties.reservation.value);
+                dataset.properties.refreservation.parsed = this.convertSizeStringToBytes(dataset.properties.refreservation.value);
             } else {
-                dataset.volsize = this._convertVolumeDatasetSizeProperty(dataset.volsize);
+                dataset.volsize = this.convertSizeStringToBytes(dataset.volsize);
             }
         }
     },
@@ -147,7 +147,7 @@ var StorageService = exports.StorageService = Montage.specialize({
        FreeNAS by thy desired value, which being parsed from user input, shall
        first be confirmed to be a number.
     */
-    _convertVolumeDatasetSizeProperty: {
+    convertSizeStringToBytes: {
         value: function (size) {
             var input, prefix, value;
             if (typeof size === "string") {
