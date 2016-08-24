@@ -22,8 +22,8 @@ exports.VirtualMachineDeviceNic = Component.specialize({
 
     constructor: {
         value: function() {
-            this.nicDeviceOptions = VmDeviceNicDevice.members;
-            this.nicModeOptions = VmDeviceNicMode.members;
+            this.nicDeviceOptions = this._createSelectOptions(VmDeviceNicDevice.members);
+            this.nicModeOptions = this._createSelectOptions(VmDeviceNicMode.members);
         }
     },
 
@@ -31,11 +31,21 @@ exports.VirtualMachineDeviceNic = Component.specialize({
         value: function(isFirstTime) {
             var self = this;
 
-            if (isFirstTime) {
-                this.application.dataService.fetchData(Model.NetworkInterface).then(function(interfaces) {
-                    self.interfaces = interfaces;
-                });
-            }
+            // FIXME: This should be updated every time the interfaces change.
+            this.application.dataService.fetchData(Model.NetworkInterface).then(function(interfaces) {
+                self.interfaces = interfaces.slice();
+                self.interfaces.unshift({id: "default", enabled: true});
+            });
+        }
+    },
+
+    _createSelectOptions: {
+        value: function(values) {
+            var result = values.map(function(value) {
+                return {label: value, value: value};
+            });
+            result.unshift({label:"---", value: null});
+            return result;
         }
     }
 });
