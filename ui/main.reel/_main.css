@@ -14,9 +14,17 @@
     display: flex;
 }
 
-.Main-mainSidebar {
-    flex-shrink: 0;
-    width:  9em;
+.Main-content {
+    flex: 1;
+    display: flex;
+    /* flex-direction: column; */
+    background-size: cover;
+    background-image:
+        radial-gradient(
+            circle farthest-corner at center -5%,
+            rgba(255, 255, 255, .1),
+            rgba(0, 0, 0, .1)
+        );
 }
 
 .Main-substitution {
@@ -35,15 +43,3 @@
         url(../../assets/images/bg.png);
 }
 
-.Main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-size: cover;
-    background-image:
-        radial-gradient(
-            circle farthest-corner at center -5%,
-            rgba(255, 255, 255, .1),
-            rgba(0, 0, 0, .1)
-        );
-}
