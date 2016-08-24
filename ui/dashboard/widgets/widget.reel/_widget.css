@@ -73,6 +73,17 @@
     }
 }
 
+.Widget-content-front {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    & .Scrollview-transform {
+        flex: none;
+        display: block;
+    }
+}
+
 .Widget-footer {
     display: flex;
     align-items: flex-end;
