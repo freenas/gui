@@ -1,8 +1,5 @@
-.Viewer > .Scrollview {
-    position: absolute;
-    top: 0em;
-    bottom: 0;
-    width: 100%;
+.Viewer  {
+    /* min-width: 18em; */
 }
 
 .Viewer-header {
