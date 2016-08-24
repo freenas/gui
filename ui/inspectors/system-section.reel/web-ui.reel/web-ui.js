@@ -37,6 +37,7 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
                 this.isLoading = true;
                 this.application.systemUIService.getUIData().then(function(uiData) {
                     self.object = uiData;
+                    self._snapshotDataObjectsIfNecessary();
                 });
                 Model.populateObjectPrototypeForType(Model.NetworkConfig).then(function(networkConfig) {
                     return networkConfig.constructor.services.getMyIps();
@@ -59,6 +60,28 @@ exports.WebUi = Component.specialize(/** @lends WebUi# */ {
     save: {
         value: function() {
             return this.application.systemUIService.saveUIData(this.object);
+        }
+    },
+
+    revert: {
+        value: function() {
+            this.object.webui_protocol = this._object.webui_protocol;
+            this.object.ipv4 = this._object.ipv4
+            this.object.ipv6 = this._object.ipv6
+            this.object.webui_http_port = this._object.webui_http_port
+            this.object.webui_https_port = this._object.webui_https_port
+            this.object.webui_https_certificate = this._object.webui_https_certificate
+            this.object.webui_http_redirect_https = this._object.webui_http_redirect_https
+            this.object.webui_listen = this._object.webui_listen
+
+        }
+    },
+
+    _snapshotDataObjectsIfNecessary: {
+        value: function() {
+            if(!this._object) {
+                this._object = this.application.dataService.clone(this.object);
+            }
         }
     }
 
