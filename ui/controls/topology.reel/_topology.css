@@ -1,4 +1,6 @@
 .Topology {
+    border-bottom: 1px solid #232629;
+
     /* log & cache */
     & .flex-row > * {
         flex: 1;
