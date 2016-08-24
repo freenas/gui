@@ -35,6 +35,7 @@ exports.DirectoryServices = Component.specialize({
         value: function () {
             var directoryTypesKeyValuesKeys = Object.keys(this.constructor.DIRECTORY_TYPES_KEY_VALUES),
                 directoryTypesValueKeys = this.constructor.DIRECTORY_TYPES_VALUE_KEYS,
+                directoryTypesLabels = this.constructor.DIRECTORY_TYPES_LABELS,
                 directoryServicesMap = new Map(),
                 directories = this._directories,
                 directoryServices, directoryService,
@@ -49,6 +50,7 @@ exports.DirectoryServices = Component.specialize({
 
                 if ((directoryTypesValueKey = directoryTypesValueKeys[directoryService.plugin])) {
                     directoryServicesMap.set(directoryTypesValueKey, directoryService);
+                    directoryService.label = directoryTypesLabels[directoryService.type];
                 }
             }
 
@@ -75,10 +77,12 @@ exports.DirectoryServices = Component.specialize({
 
     _getNewDirectoryInstance: {
         value: function (type) {
-            var directoryTypesKeyValues = this.constructor.DIRECTORY_TYPES_KEY_VALUES;
+            var directoryTypesKeyValues = this.constructor.DIRECTORY_TYPES_KEY_VALUES,
+                directoryTypesLabels = this.constructor.DIRECTORY_TYPES_LABELS;
 
             return this.application.dataService.getNewInstanceForType(Model.Directory).then(function (directory) {
                 directory.type = directoryTypesKeyValues[type];
+                directory.label = directoryTypesLabels[directory.type];
 
                 return directory;
             });
@@ -87,6 +91,13 @@ exports.DirectoryServices = Component.specialize({
 
 
 }, {
+
+    DIRECTORY_TYPES_LABELS: {
+        value: {
+            winbind: "Active Directory",
+            freeipa: "FreeIPA"
+        }
+    },
 
     DIRECTORY_TYPES_KEY_VALUES: {
         value: {

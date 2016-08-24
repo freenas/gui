@@ -180,7 +180,10 @@ exports.Directory = AbstractModel.specialize({
             inspectorComponentModule: {
                 id: 'ui/inspectors/directory-services.reel/directory-service.reel'
             },
-            nameExpression: "type"
+            collectionItemComponentModule: {
+                id: 'ui/network/interfaces-list-item.reel'
+            },
+            nameExpression: "label"
         }
     }
 });
