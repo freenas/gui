@@ -14,7 +14,8 @@
 
 .CurrentNode-scrollview {
     position: relative;
-    flex: 1;
+    display: flex;
+    min-height: 0;
 }
 
 /*
