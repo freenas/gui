@@ -61,7 +61,7 @@ exports.MinimumBytesValidator = Validator.specialize({
                     prefix = parsedInput[2];
                     value = parseInt(parsedInput[1]);
                     if (!!prefix) {
-                        if (this.SIZE_PREFIX_EXPONENTS[prefix.toUpperCase()] < this.SIZE_PREFIX_EXPONENTS[this.minPrefix.toUpperCase()] ) {
+                        if (this.SIZE_PREFIX_EXPONENTS[prefix.toUpperCase()] < (this.minPrefix ? this.SIZE_PREFIX_EXPONENTS[this.minPrefix.toUpperCase()] : 1) ) {
                             throw new Error(this.errorMessage);
                         }
                     }
@@ -71,6 +71,12 @@ exports.MinimumBytesValidator = Validator.specialize({
                         throw new Error(this.errorMessage);
                     }
                 } else {
+                    throw new Error(this.errorMessage);
+                }
+            } else if (typeof input === "number" && !this.minPrefix) {
+                try {
+                    this._integerFloorValidator.validate(input);
+                } catch (e) {
                     throw new Error(this.errorMessage);
                 }
             } else {
