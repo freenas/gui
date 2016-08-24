@@ -18,7 +18,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.timezoneOptions"},
-                "selectedValue": {"<->": "@owner.timezoneData.timezone"}
+                "selectedValue": {"<->": "@owner.generalData.timezone"}
             }
         },
         "keymaps": {
@@ -29,7 +29,7 @@
             },
             "bindings": {
                 "options" : {"<-": "@owner.keymapsOptions"},
-                "selectedValue": {"<->": "@owner.keymapsData.console_keymap"}
+                "selectedValue": {"<->": "@owner.generalData.console_keymap"}
             }
         },
         "timezonepicker": {
@@ -38,7 +38,7 @@
                 "element": {"#": "timezonepicker"}
             },
             "bindings": {
-                "timezone": {"<->": "@owner.timezoneData.timezone"}
+                "timezone": {"<->": "@owner.generalData.timezone"}
             }
         }
     }
