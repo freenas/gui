@@ -68,7 +68,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
                 this._parentCascadingListItem.classList.add("CascadingListItem-Topology");
             }
         }
-    }
+    },
 
     _parentCascadingListItem: {
         value: null
