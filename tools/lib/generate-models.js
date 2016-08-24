@@ -12,6 +12,10 @@ function _createFilesConcatPath (path) {
     };
 }
 
+function isMJsonFile(file) {
+    return file.lastIndexOf('.mjson') + '.mjson'.length === file.length;
+}
+
 exports.generateModels = function generateModels (paths, options, userDescriptorsPath) {
     if (!Array.isArray(paths)) {
         paths = [paths];
@@ -20,7 +24,7 @@ exports.generateModels = function generateModels (paths, options, userDescriptor
     var userDescriptorsMap = new Map();
 
     return FS.listDirectoryAtPath(userDescriptorsPath).then(function (userDescriptorFiles) {
-        return Promise.map(userDescriptorFiles, function (userDescriptorFile) {
+        return Promise.map(userDescriptorFiles.filter(isMJsonFile), function (userDescriptorFile) {
             var userDescriptorName = (userDescriptorFile.replace("-user-interface-descriptor.mjson", "")).toCamelCase();
 
             return FS.readFileAtPath(Path.join(userDescriptorsPath, userDescriptorFile)).then(function (data) {
@@ -37,7 +41,7 @@ exports.generateModels = function generateModels (paths, options, userDescriptor
 
             modelsMap.set("AbstractModel", true);
 
-            return Promise.map(files, function (file) {
+            return Promise.map(files.filter(isMJsonFile), function (file) {
                 return FS.readFileAtPath(file).then(function (data) {
                     return JSON.parse(data);
                 });
