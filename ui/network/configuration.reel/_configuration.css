@@ -1,10 +1,8 @@
 .Configuration {
-    min-width: 26em;
+    width: 26em;
 }
 
-.Configuration .ScrollviewContent {
-    width: 100%;
-}
+.Configuration .ScrollviewContent { width: 100%; }
 
 .Configuration-overview {
     border-bottom: 1px solid rgba(255,255,255,.2);
