@@ -39,13 +39,13 @@ exports.System = Component.specialize(/** @lends System# */ {
                 this.isLoading = true;
                 loadingPromises.push(
                     this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
-                        self.consoleData = consoleData;
-                        self.systemAdvancedData = consoleData.systemAdvanced;
+                        self.systemAdvancedData = consoleData;
                     }),
                     this.application.dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral) {
                         self.systemGeneralData = systemGeneral[0];
                     }),
                     this.application.systemDatasetService.getBootpoolConfig().then(function(bootPool){
+                        console.log(bootPool);
                         self.datasetOptions.push({label:"Boot Pool", value:bootPool["id"]});
                     }),
                     this.application.storageService.listVolumes().then(function(volumesList) {
@@ -55,6 +55,7 @@ exports.System = Component.specialize(/** @lends System# */ {
                     })
                 );
                 Promise.all(loadingPromises).then(function() {
+                    self._snapshotDataObjectsIfNecessary()
                     this.isLoading = false;
                 });
             }
@@ -66,9 +67,32 @@ exports.System = Component.specialize(/** @lends System# */ {
             var savingPromises = [];
             savingPromises.push(
                 this.application.dataService.saveDataObject(this.systemGeneralData),
-                this.application.dataService.saveDataObject(this.consoleData)
+                this.application.dataService.saveDataObject(this.systemAdvancedData)
             );
             return Promise.all(savingPromises);
+        }
+    },
+
+    revert: {
+        value: function() {
+            this.systemGeneralData.hostname = this._systemGeneralData.hostname;
+            this.systemGeneralData.syslog_server = this._systemGeneralData.syslog_server;
+            this.systemAdvancedData.powerd = this._systemAdvancedData.powerd;
+            this.systemAdvancedData.uploadcrash = this._systemAdvancedData.uploadcrash;
+            this.systemAdvancedData.motd = this._systemAdvancedData.motd;
+        }
+    },
+
+    _snapshotDataObjectsIfNecessary: {
+        value: function() {
+            if (!this._systemGeneralData) {
+                this._systemGeneralData = this.application.dataService.clone(this.systemGeneralData);
+            }
+            if (!this._systemAdvancedData) {
+                this._systemAdvancedData = this.application.dataService.clone(this.systemAdvancedData);
+            }
+            console.log(this.systemGeneralData, this._systemGeneralData);
+            console.log(this.systemAdvancedData, this._systemAdvancedData);
         }
     }
 });
