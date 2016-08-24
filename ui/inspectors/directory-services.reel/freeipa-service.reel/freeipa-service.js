@@ -21,12 +21,9 @@ exports.FreeipaService = Component.specialize(/** @lends FreeipaService# */ {
             if (this.object && !this.object.parameters) {
                 var self = this;
                 
-                //FIXME BAD schema for FreeipaDirectoryParams
-                // return this.application.dataService.getNewInstanceForType(Model.FreeipaDirectoryParams).then(function (freeipaDirectoryParams) {
-                //     return (self.object.parameters = freeipaDirectoryParams);
-                // });
-
-                self.object.parameters = {};
+                return this.application.dataService.getNewInstanceForType(Model.FreeipaDirectoryParams).then(function (freeipaDirectoryParams) {
+                    return (self.object.parameters = freeipaDirectoryParams);
+                });
             }
         }
     }
