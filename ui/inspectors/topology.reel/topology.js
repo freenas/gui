@@ -59,10 +59,19 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function() {
             this._cancelTopologySelectedDiskListener = this.addRangeAtPathChangeListener("topologySelectedDisk", this, "_handleTopologySelectedDiskChange");
             this._cancelAvailableSelectedDiskListener = this.addRangeAtPathChangeListener("availableSelectedDisk", this, "_handleAvailableSelectedDiskChange");
+
+            this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
+            if (this._parentCascadingListItem) {
+                this._parentCascadingListItem.classList.add("CascadingListItem-Topology");
+            }
         }
+    }
+
+    _parentCascadingListItem: {
+        value: null
     },
 
     exitDocument: {
@@ -77,6 +86,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
             }
             this._clearDisk();
             this._freeTopologyProxy();
+            this._parentCascadingListItem.classList.remove("CascadingListItem-Topology");
             this._object = null;
         }
     },
