@@ -19,8 +19,8 @@ exports.Debug = Component.specialize(/** @lends Debug# */ {
             if (isFirstTime) {
                 this.isLoading = true;
                 this.application.systemAdvancedService.getSerialConsoleData().then(function(consoleData) {
-                    self.object = consoleData.systemAdvanced;
-                    self.isLoading = false;
+                    self.object = consoleData;
+                    self._snapshotDataObjectsIfNecessary();
                 });
             }
         }
@@ -29,6 +29,21 @@ exports.Debug = Component.specialize(/** @lends Debug# */ {
     save: {
         value: function() {
             return this.application.systemAdvancedService.saveAdvanceData(this.object);
+        }
+    },
+
+    revert: {
+        value: function() {
+            this.object.debugkernel = this._object.debugkernel;
+            this.object.uploadcrash = this._object.uploadcrash;
+        }
+    },
+
+    _snapshotDataObjectsIfNecessary: {
+        value: function() {
+            if (!this._object) {
+                this._object = this.application.dataService.clone(this.object);
+            }
         }
     }
 });
