@@ -24,7 +24,6 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                 loadingPromises = [];
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
-                this._snapshotDataObjectsIfNecessary();
                 this.isLoading = true;
                 loadingPromises.push(
                     this.application.systemGeneralService.getTimezoneOptions().then(function(timezoneOptions) {
@@ -41,6 +40,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                     }),
                     this.application.systemGeneralService.getConsoleKeymap().then(function(generalData) {
                         self.generalData = generalData;
+                        self._snapshotDataObjectsIfNecessary();
                     })
                 );
                 Promise.all(loadingPromises).then(function() {
@@ -58,7 +58,8 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
 
     revert: {
         value: function() {
-            this.generalData = this._generalData;
+            this.generalData.console_keymap = this._generalData.console_keymap;
+            this.generalData.timezone = this._generalData.timezone;
         }
     },
 
@@ -66,6 +67,7 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: function() {
             if (!this._generalData) {
                 this._generalData = this._dataService.clone(this.generalData);
+                console.log(this._generalData, this.generalData);
             }
         }
     }
