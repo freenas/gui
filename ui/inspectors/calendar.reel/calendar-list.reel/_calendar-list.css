@@ -1,5 +1,7 @@
 .CalendarList {
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .CalendarList-days {

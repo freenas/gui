@@ -17,13 +17,6 @@
     border-spacing: 0;
     font-weight: 200;
     border: 1px solid #16171A;
-
-    /* magic numbers :( */
-    height: 34.5em;
-
-    @media (min-height: 70em) {
-        height: 46em;
-    }
 }
 
 .CalendarWidget > header {
@@ -213,6 +206,18 @@ Main Content
     flex: 1;
     border: 1px solid var(--calenderStrongLine);
     background-color: var(--bg);
+    display: flex;
+
+    & .Scrollview-transform {
+        flex: none;
+    }
+
+    /* magic numbers :( */
+    height: 30em;
+
+    @media (min-height: 70em) {
+        height: 40em;
+    }
 }
 
 .CalendarWidget-view-content {

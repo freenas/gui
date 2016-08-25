@@ -1,1 +1,1 @@
-.CalendarList{position:relative}.CalendarList-days{padding-top:1em}
+.CalendarList{position:relative;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.CalendarList-days{padding-top:1em}
