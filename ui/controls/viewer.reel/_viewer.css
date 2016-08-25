@@ -1,5 +1,9 @@
 .Viewer  {
-    /* min-width: 18em; */
+
+}
+
+.Viewer > .Scrollview .Scrollview-transform {
+    display: block;
 }
 
 .Viewer-header {
