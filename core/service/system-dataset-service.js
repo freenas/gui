@@ -29,6 +29,15 @@ var SystemDatasetService = exports.SystemDatasetService = Montage.specialize({
         }
     },
 
+    getSystemDatasetPool: {
+        value: function() {
+            var self = this;
+            return this._callBackend("system_dataset.status",[]).then(function(response) {
+                return response.data;
+            })
+        }
+    },
+
     _callBackend: {
         value: function(method, args) {
             return this._backendBridge.send("rpc", "call", {
