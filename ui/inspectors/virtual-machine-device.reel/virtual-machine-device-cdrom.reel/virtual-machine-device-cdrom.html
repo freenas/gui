@@ -13,11 +13,11 @@
         "fileTreeController": {
             "prototype": "core/controller/filesystem-tree-controller",
             "properties": {
-                "canListFiles": true
+                "canListFiles": true,
+                "root": "/mnt/"
             },
             "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"},
-                "root": {"<-": "/"}
+                "service": {"<-": "@owner.application.filesystemService"}
             }
         },
         "cdromPath": {
@@ -28,8 +28,7 @@
                 "controller": {"@": "fileTreeController"}
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object.path"},
-                "readOnly": {"<-": "!@owner.editable"}
+                "selectedPath": {"<->": "@owner.object.path"}
             }
         }
     }
