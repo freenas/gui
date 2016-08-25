@@ -1,6 +1,11 @@
 /*FIXME: @joshua*/
-.Volume .ActionButtons button {
-    display: inline-block !important;
+.Volume .ActionButtons {
+    display: flex;
+    margin-left: 1.5em;
+
+    & button {
+        display: block;
+    }
 }
 /*FIXME: @joshua*/
 

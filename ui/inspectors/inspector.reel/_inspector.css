@@ -79,3 +79,8 @@
     border-radius: 50%;
     z-index: -1;
 }
+
+.Inspector-optionalButtons {
+    display: flex;
+    margin-left: 1.5em;
+}
