@@ -23,6 +23,7 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
                 this.isLoading = true;
                 this.application.mailService.getMailData().then(function(mailData) {
                     self.object = mailData.mail;
+                    self._snapshotDataObjectsIfNecessary();
                 });
                 self.isLoading = false;
             }
@@ -32,6 +33,20 @@ exports.Mail = Component.specialize(/** @lends Mail# */ {
     save: {
         value: function() {
             return this.application.mailService.saveMailData(this.object);
+        }
+    },
+
+    revert: {
+        value: function() {
+            this.object = this._object;
+        }
+    },
+
+    _snapshotDataObjectsIfNecessary: {
+        value: function() {
+            if (!this._object) {
+                this._object = this.application.dataService.clone(this.object);
+            }
         }
     }
 });
