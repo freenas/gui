@@ -46,7 +46,9 @@ exports.System = Component.specialize(/** @lends System# */ {
                     }),
                     this.application.systemDatasetService.getBootpoolConfig().then(function(bootPool){
                         self.datasetOptions.push({label:"Boot Pool", value:bootPool["id"]});
-                        self.systemDatasetData = bootPool["id"];
+                    }),
+                    this.application.systemDatasetService.getSystemDatasetPool().then(function(systemDatasetPool) {
+                        self.systemDatasetData = systemDatasetPool.pool;
                     }),
                     this.application.storageService.listVolumes().then(function(volumesList) {
                         for (var i = 0; i < volumesList.length; i++) {
@@ -70,7 +72,6 @@ exports.System = Component.specialize(/** @lends System# */ {
                 this.application.dataService.saveDataObject(this.systemAdvancedData),
                 this.application.systemService.changeBootPool(this.systemDatasetData)
             );
-            console.log(this.systemDatasetData);
             return Promise.all(savingPromises);
         }
     },
