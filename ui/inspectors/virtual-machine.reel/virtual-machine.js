@@ -234,7 +234,8 @@ exports.VirtualMachine = Component.specialize({
             var parsedMemsize = this._memorySize.toString().match(this.application.storageService.SCALED_NUMERIC_RE_),
                 memsize,
                 memsizePrefix,
-                memsizeMultiplier = 1;
+                memsizeMultiplier = 1,
+                devices = this.object.devices;
 
             if (!!parsedMemsize) {
                 memsize = parseInt(parsedMemsize[1]);
@@ -243,6 +244,12 @@ exports.VirtualMachine = Component.specialize({
                     // We're going with 1024 no matter what. This is not up for
                     // further discussion.
                     memsizeMultiplier = Math.pow(1024, this.application.storageService.SIZE_PREFIX_EXPONENTS[memsizePrefix] - 2);
+                }
+            }
+
+            for (var i=0, length=devices.length; i<length; i++) {
+                if (devices[i].type === "DISK" && typeof devices[i].properties.size === "string") {
+                    devices[i].properties.size = this.application.storageService.convertSizeStringToBytes(devices[i].properties.size);
                 }
             }
 
