@@ -1,7 +1,5 @@
 /*FIXME: @joshua*/
-.Volume .ActionButtons {
-    display: flex;
-    margin-left: 1.5em;
+.Volume .Inspector-optionalButtons {
 
     & button {
         display: block;
