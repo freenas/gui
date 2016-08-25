@@ -142,6 +142,7 @@
 }
 
 .CalendarWidget-taskCategories {
+    padding: 0 1em;
     display: flex;
     align-items: center;
 }

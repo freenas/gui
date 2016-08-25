@@ -1,10 +1,8 @@
 .Calendar {
     flex: 1;
     display: flex;
-    padding-left: 1em;
     background: #16171A;
     width: 45em;
-    padding-top: 1em;
 }
 
 .Calendar-wrapper {
