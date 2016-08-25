@@ -14,5 +14,13 @@ exports.VirtualMachineDeviceUsb = Component.specialize({
         value: function() {
             this.usbTypeOptions = VmDeviceUsbDevice.members;
         }
+    },
+
+    enterDocument: {
+        value: function() {
+            if (!this.object.type) {
+                this.object.type = "tablet";
+            }
+        }
     }
 });
