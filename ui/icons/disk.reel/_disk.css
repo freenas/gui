@@ -3,6 +3,32 @@
     width: 2.5em;
     margin: .25em;
     margin-bottom: 0;
+
+    @nest .selected & {
+        position: relative;
+    }
+
+    &:before {
+        position: absolute;
+        content: '';
+        top:    -.25em;
+        left:   -.25em;
+        right:  -.25em;
+        bottom: -1.25em;
+        border-radius: 3px;
+        transition: border-color .25s ease-in-out;
+        border: 1px solid transparent;
+    }
+
+    &:hover:before { border: 1px solid #939E9F; }
+
+    @nest .selected &:before {
+        border: 1px solid #2b9cd8;
+    }
+
+    &:active:before {
+        border: 1px solid #2b9cd8;
+    }
 }
 
 .DiskIcon-mediaSize {
