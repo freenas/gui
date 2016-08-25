@@ -238,7 +238,7 @@
                 "value": "Start"
             },
             "bindings": {
-                "enabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
+                "disabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
             }
         },
         "stop": {
@@ -248,7 +248,7 @@
                 "value": "Stop"
             },
             "bindings": {
-                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
+                "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
         "reboot": {
@@ -258,7 +258,7 @@
                 "value": "Reboot"
             },
             "bindings": {
-                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
+                "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
         "webvncConsole": {
@@ -268,7 +268,7 @@
                 "value": "Console"
             },
             "bindings": {
-                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
+                "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         }
     }

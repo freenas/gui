@@ -178,9 +178,8 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
     _toggleUserInteraction: {
         value: function () {
-            this.submitButton.enabled =
-                this.passwordTextField.enabled =
-                    this.userNameTextField.enabled = !this._isAuthenticating;
+            this.submitButton.disabled = true;
+            this.passwordTextField.enabled = this.userNameTextField.enabled = !this._isAuthenticating;
         }
     }
 

@@ -18,7 +18,7 @@
                 "value": "Activate"
             },
             "bindings": {
-                "enabled": {"<-": "!@owner.object.onReboot"}
+                "disabled": {"<-": "!!@owner.object.onReboot"}
             }
         },
 
@@ -45,7 +45,7 @@
                 "value": "Delete"
             },
             "bindings": {
-                "enabled": {"<-": "!@owner.object.active && !@owner.object.onReboot"}
+                "disabled": {"<-": "!!@owner.object.active && !!@owner.object.onReboot"}
             }
         }
     }

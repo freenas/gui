@@ -158,7 +158,7 @@
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.smart"},
-                "enabled": {"<-": "!!@owner.object.status.smart_capable"}
+                "disabled": {"<-": "!@owner.object.status.smart_capable"}
             }
         },
         "smartOptions": {
@@ -168,7 +168,7 @@
                 "label": "SMART options"
             },
             "bindings": {
-                "enabled": {"<-": "@smart.enabled && @smart.checked"},
+                "enabled": {"<-": "!@smart.disabled && @smart.checked"},
                 "value": {"<->": "@owner.object.smart_options"}
             }
         }
