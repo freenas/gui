@@ -8,7 +8,13 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            }
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
         },
         "enable_debug_kernel": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
@@ -30,11 +36,18 @@
                 "checked": {"<->": "@owner.object.uploadcrash"}
             }
         },
-        "launchDebugger": {
-            "prototype": "blue-shark/ui/field-toggle-switch.reel",
+        "downloadDebug": {
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "launchDebugger"},
-                "label": "Remote Debug"
+                "element": {"#": "downloadDebug"},
+                "value": "Download Debug File"
+            }
+        },
+        "noOperation": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "noOperation"},
+                "value": "System Settings"
             }
         }
     }
@@ -42,9 +55,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Debug">
+        <div data-montage-id="downloadDebug" class="g-margin-bottom--half" id="downloadDebug"></div>
+        <div data-montage-id="noOperation" class="Updates-noOperation"></div>
         <div data-montage-id="enable_debug_kernel"></div>
         <div data-montage-id="uploadcrash"></div>
-        <div data-montage-id="launchDebugger"></div>
     </div>
 </body>
 </html>
