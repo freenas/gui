@@ -18,6 +18,10 @@
 .AvailableDisks .FoldableSection {
     margin: 0;
     padding: 0;
+
+    & .InspectorSectionTitle-text {
+        font-weight: 200;
+    }
 }
 
 .AvailableDisks .FoldableSection-expand {
