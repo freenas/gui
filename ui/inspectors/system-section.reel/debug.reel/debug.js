@@ -32,6 +32,16 @@ exports.Debug = Component.specialize(/** @lends Debug# */ {
         }
     },
 
+    handleDownloadDebugAction: {
+        value: function() {
+            var self = this;
+            this.application.systemAdvancedService.getDebugCollectAddress().then(function(debugObject) {
+                var uri = window.location.hostname + debugObject[1][0];
+                window.open(uri);
+            });
+        }
+    },
+
     revert: {
         value: function() {
             this.object.debugkernel = this._object.debugkernel;
