@@ -18,8 +18,8 @@ exports.VirtualMachineDeviceUsb = Component.specialize({
 
     enterDocument: {
         value: function() {
-            if (!this.object.type) {
-                this.object.type = "tablet";
+            if (!this.object.device) {
+                this.object.device = "tablet";
             }
         }
     }
