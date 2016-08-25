@@ -1,4 +1,20 @@
 {
+  "blueprint_dockerconfig_api_forwarding": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "api_forwarding",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_dockerconfig_api_forwarding_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "api_forwarding_enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_dockerconfig_default_host": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -12,6 +28,8 @@
     "properties": {
       "name": "DockerConfig",
       "propertyBlueprints": [
+        {"@": "blueprint_dockerconfig_api_forwarding"},
+        {"@": "blueprint_dockerconfig_api_forwarding_enable"},
         {"@": "blueprint_dockerconfig_default_host"}
       ]
     }

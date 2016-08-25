@@ -342,6 +342,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "setApiForwarding": {
+                "method": "containerd.docker.set_api_forwarding",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "start": {
                 "method": "containerd.docker.start",
                 "name": "call",
