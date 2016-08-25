@@ -45,8 +45,8 @@ exports.System = Component.specialize(/** @lends System# */ {
                         self.systemGeneralData = systemGeneral[0];
                     }),
                     this.application.systemDatasetService.getBootpoolConfig().then(function(bootPool){
-                        console.log(bootPool);
                         self.datasetOptions.push({label:"Boot Pool", value:bootPool["id"]});
+                        self.systemDatasetData = bootPool["id"];
                     }),
                     this.application.storageService.listVolumes().then(function(volumesList) {
                         for (var i = 0; i < volumesList.length; i++) {
@@ -67,8 +67,10 @@ exports.System = Component.specialize(/** @lends System# */ {
             var savingPromises = [];
             savingPromises.push(
                 this.application.dataService.saveDataObject(this.systemGeneralData),
-                this.application.dataService.saveDataObject(this.systemAdvancedData)
+                this.application.dataService.saveDataObject(this.systemAdvancedData),
+                this.application.systemService.changeBootPool(this.systemDatasetData)
             );
+            console.log(this.systemDatasetData);
             return Promise.all(savingPromises);
         }
     },
@@ -80,6 +82,7 @@ exports.System = Component.specialize(/** @lends System# */ {
             this.systemAdvancedData.powerd = this._systemAdvancedData.powerd;
             this.systemAdvancedData.uploadcrash = this._systemAdvancedData.uploadcrash;
             this.systemAdvancedData.motd = this._systemAdvancedData.motd;
+            this.systemDatasetData = this._systemDatasetData;
         }
     },
 
@@ -91,8 +94,9 @@ exports.System = Component.specialize(/** @lends System# */ {
             if (!this._systemAdvancedData) {
                 this._systemAdvancedData = this.application.dataService.clone(this.systemAdvancedData);
             }
-            console.log(this.systemGeneralData, this._systemGeneralData);
-            console.log(this.systemAdvancedData, this._systemAdvancedData);
+            if (!this._systemDatasetData) {
+                this._systemDatasetData = this.application.dataService.clone(this.systemDatasetData);
+            }
         }
     }
 });
