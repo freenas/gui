@@ -2,10 +2,6 @@ var Montage = require("montage").Montage,
     BackEndBridgeModule = require("../backend/backend-bridge");
 
 var SystemService = exports.SystemService = Montage.specialize({
-    _NAMESPACE: {
-        value: 'system.'
-    },
-
     _instance: {
         value: null
     },
@@ -18,9 +14,17 @@ var SystemService = exports.SystemService = Montage.specialize({
         value: null
     },
 
+    changeBootPool: {
+        value: function(bootPool) {
+            return this._submitTask('system_dataset.migrate', [bootPool]).then(function(response) {
+                return response.data;
+            })
+        }
+    },
+
     reboot: {
         value: function() {
-            return this._submitTask('reboot').then(function(response) {
+            return this._submitTask('system.reboot').then(function(response) {
                 return response.data;
             });
         }
@@ -28,7 +32,7 @@ var SystemService = exports.SystemService = Montage.specialize({
 
     shutdown: {
         value: function() {
-            return this._submitTask('shutdown').then(function(response) {
+            return this._submitTask('system.shutdown').then(function(response) {
                 return response.data;
             });
         }
@@ -39,7 +43,7 @@ var SystemService = exports.SystemService = Montage.specialize({
             args = args || [];
             return this._backendBridge.send("rpc", "call", {
                 method: 'task.submit',
-                args: [this._NAMESPACE + taskName, args]
+                args: [taskName, args]
             });
 
         }
