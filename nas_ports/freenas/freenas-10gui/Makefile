@@ -27,6 +27,7 @@ checksum:
 fetch:
 	${MKDIR} ${WRKDIR}
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/npm install)
+	(cd ${WRKSRC}/serial-console-app && ${LOCALBASE}/bin/npm install)
 
 extract:
 	:
