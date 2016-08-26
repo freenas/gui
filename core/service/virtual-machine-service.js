@@ -1,7 +1,8 @@
 var Montage = require("montage").Montage,
     FreeNASService = require("core/service/freenas-service").FreeNASService,
     BackEndBridgeModule = require("../backend/backend-bridge"),
-    Model = require("core/model/model").Model;
+    Model = require("core/model/model").Model,
+    VmDeviceType = require("core/model/enumerations/vm-device-type").VmDeviceType;
 
 var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
     _instance: {
@@ -14,6 +15,72 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
 
     _backendBridge: {
         value: null
+    },
+
+    createCdromDevice: {
+        value: function() {
+            return this._createNewDevice(VmDeviceType.CDROM);
+        }
+    },
+
+    createDiskDevice: {
+        value: function() {
+            return this._createNewDevice(VmDeviceType.DISK);
+        }
+    },
+
+    createGraphicsDevice: {
+        value: function() {
+            return this._createNewDevice(VmDeviceType.GRAPHICS);
+        }
+    },
+
+    createNicDevice: {
+        value: function() {
+            return this._createNewDevice(VmDeviceType.NIC);
+        }
+    },
+
+    createUsbDevice: {
+        value: function() {
+            return this._createNewDevice(VmDeviceType.USB);
+        }
+    },
+
+    _createNewDevice: {
+        value: function(type) {
+            return this._dataService.getNewInstanceForType(Model.VmDevice).then(function(device) {
+                device.type = type;
+                device._isNewObject = true;
+                switch (type) {
+                    case VmDeviceType.CDROM:
+                        device.properties = {};
+                        break;
+                    case VmDeviceType.DISK:
+                        device.properties = {
+                            mode: "AHCI"
+                        };
+                        break;
+                    case VmDeviceType.GRAPHICS:
+                        device.properties = {
+                            resolution: "640x480"
+                        };
+                        break;
+                    case VmDeviceType.NIC:
+                        device.properties = {
+                            mode: "BRIDGED",
+                            device: "VIRTIO"
+                        };
+                        break;
+                    case VmDeviceType.USB:
+                        device.properties = {
+                            device: "tablet"
+                        };
+                        break;
+                }
+                return device;
+            });
+        }
     },
 
     getTemplates: {
