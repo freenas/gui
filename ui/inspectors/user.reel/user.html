@@ -9,7 +9,8 @@
             "properties": {
                 "element": {"#": "owner"},
                 "treeController": {"@": "filesystemTreeController"},
-                "inspector": {"@": "inspector"}
+                "inspector": {"@": "inspector"},
+                "_defaultHomeDirectoryComponent" : {"@": "defaultHomeDirectory"}
             }
         },
         "inspector": {
@@ -242,9 +243,21 @@
                 "label": "Home Directory"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object.home"}
+                "selectedPath": {"<->": "@owner.homeDirectory"}
             }
         },
+
+        "defaultHomeDirectory": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "defaultHomeDirectory"},
+                "label": "Make as default home directory"
+            },
+            "bindings": {
+                "checked": {"<-": "@owner.homeDirectory == @owner.systemAdvanced.home_directory_root"}
+            }
+        },
+
         "homeDisplay": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -412,6 +425,7 @@
                         <div data-montage-id="homeEdit" data-arg="luser"></div>
                         <div data-montage-id="homeDisplayRoot" data-arg="root"></div>
                     </div>
+                    <div data-montage-id="defaultHomeDirectory"></div>
                     <div data-montage-id="shellEdit"></div>
                     <div data-montage-id="emailEdit"></div>
                     <div data-montage-id="sshpubkeyEdit"></div>

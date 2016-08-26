@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
     Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise,
     Converter = require("montage/core/converter/converter").Converter,
@@ -8,7 +8,7 @@ var Component = require("montage/ui/component").Component,
  * @class User
  * @extends Component
  */
-exports.User = Component.specialize({
+exports.User = AbstractComponentActionDelegate.specialize({
 
     shellOptions: {
         value: null
@@ -29,11 +29,30 @@ exports.User = Component.specialize({
         set: function (object) {
             if (this._object != object) {
                 this._object = object;
+                this.homeDirectory = null;
                 this._loadGroups(object);
-                if (typeof object.uid != 'number') {
+
+                if (object && typeof object.uid != 'number') {
                     this._getNextAvailableUserId();
                 }
             }
+        }
+    },
+    
+    homeDirectory: {
+        get: function () {
+            if (!this._homeDirectory) {
+                if (this._object._isNew && this.systemAdvanced && this.systemAdvanced.home_directory_root) {
+                    this._homeDirectory = this.systemAdvanced.home_directory_root;
+                } else {
+                    this._homeDirectory = this._object.home || "/";
+                }
+            }
+
+            return this._homeDirectory;
+        },
+        set: function (home) {
+            this._homeDirectory = home;
         }
     },
 
@@ -46,18 +65,30 @@ exports.User = Component.specialize({
     },
 
     enterDocument: {
-        value: function(isFirstTime) {
+        value: function (isFirstTime) {
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
+
             var self = this,
                 loadingPromises = [],
                 shell;
+
             this.isLoading = true;
+
             if (this._object._isNew) {
                 loadingPromises.push(this._openHomeDirectory(this._object));
             }
+
             if (isFirstTime) {
                 loadingPromises.push(this._getShellOptions());
+
+                this.application.dataService.fetchData(Model.SystemAdvanced).then(function (systemAdvancedCollection) {
+                    self.systemAdvancedCollection = systemAdvancedCollection;
+                    self.addRangeAtPathChangeListener("systemAdvancedCollection", self, "handleSystemAdvancedCollectionChange");
+                });
             }
+            
             this.userType = this.object.builtin && this.object.uid !== 0 ? "system" : "user";
+
             Promise.all(loadingPromises).then(function() {
                 self.isLoading = false;
             });
@@ -66,14 +97,49 @@ exports.User = Component.specialize({
 
     exitDocument: {
         value: function() {
+            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
             this.userType = null;
+            this._needsSaveSystemAdvanced = false;
+        }
+    },
+
+    handleSystemAdvancedCollectionChange: {
+        value: function () {
+            this.systemAdvanced = this.systemAdvancedCollection[0];
+
+            if (this._object._isNew) {
+                this.homeDirectory = this.systemAdvanced.home_directory_root;
+            }
+        }
+    },
+
+    handleCheckboxAction: {
+        value: function () {
+            if (this._defaultHomeDirectoryComponent.checked) {
+                this._needsSaveSystemAdvanced = this.systemAdvanced.home_directory_root !== this.homeDirectory;
+            } else {
+                this._needsSaveSystemAdvanced = !!this.systemAdvanced.home_directory_root;
+            }
         }
     },
 
     save: {
         value: function() {
+            var self = this;
+
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            return this.application.dataService.saveDataObject(this.object);
+            this.object.home = this.homeDirectory;
+
+            return this.application.dataService.saveDataObject(this.object).then(function () {
+                if (self._needsSaveSystemAdvanced) {
+                    self.systemAdvanced.home_directory_root = self._defaultHomeDirectoryComponent.checked ? 
+                        self.homeDirectory : null;
+
+                    self._needsSaveSystemAdvanced = false;
+
+                    return self.application.dataService.saveDataObject(self.systemAdvanced);
+                }
+            });
         }
     },
 
