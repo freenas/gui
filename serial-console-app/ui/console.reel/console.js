@@ -1,7 +1,7 @@
 var Component = require("montage/ui/component").Component,
     BackendBridge = require('core/backend/backend-bridge'),
     WebSocketClient = require("core/backend/websocket-client").WebSocketClient,
-    WebSocketConfiguration = require("core/backend/websocket-configuration").WebSocketConfiguration,
+    WebSocketConfiguration = require("/core/backend/websocket-configuration").WebSocketConfiguration,
     Terminal = require('xterm/src/xterm');
 
 /**
@@ -29,18 +29,17 @@ exports.Console = Component.specialize({
         value: false
     },
 
-    templateDidLoad: {
-        value: function() {
-            this._consoleService = this.application.consoleService;
-        }
-    },
-
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
 
             if (!this._shellClient || !this._shellClient.isConnected) {
-                this._connect();
+                this._reconnectTries = 0;
+                if (this.token) {
+                    this._connect();
+                } else {
+                    this.addPathChangeListener("token", this, "_connect");
+                }
             }
             this._cancelResizeHandler = window.addEventListener("resize", function() { self.needsDraw = true; });
         }
@@ -72,6 +71,7 @@ exports.Console = Component.specialize({
                 reader.addEventListener('loadend', function() {
                     self._term.write(reader.result);
                     if (self._isFirstMessage) {
+                        self._reconnectTries = 0;
                         self._isFirstMessage = false;
                         self.needsDraw = true;
                     }
@@ -82,9 +82,13 @@ exports.Console = Component.specialize({
     },
     
     handleWebSocketClose: {
-        value: function() {
-            if (this._inDocument) {
-                this._connect();
+        value: function(event) {
+            var self = this;
+            if (this._inDocument && this._reconnectTries < 3) {
+                this._reconnectTries++;
+                setTimeout(function() {
+                    self._connect()
+                }, 500);
             }
         }
     },
@@ -94,23 +98,16 @@ exports.Console = Component.specialize({
             var self = this;
             this._shellClient = new WebSocketClient().initWithUrl(WebSocketConfiguration.shellConfiguration.get(WebSocketConfiguration.KEYS.URL));
             this._shellClient.responseType = WebSocketClient.RESPONSE_TYPE.BINARY_BLOB;
-            this._shellClient.connect().then(function() {
+            this._defaultBackendBridge = BackendBridge.defaultBackendBridge;
+            return this._shellClient.connect().then(function() {
                 if (!self._term) {
                     self._term = new Terminal({
                         cols: 80,
-                        rows: 1,
+                        rows: 24,
                         screenKeys: true
                     });
                     self._term.open(self.terminalElement);
                 }
-                var tokenPromise;
-                if (self.token) {
-                    tokenPromise = Promise.resolve(self.token);
-                } else {
-                    tokenPromise = self._consoleService.getCliToken(self._getColumns());
-                }
-                return tokenPromise
-            }).then(function(token) {
                 if (!self._areEventsregistered) {
                     self._term.on('data', function(data) {
                         self._shellClient.sendMessage(data);
@@ -119,7 +116,7 @@ exports.Console = Component.specialize({
                 }
                 self._shellClient.addEventListener('webSocketMessage', self, false);
                 self._shellClient.addEventListener('webSocketClose', self, false);
-                self._shellClient.sendMessage(JSON.stringify({token: token}));
+                self._shellClient.sendMessage(JSON.stringify({token: self.token}));
             });
         }
     },  

@@ -1,0 +1,18 @@
+{
+    "name": "serial-console-app",
+    "version": "0.1.0",
+    "dependencies": {
+        "montage": "montagejs/montage#5b447c5d861c619a8fb9f1280f451146900acbb8",
+        "xterm": "^1.0.0",
+        "collections": "montagejs/collections#90210529c7b01ed373b65d4a60409f5edd36a93a",
+        "frb": "montagejs/frb#66ba657ae8e7ada7658df3beb6e924c500b7259c"
+    },
+    "devDependencies": {
+        "montage-testing": "~0.4.0"
+    },
+    "exclude": [
+        "run-tests.html",
+        "test"
+    ],
+    "bundle": [ "ui/main.reel" ]
+}

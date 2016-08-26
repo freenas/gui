@@ -120,8 +120,9 @@ exports.VirtualMachine = Component.specialize({
         }
     },
 
-    constructor: {
+    templateDidLoad: {
         value: function() {
+            this._consoleService = this.application.consoleService;
             this._guestOptionLabels = new Dict({
                 "linux32":      "Linux (32-bit)",
                 "linux64":      "Linux (64-bit)",
@@ -138,11 +139,6 @@ exports.VirtualMachine = Component.specialize({
                 "other64":      "Other (64-bit)"
             });
             this._initializeGuestTypeOptions();
-        }
-    },
-
-    templateDidLoad: {
-        value: function() {
             this._loadTemplates();
         }
     },
@@ -310,6 +306,15 @@ exports.VirtualMachine = Component.specialize({
     handleRebootAction: {
         value: function() {
             this.object.services.reboot(this.object.id);
+        }
+    },
+
+    handleSerialConsoleAction: {
+        value: function() {
+            var self = this;
+            this._consoleService.getSerialToken(this.object.id).then(function(token) {
+                window.open("/serial-console-app/#" + token, self.object.name + " Serial Console");
+            }); 
         }
     },
 

@@ -270,6 +270,16 @@
             "bindings": {
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
+        },
+        "serialConsole": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "serialConsole"},
+                "value": "Serial Console"
+            },
+            "bindings": {
+                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
+            }
         }
     }
     </script>
@@ -282,6 +292,7 @@
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
                 <div data-montage-id="webvncConsole"></div>
+                <div data-montage-id="serialConsole"></div>
             </div>
             <div data-montage-id="stateCondition">
                 <div data-montage-id="state"></div>
