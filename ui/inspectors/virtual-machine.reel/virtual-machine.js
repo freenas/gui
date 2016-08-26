@@ -157,9 +157,6 @@ exports.VirtualMachine = Component.specialize({
                 devicesPromise;
             this.isLoading = true;
             this.editMode = this.object._isNew ? "edit" : "display";
-            if (isFirstTime) {
-                loadingPromises.push(this._loadTemplates(), this._loadVolumes());
-            }
             if (!this.object.config) {
                 this.object.config = {ncpus: ""};
             }
@@ -170,6 +167,12 @@ exports.VirtualMachine = Component.specialize({
                 loadingPromises.push(this._loadWebvncConsole());
             }
             if (this.object._isNew) {
+                if (!this.templates) {
+                    loadingPromises.push(this._loadTemplates());
+                }
+                if (!this.volumes) {
+                    loadingPromises.push(this._loadVolumes());
+                }
                 this.object.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
             }
             Promise.all(loadingPromises).then(function() {
