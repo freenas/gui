@@ -4,9 +4,7 @@
     position: relative;
     font-family: 'lato';
     border-right: 1px solid rgba(255,255,255,.15);
-    /* min-width: 16rem; */
-    /* flex-shrink: 0; */
-    flex-basis: 16em;
+    /* flex-basis: 16em; */
 }
 
 .CascadingListItem-title {
@@ -34,6 +32,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        min-width: 16em;
     }
 }
 
