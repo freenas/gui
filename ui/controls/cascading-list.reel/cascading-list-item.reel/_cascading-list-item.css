@@ -4,7 +4,7 @@
     position: relative;
     font-family: 'lato';
     border-right: 1px solid rgba(255,255,255,.15);
-    min-width: 16rem;
+    /* min-width: 16rem; */
     /* flex-shrink: 0; */
 }
 

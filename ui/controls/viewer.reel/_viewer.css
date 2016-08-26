@@ -1,5 +1,5 @@
 .Viewer  {
-
+    min-width: 16em;
 }
 
 .Viewer > .Scrollview .Scrollview-transform {
