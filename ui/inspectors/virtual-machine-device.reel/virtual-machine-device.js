@@ -35,38 +35,26 @@ exports.VirtualMachineDevice = Component.specialize({
 
     enterDocument: {
         value: function() {
-            var deviceListContext = CascadingList.findPreviousContextWithComponent(this);
-            if (deviceListContext) {
-                this.deviceList = deviceListContext.object;
-            }
             if (!this.object.type) {
                 this.object.type = "DISK";
             }
             if (!this.object.properties) {
                 this.object.properties = {};
             }
-            // FIXME: @thibaultzanini to provide a better API for interacting with
-            // parent collection/context.
-        }
-    },
-
-    exitDocument: {
-        value: function() {
-            this.deviceList = null;
         }
     },
 
     handleAddAction: {
         value: function() {
-            var self = this;
-            self.object._isNew = false;
-            this.deviceList.push(this.object);
+            var context = this._getContext();
+            this.object._isNew = false;
+            context.object.push(this.object);
         }
     },
 
     handleRemoveAction: {
         value: function() {
-            var deviceList = this.deviceList,
+            var deviceList = this._getContext().object,
                 index = -1;
             for (var i=0, length=deviceList.length; i<length; i++) {
                 if (deviceList[i].name === this.object.name) {
@@ -77,6 +65,14 @@ exports.VirtualMachineDevice = Component.specialize({
             if (index >= 0) {
                 deviceList.splice(index, 1);
             }
+        }
+    },
+
+    _getContext: {
+        value: function() {
+            // FIXME: @thibaultzanini to provide a better API for interacting with
+            // parent collection/context.
+            return CascadingList.findPreviousContextWithComponent(this);
         }
     }
 });
