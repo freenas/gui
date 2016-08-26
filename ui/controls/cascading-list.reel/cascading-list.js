@@ -150,6 +150,7 @@ exports.CascadingList = Component.specialize({
             var self = this;
 
             this.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
+                columnIndex = Math.min(self._stack.length, columnIndex);
                 self._push({
                     object: object,
                     userInterfaceDescriptor: userInterfaceDescriptor,
