@@ -411,11 +411,11 @@ exports.User = AbstractModel.specialize({
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },
-            nameExpression: "id.defined() ? username : 'Create a user'",
             collectionNameExpression: "'Users'",
             creatorComponentModule: {
                 id: 'ui/inspectors/user.reel'
-            }
+            },
+            nameExpression: "id.defined() ? username : 'Create a user'"
         }
     }
 });

@@ -5,7 +5,6 @@
             "inspectorComponentModule": {"%": "ui/inspectors/user.reel"},
             "iconComponentModule": {"%": "ui/icons/user.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
-            "nameExpression": "username",
             "collectionNameExpression": "'Users'",
             "creatorComponentModule": {"%": "ui/inspectors/user.reel"},
             "nameExpression": "id.defined() ? username : 'Create a user'"
