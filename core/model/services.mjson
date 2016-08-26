@@ -1919,11 +1919,6 @@
     },
     "Session": {
         "class": {
-            "createToken": {
-                "method": "session.create_token",
-                "name": "call",
-                "namespace": "rpc"
-            },
             "getLiveUserSessions": {
                 "method": "session.get_live_user_sessions",
                 "name": "call",
