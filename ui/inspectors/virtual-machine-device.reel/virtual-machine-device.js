@@ -33,22 +33,12 @@ exports.VirtualMachineDevice = Component.specialize({
         }
     },
 
-    enterDocument: {
-        value: function() {
-            if (!this.object.type) {
-                this.object.type = "DISK";
-            }
-            if (!this.object.properties) {
-                this.object.properties = {};
-            }
-        }
-    },
-
     handleAddAction: {
         value: function() {
             var context = this._getContext();
             this.object._isNew = false;
             context.object.push(this.object);
+            context.cascadingListItem.selectedObject = null;
         }
     },
 

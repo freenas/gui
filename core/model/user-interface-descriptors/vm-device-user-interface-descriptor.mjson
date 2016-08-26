@@ -5,9 +5,9 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Devices'",
             "inspectorComponentModule": {"%": "ui/inspectors/virtual-machine-device.reel"},
-            "creatorComponentModule": {"%": "ui/inspectors/virtual-machine-device.reel"},
+            "creatorComponentModule": {"%": "ui/inspectors/virtual-machine-device-creator.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
-            "nameExpression": "_isNew.defined() && _isNew ? 'New Device' : name"
+            "nameExpression": "!_isNew ? name : 'New ' + type + ' Device'"
         }
     }
 }

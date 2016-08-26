@@ -83,9 +83,9 @@ exports.VmDevice = AbstractModel.specialize({
                 id: 'ui/inspectors/virtual-machine-device.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/virtual-machine-device.reel'
+                id: 'ui/inspectors/virtual-machine-device-creator.reel'
             },
-            nameExpression: "_isNew.defined() && _isNew ? 'New Device' : name"
+            nameExpression: "!_isNew ? name : 'New ' + type + ' Device'"
         }
     }
 });
