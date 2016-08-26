@@ -23,13 +23,13 @@ exports.SystemSection = Component.specialize({
                 case "system":
                     this.canSave = true;
                     this.canRevert = true;
-                    this.hasTable = false;
+                    // this.hasTable = false;
                     break;
                 case "updates":
                 case "bootPool":
                     this.canSave = false;
                     this.canRevert = false;
-                    this.hasTable = true;
+                    // this.hasTable = true;
                     break;
             }
             this._object = object;
