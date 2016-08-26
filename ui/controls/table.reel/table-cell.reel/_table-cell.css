@@ -21,7 +21,7 @@
 }
 
 .TableCell-content > .montage-Text {
-    max-width: 10em;
+    min-width: 8em;
 }
 
 /* sets min width of specific components */
