@@ -10,6 +10,20 @@
                 "element": {"#": "owner"}
             }
         },
+        "sizeValidator": {
+            "prototype": "core/converter/validator/minimum-bytes-validator",
+            "properties": {
+                "allowDecimal": false,
+                "errorMessage": "Disk size must be a valid number of bytes.",
+                "minValue": 1
+            }
+        },
+        "sizeConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "sizeValidator"}
+            }
+        },
         "selectOptionConverter": {
             "prototype": "core/converter/select-option-converter"
         },
@@ -17,7 +31,8 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "diskSize"},
-                "label": "Disk Size"
+                "label": "Disk Size",
+                "converter": {"@": "sizeConverter"}
             },
             "bindings": {
                 "value": {"<->": "@owner.object.size"}
