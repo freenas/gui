@@ -84,7 +84,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     _seriesList: {
         value: null
     },
-    
+
     constructor: {
         value: function() {
             this._datasets = {};
@@ -216,7 +216,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             for (i = 0, length = this._seriesList.length; i < length; i++) {
                 series = this._seriesList[i];
                 if (!series.disabled) {
-                    datasets.push(this._seriesToDataset(series));        
+                    datasets.push(this._seriesToDataset(series));
                 }
             }
             this._plot.datasets(datasets);
@@ -270,11 +270,11 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
     _setupChart: {
         value: function(graphGroup) {
             this._chart = new Plottable.Components.Table([
-                [this._yAxis, graphGroup],
-                [null, this._xAxis]
+                [new Plottable.Components.AxisLabel(this.yLabel, "270"),this._yAxis, graphGroup],
+                [null,null, this._xAxis]
             ]);
             var gridline = new Plottable.Components.Gridlines(null, this._yScale);
-            
+
             this._chart.renderTo(d3.select(this.chartElement));
             gridline.renderTo(d3.select(this.chartElement));
             window.addEventListener("resize", this._redrawChart.bind(this));
@@ -345,7 +345,7 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
                             dataset = this._datasets[key];
                             values = dataset.data();
                             values[j].x = max;
-                        } 
+                        }
                     }
                 }
             }
