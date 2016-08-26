@@ -10,13 +10,13 @@ var Component = require("montage/ui/component").Component;
 exports.TaskTypeIndicator = Component.specialize(/** @lends TaskTypeIndicator# */ {
     enterDocument: {
         value: function () {
-            this.classList.add('type-' + this.object.name.replace('.', '_').toLowerCase());
+            this.classList.add('type-' + this.object.task.replace('.', '_').toLowerCase());
         }
     },
 
     exitDocument: {
         value: function () {
-            this.classList.remove('type-' + this.object.name.replace('.', '_').toLowerCase());
+            this.classList.remove('type-' + this.object.task.replace('.', '_').toLowerCase());
         }
     }
 });

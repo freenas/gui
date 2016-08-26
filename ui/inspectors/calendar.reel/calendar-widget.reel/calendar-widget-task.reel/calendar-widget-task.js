@@ -20,11 +20,11 @@ exports.CalendarWidgetTask = Component.specialize(/** @lends CalendarWidgetTask#
         set: function(object) {
             if (this._object !== object) {
                 if (this._object) {
-                    this.classList.remove('type-' + this._object.name.replace('.', '_').toLowerCase());
+                    this.classList.remove('type-' + this._object.task.replace('.', '_').toLowerCase());
                 }
                 this._object = object;
                 if (object) {
-                    this.classList.add('type-' + object.name.replace('.', '_').toLowerCase());
+                    this.classList.add('type-' + object.task.replace('.', '_').toLowerCase());
                 }
             }
         }
@@ -32,13 +32,13 @@ exports.CalendarWidgetTask = Component.specialize(/** @lends CalendarWidgetTask#
 
     enterDocument: {
         value: function () {
-            this.classList.add('type-' + this._object.name.replace('.', '_').toLowerCase());
+            this.classList.add('type-' + this._object.task.replace('.', '_').toLowerCase());
         }
     },
 
     exitDocument: {
         value: function () {
-            this.classList.remove('type-' + this._object.name.replace('.', '_').toLowerCase());
+            this.classList.remove('type-' + this._object.task.replace('.', '_').toLowerCase());
         }
     },
 

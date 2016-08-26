@@ -11,7 +11,7 @@
             },
             "bindings": {
                 "displayedCategories": {"<-": "@owner.taskCategories.filter{isDisplayed}.map{value}"},
-                "displayedEvents": {"<-": "@owner.events.filter{@owner.displayedCategories.has(.task.name)}"},
+                "displayedEvents": {"<-": "@owner.events.filter{@owner.displayedCategories.has(.task.task)}"},
                 "classList.has('has-no-event')": {"<-": "@owner.displayedEvents.length == 0"}
             }
         },
@@ -41,7 +41,7 @@
             "bindings": {
                 "object": {"<-": "@items:iteration.object"},
                 "selectedTask": {"<->": "@owner.selectedTask"},
-                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @items:iteration.object.task.name}.one()"}
+                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @items:iteration.object.task.task}.one()"}
             }
         }
     }

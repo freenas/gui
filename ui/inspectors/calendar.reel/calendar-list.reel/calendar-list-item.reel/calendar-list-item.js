@@ -45,7 +45,7 @@ exports.CalendarListItem = Component.specialize(/** @lends CalendarListItem# */ 
 
     enterDocument: {
         value: function () {
-            this.classList.add('type-' + this.object.task.name.replace('.', '_').toLowerCase());
+            this.classList.add('type-' + this.object.task.task.replace('.', '_').toLowerCase());
         }
     },
 

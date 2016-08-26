@@ -38,7 +38,7 @@
             },
             "bindings": {
                 "object": {"<-": "@recurringEvents:iteration.object"},
-                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @recurringEvents:iteration.object.task.name}.one()"},
+                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @recurringEvents:iteration.object.task.task}.one()"},
                 "selectedTask": {"<->": "@owner.selectedTask"}
            }
         }

@@ -45,7 +45,7 @@
                 "object": {"<-": "@tasks:iteration.object"},
                 "selectedTask": {"<->": "@owner.selectedTask"},
                 "classList.has('is-visible')": {"<-": "@tasks:iteration.index < (@owner.tasksOverflow ? @owner._maxDisplayedLines - 1 : @owner._maxDisplayedLines)"},
-                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @tasks:iteration.object.name}.one()"}
+                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @tasks:iteration.object.task}.one()"}
             }
         },
         "moreTasks": {

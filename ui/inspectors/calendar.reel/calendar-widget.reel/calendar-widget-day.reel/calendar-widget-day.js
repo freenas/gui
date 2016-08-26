@@ -101,7 +101,7 @@ exports.CalendarWidgetDay = Component.specialize({
                 this.distinctTasks = this._tasks
                     .filter(function(x) {
                         var category = self._taskCategories.filter(function(y) {
-                            return x.task.name === y.value;
+                            return x.task.task === y.value;
                         })[0];
                         return category;
                     })

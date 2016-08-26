@@ -12,13 +12,13 @@ exports.CalendarEvent = Component.specialize(/** @lends Event# */ {
     enterDocument: {
         value: function(isFirstTime) {
             this._setPosition();
-            this.classList.add('type-' + this.object.task.name.replace('.', '_').toLowerCase());
+            this.classList.add('type-' + this.object.task.task.replace('.', '_').toLowerCase());
         }
     },
 
     exitDocument: {
         value: function() {
-            this.classList.remove('type-' + this.object.task.name.replace('.', '_').toLowerCase());
+            this.classList.remove('type-' + this.object.task.task.replace('.', '_').toLowerCase());
         }
     },
 

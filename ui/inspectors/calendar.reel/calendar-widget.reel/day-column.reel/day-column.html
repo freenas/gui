@@ -29,7 +29,7 @@
             },
             "bindings": {
                 "object": {"<-": "@dayEvents:iteration.object"},
-                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @dayEvents:iteration.object.task.name}.one()"},
+                "taskCategory": {"<-": "@owner.taskCategories.filter{.value == @dayEvents:iteration.object.task.task}.one()"},
                 "selectedTask": {"<->": "@owner.selectedTask"}
            }
         }
