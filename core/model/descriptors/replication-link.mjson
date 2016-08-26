@@ -23,6 +23,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_replicationlink_followdelete": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "followdelete",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_replicationlink_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -79,6 +87,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_replicationlink_snapshot_lifetime": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "snapshot_lifetime",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
   "blueprint_replicationlink_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -86,6 +102,15 @@
       "blueprint": {"@": "root"},
       "valueType": "object",
       "valueObjectPrototypeName": "ReplicationStatus"
+    }
+  },
+  "blueprint_replicationlink_transport_options": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "transport_options",
+      "blueprint": {"@": "root"},
+      "valueType": "array",
+      "valueObjectPrototypeName": "ReplicationTransportPlugin"
     }
   },
   "blueprint_replicationlink_update_date": {
@@ -104,6 +129,7 @@
         {"@": "blueprint_replicationlink_auto_recover"},
         {"@": "blueprint_replicationlink_bidirectional"},
         {"@": "blueprint_replicationlink_datasets"},
+        {"@": "blueprint_replicationlink_followdelete"},
         {"@": "blueprint_replicationlink_id"},
         {"@": "blueprint_replicationlink_initial_master"},
         {"@": "blueprint_replicationlink_master"},
@@ -111,7 +137,9 @@
         {"@": "blueprint_replicationlink_partners"},
         {"@": "blueprint_replicationlink_recursive"},
         {"@": "blueprint_replicationlink_replicate_services"},
+        {"@": "blueprint_replicationlink_snapshot_lifetime"},
         {"@": "blueprint_replicationlink_status"},
+        {"@": "blueprint_replicationlink_transport_options"},
         {"@": "blueprint_replicationlink_update_date"}
       ]
     }

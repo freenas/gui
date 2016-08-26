@@ -1549,7 +1549,10 @@
                         "replicate_services",
                         "bidirectional",
                         "auto_recover",
-                        "recursive"
+                        "recursive",
+                        "transport_options",
+                        "snapshot_lifetime",
+                        "followdelete"
                     ]
                 },
                 "task": "replication.create"

@@ -7,12 +7,12 @@
       "valueType": "boolean"
     }
   },
-  "propertyblueprint": {
+  "blueprint_session_ended_at": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "ended-at",
+      "name": "ended_at",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "datetime"
     }
   },
   "blueprint_session_resource": {
@@ -23,12 +23,12 @@
       "valueType": "String"
     }
   },
-  "propertyblueprint2": {
+  "blueprint_session_started_at": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "started-at",
+      "name": "started_at",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "datetime"
     }
   },
   "blueprint_session_tty": {
@@ -53,9 +53,9 @@
       "name": "Session",
       "propertyBlueprints": [
         {"@": "blueprint_session_active"},
-        {"@": "propertyblueprint"},
+        {"@": "blueprint_session_ended_at"},
         {"@": "blueprint_session_resource"},
-        {"@": "propertyblueprint2"},
+        {"@": "blueprint_session_started_at"},
         {"@": "blueprint_session_tty"},
         {"@": "blueprint_session_username"}
       ]

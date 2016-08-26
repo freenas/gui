@@ -40,6 +40,19 @@ exports.ReplicationLink = AbstractModel.specialize({
             return this._datasets;
         }
     },
+    _followdelete: {
+        value: null
+    },
+    followdelete: {
+        set: function (value) {
+            if (this._followdelete !== value) {
+                this._followdelete = value;
+            }
+        },
+        get: function () {
+            return this._followdelete;
+        }
+    },
     _id: {
         value: null
     },
@@ -131,6 +144,19 @@ exports.ReplicationLink = AbstractModel.specialize({
             return this._replicate_services;
         }
     },
+    _snapshot_lifetime: {
+        value: null
+    },
+    snapshot_lifetime: {
+        set: function (value) {
+            if (this._snapshot_lifetime !== value) {
+                this._snapshot_lifetime = value;
+            }
+        },
+        get: function () {
+            return this._snapshot_lifetime;
+        }
+    },
     _status: {
         value: null
     },
@@ -142,6 +168,19 @@ exports.ReplicationLink = AbstractModel.specialize({
         },
         get: function () {
             return this._status;
+        }
+    },
+    _transport_options: {
+        value: null
+    },
+    transport_options: {
+        set: function (value) {
+            if (this._transport_options !== value) {
+                this._transport_options = value;
+            }
+        },
+        get: function () {
+            return this._transport_options;
         }
     },
     _update_date: {
@@ -173,6 +212,10 @@ exports.ReplicationLink = AbstractModel.specialize({
             valueType: "array"
         }, {
             mandatory: false,
+            name: "followdelete",
+            valueType: "boolean"
+        }, {
+            mandatory: false,
             name: "id",
             valueType: "String"
         }, {
@@ -201,9 +244,18 @@ exports.ReplicationLink = AbstractModel.specialize({
             valueType: "boolean"
         }, {
             mandatory: false,
+            name: "snapshot_lifetime",
+            valueType: "number"
+        }, {
+            mandatory: false,
             name: "status",
             valueObjectPrototypeName: "ReplicationStatus",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "transport_options",
+            valueObjectPrototypeName: "ReplicationTransportPlugin",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "update_date",

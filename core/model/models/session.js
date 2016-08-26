@@ -14,17 +14,17 @@ exports.Session = AbstractModel.specialize({
             return this._active;
         }
     },
-    "_ended-at": {
+    _ended_at: {
         value: null
     },
-    "ended-at": {
+    ended_at: {
         set: function (value) {
-            if (this["_ended-at"] !== value) {
-                this["_ended-at"] = value;
+            if (this._ended_at !== value) {
+                this._ended_at = value;
             }
         },
         get: function () {
-            return this["_ended-at"];
+            return this._ended_at;
         }
     },
     _resource: {
@@ -40,17 +40,17 @@ exports.Session = AbstractModel.specialize({
             return this._resource;
         }
     },
-    "_started-at": {
+    _started_at: {
         value: null
     },
-    "started-at": {
+    started_at: {
         set: function (value) {
-            if (this["_started-at"] !== value) {
-                this["_started-at"] = value;
+            if (this._started_at !== value) {
+                this._started_at = value;
             }
         },
         get: function () {
-            return this["_started-at"];
+            return this._started_at;
         }
     },
     _tty: {
@@ -87,16 +87,16 @@ exports.Session = AbstractModel.specialize({
             valueType: "boolean"
         }, {
             mandatory: false,
-            name: "ended-at",
-            valueType: "number"
+            name: "ended_at",
+            valueType: "datetime"
         }, {
             mandatory: false,
             name: "resource",
             valueType: "String"
         }, {
             mandatory: false,
-            name: "started-at",
-            valueType: "number"
+            name: "started_at",
+            valueType: "datetime"
         }, {
             mandatory: false,
             name: "tty",
