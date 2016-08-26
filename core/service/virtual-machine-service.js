@@ -63,7 +63,7 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
                         break;
                     case VmDeviceType.GRAPHICS:
                         device.properties = {
-                            resolution: "640x480"
+                            resolution: "1024x768"
                         };
                         break;
                     case VmDeviceType.NIC:
