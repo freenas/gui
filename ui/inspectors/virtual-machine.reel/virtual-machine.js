@@ -75,6 +75,13 @@ exports.VirtualMachine = Component.specialize({
                             }
                         }
                     }
+                    if (object.devices) {
+                        for (var i=0, length=object.devices.length; i<length; i++) {
+                            if (!object.devices[i].id) {
+                                object.devices[i].id = "Existing devices must have ids, but they aren't saved";
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -314,7 +321,7 @@ exports.VirtualMachine = Component.specialize({
             var self = this;
             this._consoleService.getSerialToken(this.object.id).then(function(token) {
                 window.open("/serial-console-app/#" + token, self.object.name + " Serial Console");
-            }); 
+            });
         }
     },
 
