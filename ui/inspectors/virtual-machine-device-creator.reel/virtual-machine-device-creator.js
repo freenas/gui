@@ -61,7 +61,6 @@ exports.VirtualMachineDeviceCreator = Component.specialize({
                 virtualMachineService.createNicDevice(),
                 virtualMachineService.createUsbDevice()
             ]).bind(this).then(function (devices) {
-                console.log(devices)
                 this.newCdromDevice = devices[0];
                 this.newDiskDevice = devices[1];
                 this.newGraphicsDevice = devices[2];
