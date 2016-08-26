@@ -23,6 +23,7 @@
     "Power": "entity-subscriber.power.changed",
     "ReplicationLink": "entity-subscriber.replication.link.changed",
     "Service": "entity-subscriber.service.changed",
+    "Session": "entity-subscriber.session.changed",
     "Share": "entity-subscriber.share.changed",
     "ShareAfp": "entity-subscriber.share.afp.changed",
     "ShareIscsi": "entity-subscriber.share.iscsi.changed",

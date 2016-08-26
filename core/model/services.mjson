@@ -1934,6 +1934,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "sendToSession": {
+                "method": "session.send_to_session",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "whoami": {
                 "method": "session.whoami",
                 "name": "call",
