@@ -101,10 +101,10 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "empty"},
-                "label": "Is empty ?"
+                "label": "Partitioned"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.status.empty ? 'Yes': 'No'"}
+                "value": {"<-": "!@owner.object.status.empty ? 'Yes': 'No'"}
             }
         },
         "allocation": {
