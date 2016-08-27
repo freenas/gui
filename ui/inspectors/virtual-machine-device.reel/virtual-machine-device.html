@@ -25,9 +25,6 @@
                 "canDelete": false
             }
         },
-        "selectOptionConverter": {
-            "prototype": "core/converter/select-option-converter"
-        },
         "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
@@ -36,18 +33,6 @@
             },
             "bindings": {
                 "value": {"<->": "@owner.object.name"}
-            }
-        },
-        "typeSelect": {
-            "prototype": "blue-shark/ui/field-select.reel",
-            "properties": {
-                "element": {"#": "typeSelect"},
-                "label": "Device Type",
-                "converter": {"@": "selectOptionConverter"}
-            },
-            "bindings": {
-                "options": {"<-": "@owner.deviceTypes"},
-                "selectedValue": {"<->": "@owner.object.type"}
             }
         },
         "deviceTypePlaceholder": {
@@ -90,7 +75,6 @@
     <div data-montage-id="owner" class="VirtualMachineDevice">
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
-            <div data-montage-id="typeSelect"></div>
             <div data-montage-id="deviceTypePlaceholder"></div>
             <div data-montage-id="addRemoveSubstitution">
                 <div data-montage-id="add" data-arg="create"></div>
