@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="container.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"},
+                "_commandComponent": {"@": "command"}
+            }
+        },
+        
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "canRevert": {"<-": "@inspector.canDelete"}
+            }
+        },
+
+        "image": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "image"},
+                "label": "Image"
+            },
+            "bindings": {
+                "options": {"<-": "@owner._images"},
+                "selectedValue": {"<->": "@owner.object.image"}
+            }
+        },
+
+        "memoryLimit": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "memoryLimit"},
+                "label": "Memory Limit"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.memory_limit"}
+            }
+        },
+
+        "volumeSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "volumeSection"},
+                "title": "Volume"
+            }
+        },
+
+        "volumeContainerPath": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "volumeContainerPath"},
+                "label": "Container Path"
+            },
+            "bindings": {
+                "value": {"<->": "@owner._volume.container_path"}
+            }
+        },
+
+        "volumeHostPath": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "volumeHostPath"},
+                "label": "Host Path"
+            },
+            "bindings": {
+                "value": {"<->": "@owner._volume.host_path"}
+            }
+        },
+
+        "volumeReadOnly": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "volumeReadOnly"},
+                "label": "Read Only"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner._volume.readonly"}
+            }
+        },
+
+        "advancedSection": {
+            "prototype": "ui/controls/foldable-section.reel",
+            "properties": {
+                "element": {"#": "advancedSection"},
+                "title": "Advanced"
+            }
+        },
+
+        "status": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "status"},
+                "label": "Status"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.status"}
+            }
+        },
+
+        "hostname": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "hostname"},
+                "label": "Hostname"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.hostname"}
+            }
+        },
+
+        "host": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "host"},
+                "label": "Host"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.host"}
+            }
+        },
+
+        "exposePorts": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "exposePorts"},
+                "label": "Expose Ports"
+            },
+            "bindings": {
+                "value": {"<->": "!!@owner.object.expose_ports"}
+            }
+        },
+
+        "command": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "command"},
+                "label": "Command"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.command.join(' ')"}
+            }
+        },
+
+        "environment": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "environment"},
+                "label": "Environment"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.environment"}
+            }
+        },
+
+        "ports": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "ports"},
+                "label": "Ports"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.ports"}
+            }
+        }
+
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Container">
+        <div data-montage-id="inspector">
+            <div data-montage-id="image"></div>
+            <div data-montage-id="memoryLimit"></div>
+
+            <div data-montage-id="volumeSection">
+                <div data-montage-id="volumeContainerPath"></div>
+                <div data-montage-id="volumeHostPath"></div>
+                <div data-montage-id="volumeReadOnly"></div>
+            </div>
+
+            <div data-montage-id="advancedSection">
+                <div data-montage-id="status"></div>
+                <div data-montage-id="hostname"></div>
+                <div data-montage-id="host"></div>
+                <div data-montage-id="environment"></div>
+                <div data-montage-id="names"></div>
+                <div data-montage-id="ports"></div>
+                <div data-montage-id="exposePorts"></div>
+                <div data-montage-id="command"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
