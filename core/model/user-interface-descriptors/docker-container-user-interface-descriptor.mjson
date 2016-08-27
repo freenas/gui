@@ -3,7 +3,7 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
-            "nameExpression": "id.defined() ? id : 'Create a container'",
+            "nameExpression": "id.defined() ? names.join(' ') : 'Create a container'",
             "collectionNameExpression": "'Containers'",
             "creatorComponentModule": {"%": "ui/inspectors/container.reel"}
         }
