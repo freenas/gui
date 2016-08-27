@@ -99,7 +99,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.templateName"},
-                "options": {"<-": "[{template: {name: '---'}}].concat(@owner.templates)"}
+                "options": {"<-": "[{template: {name: '---'}}].concat(@owner.templates).sorted{template.name}"}
             }
         },
         "vmGuestType": {
