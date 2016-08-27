@@ -71,19 +71,24 @@ exports.Container = Component.specialize(/** @lends Container# */ {
 
     save: {
         value: function () {
-            var commandString = this._commandComponent.value;
+            var commandString = this._commandComponent.value,
+                namesString = this._namesComponent.value;
 
             if (commandString) {
-                this.object.command = commandString.slipt(" ");
+                this.object.command = commandString.split(" ");
+            }
+
+            if (namesString) {
+                this.object.names = namesString.split(" ");
             }
 
             if (this._volume.container_path && this._volume.host_path) {
                 this.object.volumes = [this._volume];
-            } else if (this.object.volumes.length) {
+            } else if (this.object.volumes && this.object.volumes.length) {
                 this.object.volumes = null;
             }
 
-            return this.applicationService.saveDataObject(this.object).then(function () {
+            return this.application.dataService.saveDataObject(this.object).then(function () {
                 self._resetVolume();
             });
         }

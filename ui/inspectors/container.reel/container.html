@@ -7,7 +7,8 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "_commandComponent": {"@": "command"}
+                "_commandComponent": {"@": "command"},
+                "_namesComponent": {"@": "names"}
             }
         },
         
@@ -21,6 +22,17 @@
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
                 "canRevert": {"<-": "@inspector.canDelete"}
+            }
+        },
+
+        "names": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "names"},
+                "label": "Names"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.names.join(' ')"}
             }
         },
 
@@ -179,6 +191,7 @@
 <body>
     <div data-montage-id="owner" class="Container">
         <div data-montage-id="inspector">
+            <div data-montage-id="names"></div>
             <div data-montage-id="image"></div>
             <div data-montage-id="memoryLimit"></div>
 
@@ -193,7 +206,6 @@
                 <div data-montage-id="hostname"></div>
                 <div data-montage-id="host"></div>
                 <div data-montage-id="environment"></div>
-                <div data-montage-id="names"></div>
                 <div data-montage-id="ports"></div>
                 <div data-montage-id="exposePorts"></div>
                 <div data-montage-id="command"></div>
