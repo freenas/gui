@@ -265,7 +265,7 @@ exports.VirtualMachine = Component.specialize({
             this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.template = this.templateName === "---" ? null : this.object.template;
             this.object.target = this.object.target === "---" ? null : this.object.target;
-            this.application.dataService.saveDataObject(this.object);
+            return this.application.dataService.saveDataObject(this.object);
         }
     },
 
