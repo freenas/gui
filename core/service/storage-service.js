@@ -37,6 +37,14 @@ var StorageService = exports.StorageService = Montage.specialize({
         value: null
     },
 
+    _datasets: {
+        value: null
+    },
+
+    _datasetsPromise: {
+        value: null
+    },
+
     _disks: {
         value: null
     },
@@ -61,6 +69,21 @@ var StorageService = exports.StorageService = Montage.specialize({
                 var self = this;
                 return this._volumesPromise = this._dataService.fetchData(Model.Volume).then(function(volumes) {
                     return self._volumes = volumes;
+                });
+            }
+        }
+    },
+
+    listDatasets: {
+        value: function() {
+            if (this._datasets) {
+                return Promise.resolve(this._datasets);
+            } else if (this._datasetsPromise) {
+                return this._datasetsPromise;
+            } else {
+                var self = this;
+                return this._datasetsPromise = this._dataService.fetchData(Model.VolumeDataset).then(function(datasets) {
+                    return self._datasets = datasets;
                 });
             }
         }

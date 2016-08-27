@@ -143,7 +143,9 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.NetworkConfig,
             Model.NetworkInterface,
             Model.NetworkRoute,
+            Model.Peer,
             Model.Permissions,
+            Model.ReplicationLink,
             Model.Service,
             Model.ServiceIscsi,
             Model.Share,
@@ -274,6 +276,11 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 var isUpdate = modelHasNoId || (object.id !== null && !object._isNew),
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
+
+                if (type.typeName === "ReplicationLink") {
+                    serviceDescriptor = isUpdate ?
+                        Services.findUpdateServiceForType(Model.Replication) : Services.findCreateServiceForType(Model.Replication);
+                }
 
                 if (serviceDescriptor) {
                     var self = this,

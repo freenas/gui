@@ -261,5 +261,20 @@ exports.ReplicationLink = AbstractModel.specialize({
             name: "update_date",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Replication links'",
+            inspectorComponentModule: {
+                id: 'ui/sections/replication/inspectors/replication-link.reel'
+            },
+            creatorComponentModule: {
+                id: 'ui/sections/replication/inspectors/replication-link.reel'
+            },
+            nameExpression: "name.defined() ? name : 'Create a replication link'"
+        }
     }
 });

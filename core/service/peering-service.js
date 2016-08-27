@@ -6,7 +6,16 @@ var Montage = require("montage").Montage,
 var PeeringService = exports.PeeringService = Montage.specialize({
 
     _DEFAULT_TYPE: {
-        value: "ssh"
+        value: "replication"
+    },
+
+    _CREDENTIALS_PER_TYPE: {
+        value: {
+            "replication": {
+                model: Model.SshCredentials,
+                type: "ssh"
+            }
+        }
     },
 
     _instance: {
@@ -31,6 +40,12 @@ var PeeringService = exports.PeeringService = Montage.specialize({
         }
     },
 
+    getSupportedTypes: {
+        value: function() {
+            return Object.keys(this._CREDENTIALS_PER_TYPE);
+        }
+    },
+
     list: {
         value: function() {
             if (this._peers) {
@@ -52,18 +67,16 @@ var PeeringService = exports.PeeringService = Montage.specialize({
             return this._getNewCredentialsForType(this._DEFAULT_TYPE).then(function(credentials) {
                 object.credentials = credentials;
                 object.type = self._DEFAULT_TYPE;
+                return object;
             });
         }
     },
 
     _getNewCredentialsForType: {
         value: function(type) {
-            var credentialModel;
-            if (type === "ssh") {
-                credentialModel = Model.SshCredentials;
-            }
-            return this._dataService.getNewInstanceForType(credentialModel).then(function(credentials) {
-                credentials.type = type;
+            var credentialsType = this._CREDENTIALS_PER_TYPE[type];
+            return this._dataService.getNewInstanceForType(credentialsType.model).then(function(credentials) {
+                credentials.type = credentialsType.type;
                 return credentials;
             });
         }

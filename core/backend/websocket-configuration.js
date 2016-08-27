@@ -78,7 +78,7 @@ Object.defineProperties(WebSocketConfiguration, {
 
                 _defaultConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
-                    (domain === "localhost" || domain === "127.0.0.1") ? "freenas.local" : domain
+                    (domain === "localhost" || domain === "127.0.0.1") ? "pch-vm.local" : domain
                 );
             }
 
@@ -100,7 +100,7 @@ Object.defineProperties(WebSocketConfiguration, {
 
                 _shellConfiguration._store.set(
                     WebSocketConfiguration.KEYS.HOST,
-                    (domain === "localhost" || domain === "127.0.0.1") ? "freenas.local" : domain
+                    (domain === "localhost" || domain === "127.0.0.1") ? "pch-vm.local" : domain
                 );
             }
 

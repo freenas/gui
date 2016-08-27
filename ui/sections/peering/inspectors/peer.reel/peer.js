@@ -8,10 +8,35 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Peer = Component.specialize(/** @lends Peer# */ {
+    credentialsType: {
+        get: function() {
+            var type;
+            if (this.object) {
+                type = this.object.type === "replication" && this.object._isNew ? "ssh" : this.object.type;
+            }
+            return type;
+        }
+    },
+
+    templateDidLoad: {
+        value: function() {
+            this._peeringService = this.application.peeringService;
+            this.typeOptions = this._peeringService.getSupportedTypes().map(function(x) {
+                return {
+                    label: x,
+                    value: x
+                };
+            });
+        }
+    },
+
     enterDocument: {
         value: function() {
             if (this.object && this.object._isNew) {
-                this.application.peeringService.populateDefaultType(this.object);
+                var self = this;
+                this._peeringService.populateDefaultType(this.object).then(function() {
+                    self.dispatchOwnPropertyChange("credentialsType", self.credentialsType);
+                });
             }
         }
     },

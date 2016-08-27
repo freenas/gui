@@ -40,13 +40,11 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "type"},
-                "label": "Type",
-                "options": [
-                    {"label": "ssh", "value": "ssh"}
-                ]
+                "label": "Type"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.object.type"}
+                "selectedValue": {"<->": "@owner.object.type"},
+                "options": {"<-": "@owner.typeOptions"}
             }
         },
         "address": {
@@ -65,7 +63,7 @@
                 "element": {"#": "credentials"}
             },
             "bindings": {
-                "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.object.type + '-credentials.reel'"},
+                "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.credentialsType + '-credentials.reel'"},
                 "object": {"<-": "@owner.object.credentials"}
             }
         }
