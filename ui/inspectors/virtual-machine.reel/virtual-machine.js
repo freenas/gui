@@ -254,6 +254,9 @@ exports.VirtualMachine = Component.specialize({
             }
 
             for (var i=0, length=devices.length; i<length; i++) {
+                if (!devices[i].id) {
+                    devices[i].id = "Existing devices must have ids, but they aren't saved";
+                }
                 if (devices[i].type === "DISK" && typeof devices[i].properties.size === "string") {
                     devices[i].properties.size = this.application.storageService.convertSizeStringToBytes(devices[i].properties.size);
                 }
