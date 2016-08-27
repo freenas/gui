@@ -162,6 +162,30 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
+    convertBytesToSizeString: {
+        value: function(bytes) {
+            var result = bytes,
+                sizePrefixes = Object.keys(this.SIZE_PREFIX_EXPONENTS),
+                prefixIndex = 0;
+
+            if (typeof bytes === "number") {
+                while (result % 1024 === 0) {
+                    prefixIndex++;
+                    result = result / 1024;
+                }
+
+                for (var i=1, length = sizePrefixes.length; i<=length; i++) {
+                    if (this.SIZE_PREFIX_EXPONENTS[sizePrefixes[i]] === prefixIndex) {
+                        result += sizePrefixes[i] + "iB";
+                        break;
+                    }
+                }
+                result += "";
+            }
+            return result;
+        }
+    },
+
     isRootDataset: {
         value: function (dataset) {
             return dataset.name === dataset.volume;
