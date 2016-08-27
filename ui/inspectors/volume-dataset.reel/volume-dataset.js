@@ -57,6 +57,16 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         }
     },
 
+    templateDidLoad: {
+        value: function() {
+            var self = this;
+            this.emptyReplications = this.application.dataService.getEmptyCollectionForType(Model.ReplicationLink);
+            this.application.replicationService.listReplicationLinks().then(function(replications) {
+                self.replications = replications;
+            });
+        }
+    },
+
     enterDocument: {
         value: function () {
             this.volume = this._getCurrentVolume();

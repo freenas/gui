@@ -60,7 +60,8 @@
             },
             "bindings": {
                 "options": {"<-": "@owner.datasets.map{id}.sorted{}"},
-                "selectedValues": {"<->": "@owner.object.datasets"}
+                "selectedValues": {"<->": "@owner.object.datasets"},
+                "disabled": {"<-": "!@owner.canChangeDataset"}
             }
         },
         "recursive": {

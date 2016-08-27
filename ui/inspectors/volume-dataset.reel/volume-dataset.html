@@ -11,7 +11,8 @@
                 "treeController": {"@": "datasetTreeController"}
             },
             "bindings": {
-                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}
+                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"},
+                "datasetReplications": {"<-": "@owner.replications.filter{datasets.indexOf(@owner.object.id) != -1}"}
             }
         },
         "inspector": {
@@ -101,6 +102,16 @@
             "bindings": {
                 "object": {"<->": "@owner.object"}
             }
+        },
+        "replications": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "replications"},
+                "name": "Replications"
+            },
+            "bindings": {
+                "object": {"<-": "@owner.datasetReplications.length > 0 ? @owner.datasetReplications : @owner.emptyReplications"}
+            }
         }
     }
     </script>
@@ -117,6 +128,7 @@
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
+            <div data-montage-id="replications" class="g-negative-margin-sides"></div>
         </div>
     </div>
 </body>

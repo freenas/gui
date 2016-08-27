@@ -46,12 +46,20 @@ exports.ReplicationLink = Component.specialize(/** @lends ReplicationLink# */ {
 
     enterDocument: {
         value: function() {
+            this.canChangeDataset = true;
+            this.currentDataset = this._getCurrentDataset();
             if (this.object && this.object._isNew) {
                 this.object.replicate_services = false;
                 this.object.bidirectional = false;
                 this.object.auto_recover = false;
                 this.object.partners = this.object.partners || [];
                 this.object.datasets = this.object.datasets || [];
+                if (this.currentDataset) {
+                    this.object.datasets.push(this.currentDataset.id);
+                }
+            }
+            if (this.currentDataset) {
+                this.canChangeDataset = false;
             }
         }
     },
@@ -65,6 +73,19 @@ exports.ReplicationLink = Component.specialize(/** @lends ReplicationLink# */ {
     _handleAddressChange: {
         value: function() {
             this.dispatchOwnPropertyChange("slave", this.slave);
+        }
+    },
+
+    _getCurrentDataset: {
+        value: function() {
+            if (this.context) {
+                var currentSelection = this.application.selectionService.getCurrentSelection();
+                for (var i = this.context.columnIndex - 1; i >= 0; i--) {
+                    if (currentSelection.path[i].constructor.Type == Model.VolumeDataset) {
+                        return currentSelection.path[i];
+                    }
+                }
+            }
         }
     }
 });
