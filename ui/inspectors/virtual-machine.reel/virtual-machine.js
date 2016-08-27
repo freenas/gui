@@ -1,5 +1,6 @@
 var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
+    VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
     VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType,
     Dict = require("collections/dict").Dict;
 
@@ -13,6 +14,10 @@ exports.VirtualMachine = Component.specialize({
     },
 
     templates: {
+        value: null
+    },
+
+    bootloaderOptions: {
         value: null
     },
 
@@ -156,6 +161,7 @@ exports.VirtualMachine = Component.specialize({
                 loadingPromises = [],
                 devicesPromise;
             this.isLoading = true;
+            this.bootloaderOptions = VmConfigBootloader.members
             this.editMode = this.object._isNew ? "edit" : "display";
             if (!this.object.config) {
                 this.object.config = {ncpus: ""};
@@ -174,6 +180,9 @@ exports.VirtualMachine = Component.specialize({
                     loadingPromises.push(this._loadVolumes());
                 }
                 this.object.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
+                if (!this.object.config || !this.object.config.bootloader) {
+                    this.object.config.bootloader = "GRUB";
+                }
             }
             Promise.all(loadingPromises).then(function() {
                 self.isLoading = false;

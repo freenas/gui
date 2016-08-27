@@ -102,6 +102,17 @@
                 "options": {"<-": "[{template: {name: '---'}}].concat(@owner.templates).sorted{template.name}"}
             }
         },
+        "bootloader": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "bootloader"},
+                "label": "Bootloader"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.bootloaderOptions"},
+                "selectedValue": {"<->": "@owner.object.config.bootloader"}
+            }
+        },
         "vmGuestType": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -306,6 +317,7 @@
                 <div data-montage-id="volumeEdit" data-arg="edit"></div>
                 <div data-montage-id="volumeDisplay" data-arg="display"></div>
             </div>
+            <div data-montage-id="bootloader"></div>
             <div data-montage-id="vmGuestType"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="cpu"></div>
