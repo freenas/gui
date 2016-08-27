@@ -68,7 +68,7 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
                         break;
                     case VmDeviceType.NIC:
                         device.properties = {
-                            mode: "BRIDGED",
+                            mode: "NAT",
                             device: "VIRTIO"
                         };
                         break;
