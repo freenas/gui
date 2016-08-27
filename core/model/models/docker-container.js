@@ -209,5 +209,17 @@ exports.DockerContainer = AbstractModel.specialize({
             valueObjectPrototypeName: "DockerVolume",
             valueType: "array"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            nameExpression: "id.defined() ? id : 'Create a container'",
+            collectionNameExpression: "'Containers'",
+            creatorComponentModule: {
+                id: 'ui/inspectors/container.reel'
+            }
+        }
     }
 });

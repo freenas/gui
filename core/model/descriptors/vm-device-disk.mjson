@@ -4,6 +4,7 @@
     "properties": {
       "name": "mode",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "object",
       "valueObjectPrototypeName": "VmDeviceDiskMode"
     }
@@ -21,7 +22,19 @@
     "properties": {
       "name": "source",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "String"
+    }
+  },
+  "blueprint_vmdevicedisk_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "mandatory": true,
+      "enumValues": [
+        "vm-device-disk"
+      ]
     }
   },
   "root": {
@@ -31,7 +44,8 @@
       "propertyBlueprints": [
         {"@": "blueprint_vmdevicedisk_mode"},
         {"@": "blueprint_vmdevicedisk_size"},
-        {"@": "blueprint_vmdevicedisk_source"}
+        {"@": "blueprint_vmdevicedisk_source"},
+        {"@": "blueprint_vmdevicedisk_type"}
       ]
     }
   }

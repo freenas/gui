@@ -8,6 +8,16 @@
       "valueObjectPrototypeName": "VmDeviceGraphicsResolution"
     }
   },
+  "blueprint_vmdevicegraphics_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "vm-device-graphics"
+      ]
+    }
+  },
   "blueprint_vmdevicegraphics_vnc_enabled": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -30,6 +40,7 @@
       "name": "VmDeviceGraphics",
       "propertyBlueprints": [
         {"@": "blueprint_vmdevicegraphics_resolution"},
+        {"@": "blueprint_vmdevicegraphics_type"},
         {"@": "blueprint_vmdevicegraphics_vnc_enabled"},
         {"@": "blueprint_vmdevicegraphics_vnc_port"}
       ]

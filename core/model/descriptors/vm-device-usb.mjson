@@ -4,6 +4,7 @@
     "properties": {
       "name": "config",
       "blueprint": {"@": "root"},
+      "mandatory": true,
       "valueType": "object"
     }
   },
@@ -16,13 +17,25 @@
       "valueObjectPrototypeName": "VmDeviceUsbDevice"
     }
   },
+  "blueprint_vmdeviceusb_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "mandatory": true,
+      "enumValues": [
+        "vm-device-usb"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "VmDeviceUsb",
       "propertyBlueprints": [
         {"@": "blueprint_vmdeviceusb_config"},
-        {"@": "blueprint_vmdeviceusb_device"}
+        {"@": "blueprint_vmdeviceusb_device"},
+        {"@": "blueprint_vmdeviceusb_type"}
       ]
     }
   }

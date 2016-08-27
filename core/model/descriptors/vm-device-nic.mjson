@@ -33,6 +33,16 @@
       "valueObjectPrototypeName": "VmDeviceNicMode"
     }
   },
+  "blueprint_vmdevicenic_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "vm-device-nic"
+      ]
+    }
+  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
@@ -41,7 +51,8 @@
         {"@": "blueprint_vmdevicenic_bridge"},
         {"@": "blueprint_vmdevicenic_device"},
         {"@": "blueprint_vmdevicenic_link_address"},
-        {"@": "blueprint_vmdevicenic_mode"}
+        {"@": "blueprint_vmdevicenic_mode"},
+        {"@": "blueprint_vmdevicenic_type"}
       ]
     }
   }

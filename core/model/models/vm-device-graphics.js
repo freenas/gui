@@ -14,6 +14,19 @@ exports.VmDeviceGraphics = AbstractModel.specialize({
             return this._resolution;
         }
     },
+    _type: {
+        value: null
+    },
+    type: {
+        set: function (value) {
+            if (this._type !== value) {
+                this._type = value;
+            }
+        },
+        get: function () {
+            return this._type;
+        }
+    },
     _vnc_enabled: {
         value: null
     },
@@ -47,6 +60,9 @@ exports.VmDeviceGraphics = AbstractModel.specialize({
             name: "resolution",
             valueObjectPrototypeName: "VmDeviceGraphicsResolution",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type"
         }, {
             mandatory: false,
             name: "vnc_enabled",

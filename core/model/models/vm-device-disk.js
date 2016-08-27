@@ -39,11 +39,24 @@ exports.VmDeviceDisk = AbstractModel.specialize({
         get: function () {
             return this._source;
         }
+    },
+    _type: {
+        value: null
+    },
+    type: {
+        set: function (value) {
+            if (this._type !== value) {
+                this._type = value;
+            }
+        },
+        get: function () {
+            return this._type;
+        }
     }
 }, {
     propertyBlueprints: {
         value: [{
-            mandatory: false,
+            mandatory: true,
             name: "mode",
             valueObjectPrototypeName: "VmDeviceDiskMode",
             valueType: "object"
@@ -52,9 +65,12 @@ exports.VmDeviceDisk = AbstractModel.specialize({
             name: "size",
             valueType: "number"
         }, {
-            mandatory: false,
+            mandatory: true,
             name: "source",
             valueType: "String"
+        }, {
+            mandatory: true,
+            name: "type"
         }]
     }
 });

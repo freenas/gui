@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.ReplicationCredentials = AbstractModel.specialize({
+exports.FreenasCredentials = AbstractModel.specialize({
     _hostkey: {
         value: null
     },

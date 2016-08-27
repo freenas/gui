@@ -38,7 +38,7 @@
       "name": "type",
       "blueprint": {"@": "root"},
       "enumValues": [
-        "replication",
+        "freenas",
         "ssh",
         "amazon-s3"
       ]

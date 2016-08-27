@@ -213,6 +213,10 @@
             "type": "FreeipaDirectoryParams"
         },
         {
+            "modelId": "core/model/models/freenas-credentials.js",
+            "type": "FreenasCredentials"
+        },
+        {
             "modelId": "core/model/models/get-stats-params.js",
             "type": "GetStatsParams"
         },
@@ -363,10 +367,6 @@
         {
             "modelId": "core/model/models/remote-debug-status.js",
             "type": "RemoteDebugStatus"
-        },
-        {
-            "modelId": "core/model/models/replication-credentials.js",
-            "type": "ReplicationCredentials"
         },
         {
             "modelId": "core/model/models/replication-link.js",

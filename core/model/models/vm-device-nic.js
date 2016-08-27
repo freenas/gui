@@ -52,6 +52,19 @@ exports.VmDeviceNic = AbstractModel.specialize({
         get: function () {
             return this._mode;
         }
+    },
+    _type: {
+        value: null
+    },
+    type: {
+        set: function (value) {
+            if (this._type !== value) {
+                this._type = value;
+            }
+        },
+        get: function () {
+            return this._type;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -73,6 +86,9 @@ exports.VmDeviceNic = AbstractModel.specialize({
             name: "mode",
             valueObjectPrototypeName: "VmDeviceNicMode",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "type"
         }]
     }
 });
