@@ -22,8 +22,8 @@ exports.VirtualMachineDeviceNic = Component.specialize({
 
     constructor: {
         value: function() {
-            this.nicDeviceOptions = this._createSelectOptions(VmDeviceNicDevice.members);
-            this.nicModeOptions = this._createSelectOptions(VmDeviceNicMode.members);
+            this.nicDeviceOptions = VmDeviceNicDevice.members;
+            this.nicModeOptions = VmDeviceNicMode.members;
         }
     },
 
@@ -36,16 +36,6 @@ exports.VirtualMachineDeviceNic = Component.specialize({
                 self.interfaces = interfaces.slice();
                 self.interfaces.unshift({id: "default", enabled: true});
             });
-        }
-    },
-
-    _createSelectOptions: {
-        value: function(values) {
-            var result = values.map(function(value) {
-                return {label: value, value: value};
-            });
-            result.unshift({label:"---", value: null});
-            return result;
         }
     }
 });
