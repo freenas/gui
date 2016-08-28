@@ -272,6 +272,15 @@
                 "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         },
+        "webvncConsoleCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "webvncConsoleCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.object.device.some{type == 'GRAPHICS'}"}
+            }
+        },
         "webvncConsole": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
@@ -302,8 +311,10 @@
                 <div data-montage-id="start"></div>
                 <div data-montage-id="stop"></div>
                 <div data-montage-id="reboot"></div>
-                <div data-montage-id="webvncConsole"></div>
                 <div data-montage-id="serialConsole"></div>
+                <div data-montage-id="webvncConsoleCondition">
+                    <div data-montage-id="webvncConsole"></div>
+                </div>
             </div>
             <div data-montage-id="stateCondition">
                 <div data-montage-id="state"></div>
