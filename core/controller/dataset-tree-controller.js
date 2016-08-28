@@ -1,4 +1,4 @@
-var Montage = require("montage").Montage,
+    var Montage = require("montage").Montage,
     Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise;
 
@@ -19,6 +19,10 @@ exports.DatasetTreeController = Montage.specialize({
                 this.open(this._root);
             }
         }
+    },
+
+    type: {
+        value: "DATASET"
     },
 
     _datasetsPromise: {

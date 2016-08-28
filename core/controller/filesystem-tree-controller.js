@@ -23,6 +23,10 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         }
     },
 
+    type: {
+        value: "FILE"
+    },
+
     entry: {
         value: null
     },
@@ -66,7 +70,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         set: function(root) {
             if (this._root !== root) {
                 this._root = root;
-                
+
                 if (root && this._service) {
                     this.open(this._root);
                 }
@@ -132,8 +136,8 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
 
     _isPathLastAncestor: {
         value: function(path) {
-            return this.ancestors && 
-                this.ancestors.length && 
+            return this.ancestors &&
+                this.ancestors.length &&
                 this.ancestors.slice(-1)[0].path === path;
         }
     },
@@ -149,10 +153,10 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
 
     _isPathChildOfCurrentEntry: {
         value: function(path) {
-            return this.entry && 
-                    this.entry.children && 
-                    this.entry.children.map(function(x) { 
-                        return x.path; 
+            return this.entry &&
+                    this.entry.children &&
+                    this.entry.children.map(function(x) {
+                        return x.path;
                     }).indexOf(path) != -1;
         }
     },
