@@ -19,6 +19,10 @@ exports.Container = Component.specialize(/** @lends Container# */ {
                 self._volume = volume;
                 self.blockDrawGate.setField("volume", true);
             });
+            Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
+                self._dockerImageService = DockerImage.constructor.services;
+            });
+
         }
     },
 
@@ -37,24 +41,16 @@ exports.Container = Component.specialize(/** @lends Container# */ {
     _fetchDataIfNeeded: {
         value: function () {
             if (!this._images) {
-                this._images = [
-                    {
-                        label: "nginx",
-                        value: "nginx:latest"
-                    },
-                    {
-                        label: "alpine",
-                        value: "alpine:latest"
-                    },
-                    {
-                        label: "debian",
-                        value: "debian:latest"
-                    },
-                    {
-                        label: "ubuntu",
-                        value: "ubuntu:latest"
-                    }
-                ];
+                var self = this;
+                this._dockerImageService.getTemplates().then(function(templates) {
+                    var templatesNames = Object.keys(templates);
+                    self._images = templatesNames.map(function(x) {
+                        return {
+                            label: x,
+                            value: templates[x].image
+                        };
+                    });
+                });
             }
         } 
     },
