@@ -249,7 +249,7 @@ exports.VirtualMachine = Component.specialize({
 
     save: {
         value: function() {
-            var parsedMemsize = this._memorySize.toString().match(this.application.storageService.SCALED_NUMERIC_RE_),
+            var parsedMemsize = this._memorysize ? this._memorySize.toString().match(this.application.storageService.SCALED_NUMERIC_RE_) : "",
                 memsize,
                 memsizePrefix,
                 memsizeMultiplier = 1,
