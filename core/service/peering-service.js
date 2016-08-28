@@ -6,12 +6,12 @@ var Montage = require("montage").Montage,
 var PeeringService = exports.PeeringService = Montage.specialize({
 
     _DEFAULT_TYPE: {
-        value: "replication"
+        value: "freenas"
     },
 
     _CREDENTIALS_PER_TYPE: {
         value: {
-            "replication": {
+            "freenas": {
                 model: Model.SshCredentials,
                 type: "ssh"
             }

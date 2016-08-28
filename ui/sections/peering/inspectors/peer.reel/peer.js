@@ -12,7 +12,7 @@ exports.Peer = Component.specialize(/** @lends Peer# */ {
         get: function() {
             var type;
             if (this.object) {
-                type = this.object.type === "replication" && this.object._isNew ? "ssh" : this.object.type;
+                type = this.object.type === "freenas" && this.object._isNew ? "ssh" : this.object.type;
             }
             return type;
         }
