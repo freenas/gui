@@ -30,6 +30,7 @@ parent node
     padding: .25em 0;
     background-color: #2B9CD8;
     color: #fff;
+    flex-shrink: 0;
 }
 
 /* sidebar */

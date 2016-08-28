@@ -26,9 +26,13 @@
     color: #fff;
 }
 
-.TreeView-backButton.montage--disabled {
+.TreeView-backButton[disabled='disabled'] {
     opacity: .5;
     cursor: not-allowed;
+
+    &:hover {
+        color: currentColor;
+    }
 }
 
 .TreeView-backButton svg {

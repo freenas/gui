@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "test": {"<-": "@owner.controller"}
             }
         },
         "iconSubstitution": {
@@ -16,7 +19,7 @@
                 "element": {"#": "iconSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.data.isDataset"}
+                "switchValue": {"<-": "@owner.data.type == 'DIRECTORY'"}
             }
         },
         "name": {
@@ -33,12 +36,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="ChildNode">
-        <div class="ChildNode-typeIcon">
-            <svg data-montage-id="iconSubstitution">
-                <use xlink:href="#i-dataset" data-arg="true"/>
-                <use xlink:href="#i-folder" data-arg="false"/>
-            </svg>
-        </div>
+            <div data-montage-id="iconSubstitution" class="ChildNode-typeIcon">
+                <svg data-arg="false"><use xlink:href="#i-dataset"/></svg>
+                <svg data-arg="true"><use xlink:href="#i-folder"/></svg>
+            </div>
         <div data-montage-id="name" class="ChildNode-name"></div>
         <div class="ChildNode-arrow">
             <svg><use xlink:href="#i-arrow"/></svg>

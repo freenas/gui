@@ -12,6 +12,7 @@
             },
             "bindings": {
                 "entry": {"<-": "@owner.controller.entry"},
+                "type": {"<-": "@owner.controller.type"},
                 "isPathInvalid": {"<-": "@owner.controller.isPathInvalid"}
             }
         },
@@ -38,7 +39,11 @@
             "prototype": "montage/ui/button.reel",
             "properties": {
                 "element": {"#": "backButton"}
+            },
+            "bindings": {
+                "disabled": {"<-": "!@owner.controller.parent"}
             }
+
         },
         "cancel": {
             "prototype": "blue-shark/ui/button.reel",

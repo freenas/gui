@@ -22,14 +22,21 @@
     background: #2F3233;
 }
 
-.FieldTreeview-pathButton svg {
-    position: relative;
-    z-index: 200;
-    order: -1;
-    height: 100%;
-    width:  1.25em;
-    margin-right: .5em;
+
+.FieldTreeview-icon {
+    display: flex;
+    align-items: center;
+
+    & svg {
+        position: relative;
+        z-index: 200;
+        order: -1;
+        height: 1.25em;
+        width:  1.25em;
+        margin-right: .5em;
+    }
 }
+
 
 .FieldTreeview-treeView {
     position: absolute;

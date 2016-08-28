@@ -54,6 +54,15 @@
                 "suffix": {"<-": "@owner.suffix"},
                 "removePrefix": {"<-": "@owner.removePrefix || ''"}
             }
+        },
+        "iconSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "iconSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.controller.type"}
+            }
         }
     }
     </script>
@@ -65,7 +74,10 @@
                 <div class="FieldTreeview-selectedPath">
                     <span data-montage-id="selectedPath"></span>
                 </div>
-                <svg><use xlink:href="#i-folder"/></svg>
+                <div data-montage-id="iconSubstitution" class="FieldTreeview-icon">
+                    <svg data-arg="FILE"><use xlink:href="#i-folder"/></svg>
+                    <svg data-arg="DATASET"><use xlink:href="#i-dataset"/></svg>
+                </div>
             </div>
         </div>
         <div data-montage-id="treeview" class="FieldTreeview-treeView"></div>
