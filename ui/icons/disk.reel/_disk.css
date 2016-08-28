@@ -40,3 +40,19 @@
     line-height: 1rem;
     text-align: center;
 }
+
+/* warning icon */
+
+.DiskIcon-warningIcon {
+    position: absolute;
+    top:    -.35em;
+    right:  -.35em;
+    width:  1em;
+    height: 1em;
+    color: #bb8e00;
+
+    & svg {
+        box-shadow: 0 1px 1px rgba(0,0,0,1);
+        border-radius: 50%;
+    }
+}
