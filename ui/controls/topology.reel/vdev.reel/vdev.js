@@ -194,7 +194,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
 
     _handleSelectedDiskChange: {
         value: function() {
-            if (this.selectedDisk && this.selectedDisk.length == 1) {
+            if (this.selectedDisk && this.selectedDisk.length == 1 && this.topologyItem) {
                 this.topologyItem.selectedDisk = this.selectedDisk;
             }
         }
