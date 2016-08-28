@@ -12,6 +12,17 @@
             }
         },
         
+        "fileTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": true,
+                "root": "/"
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"}
+            }
+        },
+
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
@@ -79,13 +90,14 @@
         },
 
         "volumeHostPath": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "volumeHostPath"},
-                "label": "Host Path"
+                "controller": {"@": "fileTreeController"},
+                "label": "Host path"
             },
             "bindings": {
-                "value": {"<->": "@owner._volume.host_path"}
+                "selectedPath": {"<->": "@owner._volume.host_path"}
             }
         },
 
