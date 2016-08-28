@@ -207,6 +207,9 @@ exports.VirtualMachine = Component.specialize({
             this.object.template = {name: template.template.name};
             this.object.guest_type = template.guest_type;
             // FIXME: Contaminates the template
+            for (var i=0, length=template.devices.length; i<length; i++) {
+                template.devices[i].id = "This device came from a template"
+            }
             this.object.devices = template.devices;
         }
     },
