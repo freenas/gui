@@ -168,12 +168,14 @@ exports.DatasetTreeController = Montage.specialize({
 
     _findEntry: {
         value: function(path) {
-            var pathParts = path.split('/'),
-                entry = this._tree,
-                depth = 0;
-            while (depth < pathParts.length && entry) {
-                entry = entry.children.filter(function(x) { return x.name == pathParts[depth]; })[0];
-                depth++;
+            var entry = this._tree;
+            if (path) {
+                var pathParts = path.split('/'),
+                    depth = 0;
+                while (depth < pathParts.length && entry) {
+                    entry = entry.children.filter(function(x) { return x.name == pathParts[depth]; })[0];
+                    depth++;
+                }
             }
             return entry;
         }

@@ -134,7 +134,8 @@ exports.EncryptPlugin = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "type",
-            valueType: "String"
+            valueObjectPrototypeName: "EncryptPluginType",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "write_fd",

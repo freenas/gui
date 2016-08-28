@@ -642,6 +642,11 @@
     },
     "DockerImage": {
         "class": {
+            "getTemplates": {
+                "method": "docker.image.get_templates",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "readme": {
                 "method": "docker.image.readme",
                 "name": "call",
@@ -1563,6 +1568,11 @@
                 "namespace": "rpc",
                 "task": "replication.delete"
             },
+            "read": {
+                "method": "replication.query",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "sync": {
                 "method": "task.submit",
                 "name": "call",
@@ -1574,15 +1584,6 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "replication.update"
-            }
-        }
-    },
-    "ReplicationLink": {
-        "instance": {
-            "read": {
-                "method": "replication.link.query",
-                "name": "call",
-                "namespace": "rpc"
             }
         }
     },

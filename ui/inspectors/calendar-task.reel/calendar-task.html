@@ -107,6 +107,15 @@
                 "args": {"<->": "@owner.object.args"}
             }
         },
+        "replication": {
+            "prototype": "./replication-args.reel",
+            "properties": {
+                "element": {"#": "replication"}
+            },
+            "bindings": {
+                "args": {"<->": "@owner.object.args"}
+            }
+        },
         "enabled": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -142,6 +151,7 @@
                 <div data-montage-id="scrub" data-arg="volume.scrub"></div>
                 <div data-montage-id="smart" data-arg="disk.parallel_test"></div>
                 <div data-montage-id="cron" data-arg="calendar_task.command"></div>
+                <div data-montage-id="replication" data-arg="replication.replicate_dataset"></div>
             </div>
             <div data-montage-id="schedule"></div>
         </div>

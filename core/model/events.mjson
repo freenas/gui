@@ -21,7 +21,7 @@
     "NtpServer": "entity-subscriber.ntp_server.changed",
     "Peer": "entity-subscriber.peer.changed",
     "Power": "entity-subscriber.power.changed",
-    "ReplicationLink": "entity-subscriber.replication.link.changed",
+    "Replication": "entity-subscriber.replication.changed",
     "Service": "entity-subscriber.service.changed",
     "Session": "entity-subscriber.session.changed",
     "Share": "entity-subscriber.share.changed",

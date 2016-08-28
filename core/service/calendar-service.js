@@ -59,7 +59,7 @@ var CalendarService = exports.CalendarService = Montage.specialize({
     taskCategories: {
         value: [
             { name: "Scrub", value: "volume.scrub", isDisplayed: true },
-//            { name: "Replication", value: "replication.replicate_dataset" },
+            { name: "Replication", value: "replication.replicate_dataset", isDisplayed: true },
             { name: "Smart", value: "disk.parallel_test", isDisplayed: true },
             { name: "Update", value: "update.checkfetch", isDisplayed: false },
             { name: "Cron job", value: "calendar_task.command", isDisplayed: true },
@@ -154,7 +154,6 @@ var CalendarService = exports.CalendarService = Montage.specialize({
             var self = this,
                 date = date || new Date();
             return this._dataService.getNewInstanceForType(Model.CalendarTask).then(function(task) {
-                task.name = type;
                 task.schedule = self._dateToSchedule(date);
                 return task;
             });
@@ -213,29 +212,6 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 }
                 delete task._concurrentTasks;
             }
-/*
-                    var tasksInTimeSlot = [],
-                j, length,
-                task, scheduleInMinute;
-            for (var i = 0; i < 1440; i += 30) {
-                tasksInTimeSlot = [];
-                for (j = 0, length = schedule.length; j < length; j++) {
-                    task = schedule[j];
-                    scheduleInMinute = task.hour * 60 + task.minute;
-                    if (scheduleInMinute > i + 30) {
-                        break;
-                    }
-                    if (scheduleInMinute >= i) {
-                        tasksInTimeSlot.push(task);
-                    }
-                }
-                for (j = 0, length = tasksInTimeSlot.length; j < length; j++) {
-                    task = tasksInTimeSlot[j];
-                    task.concurrentEvents = length;
-                    task.concurrentIndex = j;
-                }
-            }
-*/
             return schedule;
         }
     },

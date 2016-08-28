@@ -1,4 +1,28 @@
 {
+  "blueprint_replication_auto_recover": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auto_recover",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_bidirectional": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bidirectional",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_datasets": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "datasets",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_replication_followdelete": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -7,12 +31,44 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_replication_lifetime": {
+  "blueprint_replication_id": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "lifetime",
+      "name": "id",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_initial_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "initial_master",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_master": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "master",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_replication_partners": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "partners",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
     }
   },
   "blueprint_replication_recursive": {
@@ -23,29 +79,46 @@
       "valueType": "boolean"
     }
   },
-  "blueprint_replication_remote": {
+  "blueprint_replication_replicate_services": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote",
+      "name": "replicate_services",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "boolean"
     }
   },
-  "blueprint_replication_remote_dataset": {
+  "blueprint_replication_snapshot_lifetime": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "remote_dataset",
+      "name": "snapshot_lifetime",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "number"
     }
   },
-  "blueprint_replication_transport_plugins": {
+  "blueprint_replication_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "transport_plugins",
+      "name": "status",
       "blueprint": {"@": "root"},
       "valueType": "object",
-      "valueObjectPrototypeName": "ReplicationTransportPlugin"
+      "valueObjectPrototypeName": "ReplicationStatus"
+    }
+  },
+  "blueprint_replication_transport_options": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "transport_options",
+      "blueprint": {"@": "root"},
+      "valueType": "array",
+      "valueObjectPrototypeName": "ReplicationTransportOption"
+    }
+  },
+  "blueprint_replication_update_date": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "update_date",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "root": {
@@ -53,12 +126,21 @@
     "properties": {
       "name": "Replication",
       "propertyBlueprints": [
+        {"@": "blueprint_replication_auto_recover"},
+        {"@": "blueprint_replication_bidirectional"},
+        {"@": "blueprint_replication_datasets"},
         {"@": "blueprint_replication_followdelete"},
-        {"@": "blueprint_replication_lifetime"},
+        {"@": "blueprint_replication_id"},
+        {"@": "blueprint_replication_initial_master"},
+        {"@": "blueprint_replication_master"},
+        {"@": "blueprint_replication_name"},
+        {"@": "blueprint_replication_partners"},
         {"@": "blueprint_replication_recursive"},
-        {"@": "blueprint_replication_remote"},
-        {"@": "blueprint_replication_remote_dataset"},
-        {"@": "blueprint_replication_transport_plugins"}
+        {"@": "blueprint_replication_replicate_services"},
+        {"@": "blueprint_replication_snapshot_lifetime"},
+        {"@": "blueprint_replication_status"},
+        {"@": "blueprint_replication_transport_options"},
+        {"@": "blueprint_replication_update_date"}
       ]
     }
   }

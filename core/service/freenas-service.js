@@ -145,7 +145,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.NetworkRoute,
             Model.Peer,
             Model.Permissions,
-            Model.ReplicationLink,
+            Model.ReplicationOption,
             Model.Service,
             Model.ServiceIscsi,
             Model.Share,

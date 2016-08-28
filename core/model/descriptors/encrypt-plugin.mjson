@@ -52,7 +52,8 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object",
+      "valueObjectPrototypeName": "EncryptPluginType"
     }
   },
   "blueprint_encryptplugin_write_fd": {

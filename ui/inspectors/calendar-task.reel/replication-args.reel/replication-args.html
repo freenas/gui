@@ -7,7 +7,108 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "datasetTreeController": {"@": "datasetTreeController"}
+            }
+        },
+        "datasetTreeController": {
+            "prototype": "core/controller/dataset-tree-controller",
+            "bindings": {
+                "service": {"<-": "@owner.application.dataService"}
+            }
+        },
+        "peer": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "peer"},
+                "label": "Peer"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.peers.map{name}"},
+                "selectedValue": {"<->": "@owner.args.1.peer"}
+            }
+        },
+        "sourceDataset": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "sourceDataset"},
+                "controller": {"@": "datasetTreeController"},
+                "label": "Source dataset"
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.args.0"}
+            }
+        },
+        "targetDataset": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "targetDataset"},
+                "label": "Target dataset"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.args.1.remote_dataset"}
+            }
+        },
+        "compress": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "compress"},
+                "label": "Compression",
+                "options": [
+                    { "label": "---",    "value": null },
+                    { "label": "FAST", "value": "FAST" },
+                    { "label": "DEFAULT", "value": "DEFAULT" },
+                    { "label": "BEST", "value": "BEST" }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.compress"}
+            }
+        },
+        "encrypt": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "encrypt"},
+                "label": "Encryption",
+                "options": [
+                    { "label": "---",    "value": null },
+                    { "label": "AES128", "value": "AES128" },
+                    { "label": "AES192", "value": "AES192" },
+                    { "label": "AES256", "value": "AES256" }
+                ]
+            },
+            "bindings": {
+                "selectedValue": {"<->": "@owner.encrypt"}
+            }
+        },
+        "throttle": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "throttle"},
+                "label": "Throttling (B/s)"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.throttle"}
+            }
+        },
+        "recursive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "recursive"},
+                "label": "Recursive"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.args.1.recursive"}
+            }
+        },
+        "followDelete": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "followDelete"},
+                "label": "Follow delete"
+            },
+            "bindings": {
+                "checked": {"<->": "!!@owner.args.1.followdelete"}
             }
         }
     }
@@ -15,6 +116,14 @@
 </head>
 <body>
     <div data-montage-id="owner" class="ReplicationArgs">
+        <div data-montage-id="peer"></div>
+        <div data-montage-id="sourceDataset"></div>
+        <div data-montage-id="targetDataset"></div>
+        <div data-montage-id="compress"></div>
+        <div data-montage-id="encrypt"></div>
+        <div data-montage-id="throttle"></div>
+        <div data-montage-id="recursive"></div>
+        <div data-montage-id="followDelete"></div>
     </div>
 </body>
 </html>

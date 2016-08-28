@@ -29,6 +29,7 @@ exports.CalendarTask = Component.specialize({
     
     save: {
         value: function() {
+            this.object.name = this.object.name || this.object.id;
             this.object.args = this.object.args.filter(function(x) { 
                 return !!x || (typeof x !== "undefined" && typeof x !== "object") ; 
             });

@@ -93,6 +93,10 @@
             "type": "CompressPlugin"
         },
         {
+            "modelId": "core/model/models/compress-transport-option.js",
+            "type": "CompressTransportOption"
+        },
+        {
             "modelId": "core/model/models/cpu-device.js",
             "type": "CpuDevice"
         },
@@ -203,6 +207,10 @@
         {
             "modelId": "core/model/models/encrypt-plugin.js",
             "type": "EncryptPlugin"
+        },
+        {
+            "modelId": "core/model/models/encrypt-transport-option.js",
+            "type": "EncryptTransportOption"
         },
         {
             "modelId": "core/model/models/error.js",
@@ -369,8 +377,8 @@
             "type": "RemoteDebugStatus"
         },
         {
-            "modelId": "core/model/models/replication-link.js",
-            "type": "ReplicationLink"
+            "modelId": "core/model/models/replication-options.js",
+            "type": "ReplicationOptions"
         },
         {
             "modelId": "core/model/models/replication-status.js",
@@ -619,6 +627,10 @@
         {
             "modelId": "core/model/models/throttle-plugin.js",
             "type": "ThrottlePlugin"
+        },
+        {
+            "modelId": "core/model/models/throttle-transport-option.js",
+            "type": "ThrottleTransportOption"
         },
         {
             "modelId": "core/model/models/tunable.js",

@@ -23,7 +23,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
     enterDocument: {
         value: function () {
             this._initializeOptionsIfNecessary();
-            this.addRangeAtPathChangeListener("usedFields", this, "_buildAvailableUnitOptions");
+            this._cancelUsedFieldsListener = this.addRangeAtPathChangeListener("usedFields", this, "_buildAvailableUnitOptions");
             if (this.rule) {
                 this._currentType = this.rule.type;
             }
@@ -32,8 +32,14 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
 
     exitDocument: {
         value: function() {
-            this.rule.field = null;
+            if (typeof this._cancelUsedFieldsListener === "function") {
+                this._cancelUsedFieldsListener();
+                this._cancelUsedFieldsListener = null;
+            }
             this.rule = null;
+            if (this.rule) {
+                this.rule.field = null;
+            }
         }
     },
 
