@@ -49,37 +49,68 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
 
     _createNewDevice: {
         value: function(type) {
+            var self = this;
             return this._dataService.getNewInstanceForType(Model.VmDevice).then(function(device) {
                 device.type = type;
                 device._isNewObject = true;
-                switch (type) {
-                    case VmDeviceType.CDROM:
-                        device.properties = {};
-                        break;
-                    case VmDeviceType.DISK:
+                self.setDeviceDefaults(device);
+                return device;
+            });
+        }
+    },
+
+    setDeviceDefaults: {
+        value: function(device) {
+            switch (device.type) {
+                case VmDeviceType.DISK:
+                    if (!device.properties) {
                         device.properties = {
                             mode: "AHCI"
                         };
-                        break;
-                    case VmDeviceType.GRAPHICS:
+                    } else {
+                        if (!device.properties.mode)  {
+                            device.properties.mode = "AHCI";
+                        }
+                    }
+                    break;
+                case VmDeviceType.GRAPHICS:
+                    if (!device.properties) {
                         device.properties = {
                             resolution: "1024x768"
                         };
-                        break;
-                    case VmDeviceType.NIC:
+                    } else {
+                        if (!device.properties.resolution)  {
+                            device.properties.resolution = "1024x768";
+                        }
+                    }
+                    break;
+                case VmDeviceType.NIC:
+                    if (!device.properties) {
                         device.properties = {
                             mode: "NAT",
                             device: "VIRTIO"
                         };
-                        break;
-                    case VmDeviceType.USB:
+                    } else {
+                        if (!device.properties.device)  {
+                            device.properties.device = "VIRTIO";
+                        }
+                        if (!device.properties.mode) {
+                            device.properties.mode = "NAT";
+                        }
+                    }
+                    break;
+                case VmDeviceType.USB:
+                    if (!device.properties) {
                         device.properties = {
                             device: "tablet"
                         };
-                        break;
-                }
-                return device;
-            });
+                    } else {
+                        if (!device.properties.device)  {
+                            device.properties.device = "tablet";
+                        }
+                    }
+                    break;
+            }
         }
     },
 
