@@ -17,14 +17,22 @@
                 "service": {"<-": "@owner.application.dataService"}
             }
         },
+        "peerOptionsConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "valuePropertyName": "id",
+                "labelPropertyName": "name"
+            }
+        },
         "peer": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "peer"},
-                "label": "Peer"
+                "label": "Peer",
+                "converter": {"@": "peerOptionsConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.peers.map{name}"},
+                "options": {"<-": "@owner.peers"},
                 "selectedValue": {"<->": "@owner.args.1.peer"}
             }
         },

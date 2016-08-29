@@ -36,7 +36,7 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
             var argsInitializationPromise;
             if (!this.args || this.args.length != 4) {
                 argsInitializationPromise = this._dataService.getNewInstanceForType(Model.ReplicationOptions).then(function(replicationOptions) {
-                    replicationOptions.peer = self.peers[0].name;
+                    replicationOptions.peer = self.peers[0].id;
                     self.args = [null, replicationOptions, [], false];
                 });
             } else {
