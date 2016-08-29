@@ -45,6 +45,7 @@ exports.IntegerRangeValidator = Validator.specialize({
         }
     },
 
+    //FIXME: set a default message error
     errorMessage: {
         value: null
     },
