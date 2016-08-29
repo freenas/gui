@@ -229,6 +229,17 @@
             "bindings": {
                 "value": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}.join('')"}
             }
+        },
+
+        "interactive": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "interactive"},
+                "label": "Interactive"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.interactive"}
+            }
         }
 
     }
@@ -255,6 +266,7 @@
                 <div data-montage-id="ports"></div>
                 <div data-montage-id="exposePorts"></div>
                 <div data-montage-id="command"></div>
+                <div data-montage-id="interactive"></div>
             </div>
         </div>
     </div>
