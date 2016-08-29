@@ -74,7 +74,7 @@ HandlerPool.prototype.releaseHandler = function (uuid) {
     var handler = this.findHandler(uuid);
 
     if (handler) {
-        if (handler.timeoutID !== void 0) {
+        if (handler.timeoutID !== void 0 && handler.timeoutID !== null) {
             clearTimeout(handler.timeoutID);
         }
 
@@ -121,15 +121,19 @@ HandlerPool.prototype.setTimeoutToHandler = function (handler, timeout) {
     var self = this,
         uuid = handler.uuid;
 
-    handler.timeoutID = setTimeout(function () {
-        var messageHandler = self.pool[uuid];
+    timeout = +timeout || this.handlerTimeout;
 
-        if (handler === messageHandler) {
-            messageHandler.reject(new Error("response timeout"));
+    if (timeout) {
+        handler.timeoutID = setTimeout(function () {
+            var messageHandler = self.pool[uuid];
 
-            delete self.pool[uuid];
-        }
-    }, +timeout || this.handlerTimeout);
+            if (handler === messageHandler) {
+                messageHandler.reject(new Error("response timeout"));
+
+                delete self.pool[uuid];
+            }
+        }, timeout);
+    }
 };
 
 
