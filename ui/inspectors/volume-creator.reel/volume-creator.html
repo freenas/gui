@@ -20,11 +20,11 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "canRevert": true,
-                "canSave": true,
                 "scrollViewDelegate": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "canSave": {"<-": "@name.value.length > 0"}
             }
         },
 
