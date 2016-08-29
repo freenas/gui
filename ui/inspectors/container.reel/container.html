@@ -58,8 +58,8 @@
                 "label": "Image"
             },
             "bindings": {
-                "options": {"<-": "@owner._images"},
-                "selectedValue": {"<->": "@owner.object.image"}
+                "selectedValue": {"<->": "@owner.object.image"},
+                "options": {"<-": "[{label: '---'}].concat(@owner._images)"}
             }
         },
 
