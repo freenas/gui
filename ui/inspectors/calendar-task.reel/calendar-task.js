@@ -7,7 +7,7 @@ var Component = require("montage/ui/component").Component;
 exports.CalendarTask = Component.specialize({
     templateDidLoad: {
         value: function() {
-            this.taskCategories = this.application.calendarService.taskCategories;
+            this.taskCategories = [{ name: '---', value: null }].concat(this.application.calendarService.taskCategories);
         }
     },
 
