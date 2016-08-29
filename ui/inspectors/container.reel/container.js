@@ -100,18 +100,11 @@ exports.Container = Component.specialize(/** @lends Container# */ {
             var env = null;
 
             if (string && this._environmentValidator._isValidEnvironmentVariableString(string)) {
-                var variables = string.split(";"),
-                    variable, keysValues;
-
+                var data = string.split(/;|=/);
                 env = this._environement;
 
-                for (var i = 0, length = variables.length; i < length; i++) {
-                    variable = variables[i];
-
-                    if (variable) {
-                        keysValues = variable.split("=");
-                        env[keysValues[0]] = keysValues[1];
-                    }
+                for (var i = 0, length = data.length; i + 2 <= length; i = i + 2) {
+                    env[data[i]] = data[i + 1];
                 }
             }
 
