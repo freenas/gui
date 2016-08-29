@@ -13,12 +13,15 @@ exports.Container = Component.specialize(/** @lends Container# */ {
     templateDidLoad: {
         value: function () {
             var self = this;
+            this._environement = {};
+
             this.blockDrawGate.setField("volume", false);
 
             this.application.dataService.getNewInstanceForType(Model.DockerVolume).then(function (volume) {
                 self._volume = volume;
                 self.blockDrawGate.setField("volume", true);
             });
+
             Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
                 self._dockerImageService = DockerImage.constructor.services;
             });
@@ -34,7 +37,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
 
     exitDocument: {
         value: function () {
-            this._resetVolume();
+            this._reset();
         }
     },
 
@@ -55,28 +58,65 @@ exports.Container = Component.specialize(/** @lends Container# */ {
         } 
     },
 
-    _resetVolume: {
+    _reset: {
         value: function () {
-            for (var key in this._volume) {
-                if (this._volume.hasOwnProperty) {
-                    this._volume[key] = null;
+            this._volume.clear();
+            this._environement.clear();
+        }
+    },
+
+    _regexEnvironmentVariable: {
+        value: /^(\w+=\w+;)*(\w+=\w+;?)?$/
+    },
+
+    _isValidEnvironmentVariableString: {
+        value: function (string) {
+            return typeof string === "string" && this._regexEnvironmentVariable.test(string);
+        }
+    },
+
+    _getEnvironmentVariableFromString: {
+        value: function (string) {
+            var env = null;
+
+            if (string && this._isValidEnvironmentVariableString(string)) {
+                var variables = string.split(";"),
+                    variable, keysValues;
+
+                env = this._environement;
+
+                for (var i = 0, length = variables.length; i < length; i++) {
+                    variable = variables[i];
+
+                    if (variable) {
+                        keysValues = variable.split("=");
+                        env[keysValues[0]] = keysValues[1];
+                    }
                 }
             }
+
+            return env;
         }
     },
 
     save: {
         value: function () {
-            var commandString = this._commandComponent.value,
+            var environmentComponentString = this._environmentComponent.value,
+                commandString = this._commandComponent.value,
                 namesString = this._namesComponent.value,
+                spaceString = " ",
                 self = this;
 
             if (commandString) {
-                this.object.command = commandString.split(" ");
+                this.object.command = commandString.split(spaceString);
             }
 
             if (namesString) {
-                this.object.names = namesString.split(" ");
+                this.object.names = namesString.split(spaceString);
+            }
+
+            if (environmentComponentString) {
+                this.object.environment = this._getEnvironmentVariableFromString(environmentComponentString);
             }
 
             if (this._volume.container_path && this._volume.host_path) {
@@ -86,7 +126,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
             }
 
             return this.application.dataService.saveDataObject(this.object).then(function () {
-                self._resetVolume();
+                self._reset();
             });
         }
     }

@@ -8,6 +8,7 @@
             "properties": {
                 "element": {"#": "owner"},
                 "_commandComponent": {"@": "command"},
+                "_namesComponent": {"@": "names"},
                 "_namesComponent": {"@": "names"}
             }
         },
@@ -182,7 +183,7 @@
                 "label": "Environment"
             },
             "bindings": {
-                "value": {"<-": "@owner.environment"}
+                "value": {"<-": "@owner.object.environment.toMap().entriesArray().map{[.0 + '=' + .1]}.join(';')"}
             }
         },
 
