@@ -25,7 +25,6 @@ exports.Container = Component.specialize(/** @lends Container# */ {
             Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
                 self._dockerImageService = DockerImage.constructor.services;
             });
-
         }
     },
 
@@ -66,7 +65,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
     },
 
     _regexEnvironmentVariable: {
-        value: /^(\w+=\w+;)*(\w+=\w+;?)?$/
+        value: /^(:?\w+=\w+;)*(:?\w+=\w+;?)?$/
     },
 
     _isValidEnvironmentVariableString: {
