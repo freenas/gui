@@ -8,9 +8,6 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "test": {"<-": "@owner.controller"}
             }
         },
         "iconSubstitution": {
@@ -19,7 +16,7 @@
                 "element": {"#": "iconSubstitution"}
             },
             "bindings": {
-                "switchValue": {"<-": "@owner.data.type == 'DIRECTORY'"}
+                "switchValue": {"<-": "@owner.data.type ? @owner.data.type : 'DATASET'"}
             }
         },
         "name": {
@@ -30,18 +27,28 @@
             "bindings": {
                 "value": {"<-": "@owner.data.name"}
             }
+        },
+        "arrowConditional": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "arrowConditional"}
+            },
+            "bindings": {
+                "condition": {"<-": "@owner.data.type != 'FILE'"}
+            }
         }
     }
     </script>
 </head>
 <body>
     <div data-montage-id="owner" class="ChildNode">
-            <div data-montage-id="iconSubstitution" class="ChildNode-typeIcon">
-                <svg data-arg="false"><use xlink:href="#i-dataset"/></svg>
-                <svg data-arg="true"><use xlink:href="#i-folder"/></svg>
-            </div>
+        <div data-montage-id="iconSubstitution" class="ChildNode-typeIcon">
+            <svg data-arg="DIRECTORY"><use xlink:href="#i-folder"/></svg>
+            <svg data-arg="FILE"><use xlink:href="#i-file"/></svg>
+            <svg data-arg="DATASET"><use xlink:href="#i-dataset"/></svg>
+        </div>
         <div data-montage-id="name" class="ChildNode-name"></div>
-        <div class="ChildNode-arrow">
+        <div data-montage-id="arrowConditional" class="ChildNode-arrow">
             <svg><use xlink:href="#i-arrow"/></svg>
         </div>
     </div>
