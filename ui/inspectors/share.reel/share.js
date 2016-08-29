@@ -138,7 +138,7 @@ exports.Share = Component.specialize({
             //todo: block draw
             this._shareService.populateShareObjectIfNeeded(this.object).then(function() {
                 self.targetType = self._object.target_type;
-                if (!self._object.target_path) {
+                if (self._object._isNew) {
                     self._openTreeController();
                 }
             });
