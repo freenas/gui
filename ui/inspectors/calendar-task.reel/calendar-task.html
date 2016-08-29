@@ -42,21 +42,11 @@
                 "selectedValue": {"<->": "@owner.object.task"}
             }
         },
-        "id": {
+        "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "id"},
+                "element": {"#": "name"},
                 "label": "Name"
-            },
-            "bindings": {
-                "value": {"<->": "@owner.object.id"}
-            }
-        },
-        "description": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "description"},
-                "label": "Description"
             },
             "bindings": {
                 "value": {"<->": "@owner.object.name"}
@@ -143,7 +133,7 @@
     <div data-montage-id="owner" class="CalendarTask">
         <div data-montage-id="inspector">
             <div data-montage-id="type" class="CalendarTask-type"></div>
-            <div data-montage-id="id"></div>
+            <div data-montage-id="name"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="args">

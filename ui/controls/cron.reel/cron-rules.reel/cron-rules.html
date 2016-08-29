@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"}
             },
+            "bindings": {
+                "usedFields": {"<-": "@owner.rules.map{field.name}"}
+            },
             "listeners": [
                 {
                     "type": "action",
@@ -41,7 +44,7 @@
             },
             "bindings": {
                 "rule": {"<-": "@rules:iteration.object"},
-                "usedFields": {"<-": "@owner.rules.map{ field.name }"}
+                "usedFields": {"<-": "@owner.usedFields"}
             }
         },
         "addRuleButton": {
