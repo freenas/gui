@@ -58,6 +58,7 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                 this._cancelPathChangeListener = this.addPathChangeListener("object.name", this, "handleNameChange");
             } else if (!this.object._isNewObject && !this._isTargetNameSelected) { //FIXME: _isNewObject can be undefined
                 this._populateIscsiTargets();
+                this._convertExtentSize();
             }
         }
     },
@@ -151,6 +152,14 @@ exports.IscsiShare = AbstractShareInspector.specialize({
                     }
                 }
             });
+        }
+    },
+
+    _convertExtentSize: {
+        value: function () {
+            if (this.object.properties && typeof this.object.properties.size === "number") {
+                this.object.properties.size = this.application.storageService.convertBytesToSizeString(this.object.properties.size);
+            }
         }
     }
 
