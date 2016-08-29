@@ -76,7 +76,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
                 }
 
                 if (!error) {
-                    var data = string.split(/:|\/|;/),
+                    var data = string.split(/:|\/| /),
                         port, containerPort, hostPort;
 
                     ports = [];
@@ -100,7 +100,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
             var env = null;
 
             if (string && this._environmentValidator._isValidEnvironmentVariableString(string)) {
-                var data = string.split(/;|=/);
+                var data = string.split(/ |=/);
                 env = this._environement;
 
                 for (var i = 0, length = data.length; i + 2 <= length; i = i + 2) {

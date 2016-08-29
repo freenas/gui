@@ -24,7 +24,7 @@ exports.DockerContainerPortsValidator = Validator.specialize({
     },
 
     _regexPortString: {
-        value: /^(:?\d+:\d+\/(:?tcp|udp)+;)*(:?\d+:\d+\/(:?tcp|udp)+;?)?$/i
+        value: /^(:?\d+:\d+\/(:?tcp|udp) ?)*$/i
     },
 
     isValidPortsString: {
@@ -39,7 +39,7 @@ exports.DockerContainerPortsValidator = Validator.specialize({
                 throw new Error(this.errorMessage);
             }
             
-            var data = value.split(/:|\/|;/),
+            var data = value.split(/:|\/| /),
                 port, containerPort, hostPort;
 
             for (var i = 0, length = data.length; i + 3 <= length; i = i + 3) {

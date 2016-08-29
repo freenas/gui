@@ -183,7 +183,7 @@
         "environmentValidator": {
             "prototype": "core/converter/validator/docker-container-env-validator",
             "properties": {
-                "errorMessage": "VAR=VALUE;"
+                "errorMessage": "VAR=VALUE"
             }
         },
 
@@ -202,14 +202,14 @@
                 "label": "Environment"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.environment.toMap().entriesArray().map{[.0 + '=' + .1]}.join(';')"}
+                "value": {"<-": "@owner.object.environment.toMap().entriesArray().map{[.0 + '=' + .1]}.join(' ')"}
             }
         },
 
         "portsValidator": {
             "prototype": "core/converter/validator/docker-container-ports-validator",
             "properties": {
-                "errorMessage": "format:extPort:intPort/<tcp|udp>"
+                "errorMessage": "extPort:intPort/<tcp|udp>"
             }
         },
 
@@ -228,7 +228,7 @@
                 "label": "Ports"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}.join('')"}
+                "value": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}.join(' ')"}
             }
         },
 
