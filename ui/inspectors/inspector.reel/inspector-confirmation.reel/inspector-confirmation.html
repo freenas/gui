@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="inspector-confirmation.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "confirmationMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "confirmationMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.confirmationMessage"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="InspectorConfirmation">
+        <div class="InspectorConfirmation-icon">
+            <svg><use xlink:href="#i-alert"/></svg>
+        </div>
+        <div data-montage-id="confirmationMessage" class="InspectorConfirmation-message"></div>
+        <div class="InspectorConfirmation-actions">
+            <div data-param="*"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -5,9 +5,9 @@
     flex-direction: column;
     min-width: 15em;
 
-    & .Scrollview-transform {
-        flex: none;
-    }
+    & .Scrollview-transform { flex: none; }
+
+    &.confirmation-is-visible { position: initial; }
 }
 
 .Inspector-body { margin: 1em; }
@@ -83,4 +83,28 @@
 .Inspector-optionalButtons {
     display: flex;
     margin-left: 1.5em;
+}
+
+/*
+
+confirmation
+
+ */
+
+.Inspector-confirmationMessage {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility .25s ease-in-out,
+                opacity .25s ease-in-out;
+
+    @nest .confirmation-is-visible & {
+        opacity: 1;
+        visibility: visible;
+    }
 }

@@ -56,6 +56,15 @@
                     "listener": {"@": "owner"}
                 }
             ]
+        },
+        "confirmationMessage": {
+            "prototype": "./inspector-confirmation.reel",
+            "properties": {
+                "element": {"#": "confirmationMessage"}
+            },
+            "bindings": {
+                "confirmationMessage": {"<-": "'This is the message for the confirmation overlay'"}
+            }
         }
 
     }
@@ -63,11 +72,16 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Inspector">
+        <div class="Inspector-locked">
+            <div data-montage-id="lockMessage"></div>
+        </div>
+        <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage">
+            <button class="Button">Erase</button>
+            <button class="Button">Detach</button>
+            <button class="Button">Cancel</button>
+        </div>
         <div data-montage-id="scrollView">
             <div data-montage-id="loading" class="Inspector-loading"></div>
-            <div class="Inspector-locked">
-                <div data-montage-id="lockMessage"></div>
-            </div>
             <div class="Inspector-body">
                 <div data-param="*"></div>
             </div>
