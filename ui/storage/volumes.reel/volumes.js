@@ -58,6 +58,10 @@ exports.Volumes = Component.specialize({
         value: null
     },
 
+    _allVolumes: {
+        value: null
+    },
+
     allVolumes: {
         value: null
     },
@@ -81,9 +85,7 @@ exports.Volumes = Component.specialize({
             }).then(function (datasets) {
                 return self.datasets = datasets;
             }).then(function() {
-                return self._listDetachedVolumes();
-            }).then(function(detachedVolumes) {
-                return self.detachedVolumes = detachedVolumes;
+                return self._scanDetachedVolumes();
             });
         }
     },
@@ -94,7 +96,7 @@ exports.Volumes = Component.specialize({
         }
     },
 
-    _listDetachedVolumes: {
+    _scanDetachedVolumes: {
         value: function() {
             var self = this;
             return this._volumeService.find().then(function(rawDetachedVolumes) {
@@ -106,6 +108,17 @@ exports.Volumes = Component.specialize({
                         return detachedVolume;
                     });
                 }));
+            }).then(function(detachedVolumes) {
+                var i, length, volume;
+                for (i = self._allVolumes.length - 1; i >= 0; i--) {
+                    volume = self._allVolumes[i];
+                    if (volume.topology._isDetached) {
+                        self._allVolumes.splice(i, 1);
+                    }
+                }
+                for (i = 0, length = detachedVolumes.length; i < length; i++) {
+                    self._allVolumes.push(detachedVolumes[i]);
+                }
             });
         }
     },
@@ -133,11 +146,14 @@ exports.Volumes = Component.specialize({
             this._initializeServices().then(function () {
                 self.type = Model.Volume;
 
+                self._allVolumes = [];
+                self._allVolumes._meta_data = { collectionModelType: Model.Volume };
                 return self._listVolumes().then(function (volumes) {
                     self._volumes = volumes;
 
                     return self._loadDependencies();
                 }).then(function () {
+                    self.allVolumes = self._allVolumes;
                     // Change listeners are set at the end of the initialization for security and performance reasons,
                     // Indeed, once they are set on the properties they will be automatically called with all the populated data.
 
@@ -180,6 +196,10 @@ exports.Volumes = Component.specialize({
                         disk.volume = null;
                     }
                 }
+                var volumeIndex = this.allVolumes.indexOf(volume);
+                if (volumeIndex !== -1) {
+                    this.allVolumes.splice(volumeIndex, 1);
+                }
             }
 
             for (i = 0, volumesLength = addedVolumes.length; i < volumesLength; i++) {
@@ -191,8 +211,9 @@ exports.Volumes = Component.specialize({
                 this._loadScrubsForVolume(volume);
                 this._volumesById[volume.id] = volume;
                 this._assignVolumeToDisks();
+                this.allVolumes.push(volume);
             }
-            return self._buildAllVolumes();
+            return this._scanDetachedVolumes();
         }
     },
 
@@ -200,23 +221,6 @@ exports.Volumes = Component.specialize({
         value: function(volume) {
             this._dataService.getNewInstanceForType(Model.Scrub).then(function(scrub) {
                 volume.scrubs = scrub;
-            });
-        }
-    },
-
-    _buildAllVolumes: {
-        value: function() {
-            var self = this;
-            return this._listDetachedVolumes().then(function(detachedVolumes) {
-                var allVolumes = Array.prototype.concat.apply(self._volumes, detachedVolumes);
-                allVolumes._meta_data = { collectionModelType: Model.Volume };
-                var volumesIds = allVolumes.map(function(x) { return x.guid ? x.id + '_' + x.guid : x.id; });
-                volumesIds.sort();
-                var knownVolumesIds = volumesIds.join(':');
-                if (self._knownVolumes !== knownVolumesIds) {
-                    self._knownVolumes = knownVolumesIds;
-                    self.allVolumes = allVolumes;
-                }
             });
         }
     },
@@ -230,7 +234,7 @@ exports.Volumes = Component.specialize({
                 delete this._diskAllocationPromises[disk.path];
             }
             return this._assignVolumeToDisks(addedDisks).then(function() {
-                return self._buildAllVolumes();
+                return self._scanDetachedVolumes();
             });
         }
     },
