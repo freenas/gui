@@ -53,6 +53,16 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
         }
     },
 
+    handleTransitionend: {
+        value: function (event) {
+            if (event.target == this.sectionContent) {
+                if (!this.isExpanded) {
+                    this.sectionContent.style.display = "none";
+                }
+            }
+        }
+    },
+
     prepareForActivationEvents: {
         value: function() {
                 KeyComposer.createKey(this, "enter", "enter").addEventListener("keyPress", this);
@@ -86,13 +96,14 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     handleExpandButtonAction: {
         value: function(event) {
+            this.sectionContent.style.display = "block";
             this._toggleSection(event);
         }
     },
 
     willDraw: {
         value: function () {
-            this._contentContainerHeight = this.contentContainer.offsetHeight ;
+            this._contentContainerHeight = this.contentContainer.offsetHeight;
         }
     },
 
