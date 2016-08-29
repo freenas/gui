@@ -92,6 +92,19 @@ exports.DockerContainer = AbstractModel.specialize({
             return this._image;
         }
     },
+    _interactive: {
+        value: null
+    },
+    interactive: {
+        set: function (value) {
+            if (this._interactive !== value) {
+                this._interactive = value;
+            }
+        },
+        get: function () {
+            return this._interactive;
+        }
+    },
     _memory_limit: {
         value: null
     },
@@ -187,6 +200,10 @@ exports.DockerContainer = AbstractModel.specialize({
             mandatory: false,
             name: "image",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "interactive",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "memory_limit",

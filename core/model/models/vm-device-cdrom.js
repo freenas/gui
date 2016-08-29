@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.VmDeviceCdrom = AbstractModel.specialize({
+    "_@type": {
+        value: null
+    },
+    "@type": {
+        set: function (value) {
+            if (this["_@type"] !== value) {
+                this["_@type"] = value;
+            }
+        },
+        get: function () {
+            return this["_@type"];
+        }
+    },
     _path: {
         value: null
     },
@@ -13,29 +26,16 @@ exports.VmDeviceCdrom = AbstractModel.specialize({
         get: function () {
             return this._path;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: true,
+            name: "@type"
+        }, {
             mandatory: false,
             name: "path",
             valueType: "String"
-        }, {
-            mandatory: true,
-            name: "type"
         }]
     }
 });

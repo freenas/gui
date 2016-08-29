@@ -1,4 +1,14 @@
 {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "@type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "vm-device-volume"
+      ]
+    }
+  },
   "blueprint_vmdevicevolume_auto": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -11,6 +21,14 @@
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
       "name": "destination",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_vmdevicevolume_source": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "source",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -29,8 +47,10 @@
     "properties": {
       "name": "VmDeviceVolume",
       "propertyBlueprints": [
+        {"@": "propertyblueprint"},
         {"@": "blueprint_vmdevicevolume_auto"},
         {"@": "blueprint_vmdevicevolume_destination"},
+        {"@": "blueprint_vmdevicevolume_source"},
         {"@": "blueprint_vmdevicevolume_type"}
       ]
     }

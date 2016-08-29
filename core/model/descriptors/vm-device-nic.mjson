@@ -1,4 +1,14 @@
 {
+  "propertyblueprint": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "@type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "vm-device-nic"
+      ]
+    }
+  },
   "blueprint_vmdevicenic_bridge": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -33,26 +43,16 @@
       "valueObjectPrototypeName": "VmDeviceNicMode"
     }
   },
-  "blueprint_vmdevicenic_type": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "type",
-      "blueprint": {"@": "root"},
-      "enumValues": [
-        "vm-device-nic"
-      ]
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "VmDeviceNic",
       "propertyBlueprints": [
+        {"@": "propertyblueprint"},
         {"@": "blueprint_vmdevicenic_bridge"},
         {"@": "blueprint_vmdevicenic_device"},
         {"@": "blueprint_vmdevicenic_link_address"},
-        {"@": "blueprint_vmdevicenic_mode"},
-        {"@": "blueprint_vmdevicenic_type"}
+        {"@": "blueprint_vmdevicenic_mode"}
       ]
     }
   }

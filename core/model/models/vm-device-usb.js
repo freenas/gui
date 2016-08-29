@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.VmDeviceUsb = AbstractModel.specialize({
+    "_@type": {
+        value: null
+    },
+    "@type": {
+        set: function (value) {
+            if (this["_@type"] !== value) {
+                this["_@type"] = value;
+            }
+        },
+        get: function () {
+            return this["_@type"];
+        }
+    },
     _config: {
         value: null
     },
@@ -26,23 +39,13 @@ exports.VmDeviceUsb = AbstractModel.specialize({
         get: function () {
             return this._device;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: true,
+            name: "@type"
+        }, {
             mandatory: true,
             name: "config",
             valueType: "object"
@@ -51,9 +54,6 @@ exports.VmDeviceUsb = AbstractModel.specialize({
             name: "device",
             valueObjectPrototypeName: "VmDeviceUsbDevice",
             valueType: "object"
-        }, {
-            mandatory: true,
-            name: "type"
         }]
     }
 });

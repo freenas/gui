@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.VmDeviceGraphics = AbstractModel.specialize({
+    "_@type": {
+        value: null
+    },
+    "@type": {
+        set: function (value) {
+            if (this["_@type"] !== value) {
+                this["_@type"] = value;
+            }
+        },
+        get: function () {
+            return this["_@type"];
+        }
+    },
     _resolution: {
         value: null
     },
@@ -12,19 +25,6 @@ exports.VmDeviceGraphics = AbstractModel.specialize({
         },
         get: function () {
             return this._resolution;
-        }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
         }
     },
     _vnc_enabled: {
@@ -57,12 +57,12 @@ exports.VmDeviceGraphics = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "@type"
+        }, {
+            mandatory: false,
             name: "resolution",
             valueObjectPrototypeName: "VmDeviceGraphicsResolution",
             valueType: "object"
-        }, {
-            mandatory: false,
-            name: "type"
         }, {
             mandatory: false,
             name: "vnc_enabled",

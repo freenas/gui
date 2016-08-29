@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.VmDeviceNic = AbstractModel.specialize({
+    "_@type": {
+        value: null
+    },
+    "@type": {
+        set: function (value) {
+            if (this["_@type"] !== value) {
+                this["_@type"] = value;
+            }
+        },
+        get: function () {
+            return this["_@type"];
+        }
+    },
     _bridge: {
         value: null
     },
@@ -52,23 +65,13 @@ exports.VmDeviceNic = AbstractModel.specialize({
         get: function () {
             return this._mode;
         }
-    },
-    _type: {
-        value: null
-    },
-    type: {
-        set: function (value) {
-            if (this._type !== value) {
-                this._type = value;
-            }
-        },
-        get: function () {
-            return this._type;
-        }
     }
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "@type"
+        }, {
             mandatory: false,
             name: "bridge",
             valueType: "String"
@@ -86,9 +89,6 @@ exports.VmDeviceNic = AbstractModel.specialize({
             name: "mode",
             valueObjectPrototypeName: "VmDeviceNicMode",
             valueType: "object"
-        }, {
-            mandatory: false,
-            name: "type"
         }]
     }
 });

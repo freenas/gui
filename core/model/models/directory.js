@@ -79,19 +79,6 @@ exports.Directory = AbstractModel.specialize({
             return this._parameters;
         }
     },
-    _priority: {
-        value: null
-    },
-    priority: {
-        set: function (value) {
-            if (this._priority !== value) {
-                this._priority = value;
-            }
-        },
-        get: function () {
-            return this._priority;
-        }
-    },
     _status: {
         value: null
     },
@@ -157,10 +144,6 @@ exports.Directory = AbstractModel.specialize({
             mandatory: false,
             name: "parameters",
             valueType: "object"
-        }, {
-            mandatory: false,
-            name: "priority",
-            valueType: "number"
         }, {
             mandatory: false,
             name: "status",

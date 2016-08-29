@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.VmDeviceVolume = AbstractModel.specialize({
+    "_@type": {
+        value: null
+    },
+    "@type": {
+        set: function (value) {
+            if (this["_@type"] !== value) {
+                this["_@type"] = value;
+            }
+        },
+        get: function () {
+            return this["_@type"];
+        }
+    },
     _auto: {
         value: null
     },
@@ -27,6 +40,19 @@ exports.VmDeviceVolume = AbstractModel.specialize({
             return this._destination;
         }
     },
+    _source: {
+        value: null
+    },
+    source: {
+        set: function (value) {
+            if (this._source !== value) {
+                this._source = value;
+            }
+        },
+        get: function () {
+            return this._source;
+        }
+    },
     _type: {
         value: null
     },
@@ -44,11 +70,18 @@ exports.VmDeviceVolume = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "@type"
+        }, {
+            mandatory: false,
             name: "auto",
             valueType: "boolean"
         }, {
             mandatory: false,
             name: "destination",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "source",
             valueType: "String"
         }, {
             mandatory: false,

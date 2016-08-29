@@ -66,6 +66,19 @@ exports.Group = AbstractModel.specialize({
             return this._name;
         }
     },
+    _sid: {
+        value: null
+    },
+    sid: {
+        set: function (value) {
+            if (this._sid !== value) {
+                this._sid = value;
+            }
+        },
+        get: function () {
+            return this._sid;
+        }
+    },
     _sudo: {
         value: null
     },
@@ -102,6 +115,11 @@ exports.Group = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "name",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "sid",
+            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
