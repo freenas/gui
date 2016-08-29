@@ -24,7 +24,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
     },
 
     type: {
-        value: "FILE"
+        value: "DIRECTORY"
     },
 
     entry: {
