@@ -126,7 +126,11 @@ exports.Container = Component.specialize(/** @lends Container# */ {
             }
 
             if (namesString) {
-                this.object.names = namesString.split(spaceString);
+                if (Array.isArray(this.object.names)) {
+                    this.object.names[0] = spaceString;
+                } else {
+                    this.object.names = [spaceString];
+                }
             }
 
             if (environmentComponentString && this._environmentValidator._isValidEnvironmentVariableString(string)) {

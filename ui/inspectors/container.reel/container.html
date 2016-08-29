@@ -8,7 +8,7 @@
             "properties": {
                 "element": {"#": "owner"},
                 "_commandComponent": {"@": "command"},
-                "_namesComponent": {"@": "names"},
+                "_nameComponent": {"@": "name"},
                 "_portsComponent": {"@": "ports"},
                 "_environmentComponent": {"@": "environment"},
                 "_portsValidator": {"@": "portsValidator"},
@@ -40,14 +40,14 @@
             }
         },
 
-        "names": {
+        "name": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
-                "element": {"#": "names"},
-                "label": "Names"
+                "element": {"#": "name"},
+                "label": "Name"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.names.join(' ')"}
+                "value": {"<-": "@owner.object.names.0"}
             }
         },
 
@@ -238,7 +238,7 @@
 <body>
     <div data-montage-id="owner" class="Container">
         <div data-montage-id="inspector">
-            <div data-montage-id="names"></div>
+            <div data-montage-id="name"></div>
             <div data-montage-id="image"></div>
             <div data-montage-id="volumeSection">
                 <div data-montage-id="volumeContainerPath"></div>
