@@ -64,16 +64,6 @@ exports.Container = Component.specialize(/** @lends Container# */ {
         }
     },
 
-    _regexEnvironmentVariable: {
-        value: /^(:?\w+=\w+;)*(:?\w+=\w+;?)?$/
-    },
-
-    _isValidEnvironmentVariableString: {
-        value: function (string) {
-            return typeof string === "string" && this._regexEnvironmentVariable.test(string);
-        }
-    },
-
     _getPortsFromString: {
         value: function (string) {
             var ports = null, error;
@@ -109,7 +99,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
         value: function (string) {
             var env = null;
 
-            if (string && this._isValidEnvironmentVariableString(string)) {
+            if (string && this._environmentValidator._isValidEnvironmentVariableString(string)) {
                 var variables = string.split(";"),
                     variable, keysValues;
 
@@ -146,7 +136,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
                 this.object.names = namesString.split(spaceString);
             }
 
-            if (environmentComponentString) {
+            if (environmentComponentString && this._environmentValidator._isValidEnvironmentVariableString(string)) {
                 this.object.environment = this._getEnvironmentVariableFromString(environmentComponentString);
             }
 

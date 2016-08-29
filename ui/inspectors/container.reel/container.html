@@ -11,7 +11,8 @@
                 "_namesComponent": {"@": "names"},
                 "_portsComponent": {"@": "ports"},
                 "_environmentComponent": {"@": "environment"},
-                "_portsValidator": {"@": "portsValidator"}
+                "_portsValidator": {"@": "portsValidator"},
+                "_environmentValidator": {"@": "environmentValidator"}
             }
         },
         
@@ -178,10 +179,25 @@
             }
         },
 
+        "environmentValidator": {
+            "prototype": "core/converter/validator/docker-container-env-validator",
+            "properties": {
+                "errorMessage": "VAR=VALUE;"
+            }
+        },
+
+        "environmentConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "environmentValidator"}
+            }
+        },
+
         "environment": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "environment"},
+                "converter": {"@": "environmentConverter"},
                 "label": "Environment"
             },
             "bindings": {
