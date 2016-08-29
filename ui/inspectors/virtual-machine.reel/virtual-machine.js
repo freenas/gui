@@ -161,7 +161,7 @@ exports.VirtualMachine = Component.specialize({
                 loadingPromises = [],
                 devicesPromise;
             this.isLoading = true;
-            this.bootloaderOptions = VmConfigBootloader.members
+            this.bootloaderOptions = VmConfigBootloader.members;
             this.editMode = this.object._isNew ? "edit" : "display";
             if (!this.object.config) {
                 this.object.config = {ncpus: ""};
@@ -208,7 +208,7 @@ exports.VirtualMachine = Component.specialize({
             this.object.guest_type = template.guest_type;
             // FIXME: Contaminates the template
             for (var i=0, length=template.devices.length; i<length; i++) {
-                template.devices[i].id = "This device came from a template"
+                template.devices[i].id = "This device came from a template";
             }
             this.object.devices = template.devices;
         }
