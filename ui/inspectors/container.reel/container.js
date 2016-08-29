@@ -68,7 +68,8 @@ exports.Container = Component.specialize(/** @lends Container# */ {
     save: {
         value: function () {
             var commandString = this._commandComponent.value,
-                namesString = this._namesComponent.value;
+                namesString = this._namesComponent.value,
+                self = this;
 
             if (commandString) {
                 this.object.command = commandString.split(" ");
