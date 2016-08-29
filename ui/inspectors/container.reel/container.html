@@ -9,7 +9,9 @@
                 "element": {"#": "owner"},
                 "_commandComponent": {"@": "command"},
                 "_namesComponent": {"@": "names"},
-                "_environmentComponent": {"@": "environment"}
+                "_portsComponent": {"@": "ports"},
+                "_environmentComponent": {"@": "environment"},
+                "_portsValidator": {"@": "portsValidator"}
             }
         },
         
@@ -187,14 +189,29 @@
             }
         },
 
+        "portsValidator": {
+            "prototype": "core/converter/validator/docker-container-ports-validator",
+            "properties": {
+                "errorMessage": "format:extPort:intPort/<tcp|udp>"
+            }
+        },
+
+        "portsConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "portsValidator"}
+            }
+        },
+
         "ports": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "ports"},
+                "converter": {"@": "portsConverter"},
                 "label": "Ports"
             },
             "bindings": {
-                "value": {"<-": "@owner.ports"}
+                "value": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}.join('')"}
             }
         }
 

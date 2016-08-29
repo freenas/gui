@@ -74,6 +74,37 @@ exports.Container = Component.specialize(/** @lends Container# */ {
         }
     },
 
+    _getPortsFromString: {
+        value: function (string) {
+            var ports = null, error;
+
+            if (string) {
+                try {
+                    this._portsValidator.validate(string);
+                } catch (e) {
+                    error = e;
+                }
+
+                if (!error) {
+                    var data = string.split(/:|\/|;/),
+                        port, containerPort, hostPort;
+
+                    ports = [];
+
+                    for (var i = 0, length = data.length; i + 3 <= length; i = i + 3) {
+                        ports.push({ 
+                            container_port: +data[i],
+                            host_port: +data[i + 1],
+                            protocol: data[i + 2].toUpperCase()
+                        });
+                    }
+                }
+            }
+
+            return ports;
+        }
+    },
+
     _getEnvironmentVariableFromString: {
         value: function (string) {
             var env = null;
@@ -103,6 +134,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
             var environmentComponentString = this._environmentComponent.value,
                 commandString = this._commandComponent.value,
                 namesString = this._namesComponent.value,
+                portsString = this._portsComponent.value,
                 spaceString = " ",
                 self = this;
 
@@ -116,6 +148,10 @@ exports.Container = Component.specialize(/** @lends Container# */ {
 
             if (environmentComponentString) {
                 this.object.environment = this._getEnvironmentVariableFromString(environmentComponentString);
+            }
+
+            if (portsString && this._portsValidator.isValidPortsString(portsString)) {
+                this.object.ports = this._getPortsFromString(portsString);
             }
 
             if (this._volume.container_path && this._volume.host_path) {
