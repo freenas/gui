@@ -46,7 +46,7 @@ exports.Peer = Component.specialize(/** @lends Peer# */ {
             if (this.credentialsComponent && typeof this.credentialsComponent.save === "function") {
                 this.credentialsComponent.save();
             }
-            return this.inspectorComponent.save();
+            this.inspectorComponent.save();
         }
     }
 });
