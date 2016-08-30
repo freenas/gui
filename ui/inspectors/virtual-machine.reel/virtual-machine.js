@@ -370,10 +370,10 @@ exports.VirtualMachine = Component.specialize({
                 volume._isNew = volumeDevice._isNew;
                 volume.name = volumeDevice.name;
                 volume.properties = {
-                    auto: volumeDevice.auto,
-                    destination: volumeDevice.destination,
-                    type: volumeDevice.type,
-                    source: volumeDevice.source,
+                    auto: volumeDevice.properties.auto,
+                    destination: volumeDevice.properties.destination,
+                    type: volumeDevice.properties.type,
+                    source: volumeDevice.properties.source
                 };
                 return volume;
             });
