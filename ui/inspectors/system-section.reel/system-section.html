@@ -14,7 +14,8 @@
                     "system": {"@": "system"},
                     "serialConsole": {"@": "serialConsole"},
                     "debug": {"@": "debug"},
-                    "mail": {"@": "mail"}
+                    "mail": {"@": "mail"},
+                    "dockerSettings": {"@": "dockerSettings"}
                 }
             }
         },
@@ -65,6 +66,12 @@
             "prototype": "./language-and-region.reel",
             "properties": {
                 "element": {"#": "languageAndRegion"}
+            }
+        },
+        "dockerSettings": {
+            "prototype": "./docker-settings.reel",
+            "properties": {
+                "element": {"#": "dockerSettings"}
             }
         },
         "debug": {
@@ -128,6 +135,7 @@
                 <div data-montage-id="dateAndTime" data-arg="dateAndTime"></div>
                 <div data-montage-id="languageAndRegion" data-arg="languageAndRegion"></div>
                 <div data-montage-id="system" data-arg="system"></div>
+                <div data-montage-id="dockerSettings" data-arg="dockerSettings"></div>
                 <div data-montage-id="powerManagement" data-arg="powerManagement"></div>
                 <div data-montage-id="serialConsole" data-arg="serialConsole"></div>
                 <div data-montage-id="advanced" data-arg="advanced"></div>
