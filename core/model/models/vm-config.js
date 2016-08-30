@@ -118,6 +118,19 @@ exports.VmConfig = AbstractModel.specialize({
             return this._ncpus;
         }
     },
+    _readme: {
+        value: null
+    },
+    readme: {
+        set: function (value) {
+            if (this._readme !== value) {
+                this._readme = value;
+            }
+        },
+        get: function () {
+            return this._readme;
+        }
+    },
     _vnc_password: {
         value: null
     },
@@ -170,6 +183,10 @@ exports.VmConfig = AbstractModel.specialize({
             mandatory: false,
             name: "ncpus",
             valueType: "number"
+        }, {
+            mandatory: false,
+            name: "readme",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "vnc_password",

@@ -72,6 +72,14 @@
       "valueType": "number"
     }
   },
+  "blueprint_vmconfig_readme": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "readme",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_vmconfig_vnc_password": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -94,6 +102,7 @@
         {"@": "blueprint_vmconfig_docker_host"},
         {"@": "blueprint_vmconfig_memsize"},
         {"@": "blueprint_vmconfig_ncpus"},
+        {"@": "blueprint_vmconfig_readme"},
         {"@": "blueprint_vmconfig_vnc_password"}
       ]
     }

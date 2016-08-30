@@ -170,6 +170,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.Vm,
             Model.VmDevice,
             Model.VmVolume,
+            Model.VmReadme,
             Model.Volume,
             Model.VolumeDataset,
             Model.VolumeSettings,
