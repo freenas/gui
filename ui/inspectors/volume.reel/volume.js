@@ -87,6 +87,16 @@ exports.Volume = Component.specialize({
         }
     },
 
+    exitDocument: {
+        value: function () {
+            this.isConfirmationVisible = false;
+        }
+    },
+
+    isConfirmationVisible: {
+        value: false
+    },
+
     handleExportAction: {
         value: function () {
             this.object.services.export(this.object.id);
@@ -96,6 +106,25 @@ exports.Volume = Component.specialize({
     handleScrubAction: {
         value: function () {
             this.object.services.scrub(this.object.id);
+        }
+    },
+
+    delete: {
+        value: function (e) {
+            this.isConfirmationVisible = true;
+        }
+    },
+
+    handleDeleteAction: {
+        value: function () {
+            this.inspector.delete();
+            this.isConfirmationVisible = false;
+        }
+    },
+
+    handleCancelAction: {
+        value: function () {
+            this.isConfirmationVisible = false;
         }
     }
 });

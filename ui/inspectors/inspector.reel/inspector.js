@@ -21,11 +21,11 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleDeleteAction: {
         value: function (event) {
+            console.log('delete action');
             var self = this,
                 promise;
 
             this._isToBeDeleted = true;
-            this.object.__isLocked = true;
 
             if (typeof this.parentComponent.delete === 'function') {
                 promise = this.parentComponent.delete();
@@ -34,15 +34,28 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     promise.catch(this._logError);
                 }
             } else if (this.object) {
+                this.object.__isLocked = true;
                 promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
-                promise.then(function(){ self.object.__isLocked = false; });
+                promise.then(function(){
+                    self.object.__isLocked = false;
+                    this._clearObjectSelection();
+                });
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
-            this._clearObjectSelection();
-            event.stopPropagation();
+            if (event) {
+                event.stopPropagation();
+            }
         }
     },
+
+    delete: {
+        value: function () {
+            this.object.__isLocked = true;
+            promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+        }
+    },
+
 
     handleRevertAction: {
         value: function(event) {
