@@ -277,9 +277,16 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
-                if (type.typeName === "ReplicationLink") {
+                if (type === Model.ReplicationLink) {
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(Model.Replication) : Services.findCreateServiceForType(Model.Replication);
+                } else if (type === Model.DirectoryserviceConfig) {
+                    serviceDescriptor = {
+                        "method": "task.submit",
+                        "name": "call",
+                        "namespace": "rpc",
+                        "task": "directoryservice.update"
+                    };
                 }
 
                 if (serviceDescriptor) {
@@ -801,6 +808,15 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
             } else {
                 var readServiceDescriptor = Services.findReadServiceForType(type);
+                
+                // FIXME: Dirty hacky thing
+                if (type === Model.DirectoryserviceConfig) {
+                    readServiceDescriptor = {
+                        "method": "directoryservice.get_config",
+                        "name": "call",
+                        "namespace": "rpc"
+                    }
+                }
 
                 if (readServiceDescriptor) {
                     var self = this;
@@ -1019,6 +1035,10 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
     _isModelTypeHasNoId: {
         value: function (modelType) {
             var readServiceDescriptor = Services.findReadServiceForType(modelType);
+            //FIXME: Dirty hacky thing !
+            if (modelType === Model.DirectoryserviceConfig) {
+                return true;
+            }
             return readServiceDescriptor && /\.get_config$/.test(readServiceDescriptor.method);
         }
     },

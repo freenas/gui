@@ -10,24 +10,9 @@ var Component = require("montage/ui/component").Component,
  */
 exports.DirectoryServices = Component.specialize({
 
-
     enterDocument: {
         value: function () {
             this._fetchDataIfNeeded();
-        }
-    },
-
-    _fetchDataIfNeeded: {
-        value: function () {
-            if (!this._directories) {
-                var self = this;
-
-                this.application.dataService.fetchData(Model.Directory).then(function (directories) {
-                    self._directories = directories;
-                    self.addRangeAtPathChangeListener("_directories", self, "handleDirectoriesChange");
-                    self.object.isLoading = false;
-                });
-            }
         }
     },
 
@@ -72,6 +57,39 @@ exports.DirectoryServices = Component.specialize({
                     Model.Directory
                 );
             });
+        }
+    },
+
+    handleRevertAction: {
+        value: function() {
+            this.directoryServiceConfig.search_order = this._originalSearchOrder.slice();
+        }
+    },
+
+    handleSaveAction: {
+        value: function() {
+            var self = this;
+            this.application.dataService.saveDataObject(this.directoryServiceConfig).then(function() {
+                self._originalSearchOrder = self.directoryServiceConfig.search_order.slice();
+            });
+        }
+    },
+
+    _fetchDataIfNeeded: {
+        value: function () {
+            if (!this._directories) {
+                var self = this;
+
+                this.application.dataService.fetchData(Model.DirectoryserviceConfig).then(function(directoryServiceConfig) {
+                    self.directoryServiceConfig = directoryServiceConfig[0];
+                    self._originalSearchOrder = self.directoryServiceConfig.search_order.slice();
+                    return self.application.dataService.fetchData(Model.Directory)
+                }).then(function (directories) {
+                    self._directories = directories;
+                    self.addRangeAtPathChangeListener("_directories", self, "handleDirectoriesChange");
+                    self.object.isLoading = false;
+                });
+            }
         }
     },
 

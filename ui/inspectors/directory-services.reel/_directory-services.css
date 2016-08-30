@@ -1,3 +1,7 @@
 .DirectoryServices {
 
 }
+
+.DirectoryServices-searchorderContainer {
+    flex: 10;
+}
