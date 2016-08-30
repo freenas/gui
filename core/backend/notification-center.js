@@ -458,14 +458,25 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 // Real "entities" for task events are in entities.args.
                 // Entities for task events are a mix between task status and involved entities.
                 var taskReports = detail.entities,
-                    taskNotification,
-                    taskReport,
-                    jobId;
+                    taskNotification, taskReport, taskName, jobId;
 
                 for (var i = 0, length = taskReports.length; i < length; i++) {
                     taskReport = taskReports[i];
                     jobId = taskReport.id;
                     taskNotification = this.findTaskWithJobId(jobId);
+                    taskName = taskReport.name;
+
+                    // notification from outside try to create a notification event
+                    if (!taskNotification && taskName) {
+                        var args = taskReport.args,
+                            model = args && args.length ? args[1]: null,
+                            modelType = taskName.substring(0, taskName.lastIndexOf(".")).toCamelCase();
+
+                            if (Model[modelType]) {
+                                model.constructor = Model[modelType].constructor;
+                                taskNotification = this._startTrackingTaskWithJobIdAndModel(taskReport, jobId, model);
+                            }
+                    }
 
                     if (taskNotification) {
                         var state = taskNotification.state = taskReport.state,
@@ -509,10 +520,6 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                             }
 
                             this.handleTaskDone(jobId, taskReport);
-
-                            if (this.dismissNotificationAfterDelay) {
-                                this._stopTrackingTaskAfterDelay(taskNotification, this.dismissNotificationDelay);
-                            }
                         }
                     }
                 }
@@ -538,11 +545,9 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 } else {
                     taskHandler.reject(taskReport);
                 }
-
-                this._trackingTasksMap.delete(jobId);
-            } else {
-                //todo: throw an error/warning ?
             }
+
+            this._trackingTasksMap.delete(jobId);
         }
     },
 
@@ -668,7 +673,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     _addNotification: {
         value:function (notification) {
-            this._notifications.unshift(notification);
+            this.notifications.unshift(notification);
         }
     },
 
@@ -682,11 +687,13 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
      */
     _startTrackingTaskWithJobIdAndModel: {
         value:function (task, jobId, model) {
-            var tasksMap = this._trackingTasksMap;
+            var tasksMap = this._trackingTasksMap,
+                notification;
 
             if (!tasksMap.get(jobId)) {
-                var notification = this._createTaskNotification(jobId, task.name || task, task.created_at);
+                notification = this._createTaskNotification(jobId, task.name || task, task.created_at);
                 tasksMap.set(jobId, notification);
+
                 if (model) {
                     notification.data = [model];
                     notification.modelType = model.constructor.Type
@@ -699,6 +706,8 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                     "NotificationCenter is already following the notification with the jobId: '" + jobId  + "'"
                 );
             }
+
+            return notification;
         }
     },
 
