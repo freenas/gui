@@ -44,7 +44,7 @@ exports.Debug = Component.specialize(/** @lends Debug# */ {
             this.application.systemAdvancedService.getDebugCollectAddress().then(function(debugObject) {
                 var downloadLink = document.createElement("a");
                     downloadLink.href = debugObject[1][0];
-                    downloadLink.download = "freenas" + "-" + self.systemVersion + "-" + todayString + "-" + "debug.tar.gz";
+                    downloadLink.download = "FreeNAS10" + "-" + self.systemVersion + "-" + todayString + "-" + "debug.tar.gz";
                     downloadLink.click();
             });
         }
