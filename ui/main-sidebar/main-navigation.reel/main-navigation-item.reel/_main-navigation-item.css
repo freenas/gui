@@ -32,6 +32,11 @@
     width:  1.4rem;
     height: 1.4rem;
     margin-right: .75rem;
+    color: #0090D3;
+
+    @nest .selected & {
+        color: #fff;
+    }
 }
 
 .MainNavigationItem-label {
