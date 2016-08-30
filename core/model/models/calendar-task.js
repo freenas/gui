@@ -164,7 +164,7 @@ exports.CalendarTask = AbstractModel.specialize({
             inspectorComponentModule: {
                 id: 'ui/inspectors/calendar-task.reel'
             },
-            nameExpression: "id.defined() ? id : 'Create an event'"
+            nameExpression: "name.defined() ? name : 'Create an event'"
         }
     }
 });

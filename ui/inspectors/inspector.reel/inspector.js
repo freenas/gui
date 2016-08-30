@@ -43,9 +43,14 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
             }
+<<<<<<< 7d97c44e05ec6828ac3eefc404ad821a8e82ce04
             if (event) {
                 event.stopPropagation();
             }
+=======
+            this.clearObjectSelection();
+            event.stopPropagation();
+>>>>>>> Refactor cron component
         }
     },
 
@@ -94,7 +99,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
             if (this._isCreationInspector()) {
                 this.object.__isLocked = true;
-                this._clearObjectSelection();
+                this.clearObjectSelection();
             }
 
             event.stopPropagation();
@@ -107,7 +112,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
         }
     },
 
-    _clearObjectSelection: {
+    clearObjectSelection: {
         value: function() {
             var viewer = this._findParentViewer();
             if (viewer) {

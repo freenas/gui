@@ -14,62 +14,122 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
         value: Rule.TYPES
     },
 
-    constructor: {
-        value: function() {
-            this.addPathChangeListener("rule.type", this, "_handleTypeChange");
+    fieldOnValues: {
+        get: function() {
+            return this.onValues[fieldName] || [];
+        }
+    },   
+
+    _type: {
+        value: null
+    },
+
+    type: {
+        get: function() {
+            return this._type;
+        },
+        set: function(type) {
+            if (this._type !== type) {
+                this._type = type;
+                if (this._inDocument && this._fieldName) {
+                    this._refreshRuleValue();
+                }
+            }
+        }
+    },
+
+    _everyValue: {
+        value: null
+    },
+
+    everyValue: {
+        get: function() {
+            return this._everyValue;
+        },
+        set: function(everyValue) {
+            if (this._everyValue !== everyValue) {
+                this._everyValue = everyValue;
+                if (this._inDocument && this._fieldName) {
+                    this._refreshRuleValue();
+                }
+            }
+        }
+    },
+
+    _onValue: {
+        value: null
+    },
+
+    onValue: {
+        get: function() {
+            return this._onValue;
+        },
+        set: function(onValue) {
+            if (this._onValue !== onValue) {
+                this._onValue = onValue;
+                if (this._inDocument && this._fieldName) {
+                    this._refreshRuleValue();
+                }
+            }
+        }
+    },
+
+    _fieldName: {
+        value: null
+    },
+
+    fieldName: {
+        get: function() {
+            return this._fieldName;
+        },
+        set: function(fieldName) {
+            if (this._fieldName !== fieldName) {
+                if (this._inDocument && !this._isExiting && !this._isEntering) {
+                    if (this._fieldName) {
+                        this.rulesController.removeField(this._fieldName);
+                    }
+                    if (fieldName) {
+                        this.rulesController.updateField(fieldName, this.type, this._values);
+                    }
+                }
+                this._fieldName = fieldName;
+            }
+        }
+    },
+
+    _values: {
+        get: function() {
+            return this.type === this.TYPES.ON ? this.onValue : [this.everyValue];
         }
     },
 
     enterDocument: {
         value: function () {
+            this._isEntering = true;
             this._initializeOptionsIfNecessary();
-            this._cancelUsedFieldsListener = this.addRangeAtPathChangeListener("usedFields", this, "_buildAvailableUnitOptions");
-            if (this.rule) {
-                this._currentType = this.rule.type;
-            }
+            this.type = this.rule.type;
+            this.onValue = {};
+            this.onValue[this.rule.field.name] = this.type === this.TYPES.ON ? this.rule.values.slice() : [];
+            this.everyValue =  this.type === this.TYPES.EVERY ? this.rule.values[0] : 1;
+            this.fieldName = this.rule.field.name;
+            this._isEntering = false;
         }
     },
 
     exitDocument: {
         value: function() {
-            if (typeof this._cancelUsedFieldsListener === "function") {
-                this._cancelUsedFieldsListener();
-                this._cancelUsedFieldsListener = null;
-            }
-            this.rule = null;
-            if (this.rule) {
-                this.rule.field = null;
-            }
+            this._isExiting = true;
+            this.fieldName = null;
+            this.type = null;
+            this.onValue = null;
+            this.everyValue = null;
+            this._isexiting = false;
         }
     },
 
-    _buildAvailableUnitOptions: {
+    _refreshRuleValue: {
         value: function() {
-            if (this.rule && this.usedFields) {
-                var self = this,
-                    myField = this.rule.field;
-                this.availableUnitOptions = this.unitOptions.filter(function(x) {
-                    var result = x.value === myField;
-                    if (!result) {
-                        result = self.usedFields.indexOf(x.value.name) == -1;
-                    }
-                    return result;
-                });
-                this.rule.field = myField;
-            }
-        }
-    },
-
-    _handleTypeChange: {
-        value: function() {
-            if (this._inDocument && this.rule && this._currentType !== this.rule.type) {
-                this._currentType = this.rule.type;
-                if (this._currentType === this.TYPES.EVERY) {
-                    this.rule.values = [1];
-                } else {
-                    this.rule.values = [];
-                }
-            }
+            this.rulesController.updateField(this.fieldName, this.type, this._values);
         }
     },
 
@@ -91,10 +151,10 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
                 this.unitOptions = Object.keys(Rule.CRON_FIELDS).map(function(x) {
                     return {
                         label: Rule.CRON_FIELDS[x].label,
-                        value: Rule.CRON_FIELDS[x]
+                        value: Rule.CRON_FIELDS[x].name
                     }
                 });
-                this._buildAvailableUnitOptions();
+                this.availableUnitOptions = this.unitOptions;
             }
             
             if (!this.onValues) {
@@ -102,7 +162,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
                 this.onValues = {};
                 for (var i = 0, length = this.unitOptions.length; i < length; i++) {
                     unit = this.unitOptions[i].value;
-                    this.onValues[unit.name] = Rule.FIELD_VALUES[unit.index];
+                    this.onValues[unit] = Rule.FIELD_VALUES[Rule.CRON_FIELDS[unit].index];
                 }
             }
         }

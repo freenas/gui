@@ -53,6 +53,14 @@ Rule.CRON_FIELDS = {
     }
 };
 
+Rule.SCHEDULE_TO_FIELD = {
+    second: 'SEC',
+    minute: 'MIN',
+    hour: 'HOURS',
+    day_of_week: 'DAYS_OF_WEEK',
+    day: 'DAYS_OF_MONTH',
+    month: 'MONTHS'
+};
 
 Rule.TYPES = {
     EVERY: "EVERY",

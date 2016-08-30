@@ -11,80 +11,43 @@ var AbstractComponentActionDelegate = require("core/ui/abstract-component-action
  */
 exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRules# */ {
 
-    _value: {
-        value: null
-    },
-
-    value: {
-        get: function() {
-            var result;
-            if (this.rules) {
-                var rule, resultString;
-                result = {};
-                for (var i = 0, length = this.rules.length; i < length; i++) {
-                    rule = this.rules[i];
-                    resultString = null;
-                    if (rule.type === Rule.TYPES.ON && rule.values.length > 0) {
-                        resultString = rule.values.join(',');
-                    } else if (rule.type === Rule.TYPES.EVERY) {
-                        if (rule.values.length === 1) {
-                            if (rule.values[0] === 1) {
-                                resultString = '*';
-                            } else {
-                                resultString = '*/' + rule.values[0];
-                            }
-                        }
-                    }
-                    if (resultString && resultString.length > 0) {
-                        result[rule.field.mapKey] = resultString;
-                    } 
-                }
-            }
-            return result;
-        },
-        set: function(value) {
-            if (this._value !== value) {
-                this._value = value;
-                this.rules = [];
-                if (value) {
-                    this._initRulesIfNeeded();    
-                }
-            }
-        }
-    },
-
-    rules: {
-        value: null
-    },
-
     enterDocument: {
-        value: function (isFirstTime) {
-            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
-            this._initRulesIfNeeded();
-        }
-    },
-
-    _initRulesIfNeeded: {
-        value: function () {
-            if (!this.rules) {
-                this.rules = [];
-            }
-
-            if (!this.rules.length) {
-                var cronFields = Rule.CRON_FIELDS,
-                    cronFieldKeys = Object.keys(cronFields),
-                    field, rule;
-
-                for (var i = 0, length = cronFieldKeys.length; i < length; i++) {
-                    field = cronFields[cronFieldKeys[i]];
-                    value = this._value[field.mapKey];
+        value: function() {
+            this.rules = [];
+            if (this.value) {
+                var scheduleKeys = Object.keys(this.value),
+                    key, value;
+                scheduleKeys.sort()
+                for (var i = 0, length = scheduleKeys.length; i < length; i++) {
+                    key = scheduleKeys[i];
+                    value = this.value[key];
                     if (value) {
-                        rule = Rule.ParseString(value, field);
-                        if (rule.type !== Rule.TYPES.EVERY || rule.values !== Rule.NO_INTERVAL) {
+                        rule = Rule.ParseString(value, Rule.CRON_FIELDS[Rule.SCHEDULE_TO_FIELD[key]]);
+                        if (rule.field && (rule.type !== Rule.TYPES.EVERY || rule.values !== Rule.NO_INTERVAL)) {
+console.log('rules', rule.field.name, rule.type, rule.values);
                             this.rules.push(rule);
                         }
                     }
                 }
+            }
+        }
+    },
+
+    removeField: {
+        value: function(fieldName) {
+            var field = Rule.CRON_FIELDS[fieldName];
+            delete this.value[field.mapKey];
+            this.dispatchOwnPropertyChange("value", this.value);
+        }
+    },
+
+    updateField: {
+        value: function(fieldName, type, values) {
+            var field = Rule.CRON_FIELDS[fieldName],
+                scheduleString = this._getScheduleString(type, values);
+            if (scheduleString && field) {
+                this.value[field.mapKey] = scheduleString;
+                this.dispatchOwnPropertyChange("value", this.value);
             }
         }
     },
@@ -108,7 +71,26 @@ exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRu
             if(ruleIndex > -1) {
                 this.rules.splice(ruleIndex, 1);
             }
+            this.removeField(rule.field.name);
+        }
+    },
+
+    _getScheduleString: {
+        value: function(type, values) {
+            var scheduleString = null;
+            if (type === Rule.TYPES.ON && values.length > 0) {
+                values.sort();
+                scheduleString = values.join(',');
+            } else if (type === Rule.TYPES.EVERY) {
+                if (values.length === 1) {
+                    if (values[0] === 1) {
+                        scheduleString = '*';
+                    } else {
+                        scheduleString = '*'+'/' + values[0];
+                    }
+                }
+            }
+            return scheduleString;
         }
     }
-
 });

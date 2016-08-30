@@ -24,7 +24,7 @@
                 "element": {"#": "type"}
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.rule.type"},
+                "selectedValue": {"<->": "@owner.type"},
                 "options": {"<-": "@owner.typeOptions"}
             }
         },
@@ -34,7 +34,7 @@
                 "element": {"#": "unit"}
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.rule.field"},
+                "selectedValue": {"<->": "@owner.fieldName"},
                 "options": {"<-": "@owner.availableUnitOptions"}
             }
         },
@@ -44,7 +44,7 @@
                 "element": {"#": "showEvery"}
             },
             "bindings": {
-                "condition": {"<-": "@type.selectedValue == @owner.TYPES.EVERY"}
+                "condition": {"<-": "@owner.type == @owner.TYPES.EVERY"}
             }
         },
         "every": {
@@ -54,26 +54,76 @@
                 "min": 1
             },
             "bindings": {
-                "value": {"<->": "@owner.rule.values.0"}
+                "value": {"<->": "@owner.everyValue"}
             }
         },
         "showOn": {
-            "prototype": "montage/ui/condition.reel",
+            "prototype": "montage/ui/substitution.reel",
             "properties": {
                 "element": {"#": "showOn"}
             },
             "bindings": {
-                "condition": {"<-": "@type.selectedValue == @owner.TYPES.ON"}
+                "switchValue": {"<-": "@owner.fieldName"}
             }
         },
-        "on": {
+        "onSEC": {
             "prototype": "blue-shark/ui/multiple-select-grid.reel",
             "properties": {
-                "element": {"#": "on"}
+                "element": {"#": "onSEC"}
             },
             "bindings": {
-                "selectedValues": {"<->": "@owner.rule.values"},
-                "content": {"<-": "@owner.onValues[@unit.selectedValue.name] || []"}
+                "selectedValues": {"<->": "@owner.onValue.SEC"},
+                "content": {"<-": "@owner.onValues.SEC"}
+            }
+        },
+        "onMIN": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "onMIN"}
+            },
+            "bindings": {
+                "selectedValues": {"<->": "@owner.onValue.MIN"},
+                "content": {"<-": "@owner.onValues.MIN"}
+            }
+        },
+        "onHOURS": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "onHOURS"}
+            },
+            "bindings": {
+                "selectedValues": {"<->": "@owner.onValue.HOURS"},
+                "content": {"<-": "@owner.onValues.HOURS"}
+            }
+        },
+        "onDAYS_OF_WEEK": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "onDAYS_OF_WEEK"}
+            },
+            "bindings": {
+                "selectedValues": {"<->": "@owner.onValue.DAYS_OF_WEEK"},
+                "content": {"<-": "@owner.onValues.DAYS_OF_WEEK"}
+            }
+        },
+        "onDAYS_OF_MONTH": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "onDAYS_OF_MONTH"}
+            },
+            "bindings": {
+                "selectedValues": {"<->": "@owner.onValue.DAYS_OF_MONTH"},
+                "content": {"<-": "@owner.onValues.DAYS_OF_MONTH"}
+            }
+        },
+        "onMONTHS": {
+            "prototype": "blue-shark/ui/multiple-select-grid.reel",
+            "properties": {
+                "element": {"#": "onMONTHS"}
+            },
+            "bindings": {
+                "selectedValues": {"<->": "@owner.onValue.MONTHS"},
+                "content": {"<-": "@owner.onValues.MONTHS"}
             }
         },
         "removeRuleButton": {
@@ -94,8 +144,14 @@
                     <div data-montage-id="every" class="CronRule-control"></div>
                 </div>
                 <div data-montage-id="unit" class="CronRule-control"></div>
+                <div data-montage-id="on"></div>
                 <div data-montage-id="showOn" class="CronRule-on">
-                    <div data-montage-id="on" class="CronRule-control"></div>
+                    <div data-montage-id="onSEC" data-arg="SEC" class="CronRule-control"></div>
+                    <div data-montage-id="onMIN" data-arg="MIN" class="CronRule-control"></div>
+                    <div data-montage-id="onHOURS" data-arg="HOURS" class="CronRule-control"></div>
+                    <div data-montage-id="onDAYS_OF_WEEK" data-arg="DAYS_OF_WEEK" class="CronRule-control"></div>
+                    <div data-montage-id="onDAYS_OF_MONTH" data-arg="DAYS_OF_MONTH" class="CronRule-control"></div>
+                    <div data-montage-id="onMONTHS" data-arg="MONTHS" class="CronRule-control"></div>
                 </div>
             </div>
             <div data-montage-id="removeRuleButton" class="CronRule-removeButton Button--alert">
