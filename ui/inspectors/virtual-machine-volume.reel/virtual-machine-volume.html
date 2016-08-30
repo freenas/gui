@@ -31,11 +31,11 @@
         "directoryTreeController": {
             "prototype": "core/controller/filesystem-tree-controller",
             "properties": {
-                "canListFiles": false
+                "canListFiles": false,
+                "root": "/mnt/"
             },
             "bindings": {
-                "service": {"<-": "@owner.application.filesystemService"},
-                "root": {"<-": "/"}
+                "service": {"<-": "@owner.application.filesystemService"}
             }
         },
         "name": {
@@ -67,7 +67,7 @@
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.object.properties.destination"},
-                "readOnly": {"<-": "@owner.object.properties.auto || !@owner.editable"}
+                "readOnly": {"<-": "@owner.object.properties.auto"}
             }
         },
         "volumeType": {
