@@ -256,6 +256,7 @@ exports.Volumes = Component.specialize({
                         for (i = 0, disksLength = disks.length; i < disksLength; i++) {
                             disk = disks[i];
                             if (disksAllocations[disk._devicePath]) {
+                                disk.label = self._getDiskLabel(disk);
                                 disk.volume = self._volumesById[disksAllocations[disk._devicePath].name];
                                 disk.isBoot = disksAllocations[disk._devicePath].type == 'BOOT';
                             }
@@ -268,6 +269,12 @@ exports.Volumes = Component.specialize({
                     }
                 }
             });
+        }
+    },
+
+    _getDiskLabel: {
+        value: function (disk) {
+            return this._volumeService.getDiskLabel(disk.name);
         }
     },
 
