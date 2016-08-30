@@ -78,7 +78,6 @@ exports.VirtualMachine = Component.specialize({
         },
         set: function(object) {
             if (this._object !== object) {
-                this._object = object;
                 if (object) {
                     if (object.template) {
                         this.templateName = object.template.name;
@@ -87,8 +86,8 @@ exports.VirtualMachine = Component.specialize({
                         if (object._isNew) {
                             this.memorySize = object.config.memsize;
                         } else {
-                            if (typeof this.object.config.memsize === "number") {
-                                this.memorySize = this._convertMemsizeToString(this.object.config.memsize);
+                            if (typeof object.config.memsize === "number") {
+                                this.memorySize = this._convertMemsizeToString(object.config.memsize);
                             }
                         }
                     }
@@ -100,6 +99,7 @@ exports.VirtualMachine = Component.specialize({
                         }
                     }
                 }
+                this._object = object;
             }
         }
     },
