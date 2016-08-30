@@ -721,6 +721,10 @@
             "type": "VmDevice"
         },
         {
+            "modelId": "core/model/models/vm-readme.js",
+            "type": "VmReadme"
+        },
+        {
             "modelId": "core/model/models/vm-snapshot.js",
             "type": "VmSnapshot"
         },
@@ -731,6 +735,10 @@
         {
             "modelId": "core/model/models/vm-status.js",
             "type": "VmStatus"
+        },
+        {
+            "modelId": "core/model/models/vm-volume.js",
+            "type": "VmVolume"
         },
         {
             "modelId": "core/model/models/vm.js",
