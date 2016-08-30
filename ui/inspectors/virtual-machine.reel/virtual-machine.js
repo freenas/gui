@@ -129,7 +129,7 @@ exports.VirtualMachine = Component.specialize({
         },
         set: function(templateName) {
             var self = this;
-            if (this.object._isNew && this._templateName !== templateName) {
+            if (!!this.object && !!this.object._isNew && this._templateName !== templateName) {
                 this._loadTemplates().then(function(templates) {
                     for (var i = 0, length = templates.length; i<length; i++) {
                         template = templates[i];
