@@ -63,7 +63,7 @@
                 "element": {"#": "confirmationMessage"}
             },
             "bindings": {
-                "confirmationMessage": {"<-": "'This is the message for the confirmation overlay'"}
+                "confirmationMessage": {"<-": "@owner.confirmationDialog"}
             }
         }
 
@@ -76,9 +76,7 @@
             <div data-montage-id="lockMessage"></div>
         </div>
         <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage">
-            <button class="Button">Erase</button>
-            <button class="Button">Detach</button>
-            <button class="Button">Cancel</button>
+            <div data-param="confirmation-actions"></div>
         </div>
         <div data-montage-id="scrollView">
             <div data-montage-id="loading" class="Inspector-loading"></div>
