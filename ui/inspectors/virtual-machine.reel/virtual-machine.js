@@ -129,7 +129,7 @@ exports.VirtualMachine = Component.specialize({
         },
         set: function(templateName) {
             var self = this;
-            if (!!this.object && !!this.object._isNew && this._templateName !== templateName) {
+            if (this.object._isNew && this._templateName !== templateName) {
                 this._loadTemplates().then(function(templates) {
                     for (var i = 0, length = templates.length; i<length; i++) {
                         template = templates[i];
@@ -174,11 +174,6 @@ exports.VirtualMachine = Component.specialize({
             this.isLoading = true;
             this.bootloaderOptions = VmConfigBootloader.members;
             this.editMode = this.object._isNew ? "edit" : "display";
-            if (!this.templates) {
-                loadingPromises.push(this._loadTemplates());
-            }
-            if (!this.volumes) {
-                loadingPromises.push(this._loadVolumes());
             }
             if (!this.object.guest_type) {
                 this.object.guest_type = "other";
@@ -187,6 +182,12 @@ exports.VirtualMachine = Component.specialize({
                 loadingPromises.push(this._loadWebvncConsole());
             }
             if (this.object._isNew) {
+                if (!this.templates) {
+                    loadingPromises.push(this._loadTemplates());
+                }
+                if (!this.volumes) {
+                    loadingPromises.push(this._loadVolumes());
+                }
                 this.object.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
                 if (!this.object.config) {
                     this.object.config = {
@@ -223,8 +224,6 @@ exports.VirtualMachine = Component.specialize({
             this.memorySize = this._convertMemsizeToString(template.config.memsize);
             this.object.config.memsize = template.config.memsize;
             this.object.config.ncpus = template.config.ncpus;
-            this.object.config.bootloader = template.config.bootloader;
-            this.object.config.boot_device = template.config.boot_device;
             this.object.template = {name: template.template.name};
             this.object.guest_type = template.guest_type;
             templatePromises.push(this._convertReadme(template.template.readme));
