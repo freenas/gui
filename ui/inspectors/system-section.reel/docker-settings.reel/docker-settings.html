@@ -20,14 +20,23 @@
                 "checked": {"<->": "@owner.object.api_forwarding_enable"}
             }
         },
+        "selectOptionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "valuePropertyName": "id",
+                "labelPropertyName": "name"
+            }
+        },
         "default_host": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "default_host"},
+                "converter": {"@": "selectOptionConverter"},
                 "label": "Default Host"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.default_host"}
+                "selectedValue": {"<->": "@owner.object.default_host"},
+                "options": {"<-": "@owner.dockerHosts"}
             }
         },
         "api_forwarding": {
