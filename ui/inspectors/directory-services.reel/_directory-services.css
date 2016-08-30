@@ -1,5 +1,5 @@
 .DirectoryServices-body {
-    flex-grow: 0;
+    flex: 0 !important;
 }
 
 .DirectoryServices-searchorderContainer {
