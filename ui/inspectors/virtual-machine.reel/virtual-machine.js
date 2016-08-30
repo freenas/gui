@@ -192,10 +192,10 @@ exports.VirtualMachine = Component.specialize({
                     this.object.config.bootloader = "GRUB";
                 }
             }
+            loadingPromises.push(this._categorizeDevices());
             Promise.all(loadingPromises).then(function() {
                 self.addRangeAtPathChangeListener("devices", self, "_handleDeviceChange");
                 self.addRangeAtPathChangeListener("volumes", self, "_handleDeviceChange");
-                self._categorizeDevices();
                 self.isLoading = false;
             });
         }
@@ -336,17 +336,45 @@ exports.VirtualMachine = Component.specialize({
 
     _categorizeDevices: {
         value: function() {
-            var devices = this.object.devices;
+            var devices = this.object.devices,
+                volumePromises = [];
             this.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
             this.volumeDevices = this.application.dataService.getEmptyCollectionForType(Model.VmVolume);
 
             for (var i=0, length=devices.length; i<length; i++) {
                 if (devices[i].type === "VOLUME") {
-                    this.volumeDevices.push(devices[i]);
+                    volumePromises.push(this._addConvertedVolume(devices[i]));
                 } else {
                     this.devices.push(devices[i]);
                 }
             }
+            return Promise.all(volumePromises);
+        }
+    },
+
+    _addConvertedVolume: {
+        value: function(volumeDevice) {
+            var self = this;
+            return this._convertVolumeDevice(volumeDevice).then(function(volume) {
+                self.volumeDevices.push(volume);
+            });
+        }
+    },
+
+    _convertVolumeDevice: {
+        value: function(volumeDevice) {
+            return this.application.dataService.getNewInstanceForType(Model.VmVolume).then(function(volume) {
+                volume.type = "VOLUME";
+                volume._isNew = volumeDevice._isNew;
+                volume.name = volumeDevice.name;
+                volume.properties = {
+                    auto: volumeDevice.auto,
+                    destination: volumeDevice.destination,
+                    type: volumeDevice.type,
+                    source: volumeDevice.source,
+                };
+                return volume;
+            });
         }
     },
 
