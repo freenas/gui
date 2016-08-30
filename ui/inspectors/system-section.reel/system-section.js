@@ -21,6 +21,7 @@ exports.SystemSection = Component.specialize({
                 case "WebUI":
                 case "mail":
                 case "system":
+                case "dockerSettings":
                     this.canSave = true;
                     this.canRevert = true;
                     // this.hasTable = false;
