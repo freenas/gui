@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="docker-settings.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "api_forwarding_enable": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "api_forwarding_enable"},
+                "label": "Enable API Forwarding"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.api_forwarding_enable"}
+            }
+        },
+        "default_host": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "default_host"},
+                "label": "Default Host"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.default_host"}
+            }
+        },
+        "api_forwarding": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "api_forwarding"},
+                "label": "API Forwarding"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.api_forwarding"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="DockerSettings">
+        <div data-montage-id="default_host"></div>
+        <div data-montage-id="api_forwarding_enable"></div>
+        <div data-montage-id="api_forwarding"></div>
+    </div>
+</body>
+</html>
