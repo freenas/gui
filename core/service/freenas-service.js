@@ -169,6 +169,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             Model.User,
             Model.Vm,
             Model.VmDevice,
+            Model.VmVolume,
             Model.Volume,
             Model.VolumeDataset,
             Model.VolumeSettings,
@@ -808,7 +809,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
 
             } else {
                 var readServiceDescriptor = Services.findReadServiceForType(type);
-                
+
                 // FIXME: Dirty hacky thing
                 if (type === Model.DirectoryserviceConfig) {
                     readServiceDescriptor = {
