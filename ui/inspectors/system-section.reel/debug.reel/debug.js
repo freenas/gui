@@ -35,10 +35,16 @@ exports.Debug = Component.specialize(/** @lends Debug# */ {
     handleDownloadDebugAction: {
         value: function() {
             var self = this;
+            var todayString = new Date();
+            var todayString = todayString.toISOString().split('T')[0];
+            this.application.systemInfoService.getVersion().then(function(systemVersion) {
+                self.systemVersion = systemVersion.split("-")[3];
+
+            });
             this.application.systemAdvancedService.getDebugCollectAddress().then(function(debugObject) {
                 var downloadLink = document.createElement("a");
                     downloadLink.href = debugObject[1][0];
-                    downloadLink.download = "debug.dat";
+                    downloadLink.download = "freenas" + "-" + self.systemVersion + "-" + todayString + "-" + "debug.tar.gz";
                     downloadLink.click();
             });
         }
