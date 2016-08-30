@@ -41,6 +41,10 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
+    readme: {
+        value: null
+    },
+
     webvncConsole: {
         value: null
     },
@@ -193,6 +197,7 @@ exports.VirtualMachine = Component.specialize({
                 }
             }
             loadingPromises.push(this._categorizeDevices());
+            loadingPromises.push(this._convertReadme());
             Promise.all(loadingPromises).then(function() {
                 self.addRangeAtPathChangeListener("devices", self, "_handleDeviceChange");
                 self.addRangeAtPathChangeListener("volumes", self, "_handleDeviceChange");
@@ -208,24 +213,28 @@ exports.VirtualMachine = Component.specialize({
             this.webvncConsole = null;
             this.devices = null;
             this.volumeDevices = null;
+            this.readme = null;
         }
     },
 
     _populateObjectWithTemplate: {
         value: function(template) {
+            var templatePromises = [];
             this.object.config = {};
             this.memorySize = this._convertMemsizeToString(template.config.memsize);
             this.object.config.memsize = template.config.memsize;
             this.object.config.ncpus = template.config.ncpus;
             this.object.template = {name: template.template.name};
             this.object.guest_type = template.guest_type;
+            templatePromises.push(this._convertReadme(template.template.readme));
             // FIXME: Contaminates the template
             for (var i=0, length=template.devices.length; i<length; i++) {
                 template.devices[i].id = "This device came from a template";
                 this.application.virtualMachineService.setDeviceDefaults(template.devices[i]);
             }
             this.object.devices = template.devices;
-            this._categorizeDevices();
+            templatePromises.push(this._categorizeDevices());
+            return Promise.all(templatePromises);
         }
     },
 
@@ -297,6 +306,7 @@ exports.VirtualMachine = Component.specialize({
             this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.template = this.templateName === "---" ? null : this.object.template;
             this.object.target = this.object.target === "---" ? null : this.object.target;
+            this.object.config.readme = this.readme.text;
             return this.application.dataService.saveDataObject(this.object);
         }
     },
@@ -428,6 +438,18 @@ exports.VirtualMachine = Component.specialize({
                 }
             }
 
+        }
+    },
+
+    _convertReadme: {
+        value: function(readmeText) {
+            var self = this;
+            console.log(readmeText)
+            return this.application.dataService.getNewInstanceForType(Model.VmReadme).then(function(readmeObject) {
+                readmeObject.text = readmeText;
+                self.readme = readmeObject;
+                console.log(self.readme)
+            });
         }
     },
 

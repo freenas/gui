@@ -252,6 +252,15 @@
                 "checked": {"<->": "@owner.object.config.autostart"}
             }
         },
+        "readme": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "readme"}
+            },
+            "bindings": {
+                "object": {"<->": "@owner.readme"}
+            }
+        },
         "devices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
@@ -363,6 +372,7 @@
             <div data-montage-id="cpu"></div>
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
+            <div data-montage-id="readme" class="g-negative-margin-sides"></div>
             <div data-montage-id="devices" class="g-negative-margin-sides"></div>
             <div data-montage-id="volumeDevices" class="g-negative-margin-sides"></div>
         </div>
