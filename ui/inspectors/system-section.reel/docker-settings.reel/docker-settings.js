@@ -14,6 +14,9 @@ exports.DockerSettings = Component.specialize(/** @lends DockerSettings# */ {
             var self = this;
             if(isFirstTime) {
                 this.isLoading = true;
+                this.application.dockerSettingsService.getDockerHostQueryData().then(function(dockerHosts) {
+                    self.dockerHosts = dockerHosts;
+                })
                 this.application.dockerSettingsService.getDockerConfigData().then(function (dockerConfig) {
                     self.object = dockerConfig
                     self._snapshotDataObjectsIfNecessary();
