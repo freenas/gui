@@ -197,7 +197,7 @@ exports.VirtualMachine = Component.specialize({
                 }
             }
             loadingPromises.push(this._categorizeDevices());
-            loadingPromises.push(this._convertReadme());
+            loadingPromises.push(this._convertReadme(this.object.config.readme));
             Promise.all(loadingPromises).then(function() {
                 self.addRangeAtPathChangeListener("devices", self, "_handleDeviceChange");
                 self.addRangeAtPathChangeListener("volumes", self, "_handleDeviceChange");
