@@ -1,7 +1,13 @@
-.DirectoryServices {
-
+.DirectoryServices-body {
+    flex-grow: 0;
 }
 
 .DirectoryServices-searchorderContainer {
-    flex: 10;
+    flex-grow: 0;
+    padding: 1em;
+}
+
+.DirectoryServices-buttons {
+    display: flex;
+    justify-content: space-between;
 }

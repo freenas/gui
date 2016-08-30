@@ -1,1 +1,1 @@
-.DirectoryServices-searchorderContainer{-webkit-box-flex:10;-ms-flex:10;flex:10}
+.DirectoryServices-body,.DirectoryServices-searchorderContainer{-webkit-box-flex:0;-ms-flex-positive:0;flex-grow:0}.DirectoryServices-searchorderContainer{padding:1em}.DirectoryServices-buttons{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}
