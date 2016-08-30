@@ -128,7 +128,7 @@
                 "converter": {"@": "bootDeviceConverter"}
             },
             "bindings": {
-                "options": {"<-": "[{name:'---'}].concat(@owner.object.devices.filter{type == 'DISK' || type == 'CDROM' || type == 'VOLUME'})"},
+                "options": {"<-": "[{name:'---'}].concat(@owner.devices.filter{type == 'DISK' || type == 'CDROM'}).concat(@owner.volumeDevices)"},
                 "selectedValue": {"<->": "@owner.object.config.boot_device"}
             }
         },
