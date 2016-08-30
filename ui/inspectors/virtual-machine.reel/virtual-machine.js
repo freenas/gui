@@ -275,6 +275,10 @@ exports.VirtualMachine = Component.specialize({
                 }
             }
 
+            if (this.object.config.boot_device === "---") {
+                this.object.config.boot_device = null;
+            }
+
             this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.template = this.templateName === "---" ? null : this.object.template;
             this.object.target = this.object.target === "---" ? null : this.object.target;

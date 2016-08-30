@@ -71,6 +71,13 @@
                 "valuePath":  "template.name"
             }
         },
+        "bootDeviceConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPath": "name",
+                "valuePath": "name"
+            }
+        },
         "vmTemplateSubstitution": {
             "prototype": "montage/ui/substitution.reel",
             "properties": {
@@ -111,6 +118,18 @@
             "bindings": {
                 "options": {"<-": "@owner.bootloaderOptions"},
                 "selectedValue": {"<->": "@owner.object.config.bootloader"}
+            }
+        },
+        "bootDevice": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "bootDevice"},
+                "label": "Boot Device",
+                "converter": {"@": "bootDeviceConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "[{name:'---'}].concat(@owner.object.devices.filter{type == 'DISK' || type == 'CDROM' || type == 'VOLUME'})"},
+                "selectedValue": {"<->": "@owner.object.config.boot_device"}
             }
         },
         "vmGuestType": {
@@ -329,6 +348,7 @@
                 <div data-montage-id="volumeDisplay" data-arg="display"></div>
             </div>
             <div data-montage-id="bootloader"></div>
+            <div data-montage-id="bootDevice"></div>
             <div data-montage-id="vmGuestType"></div>
             <div data-montage-id="description"></div>
             <div data-montage-id="cpu"></div>
