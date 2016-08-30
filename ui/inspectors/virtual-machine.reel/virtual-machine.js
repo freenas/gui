@@ -223,6 +223,7 @@ exports.VirtualMachine = Component.specialize({
                 this.application.virtualMachineService.setDeviceDefaults(template.devices[i]);
             }
             this.object.devices = template.devices;
+            this._categorizeDevices();
         }
     },
 
