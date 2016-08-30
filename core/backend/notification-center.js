@@ -469,7 +469,7 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                     // notification from outside try to create a notification event
                     if (!taskNotification && taskName) {
                         var args = taskReport.args,
-                            model = args && args.length ? args[1]: null,
+                            model = this._findModelFromEventTask(args),
                             modelType = taskName.substring(0, taskName.lastIndexOf(".")).toCamelCase();
 
                             if (model && typeof model === "object" && Model[modelType]) {
@@ -551,6 +551,21 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
         }
     },
 
+    _findModelFromEventTask: {
+        value: function (args) {
+            if (args) {
+                var arg;
+
+                for (var i = 0, length = args.length; i < length; i++) {
+                    arg = args[i];
+
+                    if (arg && typeof arg === "object") {
+                        return arg;
+                    }
+                }
+            }
+        }
+    },
 
     /**
      * @function
