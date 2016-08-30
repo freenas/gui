@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="virtual-machine-volume.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            },
+            "listeners": [
+                {
+                    "type": "action",
+                    "listener": {"@": "owner"}
+                }
+            ]
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canSave": false,
+                "canRevert": false,
+                "canDelete": false
+            }
+        },
+        "selectOptionConverter": {
+            "prototype": "core/converter/select-option-converter"
+        },
+        "directoryTreeController": {
+            "prototype": "core/controller/filesystem-tree-controller",
+            "properties": {
+                "canListFiles": false
+            },
+            "bindings": {
+                "service": {"<-": "@owner.application.filesystemService"},
+                "root": {"<-": "/"}
+            }
+        },
+        "name": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "name"},
+                "label": "Name"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.name"}
+            }
+        },
+        "volumeAuto": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "volumeAuto"},
+                "label": "Auto"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.properties.auto"}
+            }
+        },
+        "volumeDestination": {
+            "prototype": "ui/controls/field-treeview.reel",
+            "properties": {
+                "element": {"#": "volumeDestination"},
+                "label": "Target Directory",
+                "controller": {"@": "directoryTreeController"}
+            },
+            "bindings": {
+                "selectedPath": {"<->": "@owner.object.properties.destination"},
+                "readOnly": {"<-": "@owner.object.properties.auto || !@owner.editable"}
+            }
+        },
+        "volumeType": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "volumeType"},
+                "label": "Type",
+                "converter": {"@": "selectOptionConverter"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.volumeTypeOptions"},
+                "selectedValue": {"<->": "@owner.object.properties.type"}
+            }
+        },
+        "addRemoveSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "addRemoveSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'create' : 'edit'"}
+            }
+        },
+        "add": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "add"},
+                "value": "Add"
+            }
+        },
+        "remove": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "remove"},
+                "value": "Remove"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="VirtualMachineVolume">
+        <div data-montage-id="inspector">
+            <div data-montage-id="name"></div>
+            <div data-montage-id="volumeAuto"></div>
+            <div data-montage-id="volumeDestination"></div>
+            <div data-montage-id="volumeType"></div>
+            <div data-montage-id="addRemoveSubstitution">
+                <div data-montage-id="add" data-arg="create"></div>
+                <div data-montage-id="remove" data-arg="edit"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
