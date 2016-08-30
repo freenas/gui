@@ -444,11 +444,9 @@ exports.VirtualMachine = Component.specialize({
     _convertReadme: {
         value: function(readmeText) {
             var self = this;
-            console.log(readmeText)
             return this.application.dataService.getNewInstanceForType(Model.VmReadme).then(function(readmeObject) {
                 readmeObject.text = readmeText;
                 self.readme = readmeObject;
-                console.log(self.readme)
             });
         }
     },
