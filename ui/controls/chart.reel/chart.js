@@ -235,6 +235,9 @@ exports.Chart = Component.specialize(/** @lends Chart# */ {
             } else {
                 this._xScale = new Plottable.Scales.Category();
                 this._xAxis = new Plottable.Axes.Category(this._xScale, "bottom");
+                if ([-90, 0, 90].indexOf(this._getOptionValue("xAxisLable")) != -1) {
+                    this._xAxis.tickLabelAngle(this._getOptionValue("xAxisLable"));
+                }
             }
         }
     },
