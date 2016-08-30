@@ -62,6 +62,11 @@ var VirtualMachineService = exports.VirtualMachineService = Montage.specialize({
     setDeviceDefaults: {
         value: function(device) {
             switch (device.type) {
+                case VmDeviceType.CDROM:
+                    if (!device.properties) {
+                        device.properties = {};
+                    }
+                    break;
                 case VmDeviceType.DISK:
                     if (!device.properties) {
                         device.properties = {
