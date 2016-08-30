@@ -258,7 +258,16 @@
                 "element": {"#": "devices"}
             },
             "bindings": {
-                "object": {"<->": "@owner.object.devices"}
+                "object": {"<->": "@owner.devices"}
+            }
+        },
+        "volumeDevices": {
+            "prototype": "ui/controls/inspector-option.reel",
+            "properties": {
+                "element": {"#": "volumeDevices"}
+            },
+            "bindings": {
+                "object": {"<->": "@owner.volumeDevices"}
             }
         },
         "start": {
@@ -355,6 +364,7 @@
             <div data-montage-id="memory"></div>
             <div data-montage-id="autostart"></div>
             <div data-montage-id="devices" class="g-negative-margin-sides"></div>
+            <div data-montage-id="volumeDevices" class="g-negative-margin-sides"></div>
         </div>
     </div>
 </body>

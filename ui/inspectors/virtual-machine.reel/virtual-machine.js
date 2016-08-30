@@ -33,6 +33,14 @@ exports.VirtualMachine = Component.specialize({
         value: null
     },
 
+    devices: {
+        value: null
+    },
+
+    volumeDevices: {
+        value: null
+    },
+
     webvncConsole: {
         value: null
     },
@@ -185,6 +193,9 @@ exports.VirtualMachine = Component.specialize({
                 }
             }
             Promise.all(loadingPromises).then(function() {
+                self.addRangeAtPathChangeListener("devices", self, "_handleDeviceChange");
+                self.addRangeAtPathChangeListener("volumes", self, "_handleDeviceChange");
+                self._categorizeDevices();
                 self.isLoading = false;
             });
         }
@@ -254,7 +265,7 @@ exports.VirtualMachine = Component.specialize({
                 memsize,
                 memsizePrefix,
                 memsizeMultiplier = 1,
-                devices = this.object.devices;
+                devices = this.devices.concat(this.volumeDevices);
 
             if (!!parsedMemsize) {
                 memsize = parseInt(parsedMemsize[1]);
@@ -279,6 +290,7 @@ exports.VirtualMachine = Component.specialize({
                 this.object.config.boot_device = null;
             }
 
+            this.object.devices = devices;
             this.object.config.memsize = memsize * memsizeMultiplier;
             this.object.template = this.templateName === "---" ? null : this.object.template;
             this.object.target = this.object.target === "---" ? null : this.object.target;
@@ -318,6 +330,73 @@ exports.VirtualMachine = Component.specialize({
                 result += "";
             }
             return result;
+        }
+    },
+
+    _categorizeDevices: {
+        value: function() {
+            var devices = this.object.devices;
+            this.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
+            this.volumeDevices = this.application.dataService.getEmptyCollectionForType(Model.VmVolume);
+
+            for (var i=0, length=devices.length; i<length; i++) {
+                if (devices[i].type === "VOLUME") {
+                    this.volumeDevices.push(devices[i]);
+                } else {
+                    this.devices.push(devices[i]);
+                }
+            }
+        }
+    },
+
+    _handleDeviceChange: {
+        value: function(plus, minus) {
+            if (this.object.config && Array.isArray(this.object.config.devices)) {
+                if (plus && plus.length) {
+                    this._addDevices(plus);
+                }
+
+                if (minus && minus.length) {
+                    this._removeDevices(minus);
+                }
+            }
+        }
+    },
+
+    _addDevices: {
+        value: function(collection) {
+            var devices = this.devices,
+                volume = this.volumeDevices,
+                entity;
+
+            for (var i=0, length=collection.length; i<length; i++) {
+                entity = collection[i];
+                if (entity.type === "VOLUME") {
+                    volumeDevices.push(entity);
+                } else {
+                    devices.push(entity);
+                }
+            }
+
+        }
+    },
+
+    _removeDevices: {
+        value: function(collection) {
+            var devices = this.devices,
+                volume = this.volumeDevices,
+                entity;
+
+            for (var i=0, length=collection.length; i<length; i++) {
+                entity = collection[i];
+
+                if (entity.type === "VOLUME") {
+                    volumeDevices.splice(volumeDevices.indexOf(entity), 1);
+                } else {
+                    devices.splice(devices.indexOf(entity), 1);
+                }
+            }
+
         }
     },
 
