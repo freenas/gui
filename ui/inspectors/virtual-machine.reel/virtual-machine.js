@@ -174,8 +174,6 @@ exports.VirtualMachine = Component.specialize({
             this.isLoading = true;
             this.bootloaderOptions = VmConfigBootloader.members;
             this.editMode = this.object._isNew ? "edit" : "display";
-            if (!this.object.config) {
-                this.object.config = {ncpus: ""};
             }
             if (!this.object.guest_type) {
                 this.object.guest_type = "other";
@@ -191,8 +189,11 @@ exports.VirtualMachine = Component.specialize({
                     loadingPromises.push(this._loadVolumes());
                 }
                 this.object.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
-                if (!this.object.config || !this.object.config.bootloader) {
-                    this.object.config.bootloader = "GRUB";
+                if (!this.object.config) {
+                    this.object.config = {
+                        ncpus: "",
+                        bootloader: "GRUB"
+                    };
                 }
             }
             loadingPromises.push(this._categorizeDevices());
