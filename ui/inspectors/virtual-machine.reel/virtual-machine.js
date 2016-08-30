@@ -170,8 +170,7 @@ exports.VirtualMachine = Component.specialize({
     enterDocument: {
         value: function(isFirstTime) {
             var self = this,
-                loadingPromises = [],
-                devicesPromise;
+                loadingPromises = [];
             this.isLoading = true;
             this.bootloaderOptions = VmConfigBootloader.members;
             this.editMode = this.object._isNew ? "edit" : "display";
