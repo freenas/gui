@@ -174,7 +174,7 @@ exports.VirtualMachine = Component.specialize({
             this.isLoading = true;
             this.bootloaderOptions = VmConfigBootloader.members;
             this.editMode = this.object._isNew ? "edit" : "display";
-            }
+            
             if (!this.object.guest_type) {
                 this.object.guest_type = "other";
             }
