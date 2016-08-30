@@ -206,6 +206,8 @@ exports.VirtualMachine = Component.specialize({
             this.templateName = null;
             this.memorySize = null;
             this.webvncConsole = null;
+            this.devices = null;
+            this.volumeDevices = null;
         }
     },
 
