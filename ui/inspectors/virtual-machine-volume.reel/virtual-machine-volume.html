@@ -58,6 +58,15 @@
                 "checked": {"<->": "@owner.object.properties.auto"}
             }
         },
+        "volumeDestinationCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "volumeDestinationCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.object.properties.auto"}
+            }
+        },
         "volumeDestination": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
@@ -66,8 +75,7 @@
                 "controller": {"@": "directoryTreeController"}
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.object.properties.destination"},
-                "readOnly": {"<-": "@owner.object.properties.auto"}
+                "selectedPath": {"<->": "@owner.object.properties.destination"}
             }
         },
         "volumeType": {
@@ -113,7 +121,9 @@
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
             <div data-montage-id="volumeAuto"></div>
-            <div data-montage-id="volumeDestination"></div>
+            <div data-montage-id="volumeDestinationCondition">
+                <div data-montage-id="volumeDestination"></div>
+            </div>
             <div data-montage-id="volumeType"></div>
             <div data-montage-id="addRemoveSubstitution">
                 <div data-montage-id="add" data-arg="create"></div>
