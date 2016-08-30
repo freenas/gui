@@ -582,10 +582,10 @@
             }
         }
     },
-    "Docker": {
+    "DockerConfig": {
         "instance": {
             "read": {
-                "method": "docker.get_config",
+                "method": "docker.config.get_config",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -1930,6 +1930,11 @@
             },
             "getMySessionId": {
                 "method": "session.get_my_session_id",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "sendToAll": {
+                "method": "session.send_to_all",
                 "name": "call",
                 "namespace": "rpc"
             },

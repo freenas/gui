@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.DockerImage = AbstractModel.specialize({
+    _created_at: {
+        value: null
+    },
+    created_at: {
+        set: function (value) {
+            if (this._created_at !== value) {
+                this._created_at = value;
+            }
+        },
+        get: function () {
+            return this._created_at;
+        }
+    },
     _host: {
         value: null
     },
@@ -56,6 +69,10 @@ exports.DockerImage = AbstractModel.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "created_at",
+            valueType: "String"
+        }, {
             mandatory: false,
             name: "host",
             valueType: "String"
