@@ -25,6 +25,14 @@ var DockerSettingsService = exports.DockerSettingsService = Montage.specialize({
         }
     },
 
+    getDockerHostQueryData: {
+        value: function() {
+            return this._dataService.fetchData(Model.DockerHost).then(function (dockerHosts) {
+                return dockerHosts;
+            });
+        }
+    },
+
     getDockerConfigData: {
         value: function(){
             return this._dataService.fetchData(Model.DockerConfig).then(function(Docker) {
