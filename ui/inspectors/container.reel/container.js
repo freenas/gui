@@ -116,7 +116,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
         value: function () {
             var environmentComponentString = this._environmentComponent.value,
                 commandString = this._commandComponent.value,
-                namesString = this._namesComponent.value,
+                namesString = this._nameComponent.value,
                 portsString = this._portsComponent.value,
                 spaceString = " ",
                 self = this;
