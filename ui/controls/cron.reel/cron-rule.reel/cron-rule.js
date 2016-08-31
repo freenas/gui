@@ -110,7 +110,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             this.type = this.rule.type;
             this.onValue = this.type === this.TYPES.ON ? this.rule.values.slice() : [];
             this.everyValue =  this.type === this.TYPES.EVERY ? this.rule.values[0] : 1;
-            this.fieldName = this.rule.field.name;
+            this.fieldName = this.rule.field ? this.rule.field.name : null;
             this._isEntering = false;
         }
     },
@@ -153,6 +153,10 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
                         value: Rule.CRON_FIELDS[x].name
                     }
                 });
+                this.unitOptions.unshift({
+                    label: '---',
+                    value: null
+                });
                 this.availableUnitOptions = this.unitOptions;
             }
             
@@ -161,7 +165,9 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
                 this.onValues = {};
                 for (var i = 0, length = this.unitOptions.length; i < length; i++) {
                     unit = this.unitOptions[i].value;
-                    this.onValues[unit] = Rule.FIELD_VALUES[Rule.CRON_FIELDS[unit].index];
+                    if (unit) {
+                        this.onValues[unit] = Rule.FIELD_VALUES[Rule.CRON_FIELDS[unit].index];
+                    }
                 }
             }
         }
