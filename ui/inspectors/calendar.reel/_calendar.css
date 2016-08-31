@@ -39,9 +39,9 @@ Media Queries
 
 */
 
-@media (min-width: 90em) {
+@media (min-width: 95em) {
     .Calendar {
-        min-width: 60em;
+        width: 60em;
     }
 }
 
