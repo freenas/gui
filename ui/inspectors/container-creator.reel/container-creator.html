@@ -80,25 +80,6 @@
             }
         },
 
-        "volumeSection": {
-            "prototype": "ui/controls/foldable-section.reel",
-            "properties": {
-                "element": {"#": "volumeSection"},
-                "title": "Volume"
-            }
-        },
-
-        "volumeContainerPath": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
-            "properties": {
-                "element": {"#": "volumeContainerPath"},
-                "label": "Container Path"
-            },
-            "bindings": {
-                "value": {"<->": "@owner._volume.container_path"}
-            }
-        },
-
         "volumeHostPath": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
@@ -107,18 +88,7 @@
                 "label": "Host path"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner._volume.host_path"}
-            }
-        },
-
-        "volumeReadOnly": {
-            "prototype": "blue-shark/ui/field-checkbox.reel",
-            "properties": {
-                "element": {"#": "volumeReadOnly"},
-                "label": "Read Only"
-            },
-            "bindings": {
-                "checked": {"<->": "@owner._volume.readonly"}
+                "selectedPath": {"<->": "@owner.object.parent_directory"}
             }
         },
 
@@ -226,7 +196,7 @@
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + '/' + protocol}"},
+                "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + (protocol.defined() ? '/' + protocol : '/TCP')}"},
                 "placeholderValue": {"<-": "'eg. extPort:intPort/<tcp|udp>'"}
             }
         },
@@ -250,11 +220,7 @@
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
             <div data-montage-id="image"></div>
-            <div data-montage-id="volumeSection">
-                <div data-montage-id="volumeContainerPath"></div>
-                <div data-montage-id="volumeHostPath"></div>
-                <div data-montage-id="volumeReadOnly"></div>
-            </div>
+            <div data-montage-id="volumeHostPath"></div>
 
             <div data-montage-id="advancedSection">
                 <div data-montage-id="hostname"></div>

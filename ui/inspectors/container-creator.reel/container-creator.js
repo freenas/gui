@@ -14,13 +14,6 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
             var self = this;
             this._environement = {};
 
-            this.blockDrawGate.setField("volume", false);
-
-            this.application.dataService.getNewInstanceForType(Model.DockerVolume).then(function (volume) {
-                self._volume = volume;
-                self.blockDrawGate.setField("volume", true);
-            });
-
             Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
                 self._dockerImageService = DockerImage.constructor.services;
             });
@@ -83,7 +76,6 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
 
     _reset: {
         value: function () {
-            this._volume.clear();
             this._environement.clear();
         }
     },
@@ -146,10 +138,14 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
 
             if (namesString) {
                 if (Array.isArray(this.object.names)) {
-                    this.object.names[0] = spaceString;
+                    this.object.names[0] = namesString;
                 } else {
-                    this.object.names = [spaceString];
+                    this.object.names = [namesString];
                 }
+            }
+
+            if (this.object.parent_directory === "/") {
+                this.object.parent_directory = void 0;
             }
 
             if (environmentComponentValues) {
@@ -158,12 +154,6 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
 
             if (portsValues.length) {
                 this.object.ports = this._getPortsFromArray(portsValues);
-            }
-
-            if (this._volume.container_path && this._volume.host_path) {
-                this.object.volumes = [this._volume];
-            } else if (this.object.volumes && this.object.volumes.length) {
-                this.object.volumes = null;
             }
 
             return this.application.dataService.saveDataObject(this.object).then(function () {
