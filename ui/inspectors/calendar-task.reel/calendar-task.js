@@ -46,9 +46,11 @@ exports.CalendarTask = AbstractComponentActionDelegate.specialize({
     save: {
         value: function() {
             var self = this;
+            var argsLength = this.object.args.length;
             this.object.args = this.object.args.filter(function(x) { 
                 return !!x || (typeof x !== "undefined" && typeof x !== "object") ; 
             });
+            this.object.args.length = argsLength;
             this.inspector.save();
         }
     },

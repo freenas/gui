@@ -37,11 +37,18 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
         value: function() {
             if (!this.args || this.args.length != 5) {
                 this.args = [null, false, null, null, false];
+                this.args.length = 5;
             }
             this.args[3] = this.args[3] || "auto";
             if (this.datasetTreeController) {
                 this.datasetTreeController.open();
             }
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.args = null;
         }
     }
 
