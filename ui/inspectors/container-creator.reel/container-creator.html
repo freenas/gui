@@ -6,11 +6,17 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "_commandComponent": {"@": "command"},
+                "_nameComponent": {"@": "name"},
+                "_portsComponent": {"@": "ports"},
+                "_environmentComponent": {"@": "environment"},
+                "_portsValidator": {"@": "portsValidator"},
+                "_environmentValidator": {"@": "environmentValidator"}
             }
         },
 
-         "fileTreeController": {
+        "fileTreeController": {
             "prototype": "core/controller/filesystem-tree-controller",
             "properties": {
                 "canListFiles": true,
@@ -25,17 +31,17 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canSave": false,
-                "canRevert": false,
-                "canDelete": true
+                "canSave": true
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "canDelete": {"<-": "!@owner.object._isNew"},
+                "canRevert": {"<-": "@inspector.canDelete"}
             }
         },
 
         "name": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
                 "label": "Name"
@@ -46,24 +52,25 @@
         },
 
         "image": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "image"},
                 "label": "Image"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.image"}
+                "selectedValue": {"<->": "@owner.object.image"},
+                "options": {"<-": "[{label: '---'}].concat(@owner._images)"}
             }
         },
 
         "memoryLimit": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "memoryLimit"},
                 "label": "Memory Limit"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.memory_limit"}
+                "value": {"<->": "@owner.object.memory_limit"}
             }
         },
 
@@ -76,25 +83,25 @@
         },
 
         "volumeContainerPath": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "volumeContainerPath"},
                 "label": "Container Path"
             },
             "bindings": {
-                "value": {"<-": "@owner._volume.container_path"}
+                "value": {"<->": "@owner._volume.container_path"}
             }
         },
 
         "volumeHostPath": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "volumeHostPath"},
                 "controller": {"@": "fileTreeController"},
                 "label": "Host path"
             },
             "bindings": {
-                "value": {"<-": "@owner._volume.host_path"}
+                "selectedPath": {"<->": "@owner._volume.host_path"}
             }
         },
 
@@ -102,8 +109,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "volumeReadOnly"},
-                "label": "Read Only",
-                "disabled": true
+                "label": "Read Only"
             },
             "bindings": {
                 "checked": {"<->": "@owner._volume.readonly"}
@@ -119,24 +125,25 @@
         },
 
         "hostname": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "hostname"},
                 "label": "Hostname"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.hostname"}
+                "value": {"<->": "@owner.object.hostname"}
             }
         },
 
         "host": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "host"},
                 "label": "Host"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.host"}
+                "value": {"<->": "@owner.object.host"},
+                "classList.has('hide')": {"<-": "true"}
             }
         },
 
@@ -144,8 +151,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "exposePorts"},
-                "label": "Expose Ports",
-                "disabled": true
+                "label": "Expose Ports"
             },
             "bindings": {
                 "checked": {"<->": "!!@owner.object.expose_ports"}
@@ -153,7 +159,7 @@
         },
 
         "command": {
-            "prototype": "blue-shark/ui/field-text.reel",
+            "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "command"},
                 "label": "Command"
@@ -163,13 +169,27 @@
             }
         },
 
+        "environmentValidator": {
+            "prototype": "core/converter/validator/docker-container-env-validator",
+            "properties": {
+                "errorMessage": "VAR=VALUE"
+            }
+        },
+
+        "environmentConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "environmentValidator"}
+            }
+        },
+
         "environment": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "environment"},
+                "converter": {"@": "environmentConverter"},
                 "label": "Environment",
-                "labelPath": "this",
-                "enabled": false
+                "labelPath": "this"
             },
             "bindings": {
                 "values": {"<-": "@owner.object.environment.toMap().entriesArray().map{[.0 + '=' + .1]}"},
@@ -177,13 +197,27 @@
             }
         },
 
+        "portsValidator": {
+            "prototype": "core/converter/validator/docker-container-ports-validator",
+            "properties": {
+                "errorMessage": "extPort:intPort/<tcp|udp>"
+            }
+        },
+
+        "portsConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "portsValidator"}
+            }
+        },
+
         "ports": {
             "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "ports"},
+                "converter": {"@": "portsConverter"},
                 "label": "Ports",
-                "labelPath": "this",
-                "enabled": false
+                "labelPath": "this"
             },
             "bindings": {
                 "values": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}"},
@@ -195,8 +229,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "interactive"},
-                "label": "Interactive",
-                "disabled": true
+                "label": "Interactive"
             },
             "bindings": {
                 "checked": {"<->": "@owner.object.interactive"}
