@@ -190,22 +190,22 @@ exports.VirtualMachine = Component.specialize({
                     loadingPromises.push(this._loadVolumes());
                 }
                 this.object.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
-                if (!this.object.config) {
-                    this.object.config = {
+            } else {
+                loadingPromises.push(this._convertReadme(this.object.config.readme));
+            }
+            loadingPromises.push(this._categorizeDevices());
+            Promise.all(loadingPromises).then(function() {
+                if (!self.object.config) {
+                    self.object.config = {
                         ncpus: "",
                         bootloader: "GRUB"
                     };
                 }
-            }
-            loadingPromises.push(this._categorizeDevices());
-            loadingPromises.push(this._convertReadme(this.object.config.readme));
-            Promise.all(loadingPromises).then(function() {
-                self.addRangeAtPathChangeListener("devices", self, "_handleDeviceChange");
-                self.addRangeAtPathChangeListener("volumes", self, "_handleDeviceChange");
-                self.bootDeviceOptions = [{name:'---'}]
-                    .concat(self.devices.filter(function(x) { return x.type == 'DISK' || x.type == 'CDROM'; }))
-                    .concat(self.volumeDevices);
-                self.bootDevice = self.object.config.boot_device;
+                self._updateBootDeviceOptions(self.object.config.boot_device);
+                if (isFirstTime) {
+                    self._cancelDeviceslistener = self.addRangeAtPathChangeListener("devices", self, "_handleDeviceChange");
+                    self._cancelVolumesListener = self.addRangeAtPathChangeListener("volumeDevices", self, "_handleDeviceChange");
+                }
                 self.isLoading = false;
             });
         }
@@ -216,9 +216,8 @@ exports.VirtualMachine = Component.specialize({
             this.templateName = null;
             this.memorySize = null;
             this.webvncConsole = null;
-            this.devices = null;
-            this.volumeDevices = null;
             this.readme = null;
+            this.bootDevice = null;
         }
     },
 
@@ -397,52 +396,37 @@ exports.VirtualMachine = Component.specialize({
 
     _handleDeviceChange: {
         value: function(plus, minus) {
-            if (this.object.config && Array.isArray(this.object.config.devices)) {
-                if (plus && plus.length) {
-                    this._addDevices(plus);
+            if (this.object.config) {
+                var length, deviceIndex;
+                for (i = 0, length = plus.length; i < length; i++) {
+                    deviceIndex = this.object.devices.indexOf(plus[i]);
+                    if (deviceIndex == -1) {
+                        this.object.devices.push(plus[i]);
+                    }
                 }
-
-                if (minus && minus.length) {
-                    this._removeDevices(minus);
+                for (i = 0, length = minus.length; i < length; i++) {
+                    deviceIndex = this.object.devices.indexOf(minus[i]);
+                    if (deviceIndex != -1) {
+                        this.object.devices.splice(deviceIndex, 1);
+                    }
                 }
+                this._updateBootDeviceOptions();
             }
         }
     },
 
-    _addDevices: {
-        value: function(collection) {
-            var devices = this.devices,
-                volume = this.volumeDevices,
-                entity;
-
-            for (var i=0, length=collection.length; i<length; i++) {
-                entity = collection[i];
-                if (entity.type === "VOLUME") {
-                    volumeDevices.push(entity);
-                } else {
-                    devices.push(entity);
-                }
+    _updateBootDeviceOptions: {
+        value: function(selectedBootDevice) {
+            selectedBootDevice = selectedBootDevice || this.bootDevice;
+            var    bootDeviceOptions = [{ name: '---' }];
+            if (this.devices) {
+                bootDeviceOptions = bootDeviceOptions.concat(this.devices.filter(function(x) { return x.type == 'DISK' || x.type == 'CDROM'; }));
             }
-
-        }
-    },
-
-    _removeDevices: {
-        value: function(collection) {
-            var devices = this.devices,
-                volume = this.volumeDevices,
-                entity;
-
-            for (var i=0, length=collection.length; i<length; i++) {
-                entity = collection[i];
-
-                if (entity.type === "VOLUME") {
-                    volumeDevices.splice(volumeDevices.indexOf(entity), 1);
-                } else {
-                    devices.splice(devices.indexOf(entity), 1);
-                }
+            if (this.volumeDevices) {
+                bootDeviceOptions = bootDeviceOptions.concat(this.volumeDevices);
             }
-
+            this.bootDeviceOptions = bootDeviceOptions;
+            this.bootDevice = selectedBootDevice;
         }
     },
 
