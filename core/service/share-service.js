@@ -155,7 +155,8 @@ var ShareService = exports.ShareService = Montage.specialize({
             var self = this,
                 isNewShareObject = shareObject._isNewObject,
                 blockSize = shareObject.properties.block_size,
-                size = shareObject.properties.size;
+                size = shareObject.properties.size,
+                targetId = shareObject.__extent.id;
 
             //FIXME: add to the tool a way to override default setter.
             if (typeof blockSize === "string") {
@@ -178,7 +179,7 @@ var ShareService = exports.ShareService = Montage.specialize({
                         number: shareObject.__extent.lun
                     };
 
-                target.id = shareObject.__extent.id;
+                target.id = targetId;
 
                 if (Array.isArray(target.extents)) {
                     target.extents.push(extentObject);
