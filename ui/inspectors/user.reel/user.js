@@ -42,12 +42,12 @@ exports.User = AbstractComponentActionDelegate.specialize({
             }
         }
     },
-    
+
     homeDirectory: {
         get: function () {
             if (!this._homeDirectory) {
                 if (this._object._isNew && this.systemAdvanced && this.systemAdvanced) {
-                    this._homeDirectory = this.systemAdvanced.home_directory_root || '/';
+                    this._homeDirectory = this.systemAdvanced.home_directory_root || "/mnt";
                 } else {
                     this._homeDirectory = this._object.home;
                 }
