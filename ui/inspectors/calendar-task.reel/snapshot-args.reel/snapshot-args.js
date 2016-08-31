@@ -36,8 +36,9 @@ exports.SnapshotArgs = Component.specialize(/** @lends SnapshotArgs# */ {
     enterDocument: {
         value: function() {
             if (!this.args || this.args.length != 5) {
-                this.args = [null, false, null, "auto", false];
+                this.args = [null, false, null, null, false];
             }
+            this.args[3] = this.args[3] || "auto";
             if (this.datasetTreeController) {
                 this.datasetTreeController.open();
             }

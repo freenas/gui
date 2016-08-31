@@ -24,7 +24,6 @@ exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRu
                     if (value) {
                         rule = Rule.ParseString(value, Rule.CRON_FIELDS[Rule.SCHEDULE_TO_FIELD[key]]);
                         if (rule.field && (rule.type !== Rule.TYPES.EVERY || rule.values !== Rule.NO_INTERVAL)) {
-console.log('rules', rule.field.name, rule.type, rule.values);
                             this.rules.push(rule);
                         }
                     }

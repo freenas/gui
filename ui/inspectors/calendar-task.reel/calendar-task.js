@@ -39,7 +39,6 @@ exports.CalendarTask = AbstractComponentActionDelegate.specialize({
 
             if (this.object && this.object.task) {
                 this.classList.remove('type-' + this.object.task.replace('.', '_').toLowerCase());
-                console.log(this.object.schedule);
             }
         }
     },
