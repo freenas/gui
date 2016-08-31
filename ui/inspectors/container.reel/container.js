@@ -64,30 +64,24 @@ exports.Container = Component.specialize(/** @lends Container# */ {
         }
     },
 
-    _getPortsFromString: {
-        value: function (string) {
-            var ports = null, error;
+    _getPortsFromArray: {
+        value: function (array) {
+            var ports = null,
+                string = array.join(" "),
+                error;
 
             if (string) {
-                try {
-                    this._portsValidator.validate(string);
-                } catch (e) {
-                    error = e;
-                }
+                var data = string.split(/:|\/| /),
+                    port, containerPort, hostPort;
 
-                if (!error) {
-                    var data = string.split(/:|\/| /),
-                        port, containerPort, hostPort;
+                ports = [];
 
-                    ports = [];
-
-                    for (var i = 0, length = data.length; i + 3 <= length; i = i + 3) {
-                        ports.push({ 
-                            container_port: +data[i],
-                            host_port: +data[i + 1],
-                            protocol: data[i + 2].toUpperCase()
-                        });
-                    }
+                for (var i = 0, length = data.length; i + 3 <= length; i = i + 3) {
+                    ports.push({ 
+                        container_port: +data[i],
+                        host_port: +data[i + 1],
+                        protocol: data[i + 2].toUpperCase()
+                    });
                 }
             }
 
@@ -117,7 +111,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
             var environmentComponentString = this._environmentComponent.value,
                 commandString = this._commandComponent.value,
                 namesString = this._nameComponent.value,
-                portsString = this._portsComponent.value,
+                portsValues = this._portsComponent.values,
                 spaceString = " ",
                 self = this;
 
@@ -137,8 +131,8 @@ exports.Container = Component.specialize(/** @lends Container# */ {
                 this.object.environment = this._getEnvironmentVariableFromString(environmentComponentString);
             }
 
-            if (portsString && this._portsValidator.isValidPortsString(portsString)) {
-                this.object.ports = this._getPortsFromString(portsString);
+            if (portsValues.length) {
+                this.object.ports = this._getPortsFromArray(portsValues);
             }
 
             if (this._volume.container_path && this._volume.host_path) {

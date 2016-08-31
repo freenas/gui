@@ -210,14 +210,16 @@
         },
 
         "ports": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "ports"},
                 "converter": {"@": "portsConverter"},
-                "label": "Ports"
+                "label": "Ports",
+                "labelPath": "this"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}.join(' ')"}
+                "values": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}"},
+                "placeholderValue": {"<-": "'eg. extPort:intPort/<tcp|udp>'"}
             }
         },
 
