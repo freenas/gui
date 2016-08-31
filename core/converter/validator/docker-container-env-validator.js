@@ -10,7 +10,7 @@ exports.DockerContainerEnvValidator = Validator.specialize({
     },
 
     _regexEnvironmentVariable: {
-        value: /^(:?(\w+=\w+ ?))*$/
+        value: /^\w+=\w+$/
     },
 
     _isValidEnvironmentVariableString: {
@@ -24,6 +24,8 @@ exports.DockerContainerEnvValidator = Validator.specialize({
             if (!this._isValidEnvironmentVariableString(value)) {
                 throw new Error(this.errorMessage);
             }
+
+            return true;
         }
     }
 

@@ -89,11 +89,12 @@ exports.Container = Component.specialize(/** @lends Container# */ {
         }
     },
 
-    _getEnvironmentVariableFromString: {
-        value: function (string) {
-            var env = null;
+    _getEnvironmentVariableFromArray: {
+        value: function (array) {
+            var env = null,
+                string = array.join(" ");
 
-            if (string && this._environmentValidator._isValidEnvironmentVariableString(string)) {
+            if (string) {
                 var data = string.split(/ |=/);
                 env = this._environement;
 
@@ -108,7 +109,7 @@ exports.Container = Component.specialize(/** @lends Container# */ {
 
     save: {
         value: function () {
-            var environmentComponentString = this._environmentComponent.value,
+            var environmentComponentValues = this._environmentComponent.values,
                 commandString = this._commandComponent.value,
                 namesString = this._nameComponent.value,
                 portsValues = this._portsComponent.values,
@@ -127,8 +128,8 @@ exports.Container = Component.specialize(/** @lends Container# */ {
                 }
             }
 
-            if (environmentComponentString && this._environmentValidator._isValidEnvironmentVariableString(string)) {
-                this.object.environment = this._getEnvironmentVariableFromString(environmentComponentString);
+            if (environmentComponentValues) {
+                this.object.environment = this._getEnvironmentVariableFromArray(environmentComponentValues);
             }
 
             if (portsValues.length) {

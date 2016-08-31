@@ -184,14 +184,16 @@
         },
 
         "environment": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "environment"},
                 "converter": {"@": "environmentConverter"},
-                "label": "Environment"
+                "label": "Environment",
+                "labelPath": "this"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.environment.toMap().entriesArray().map{[.0 + '=' + .1]}.join(' ')"}
+                "values": {"<-": "@owner.object.environment.toMap().entriesArray().map{[.0 + '=' + .1]}"},
+                "placeholderValue": {"<-": "'eg. VAR=VALUE'"}
             }
         },
 
