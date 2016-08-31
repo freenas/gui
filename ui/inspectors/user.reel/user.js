@@ -133,6 +133,9 @@ exports.User = AbstractComponentActionDelegate.specialize({
             var self = this;
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
+            if (this.object._isNew) {
+                this.object.home += '/' + this.object.username;
+            }
 
             return this.application.dataService.saveDataObject(this.object).then(function () {
                 if (self._needsSaveSystemAdvanced) {
