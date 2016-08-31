@@ -28,14 +28,37 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
     },
 
     enterDocument: {
-        value: function () {
+        value: function (firsTime) {
             this._fetchDataIfNeeded();
+
+            if (firsTime) {
+                this.addPathChangeListener("_imageComponent.selectedValue", this, "_handleImageChange");
+            }
         }  
     },
 
     exitDocument: {
         value: function () {
             this._reset();
+        }
+    },
+
+    _handleImageChange: {
+        value: function (value) {
+            var selectedImageKey = null;
+
+            if (typeof value === "string") {
+                var images = this._images;
+
+                for (var i = 0, length = images.length; i < length; i++) {
+                    if (images[i].value === value) {
+                        selectedImageKey = images[i].label;
+                        break;
+                    }
+                }
+            }
+            
+            this.selectedImageKey = selectedImageKey;
         }
     },
 

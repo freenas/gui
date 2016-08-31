@@ -9,10 +9,16 @@
                 "element": {"#": "owner"},
                 "_commandComponent": {"@": "command"},
                 "_nameComponent": {"@": "name"},
+                "_imageComponent": {"@": "image"},
                 "_portsComponent": {"@": "ports"},
                 "_environmentComponent": {"@": "environment"},
                 "_portsValidator": {"@": "portsValidator"},
                 "_environmentValidator": {"@": "environmentValidator"}
+            },
+            "bindings": {
+                "currentTemplate": {"<-": "@owner._templates[@owner.selectedImageKey]"},
+                "object.interactive": {"<-": "@owner.currentTemplate.interactive"},
+                "object.expose_ports": {"<-": "!!@owner.currentTemplate.expose_ports"}
             }
         },
 
@@ -47,7 +53,7 @@
                 "label": "Name"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.names.0"}
+                "value": {"<-": "@owner.currentTemplate.names.0"}
             }
         },
 
@@ -165,7 +171,7 @@
                 "label": "Command"
             },
             "bindings": {
-                "value": {"<-": "@owner.object.command.join(' ')"}
+                "value": {"<-": "@owner.currentTemplate.command.join(' ')"}
             }
         },
 
@@ -192,7 +198,7 @@
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.object.environment.toMap().entriesArray().map{[.0 + '=' + .1]}"},
+                "values": {"<-": "@owner.currentTemplate.environment"},
                 "placeholderValue": {"<-": "'eg. VAR=VALUE'"}
             }
         },
@@ -220,7 +226,7 @@
                 "labelPath": "this"
             },
             "bindings": {
-                "values": {"<-": "@owner.object.ports.map{container_port + ':' + host_port + '/' + protocol}"},
+                "values": {"<-": "@owner.currentTemplate.ports.map{container_port + ':' + host_port + '/' + protocol}"},
                 "placeholderValue": {"<-": "'eg. extPort:intPort/<tcp|udp>'"}
             }
         },
@@ -240,7 +246,7 @@
     </script>
 </head>
 <body>
-    <div data-montage-id="owner" class="Container">
+    <div data-montage-id="owner" class="ContainerCreator">
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
             <div data-montage-id="image"></div>
