@@ -117,6 +117,18 @@
                 "checked": {"<->": "!!@owner.object.enabled"}
             }
         },
+
+        "runNow": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "runNow"},
+                "label": "Run Now"
+            },
+            "bindings": {
+                "disabled": {"<-": "!!@owner.object._isNew"}
+            }
+        },
+
         "schedule": {
             "prototype": "ui/controls/cron.reel/cron-rules.reel",
             "properties": {
@@ -144,6 +156,7 @@
                 <div data-montage-id="cron" data-arg="calendar_task.command"></div>
                 <div data-montage-id="replication" data-arg="replication.replicate_dataset"></div>
             </div>
+            <div data-montage-id="runNow"></div>
             <div data-montage-id="schedule"></div>
         </div>
     </div>
