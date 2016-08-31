@@ -79,6 +79,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_dockercontainer_parent_directory": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "parent_directory",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_dockercontainer_ports": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -119,6 +127,7 @@
         {"@": "blueprint_dockercontainer_interactive"},
         {"@": "blueprint_dockercontainer_memory_limit"},
         {"@": "blueprint_dockercontainer_names"},
+        {"@": "blueprint_dockercontainer_parent_directory"},
         {"@": "blueprint_dockercontainer_ports"},
         {"@": "blueprint_dockercontainer_status"},
         {"@": "blueprint_dockercontainer_volumes"}

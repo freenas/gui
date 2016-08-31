@@ -131,6 +131,19 @@ exports.DockerContainer = AbstractModel.specialize({
             return this._names;
         }
     },
+    _parent_directory: {
+        value: null
+    },
+    parent_directory: {
+        set: function (value) {
+            if (this._parent_directory !== value) {
+                this._parent_directory = value;
+            }
+        },
+        get: function () {
+            return this._parent_directory;
+        }
+    },
     _ports: {
         value: null
     },
@@ -214,6 +227,10 @@ exports.DockerContainer = AbstractModel.specialize({
             valueType: "array"
         }, {
             mandatory: false,
+            name: "parent_directory",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "ports",
             valueType: "array"
         }, {
@@ -229,6 +246,9 @@ exports.DockerContainer = AbstractModel.specialize({
     },
     userInterfaceDescriptor: {
         value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/container.reel'
+            },
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },

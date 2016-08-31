@@ -2,6 +2,7 @@
     "root": {
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
+            "inspectorComponentModule": {"%": "ui/inspectors/container.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "id.defined() ? names.join(' ') : 'Create a container'",
             "collectionNameExpression": "'Containers'",

@@ -2860,6 +2860,11 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "target"
+                    ]
+                },
                 "task": "vm.create"
             },
             "delete": {
