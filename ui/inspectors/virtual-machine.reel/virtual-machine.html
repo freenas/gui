@@ -129,8 +129,8 @@
                 "converter": {"@": "bootDeviceConverter"}
             },
             "bindings": {
-                "options": {"<-": "[{name:'---'}].concat(@owner.devices.filter{type == 'DISK' || type == 'CDROM'}).concat(@owner.volumeDevices)"},
-                "selectedValue": {"<->": "@owner.object.config.boot_device"}
+                "options": {"<-": "@owner.bootDeviceOptions"},
+                "selectedValue": {"<->": "@owner.bootDevice"}
             }
         },
         "vmGuestType": {
@@ -336,7 +336,7 @@
                 "value": "Serial Console"
             },
             "bindings": {
-                "enabled": {"<-": "@owner.object.status.state != 'STOPPED'"}
+                "disabled": {"<-": "@owner.object.status.state == 'STOPPED'"}
             }
         }
     }

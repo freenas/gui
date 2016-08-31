@@ -164,6 +164,8 @@ exports.VirtualMachine = Component.specialize({
             });
             this._initializeGuestTypeOptions();
             this._loadTemplates();
+            this.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
+            this.bootloaderOptions = VmConfigBootloader.members;
         }
     },
 
@@ -172,7 +174,6 @@ exports.VirtualMachine = Component.specialize({
             var self = this,
                 loadingPromises = [];
             this.isLoading = true;
-            this.bootloaderOptions = VmConfigBootloader.members;
             this.editMode = this.object._isNew ? "edit" : "display";
             
             if (!this.object.guest_type) {
@@ -201,6 +202,10 @@ exports.VirtualMachine = Component.specialize({
             Promise.all(loadingPromises).then(function() {
                 self.addRangeAtPathChangeListener("devices", self, "_handleDeviceChange");
                 self.addRangeAtPathChangeListener("volumes", self, "_handleDeviceChange");
+                self.bootDeviceOptions = [{name:'---'}]
+                    .concat(self.devices.filter(function(x) { return x.type == 'DISK' || x.type == 'CDROM'; }))
+                    .concat(self.volumeDevices);
+                self.bootDevice = self.object.config.boot_device;
                 self.isLoading = false;
             });
         }
