@@ -122,7 +122,7 @@
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "runNow"},
-                "label": "Run Now"
+                "value": "Run Now"
             },
             "bindings": {
                 "disabled": {"<-": "!!@owner.object._isNew"}
@@ -156,7 +156,7 @@
                 <div data-montage-id="cron" data-arg="calendar_task.command"></div>
                 <div data-montage-id="replication" data-arg="replication.replicate_dataset"></div>
             </div>
-            <div data-montage-id="runNow"></div>
+            <button data-montage-id="runNow"></button>
             <div data-montage-id="schedule"></div>
         </div>
     </div>
