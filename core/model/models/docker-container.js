@@ -179,7 +179,7 @@ exports.DockerContainer = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "environment",
-            valueType: "object"
+            valueType: "array"
         }, {
             mandatory: false,
             name: "expose_ports",

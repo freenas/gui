@@ -12,7 +12,7 @@
     "properties": {
       "name": "environment",
       "blueprint": {"@": "root"},
-      "valueType": "object"
+      "valueType": "array"
     }
   },
   "blueprint_dockercontainer_expose_ports": {
