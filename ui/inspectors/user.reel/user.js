@@ -42,10 +42,10 @@ exports.User = AbstractComponentActionDelegate.specialize({
     homeDirectory: {
         get: function () {
             if (!this._homeDirectory) {
-                if (this._object._isNew && this.systemAdvanced && this.systemAdvanced.home_directory_root) {
-                    this._homeDirectory = this.systemAdvanced.home_directory_root;
+                if (this._object._isNew && this.systemAdvanced && this.systemAdvanced) {
+                    this._homeDirectory = this.systemAdvanced.home_directory_root || '/';
                 } else {
-                    this._homeDirectory = this._object.home || "/";
+                    this._homeDirectory = this._object.home;
                 }
             }
 
@@ -64,6 +64,16 @@ exports.User = AbstractComponentActionDelegate.specialize({
         value: null
     },
 
+    templateDidLoad: {
+        value: function() {
+            var self = this;
+            this.application.dataService.fetchData(Model.SystemAdvanced).then(function (systemAdvancedCollection) {
+                self.systemAdvancedCollection = systemAdvancedCollection;
+                self.addRangeAtPathChangeListener("systemAdvancedCollection", self, "handleSystemAdvancedCollectionChange");
+            });
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
@@ -80,11 +90,6 @@ exports.User = AbstractComponentActionDelegate.specialize({
 
             if (isFirstTime) {
                 loadingPromises.push(this._getShellOptions());
-
-                this.application.dataService.fetchData(Model.SystemAdvanced).then(function (systemAdvancedCollection) {
-                    self.systemAdvancedCollection = systemAdvancedCollection;
-                    self.addRangeAtPathChangeListener("systemAdvancedCollection", self, "handleSystemAdvancedCollectionChange");
-                });
             }
             
             this.userType = this.object.builtin && this.object.uid !== 0 ? "system" : "user";
@@ -128,7 +133,6 @@ exports.User = AbstractComponentActionDelegate.specialize({
             var self = this;
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
-            this.object.home = this.homeDirectory;
 
             return this.application.dataService.saveDataObject(this.object).then(function () {
                 if (self._needsSaveSystemAdvanced) {
@@ -159,8 +163,9 @@ exports.User = AbstractComponentActionDelegate.specialize({
     _openHomeDirectory: {
         value: function(user) {
             if (this.treeController) {
-                var self = this;
-                return this.treeController.open().then(function() {
+                var self = this,
+                    path = user.home || this.homeDirectory;
+                return this.treeController.open(path).then(function() {
                     return user.home = self.treeController.selectedPath;
                 });
             }
