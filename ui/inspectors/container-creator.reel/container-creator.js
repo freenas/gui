@@ -149,7 +149,7 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
             }
 
             if (environmentComponentValues) {
-                this.object.environment = this._getEnvironmentVariableFromArray(environmentComponentValues);
+                this.object.environment = environmentComponentValues;
             }
 
             if (portsValues.length) {
