@@ -2,7 +2,8 @@ var Montage = require("montage").Montage,
     Promise = require("montage/core/promise").Promise;
 
 var DIRECTORY = 'DIRECTORY',
-    FILE = 'FILE';
+    FILE = 'FILE',
+    FAKE = 'FAKE';
 
 var FilesystemTreeController = exports.FilesystemTreeController = Montage.specialize({
     _service: {
@@ -47,12 +48,16 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
         get: function() {
             if (this.canListFiles && this._selectedFile) {
                 return this._selectedFile.path;
-            } else {
-                if (this.entry) {
-                    return this.entry.path;
-                }
+            } else if (this._selectedFake) {
+                return this._selectedFake.path;
+            } else if (this.entry) {
+                return this.entry.path;
             }
         }
+    },
+
+    _selectedFake: {
+        value: null
     },
 
     _selectedFile: {
@@ -95,8 +100,11 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
             var selectedEntry = this._getPathEntry(path);
             if (selectedEntry && selectedEntry.type === FILE && this.canListFiles) {
                 this._selectedFile = selectedEntry;
+            } else if (selectedEntry && selectedEntry.type == FAKE) {
+                this._selectedFake = selectedEntry;
             } else {
                 this._selectedFile = null;
+                this._selectedFake = null;
                 // FIXME: @pierre there is an issue here when switching between shares
                 // self.entry.children can be undefined. Ticket: #16098
                 if (selectedEntry) {
@@ -111,7 +119,7 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                     self.entry = {
                         path: path,
                         name: self._service.basename(path),
-                        children: self._filterChildren(children.map(function(x) { return self._childToEntry(path, x); }))
+                        children: self._buildChildrenList(path, children)
                     };
                     if (!self.ancestors) {
                         path = self._service.dirname(path);
@@ -131,6 +139,27 @@ var FilesystemTreeController = exports.FilesystemTreeController = Montage.specia
                     self.open(root, true);
                 });
             }
+        }
+    },
+
+    _buildChildrenList: {
+        value: function(path, children) {
+            var self = this;
+            var result = this._filterChildren(children.map(function(x) { return self._childToEntry(path, x); }));
+            if (this.fakeEntries) {
+                var fakeEntry;
+                for (var i = 0, length = this.fakeEntries.length; i < length; i++) {
+                    fakeEntry = this.fakeEntries[i];
+                    if (this._service.dirname(fakeEntry) === path) {
+                        result.push({
+                            path: fakeEntry,
+                            name: this._service.basename(fakeEntry),
+                            type: FAKE
+                        });
+                    }
+                }
+            }
+            return result;
         }
     },
 

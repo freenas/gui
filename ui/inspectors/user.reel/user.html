@@ -31,7 +31,8 @@
         "filesystemTreeController": {
             "prototype": "core/controller/filesystem-tree-controller",
             "properties": {
-                "canListFiles": false
+                "canListFiles": false,
+                "fakeEntries": [ "/nonexistent" ]
             },
             "bindings": {
                 "service": {"<-": "@owner.application.filesystemService"}

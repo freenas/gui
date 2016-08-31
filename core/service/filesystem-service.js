@@ -16,7 +16,15 @@ var FilesystemService = exports.FilesystemService = Montage.specialize({
 
     dirname: {
         value: function(path) {
-            return path.substring(0, path.lastIndexOf(this._SEP));
+            if (path == "/") {
+                return "";
+            } else {
+                var result = path.substring(0, path.lastIndexOf(this._SEP));
+                if (result.length === 0) {
+                    result += "/";
+                }
+                return result;
+            }
         }
     },
 
