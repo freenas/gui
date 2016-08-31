@@ -38,7 +38,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
                 promise.then(function(){
                     self.object.__isLocked = false;
-                    this._clearObjectSelection();
+                    self.clearObjectSelection();
                 });
             } else {
                 console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
