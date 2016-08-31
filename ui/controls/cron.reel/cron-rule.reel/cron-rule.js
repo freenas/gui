@@ -108,8 +108,7 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             this._isEntering = true;
             this._initializeOptionsIfNecessary();
             this.type = this.rule.type;
-            this.onValue = {};
-            this.onValue[this.rule.field.name] = this.type === this.TYPES.ON ? this.rule.values.slice() : [];
+            this.onValue = this.type === this.TYPES.ON ? this.rule.values.slice() : [];
             this.everyValue =  this.type === this.TYPES.EVERY ? this.rule.values[0] : 1;
             this.fieldName = this.rule.field.name;
             this._isEntering = false;
