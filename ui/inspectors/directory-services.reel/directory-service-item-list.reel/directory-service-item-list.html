@@ -7,6 +7,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "directoryState": {"<-": "@owner.object.status.toLowerCase() || ''"}
             }
         },
 
@@ -24,12 +27,14 @@
             "properties": {
                 "element": {"#": "status"},
                 "colorMapping": {
-                    "true": "green",
-                    "false": "gray"
+                    "bound": "green",
+                    "failure": "red",
+                    "disabled": "gray",
+                    "other": "yellow"
                 }
             },
             "bindings": {
-                "value": {"<-": "!!@owner.object.enabled + ''"}
+                "value": {"<-": "!@owner.object.enabled || !!@owner.object._isNew ? 'disabled' : @owner.directoryState == 'bound' || @owner.directoryState == 'failure' ? @owner.directoryState : 'other'"}
             }
         }
     }
