@@ -302,6 +302,7 @@ exports.VirtualMachine = Component.specialize({
                 }
             }
 
+            this.object.config.boot_device = this.bootDevice;
             if (this.object.config.boot_device === "---") {
                 this.object.config.boot_device = null;
             }
