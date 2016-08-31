@@ -255,7 +255,7 @@ exports.DockerContainer = AbstractModel.specialize({
             nameExpression: "id.defined() ? names.join(' ') : 'Create a container'",
             collectionNameExpression: "'Containers'",
             creatorComponentModule: {
-                id: 'ui/inspectors/container.reel'
+                id: 'ui/inspectors/container-creator.reel'
             }
         }
     }
