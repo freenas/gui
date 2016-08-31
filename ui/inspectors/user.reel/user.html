@@ -236,6 +236,15 @@
                 "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
             }
         },
+        "homeEditCondition": {
+            "prototype": "montage/ui/condition.reel",
+            "properties": {
+                "element": {"#": "homeEditCondition"}
+            },
+            "bindings": {
+                "condition": {"<-": "!@owner.useEmptyHomedir"}
+            }
+        },
         "homeEdit": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
@@ -248,7 +257,6 @@
                 "suffix": {"<-": "@owner.object._isNew ? @owner.object.username : ''"}
             }
         },
-
         "defaultHomeDirectory": {
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
@@ -259,7 +267,16 @@
                 "checked": {"<-": "@owner.homeDirectory == @owner.systemAdvanced.home_directory_root"}
             }
         },
-
+        "emptyHomeDirectory": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "emptyHomeDirectory"},
+                "label": "No Home Directory"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.useEmptyHomedir"}
+            }
+        },
         "homeDisplay": {
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
@@ -424,9 +441,12 @@
                         </div>
                     </div>
                     <div data-montage-id="homeSubstitution">
-                        <div data-montage-id="homeEdit" data-arg="luser"></div>
+                        <div data-montage-id="homeEditCondition" data-arg="luser">
+                            <div data-montage-id="homeEdit"></div>
+                        </div>
                         <div data-montage-id="homeDisplayRoot" data-arg="root"></div>
                     </div>
+                    <div data-montage-id="emptyHomeDirectory"></div>
                     <div data-montage-id="defaultHomeDirectory"></div>
                     <div data-montage-id="shellEdit"></div>
                     <div data-montage-id="emailEdit"></div>

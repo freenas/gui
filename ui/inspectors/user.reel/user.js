@@ -18,6 +18,10 @@ exports.User = AbstractComponentActionDelegate.specialize({
         value: null
     },
 
+    useEmptyHomedir: {
+        value: null
+    },
+
     _object: {
         value: null
     },
@@ -105,6 +109,7 @@ exports.User = AbstractComponentActionDelegate.specialize({
             AbstractComponentActionDelegate.prototype.exitDocument.call(this);
             this.userType = null;
             this._needsSaveSystemAdvanced = false;
+            this.useEmptyHomedir = null;
         }
     },
 
@@ -134,7 +139,11 @@ exports.User = AbstractComponentActionDelegate.specialize({
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew) {
-                this.object.home += '/' + this.object.username;
+                if (!this.useEmptyHomedir) {
+                    this.object.home += '/' + this.object.username;
+                } else {
+                    this.object.home = null;
+                }
             }
 
             return this.application.dataService.saveDataObject(this.object).then(function () {
