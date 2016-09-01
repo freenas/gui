@@ -27,6 +27,7 @@ var FreeNASService = require("core/service/freenas-service").FreeNASService,
     WidgetService = require("core/service/widget-service").WidgetService,
     ShareService = require("core/service/share-service").ShareService,
     AccountsService = require("core/service/accounts-service").AccountsService,
+    BytesService = require("core/service/bytes-service").BytesService,
     Model = require("core/model/model").Model,
     VirtualMachineService = require("core/service/virtual-machine-service").VirtualMachineService,
     Montage = require("montage").Montage;
@@ -75,6 +76,7 @@ exports.ApplicationDelegate = Montage.specialize({
             app.virtualMachineService = VirtualMachineService.instance;
             app.applicationContextService = ApplicationContextService.instance;
             app.widgetService = WidgetService.instance;
+            app.bytesService = BytesService.instance;
 
             app.addOwnPropertyChangeListener("section", this);
 

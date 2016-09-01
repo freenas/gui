@@ -87,7 +87,7 @@ exports.VirtualMachine = Component.specialize({
                             this.memorySize = object.config.memsize;
                         } else {
                             if (typeof object.config.memsize === "number") {
-                                this.memorySize = this._convertMemsizeToString(object.config.memsize);
+                                this.memorySize = this.application.bytesService.convertMemsizeToString(object.config.memsize);
                             }
                         }
                     }
@@ -226,7 +226,7 @@ exports.VirtualMachine = Component.specialize({
         value: function(template) {
             var templatePromises = [];
             this.object.config = {};
-            this.memorySize = this._convertMemsizeToString(template.config.memsize);
+            this.memorySize = this.application.bytesService.convertMemsizeToString(template.config.memsize);
             this.object.config.memsize = template.config.memsize;
             this.object.config.ncpus = template.config.ncpus;
             this.object.template = {name: template.template.name};
@@ -278,21 +278,7 @@ exports.VirtualMachine = Component.specialize({
 
     save: {
         value: function() {
-            var parsedMemsize = this._memorySize ? this._memorySize.toString().match(this.application.storageService.SCALED_NUMERIC_RE_) : "",
-                memsize,
-                memsizePrefix,
-                memsizeMultiplier = 1,
-                devices = this.devices.concat(this.volumeDevices);
-
-            if (!!parsedMemsize) {
-                memsize = parseInt(parsedMemsize[1]);
-                if (!!parsedMemsize[2]) {
-                    memsizePrefix = parsedMemsize[2].charAt(0).toUpperCase();
-                    // We're going with 1024 no matter what. This is not up for
-                    // further discussion.
-                    memsizeMultiplier = Math.pow(1024, this.application.storageService.SIZE_PREFIX_EXPONENTS[memsizePrefix] - 2);
-                }
-            }
+            var devices = this.devices.concat(this.volumeDevices);
 
             for (var i=0, length=devices.length; i<length; i++) {
                 if (!devices[i].id) {
@@ -309,11 +295,11 @@ exports.VirtualMachine = Component.specialize({
             }
 
             this.object.devices = devices;
-            this.object.config.memsize = memsize * memsizeMultiplier;
+            this.object.config.memsize = this.application.bytesService.convertStringToMemsize(this._memorySize);
             this.object.template = this.templateName === "---" ? null : this.object.template;
             this.object.target = this.object.target === "---" ? null : this.object.target;
             this.object.config.readme = this.readme.text;
-            return this.application.dataService.saveDataObject(this.object);
+            //return this.application.dataService.saveDataObject(this.object);
         }
     },
 
@@ -327,28 +313,6 @@ exports.VirtualMachine = Component.specialize({
                 guestTypeOptions.push({value: optionValues[i], label: label});
             }
             this.guestTypeOptions = guestTypeOptions;
-        }
-    },
-
-    _convertMemsizeToString: {
-        value: function(memsize) {
-            var prefixIndex = 2,
-                result = memsize,
-                sizePrefixes = Object.keys(this.application.storageService.SIZE_PREFIX_EXPONENTS);
-
-            while (result % 1024 === 0) {
-                prefixIndex++;
-                result = result / 1024;
-            }
-
-            for (var i = 1, length = sizePrefixes.length; i<=length; i++) {
-                if (this.application.storageService.SIZE_PREFIX_EXPONENTS[sizePrefixes[i]] === prefixIndex) {
-                    result += sizePrefixes[i] + "iB";
-                    break;
-                }
-                result += "";
-            }
-            return result;
         }
     },
 
