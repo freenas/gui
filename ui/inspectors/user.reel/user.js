@@ -139,7 +139,8 @@ exports.User = AbstractComponentActionDelegate.specialize({
 
     save: {
         value: function() {
-            var self = this;
+            var self = this,
+                needsSaveSystemAdvanced = this._needsSaveSystemAdvanced;
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew) {
@@ -151,9 +152,10 @@ exports.User = AbstractComponentActionDelegate.specialize({
             }
 
             return this.application.dataService.saveDataObject(this.object).then(function () {
-                if (self._needsSaveSystemAdvanced) {
-                    self.systemAdvanced.home_directory_root = self._defaultHomeDirectoryComponent.checked ? 
-                        self.homeDirectory : null;
+                if (needsSaveSystemAdvanced) {
+                    if (self._defaultHomeDirectoryComponent.checked && !self.useEmptyHomedir) {
+                        self.systemAdvanced.home_directory_root = self.homeDirectory;
+                    }
 
                     self._needsSaveSystemAdvanced = false;
 
