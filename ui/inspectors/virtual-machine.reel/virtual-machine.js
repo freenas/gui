@@ -299,7 +299,7 @@ exports.VirtualMachine = Component.specialize({
             this.object.template = this.templateName === "---" ? null : this.object.template;
             this.object.target = this.object.target === "---" ? null : this.object.target;
             this.object.config.readme = this.readme.text;
-            //return this.application.dataService.saveDataObject(this.object);
+            return this.application.dataService.saveDataObject(this.object);
         }
     },
 
