@@ -32,6 +32,12 @@ exports.CronRules = AbstractComponentActionDelegate.specialize(/** @lends CronRu
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.rules.clear();
+        }
+    },
+
     removeField: {
         value: function(fieldName) {
             var field = Rule.CRON_FIELDS[fieldName];

@@ -112,6 +112,10 @@ var CronRule = exports.CronRule = Component.specialize(/** @lends CronRule# */ {
             this.everyValue =  this.type === this.TYPES.EVERY ? this.rule.values[0] : 1;
             this.fieldName = this.rule.field ? this.rule.field.name : null;
             this._isEntering = false;
+            var self = this;
+            setTimeout(function() {
+                self._refreshRuleValue();
+            }, 10);
         }
     },
 

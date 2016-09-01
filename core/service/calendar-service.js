@@ -168,7 +168,6 @@ var CalendarService = exports.CalendarService = Montage.specialize({
                 day:    date.getDate(),
                 hour:   date.getHours(),
                 minute: date.getMinutes(),
-                second: date.getSeconds(),
                 week: '*',
                 day_of_week: '*'
             };
