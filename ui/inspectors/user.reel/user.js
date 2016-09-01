@@ -90,12 +90,16 @@ exports.User = AbstractComponentActionDelegate.specialize({
 
             if (this._object._isNew) {
                 loadingPromises.push(this._openHomeDirectory(this._object));
+            } else {
+                if (this.object.home === "/nonexistent") {
+                    this.useEmptyHomedir = true;
+                }
             }
 
             if (isFirstTime) {
                 loadingPromises.push(this._getShellOptions());
             }
-            
+
             this.userType = this.object.builtin && this.object.uid !== 0 ? "system" : "user";
 
             Promise.all(loadingPromises).then(function() {
