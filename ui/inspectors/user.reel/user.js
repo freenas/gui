@@ -112,7 +112,6 @@ exports.User = AbstractComponentActionDelegate.specialize({
         value: function() {
             AbstractComponentActionDelegate.prototype.exitDocument.call(this);
             this.userType = null;
-            this._needsSaveSystemAdvanced = false;
             this.useEmptyHomedir = null;
         }
     },
@@ -126,21 +125,10 @@ exports.User = AbstractComponentActionDelegate.specialize({
             }
         }
     },
-
-    handleCheckboxAction: {
-        value: function () {
-            if (this._defaultHomeDirectoryComponent.checked) {
-                this._needsSaveSystemAdvanced = this.systemAdvanced.home_directory_root !== this.homeDirectory;
-            } else {
-                this._needsSaveSystemAdvanced = !!this.systemAdvanced.home_directory_root;
-            }
-        }
-    },
-
     save: {
         value: function() {
             var self = this,
-                needsSaveSystemAdvanced = this._needsSaveSystemAdvanced;
+                needsSaveSystemAdvanced = this._defaultHomeDirectoryComponent.checked && !self.useEmptyHomedir;
 
             this.object.groups = this.additionalGroups.map(function(x) { return x.id; });
             if (this.object._isNew) {
@@ -152,13 +140,8 @@ exports.User = AbstractComponentActionDelegate.specialize({
             }
 
             return this.application.dataService.saveDataObject(this.object).then(function () {
-                if (needsSaveSystemAdvanced) {
-                    if (self._defaultHomeDirectoryComponent.checked && !self.useEmptyHomedir) {
-                        self.systemAdvanced.home_directory_root = self.homeDirectory;
-                    }
-
-                    self._needsSaveSystemAdvanced = false;
-
+                if (needsSaveSystemAdvanced && self.systemAdvanced.homeDirectory !== self.homeDirectory) {
+                    self.systemAdvanced.home_directory_root = self.homeDirectory;
                     return self.application.dataService.saveDataObject(self.systemAdvanced);
                 }
             });
