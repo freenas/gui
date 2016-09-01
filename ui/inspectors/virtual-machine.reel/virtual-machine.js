@@ -175,7 +175,7 @@ exports.VirtualMachine = Component.specialize({
                 loadingPromises = [];
             this.isLoading = true;
             this.editMode = this.object._isNew ? "edit" : "display";
-            
+
             if (!this.object.guest_type) {
                 this.object.guest_type = "other";
             }
@@ -190,6 +190,7 @@ exports.VirtualMachine = Component.specialize({
                     loadingPromises.push(this._loadVolumes());
                 }
                 this.object.devices = this.application.dataService.getEmptyCollectionForType(Model.VmDevice);
+                loadingPromises.push(this._convertReadme());
             } else {
                 loadingPromises.push(this._convertReadme(this.object.config.readme));
             }
