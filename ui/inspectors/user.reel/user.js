@@ -46,8 +46,16 @@ exports.User = AbstractComponentActionDelegate.specialize({
     homeDirectory: {
         get: function () {
             if (!this._homeDirectory) {
-                if (this._object._isNew && this.systemAdvanced && this.systemAdvanced) {
-                    this._homeDirectory = this.systemAdvanced.home_directory_root || "/mnt";
+                if (this._object._isNew) {
+                    if (this._object.home) {
+                        this._homeDirectory = this._object.home;
+                    } else if (this.systemAdvanced && this.systemAdvanced.home_directory_root) {
+                        this._homeDirectory = this.systemAdvanced.home_directory_root;
+                    } else {
+                        this._homeDirectory = "/mnt";
+                    }
+                } else if (this._object.home) {
+                    this._homeDirectory = this._object.home.slice(0, this._object.home.indexOf("/" + this._object.username));
                 } else {
                     this._homeDirectory = this._object.home;
                 }
