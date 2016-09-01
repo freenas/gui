@@ -128,8 +128,13 @@ exports.Console = Component.specialize({
                     container = this.terminalElement.parentElement,
                     lines = Math.floor(container.offsetHeight / line.offsetHeight) - 2,
                     columns = this._getColumns();
-                this._term.resize(columns, lines);
-                this._term.options.geometry = this._term.geometry = [columns, lines];
+
+                if (lines !== Infinity) {
+                    this._term.resize(columns, lines);
+                    this._term.options.geometry = this._term.geometry = [columns, lines];
+                } else {
+                    this.needsDraw = true;
+                }
             }
         }
     },
