@@ -255,8 +255,17 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
         }
     },
 
+    /**
+     * @function
+     * @public
+     *
+     * @description todo
+     *
+     * @params {Object} rawMessage.
+     *
+     */
     sendRaw: {
-        value: function(rawMessage) {
+        value: function (rawMessage) {
             this._connection.sendMessage(rawMessage);
         }
     },
