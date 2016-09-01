@@ -228,6 +228,7 @@ exports.VirtualMachine = Component.specialize({
             this.object.config = {};
             this.memorySize = this._convertMemsizeToString(template.config.memsize);
             this.object.config.memsize = template.config.memsize;
+            this.object.config.bootloader = template.config.bootloader;
             this.object.config.ncpus = template.config.ncpus;
             this.object.template = {name: template.template.name};
             this.object.guest_type = template.guest_type;
