@@ -2150,6 +2150,11 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "id"
+                    ]
+                },
                 "task": "share.iscsi.target.create"
             },
             "delete": {
