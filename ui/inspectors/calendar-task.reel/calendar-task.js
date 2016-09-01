@@ -51,7 +51,18 @@ exports.CalendarTask = AbstractComponentActionDelegate.specialize({
                 return !!x || (typeof x !== "undefined" && typeof x !== "object") ; 
             });
             this.object.args.length = argsLength;
-            this.inspector.save();
+            return this.inspector.save().then(function() {
+                return self._closeInspector();
+            });
+        }
+    },
+
+    delete: {
+        value: function() {
+            var self = this;
+            return this.inspector.delete().then(function() {
+                return self._closeInspector();
+            });
         }
     },
 
@@ -60,6 +71,12 @@ exports.CalendarTask = AbstractComponentActionDelegate.specialize({
             if (!this.object._isNew) {
                 this._calendarTaskService.run(this.object.id);
             }
+        }
+    },
+
+    _closeInspector: {
+        value: function() {
+            this.context.cascadingListItem.cascadingList.constructor.findPreviousCascadingListItemContextWithComponent(this).selectedObject = null
         }
     }
 

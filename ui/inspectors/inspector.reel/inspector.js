@@ -21,7 +21,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     handleDeleteAction: {
         value: function (event) {
-            console.log('delete action');
             var self = this,
                 promise;
 
@@ -53,7 +52,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     delete: {
         value: function () {
             this.object.__isLocked = true;
-            promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
+            return this.application.dataService.deleteDataObject(this.object).catch(this._logError);
         }
     },
 
