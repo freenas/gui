@@ -26,7 +26,7 @@
                 "removePrefix": "/mnt"
             },
             "bindings": {
-                "selectedPath": {"<->": "@owner.args.0"}
+                "selectedPath": {"<->": "@owner.dataset"}
             }
         },
         "recursive": {
@@ -36,7 +36,7 @@
                 "label": "Recursive"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.args.1"}
+                "checked": {"<->": "!!@owner.recursive"}
             }
         },
         "lifetime": {
@@ -46,7 +46,7 @@
                 "label": "Lifetime"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.2"}
+                "value": {"<->": "@owner.lifetime"}
             }
         },
         "prefix": {
@@ -56,7 +56,7 @@
                 "label": "Prefix"
             },
             "bindings": {
-                "value": {"<->": "@owner.args.3"}
+                "value": {"<->": "@owner.prefix"}
             }
         },
         "replicable": {
@@ -66,7 +66,7 @@
                 "label": "Allow Replication"
             },
             "bindings": {
-                "checked": {"<->": "!!@owner.args.4"}
+                "checked": {"<->": "!!@owner.replicable"}
             }
         }
     }
@@ -74,10 +74,10 @@
 </head>
 <body>
     <div data-montage-id="owner" class="SnapshotArgs">
-        <div data-montage-id="prefix"></div>
         <div data-montage-id="datasetSelector" data-arg="select"></div>
         <div data-montage-id="recursive"></div>
         <div data-montage-id="lifetime"></div>
+        <div data-montage-id="prefix"></div>
         <div data-montage-id="replicable"></div>
     </div>
 </body>

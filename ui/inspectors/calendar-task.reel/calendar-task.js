@@ -22,6 +22,7 @@ exports.CalendarTask = AbstractComponentActionDelegate.specialize({
             if (this.object._isNew) {
                 this.object.args = [];
             }
+            this.object.args.__type = this.object.task;
 
             if (isFirstTime) {
                 var self = this;

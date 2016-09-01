@@ -68,7 +68,8 @@
                 "element": {"#": "cron"}
             },
             "bindings": {
-                "args": {"<->": "@owner.object.args"}
+                "args": {"<->": "@owner.object.args"},
+                "type": {"<-": "@owner.object.task"}
             }
         },
         "snapshot": {
@@ -77,7 +78,8 @@
                 "element": {"#": "snapshot"}
             },
             "bindings": {
-                "args": {"<->": "@owner.object.args"}
+                "args": {"<->": "@owner.object.args"},
+                "type": {"<-": "@owner.object.task"}
             }
         },
         "scrub": {
@@ -86,7 +88,8 @@
                 "element": {"#": "scrub"}
             },
             "bindings": {
-                "args": {"<->": "@owner.object.args"}
+                "args": {"<->": "@owner.object.args"},
+                "type": {"<-": "@owner.object.task"}
             }
         },
         "smart": {
@@ -95,7 +98,8 @@
                 "element": {"#": "smart"}
             },
             "bindings": {
-                "args": {"<->": "@owner.object.args"}
+                "args": {"<->": "@owner.object.args"},
+                "type": {"<-": "@owner.object.task"}
             }
         },
         "replication": {
@@ -104,7 +108,8 @@
                 "element": {"#": "replication"}
             },
             "bindings": {
-                "args": {"<->": "@owner.object.args"}
+                "args": {"<->": "@owner.object.args"},
+                "type": {"<-": "@owner.object.task"}
             }
         },
         "enabled": {

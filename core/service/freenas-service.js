@@ -893,7 +893,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
     _mapPropertyToRawDataForAction: {
         value: function (rawData, object, propertyKey, action) {
             if (object.hasOwnProperty("_" + propertyKey) || typeof propertyKey === 'number') { // filter unset values.
-                if (object[propertyKey] && typeof object[propertyKey] === 'object') {
+                if (object[propertyKey] && typeof object[propertyKey] === 'object' && object[propertyKey]) {
                     var isArray = typeof object[propertyKey].length != 'undefined';
                     rawData[propertyKey] = isArray ? [] : {};
                     this._mapToRawDataForAction(object[propertyKey], rawData[propertyKey], action);
