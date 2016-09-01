@@ -711,7 +711,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 var i, length;
                 if (typeof object.length !== 'undefined') {
                     for (i = 0, length = object.length; i < length; i++) {
-                        if (typeof object[i] === 'object') {
+                        if (typeof object[i] === 'object' && object[i]) {
                             data[i] = Array.isArray(object[i]) ? [] : {};
                             this._mapToRawDataForAction(object[i], data[i], action);
                         }else {
