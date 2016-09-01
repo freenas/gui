@@ -10,6 +10,38 @@
             }
         },
 
+        "start": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "start"},
+                "value": "Start"
+            },
+            "bindings": {
+                "disabled": {"<-": "@owner.object.status.toLowerCase().startsWith('Up')"}
+            }
+        },
+        "stop": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "stop"},
+                "value": "Stop"
+            },
+            "bindings": {
+                "disabled": {"<-": "!@start.disabled"}
+            }
+        },
+        
+        "serialConsole": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "serialConsole"},
+                "value": "Serial Console"
+            },
+            "bindings": {
+                "disabled": {"<-": "@stop.disabled"}
+            }
+        },
+
          "fileTreeController": {
             "prototype": "core/controller/filesystem-tree-controller",
             "properties": {
@@ -178,6 +210,14 @@
 <body>
     <div data-montage-id="owner" class="Container">
         <div data-montage-id="inspector">
+            <!--FIXME: @JOSHUA CSS [START]-->
+            <div class="VirtualMachine-actions">
+                <div data-montage-id="start"></div>
+                <div data-montage-id="stop"></div>
+                <div data-montage-id="serialConsole"></div>
+            </div>
+            <!--FIXME: @JOSHUA CSS [END]-->
+
             <div data-montage-id="image"></div>
             <div data-montage-id="name"></div>
             <div data-montage-id="volumeHostPath"></div>
