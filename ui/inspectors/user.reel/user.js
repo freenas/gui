@@ -183,6 +183,10 @@ exports.User = AbstractComponentActionDelegate.specialize({
             if (this.treeController) {
                 var self = this,
                     path = user.home || this.homeDirectory;
+                    if (path === "/nonexistent") {
+                        path = systemAdvanced.home_directory_root || "/mnt";
+                    }
+
                 return this.treeController.open(path).then(function() {
                     return user.home = self.treeController.selectedPath;
                 });
