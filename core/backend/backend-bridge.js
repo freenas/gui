@@ -460,13 +460,16 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
 
 
 var _defaultBackendBridge;
+
 Object.defineProperty(exports, "defaultBackendBridge", {
     set: function (backendBridge) {
         _defaultBackendBridge = backendBridge;
     },
     get: function () {
         return _defaultBackendBridge || (
-                _defaultBackendBridge = (new BackEndBridge()).initWithConfiguration(WebSocketConfiguration.defaultConfiguration)
+                _defaultBackendBridge = (
+                    new BackEndBridge()
+                ).initWithConfiguration(WebSocketConfiguration.defaultConfiguration)
             );
     }
 });
