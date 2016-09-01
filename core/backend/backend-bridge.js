@@ -282,7 +282,7 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
      */
     subscribeToEvent: {
         value: function (event, listener) {
-            return this.subscribeToEvents([event], listener).then(function(eventTypes) {
+            return this.subscribeToEvents([event], listener).then(function (eventTypes) {
                 return eventTypes[0];
             });
         }
