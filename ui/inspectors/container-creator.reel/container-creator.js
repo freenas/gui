@@ -148,6 +148,11 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
                 this.object.parent_directory = void 0;
             }
 
+            if (this.object.memory_limit) {
+                var memoryLimit = this.application.bytesService.convertStringToMemsize(this.object.memory_limit);
+                this.object.memory_limit = memoryLimit || void 0;
+            }
+
             if (environmentComponentValues) {
                 this.object.environment = environmentComponentValues;
             }

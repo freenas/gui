@@ -9,6 +9,16 @@ var AbstractComponentActionDelegate = require("core/ui/abstract-component-action
  */
 exports.Container = AbstractComponentActionDelegate.specialize({
 
+    enterDocument: {
+        value: function (firstTime) {
+            AbstractComponentActionDelegate.prototype.enterDocument.call(this, firstTime);
+
+            if (this.object.memory_limit) {
+                this.object.memory_limit = this.application.bytesService.convertMemsizeToString(this.object.memory_limit);
+            }
+        }
+    },
+
     handleStartAction: {
         value: function() {
             this.object.services.start(this.object.id);

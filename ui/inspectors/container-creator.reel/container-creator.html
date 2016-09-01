@@ -69,10 +69,27 @@
             }
         },
 
+        "memoryValidator": {
+            "prototype": "core/converter/validator/minimum-bytes-validator",
+            "properties": {
+                "allowDecimal": false,
+                "errorMessage": "Memory must be a positive integer size at least 1MiB.",
+                "minPrefix": "M",
+                "minValue": 1
+            }
+        },
+        "memoryConverter": {
+            "prototype": "core/converter/validation-only-converter",
+            "properties": {
+                "validator": {"@": "memoryValidator"}
+            }
+        },
+
         "memoryLimit": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "memoryLimit"},
+                "converter": {"@": "memoryConverter"},
                 "label": "Memory Limit"
             },
             "bindings": {
