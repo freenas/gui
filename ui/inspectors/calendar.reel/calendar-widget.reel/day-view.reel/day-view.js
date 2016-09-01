@@ -75,7 +75,7 @@ exports.DayView = Component.specialize({
                         (dayDate.getFullYear() === today.getFullYear()) &&
                         (dayDate.getMonth() === today.getMonth())
                 }
-            self.application.calendarService.getTasksScheduleOnDay(dayDate.getDay()).then(function(tasks){
+            self.application.calendarService.getTasksScheduleOnDay(displayedDay).then(function(tasks){
                 displayedDay.events = tasks;
             });
             this.displayedDay = displayedDay;
