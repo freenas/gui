@@ -68,7 +68,7 @@ Object.defineProperties(WebSocketConfiguration, {
         get: function () {
             if (!_defaultConfiguration) {
                 _defaultConfiguration = new WebSocketConfiguration();
-//"10.250.1.121"
+
                 var domain = document.domain;
 
                 _defaultConfiguration._store.set(WebSocketConfiguration.KEYS.SECURE, window.location.protocol === "https:");
