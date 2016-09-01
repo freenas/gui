@@ -23,8 +23,8 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
     templateDidLoad: {
         value: function() {
             var self = this;
-            this.application.peeringService.list().then(function(peers) {
-                self.peers = peers;
+            this.peersPromise = this.application.peeringService.list().then(function(peers) {
+                return self.peers = peers;
             });
             this._dataService = this.application.dataService;
         }
@@ -32,11 +32,16 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
 
     enterDocument: {
         value: function() {
+            this.isLoading = true;
             var self = this;
             var argsInitializationPromise;
             if (!this.args || this.args.length != 4) {
-                argsInitializationPromise = this._dataService.getNewInstanceForType(Model.ReplicationOptions).then(function(replicationOptions) {
-                    replicationOptions.peer = self.peers[0].id;
+                argsInitializationPromise = this.peersPromise.then(function() {
+                    return self._dataService.getNewInstanceForType(Model.ReplicationOptions);
+                }).then(function(replicationOptions) {
+                    if (self.peers.length > 0) {
+                        replicationOptions.peer = self.peers[0].id;
+                    }
                     self.args = [null, replicationOptions, [], false];
                 });
             } else {
@@ -50,6 +55,7 @@ exports.ReplicationArgs = Component.specialize(/** @lends ReplicationArgs# */ {
                 self.addPathChangeListener("compress", self, "_buildTransportOptions");
                 self.addPathChangeListener("encrypt", self, "_buildTransportOptions");
                 self.addPathChangeListener("throttle", self, "_buildTransportOptions");
+                self.isLoading = false;
             });
         }
     },
