@@ -19,7 +19,7 @@ var DockerSettingsService = exports.DockerSettingsService = Montage.specialize({
     saveDockerConfigData: {
         value: function(dockerConfig){
             console.log(dockerConfig);
-            return this._submitTask('docker.update', [dockerConfig]).then(function(response) {
+            return this._submitTask('docker.config.update', [dockerConfig]).then(function(response) {
                 return response.data;
             })
         }
