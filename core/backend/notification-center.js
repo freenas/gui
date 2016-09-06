@@ -473,10 +473,10 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                             model = this._findModelFromEventTask(args),
                             modelType = taskName.substring(0, taskName.lastIndexOf(".")).toCamelCase();
 
-                            if (model && typeof model === "object" && Model[modelType]) {
-                                model.constructor = Model[modelType].constructor;
-                                taskNotification = this._startTrackingTaskWithJobIdAndModel(taskReport, jobId, model);
-                            }
+                        if (model && typeof model === "object" && Model[modelType]) {
+                            model.constructor = Model[modelType].constructor;
+                            taskNotification = this._startTrackingTaskWithJobIdAndModel(taskReport, jobId, model);
+                        }
                     }
 
                     if (taskNotification) {
