@@ -11,6 +11,11 @@ exports.MainSidebar = Component.specialize({
 
     handleLogoButtonAction: {
         value: function () {
+            if (this.isFlipped) {
+                window.open('https://www.ixsystems.com/','_blank');
+            } else {
+                window.open('http://www.freenas.org','_blank');
+            }
             this.isFlipped = !this.isFlipped;
         }
     },
