@@ -42,12 +42,10 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
             }
 
             if (this.authorizationPolicy === DataService.AuthorizationPolicyType.UpfrontAuthorizationPolicy) {
-                DataService.authorizationManager.authorizeService(this).then(function (authorization) {
-                });
+                DataService.authorizationManager.authorizeService(this);
             }
 
-
-            //Fixme: temporary cache
+            //Fixme: wait for montage data?
             this.modelsCache = new Map();
 
             this._snapshotService = new SnapshotService();
