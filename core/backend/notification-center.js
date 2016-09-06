@@ -396,7 +396,8 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
                 notification.data = detail.operation === "delete" ?  detail.ids :
                     detail.operation === "rename" ? detail.ids[0] : detail.entities;
 
-                notification.startedTime = Date.now(); //todo need verification
+                // client side time choosen for cosmetic purpose.
+                notification.startedTime = Date.now();
 
                 if (typeof notification.data == 'undefined' && detail.data) {
                     notification.data = detail.data.length ? detail.data : [detail.data];
