@@ -70,8 +70,8 @@
                 "element": {"#": "overview"}
             },
             "bindings": {
-                "object": {"<-": "@owner.object"},
-                "targetType": {"<->": "@owner.targetType"}
+                "title": {"<-": "@owner.object.type.toUpperCase()"},
+                "targetType": {"<-": "@owner.targetType"}
             }
         },
         "enabled": {
@@ -136,6 +136,29 @@
                 "moduleId": {"<-": "'ui/inspectors/share.reel/' + @owner.object.type + '-share.reel'"},
                 "object": {"<-": "@owner.object"}
             }
+        },
+        "targetTypeSelect": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "targetTypeSelect"},
+                "label": "Create share for"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.possibleTargetTypes"},
+                "selectedValue": {"<->": "@owner.targetType"},
+                "classList.has('hide')": {"<-": "!@owner.object._isNew"}
+            }
+        },
+        "targetType": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "targetType"},
+                "label": "Target Type"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.targetType"},
+                "classList.has('hide')": {"<-": "!!@owner.object._isNew"}
+            }
         }
     }
     </script>
@@ -144,6 +167,8 @@
     <div data-montage-id="owner" class="Share">
         <div data-montage-id="inspector">
             <div data-montage-id="overview"></div>
+            <div data-montage-id="targetTypeSelect"></div>
+            <div data-montage-id="targetType"></div>
             <div data-montage-id="enabled"></div>
             <div data-montage-id="serviceEnabled"></div>
             <div data-montage-id="name"></div>

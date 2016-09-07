@@ -15,7 +15,7 @@
                 "element": {"#": "icon"}
             },
             "bindings": {
-                "moduleId": {"<-": "@owner.iconModuleId"}
+                "moduleId": {"<-": "@owner.ICON_MODULE_IDS[@owner.targetType]"}
             }
         },
         "shareType": {
@@ -24,42 +24,7 @@
                 "element": {"#": "shareType"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type.toUpperCase()"}
-            }
-        },
-        "targetType": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "targetType"}
-            },
-            "bindings": {
-                "value": {"<-": "@owner.targetType"},
-                "classList.has('has-options')": {"<-": "@owner.object._isNewObject"}
-            }
-        },
-        "displayPossibleTargetTypes": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "displayPossibleTargetTypes"}
-            }
-        },
-        "possibleTargetTypes": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "possibleTargetTypes"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.possibleTargetTypes"},
-                "classList.has('is-shown')": {"<-": "@owner.object._isNewObject && @owner.showTargetTypes"}
-            }
-        },
-        "possibleTargetTypeButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "possibleTargetTypeButton"}
-            },
-            "bindings": {
-                "label": {"<-": "@possibleTargetTypes:iteration.object"}
+                "value": {"<-": "@owner.title"}
             }
         }
     }
@@ -69,16 +34,6 @@
     <div data-montage-id="owner" class="ShareOverview">
         <div class="ShareOverview-iconContainer">
             <div data-montage-id="icon" class="ShareOverview-icon"></div>
-            <div data-montage-id="displayPossibleTargetTypes" class="Target-title">
-                <div class="TargetTitle-type">
-                    <span data-montage-id="targetType"></span>
-                    <div class="TargetTitle-arrow"></div>
-                </div>
-                <div data-montage-id="possibleTargetTypes" class="Target-types">
-                    <a data-montage-id="possibleTargetTypeButton" class="TargetTypes-type">
-                    </a>
-                </div>
-            </div>
         </div>
         <div class="ShareOverview-info">
             <p data-montage-id="shareType" class="ShareOverview-title"></p>
