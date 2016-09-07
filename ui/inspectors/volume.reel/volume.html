@@ -37,7 +37,7 @@
                 "converter": {"@": "bytesConverter"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.properties.size.rawvalue"}
+                "value": {"<-": "@owner.rootDataset.properties.available.parsed + @owner.rootDataset.properties.used.parsed"}
             }
         },
         "inspector": {
@@ -100,9 +100,9 @@
                 "element": {"#": "allocationBar"}
             },
             "bindings": {
-                "totalSize": {"<-": "+@owner.object.properties.size.rawvalue"},
-                "usedSize": {"<-": "+@owner.object.properties.allocated.rawvalue"},
-                "available": {"<-": "+@owner.object.properties.free.rawvalue"}
+                "totalSize": {"<-": "@owner.rootDataset.properties.available.parsed + @owner.rootDataset.properties.used.parsed"},
+                "usedSize": {"<-": "@owner.rootDataset.properties.used.parsed"},
+                "available": {"<-": "@owner.rootDataset.properties.available.parsed"}
             }
         },
         "scrub": {
