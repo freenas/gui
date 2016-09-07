@@ -439,8 +439,8 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         }
                     }
                 } else if (detail.service === "rename") { // Mostly use for renaming model object ids.
+                    // The data array contains both ids, the previous and the new one [previousId, newId].
                     if (data.length === 2) {
-                        // The data array contains both id the previousa and the new one [previousId, newId].
                         model = this._findModelFromCacheWithTypeAndId(type, data[0]);
 
                         if (model) {
