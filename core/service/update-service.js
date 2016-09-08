@@ -76,6 +76,8 @@ var UpdateService = exports.UpdateService = Montage.specialize({
             var self = this;
             return this.getConfig().then(function(config) {
                 return config.services.checkfetch();
+            }).then(function() {
+                return self.getInfo();
             });
         }
     },
