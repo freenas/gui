@@ -115,22 +115,16 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
                 this.errorMessage = null;
 
                 this.dataService.loginWithCredentials(this.userName, this.password).then(function (authorization) {
-                    self.application.topologyService.loadVdevRecommendations();
                     self.authorizationManagerPanel.approveAuthorization(authorization);
-                    self.application.session.username = self.userName;
-                    self.application.session.host = self.application.dataService.host;
+                    self.application.sessionService.sessionDidOpen(self.userName);
 
                     // Don't keep any track of the password in memory.
                     self.password = self.userName = null;
 
                     //FIXME: kind of hacky
                     self.application.dispatchEventNamed("userLogged");
-
                     self.application.section = self._getSection();
 
-                    return self.application.dataService.fetchData(Model.Service).then(function(services) {
-                        return Promise.all(services.map(function(x) { return Promise.resolve(x.config).then(function() { return x; }); }));
-                    });
                 }, function (error) {
                     self.errorMessage = error.message || error;
                 }).finally(function () {
