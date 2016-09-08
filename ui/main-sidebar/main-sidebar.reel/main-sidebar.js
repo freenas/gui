@@ -23,13 +23,13 @@ exports.MainSidebar = Component.specialize({
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
-                if (!this.application.session) {
-                    this.application.session = {
+                if (!this.application.sessionService.session) {
+                    this.application.sessionService.session = {
                         username: '',
                     };
                 }
 
-                this.session = this.application.session;
+                this.session = this.application.sessionService.session;
             }
         }
     },

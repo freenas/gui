@@ -81,7 +81,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
     //TODO: session service?
     findCurrentUser: {
         value: function () {
-            var sessionUsername = application.session.username,
+            var sessionUsername = application.sessionService.session.username,
                 self = this,
                 currentUser;
 
