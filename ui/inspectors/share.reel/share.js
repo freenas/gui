@@ -2,7 +2,8 @@ var Component = require("montage/ui/component").Component,
     Model = require("core/model/model").Model,
     FileSystemController = require("core/controller/filesystem-tree-controller").FilesystemTreeController,
     DataSetTreeController = require("core/controller/dataset-tree-controller").DatasetTreeController,
-    application = require("montage/core/application").application;
+    application = require("montage/core/application").application,
+    ShareService = require("core/service/share-service").ShareService;
 
 /**
  * @class Share
@@ -118,10 +119,40 @@ exports.Share = Component.specialize({
                     this.isPathReadOnly = !object._isNew &&
                                             (object.target_type == shareServiceConstructor.TARGET_TYPES.DATASET ||
                                              object.target_type == shareServiceConstructor.TARGET_TYPES.ZVOL);
+
                 }
 
+
                 this._object = object;
+
+                // trigger content change
+                this.dispatchOwnPropertyChange("possibleTargetTypes", this.possibleTargetTypes);
             }
+        }
+    },
+
+    _targetType: {
+        value: null
+    },
+
+    targetType: {
+        set: function (targetType) {
+            if (this._targetType !== targetType) {
+                this._targetType = targetType;
+                // triggers icon update
+                this.dispatchOwnPropertyChange("iconModuleId", this.iconModuleId);
+            }
+        },
+        get: function () {
+            return this._targetType;
+        }
+    },
+
+    possibleTargetTypes: {
+        get: function () {
+            //not using the global object ShareService in order to avoid to create a closure.
+            return !this.object || this.object.type !== this.application.shareService.constructor.SHARE_TYPES.ISCSI ?
+                this.constructor.POSSIBLE_TARGET_TYPES.DEFAULT : this.constructor.POSSIBLE_TARGET_TYPES.ISCSI;
         }
     },
 
@@ -282,6 +313,13 @@ exports.Share = Component.specialize({
                 this.service.config.enable = false;
                 this.application.dataService.saveDataObject(this.service);
             }
+        }
+    }
+},{
+    POSSIBLE_TARGET_TYPES: {
+        value: {
+            DEFAULT: [ShareService.TARGET_TYPES.DATASET, ShareService.TARGET_TYPES.DIRECTORY],
+            ISCSI: [ShareService.TARGET_TYPES.ZVOL, ShareService.TARGET_TYPES.FILE]
         }
     }
 });
