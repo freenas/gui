@@ -72,9 +72,7 @@ exports.Updates = Component.specialize(/** @lends Updates# */ {
     handleCheckDownloadAction: {
         value: function() {
             var self = this;
-            this._updateService.checkAndDownload().then(function() {
-                return self._updateService.getInfo();
-            }).then(function(info) {
+            this._updateService.checkAndDownload().then(function(info) {
                 self.info = info;
             });
         }
