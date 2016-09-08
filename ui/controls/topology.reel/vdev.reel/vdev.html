@@ -14,48 +14,15 @@
                 "vdevTypesOptions": {"<-": "@owner.vdevTypes.filter{minDisks <= @owner.children.length}.filter{maxDisks.defined() ? maxDisks >= @owner.children.length : true}"}
             }
         },
-        "type": {
-            "prototype": "montage/ui/text.reel",
+        "typeSelect": {
+            "prototype": "blue-shark/ui/select.reel",
             "properties": {
-                "element": {"#": "type"}
+                "element": {"#": "typeSelect"}
             },
             "bindings": {
-                "value": {"<-": "@owner.object.type"},
-                "classList.has('has-options')": {"<-": "@owner.vdevTypesOptions.length > 1 && @owner.editable"}
-            }
-        },
-        "displayVdevTypes": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "displayVdevTypes"}
-            }
-        },
-        "vdevTypes": {
-            "prototype": "montage/ui/repetition.reel",
-            "properties": {
-                "element": {"#": "vdevTypes"}
-            },
-            "bindings": {
-                "content": {"<-": "@owner.vdevTypesOptions"},
-                "classList.has('is-shown')": {"<-": "@owner.vdevTypesOptions.length > 1 && @owner.showVdevTypes"}
-            }
-        },
-        "vdevTypeButton": {
-            "prototype": "montage/ui/button.reel",
-            "properties": {
-                "element": {"#": "vdevTypeButton"}
-            },
-            "bindings": {
-                "value": {"<-": "@vdevTypes:iteration.object.value"}
-            }
-        },
-        "vdevType": {
-            "prototype": "montage/ui/text.reel",
-            "properties": {
-                "element": {"#": "vdevType"}
-            },
-            "bindings": {
-                "value": {"<-": "@vdevTypes:iteration.object.value"}
+                "options": {"<-": "@owner.vdevTypesOptions.map{value}"},
+                "selectedValue": {"<->": "@owner.object.type"},
+                "disabled": {"<-": "@owner.vdevTypesOptions.length < 2"}
             }
         },
         "controller": {
@@ -89,21 +56,24 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Vdev">
-        <div data-montage-id="displayVdevTypes" class="Vdev-title">
-            <div class="VdevTitle-type">
-                <span data-montage-id="type"></span>
-                <div class="VdevTitle-arrow"></div>
-            </div>
+        <div class="Vdev-title">
+            <div data-montage-id="typeSelect" class="Select--naked"></div>
             <div data-montage-id="deleteButton" class="Vdev-deleteButton">
                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>close</title><circle id="close-circle" stroke="#979797" fill="#D8D8D8" cx="12" cy="12" r="10"/><path id="close-x" d="M11.293 12l-3.89-3.89-.353-.353.707-.707.354.354 3.89 3.89 3.89-3.89.353-.354.707.707-.354.354-3.89 3.89 3.89 3.89.354.353-.707.707-.354-.354-3.89-3.89-3.89 3.89-.353.354-.707-.707.354-.354 3.89-3.89z" fill="#979797"/></svg>
             </div>
-        </div>
-        <div data-montage-id="vdevTypes" class="Vdev-types">
-            <a data-montage-id="vdevTypeButton">
-                <div data-montage-id="vdevType" class="VdevTypes-type"></div>
-            </a>
         </div>
         <div data-montage-id="disksGrid" class="Vdev-grid"></div>
     </div>
 </body>
 </html>
+<!--
+        "type": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "type"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.type"},
+                "classList.has('has-options')": {"<-": "@owner.vdevTypesOptions.length > 1 && @owner.editable"}
+            }
+        }, -->
