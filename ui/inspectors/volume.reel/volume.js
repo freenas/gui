@@ -50,6 +50,7 @@ exports.Volume = Component.specialize({
             if (this._datasets != datasets) {
                 this._datasets = datasets;
                 this._datasets._meta_data = this.allDatasets._meta_data;
+                this.rootDataset = this._getRootDataset(this.object);
             }
         }
     },
@@ -68,6 +69,10 @@ exports.Volume = Component.specialize({
                 this._snapshots._meta_data = this.allSnapshots._meta_data;
             }
         }
+    },
+
+    rootDataset: {
+        value: null
     },
 
     _calculateParity: {
@@ -90,6 +95,17 @@ exports.Volume = Component.specialize({
     exitDocument: {
         value: function () {
             this.isConfirmationVisible = false;
+        }
+    },
+
+    _getRootDataset: {
+        value: function (volume) {
+            var datasets = this.datasets;
+            for (var i=0, length=datasets.length; i<length; i++) {
+                if (datasets[i].id === volume.id) {
+                    return datasets[i];
+                }
+            }
         }
     },
 
