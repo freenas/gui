@@ -40,13 +40,15 @@
             }
         },
         "api_forwarding": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "api_forwarding"},
+                "converter": {"@": "selectOptionConverter"},
                 "label": "API Forwarding"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.api_forwarding"}
+                "value": {"<->": "@owner.object.api_forwarding"},
+                "options": {"<-": "@owner.apiForwardingAddress"}
             }
         }
     }
