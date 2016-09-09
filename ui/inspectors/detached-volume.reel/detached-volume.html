@@ -24,7 +24,8 @@
                 "canDelete": "true"
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "confirmationMessage": {"<-": "'Are you sure tou want to erase disks previously used in volume ' + @owner.object.name +'?'"}
             }
         },
         "topology": {
