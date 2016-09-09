@@ -20,10 +20,8 @@ exports.DockerSettings = Component.specialize(/** @lends DockerSettings# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 this.application.dockerSettingsService.getDockerHostQueryData().then(function(dockerHosts) {
-                    if (dockerHosts.length > 0) {
-                        for (var i = 0; i < dockerHosts.length; i++) {
-                            self.dockerHostOptions.push(dockerHosts[i]);
-                        }
+                    for (var i = 0, length = dockerHosts.length; i < length; i++){
+                        self.dockerHostOptions.push(dockerHosts[i]);
                     }
                     self.dockerHostOptions.unshift({ name : '---', id: null});
                 })
