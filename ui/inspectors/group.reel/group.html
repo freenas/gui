@@ -40,6 +40,7 @@
             "properties": {
                 "element": {"#": "gidEdit"},
                 "label": "Group ID",
+                "validationPath": "gid",
                 "validator": {"@": "gidValidator"},
                 "errorMessage": "User ID must be between 0 and 4294967295"
             },
@@ -70,6 +71,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "nameEdit"},
+                "validationPath": "name",
                 "label": "Group Name"
             },
             "bindings": {
@@ -90,6 +92,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "sudoEdit"},
+                "validationPath": "sudo",
                 "label": "Administrator Permissions"
             },
             "bindings": {

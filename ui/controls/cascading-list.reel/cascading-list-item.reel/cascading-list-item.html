@@ -11,7 +11,8 @@
                 "content": {"@": "content"}
             },
             "bindings": {
-                "selectedObject": {"<->": "@content.component.selectedObject"}
+                "selectedObject": {"<->": "@content.component.selectedObject"},
+                "classList.has('has-error')": {"<-": "@owner.error.defined()"}
             }
         },
         "title": {

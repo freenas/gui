@@ -74,10 +74,20 @@ var SelectionService = exports.SelectionService = Montage.specialize({
             if (taskSelection) {
                 section = taskSelection.section;
                 this._selection.sections[section] = {
-                    path: taskSelection.path.slice()
+                    path: taskSelection.path.slice(),
+                    error: taskSelection.error
                 };
             }
             return section;
+        }
+    },
+
+    addErrorToTaskSelection: {
+        value: function(error, taskId) {
+            var taskSelection = this._selection.tasks[taskId];
+            if (taskSelection) {
+                taskSelection.error = error;
+            }
         }
     }
 

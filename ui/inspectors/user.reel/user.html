@@ -65,6 +65,7 @@
             "properties": {
                 "element": {"#": "uidEdit"},
                 "label": "User ID",
+                "validationPath": "uid",
                 "validator": {"@": "uidValidator"},
                 "errorMessage": "User ID must be between 0 and 4294967295"
             },
@@ -86,6 +87,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "usernameEdit"},
+                "validationPath": "username",
                 "label": "Username"
             },
             "bindings": {
@@ -106,6 +108,7 @@
             "prototype": "blue-shark/ui/field-password.reel",
             "properties": {
                 "element": {"#": "password"},
+                "validationPath": "password",
                 "passwordLabel1": "Password",
                 "passwordLabel2": "Password",
                 "errorMessage": "Passwords don't match"
@@ -128,6 +131,7 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "fullNameDisplay"},
+                "validationPath": "full_name",
                 "label": "Display Name"
             },
             "bindings": {
@@ -154,6 +158,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "groupEdit"},
+                "validationPath": "group",
                 "converter": {"@": "groupOptionConverter"},
                 "label": "Primary Group"
             },
@@ -220,6 +225,7 @@
                 "label": "Additional Groups",
                 "labelPath": "name",
                 "placeholderValue": "Select a group",
+                "validationPath": "groups",
                 "converter": {"@": "additionalGroupsConverter"}
             },
             "bindings": {
@@ -242,6 +248,7 @@
             "properties": {
                 "element": {"#": "homeEdit"},
                 "controller": {"@": "filesystemTreeController"},
+                "validationPath": "home",
                 "label": "Home Directory"
             },
             "bindings": {
@@ -308,6 +315,7 @@
             "properties": {
                 "element": {"#": "shellEdit"},
                 "label": "Shell",
+                "validationPath": "shell",
                 "converter": {"@": "shellConverter"}
             },
             "bindings": {
@@ -339,6 +347,7 @@
             "prototype": "blue-shark/ui/field-text-area.reel",
             "properties": {
                 "element": {"#": "sshpubkeyEdit"},
+                "validationPath": "sshpubkey",
                 "label": "SSH Public Key"
             },
             "bindings": {
@@ -359,6 +368,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "passwordDisabledEdit"},
+                "validationPath": "password_disabled",
                 "label": "Disable Password"
             },
             "bindings": {
@@ -388,6 +398,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "lockedEdit"},
+                "validationPath": "locked",
                 "label": "Lock Account"
             },
             "bindings": {
@@ -408,6 +419,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "sudoEdit"},
+                "validationPath": "sudo",
                 "label": "Superuser"
             },
             "bindings": {

@@ -311,6 +311,8 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                         return self.notificationCenter.startTrackingTaskWithJobIdAndModel(taskName, taskId, object);
                     }).then(function() {
                         return self._selectionService.removeTaskSelection(taskId);
+                    }, function(error) {
+                        return self._selectionService.addErrorToTaskSelection(error.error, taskId);
                     });
                 } else {
                     return Promise.reject(new Error(
