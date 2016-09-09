@@ -23,7 +23,8 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "@owner.object.type != 'ETHER'"}
+                "canDelete": {"<-": "@owner.object.type != 'ETHER'"},
+                "confirmationMessage": {"<-": "'Are you sure you want to delete interface ' + @owner.object.id + '?'"}
             }
         },
         "overview": {
