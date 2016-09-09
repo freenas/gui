@@ -20,38 +20,8 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     },
 
     handleDeleteAction: {
-        value: function() {
-            this.isConfirmationVisible = true;
-        }
-    },
-
-    confirmDelete: {
         value: function (event) {
-            var self = this,
-                promise;
-
-            this._isToBeDeleted = true;
-
-            if (typeof this.parentComponent.delete === 'function') {
-                promise = this.parentComponent.delete();
-
-                if (Promise.is(promise)) {
-                    promise.catch(this._logError);
-                }
-            } else if (this.object) {
-                this.object.__isLocked = true;
-                promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
-                promise.then(function(){
-                    self.object.__isLocked = false;
-                    self.clearObjectSelection();
-                });
-            } else {
-                console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
-            }
-
-            if (event) {
-                event.stopPropagation();
-            }
+            this.isConfirmationVisible = true;
         }
     },
 
@@ -61,7 +31,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             return this.application.dataService.deleteDataObject(this.object).catch(this._logError);
         }
     },
-
 
     handleRevertAction: {
         value: function(event) {
