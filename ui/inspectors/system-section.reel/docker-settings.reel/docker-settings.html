@@ -36,7 +36,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.default_host"},
-                "options": {"<-": "@owner.dockerHosts"}
+                "options": {"<-": "@owner.dockerHostOptions"}
             }
         },
         "api_forwarding": {
@@ -47,8 +47,8 @@
                 "label": "API Forwarding"
             },
             "bindings": {
-                "value": {"<->": "@owner.object.api_forwarding"},
-                "options": {"<-": "@owner.apiForwardingAddress"}
+                "selectedValue": {"<->": "@owner.object.api_forwarding"},
+                "options": {"<-": "@owner.dockerHostOptions"}
             }
         }
     }
