@@ -17,6 +17,10 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: void 0
     },
 
+    isBrowserSupported: {
+        value: null
+    },
+
     submitButton: {
         value: void 0
     },
@@ -85,7 +89,7 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: function () {
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
-
+            this.isBrowserSupported = !!window.chrome && !!window.chrome.webstore;
         }
     },
 
