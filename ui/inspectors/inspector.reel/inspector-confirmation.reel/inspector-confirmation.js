@@ -8,9 +8,17 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.InspectorConfirmation = Component.specialize(/** @lends InspectorConfirmation# */ {
-    constructor: {
-        value: function InspectorConfirmation() {
-            this.super();
+
+    handleConfirmDeleteAction: {
+        value: function (event) {
+            this.parentComponent.isConfirmationVisible = false;
+            this.confirmDelete();
+        }
+    },
+
+    handleCancelDeleteAction: {
+        value: function() {
+            this.parentComponent.isConfirmationVisible = false;
         }
     }
 });
