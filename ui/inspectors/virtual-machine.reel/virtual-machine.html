@@ -29,7 +29,8 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object._isNew"},
-                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"}
+                "classList.has('has-loading-spinner')": {"<-": "@owner.isLoading"},
+                "confirmationMessage": {"<-": "'Are you sure you want to delete virtual machine ' + @owner.object.name + '?'"}
             }
         },
         "stateCondition": {
