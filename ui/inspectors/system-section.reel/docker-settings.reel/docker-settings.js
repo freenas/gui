@@ -10,10 +10,6 @@ var Component = require("montage/ui/component").Component,
  */
 exports.DockerSettings = Component.specialize(/** @lends DockerSettings# */ {
 
-    apiForwardingAddress: {
-        value: null
-    },
-
     dockerHostOptions: {
         value: []
     },
@@ -21,7 +17,6 @@ exports.DockerSettings = Component.specialize(/** @lends DockerSettings# */ {
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
-                this.apiForwardingAddress = [];
             if(isFirstTime) {
                 this.isLoading = true;
                 this.application.dockerSettingsService.getDockerHostQueryData().then(function(dockerHosts) {
