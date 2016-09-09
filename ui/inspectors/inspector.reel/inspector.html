@@ -64,7 +64,8 @@
                 "element": {"#": "confirmationMessage"}
             },
             "bindings": {
-                "confirmationMessage": {"<-": "@owner.confirmationMessage"}
+                "confirmationMessage": {"<-": "@owner.confirmationMessage"},
+                "confirmDelete": {"<-": "@owner.confirmDelete"}
             }
         }
 
@@ -76,9 +77,7 @@
         <div class="Inspector-locked">
             <div data-montage-id="lockMessage"></div>
         </div>
-        <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage">
-            <div data-param="confirmation-actions" class="InspectorConfirmation-actions"></div>
-        </div>
+        <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage"></div>
         <div data-montage-id="scrollView">
             <div data-montage-id="loading" class="Inspector-loading"></div>
             <div class="Inspector-body">

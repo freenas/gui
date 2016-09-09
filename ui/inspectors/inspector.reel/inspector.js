@@ -20,6 +20,12 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     },
 
     handleDeleteAction: {
+        value: function() {
+            this.isConfirmationVisible = true;
+        }
+    },
+
+    confirmDelete: {
         value: function (event) {
             var self = this,
                 promise;
