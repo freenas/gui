@@ -14,6 +14,10 @@ exports.DockerSettings = Component.specialize(/** @lends DockerSettings# */ {
         value: null
     },
 
+    dockerHostOptions: {
+        value: []
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
@@ -21,16 +25,15 @@ exports.DockerSettings = Component.specialize(/** @lends DockerSettings# */ {
             if(isFirstTime) {
                 this.isLoading = true;
                 this.application.dockerSettingsService.getDockerHostQueryData().then(function(dockerHosts) {
-                    self.dockerHosts = dockerHosts;
+                    if (dockerHosts.length > 0) {
+                        for (var i = 0; i < dockerHosts.length; i++) {
+                            self.dockerHostOptions.push(dockerHosts[i]);
+                        }
+                    }
+                    self.dockerHostOptions.unshift({ name : '---', id: null});
                 })
                 this.application.dockerSettingsService.getDockerConfigData().then(function (dockerConfig) {
                     self.object = dockerConfig;
-                    var api_forwarding_list = dockerConfig.api_forwarding.split(",")
-                    if(dockerConfig.api_forwarding && dockerConfig.api_forwarding.length > 0) {
-                        for (var i in api_forwarding_list) {
-                           self.apiForwardingAddress.push({"id": api_forwarding_list[i].trim(), "name": api_forwarding_list[i].trim()});
-                        }
-                    }
                     self._snapshotDataObjectsIfNecessary();
                 });
                 self.isLoading = false;
