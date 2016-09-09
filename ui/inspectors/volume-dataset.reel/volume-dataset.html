@@ -27,7 +27,8 @@
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"}
+                "canDelete": {"<-": "!@owner.object._isNew && @owner.object.name != @owner.object.volume"},
+                "confirmationMessage": {"<-": "'Are you sure you want to delete dataset ' + @owner.object.name + '?'"}
             }
         },
         "datasetTreeController": {
