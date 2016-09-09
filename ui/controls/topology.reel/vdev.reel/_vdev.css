@@ -75,7 +75,7 @@ Vdev Title
     background: #222;
     border-top-right-radius: 4px;
     border-top-left-radius:  4px;
-    padding: .25em .5em;
+    padding: 0 .25em;
 
     /* status icon */
 
@@ -87,7 +87,9 @@ Vdev Title
         background: green;
         border-radius: .5em;
         margin-bottom: .02em;
-        margin-right: .5em;
+        margin-right: .25em;
+        margin-left: .25em;
+        flex-shrink: 0;
     }
 
     &:focus { outline: none; }
@@ -111,11 +113,13 @@ Vdev Title
 
 .Vdev-deleteButton {
     position: relative;
-    height: 1.2em;
-    width:  1.2em;
+    height: 1.4em;
+    width:  1.4em;
     border-radius: .6em;
-    margin-left: .5em;
+    margin-left: .25em;
     outline: none;
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
 .Vdev-deleteButton #close-circle {
@@ -131,42 +135,3 @@ Vdev Title
 }
 
 .Vdev-deleteButton:hover #close-x { fill: #fff;}
-
-
-/******************
-
-Vdev Types
-
-*******************/
-
-.Vdev-types {
-    display: none;
-    position: absolute;
-    left: 0;
-    background: #E0E5E5;
-    color: #16171A;
-    margin-left: 1em;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 2px 2px rgba(0,0,0,.2);
-    z-index: 100;
-
-    &:hover { background: rgba(0,0,0,.1); }
-
-    &.is-shown { display: block; }
-}
-
-.Vdev-types a { display: block; }
-
-.VdevTypes-type { padding: .5em 1em; }
-
-.VdevTitle-type {
-    display: flex;
-    flex: 1;
-    align-items: center;
-}
-
-.VdevTitle-type span.has-options + .VdevTitle-arrow {
-    display: block;
-}

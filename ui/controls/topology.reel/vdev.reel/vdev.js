@@ -17,7 +17,6 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         value: void 0
     },
 
-
     topologyItem: {
         get: function () {
             if (!this._topologyItem && this._inDocument) {
@@ -139,6 +138,7 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
             this._defineVDevContext();
             this._hasUserDefinedType = false;
             this._cancelSelectedDiskListener = this.addRangeAtPathChangeListener("selectedDisk", this, "_handleSelectedDiskChange");
+            this.addRangeAtPathChangeListener("object.type", this, "_handleObjectTypeChange");
         }
     },
 
@@ -374,23 +374,8 @@ exports.Vdev = AbstractDropZoneComponent.specialize(/** @lends Vdev# */ {
         }
     },
 
-    handleDisplayVdevTypesAction: {
+    _handleObjectTypeChange: {
         value: function () {
-            this.showVdevTypes = !this.showVdevTypes;
-        }
-    },
-
-    handleMouseleave: {
-        value: function() {
-            this.showVdevTypes = false;
-        }
-    },
-
-    handleVdevTypeButtonAction: {
-        value: function(event) {
-            this.object.type = event.target.value;
-            this._hasUserDefinedType = true;
-            this.showVdevTypes = false;
             this._calculateSizes();
         }
     }
