@@ -16,6 +16,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
         value: null
     },
 
+    isSaveDisabled: {
+        value: false
+    },
+
     templateDidLoad: {
         value: function() {
             this._validationService = this.application.validationService;

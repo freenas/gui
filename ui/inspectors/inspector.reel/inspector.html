@@ -60,7 +60,7 @@
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"},
-                "isSaveEnabled": {"<-": "@owner.missingProperties.length == 0"}
+                "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.missingProperties.length > 0"}
             },
             "listeners": [
                 {
