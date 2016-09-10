@@ -759,10 +759,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     });
                 }
             } else if (rawValue) { //fallback
-                //console.warn("model type: '" + propertyDescriptor.valueObjectPrototypeName + "' unknown");
                 this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);
-            } else {
-                console.warn("Cannot map empty property: '" + key + "'");
             }
         }
     },
