@@ -241,7 +241,8 @@ $Icons
     font-weight: 400;
 }
 
-.hide {
+.hide,
+.montage-invisible {
     display: none;
 }
 
