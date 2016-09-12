@@ -242,7 +242,8 @@ $Icons
 }
 
 .hide,
-.is-hidden {
+.is-hidden
+.montage-invisible {
     display: none;
 }
 
