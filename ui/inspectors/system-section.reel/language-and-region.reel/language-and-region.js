@@ -17,6 +17,60 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
         value: null
     },
 
+    shortDateFormats: {
+        value: [
+            "M/d/yy",
+            "d/M/yy",
+            "yy/M/d"
+        ]
+    },
+
+    mediumDateFormats: {
+        value: [
+            "MM/dd/yy",
+            "dd/MM/yy",
+            "yy/MM/dd"
+        ]
+    },
+
+    longDateFormats: {
+        value: [
+            "MMMM/dd/yyyy",
+            "dd/MMMM/yyyy",
+            "yyyy/MMMM/dd"
+        ]
+    },
+
+    fullDateFormats: {
+        value: [
+            "dddd, MMMM/dd/yyyy",
+            "dddd, dd/MMMM/yyyy",
+            "yyyy/MMMM/dd, dddd"
+        ]
+    },
+
+    shortTimeFormats: {
+        value: [
+            "h:m",
+            "m:h"
+        ]
+    },
+
+    mediumTimeFormats: {
+        value: [
+            "hh:mm:ss",
+            "mm:hh:ss",
+            "ss:mm:hh"
+        ]
+    },
+
+    longTimeFormats: {
+        value: [
+            "hh:mm:ss tt",
+            "mm:hh:ss tt",
+            "ss:mm:hh tt"
+        ]
+    },
 
     enterDocument: {
         value: function(isFirstTime) {
@@ -41,12 +95,32 @@ exports.LanguageAndRegion = Component.specialize(/** @lends LanguageAndRegion# *
                     this.application.systemGeneralService.getConsoleKeymap().then(function(generalData) {
                         self.generalData = generalData;
                         self._snapshotDataObjectsIfNecessary();
-                    })
+                    }),
+                    this.application.applicationContextService.findCurrentUser()
                 );
                 Promise.all(loadingPromises).then(function() {
                     this.isLoading = false;
                 });
+                var today = new Date();
+                this.dateFormatShortOptions = this._generateDateFormatConvertedList(today, this.shortDateFormats);
+                this.dateFormatMediumOptions = this._generateDateFormatConvertedList(today, this.mediumDateFormats);
+                this.dateFormatLongOptions = this._generateDateFormatConvertedList(today, this.longDateFormats);
+                this.dateFormatFullOptions = this._generateDateFormatConvertedList(today, this.fullDateFormats);
+                this.timeFormatShortOptions = this._generateDateFormatConvertedList(today, this.shortTimeFormats);
+                this.timeFormatMediumOptions = this._generateDateFormatConvertedList(today, this.mediumTimeFormats);
+                this.timeFormatLongOptions = this._generateDateFormatConvertedList(today, this.longTimeFormats);
             }
+        }
+    },
+
+    _generateDateFormatConvertedList: {
+        value: function(today, dateOptionList) {
+            var _formattedDateList = [];
+            for (var i = 0,length = dateOptionList.length; i < length; i++) {
+                this.dateConverter.pattern = dateOptionList[i];
+                _formattedDateList.push({ label: this.dateConverter.convert(today), value: dateOptionList[i] });
+            }
+            return _formattedDateList;
         }
     },
 
