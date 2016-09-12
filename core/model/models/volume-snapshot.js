@@ -14,6 +14,19 @@ exports.VolumeSnapshot = AbstractModel.specialize({
             return this._dataset;
         }
     },
+    _hidden: {
+        value: null
+    },
+    hidden: {
+        set: function (value) {
+            if (this._hidden !== value) {
+                this._hidden = value;
+            }
+        },
+        get: function () {
+            return this._hidden;
+        }
+    },
     _holds: {
         value: null
     },
@@ -111,6 +124,10 @@ exports.VolumeSnapshot = AbstractModel.specialize({
             mandatory: false,
             name: "dataset",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "hidden",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "holds",

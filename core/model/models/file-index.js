@@ -1,6 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
-exports.Stat = AbstractModel.specialize({
+exports.FileIndex = AbstractModel.specialize({
     _atime: {
         value: null
     },
@@ -27,6 +27,32 @@ exports.Stat = AbstractModel.specialize({
             return this._ctime;
         }
     },
+    _gid: {
+        value: null
+    },
+    gid: {
+        set: function (value) {
+            if (this._gid !== value) {
+                this._gid = value;
+            }
+        },
+        get: function () {
+            return this._gid;
+        }
+    },
+    _id: {
+        value: null
+    },
+    id: {
+        set: function (value) {
+            if (this._id !== value) {
+                this._id = value;
+            }
+        },
+        get: function () {
+            return this._id;
+        }
+    },
     _mtime: {
         value: null
     },
@@ -38,19 +64,6 @@ exports.Stat = AbstractModel.specialize({
         },
         get: function () {
             return this._mtime;
-        }
-    },
-    _path: {
-        value: null
-    },
-    path: {
-        set: function (value) {
-            if (this._path !== value) {
-                this._path = value;
-            }
-        },
-        get: function () {
-            return this._path;
         }
     },
     _permissions: {
@@ -91,6 +104,32 @@ exports.Stat = AbstractModel.specialize({
         get: function () {
             return this._type;
         }
+    },
+    _uid: {
+        value: null
+    },
+    uid: {
+        set: function (value) {
+            if (this._uid !== value) {
+                this._uid = value;
+            }
+        },
+        get: function () {
+            return this._uid;
+        }
+    },
+    _volume: {
+        value: null
+    },
+    volume: {
+        set: function (value) {
+            if (this._volume !== value) {
+                this._volume = value;
+            }
+        },
+        get: function () {
+            return this._volume;
+        }
     }
 }, {
     propertyBlueprints: {
@@ -104,12 +143,16 @@ exports.Stat = AbstractModel.specialize({
             valueType: "datetime"
         }, {
             mandatory: false,
-            name: "mtime",
-            valueType: "datetime"
+            name: "gid",
+            valueType: "number"
         }, {
             mandatory: false,
-            name: "path",
+            name: "id",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "mtime",
+            valueType: "datetime"
         }, {
             mandatory: false,
             name: "permissions",
@@ -122,6 +165,14 @@ exports.Stat = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "type",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "uid",
+            valueType: "number"
+        }, {
+            mandatory: false,
+            name: "volume",
             valueType: "String"
         }]
     }

@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.DockerContainer = AbstractModel.specialize({
+    _autostart: {
+        value: null
+    },
+    autostart: {
+        set: function (value) {
+            if (this._autostart !== value) {
+                this._autostart = value;
+            }
+        },
+        get: function () {
+            return this._autostart;
+        }
+    },
     _command: {
         value: null
     },
@@ -157,6 +170,19 @@ exports.DockerContainer = AbstractModel.specialize({
             return this._ports;
         }
     },
+    _running: {
+        value: null
+    },
+    running: {
+        set: function (value) {
+            if (this._running !== value) {
+                this._running = value;
+            }
+        },
+        get: function () {
+            return this._running;
+        }
+    },
     _status: {
         value: null
     },
@@ -186,6 +212,10 @@ exports.DockerContainer = AbstractModel.specialize({
 }, {
     propertyBlueprints: {
         value: [{
+            mandatory: false,
+            name: "autostart",
+            valueType: "boolean"
+        }, {
             mandatory: false,
             name: "command",
             valueType: "array"
@@ -233,6 +263,10 @@ exports.DockerContainer = AbstractModel.specialize({
             mandatory: false,
             name: "ports",
             valueType: "array"
+        }, {
+            mandatory: false,
+            name: "running",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "status",

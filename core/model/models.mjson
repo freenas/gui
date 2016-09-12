@@ -213,6 +213,10 @@
             "type": "Error"
         },
         {
+            "modelId": "core/model/models/file-index.js",
+            "type": "FileIndex"
+        },
+        {
             "modelId": "core/model/models/freeipa-directory-params.js",
             "type": "FreeipaDirectoryParams"
         },
@@ -423,10 +427,6 @@
         {
             "modelId": "core/model/models/service-ftp.js",
             "type": "ServiceFtp"
-        },
-        {
-            "modelId": "core/model/models/service-glusterd.js",
-            "type": "ServiceGlusterd"
         },
         {
             "modelId": "core/model/models/service-ipfs.js",

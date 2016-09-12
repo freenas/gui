@@ -271,6 +271,9 @@
                 "restrictions": {
                     "forbiddenFields": [
                         "status"
+                    ],
+                    "requiredFields": [
+                        "name"
                     ]
                 },
                 "task": "calendar_task.create"
@@ -588,6 +591,12 @@
                 "method": "docker.config.get_config",
                 "name": "call",
                 "namespace": "rpc"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "docker.config.update"
             }
         }
     },
@@ -604,6 +613,12 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "requiredFields": [
+                        "names",
+                        "image"
+                    ]
+                },
                 "task": "docker.container.create"
             },
             "delete": {
@@ -952,6 +967,15 @@
                     ]
                 },
                 "task": "group.update"
+            }
+        }
+    },
+    "Index": {
+        "instance": {
+            "read": {
+                "method": "index.query",
+                "name": "call",
+                "namespace": "rpc"
             }
         }
     },
@@ -1468,7 +1492,6 @@
                 "namespace": "rpc",
                 "restrictions": {
                     "requiredFields": [
-                        "name",
                         "address",
                         "type",
                         "credentials"
@@ -1704,16 +1727,6 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "service.ftp.update"
-            }
-        }
-    },
-    "ServiceGlusterd": {
-        "instance": {
-            "update": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "service.glusterd.update"
             }
         }
     },
@@ -2527,6 +2540,11 @@
         "class": {
             "hardware": {
                 "method": "system.info.hardware",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "hostUuid": {
+                "method": "system.info.host_uuid",
                 "name": "call",
                 "namespace": "rpc"
             },

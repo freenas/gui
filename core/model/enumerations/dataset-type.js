@@ -1,3 +1,3 @@
 var Enum = require("montage/core/enum").Enum;
 
-exports.DatasetType = new Enum().initWithMembersAndValues(["FILESYSTEM","SNAPSHOT","VOLUME"], ["FILESYSTEM","SNAPSHOT","VOLUME"]);
+exports.DatasetType = new Enum().initWithMembersAndValues(["BOOKMARK","FILESYSTEM","SNAPSHOT","VOLUME"], ["BOOKMARK","FILESYSTEM","SNAPSHOT","VOLUME"]);

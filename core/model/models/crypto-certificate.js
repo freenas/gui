@@ -209,6 +209,19 @@ exports.CryptoCertificate = AbstractModel.specialize({
             return this._organization;
         }
     },
+    _passphrase: {
+        value: null
+    },
+    passphrase: {
+        set: function (value) {
+            if (this._passphrase !== value) {
+                this._passphrase = value;
+            }
+        },
+        get: function () {
+            return this._passphrase;
+        }
+    },
     _privatekey: {
         value: null
     },
@@ -408,6 +421,10 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "organization",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "passphrase",
             valueType: "String"
         }, {
             mandatory: false,
