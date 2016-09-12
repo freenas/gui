@@ -1,5 +1,4 @@
 .InspectorConfirmation {
-    /* background-color: rgba(224, 0, 58, .9); */
     background-color: rgba(0, 0, 0, .9);
     padding: 2em 1em;
 }
@@ -16,7 +15,6 @@
     justify-content: space-between;
 
     & > * {
-        /* flex: 1; */
         margin-left: .5em !important;
     }
 }
