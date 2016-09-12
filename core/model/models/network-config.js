@@ -115,7 +115,7 @@ exports.NetworkConfig = AbstractModel.specialize({
             iconComponentModule: {
                 id: 'ui/icons/network-configuration.reel'
             },
-            nameExpression: "'Network Configuration'"
+            nameExpression: "'Settings'"
         }
     }
 });
