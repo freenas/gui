@@ -45,6 +45,7 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
                 this.element.addEventListener("transitionend", this, false);
             }
 
+
             this._mutationObserver.observe(this.element, {
                 subtree: true,
                 childList: true,
@@ -109,7 +110,11 @@ exports.FoldableSection = Component.specialize(/** @lends FoldableSection# */ {
 
     draw: {
         value: function () {
-            this.sectionContent.style.height = this.isExpanded ? this._contentContainerHeight + "px" : 0;
+            if (this.isExpanded && this._contentContainerHeight != 0) {
+                this.sectionContent.style.height = this._contentContainerHeight + "px";
+            } else if (!this.isExpanded) {
+                this.sectionContent.style.height = "0px";
+            }
         }
     }
 
