@@ -9,16 +9,24 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.DockerSettings = Component.specialize(/** @lends DockerSettings# */ {
+
+    dockerHostOptions: {
+        value: []
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
             var self = this;
             if(isFirstTime) {
                 this.isLoading = true;
                 this.application.dockerSettingsService.getDockerHostQueryData().then(function(dockerHosts) {
-                    self.dockerHosts = dockerHosts;
+                    for (var i = 0, length = dockerHosts.length; i < length; i++){
+                        self.dockerHostOptions.push(dockerHosts[i]);
+                    }
+                    self.dockerHostOptions.unshift({ name : '---', id: null});
                 })
                 this.application.dockerSettingsService.getDockerConfigData().then(function (dockerConfig) {
-                    self.object = dockerConfig
+                    self.object = dockerConfig;
                     self._snapshotDataObjectsIfNecessary();
                 });
                 self.isLoading = false;
