@@ -53,11 +53,6 @@
                 "element": {"#": "inspector"},
                 "canRevert":    true,
                 "canSave":      true,
-                "keys": [
-                    "name",
-                    "type",
-                    "target_type"
-                ],
                 "controller": {"@": "owner"}
             },
             "bindings": {
@@ -99,6 +94,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
+                "validationPath": "name",
                 "label": "Name"
             },
             "bindings": {
@@ -118,7 +114,8 @@
         "target": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
-                "element": {"#": "target"}
+                "element": {"#": "target"},
+                "validationPath": "target_path"
             },
             "bindings": {
                 "selectedPath": {"<->": "@owner.object.target_path"},
@@ -154,6 +151,7 @@
             "prototype": "blue-shark/ui/field-text.reel",
             "properties": {
                 "element": {"#": "targetType"},
+                "validationPath": "target_type", 
                 "label": "Target Type"
             },
             "bindings": {

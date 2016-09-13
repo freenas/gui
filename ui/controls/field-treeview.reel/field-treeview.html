@@ -21,7 +21,11 @@
             },
             "bindings": {
                 "label": {"<-": "@owner.label"},
-                "hasError": {"<-": "@treeview.isPathInvalid"}
+                "documentationReference": {"<-": "@owner.documentationReference"},
+                "disabled": {"<-": "@owner.disabled"},
+                "errorMessage": {"<-": "@owner.errorMessage || @treeview.errorMessage"},
+                "hasError": {"<-": "@owner.hasError || !!@treeview.errorMessage"},
+                "isMandatory": {"<-": "@owner.isMandatory"}
             }
         },
         "pathButton": {

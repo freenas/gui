@@ -28,13 +28,13 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     enterDocument: {
         value: function() {
-            if (this.object) {
-                this.object.__isLocked = false;
-            }
             this._mandatoryProperties = new FastSet();
             this.missingProperties = new FastSet();
-            this._buildValidationComponents();
-            this._linkErrorMessages();
+            if (this.object) {
+                this.object.__isLocked = false;
+                this._buildValidationComponents();
+                this._linkErrorMessages();
+            }
         }
     },
 

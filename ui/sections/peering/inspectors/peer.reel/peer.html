@@ -31,6 +31,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
+                "validationPath": "name",
                 "label": "Name"
             },
             "bindings": {
@@ -41,6 +42,7 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "type"},
+                "validationPath": "type",
                 "label": "Type"
             },
             "bindings": {
@@ -51,7 +53,8 @@
         "credentials": {
             "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "credentials"}
+                "element": {"#": "credentials"},
+                "validationPath": "credentials"
             },
             "bindings": {
                 "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.credentialsType + '-credentials.reel'"},
