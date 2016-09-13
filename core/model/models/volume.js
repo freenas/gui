@@ -14,6 +14,19 @@ exports.Volume = AbstractModel.specialize({
             return this._attributes;
         }
     },
+    _auto_unlock: {
+        value: null
+    },
+    auto_unlock: {
+        set: function (value) {
+            if (this._auto_unlock !== value) {
+                this._auto_unlock = value;
+            }
+        },
+        get: function () {
+            return this._auto_unlock;
+        }
+    },
     _encryption: {
         value: null
     },
@@ -176,6 +189,10 @@ exports.Volume = AbstractModel.specialize({
             mandatory: false,
             name: "attributes",
             valueType: "object"
+        }, {
+            mandatory: false,
+            name: "auto_unlock",
+            valueType: "boolean"
         }, {
             mandatory: false,
             name: "encryption",

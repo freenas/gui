@@ -7,6 +7,14 @@
       "valueType": "object"
     }
   },
+  "blueprint_volume_auto_unlock": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "auto_unlock",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_volume_encryption": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -120,6 +128,7 @@
       "name": "Volume",
       "propertyBlueprints": [
         {"@": "blueprint_volume_attributes"},
+        {"@": "blueprint_volume_auto_unlock"},
         {"@": "blueprint_volume_encryption"},
         {"@": "blueprint_volume_guid"},
         {"@": "blueprint_volume_id"},

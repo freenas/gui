@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_volumesnapshot_hidden": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "hidden",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
   "blueprint_volumesnapshot_holds": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -70,6 +78,7 @@
       "name": "VolumeSnapshot",
       "propertyBlueprints": [
         {"@": "blueprint_volumesnapshot_dataset"},
+        {"@": "blueprint_volumesnapshot_hidden"},
         {"@": "blueprint_volumesnapshot_holds"},
         {"@": "blueprint_volumesnapshot_id"},
         {"@": "blueprint_volumesnapshot_lifetime"},

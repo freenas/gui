@@ -131,6 +131,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_cryptocertificate_passphrase": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "passphrase",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_cryptocertificate_privatekey": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -236,6 +244,7 @@
         {"@": "blueprint_cryptocertificate_not_after"},
         {"@": "blueprint_cryptocertificate_not_before"},
         {"@": "blueprint_cryptocertificate_organization"},
+        {"@": "blueprint_cryptocertificate_passphrase"},
         {"@": "blueprint_cryptocertificate_privatekey"},
         {"@": "blueprint_cryptocertificate_privatekey_path"},
         {"@": "blueprint_cryptocertificate_selfsigned"},
