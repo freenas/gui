@@ -7,34 +7,10 @@
       "valueType": "String"
     }
   },
-  "blueprint_backupssh_hostkey": {
+  "blueprint_backupssh_peer": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "hostkey",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_backupssh_hostport": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "hostport",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_backupssh_password": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_backupssh_privkey": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "privkey",
+      "name": "peer",
       "blueprint": {"@": "root"},
       "valueType": "String"
     }
@@ -49,26 +25,14 @@
       ]
     }
   },
-  "blueprint_backupssh_username": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "username",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "root": {
     "prototype": "core/model/model-descriptor",
     "properties": {
       "name": "BackupSsh",
       "propertyBlueprints": [
         {"@": "blueprint_backupssh_directory"},
-        {"@": "blueprint_backupssh_hostkey"},
-        {"@": "blueprint_backupssh_hostport"},
-        {"@": "blueprint_backupssh_password"},
-        {"@": "blueprint_backupssh_privkey"},
-        {"@": "blueprint_backupssh_type"},
-        {"@": "blueprint_backupssh_username"}
+        {"@": "blueprint_backupssh_peer"},
+        {"@": "blueprint_backupssh_type"}
       ]
     }
   }

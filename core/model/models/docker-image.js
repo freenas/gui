@@ -53,6 +53,19 @@ exports.DockerImage = AbstractModel.specialize({
             return this._names;
         }
     },
+    _presets: {
+        value: null
+    },
+    presets: {
+        set: function (value) {
+            if (this._presets !== value) {
+                this._presets = value;
+            }
+        },
+        get: function () {
+            return this._presets;
+        }
+    },
     _size: {
         value: null
     },
@@ -84,6 +97,10 @@ exports.DockerImage = AbstractModel.specialize({
             mandatory: false,
             name: "names",
             valueType: "array"
+        }, {
+            mandatory: false,
+            name: "presets",
+            valueType: "object"
         }, {
             mandatory: false,
             name: "size",

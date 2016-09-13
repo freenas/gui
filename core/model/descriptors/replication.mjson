@@ -63,14 +63,6 @@
       "valueType": "String"
     }
   },
-  "blueprint_replication_partners": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "partners",
-      "blueprint": {"@": "root"},
-      "valueType": "array"
-    }
-  },
   "blueprint_replication_recursive": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -85,6 +77,14 @@
       "name": "replicate_services",
       "blueprint": {"@": "root"},
       "valueType": "boolean"
+    }
+  },
+  "blueprint_replication_slave": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "slave",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_replication_snapshot_lifetime": {
@@ -134,9 +134,9 @@
         {"@": "blueprint_replication_initial_master"},
         {"@": "blueprint_replication_master"},
         {"@": "blueprint_replication_name"},
-        {"@": "blueprint_replication_partners"},
         {"@": "blueprint_replication_recursive"},
         {"@": "blueprint_replication_replicate_services"},
+        {"@": "blueprint_replication_slave"},
         {"@": "blueprint_replication_snapshot_lifetime"},
         {"@": "blueprint_replication_status"},
         {"@": "blueprint_replication_transport_options"},

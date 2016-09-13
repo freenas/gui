@@ -183,6 +183,19 @@ exports.DockerContainer = AbstractModel.specialize({
             return this._running;
         }
     },
+    _settings: {
+        value: null
+    },
+    settings: {
+        set: function (value) {
+            if (this._settings !== value) {
+                this._settings = value;
+            }
+        },
+        get: function () {
+            return this._settings;
+        }
+    },
     _status: {
         value: null
     },
@@ -267,6 +280,10 @@ exports.DockerContainer = AbstractModel.specialize({
             mandatory: false,
             name: "running",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "settings",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "status",

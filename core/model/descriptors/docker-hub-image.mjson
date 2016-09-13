@@ -31,6 +31,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_dockerhubimage_presets": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "presets",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_dockerhubimage_pull_count": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -64,6 +72,7 @@
         {"@": "blueprint_dockerhubimage_full_description"},
         {"@": "blueprint_dockerhubimage_id"},
         {"@": "blueprint_dockerhubimage_namespace"},
+        {"@": "blueprint_dockerhubimage_presets"},
         {"@": "blueprint_dockerhubimage_pull_count"},
         {"@": "blueprint_dockerhubimage_star_count"},
         {"@": "blueprint_dockerhubimage_updated_at"}

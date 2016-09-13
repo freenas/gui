@@ -31,6 +31,14 @@
       "valueType": "array"
     }
   },
+  "blueprint_dockerimage_presets": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "presets",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
+    }
+  },
   "blueprint_dockerimage_size": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -48,6 +56,7 @@
         {"@": "blueprint_dockerimage_host"},
         {"@": "blueprint_dockerimage_id"},
         {"@": "blueprint_dockerimage_names"},
+        {"@": "blueprint_dockerimage_presets"},
         {"@": "blueprint_dockerimage_size"}
       ]
     }

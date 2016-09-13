@@ -1,6 +1,19 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.SshCredentials = AbstractModel.specialize({
+    _address: {
+        value: null
+    },
+    address: {
+        set: function (value) {
+            if (this._address !== value) {
+                this._address = value;
+            }
+        },
+        get: function () {
+            return this._address;
+        }
+    },
     _hostkey: {
         value: null
     },
@@ -40,17 +53,17 @@ exports.SshCredentials = AbstractModel.specialize({
             return this._port;
         }
     },
-    _pubkey: {
+    _privkey: {
         value: null
     },
-    pubkey: {
+    privkey: {
         set: function (value) {
-            if (this._pubkey !== value) {
-                this._pubkey = value;
+            if (this._privkey !== value) {
+                this._privkey = value;
             }
         },
         get: function () {
-            return this._pubkey;
+            return this._privkey;
         }
     },
     _type: {
@@ -83,6 +96,10 @@ exports.SshCredentials = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
+            name: "address",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "hostkey",
             valueType: "String"
         }, {
@@ -95,7 +112,7 @@ exports.SshCredentials = AbstractModel.specialize({
             valueType: "number"
         }, {
             mandatory: false,
-            name: "pubkey",
+            name: "privkey",
             valueType: "String"
         }, {
             mandatory: false,
