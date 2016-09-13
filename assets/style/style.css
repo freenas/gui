@@ -242,8 +242,12 @@ $Icons
 }
 
 .hide,
-.montage-invisible {
+.is-hidden {
     display: none;
+}
+
+.is-shown {
+    display: initial;
 }
 
 /* Flex Helpers */
