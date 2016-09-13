@@ -37,7 +37,8 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canSave": true
+                "canSave": true,
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
