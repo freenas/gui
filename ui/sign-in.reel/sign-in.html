@@ -71,6 +71,17 @@
                 "element": {"#": "submit"},
                 "value": "Sign In"
             }
+        },
+
+        "browserMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "browserMessage"},
+                "value": "We're sorry but at this time FreeNAS only supports the Chrome browser."
+            },
+            "bindings": {
+                "classList.has('is-hidden')": {"<-": "@owner.isBrowserSupported"}
+            }
         }
     }
     </script>
@@ -78,6 +89,7 @@
 <body>
     <div data-montage-id="owner" class="SignIn">
         <div class="SignIn-content">
+            <div data-montage-id="browserMessage" class="SignIn-browserMessage"></div>
             <img src="../../assets/images/logo.png" class="SignIn-logo" alt="FreeNas Logo">
             <div data-montage-id="infoText" class="SignIn-infoText"></div>
             <div data-montage-id="errorMessage" class="error-message"></div>

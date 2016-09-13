@@ -1,5 +1,6 @@
 var AuthorizationPanel = require("montage-data/ui/authorization-panel.reel").AuthorizationPanel,
     Model = require("core/model/model").Model,
+    currentEnvironment = require("montage/core/environment").currentEnvironment,
     KeyComposer = require("montage/composer/key-composer").KeyComposer;
 
 
@@ -15,6 +16,12 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
     password: {
         value: void 0
+    },
+
+    isBrowserSupported: {
+        get: function () {
+            return currentEnvironment.browserName == 'chrome';
+        }
     },
 
     submitButton: {
@@ -85,7 +92,6 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
         value: function () {
             this.addEventListener("action", this, false);
             this._keyComposer.addEventListener("keyPress", this, false);
-
         }
     },
 
