@@ -293,6 +293,15 @@
         "shellConverter": {
             "prototype": "core/converter/select-option-converter"
         },
+        "shellSubstitution": {
+            "prototype": "montage/ui/substitution.reel",
+            "properties": {
+                "element": {"#": "shellSubstitution"}
+            },
+            "bindings": {
+                "switchValue": {"<-": "@owner.object.uid == 0 ? 'root' : 'luser'"}
+            }
+        },
         "shellEdit": {
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
@@ -303,6 +312,16 @@
             "bindings": {
                 "options": {"<-": "@owner.shellOptions"},
                 "selectedValue": {"<->": "@owner.object.shell"}
+            }
+        },
+        "shellDisplayRoot": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "shellDisplayRoot"},
+                "label": "Shell"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.object.shell"}
             }
         },
         "shellDisplay": {
@@ -439,7 +458,10 @@
                         <div data-montage-id="homeDisplayRoot" data-arg="root"></div>
                     </div>
                     <div data-montage-id="defaultHomeDirectory"></div>
-                    <div data-montage-id="shellEdit"></div>
+                    <div data-montage-id="shellSubstitution">
+                        <div data-montage-id="shellEdit" data-arg="luser"></div>
+                        <div data-montage-id="shellDisplayRoot" data-arg="root"></div>
+                    </div>
                     <div data-montage-id="emailEdit"></div>
                     <div data-montage-id="sshpubkeyEdit"></div>
                     <div data-montage-id="passwordDisabledEdit"></div>
