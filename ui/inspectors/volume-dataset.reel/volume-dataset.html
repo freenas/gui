@@ -11,8 +11,7 @@
                 "treeController": {"@": "datasetTreeController"}
             },
             "bindings": {
-                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"},
-                "datasetReplications": {"<-": "@owner.replications.filter{datasets.indexOf(@owner.object.id) != -1}"}
+                "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}
             }
         },
         "inspector": {
@@ -118,7 +117,6 @@
             </div>
             <div data-montage-id="typeSelector"></div>
             <div data-montage-id="settings"></div>
-            <div data-montage-id="replications" class="g-negative-margin-sides"></div>
         </div>
     </div>
 </body>
