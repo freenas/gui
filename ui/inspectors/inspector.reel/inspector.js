@@ -32,7 +32,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
             this._isToBeDeleted = true;
 
-            if (typeof this.parentComponent.delete === 'function') {
+            if (this.controller && typeof this.parentComponent.delete === 'function') {
                 promise = this.parentComponent.delete();
 
                 if (Promise.is(promise)) {
@@ -46,12 +46,20 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     self.clearObjectSelection();
                 });
             } else {
-                console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
+                console.warn('NOT IMPLEMENTED: delete() on', this.controller.templateModuleId);
             }
 
             if (event) {
                 event.stopPropagation();
             }
+
+            this.isConfirmationVisible = false;
+        }
+    },
+
+    cancelDelete: {
+        value: function() {
+            this.isConfirmationVisible = false;
         }
     },
 

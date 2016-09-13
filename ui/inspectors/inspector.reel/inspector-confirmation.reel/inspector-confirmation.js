@@ -9,16 +9,23 @@ var Component = require("montage/ui/component").Component;
  */
 exports.InspectorConfirmation = Component.specialize(/** @lends InspectorConfirmation# */ {
 
+    inspector: {
+        value: null
+    },
+
     handleConfirmDeleteAction: {
         value: function (event) {
-            this.parentComponent.isConfirmationVisible = false;
-            this.confirmDelete();
+            if (this.inspector && typeof this.inspector.confirmDelete === "function") {
+                this.inspector.confirmDelete();
+            }
         }
     },
 
     handleCancelDeleteAction: {
         value: function() {
-            this.parentComponent.isConfirmationVisible = false;
+            if (this.inspector && typeof this.inspector.cancelDelete === "function") {
+                this.inspector.cancelDelete();
+            }
         }
     }
 });

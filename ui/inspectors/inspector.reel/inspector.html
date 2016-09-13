@@ -61,11 +61,11 @@
         "confirmationMessage": {
             "prototype": "./inspector-confirmation.reel",
             "properties": {
-                "element": {"#": "confirmationMessage"}
+                "element": {"#": "confirmationMessage"},
+                "inspector": {"@": "owner"}
             },
             "bindings": {
-                "confirmationMessage": {"<-": "@owner.confirmationMessage"},
-                "confirmDelete": {"<-": "@owner.confirmDelete"}
+                "confirmationMessage": {"<-": "@owner.confirmationMessage"}
             }
         }
 
