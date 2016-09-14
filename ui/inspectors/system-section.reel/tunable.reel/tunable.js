@@ -8,9 +8,13 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.Tunable = Component.specialize(/** @lends Tunable# */ {
-    constructor: {
-        value: function Tunable() {
-            this.super();
+
+    templateDidLoad: {
+        value: function (){
+            var self = this;
+            this.application.dataService.fetchData(Model.Tunable).then(function (tunables) {
+                self.tunables = tunables;
+            });
         }
     }
 });
