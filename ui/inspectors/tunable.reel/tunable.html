@@ -21,7 +21,7 @@
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"},
-                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.id + '?'"}
+                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"}
             }
         },
         "value": {
@@ -45,7 +45,11 @@
             }
         },
         "tunableTypeOptionConverter": {
-            "prototype": "core/converter/select-option-converter"
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "this",
+                "valuePropertyName": "this"
+            }
         },
         "type": {
             "prototype": "blue-shark/ui/field-select.reel",
@@ -55,7 +59,7 @@
                 "converter": {"@": "tunableTypeOptionConverter"}
             },
             "bindings": {
-                "options" : {"<-": "@owner.typeOPTIONS"},
+                "options" : {"<-": "@owner.typeOptions"},
                 "selectedValue": {"<->": "@owner.object.type"}
             }
         },

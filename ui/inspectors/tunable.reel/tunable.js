@@ -10,18 +10,18 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.Tunable = Component.specialize(/** @lends Tunable# */ {
-    typeOPTIONS: {
+    typeOptions: {
         value: null
     },
 
     enterDocument: {
         value: function(isFirstTime) {
             var self = this,
-                tunableType = TunableType;
+                EnumTunableType = TunableType;
             if (isFirstTime) {
-                this.typeOPTIONS = [];
-                for (var i = 0; i < tunableType.members.length; i++) {
-                    this.typeOPTIONS.push({label: tunableType.members[i], value: tunableType[tunableType.members[i]]});
+                this.typeOptions = [];
+                for (var i = 0; i < EnumTunableType.members.length; i++) {
+                    this.typeOptions.push(EnumTunableType.members[i]);
                 }
             }
             if (!!this.object._isNew) {
