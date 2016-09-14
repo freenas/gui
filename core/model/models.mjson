@@ -241,10 +241,6 @@
             "type": "ImportableDisk"
         },
         {
-            "modelId": "core/model/models/ipfs-info.js",
-            "type": "IpfsInfo"
-        },
-        {
             "modelId": "core/model/models/ipmi.js",
             "type": "Ipmi"
         },
@@ -427,10 +423,6 @@
         {
             "modelId": "core/model/models/service-ftp.js",
             "type": "ServiceFtp"
-        },
-        {
-            "modelId": "core/model/models/service-ipfs.js",
-            "type": "ServiceIpfs"
         },
         {
             "modelId": "core/model/models/service-iscsi.js",

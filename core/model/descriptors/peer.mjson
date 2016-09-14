@@ -1,12 +1,4 @@
 {
-  "blueprint_peer_address": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "address",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
   "blueprint_peer_credentials": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -49,7 +41,6 @@
     "properties": {
       "name": "Peer",
       "propertyBlueprints": [
-        {"@": "blueprint_peer_address"},
         {"@": "blueprint_peer_credentials"},
         {"@": "blueprint_peer_id"},
         {"@": "blueprint_peer_name"},

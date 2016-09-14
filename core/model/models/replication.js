@@ -105,19 +105,6 @@ exports.Replication = AbstractModel.specialize({
             return this._name;
         }
     },
-    _partners: {
-        value: null
-    },
-    partners: {
-        set: function (value) {
-            if (this._partners !== value) {
-                this._partners = value;
-            }
-        },
-        get: function () {
-            return this._partners;
-        }
-    },
     _recursive: {
         value: null
     },
@@ -142,6 +129,19 @@ exports.Replication = AbstractModel.specialize({
         },
         get: function () {
             return this._replicate_services;
+        }
+    },
+    _slave: {
+        value: null
+    },
+    slave: {
+        set: function (value) {
+            if (this._slave !== value) {
+                this._slave = value;
+            }
+        },
+        get: function () {
+            return this._slave;
         }
     },
     _snapshot_lifetime: {
@@ -232,16 +232,16 @@ exports.Replication = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "partners",
-            valueType: "array"
-        }, {
-            mandatory: false,
             name: "recursive",
             valueType: "boolean"
         }, {
             mandatory: false,
             name: "replicate_services",
             valueType: "boolean"
+        }, {
+            mandatory: false,
+            name: "slave",
+            valueType: "String"
         }, {
             mandatory: false,
             name: "snapshot_lifetime",

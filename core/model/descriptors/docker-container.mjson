@@ -111,6 +111,14 @@
       "valueType": "boolean"
     }
   },
+  "blueprint_dockercontainer_settings": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "settings",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_dockercontainer_status": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -147,6 +155,7 @@
         {"@": "blueprint_dockercontainer_parent_directory"},
         {"@": "blueprint_dockercontainer_ports"},
         {"@": "blueprint_dockercontainer_running"},
+        {"@": "blueprint_dockercontainer_settings"},
         {"@": "blueprint_dockercontainer_status"},
         {"@": "blueprint_dockercontainer_volumes"}
       ]

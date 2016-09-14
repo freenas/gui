@@ -1,19 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.Peer = AbstractModel.specialize({
-    _address: {
-        value: null
-    },
-    address: {
-        set: function (value) {
-            if (this._address !== value) {
-                this._address = value;
-            }
-        },
-        get: function () {
-            return this._address;
-        }
-    },
     _credentials: {
         value: null
     },
@@ -69,10 +56,6 @@ exports.Peer = AbstractModel.specialize({
 }, {
     propertyBlueprints: {
         value: [{
-            mandatory: false,
-            name: "address",
-            valueType: "String"
-        }, {
             mandatory: false,
             name: "credentials",
             valueObjectPrototypeName: "PeerCredentials",

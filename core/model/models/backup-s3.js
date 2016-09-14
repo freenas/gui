@@ -1,19 +1,6 @@
 var AbstractModel = require("core/model/abstract-model").AbstractModel;
 
 exports.BackupS3 = AbstractModel.specialize({
-    _access_key: {
-        value: null
-    },
-    access_key: {
-        set: function (value) {
-            if (this._access_key !== value) {
-                this._access_key = value;
-            }
-        },
-        get: function () {
-            return this._access_key;
-        }
-    },
     _bucket: {
         value: null
     },
@@ -40,30 +27,17 @@ exports.BackupS3 = AbstractModel.specialize({
             return this._folder;
         }
     },
-    _region: {
+    _peer: {
         value: null
     },
-    region: {
+    peer: {
         set: function (value) {
-            if (this._region !== value) {
-                this._region = value;
+            if (this._peer !== value) {
+                this._peer = value;
             }
         },
         get: function () {
-            return this._region;
-        }
-    },
-    _secret_key: {
-        value: null
-    },
-    secret_key: {
-        set: function (value) {
-            if (this._secret_key !== value) {
-                this._secret_key = value;
-            }
-        },
-        get: function () {
-            return this._secret_key;
+            return this._peer;
         }
     },
     _type: {
@@ -83,10 +57,6 @@ exports.BackupS3 = AbstractModel.specialize({
     propertyBlueprints: {
         value: [{
             mandatory: false,
-            name: "access_key",
-            valueType: "String"
-        }, {
-            mandatory: false,
             name: "bucket",
             valueType: "String"
         }, {
@@ -95,11 +65,7 @@ exports.BackupS3 = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "region",
-            valueType: "String"
-        }, {
-            mandatory: false,
-            name: "secret_key",
+            name: "peer",
             valueType: "String"
         }, {
             mandatory: false,

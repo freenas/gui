@@ -662,6 +662,11 @@
                 "name": "call",
                 "namespace": "rpc"
             },
+            "labelsToTemplate": {
+                "method": "docker.image.labels_to_template",
+                "name": "call",
+                "namespace": "rpc"
+            },
             "readme": {
                 "method": "docker.image.readme",
                 "name": "call",
@@ -974,15 +979,6 @@
         "instance": {
             "read": {
                 "method": "index.query",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
-    "Ipfs": {
-        "class": {
-            "hashToLink": {
-                "method": "ipfs.hash_to_link",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -1492,7 +1488,6 @@
                 "namespace": "rpc",
                 "restrictions": {
                     "requiredFields": [
-                        "address",
                         "type",
                         "credentials"
                     ]
@@ -1571,7 +1566,7 @@
                 "restrictions": {
                     "requiredFields": [
                         "name",
-                        "partners",
+                        "slave",
                         "master",
                         "datasets",
                         "replicate_services",
@@ -1727,16 +1722,6 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "service.ftp.update"
-            }
-        }
-    },
-    "ServiceIpfs": {
-        "instance": {
-            "update": {
-                "method": "task.submit",
-                "name": "call",
-                "namespace": "rpc",
-                "task": "service.ipfs.update"
             }
         }
     },
@@ -2939,6 +2924,15 @@
             }
         }
     },
+    "VmConfig": {
+        "instance": {
+            "read": {
+                "method": "vm.config.get_config",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "VmSnapshot": {
         "instance": {
             "create": {
@@ -3186,15 +3180,6 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
-                "restrictions": {
-                    "forbiddenFields": [
-                        "id"
-                    ],
-                    "requiredFields": [
-                        "dataset",
-                        "name"
-                    ]
-                },
                 "task": "volume.snapshot.create"
             },
             "dataset": {
