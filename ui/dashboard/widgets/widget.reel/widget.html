@@ -6,11 +6,17 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "sizeOptions": [
+                    {"value": "small"},
+                    {"value": "medium"},
+                    {"value": "large"}
+                ]
             },
             "bindings": {
                 "classList.has('flip')": {"<-": "this.isFlipped"},
-                "classList.has('has-settings')": {"<-": "@owner.hasSettings"}
+                "classList.has('has-settings')": {"<-": "@owner.hasSettings"},
+                "size": {"<-": "@sizeSelector.selectedValue"}
             }
         },
 
@@ -46,6 +52,17 @@
             "bindings": {
                 "value": {"<-": "@owner.settingsLabel.defined() ? @owner.settingsLabel : 'Settings'"}
             }
+        },
+
+        "sizeSelector": {
+            "prototype": "blue-shark/ui/select.reel",
+            "properties": {
+                "element": {"#": "sizeSelector"},
+                "selectedValue": "medium"
+            },
+            "bindings": {
+                "options": {"<-": "@owner.sizeOptions.map{value}"}
+            }
         }
     }
     </script>
@@ -59,6 +76,7 @@
                     <div data-param="widget-content" class="Widget-content-front"></div>
                 </div>
                 <div data-montage-id="infoWidgetButton" class="Widget-info Button--primary"></div>
+                <div data-montage-id="sizeSelector" class="Widget-sizeSelector"></div>
             </div>
             <div class="Widget-back">
                 <div class="Widget-header">
