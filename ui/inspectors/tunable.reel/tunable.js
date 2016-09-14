@@ -16,13 +16,9 @@ exports.Tunable = Component.specialize(/** @lends Tunable# */ {
 
     enterDocument: {
         value: function(isFirstTime) {
-            var self = this,
-                EnumTunableType = TunableType;
+            var self = this;
             if (isFirstTime) {
-                this.typeOptions = [];
-                for (var i = 0; i < EnumTunableType.members.length; i++) {
-                    this.typeOptions.push(EnumTunableType.members[i]);
-                }
+                this.typeOptions = TunableType.members;
             }
             if (!!this.object._isNew) {
                 if (!this.object.type) {
