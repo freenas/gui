@@ -1,7 +1,7 @@
 /**
  * @module ui/cron-rules.reel
  */
-var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
+var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     Rule = require("ui/controls/cron.reel/rule").Rule,
     CronRule = require("ui/controls/cron.reel/cron-rule.reel").CronRule;
 

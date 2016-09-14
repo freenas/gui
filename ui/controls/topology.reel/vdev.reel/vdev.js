@@ -5,7 +5,7 @@ var AbstractDropZoneComponent = require("blue-shark/core/drag-drop/abstract-drop
     TopologyItem = require("ui/controls/topology.reel/topology-item.reel").TopologyItem,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Topology = require("ui/controls/topology.reel").Topology,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate;
+    AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 
 /**

@@ -1,7 +1,7 @@
 /**
  * @module ui/tree-view.reel
  */
-var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate;
+var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate;
 
 /**
  * @class TreeView

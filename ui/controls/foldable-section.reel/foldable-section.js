@@ -2,7 +2,7 @@
  * @module ui/controls/foldable-section.reel
  */
 var Component = require("montage/ui/component").Component,
-    AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
+    AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
     KeyComposer = require("montage/composer/key-composer").KeyComposer;
 
 /**

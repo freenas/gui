@@ -1,4 +1,4 @@
-var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise,
     Converter = require("montage/core/converter/converter").Converter,
