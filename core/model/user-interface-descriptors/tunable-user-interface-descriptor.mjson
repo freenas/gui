@@ -6,7 +6,7 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Tunables'",
             "creatorComponentModule": {"%": "ui/inspectors/tunable.reel"},
-            "nameExpression": "id.defined() ? id : 'Add a Tunable'"
+            "nameExpression": "_isNew.defined() && _isNew ? 'Add a Tunable' : var"
         }
     }
 }
