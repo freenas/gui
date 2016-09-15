@@ -3,8 +3,14 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/directory-services.reel/directory-service.reel"},
-            "collectionItemComponentModule": {"%": "ui/inspectors/directory-services.reel/directory-service-item-list.reel/"},
-            "nameExpression": "label"
+            "nameExpression": "label",
+            "statusColorMapping": {
+                "BOUND": "green",
+                "FAILURE": "red",
+                "DISABLED": "gray",
+                "OTHER": "yellow"
+            },
+            "statusValueExpression": "!enabled || !!_isNew ? 'DISABLED' : status == 'BOUND' || status == 'FAILURE' ? status : 'OTHER'"
         }
     }
 }

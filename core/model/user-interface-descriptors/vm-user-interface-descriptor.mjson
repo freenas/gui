@@ -3,12 +3,17 @@
         "prototype": "montage/core/meta/user-interface-descriptor",
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
-            "collectionItemComponentModule": {"%": "ui/virtualization/virtualization-list-item.reel"},
             "collectionNameExpression": "'Virtual Machines'",
             "inspectorComponentModule": {"%": "ui/inspectors/virtual-machine.reel"},
             "creatorComponentModule": {"%": "ui/inspectors/virtual-machine.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
-            "nameExpression": "_isNew.defined() && _isNew ? 'New VM' : name"
+            "nameExpression": "_isNew.defined() && _isNew ? 'New VM' : name",
+            "statusColorMapping": {
+                "RUNNING": "green",
+                "BOOTLOADER": "green",
+                "STOPPED": "grey"
+            },
+            "statusValueExpression": "status.state"
         }
     }
 }
