@@ -32,8 +32,8 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
             this._isToBeDeleted = true;
 
-            if (this.controller && typeof this.parentComponent.delete === 'function') {
-                promise = this.parentComponent.delete();
+            if (this.controller && typeof this.controller.delete === 'function') {
+                promise = this.controller.delete();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
@@ -70,12 +70,11 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
         }
     },
 
-
     handleRevertAction: {
         value: function(event) {
             var promise;
-            if (typeof this.parentComponent.revert === 'function') {
-                promise = this.parentComponent.revert();
+            if (this.controller && typeof this.controller.revert === 'function') {
+                promise = this.controller.revert();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
@@ -94,8 +93,8 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             var self = this,
                 promise;
 
-            if (typeof this.parentComponent.save === 'function') {
-                promise = this.parentComponent.save();
+            if (this.controller && typeof this.controller.save === 'function') {
+                promise = this.controller.save();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
