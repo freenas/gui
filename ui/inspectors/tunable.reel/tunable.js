@@ -13,17 +13,15 @@ exports.Tunable = Component.specialize(/** @lends Tunable# */ {
     typeOptions: {
         value: null
     },
-
+    templateDidLoad: {
+        value: function() {
+            this.typeOptions = TunableType.members;
+        }
+    },
     enterDocument: {
         value: function(isFirstTime) {
-            var self = this;
-            if (isFirstTime) {
-                this.typeOptions = TunableType.members;
-            }
-            if (!!this.object._isNew) {
-                if (!this.object.type) {
-                    this.object.type = "LOADER";
-                }
+            if (!!this.object._isNew && !this.object.type) {
+                this.object.type = "LOADER";
             }
         }
     }
