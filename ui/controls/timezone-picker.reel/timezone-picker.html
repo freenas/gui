@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "imageElement": {"#": "timezone-image"}
+            },
+            "bindings": {
+                "classList.has('is-disabled')": {"<-": "@owner.disabled"}
             }
         }
     }

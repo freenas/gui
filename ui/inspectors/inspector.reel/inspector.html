@@ -13,7 +13,7 @@
                 "classList.has('is-loading')": {"<-": "@owner.isLoading"},
                 "classList.has('is-locked')": {"<-": "!!@owner.object.__isLocked"},
                 "classList.has('confirmation-is-visible')": {"<-": "@owner.isConfirmationVisible"},
-                "classList.has('has-error')": {"<-": "!!@owner.errorMessage"}
+                "classList.has('has-error')": {"<-": "!!@owner.validationController.errorMessage"}
             }
         },
         "errorMessage": {
@@ -22,7 +22,7 @@
                 "element": {"#": "errorMessage"}
             },
             "bindings": {
-                "value": {"<-": "@owner.errorMessage"}
+                "value": {"<-": "@owner.validationController.errorMessage"}
             }
         },
         "scrollView": {
@@ -60,7 +60,7 @@
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
                 "canSave": {"<-": "!!@owner.canSave"},
-                "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.missingProperties.length > 0"}
+                "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.missingProperties.length > 0"}
             },
             "listeners": [
                 {

@@ -27,6 +27,15 @@
     }
 }
 
+.FieldTreeview-pathButton.montage--disabled {
+    opacity: .5;
+}
+
+.FieldTreeview-pathButton:hover {
+    color: #DFE4E4;
+    background: #2F3233;
+}
+
 .FieldTreeview-icon {
     display: flex;
     align-items: center;

@@ -1,7 +1,7 @@
 /**
  * @module ui/inspectors/detached-volume.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     DiskEraseMethod = require("core/model/enumerations/disk-erase-method").DiskEraseMethod;
 
@@ -9,7 +9,7 @@ var Component = require("montage/ui/component").Component,
  * @class DetachedVolume
  * @extends Component
  */
-exports.DetachedVolume = Component.specialize(/** @lends DetachedVolume# */ {
+exports.DetachedVolume = AbstractInspector.specialize(/** @lends DetachedVolume# */ {
     templateDidLoad: {
         value: function() {
             var self = this;

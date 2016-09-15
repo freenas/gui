@@ -1,11 +1,11 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class Group
  * @extends Component
  */
-exports.Group = Component.specialize({
+exports.Group = AbstractInspector.specialize({
     _object: {
         value: null
     },
@@ -42,13 +42,15 @@ exports.Group = Component.specialize({
     },
 
     enterDocument: {
-        value: function () {
+        value: function() {
+            this.superEnterDocument();
             this.groupType = this.object.builtin && this.object.gid !== 0 ? "system" : "user";
         }
     },
 
     exitDocument: {
         value: function() {
+            this.superExitDocument();
             this.groupType = null;
         }
     },

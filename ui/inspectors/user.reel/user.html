@@ -8,19 +8,26 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
                 "treeController": {"@": "filesystemTreeController"},
                 "inspector": {"@": "inspector"},
                 "_defaultHomeDirectoryComponent" : {"@": "defaultHomeDirectory"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                    "uid": {"@": "uidEdit"}
+                }
             }
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "keys": [
-                    "uid"
-                ],
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -83,7 +90,7 @@
                 "value": {"<-": "@owner.object.uid"}
             }
         },
-        "usernameEdit": {
+        "username": {
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "usernameEdit"},
@@ -109,8 +116,8 @@
             "properties": {
                 "element": {"#": "password"},
                 "validationPath": "password",
-                "passwordLabel1": "Password",
-                "passwordLabel2": "Password",
+                "label": "Password",
+                "label2": "Confirm password",
                 "errorMessage": "Passwords don't match"
             },
             "bindings": {

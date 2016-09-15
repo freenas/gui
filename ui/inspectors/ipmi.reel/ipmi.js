@@ -1,13 +1,13 @@
 /**
  * @module ui/ipmi.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class Ipmi
  * @extends Component
  */
-exports.Ipmi = Component.specialize(/** @lends Ipmi# */ {
+exports.Ipmi = AbstractInspector.specialize(/** @lends Ipmi# */ {
 
     _object: {
         value: null

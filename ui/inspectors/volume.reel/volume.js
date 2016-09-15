@@ -1,10 +1,10 @@
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class Volume
  * @extends Component
  */
-exports.Volume = Component.specialize({
+exports.Volume = AbstractInspector.specialize({
     _object: {
         value: null
     },
@@ -93,7 +93,8 @@ exports.Volume = Component.specialize({
     },
 
     exitDocument: {
-        value: function () {
+        value: function() {
+            this.superExitDocument();
             this.isConfirmationVisible = false;
         }
     },

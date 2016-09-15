@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
     VmGuestType = require("core/model/enumerations/vm-guest-type").VmGuestType,
@@ -8,7 +8,7 @@ var Component = require("montage/ui/component").Component,
  * @class VirtualMachine
  * @extends Component
  */
-exports.VirtualMachine = Component.specialize({
+exports.VirtualMachine = AbstractInspector.specialize({
     editMode: {
         value: null
     },
@@ -171,6 +171,7 @@ exports.VirtualMachine = Component.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
+            this.superEnterDocument(isFirstTime);
             var self = this,
                 loadingPromises = [];
             this.isLoading = true;
@@ -214,6 +215,7 @@ exports.VirtualMachine = Component.specialize({
 
     exitDocument: {
         value: function() {
+            this.superExitDocument();
             this.templateName = null;
             this.memorySize = null;
             this.webvncConsole = null;

@@ -1,10 +1,10 @@
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class StaticRoute
  * @extends Component
  */
-exports.StaticRoute = Component.specialize({
+exports.StaticRoute = AbstractInspector.specialize({
     "object": {
         "value": {
             "netmask": 16,

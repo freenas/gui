@@ -1,14 +1,14 @@
 /**
  * @module ui/snapshot.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class Snapshot
  * @extends Component
  */
-exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
+exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
     _expirationDate: {
         value: null
     },
@@ -74,8 +74,15 @@ exports.Snapshot = Component.specialize(/** @lends Snapshot# */ {
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.superExitDocument();
+        }
+    },
+
     enterDocument: {
         value: function() {
+            this.superEnterDocument();
             this.expirationDate = this._getExpirationDate();
             this._loadVolume();
         }

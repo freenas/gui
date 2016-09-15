@@ -8,16 +8,22 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "inspectorComponent": {"@": "inspector"}
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+                
             },
             "bindings": {
                 "credentialsComponent": {"<-": "@credentials.component"}
             }
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller"
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canSave": true,
                 "canRevert": true,
                 "canDelete": true,
@@ -31,7 +37,6 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
-                "validationPath": "name",
                 "label": "Name"
             },
             "bindings": {
@@ -42,7 +47,6 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "type"},
-                "validationPath": "type",
                 "label": "Type"
             },
             "bindings": {
@@ -53,8 +57,7 @@
         "credentials": {
             "prototype": "ui/controls/placeholder.reel",
             "properties": {
-                "element": {"#": "credentials"},
-                "validationPath": "credentials"
+                "element": {"#": "credentials"}
             },
             "bindings": {
                 "moduleId": {"<-": "'ui/sections/peering/inspectors/' + @owner.credentialsType + '-credentials.reel'"},

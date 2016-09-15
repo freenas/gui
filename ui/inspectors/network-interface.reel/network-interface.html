@@ -8,16 +8,25 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"}
             }
         },
         "interface_alias_converter": {
             "prototype": "core/converter/interface-alias-converter"
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canRevert": "true",
                 "canSave": "true",
                 "controller": {"@": "owner"}

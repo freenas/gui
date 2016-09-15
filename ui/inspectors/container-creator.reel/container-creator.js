@@ -1,13 +1,13 @@
 /**
  * @module ui/container-creator.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class ContainerCreator
  * @extends Component
  */
-exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ {
+exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCreator# */ {
     
     templateDidLoad: {
         value: function () {
@@ -21,7 +21,8 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
     },
 
     enterDocument: {
-        value: function (firsTime) {
+        value: function(firsTime) {
+            this.superEnterDocument(firsTime);
             this._fetchDataIfNeeded();
 
             if (firsTime) {
@@ -31,7 +32,8 @@ exports.ContainerCreator = Component.specialize(/** @lends ContainerCreator# */ 
     },
 
     exitDocument: {
-        value: function () {
+        value: function() {
+            this.superExitDocument();
             this._reset();
         }
     },

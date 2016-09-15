@@ -1,10 +1,10 @@
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class NetworkInterface
  * @extends Component
  */
-exports.NetworkInterface = Component.specialize({
+exports.NetworkInterface = AbstractInspector.specialize({
     isAddressSourceDhcp: {
         value: null
     },
@@ -45,13 +45,15 @@ exports.NetworkInterface = Component.specialize({
     },
 
     enterDocument: {
-        value: function () {
+        value: function() {
+            this.superEnterDocument();
             this._subscribeToAliasesChanges();
         }
     },
 
     exitDocument: {
-        value: function () {
+        value: function() {
+            this.superExitDocument();
             this._unsubscribeToAliasesChangesIfNeeded();
             this.interfaceType = null;
             // set to null in order to apply hypothetical changes from the middleware

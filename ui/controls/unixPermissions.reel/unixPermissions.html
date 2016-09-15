@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"},
                 "modeBitsElement": {"#": "modeBits"}
+            },
+            "bindings": {
+                "classList.has('is-disabled')": {"<-": "@owner.disabled"}    
             }
         },
         "userRead": {
@@ -17,6 +20,7 @@
                 "element": {"#": "userRead"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.user.read"}
             }
         },
@@ -26,6 +30,7 @@
                 "element": {"#": "userWrite"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.user.write"}
             }
         },
@@ -35,6 +40,7 @@
                 "element": {"#": "userExecute"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.user.execute"}
             }
         },
@@ -44,6 +50,7 @@
                 "element": {"#": "groupRead"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.group.read"}
             }
         },
@@ -53,6 +60,7 @@
                 "element": {"#": "groupWrite"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.group.write"}
             }
         },
@@ -62,6 +70,7 @@
                 "element": {"#": "groupExecute"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.group.execute"}
             }
         },
@@ -71,6 +80,7 @@
                 "element": {"#": "othersRead"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.others.read"}
             }
         },
@@ -80,6 +90,7 @@
                 "element": {"#": "othersWrite"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.others.write"}
             }
         },
@@ -89,6 +100,7 @@
                 "element": {"#": "othersExecute"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "checked": {"<->": "@owner.modes.others.execute"}
             }
         },
@@ -99,6 +111,7 @@
                 "label": "Mode"
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "value": {"<->": "@owner.modeBits"}
             }
         },
@@ -120,24 +133,24 @@
         <table class="Permissions-flags">
             <tr>
                 <td></td>
-                <th>User</th>
-                <th>Group</th>
-                <th>All</th>
+                <th class="PermissionsFlag-label">User</th>
+                <th class="PermissionsFlag-label">Group</th>
+                <th class="PermissionsFlag-label">All</th>
             </tr>
             <tr>
-                <th>Read</th>
+                <th class="PermissionsFlag-label">Read</th>
                 <td><div data-montage-id="userRead"></div></td>
                 <td><div data-montage-id="groupRead"></div></td>
                 <td><div data-montage-id="othersRead"></div></td>
             </tr>
             <tr>
-                <th>Write</th>
+                <th class="PermissionsFlag-label">Write</th>
                 <td><div data-montage-id="userWrite"></div></td>
                 <td><div data-montage-id="groupWrite"></div></td>
                 <td><div data-montage-id="othersWrite"></div></td>
             </tr>
             <tr>
-                <th>Execute</th>
+                <th class="PermissionsFlag-label">Execute</th>
                 <td><div data-montage-id="userExecute"></div></td>
                 <td><div data-montage-id="groupExecute"></div></td>
                 <td><div data-montage-id="othersExecute"></div></td>

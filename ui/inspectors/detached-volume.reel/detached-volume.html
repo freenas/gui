@@ -8,7 +8,8 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "inspectorComponent": {"@": "inspector"}
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
             },
             "listeners": [
                 {
@@ -17,12 +18,20 @@
                 }
             ]
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canDelete": "true",
-                "controller": {"@": "owner"}
+                "canDelete": true,
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},

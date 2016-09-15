@@ -1,14 +1,14 @@
 /**
  * @module ui/volume-dataset.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class VolumeDataset
  * @extends Component
  */
-exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
+exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# */ {
 
     TYPE_OPTIONS: {
         value: [
@@ -57,8 +57,15 @@ exports.VolumeDataset = Component.specialize(/** @lends VolumeDataset# */ {
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.superExitDocument();
+        }
+    },
+
     enterDocument: {
-        value: function () {
+        value: function() {
+            this.superEnterDocument();
             this.volume = this._getCurrentVolume();
 
             if (this.object._isNew) {

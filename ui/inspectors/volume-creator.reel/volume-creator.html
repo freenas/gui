@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
+
                 "topologizer": {"@": "topologizer"}
             },
             "bindings": {
@@ -15,10 +18,18 @@
             }
         },
 
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canRevert": true,
                 "scrollViewDelegate": {"@": "owner"},
                 "controller": {"@": "owner"},

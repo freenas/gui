@@ -52,6 +52,7 @@
                 "element": {"#": "treeview"}
             },
             "bindings": {
+                "disabled": {"<-": "@owner.disabled"},
                 "controller": {"<-": "@owner.controller"},
                 "isExpanded": {"<->": "@owner.isExpanded"},
                 "selectedPath": {"<->": "@owner.selectedPath"},

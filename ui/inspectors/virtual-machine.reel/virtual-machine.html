@@ -7,7 +7,9 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
             },
             "bindings": {
                 "classList.has('has-actions')": {"<-": "!@owner.object._isNew"}
@@ -19,10 +21,18 @@
                 }
             ]
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canSave": true,
                 "canRevert": true,
                 "controller": {"@": "owner"}

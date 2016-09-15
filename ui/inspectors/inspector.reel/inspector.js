@@ -20,20 +20,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
         value: false
     },
 
-    templateDidLoad: {
-        value: function() {
-            this._validationService = this.application.validationService;
-        }
-    },
-
     enterDocument: {
         value: function() {
-            this._mandatoryProperties = new FastSet();
-            this.missingProperties = new FastSet();
             if (this.object) {
                 this.object.__isLocked = false;
-                this._buildValidationComponents();
-                this._linkErrorMessages();
             }
         }
     },
@@ -185,76 +175,6 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     _isCreationInspector: {
         value: function() {
             return !!this.object._isNew;
-        }
-    },
-
-    _linkErrorMessages: {
-        value: function() {
-            if (this.context && this.context.error) {
-                var fieldErrors = this.context.error.extra;
-                if (fieldErrors) {
-                    var error, path, components,
-                        j, componentsLength, component;
-                    for (var i = 0, length = fieldErrors.length; i < length; i++) {
-                        error = fieldErrors[i];
-                        if (error.path.length > 1) {
-                            components = this._validationComponents[error.path.slice(1).join('.')];
-                            if (components) {
-                                for (j = 0, componentsLength = components.length; j < componentsLength; j++) {
-                                    component = components[j];
-                                    component.hasError = true;
-                                    component.errorMessage = error.message;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    this.errorMessage = this.context.error.message;
-                }
-            }
-        }
-    },
-
-    _buildValidationComponents: {
-        value: function() {
-            this._validationComponents = {};
-            this._action = this.object._isNew ? 
-                this._validationService.ACTIONS.CREATE : 
-                this._validationService.ACTIONS.UPDATE;
-            var siblingIds = Object.keys(this.parentComponent.templateObjects),
-                siblingComponent, path;
-            for (var i = 0, length = siblingIds.length; i < length; i++) {
-                siblingComponent = this.parentComponent.templateObjects[siblingIds[i]];
-                path = siblingComponent.validationPath;
-                if (path) {
-                    if (!this._validationComponents[path]) {
-                        this._validationComponents[path] = [];
-                    }
-                    siblingComponent.isMandatory = this._validationService.isPropertyMandatory(this.object.Type, path, this._action);
-                    if (siblingComponent.isMandatory) {
-                        this.addPathChangeListener("object." + path, this, "_handleMandatoryPropertyChange");
-                        this._mandatoryProperties.add(path);
-                        this.missingProperties.add(path);
-                    } else {
-                        if (this.getPathChangeDescriptor("object." + path, this)) {
-                            this.removePathChangeListener("object." + path, this);
-                        }
-                    }
-                    siblingComponent.hasError = false;
-                    this._validationComponents[path].push(siblingComponent);
-                }
-            }
-        }
-    },
-
-    _handleMandatoryPropertyChange: {
-        value: function(value, path) {
-            var relativePath = path.replace(/^object\./, '');
-            if (this._validationService.isValid(this.object.Type, relativePath, this._action, value)) {
-                this.missingProperties.delete(relativePath);
-            } else {
-                this.missingProperties.add(relativePath);
-            }
         }
     },
 

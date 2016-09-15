@@ -8,7 +8,7 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @class User
  * @extends Component
  */
-exports.User = AbstractComponentActionDelegate.specialize({
+exports.User = AbstractInspector.specialize({
 
     shellOptions: {
         value: null
@@ -79,6 +79,7 @@ exports.User = AbstractComponentActionDelegate.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
+            this.superTemplateDidLoad();
             this.application.dataService.fetchData(Model.SystemAdvanced).then(function (systemAdvancedCollection) {
                 self.systemAdvancedCollection = systemAdvancedCollection;
                 self.addRangeAtPathChangeListener("systemAdvancedCollection", self, "handleSystemAdvancedCollectionChange");
@@ -87,8 +88,8 @@ exports.User = AbstractComponentActionDelegate.specialize({
     },
 
     enterDocument: {
-        value: function (isFirstTime) {
-            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
+        value: function(isFirstTime) {
+            this.superEnterDocument(isFirstTime);
 
             var self = this,
                 loadingPromises = [],
@@ -118,7 +119,8 @@ exports.User = AbstractComponentActionDelegate.specialize({
 
     exitDocument: {
         value: function() {
-            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
+            this.superExitDocument();
+            this.superExitDocument();
             this.userType = null;
             this.useEmptyHomedir = null;
         }

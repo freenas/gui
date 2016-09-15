@@ -7,6 +7,8 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
                 "_commandComponent": {"@": "command"},
                 "_nameComponent": {"@": "name"},
                 "_imageComponent": {"@": "image"},
@@ -33,12 +35,20 @@
             }
         },
 
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
                 "canSave": true,
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},

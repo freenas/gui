@@ -1,13 +1,13 @@
 /**
  * @module ui/sections/peering/inspectors/peer.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class Peer
  * @extends Component
  */
-exports.Peer = Component.specialize(/** @lends Peer# */ {
+exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
     credentialsType: {
         get: function() {
             var type;
@@ -30,8 +30,15 @@ exports.Peer = Component.specialize(/** @lends Peer# */ {
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.superExitDocument();
+        }
+    },
+
     enterDocument: {
         value: function() {
+            this.superEnterDocument();
             if (this.object && this.object._isNew) {
                 var self = this;
                 this._peeringService.populateDefaultType(this.object).then(function() {
@@ -46,7 +53,7 @@ exports.Peer = Component.specialize(/** @lends Peer# */ {
             if (this.credentialsComponent && typeof this.credentialsComponent.save === "function") {
                 this.credentialsComponent.save();
             }
-            this.inspectorComponent.save();
+            this.inspector.save();
         }
     }
 });

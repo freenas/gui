@@ -1,7 +1,7 @@
  /**
  * @module ui/topology.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     VolumeCreator = require("ui/inspectors/volume-creator.reel").VolumeCreator,
     Promise = require("montage/core/promise").Promise,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
@@ -11,7 +11,7 @@ var Component = require("montage/ui/component").Component,
  * @class Topology
  * @extends Component
  */
-var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
+var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topology# */ {
     topologySelectedDisk: {
         value: null
     },
@@ -60,6 +60,7 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
 
     enterDocument: {
         value: function() {
+            this.superEnterDocument();
             this._cancelTopologySelectedDiskListener = this.addRangeAtPathChangeListener("topologySelectedDisk", this, "_handleTopologySelectedDiskChange");
             this._cancelAvailableSelectedDiskListener = this.addRangeAtPathChangeListener("availableSelectedDisk", this, "_handleAvailableSelectedDiskChange");
 
@@ -75,7 +76,8 @@ var Topology = exports.Topology = Component.specialize(/** @lends Topology# */ {
     },
 
     exitDocument: {
-        value: function () {
+        value: function() {
+            this.superExitDocument();
             if (typeof this._cancelAvailableSelectedDiskListener === "function") {
                 this._cancelAvailableSelectedDiskListener();
                 this._cancelAvailableSelectedDiskListener = null;

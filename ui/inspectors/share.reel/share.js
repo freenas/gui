@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     FileSystemController = require("core/controller/filesystem-tree-controller").FilesystemTreeController,
     DataSetTreeController = require("core/controller/dataset-tree-controller").DatasetTreeController,
@@ -9,7 +9,7 @@ var Component = require("montage/ui/component").Component,
  * @class Share
  * @extends Component
  */
-exports.Share = Component.specialize({
+exports.Share = AbstractInspector.specialize({
     EMPTY_STRING: {
         value: ''
     },
@@ -156,8 +156,15 @@ exports.Share = Component.specialize({
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.superExitDocument();
+        }
+    },
+
     enterDocument: {
-        value: function (isFirstTime) {
+        value: function(isFirstTime) {
+            this.superEnterDocument(isFirstTime);
             var self = this;
             if (isFirstTime) {
                 this._loadVolumeService();

@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     VmDeviceVolumeType = require("core/model/enumerations/vm-device-volume-type").VmDeviceVolumeType,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
@@ -6,7 +6,7 @@ var Component = require("montage/ui/component").Component,
  * @class VirtualMachineVolume
  * @extends Component
  */
-exports.VirtualMachineVolume = Component.specialize({
+exports.VirtualMachineVolume = AbstractInspector.specialize({
     volumeTypeOptions: {
         value: null
     },
@@ -17,8 +17,15 @@ exports.VirtualMachineVolume = Component.specialize({
         }
     },
 
+    exitDocument: {
+        value: function() {
+            this.superExitDocument();
+        }
+    },
+
     enterDocument: {
         value: function() {
+            this.superEnterDocument();
             if (!!this.object._isNew) {
                 this.object.type = "VOLUME";
                 if (!this.object.properties) {

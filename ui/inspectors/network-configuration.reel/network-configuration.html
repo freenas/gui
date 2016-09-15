@@ -7,16 +7,26 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
             },
             "bindings": {
                 "isGatewayDhcpAssigned": {"<->": "@owner.object.dhcp.assign_gateway"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
             }
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canSave": true,
                 "canRevert": true,
                 "controller": {"@": "owner"}
@@ -52,7 +62,7 @@
             },
             "bindings": {
                 "values": {"<->": "@owner.object.netwait.addresses"},
-                "enabled": {"<-": "@owner.object.netwait.enabled"},
+                "disabled": {"<-": "!@owner.object.netwait.enabled"},
                 "placeholderValue": {"<-": "@owner.object.netwait.enabled ? 'eg. 1.2.3.4' : ''"}
             }
         },
@@ -186,7 +196,7 @@
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.search"},
-                "enabled": {"<-": "!@owner.object.dhcp.assign_dns"},
+                "disabled": {"<-": "@owner.object.dhcp.assign_dns"},
                 "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. example.com' : ''"}
             }
         },
@@ -200,7 +210,7 @@
             },
             "bindings": {
                 "values": {"<->": "@owner.object.dns.addresses"},
-                "enabled": {"<-": "!@owner.object.dhcp.assign_dns"},
+                "disabled": {"<-": "@owner.object.dhcp.assign_dns"},
                 "placeholderValue": {"<-": "!@owner.object.dhcp.assign_dns ? 'eg. 1.2.3.4' : ''"}
             }
         }

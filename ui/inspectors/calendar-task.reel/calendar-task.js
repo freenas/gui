@@ -1,11 +1,11 @@
-var AbstractComponentActionDelegate = require("ui/abstract/abstract-component-action-delegate").AbstractComponentActionDelegate,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class CalendarTask
  * @extends Component
  */
-exports.CalendarTask = AbstractComponentActionDelegate.specialize({
+exports.CalendarTask = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
             this.taskCategories = [{ name: '---', value: null }].concat(this.application.calendarService.taskCategories);
@@ -14,7 +14,7 @@ exports.CalendarTask = AbstractComponentActionDelegate.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
+            this.superEnterDocument(isFirstTime);
 
             if (this.object && this.object.task) {
                 this.classList.add('type-' + this.object.task.replace('.', '_').toLowerCase());
@@ -36,7 +36,8 @@ exports.CalendarTask = AbstractComponentActionDelegate.specialize({
 
     exitDocument: {
         value: function() {
-            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
+            this.superExitDocument();
+            this.superExitDocument();
 
             if (this.object && this.object.task) {
                 this.classList.remove('type-' + this.object.task.replace('.', '_').toLowerCase());

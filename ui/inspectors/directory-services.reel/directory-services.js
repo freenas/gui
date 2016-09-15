@@ -1,18 +1,25 @@
 /**
  * @module ui/account-directory-services.reel
  */
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class DirectoryServices
  * @extends Component
  */
-exports.DirectoryServices = Component.specialize({
+exports.DirectoryServices = AbstractInspector.specialize({
 
     enterDocument: {
         value: function () {
+            this.superEnterDocument();
             this._fetchDataIfNeeded();
+        }
+    },
+
+    exitDocument: {
+        value: function() {
+            this.superExitDocument();
         }
     },
 

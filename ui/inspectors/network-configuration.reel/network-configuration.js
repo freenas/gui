@@ -1,15 +1,22 @@
 /**
  * @module ui/network-configuration.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class NetworkConfiguration
  * @extends Component
  */
-exports.NetworkConfiguration = Component.specialize(/** @lends NetworkConfiguration# */ {
+exports.NetworkConfiguration = AbstractInspector.specialize(/** @lends NetworkConfiguration# */ {
+    exitDocument: {
+        value: function() {
+            this.superExitDocument();
+        }
+    },
+
     enterDocument: {
         value: function(isFirstTime) {
+            this.superEnterDocument(isFirstTime);
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
                 this._snapshotDataObjectsIfNecessary();
