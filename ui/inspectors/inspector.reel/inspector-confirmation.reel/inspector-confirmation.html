@@ -16,13 +16,13 @@
                 }
             ]
         },
-        "confirmationMessage": {
+        "confirmDeleteMessage": {
             "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "confirmationMessage"}
+                "element": {"#": "confirmDeleteMessage"}
             },
             "bindings": {
-                "value": {"<-": "@owner.inspector.confirmationMessage"}
+                "value": {"<-": "@owner.confirmDeleteMessage"}
             }
         },
         "confirmDelete": {
@@ -44,7 +44,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="InspectorConfirmation">
-        <div data-montage-id="confirmationMessage" class="InspectorConfirmation-message"></div>
+        <div data-montage-id="confirmDeleteMessage" class="InspectorConfirmation-message"></div>
         <div class="InspectorConfirmation-actions">
             <div data-montage-id="confirmDelete" class="Button--alert"></div>
             <div data-montage-id="cancelDelete"></div>

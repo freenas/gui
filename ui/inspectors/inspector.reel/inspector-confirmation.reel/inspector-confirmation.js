@@ -9,6 +9,10 @@ var Component = require("montage/ui/component").Component;
  */
 exports.InspectorConfirmation = Component.specialize(/** @lends InspectorConfirmation# */ {
 
+    confirmDeleteMessage: {
+        value: null
+    },
+
     inspector: {
         value: null
     },

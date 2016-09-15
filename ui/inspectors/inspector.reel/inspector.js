@@ -11,6 +11,10 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.Inspector = Component.specialize(/** @lends Inspector# */ {
+    confirmDeleteMessage: {
+        value: null
+    },
+
     enterDocument: {
         value: function() {
             if (this.object) {
