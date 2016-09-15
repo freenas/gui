@@ -6,7 +6,12 @@
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "id.defined() ? names.join(' ') : 'Create a container'",
             "collectionNameExpression": "'Containers'",
-            "creatorComponentModule": {"%": "ui/inspectors/container-creator.reel"}
+            "creatorComponentModule": {"%": "ui/inspectors/container-creator.reel"},
+            "statusColorMapping": {
+                "running": "green",
+                "stopped": "grey"
+            },
+            "statusValueExpression": "running ? 'running' : 'stopped'"
         }
     }
 }
