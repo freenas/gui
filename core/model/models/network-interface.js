@@ -337,7 +337,7 @@ exports.NetworkInterface = AbstractModel.specialize({
                 "LINK_STATE_DOWN": "red",
                 "LINK_STATE_UNKNOWN": "yellow"
             },
-            statusValueExpression: "!enabled || !!_isNew ? 'DISABLED' : status.link_state"
+            statusValueExpression: "!enabled || !!_isNew ? 'DISABLED' : (status.link_state || link_state)"
         }
     }
 });
