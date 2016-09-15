@@ -14,6 +14,10 @@
     font-size: .8em;
 }
 
+.CurrentUserSummary-hostStatus {
+    justify-content: center;
+}
+
 .CurrentUserSummary-host {
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -21,18 +25,6 @@
     word-break: break-word;
     hyphens: auto;
     word-spacing: -.25em;
-
-}
-
-.CurrentUserSummary-host.TrafficLight {
-    display: block;
-
-    & .TrafficLight-light {
-        display: inline-block;
-        margin-bottom: .25em;
-    }
-}
-
-.CurrentUserSummary-host.TrafficLight .montage-Text {
-    margin: 0;
+    margin-left:  .25em;
+    margin-right: .25em;
 }
