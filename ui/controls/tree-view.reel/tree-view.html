@@ -13,14 +13,14 @@
             "bindings": {
                 "entry": {"<-": "@owner.controller.entry"},
                 "type": {"<-": "@owner.controller.type"},
-                "isPathInvalid": {"<-": "@owner.controller.isPathInvalid"},                "classList.has('is-disabled')": {"<-": "@owner.disabled"}
+                "isPathInvalid": {"<-": "@owner.controller.isPathInvalid"},
+                "classList.has('is-disabled')": {"<-": "@owner.disabled"}
             }
         },
         "currentPath": {
             "prototype": "blue-shark/ui/text-field.reel",
             "properties": {
-                "element": {"#": "currentPath"},
-                "disabled": true
+                "element": {"#": "currentPath"}
             },
             "bindings": {
                 "value": {"<-": "(@owner.entry.path + (!!@owner.suffix ? '/' + @owner.suffix : '')).replace((!!@owner.removePrefix ? @owner.removePrefix: ''), '')"}
