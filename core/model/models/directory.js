@@ -163,10 +163,14 @@ exports.Directory = AbstractModel.specialize({
             inspectorComponentModule: {
                 id: 'ui/inspectors/directory-services.reel/directory-service.reel'
             },
-            collectionItemComponentModule: {
-                id: 'ui/inspectors/directory-services.reel/directory-service-item-list.reel/'
+            nameExpression: "label",
+            statusColorMapping: {
+                "BOUND": "green",
+                "FAILURE": "red",
+                "DISABLED": "gray",
+                "OTHER": "yellow"
             },
-            nameExpression: "label"
+            statusValueExpression: "!enabled || !!_isNew ? 'DISABLED' : status == 'BOUND' || status == 'FAILURE' ? status : 'OTHER'"
         }
     }
 });

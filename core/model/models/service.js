@@ -98,9 +98,12 @@ exports.Service = AbstractModel.specialize({
                 id: 'ui/inspectors/service.reel'
             },
             nameExpression: "config.type.replace('service-', '').toUpperCase()",
-            collectionItemComponentModule: {
-                id: 'ui/services/services-list-item.reel'
-            }
+            statusColorMapping: {
+                "RUNNING": "green",
+                "UNKNOWN": "red",
+                "STOPPED": "grey"
+            },
+            statusValueExpression: "state"
         }
     }
 });
