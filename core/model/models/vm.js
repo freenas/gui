@@ -200,9 +200,6 @@ exports.Vm = AbstractModel.specialize({
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },
-            collectionItemComponentModule: {
-                id: 'ui/virtualization/virtualization-list-item.reel'
-            },
             collectionNameExpression: "'Virtual Machines'",
             inspectorComponentModule: {
                 id: 'ui/inspectors/virtual-machine.reel'
@@ -210,7 +207,13 @@ exports.Vm = AbstractModel.specialize({
             creatorComponentModule: {
                 id: 'ui/inspectors/virtual-machine.reel'
             },
-            nameExpression: "_isNew.defined() && _isNew ? 'New VM' : name"
+            nameExpression: "_isNew.defined() && _isNew ? 'New VM' : name",
+            statusColorMapping: {
+                "RUNNING": "green",
+                "BOOTLOADER": "green",
+                "STOPPED": "grey"
+            },
+            statusValueExpression: "status.state"
         }
     }
 });

@@ -13,6 +13,7 @@ var CONSTRUCTOR_PROPERTY_BLUEPRINTS_TEMPLATE = "propertyBlueprints: { value: <PR
 var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_TEMPLATE = "userInterfaceDescriptor: { value: { <USER_INTERFACE_DESCRIPTOR> } } ";
 var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_MODULE_ID_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_MODULE_NAME>: { id: '<USER_INTERFACE_DESCRIPTOR_MODULE_ID>' }";
 var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>: \"<USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING>\"";
+var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_OBJECT_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>: <USER_INTERFACE_DESCRIPTOR_PROPERTY_OBJECT>";
 var REQUIRE_TEMPLATE = 'var <MODULE_NAME> = require("<MODULE_ID>").<MODULE_NAME>;';
 var PROPERTY_TEMPLATE = '<PRIVATE_PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this<PRIVATE_PROPERTY_NAME_KEY> !== value) {this<PRIVATE_PROPERTY_NAME_KEY> = value;}}, get: function () {return this<PRIVATE_PROPERTY_NAME_KEY>;}}';
 var PROPERTY_OBJECT_TEMPLATE = '<PRIVATE_PROPERTY_NAME>:{value:null},<PROPERTY_NAME>:{set: function (value) {if (this<PRIVATE_PROPERTY_NAME_KEY> !== value) {this<PRIVATE_PROPERTY_NAME_KEY> = value;}}, get: function () {return this<PRIVATE_PROPERTY_NAME_KEY> || (this<PRIVATE_PROPERTY_NAME_KEY> = new <MODULE_NAME>());}}';
@@ -138,17 +139,25 @@ ModelObject.prototype.toJS = function () {
             property = userInterfaceDescriptorProperties[userInterfaceDescriptorPropertiesKeys[i]];
 
             if (typeof property === "object") {
-                CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += (
-                    (CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_MODULE_ID_TEMPLATE
-                        .replace(/<USER_INTERFACE_DESCRIPTOR_MODULE_NAME>/ig, userInterfaceDescriptorPropertiesKeys[i]))
-                        .replace(/<USER_INTERFACE_DESCRIPTOR_MODULE_ID>/ig, property["%"])
-                );
+                if (property["%"]) {
+                    CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += (
+                        (CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_MODULE_ID_TEMPLATE
+                            .replace(/<USER_INTERFACE_DESCRIPTOR_MODULE_NAME>/ig, userInterfaceDescriptorPropertiesKeys[i]))
+                            .replace(/<USER_INTERFACE_DESCRIPTOR_MODULE_ID>/ig, property["%"])
+                    );
+                } else {
+                   CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += (
+                        (CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_OBJECT_TEMPLATE
+                            .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>/ig, userInterfaceDescriptorPropertiesKeys[i]))
+                            .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_OBJECT>/ig, JSON.stringify(property))
+                    );
+                }    
             } else {
-                CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += (
-                    (CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING_TEMPLATE
-                        .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>/ig, userInterfaceDescriptorPropertiesKeys[i]))
-                        .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING>/ig, property)
-                );
+                 CONSTRUCTOR_USER_INTERFACE_DESCRIPTOR += (
+                        (CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING_TEMPLATE
+                            .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_NAME>/ig, userInterfaceDescriptorPropertiesKeys[i]))
+                            .replace(/<USER_INTERFACE_DESCRIPTOR_PROPERTY_STRING>/ig, property)
+                    );
             }
 
             if (length - 1 !== i) {

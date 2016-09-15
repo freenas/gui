@@ -323,9 +323,6 @@ exports.NetworkInterface = AbstractModel.specialize({
             iconComponentModule: {
                 id: 'ui/icons/network-interface.reel'
             },
-            collectionItemComponentModule: {
-                id: 'ui/network/interfaces-list-item.reel'
-            },
             collectionInspectorComponentModule: {
                 id: 'ui/controls/viewer.reel'
             },
@@ -333,7 +330,14 @@ exports.NetworkInterface = AbstractModel.specialize({
                 id: 'ui/inspectors/network-interface-creator.reel'
             },
             collectionNameExpression: "'Interfaces'",
-            nameExpression: "!!id ? !!name ? name : id : !!type ? 'New ' + type : 'Choose an interface type'"
+            nameExpression: "!!id ? !!name ? name : id : !!type ? 'New ' + type : 'Choose an interface type'",
+            statusColorMapping: {
+                "LINK_STATE_UP": "green",
+                "DISABLED": "grey",
+                "LINK_STATE_DOWN": "red",
+                "LINK_STATE_UNKNOWN": "yellow"
+            },
+            statusValueExpression: "!enabled || !!_isNew ? 'DISABLED' : (status.link_state || link_state)"
         }
     }
 });

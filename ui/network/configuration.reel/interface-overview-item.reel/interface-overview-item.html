@@ -56,13 +56,13 @@
             }
         },
         "status": {
-            "prototype": "ui/controls/link-status.reel",
+            "prototype": "ui/controls/traffic-light.reel",
             "properties": {
                 "element": {"#": "status"}
             },
             "bindings": {
-                "status": {"<-": "@owner.object.link_state"},
-                "enabledState": {"<-": "@owner.object.enabled"}
+                "colorMapping": {"<-": "@owner.userInterfaceDescriptor.statusColorMapping"},
+                "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.statusValueExpression)"}
             }
         }
     }

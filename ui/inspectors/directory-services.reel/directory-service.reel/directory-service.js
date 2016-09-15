@@ -7,6 +7,4 @@ var Component = require("montage/ui/component").Component;
  * @class DirectoryService
  * @extends Component
  */
-exports.DirectoryService = Component.specialize(/** @lends DirectoryService# */ {
-    
-});
+exports.DirectoryService = Component.specialize();

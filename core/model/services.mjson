@@ -2924,15 +2924,6 @@
             }
         }
     },
-    "VmConfig": {
-        "instance": {
-            "read": {
-                "method": "vm.config.get_config",
-                "name": "call",
-                "namespace": "rpc"
-            }
-        }
-    },
     "VmSnapshot": {
         "instance": {
             "create": {

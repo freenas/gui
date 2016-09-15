@@ -307,7 +307,12 @@ exports.DockerContainer = AbstractModel.specialize({
             collectionNameExpression: "'Containers'",
             creatorComponentModule: {
                 id: 'ui/inspectors/container-creator.reel'
-            }
+            },
+            statusColorMapping: {
+                "running": "green",
+                "stopped": "grey"
+            },
+            statusValueExpression: "running ? 'running' : 'stopped'"
         }
     }
 });
