@@ -19,15 +19,15 @@
                 "element": {"#": "inspector"},
                 "keys": [
                     "uid"
-                ]
+                ],
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object.builtin"},
                 "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
                 "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
-                "confirmationMessage": {"<-": "'Are you sure you want to delete user ' + @owner.object.username + '?'"},
-                "controller": {"@": "owner"}
+                "confirmationMessage": {"<-": "'Are you sure you want to delete user ' + @owner.object.username + '?'"}
             }
         },
         "filesystemTreeController": {
