@@ -45,8 +45,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     self.object.__isLocked = false;
                     self.clearObjectSelection();
                 });
+            } else if (this.controller) {
+                console.warn('NOT IMPLEMENTED: delete() on ', this.controller.templateModuleId);
             } else {
-                console.warn('NOT IMPLEMENTED: delete() on', this.controller.templateModuleId);
+                console.warn('NOT IMPLEMENTED: delete() on unknown controller.');
             }
 
             if (event) {
@@ -81,8 +83,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
             } else if (this.object) {
                 promise = this.revert();
+            } else if (this.controller) {
+                console.warn('NOT IMPLEMENTED: revert() on ', this.controller.templateModuleId);
             } else {
-                console.warn('NOT IMPLEMENTED: revert() on', this.parentComponent.templateModuleId);
+                console.warn('NOT IMPLEMENTED: revert() on unknown controller.');
             }
             event.stopPropagation();
         }
@@ -101,8 +105,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
             } else if (this.object) {
                 promise = this.save();
+            } else if (this.controller) {
+                console.warn('NOT IMPLEMENTED: save() on ', this.controller.templateModuleId);
             } else {
-                console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
+                console.warn('NOT IMPLEMENTED: save() on unknown controller.');
             }
 
             if (this._isCreationInspector()) {
