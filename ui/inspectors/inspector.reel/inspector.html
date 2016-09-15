@@ -63,6 +63,9 @@
             "properties": {
                 "element": {"#": "confirmationMessage"},
                 "inspector": {"@": "owner"}
+            },
+            "bindings": {
+                "confirmDeleteMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"}
             }
         }
 
