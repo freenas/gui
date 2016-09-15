@@ -25,12 +25,12 @@
             }
         },
         "pathButton": {
-            "prototype": "montage/ui/button.reel",
+            "prototype": "blue-shark/ui/button.reel",
             "properties": {
                 "element": {"#": "pathButton"}
             },
             "bindings": {
-                "disabled": {"<-": "@owner.readOnly"}
+                "disabled": {"<-": "@owner.disabled || @owner.readOnly"}
             }
         },
         "selectedPath": {
@@ -52,7 +52,8 @@
                 "isExpanded": {"<->": "@owner.isExpanded"},
                 "selectedPath": {"<->": "@owner.selectedPath"},
                 "suffix": {"<-": "@owner.suffix"},
-                "removePrefix": {"<-": "@owner.removePrefix || ''"}
+                "removePrefix": {"<-": "@owner.removePrefix || ''"},
+                "disabled": {"<-": "@owner.disabled"}
             }
         },
         "iconSubstitution": {
@@ -70,7 +71,7 @@
 <body>
     <div data-montage-id="owner" class="FieldTreeview">
         <div data-montage-id="field">
-            <div data-montage-id="pathButton" class="FieldTreeview-pathButton">
+            <div data-montage-id="pathButton" class="FieldTreeview-pathButton" tabindex="0">
                 <div class="FieldTreeview-selectedPath">
                     <span data-montage-id="selectedPath"></span>
                 </div>
@@ -78,6 +79,7 @@
                     <svg data-arg="FILE"><use xlink:href="#i-file"/></svg>
                     <svg data-arg="DATASET"><use xlink:href="#i-dataset"/></svg>
                     <svg data-arg="DIRECTORY"><use xlink:href="#i-folder"/></svg>
+                    <svg data-arg="ZVOL"><use xlink:href="#i-zvol"/></svg>
                 </div>
             </div>
         </div>
