@@ -101,72 +101,6 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
 
 
     /**
-     * @type {number}
-     * @private
-     *
-     * @description todo.
-     *
-     */
-    _dismissNotificationAfterDelay: {
-        value: 2000
-    },
-
-
-    /**
-     * @type {number}
-     * @public
-     *
-     * @description todo.
-     *
-     */
-    dismissNotificationAfterDelay: {
-        set: function (dismissNotificationAfterDelay) {
-            dismissNotificationAfterDelay = ~~dismissNotificationAfterDelay;
-
-            if (this._dismissNotificationAfterDelay !== dismissNotificationAfterDelay) {
-                this._dismissNotificationAfterDelay = dismissNotificationAfterDelay;
-
-                if (dismissNotificationAfterDelay) {
-                    //todo: should clean all existing notifications?
-                }
-            }
-        },
-        get: function () {
-            return this._dismissNotificationAfterDelay;
-        }
-    },
-
-
-    /**
-     * @type {Boolean}
-     * @private
-     *
-     * @description todo.
-     *
-     */
-    _dismissNotificationDelay: {
-        value: null
-    },
-
-
-    /**
-     * @type {Boolean}
-     * @public
-     *
-     * @description todo.
-     *
-     */
-    dismissNotificationDelay: {
-        set: function (dismissNotificationAfterDelay) {
-            this._dismissNotificationDelay = !!dismissNotificationAfterDelay;
-        },
-        get: function () {
-            return this._dismissNotificationDelay;
-        }
-    },
-
-
-    /**
      * @type {Object.<BackEndBridge>}
      * @private
      *
@@ -777,24 +711,6 @@ var NotificationCenter = exports.NotificationCenter = Target.specialize({
     _createNotificationWithType: {
         value:function (type) {
             return new Notification(type);
-        }
-    },
-
-
-    /**
-     * @function
-     * @private
-     *
-     * @description todo
-     *
-     */
-    _stopTrackingTaskAfterDelay: {
-        value: function (taskNotification, delay) {
-            var self = this;
-
-            setTimeout(function () {
-                self.stopTrackingTaskWithJobId(taskNotification.jobId);
-            }, delay);
         }
     }
 
