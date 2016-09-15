@@ -15,12 +15,12 @@
     transition-timing-function: ease-in-out;
     transition-duration: .25s;
 
-    &:hover {
+    &:hover:not(.montage--disabled) {
         color: #fff;
         background: #7c7c7c;
     }
 
-    &:active {
+    &:active:not(.montage--disabled) {
         color: #fff;
         background: #7c7c7c;
         background-image: none;
@@ -52,7 +52,7 @@
     visibility: hidden;
 }
 
-.FieldTreeview.isExpanded .FieldTreeview-treeView {
+.FieldTreeview.is-expanded .FieldTreeview-treeView {
     position: relative;
     visibility: visible;
     margin-bottom: 1em;
