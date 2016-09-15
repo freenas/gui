@@ -14,52 +14,11 @@
     border-bottom:  1px solid rgba(255,255,255,.2);
     background-color: #232629;
     transition: background-color .25s, color .25s, border-color .25s;
-}
 
-.ListItem + .ListItem,
-.ListItem:first-child {
-    border-top-color: transparent;
-}
-
-.ListItem-label {
-    flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.ListItem:hover {
-    background-color: #33373B;
-    color: #FFF;
-}
-
-.ListItem:hover .ListItem-icon > * {
-    color: #fff;
-}
-
-/* gives the size to the icon */
-
-.ListItem-icon > * {
-    width:  1.9em;
-    height: 1.9em;
-    margin-right: 1em;
-    color: currentColor;
-    transition: color .25s;
-}
-
-/* List Item arrow */
-
-.ListItem-arrow {
-    width: 1.4em;
-    display: flex;
-    margin-right: .5em;
-    color: currentColor;
-}
-
-.ListItem-arrow svg {
-    align-self: center;
-    width:  2em;
-    height: 2em;
+    &:hover {
+        background-color: #33373B;
+        color: #FFF;
+    }
 }
 
 /* States ---------------------------------- */
@@ -70,13 +29,55 @@
     color: #fff;
 
     @nest .CascadingListItem:not(:nth-last-child(2)) & {
-        background: color(#2B9CD8 blackness(35%));
-        border-color: color(#2B9CD8 blackness(35%));
+        background:     color(#2B9CD8 blackness(35%));
+        border-color:   color(#2B9CD8 blackness(35%));
     }
 }
 
-/* $fix - selected state shoudn't change */
+.ListItem + .ListItem,
+.ListItem:first-child {
+    border-top-color: transparent;
+    /* removes top border from first child and any sibling ListItem*/
+}
 
-.ListItem:hover .ListItem-arrow {
-    color: #fafafa;
+.ListItem-label {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ListItem-icon > * {
+    width:  1.9em;
+    height: 1.9em;
+    /* gives the size to the icon */
+    margin-right: 1em;
+    color: currentColor;
+    transition: color .25s;
+
+    @nest .ListItem:hover & {
+        color: #fff;
+    }
+}
+
+/* List Item arrow */
+
+.ListItem-arrow {
+    width: 1.4em;
+    display: flex;
+    margin-right: .5em;
+    color: currentColor;
+
+    & svg {
+        align-self: center;
+        width:  2em;
+        height: 2em;
+    }
+}
+
+/* Status Icon */
+
+.ListItem-status {
+    font-size: .6em;
+    margin-right: .5rem;
 }
