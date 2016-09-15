@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
     <link rel="stylesheet" type="text/css" href="list-item.css">
     <script type="text/montage-serialization">
     {
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            }
+        },
+        "status": {
+            "prototype": "ui/controls/traffic-light.reel",
+            "properties": {
+                "element": {"#": "status"}
+            },
+            "bindings": {
+                "colorMapping": {"<-": "!@owner.isCollection ? @owner.userInterfaceDescriptor.statusColorMapping : null"},
+                "value": {"<-": "@owner.object.path(@owner.userInterfaceDescriptor.statusValueExpression)"}
             }
         },
         "label": {
@@ -35,6 +44,7 @@
 <body>
     <div data-montage-id="owner" class="ListItem">
         <div data-param="*"></div>
+        <div data-montage-id="status"></div>
         <div data-montage-id="iconImagePlaceholder" class="ListItem-icon"></div>
         <div data-montage-id="label" class="ListItem-label"></div>
         <div class="ListItem-arrow">
