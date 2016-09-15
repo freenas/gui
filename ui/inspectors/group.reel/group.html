@@ -20,8 +20,7 @@
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object.builtin"},
                 "canRevert": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"},
-                "canSave": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"},
-                "confirmationMessage": {"<-": "'Are you sure you want to delete group ' + @owner.object.name + '?'"}
+                "canSave": {"<-": "(@owner.object.gid == 0) || !@owner.object.builtin"}
             }
         },
         "gidValidator": {

@@ -26,8 +26,7 @@
                 "context": {"<-": "@owner.context"},
                 "canDelete": {"<-": "!@owner.object.builtin"},
                 "canRevert": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
-                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"},
-                "confirmationMessage": {"<-": "'Are you sure you want to delete user ' + @owner.object.username + '?'"}
+                "canSave": {"<-": "(@owner.object.uid == 0) || !@owner.object.builtin"}
             }
         },
         "filesystemTreeController": {
