@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="tunable.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "owner"}
+            }
+        },
+        "inspector": {
+            "prototype": "ui/inspectors/inspector.reel",
+            "properties": {
+                "element": {"#": "inspector"},
+                "canDelete": true,
+                "canSave": true,
+                "canRevert": true
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"},
+                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.var + '?'"}
+            }
+        },
+        "value": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "value"},
+                "label": "Value"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.value"}
+            }
+        },
+        "variable": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "variable"},
+                "label": "Variable"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.var"}
+            }
+        },
+        "tunableTypeOptionConverter": {
+            "prototype": "core/converter/select-option-converter",
+            "properties": {
+                "labelPropertyName": "this",
+                "valuePropertyName": "this"
+            }
+        },
+        "type": {
+            "prototype": "blue-shark/ui/field-select.reel",
+            "properties": {
+                "element": {"#": "type"},
+                "label": "Type",
+                "converter": {"@": "tunableTypeOptionConverter"}
+            },
+            "bindings": {
+                "options" : {"<-": "@owner.typeOptions"},
+                "selectedValue": {"<->": "@owner.object.type"}
+            }
+        },
+        "comment": {
+            "prototype": "blue-shark/ui/field-text-input.reel",
+            "properties": {
+                "element": {"#": "comment"},
+                "label": "Comment"
+            },
+            "bindings": {
+                "value": {"<->": "@owner.object.comment"}
+            }
+        },
+        "enabled": {
+            "prototype": "blue-shark/ui/field-checkbox.reel",
+            "properties": {
+                "element": {"#": "enabled"},
+                "label": "Enable"
+            },
+            "bindings": {
+                "checked": {"<->": "@owner.object.enabled"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Tunable">
+        <div data-montage-id="inspector">
+            <div data-montage-id="variable"></div>
+            <div data-montage-id="value"></div>
+            <div data-montage-id="type"></div>
+            <div data-montage-id="comment"></div>
+            <div data-montage-id="enabled"></div>
+        </div>
+    </div>
+</body>
+</html>

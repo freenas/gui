@@ -107,5 +107,20 @@ exports.Tunable = AbstractModel.specialize({
             name: "var",
             valueType: "String"
         }]
+    },
+    userInterfaceDescriptor: {
+        value: {
+            inspectorComponentModule: {
+                id: 'ui/inspectors/tunable.reel'
+            },
+            collectionInspectorComponentModule: {
+                id: 'ui/controls/viewer.reel'
+            },
+            collectionNameExpression: "'Tunables'",
+            creatorComponentModule: {
+                id: 'ui/inspectors/tunable.reel'
+            },
+            nameExpression: "_isNew.defined() && _isNew ? 'Add a Tunable' : var"
+        }
     }
 });

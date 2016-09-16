@@ -15,7 +15,8 @@
                     "serialConsole": {"@": "serialConsole"},
                     "debug": {"@": "debug"},
                     "mail": {"@": "mail"},
-                    "dockerSettings": {"@": "dockerSettings"}
+                    "dockerSettings": {"@": "dockerSettings"},
+                    "tunable": {"@": "tunable"}
                 }
             }
         },
@@ -122,6 +123,15 @@
             "properties": {
                 "element": {"#": "system"}
             }
+        },
+        "tunable": {
+            "prototype": "./tunable.reel",
+            "properties": {
+                "element": {"#": "tunable"}
+            },
+            "bindings": {
+                "object": {"<-": "@owner.tunables"}
+            }
         }
     }
     </script>
@@ -143,6 +153,7 @@
                 <div data-montage-id="hardware" data-arg="hardware"></div>
                 <div data-montage-id="debug" data-arg="debug"></div>
                 <div data-montage-id="mail" data-arg="mail"></div>
+                <div data-montage-id="tunable" data-arg="tunable"></div>
             </div>
         </div>
     </div>
