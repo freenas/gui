@@ -13,7 +13,8 @@
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
-                "element": {"#": "inspector"}
+                "element": {"#": "inspector"},
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},

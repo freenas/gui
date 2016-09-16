@@ -11,6 +11,10 @@ var Component = require("montage/ui/component").Component,
  * @extends Component
  */
 exports.Inspector = Component.specialize(/** @lends Inspector# */ {
+    confirmDeleteMessage: {
+        value: null
+    },
+
     enterDocument: {
         value: function() {
             if (this.object) {
@@ -20,14 +24,20 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     },
 
     handleDeleteAction: {
+        value: function() {
+            this.isConfirmationVisible = true;
+        }
+    },
+
+    confirmDelete: {
         value: function (event) {
             var self = this,
                 promise;
 
             this._isToBeDeleted = true;
 
-            if (typeof this.parentComponent.delete === 'function') {
-                promise = this.parentComponent.delete();
+            if (this.controller && typeof this.controller.delete === 'function') {
+                promise = this.controller.delete();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
@@ -39,13 +49,23 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                     self.object.__isLocked = false;
                     self.clearObjectSelection();
                 });
+            } else if (this.controller) {
+                console.warn('NOT IMPLEMENTED: delete() on ', this.controller.templateModuleId);
             } else {
-                console.warn('NOT IMPLEMENTED: delete() on', this.parentComponent.templateModuleId);
+                console.warn('NOT IMPLEMENTED: delete() on unknown controller.');
             }
 
             if (event) {
                 event.stopPropagation();
             }
+
+            this.isConfirmationVisible = false;
+        }
+    },
+
+    cancelDelete: {
+        value: function() {
+            this.isConfirmationVisible = false;
         }
     },
 
@@ -56,20 +76,21 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
         }
     },
 
-
     handleRevertAction: {
         value: function(event) {
             var promise;
-            if (typeof this.parentComponent.revert === 'function') {
-                promise = this.parentComponent.revert();
+            if (this.controller && typeof this.controller.revert === 'function') {
+                promise = this.controller.revert();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
             } else if (this.object) {
                 promise = this.revert();
+            } else if (this.controller) {
+                console.warn('NOT IMPLEMENTED: revert() on ', this.controller.templateModuleId);
             } else {
-                console.warn('NOT IMPLEMENTED: revert() on', this.parentComponent.templateModuleId);
+                console.warn('NOT IMPLEMENTED: revert() on unknown controller.');
             }
             event.stopPropagation();
         }
@@ -80,16 +101,18 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
             var self = this,
                 promise;
 
-            if (typeof this.parentComponent.save === 'function') {
-                promise = this.parentComponent.save();
+            if (this.controller && typeof this.controller.save === 'function') {
+                promise = this.controller.save();
 
                 if (Promise.is(promise)) {
                     promise.catch(this._logError);
                 }
             } else if (this.object) {
                 promise = this.save();
+            } else if (this.controller) {
+                console.warn('NOT IMPLEMENTED: save() on ', this.controller.templateModuleId);
             } else {
-                console.warn('NOT IMPLEMENTED: save() on', this.parentComponent.templateModuleId);
+                console.warn('NOT IMPLEMENTED: save() on unknown controller.');
             }
 
             if (this._isCreationInspector()) {

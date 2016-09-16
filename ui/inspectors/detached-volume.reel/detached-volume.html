@@ -21,10 +21,12 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canDelete": "true"
+                "canDelete": "true",
+                "controller": {"@": "owner"}
             },
             "bindings": {
-                "context": {"<-": "@owner.context"}
+                "context": {"<-": "@owner.context"},
+                "confirmDeleteMessage": {"<-": "'Are you sure you want to erase disks previously used in volume ' + @owner.object.name +'?'"}
             }
         },
         "topology": {

@@ -44,12 +44,12 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canDelete": "true"
+                "canDelete": "true",
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"},
-                "confirmationMessage": {"<-": "'Are you sure you want to delete ' + @owner.object.id + '?'"}
+                "isConfirmationVisible": {"<-": "@owner.isConfirmationVisible"}
             }
         },
         "shares": {
@@ -118,20 +118,6 @@
                 "element": {"#": "export"},
                 "value": "Detach"
             }
-        },
-        "delete": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "delete"},
-                "value": "Delete"
-            }
-        },
-        "cancel": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "cancel"},
-                "value": "Cancel"
-            }
         }
     }
     </script>
@@ -156,10 +142,6 @@
             <div data-arg="footer-additional-button" class="ActionButtons">
                 <div data-montage-id="export"></div>
                 <div data-montage-id="scrub"></div>
-            </div>
-            <div data-arg="confirmation-actions">
-                <div data-montage-id="delete" class="Button--alert"></div>
-                <div data-montage-id="cancel"></div>
             </div>
         </div>
     </div>

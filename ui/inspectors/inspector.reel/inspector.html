@@ -61,10 +61,11 @@
         "confirmationMessage": {
             "prototype": "./inspector-confirmation.reel",
             "properties": {
-                "element": {"#": "confirmationMessage"}
+                "element": {"#": "confirmationMessage"},
+                "inspector": {"@": "owner"}
             },
             "bindings": {
-                "confirmationMessage": {"<-": "@owner.confirmationMessage"}
+                "confirmDeleteMessage": {"<-": "!!@owner.confirmDeleteMessage ? @owner.confirmDeleteMessage : 'Are you sure you want to delete ' + @owner.context.object.path(@owner.context.userInterfaceDescriptor.nameExpression)"}
             }
         }
 
@@ -76,9 +77,7 @@
         <div class="Inspector-locked">
             <div data-montage-id="lockMessage"></div>
         </div>
-        <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage">
-            <div data-param="confirmation-actions" class="InspectorConfirmation-actions"></div>
-        </div>
+        <div data-montage-id="confirmationMessage" class="Inspector-confirmationMessage"></div>
         <div data-montage-id="scrollView">
             <div data-montage-id="loading" class="Inspector-loading"></div>
             <div class="Inspector-body">

@@ -23,7 +23,8 @@
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canDelete": false
+                "canDelete": false,
+                "controller": {"@": "owner"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
