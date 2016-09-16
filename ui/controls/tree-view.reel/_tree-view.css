@@ -2,6 +2,12 @@
     border: 1px solid #000;
     border-radius: 4px;
     background-color: #242628;
+    transition: opacity .25s ease-in-out;
+
+    &.is-disabled {
+        opacity: .5;
+        pointer-events: none;
+    }
 }
 
 .TreeView-header {

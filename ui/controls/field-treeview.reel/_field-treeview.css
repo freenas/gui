@@ -1,31 +1,41 @@
 .FieldTreeview {}
 
-.FieldTreeview-pathButton {
+.FieldTreeview-pathButton[role="button"] {
     position: relative;
     display: flex;
     align-items: center;
+    font-size: 1em;
     line-height: 2em;
     height: 2em;
     padding: 0 .5em;
-    border: 1px solid currentColor;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    background-color: #242628;
-    transition-property: color, background-color;
+    background-image: none;
+    text-align: left;
+    width: 100%;
+    transition-property: color, background-color, opacity;
     transition-timing-function: ease-in-out;
     transition-duration: .25s;
-}
 
-.FieldTreeview-pathButton:hover {
-    color: #DFE4E4;
-    background: #2F3233;
-}
+    &:hover:not(.montage--disabled) {
+        color: #fff;
+        background: #7c7c7c;
+    }
 
+    &:active:not(.montage--disabled) {
+        color: #fff;
+        background: #7c7c7c;
+        background-image: none;
+    }
+}
 
 .FieldTreeview-icon {
     display: flex;
     align-items: center;
+
+    /* button overrides */
+    margin-top:     0 !important;
+    margin-right:   0 !important;
+    max-height: none !important;
+    max-width:  none !important;
 
     & svg {
         position: relative;
@@ -37,32 +47,35 @@
     }
 }
 
-
 .FieldTreeview-treeView {
     position: absolute;
     visibility: hidden;
 }
 
-.FieldTreeview.isExpanded .FieldTreeview-treeView {
+.FieldTreeview.is-expanded .FieldTreeview-treeView {
     position: relative;
     visibility: visible;
     margin-bottom: 1em;
 }
 
-.FieldTreeview.isExpanded .FieldTreeview-pathButton {
-    visibility: hidden;
-}
+/* selected path */
 
-.FieldTreeview-selectedPath {
+.FieldTreeview .FieldTreeview-selectedPath {
     position: absolute;
     left: 1.5em;
     right: .5em;
-    top: 0;
-    bottom: 0;
+    height:         calc(2em - 2px);
+    line-height:    calc(2em - 2px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: clip;
     background-color: inherit;
+
+    /* button overrides */
+    margin-top:     0 !important;
+    margin-right:   0 !important;
+    max-height: none !important;
+    max-width:  none !important;
 }
 
 .FieldTreeview-selectedPath:before {
