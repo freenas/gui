@@ -5,14 +5,15 @@ var Montage = require("montage").Montage,
 
 exports.ValidationService = Montage.specialize({
     ACTIONS: {
-        value: {
-            CREATE: 'create',
-            UPDATE: 'update'
-        }
+        value: null
     },
 
     constructor: {
         value: function() {
+            this.ACTIONS = {
+                CREATE: 'create',
+                UPDATE: 'update'
+            };
             this._mandatoryPropertiesPerType = new FastMap();
         }
     },
