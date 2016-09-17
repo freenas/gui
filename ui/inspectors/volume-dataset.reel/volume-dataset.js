@@ -57,15 +57,10 @@ exports.VolumeDataset = AbstractInspector.specialize(/** @lends VolumeDataset# *
         }
     },
 
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     enterDocument: {
         value: function() {
-            this.superEnterDocument();
+            this.$super.enterDocument();
             this.volume = this._getCurrentVolume();
 
             if (this.object._isNew) {

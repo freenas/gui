@@ -11,7 +11,7 @@ exports.Container = AbstractInspector.specialize({
 
     enterDocument: {
         value: function (isFirstTime) {
-            this.superEnterDocument(isFirstTime);
+            this.$super.enterDocument(isFirstTime);
 
             if (this.object.memory_limit) {
                 this.object.memory_limit = this.application.bytesService.convertMemsizeToString(this.object.memory_limit);
@@ -19,11 +19,6 @@ exports.Container = AbstractInspector.specialize({
         }
     },
 
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     handleStartAction: {
         value: function() {

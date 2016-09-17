@@ -8,15 +8,10 @@ var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspec
  * @extends Component
  */
 exports.NetworkConfiguration = AbstractInspector.specialize(/** @lends NetworkConfiguration# */ {
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.superEnterDocument(isFirstTime);
+            this.$super.enterDocument(isFirstTime);
             if (isFirstTime) {
                 this._dataService = this.application.dataService;
                 this._snapshotDataObjectsIfNecessary();

@@ -12,16 +12,11 @@ exports.DirectoryServices = AbstractInspector.specialize({
 
     enterDocument: {
         value: function () {
-            this.superEnterDocument();
+            this.$super.enterDocument();
             this._fetchDataIfNeeded();
         }
     },
 
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     handleDirectoriesChange: {
         value: function () {

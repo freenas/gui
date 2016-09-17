@@ -79,7 +79,6 @@ exports.User = AbstractInspector.specialize({
     templateDidLoad: {
         value: function() {
             var self = this;
-            this.superTemplateDidLoad();
             this.application.dataService.fetchData(Model.SystemAdvanced).then(function (systemAdvancedCollection) {
                 self.systemAdvancedCollection = systemAdvancedCollection;
                 self.addRangeAtPathChangeListener("systemAdvancedCollection", self, "handleSystemAdvancedCollectionChange");
@@ -89,7 +88,7 @@ exports.User = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.superEnterDocument(isFirstTime);
+            this.$super.enterDocument(isFirstTime);
 
             var self = this,
                 loadingPromises = [],
@@ -119,8 +118,7 @@ exports.User = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.superExitDocument();
-            this.superExitDocument();
+            this.$super.exitDocument();
             this.userType = null;
             this.useEmptyHomedir = null;
         }

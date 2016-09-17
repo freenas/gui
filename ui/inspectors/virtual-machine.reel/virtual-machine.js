@@ -171,7 +171,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.superEnterDocument(isFirstTime);
+            this.$super.enterDocument(isFirstTime);
             var self = this,
                 loadingPromises = [];
             this.isLoading = true;
@@ -215,7 +215,7 @@ exports.VirtualMachine = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.superExitDocument();
+            this.$super.exitDocument();
             this.templateName = null;
             this.memorySize = null;
             this.webvncConsole = null;

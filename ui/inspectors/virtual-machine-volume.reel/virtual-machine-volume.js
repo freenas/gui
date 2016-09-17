@@ -17,15 +17,10 @@ exports.VirtualMachineVolume = AbstractInspector.specialize({
         }
     },
 
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     enterDocument: {
         value: function() {
-            this.superEnterDocument();
+            this.$super.enterDocument();
             if (!!this.object._isNew) {
                 this.object.type = "VOLUME";
                 if (!this.object.properties) {

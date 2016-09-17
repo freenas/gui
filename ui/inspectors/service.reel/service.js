@@ -10,15 +10,10 @@ exports.Service = AbstractInspector.specialize({
         value: null
     },
 
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.superEnterDocument(isFirstTime);
+            this.$super.enterDocument(isFirstTime);
             if (isFirstTime) {
                 var self = this;
                 return this.application.dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral) {

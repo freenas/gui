@@ -37,14 +37,14 @@ exports.VolumeCreator = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.superExitDocument();
+            this.$super.exitDocument();
             this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
         }
     },
 
     enterDocument: {
         value: function() {
-            this.superEnterDocument();
+            this.$super.enterDocument();
             this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");

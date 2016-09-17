@@ -74,15 +74,10 @@ exports.Snapshot = AbstractInspector.specialize(/** @lends Snapshot# */ {
         }
     },
 
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     enterDocument: {
         value: function() {
-            this.superEnterDocument();
+            this.$super.enterDocument();
             this.expirationDate = this._getExpirationDate();
             this._loadVolume();
         }

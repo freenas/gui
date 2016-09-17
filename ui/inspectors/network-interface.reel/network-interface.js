@@ -46,14 +46,14 @@ exports.NetworkInterface = AbstractInspector.specialize({
 
     enterDocument: {
         value: function() {
-            this.superEnterDocument();
+            this.$super.enterDocument();
             this._subscribeToAliasesChanges();
         }
     },
 
     exitDocument: {
         value: function() {
-            this.superExitDocument();
+            this.$super.exitDocument();
             this._unsubscribeToAliasesChangesIfNeeded();
             this.interfaceType = null;
             // set to null in order to apply hypothetical changes from the middleware

@@ -30,15 +30,10 @@ exports.Peer = AbstractInspector.specialize(/** @lends Peer# */ {
         }
     },
 
-    exitDocument: {
-        value: function() {
-            this.superExitDocument();
-        }
-    },
 
     enterDocument: {
         value: function() {
-            this.superEnterDocument();
+            this.$super.enterDocument();
             if (this.object && this.object._isNew) {
                 var self = this;
                 this._peeringService.populateDefaultType(this.object).then(function() {

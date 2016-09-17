@@ -14,7 +14,7 @@ exports.CalendarTask = AbstractInspector.specialize({
 
     enterDocument: {
         value: function(isFirstTime) {
-            this.superEnterDocument(isFirstTime);
+            this.$super.enterDocument(isFirstTime);
 
             if (this.object && this.object.task) {
                 this.classList.add('type-' + this.object.task.replace('.', '_').toLowerCase());
@@ -36,8 +36,7 @@ exports.CalendarTask = AbstractInspector.specialize({
 
     exitDocument: {
         value: function() {
-            this.superExitDocument();
-            this.superExitDocument();
+            this.$super.exitDocument();
 
             if (this.object && this.object.task) {
                 this.classList.remove('type-' + this.object.task.replace('.', '_').toLowerCase());
