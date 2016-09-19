@@ -15,7 +15,7 @@ var AbstractInspector = exports.AbstractInspector = AbstractComponentActionDeleg
         value: function() {
             this._callSuperMethod(AbstractComponentActionDelegate, 'exitDocument', arguments);
         }
-    }
+    },
 
     _reloadValidationController: {
         value: function() {
