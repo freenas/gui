@@ -6,7 +6,12 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "sizeOptions": [
+                    {"value": "small", "label": "small"},
+                    {"value": "medium", "label": "medium"},
+                    {"value": "large", "label": "large"}
+                ]
             }
         },
 
@@ -20,11 +25,20 @@
                 "object": {"<-": "@owner.object"}
             }
         },
-
         "removeWidgetButton": {
             "prototype": "montage/ui/button.reel",
             "properties": {
                 "element": {"#": "removeButton"}
+            }
+        },
+        "sizeSelector": {
+            "prototype": "blue-shark/ui/tabs.reel",
+            "properties": {
+                "element": {"#": "sizeSelector"}
+            },
+            "bindings": {
+                "options": {"<-": "@owner.sizeOptions"},
+                "selection": {"<->": "@owner.size"}
             }
         }
     }
@@ -36,6 +50,7 @@
         <button data-montage-id="removeButton" class="WidgetWrapper-removeButton">
             <svg><use xlink:href="#i-trashCan"/></svg>
         </button>
+        <div data-montage-id="sizeSelector" class="Widget-sizeSelector"></div>
     </div>
 </body>
 </html>

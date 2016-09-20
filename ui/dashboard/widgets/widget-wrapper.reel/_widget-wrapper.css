@@ -18,18 +18,28 @@
         opacity: .75;
     }
 
-    @media (min-width: 65em) {
-        width: calc(50% - 1em);
-        max-width: 100%;
+    &.Widget--small {
+        @media (min-width: 65em) {
+            width: calc(50% - 1em);
+            max-width: 100%;
+        }
+
+        @media (min-width: 90em) {
+            width: calc(33.333% - 1em);
+            max-width: calc(50% - 1em);
+        }
     }
 
-    @media (min-width: 90em) {
-        width: calc(33% - .825em);
-        max-width: calc(50% - 1em);
-    }
+    &.Widget--medium {
+        @media (min-width: 65em) {
+            width: calc(100% - 1em);
+        }
 
-    &.Widget-size-2 { width: 50%; }
-    &.Widget-size-3 { width: 100%; max-width: 100%;}
+        @media (min-width: 90em) {
+            width: calc(66.666% - 1em);
+            max-width: calc(100% - 1em);
+        }
+    }
 }
 
 .WidgetWrapper-removeButton {
@@ -55,4 +65,13 @@
         visibility: visible;
         transform: scale(1);
     }
+}
+
+/* Widget Size Selector */
+
+.Widget-sizeSelector {
+    position: absolute;
+    top: .5rem;
+    right: 2rem;
+    font-size: .75em;
 }
