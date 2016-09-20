@@ -3,17 +3,9 @@ var Montage = require("montage").Montage,
     FastMap = require("collections/fast-map"),
     FastSet = require("collections/fast-set");
 
-exports.ValidationService = Montage.specialize({
-    ACTIONS: {
-        value: null
-    },
-
+var ValidationService = exports.ValidationService = Montage.specialize({
     constructor: {
         value: function() {
-            this.ACTIONS = {
-                CREATE: 'create',
-                UPDATE: 'update'
-            };
             this._mandatoryPropertiesPerType = new FastMap();
         }
     },
@@ -45,8 +37,8 @@ exports.ValidationService = Montage.specialize({
     _loadTypeMandatoryProperties: {
         value: function(type) {
             var typeMandatoryPropertiesPerAction = new FastMap();
-            typeMandatoryPropertiesPerAction.set(this.ACTIONS.CREATE, this._getTypeMandatoryPropertiesForAction(type, this.ACTIONS.CREATE));
-            typeMandatoryPropertiesPerAction.set(this.ACTIONS.UPDATE, this._getTypeMandatoryPropertiesForAction(type, this.ACTIONS.UPDATE));
+            typeMandatoryPropertiesPerAction.set(ValidationService.ACTIONS.CREATE, this._getTypeMandatoryPropertiesForAction(type, ValidationService.ACTIONS.CREATE));
+            typeMandatoryPropertiesPerAction.set(ValidationService.ACTIONS.UPDATE, this._getTypeMandatoryPropertiesForAction(type, ValidationService.ACTIONS.UPDATE));
             this._mandatoryPropertiesPerType.set(type, typeMandatoryPropertiesPerAction);
         }
     },
@@ -76,7 +68,13 @@ exports.ValidationService = Montage.specialize({
             }
             return this._instance;
         }
-    }
+    },
 
+    ACTIONS: {
+        value: {
+            CREATE: 'create',
+            UPDATE: 'update'
+        }
+    }
 });
 

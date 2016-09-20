@@ -25,8 +25,8 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
             this._context = this._form.context
             this._object = this._context.object;
             this._action = this._object._isNew ? 
-                this._validationService.ACTIONS.CREATE : 
-                this._validationService.ACTIONS.UPDATE;
+                ValidationService.ACTIONS.CREATE : 
+                ValidationService.ACTIONS.UPDATE;
             this._type = this._object.Type;
             this._loadFromObjectDescriptor();
             this._loadFromFields();
