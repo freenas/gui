@@ -42,6 +42,15 @@
                 "value": {"<-": "@owner.systemInfo.general.hostname"}
             }
         },
+        "description": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "description"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.general.description"}
+            }
+        },
         "osVersion": {
             "prototype": "montage/ui/text.reel",
             "properties": {
@@ -187,6 +196,9 @@
                         <dl>
                             <dt>Hostname</dt>
                             <dd data-montage-id="hostname" class="SystemInfo-hostname"></dd>
+
+                            <dt>Description</dt>
+                            <dd data-montage-id="description"></dd>
 
                             <dt>Build</dt>
                             <dd data-montage-id="osVersion"></dd>
