@@ -60,6 +60,38 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
+    getVolumeSnapshotData: {
+        value: function() {
+            return this._dataService.fetchData(Model.VolumeSnapshot).then(function (snapshots) {
+                return snapshots;
+            });
+        }
+    },
+
+    getShareData: {
+        value: function() {
+            return this._dataService.fetchData(Model.Share).then(function (shares) {
+                return shares;
+            });
+        }
+    },
+
+    getPeerData: {
+        value: function() {
+            return this._dataService.fetchData(Model.Peer).then(function (peers) {
+                return peers;
+            });
+        }
+    },
+
+    getReplicationData: {
+        value: function() {
+            return this._dataService.fetchData(Model.Replication).then(function (replications) {
+                return replications;
+            });
+        }
+    },
+
     listVolumes: {
         value: function() {
             if (this._volumes) {

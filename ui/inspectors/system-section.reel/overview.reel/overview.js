@@ -21,25 +21,25 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
             this.isLoading = true;
             this.systemInfo = {};
             loadingPromises.push(
-                this.application.dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral) {
-                    self.systemInfo.general = systemGeneral[0];
+                this.application.systemGeneralService.getSystemGeneralData().then(function (systemGeneral) {
+                    self.systemInfo.general = systemGeneral;
                 }),
-                this.application.storageService.listDatasets().then(function(datasetList) {
+                this.application.storageService.listDatasets().then(function (datasetList) {
                     self.systemInfo.totalDatasets = datasetList.length;
                 }),
-                this.application.dataService.fetchData(Model.VolumeSnapshot).then(function (snapshots) {
+                this.application.storageService.getVolumeSnapshotData().then(function (snapshots) {
                     self.systemInfo.totalSnapshots = snapshots.length;
                 }),
-                this.application.dataService.fetchData(Model.Share).then(function(shares) {
+                this.application.storageService.getShareData().then(function (shares) {
                     self.systemInfo.totalShares = shares.length;
                 }),
-                this.application.systemInfoService.getVersion().then(function(version) {
+                this.application.systemInfoService.getVersion().then(function (version) {
                     self.systemInfo.systemVersion = version;
                 }),
-                this.application.dataService.fetchData(Model.Peer).then(function (peers) {
+                this.application.storageService.getPeerData().then(function (peers) {
                     self.systemInfo.totalPeers = peers.length;
                 }),
-                this.application.dataService.fetchData(Model.Replication).then(function (replications) {
+                this.application.storageService.getReplicationData().then(function (replications) {
                     self.systemInfo.totalReplications = replications.length;
                 })
             );
