@@ -277,10 +277,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     serviceDescriptor = isUpdate ?
                         Services.findUpdateServiceForType(type) : Services.findCreateServiceForType(type);
 
-                if (type === Model.ReplicationLink) {
-                    serviceDescriptor = isUpdate ?
-                        Services.findUpdateServiceForType(Model.Replication) : Services.findCreateServiceForType(Model.Replication);
-                } else if (type === Model.DirectoryserviceConfig) {
+                if (type === Model.DirectoryserviceConfig) {
                     serviceDescriptor = {
                         "method": "task.submit",
                         "name": "call",
