@@ -8,10 +8,6 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
-            },
-            "bindings": {
-                "allDatasets": {"<-": "@owner.object.datasets"},
-                "datasets": {"<-": "@owner.allDatasets.filter{volume == @owner.object.id}"}
             }
         },
         "version": {
@@ -74,10 +70,10 @@
                 "value": {"<-": "@owner.systemInfo.totalPeers"}
             }
         },
-        "noOperation": {
+        "groupSeparator": {
             "prototype": "ui/controls/inspector-section-title.reel",
             "properties": {
-                "element": {"#": "noOperation"},
+                "element": {"#": "groupSeparator"},
                 "value": "Data"
             }
         },
@@ -98,7 +94,7 @@
     <div data-montage-id="owner" class="Overview">
         <div data-montage-id="version"></div>
         <div data-montage-id="hostname"></div>
-        <div data-montage-id="noOperation"></div>
+        <div data-montage-id="groupSeparator"></div>
         <div data-montage-id="dataset"></div>
         <div data-montage-id="snapshots"></div>
         <div data-montage-id="shares"></div>
