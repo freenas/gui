@@ -4,7 +4,7 @@
         "properties": {
             "inspectorComponentModule": {"%": "ui/inspectors/network-configuration.reel"},
             "iconComponentModule":  {"%": "ui/icons/network-configuration.reel"},
-            "nameExpression": "'Settings'"
+            "nameExpression": "'System'"
         }
     }
 }
