@@ -37,7 +37,7 @@ var SessionService = exports.SessionService = Montage.specialize({
     _addUserTimezoneToSession: {
         value: function() {
             var self = this;
-            return this._systemGeneralService.getTimezoneData().then(function(systemGeneral) {
+            return this._systemGeneralService.getSystemGeneralData().then(function(systemGeneral) {
                 self.session.timezone = systemGeneral.timezone;
             });
         }
