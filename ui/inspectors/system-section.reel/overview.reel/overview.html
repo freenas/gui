@@ -8,6 +8,87 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"}
+            },
+            "bindings": {
+                "allDatasets": {"<-": "@owner.object.datasets"},
+                "datasets": {"<-": "@owner.allDatasets.filter{volume == @owner.object.id}"}
+            }
+        },
+        "version": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "version"},
+                "label": "System Version"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.systemVersion"}
+            }
+        },
+        "hostname": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "hostname"},
+                "label": "Host Name"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.general.hostname"}
+            }
+        },
+        "dataset": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "dataset"},
+                "label": "Total Datasets"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalDatasets"}
+            }
+        },
+        "snapshots": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "snapshots"},
+                "label": "Total Snapshots"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalSnapshots"}
+            }
+        },
+        "shares": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "shares"},
+                "label": "Total Shares"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalShares"}
+            }
+        },
+        "peer": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "peer"},
+                "label": "Total Peers"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalPeers"}
+            }
+        },
+        "noOperation": {
+            "prototype": "ui/controls/inspector-section-title.reel",
+            "properties": {
+                "element": {"#": "noOperation"},
+                "value": "Data"
+            }
+        },
+        "replication": {
+            "prototype": "blue-shark/ui/field-text.reel",
+            "properties": {
+                "element": {"#": "replication"},
+                "label": "Total Replications"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.systemInfo.totalReplications"}
             }
         }
     }
@@ -15,6 +96,14 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Overview">
+        <div data-montage-id="version"></div>
+        <div data-montage-id="hostname"></div>
+        <div data-montage-id="noOperation"></div>
+        <div data-montage-id="dataset"></div>
+        <div data-montage-id="snapshots"></div>
+        <div data-montage-id="shares"></div>
+        <div data-montage-id="peer"></div>
+        <div data-montage-id="replication"></div>
     </div>
 </body>
 </html>
