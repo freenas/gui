@@ -44,7 +44,7 @@
                 "element": {"#": "settingsTitle"}
             },
             "bindings": {
-                "value": {"<-": "'WidgetName-Settings'"}
+                "value": {"<-": "@owner.settingsLabel.defined() ? @owner.settingsLabel : 'Settings'"}
             }
         }
     }
