@@ -12,11 +12,11 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
         value: null
     },
 
-    getTimezoneData: {
+    getSystemGeneralData: {
         value: function() {
             return  this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
-                    return systemGeneral[0];
-                });
+                return systemGeneral[0];
+            });
         }
     },
 
@@ -30,10 +30,6 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
 
     getKeymapOptions: {
         value: function() {
-            //this func returns keymap options list
-            //selected(actual) keymap value not included
-            //so anti-humanity
-            //I have to implement like this, against my will
             return Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral){
                 return SystemGeneral.constructor.services.keymaps();
             });
@@ -42,11 +38,9 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
 
     getConsoleKeymap: {
         value: function() {
-            //this one returns THE REAL keymap value
-            //One keymap to rule them all
             return  this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
-                        return systemGeneral[0];
-                    });
+                return systemGeneral[0];
+            });
         }
     },
 
