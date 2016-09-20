@@ -7,7 +7,9 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
             },
             "listeners": [
                 {
@@ -16,10 +18,18 @@
                 }
             ]
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canSave": false,
                 "canRevert": false,
                 "canDelete": false,

@@ -10,7 +10,7 @@
     color: rgba(255,255,255,.8);
 }
 
-.Permissions th {
+.Permissions .PermissionsFlag-label{
     font-weight: 300;
     padding-bottom: .5em;
 }
@@ -19,7 +19,12 @@
     margin-right: 0;
 }
 
-.Permissions tr:not(:first-child) th {
+.Permissions tr:not(:first-child) .PermissionsFlag-label {
     width: 6.5em;
     text-align: right;
+}
+
+.Permissions.is-disabled .Permissions-title,
+.Permissions.is-disabled .PermissionsFlag-label {
+    opacity: .5;
 }

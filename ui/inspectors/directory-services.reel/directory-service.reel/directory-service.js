@@ -1,10 +1,10 @@
 /**
  * @module ui/directory-service.reel
  */
-var Component = require("montage/ui/component").Component;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class DirectoryService
  * @extends Component
  */
-exports.DirectoryService = Component.specialize();
+exports.DirectoryService = AbstractInspector.specialize({});

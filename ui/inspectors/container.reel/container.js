@@ -1,23 +1,24 @@
 /**
  * @module ui/container.reel
  */
-var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate;
+var AbstractInspector = require("ui/abstract/abstract-component-action-delegate").AbstractInspector;
 
 /**
  * @class Container
  * @extends Component
  */
-exports.Container = AbstractComponentActionDelegate.specialize({
+exports.Container = AbstractInspector.specialize({
 
     enterDocument: {
-        value: function (firstTime) {
-            AbstractComponentActionDelegate.prototype.enterDocument.call(this, firstTime);
+        value: function (isFirstTime) {
+            this.$super.enterDocument(isFirstTime);
 
             if (this.object.memory_limit) {
                 this.object.memory_limit = this.application.bytesService.convertMemsizeToString(this.object.memory_limit);
             }
         }
     },
+
 
     handleStartAction: {
         value: function() {

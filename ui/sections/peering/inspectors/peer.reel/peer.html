@@ -8,16 +8,22 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
-                "inspectorComponent": {"@": "inspector"}
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+                
             },
             "bindings": {
                 "credentialsComponent": {"<-": "@credentials.component"}
             }
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller"
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canSave": true,
                 "canRevert": true,
                 "canDelete": true,

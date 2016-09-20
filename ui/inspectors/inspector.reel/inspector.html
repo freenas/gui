@@ -12,7 +12,17 @@
                 "object": {"<-": "@owner.context.object"},
                 "classList.has('is-loading')": {"<-": "@owner.isLoading"},
                 "classList.has('is-locked')": {"<-": "!!@owner.object.__isLocked"},
-                "classList.has('confirmation-is-visible')": {"<-": "@owner.isConfirmationVisible"}
+                "classList.has('confirmation-is-visible')": {"<-": "@owner.isConfirmationVisible"},
+                "classList.has('has-error')": {"<-": "!!@owner.validationController.errorMessage"}
+            }
+        },
+        "errorMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "errorMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.validationController.errorMessage"}
             }
         },
         "scrollView": {
@@ -49,7 +59,8 @@
                 "isHidden": {"<-": "!!@owner.isFooterHidden"},
                 "canDelete": {"<-": "!!@owner.canDelete && @owner.object.id.defined()"},
                 "canRevert": {"<-": "!!@owner.canRevert"},
-                "canSave": {"<-": "!!@owner.canSave"}
+                "canSave": {"<-": "!!@owner.canSave"},
+                "isSaveDisabled": {"<-": "@owner.isSaveDisabled || @owner.validationController.missingProperties.length > 0"}
             },
             "listeners": [
                 {
@@ -74,6 +85,7 @@
 </head>
 <body>
     <div data-montage-id="owner" class="Inspector">
+        <div data-montage-id="errorMessage" class="Inspector-error"></div>
         <div class="Inspector-locked">
             <div data-montage-id="lockMessage"></div>
         </div>

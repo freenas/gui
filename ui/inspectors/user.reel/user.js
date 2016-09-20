@@ -1,4 +1,4 @@
-var AbstractComponentActionDelegate = require("core/ui/abstract-component-action-delegate").AbstractComponentActionDelegate,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     Promise = require("montage/core/promise").Promise,
     Converter = require("montage/core/converter/converter").Converter,
@@ -8,7 +8,7 @@ var AbstractComponentActionDelegate = require("core/ui/abstract-component-action
  * @class User
  * @extends Component
  */
-exports.User = AbstractComponentActionDelegate.specialize({
+exports.User = AbstractInspector.specialize({
 
     shellOptions: {
         value: null
@@ -87,8 +87,8 @@ exports.User = AbstractComponentActionDelegate.specialize({
     },
 
     enterDocument: {
-        value: function (isFirstTime) {
-            AbstractComponentActionDelegate.prototype.enterDocument.call(this, isFirstTime);
+        value: function(isFirstTime) {
+            this.$super.enterDocument(isFirstTime);
 
             var self = this,
                 loadingPromises = [],
@@ -118,7 +118,7 @@ exports.User = AbstractComponentActionDelegate.specialize({
 
     exitDocument: {
         value: function() {
-            AbstractComponentActionDelegate.prototype.exitDocument.call(this);
+            this.$super.exitDocument();
             this.userType = null;
             this.useEmptyHomedir = null;
         }

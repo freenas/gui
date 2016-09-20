@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
@@ -6,7 +6,7 @@ var Component = require("montage/ui/component").Component,
  * @class VolumeCreator
  * @extends Component
  */
-exports.VolumeCreator = Component.specialize({
+exports.VolumeCreator = AbstractInspector.specialize({
 
 
     _object: {
@@ -36,13 +36,15 @@ exports.VolumeCreator = Component.specialize({
     },
 
     exitDocument: {
-        value: function () {
+        value: function() {
+            this.$super.exitDocument();
             this._parentCascadingListItem.classList.remove("CascadingListItem-VolumeCreator");
         }
     },
 
     enterDocument: {
-        value: function () {
+        value: function() {
+            this.$super.enterDocument();
             this._parentCascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
             if (this._parentCascadingListItem) {
                 this._parentCascadingListItem.classList.add("CascadingListItem-VolumeCreator");

@@ -9,6 +9,7 @@
             "properties": {
                 "element": {"#": "owner"},
                 "datasetTreeController": {"@": "datasetTreeController"},
+                "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"}
             },
             "bindings": {
@@ -31,13 +32,21 @@
                 "root": {"<-": "@owner.volume.id"}
             }
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canDelete": "true",
-                "canRevert": "true",
-                "canSave": "true",
+                "validationController": {"@": "validationController"},
+                "canDelete": true,
+                "canRevert": true,
+                "canSave": true,
                 "keys": [
                     "name",
                     "dataset"
@@ -52,6 +61,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "name"},
+                "validationPath": "name",
                 "label": "Name"
             },
             "bindings": {
@@ -71,6 +81,7 @@
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "datasetSelector"},
+                "validationPath": "dataset",
                 "controller": {"@": "datasetTreeController"},
                 "label": "Dataset",
                 "removePrefix": "/mnt/"

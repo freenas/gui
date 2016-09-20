@@ -5,9 +5,18 @@
     <link rel="stylesheet" type="text/css" href="network-interface-creator.css">
     <script type="text/montage-serialization">
     {
-    "owner": {
+        "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
             }
         },
         "inspector": {
@@ -15,6 +24,7 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "isFooterHidden": true,
+                "validationController": {"@": "validationController"},
                 "controller": {"@": "owner"}
             }
         },

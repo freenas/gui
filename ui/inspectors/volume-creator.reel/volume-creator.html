@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
+
                 "topologizer": {"@": "topologizer"}
             },
             "bindings": {
@@ -15,17 +18,26 @@
             }
         },
 
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canRevert": true,
                 "scrollViewDelegate": {"@": "owner"},
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "canSave": true
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
-                "canSave": {"<-": "@name.value.length > 0"}
+                "isSaveDisabled": {"<-": "@owner.object.topology.data.length == 0"}
             }
         },
 
@@ -34,6 +46,7 @@
             "properties": {
                 "element": {"#": "name"},
                 "label": "Name",
+                "validationPath": "id",
                 "placeholderValue": "enter volume name"
             },
             "bindings": {

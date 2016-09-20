@@ -1,11 +1,11 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class Share
  * @extends Component
  */
-exports.Share = Component.specialize({
+exports.Share = AbstractInspector.specialize({
     EMPTY_STRING: {
         value: ''
     },
@@ -42,8 +42,10 @@ exports.Share = Component.specialize({
         value: null
     },
 
+
     enterDocument: {
         value: function(isFirsttime) {
+            this.$super.enterDocument(isFirsttime);
             var self = this;
             if (isFirsttime) {
                 this._loadingPromise = this._loadVolumeService().then(function() {

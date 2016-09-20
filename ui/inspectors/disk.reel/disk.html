@@ -8,6 +8,9 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
+
                 "standbyModeOptions": [
                     {"label": "Always on", "value": 0},
                     {"label": "5",      "value": 5},
@@ -35,10 +38,18 @@
         "bytesSizeConverter": {
             "prototype": "montage/core/converter/bytes-converter"
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
+                "validationController": {"@": "validationController"},
                 "canRevert": true,
                 "canSave": true,
                 "controller": {"@": "owner"}

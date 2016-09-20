@@ -1,11 +1,11 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model;
 
 /**
  * @class SystemSection
  * @extends Component
  */
-exports.SystemSection = Component.specialize({
+exports.SystemSection = AbstractInspector.specialize({
 
     _object: {
         value: null
@@ -48,8 +48,10 @@ exports.SystemSection = Component.specialize({
         value: null
     },
 
+
     enterDocument: {
-        value: function (isFirstTime) {
+        value: function(isFirstTime) {
+            this.$super.enterDocument(isFirstTime);
             this.classList.toggle(this.object.identifier);
         }
     },

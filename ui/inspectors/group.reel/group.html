@@ -7,14 +7,24 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "owner"}
+                "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"}
+            }
+        },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
             }
         },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"}
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -40,6 +50,7 @@
             "properties": {
                 "element": {"#": "gidEdit"},
                 "label": "Group ID",
+                "validationPath": "gid",
                 "validator": {"@": "gidValidator"},
                 "errorMessage": "User ID must be between 0 and 4294967295"
             },
@@ -70,6 +81,7 @@
             "prototype": "blue-shark/ui/field-text-input.reel",
             "properties": {
                 "element": {"#": "nameEdit"},
+                "validationPath": "name",
                 "label": "Group Name"
             },
             "bindings": {
@@ -90,6 +102,7 @@
             "prototype": "blue-shark/ui/field-checkbox.reel",
             "properties": {
                 "element": {"#": "sudoEdit"},
+                "validationPath": "sudo",
                 "label": "Administrator Permissions"
             },
             "bindings": {

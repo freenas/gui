@@ -53,6 +53,7 @@ exports.CascadingList = Component.specialize({
             this._resetCascadingListItemAtIndex(this._currentIndex);
             this._stack.pop();
             this._currentIndex--;
+            this._defaultSelection = null;
             this._selectionService.saveSectionSelection(this.application.section, this._getSelectionPath());
         }
     },
@@ -151,11 +152,16 @@ exports.CascadingList = Component.specialize({
 
             this.application.delegate.userInterfaceDescriptorForObject(object).then(function (userInterfaceDescriptor) {
                 columnIndex = Math.min(self._stack.length, columnIndex);
-                self._push({
+                var context = {
                     object: object,
                     userInterfaceDescriptor: userInterfaceDescriptor,
                     columnIndex: columnIndex
-                });
+                };
+                if (self._defaultSelection && self._defaultSelection.error && self._defaultSelection.path.length == 0) {
+                    context.error = self._defaultSelection.error;
+                }
+                self._push(context);
+
             });
         }
     },

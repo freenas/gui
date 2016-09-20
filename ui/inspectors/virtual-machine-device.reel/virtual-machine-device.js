@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     VmConfigBootloader = require("core/model/enumerations/vm-config-bootloader").VmConfigBootloader,
     VmDeviceType = require("core/model/enumerations/vm-device-type").VmDeviceType,
@@ -9,7 +9,7 @@ var Component = require("montage/ui/component").Component,
  * @class VirtualMachineDevice
  * @extends Component
  */
-exports.VirtualMachineDevice = Component.specialize({
+exports.VirtualMachineDevice = AbstractInspector.specialize({
 
     bootloaderOptions: {
         value: null

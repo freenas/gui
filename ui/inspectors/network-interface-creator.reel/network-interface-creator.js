@@ -1,4 +1,4 @@
-var Component = require("montage/ui/component").Component,
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
     Model = require("core/model/model").Model,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList;
 
@@ -6,7 +6,7 @@ var Component = require("montage/ui/component").Component,
  * @class NetworkInterfaceCreator
  * @extends Component
  */
-exports.NetworkInterfaceCreator = Component.specialize({
+exports.NetworkInterfaceCreator = AbstractInspector.specialize({
     newVlan: {
         value: null
     },
@@ -25,8 +25,10 @@ exports.NetworkInterfaceCreator = Component.specialize({
         }
     },
 
+
     enterDocument: {
         value: function(isFirstTime) {
+            this.$super.enterDocument(isFirstTime);
             var self = this;
             if (isFirstTime) {
                 this._dataService = this.application.dataService;

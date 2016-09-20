@@ -8,22 +8,29 @@
         "owner": {
             "properties": {
                 "element": {"#": "owner"},
+                "validationController": {"@": "validationController"},
+                "inspector": {"@": "inspector"},
                 "treeController": {"@": "datasetTreeController"}
             },
             "bindings": {
                 "mode": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'CREATE' : 'EDIT'"}
             }
         },
+        "validationController": {
+            "prototype": "core/controller/validation-controller",
+            "properties": {
+                "fields": {
+                }
+            }
+        },
         "inspector": {
             "prototype": "ui/inspectors/inspector.reel",
             "properties": {
                 "element": {"#": "inspector"},
-                "canRevert": "true",
-                "canSave": "true",
-                "keys": [
-                    "id"
-                ],
-                "controller": {"@": "owner"}
+                "controller": {"@": "owner"},
+                "validationController": {"@": "validationController"},
+                "canRevert": true,
+                "canSave": true
             },
             "bindings": {
                 "context": {"<-": "@owner.context"},
@@ -46,7 +53,7 @@
                 "switchValue": {"<-": "@owner.mode"}
             }
         },
-        "nameInput": {
+        "id": {
             "prototype": "blue-shark/ui/field-text-input.reel",
              "properties": {
                 "element": {"#": "nameInput"},
@@ -56,7 +63,7 @@
                 "value": {"<->": "@owner.name"}
             }
         },
-        "pathSelector": {
+        "volume": {
             "prototype": "ui/controls/field-treeview.reel",
             "properties": {
                 "element": {"#": "pathSelector"},

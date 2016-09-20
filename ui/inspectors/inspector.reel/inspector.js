@@ -4,7 +4,8 @@
 var Component = require("montage/ui/component").Component,
     CascadingList = require("ui/controls/cascading-list.reel").CascadingList,
     Model = require("core/model/model").Model,
-    Promise = require("montage/core/promise").Promise;
+    Promise = require("montage/core/promise").Promise,
+    FastSet = require("collections/fast-set");
 
 /**
  * @class Inspector
@@ -13,6 +14,10 @@ var Component = require("montage/ui/component").Component,
 exports.Inspector = Component.specialize(/** @lends Inspector# */ {
     confirmDeleteMessage: {
         value: null
+    },
+
+    isSaveDisabled: {
+        value: false
     },
 
     enterDocument: {
@@ -169,20 +174,7 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
 
     _isCreationInspector: {
         value: function() {
-            var result = false;
-            if (this._inDocument) {
-                var cascadingListItem = CascadingList.findCascadingListItemContextWithComponent(this);
-
-                if (cascadingListItem) {
-                    var context = cascadingListItem.data,
-                        contextObject = context.object;
-
-                    result = contextObject.id === null || contextObject._isNewObject || contextObject._isNew
-                } else {
-                    console.warn("cascadingListItemContext not existing, need investigating");
-                }
-            }
-            return result;
+            return !!this.object._isNew;
         }
     },
 
