@@ -61,12 +61,12 @@
         right: 0;
         bottom: 0;
         border-radius: var(--widget-border-radius);
-        background: rgba(0,0,0,.75);
+        background: rgba(0,0,0,.5);
         transition: visibility .35s ease-in-out, opacity .35s ease-in-out;
-        z-index: 2;
+        z-index: 1;
     }
 
-    @nest .drawer-is-open .has-settings &:before {
+    @nest .drawer-is-open &:before {
         visibility: visible;
         opacity: 1;
     }
@@ -141,14 +141,16 @@
     }
 }
 
+/* Button */
+
 .Widget-info {
     position: absolute;
-    z-index: 10;
-    left: 1em;
-    bottom:  1em;
+    right:   .5em;
+    bottom:  .5em;
     visibility: hidden;
     opacity: 0;
     transition: visibility .35s ease-in-out, opacity .35s ease-in-out;
+    z-index: 1;
 
     @nest .drawer-is-open .has-settings & {
         visibility: visible;
