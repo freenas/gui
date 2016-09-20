@@ -104,9 +104,8 @@ var SignIn = exports.SignIn = AuthorizationPanel.specialize({
 
 
     handleKeyPress: {
-        value: function (mutableEvent) {
-            //Fixme: bug?
-            if (mutableEvent._event.identifier === "enter") {
+        value: function (event) {
+            if (event.identifier === "enter") {
                 this.handleSubmitAction();
             }
         }
