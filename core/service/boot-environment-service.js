@@ -54,7 +54,7 @@ var BootEnvironmentService = exports.BootEnvironmentService = Montage.specialize
 
     delete: {
         value: function(bootEnvironment) {
-            this._dataService.deleteDataObject(bootEnvironment);
+            return this._dataService.deleteDataObject(bootEnvironment);
         }
     },
 
