@@ -1,0 +1,102 @@
+{
+  "blueprint_serviceconsul_bind_address": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "bind_address",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceconsul_datacenter": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "datacenter",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceconsul_enable": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "enable",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceconsul_encryption_key": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "encryption_key",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceconsul_node_name": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "node_name",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceconsul_retry_join": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "retry_join",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceconsul_server": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "server",
+      "blueprint": {"@": "root"},
+      "valueType": "boolean"
+    }
+  },
+  "blueprint_serviceconsul_start_join": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "start_join",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_serviceconsul_start_join_wan": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "start_join_wan",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_serviceconsul_type": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "type",
+      "blueprint": {"@": "root"},
+      "enumValues": [
+        "service-consul"
+      ]
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "ServiceConsul",
+      "propertyBlueprints": [
+        {"@": "blueprint_serviceconsul_bind_address"},
+        {"@": "blueprint_serviceconsul_datacenter"},
+        {"@": "blueprint_serviceconsul_enable"},
+        {"@": "blueprint_serviceconsul_encryption_key"},
+        {"@": "blueprint_serviceconsul_node_name"},
+        {"@": "blueprint_serviceconsul_retry_join"},
+        {"@": "blueprint_serviceconsul_server"},
+        {"@": "blueprint_serviceconsul_start_join"},
+        {"@": "blueprint_serviceconsul_start_join_wan"},
+        {"@": "blueprint_serviceconsul_type"}
+      ]
+    }
+  }
+}

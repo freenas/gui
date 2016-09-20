@@ -1,91 +1,10 @@
 {
-  "blueprint_vmconfig_autostart": {
+  "blueprint_vmconfig_network": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
-      "name": "autostart",
+      "name": "network",
       "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_vmconfig_boot_device": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "boot_device",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_vmconfig_boot_directory": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "boot_directory",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_vmconfig_boot_partition": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "boot_partition",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_vmconfig_bootloader": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "bootloader",
-      "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "VmConfigBootloader"
-    }
-  },
-  "blueprint_vmconfig_cloud_init": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "cloud_init",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_vmconfig_docker_host": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "docker_host",
-      "blueprint": {"@": "root"},
-      "valueType": "boolean"
-    }
-  },
-  "blueprint_vmconfig_memsize": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "memsize",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_vmconfig_ncpus": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "ncpus",
-      "blueprint": {"@": "root"},
-      "valueType": "number"
-    }
-  },
-  "blueprint_vmconfig_readme": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "readme",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
-    }
-  },
-  "blueprint_vmconfig_vnc_password": {
-    "prototype": "montage/core/meta/property-blueprint",
-    "properties": {
-      "name": "vnc_password",
-      "blueprint": {"@": "root"},
-      "valueType": "String"
+      "valueType": "object"
     }
   },
   "root": {
@@ -93,17 +12,7 @@
     "properties": {
       "name": "VmConfig",
       "propertyBlueprints": [
-        {"@": "blueprint_vmconfig_autostart"},
-        {"@": "blueprint_vmconfig_boot_device"},
-        {"@": "blueprint_vmconfig_boot_directory"},
-        {"@": "blueprint_vmconfig_boot_partition"},
-        {"@": "blueprint_vmconfig_bootloader"},
-        {"@": "blueprint_vmconfig_cloud_init"},
-        {"@": "blueprint_vmconfig_docker_host"},
-        {"@": "blueprint_vmconfig_memsize"},
-        {"@": "blueprint_vmconfig_ncpus"},
-        {"@": "blueprint_vmconfig_readme"},
-        {"@": "blueprint_vmconfig_vnc_password"}
+        {"@": "blueprint_vmconfig_network"}
       ]
     }
   }

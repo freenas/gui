@@ -73,8 +73,8 @@
             "type": "BootEnvironment"
         },
         {
-            "modelId": "core/model/models/calendar-task-schedule.js",
-            "type": "CalendarTaskSchedule"
+            "modelId": "core/model/models/calendar-task-schedule-anonymous.js",
+            "type": "CalendarTaskScheduleAnonymous"
         },
         {
             "modelId": "core/model/models/calendar-task-status.js",
@@ -113,16 +113,16 @@
             "type": "DetachedVolume"
         },
         {
-            "modelId": "core/model/models/directory-parameters.js",
-            "type": "DirectoryParameters"
+            "modelId": "core/model/models/directory-parameters-anonymous.js",
+            "type": "DirectoryParametersAnonymous"
         },
         {
             "modelId": "core/model/models/directory-services.js",
             "type": "DirectoryServices"
         },
         {
-            "modelId": "core/model/models/directory-status.js",
-            "type": "DirectoryStatus"
+            "modelId": "core/model/models/directory-status-anonymous.js",
+            "type": "DirectoryStatusAnonymous"
         },
         {
             "modelId": "core/model/models/directory.js",
@@ -153,12 +153,12 @@
             "type": "DiskSetKeyParams"
         },
         {
-            "modelId": "core/model/models/disk-status-controller.js",
-            "type": "DiskStatusController"
+            "modelId": "core/model/models/disk-status-controller-anonymous.js",
+            "type": "DiskStatusControllerAnonymous"
         },
         {
-            "modelId": "core/model/models/disk-status-multipath.js",
-            "type": "DiskStatusMultipath"
+            "modelId": "core/model/models/disk-status-multipath-anonymous.js",
+            "type": "DiskStatusMultipathAnonymous"
         },
         {
             "modelId": "core/model/models/disk-status.js",
@@ -221,6 +221,10 @@
             "type": "FreeipaDirectoryParams"
         },
         {
+            "modelId": "core/model/models/freenas-auth-credentials.js",
+            "type": "FreenasAuthCredentials"
+        },
+        {
             "modelId": "core/model/models/freenas-credentials.js",
             "type": "FreenasCredentials"
         },
@@ -241,6 +245,10 @@
             "type": "ImportableDisk"
         },
         {
+            "modelId": "core/model/models/ipfs-info.js",
+            "type": "IpfsInfo"
+        },
+        {
             "modelId": "core/model/models/ipmi.js",
             "type": "Ipmi"
         },
@@ -257,8 +265,8 @@
             "type": "KerberosRealm"
         },
         {
-            "modelId": "core/model/models/mail-message-extra-headers.js",
-            "type": "MailMessageExtraHeaders"
+            "modelId": "core/model/models/mail-message-extra-headers-anonymous.js",
+            "type": "MailMessageExtraHeadersAnonymous"
         },
         {
             "modelId": "core/model/models/mail-message.js",
@@ -269,20 +277,20 @@
             "type": "Mail"
         },
         {
-            "modelId": "core/model/models/network-config-dhcp.js",
-            "type": "NetworkConfigDhcp"
+            "modelId": "core/model/models/network-config-dhcp-anonymous.js",
+            "type": "NetworkConfigDhcpAnonymous"
         },
         {
-            "modelId": "core/model/models/network-config-dns.js",
-            "type": "NetworkConfigDns"
+            "modelId": "core/model/models/network-config-dns-anonymous.js",
+            "type": "NetworkConfigDnsAnonymous"
         },
         {
-            "modelId": "core/model/models/network-config-gateway.js",
-            "type": "NetworkConfigGateway"
+            "modelId": "core/model/models/network-config-gateway-anonymous.js",
+            "type": "NetworkConfigGatewayAnonymous"
         },
         {
-            "modelId": "core/model/models/network-config-netwait.js",
-            "type": "NetworkConfigNetwait"
+            "modelId": "core/model/models/network-config-netwait-anonymous.js",
+            "type": "NetworkConfigNetwaitAnonymous"
         },
         {
             "modelId": "core/model/models/network-config.js",
@@ -301,28 +309,28 @@
             "type": "NetworkInterfaceAlias"
         },
         {
-            "modelId": "core/model/models/network-interface-bridge.js",
-            "type": "NetworkInterfaceBridge"
+            "modelId": "core/model/models/network-interface-bridge-anonymous.js",
+            "type": "NetworkInterfaceBridgeAnonymous"
         },
         {
-            "modelId": "core/model/models/network-interface-capabilities.js",
-            "type": "NetworkInterfaceCapabilities"
+            "modelId": "core/model/models/network-interface-capabilities-anonymous.js",
+            "type": "NetworkInterfaceCapabilitiesAnonymous"
         },
         {
-            "modelId": "core/model/models/network-interface-lagg.js",
-            "type": "NetworkInterfaceLagg"
+            "modelId": "core/model/models/network-interface-lagg-anonymous.js",
+            "type": "NetworkInterfaceLaggAnonymous"
         },
         {
-            "modelId": "core/model/models/network-interface-status-dhcp.js",
-            "type": "NetworkInterfaceStatusDhcp"
+            "modelId": "core/model/models/network-interface-status-dhcp-anonymous.js",
+            "type": "NetworkInterfaceStatusDhcpAnonymous"
         },
         {
             "modelId": "core/model/models/network-interface-status.js",
             "type": "NetworkInterfaceStatus"
         },
         {
-            "modelId": "core/model/models/network-interface-vlan.js",
-            "type": "NetworkInterfaceVlan"
+            "modelId": "core/model/models/network-interface-vlan-anonymous.js",
+            "type": "NetworkInterfaceVlanAnonymous"
         },
         {
             "modelId": "core/model/models/network-interface.js",
@@ -337,12 +345,12 @@
             "type": "NetworkRoute"
         },
         {
-            "modelId": "core/model/models/network-status-dns.js",
-            "type": "NetworkStatusDns"
+            "modelId": "core/model/models/network-status-dns-anonymous.js",
+            "type": "NetworkStatusDnsAnonymous"
         },
         {
-            "modelId": "core/model/models/network-status-gateway.js",
-            "type": "NetworkStatusGateway"
+            "modelId": "core/model/models/network-status-gateway-anonymous.js",
+            "type": "NetworkStatusGatewayAnonymous"
         },
         {
             "modelId": "core/model/models/network-status.js",
@@ -389,8 +397,8 @@
             "type": "Replication"
         },
         {
-            "modelId": "core/model/models/rsync-copy-rsync-properties.js",
-            "type": "RsyncCopyRsyncProperties"
+            "modelId": "core/model/models/rsync-copy-rsync-properties-anonymous.js",
+            "type": "RsyncCopyRsyncPropertiesAnonymous"
         },
         {
             "modelId": "core/model/models/rsync-copy.js",
@@ -417,12 +425,20 @@
             "type": "ServiceAfp"
         },
         {
+            "modelId": "core/model/models/service-consul.js",
+            "type": "ServiceConsul"
+        },
+        {
             "modelId": "core/model/models/service-dyndns.js",
             "type": "ServiceDyndns"
         },
         {
             "modelId": "core/model/models/service-ftp.js",
             "type": "ServiceFtp"
+        },
+        {
+            "modelId": "core/model/models/service-ipfs.js",
+            "type": "ServiceIpfs"
         },
         {
             "modelId": "core/model/models/service-iscsi.js",
@@ -493,8 +509,8 @@
             "type": "ShareAfp"
         },
         {
-            "modelId": "core/model/models/share-client-extra.js",
-            "type": "ShareClientExtra"
+            "modelId": "core/model/models/share-client-extra-anonymous.js",
+            "type": "ShareClientExtraAnonymous"
         },
         {
             "modelId": "core/model/models/share-client.js",
@@ -525,8 +541,8 @@
             "type": "ShareNfs"
         },
         {
-            "modelId": "core/model/models/share-smb-extra-parameters.js",
-            "type": "ShareSmbExtraParameters"
+            "modelId": "core/model/models/share-smb-extra-parameters-anonymous.js",
+            "type": "ShareSmbExtraParametersAnonymous"
         },
         {
             "modelId": "core/model/models/share-smb.js",
@@ -601,12 +617,12 @@
             "type": "SystemUi"
         },
         {
-            "modelId": "core/model/models/task-args.js",
-            "type": "TaskArgs"
+            "modelId": "core/model/models/task-args-anonymous.js",
+            "type": "TaskArgsAnonymous"
         },
         {
-            "modelId": "core/model/models/task-description.js",
-            "type": "TaskDescription"
+            "modelId": "core/model/models/task-description-anonymous.js",
+            "type": "TaskDescriptionAnonymous"
         },
         {
             "modelId": "core/model/models/task.js",
@@ -637,8 +653,8 @@
             "type": "UnixPermissions"
         },
         {
-            "modelId": "core/model/models/update-info-notes.js",
-            "type": "UpdateInfoNotes"
+            "modelId": "core/model/models/update-info-notes-anonymous.js",
+            "type": "UpdateInfoNotesAnonymous"
         },
         {
             "modelId": "core/model/models/update-info.js",
@@ -661,16 +677,24 @@
             "type": "Update"
         },
         {
-            "modelId": "core/model/models/user-attributes.js",
-            "type": "UserAttributes"
+            "modelId": "core/model/models/user-attributes-anonymous.js",
+            "type": "UserAttributesAnonymous"
         },
         {
-            "modelId": "core/model/models/user-origin.js",
-            "type": "UserOrigin"
+            "modelId": "core/model/models/user-origin-anonymous.js",
+            "type": "UserOriginAnonymous"
         },
         {
             "modelId": "core/model/models/user.js",
             "type": "User"
+        },
+        {
+            "modelId": "core/model/models/vm-config-anonymous.js",
+            "type": "VmConfigAnonymous"
+        },
+        {
+            "modelId": "core/model/models/vm-config-network-anonymous.js",
+            "type": "VmConfigNetworkAnonymous"
         },
         {
             "modelId": "core/model/models/vm-config.js",
@@ -693,8 +717,8 @@
             "type": "VmDeviceNic"
         },
         {
-            "modelId": "core/model/models/vm-device-usb-config.js",
-            "type": "VmDeviceUsbConfig"
+            "modelId": "core/model/models/vm-device-usb-config-anonymous.js",
+            "type": "VmDeviceUsbConfigAnonymous"
         },
         {
             "modelId": "core/model/models/vm-device-usb.js",
@@ -733,8 +757,8 @@
             "type": "Vm"
         },
         {
-            "modelId": "core/model/models/volume-attributes.js",
-            "type": "VolumeAttributes"
+            "modelId": "core/model/models/volume-attributes-anonymous.js",
+            "type": "VolumeAttributesAnonymous"
         },
         {
             "modelId": "core/model/models/volume-dataset-properties.js",
@@ -917,8 +941,8 @@
             "type": "VolumePropertyVersion"
         },
         {
-            "modelId": "core/model/models/volume-snapshot-holds.js",
-            "type": "VolumeSnapshotHolds"
+            "modelId": "core/model/models/volume-snapshot-holds-anonymous.js",
+            "type": "VolumeSnapshotHoldsAnonymous"
         },
         {
             "modelId": "core/model/models/volume-snapshot-properties.js",
@@ -953,16 +977,16 @@
             "type": "VolumeVdevRecommendation"
         },
         {
-            "modelId": "core/model/models/volume-vdev-recommendations-redundancy.js",
-            "type": "VolumeVdevRecommendationsRedundancy"
+            "modelId": "core/model/models/volume-vdev-recommendations-redundancy-anonymous.js",
+            "type": "VolumeVdevRecommendationsRedundancyAnonymous"
         },
         {
-            "modelId": "core/model/models/volume-vdev-recommendations-speed.js",
-            "type": "VolumeVdevRecommendationsSpeed"
+            "modelId": "core/model/models/volume-vdev-recommendations-speed-anonymous.js",
+            "type": "VolumeVdevRecommendationsSpeedAnonymous"
         },
         {
-            "modelId": "core/model/models/volume-vdev-recommendations-storage.js",
-            "type": "VolumeVdevRecommendationsStorage"
+            "modelId": "core/model/models/volume-vdev-recommendations-storage-anonymous.js",
+            "type": "VolumeVdevRecommendationsStorageAnonymous"
         },
         {
             "modelId": "core/model/models/volume-vdev-recommendations.js",
@@ -981,8 +1005,8 @@
             "type": "WinbindDirectoryStatus"
         },
         {
-            "modelId": "core/model/models/zfs-dataset-properties.js",
-            "type": "ZfsDatasetProperties"
+            "modelId": "core/model/models/zfs-dataset-properties-anonymous.js",
+            "type": "ZfsDatasetPropertiesAnonymous"
         },
         {
             "modelId": "core/model/models/zfs-dataset.js",
@@ -1001,12 +1025,12 @@
             "type": "ZfsScan"
         },
         {
-            "modelId": "core/model/models/zfs-snapshot-holds.js",
-            "type": "ZfsSnapshotHolds"
+            "modelId": "core/model/models/zfs-snapshot-holds-anonymous.js",
+            "type": "ZfsSnapshotHoldsAnonymous"
         },
         {
-            "modelId": "core/model/models/zfs-snapshot-properties.js",
-            "type": "ZfsSnapshotProperties"
+            "modelId": "core/model/models/zfs-snapshot-properties-anonymous.js",
+            "type": "ZfsSnapshotPropertiesAnonymous"
         },
         {
             "modelId": "core/model/models/zfs-snapshot.js",
@@ -1021,8 +1045,8 @@
             "type": "ZfsVdevExtension"
         },
         {
-            "modelId": "core/model/models/zfs-vdev-stats.js",
-            "type": "ZfsVdevStats"
+            "modelId": "core/model/models/zfs-vdev-stats-anonymous.js",
+            "type": "ZfsVdevStatsAnonymous"
         },
         {
             "modelId": "core/model/models/zfs-vdev.js",

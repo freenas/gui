@@ -92,7 +92,7 @@ var findSchemasInSchema = exports.findSchemasInSchema = function findSchemasInSc
                             "' should have a reference to an object for the property '" + propertyKey + "'");
                     }
 
-                    property._schema_name = schema._schema_name + "-" + propertyKey;
+                    property._schema_name = schema._schema_name + "-" + propertyKey + "-anonymous";
 
                     findSchemasInSchema(property, _schemas);
                 }
@@ -113,7 +113,7 @@ var saveModelDescriptorWithPathAndFileName = exports.saveModelDescriptorWithPath
         if (global.verbose) {
             console.log("writing " + path);
         }
-
+        
         FS.writeFile(path, serializer.serializeObject(modelDescriptor), function (error) {
             if (error) {
                 reject(error);

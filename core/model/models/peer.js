@@ -70,7 +70,8 @@ exports.Peer = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
-            name: "type"
+            name: "type",
+            valueType: "String"
         }]
     },
     userInterfaceDescriptor: {

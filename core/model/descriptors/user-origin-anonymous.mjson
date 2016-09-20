@@ -1,0 +1,37 @@
+{
+  "blueprint_useroriginanonymous_cached_at": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "cached_at",
+      "blueprint": {"@": "root"},
+      "valueType": "datetime"
+    }
+  },
+  "blueprint_useroriginanonymous_directory": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "directory",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_useroriginanonymous_ttl": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ttl",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "UserOriginAnonymous",
+      "propertyBlueprints": [
+        {"@": "blueprint_useroriginanonymous_cached_at"},
+        {"@": "blueprint_useroriginanonymous_directory"},
+        {"@": "blueprint_useroriginanonymous_ttl"}
+      ]
+    }
+  }
+}

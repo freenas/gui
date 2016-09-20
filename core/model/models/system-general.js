@@ -14,6 +14,19 @@ exports.SystemGeneral = AbstractModel.specialize({
             return this._console_keymap;
         }
     },
+    _description: {
+        value: null
+    },
+    description: {
+        set: function (value) {
+            if (this._description !== value) {
+                this._description = value;
+            }
+        },
+        get: function () {
+            return this._description;
+        }
+    },
     _hostname: {
         value: null
     },
@@ -53,6 +66,19 @@ exports.SystemGeneral = AbstractModel.specialize({
             return this._syslog_server;
         }
     },
+    _tags: {
+        value: null
+    },
+    tags: {
+        set: function (value) {
+            if (this._tags !== value) {
+                this._tags = value;
+            }
+        },
+        get: function () {
+            return this._tags;
+        }
+    },
     _timezone: {
         value: null
     },
@@ -74,6 +100,10 @@ exports.SystemGeneral = AbstractModel.specialize({
             valueType: "String"
         }, {
             mandatory: false,
+            name: "description",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "hostname",
             valueType: "String"
         }, {
@@ -84,6 +114,10 @@ exports.SystemGeneral = AbstractModel.specialize({
             mandatory: false,
             name: "syslog_server",
             valueType: "String"
+        }, {
+            mandatory: false,
+            name: "tags",
+            valueType: "array"
         }, {
             mandatory: false,
             name: "timezone",

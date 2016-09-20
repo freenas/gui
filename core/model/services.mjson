@@ -369,6 +369,10 @@
                 "name": "call",
                 "namespace": "rpc",
                 "restrictions": {
+                    "forbiddenFields": [
+                        "certificate_path",
+                        "privatekey_path"
+                    ],
                     "requiredFields": [
                         "type",
                         "name",
@@ -403,6 +407,12 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
+                "restrictions": {
+                    "forbiddenFields": [
+                        "certificate_path",
+                        "privatekey_path"
+                    ]
+                },
                 "task": "crypto.certificate.update"
             }
         }
@@ -984,6 +994,15 @@
             }
         }
     },
+    "Ipfs": {
+        "class": {
+            "hashToLink": {
+                "method": "ipfs.hash_to_link",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "Ipmi": {
         "class": {
             "channels": {
@@ -1222,6 +1241,24 @@
             },
             "waitReady": {
                 "method": "management.wait_ready",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "NeighbordDiscovery": {
+        "class": {
+            "find": {
+                "method": "neighbord.discovery.find",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "NeighbordManagement": {
+        "class": {
+            "die": {
+                "method": "neighbord.management.die",
                 "name": "call",
                 "namespace": "rpc"
             }
@@ -1513,6 +1550,60 @@
             }
         }
     },
+    "PeerAmazonS3": {
+        "instance": {
+            "read": {
+                "method": "peer.amazon-s3.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "PeerFreenas": {
+        "class": {
+            "authWithCode": {
+                "method": "peer.freenas.auth_with_code",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "createAuthCode": {
+                "method": "peer.freenas.create_auth_code",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "getAuthCodes": {
+                "method": "peer.freenas.get_auth_codes",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "invalidateCode": {
+                "method": "peer.freenas.invalidate_code",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "voidAuthCodes": {
+                "method": "peer.freenas.void_auth_codes",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
+        "instance": {
+            "read": {
+                "method": "peer.freenas.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "PeerSsh": {
+        "instance": {
+            "read": {
+                "method": "peer.ssh.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "Plugin": {
         "class": {
             "registerEventType": {
@@ -1698,6 +1789,16 @@
             }
         }
     },
+    "ServiceConsul": {
+        "instance": {
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.consul.update"
+            }
+        }
+    },
     "ServiceDyndns": {
         "class": {
             "providers": {
@@ -1722,6 +1823,16 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "service.ftp.update"
+            }
+        }
+    },
+    "ServiceIpfs": {
+        "instance": {
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "service.ipfs.update"
             }
         }
     },
@@ -1761,6 +1872,13 @@
         }
     },
     "ServiceOpenvpn": {
+        "class": {
+            "getReadableConfig": {
+                "method": "service.openvpn.get_readable_config",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        },
         "instance": {
             "bridge": {
                 "method": "task.submit",
@@ -1777,17 +1895,6 @@
                 "method": "task.submit",
                 "name": "call",
                 "namespace": "rpc",
-                "restrictions": {
-                    "requiredFields": [
-                        "dev",
-                        "ca",
-                        "cert",
-                        "key",
-                        "cipher",
-                        "port",
-                        "proto"
-                    ]
-                },
                 "task": "service.openvpn.update"
             }
         }
@@ -2921,6 +3028,21 @@
                 "name": "call",
                 "namespace": "rpc",
                 "task": "vm.update"
+            }
+        }
+    },
+    "VmConfig": {
+        "instance": {
+            "read": {
+                "method": "vm.config.get_config",
+                "name": "call",
+                "namespace": "rpc"
+            },
+            "update": {
+                "method": "task.submit",
+                "name": "call",
+                "namespace": "rpc",
+                "task": "vm.config.update"
             }
         }
     },

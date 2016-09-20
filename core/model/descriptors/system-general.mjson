@@ -7,6 +7,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_systemgeneral_description": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "description",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
   "blueprint_systemgeneral_hostname": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -31,6 +39,14 @@
       "valueType": "String"
     }
   },
+  "blueprint_systemgeneral_tags": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tags",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
   "blueprint_systemgeneral_timezone": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -45,9 +61,11 @@
       "name": "SystemGeneral",
       "propertyBlueprints": [
         {"@": "blueprint_systemgeneral_console_keymap"},
+        {"@": "blueprint_systemgeneral_description"},
         {"@": "blueprint_systemgeneral_hostname"},
         {"@": "blueprint_systemgeneral_language"},
         {"@": "blueprint_systemgeneral_syslog_server"},
+        {"@": "blueprint_systemgeneral_tags"},
         {"@": "blueprint_systemgeneral_timezone"}
       ]
     }

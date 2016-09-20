@@ -1,0 +1,28 @@
+{
+  "blueprint_networkinterfacevlananonymous_parent": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "parent",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_networkinterfacevlananonymous_tag": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "tag",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "NetworkInterfaceVlanAnonymous",
+      "propertyBlueprints": [
+        {"@": "blueprint_networkinterfacevlananonymous_parent"},
+        {"@": "blueprint_networkinterfacevlananonymous_tag"}
+      ]
+    }
+  }
+}

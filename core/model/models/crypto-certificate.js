@@ -361,7 +361,6 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "certificate_path",
-            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -433,7 +432,6 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "privatekey_path",
-            readOnly: true,
             valueType: "String"
         }, {
             mandatory: false,
@@ -442,7 +440,7 @@ exports.CryptoCertificate = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "serial",
-            valueType: "number"
+            valueType: "String"
         }, {
             mandatory: false,
             name: "signing_ca_id",

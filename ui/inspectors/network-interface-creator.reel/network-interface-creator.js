@@ -60,8 +60,10 @@ exports.NetworkInterfaceCreator = Component.specialize({
                 // FIXME: Hacks around combination of name not being nullable in the middleware
                 // and certain form elements initializing the bound value to null. Remove if
                 // either issue is resolved.
+                //
+                // FIXME: NetworkInterfaceVlan, NetworkInterfaceLagg and NetworkInterfaceBridge should be real classes (needs middleware evolution)
                 newInterface.name = "";
-                return self._dataService.getNewInstanceForType(Model['NetworkInterface' + type]);
+                return self._dataService.getNewInstanceForType(Model['NetworkInterface' + type + 'Anonymous']);
             }).then(function(properties) {
                 newInterface[type.toLowerCase()] = properties;
                 return newInterface;

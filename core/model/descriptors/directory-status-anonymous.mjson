@@ -1,0 +1,44 @@
+{
+  "blueprint_directorystatusanonymous_state": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "state",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "DISABLED",
+        "JOINING",
+        "FAILURE",
+        "BOUND",
+        "EXITING"
+      ]
+    }
+  },
+  "blueprint_directorystatusanonymous_status_code": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status_code",
+      "blueprint": {"@": "root"},
+      "valueType": "number"
+    }
+  },
+  "blueprint_directorystatusanonymous_status_message": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "status_message",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "DirectoryStatusAnonymous",
+      "propertyBlueprints": [
+        {"@": "blueprint_directorystatusanonymous_state"},
+        {"@": "blueprint_directorystatusanonymous_status_code"},
+        {"@": "blueprint_directorystatusanonymous_status_message"}
+      ]
+    }
+  }
+}
