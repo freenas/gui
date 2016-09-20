@@ -22,7 +22,6 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
             this.systemInfo = {};
             loadingPromises.push(
                 this.application.dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral) {
-                    console.log(systemGeneral[0]);
                     self.systemInfo.general = systemGeneral[0];
                 }),
                 this.application.storageService.listDatasets().then(function(datasetList) {
