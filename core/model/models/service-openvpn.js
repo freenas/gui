@@ -183,6 +183,19 @@ exports.ServiceOpenvpn = AbstractModel.specialize({
             return this._max_clients;
         }
     },
+    _mode: {
+        value: null
+    },
+    mode: {
+        set: function (value) {
+            if (this._mode !== value) {
+                this._mode = value;
+            }
+        },
+        get: function () {
+            return this._mode;
+        }
+    },
     _persist_key: {
         value: null
     },
@@ -233,6 +246,32 @@ exports.ServiceOpenvpn = AbstractModel.specialize({
         },
         get: function () {
             return this._proto;
+        }
+    },
+    _psk_remote_ip: {
+        value: null
+    },
+    psk_remote_ip: {
+        set: function (value) {
+            if (this._psk_remote_ip !== value) {
+                this._psk_remote_ip = value;
+            }
+        },
+        get: function () {
+            return this._psk_remote_ip;
+        }
+    },
+    _psk_server_ip: {
+        value: null
+    },
+    psk_server_ip: {
+        set: function (value) {
+            if (this._psk_server_ip !== value) {
+                this._psk_server_ip = value;
+            }
+        },
+        get: function () {
+            return this._psk_server_ip;
         }
     },
     _server_bridge: {
@@ -425,6 +464,10 @@ exports.ServiceOpenvpn = AbstractModel.specialize({
             valueType: "number"
         }, {
             mandatory: false,
+            name: "mode",
+            valueType: "String"
+        }, {
+            mandatory: false,
             name: "persist_key",
             valueType: "boolean"
         }, {
@@ -438,6 +481,14 @@ exports.ServiceOpenvpn = AbstractModel.specialize({
         }, {
             mandatory: false,
             name: "proto",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "psk_remote_ip",
+            valueType: "String"
+        }, {
+            mandatory: false,
+            name: "psk_server_ip",
             valueType: "String"
         }, {
             mandatory: false,

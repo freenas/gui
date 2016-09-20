@@ -1,8 +1,0 @@
-{
-  "root": {
-    "prototype": "core/model/model-descriptor",
-    "properties": {
-      "name": "DirectoryParameters"
-    }
-  }
-}

@@ -29,11 +29,7 @@
     "properties": {
       "name": "type",
       "blueprint": {"@": "root"},
-      "enumValues": [
-        "freenas",
-        "ssh",
-        "amazon-s3"
-      ]
+      "valueType": "String"
     }
   },
   "root": {

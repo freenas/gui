@@ -116,6 +116,18 @@
       "valueType": "number"
     }
   },
+  "blueprint_serviceopenvpn_mode": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "mode",
+      "blueprint": {"@": "root"},
+      "valueType": "String",
+      "enumValues": [
+        "pki",
+        "psk"
+      ]
+    }
+  },
   "blueprint_serviceopenvpn_persist_key": {
     "prototype": "montage/core/meta/property-blueprint",
     "properties": {
@@ -150,6 +162,22 @@
         "tcp",
         "udp"
       ]
+    }
+  },
+  "blueprint_serviceopenvpn_psk_remote_ip": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "psk_remote_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
+    }
+  },
+  "blueprint_serviceopenvpn_psk_server_ip": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "psk_server_ip",
+      "blueprint": {"@": "root"},
+      "valueType": "String"
     }
   },
   "blueprint_serviceopenvpn_server_bridge": {
@@ -253,10 +281,13 @@
         {"@": "blueprint_serviceopenvpn_keepalive_ping_interval"},
         {"@": "blueprint_serviceopenvpn_key"},
         {"@": "blueprint_serviceopenvpn_max_clients"},
+        {"@": "blueprint_serviceopenvpn_mode"},
         {"@": "blueprint_serviceopenvpn_persist_key"},
         {"@": "blueprint_serviceopenvpn_persist_tun"},
         {"@": "blueprint_serviceopenvpn_port"},
         {"@": "blueprint_serviceopenvpn_proto"},
+        {"@": "blueprint_serviceopenvpn_psk_remote_ip"},
+        {"@": "blueprint_serviceopenvpn_psk_server_ip"},
         {"@": "blueprint_serviceopenvpn_server_bridge"},
         {"@": "blueprint_serviceopenvpn_server_bridge_extended"},
         {"@": "blueprint_serviceopenvpn_server_bridge_ip"},

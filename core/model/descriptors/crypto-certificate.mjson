@@ -12,7 +12,6 @@
     "properties": {
       "name": "certificate_path",
       "blueprint": {"@": "root"},
-      "readOnly": true,
       "valueType": "String"
     }
   },
@@ -152,7 +151,6 @@
     "properties": {
       "name": "privatekey_path",
       "blueprint": {"@": "root"},
-      "readOnly": true,
       "valueType": "String"
     }
   },
@@ -169,7 +167,7 @@
     "properties": {
       "name": "serial",
       "blueprint": {"@": "root"},
-      "valueType": "number"
+      "valueType": "String"
     }
   },
   "blueprint_cryptocertificate_signing_ca_id": {

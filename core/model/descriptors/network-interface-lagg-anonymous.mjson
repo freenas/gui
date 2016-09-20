@@ -1,0 +1,29 @@
+{
+  "blueprint_networkinterfacelagganonymous_ports": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ports",
+      "blueprint": {"@": "root"},
+      "valueType": "array"
+    }
+  },
+  "blueprint_networkinterfacelagganonymous_protocol": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "protocol",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "NetworkAggregationProtocols"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "NetworkInterfaceLaggAnonymous",
+      "propertyBlueprints": [
+        {"@": "blueprint_networkinterfacelagganonymous_ports"},
+        {"@": "blueprint_networkinterfacelagganonymous_protocol"}
+      ]
+    }
+  }
+}

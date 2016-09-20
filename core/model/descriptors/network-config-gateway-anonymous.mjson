@@ -1,0 +1,30 @@
+{
+  "blueprint_networkconfiggatewayanonymous_ipv4": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ipv4",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Ipv4Address"
+    }
+  },
+  "blueprint_networkconfiggatewayanonymous_ipv6": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "ipv6",
+      "blueprint": {"@": "root"},
+      "valueType": "object",
+      "valueObjectPrototypeName": "Ipv6Address"
+    }
+  },
+  "root": {
+    "prototype": "core/model/model-descriptor",
+    "properties": {
+      "name": "NetworkConfigGatewayAnonymous",
+      "propertyBlueprints": [
+        {"@": "blueprint_networkconfiggatewayanonymous_ipv4"},
+        {"@": "blueprint_networkconfiggatewayanonymous_ipv6"}
+      ]
+    }
+  }
+}

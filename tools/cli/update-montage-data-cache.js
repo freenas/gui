@@ -25,6 +25,8 @@ program
     .option('-s, --secure', "establish a secure connection with the middleware")
     .parse(process.argv);
 
+global.verbose = program.verbose;
+global.warning = program.warning;
 program.save = true;
 
 Connect.authenticateIfNeeded(program.username, program.password, program).then(function () {
