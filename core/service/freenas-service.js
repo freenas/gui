@@ -355,7 +355,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
      */
     mapFromRawData: {
         value: function (object, data) {
-            var propertyDescriptors = object.constructor.blueprint.propertyBlueprints,
+            var propertyDescriptors = object.constructor.propertyBlueprints,
                 keys = Object.keys(data),
                 propertyDescriptor,
                 rawValue,
@@ -657,9 +657,10 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                     action = !!object._isToBeDeleted ? ACTION_DELETE :
                         this._isModelTypeHasNoId(type) || object.id !== null ? ACTION_UPDATE : ACTION_CREATE;
                 }
+
                 var serviceDescriptor = this._getServiceDescriptor(type, action),
                     restrictions = serviceDescriptor ? serviceDescriptor.restrictions : null,
-                    propertyDescriptors = object.constructor.blueprint.propertyBlueprints,
+                    propertyDescriptors = object.constructor.propertyBlueprints,
                     hasRestrictions = !!restrictions, requiredFields, isPropertyValueNullified, forbiddenFields,
                     propertyDescriptor, propertyValue, key, requiredFieldIndex, unsatisfiedRequiredFieldsCount = 0;
 

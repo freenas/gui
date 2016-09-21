@@ -6,9 +6,9 @@ var FS = require('../fs-promise');
 var Path = require('path');
 var beautify = require('js-beautify').js_beautify;
 
-var MODULE_FILE_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(<PROTOTYPE_DESCRIPTOR>);";
-var MODULE_FILE_CONSTRUCTOR_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(<PROTOTYPE_DESCRIPTOR>, <CONSTRUCTOR_DESCRIPTOR>);";
-var MODULE_FILE_ONLY_CONSTRUCTOR_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = AbstractModel.specialize(null, <CONSTRUCTOR_DESCRIPTOR>);";
+var MODULE_FILE_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = Montage.specialize(<PROTOTYPE_DESCRIPTOR>);";
+var MODULE_FILE_CONSTRUCTOR_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = Montage.specialize(<PROTOTYPE_DESCRIPTOR>, <CONSTRUCTOR_DESCRIPTOR>);";
+var MODULE_FILE_ONLY_CONSTRUCTOR_TEMPLATE = "<REQUIRES>\n\nexports.<EXPORT_NAME> = Montage.specialize(null, <CONSTRUCTOR_DESCRIPTOR>);";
 var CONSTRUCTOR_PROPERTY_BLUEPRINTS_TEMPLATE = "propertyBlueprints: { value: <PROPERTY_BLUEPRINTS> }";
 var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_TEMPLATE = "userInterfaceDescriptor: { value: { <USER_INTERFACE_DESCRIPTOR> } } ";
 var CONSTRUCTOR_PROPERTY_USER_INTERFACE_DESCRIPTOR_MODULE_ID_TEMPLATE = "<USER_INTERFACE_DESCRIPTOR_MODULE_NAME>: { id: '<USER_INTERFACE_DESCRIPTOR_MODULE_ID>' }";
@@ -23,13 +23,13 @@ var ModelObject = function ModelObject (descriptor) {
     this.fileName = _toFileName(descriptor.root.properties.name, "-");
     this.requires = [
         {
-            name: "AbstractModel",
-            moduleId: "core/model/abstract-model"
+            name: "Montage",
+            moduleId: "montage"
         }
     ];
 
     this.requiresMap = new Map ();
-    this.requiresMap.set("AbstractModel", true);
+    this.requiresMap.set("Montage", true);
     this.properties = [];
 };
 

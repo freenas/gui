@@ -36,7 +36,7 @@ exports.ValidationController = Montage.specialize(/** @lends ValidationControlle
 
     _loadFromObjectDescriptor: {
         value: function() {
-            var propertyBlueprints = this._object.constructor.blueprint.propertyBlueprints,
+            var propertyBlueprints = this._object.constructor.propertyBlueprints,
                 component, path;
             for (var i = 0, length = propertyBlueprints.length; i < length; i++) {
                 path = propertyBlueprints[i].name;

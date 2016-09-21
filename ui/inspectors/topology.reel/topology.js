@@ -200,7 +200,7 @@ var Topology = exports.Topology = AbstractInspector.specialize(/** @lends Topolo
 
     _mapVDevToProxyVDev: {
         value: function (vDev) {
-            var propertyBlueprints = Model.ZfsVdev.constructor.blueprint.propertyBlueprints,
+            var propertyBlueprints = Model.ZfsVdev.objectPrototype.constructor.propertyBlueprints,
                 proxyVDev = this.application.dataService.getDataObject(Model.ZfsVdev),
                 key;
 
