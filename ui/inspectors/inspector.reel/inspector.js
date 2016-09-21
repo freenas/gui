@@ -49,10 +49,10 @@ exports.Inspector = Component.specialize(/** @lends Inspector# */ {
                 }
             } else if (this.object) {
                 this.object.__isLocked = true;
+                this.clearObjectSelection();
                 promise = this.application.dataService.deleteDataObject(this.object).catch(this._logError);
                 promise.then(function(){
                     self.object.__isLocked = false;
-                    self.clearObjectSelection();
                 });
             } else if (this.controller) {
                 console.warn('NOT IMPLEMENTED: delete() on ', this.controller.templateModuleId);
