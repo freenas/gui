@@ -59,7 +59,7 @@ var StorageService = exports.StorageService = Montage.specialize({
         }
     },
 
-    listVolumeSnapshotData: {
+    listVolumeSnapshots: {
         value: function() {
             return this._dataService.fetchData(Model.VolumeSnapshot).then(function (snapshots) {
                 return snapshots;
