@@ -27,7 +27,7 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.storageService.listDatasets().then(function (datasetList) {
                     self.systemInfo.totalDatasets = datasetList.length;
                 }),
-                this.application.storageService.listVolumeSnapshotData().then(function (snapshots) {
+                this.application.storageService.listVolumeSnapshots().then(function (snapshots) {
                     self.systemInfo.totalSnapshots = snapshots.length;
                 }),
                 this.application.storageService.getShareData().then(function (shares) {
@@ -36,10 +36,10 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.systemInfoService.getVersion().then(function (version) {
                     self.systemInfo.systemVersion = version;
                 }),
-                this.application.peeringService.listPeerData().then(function (peers) {
+                this.application.peeringService.listPeers().then(function (peers) {
                     self.systemInfo.totalPeers = peers.length;
                 }),
-                this.application.replicationService.listReplicationData().then(function (replications) {
+                this.application.replicationService.listReplications().then(function (replications) {
                     self.systemInfo.totalReplications = replications.length;
                 })
             );
