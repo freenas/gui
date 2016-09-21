@@ -12,7 +12,7 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
         value: null
     },
 
-    getSystemGeneralData: {
+    getSystemGeneral: {
         value: function() {
             return  this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
                 return systemGeneral[0];
@@ -32,14 +32,6 @@ var SystemGeneralService = exports.SystemGeneralService = Montage.specialize({
         value: function() {
             return Model.populateObjectPrototypeForType(Model.SystemGeneral).then(function(SystemGeneral){
                 return SystemGeneral.constructor.services.keymaps();
-            });
-        }
-    },
-
-    getConsoleKeymap: {
-        value: function() {
-            return  this._dataService.fetchData(Model.SystemGeneral).then(function(systemGeneral){
-                return systemGeneral[0];
             });
         }
     },
