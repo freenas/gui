@@ -7,11 +7,12 @@
  */
 var HandlerPool = exports.HandlerPool = function HandlerPool () {
     this.pool = Object.create(null);
+    this._timeouts = new Set();
 };
 
 
-var UUID_PATTERN = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
-
+var UUID_PATTERN = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx",
+    TIMEOUT_HANDLER = { timeout: true };
 
 HandlerPool.prototype.handlerTimeout = 5000;
 
@@ -101,6 +102,10 @@ HandlerPool.prototype.findHandler = function (uuid) {
 
     if ((typeof uuid === "string" || typeof uuid === "number")) {
         handler = this.pool[uuid];
+        if (!handler && this._timeouts.has(uuid)) {
+            this._removeFromTimeout(uuid);
+            handler = TIMEOUT_HANDLER;
+        }
     }
 
     return handler;
@@ -131,6 +136,7 @@ HandlerPool.prototype.setTimeoutToHandler = function (handler, timeout) {
                 messageHandler.reject(new Error("response timeout"));
 
                 delete self.pool[uuid];
+                self._markAsTimeout(uuid);
             }
         }, timeout);
     }
@@ -173,6 +179,13 @@ HandlerPool.prototype.rejectAll = function (error) {
                                                 Private Functions
 ----------------------------------------------------------------------------------------------------------------------*/
 
+HandlerPool.prototype._markAsTimeout = function(uuid) {
+    this._timeouts.add(uuid);
+}
+
+HandlerPool.prototype._removeFromTimeout = function(uuid) {
+    this._timeouts.delete(uuid);
+}
 
 /**
  * @function
