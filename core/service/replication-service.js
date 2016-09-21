@@ -9,8 +9,8 @@ var ReplicationService = exports.ReplicationService = Montage.specialize({
             this._dataService = FreeNASService.instance;
         }
     },
-    
-    listReplicationData: {
+
+    listReplications: {
         value: function() {
             return this._dataService.fetchData(Model.Replication).then(function (replications) {
                 return replications;
