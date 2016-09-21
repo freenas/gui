@@ -4,7 +4,8 @@ var Target = require("montage/core/target").Target,
     WebSocketMessage = require("./websocket-message").WebSocketMessage,
     WebSocketResponse = require("./websocket-response").WebSocketResponse,
     WebSocketConfiguration = require("./websocket-configuration").WebSocketConfiguration,
-    HandlerPool = require("./handler-pool").HandlerPool;
+    HandlerPool = require("./handler-pool").HandlerPool,
+    Promise = require("montage/core/promise").Promise;
 
 
 var RPC_NAME_SPACE = "rpc",
@@ -145,34 +146,37 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
                     var deferred = this._handlerPool.releaseHandler(response.id);
 
                     if (deferred) {
-                        if (response.name === RESPONSE_NAME) {
-                            deferred.resolve(new WebSocketResponse(response));
+                        if (!deferred.timeout) {
+                            if (response.name === RESPONSE_NAME) {
+                                deferred.resolve(new WebSocketResponse(response));
 
-                        } else if (response.name === "error") {
-                            if (response.args) {
-                                /**
-                                 * FIXME: Need to investigate, it seems that code errors are the same
-                                 * when an user is not logged or gives wrong credentials...
-                                 */
-                                if (response.args.code === 13) {
-                                    if (response.args.message === "Not logged in") {
-                                        this.dispatchEventNamed("userDisconnected", true, true);
-                                        this.connectionStatus = this._connection.CONNECTION_DISCONNECTED;
+                            } else if (response.name === "error") {
+                                if (response.args) {
+                                    /**
+                                     * FIXME: Need to investigate, it seems that code errors are the same
+                                     * when an user is not logged or gives wrong credentials...
+                                     */
+                                    if (response.args.code === 13) {
+                                        if (response.args.message === "Not logged in") {
+                                            this.dispatchEventNamed("userDisconnected", true, true);
+                                            this.connectionStatus = this._connection.CONNECTION_DISCONNECTED;
+                                        }
+
+                                        deferred.reject(new Error(response.args.message));
+
+                                    } else {
+                                        deferred.reject(response.args);
                                     }
-
-                                    deferred.reject(new Error(response.args.message));
-
                                 } else {
-                                    deferred.reject(response.args);
+                                    deferred.reject(new Error("Error message received: " + response));
                                 }
                             } else {
-                                deferred.reject(new Error("Error message received: " + response));
+                                deferred.reject(new Error("Unknown message received: " + response));
                             }
-                        } else {
-                            deferred.reject(new Error("Unknown message received: " + response));
                         }
                     } else {
-                        throw new Error("Message received but no handler has been found: " + response);
+                        var payload = typeof response === "object" && response ? JSON.stringify(response) : response;
+                        throw new Error("Message received but no handler has been found: " + payload);
                     }
                 } else if (response.namespace === EVENTS_NAME_SPACE) {
                     this.dispatchEventNamed(
