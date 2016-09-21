@@ -21,13 +21,13 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
             this.isLoading = true;
             this.systemInfo = {};
             loadingPromises.push(
-                this.application.systemGeneralService.getSystemGeneralData().then(function (systemGeneral) {
+                this.application.systemGeneralService.getSystemGeneral().then(function (systemGeneral) {
                     self.systemInfo.general = systemGeneral;
                 }),
                 this.application.storageService.listDatasets().then(function (datasetList) {
                     self.systemInfo.totalDatasets = datasetList.length;
                 }),
-                this.application.storageService.getVolumeSnapshotData().then(function (snapshots) {
+                this.application.storageService.listVolumeSnapshotData().then(function (snapshots) {
                     self.systemInfo.totalSnapshots = snapshots.length;
                 }),
                 this.application.storageService.getShareData().then(function (shares) {
@@ -36,10 +36,10 @@ exports.Overview = Component.specialize(/** @lends Overview# */ {
                 this.application.systemInfoService.getVersion().then(function (version) {
                     self.systemInfo.systemVersion = version;
                 }),
-                this.application.storageService.getPeerData().then(function (peers) {
+                this.application.peeringService.listPeerData().then(function (peers) {
                     self.systemInfo.totalPeers = peers.length;
                 }),
-                this.application.storageService.getReplicationData().then(function (replications) {
+                this.application.replicationService.listReplicationData().then(function (replications) {
                     self.systemInfo.totalReplications = replications.length;
                 })
             );
