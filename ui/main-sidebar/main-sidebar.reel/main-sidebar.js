@@ -6,6 +6,10 @@ var Component = require("montage/ui/component").Component;
  */
 exports.MainSidebar = Component.specialize({
 
+    confirmationPromise: {
+        value: null
+    },
+
     confirmingAction: {
         value: null
     },
@@ -29,12 +33,18 @@ exports.MainSidebar = Component.specialize({
         }
     },
 
+    templateDidLoad: {
+        value: function() {
+            this._systemService = this.application.systemService;
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
                 if (!this.application.sessionService.session) {
                     this.application.sessionService.session = {
-                        username: '',
+                        username: ''
                     };
                 }
 
@@ -45,64 +55,75 @@ exports.MainSidebar = Component.specialize({
 
     handleRebootAction: {
         value: function () {
-            this.confirmingAction = "reboot";
-            this.confirmationMessage = "Are you sure you want to reboot FreeNAS?";
+            var self = this;
+            this._askConfirmation("Are you sure you want to reboot FreeNAS?").then(function(isConfirmed) {
+                if (isConfirmed) {
+                    self._systemService.reboot();
+                }
+            }).finally(function() {
+                self._cleanupConfirmation();
+            });
         }
     },
 
     handleShutdownAction: {
         value: function () {
-            this.confirmingAction = "shutdown";
-            this.confirmationMessage = "Are you sure you want to shut down FreeNAS?";
+            var self = this;
+            this._askConfirmation("Are you sure you want to shutdown FreeNAS?").then(function(isConfirmed) {
+                if (isConfirmed) {
+                    self._systemService.shutdown();
+                }
+            }).finally(function() {
+                self._cleanupConfirmation()
+            });
         }
     },
 
     handleLogoutAction: {
         value: function () {
-            this.confirmingAction = "logout";
-            this.confirmationMessage = "Are you sure you want to log out of FreeNAS?";
+            var self = this;
+            this._askConfirmation("Are you sure you want to log out of FreeNAS?").then(function(isConfirmed) {
+                if (isConfirmed) {
+                    location.reload();
+                }
+            }).finally(function() {
+                self._cleanupConfirmation()
+            });
         }
     },
 
     handleConfirmAction: {
         value: function() {
-            switch (this.confirmingAction) {
-                case "reboot":
-                    this.reboot();
-                    break;
-
-                case "shutdown":
-                    this.shutdown();
-                    break;
-
-                case "logout":
-                    this.logout();
-                    break;
-
-                default:
-                    console.warning("Tried to confirm unknown power or logout action.");
+            if (this._confirmationDeferred) {
+                this._confirmationDeferred.resolve(true);
             }
         }
     },
 
-    reboot: {
-        value: function () {
-            this.confirmingAction = null;
-            this.application.systemService.reboot();
+    handleCancelAction: {
+        value: function() {
+            if (this._confirmationDeferred) {
+                this._confirmationDeferred.resolve(false);
+            }
         }
     },
 
-    shutdown: {
-        value: function () {
-            this.confirmingAction = null;
-            this.application.systemService.shutdown();
+    _askConfirmation: {
+        value: function(message) {
+            var self = this;
+            this.confirmationMessage = message;
+            return new Promise(function(resolve) {
+                self._confirmationDeferred = {
+                    resolve: resolve
+                };
+            });
         }
     },
 
-    logout: {
-        value: function () {
-            this.confirmingAction = null;
-            location.reload();
+    _cleanupConfirmation: {
+        value: function() {
+            this.confirmationMessage = null;
+            this._confirmationDeferred = null;
         }
     }
 });

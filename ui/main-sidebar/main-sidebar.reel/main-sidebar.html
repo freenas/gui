@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"}
             },
+            "bindings": {
+                "classList.has('has-confirmation')": {"<-": "!!@owner.confirmationMessage"}
+            },
             "listeners": [
                 {
                     "type": "action",
@@ -73,14 +76,27 @@
                 "element": {"#": "globalActionsButton"}
             }
         },
-        "confirm": {
-            "prototype": "montage/ui/button.reel",
+        "confirmationMessage": {
+            "prototype": "montage/ui/text.reel",
             "properties": {
-                "element": {"#": "confirm"}
+                "element": {"#": "confirmationMessage"}
             },
             "bindings": {
-                "label": {"<-": "@owner.confirmationMessage"},
-                "classList.has('hide')": {"<-": "!@owner.confirmingAction"}
+                "value": {"<-": "@owner.confirmationMessage"}
+            }
+        },
+        "confirm": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "confirm"},
+                "label": "Confirm"
+            }
+        },
+        "cancel": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancel"},
+                "label": "Cancel"
             }
         }
     }
@@ -104,7 +120,11 @@
                 <li><button data-montage-id="reboot"></button></li>
                 <li><button data-montage-id="shutdown"></button></li>
             </ul>
-            <div data-montage-id="confirm"></div>
+            <div class="MainSidebar-confirmation">
+                <div data-montage-id="confirmationMessage"></div>
+                <div data-montage-id="confirm" class="Button--primary"></div>
+                <div data-montage-id="cancel"></div>
+            </div>
         </div>
     </div>
 </body>

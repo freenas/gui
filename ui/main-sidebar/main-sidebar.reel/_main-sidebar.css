@@ -139,3 +139,19 @@
         cursor: pointer;
     }
 }
+
+.MainSidebar .MainSidebar-confirmation {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    background: inherit;
+
+    & button {
+        min-width: 64px;
+    }
+}
+
+.MainSidebar.has-confirmation .MainSidebar-confirmation {
+    display: block;
+}
+
