@@ -5,6 +5,15 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.MainSidebar = Component.specialize({
+
+    confirmingAction: {
+        value: null
+    },
+
+    confirmationMessage: {
+        value: null
+    },
+
     isFlipped: {
         value: false
     },
@@ -36,18 +45,63 @@ exports.MainSidebar = Component.specialize({
 
     handleRebootAction: {
         value: function () {
-            this.application.systemService.reboot();
+            this.confirmingAction = "reboot";
+            this.confirmationMessage = "Are you sure you want to reboot FreeNAS?";
         }
     },
 
     handleShutdownAction: {
         value: function () {
-            this.application.systemService.shutdown();
+            this.confirmingAction = "shutdown";
+            this.confirmationMessage = "Are you sure you want to shut down FreeNAS?";
         }
     },
 
     handleLogoutAction: {
         value: function () {
+            this.confirmingAction = "logout";
+            this.confirmationMessage = "Are you sure you want to log out of FreeNAS?";
+        }
+    },
+
+    handleConfirmAction: {
+        value: function() {
+            switch (this.confirmingAction) {
+                case "reboot":
+                    this.reboot();
+                    break;
+
+                case "shutdown":
+                    this.shutdown();
+                    break;
+
+                case "logout":
+                    this.logout();
+                    break;
+
+                default:
+                    console.warning("Tried to confirm unknown power or logout action.");
+            }
+        }
+    },
+
+    reboot: {
+        value: function () {
+            this.confirmingAction = null;
+            this.application.systemService.reboot();
+        }
+    },
+
+    shutdown: {
+        value: function () {
+            this.confirmingAction = null;
+            this.application.systemService.shutdown();
+        }
+    },
+
+    logout: {
+        value: function () {
+            this.confirmingAction = null;
             location.reload();
         }
     }

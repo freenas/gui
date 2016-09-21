@@ -72,6 +72,16 @@
             "properties": {
                 "element": {"#": "globalActionsButton"}
             }
+        },
+        "confirm": {
+            "prototype": "montage/ui/button.reel",
+            "properties": {
+                "element": {"#": "confirm"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.confirmationMessage"},
+                "classList.has('hide')": {"<-": "!@owner.confirmingAction"}
+            }
         }
     }
     </script>
@@ -94,6 +104,7 @@
                 <li><button data-montage-id="reboot"></button></li>
                 <li><button data-montage-id="shutdown"></button></li>
             </ul>
+            <div data-montage-id="confirm"></div>
         </div>
     </div>
 </body>
