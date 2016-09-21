@@ -62,7 +62,7 @@ var PeeringService = exports.PeeringService = Montage.specialize({
     },
 
 
-    listPeerData: {
+    listPeers: {
         value: function() {
             return this._dataService.fetchData(Model.Peer).then(function (peers) {
                 return peers;
