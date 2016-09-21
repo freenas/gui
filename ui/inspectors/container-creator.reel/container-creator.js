@@ -1,7 +1,8 @@
 /**
  * @module ui/container-creator.reel
  */
-var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector,
+    Model = require("core/model/model").Model;
 
 /**
  * @class ContainerCreator
@@ -14,8 +15,11 @@ exports.ContainerCreator = AbstractInspector.specialize(/** @lends ContainerCrea
             var self = this;
             this._environement = {};
 
+            this._canDrawGate.setField("serviceLoaded", false);
+
             Model.populateObjectPrototypeForType(Model.DockerImage).then(function (DockerImage) {
                 self._dockerImageService = DockerImage.constructor.services;
+                self._canDrawGate.setField("serviceLoaded", true);
             });
         }
     },
