@@ -172,7 +172,8 @@ var BackEndBridge = exports.BackEndBridge = Target.specialize({
                             deferred.reject(new Error("Unknown message received: " + response));
                         }
                     } else {
-                        throw new Error("Message received but no handler has been found: " + response);
+                        var payload = typeof response === "object" && response ? JSON.stringify(response) : response;
+                        throw new Error("Message received but no handler has been found: " + payload);
                     }
                 } else if (response.namespace === EVENTS_NAME_SPACE) {
                     this.dispatchEventNamed(
