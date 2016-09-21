@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceTftpd = AbstractModel.specialize({
+exports.ServiceTftpd = Montage.specialize({
     _allow_new_files: {
         value: null
     },

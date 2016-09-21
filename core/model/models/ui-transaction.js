@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.UiTransaction = AbstractModel.specialize({
+exports.UiTransaction = Montage.specialize({
     _identifier: {
         value: null
     },

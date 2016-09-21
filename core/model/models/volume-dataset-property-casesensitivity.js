@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeDatasetPropertyCasesensitivity = AbstractModel.specialize({
+exports.VolumeDatasetPropertyCasesensitivity = Montage.specialize({
     _parsed: {
         value: null
     },

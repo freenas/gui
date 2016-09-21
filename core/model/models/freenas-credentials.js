@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.FreenasCredentials = AbstractModel.specialize({
+exports.FreenasCredentials = Montage.specialize({
     _address: {
         value: null
     },

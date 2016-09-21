@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeDatasetPropertyWritten = AbstractModel.specialize({
+exports.VolumeDatasetPropertyWritten = Montage.specialize({
     _parsed: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceWebdav = AbstractModel.specialize({
+exports.ServiceWebdav = Montage.specialize({
     _authentication: {
         value: null
     },

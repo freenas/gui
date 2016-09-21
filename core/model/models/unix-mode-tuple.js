@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.UnixModeTuple = AbstractModel.specialize({
+exports.UnixModeTuple = Montage.specialize({
     _execute: {
         value: null
     },

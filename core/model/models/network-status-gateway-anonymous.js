@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkStatusGatewayAnonymous = AbstractModel.specialize({
+exports.NetworkStatusGatewayAnonymous = Montage.specialize({
     _ipv4: {
         value: null
     },

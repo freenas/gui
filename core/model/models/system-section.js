@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SystemSection = AbstractModel.specialize({
+exports.SystemSection = Montage.specialize({
     _identifier: {
         value: null
     },

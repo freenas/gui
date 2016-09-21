@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.WinbindDirectoryStatus = AbstractModel.specialize({
+exports.WinbindDirectoryStatus = Montage.specialize({
     _domain_controller: {
         value: null
     },

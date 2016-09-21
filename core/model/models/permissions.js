@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Permissions = AbstractModel.specialize({
+exports.Permissions = Montage.specialize({
     _acl: {
         value: null
     },

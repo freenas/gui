@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Session = AbstractModel.specialize({
+exports.Session = Montage.specialize({
     _active: {
         value: null
     },

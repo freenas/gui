@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SerialPortDevice = AbstractModel.specialize({
+exports.SerialPortDevice = Montage.specialize({
     _description: {
         value: null
     },

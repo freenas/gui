@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ZfsTopology = AbstractModel.specialize({
+exports.ZfsTopology = Montage.specialize({
     _cache: {
         value: null
     },

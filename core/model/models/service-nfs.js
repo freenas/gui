@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceNfs = AbstractModel.specialize({
+exports.ServiceNfs = Montage.specialize({
     _bind_addresses: {
         value: null
     },

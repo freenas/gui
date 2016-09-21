@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DockerVolume = AbstractModel.specialize({
+exports.DockerVolume = Montage.specialize({
     _container_path: {
         value: null
     },

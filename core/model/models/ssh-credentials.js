@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SshCredentials = AbstractModel.specialize({
+exports.SshCredentials = Montage.specialize({
     _address: {
         value: null
     },

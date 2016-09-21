@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Disk = AbstractModel.specialize({
+exports.Disk = Montage.specialize({
     _acoustic_level: {
         value: null
     },

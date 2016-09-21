@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkConfigDnsAnonymous = AbstractModel.specialize({
+exports.NetworkConfigDnsAnonymous = Montage.specialize({
     _addresses: {
         value: null
     },

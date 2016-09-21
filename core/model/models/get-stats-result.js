@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.GetStatsResult = AbstractModel.specialize({
+exports.GetStatsResult = Montage.specialize({
     _data: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.AclEntry = AbstractModel.specialize({
+exports.AclEntry = Montage.specialize({
     _flags: {
         value: null
     },

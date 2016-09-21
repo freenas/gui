@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DockerImage = AbstractModel.specialize({
+exports.DockerImage = Montage.specialize({
     _created_at: {
         value: null
     },

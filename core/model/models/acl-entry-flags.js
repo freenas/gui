@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.AclEntryFlags = AbstractModel.specialize({
+exports.AclEntryFlags = Montage.specialize({
     _DIRECTORY_INHERIT: {
         value: null
     },

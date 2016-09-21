@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.BackupSsh = AbstractModel.specialize({
+exports.BackupSsh = Montage.specialize({
     _directory: {
         value: null
     },

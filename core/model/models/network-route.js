@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkRoute = AbstractModel.specialize({
+exports.NetworkRoute = Montage.specialize({
     _gateway: {
         value: null
     },

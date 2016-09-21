@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeEncryption = AbstractModel.specialize({
+exports.VolumeEncryption = Montage.specialize({
     _hashed_password: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.KerberosRealm = AbstractModel.specialize({
+exports.KerberosRealm = Montage.specialize({
     _admin_server_address: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.RemoteDebugStatus = AbstractModel.specialize({
+exports.RemoteDebugStatus = Montage.specialize({
     _connected_at: {
         value: null
     },

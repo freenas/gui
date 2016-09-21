@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.AccountCategory = AbstractModel.specialize({
+exports.AccountCategory = Montage.specialize({
     _user: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceStatus = AbstractModel.specialize({
+exports.NetworkInterfaceStatus = Montage.specialize({
     _aliases: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceStatusDhcpAnonymous = AbstractModel.specialize({
+exports.NetworkInterfaceStatusDhcpAnonymous = Montage.specialize({
     _lease_ends_at: {
         value: null
     },

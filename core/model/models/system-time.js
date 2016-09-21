@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SystemTime = AbstractModel.specialize({
+exports.SystemTime = Montage.specialize({
     _boot_time: {
         value: null
     },

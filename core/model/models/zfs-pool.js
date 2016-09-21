@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ZfsPool = AbstractModel.specialize({
+exports.ZfsPool = Montage.specialize({
     _groups: {
         value: null
     },

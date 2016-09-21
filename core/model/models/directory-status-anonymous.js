@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DirectoryStatusAnonymous = AbstractModel.specialize({
+exports.DirectoryStatusAnonymous = Montage.specialize({
     _state: {
         value: null
     },

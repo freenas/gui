@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.OpenFile = AbstractModel.specialize({
+exports.OpenFile = Montage.specialize({
     _path: {
         value: null
     },

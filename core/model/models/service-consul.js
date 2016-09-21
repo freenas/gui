@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceConsul = AbstractModel.specialize({
+exports.ServiceConsul = Montage.specialize({
     _bind_address: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Calendar = AbstractModel.specialize(null, {
+exports.Calendar = Montage.specialize(null, {
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {

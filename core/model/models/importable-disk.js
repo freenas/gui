@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ImportableDisk = AbstractModel.specialize({
+exports.ImportableDisk = Montage.specialize({
     _fstype: {
         value: null
     },

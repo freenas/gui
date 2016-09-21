@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceLaggAnonymous = AbstractModel.specialize({
+exports.NetworkInterfaceLaggAnonymous = Montage.specialize({
     _ports: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceFtp = AbstractModel.specialize({
+exports.ServiceFtp = Montage.specialize({
     _anon_down_bandwidth: {
         value: null
     },

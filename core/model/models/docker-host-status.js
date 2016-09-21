@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DockerHostStatus = AbstractModel.specialize({
+exports.DockerHostStatus = Montage.specialize({
     _hostname: {
         value: null
     },

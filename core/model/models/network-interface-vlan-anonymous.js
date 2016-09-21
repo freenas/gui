@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceVlanAnonymous = AbstractModel.specialize({
+exports.NetworkInterfaceVlanAnonymous = Montage.specialize({
     _parent: {
         value: null
     },

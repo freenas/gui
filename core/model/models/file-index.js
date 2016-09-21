@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.FileIndex = AbstractModel.specialize({
+exports.FileIndex = Montage.specialize({
     _atime: {
         value: null
     },

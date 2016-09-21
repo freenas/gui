@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.BackupS3 = AbstractModel.specialize({
+exports.BackupS3 = Montage.specialize({
     _bucket: {
         value: null
     },

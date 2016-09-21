@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SystemUi = AbstractModel.specialize({
+exports.SystemUi = Montage.specialize({
     _webui_http_port: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.UpdateOps = AbstractModel.specialize({
+exports.UpdateOps = Montage.specialize({
     _new_name: {
         value: null
     },

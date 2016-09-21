@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceSshd = AbstractModel.specialize({
+exports.ServiceSshd = Montage.specialize({
     _allow_gssapi_auth: {
         value: null
     },

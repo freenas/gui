@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ShareIscsiAuth = AbstractModel.specialize({
+exports.ShareIscsiAuth = Montage.specialize({
     _description: {
         value: null
     },

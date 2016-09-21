@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.CompressPlugin = AbstractModel.specialize({
+exports.CompressPlugin = Montage.specialize({
     _buffer_size: {
         value: null
     },

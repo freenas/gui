@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DirectoryServices = AbstractModel.specialize(null, {
+exports.DirectoryServices = Montage.specialize(null, {
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {

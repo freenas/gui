@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeVdevRecommendationsRedundancyAnonymous = AbstractModel.specialize({
+exports.VolumeVdevRecommendationsRedundancyAnonymous = Montage.specialize({
     _redundancy: {
         value: null
     },

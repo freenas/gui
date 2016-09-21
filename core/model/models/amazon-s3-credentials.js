@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.AmazonS3Credentials = AbstractModel.specialize({
+exports.AmazonS3Credentials = Montage.specialize({
     _access_key: {
         value: null
     },

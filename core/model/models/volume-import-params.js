@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeImportParams = AbstractModel.specialize({
+exports.VolumeImportParams = Montage.specialize({
     _disks: {
         value: null
     },

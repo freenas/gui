@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ReplicationTransport = AbstractModel.specialize({
+exports.ReplicationTransport = Montage.specialize({
     _auth_token: {
         value: null
     },

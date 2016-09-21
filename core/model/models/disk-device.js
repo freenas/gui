@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DiskDevice = AbstractModel.specialize({
+exports.DiskDevice = Montage.specialize({
     _description: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceIscsi = AbstractModel.specialize({
+exports.ServiceIscsi = Montage.specialize({
     _base_name: {
         value: null
     },

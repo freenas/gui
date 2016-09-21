@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.RsyncCopy = AbstractModel.specialize({
+exports.RsyncCopy = Montage.specialize({
     _path: {
         value: null
     },

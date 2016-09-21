@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ZfsVdev = AbstractModel.specialize({
+exports.ZfsVdev = Montage.specialize({
     _children: {
         value: null
     },

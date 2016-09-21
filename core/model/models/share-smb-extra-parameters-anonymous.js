@@ -1,3 +1,3 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ShareSmbExtraParametersAnonymous = AbstractModel.specialize();
+exports.ShareSmbExtraParametersAnonymous = Montage.specialize();
