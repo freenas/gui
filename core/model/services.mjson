@@ -1246,6 +1246,15 @@
             }
         }
     },
+    "Neighbor": {
+        "instance": {
+            "read": {
+                "method": "neighbor.query",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
     "NeighbordDiscovery": {
         "class": {
             "find": {
@@ -2596,6 +2605,15 @@
             },
             "getDevices": {
                 "method": "system.device.get_devices",
+                "name": "call",
+                "namespace": "rpc"
+            }
+        }
+    },
+    "SystemDmi": {
+        "class": {
+            "get": {
+                "method": "system.dmi.get",
                 "name": "call",
                 "namespace": "rpc"
             }

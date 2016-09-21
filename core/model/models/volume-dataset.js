@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeDataset = AbstractModel.specialize({
+exports.VolumeDataset = Montage.specialize({
     _id: {
         value: null
     },

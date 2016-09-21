@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ThrottlePlugin = AbstractModel.specialize({
+exports.ThrottlePlugin = Montage.specialize({
     _buffer_size: {
         value: null
     },

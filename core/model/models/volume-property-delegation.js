@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumePropertyDelegation = AbstractModel.specialize({
+exports.VolumePropertyDelegation = Montage.specialize({
     _parsed: {
         value: null
     },

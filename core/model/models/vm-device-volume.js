@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VmDeviceVolume = AbstractModel.specialize({
+exports.VmDeviceVolume = Montage.specialize({
     "_@type": {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceSmb = AbstractModel.specialize({
+exports.ServiceSmb = Montage.specialize({
     _auxiliary: {
         value: null
     },

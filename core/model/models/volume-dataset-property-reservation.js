@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeDatasetPropertyReservation = AbstractModel.specialize({
+exports.VolumeDatasetPropertyReservation = Montage.specialize({
     _parsed: {
         value: null
     },

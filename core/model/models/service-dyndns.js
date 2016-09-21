@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceDyndns = AbstractModel.specialize({
+exports.ServiceDyndns = Montage.specialize({
     _auxiliary: {
         value: null
     },

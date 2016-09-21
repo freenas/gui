@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.UnixPermissions = AbstractModel.specialize({
+exports.UnixPermissions = Montage.specialize({
     _group: {
         value: null
     },

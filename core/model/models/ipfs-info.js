@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.IpfsInfo = AbstractModel.specialize({
+exports.IpfsInfo = Montage.specialize({
     _Addresses: {
         value: null
     },

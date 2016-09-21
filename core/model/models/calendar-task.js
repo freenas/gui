@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.CalendarTask = AbstractModel.specialize({
+exports.CalendarTask = Montage.specialize({
     _args: {
         value: null
     },

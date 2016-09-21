@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ShareClient = AbstractModel.specialize({
+exports.ShareClient = Montage.specialize({
     _connected_at: {
         value: null
     },

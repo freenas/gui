@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.KerberosKeytab = AbstractModel.specialize({
+exports.KerberosKeytab = Montage.specialize({
     _entries: {
         value: null
     },

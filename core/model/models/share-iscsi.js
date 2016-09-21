@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ShareIscsi = AbstractModel.specialize({
+exports.ShareIscsi = Montage.specialize({
     _available_space_threshold: {
         value: null
     },

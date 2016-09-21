@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.WinbindDirectoryParams = AbstractModel.specialize({
+exports.WinbindDirectoryParams = Montage.specialize({
     _allow_dns_updates: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.CompressTransportOption = AbstractModel.specialize({
+exports.CompressTransportOption = Montage.specialize({
     _level: {
         value: null
     },

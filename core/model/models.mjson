@@ -277,6 +277,14 @@
             "type": "Mail"
         },
         {
+            "modelId": "core/model/models/neighbor-properties-anonymous.js",
+            "type": "NeighborPropertiesAnonymous"
+        },
+        {
+            "modelId": "core/model/models/neighbor.js",
+            "type": "Neighbor"
+        },
+        {
             "modelId": "core/model/models/network-config-dhcp-anonymous.js",
             "type": "NetworkConfigDhcpAnonymous"
         },

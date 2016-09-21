@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VmReadme = AbstractModel.specialize(null, {
+exports.VmReadme = Montage.specialize(null, {
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {

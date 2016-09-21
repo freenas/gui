@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceRsyncd = AbstractModel.specialize({
+exports.ServiceRsyncd = Montage.specialize({
     _auxiliary: {
         value: null
     },

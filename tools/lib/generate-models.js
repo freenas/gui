@@ -39,7 +39,7 @@ exports.generateModels = function generateModels (paths, options, userDescriptor
                 models = [],
                 modelsMap = new Map();
 
-            modelsMap.set("AbstractModel", true);
+            modelsMap.set("Montage", true);
 
             return Promise.map(files.filter(isMJsonFile), function (file) {
                 return FS.readFileAtPath(file).then(function (data) {

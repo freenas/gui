@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VmConfigNetworkAnonymous = AbstractModel.specialize({
+exports.VmConfigNetworkAnonymous = Montage.specialize({
     _management: {
         value: null
     },

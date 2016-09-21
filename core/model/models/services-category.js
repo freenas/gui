@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServicesCategory = AbstractModel.specialize({
+exports.ServicesCategory = Montage.specialize({
     _name: {
         value: null
     },

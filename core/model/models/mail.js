@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Mail = AbstractModel.specialize({
+exports.Mail = Montage.specialize({
     _auth: {
         value: null
     },

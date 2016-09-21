@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DetachedVolume = AbstractModel.specialize({
+exports.DetachedVolume = Montage.specialize({
     _id: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SystemAdvanced = AbstractModel.specialize({
+exports.SystemAdvanced = Montage.specialize({
     _boot_scrub_internal: {
         value: null
     },

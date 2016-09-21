@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceIpfs = AbstractModel.specialize({
+exports.ServiceIpfs = Montage.specialize({
     _enable: {
         value: null
     },

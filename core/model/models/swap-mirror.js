@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SwapMirror = AbstractModel.specialize({
+exports.SwapMirror = Montage.specialize({
     _disks: {
         value: null
     },

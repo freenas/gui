@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SideboardContext = AbstractModel.specialize({
+exports.SideboardContext = Montage.specialize({
     _widgets: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.CpuDevice = AbstractModel.specialize({
+exports.CpuDevice = Montage.specialize({
     _description: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeVdevRecommendation = AbstractModel.specialize({
+exports.VolumeVdevRecommendation = Montage.specialize({
     _drives: {
         value: null
     },

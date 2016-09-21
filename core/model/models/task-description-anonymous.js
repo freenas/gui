@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.TaskDescriptionAnonymous = AbstractModel.specialize({
+exports.TaskDescriptionAnonymous = Montage.specialize({
     _format: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ShareAfp = AbstractModel.specialize({
+exports.ShareAfp = Montage.specialize({
     _afp3_privileges: {
         value: null
     },

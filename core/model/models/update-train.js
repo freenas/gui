@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.UpdateTrain = AbstractModel.specialize({
+exports.UpdateTrain = Montage.specialize({
     _current: {
         value: null
     },

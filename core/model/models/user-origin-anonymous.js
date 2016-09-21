@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.UserOriginAnonymous = AbstractModel.specialize({
+exports.UserOriginAnonymous = Montage.specialize({
     _cached_at: {
         value: null
     },

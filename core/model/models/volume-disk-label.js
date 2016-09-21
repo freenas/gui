@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeDiskLabel = AbstractModel.specialize({
+exports.VolumeDiskLabel = Montage.specialize({
     _hostid: {
         value: null
     },

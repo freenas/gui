@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Update = AbstractModel.specialize({
+exports.Update = Montage.specialize({
     _check_auto: {
         value: null
     },

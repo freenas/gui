@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkHost = AbstractModel.specialize({
+exports.NetworkHost = Montage.specialize({
     _addresses: {
         value: null
     },

@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.AlertFilter = AbstractModel.specialize({
+exports.AlertFilter = Montage.specialize({
     _emitter: {
         value: null
     },

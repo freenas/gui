@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ReplicationOptions = AbstractModel.specialize({
+exports.ReplicationOptions = Montage.specialize({
     _followdelete: {
         value: null
     },

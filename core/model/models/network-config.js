@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkConfig = AbstractModel.specialize({
+exports.NetworkConfig = Montage.specialize({
     _autoconfigure: {
         value: null
     },

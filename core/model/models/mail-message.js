@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.MailMessage = AbstractModel.specialize({
+exports.MailMessage = Montage.specialize({
     _attachments: {
         value: null
     },

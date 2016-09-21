@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VmStatus = AbstractModel.specialize({
+exports.VmStatus = Montage.specialize({
     _management_lease: {
         value: null
     },

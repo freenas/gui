@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.NetworkInterfaceBridgeAnonymous = AbstractModel.specialize({
+exports.NetworkInterfaceBridgeAnonymous = Montage.specialize({
     _members: {
         value: null
     },

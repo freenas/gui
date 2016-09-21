@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.SystemGeneral = AbstractModel.specialize({
+exports.SystemGeneral = Montage.specialize({
     _console_keymap: {
         value: null
     },

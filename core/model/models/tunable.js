@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Tunable = AbstractModel.specialize({
+exports.Tunable = Montage.specialize({
     _comment: {
         value: null
     },

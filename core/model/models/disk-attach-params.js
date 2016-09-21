@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DiskAttachParams = AbstractModel.specialize({
+exports.DiskAttachParams = Montage.specialize({
     _key: {
         value: null
     },

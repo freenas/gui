@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.CalendarTaskStatus = AbstractModel.specialize({
+exports.CalendarTaskStatus = Montage.specialize({
     _current_run_progress: {
         value: null
     },

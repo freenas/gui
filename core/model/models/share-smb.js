@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ShareSmb = AbstractModel.specialize({
+exports.ShareSmb = Montage.specialize({
     _browseable: {
         value: null
     },

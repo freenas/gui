@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumePropertyReadonly = AbstractModel.specialize({
+exports.VolumePropertyReadonly = Montage.specialize({
     _parsed: {
         value: null
     },

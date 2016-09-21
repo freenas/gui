@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ReplicationStatus = AbstractModel.specialize({
+exports.ReplicationStatus = Montage.specialize({
     _message: {
         value: null
     },

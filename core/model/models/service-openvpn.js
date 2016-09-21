@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ServiceOpenvpn = AbstractModel.specialize({
+exports.ServiceOpenvpn = Montage.specialize({
     _auxiliary: {
         value: null
     },

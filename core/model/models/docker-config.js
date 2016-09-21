@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DockerConfig = AbstractModel.specialize({
+exports.DockerConfig = Montage.specialize({
     _api_forwarding: {
         value: null
     },

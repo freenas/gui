@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.DirectoryserviceConfig = AbstractModel.specialize({
+exports.DirectoryserviceConfig = Montage.specialize({
     _cache_enumerations: {
         value: null
     },

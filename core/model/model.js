@@ -59,11 +59,6 @@ function _initialize () {
                     _applyServicesOnObject(classServices, constructor);
                 }
 
-                //FIXME need to be removed once the migration to compiled files is done.
-                if (!constructor.blueprint) {
-                    constructor.blueprint = objectPrototype.blueprint;
-                }
-
                 constructor.Type = objectPrototype.Type = objectDescriptor;
                 objectDescriptor.constructor = constructor;
 

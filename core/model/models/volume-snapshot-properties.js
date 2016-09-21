@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.VolumeSnapshotProperties = AbstractModel.specialize({
+exports.VolumeSnapshotProperties = Montage.specialize({
     _clones: {
         value: null
     },

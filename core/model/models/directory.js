@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.Directory = AbstractModel.specialize({
+exports.Directory = Montage.specialize({
     _enabled: {
         value: null
     },

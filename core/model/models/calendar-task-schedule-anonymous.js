@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.CalendarTaskScheduleAnonymous = AbstractModel.specialize({
+exports.CalendarTaskScheduleAnonymous = Montage.specialize({
     _coalesce: {
         value: null
     },

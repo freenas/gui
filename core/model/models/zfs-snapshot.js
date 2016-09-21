@@ -1,6 +1,6 @@
-var AbstractModel = require("core/model/abstract-model").AbstractModel;
+var Montage = require("montage").Montage;
 
-exports.ZfsSnapshot = AbstractModel.specialize({
+exports.ZfsSnapshot = Montage.specialize({
     _dataset: {
         value: null
     },
