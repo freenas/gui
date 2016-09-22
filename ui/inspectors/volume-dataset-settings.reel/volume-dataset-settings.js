@@ -16,6 +16,10 @@ var ATIME_OPTIONS = {on: true, off: false, null: null},
  */
 exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSettings# */ {
 
+    _pathChangeListeners: {
+        value: null
+    },
+
     volblocksizeDisplayMode: {
         value: null
     },
@@ -89,6 +93,15 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
                 this.atimeOptions = this._initializePropertyOptions(ATIME_OPTIONS);
                 this.volblocksizeOptions = this._initializePropertyOptions(VOLBLOCKSIZE_OPTIONS);
             }
+            this._pathChangeListeners = [];
+            this._pathChangeListeners.push(
+                this.addPathChangeListener("object.properties.atime.source", this, "_updateInheritedPropertySource"),
+                this.addPathChangeListener("object.properties.atime.parsed", this, "_updateInheritedPropertyValue"),
+                this.addPathChangeListener("object.properties.compression.source", this, "_updateInheritedPropertySource"),
+                this.addPathChangeListener("object.properties.compression.parsed", this, "_updateInheritedPropertyValue"),
+                this.addPathChangeListener("object.properties.dedup.source", this, "_updateInheritedPropertySource"),
+                this.addPathChangeListener("object.properties.dedup.parsed", this, "_updateInheritedPropertyValue")
+            );
             this.isRootDataset = this.application.storageService.isRootDataset(this.object);
             var label = this.isRootDataset ? "Default": "Inherit";
             this._replaceLabel(this.compressionOptions, label);
@@ -110,6 +123,9 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
             this.compression = null;
             this.dedup = null;
             this.atime = null;
+            for (var i, length = this._pathChangeListeners.length; i < length; i++) {
+                this._pathChangeListeners[i]();
+            }
         }
     },
 
@@ -129,6 +145,32 @@ exports.VolumeDatasetSettings = Component.specialize(/** @lends VolumeDatasetSet
     _canUpdateObjectProperty: {
         value: function(propertyName) {
             return this._isLoaded && this.object && this.object.properties && this.object.properties[propertyName];
+        }
+    },
+
+    _updateInheritedPropertyValue: {
+        value: function(value, path) {
+            var pathParts = path.split(".");
+            var property = pathParts[pathParts.length - 2];
+            if (this._canUpdateObjectProperty(property) && typeof value !== "undefined") {
+                if ((value === "none") && this.object.properties[property].source !== "INHERITED") {
+                    this.object.properties[property].source = "INHERITED";
+                }
+                this[property] = value;
+            }
+        }
+    },
+
+    _updateInheritedPropertySource: {
+        value: function(value, path) {
+            var pathParts = path.split(".");
+            var property = pathParts[pathParts.length - 2];
+            if (this._canUpdateObjectProperty(property) && typeof value !== "undefined") {
+                if (value === "INHERITED" && this.object.properties[property].parsed !== null && this.object.properties[property] !== "none") {
+                    this.object.properties[property].parsed = "none";
+                    this[property] = "none";
+                }
+            }
         }
     },
 
