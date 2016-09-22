@@ -108,42 +108,53 @@ var StorageService = exports.StorageService = Montage.specialize({
         value: function(dataset) {
             var self = this;
             if (!dataset.properties) {
-                this._dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
+                return this._dataService.getNewInstanceForType(Model.VolumeDatasetProperties).then(function(newProperties) {
+                    var promises = [];
                     dataset.properties = newProperties;
+                    promises.push(
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyAtime).then(function(newAtime) {
+                            dataset.properties.atime = newAtime;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCasesensitivity).then(function(newCasesensitivity) {
+                            dataset.properties.casesensitivity = newCasesensitivity;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCompression).then(function(newCompression) {
+                            dataset.properties.compression = newCompression;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyDedup).then(function(newDedup) {
+                            dataset.properties.dedup = newDedup;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyQuota).then(function(newQuota) {
+                            dataset.properties.quota = newQuota;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefquota).then(function(newRefquota) {
+                            dataset.properties.refquota = newRefquota;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize).then(function(newVolblocksize) {
+                            dataset.properties.volblocksize = newVolblocksize;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation).then(function(newRefreservation) {
+                            dataset.properties.refreservation = newRefreservation;
+                        }),
+                        self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation).then(function(newReservation) {
+                            dataset.properties.reservation = newReservation;
+                        })
+                    );
 
-                    self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyAtime).then(function(newAtime) {
-                        newAtime.source = "INHERITED";
-                        dataset.properties.atime = newAtime;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCasesensitivity);
-                    }).then(function(newCasesensitivity) {
-                        newCasesensitivity.source = "INHERITED";
-                        dataset.properties.casesensitivity = newCasesensitivity;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyCompression);
-                    }).then(function(newCompression) {
-                        newCompression.source = "INHERITED";
-                        dataset.properties.compression = newCompression;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyDedup);
-                    }).then(function(newDedup) {
-                        newDedup.source = "INHERITED";
-                        dataset.properties.dedup = newDedup;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyQuota);
-                    }).then(function(newQuota) {
-                        dataset.properties.quota = newQuota;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefquota);
-                    }).then(function(newRefquota) {
-                        dataset.properties.refquota = newRefquota;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyVolblocksize);
-                    }).then(function(newVolblocksize) {
-                        newVolblocksize.parsed = 512;
-                        dataset.properties.volblocksize = newVolblocksize;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyRefreservation);
-                    }).then(function(newRefreservation) {
-                        dataset.properties.refreservation = newRefreservation;
-                        return self._dataService.getNewInstanceForType(Model.VolumeDatasetPropertyReservation);
-                    }).then(function(newReservation) {
-                        dataset.properties.reservation = newReservation;
+                    return Promise.all(promises).then(function(){
+                        dataset.properties.atime.source = "INHERITED";
+                        dataset.properties.atime.parsed = "none";
+                        dataset.properties.casesensitivity.source = "INHERITED";
+                        dataset.properties.casesensitivity.parsed = "none";
+                        dataset.properties.compression.source = "INHERITED";
+                        dataset.properties.compression.parsed = "none";
+                        dataset.properties.dedup.source = "INHERITED";
+                        dataset.properties.dedup.parsed = "none";
+                        dataset.properties.volblocksize.parsed = 512;
                     });
                 });
+            } else {
+                return Promise.resolve();
             }
         }
     },
