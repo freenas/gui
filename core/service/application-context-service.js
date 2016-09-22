@@ -122,23 +122,23 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
     _repairApplicationRawContextIfNeeded: {
         value: function (applicationRawContext) {
             if (applicationRawContext) {                
-                if (!applicationRawContext.dashboardContext && typeof applicationRawContext.dashboardContext !== "object") {
+                if (!applicationRawContext.dashboardContext || typeof applicationRawContext.dashboardContext !== "object") {
                     applicationRawContext.dashboardContext = {};
                 }
 
-                if (!applicationRawContext.sideBoardContext && typeof applicationRawContext.sideBoardContext !== "object") {
+                if (!applicationRawContext.sideBoardContext || typeof applicationRawContext.sideBoardContext !== "object") {
                     applicationRawContext.sideBoardContext = {};
                 }
 
-                if (!applicationRawContext.userSettings && typeof applicationRawContext.userSettings !== "object") {
+                if (!applicationRawContext.userSettings || typeof applicationRawContext.userSettings !== "object") {
                     applicationRawContext.userSettings = {};
                 }
 
-                if (!applicationRawContext.dashboardContext.widgets && !Array.isArray(applicationRawContext.dashboardContext.widgets)) {
+                if (!Array.isArray(applicationRawContext.dashboardContext.widgets)) {
                     applicationRawContext.dashboardContext.widgets = [];
                 }
 
-                if (!applicationRawContext.sideBoardContext.widgets && !Array.isArray(applicationRawContext.sideBoardContext.widgets)) {
+                if (!Array.isArray(applicationRawContext.sideBoardContext.widgets)) {
                     applicationRawContext.sideBoardContext.widgets = [];
                 }
             }
