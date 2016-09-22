@@ -98,13 +98,14 @@
             }
         },
         "vfsObjects": {
-            "prototype": "blue-shark/ui/field-text-input.reel",
+            "prototype": "blue-shark/ui/field-multiple-select.reel",
             "properties": {
                 "element": {"#": "vfsObjects"},
-                "label": "VFS objects"
+                "label": "VFS objects",
+                "placeholderValue": "vfs value"
             },
             "bindings": {
-                "value": {"<->": "@owner.properties.vfs_objects"}
+                "values": {"<->": "@owner.properties.vfs_objects"}
             }
         },
         "advancedSection": {
