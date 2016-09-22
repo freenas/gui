@@ -105,10 +105,6 @@
             "type": "CryptoCertificate"
         },
         {
-            "modelId": "core/model/models/dashboard-context.js",
-            "type": "DashboardContext"
-        },
-        {
             "modelId": "core/model/models/detached-volume.js",
             "type": "DetachedVolume"
         },
@@ -567,10 +563,6 @@
         {
             "modelId": "core/model/models/share.js",
             "type": "Share"
-        },
-        {
-            "modelId": "core/model/models/sideboard-context.js",
-            "type": "SideboardContext"
         },
         {
             "modelId": "core/model/models/simulator-disk.js",

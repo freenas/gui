@@ -44,37 +44,15 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
         }
     },
 
-    //restore?
-    get: {
+    restoreDefaultApplicationContext: {
         value: function () {
-            var getContextPromise;
+            var self = this;
 
-            if (this._currentUser && this._currentUser.attributes) {
-                getContextPromise = Promise.resolve(this._currentUser.attributes);
-
-            } else if (this._getContextPromise) {
-                getContextPromise = this._getContextPromise;
-
-            } else {
-                var self = this;
-
-                getContextPromise = this._getContextPromise = self.findCurrentUser().then(function (user) {
-                    return user.attributes;
-                }).finally(function () {
-                    self._getContextPromise = null;
-                });
-            }
-
-            return getContextPromise;
-        }
-    },
-
-    //@todo
-    revert: {
-        value: function () {
-            this.constructor.applicationContext = null;
-
-            return this.get();
+            return this._getDefaultApplicationContext().then(function (applicationContext) {
+                return (self._currentUser.attributes = applicationContext);
+            }).then(function () {
+                return self.save();
+            });
         }
     },
 
@@ -125,20 +103,16 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
 
                 return this._widgetService.getAvailableWidgets().then(function (widgets) {
                     return self._dataService.getNewInstanceForType(Model.ApplicationContext).then(function (applicationContext) {
-                        return Promise.all([
-                            self._dataService.getNewInstanceForType(Model.DashboardContext),
-                            self._dataService.getNewInstanceForType(Model.SideboardContext)
-                        ]).then(function (models) {
-                            applicationContext.dashboardContext = models[0];
-                            applicationContext.sideBoardContext = models[1];
-                            applicationContext.dashboardContext.widgets = [widgets.get("ui/widgets/system-info.reel")];
-                            applicationContext.sideBoardContext.widgets = [
-                                widgets.get("ui/widgets/alerts.reel"),
-                                widgets.get("ui/widgets/tasks.reel")
-                            ];
+                        applicationContext.dashboardContext = {};
+                        applicationContext.sideBoardContext = {};
+                        applicationContext.userSettings = {};
+                        applicationContext.dashboardContext.widgets = [widgets.get("ui/widgets/system-info.reel")];
+                        applicationContext.sideBoardContext.widgets = [
+                            widgets.get("ui/widgets/alerts.reel"),
+                            widgets.get("ui/widgets/tasks.reel")
+                        ];
 
-                            return applicationContext;
-                        });
+                        return applicationContext;
                     });
                 });
             }
@@ -148,13 +122,17 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
     _handleRawApplicationContext: {
         value: function (applicationRawContext) {
             if (applicationRawContext) {
+                // Repair applicationRawContext if needed
+                if (!applicationRawContext.dashboardContext) {
+                    applicationRawContext.dashboardContext = {};
+                }
+
                 if (!applicationRawContext.sideBoardContext) {
                     applicationRawContext.sideBoardContext = {};
                 }
 
-                //@fixme: remove for beta
-                if (!applicationRawContext.sideBarContext) {
-                    delete applicationRawContext.sideBarContext;
+                if (!applicationRawContext.userSettings) {
+                    applicationRawContext.userSettings = {};
                 }
 
                 applicationRawContext.dashboardContext.widgets = applicationRawContext.dashboardContext.widgets || [];
