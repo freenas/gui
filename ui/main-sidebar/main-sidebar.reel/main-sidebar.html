@@ -9,6 +9,9 @@
             "properties": {
                 "element": {"#": "owner"}
             },
+            "bindings": {
+                "classList.has('has-confirmation')": {"<-": "!!@owner.confirmationMessage"}
+            },
             "listeners": [
                 {
                     "type": "action",
@@ -72,6 +75,29 @@
             "properties": {
                 "element": {"#": "globalActionsButton"}
             }
+        },
+        "confirmationMessage": {
+            "prototype": "montage/ui/text.reel",
+            "properties": {
+                "element": {"#": "confirmationMessage"}
+            },
+            "bindings": {
+                "value": {"<-": "@owner.confirmationMessage"}
+            }
+        },
+        "confirm": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "confirm"},
+                "label": "Confirm"
+            }
+        },
+        "cancel": {
+            "prototype": "blue-shark/ui/button.reel",
+            "properties": {
+                "element": {"#": "cancel"},
+                "label": "Cancel"
+            }
         }
     }
     </script>
@@ -94,6 +120,11 @@
                 <li><button data-montage-id="reboot"></button></li>
                 <li><button data-montage-id="shutdown"></button></li>
             </ul>
+            <div class="MainSidebar-confirmation">
+                <div data-montage-id="confirmationMessage"></div>
+                <div data-montage-id="confirm" class="Button--primary"></div>
+                <div data-montage-id="cancel"></div>
+            </div>
         </div>
     </div>
 </body>

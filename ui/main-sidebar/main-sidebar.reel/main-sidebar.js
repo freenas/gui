@@ -5,6 +5,19 @@ var Component = require("montage/ui/component").Component;
  * @extends Component
  */
 exports.MainSidebar = Component.specialize({
+
+    confirmationPromise: {
+        value: null
+    },
+
+    confirmingAction: {
+        value: null
+    },
+
+    confirmationMessage: {
+        value: null
+    },
+
     isFlipped: {
         value: false
     },
@@ -20,12 +33,18 @@ exports.MainSidebar = Component.specialize({
         }
     },
 
+    templateDidLoad: {
+        value: function() {
+            this._systemService = this.application.systemService;
+        }
+    },
+
     enterDocument: {
         value: function (isFirstTime) {
             if (isFirstTime) {
                 if (!this.application.sessionService.session) {
                     this.application.sessionService.session = {
-                        username: '',
+                        username: ''
                     };
                 }
 
@@ -36,19 +55,75 @@ exports.MainSidebar = Component.specialize({
 
     handleRebootAction: {
         value: function () {
-            this.application.systemService.reboot();
+            var self = this;
+            this._askConfirmation("Are you sure you want to reboot FreeNAS?").then(function(isConfirmed) {
+                if (isConfirmed) {
+                    self._systemService.reboot();
+                }
+            }).finally(function() {
+                self._cleanupConfirmation();
+            });
         }
     },
 
     handleShutdownAction: {
         value: function () {
-            this.application.systemService.shutdown();
+            var self = this;
+            this._askConfirmation("Are you sure you want to shutdown FreeNAS?").then(function(isConfirmed) {
+                if (isConfirmed) {
+                    self._systemService.shutdown();
+                }
+            }).finally(function() {
+                self._cleanupConfirmation()
+            });
         }
     },
 
     handleLogoutAction: {
         value: function () {
-            location.reload();
+            var self = this;
+            this._askConfirmation("Are you sure you want to log out of FreeNAS?").then(function(isConfirmed) {
+                if (isConfirmed) {
+                    location.reload();
+                }
+            }).finally(function() {
+                self._cleanupConfirmation()
+            });
+        }
+    },
+
+    handleConfirmAction: {
+        value: function() {
+            if (this._confirmationDeferred) {
+                this._confirmationDeferred.resolve(true);
+            }
+        }
+    },
+
+    handleCancelAction: {
+        value: function() {
+            if (this._confirmationDeferred) {
+                this._confirmationDeferred.resolve(false);
+            }
+        }
+    },
+
+    _askConfirmation: {
+        value: function(message) {
+            var self = this;
+            this.confirmationMessage = message;
+            return new Promise(function(resolve) {
+                self._confirmationDeferred = {
+                    resolve: resolve
+                };
+            });
+        }
+    },
+
+    _cleanupConfirmation: {
+        value: function() {
+            this.confirmationMessage = null;
+            this._confirmationDeferred = null;
         }
     }
 });
