@@ -86,7 +86,7 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
                     return self._getDefaultApplicationContext();
                 }).then(function (applicationContext) {
                     currentUser.attributes = applicationContext;
-                    self.addPathChangeListener("_currentUser.attributes", self, "_handleRawApplicationContext");
+                    self.addPathChangeListener("_currentUser.attributes", self, "_repairApplicationRawContextIfNeeded");
 
                     return (self._currentUser = currentUser);
                 });
@@ -119,24 +119,28 @@ var ApplicationContextService = exports.ApplicationContextService = Montage.spec
         }
     },
 
-    _handleRawApplicationContext: {
+    _repairApplicationRawContextIfNeeded: {
         value: function (applicationRawContext) {
-            if (applicationRawContext) {
-                // Repair applicationRawContext if needed
-                if (!applicationRawContext.dashboardContext) {
+            if (applicationRawContext) {                
+                if (!applicationRawContext.dashboardContext && typeof applicationRawContext.dashboardContext !== "object") {
                     applicationRawContext.dashboardContext = {};
                 }
 
-                if (!applicationRawContext.sideBoardContext) {
+                if (!applicationRawContext.sideBoardContext && typeof applicationRawContext.sideBoardContext !== "object") {
                     applicationRawContext.sideBoardContext = {};
                 }
 
-                if (!applicationRawContext.userSettings) {
+                if (!applicationRawContext.userSettings && typeof applicationRawContext.userSettings !== "object") {
                     applicationRawContext.userSettings = {};
                 }
 
-                applicationRawContext.dashboardContext.widgets = applicationRawContext.dashboardContext.widgets || [];
-                applicationRawContext.sideBoardContext.widgets = applicationRawContext.sideBoardContext.widgets || [];
+                if (!applicationRawContext.dashboardContext.widgets && !Array.isArray(applicationRawContext.dashboardContext.widgets)) {
+                    applicationRawContext.dashboardContext.widgets = [];
+                }
+
+                if (!applicationRawContext.sideBoardContext.widgets && !Array.isArray(applicationRawContext.sideBoardContext.widgets)) {
+                    applicationRawContext.sideBoardContext.widgets = [];
+                }
             }
         }
     }
