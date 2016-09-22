@@ -26,18 +26,33 @@ exports.ApplicationContext = Montage.specialize({
         get: function () {
             return this._sideBoardContext;
         }
+    },
+    _userSettings: {
+        value: null
+    },
+    userSettings: {
+        set: function (value) {
+            if (this._userSettings !== value) {
+                this._userSettings = value;
+            }
+        },
+        get: function () {
+            return this._userSettings;
+        }
     }
 }, {
     propertyBlueprints: {
         value: [{
             mandatory: false,
             name: "dashboardContext",
-            valueObjectPrototypeName: "DashboardContext",
             valueType: "object"
         }, {
             mandatory: false,
             name: "sideBoardContext",
-            valueObjectPrototypeName: "sideBoardContext",
+            valueType: "object"
+        }, {
+            mandatory: false,
+            name: "userSettings",
             valueType: "object"
         }]
     }

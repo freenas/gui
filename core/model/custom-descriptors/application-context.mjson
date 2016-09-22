@@ -4,8 +4,7 @@
     "properties": {
       "name": "dashboardContext",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "DashboardContext"
+      "valueType": "object"
     }
   },
   "sideBoardContext": {
@@ -13,8 +12,15 @@
     "properties": {
       "name": "sideBoardContext",
       "blueprint": {"@": "root"},
-      "valueType": "object",
-      "valueObjectPrototypeName": "sideBoardContext"
+      "valueType": "object"
+    }
+  },
+  "userSettings": {
+    "prototype": "montage/core/meta/property-blueprint",
+    "properties": {
+      "name": "userSettings",
+      "blueprint": {"@": "root"},
+      "valueType": "object"
     }
   },
   "root": {
@@ -23,7 +29,8 @@
       "name": "ApplicationContext",
       "propertyBlueprints": [
         {"@": "dashboardContext"},
-        {"@": "sideBoardContext"}
+        {"@": "sideBoardContext"},
+        {"@": "userSettings"}
       ]
     }
   }
