@@ -29,7 +29,7 @@ var SystemAdvancedService = exports.SystemAdvancedService = Montage.specialize({
     getDebugCollectAddress: {
         value: function(){
             return Model.populateObjectPrototypeForType(Model.Task).then(function (Task) {
-                return Task.constructor.services.submitWithDownload("debug.collect", [["freenasdebug.gz"]]);
+                return Task.constructor.services.submitWithDownload("debug.collect", [["freenasdebug.tar.gz"]]);
             })
         }
     },
