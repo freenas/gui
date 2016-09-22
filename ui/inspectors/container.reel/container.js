@@ -1,7 +1,7 @@
 /**
  * @module ui/container.reel
  */
-var AbstractInspector = require("ui/abstract/abstract-component-action-delegate").AbstractInspector;
+var AbstractInspector = require("ui/abstract/abstract-inspector").AbstractInspector;
 
 /**
  * @class Container
