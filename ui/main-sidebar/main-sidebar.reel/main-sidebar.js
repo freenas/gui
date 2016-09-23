@@ -6,14 +6,6 @@ var Component = require("montage/ui/component").Component;
  */
 exports.MainSidebar = Component.specialize({
 
-    confirmationPromise: {
-        value: null
-    },
-
-    confirmingAction: {
-        value: null
-    },
-
     confirmationMessage: {
         value: null
     },
@@ -60,7 +52,7 @@ exports.MainSidebar = Component.specialize({
     handleRebootAction: {
         value: function () {
             var self = this;
-            this._askConfirmation("Are you sure you want to reboot FreeNAS?", "Reboot").then(function(isConfirmed) {
+            this._askConfirmation("Reboot").then(function(isConfirmed) {
                 if (isConfirmed) {
                     self._systemService.reboot();
                 }
@@ -73,7 +65,7 @@ exports.MainSidebar = Component.specialize({
     handleShutdownAction: {
         value: function () {
             var self = this;
-            this._askConfirmation("Are you sure you want to shutdown FreeNAS?", "Shutdown").then(function(isConfirmed) {
+            this._askConfirmation("Shutdown").then(function(isConfirmed) {
                 if (isConfirmed) {
                     self._systemService.shutdown();
                 }
@@ -86,7 +78,7 @@ exports.MainSidebar = Component.specialize({
     handleLogoutAction: {
         value: function () {
             var self = this;
-            this._askConfirmation("Are you sure you want to logout of FreeNAS?", "Logout").then(function(isConfirmed) {
+            this._askConfirmation("Logout").then(function(isConfirmed) {
                 if (isConfirmed) {
                     location.reload();
                 }
@@ -113,10 +105,10 @@ exports.MainSidebar = Component.specialize({
     },
 
     _askConfirmation: {
-        value: function(message, buttonLabel) {
+        value: function(action) {
             var self = this;
-            this.confirmationMessage = message;
-            this.confirmationButtonLabel = buttonLabel;
+            this.confirmationMessage = "Are you sure you want to " + action.toLowerCase() + " FreeNAS?";
+            this.confirmationButtonLabel = action;
             return new Promise(function(resolve) {
                 self._confirmationDeferred = {
                     resolve: resolve
