@@ -1,7 +1,9 @@
 /**
  * @module ui/tunable.reel
  */
-var Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component,
+    Model = require("core/model/model").Model;
+
 
 /**
  * @class Tunable
