@@ -85,7 +85,6 @@ exports.MainSidebar = Component.specialize({
 
     handleLogoutAction: {
         value: function () {
-            console.log("clicked");
             var self = this;
             this._askConfirmation("Are you sure you want to logout of FreeNAS?", "Logout").then(function(isConfirmed) {
                 if (isConfirmed) {
