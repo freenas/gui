@@ -26,7 +26,7 @@
     "js-beautify": "^1.6.3",
     "json.sortify": "^2.0.2",
     "montage-testing": "~0.4.0",
-    "mop": "montagejs/mop#31108dfc9b6aec8d4984e25161d96bff63fa2e34",
+    "mop": "montagejs/mop#6050d3a6c5618eaf354798eba82939a40761951f",
     "mr": "montagejs/mr#53633e56f3e9d00c5a311d993098ddd89ed9be80",
     "postcss-cssnext": "^2.7.0",
     "postcss-discard-comments": "^2.0.4",
@@ -45,6 +45,7 @@
   "bundle": [
     "ui/main.reel"
   ],
+  "shard": 3,
   "scripts": {
     "update-montage-data-cache": "node ./tools/cli/update-montage-data-cache.js",
     "clean-montage-data-cache": "node ./tools/cli/clean-montage-data-cache.js",
