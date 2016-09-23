@@ -88,8 +88,10 @@
         "confirm": {
             "prototype": "blue-shark/ui/button.reel",
             "properties": {
-                "element": {"#": "confirm"},
-                "label": "Confirm"
+                "element": {"#": "confirm"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.confirmationButtonLabel || 'Confirm'"}
             }
         },
         "cancel": {
@@ -112,7 +114,7 @@
         <div data-montage-id="userSummary" class="MainSidebar-userSummary"></div>
         <div class="MainSidebar-globalActions">
             <div data-montage-id="globalActionsButton" class="MainSidebar-globalActions-button" tabindex="0">
-                <span data-montage-id="username" class="MainSidebar-user">joshuaruledobson</span>
+                <span data-montage-id="username" class="MainSidebar-user"></span>
                 <svg><use xlink:href="#i-power"/></svg>
             </div>
             <ul class="MainSidebar-globalActions-options">
@@ -121,9 +123,9 @@
                 <li><button data-montage-id="shutdown"></button></li>
             </ul>
             <div class="MainSidebar-confirmation">
-                <div data-montage-id="confirmationMessage"></div>
-                <div data-montage-id="confirm" class="Button--primary"></div>
-                <div data-montage-id="cancel"></div>
+                <div data-montage-id="confirmationMessage" class="MainSidebar-confirmation-message"></div>
+                <button data-montage-id="cancel"></button>
+                <button data-montage-id="confirm" class="Button--primary"></button>
             </div>
         </div>
     </div>

@@ -73,10 +73,6 @@
     padding: .5em;
     cursor: pointer;
 
-    &:focus {
-        background: rgba(255,255,255,.05);
-    }
-
     &:focus + .MainSidebar-globalActions-options {
         display: block;
     }
@@ -140,18 +136,29 @@
     }
 }
 
-.MainSidebar .MainSidebar-confirmation {
+.MainSidebar-confirmation {
     display: none;
     position: absolute;
     bottom: 0;
     background: inherit;
+    padding: .5rem;
 
-    & button {
-        min-width: 64px;
+    @nest .MainSidebar.has-confirmation & {
+        display: block;
     }
-}
 
-.MainSidebar.has-confirmation .MainSidebar-confirmation {
-    display: block;
+    & .MainSidebar-confirmation-message {
+        margin-bottom: 1em;
+        color: #fff;
+    }
+
+    & .Button {
+        width: 100%;
+        line-height: 2rem;
+
+        &:first-of-type {
+            margin-bottom: .5em;
+        }
+    }
 }
 

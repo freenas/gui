@@ -18,6 +18,10 @@ exports.MainSidebar = Component.specialize({
         value: null
     },
 
+    confirmationButtonLabel: {
+        value: null
+    },
+
     isFlipped: {
         value: false
     },
@@ -56,7 +60,7 @@ exports.MainSidebar = Component.specialize({
     handleRebootAction: {
         value: function () {
             var self = this;
-            this._askConfirmation("Are you sure you want to reboot FreeNAS?").then(function(isConfirmed) {
+            this._askConfirmation("Are you sure you want to reboot FreeNAS?", "Reboot").then(function(isConfirmed) {
                 if (isConfirmed) {
                     self._systemService.reboot();
                 }
@@ -69,7 +73,7 @@ exports.MainSidebar = Component.specialize({
     handleShutdownAction: {
         value: function () {
             var self = this;
-            this._askConfirmation("Are you sure you want to shutdown FreeNAS?").then(function(isConfirmed) {
+            this._askConfirmation("Are you sure you want to shutdown FreeNAS?", "Shutdown").then(function(isConfirmed) {
                 if (isConfirmed) {
                     self._systemService.shutdown();
                 }
@@ -82,7 +86,7 @@ exports.MainSidebar = Component.specialize({
     handleLogoutAction: {
         value: function () {
             var self = this;
-            this._askConfirmation("Are you sure you want to log out of FreeNAS?").then(function(isConfirmed) {
+            this._askConfirmation("Are you sure you want to logout of FreeNAS?", "Logout").then(function(isConfirmed) {
                 if (isConfirmed) {
                     location.reload();
                 }
@@ -109,9 +113,10 @@ exports.MainSidebar = Component.specialize({
     },
 
     _askConfirmation: {
-        value: function(message) {
+        value: function(message, buttonLabel) {
             var self = this;
             this.confirmationMessage = message;
+            this.confirmationButtonLabel = buttonLabel;
             return new Promise(function(resolve) {
                 self._confirmationDeferred = {
                     resolve: resolve
