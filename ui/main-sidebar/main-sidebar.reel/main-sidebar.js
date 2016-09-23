@@ -127,8 +127,8 @@ exports.MainSidebar = Component.specialize({
 
     _cleanupConfirmation: {
         value: function() {
-            this.confirmationMessage = null;
             this._confirmationDeferred = null;
+
         }
     }
 });

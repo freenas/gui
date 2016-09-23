@@ -10,7 +10,7 @@
                 "element": {"#": "owner"}
             },
             "bindings": {
-                "classList.has('has-confirmation')": {"<-": "!!@owner.confirmationMessage"}
+                "classList.has('has-confirmation')": {"<-": "!!@owner._confirmationDeferred"}
             },
             "listeners": [
                 {
