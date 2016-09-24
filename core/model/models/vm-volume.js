@@ -74,10 +74,10 @@ exports.VmVolume = Montage.specialize({
     userInterfaceDescriptor: {
         value: {
             inspectorComponentModule: {
-                id: 'ui/inspectors/virtual-machine-volume.reel'
+                id: 'ui/sections/vms/inspectors/virtual-machine-device.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/virtual-machine-volume.reel'
+                id: 'ui/sections/vms/inspectors/virtual-machine-device.reel'
             },
             nameExpression: "!_isNew ? name : 'New Volume'",
             collectionNameExpression: "'Volumes'",

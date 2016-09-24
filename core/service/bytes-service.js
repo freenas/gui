@@ -1,62 +1,37 @@
-var Montage = require("montage").Montage,
-    application = require("montage/core/application").application;
+var Montage = require("montage").Montage;
 
 //FIXME: quick workaround
 exports.BytesService = Montage.specialize({
 
-    convertStringToMemsize: {
-        value: function (memoryString) {
-            if (typeof memoryString === "string") {
-                var app = this.application,
-                    parsedMemsize = memoryString.match(app.storageService.SCALED_NUMERIC_RE_),
-                    memsize,
-                    memsizePrefix,
-                    memsizeMultiplier = 1;
-
-                if (parsedMemsize && parsedMemsize.length > 1) {
-                    memsize = parseInt(parsedMemsize[1]);
-
-                    if (parsedMemsize[2]) {
-                        memsizePrefix = parsedMemsize[2].charAt(0).toUpperCase();
-
-                        // We're going with 1024 no matter what. This is not up for 
-                        // further discussion.
-                        memsizeMultiplier = Math.pow(
-                            1024, 
-                            app.storageService.SIZE_PREFIX_EXPONENTS[memsizePrefix] - 2
-                        );
+    convertStringToSize: {
+        value: function (string, unit) {
+            unit = unit || this.UNITS.K;
+            if (typeof string === "string") {
+                var parts = string.match(this.constructor._HUMAN_READABLE_REGEX);
+                if (parts) {
+                    var value = parseInt(parts[1]),
+                        suffix = parts[2];
+                    if (suffix) {
+                        value = value * Math.pow(this.constructor._MULTIPLE, this.constructor._PREFIX_TO_EXPONENT[suffix]) / Math.pow(this.constructor._MULTIPLE, this.constructor._PREFIX_TO_EXPONENT[unit]);
                     }
+                    return value;
                 }
-
-                return memsize * memsizeMultiplier;
             }
-            
-            return 0;
         }
     },
 
-    convertMemsizeToString: {
-        value: function (memsize) {
-            var prefixIndex = 2,
-                result = memsize,
-                sizePrefixExponents = this.application.storageService.SIZE_PREFIX_EXPONENTS,
-                sizePrefixes = Object.keys(sizePrefixExponents);
-
-            while (result % 1024 === 0) {
-                prefixIndex++;
-                result = result / 1024;
+    convertSizeToString: {
+        value: function (size, unit) {
+            unit = unit || this.UNITS.K;
+            var suffixIndex = this._SUFFIXES.indexOf(unit),
+                abbreviatedValue = size;
+                
+            while (abbreviatedValue % this.constructor._MULTIPLE === 0) {
+                suffixIndex++;
+                abbreviatedValue = abbreviatedValue / this.constructor._MULTIPLE;
             }
-
-            for (var i = 1, length = sizePrefixes.length; i<=length; i++) {
-                if (sizePrefixExponents[sizePrefixes[i]] === prefixIndex) {
-                    result += sizePrefixes[i] + "iB";
-                    break;
-                }
-
-                result += "";
-            }
-
-            return result;
+            
+            return abbreviatedValue ? abbreviatedValue + this._SUFFIXES[suffixIndex] + "iB": '';
         }
     }
 
@@ -66,10 +41,44 @@ exports.BytesService = Montage.specialize({
         get: function() {
             if (!this._instance) {
                 this._instance = new this();
-                this._instance.application = application;
+                this._instance.UNITS = this._instance.constructor.UNITS;
+                this._instance._SUFFIXES = Object.keys(this._instance.UNITS);
             }
 
             return this._instance;
+        }
+    },
+
+    UNITS: {
+        value: {
+            K: 'K',
+            M: 'M',
+            G: 'G',
+            T: 'T',
+            P: 'P',
+            E: 'E',
+            Z: 'Z'
+        }
+    },
+
+    // We're going with 1024 no matter what. This is not up for further discussion.
+    _MULTIPLE: {
+        value: 1024
+    },
+
+    _HUMAN_READABLE_REGEX: {
+        value: /^(\d+\.?\d{0,3})([KMGTPEZ]?)?[I]?[B]?$/i
+    },
+
+    _PREFIX_TO_EXPONENT: {
+        value: {
+            K: 1,
+            M: 2,
+            G: 3,
+            T: 4,
+            P: 5,
+            E: 6,
+            Z: 7
         }
     }
 });

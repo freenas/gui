@@ -21,7 +21,7 @@
                 "converter": {"@": "selectOptionConverter"}
             },
             "bindings": {
-                "options": {"<-": "@owner.interfaces.filter{enabled}.map{id}"},
+                "options": {"<-": "[{id: 'default'}].concat(@owner.interfaces.filter{enabled}).map{id}"},
                 "selectedValue": {"<->": "@owner.object.bridge"}
             }
         },

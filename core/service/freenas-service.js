@@ -360,6 +360,7 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                 propertyDescriptor,
                 rawValue,
                 key,
+                newArray,
                 j, valuesLength;
 
             for (var i = 0, n = keys.length; i < n; i ++) {
@@ -379,10 +380,12 @@ var FreeNASService = exports.FreeNASService = RawDataService.specialize({
                                 type = propertyTypeService.getTypeForObjectProperty(object, data, key);
                             }
 
-                            object[key] = this.getEmptyCollectionForType(type);
+                            
+                            newArray = this.getEmptyCollectionForType(type);
                             for (j = 0, valuesLength = rawValue.length; j < valuesLength; j++) {
-                                this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, object[key], j, rawValue[j], data);
+                                this._mapObjectPropertyReferenceFromRawData(propertyDescriptor, newArray, j, rawValue[j], data);
                             }
+                            object[key] = newArray;
                         }
                     } else {
                         this._mapObjectPropertyFromRawData(propertyDescriptor, object, key, rawValue);

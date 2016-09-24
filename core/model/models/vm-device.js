@@ -80,10 +80,10 @@ exports.VmDevice = Montage.specialize({
             },
             collectionNameExpression: "'Devices'",
             inspectorComponentModule: {
-                id: 'ui/inspectors/virtual-machine-device.reel'
+                id: 'ui/sections/vms/inspectors/virtual-machine-device.reel'
             },
             creatorComponentModule: {
-                id: 'ui/inspectors/virtual-machine-device-creator.reel'
+                id: 'ui/sections/vms/inspectors/virtual-machine-device-creator.reel'
             },
             nameExpression: "!_isNew ? name : 'New ' + type + ' Device'"
         }

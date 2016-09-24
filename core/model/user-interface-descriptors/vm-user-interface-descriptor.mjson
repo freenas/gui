@@ -4,8 +4,8 @@
         "properties": {
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "collectionNameExpression": "'Virtual Machines'",
-            "inspectorComponentModule": {"%": "ui/inspectors/virtual-machine.reel"},
-            "creatorComponentModule": {"%": "ui/inspectors/virtual-machine.reel"},
+            "inspectorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine.reel"},
+            "creatorComponentModule": {"%": "ui/sections/vms/inspectors/virtual-machine.reel"},
             "collectionInspectorComponentModule": {"%": "ui/controls/viewer.reel"},
             "nameExpression": "_isNew.defined() && _isNew ? 'New VM' : name",
             "statusColorMapping": {

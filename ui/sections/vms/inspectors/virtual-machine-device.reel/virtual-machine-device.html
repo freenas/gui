@@ -11,6 +11,10 @@
                 "validationController": {"@": "validationController"},
                 "inspector": {"@": "inspector"}
             },
+            "bindings": {
+                "moduleRoot": {"<-": "@owner.templateModuleId.substr(0, @owner.templateModuleId.lastIndexOf('/')+1)"},
+                "isNewObject": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew"}
+            },
             "listeners": [
                 {
                     "type": "action",
@@ -30,10 +34,13 @@
             "properties": {
                 "element": {"#": "inspector"},
                 "validationController": {"@": "validationController"},
-                "canSave": false,
                 "canRevert": false,
-                "canDelete": false,
                 "controller": {"@": "owner"}
+            },
+            "bindings": {
+                "context": {"<-": "@owner.context"},
+                "canSave": {"<-": "@owner.isNewObject"},
+                "canDelete": {"<-": "!@owner.isNewObject"}
             }
         },
         "name": {
@@ -52,31 +59,8 @@
                 "element": {"#": "deviceTypePlaceholder"}
             },
             "bindings": {
-                "moduleId": {"<-": "'ui/inspectors/virtual-machine-device.reel/virtual-machine-device-' + @owner.object.type.toLowerCase() + '.reel'"},
+                "moduleId": {"<-": "@owner.moduleRoot + 'virtual-machine-device-' + @owner.object.type.toLowerCase() + '.reel'"},
                 "object": {"<-": "@owner.object.properties"}
-            }
-        },
-        "addRemoveSubstitution": {
-            "prototype": "montage/ui/substitution.reel",
-            "properties": {
-                "element": {"#": "addRemoveSubstitution"}
-            },
-            "bindings": {
-                "switchValue": {"<-": "@owner.object._isNew.defined() && @owner.object._isNew ? 'create' : 'edit'"}
-            }
-        },
-        "add": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "add"},
-                "value": "Add"
-            }
-        },
-        "remove": {
-            "prototype": "blue-shark/ui/button.reel",
-            "properties": {
-                "element": {"#": "remove"},
-                "value": "Remove"
             }
         }
     }
@@ -87,10 +71,6 @@
         <div data-montage-id="inspector">
             <div data-montage-id="name"></div>
             <div data-montage-id="deviceTypePlaceholder"></div>
-            <div data-montage-id="addRemoveSubstitution">
-                <div data-montage-id="add" data-arg="create"></div>
-                <div data-montage-id="remove" data-arg="edit"></div>
-            </div>
         </div>
     </div>
 </body>

@@ -12,7 +12,8 @@
                 "inspector": {"@": "inspector"}
             },
             "bindings": {
-                "classList.has('has-actions')": {"<-": "!@owner.object._isNew"}
+                "classList.has('has-actions')": {"<-": "!@owner.object._isNew"},
+                "devices": {"<-": "@owner.object.devices.defined ? @owner.object.devices.filter{type != 'VOLUME'} : []"}
             },
             "listeners": [
                 {
@@ -75,13 +76,6 @@
         "selectOptionConverter": {
             "prototype": "core/converter/select-option-converter"
         },
-        "templateOptionConverter": {
-            "prototype": "core/converter/select-option-converter",
-            "properties": {
-                "labelPath": "template.name",
-                "valuePath": "template.name"
-            }
-        },
         "bootDeviceConverter": {
             "prototype": "core/converter/select-option-converter",
             "properties": {
@@ -112,12 +106,11 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "vmTemplateEdit"},
-                "converter": {"@": "templateOptionConverter"},
                 "label": "Template"
             },
             "bindings": {
-                "selectedValue": {"<->": "@owner.templateName"},
-                "options": {"<-": "[{template: {name: '---'}}].concat(@owner.templates).sorted{template.name}"}
+                "selectedValue": {"<->": "@owner.object._selectedTemplate"},
+                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.templates).sorted{label}"}
             }
         },
         "bootloader": {
@@ -136,12 +129,11 @@
             "prototype": "blue-shark/ui/field-select.reel",
             "properties": {
                 "element": {"#": "bootDevice"},
-                "label": "Boot Device",
-                "converter": {"@": "bootDeviceConverter"}
+                "label": "Boot Device"
             },
             "bindings": {
-                "options": {"<-": "@owner.bootDeviceOptions"},
-                "selectedValue": {"<->": "@owner.bootDevice"}
+                "options": {"<-": "[{label: @owner.DEFAULT_STRING, value: null}].concat(@owner.object._bootDevices).sorted{label}"},
+                "selectedValue": {"<->": "@owner.object._bootDevice"}
             }
         },
         "vmGuestType": {
@@ -192,7 +184,7 @@
             },
             "bindings": {
                 "selectedValue": {"<->": "@owner.object.target"},
-                "options": {"<-": "[{id: '---'}].concat(@owner.volumes)"}
+                "options": {"<-": "[{id: @owner.DEFAULT_STRING}].concat(@owner.volumes)"}
             }
         },
         "description": {
@@ -252,7 +244,7 @@
                 "converter": {"@": "memoryConverter"}
             },
             "bindings": {
-                "value": {"<->": "@owner.memorySize"}
+                "value": {"<->": "@owner.object._memory"}
             }
         },
         "autostart": {
@@ -271,25 +263,30 @@
                 "element": {"#": "readme"}
             },
             "bindings": {
-                "object": {"<->": "@owner.readme"}
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner.object._readme"}
             }
         },
         "devices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "devices"}
+                "element": {"#": "devices"},
+                "name": "Devices"
             },
             "bindings": {
-                "object": {"<->": "@owner.devices"}
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner.object._nonVolumeDevices"}
             }
         },
         "volumeDevices": {
             "prototype": "ui/controls/inspector-option.reel",
             "properties": {
-                "element": {"#": "volumeDevices"}
+                "element": {"#": "volumeDevices"},
+                "name": "Volumes"
             },
             "bindings": {
-                "object": {"<->": "@owner.volumeDevices"}
+                "context": {"<-": "@owner.context"},
+                "object": {"<-": "@owner.object._volumeDevices"}
             }
         },
         "start": {
